@@ -9,4 +9,4 @@ var FavoriteSchema = new Schema({
 
 FavoriteSchema.index({userid: 1}, {unique: true});
 
-mongoose.model('Favoriate', FavoriteSchema);
+mongoose.model('Favorite', FavoriteSchema);

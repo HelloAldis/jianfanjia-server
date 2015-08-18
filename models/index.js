@@ -19,6 +19,7 @@ require('./verify_code');
 require('./team');
 require('./share');
 require('./requirement');
+require('./favorite');
 
 exports.User = mongoose.model('User');
 exports.Designer  = mongoose.model('Designer');
@@ -30,3 +31,4 @@ exports.VerifyCode = mongoose.model('VerifyCode');
 exports.Team = mongoose.model('Team');
 exports.Requirement = mongoose.model('Requirement');
 exports.Share = mongoose.model('Share');
+exports.Favorite = mongoose.model('Favorite');
