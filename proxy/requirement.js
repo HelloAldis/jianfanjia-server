@@ -9,3 +9,11 @@ exports.saveOrUpdateByUserid = function (userid, json, callback) {
 exports.getRequirementByUserid = function (userid, callback) {
   Requirement.findOne({userid: userid}, callback);
 }
+
+exports.updateByUserid = function (userid, obj, callback) {
+  Requirement.findOneAndUpdate({'userid': userid}, obj, callback);
+}
+
+exports.updateByQuery = function (query, obj, callback) {
+  Requirement.findOneAndUpdate(query, obj, callback);
+}

@@ -15,7 +15,7 @@ var PlanSchema = new Schema({
   description: {type: String},
   manager: {type: String},
   images: {type: [ObjectId]},
-  status: {type: String, default: '1'},
+  status: {type: String, default: '0'},
   house_check_time: {type: Date},
   request_date: {type: Date, default: Date.now},
   comments: {type: [{

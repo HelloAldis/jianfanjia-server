@@ -1,11 +1,12 @@
 var validator = require('validator');
 var eventproxy = require('eventproxy');
-var User = require('../../proxy').User;
 var Favorite = require('../../proxy').Favorite;
 var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
 var ApiUtil = require('../../common/api_util');
+var mongoose = require('mongoose');
+var ObjectId = mongoose.Types.ObjectId;
 
 exports.list = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -21,8 +22,8 @@ exports.list = function (req, res, next) {
 
 exports.add = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
-  var productid = tools.trim(req.body._id);
-
+  console.log(tools.trim(req.body._id));
+  var productid = new ObjectId(tools.trim(req.body._id));
 
   Favorite.getProductFavorites(userid, function (err, favorite) {
     if (err) {

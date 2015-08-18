@@ -8,6 +8,8 @@ var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
 var ApiUtil = require('../../common/api_util');
+var mongoose = require('mongoose');
+var ObjectId = mongoose.Types.ObjectId;
 
 exports.getInfo = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -137,14 +139,75 @@ exports.myDesigner = function (req, res, next) {
 
     if (!requirement) {
       ep.emit('designers', []);
+      return;
+    } else {
+      ep.emit('designers', requirement.plans);
+      return;
     }
-
-    ep.emit('designers', requirement.plans);
   });
 };
 
 exports.addDesigner = function (req, res, next) {
+  var designerid = new ObjectId(tools.trim(req.body._id));
+  var userid = ApiUtil.getUserid(req);
+
+  Requirement.getRequirementByUserid(userid, function (err, requirement) {
+    if (err) {
+      return next(err);
+    }
+
+    if (!requirement) {
+      res.send({err_msg: '请先添加需求'});
+      return;
+    }
+    //TODO 去除重复
+    Requirement.updateByUserid(userid, {$addToSet: {plans: {designerid:designerid}}}, function (err) {
+      if (err) {
+        return next(err);
+      }
+
+      res.send({msg: '添加成功'});
+    });
+  });
 }
 
 exports.addDesigner2HouseCheck = function (req, res, next) {
+  var designerid = new ObjectId(tools.trim(req.body._id));
+  var userid = ApiUtil.getUserid(req);
+  var ep = eventproxy();
+
+  ep.fail(next);
+  ep.on('requirement', function (requirement) {
+    //
+    var json = {};
+    json.designerid = designerid;
+    json.userid = userid;
+    json.requirementid = requirement._id;
+
+    Plan.newAndSave(json, function (err, plan) {
+      if (err) {
+        return next(err);
+      }
+
+      ep.emit('plan', plan);
+    });
+  });
+
+  ep.on('plan', function (plan) {
+    var query = {userid:userid, 'plans.designerid': designerid};
+    Requirement.updateByQuery(query, {$set: {'plans.$.planid': plan._id}}, function (err) {
+      if (err) {
+        return next(err);
+      }
+      res.send({msg: '添加成功'});
+    });
+  });
+
+  Requirement.getRequirementByUserid(userid, function (err, requirement) {
+    if (err) {
+      return next(err);
+    }
+
+    ep.emit('requirement', requirement);
+  });
 }

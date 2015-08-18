@@ -31,13 +31,13 @@ router.get('/image/:_id', image.get); //获取图片
 
 
 //通用用户功能
-router.put('/image/upload', image.add); //
-router.get('/favorite/product', favorite.list); //
-router.post('/favorite/product', favorite.add); //
-router.delete('/favorite/product', favorite.delete); //
-router.post('/plan/comment', comment.add); //
+router.put('/image/upload', image.add); //上传图片
+router.get('/favorite/product', favorite.list); //收藏列表
+router.post('/favorite/product', favorite.add); //收藏作品
+router.delete('/favorite/product', favorite.delete); //删除收藏作品
+router.post('/plan/comment', comment.add); //添加评论
 router.post('/share', share.add); //创建直播分享
-router.put('/share', share.update); //
+router.put('/share', share.update); //更新直播分享
 router.get('/user/info', user.getInfo); //获取业主个人资料
 
 //业主独有功能
