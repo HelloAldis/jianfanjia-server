@@ -51,6 +51,10 @@ exports.addViewCountForDesigner = function (desingerid) {
   Designer.update({_id:desingerid}, {'$inc': {'view_count': 1}}, function (err) {});
 };
 
+exports.addOrderCountForDesigner = function (desingerid) {
+  Designer.update({_id:desingerid}, {'$inc': {'order_count': 1}}, function (err) {});
+};
+
 exports.findDesignersOrderByScore = function (limit, callback) {
   Designer.find(
     {auth_type: '3'},

@@ -160,16 +160,28 @@ exports.addDesigner = function (req, res, next) {
       res.send({err_msg: '请先添加需求'});
       return;
     }
-    //TODO 去除重复
-    Requirement.updateByUserid(userid, {$addToSet: {plans: {designerid:designerid}}}, function (err) {
+
+    Requirement.getRequirementByQuery({userid: userid, 'plans.designerid': designerid},
+    function (err, requrement) {
       if (err) {
         return next(err);
       }
 
-      res.send({msg: '添加成功'});
+      if (requrement) {
+        res.send({err_msg: '已经添加过了'});
+        return;
+      }
+
+      Requirement.updateByUserid(userid, {$push: {plans: {designerid:designerid}}}, function (err) {
+        if (err) {
+          return next(err);
+        }
+
+        res.send({msg: '添加成功'});
+      });
     });
   });
-}
+};
 
 exports.addDesigner2HouseCheck = function (req, res, next) {
   var designerid = new ObjectId(tools.trim(req.body._id));
@@ -210,4 +222,4 @@ exports.addDesigner2HouseCheck = function (req, res, next) {
 
     ep.emit('requirement', requirement);
   });
-}
+};

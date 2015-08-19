@@ -11,8 +11,7 @@ exports.getPlansByUserid = function (userid, callback) {
 };
 
 exports.newAndSave = function (json, callback) {
-  var plan         = new Plan(json);
-  plan.save(callback);
+  Plan.findOneAndUpdate(json, json, {upsert: true}, callback);
 };
 
 exports.updateByQuery = function (query, json, callback) {
@@ -37,6 +36,6 @@ exports.getPlansByQuery = function (query, opt, callback) {
 };
 
 exports.addComment = function (planid, json, callback) {
-  json.commentid = uuid.v1();
+  // json.commentid = uuid.v1();
   Plan.findOneAndUpdate({_id:planid}, {'$push': {comments: json}}, callback);
 }

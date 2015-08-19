@@ -2,6 +2,7 @@ var validator = require('validator');
 var eventproxy = require('eventproxy');
 var Designer = require('../../proxy').Designer;
 var Product = require('../../proxy').Product;
+var Plan = require('../../proxy').Plan;
 var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
@@ -76,7 +77,21 @@ exports.search = function (req, res, next) {
 }
 
 exports.myUser = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
+  var ep = eventproxy();
 
+  ep.fail(next);
+  ep.on('user', function (user) {
+    res.send({data: user});
+  });
+
+  Plan.getPlansByDesignerid(designerid, function (err, plans) {
+    if (err) {
+      return next(err);
+    }
+
+    ep.emit('user', plans);
+  });
 }
 
 exports.okUser = function (req, res, next) {
