@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>简繁家-上传作品</title>
+	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/user.css" />
+	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../js/user/login.js"></script>
+</head>
+<body>
+	<div class="g-topbar">
+		<div class="g-wp">
+			<a href="">登陆</a> | <a href="">注册</a>
+		</div>
+	</div>
+	<div class="g-hd">
+		<div class="g-wp f-cb">
+			<div class="m-logo f-fl">
+				<h1><a href="">简繁家</a></h1>
+			</div>
+			<ul class="m-nav f-fl">
+				<li><a href="">首页</a></li>
+				<li><a href="">设计师</a></li>
+				<li><a href="">装修直播</a></li>
+				<li><a href="">为什么选简繁家</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="g-bd">
+		<div class="g-wp f-cb">
+			<div class="g-sd f-fl">
+				<h3>个人中心</h3>
+				<ul>
+					<li><a href="design_owner.html">我的业主</a></li>
+					<li><a href="design_scheme.html">业主方案</a></li>
+					<li><a href="design_works.html">我的作品</a></li>
+					<li><a href="design_need.html">我的收藏</a></li>
+					<li><a href="design_info.html">我的资料</a></li>
+					<li><a href="design_team.html">我的施工队</a></li>
+				</ul>
+			</div>
+			<div class="g-mn f-fr">
+				<div class="w-form">
+					<form action="http://www.jianfanjia.com" id="form-reg" method="get">
+						<div class="m-item f-cb">
+							<label class="u-lab" for="reg-mobile">
+								所在城市
+							</label>
+							<div class="u-inp">
+								<div class="box">
+									<input type="text" class="input" name="reg-mobile" id="reg-mobile" placeholder="请输入手机号码" />
+								</div>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<label class="u-lab" for="reg-VerifyCode">
+								小区名称
+							</label>
+							<div class="u-inp">
+								<div class="box">
+									<input type="text" class="input" name="reg-VerifyCode" id="reg-VerifyCode" placeholder="请输入验证码" />
+								</div>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<label class="u-lab" for="reg-password">
+								户型
+							</label>
+							<div class="u-inp">
+								<div class="box m-select" id="huxing"></div>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<label class="u-lab" for="reg-password">
+								户型
+							</label>
+							<div class="u-inp">
+								<div class="box m-select" id="huxing1"></div>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<label class="u-lab" for="confirm-password">
+								面积
+							</label>
+							<div class="u-inp">
+								<div class="box">
+									<input type="password" class="input" name="confirm-password" id="confirm-password" placeholder="请输入密码" />
+								</div>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<label class="u-lab" for="confirm-password">
+								装修风格
+							</label>
+							<div class="u-inp">
+								<div class="box">
+									<input type="password" class="input" name="confirm-password" id="confirm-password" placeholder="请输入密码" />
+								</div>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<label class="u-lab" for="confirm-password">
+								装修类型
+							</label>
+							<div class="u-inp">
+								<div class="box">
+									<input type="password" class="input" name="confirm-password" id="confirm-password" placeholder="请输入密码" />
+								</div>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<label class="u-lab" for="confirm-password">
+								装修造价
+							</label>
+							<div class="u-inp">
+								<div class="box">
+									<input type="password" class="input" name="confirm-password" id="confirm-password" placeholder="请输入密码" />
+								</div>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<label class="u-lab" for="reg-password">
+								户型
+							</label>
+							<div class="u-inp">
+								<div class="box m-select" id="huxing2"></div>
+							</div>
+						</div>
+						<div class="m-item f-cb m-error-info">
+							你的账户和密码不正确请从新输入
+						</div>
+						<div class="m-item f-cb">
+							<label class="u-lab"></label>
+							<div class="u-btn">
+								<input type="submit" class="btn" id="login-submit" value="创建作品" />
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="g-ft">
+		<div class="m-sitemap f-cb">
+			<div class="g-wp">
+				<div class="sitemap f-fl">
+					<dl>
+						<dt>业主指南</dt>
+						<dd><a href="">提交需求</a></dd>
+						<dd><a href="">预约设计师</a></dd>
+					</dl>
+					<dl>
+						<dt>设计师指南</dt>
+						<dd><a href="">设计师认证</a></dd>
+						<dd><a href="">入驻协议</a></dd>
+						<dd><a href="">上传作品</a></dd>
+						<dd><a href="">上门量房</a></dd>
+					</dl>
+					<dl>
+						<dt>关于我们</dt>
+						<dd><a href="">关于我们</a></dd>
+						<dd><a href="">联系我们</a></dd>
+					</dl>
+				</div>
+				<div class="erweima f-fr">
+					
+				</div>
+			</div>
+		</div>
+		<div class="m-copy">
+			<div class="g-wp">
+			Copyright © 2015-2025 jianfanjia.com All Rights Reserved 武汉家易装科技有限公司 隐私权政策 鄂ICP备15014103号
+			</div>
+		</div>
+	</div>
+</body>
+</html>
