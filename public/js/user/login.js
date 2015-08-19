@@ -3,7 +3,7 @@ $(function(){
 	$('#form-login').submit(function(){
 		$.ajax({
 			url:RootUrl+'login',
-			type: 'post',
+			type: 'POST',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			data : $('#form-login').serialize(),
@@ -36,21 +36,6 @@ $(function(){
 			}, 1000)
 		})
 	}
-
-	$('#form-login').on('submit',function(){
-		var data = $(this).serialize();
-		console.log(data)	
-		$.ajax({
-            type: "POST",
-            url: "/user/login?format=json",
-            data: post,
-            dataType: "json",
-            success: function(res) {
-
-            }
-        })
-		return false;
-	})
 
 	function yanzhen(){
 		var account = $('#login-account');
