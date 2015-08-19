@@ -1,13 +1,21 @@
 $(function(){
+
 	$('#form-login').submit(function(){
-		if(isInput($('#login-account'))){
-			return true;
-		}
+		$.ajax({
+			url:RootUrl+'login',
+			type: 'post',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			data : $('#form-login').serialize(),
+			success: function(msg){
+		     console.log(msg)
+		   }
+		});
 		return false;
 	})
-	function isInput(str){
-		return $.trim(str) != '' ? true : false 
-	}
+	// function isInput(str){
+	// 	return $.trim(str) != '' ? true : false 
+	// }
 	//获取验证码
 	var $getVerifyCode = $('#getVerifyCode');
 	countdown($getVerifyCode,60)
