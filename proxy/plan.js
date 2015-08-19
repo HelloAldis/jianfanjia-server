@@ -11,6 +11,11 @@ exports.getPlansByUserid = function (userid, callback) {
 };
 
 exports.newAndSave = function (json, callback) {
+  var plan = new Plan(json);
+  plan.save(callback);
+};
+
+exports.saveOrUpdate = function (json, callback) {
   Plan.findOneAndUpdate(json, json, {upsert: true}, callback);
 };
 
@@ -22,18 +27,14 @@ exports.removeOneByQuery = function (_id, callback) {
   Plan.findOneAndRemove({_id:_id}, {$set: {is_deleted: true}}, callback);
 }
 
-/**
- * 根据关键字，获取一组方案
- * callback:
- * - err, 数据库异常
- * - plan, 方案列表
- * @param {String} query 关键字
- * @param {Object} opt 选项
- * @param {Function} callback 回调函数
- */
-exports.getPlansByQuery = function (query, opt, callback) {
-  Plan.find(query, '', opt, callback);
-};
+exports.getStatus2PlanByUseridDesigneridRequirementid = function (userid, designerid, requirementid, callback) {
+  Plan.findOne({
+    userid: userid,
+    designerid: designerid,
+    requirementid: requirementid,
+    status: '2',
+  }, callback);
+}
 
 exports.addComment = function (planid, json, callback) {
   // json.commentid = uuid.v1();

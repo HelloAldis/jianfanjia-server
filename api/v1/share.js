@@ -27,37 +27,3 @@ exports.listtop = function (req, res, next) {
     res.send({data: shares});
   });
 }
-
-exports.add = function (req, res, next) {
-  var share = ApiUtil.buildShare(req);
-  var userid = ApiUtil.getUserid(req);
-  var usertype = ApiUtil.getUsertype(req);
-
-  if (usertype === '1') {
-    share.userid = userid;
-  } else if (usertype === '3') {
-    share.designerid = userid;
-  }
-
-  Share.newAndSave(share, function (err) {
-    if (err) {
-      return next(err);
-    }
-
-    res.send({msg:'添加成功'});
-  });
-}
-
-exports.update = function (req, res, next) {
-  var share = ApiUtil.buildShare(req);
-  var shareid = tools.trim(req.body._id);
-
-  Share.updateById(shareid, share, function (err) {
-    console.log(err);
-    if (err) {
-      return next(err);
-    }
-
-    res.send({msg:'更新成功'});
-  })
-}

@@ -3,7 +3,7 @@ var Team    = models.Team;
 var uuid    = require('node-uuid');
 
 exports.getTeamsByDesignerid = function (designerid, callback) {
-  Team.find({'designerid':designerid}}, callback);
+  Team.find({'designerid':designerid}, callback);
 };
 
 exports.newAndSave = function (json, callback) {

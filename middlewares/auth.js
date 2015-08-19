@@ -4,13 +4,49 @@ var Message    = require('../proxy').Message;
 var config     = require('../config');
 var eventproxy = require('eventproxy');
 var UserProxy  = require('../proxy').User;
+var type = require('../type');
 
 
 /**
- * 需要登录
+ * 需要通用用户登录
+ */
+exports.normalUserRequired = function (req, res, next) {
+  if (!req.session.userid) {
+    return res.status(403).send('forbidden!');
+  }
+
+  next();
+};
+
+/**
+ * 需要业主登录
  */
 exports.userRequired = function (req, res, next) {
-  if (!req.session || !req.session.user) {
+  if (req.session.usertype !== type.role.user &&
+    req.session.usertype !== type.role.admin) {
+    return res.status(403).send('forbidden!');
+  }
+
+  next();
+};
+
+/**
+ * 需要设计师登录
+ */
+exports.designerRequired = function (req, res, next) {
+  if (req.session.usertype !== type.role.designer &&
+    req.session.usertype !== type.role.admin) {
+    return res.status(403).send('forbidden!');
+  }
+
+  next();
+};
+
+/**
+ * 需要admin登录
+ */
+exports.adminRequired = function (req, res, next) {
+  if (req.session.usertype !== type.role.admin) {
     return res.status(403).send('forbidden!');
   }
 

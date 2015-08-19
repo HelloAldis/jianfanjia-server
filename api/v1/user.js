@@ -34,7 +34,7 @@ exports.updateInfo = function (req, res, next) {
       return next(err);
     }
 
-    res.send({msg:'更新成功'});
+    ApiUtil.sendSuccessMsg(res);
   });
 };
 
@@ -63,13 +63,11 @@ exports.updateRequirement = function (req, res, next) {
   ep.fail(next);
   ep.on('alldesigners', function (alldesigners) {
     //设计确定了
-    var plans = _.uniq(_.pluck(alldesigners, '_id'), '_id');
-    requirement.plans =  _.map(plans, function (designerid) {
-      var o = {};
-      o.designerid = designerid;
-      return o;
-    });
-    console.log(requirement.plans);
+    var designerids = _.uniq(_.pluck(alldesigners, '_id'), '_id');
+    requirement.designerids = designerids;
+    requirement.rec_designerids = designerids;
+
+    console.log(requirement.designerids);
 
     Requirement.saveOrUpdateByUserid(userid, requirement, function (err) {
       if (err) {
@@ -141,7 +139,7 @@ exports.myDesigner = function (req, res, next) {
       ep.emit('designers', []);
       return;
     } else {
-      ep.emit('designers', requirement.plans);
+      ep.emit('designers', requirement.designerids);
       return;
     }
   });
@@ -161,23 +159,23 @@ exports.addDesigner = function (req, res, next) {
       return;
     }
 
-    Requirement.getRequirementByQuery({userid: userid, 'plans.designerid': designerid},
-    function (err, requrement) {
+    Requirement.getRequirementByQuery({userid: userid, 'designerids': designerid},
+    function (err, requirement) {
       if (err) {
         return next(err);
       }
 
-      if (requrement) {
+      if (requirement) {
         res.send({err_msg: '已经添加过了'});
         return;
       }
 
-      Requirement.updateByUserid(userid, {$push: {plans: {designerid:designerid}}}, function (err) {
+      Requirement.updateByUserid(userid, {$push: {designerids:designerid}}, function (err) {
         if (err) {
           return next(err);
         }
 
-        res.send({msg: '添加成功'});
+        ApiUtil.sendSuccessMsg(res);
       });
     });
   });
@@ -196,24 +194,24 @@ exports.addDesigner2HouseCheck = function (req, res, next) {
     json.userid = userid;
     json.requirementid = requirement._id;
 
-    Plan.newAndSave(json, function (err, plan) {
+    Plan.saveOrUpdate(json, function (err, plan) {
       if (err) {
         return next(err);
       }
 
-      ep.emit('plan', plan);
+      ApiUtil.sendSuccessMsg(res);
     });
   });
 
-  ep.on('plan', function (plan) {
-    var query = {userid:userid, 'plans.designerid': designerid};
-    Requirement.updateByQuery(query, {$set: {'plans.$.planid': plan._id}}, function (err) {
-      if (err) {
-        return next(err);
-      }
-      res.send({msg: '添加成功'});
-    });
-  });
+  // ep.on('plan', function (plan) {
+  //   var query = {userid:userid, 'plans.designerid': designerid};
+  //   Requirement.updateByQuery(query, {$set: {'plans.$.planid': plan._id}}, function (err) {
+  //     if (err) {
+  //       return next(err);
+  //     }
+  //     res.send({msg: '添加成功'});
+  //   });
+  // });
 
   Requirement.getRequirementByUserid(userid, function (err, requirement) {
     if (err) {

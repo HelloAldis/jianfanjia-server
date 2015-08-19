@@ -12,15 +12,15 @@ var ObjectId = mongoose.Types.ObjectId;
 
 exports.add = function (req, res, next) {
   var team = ApiUtil.buildTeam(req);
-  var user = req.user || req.session.user;
-  team.designerid = user._id;
+  var designerid = ApiUtil.getUserid(req);
+  team.designerid = designerid;
 
   Team.newAndSave(team, function (err) {
     if (err) {
       return next(err);
     }
 
-    res.send({msg: '添加成功'});
+    ApiUtil.sendSuccessMsg(res);
   });
 };
 
@@ -38,7 +38,7 @@ exports.update = function (req, res, next) {
       return next(err);
     }
 
-    res.send({msg: '创建成功'});
+    ApiUtil.sendSuccessMsg(res);
   });
 }
 
@@ -55,20 +55,18 @@ exports.delete = function (req, res, next) {
       return next(err);
     }
 
-    res.send({msg: '删除成功'});
+    ApiUtil.sendSuccessMsg(res);
   });
 }
 
 exports.list = function (req, res, next) {
-  var user = req.user || req.session.user;
+  var designerid = ApiUtil.getUserid(req);
 
-  Team.getTeamsByDesignerid(user._id, function (err, teams) {
+  Team.getTeamsByDesignerid(designerid, function (err, teams) {
     if (err) {
       return next(err);
     }
 
-    res.send({
-      data: teams
-    });
+    ApiUtil.sendData(res, teams);
   });
 }

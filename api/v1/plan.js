@@ -2,6 +2,7 @@ var validator = require('validator');
 var eventproxy = require('eventproxy');
 var User = require('../../proxy').User;
 var Plan = require('../../proxy').Plan;
+var Requirement = require('../../proxy').Requirement;
 var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
@@ -9,18 +10,64 @@ var async = require('async');
 var ApiUtil = require('../../common/api_util');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
+var type = require('../../type');
 
 exports.add = function (req, res, next) {
   var plan = ApiUtil.buildPlan(req);
-  var user = req.user || req.session.user;
-  plan.userid = user._id;
+  var designerid = ApiUtil.getUserid(req);
+  var userid = tools.trim(req.body.userid);
+  var ep = eventproxy();
 
-  Plan.newAndSave(plan, function (err) {
+  ep.fail(next);
+  ep.on('requirement', function (requirement) {
+    //如果已经对需求提交过
+    Plan.getStatus2PlanByUseridDesigneridRequirementid(userid, designerid, requirement._id,
+    function (err, plan_indb) {
+      if (err) {
+        return next(err);
+      }
+
+      if (plan_indb) {
+        //有已响应但是没上传的方案，直接上传方案到这里
+        plan.status = type.plan_status.desinger_upload; //修改status为已上传
+        var query = {
+          userid: userid,
+          designerid: designerid,
+          requirementid: requirement._id,
+          status: type.plan_status.designer_respond,
+        };
+
+        Plan.updateByQuery(query, plan, function (err) {
+          if (err) {
+            return next(err);
+          }
+
+          ApiUtil.sendSuccessMsg(res);
+        });
+      } else {
+        //创建新的方案
+        plan.status = type.plan_status.desinger_upload;
+        plan.designerid = new ObjectId(designerid);
+        plan.userid = new ObjectId(userid);
+        plan.requirementid = requirement._id;
+        Plan.newAndSave(plan, function (err) {
+          if (err) {
+            return next(err);
+          }
+
+          ApiUtil.sendSuccessMsg(res);
+        });
+      }
+    });
+  });
+
+  Requirement.getRequirementByUserid(userid, function (err, requirement) {
     if (err) {
       return next(err);
     }
 
-    res.send({msg: '添加成功'});
+    console.log(requirement);
+    ep.emit('requirement', requirement);
   });
 };
 
@@ -29,7 +76,7 @@ exports.update = function (req, res, next) {
   var oid = tools.trim(req.body._id);
 
   if (oid === '') {
-    res.send({msg: '信息不完全'});
+    res.send({err_msg: '信息不完全'});
     return;
   }
 
@@ -38,7 +85,7 @@ exports.update = function (req, res, next) {
       return next(err);
     }
 
-    res.send({msg: '更新成功'});
+    ApiUtil.sendSuccessMsg(res);
   });
 }
 
@@ -47,11 +94,11 @@ exports.delete = function (req, res, next) {
   var oid = tools.trim(req.body._id);
 
   if (oid === '') {
-    res.send({msg: '信息不完全'});
+    res.send({err_msg: '信息不完全'});
     return;
   }
 
-  Plan.removeOneByQuery({_id: new ObjectId(oid)}, function (err) {
+  Plan.removeOneByQuery({_id: oid}, function (err) {
     if (err) {
       return next(err);
     }
@@ -119,13 +166,39 @@ exports.list = function (req, res, next) {
 }
 
 exports.userMyPlan = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
 
+  Plan.getPlansByUserid(userid, function (err, plans) {
+    if (err) {
+      return next(err);
+    }
+
+    ApiUtil.sendData(res, plans);
+  });
 }
 
 exports.finalPlan = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
+  var planid = tools.trim(req.body.planid);
 
+  Plan.updateByQuery({_id: planid}, {status: type.plan_status.user_final},
+    function (err) {
+      if (err) {
+        return next(err);
+      }
+
+      ApiUtil.sendSuccessMsg(res);
+    });
 }
 
 exports.designerMyPlan = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
 
+  Plan.getPlansByDesignerid(designerid, function (err, plans) {
+    if (err) {
+      return next(err);
+    }
+
+    ApiUtil.sendData(res, plans);
+  });
 }

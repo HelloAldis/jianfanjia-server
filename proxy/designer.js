@@ -1,6 +1,7 @@
 var models  = require('../models');
 var Designer    = models.Designer;
 var uuid    = require('node-uuid');
+var type = require('../type');
 
 exports.getUserById = function (id, callback) {
   Designer.findOne({_id: id}, callback);
@@ -23,7 +24,7 @@ exports.updateByQuery = function (query, json, callback) {
 
 exports.findDesignersByCityDistrictHalf = function (city, district, price_perm, limit, callback) {
   Designer.find({
-    auth_type: '3',
+    auth_type: type.designer_auth_type.done,
     city: city,
     dec_districts: district,
     dec_fee_half: {'$lte': price_perm}
@@ -32,7 +33,7 @@ exports.findDesignersByCityDistrictHalf = function (city, district, price_perm, 
 
 exports.findDesignersByCityDistrictAll = function (city, district, price_perm, limit, callback) {
   Designer.find({
-    auth_type: '3',
+    auth_type: type.designer_auth_type.done,
     city: city,
     dec_districts: district,
     dec_fee_all: {'$lte': price_perm}
@@ -41,7 +42,7 @@ exports.findDesignersByCityDistrictAll = function (city, district, price_perm, l
 
 exports.findDesignersByCityDistrict = function (city, district, limit, callback) {
   Designer.find({
-    auth_type: '3',
+    auth_type: type.designer_auth_type.done,
     city: city,
     dec_districts: district,
   }, null, {sort: {score: -1}, limit:3}, callback);
@@ -56,10 +57,15 @@ exports.addOrderCountForDesigner = function (desingerid) {
 };
 
 exports.findDesignersOrderByScore = function (limit, callback) {
+  console.log(type);
   Designer.find(
-    {auth_type: '3'},
+    {auth_type: type.designer_auth_type.done},
     {'pass': 0},
     {sort: {score: -1}, limit:limit},
     callback
   );
 };
+
+exports.findDesignersByQuery = function (query, sort, callback) {
+  Designer.find(query, {pass:0, accessToken:0}, {sort:sort}, callback);
+}

@@ -69,13 +69,17 @@ exports.buildProduct = function (req) {
 
 exports.buildPlan = function(req) {
   var plan = {};
-  plan.duration = tools.trim(req.body.duration);
+  plan.duration = req.body.duration;
   plan.total_price = tools.trim(req.body.total_price);
   plan.description = tools.trim(req.body.description);
   plan.manager = tools.trim(req.body.manager);
-  plan.images = req.body.images;
   plan.price_detail = req.body.price_detail;
-  plan.designerid = tools.trim(req.body.designerid);
+
+  plan.images = _.map(req.body.images, function (i) {
+    return new ObjectId(i);
+  });
+
+  return plan;
 }
 
 exports.buildRequirement = function (req) {
@@ -119,4 +123,18 @@ exports.buildShare = function (req) {
   });
 
   return share;
+}
+
+exports.sendData = function (res, json) {
+  res.send({
+    data: json
+  });
+}
+
+exports.sendSuccessMsg = function (res) {
+  res.send({msg:'success'});
+}
+
+exports.sendErrMsg = function (res, err) {
+  res.send({err_msg:err});
 }

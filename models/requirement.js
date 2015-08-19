@@ -12,10 +12,9 @@ var RequirementSchema = new Schema({
   dec_style: {type: String},
   work_type: {type: String},
   total_price: {type: Number, default: 0},
-  plans:[{
-    designerid: {type: ObjectId},
-    planid: {type: ObjectId},
-  }],
+  designerids: {type: [ObjectId]},
+  rec_designerids: {type: [ObjectId]},
+  final_designerid: {type: [ObjectId]},
 });
 
 mongoose.model('Requirement', RequirementSchema);

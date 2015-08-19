@@ -8,3 +8,4 @@ exports.Requirement = require('./requirement');
 exports.VerifyCode = require('./verify_code');
 exports.Share = require('./share');
 exports.Favorite = require('./favorite');
+exports.Team = require('./team');

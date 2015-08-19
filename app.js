@@ -17,6 +17,7 @@ var RedisStore = require('connect-redis')(session);
 var _ = require('lodash');
 var bodyParser = require('body-parser');
 var errorhandler = require('errorhandler');
+var cors = require('cors');
 var requestLog = require('./middlewares/request_log');
 var logger = require('./common/logger');
 var helmet = require('helmet');
@@ -74,7 +75,7 @@ app.use(function (req, res, next) {
 });
 
 // routes
-app.use('/api/v1', apiRouterV1);
+app.use('/api/v1',cors(), apiRouterV1);
 app.use('/', webRouter);
 
 // error handler
