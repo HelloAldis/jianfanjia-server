@@ -1,7 +1,7 @@
 $(function(){
 	$('#form-login').submit(function(){
-		var userName = $('#login-account');
-		var passWord = $('#login-password');
+		var userName = $('#login-account').val();
+		var passWord = $('#login-password').val();
 		$.ajax({
 			url:RootUrl+'login',
 			type: 'post',
