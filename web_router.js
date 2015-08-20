@@ -8,7 +8,7 @@ var router = express.Router();
 // home page
 router.get('/', site.index);
 
-router.post('/signup', sign.signup);
-router.post('/login', sign.login);
+// router.post('/signup', sign.signup);
+// router.post('/login', sign.login);
 
 module.exports = router;

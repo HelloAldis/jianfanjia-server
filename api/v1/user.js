@@ -21,7 +21,7 @@ exports.getInfo = function (req, res, next) {
 
     user.pass = '';
     user.accessToken = '';
-    res.send({data:user});
+    res.sendData(user);
   });
 }
 
@@ -34,7 +34,7 @@ exports.updateInfo = function (req, res, next) {
       return next(err);
     }
 
-    ApiUtil.sendSuccessMsg(res);
+    res.sendSuccessMsg();
   });
 };
 
@@ -46,7 +46,7 @@ exports.getRequirement = function (req, res, next) {
       return next(err);
     }
 
-    res.send({data:requirement});
+    res.sendData(requirement);
   });
 }
 
@@ -58,7 +58,6 @@ exports.updateRequirement = function (req, res, next) {
   var price_perm = requirement.total_price * 10000 / requirement.house_area;
   var city = requirement.city;
   var district = requirement.district;
-  console.log('hahah-----1');
 
   ep.fail(next);
   ep.on('alldesigners', function (alldesigners) {
@@ -67,15 +66,12 @@ exports.updateRequirement = function (req, res, next) {
     requirement.designerids = designerids;
     requirement.rec_designerids = designerids;
 
-    console.log(requirement.designerids);
-
     Requirement.saveOrUpdateByUserid(userid, requirement, function (err) {
       if (err) {
         return next(err);
       }
 
-      console.log('sdfsdfsd');
-      res.send({msg: '更新成功'});
+      res.sendSuccessMsg();
     });
   });
 
@@ -127,7 +123,7 @@ exports.myDesigner = function (req, res, next) {
 
   ep.fail(next);
   ep.on('designers', function (designers) {
-    res.send({data:designers});
+    res.sendData(designers);
   });
 
   Requirement.getRequirementByUserid(userid, function (err, requirement) {
@@ -155,7 +151,7 @@ exports.addDesigner = function (req, res, next) {
     }
 
     if (!requirement) {
-      res.send({err_msg: '请先添加需求'});
+      res.sendErrMsg('请先添加需求');
       return;
     }
 
@@ -166,7 +162,7 @@ exports.addDesigner = function (req, res, next) {
       }
 
       if (requirement) {
-        res.send({err_msg: '已经添加过了'});
+        res.sendErrMsg('已经添加过了');
         return;
       }
 
@@ -175,7 +171,7 @@ exports.addDesigner = function (req, res, next) {
           return next(err);
         }
 
-        ApiUtil.sendSuccessMsg(res);
+        res.sendSuccessMsg();
       });
     });
   });
@@ -201,24 +197,14 @@ exports.addDesigner2HouseCheck = function (req, res, next) {
 
       if (plan) {
         //已预约过
-        return ApiUtil.sendSuccessMsg(res);
+        return res.sendSuccessMsg();
       } else {
         Plan.newAndSave(json);
         Designer.addOrderCountForDesigner(designerid, 1);
-        return ApiUtil.sendSuccessMsg(res);
+        return res.sendSuccessMsg();
       }
     });
   });
-
-  // ep.on('plan', function (plan) {
-  //   var query = {userid:userid, 'plans.designerid': designerid};
-  //   Requirement.updateByQuery(query, {$set: {'plans.$.planid': plan._id}}, function (err) {
-  //     if (err) {
-  //       return next(err);
-  //     }
-  //     res.send({msg: '添加成功'});
-  //   });
-  // });
 
   Requirement.getRequirementByUserid(userid, function (err, requirement) {
     if (err) {

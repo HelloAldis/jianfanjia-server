@@ -16,8 +16,8 @@ var auth            = require('./middlewares/auth');
 
 var router            = express.Router();
 
-router.get('/temp_user', tempUserApi.show); //
-router.put('/temp_user', tempUserApi.add); //
+// router.get('/temp_user', tempUserApi.show); //
+// router.put('/temp_user', tempUserApi.add); //
 
 //未登录用户拥有的功能
 router.post('/send_verify_code', sign.sendVerifyCode); //发送验证码

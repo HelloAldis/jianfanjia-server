@@ -16,7 +16,7 @@ exports.authed = function (req, res, next) {
       return next(err);
     }
 
-    res.send({msg:'审核完成'});
+    res.sendSuccessMsg();
   });
 }
 
@@ -36,7 +36,7 @@ exports.add = function (req, res, next) {
       return next(err);
     }
 
-    res.send({msg:'添加成功'});
+    res.sendSuccessMsg();
   });
 };
 
@@ -50,6 +50,6 @@ exports.update = function (req, res, next) {
       return next(err);
     }
 
-    res.send({msg:'更新成功'});
+    res.sendSuccessMsg();
   });
 };

@@ -42,7 +42,7 @@ exports.add = function (req, res, next) {
             return next(err);
           }
 
-          ApiUtil.sendSuccessMsg(res);
+          res.sendSuccessMsg();
         });
       } else {
         //创建新的方案
@@ -55,7 +55,7 @@ exports.add = function (req, res, next) {
             return next(err);
           }
 
-          ApiUtil.sendSuccessMsg(res);
+          res.sendSuccessMsg();
         });
       }
     });
@@ -66,7 +66,6 @@ exports.add = function (req, res, next) {
       return next(err);
     }
 
-    console.log(requirement);
     ep.emit('requirement', requirement);
   });
 };
@@ -76,7 +75,7 @@ exports.update = function (req, res, next) {
   var oid = tools.trim(req.body._id);
 
   if (oid === '') {
-    res.send({err_msg: '信息不完全'});
+    res.sendErrMsg('信息不完全');
     return;
   }
 
@@ -85,7 +84,7 @@ exports.update = function (req, res, next) {
       return next(err);
     }
 
-    ApiUtil.sendSuccessMsg(res);
+    res.sendSuccessMsg();
   });
 }
 
@@ -94,7 +93,7 @@ exports.delete = function (req, res, next) {
   var oid = tools.trim(req.body._id);
 
   if (oid === '') {
-    res.send({err_msg: '信息不完全'});
+    res.sendErrMsg('信息不完全');
     return;
   }
 
@@ -103,67 +102,67 @@ exports.delete = function (req, res, next) {
       return next(err);
     }
 
-    res.send({msg: '删除成功'});
+    res.sendSuccessMsg();
   });
 }
 
-exports.list = function (req, res, next) {
-  var user = req.user || req.session.user;
-
-  if (user.type === '1') {
-    Plan.getPlansByUserid(user._id, function (err, plans) {
-      if (err) {
-        return next(err);
-      }
-
-      async.mapLimit(plans, 3, function (p) {
-        User.getUserById({_id: p.designerid}, function (err, designer_indb) {
-          if (err) {
-            return next(err);
-          }
-
-          var designer = {};
-          designer.username = designer_indb.username;
-          p.designer = designer;
-        });
-      }, function (err, results) {
-        if (err) {
-          return next(err);
-        }
-
-        res.send({
-          data: plans
-        });
-      });
-    });
-  } else if(user.type === '2') {
-    Plan.getPlansByDesignerid(user._id, function (err, plans) {
-      if (err) {
-        return next(err);
-      }
-
-      async.mapLimit(plans, 3, function (p) {
-        User.getUserById({_id: p.userid}, function (err, user_indb) {
-          if (err) {
-            return next(err);
-          }
-
-          var user = {};
-          user.username = user_indb.username;
-          p.user = user;
-        });
-      }, function (err, results) {
-        if (err) {
-          return next(err);
-        }
-
-        res.send({
-          data: plans
-        });
-      });
-    });
-  }
-}
+// exports.list = function (req, res, next) {
+//   var user = req.user || req.session.user;
+//
+//   if (user.type === '1') {
+//     Plan.getPlansByUserid(user._id, function (err, plans) {
+//       if (err) {
+//         return next(err);
+//       }
+//
+//       async.mapLimit(plans, 3, function (p) {
+//         User.getUserById({_id: p.designerid}, function (err, designer_indb) {
+//           if (err) {
+//             return next(err);
+//           }
+//
+//           var designer = {};
+//           designer.username = designer_indb.username;
+//           p.designer = designer;
+//         });
+//       }, function (err, results) {
+//         if (err) {
+//           return next(err);
+//         }
+//
+//         res.send({
+//           data: plans
+//         });
+//       });
+//     });
+//   } else if(user.type === '2') {
+//     Plan.getPlansByDesignerid(user._id, function (err, plans) {
+//       if (err) {
+//         return next(err);
+//       }
+//
+//       async.mapLimit(plans, 3, function (p) {
+//         User.getUserById({_id: p.userid}, function (err, user_indb) {
+//           if (err) {
+//             return next(err);
+//           }
+//
+//           var user = {};
+//           user.username = user_indb.username;
+//           p.user = user;
+//         });
+//       }, function (err, results) {
+//         if (err) {
+//           return next(err);
+//         }
+//
+//         res.send({
+//           data: plans
+//         });
+//       });
+//     });
+//   }
+// }
 
 exports.userMyPlan = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -173,7 +172,7 @@ exports.userMyPlan = function (req, res, next) {
       return next(err);
     }
 
-    ApiUtil.sendData(res, plans);
+    res.sendData(plans);
   });
 }
 
@@ -187,7 +186,7 @@ exports.finalPlan = function (req, res, next) {
         return next(err);
       }
 
-      ApiUtil.sendSuccessMsg(res);
+      res.sendSuccessMsg();
     });
 }
 
@@ -199,6 +198,6 @@ exports.designerMyPlan = function (req, res, next) {
       return next(err);
     }
 
-    ApiUtil.sendData(res, plans);
+    res.sendData(plans);
   });
 }

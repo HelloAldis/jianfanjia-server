@@ -13,8 +13,7 @@ exports.add = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
   ep.on('user_err', function (msg) {
-    res.status(200);
-    res.send({error_msg: msg});
+    res.sendErrMsg(msg);
   });
 
   if ([json.name, json.phone].some(function (item) { return item === ''; })) {
@@ -28,7 +27,7 @@ exports.add = function (req, res, next) {
     }
 
     if (tempUsers) {
-      res.send({msg: '添加成功'});
+      res.sendSuccessMsg();
       return;
     }
 
@@ -37,7 +36,7 @@ exports.add = function (req, res, next) {
         return next(err);
       }
 
-      res.send({msg: '添加成功'});
+      res.sendSuccessMsg();
     });
   });
 };

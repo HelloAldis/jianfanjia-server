@@ -14,7 +14,7 @@ exports.list = function (req, res, next) {
       return next(err);
     }
 
-    res.send({data: shares});
+    res.sendData(shares);
   });
 }
 
@@ -24,6 +24,6 @@ exports.listtop = function (req, res, next) {
       return next(err);
     }
 
-    res.send({data: shares});
+    res.sendData(shares);
   });
 }

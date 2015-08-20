@@ -21,7 +21,7 @@ exports.add = function (req, res, next) {
     }
 
     Designer.addProductCountForDesigner(designerid, 1);
-    res.send({msg: '添加成功'});
+    res.sendSuccessMsg();
   });
 };
 
@@ -30,7 +30,7 @@ exports.update = function (req, res, next) {
   var oid = tools.trim(req.body._id);
 
   if (oid === '') {
-    res.send({msg: '信息不完全'});
+    res.sendErrMsg('信息不完全');
     return;
   }
 
@@ -39,7 +39,7 @@ exports.update = function (req, res, next) {
       return next(err);
     }
 
-    res.send({msg: '更新成功'});
+    res.sendSuccessMsg();
   });
 }
 
@@ -48,7 +48,7 @@ exports.delete = function (req, res, next) {
   var oid = tools.trim(req.body._id);
 
   if (oid === '') {
-    res.send({msg: '信息不完全'});
+    res.sendErrMsg('信息不完全');
     return;
   }
 
@@ -58,7 +58,7 @@ exports.delete = function (req, res, next) {
     }
 
     Designer.addProductCountForDesigner(designerid, -1);
-    res.send({msg: '删除成功'});
+    res.sendSuccessMsg();
   });
 }
 
@@ -70,9 +70,7 @@ exports.list = function (req, res, next) {
       return next(err);
     }
 
-    res.send({
-      data: products
-    });
+    res.sendData(products);
   });
 }
 
@@ -84,8 +82,6 @@ exports.getOne = function (req, res, next) {
       return next(err);
     }
 
-    res.send({
-      data: product
-    });
+    res.sendData(product);
   });
 }

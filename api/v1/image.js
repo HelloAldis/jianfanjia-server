@@ -31,10 +31,10 @@ exports.add = function (req, res, next) {
       }
 
       if (image) {
-        res.send({data:image._id});
+        res.sendData(image._id);
       } else {
         Image.newAndSave(md5, data, userid, function (err, savedImage) {
-          res.send({data:savedImage._id});
+          res.sendData(savedImage._id);
         });
       }
     });

@@ -98,7 +98,7 @@ exports.buildRequirement = function (req) {
 
 exports.buildComment = function (req) {
   var comment = {};
-  comment.conent = tools.trim(req.body.conent);
+  comment.content = tools.trim(req.body.content);
 
   return comment;
 }

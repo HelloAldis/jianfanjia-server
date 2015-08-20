@@ -19,8 +19,7 @@ exports.updatePass = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
   ep.on('user_err', function (msg) {
-    res.status(200);
-    res.send({error_msg: msg });
+    res.sendErrMsg(msg);
   });
 
   if ([phone, code, pass, repass].some(function (item) { return item === ''; })) {
@@ -57,7 +56,7 @@ exports.updatePass = function (req, res, next) {
           if (err) {
             return next(err);
           }
-          return res.send({msg: '密码更新成功'});
+          return res.sendSuccessMsg();
         });
       }));
     });
@@ -70,8 +69,7 @@ exports.sendVerifyCode = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
   ep.on('user_err', function (msg) {
-    res.status(200);
-    res.send({error_msg: msg });
+    res.sendErrMsg(msg);
   });
 
   if (phone === '') {
@@ -84,12 +82,12 @@ exports.sendVerifyCode = function (req, res, next) {
       return next(err);
     }
 
-    var content = '[简繁家 www.jianfanjia.com]您的验证码是：' + code
-    + '。不要告知他人,如非您本人请忽略。';
-    // var content = '【微米】您的验证码是：610912，3分钟内有效。如非您本人操作，可忽略本消息。';
+    var content = '[简繁家]www.jianfanjia.com 您的验证码是：' + code
+    + '。5分钟内有效,如非您本人请忽略.';
+    // var content = '【微米】您的验证码是：610912，。如非您本人操作，可忽略本消息。';
 
     sms.send(phone, content);
-    res.send({msg: '发送成功'});
+    res.sendSuccessMsg();
   });
 }
 
@@ -103,8 +101,7 @@ exports.signup = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
   ep.on('err', function (msg) {
-    res.status(200);
-    res.send({error_msg: msg});
+    res.sendErrMsg(msg);
   });
 
   if ([pass, rePass, phone, type].some(function (item) { return item === ''; })) {
@@ -158,7 +155,7 @@ exports.signup = function (req, res, next) {
         data.usertype = type;
         data.phone = user_indb.phone;
         data.username = user_indb.username;
-        ApiUtil.sendData(res, data);
+        res.sendData(data);
       });
     } else if (type === type.role.designer) {
       Designer.newAndSave(user, function (err, user_indb) {
@@ -175,7 +172,7 @@ exports.signup = function (req, res, next) {
         data.usertype = type;
         data.phone = user_indb.phone;
         data.username = user_indb.username;
-        ApiUtil.sendData(res, data);
+        res.sendData(data);
       });
     }
   });
@@ -214,15 +211,12 @@ exports.login = function (req, res, next) {
 
   ep.fail(next);
   ep.on('err', function (msg) {
-    res.status(200);
-    res.send({error_msg: msg });
+    res.sendSuccessMsg();
+    return;
   });
 
-  console.log(phone);
-  console.log(pass);
-
   if (!phone || !pass) {
-    ep.emit('err', '信息不完整');
+    return ep.emit('err', '信息不完整');
   }
 
   ep.all('user', 'designer', function (user, designer) {
@@ -243,7 +237,7 @@ exports.login = function (req, res, next) {
         data.usertype = type.role.user;
         data.phone = user.phone;
         data.username = user.username;
-        ApiUtil.sendData(res, data);
+        res.sendData(data);
       }));
     } else if (!user && designer) {
       //设计师登录
@@ -262,7 +256,7 @@ exports.login = function (req, res, next) {
         data.usertype = type.role.designer;
         data.phone = designer.phone;
         data.username = designer.username;
-        ApiUtil.sendData(res, data);
+        res.sendData(data);
       }));
     } else {
       return  ep.emit('err', '用户名或密码错误');

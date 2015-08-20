@@ -21,7 +21,7 @@ exports.getInfo = function (req, res, next) {
 
     designer.pass = '';
     designer.accessToken = '';
-    res.send({data:designer});
+    res.sendData(designer);
   });
 };
 
@@ -34,7 +34,7 @@ exports.updateInfo = function (req, res, next) {
       return next(err);
     }
 
-    res.send({msg:'更新成功'});
+    res.sendSuccessMsg();
   });
 };
 
@@ -50,7 +50,7 @@ exports.getOne = function (req, res, next) {
     designer.pass = '';
     designer.accessToken = '';
     Designer.addViewCountForDesigner(designerid, 1);
-    res.send({data:designer});
+    res.sendData(designer);
     // Product.getProductsByDesignerid(designerid, function (err, products) {
     //   if (err) {
     //     return next(err);
@@ -69,7 +69,7 @@ exports.listtop = function (req, res, next) {
       return next(err);
     }
 
-    ApiUtil.sendData(res, designer);
+    res.sendData(designer);
   })
 }
 
@@ -85,7 +85,7 @@ exports.search = function (req, res, next) {
       return next(err);
     }
 
-    ApiUtil.sendData(res, designers);
+    res.sendData(designers);
   })
 }
 
@@ -95,7 +95,7 @@ exports.myUser = function (req, res, next) {
 
   ep.fail(next);
   ep.on('user', function (user) {
-    res.send({data: user});
+    res.sendData(user);
   });
 
   Plan.getPlansByDesignerid(designerid, function (err, plans) {
@@ -118,7 +118,7 @@ exports.okUser = function (req, res, next) {
         return next(err);
       }
 
-      ApiUtil.sendSuccessMsg(res);
+      res.sendSuccessMsg();
     });
 }
 
@@ -132,7 +132,7 @@ exports.rejectUser = function (req, res, next) {
         return next(err);
       }
 
-      ApiUtil.sendSuccessMsg(res);
+      res.sendSuccessMsg();
     });
 }
 
@@ -145,6 +145,6 @@ exports.auth = function (req, res, next) {
       return next(err);
     }
 
-    res.send({msg:'申请成功'});
+    res.sendSuccessMsg();
   });
 }

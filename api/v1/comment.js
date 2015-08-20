@@ -13,12 +13,13 @@ exports.add = function (req, res, next) {
   var planid = tools.trim(req.body.planid);
   var comment = ApiUtil.buildComment(req);
   comment.userid = userid;
+  comment.date = new Date();
 
   Plan.addComment(planid, comment, function (err) {
     if (err) {
       return next(err);
     }
 
-    res.send({msg:'评论成功'});
+    res.sendSuccessMsg();
   });
 }

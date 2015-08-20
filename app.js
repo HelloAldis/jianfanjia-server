@@ -12,7 +12,7 @@ require('./models');
 var webRouter = require('./web_router');
 var apiRouterV1 = require('./api_router_v1');
 var auth = require('./middlewares/auth');
-var errorPageMiddleware = require('./middlewares/error_page');
+var responseUtil = require('./middlewares/response_util');
 var RedisStore = require('connect-redis')(session);
 var _ = require('lodash');
 var bodyParser = require('body-parser');
@@ -43,15 +43,17 @@ app.use(bodyParser.json({limit: '1mb'}));
 app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
 app.use(bodyParser.raw({limit:'3mb', type:'image/jpeg'}));
 app.use(require('method-override')());
-app.use(require('cookie-parser')(config.session_secret));
+// app.use(require('cookie-parser')(config.session_secret));
 app.use(session({
+  cookie: { path: '/', httpOnly: true, secure: false, maxAge: 1000*60*60*24*3 },
   secret: config.session_secret,
   store: new RedisStore({
     port: config.redis_port,
     host: config.redis_host,
   }),
+  rolling: true,
   resave: true,
-  saveUninitialized: true,
+  saveUninitialized: false,
 }));
 
 // custom middleware
@@ -68,11 +70,11 @@ app.use(session({
 //   app.set('view cache', true);
 // }
 
-app.use(errorPageMiddleware.errorPage);
-app.use(function (req, res, next) {
-  res.locals.csrf = req.csrfToken ? req.csrfToken() : '';
-  next();
-});
+app.use(responseUtil);
+// app.use(function (req, res, next) {
+//   res.locals.csrf = req.csrfToken ? req.csrfToken() : '';
+//   next();
+// });
 
 // routes
 app.use('/api/v1',cors(), apiRouterV1);

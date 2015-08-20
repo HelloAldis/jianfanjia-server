@@ -16,7 +16,7 @@ exports.list = function (req, res, next) {
       return next(err);
     }
 
-    res.send({data: favorite});
+    res.sendData(favorite);
   });
 };
 
@@ -36,7 +36,7 @@ exports.add = function (req, res, next) {
           return next(err);
         }
 
-        res.send({msg: '添加成功'});
+        res.sendSuccessMsg();
       });
     } else {
       Favorite.newAndSave({userid: userid, favorite_product:[productid]}, function (err) {
@@ -44,7 +44,7 @@ exports.add = function (req, res, next) {
           return next(err);
         }
 
-        res.send({msg: '添加成功'});
+        res.sendSuccessMsg();
       });
     }
 
@@ -60,6 +60,6 @@ exports.delete = function (req, res, next) {
       return next(err);
     }
 
-    res.send({msg: '删除成功'});
+    res.sendSuccessMsg();
   });
 };
