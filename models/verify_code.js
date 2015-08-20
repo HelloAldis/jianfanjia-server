@@ -4,6 +4,7 @@ var Schema    = mongoose.Schema;
 var VerifyCodeSchema = new Schema({
   phone: {type: String},
   code:{type: String},
+  create_at: {type: Date, expires: 60*4},
 });
 
 VerifyCodeSchema.index({phone: 1}, {unique: true});

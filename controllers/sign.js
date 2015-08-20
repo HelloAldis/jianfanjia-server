@@ -66,7 +66,7 @@ exports.signup = function (req, res, next) {
         authMiddleWare.gen_session(user_indb, res);
         req.session.userid = user_indb._id;
         req.session.usertype = type;
-        res.redirect('/tpl/user/owner.html');
+        res.send({data:'/tpl/user/owner.html'});
       });
     } else if (type === '2') {
       Designer.newAndSave(user, function (err, user_indb) {
@@ -78,7 +78,7 @@ exports.signup = function (req, res, next) {
         authMiddleWare.gen_session(user_indb, res);
         req.session.userid = user_indb._id;
         req.session.usertype = type;
-        res.redirect('/tpl/user/designer.html');
+        res.send({data:'/tpl/user/design.html'});
       });
     }
   });
@@ -138,7 +138,7 @@ exports.login = function (req, res, next) {
         authMiddleWare.gen_session(user, res);
         req.session.userid = user._id;
         req.session.usertype = '1';
-        res.redirect('/tpl/user/owner.html');
+        res.send({data:'/tpl/user/owner.html'});
       }));
     } else if (!user && designer) {
       //设计师登录
@@ -152,7 +152,7 @@ exports.login = function (req, res, next) {
         authMiddleWare.gen_session(designer, res);
         req.session.userid = designer._id;
         req.session.usertype = '2';
-        res.redirect('/tpl/user/designer.html');
+        res.send({data:'/tpl/user/design.html'});
       }));
     } else {
       return  ep.emit('err', '用户名或密码错误');

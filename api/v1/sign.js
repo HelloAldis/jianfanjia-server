@@ -153,8 +153,12 @@ exports.signup = function (req, res, next) {
         authMiddleWare.gen_session(user_indb, res);
         req.session.userid = user_indb._id;
         req.session.usertype = type;
-        user_indb.usertype = type;
-        ApiUtil.sendData(res, user_indb);
+
+        var data = {};
+        data.usertype = type;
+        data.phone = user_indb.phone;
+        data.username = user_indb.username;
+        ApiUtil.sendData(res, data);
       });
     } else if (type === type.role.designer) {
       Designer.newAndSave(user, function (err, user_indb) {
@@ -166,8 +170,12 @@ exports.signup = function (req, res, next) {
         authMiddleWare.gen_session(user_indb, res);
         req.session.userid = user_indb._id;
         req.session.usertype = type;
-        user_indb.usertype = type;
-        ApiUtil.sendData(res, user_indb);
+
+        var data = {};
+        data.usertype = type;
+        data.phone = user_indb.phone;
+        data.username = user_indb.username;
+        ApiUtil.sendData(res, data);
       });
     }
   });
@@ -231,8 +239,11 @@ exports.login = function (req, res, next) {
         req.session.userid = user._id;
         req.session.usertype = type.role.user;
 
-        user.usertype = type.role.user;
-        ApiUtil.sendData(res, user);
+        var data = {};
+        data.usertype = type.role.user;
+        data.phone = user.phone;
+        data.username = user.username;
+        ApiUtil.sendData(res, data);
       }));
     } else if (!user && designer) {
       //设计师登录
@@ -246,9 +257,12 @@ exports.login = function (req, res, next) {
         authMiddleWare.gen_session(designer, res);
         req.session.userid = designer._id;
         req.session.usertype = type.role.designer;
-        designer.usertype = type.role.designer;
-        console.log(designer);
-        ApiUtil.sendData(res, designer);
+
+        var data = {};
+        data.usertype = type.role.designer;
+        data.phone = designer.phone;
+        data.username = designer.username;
+        ApiUtil.sendData(res, data);
       }));
     } else {
       return  ep.emit('err', '用户名或密码错误');

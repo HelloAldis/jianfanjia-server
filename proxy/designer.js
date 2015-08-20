@@ -48,12 +48,16 @@ exports.findDesignersByCityDistrict = function (city, district, limit, callback)
   }, null, {sort: {score: -1}, limit:3}, callback);
 };
 
-exports.addViewCountForDesigner = function (desingerid) {
-  Designer.update({_id:desingerid}, {'$inc': {'view_count': 1}}, function (err) {});
+exports.addViewCountForDesigner = function (desingerid, num) {
+  Designer.update({_id:desingerid}, {'$inc': {'view_count': num}}, function (err) {});
 };
 
-exports.addOrderCountForDesigner = function (desingerid) {
-  Designer.update({_id:desingerid}, {'$inc': {'order_count': 1}}, function (err) {});
+exports.addOrderCountForDesigner = function (desingerid, num) {
+  Designer.update({_id:desingerid}, {'$inc': {'order_count': num}}, function (err) {});
+};
+
+exports.addProductCountForDesigner = function (desingerid, num) {
+  Designer.update({_id:desingerid}, {'$inc': {'product_count': num}}, function (err) {});
 };
 
 exports.findDesignersOrderByScore = function (limit, callback) {

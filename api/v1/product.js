@@ -1,7 +1,7 @@
 var validator = require('validator');
 var eventproxy = require('eventproxy');
-var User = require('../../proxy').User;
 var Product = require('../../proxy').Product;
+var Designer = require('../../proxy').Designer;
 var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
@@ -20,6 +20,7 @@ exports.add = function (req, res, next) {
       return next(err);
     }
 
+    Designer.addProductCountForDesigner(designerid, 1);
     res.send({msg: '添加成功'});
   });
 };
@@ -43,7 +44,7 @@ exports.update = function (req, res, next) {
 }
 
 exports.delete = function (req, res, next) {
-  var user = req.user || req.session.user;
+  var designerid = ApiUtil.getUserid(req);
   var oid = tools.trim(req.body._id);
 
   if (oid === '') {
@@ -56,14 +57,15 @@ exports.delete = function (req, res, next) {
       return next(err);
     }
 
+    Designer.addProductCountForDesigner(designerid, -1);
     res.send({msg: '删除成功'});
   });
 }
 
 exports.list = function (req, res, next) {
-  var desingerid = tools.trim(req.params._id);
+  var designerid = tools.trim(req.params._id);
 
-  Product.getProductsByDesignerid(desingerid, function (err, products) {
+  Product.getProductsByDesignerid(designerid, function (err, products) {
     if (err) {
       return next(err);
     }

@@ -28,6 +28,7 @@ var DesignerSchema = new Schema({
   philosophy: {type: String},
   view_count: {type: Number, default: 0},
   order_count: {type: Number, default: 0},
+  product_count: {type: Number, default: 0},
   auth_type: {type: String, default: '0'},
   auth_date: {type: Date},
 });

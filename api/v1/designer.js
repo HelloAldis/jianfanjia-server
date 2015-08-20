@@ -49,7 +49,7 @@ exports.getOne = function (req, res, next) {
 
     designer.pass = '';
     designer.accessToken = '';
-    Designer.addViewCountForDesigner(designerid);
+    Designer.addViewCountForDesigner(designerid, 1);
     res.send({data:designer});
     // Product.getProductsByDesignerid(designerid, function (err, products) {
     //   if (err) {
@@ -77,7 +77,7 @@ exports.search = function (req, res, next) {
   var query = req.body.query;
   var sort = req.body.sort;
   query.auth_type = type.designer_auth_type.done;
-  
+
   console.log(query);
 
   Designer.findDesignersByQuery(query, sort, function (err, designers) {

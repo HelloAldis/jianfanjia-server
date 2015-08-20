@@ -194,12 +194,19 @@ exports.addDesigner2HouseCheck = function (req, res, next) {
     json.userid = userid;
     json.requirementid = requirement._id;
 
-    Plan.saveOrUpdate(json, function (err, plan) {
+    Plan.findOneByQuery(json, function (err, plan) {
       if (err) {
         return next(err);
       }
 
-      ApiUtil.sendSuccessMsg(res);
+      if (plan) {
+        //已预约过
+        return ApiUtil.sendSuccessMsg(res);
+      } else {
+        Plan.newAndSave(json);
+        Designer.addOrderCountForDesigner(designerid, 1);
+        return ApiUtil.sendSuccessMsg(res);
+      }
     });
   });
 

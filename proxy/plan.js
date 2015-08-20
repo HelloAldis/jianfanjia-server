@@ -15,9 +15,9 @@ exports.newAndSave = function (json, callback) {
   plan.save(callback);
 };
 
-exports.saveOrUpdate = function (json, callback) {
-  Plan.findOneAndUpdate(json, json, {upsert: true}, callback);
-};
+exports.findOneByQuery = function (query, callback) {
+  Plan.findOne(query, callback);
+}
 
 exports.updateByQuery = function (query, json, callback) {
   Plan.update(query, {$set: json}, callback);
