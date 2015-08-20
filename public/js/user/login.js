@@ -7,8 +7,8 @@ $(function(){
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			data : {
-				phone : userName,
-				pass  : passWord
+				"phone" : userName,
+				"pass"  : passWord
 			},
 			success: function(msg){
 		     console.log(msg)
