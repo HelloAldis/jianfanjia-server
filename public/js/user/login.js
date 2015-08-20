@@ -7,10 +7,7 @@ $(function(){
 			type: 'post',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
-			data : JSON.stringify({
-				phone : userName,
-				pass  : passWord
-			}),
+			data : $('#form-login').serializeArray(),
 			processData : false,
 			success: function(msg){
 		        console.log(msg)
