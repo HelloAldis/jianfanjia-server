@@ -1,15 +1,20 @@
 $(function(){
-
 	$('#form-login').submit(function(){
+		var userName = $('#login-account').val();
+		var passWord = $('#login-password').val();
 		$.ajax({
 			url:RootUrl+'login',
-			type: 'POST',
+			type: 'post',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
-			data : $('#form-login').serialize(),
+			data : JSON.stringify({
+				phone : userName,
+				pass  : passWord
+			}),
+			processData : false,
 			success: function(msg){
-		     console.log(msg)
-		   }
+		        console.log(msg)
+		   	}
 		});
 		return false;
 	})
@@ -36,19 +41,6 @@ $(function(){
 			}, 1000)
 		})
 	}
-
-	function yanzhen(){
-		var account = $('#login-account');
-		var password = $('#login-password');
-		if(!isMobile(account.val())){
-			return false;
-		}
-		if(!isPassword(password.val())){
-			return false;
-		}
-		return true;
-	}
-
 
 	function isMobile(mobile){
 		return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile);
