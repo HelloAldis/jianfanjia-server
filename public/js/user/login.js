@@ -1,6 +1,8 @@
 $(function(){
 
 	$('#form-login').submit(function(){
+		var userName = $('#login-account');
+		var passWord = $('#login-password');
 		$.ajax({
 			url:RootUrl+'login',
 			type: 'post',
