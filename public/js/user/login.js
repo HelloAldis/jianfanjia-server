@@ -1,5 +1,4 @@
 $(function(){
-
 	$('#form-login').submit(function(){
 		var userName = $('#login-account');
 		var passWord = $('#login-password');
@@ -41,19 +40,6 @@ $(function(){
 			}, 1000)
 		})
 	}
-
-	function yanzhen(){
-		var account = $('#login-account');
-		var password = $('#login-password');
-		if(!isMobile(account.val())){
-			return false;
-		}
-		if(!isPassword(password.val())){
-			return false;
-		}
-		return true;
-	}
-
 
 	function isMobile(mobile){
 		return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile);
