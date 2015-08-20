@@ -1,12 +1,17 @@
 $(function(){
 
 	$('#form-login').submit(function(){
+		var userName = $("#login-account").val(); 
+		var passWord = $("#login-password").val();
 		$.ajax({
 			url:RootUrl+'login',
-			type: 'POST',
+			type: 'post',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
-			data : $('#form-login').serialize(),
+			data : {
+				phone : userName,
+				pass  : passWord
+			},
 			success: function(msg){
 		     console.log(msg)
 		   }
