@@ -13,7 +13,6 @@ sup{vertical-align:text-top}
 sub{vertical-align:text-bottom}
 ol,ul{list-style:none;}
 a{text-decoration:none;}
-a:hover{text-decoration:underline}
 fieldset,img{border:0 none;vertical-align:top;}
 textarea{resize:none;}
 a,input,button,select,textarea{outline:none;}
@@ -58,13 +57,54 @@ table{border-collapse:collapse;border-spacing:0}
 	background:url(../img/public/sprite.png) 0 0 no-repeat;
 	_background:url(../img/public/sprite.gif) 0 0 no-repeat;
 }
+.btn{
+	display: inline-block;
+	width: 260px;
+	line-height: 50px;
+	font-size: 18px;
+	color: #fff;
+	text-align: center;
+	cursor: pointer;
+	border:0 none;
+	background-color: #fe7004;
+	border-radius:5px;
+	-webkit-transition:all 0.5s;
+	-moz-transition:all 0.5s;	
+	-o-transition:all 0.5s;
+	transition:all 0.5s;
+}
+.btn:hover{
+	color: #fff;
+	background-color: #fe4504;
+}
+.btn-add{ 
+
+}
+.btn-editor{
+
+}
+.btn-cancel{
+
+}
+.btn-onfirm{
+
+}
+.btn-delete{
+
+}
+.btn-fillet{
+	display: block;
+    width: 240px;
+    line-height: 50px;
+    border-radius: 50px;
+}
 /*组件  widget********************************************************/
 /*表单组件*/
 .w-form{padding-right: 4px;}
 .w-form .m-item{padding-bottom: 15px;}
 .w-form .m-item .u-lab{
 	float: left;
-	width: 100px;
+	width: 120px;
 	height: 24px;
 	line-height: 24px;
 	font-size: 14px;
@@ -84,6 +124,39 @@ table{border-collapse:collapse;border-spacing:0}
 	display: block;
 	border: none;
 	background: none;
+}
+.w-form .m-item .sex{
+	height: 30px;
+	line-height: 30px;
+}
+.w-form .m-item .sex label{
+	position: relative;
+	float: left;
+	margin-right: 30px;
+	cursor: pointer;
+	padding-left: 15px;
+}
+.w-form .m-item .sex label input{
+	position: absolute;
+	left:0;
+	top:9px;
+}
+.w-form .m-item .check{
+	position: relative;
+    height: 30px;
+	line-height: 30px;
+}
+.w-form .m-item .check label{
+	position: relative;
+	float: left;
+	padding-left: 18px;
+	cursor: pointer;
+	margin-right: 25px;
+}
+.w-form .m-item .check label input{
+	position: absolute;
+	left:0;
+	top:9px;
 }
 .m-sign{
 	width: 570px;
@@ -195,25 +268,9 @@ table{border-collapse:collapse;border-spacing:0}
 	color: #fe7004;
 }
 .sign-mn .u-btn .btn{
-	display: inline-block;
 	width: 98px;
 	line-height: 30px;
 	font-size: 16px;
-	color: #fff;
-	text-align: center;
-	border: none;
-	background-color: #fe7004;
-	border-radius: 4px;
-	cursor: pointer;
-	-webkit-transition:background,top 0.5s;
-	-moz-transition:background,top 0.5s;	
-	-o-transition:background,top 0.5s;
-	transition:background,top 0.5s;
-}
-.sign-mn .u-btn .btn:hover{
-	text-decoration: none;
-	color: #fff;
-	background-color: #fe4504;
 }
 .sign-ad{
 	padding-left: 61px;
@@ -251,10 +308,15 @@ table{border-collapse:collapse;border-spacing:0}
 	z-index: 2;
 	width: 200px;
 }
-.m-select .option{
+.m-select .option,.m-select .editor{
 	line-height: 22px;
 	position: relative;
 	cursor: pointer;
+	padding-right: 25px;
+}
+.m-select .editor .value{
+	width: 100%;
+	border: none;
 }
 .m-select .arrow{
 	position: absolute;
@@ -289,7 +351,6 @@ table{border-collapse:collapse;border-spacing:0}
 	border-top: none;
 	display: none;
 }
-
 .m-select .select a{
 	display: block;	
 	line-height: 30px;
@@ -300,6 +361,35 @@ table{border-collapse:collapse;border-spacing:0}
 	color: #fff;
 	text-decoration: none;
 	background-color: #ccc;
+}
+/*城市插件*/
+.m-cities{
+	position: relative;
+	z-index: 2;
+	width: 200px;
+}
+.m-cities .arrow{
+	position: absolute;
+	top:6px;
+	right:20px;
+	background-color: #fff;
+}
+.m-cities .arrow em,.m-cities .arrow i{
+	position: absolute;
+	left:0;
+	top:0;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	border-width: 8px;
+	border-color: transparent;
+	border-style: dashed;
+	border-top-style: solid;
+	border-top-color: #fff;
+}
+.m-cities .arrow em{
+	top:3px;
+	border-top-color: #ccc;
 }
 /*在线报价*/
 .m-onlinePrice{
@@ -399,7 +489,7 @@ table{border-collapse:collapse;border-spacing:0}
 	font-size: 0;
 	text-align: center;
 }
-.m-page .btn{
+.m-page .btns{
 	display: inline-block;
 	line-height: 25px;
 	padding:0 9px;
@@ -407,12 +497,12 @@ table{border-collapse:collapse;border-spacing:0}
 	font-size: 14px;
 	color: #7c8389;
 }
-.m-page .btn.current{
+.m-page .btns.current{
 	color: #fff;
 	background-color: #fe7004;
 	border-radius: 4px;
 }
-.m-page a.btn:hover{
+.m-page a.btns:hover{
 	color: #fe7004;
 }
 .m-page .text{
@@ -421,7 +511,7 @@ table{border-collapse:collapse;border-spacing:0}
 }
 
 
-.m-page .btn.current.prev,.m-page .btn.current.next{
+.m-page .btns.current.prev,.m-page .btns.current.next{
 	display: none;
 }
 /*皮肤  skin*********************************************************/
@@ -516,7 +606,13 @@ table{border-collapse:collapse;border-spacing:0}
 	font-size: 14px;
 	line-height: 30px;
 }
-.m-sitemap dd a,.m-sitemap dd a:hover{color: #fff;}
+.m-sitemap dd a{
+	color: #ddd;
+}
+.m-sitemap dd a:hover{
+	text-decoration: underline;
+	color: #fff;
+}
 .m-sitemap .erweima{
 	padding-right: 115px;
 }
@@ -532,7 +628,6 @@ table{border-collapse:collapse;border-spacing:0}
 .g-bd{
 	padding: 20px 0;
 }
-/*首页*/
 .g-index-item{
 	padding:70px 0;
 }
@@ -579,10 +674,6 @@ table{border-collapse:collapse;border-spacing:0}
 	background-color: #fe7004;
 	border-radius: 50px;
 	text-decoration: none;
-	-webkit-transition:background 1s;
-	-moz-transition:background 1s;	
-	-o-transition:background 1s;
-	transition:background 1s;
 }
 .g-index-item .more .btn:hover{
 	text-decoration: none;
@@ -591,166 +682,6 @@ table{border-collapse:collapse;border-spacing:0}
 }
 .g-index-item .more a:hover{
 	color: #fe7004;
-}
-.g-index-flow .m-ct{
-	position: relative;
-	height: 140px;
-	margin-top: 100px;
-	overflow: hidden;
-	padding-top: 120px;
-}
-.g-index-flow li{
-	position: absolute;
-	top:0px;
-	left:-26px;
-}
-.g-index-flow .icon{
-	position: absolute;
-	top:0;
-	width: 186px;
-	height: 186px;
-	text-align: center;
-	background-color: #ff6600;
-	border: 26px solid #fff;
-	border-radius: 50%;
-}
-.g-index-flow .icon span{
-	display: inline-block;
-	width: 79px;
-	height: 79px;
-	margin-top: 53px;
-	background:url(../img/index/index-flow-icon.png) 0 0 no-repeat;
-}
-.g-index-flow .icon2{
-	background-color: #ff9900;
-}
-.g-index-flow .icon2 span{
-	width: 90px;
-	height: 90px;
-	margin-top: 48px;
-	background-position: 0 -81px;
-}
-.g-index-flow .icon3{
-	background-color: #f7be31;
-}
-.g-index-flow .icon3 span{
-	width: 59px;
-	height: 90px;
-	margin-top: 48px;
-	background-position: 0 -173px;
-}
-.g-index-flow .icon4{
-	background-color: #47a8ef;
-}
-.g-index-flow .icon4 span{
-	width: 83px;
-	height: 92px;
-	margin-top: 49px;
-	background-position: 0 -265px;
-}
-.g-index-flow li p{
-	width: 186px;
-	padding-top: 240px;
-	padding-left: 26px;
-	font-size: 14px;
-	color: #7c8389;
-	text-align: center;
-}
-.g-index-flow .line{
-	width: 100%;
-	height: 1px;
-	overflow: hidden;
-	background-color: #fe7004;
-}
-.g-index-design{
-	background-color: #e2e5ea;
-}
-.g-index-design .m-ct{
-	position: relative;
-	height: 560px;
-	padding-top: 100px;
-}
-.g-index-design .m-ct ul{
-	position: relative;
-	height: 560px;
-}
-.g-index-design .m-ct li{
-	position: absolute;
-	border-radius: 8px;
-	overflow: hidden;
-	background-color:#fff;
-}
-.g-index-design .m-ct .name{
-	height: 310px;
-	overflow: hidden;
-	-webkit-transition:height 0.5s;
-	-moz-transition:height 0.5s;	
-	-o-transition:height 0.5s;
-	transition:height 0.5s;
-}
-.g-index-design .m-ct .txt{
-	padding-top: 45px;
-	text-align: center;
-}
-.g-index-design .m-ct h4{
-	font-size: 18px;
-	line-height: 18px;
-	color: #7c8389;
-	font-weight: normal;
-}
-.g-index-design .m-ct .desc{
-	font-size: 14px;
-	line-height: 48px;
-	color: #fe7004;
-}
-.g-index-design .m-ct p{
-	font-size: 14px;
-	line-height: 28px;
-	color: #7c8389;
-}
-.g-index-design .btn{
-	position: absolute;
-	top:560px;
-	left:50%;
-	width: 240px;
-	line-height: 50px;
-	margin-left: -121px;
-	font-size: 18px;
-	color: #fff;
-	text-align: center;
-	border: 1px solid #d9d9d9;
-	background-color: #fe7004;
-	border-radius: 50px;
-	-webkit-transition:background,top 0.5s;
-	-moz-transition:background,top 0.5s;	
-	-o-transition:background,top 0.5s;
-	transition:background,top 0.5s;
-}
-.g-index-design .btn:hover{
-	text-decoration: none;
-	color: #fff;
-	background-color: #fe4504;
-}
-.g-index-design .m-ct .hover:hover .name{
-	height: 230px;
-}
-.g-index-design .m-ct .hover:hover .btn{
-	top:480px;
-}
-.toggle-btn{
-	position: absolute;
-	z-index: 10;
-	top:50%;
-	left:150px;
-	width: 35px;
-	height: 63px;
-	margin-top: -31px;
-	background:url(../img/index/index-design-toggle.png) no-repeat left 0;		
-}
-.toggle .next{
-	left:auto;
-	right:150px;
-	background-position: 0 -63px;
 }
 .g-index-live .m-ct{
 	padding: 15px;
@@ -798,6 +729,10 @@ table{border-collapse:collapse;border-spacing:0}
 	-o-transition:top 0.5s;
 	transition:top 0.5s;
 }
+.g-index-live .head img{
+	width: 100%;
+	height: 100%;
+}
 .g-index-live .txt{
 	padding-top: 48px;
 	text-align: center;
@@ -819,21 +754,7 @@ table{border-collapse:collapse;border-spacing:0}
 	width: 240px;
 	line-height: 50px;
 	margin-left: -121px;
-	font-size: 18px;
-	color: #fff;
-	text-align: center;
-	border: 1px solid #d9d9d9;
-	background-color: #fe7004;
 	border-radius: 50px;
-	-webkit-transition:background,top 0.5s;
-	-moz-transition:background,top 0.5s;	
-	-o-transition:background,top 0.5s;
-	transition:background,top 0.5s;
-}
-.g-index-live li .btn:hover{
-	text-decoration: none;
-	color: #fff;
-	background-color: #fe4504;
 }
 .g-index-live li:hover .pic{
 	height: 200px;
@@ -843,4 +764,86 @@ table{border-collapse:collapse;border-spacing:0}
 }
 .g-index-live li:hover .btn{
 	top:385px;
+}
+
+.m-infoplate{
+	width: 320px;
+	padding: 20px;
+	margin: 0 auto;
+	text-align: center;
+}
+.m-infoplate .head{
+	display: block;
+	width: 120px;
+	height: 120px;
+	overflow: hidden;
+	margin: 0 auto;
+	background-color: #fe7004;
+	border: 3px solid #fff;
+	border-radius: 50%;
+	-webkit-transition:all 0.5s;
+	-moz-transition:all 0.5s;	
+	-o-transition:all 0.5s;
+	transition:all 0.5s;
+}
+.m-infoplate a.head:hover{
+	border-color: #fe7004;
+}
+.m-infoplate .head img{
+	width: 100%;
+	height: 100%;
+}
+.m-infoplate h4{
+	padding-left: 30px;
+	padding-top: 15px;
+	font-size: 18px;
+	line-height: 38px;
+	font-weight: normal;
+	color: #fff;
+}
+.m-infoplate h4 .iconfont{
+	margin-left: 10px;
+	color: #1a9efb;
+}
+.m-infoplate .auth{
+	width: 118px;
+	height: 28px;
+	margin: 0 auto;
+	line-height: 28px;
+	font-size: 14px;
+	color: #fe7004;
+	border: 1px solid #fe7004;
+	border-radius: 28px;
+}
+.m-infoplate .notauth{
+	color: #ccc;
+	border-color: #ccc;
+}
+.m-infoplate .works{
+	width: 261px;
+	margin:12px auto 30px;
+}
+.m-infoplate .works dl{
+	float: left;
+	width: 130px;
+	font-size: 14px;
+	line-height: 22px;
+	color: #fff;
+}
+.m-infoplate .works dt{
+	font-size: 24px;
+	line-height: 35px;
+	color: #fe7004;
+}
+.m-infoplate .works span{
+	float: left;
+	width: 1px;
+	height: 30px;
+	overflow: hidden;
+	margin-top: 16px;
+}
+.home-info .works span{
+	background-color: #fff;
+	opacity: 0.3;
+	filter: alpha(opacity=30);
 }

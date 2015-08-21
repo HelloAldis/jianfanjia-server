@@ -10,9 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
 	<link rel="stylesheet" type="text/css" href="../../css/design.css" />
 	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../../js/lib/handlebars.js"></script>
 	<script type="text/javascript" src="../../js/lib/page.js"></script>
-	<script type="text/javascript" src="../../js/design/index.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -40,7 +38,8 @@
 					<img src="../../img/design/index-live-head-01.jpg" alt="" />
 				</div>
 				<h2>百瑞景中央生活社区</h2>
-				<p>参考造价：<strong>40</strong>万元<span>|</span>户型：三室一厅<span>|</span>面积：110平米<span>|</span>浏览数：1669<span>|</span>收藏数：600</p>
+				<p>参考造价：<strong>40</strong>万元<span>|</span>户型：三室一厅<span>|</span>面积：110平米</p>
+				<p>浏览数：1669<span>|</span>收藏数：600</p>
 				<a href="javascript:;" class="btn" id="j-collect">收藏</a>
 			</div>
 			<div class="m-ct">
@@ -54,10 +53,12 @@
 				</div>
 				<ul class="list">
 					<li>
+						<h4>客厅1</h4>
 						<img src="../../img/design/design-detail-01.jpg" alt="" />
 						<p>深圳优秀室内设计师，深圳室内设计师协会(SZAID)理事，高级室内建筑师，从事室内设计12年，现任深圳太合南方建筑室内设计事务所</p>
 					</li>
 					<li>
+						<h4>客厅2</h4>
 						<img src="../../img/design/design-detail-02.jpg" alt="" />
 						<p>深圳优秀室内设计师，深圳室内设计师协会(SZAID)理事，高级室内建筑师，从事室内设计12年，现任深圳太合南方建筑室内设计事务所</p>
 					</li>
@@ -92,51 +93,6 @@
 				</div>
 			</div>
 		</div>
-		<script id="design-template" type="text/x-handlebars-template">
-	        {{#each list}}
-            <li>
-          		<div class="g-wp">
-          			<div class="m-tt f-cb">
-          				<div class="info f-fl">
-          					<div class="head">
-          						<img src="{{head}}" alt="{{name}}"/>
-          					</div>
-          					<div class="msg f-cb">
-          						<dl>
-          							<dt>{{work}}</dt>
-          							<dd>作品</dd>
-          						</dl>
-          						<dl>
-          							<dt>{{order}}</dt>
-          							<dd>预约</dd>
-          						</dl>
-          					</div>
-          				</div>
-          				<div class="status f-fl">
-	          				<h4>{{name}}<span class="i-icon sex{{sex}}"></span></h4>
-          					<div class="atte atte{{atte}}"><span class="i-icon"></span>认证设计师</div>
-          					<div class="addr"><strong>地址：</strong>{{addr}}<span class="i-icon"></span></div>
-          					<div class="style">
-          						<strong>风格：</strong>
-      							{{#each style}}
-      								<span>{{decorate this}}</span>
-      							{{/each}}
-          					</div>
-          				</div>
-          				<div class="order f-fr">
-          					<p><strong>{{commit price}}</strong>元/m&sup2;</p>
-          					<a href="{{url}}" class="btn">前往预约</a>
-          				</div>
-          			</div>
-          			<div class="m-ct f-cb">
-							{{#each works}}
-								<div class="works"><img src="{{this}}" alt="{{../name}}的作品"/></div>
-							{{/each}}
-          			</div>
-          		</div>
-            </li>
-	      {{/each}}
-	    </script>
 		<div class="m-copy">
 			<div class="g-wp">
 			Copyright © 2015-2025 jianfanjia.com All Rights Reserved 武汉家易装科技有限公司 隐私权政策 鄂ICP备15014103号
