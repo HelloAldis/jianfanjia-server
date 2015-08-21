@@ -10,6 +10,8 @@
 	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
 	<link rel="stylesheet" type="text/css" href="../../css/user.css" />
 	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../js/lib/public.js"></script>
+	<script type="text/javascript" src="../../js/lib/CitiesSelect.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -42,11 +44,31 @@
 				<li class="current"><a href="design_team.html">我的施工团队</a></li>
 			</ul>
 		</div>
-		<div class="user-mn f-fr">
+		<div class="user-mn design_team f-fr" id="j-design-team">
 			<div class="m-tt">
-				<h3>我的施工团队</h3>
+				<h3 class="f-fl">我的施工团队</h3>
+				<a href="javascript:;" class="addteam f-fr">添加施工团队</a>
 			</div>
 			<div class="m-ct">
+				<div class="list">
+					<!-- <dl>
+						<dt>施工团队一</dt>
+						<dd>
+							<p><span>工长姓名：</span>张起灵</p>
+							<P><span>性&nbsp;&nbsp;&nbsp;别：</span>男</P>
+							<p><span>所在地：</span>湖北武汉</p>
+							<P><span>身份证号码：</span>42123456789456111</P>
+							<p><span>曾就职装饰公司：</span>海天装饰</p>
+							<P><span>从业年限：</span>10年</P>
+							<p><span>擅长工种：</span>挖墙脚</p>
+							<P><span>正在施工工地：</span>没有</P>
+						</dd>
+						<dd>
+							<a href="javascript:;" class="btn editor">编辑</a>
+							<a href="javascript:;" class="btn delete">删除</a>
+						</dd>
+					</dl> -->
+				</div>
 			</div>
 		</div>	
 	</div>
@@ -83,5 +105,156 @@
 			</div>
 		</div>
 	</div>
+	<div class="popup-ct">
+		<div class="w-form user-form">
+			<form action="http://www.jianfanjia.com" id="form-owner" method="get">
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-area">工长姓名：</label>
+						<div class="u-inp">
+							<div class="box">
+								<input type="text" class="input" name="dec-budget" id="dec-budget" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="com-name">性&nbsp;&nbsp;&nbsp;别：</label><div class="u-inp">
+							<div class="sex">
+								<label><input type="radio" name="owner-sex" id="" />男</label>
+								<label><input type="radio" name="owner-sex" id="" />女</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="your_city">所在地 ：</label>
+						<div class="u-inp">
+							<div class="m-cities" id="your_city"></div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="dec_area">身份证号码：</label>
+						<div class="u-inp">
+							<div class="box">
+								<input type="text" class="input" name="dec_area" id="dec_area" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="dec_style">曾就职装饰公司：</label>
+						<div class="u-inp">
+							<div class="box">
+								<input type="text" class="input" name="dec-budget" id="dec-budget" /></div></div></div></div><div class="m-item f-cb"><div class="item"><label class="u-lab" for="work_type">从业年限：</label><div class="u-inp"><div class="box"><input type="text" class="input" name="dec-budget" id="dec-budget" /><span class="unit">年</span></div></div></div></div><div class="m-item f-cb"><div class="item"><label class="u-lab" for="dec-budget">擅长工种：</label><div class="u-inp"><div class="m-select" id="strengths_type"></div></div></div></div><div class="m-item f-cb"><div class="item"><label class="u-lab" for="dec-budget">正在施工工地：</label><div class="u-inp"><div class="box"><input type="text" class="input" name="dec-budget" id="dec-budget" /></div></div></div></div><div class="m-item m-error-info hide"></div><div class="m-item"><div class="u-btn"><input type="submit" class="btn" id="owner-submit" value="创建" /></div></div></form></div></div>
 </body>
 </html>
+<script type="text/javascript">
+	var teamData = {
+		'list' : [
+			{
+				num : 1,
+				name : '张起灵',
+				sex  : '',
+				addr : '',
+				uid  : '',
+				firm : '',
+				time : '',
+				type : '',
+				site : ''
+			}
+		]
+	}
+	var $body = $(document.body);
+	var $win = $(window);
+	var $designTeam = $('#j-design-team');
+	var $addteam = $designTeam.find('.addteam');
+	var $addteam1 = $designTeam.find('.addteam1');
+	var $list = $designTeam.find('.list');
+	var iNum = 1;
+	var $popupShade = $('<div class="popup-shade">').css({'width':$win.width(),'height':$win.height()}).fadeTo(500,0.5);
+	var $kPopup = $('<div class="k-popup" style="width:500px;height:500px;left:0;top:0; display:block">');
+	$addteam.on('click',function(){
+		iNum ++;
+		editorTeam()
+		console.log(teamData.list)
+		formTeam(iNum)
+		addTeam()
+	})
+	addTeam()
+	function addTeam(){
+		if(teamData.list.length < 1){
+			$list.html('<h2>您还没有施工团队，点击<a href="javascript:;" class="addteam1">添加施工团队</a></h2>');
+		}else{
+			$list.html('');
+			$.each(teamData.list,function(i){
+				$list.append(createTeam(teamData.list[i]))
+			})
+		}
+	}
+	function formTeam(i){
+		teamData.list.push({
+			num : i,
+			name : '张起灵',
+			sex  : '',
+			addr : '',
+			uid  : '',
+			firm : '',
+			time : '',
+			type : '',
+			site : ''
+		})
+	}
+	function createTeam(data){
+		return '<dl>'
+					+'<dt>施工团队'+data.num+'</dt>'
+					+'<dd>'
+						+'<p><span>项目经理：</span>'+data.name+'</p>'
+						+'<P><span>性&nbsp;&nbsp;&nbsp;别：</span>'+data.sex+'</P>'
+						+'<p><span>所在地：</span>'+data.addr+'</p>'
+						+'<P><span>身份证号码：</span>'+data.uid+'</P>'
+						+'<p><span>曾就职装饰公司：</span>'+data.firm+'</p>'
+						+'<P><span>从业年限：</span>'+data.time+'</P>'
+						+'<p><span>擅长工种：</span>'+data.type+'</p>'
+						+'<P><span>正在施工工地：</span>'+data.site+'</P>'
+					+'</dd>'
+					+'<dd>'
+						+'<a href="javascript:;" class="btn editor">编辑</a>'
+						+'<a href="javascript:;" class="btn delete">删除</a>'
+					+'</dd>'
+				+'</dl>'
+	}
+
+	function editorTeam(){
+		$body.append($popupShade);
+		$body.append($kPopup);
+		
+	}
+	//删除
+	$designTeam.on('click', '.delete', function(event) {
+		event.preventDefault();
+		if(confirm("你确定要删除吗？删除不能恢复")){
+			$(this).closest('dl').remove();
+			teamData.list.splice($(this).closest('dl').index(),1)
+			addTeam();
+			iNum = teamData.list.length;
+		}
+	});
+	//编辑
+	$designTeam.on('click', '.editor', function(event) {
+	     event.preventDefault();
+	     editorTeam();
+	});
+	var strengthsType = new ComboBox({
+		id:'strengths_type',
+		list:['水','火','电']
+	});
+	var yourCity = new CitiesSelect({
+		id : 'your_city'
+	})
+</script>

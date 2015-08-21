@@ -23,7 +23,7 @@
 					<a href="../user/login.html">登录</a>/<a href="../user/reg.html">注册</a>
 				</div>
 				<ul class="m-nav f-fl">
-					<li class="active"><a href="../index/index.html">首页</a></li>
+					<li><a href="../index/index.html">首页</a></li>
 					<li><a href="../design/index.html">设计师</a></li>
 					<li><a href="../live/index.html">装修直播</a></li>
 					<li><a href="../merit/index.html">为什么选简繁家</a></li>
@@ -47,11 +47,16 @@
 				<h3>我的需求</h3>
 			</div>
 			<div class="m-ct">
+				<p class="tips">
+					*半包是指装修工程中，施工方提供人员施工及辅材供应的承包形式。
+					<br />
+					*全包是指装修工程中，施工方提供装修所涉所有项目的承包形式。
+				</p>
 				<div class="w-form user-form">
 					<form action="http://www.jianfanjia.com" id="form-owner" method="get">
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="owner-area">所在区域</label>
+								<label class="u-lab" for="owner-area">所在区域：</label>
 								<div class="u-inp">
 									<div class="m-select" id="owner-area"></div>
 								</div>
@@ -59,7 +64,7 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="com-name">小区名称</label>
+								<label class="u-lab" for="com-name">小区名称：</label>
 								<div class="u-inp">
 									<div class="box">
 										<input type="text" class="input" name="com-name" id="com-name" />
@@ -69,7 +74,7 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="house_type">户型</label>
+								<label class="u-lab" for="house_type">户型：</label>
 								<div class="u-inp">
 									<div class="m-select" id="house_type"></div>
 								</div>
@@ -77,7 +82,7 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="dec_area">装修面积</label>
+								<label class="u-lab" for="dec_area">装修面积：</label>
 								<div class="u-inp">
 									<div class="box">
 										<input type="text" class="input" name="dec_area" id="dec_area" />
@@ -88,7 +93,7 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="dec_style">风格喜好</label>
+								<label class="u-lab" for="dec_style">风格喜好：</label>
 								<div class="u-inp">
 									<div class="m-select" id="dec_style"></div>
 								</div>
@@ -96,7 +101,7 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="work_type">包工类型</label>
+								<label class="u-lab" for="work_type">包工类型：</label>
 								<div class="u-inp">
 									<div class="m-select" id="work_type"></div>
 								</div>
@@ -104,12 +109,20 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="dec-budget">装修预算</label>
+								<label class="u-lab" for="dec-budget">装修预算：</label>
 								<div class="u-inp">
 									<div class="box">
 										<input type="text" class="input" name="dec-budget" id="dec-budget" />
 										<span class="unit">万元</span>
 									</div>
+								</div>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="design_type">偏好设计师类型：</label>
+								<div class="u-inp">
+									<div class="m-select" id="design_type"></div>
 								</div>
 							</div>
 						</div>
@@ -163,21 +176,24 @@
 </html>
 <script type="text/javascript">
 	
-	var abc = new ComboBox({
+	var ownerArea = new ComboBox({
 		id:'owner-area',
 		list:globalData.orders_area
 	})
-	var abc = new ComboBox({
+	var houseType = new ComboBox({
 		id:'house_type',
 		list:globalData.house_type
 	})
-	var abc = new ComboBox({
+	var decStyle = new ComboBox({
 		id:'dec_style',
 		list:globalData.dec_style
 	})
-	var abc = new ComboBox({
+	var workType = new ComboBox({
 		id:'work_type',
 		list:globalData.work_type
 	});
-
+	var workType = new ComboBox({
+		id:'design_type',
+		list:globalData.des_type
+	});
 </script>

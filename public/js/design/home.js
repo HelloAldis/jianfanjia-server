@@ -126,7 +126,7 @@ $(function(){
 
 				$homePageUl.append(createList(homeData[i]));
 			}
-			obj.find('.btn').on('click' , function(ev){
+			obj.find('.btns').on('click' , function(ev){
 				ev.stopPropagation();
 				$('body,html').animate({scrollTop:$homePage.offset().top},1000);
 			});

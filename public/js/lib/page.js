@@ -1,16 +1,3 @@
-var globalData = {
-	role : ['管理员','业主','设计师'],
-	sex  : ['男','女'],
-	dec_type : ['家装','商装','软装'],
-	work_type : ['半包','全包'],
-	dec_style : ['欧式','中式','现代','地中海','美式','东南亚'],
-	scheme_state : ['沟通中','已中标','未中标'],
-	orders_area : ['汉口','汉阳','武昌'],
-	price_area  : ['50－100','100-200','200－300','300以上'],
-	house_type : ['一居','二居','三居','四居','复式','别墅'],
-	dec_flow : ['开工','拆改','水电','泥木','油漆','安装','竣工']
-}
-
 /*参数：
 		1，id
 		2，数据长度
@@ -82,7 +69,7 @@ var globalData = {
 					this.appendItem(i,{},np);
 				}
 				if(this.settings.endPageNum < interval[0] && this.settings.ellipseText){
-					$("<span>"+this.settings.ellipseText+"</span>").addClass('btn').appendTo(this.pageBox);
+					$("<span>"+this.settings.ellipseText+"</span>").addClass('btns').appendTo(this.pageBox);
 				}
 			}
 			// 产生内部的些链接
@@ -93,7 +80,7 @@ var globalData = {
 			if (interval[1] < np && this.settings.endPageNum > 0){
 				if(np-this.settings.endPageNum > interval[1] && this.settings.ellipseText)
 				{
-					$("<span>"+this.settings.ellipseText+"</span>").addClass('btn').appendTo(this.pageBox);
+					$("<span>"+this.settings.ellipseText+"</span>").addClass('btns').appendTo(this.pageBox);
 				}
 				var begin = Math.max(np-this.settings.endPageNum, interval[1]);
 				for(var i=begin; i<np; i++) {
@@ -120,11 +107,11 @@ var globalData = {
 			pageId = pageId<0?0:(pageId<np?pageId:np-1); // 规范page id值
 			appendopts = $.extend({text:pageId+1, classes:""}, appendopts||{});
 			if(pageId == this.settings.currentPage){
-				var lnk = $("<span class='current'>"+(appendopts.text)+"</span>").addClass('btn');
+				var lnk = $("<span class='current'>"+(appendopts.text)+"</span>").addClass('btns');
 			}else{
 				var lnk = $("<a>"+(appendopts.text)+"</a>")
 					.on("click", this.getClickHandler(pageId))
-					.addClass('btn')
+					.addClass('btns')
 					.attr('href', this.settings.linkTo.replace(/__id__/,pageId));		
 			}
 			if(appendopts.classes){lnk.addClass(appendopts.classes);}

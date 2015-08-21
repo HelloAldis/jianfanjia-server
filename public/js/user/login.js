@@ -1,9 +1,11 @@
 $(function(){
+
+	var login_success_url = ['owner','design']
 	$('#form-login').submit(function(){
 		var userName = $('#login-account').val();
 		var passWord = $('#login-password').val();
 		$.ajax({
-			url:RootUrl+'login',
+			url:RootUrl+'api/v1/login',
 			type: 'post',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
@@ -12,8 +14,15 @@ $(function(){
 				pass  : passWord
 			}),
 			processData : false,
-			success: function(msg){
-		        console.log(msg)
+			success: function(res){
+				if(res["data"]){
+					window.location.href = login_success_url[res.data.usertype-1]+'.html'
+				}else{
+					$('#form-login').find('.m-error-info').html(res['error_msg']).removeClass('hide');
+					console.log(res['error_msg']);	
+				}
+				
+		        //$('#form-login').find('m-error-info').html(msg).removeClass('hide');
 		   	}
 		});
 		return false;
@@ -41,6 +50,44 @@ $(function(){
 			}, 1000)
 		})
 	}
+	$('#saveUserInfo').on('click',function(ev){
+		if(!$('#saveUserInfo').find('input').attr("checked")){
+			$('#saveUserInfo').find('input').attr("checked",true)
+		}else{
+			$('#saveUserInfo').find('input').attr("checked",false)
+		}
+		saveUserInfo()
+	})
+	
+	function saveUserInfo(){
+		var userName = $("#login-account").val(); 
+		var passWord = $("#login-password").val();
+		if ($('#saveUserInfo').find('input').attr("checked")) { 
+			setCookie("rmbUser", "true",  7 ); // 存储一个带7天期限的 cookie 
+			setCookie("userName", userName, 7 ); // 存储一个带7天期限的 cookie 
+			setCookie("passWord", passWord,  7 ); // 存储一个带7天期限的 cookie 
+		}else{ 
+			delCookie("rmbUser"); 
+			delCookie("userName"); 
+			delCookie("passWord"); 
+		} 
+	}
+	//记住密码
+	$("#login-account").val(getCookie("userName"));
+	$("#login-password").val(getCookie("passWord"));
+	$('#saveUserInfo').find('input').attr("checked",getCookie("rmbUser"))
+	function yanzhen(){
+		var account = $('#login-account');
+		var password = $('#login-password');
+		if(!isMobile(account.val())){
+			return false;
+		}
+		if(!isPassword(password.val())){
+			return false;
+		}
+		return true;
+	}
+
 
 	function isMobile(mobile){
 		return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile);
@@ -76,8 +123,10 @@ $(function(){
     }
 
     function delCookie(name) {
-        var value = this.getCookie(name);
-        if (null != value) { this.setCookie(name,value,-9); }
+        var value = getCookie(name);
+        if (null != value) { 
+        	setCookie(name,value,-9);
+        }
     }
 
 	$('#reg-account').blur(function(){

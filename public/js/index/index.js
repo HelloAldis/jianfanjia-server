@@ -12,10 +12,27 @@ $(function(){
 					width  :   352,
 					height :   408,
 					left   :   0,
-					top    :   76
+					top    :   0,
+					opacity : 0
+				},
+				blur   :  100,
+				zIndex :  0 
+			},
+			{
+				head   : '../../img/index/index-design-01.jpg',
+				name  : '老外',
+				type   : '资深设计师',
+				idea   : 'This is the brand new house for family johnson.',
+				url    : '',
+				pos    : {
+					width  :   352,
+					height :   408,
+					left   :   0,
+					top    :   76,
+					opacity : 0.8
 				},
 				blur   :  10,
-				zIndex :  0 
+				zIndex :  1 
 			},
 			{
 				head   : '../../img/index/index-design-01.jpg',
@@ -27,10 +44,11 @@ $(function(){
 					width  :   398,
 					height :   484,
 					left   :   185,
-					top    :   38
+					top    :   38,
+					opacity : 1
 				},
 				blur   :  5,
-				zIndex :  1 
+				zIndex :  2
 			},
 			{
 				head   : '../../img/index/index-design-01.jpg',
@@ -42,10 +60,11 @@ $(function(){
 					width  :   460,
 					height :   560,
 					left   :   370,
-					top    :   0
+					top    :   0,
+					opacity : 1
 				},
 				blur   :  0,
-				zIndex :  2 
+				zIndex :  3 
 			},
 			{
 				head   : '../../img/index/index-design-01.jpg',
@@ -57,10 +76,11 @@ $(function(){
 					width  :   398,
 					height :   484,
 					left   :   617,
-					top    :   38
+					top    :   38,
+					opacity : 1
 				},
 				blur   :  5,
-				zIndex :  1 
+				zIndex :  2
 			},
 			{
 				head   : '../../img/index/index-design-01.jpg',
@@ -72,13 +92,30 @@ $(function(){
 					width  :   352,
 					height :   408,
 					left   :   848,
-					top    :   76
+					top    :   76,
+					opacity : 0.8
 				},
 				blur   :  10,
-				zIndex :  0 
+				zIndex :  1
+			},
+			{
+				head   : '../../img/index/index-design-01.jpg',
+				name  : '子老外',
+				type   : '资深设计师',
+				idea   : 'This is the brand new house for family johnson.',
+				url    : '',
+				pos    : {
+					width  :   352,
+					height :   408,
+					left   :   848,
+					top    :   0,
+					opacity : 0
+				},
+				blur   :  100,
+				zIndex :  0
 			}
 		]
-	})
+	});
 	var liveList = new LiveList({
 		id : 'j-index-live',
 		data : [
@@ -143,7 +180,46 @@ $(function(){
 				url    : ''
  			}
 		]
-	})
+	});
+	(function($){
+		var $banner = $('#j-banner');
+		var banner = $banner.find('.banner');
+		var oUl = banner.find('ul');
+		var aLi = banner.find('ol').find('li');
+		var oPrev = banner.find('.prev');
+		var oNext = banner.find('.next');
+		var timer = 0;
+		var iNum = 0;
+		var iNum2 = 0;
+		function fnMove(){
+			aLi.eq(iNum).attr('class','active').siblings().attr('class','');
+			oUl.stop().animate({left: -iNum2*100+'%'},500);
+		}
+		aLi.on('click',function(){
+			iNum = $(this).index();
+			iNum2 = $(this).index();
+			fnMove()
+		})
+		oPrev.on('click',function(){
+			iNum ++;
+			iNum2 ++;
+			fnMove()
+		})
+		function fnAuto(){
+			if(iNum == aLi.size()){
+				iNum2 = 0;
+			}else{
+				iNum++
+			}
+			if(iNum2 == 0){
+				oUl.css('left',0);
+				iNum = 0
+			}
+			iNum2++;
+			fnMove()
+		}
+		// /timer = setInterval(fnAuto, 1000)
+	})(jQuery);
 })
 ;(function($){
 	function Carousel(options){
@@ -164,6 +240,7 @@ $(function(){
 		this.prevEvent();
 		this.nextEvent();
 		this.moveFun()
+		this.off = true;
 		if(!testCss3('transition')){
 			this.eventList();
 		}
@@ -197,13 +274,23 @@ $(function(){
 		prevEvent : function(){
 			var self = this;
 			this.prevBtn.on('click',function(){
-				self.moveFun(true,true)
+				setTimeout(function(){
+					if(self.off){
+						self.off = false;
+						self.moveFun(true,true)
+					}
+				},500)
 			})
 		},
 		nextEvent : function(){
 			var self = this;
 			this.nextBtn.on('click',function(){
-				self.moveFun(false,true)
+				setTimeout(function(){
+					if(self.off){
+						self.off = false;
+						self.moveFun(false,true)
+					}
+				}, 500)
 			})
 		},
 		moveFun   : function(bOff,unde){
@@ -211,8 +298,8 @@ $(function(){
 			var pos = this.settings.data;
 			unde ? bOff ? pos.push(pos.shift()) : pos.unshift(pos.pop()) : null;
 			$.each(pos, function(i, val) {
-				self.aLi.eq(i).attr('class',pos[i].zIndex == 2 ? 'hover' : '').css('zIndex',pos[i].zIndex).stop().animate(pos[i].pos,500,function(){
-					off = true;
+				self.aLi.eq(i).attr('class',pos[i].zIndex == 3 ? 'hover' : '').css('zIndex',pos[i].zIndex).stop().animate(pos[i].pos,500,function(){
+					self.off = true;
 					self.setBulr(self.aLi.eq(i),pos[i].blur)
 				});
 				
@@ -284,3 +371,4 @@ $(function(){
 })(jQuery);
 // 检测浏览器是否支持css3新属性，来给低版本浏览器做优雅降级；
 function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentElement.style,t=function(r){return r.replace(/-(\w)/g,function($0,$1){return $1.toUpperCase()})};for(i in p){a.push(t(p[i]+'-'+c));a.push(t(c))}for(i in a){if(a[i]in s){return true}}return false};
+
