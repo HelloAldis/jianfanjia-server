@@ -27,13 +27,14 @@ exports.add = function (req, res, next) {
 exports.update = function (req, res, next) {
   var team = ApiUtil.buildTeam(req);
   var oid = tools.trim(req.body._id);
+  var designerid = ApiUtil.getUserid(designerid);
 
   if (oid === '') {
     res.sendErrMsg('信息不完全');
     return;
   }
 
-  Team.updateByQuery({_id: new ObjectId(oid)}, team, function (err) {
+  Team.updateByQuery({_id: new ObjectId(oid), designerid: designerid}, team, function (err) {
     if (err) {
       return next(err);
     }
@@ -44,13 +45,14 @@ exports.update = function (req, res, next) {
 
 exports.delete = function (req, res, next) {
   var oid = tools.trim(req.body._id);
+  var designerid = ApiUtil.getUserid(designerid);
 
   if (oid === '') {
     res.sendErrMsg('信息不完全');
     return;
   }
 
-  Team.removeOneByQuery({_id: new ObjectId(oid)}, function (err) {
+  Team.removeOneByQuery({_id: new ObjectId(oid), designerid: designerid}, function (err) {
     if (err) {
       return next(err);
     }

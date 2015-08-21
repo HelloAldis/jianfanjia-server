@@ -29,12 +29,12 @@ exports.add = function (req, res, next) {
 
       if (plan_indb) {
         //有已响应但是没上传的方案，直接上传方案到这里
-        plan.status = type.plan_status.desinger_upload; //修改status为已上传
+        plan.status = type.plan_status_desinger_upload; //修改status为已上传
         var query = {
           userid: userid,
           designerid: designerid,
           requirementid: requirement._id,
-          status: type.plan_status.designer_respond,
+          status: type.plan_status_designer_respond,
         };
 
         Plan.updateByQuery(query, plan, function (err) {
@@ -46,7 +46,7 @@ exports.add = function (req, res, next) {
         });
       } else {
         //创建新的方案
-        plan.status = type.plan_status.desinger_upload;
+        plan.status = type.plan_status_desinger_upload;
         plan.designerid = new ObjectId(designerid);
         plan.userid = new ObjectId(userid);
         plan.requirementid = requirement._id;
@@ -73,13 +73,14 @@ exports.add = function (req, res, next) {
 exports.update = function (req, res, next) {
   var plan = ApiUtil.buildPlan(req);
   var oid = tools.trim(req.body._id);
+  var designerid = ApiUtil.getUserid(req);
 
   if (oid === '') {
     res.sendErrMsg('信息不完全');
     return;
   }
 
-  Plan.updateByQuery({_id: oid}, plan, function (err) {
+  Plan.updateByQuery({_id: oid, designerid: designerid}, plan, function (err) {
     if (err) {
       return next(err);
     }
@@ -91,13 +92,14 @@ exports.update = function (req, res, next) {
 exports.delete = function (req, res, next) {
   var user = req.user || req.session.user;
   var oid = tools.trim(req.body._id);
+  var designerid = ApiUtil.getUserid(req);
 
   if (oid === '') {
     res.sendErrMsg('信息不完全');
     return;
   }
 
-  Plan.removeOneByQuery({_id: oid}, function (err) {
+  Plan.removeOneByQuery({_id: oid, designerid: designerid}, function (err) {
     if (err) {
       return next(err);
     }
@@ -177,10 +179,10 @@ exports.userMyPlan = function (req, res, next) {
 }
 
 exports.finalPlan = function (req, res, next) {
-  var designerid = ApiUtil.getUserid(req);
+  var userid = ApiUtil.getUserid(req);
   var planid = tools.trim(req.body.planid);
 
-  Plan.updateByQuery({_id: planid}, {status: type.plan_status.user_final},
+  Plan.updateByQuery({_id: planid, userid: userid}, {status: type.plan_status_user_final},
     function (err) {
       if (err) {
         return next(err);

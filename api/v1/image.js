@@ -11,16 +11,24 @@ var ObjectId = mongoose.Types.ObjectId;
 var utility = require('utility');
 var fs = require('fs');
 
-
 exports.add = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  fs.readFile('/Users/jyz/Documents/test.jpg', function (err, data) {
-    console.log(err);
-    ep.emit('data', data);
-  });
+  if (Buffer.isBuffer(req.body)) {
+    ep.emit('data', req.body);
+  } else if (req.file) {
+    if (Buffer.isBuffer(req.file.buffer)) {
+      ep.emit('data', req.file.buffer);
+    }
+  } else {
+    res.status(403).send('forbidden');
+  }
 
+  // fs.readFile('/Users/jyz/Documents/test.jpg', function (err, data) {
+  //   console.log(err);
+  //   ep.emit('data', data);
+  // });
   ep.on('data', function (data) {
     var userid = ApiUtil.getUserid(req);
     var md5 = utility.md5(data);

@@ -10,6 +10,7 @@ var config = require('../../config');
 var ApiUtil = require('../../common/api_util');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
+var type = require('../../type');
 
 exports.getInfo = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -94,7 +95,7 @@ exports.updateRequirement = function (req, res, next) {
   });
 
   //推荐3个设计师
-  if (requirement.work_type === '1') {
+  if (requirement.work_type === type.work_type_half) {
     //半包
     Designer.findDesignersByCityDistrictHalf(city, district, price_perm,
       config.recommend_designer_count, function (err, recdesigners) {
@@ -104,7 +105,7 @@ exports.updateRequirement = function (req, res, next) {
 
       ep.emit('recdesigners', recdesigners);
     });
-  } else if (requirement.work_type === '2') {
+  } else if (requirement.work_type === type.work_type_all) {
     //全包
     Designer.findDesignersByCityDistrictAll(city, district, price_perm, config.recommend_designer_count,
       function (err, recdesigners) {

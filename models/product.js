@@ -14,7 +14,7 @@ var ProductSchema = new Schema({
   images: {type:[ObjectId]},
 
   view_count: {type: Number, default: 0},
-  favoriate_count: {type: Number, default: 0},
+  favorite_count: {type: Number, default: 0},
 });
 
 mongoose.model('Product', ProductSchema);

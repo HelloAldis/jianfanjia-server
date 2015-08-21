@@ -28,13 +28,14 @@ exports.add = function (req, res, next) {
 exports.update = function (req, res, next) {
   var product = ApiUtil.buildProduct(req);
   var oid = tools.trim(req.body._id);
+  var designerid = ApiUtil.getUserid(req);
 
   if (oid === '') {
     res.sendErrMsg('信息不完全');
     return;
   }
 
-  Product.updateByQuery({_id: oid}, product, function (err) {
+  Product.updateByQuery({_id: oid, designerid: designerid}, product, function (err) {
     if (err) {
       return next(err);
     }
@@ -52,7 +53,7 @@ exports.delete = function (req, res, next) {
     return;
   }
 
-  Product.removeOneByQuery({_id: new ObjectId(oid)}, function (err) {
+  Product.removeOneByQuery({_id: new ObjectId(oid), designerid: designerid}, function (err) {
     if (err) {
       return next(err);
     }
@@ -81,6 +82,8 @@ exports.getOne = function (req, res, next) {
     if (err) {
       return next(err);
     }
+
+    Product.addViewCountForProduct(productid, 1);
 
     res.sendData(product);
   });

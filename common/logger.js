@@ -35,22 +35,23 @@ var writeLog = function (prefix, logType, args) {
   }
 
   var infos = Array.prototype.slice.call(args);
+
   var logStr = infos.join(" ");
+
 
   switch (logType) {
   case "debug":
-    logStr = logStr.gray;
+    logStr = logStr;
     break;
   case 'warn':
-    logStr = logStr.yellow;
+    logStr = logStr;
     break;
   case 'error':
-    logStr = logStr.red;
+    logStr = logStr;
     break;
   }
 
   var line = prefix + logStr;
-
   if (filePrint) {
     fs.appendFile('./log/' + env + '.log', line + "\n");
   }
@@ -58,5 +59,3 @@ var writeLog = function (prefix, logType, args) {
     console.log(line);
   }
 };
-
-

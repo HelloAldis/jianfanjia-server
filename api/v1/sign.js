@@ -13,7 +13,6 @@ var type = require('../../type');
 exports.updatePass = function (req, res, next) {
   var phone   = tools.trim(req.body.phone);
   var pass   = tools.trim(req.body.pass);
-  var repass = tools.trim(req.body.repass);
   var code   = tools.trim(req.body.code);
 
   var ep = new eventproxy();
@@ -22,13 +21,9 @@ exports.updatePass = function (req, res, next) {
     res.sendErrMsg(msg);
   });
 
-  if ([phone, code, pass, repass].some(function (item) { return item === ''; })) {
+  if ([phone, code, pass].some(function (item) { return item === ''; })) {
     ep.emit('user_err', '信息不完整');
     return;
-  }
-
-  if (pass !== repass) {
-    return ep.emit('user_err', '两次密码输入不一致');
   }
 
   VerifyCode.getCodeByPhone(phone, function (err, verifyCode) {
@@ -86,7 +81,7 @@ exports.sendVerifyCode = function (req, res, next) {
     + '。5分钟内有效,如非您本人请忽略.';
     // var content = '【微米】您的验证码是：610912，。如非您本人操作，可忽略本消息。';
 
-    sms.send(phone, content);
+    // sms.send(phone, content);
     res.sendSuccessMsg();
   });
 }
@@ -94,7 +89,6 @@ exports.sendVerifyCode = function (req, res, next) {
 exports.signup = function (req, res, next) {
   var phone = validator.trim(req.body.phone);
   var pass = validator.trim(req.body.pass);
-  var rePass = validator.trim(req.body.repass);
   var code = validator.trim(req.body.code);
   var type = validator.trim(req.body.type);
 
@@ -104,16 +98,12 @@ exports.signup = function (req, res, next) {
     res.sendErrMsg(msg);
   });
 
-  if ([pass, rePass, phone, type].some(function (item) { return item === ''; })) {
+  if ([pass, phone, type].some(function (item) { return item === ''; })) {
     ep.emit('err', '信息不完整。');
     return;
   }
 
-  if (pass !== rePass) {
-    return ep.emit('err', '两次密码输入不一致');
-  }
-
-  if (!validator.isIn(type, [type.role.designer, type.role.user])) {
+  if (!validator.isIn(type, [type.role_designer, type.role_user])) {
     return ep.emit('err', '类型不对');
   }
 
@@ -140,7 +130,7 @@ exports.signup = function (req, res, next) {
     user.pass        = passhash;
     user.phone       = phone;
 
-    if (type === type.role.designer) {
+    if (type === type.role_designer) {
       User.newAndSave(user, function (err, user_indb) {
         if (err) {
           return next(err);
@@ -157,7 +147,7 @@ exports.signup = function (req, res, next) {
         data.username = user_indb.username;
         res.sendData(data);
       });
-    } else if (type === type.role.designer) {
+    } else if (type === type.role_designer) {
       Designer.newAndSave(user, function (err, user_indb) {
         if (err) {
           return next(err);
@@ -231,10 +221,10 @@ exports.login = function (req, res, next) {
         // store session cookie
         authMiddleWare.gen_session(user, res);
         req.session.userid = user._id;
-        req.session.usertype = type.role.user;
+        req.session.usertype = type.role_user;
 
         var data = {};
-        data.usertype = type.role.user;
+        data.usertype = type.role_user;
         data.phone = user.phone;
         data.username = user.username;
         res.sendData(data);
@@ -250,10 +240,10 @@ exports.login = function (req, res, next) {
         // store session cookie
         authMiddleWare.gen_session(designer, res);
         req.session.userid = designer._id;
-        req.session.usertype = type.role.designer;
+        req.session.usertype = type.role_designer;
 
         var data = {};
-        data.usertype = type.role.designer;
+        data.usertype = type.role_designer;
         data.phone = designer.phone;
         data.username = designer.username;
         res.sendData(data);

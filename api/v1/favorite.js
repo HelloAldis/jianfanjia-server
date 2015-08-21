@@ -36,6 +36,10 @@ exports.add = function (req, res, next) {
           return next(err);
         }
 
+        if (_.indexOf(favorite.favorite_product, productid) < 0) {
+          Product.addFavoriteCountForProduct(productid, 1);
+        }
+
         res.sendSuccessMsg();
       });
     } else {
@@ -44,6 +48,7 @@ exports.add = function (req, res, next) {
           return next(err);
         }
 
+        Product.addFavoriteCountForProduct(productid, 1);
         res.sendSuccessMsg();
       });
     }
@@ -60,6 +65,7 @@ exports.delete = function (req, res, next) {
       return next(err);
     }
 
+    Product.addFavoriteCountForProduct(productid, -1);
     res.sendSuccessMsg();
   });
 };

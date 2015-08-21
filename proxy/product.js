@@ -21,3 +21,11 @@ exports.updateByQuery = function (query, json, callback) {
 exports.removeOneByQuery = function (_id, callback) {
   Product.findOneAndRemove({_id:_id}, callback);
 }
+
+exports.addViewCountForProduct = function (productid, num) {
+  Designer.update({_id:productid}, {'$inc': {'view_count': num}}, function (err) {});
+};
+
+exports.addFavoriteCountForProduct = function (productid, num) {
+  Designer.update({_id:productid}, {'$inc': {'favorite_count': num}}, function (err) {});
+};

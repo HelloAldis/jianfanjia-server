@@ -22,8 +22,8 @@ exports.normalUserRequired = function (req, res, next) {
  * 需要业主登录
  */
 exports.userRequired = function (req, res, next) {
-  if (req.session.usertype !== type.role.user &&
-    req.session.usertype !== type.role.admin) {
+  if (req.session.usertype !== type.role_user &&
+    req.session.usertype !== type.role_admin) {
     return res.status(403).send('forbidden!');
   }
 
@@ -34,8 +34,8 @@ exports.userRequired = function (req, res, next) {
  * 需要设计师登录
  */
 exports.designerRequired = function (req, res, next) {
-  if (req.session.usertype !== type.role.designer &&
-    req.session.usertype !== type.role.admin) {
+  if (req.session.usertype !== type.role_designer &&
+    req.session.usertype !== type.role_admin) {
     return res.status(403).send('forbidden!');
   }
 
@@ -46,7 +46,7 @@ exports.designerRequired = function (req, res, next) {
  * 需要admin登录
  */
 exports.adminRequired = function (req, res, next) {
-  if (req.session.usertype !== type.role.admin) {
+  if (req.session.usertype !== type.role_admin) {
     return res.status(403).send('forbidden!');
   }
 

@@ -5,8 +5,6 @@ var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
 var ApiUtil = require('../../common/api_util');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
 
 exports.add = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);

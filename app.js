@@ -18,7 +18,7 @@ var _ = require('lodash');
 var bodyParser = require('body-parser');
 var errorhandler = require('errorhandler');
 var cors = require('cors');
-var requestLog = require('./middlewares/request_log');
+var morgan = require('morgan');
 var logger = require('./common/logger');
 var helmet = require('helmet');
 //防治跨站请求伪造攻击
@@ -32,16 +32,19 @@ var app = express();
 app.enable('trust proxy');
 
 // Request logger。请求时间
-app.use(requestLog);
+app.use(morgan('short'));
+
 app.use(compression());
 // 静态资源
 app.use('/', express.static(staticDir));
 // 通用的中间件
 app.use(require('response-time')());
-app.use(helmet.frameguard('sameorigin'));
+app.use(helmet.frameguard('deny')); // 防止 clickjacking attacks
+app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' })); //伪造poweredby
 app.use(bodyParser.json({limit: '1mb'}));
 app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
 app.use(bodyParser.raw({limit:'3mb', type:'image/jpeg'}));
+
 app.use(require('method-override')());
 // app.use(require('cookie-parser')(config.session_secret));
 app.use(session({
@@ -85,7 +88,7 @@ if (config.debug) {
   app.use(errorhandler());
 } else {
   app.use(function (err, req, res, next) {
-    console.error('server 500 error:', err);
+    logger.error('server 500 error:', err);
     return res.status(500).send('500 status');
   });
 }

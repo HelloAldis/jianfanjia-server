@@ -6,6 +6,7 @@ var _ = require('lodash');
 var config = require('../../config');
 var async = require('async');
 var ApiUtil = require('../../common/api_util');
+var type = require('../../type');
 
 exports.authed = function (req, res, next) {
   var designerid = tools.trim(req.body._id);
@@ -25,9 +26,9 @@ exports.add = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var usertype = ApiUtil.getUsertype(req);
 
-  if (usertype === '1') {
+  if (usertype === type.role_user) {
     share.userid = userid;
-  } else if (usertype === '3') {
+  } else if (usertype === type.role_user) {
     share.designerid = userid;
   }
 

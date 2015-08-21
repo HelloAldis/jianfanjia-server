@@ -13,14 +13,20 @@ var designer = require('./api/v1/designer');
 var admin = require('./api/v1/admin');
 var config            = require('./config');
 var auth            = require('./middlewares/auth');
+var limit             = require('./middlewares/limit');
+var config            = require('./config');
 
 var router            = express.Router();
+
+var multer  = require('multer')
+var storage = multer.memoryStorage();
+var upload = multer({ limits:'3mb', storage: storage });
 
 // router.get('/temp_user', tempUserApi.show); //
 // router.put('/temp_user', tempUserApi.add); //
 
 //未登录用户拥有的功能
-router.post('/send_verify_code', sign.sendVerifyCode); //发送验证码
+router.post('/send_verify_code', limit.peripperday('send_verify_code', config.send_verify_code_per_day), sign.sendVerifyCode); //发送验证码
 router.post('/signup', sign.signup); //手机端注册
 router.post('/login', sign.login); //手机端登录
 router.post('/update_pass', sign.updatePass); //修改密码
@@ -34,7 +40,7 @@ router.post('/designer/search', designer.search); //搜索设计师
 router.get('/image/:_id', image.get); //获取图片
 
 //通用用户功能
-router.put('/image/upload', auth.normalUserRequired, image.add); //上传图片
+router.put('/image/upload', auth.normalUserRequired, upload.single('image'), image.add); //上传图片
 router.get('/favorite/product',auth.normalUserRequired, favorite.list); //收藏列表
 router.post('/favorite/product',auth.normalUserRequired, favorite.add); //收藏作品
 router.delete('/favorite/product',auth.normalUserRequired, favorite.delete); //删除收藏作品
