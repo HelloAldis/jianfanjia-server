@@ -15,6 +15,7 @@ var UserSchema = new Schema({
   is_block: {type: Boolean, default: false},
   accessToken: {type: String},
   create_at: {type: Date, default: Date.now},
+  communication_type: {type: String, default: '0'},
 });
 
 UserSchema.index({phone: 1}, {unique: true});

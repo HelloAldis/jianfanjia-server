@@ -280,3 +280,9 @@ exports.login = function (req, res, next) {
     ep.emit('designer', designer);
   });
 }
+
+// sign out
+exports.signout = function (req, res, next) {
+  req.session.destroy();
+  res.clearCookie(config.auth_cookie_name, { path: '/' });
+};

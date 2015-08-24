@@ -14,7 +14,6 @@ var admin = require('./api/v1/admin');
 var config            = require('./config');
 var auth            = require('./middlewares/auth');
 var limit             = require('./middlewares/limit');
-var config            = require('./config');
 
 var router            = express.Router();
 
@@ -46,6 +45,7 @@ router.post('/favorite/product',auth.normalUserRequired, favorite.add); //收藏
 router.delete('/favorite/product',auth.normalUserRequired, favorite.delete); //删除收藏作品
 router.post('/plan/comment',auth.normalUserRequired, comment.add); //添加评论
 router.get('/user/:_id/info',auth.normalUserRequired, user.getInfo); //获取业主个人资料
+router.get('/signout',auth.normalUserRequired, sign.signout); //登出
 
 //业主独有功能
 router.put('/user/info',auth.userRequired, user.updateInfo); //修改业主个人资料

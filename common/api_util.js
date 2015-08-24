@@ -19,6 +19,7 @@ exports.buildUser = function (req) {
   user.city = tools.trim(req.body.city);
   user.district = tools.trim(req.body.district);
   user.address = tools.trim(req.body.address);
+  user.communication_type = tools.trim(req.body.communication_type);
   return user;
 }
 

@@ -5,7 +5,7 @@ var config     = require('../config');
 var eventproxy = require('eventproxy');
 var UserProxy  = require('../proxy').User;
 var type = require('../type');
-
+var ApiUtil = require('../common/api_util');
 
 /**
  * 需要通用用户登录
@@ -22,8 +22,8 @@ exports.normalUserRequired = function (req, res, next) {
  * 需要业主登录
  */
 exports.userRequired = function (req, res, next) {
-  if (req.session.usertype !== type.role_user &&
-    req.session.usertype !== type.role_admin) {
+  if (ApiUtil.getUsertype(req) !== type.role_user &&
+    ApiUtil.getUsertype(req) !== type.role_admin) {
     return res.status(403).send('forbidden!');
   }
 
@@ -34,8 +34,8 @@ exports.userRequired = function (req, res, next) {
  * 需要设计师登录
  */
 exports.designerRequired = function (req, res, next) {
-  if (req.session.usertype !== type.role_designer &&
-    req.session.usertype !== type.role_admin) {
+  if (ApiUtil.getUsertype(req) !== type.role_designer &&
+    ApiUtil.getUsertype(req) !== type.role_admin) {
     return res.status(403).send('forbidden!');
   }
 
@@ -46,7 +46,7 @@ exports.designerRequired = function (req, res, next) {
  * 需要admin登录
  */
 exports.adminRequired = function (req, res, next) {
-  if (req.session.usertype !== type.role_admin) {
+  if (ApiUtil.getUsertype(req) !== type.role_admin) {
     return res.status(403).send('forbidden!');
   }
 
