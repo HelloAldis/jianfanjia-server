@@ -3,27 +3,25 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>简繁家-登陆</title>
-	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
-	<link rel="stylesheet" type="text/css" href="../../css/user.css" />
-	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../../js/lib/public.js"></script>
-	<script type="text/javascript" src="../../js/user/login.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
+	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<script type="text/javascript" src="../../static/js/user/login.js"></script>
 </head>
 <body>
 	<div class="g-hd">
 		<div class="g-wp f-cb">
 			<div class="m-logo f-fl">
-				<h1><a href="../index/index.html">简繁家</a></h1>
+				<h1><a href="">简繁家</a></h1>
 			</div>
 			<div class="f-fr">
-				<div class="user">
-					<a href="../user/login.html">登录</a>/<a href="../user/reg.html">注册</a>
-				</div>
+				<div class="user"></div>
 				<ul class="m-nav f-fl">
-					<li><a href="../index/index.html">首页</a></li>
-					<li><a href="../design/index.html">设计师</a></li>
-					<li><a href="../live/index.html">装修直播</a></li>
-					<li><a href="../merit/index.html">为什么选简繁家</a></li>
+					<li><a href="">首页</a></li>
+					<li><a href="">设计师</a></li>
+					<li><a href="">装修直播</a></li>
+					<li><a href="">为什么选简繁家</a></li>
 				</ul>
 			</div>
 		</div>
@@ -34,7 +32,7 @@
 				<div class="sign-mn f-fl">
 					<h2>简繁家账号登录</h2>
 					<div class="w-form">
-						<form action="http://www.jianfanjia.com" id="form-login" method="get">
+						<form action="#" id="form-login" method="post">
 							<div class="m-item f-cb">
 								<div class="item">
 									<label class="u-lab" for="login-account">账号</label>
@@ -44,6 +42,9 @@
 										</div>
 									</div>
 								</div>
+								<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+								<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+								<p class="tips-info hide"></p>
 							</div>
 							<div class="m-item f-cb">
 								<div class="item">
@@ -54,14 +55,17 @@
 										</div>
 									</div>
 								</div>
+								<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+								<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+								<p class="tips-info hide"></p>
 							</div>
 							<div class="m-item f-cb">
 								<div class="other">
-									<label class="f-fl" id="saveUserInfo"><input type="checkbox" name="" id="" />记住我一周(公众场合请慎用)</label>
+									<label class="f-fl"><input type="checkbox" id="saveUserInfo" />7天内自动登录</label>
 									<a href="getpw.html" class="f-fr">忘记密码？</a>
 								</div>
 							</div>
-							<div class="m-item m-error-info hide">
+							<div class="m-item m-error-info hide" id="error-info">
 							</div>
 							<div class="m-item">
 								<div class="u-btn">

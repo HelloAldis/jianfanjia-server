@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
 	<link rel="stylesheet" type="text/css" href="../../css/user.css" />
 	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../js/lib/tdist.js"></script>
 	<script type="text/javascript" src="../../js/lib/public.js"></script>
 </head>
 <body>
@@ -84,9 +85,7 @@
 							<div class="item">
 								<label class="u-lab" for="dec_area">所在地区</label>
 								<div class="u-inp">
-									<div class="box">
-										<input type="text" class="input" name="dec_area" id="dec_area" />
-									</div>
+									<div class="m-cities" id="owner-current-area"></div>
 								</div>
 							</div>
 						</div>
@@ -105,9 +104,7 @@
 							<p>请上传350*500 我的头像</p>
 							<input type="file" name="" id="" />
 						</div>
-						<div class="m-item m-error-info hide">
-							
-						</div>
+						<div class="m-item m-error-info hide"></div>
 						<div class="m-item">
 							<div class="u-btn">
 								<input type="submit" class="btn" id="owner-submit" value="保存" />
@@ -155,5 +152,8 @@
 </html>
 <script type="text/javascript">
 	
-	
+	var ownerCurrentArea = new CitySelect({
+		id : 'owner-current-area',
+		data : tdist
+	})
 </script>

@@ -30,26 +30,6 @@ $(function(){
 	// function isInput(str){
 	// 	return $.trim(str) != '' ? true : false 
 	// }
-	//获取验证码
-	var $getVerifyCode = $('#getVerifyCode');
-	countdown($getVerifyCode,60)
-	function countdown(obj,num){
-		if(!obj){return false};
-		var count = num || 60;
-		var timer = null;
-		obj.on('click',function(){
-			clearInterval(timer)
-			timer = setInterval(function(){
-				count--;
-				obj.attr('class','f-fr vcode disabled').html(count+'s后重新获取')
-				if(count <= 0){
-					clearInterval(timer)
-					count = num;
-					obj.attr('class','f-fr vcode').html('重新获取验证码')
-				}
-			}, 1000)
-		})
-	}
 	$('#saveUserInfo').on('click',function(ev){
 		if(!$('#saveUserInfo').find('input').attr("checked")){
 			$('#saveUserInfo').find('input').attr("checked",true)

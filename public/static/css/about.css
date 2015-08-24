@@ -1,0 +1,75 @@
+.sub-banner{
+	width: 100%;
+	height: 180px;
+	background: url(../img/about/about-banner.jpg) center 0 no-repeat;
+}
+.g-about{
+	padding: 75px 0 300px;
+}
+.g-about .axis{
+	width: 190px;
+	height: 850px;
+	margin-right: 85px;
+	border-right: 2px solid #b7b7b7;
+}
+.g-about .axis li{
+	position: relative;
+	height: 70px;
+	line-height: 70px;
+	margin-bottom: 85px;
+	font-size: 16px;
+	text-align: center;
+	color: #4d4d4d;
+	cursor: pointer;
+}
+.g-about .axis .active{
+	color: #f87b50;
+}
+.g-about .axis li .iconfont{
+	position: absolute;
+	top:0;
+	font-size: 40px;
+	line-height: 70px;
+}
+.g-about .axis li span{display: none;}
+.g-about .axis .active span{
+	display: block;
+	color: #ff5417;
+	right:-15px;
+	-webkit-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	-o-transform: rotate(90deg);
+	transform: rotate(90deg);
+}
+.g-about .axis .active em{display: none;}
+.g-about .axis li em{
+	right:-21px;
+	color: #b7b7b7;
+}
+.g-about .content{
+	position: relative;
+	padding: 40px 0;
+	width: 840px;
+	height: 850px;
+	overflow: hidden;
+}
+.g-about .content .list{
+	position: absolute;
+	left:0;
+	top:0;
+	width: 100%;
+}
+.g-about .content dl{
+	padding-bottom: 200px;
+}
+.g-about .content dt{
+	margin-bottom: 20px;
+	font-size: 40px;
+	line-height: 84px;
+	color: #333;
+	border-bottom: 1px solid #b7b7b7;
+}
+.g-about .content dd{
+	line-height: 34px;
+	font-size: 14px;
+}

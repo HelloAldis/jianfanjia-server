@@ -3,10 +3,11 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>简繁家-注册</title>
-	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
-	<link rel="stylesheet" type="text/css" href="../../css/user.css" />
-	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../../js/user/login.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
+	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<script type="text/javascript" src="../../static/js/user/getpw.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -15,9 +16,7 @@
 				<h1><a href="../index/index.html">简繁家</a></h1>
 			</div>
 			<div class="f-fr">
-				<div class="user">
-					<a href="../user/login.html">登录</a>/<a href="../user/reg.html">注册</a>
-				</div>
+				<div class="user"></div>
 				<ul class="m-nav f-fl">
 					<li><a href="../index/index.html">首页</a></li>
 					<li><a href="../design/index.html">设计师</a></li>
@@ -33,57 +32,66 @@
 				<div class="sign-mn">
 					<h2>找回密码<a href="login.html">我想起来了，立即登录&nbsp;&nbsp;<i class="f-st">&gt;&gt;</i></a></h2>
 					<div class="w-form">
-						<form action="http://www.jianfanjia.com" id="form-login" method="get">
+						<form action="#" id="form-getpw" method="post">
 							<div class="m-item f-cb">
 								<div class="item">
-									<label class="u-lab" for="reg-account">账号</label>
+									<label class="u-lab" for="getpw-account">账号</label>
 									<div class="u-inp">
 										<div class="box">
-											<input type="text" class="input" name="reg-account" id="reg-account" placeholder="请输入手机号码" />
+											<input type="text" class="input" name="getpw-account" id="getpw-account" placeholder="请输入手机号码" />
 										</div>
 									</div>
 								</div>
+								<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+								<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+								<p class="tips-info hide"></p>
 							</div>
 							<div class="m-item verifyCode f-cb">
 								<div class="item f-fl">
-									<label class="u-lab" for="reg-VerifyCode">
+									<label class="u-lab" for="getpw-VerifyCode">
 										短信验证码
 									</label>
 									<div class="u-inp">
 										<div class="box">
-											<input type="text" class="input" name="reg-VerifyCode" id="reg-VerifyCode" placeholder="请输入验证码" />
+											<input type="text" class="input" name="getpw-VerifyCode" id="getpw-VerifyCode" placeholder="请输入验证码" />
 										</div>
 									</div>
 								</div>
 								<span class="f-fr vcode" id="getVerifyCode">获取验证码</span>
+								<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+								<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+								<p class="tips-info hide"></p>
 							</div>
 							<div class="m-item f-cb">
 								<div class="item">
-									<label class="u-lab" for="reg-password">密码</label>
+									<label class="u-lab" for="getpw-password">密码</label>
 									<div class="u-inp">
 										<div class="box">
-											<input type="password" class="input" name="reg-password" id="reg-password" placeholder="请输入密码" />
+											<input type="password" class="input" name="getpw-password" id="getpw-password" placeholder="请输入密码" />
 										</div>
 									</div>
 								</div>
+								<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+								<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+								<p class="tips-info hide"></p>
 							</div>
 							<div class="m-item f-cb">
 								<div class="item">
-									<label class="u-lab" for="reg-password2">密码</label>
+									<label class="u-lab" for="getpw-password2">密码</label>
 									<div class="u-inp">
 										<div class="box">
-											<input type="password" class="input" name="reg-password2" id="reg-password2" placeholder="请确定密码" />
+											<input type="password" class="input" name="getpw-password2" id="getpw-password2" placeholder="请确定密码" />
 										</div>
 									</div>
 								</div>
+								<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+								<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+								<p class="tips-info hide"></p>
 							</div>
-							<div class="m-item m-error-info hide">
-								<label><input type="checkbox" name="" id="" />记住密码</label>
-								<a href="getpw.html">忘记密码？</a>
-							</div>
+							<div class="m-item m-error-info hide" id="error-info"></div>
 							<div class="m-item">
 								<div class="u-btn">
-									<input type="submit" class="btn" id="login-submit" value="保存修改" />
+									<input type="submit" class="btn" id="getpw-submit" value="保存修改" />
 								</div>
 							</div>
 						</form>

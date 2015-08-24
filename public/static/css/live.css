@@ -1,0 +1,319 @@
+/*装修直播*/
+.live-banner{
+	height: 515px;
+	background:url(../img/live/live-banner.jpg) 0 0 no-repeat;
+}
+.live-list{
+	padding-top: 36px;
+}
+.live-list li{
+	width: 100%;
+	min-width: 1200px;
+	padding: 43px 0 50px 28px;
+} 
+.live-list .even{
+	background-color: #f6f7f9;
+}
+.live-list .pic{
+	width: 384px;
+	height: 285px;
+	overflow: hidden;
+	border-radius: 8px;
+	-webkit-box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
+	-moz-box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
+	box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
+}
+.live-list .even .pic{
+	-webkit-box-shadow: 0px 0px 11px rgba(0,0,0,0.25);
+	-moz-box-shadow: 0px 0px 11px rgba(0,0,0,0.25);
+	box-shadow: 0px 0px 11px rgba(0,0,0,0.25);
+}
+.live-list .pic img{
+	width: 384px;
+	height: 285px;
+}
+.live-list .txt{
+	overflow: hidden;
+	padding-left: 46px;
+}
+.live-list .info{
+	position: relative;
+}
+.live-list .info h4{
+	line-height: 38px;
+	padding-bottom: 11px;
+	font-weight: normal;
+}
+.live-list .info h4 a{
+	font-size: 18px;
+	color: #34495e;
+}
+.live-list .info h4 span{
+	padding-left: 80px;
+	font-size: 14px;
+	color: #7c8389;
+}
+.live-list .info h4 strong{
+	padding-right: 20px;
+	font-weight: normal;
+}
+.live-list .info h4 a:hover{color:#fe7004;}
+.live-list .info p{
+	font-size: 14px;
+	line-height: 43px;
+	color: #7c8389;
+}
+.live-list .info p span{padding-right: 20px;}
+.live-list .info .head{
+	position: absolute;
+	top:13px;
+	right:0;
+	width: 142px;
+	text-align: center;
+	line-height: 22px;
+	color: #7c8389;
+}
+.live-list .info .head span{
+	display: inline-block;
+}
+.live-list .info .head-pic{
+	width: 50px;
+	height: 50px;
+	margin: 0 43px 10px;
+	overflow: hidden;
+	border: 3px solid #fff;
+	border-radius: 50%;
+	-webkit-transition:all 0.5s;
+	-moz-transition:all 0.5s;	
+	-o-transition:all 0.5s;
+	transition:all 0.5s;
+}
+.live-list .info  .head:hover{color:#fe7004;}
+.live-list .info  .head:hover .head-pic{border-color:#fe7004;}
+.live-list .info .head-pic img{
+	width: 50px;
+	height: 50px;	
+}
+.state-box{
+	position: relative;
+	margin-top: 30px;
+	margin-left: -16px;
+}
+.state-box .state{
+	float: left;
+	width: 52px;
+	margin-left: 61px;
+	text-align: center;	
+}
+.state-box .state:first-child{
+	margin-left: 0;
+} 
+.state-box .line{
+	position: absolute;
+	top:15px;
+	left:16px;
+	z-index: 5;
+	width: 695px;
+	height: 2px;
+	overflow: hidden;
+	background-color: #7c8389;
+}
+.state-box .line-in{
+	height: 2px;
+	background-color: #fe7004;
+}
+.state-box .line0{width: 0;}
+.state-box .line1{width: 133px;}
+.state-box .line2{width: 246px;}
+.state-box .line3{width: 359px;}
+.state-box .line4{width: 472px;}
+.state-box .line5{width: 585px;}
+.state-box .line6{width: 695px;}
+.state-box .circle{
+	position: relative;
+	z-index: 5;
+	margin: 0 auto;
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	padding: 3px;
+}
+.state-box .current .circle{
+	padding: 0;
+	border: 3px solid #fe7004;
+}
+.state-box .circle:after{
+	content: '';
+	position: absolute;
+	z-index: 0;
+	left:3px;
+	top:3px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 3px solid #fff;
+	background-color: #7c8389;
+}
+.state-box .current .circle:after{
+	left:0;
+	top:0;
+}
+.state-box .active .circle:after{background-color: #fe7004;}
+.state-box p{
+	font-size: 14px;
+	line-height: 42px;
+	color: #7c8389;
+}
+/*详情页面*/
+.live-banner1{
+	height: 490px;
+	min-width: 1200px;
+	text-align: center;
+	background: url(../img/design/design_detail-bg.jpg) repeat;
+}
+.live-banner1 h2{
+	padding-top: 216px;
+	font-size: 18px;
+	line-height: 18px;
+	font-weight: normal;
+	color: #34495e;
+}
+.live-banner1 p{
+	height: 106px;
+	line-height: 106px;
+	font-size: 14px;
+}
+.live-banner1 p span{
+	margin: 0 14px;
+}
+.live-banner1 p strong{
+	color: #fe7004;
+	font-weight: normal;
+}
+.live-banner1 ul{
+	padding-top: 2px;
+	width: 344px;
+	margin: 0 auto;
+}
+.live-banner1 li{
+	float: left;
+	width: 172px;
+}
+.live-banner1 .head{
+	display: block;
+}
+.live-banner1 .head span{
+	display: block;
+}
+.live-banner1 .head-pic{
+	width: 50px;
+	height: 50px;
+	line-height: 50px;
+	margin: 0 auto 10px;
+	overflow: hidden;
+	border: 3px solid #fff;
+	background-color: #fe7004;
+	border-radius: 50%;
+	-webkit-transition:all 0.5s;
+	-moz-transition:all 0.5s;	
+	-o-transition:all 0.5s;
+	transition:all 0.5s;
+}
+.live-banner1 .head-pic .iconfont{
+	font-size: 24px;
+	color: #fff;
+}
+.live-banner1 .head-name{
+	font-size: 14px;
+	line-height: 24px;
+	color: #7c8389;
+}
+.live-banner1 a:hover{text-decoration: none;}
+.live-banner1 a:hover .head-name{color:#fe7004;}
+.live-banner1 a:hover .head-pic{border-color:#fe7004;}
+.live-banner1 .head-pic img{
+	width: 50px;
+	height: 50px;	
+}
+.live-show{
+	padding-bottom: 100px;
+}
+.m-state{
+	padding-top: 40px;
+	height: 140px;
+}
+.m-state .state-box{
+	margin-top: 0;
+	margin-left: 30px;
+	background-color: #fff;
+}
+.m-state .state-box .line{
+	top:24px;
+	width: 1096px;
+}
+.m-state .state-box .state{
+	margin-left: 128px;
+}
+.m-state .state-box .state:first-child{
+	margin-left: 0;
+} 
+.m-state .state-box .circle{
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	padding: 7px;
+}
+.m-state .state-box .active{
+	cursor: pointer;
+}
+.m-state .state-box .current .circle{
+	padding: 0;
+	border: 7px solid #fe7004;
+}
+.m-state .state-box .circle:after{
+	left:7px;
+	top:7px;
+	width: 30px;
+	height: 30px;
+}
+.m-state .state-box .current .circle:after{
+	left:0;
+	top:0;
+}
+.m-state .state-box p{font-size: 18px;}
+.m-state .state-box .line0{width: 0;}
+.m-state .state-box .line1{width: 205px;}
+.m-state .state-box .line2{width: 385px;}
+.m-state .state-box .line3{width: 565px;}
+.m-state .state-box .line4{width: 745px;}
+.m-state .state-box .line5{width: 925px;}
+.m-state .state-box .line6{width: 1096px;}
+.m-desc{
+	margin: 0 140px 50px 40px;
+	color: #7c8389;
+	font-size: 14px;
+	line-height: 36px;
+}
+.m-desc h3{
+	font-size: 18px;
+	font-weight: normal;	
+}
+.m-step .item{
+	padding-bottom: 48px;
+}
+.m-step h4{
+	padding-left: 30px;
+	font-size: 14px;
+	line-height: 90px;
+	font-weight: normal;
+}
+.m-step h4 i{
+	display: inline-block;
+	vertical-align: middle;
+	width: 18px;
+	height: 18px;
+	margin-right: 24px;
+	border-radius: 50%;
+	background-color: #fe7004;
+}
+.m-step h4 .time{margin-right: 15px;}

@@ -123,7 +123,7 @@ table{border-collapse:collapse;border-spacing:0}
 	line-height: 22px;
 	display: block;
 	border: none;
-	background: none;
+	background-color: #fff;
 }
 .w-form .m-item .sex{
 	height: 30px;
@@ -211,6 +211,9 @@ table{border-collapse:collapse;border-spacing:0}
 .sign-mn .verifyCode .u-inp{
 	width: 113px;
 }
+.sign-mn .m-item .input{
+	background-color: #fbfbfb;
+}
 .sign-mn .verifyCode .vcode{
 	width: 120px;
 	line-height: 37px;
@@ -231,6 +234,30 @@ table{border-collapse:collapse;border-spacing:0}
 .sign-mn .u-btn a{
 	margin-left: 17px;
 	color: #6d6d6d;
+}
+.sign-mn .m-item{
+	position: relative;
+}
+.sign-mn .m-item .tips-icon{
+	position: absolute;
+	left:297px;
+	top:0;
+	width: 30px;
+	height: 37px;
+	line-height: 37px;
+	text-align: center;
+	color: #d92222;
+}
+.sign-mn .m-item .tips-icon-ok{
+	color: #28b726;
+}
+.sign-mn .m-item .tips-icon .iconfont{
+	font-size: 24px;
+}
+.sign-mn .m-item .tips-info,.sign-mn .m-error-info{
+	line-height: 24px;
+	padding-left: 50px;
+	color:#d92222;
 }
 .sign-mn .u-btn a:hover{
 	color: #fe7004;
@@ -366,7 +393,23 @@ table{border-collapse:collapse;border-spacing:0}
 .m-cities{
 	position: relative;
 	z-index: 2;
-	width: 200px;
+}
+.m-cities .list{
+	position: relative;
+    z-index: 2;
+	float: left;
+	width: 150px;
+	padding: 3px 0 3px 10px;
+	margin-right: 5px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	text-align: left;
+}
+.m-cities .option{
+	line-height: 22px;
+	position: relative;
+	cursor: pointer;
+	padding-right: 25px;
 }
 .m-cities .arrow{
 	position: absolute;
@@ -391,10 +434,32 @@ table{border-collapse:collapse;border-spacing:0}
 	top:3px;
 	border-top-color: #ccc;
 }
+.m-cities .select{
+	position: absolute;
+	left:-1px;
+	top:26px;
+	width: 100%;
+	height: 210px;
+	overflow-y: auto;
+	background-color: #fff;
+	border: 1px solid #dcdcdc;
+	border-top: none;
+	display: none;
+}
+.m-cities .select a{
+	display: block;	
+	line-height: 30px;
+	text-align: center;
+	color: #333;
+}
+.m-cities .select a:hover{
+	color: #fff;
+	text-decoration: none;
+	background-color: #ccc;
+}
 /*在线报价*/
 .m-onlinePrice{
 	width: 100%;
-
 }
 .m-onlinePrice td{
 	width: 25%;
@@ -402,7 +467,18 @@ table{border-collapse:collapse;border-spacing:0}
 .k-popup{
 	position: fixed;
 	z-index: 10001;
-	display: none;
+	left:50%;
+	top:50%;
+	background-color: #fff;
+	display: -none;
+	width: 660px;
+	padding: 20px;
+	margin-left: -330px;
+	margin-top: -300px;
+	border-radius: 8px;
+	-webkit-box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
+	-moz-box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
+	box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
 }
 .popup-shade{
 	position: fixed;
@@ -472,10 +548,40 @@ table{border-collapse:collapse;border-spacing:0}
 	
 }
 .k-popup .popup-tt{
-
+	position: relative;
+	height: 40px;
+	line-height: 40px;
+	border-bottom: 1px solid #ddd;
+}
+.k-popup .popup-tt h3{
+	font-size: 18px;
+	color: #333;
+	font-weight: normal;
 }
 .k-popup .close{
-
+	position: absolute;
+	right:0;
+	top:0;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	font-size: 20px;
+	cursor: pointer;
+	-webkit-transition:all 0.5s;
+	-moz-transition:all 0.5s;	
+	-o-transition:all 0.5s;
+	transition:all 0.5s;
+	-webkit-transform: rotate(0deg);
+	-ms-transform: rotate(0deg);
+	-o-transform: rotate(0deg);
+	transform: rotate(0deg);
+}
+.k-popup .close:hover{
+	-webkit-transform: rotate(360deg);
+	-ms-transform: rotate(360deg);
+	-o-transform: rotate(360deg);
+	transform: rotate(360deg);
 }
 .k-popup .popup-ct{
 
@@ -541,6 +647,7 @@ table{border-collapse:collapse;border-spacing:0}
 	padding-top: 59px;
 }
 .g-hd .user{
+	height: 34px;
 	padding-right: 20px;
 	line-height: 34px;
 	text-align: right;

@@ -10,6 +10,8 @@
 	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
 	<link rel="stylesheet" type="text/css" href="../../css/user.css" />
 	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../js/lib/tdist.js"></script>
+	<script type="text/javascript" src="../../js/lib/public.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -84,9 +86,7 @@
 							<div class="item">
 								<label class="u-lab" for="dec_area">所在地区：</label>
 								<div class="u-inp">
-									<div class="box">
-										<input type="text" class="input" name="dec_area" id="dec_area" />
-									</div>
+									<div class="m-cities" id="design-current-area"></div>
 								</div>
 							</div>
 						</div>
@@ -270,3 +270,10 @@
 	</div>
 </body>
 </html>
+<script type="text/javascript">
+	
+	var designCurrentArea = new CitySelect({
+		id : 'design-current-area',
+		data : tdist 
+	})
+</script>

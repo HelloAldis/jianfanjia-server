@@ -3,10 +3,11 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>简繁家-注册</title>
-	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
-	<link rel="stylesheet" type="text/css" href="../../css/user.css" />
-	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../../js/user/login.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
+	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<script type="text/javascript" src="../../static/js/user/reg.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -33,7 +34,7 @@
 				<div class="sign-mn f-fl">
 					<h2>注册您的免费帐号</h2>
 					<div class="w-form">
-						<form action="http://www.jianfanjia.com" id="form-login" method="get">
+						<form action="#" id="form-reg" method="post">
 							<div class="m-item f-cb">
 								<div class="item">
 									<label class="u-lab" for="reg-account">账号</label>
@@ -43,6 +44,9 @@
 										</div>
 									</div>
 								</div>
+								<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+								<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+								<p class="tips-info hide"></p>
 							</div>
 							<div class="m-item verifyCode f-cb">
 								<div class="item f-fl">
@@ -56,6 +60,9 @@
 									</div>
 								</div>
 								<span class="f-fr vcode" id="getVerifyCode">获取验证码</span>
+								<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+								<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+								<p class="tips-info hide"></p>
 							</div>
 							<div class="m-item f-cb">
 								<div class="item">
@@ -66,6 +73,9 @@
 										</div>
 									</div>
 								</div>
+								<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+								<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+								<p class="tips-info hide"></p>
 							</div>
 							<div class="m-item f-cb">
 								<div class="item">
@@ -76,22 +86,23 @@
 										</div>
 									</div>
 								</div>
+								<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+								<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+								<p class="tips-info hide"></p>
 							</div>
 							<div class="m-item f-cb">
-								<div class="other other1">
+								<div class="other other1" id="reg-status">
 									<strong class="f-fl">我是</strong>
-									<label class="f-fl"><input type="radio" checked="checked" name="status" value="owner" />装修业主</label>
-									<label class="f-fl"><input type="radio" name="status" value="design" />设计师<span>(需认证)</span></label>
+									<label class="f-fl"><input type="radio" checked="checked" name="status" value="1" />装修业主</label>
+									<label class="f-fl"><input type="radio" name="status" value="2" />设计师<span>(需认证)</span></label>
 								</div>
 							</div>
 							<div class="m-item f-cb">
 								<div class="other">
-									<label class="f-fl"><input type="checkbox" name="" id="" />同意家易装注册协议</label><a href="" class="f-fr">查看家易装注册协议</a>
+									<input type="checkbox" id="reg-agreement" checked="checked" style="vertical-align:middle; margin-right: 5px" /><a href="javascript:;" onclick="window.open('../other/agreement.html','maxwindow','toolbar=no,width=1000,location=no,directories=no,menubar=no,scrollbars=yes,resizable=no,status=no');">查看《家易装注册协议》</a>
 								</div>
 							</div>
-							<div class="m-item m-error-info hide">
-								<label><input type="checkbox" name="" id="" />记住密码</label>
-								<a href="getpw.html">忘记密码？</a>
+							<div class="m-item m-error-info hide" id="error-info">
 							</div>
 							<div class="m-item">
 								<div class="u-btn">
