@@ -31,6 +31,10 @@ exports.updatePass = function (req, res, next) {
       return next(err);
     }
 
+    if (!verifyCode) {
+      return ep.emit('user_err', '验证码不对');
+    }
+
     if (verifyCode.code !== code) {
       return ep.emit('user_err', '验证码不对');
     }
@@ -41,7 +45,7 @@ exports.updatePass = function (req, res, next) {
       }
 
       if (!user) {
-        return rep.emit('user_err', '用户不存在');;
+        return ep.emit('user_err', '用户不存在');;
       }
 
       tools.bhash(pass, ep.done(function (passhash) {
@@ -90,7 +94,7 @@ exports.signup = function (req, res, next) {
   var phone = validator.trim(req.body.phone);
   var pass = validator.trim(req.body.pass);
   var code = validator.trim(req.body.code);
-  var type = validator.trim(req.body.type);
+  var usertype = validator.trim(req.body.type);
 
   var ep = new eventproxy();
   ep.fail(next);
@@ -98,29 +102,35 @@ exports.signup = function (req, res, next) {
     res.sendErrMsg(msg);
   });
 
-  if ([pass, phone, type].some(function (item) { return item === ''; })) {
+
+  console.log([pass, phone, usertype]);
+  if ([pass, phone, usertype].some(function (item) { return item === ''; })) {
     ep.emit('err', '信息不完整。');
     return;
   }
 
-  if (!validator.isIn(type, [type.role_designer, type.role_user])) {
+  if (!validator.isIn(usertype, [type.role_designer, type.role_user])) {
     return ep.emit('err', '类型不对');
   }
 
   ep.on('phone_ok', function () {
     //用户名手机号验证通过
-    VerifyCode.getCodeByPhone(phone, function (err, code) {
+    VerifyCode.getCodeByPhone(phone, function (err, verifyCode) {
       if (err) {
         return next(err);
       }
 
-      if (code !== code) {
+      if (verifyCode) {
+        if (code === verifyCode.code) {
+          tools.bhash(pass, ep.done(function (passhash) {
+            ep.emit('final', passhash);
+          }));
+        } else {
+          return ep.emit('err', '验证码不对或已过期');
+        }
+      } else {
         return ep.emit('err', '验证码不对或已过期');
       }
-
-      tools.bhash(pass, ep.done(function (passhash) {
-        ep.emit('final', passhash);
-      }));
     });
   });
 
@@ -130,7 +140,7 @@ exports.signup = function (req, res, next) {
     user.pass        = passhash;
     user.phone       = phone;
 
-    if (type === type.role_designer) {
+    if (usertype === type.role_designer) {
       User.newAndSave(user, function (err, user_indb) {
         if (err) {
           return next(err);
@@ -139,15 +149,15 @@ exports.signup = function (req, res, next) {
         // store session cookie
         authMiddleWare.gen_session(user_indb, res);
         req.session.userid = user_indb._id;
-        req.session.usertype = type;
+        req.session.usertype = usertype;
 
         var data = {};
-        data.usertype = type;
+        data.usertype = usertype;
         data.phone = user_indb.phone;
         data.username = user_indb.username;
         res.sendData(data);
       });
-    } else if (type === type.role_designer) {
+    } else if (usertype === type.role_user) {
       Designer.newAndSave(user, function (err, user_indb) {
         if (err) {
           return next(err);
@@ -156,10 +166,10 @@ exports.signup = function (req, res, next) {
         // store session cookie
         authMiddleWare.gen_session(user_indb, res);
         req.session.userid = user_indb._id;
-        req.session.usertype = type;
+        req.session.usertype = usertype;
 
         var data = {};
-        data.usertype = type;
+        data.usertype = usertype;
         data.phone = user_indb.phone;
         data.username = user_indb.username;
         res.sendData(data);
@@ -201,7 +211,7 @@ exports.login = function (req, res, next) {
 
   ep.fail(next);
   ep.on('err', function (msg) {
-    res.sendSuccessMsg();
+    res.sendErrMsg(msg);
     return;
   });
 

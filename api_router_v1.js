@@ -45,7 +45,7 @@ router.get('/favorite/product',auth.normalUserRequired, favorite.list); //收藏
 router.post('/favorite/product',auth.normalUserRequired, favorite.add); //收藏作品
 router.delete('/favorite/product',auth.normalUserRequired, favorite.delete); //删除收藏作品
 router.post('/plan/comment',auth.normalUserRequired, comment.add); //添加评论
-router.get('/user/info',auth.normalUserRequired, user.getInfo); //获取业主个人资料
+router.get('/user/:_id/info',auth.normalUserRequired, user.getInfo); //获取业主个人资料
 
 //业主独有功能
 router.put('/user/info',auth.userRequired, user.updateInfo); //修改业主个人资料
@@ -59,7 +59,7 @@ router.post('/user/plan/final',auth.userRequired, plan.finalPlan); //选定方�
 
 //设计师独有功能
 router.put('/designer/info',auth.designerRequired, designer.updateInfo); //修改设计师个人资料
-router.get('/designer/info',auth.designerRequired, designer.getInfo); //获取设计师个人资料
+router.get('/designer/info',auth.designerRequired, designer.getInfo); //获取设计师自己个人资料
 router.get('/designer/user',auth.designerRequired, designer.myUser); //我的业主
 router.post('/designer/user/ok',auth.designerRequired, designer.okUser); //响应业主
 router.post('/designer/user/reject',auth.designerRequired, designer.rejectUser); //拒绝业主

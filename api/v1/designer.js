@@ -46,11 +46,15 @@ exports.getOne = function (req, res, next) {
       return next(err);
     }
 
+    if (designer) {
+      designer.pass = '';
+      designer.accessToken = '';
+      Designer.addViewCountForDesigner(designerid, 1);
+      res.sendData(designer);
+    } else {
+      res.sendData(null);
+    }
 
-    designer.pass = '';
-    designer.accessToken = '';
-    Designer.addViewCountForDesigner(designerid, 1);
-    res.sendData(designer);
     // Product.getProductsByDesignerid(designerid, function (err, products) {
     //   if (err) {
     //     return next(err);

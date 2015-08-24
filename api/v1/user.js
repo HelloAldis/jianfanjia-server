@@ -13,16 +13,20 @@ var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../type');
 
 exports.getInfo = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
+  var userid = req.params._id;
 
   User.getUserById(userid, function (err, user) {
     if (err) {
       return next(err);
     }
 
-    user.pass = '';
-    user.accessToken = '';
-    res.sendData(user);
+    if (user) {
+      user.pass = '';
+      user.accessToken = '';
+      res.sendData(user);
+    } else {
+      res.sendData(null);
+    }
   });
 }
 
