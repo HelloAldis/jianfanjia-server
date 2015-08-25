@@ -6,8 +6,13 @@ var uuid    = require('node-uuid');
 exports.getPlansByDesignerid = function (designerid, callback) {
   Plan.find({'designerid':designerid}, callback);
 };
+
 exports.getPlansByUserid = function (userid, callback) {
   Plan.find({'userid':userid}, callback);
+};
+
+exports.getPlansByDesigneridAndUserid = function (designerid, userid, project, callback) {
+  Plan.find({'designerid':designerid, 'userid':userid}, project, callback);
 };
 
 exports.newAndSave = function (json, callback) {

@@ -181,15 +181,22 @@ exports.userMyPlan = function (req, res, next) {
 exports.finalPlan = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var planid = tools.trim(req.body.planid);
+  var designerid = new ObjectId(req.body.designerid);
 
-  Plan.updateByQuery({_id: planid, userid: userid}, {status: type.plan_status_user_final},
-    function (err) {
-      if (err) {
-        return next(err);
-      }
+  Requirement.updateByUserid(userid, {$set: {final_designerid: designerid}}, function (err) {
+    if (err) {
+      return next(err);
+    }
 
-      res.sendSuccessMsg();
-    });
+    Plan.updateByQuery({_id: planid, userid: userid}, {status: type.plan_status_user_final},
+      function (err) {
+        if (err) {
+          return next(err);
+        }
+
+        res.sendSuccessMsg();
+      });
+  });
 }
 
 exports.designerMyPlan = function (req, res, next) {

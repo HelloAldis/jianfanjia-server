@@ -13,5 +13,9 @@ var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../type');
 
 exports.start = function (req, res, next) {
-  // body...
+
+}
+
+exports.addComment = function (req, res, next) {
+
 }

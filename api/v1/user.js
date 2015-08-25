@@ -11,6 +11,7 @@ var ApiUtil = require('../../common/api_util');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../type');
+var async = require('async');
 
 exports.getInfo = function (req, res, next) {
   var userid = req.params._id;
@@ -127,8 +128,8 @@ exports.myDesigner = function (req, res, next) {
   var ep = eventproxy();
 
   ep.fail(next);
-  ep.on('designers', function (designers) {
-    res.sendData(designers);
+  ep.on('final', function (data) {
+    res.sendData(data);
   });
 
   Requirement.getRequirementByUserid(userid, function (err, requirement) {
@@ -136,11 +137,46 @@ exports.myDesigner = function (req, res, next) {
       return next(err);
     }
 
+    ep.on('hasDesigner', function (designers) {
+      async.mapLimit(designers, 3, function (designer, callback) {
+        Plan.getPlansByDesigneridAndUserid(designer._id, userid, {house_check_time:1, status:1}, function (err, plans) {
+          designer.plans = plans;
+          console.log('designer ' + designer);
+          callback(err, designer);
+        });
+      }, function (err, results) {
+        if (err) {
+          return next(err);
+        }
+
+        ep.emit('final', results);
+      });
+    });
+
     if (!requirement) {
-      ep.emit('designers', []);
+      ep.emit('final', []);
       return;
     } else {
-      ep.emit('designers', requirement.designerids);
+      async.mapLimit(requirement.designerids, 3, function (designerid, callback) {
+        Designer.getDesignerById(designerid, function (err, designer_indb) {
+          var designer = {};
+          designer._id = designer_indb._id;
+          designer.phone = designer_indb.phone;
+          designer.city = designer_indb.district;
+          designer.username = designer_indb.username;
+          designer.view_count = designer_indb.view_count;
+          designer.order_count = designer_indb.order_count;
+          designer.product_count = designer_indb.product_count;
+          designer.imageid = designer_indb.imageid;
+          callback(err, designer);
+        });
+      }, function (err, results) {
+        if (err) {
+          return next(err);
+        }
+
+        ep.emit('hasDesigner', results);
+      });
       return;
     }
   });

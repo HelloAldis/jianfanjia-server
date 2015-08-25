@@ -3,7 +3,7 @@ var Designer    = models.Designer;
 var uuid    = require('node-uuid');
 var type = require('../type');
 
-exports.getUserById = function (id, callback) {
+exports.getDesignerById = function (id, callback) {
   Designer.findOne({_id: id}, callback);
 };
 

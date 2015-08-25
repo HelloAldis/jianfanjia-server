@@ -13,8 +13,8 @@ var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../type');
 
 exports.getInfo = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  Designer.getUserById(userid, function (err, designer) {
+  var designerid = ApiUtil.getUserid(req);
+  Designer.getDesignerById(designerid, function (err, designer) {
     if (err) {
       return next(err);
     }
@@ -41,7 +41,7 @@ exports.updateInfo = function (req, res, next) {
 exports.getOne = function (req, res, next) {
   var designerid = req.params._id;
 
-  Designer.getUserById(designerid, function (err, designer) {
+  Designer.getDesignerById(designerid, function (err, designer) {
     if (err) {
       return next(err);
     }
