@@ -210,3 +210,19 @@ exports.designerMyPlan = function (req, res, next) {
     res.sendData(plans);
   });
 }
+
+exports.addCommentForPlan = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var planid = tools.trim(req.body.planid);
+  var comment = ApiUtil.buildComment(req);
+  comment.userid = userid;
+  comment.date = new Date();
+
+  Plan.addComment(planid, comment, function (err) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendSuccessMsg();
+  });
+}

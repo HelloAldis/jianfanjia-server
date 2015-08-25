@@ -11,7 +11,7 @@ var type = require('../../type');
 exports.authed = function (req, res, next) {
   var designerid = tools.trim(req.body._id);
 
-  Designer.updateByQuery({_id:designerid}, {'auth_type': '2', 'auth_date': new Date()},
+  Designer.updateByQuery({_id:designerid}, {'auth_type': type.designer_auth_type_done, 'auth_date': new Date()},
   function (err) {
     if (err) {
       return next(err);

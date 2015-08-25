@@ -43,7 +43,7 @@ router.put('/image/upload', auth.normalUserRequired, upload.single('image'), ima
 router.get('/favorite/product',auth.normalUserRequired, favorite.list); //收藏列表
 router.post('/favorite/product',auth.normalUserRequired, favorite.add); //收藏作品
 router.delete('/favorite/product',auth.normalUserRequired, favorite.delete); //删除收藏作品
-router.post('/plan/comment',auth.normalUserRequired, comment.add); //添加评论
+router.post('/plan/comment',auth.normalUserRequired, plan.addCommentForPlan); //添加评论
 router.get('/user/:_id/info',auth.normalUserRequired, user.getInfo); //获取业主个人资料
 router.get('/signout',auth.normalUserRequired, sign.signout); //登出
 

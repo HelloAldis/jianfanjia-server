@@ -149,6 +149,7 @@ exports.signup = function (req, res, next) {
         data.usertype = usertype;
         data.phone = user_indb.phone;
         data.username = user_indb.username;
+        data._id = user_indb._id;
         res.sendData(data);
       });
     } else if (usertype === type.role_user) {
@@ -166,6 +167,7 @@ exports.signup = function (req, res, next) {
         data.usertype = usertype;
         data.phone = user_indb.phone;
         data.username = user_indb.username;
+        data._id = user_indb._id;
         res.sendData(data);
       });
     }
@@ -231,6 +233,7 @@ exports.login = function (req, res, next) {
         data.usertype = type.role_user;
         data.phone = user.phone;
         data.username = user.username;
+        data._id = user._id;
         res.sendData(data);
       }));
     } else if (!user && designer) {
@@ -250,6 +253,7 @@ exports.login = function (req, res, next) {
         data.usertype = type.role_designer;
         data.phone = designer.phone;
         data.username = designer.username;
+        data._id = designer._id;
         res.sendData(data);
       }));
     } else {

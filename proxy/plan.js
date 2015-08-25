@@ -42,6 +42,5 @@ exports.getStatus2PlanByUseridDesigneridRequirementid = function (userid, design
 }
 
 exports.addComment = function (planid, json, callback) {
-  // json.commentid = uuid.v1();
   Plan.findOneAndUpdate({_id:planid}, {'$push': {comments: json}}, callback);
 }

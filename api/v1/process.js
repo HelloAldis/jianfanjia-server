@@ -19,3 +19,19 @@ exports.start = function (req, res, next) {
 exports.addComment = function (req, res, next) {
 
 }
+
+exports.addImage = function (req, res, next) {
+
+}
+
+exports.deleteImage = function (req, res, next) {
+
+}
+
+exports.reschedule = function (req, res, next) {
+
+}
+
+exports.done =  function (req, res, next) {
+
+}
