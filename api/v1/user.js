@@ -183,31 +183,39 @@ exports.addDesigner = function (req, res, next) {
 };
 
 exports.addDesigner2HouseCheck = function (req, res, next) {
-  var designerid = new ObjectId(tools.trim(req.body._id));
+  var designerids = _.map(req.body.designerids, function (e) {
+    return new ObjectId(e);
+  });
+
   var userid = ApiUtil.getUserid(req);
   var ep = eventproxy();
+  ep.after('final', designerids.length, function () {
+    res.sendSuccessMsg();
+  });
 
   ep.fail(next);
   ep.on('requirement', function (requirement) {
     //
-    var json = {};
-    json.designerid = designerid;
-    json.userid = userid;
-    json.requirementid = requirement._id;
+    _.forEach(designerids, function (designerid) {
+      var json = {};
+      json.designerid = designerid;
+      json.userid = userid;
+      json.requirementid = requirement._id;
 
-    Plan.findOneByQuery(json, function (err, plan) {
-      if (err) {
-        return next(err);
-      }
+      Plan.findOneByQuery(json, function (err, plan) {
+        if (err) {
+          return next(err);
+        }
 
-      if (plan) {
-        //已预约过
-        return res.sendSuccessMsg();
-      } else {
-        Plan.newAndSave(json);
-        Designer.addOrderCountForDesigner(designerid, 1);
-        return res.sendSuccessMsg();
-      }
+        if (plan) {
+          //已预约过
+          return ep.emit('final');
+        } else {
+          Plan.newAndSave(json);
+          Designer.addOrderCountForDesigner(designerid, 1);
+          return ep.emit('final');
+        }
+      });
     });
   });
 

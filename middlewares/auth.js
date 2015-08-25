@@ -11,7 +11,7 @@ var ApiUtil = require('../common/api_util');
  * 需要通用用户登录
  */
 exports.normalUserRequired = function (req, res, next) {
-  if (!req.session.userid) {
+  if (!ApiUtil.getUserid(req)) {
     return res.status(403).send('forbidden!');
   }
 
