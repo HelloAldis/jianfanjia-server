@@ -1,6 +1,7 @@
 var validator = require('validator');
 var eventproxy = require('eventproxy');
 var Favorite = require('../../proxy').Favorite;
+var Product = require('../../proxy').Product;
 var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
@@ -22,7 +23,6 @@ exports.list = function (req, res, next) {
 
 exports.add = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
-  console.log(tools.trim(req.body._id));
   var productid = new ObjectId(tools.trim(req.body._id));
 
   Favorite.getProductFavorites(userid, function (err, favorite) {

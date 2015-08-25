@@ -14,7 +14,7 @@ var RequirementSchema = new Schema({
   total_price: {type: Number, default: 0},
   designerids: {type: [ObjectId]},
   rec_designerids: {type: [ObjectId]},
-  final_designerid: {type: [ObjectId]},
+  final_designerid: {type: ObjectId},
 });
 
 mongoose.model('Requirement', RequirementSchema);

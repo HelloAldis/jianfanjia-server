@@ -126,16 +126,6 @@ exports.buildShare = function (req) {
   return share;
 }
 
-exports.sendData = function (res, json) {
-  res.send({
-    data: json
-  });
-}
-
-exports.sendSuccessMsg = function (res) {
-  res.send({msg:'success'});
-}
-
-exports.sendErrMsg = function (res, err) {
-  res.send({err_msg:err});
+exports.buildProcess = function (req) {
+  var process = {};
 }

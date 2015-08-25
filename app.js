@@ -80,6 +80,14 @@ app.use(responseUtil);
 // });
 
 // routes
+if (config.debug) {
+  app.use('/api/v1', function (req, res, next) {
+    console.log(req.body);
+    next();
+  });
+}
+
+
 app.use('/api/v1',cors(), apiRouterV1);
 app.use('/', webRouter);
 
