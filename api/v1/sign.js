@@ -81,11 +81,7 @@ exports.sendVerifyCode = function (req, res, next) {
       return next(err);
     }
 
-    var content = '[简繁家]www.jianfanjia.com 您的验证码是：' + code
-    + '。5分钟内有效,如非您本人请忽略.';
-    // var content = '【微米】您的验证码是：610912，。如非您本人操作，可忽略本消息。';
-
-    // sms.send(phone, content);
+    sms.sendVerifyCode(phone, code);
     res.sendSuccessMsg();
   });
 }
@@ -102,8 +98,6 @@ exports.signup = function (req, res, next) {
     res.sendErrMsg(msg);
   });
 
-
-  console.log([pass, phone, usertype]);
   if ([pass, phone, usertype].some(function (item) { return item === ''; })) {
     ep.emit('err', '信息不完整。');
     return;

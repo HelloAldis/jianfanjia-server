@@ -61,7 +61,6 @@ exports.addProductCountForDesigner = function (desingerid, num) {
 };
 
 exports.findDesignersOrderByScore = function (limit, callback) {
-  console.log(type);
   Designer.find(
     {auth_type: type.designer_auth_type_done},
     {'pass': 0},
