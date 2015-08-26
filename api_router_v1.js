@@ -43,7 +43,7 @@ router.post('/designer/search', designer.search); //搜索设计师
 router.get('/image/:_id', image.get); //获取图片
 
 //通用用户功能
-router.put('/image/upload', auth.normalUserRequired, upload.single('image'),
+router.post('/image/upload', auth.normalUserRequired, upload.single('upfile'),
   image.add); //上传图片
 router.get('/favorite/product', auth.normalUserRequired, favorite.list); //收藏列表
 router.post('/favorite/product', auth.normalUserRequired, favorite.add); //收藏作品
@@ -51,8 +51,10 @@ router.delete('/favorite/product', auth.normalUserRequired, favorite.delete); //
 router.post('/plan/comment', auth.normalUserRequired, plan.addCommentForPlan); //添加评论
 router.get('/user/:_id/info', auth.normalUserRequired, user.getInfo); //获取业主个人资料
 router.get('/signout', auth.normalUserRequired, sign.signout); //登出
-router.post('/process/addimage', auth.normalUserRequired, process.addImage); //上传照片到工地
-router.get('/process/:_id', auth.normalUserRequired, process.getOne); //获取业主个人资料
+router.post('/process/image', auth.normalUserRequired, process.addImage); //上传照片到工地
+router.get('/process/:_id', auth.normalUserRequired, process.getOne); //获取装修进度
+router.post('/process/comment', auth.normalUserRequired, process.addComment); //评论装修进度
+router.post('/process/done', auth.normalUserRequired, process.done); //设置节点为已完成状态
 
 //业主独有功能
 router.put('/user/info', auth.userRequired, user.updateInfo); //修改业主个人资料

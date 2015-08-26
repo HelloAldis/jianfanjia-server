@@ -1,4 +1,3 @@
-
 //load configuration
 var config = require('./config');
 
@@ -32,7 +31,9 @@ var app = express();
 app.enable('trust proxy');
 
 // Request logger。请求时间
-app.use(morgan('short'));
+app.use(morgan(
+  ':remote-addr :remote-user :method :req[Content-Type] :url HTTP/:http-version :status :res[content-length] - :response-time ms'
+));
 
 app.use(compression());
 // 静态资源
@@ -40,15 +41,30 @@ app.use('/', express.static(staticDir));
 // 通用的中间件
 app.use(require('response-time')());
 app.use(helmet.frameguard('deny')); // 防止 clickjacking attacks
-app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' })); //伪造poweredby
-app.use(bodyParser.json({limit: '1mb'}));
-app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
-app.use(bodyParser.raw({limit:'3mb', type:'image/jpeg'}));
+app.use(helmet.hidePoweredBy({
+  setTo: 'PHP 4.2.0'
+})); //伪造poweredby
+app.use(bodyParser.json({
+  limit: '1mb'
+}));
+app.use(bodyParser.urlencoded({
+  extended: true,
+  limit: '1mb'
+}));
+app.use(bodyParser.raw({
+  limit: '3mb',
+  type: 'image/jpeg'
+}));
 
 app.use(require('method-override')());
 // app.use(require('cookie-parser')(config.session_secret));
 app.use(session({
-  cookie: { path: '/', httpOnly: true, secure: false, maxAge: 1000*60*60*24*3 },
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    secure: false,
+    maxAge: 1000 * 60 * 60 * 24 * 3
+  },
   secret: config.session_secret,
   store: new RedisStore({
     port: config.redis_port,
@@ -88,7 +104,7 @@ if (config.debug) {
 }
 
 
-app.use('/api/v1',cors(), apiRouterV1);
+app.use('/api/v1', cors(), apiRouterV1);
 app.use('/', webRouter);
 
 // error handler

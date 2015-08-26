@@ -21,44 +21,45 @@ exports.add = function (req, res, next) {
   ep.fail(next);
   ep.on('requirement', function (requirement) {
     //如果已经对需求提交过
-    Plan.getStatus2PlanByUseridDesigneridRequirementid(userid, designerid, requirement._id,
-    function (err, plan_indb) {
-      if (err) {
-        return next(err);
-      }
+    Plan.getStatus2PlanByUseridDesigneridRequirementid(userid, designerid,
+      requirement._id,
+      function (err, plan_indb) {
+        if (err) {
+          return next(err);
+        }
 
-      if (plan_indb) {
-        //有已响应但是没上传的方案，直接上传方案到这里
-        plan.status = type.plan_status_desinger_upload; //修改status为已上传
-        var query = {
-          userid: userid,
-          designerid: designerid,
-          requirementid: requirement._id,
-          status: type.plan_status_designer_respond,
-        };
+        if (plan_indb) {
+          //有已响应但是没上传的方案，直接上传方案到这里
+          plan.status = type.plan_status_desinger_upload; //修改status为已上传
+          var query = {
+            userid: userid,
+            designerid: designerid,
+            requirementid: requirement._id,
+            status: type.plan_status_designer_respond,
+          };
 
-        Plan.updateByQuery(query, plan, function (err) {
-          if (err) {
-            return next(err);
-          }
+          Plan.updateByQuery(query, plan, function (err) {
+            if (err) {
+              return next(err);
+            }
 
-          res.sendSuccessMsg();
-        });
-      } else {
-        //创建新的方案
-        plan.status = type.plan_status_desinger_upload;
-        plan.designerid = new ObjectId(designerid);
-        plan.userid = new ObjectId(userid);
-        plan.requirementid = requirement._id;
-        Plan.newAndSave(plan, function (err) {
-          if (err) {
-            return next(err);
-          }
+            res.sendSuccessMsg();
+          });
+        } else {
+          //创建新的方案
+          plan.status = type.plan_status_desinger_upload;
+          plan.designerid = new ObjectId(designerid);
+          plan.userid = new ObjectId(userid);
+          plan.requirementid = requirement._id;
+          Plan.newAndSave(plan, function (err) {
+            if (err) {
+              return next(err);
+            }
 
-          res.sendSuccessMsg();
-        });
-      }
-    });
+            res.sendSuccessMsg();
+          });
+        }
+      });
   });
 
   Requirement.getRequirementByUserid(userid, function (err, requirement) {
@@ -80,7 +81,10 @@ exports.update = function (req, res, next) {
     return;
   }
 
-  Plan.updateByQuery({_id: oid, designerid: designerid}, plan, function (err) {
+  Plan.updateByQuery({
+    _id: oid,
+    designerid: designerid
+  }, plan, function (err) {
     if (err) {
       return next(err);
     }
@@ -99,7 +103,10 @@ exports.delete = function (req, res, next) {
     return;
   }
 
-  Plan.removeOneByQuery({_id: oid, designerid: designerid}, function (err) {
+  Plan.removeOneByQuery({
+    _id: oid,
+    designerid: designerid
+  }, function (err) {
     if (err) {
       return next(err);
     }
@@ -183,12 +190,21 @@ exports.finalPlan = function (req, res, next) {
   var planid = tools.trim(req.body.planid);
   var designerid = new ObjectId(req.body.designerid);
 
-  Requirement.updateByUserid(userid, {$set: {final_designerid: designerid}}, function (err) {
+  Requirement.updateByUserid(userid, {
+    $set: {
+      final_designerid: designerid
+    }
+  }, function (err) {
     if (err) {
       return next(err);
     }
 
-    Plan.updateByQuery({_id: planid, userid: userid}, {status: type.plan_status_user_final},
+    Plan.updateByQuery({
+        _id: planid,
+        userid: userid
+      }, {
+        status: type.plan_status_user_final
+      },
       function (err) {
         if (err) {
           return next(err);
@@ -215,7 +231,7 @@ exports.addCommentForPlan = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var planid = tools.trim(req.body.planid);
   var comment = ApiUtil.buildComment(req);
-  comment.userid = userid;
+  comment.by = userid;
   comment.date = new Date();
 
   Plan.addComment(planid, comment, function (err) {

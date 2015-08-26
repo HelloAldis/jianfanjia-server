@@ -73,10 +73,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -102,10 +99,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -131,10 +125,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -160,10 +151,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -189,10 +177,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -218,10 +203,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -260,10 +242,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -289,10 +268,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -318,10 +294,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -360,10 +333,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -389,10 +359,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -443,10 +410,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -472,10 +436,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -501,10 +462,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -530,10 +488,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -559,10 +514,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -588,10 +540,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -617,10 +566,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -671,10 +617,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -700,10 +643,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -754,10 +694,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -783,10 +720,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -812,10 +746,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -841,10 +772,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -870,10 +798,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -899,10 +824,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -928,10 +850,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -957,10 +876,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -986,10 +902,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {
@@ -1015,10 +928,7 @@ var ProcessSchema = new Schema({
       },
       comments: {
         type: [{
-          commentid: {
-            type: String
-          },
-          comment_userid: {
+          by: {
             type: ObjectId
           },
           content: {

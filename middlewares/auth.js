@@ -1,9 +1,9 @@
-var mongoose   = require('mongoose');
-var UserModel  = mongoose.model('User');
-var Message    = require('../proxy').Message;
-var config     = require('../config');
+var mongoose = require('mongoose');
+var UserModel = mongoose.model('User');
+var Message = require('../proxy').Message;
+var config = require('../config');
 var eventproxy = require('eventproxy');
-var UserProxy  = require('../proxy').User;
+var UserProxy = require('../proxy').User;
 var type = require('../type');
 var ApiUtil = require('../common/api_util');
 
@@ -46,9 +46,9 @@ exports.designerRequired = function (req, res, next) {
  * 需要admin登录
  */
 exports.adminRequired = function (req, res, next) {
-  if (ApiUtil.getUsertype(req) !== type.role_admin) {
-    return res.status(403).send('forbidden!');
-  }
+  // if (ApiUtil.getUsertype(req) !== type.role_admin) {
+  //   return res.status(403).send('forbidden!');
+  // }
 
   next();
 };

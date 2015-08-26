@@ -36,14 +36,21 @@ exports.add = function (req, res, next) {
           return next(err);
         }
 
-        if (_.indexOf(favorite.favorite_product, productid) < 0) {
+        var result = _.find(favorite.favorite_product, function (o) {
+          return o.toString() === productid.toString();
+        });
+
+        if (!result) {
           Product.addFavoriteCountForProduct(productid, 1);
         }
 
         res.sendSuccessMsg();
       });
     } else {
-      Favorite.newAndSave({userid: userid, favorite_product:[productid]}, function (err) {
+      Favorite.newAndSave({
+        userid: userid,
+        favorite_product: [productid]
+      }, function (err) {
         if (err) {
           return next(err);
         }
@@ -65,7 +72,16 @@ exports.delete = function (req, res, next) {
       return next(err);
     }
 
-    Product.addFavoriteCountForProduct(productid, -1);
+    if (favorite) {
+      var result = _.find(favorite.favorite_product, function (o) {
+        return o.toString() === productid.toString();
+      });
+
+      if (result) {
+        Product.addFavoriteCountForProduct(productid, -1);
+      }
+    }
+
     res.sendSuccessMsg();
   });
 };

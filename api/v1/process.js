@@ -134,8 +134,20 @@ exports.start = function (req, res, next) {
 }
 
 exports.addComment = function (req, res, next) {
+  var section = tools.trim(req.body.section);
+  var item = tools.trim(req.body.item);
+  var content = new ObjectId(req.body.imageid);
+  var _id = req.body._id;
+  var userid = ApiUtil.getUserid(req);
 
-}
+  Process.addComment(_id, section, item, content, userid, function (err) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendSuccessMsg();
+  });
+};
 
 exports.addImage = function (req, res, next) {
   var section = tools.trim(req.body.section);
@@ -148,21 +160,39 @@ exports.addImage = function (req, res, next) {
       return next(err);
     }
 
-    res.sendSuccessMsg();
+    Process.updateStatus(_id, section, item, type.process_item_status_going,
+      function (err) {
+        if (err) {
+          return next(err);
+        }
+
+        res.sendSuccessMsg();
+      });
   });
-}
+};
 
 exports.deleteImage = function (req, res, next) {
 
-}
+};
 
 exports.reschedule = function (req, res, next) {
 
-}
+};
 
 exports.done = function (req, res, next) {
+  var section = tools.trim(req.body.section);
+  var item = tools.trim(req.body.item);
+  var _id = req.body._id;
 
-}
+  Process.updateStatus(_id, section, item, type.process_item_status_done,
+    function (err) {
+      if (err) {
+        return next(err);
+      }
+
+      res.sendSuccessMsg();
+    });
+};
 
 exports.getOne = function (req, res, next) {
   var _id = req.params._id;
