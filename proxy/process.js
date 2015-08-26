@@ -18,6 +18,16 @@ exports.addImage = function (id, section, item, imageid, callback) {
   }, callback);
 };
 
+exports.addYsImage = function (id, section, key, imageid, callback) {
+  var query = {};
+  query._id = id;
+  path = section + '.' + 'ys.images.key';
+  query[path] = key;
+
+  var update = {key:key, imageid:imageid};
+  Process.findOneAndUpdate(query, update, {upsert:true}, callback);
+}
+
 exports.addComment = function (id, section, item, content, by, callback) {
   var update = {};
   var u = section + '.' + item + '.comments';

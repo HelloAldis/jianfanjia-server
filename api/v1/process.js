@@ -171,6 +171,23 @@ exports.addImage = function (req, res, next) {
   });
 };
 
+exports.addYsImage = function (req, res, next) {
+  var section = tools.trim(req.body.section);
+  var key = tools.trim(req.body.key);
+  var imageid = new ObjectId(req.body.imageid);
+  var _id = req.body._id;
+
+  Process.addYsImage(id, section, key, image, function (err) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendSuccessMsg();
+  });
+
+
+}
+
 exports.deleteImage = function (req, res, next) {
 
 };
@@ -184,6 +201,7 @@ exports.done = function (req, res, next) {
   var item = tools.trim(req.body.item);
   var _id = req.body._id;
 
+  //TODO start next section
   Process.updateStatus(_id, section, item, type.process_item_status_done,
     function (err) {
       if (err) {
@@ -193,6 +211,7 @@ exports.done = function (req, res, next) {
       res.sendSuccessMsg();
     });
 };
+
 
 exports.getOne = function (req, res, next) {
   var _id = req.params._id;
