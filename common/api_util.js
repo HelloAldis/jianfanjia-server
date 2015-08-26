@@ -70,6 +70,7 @@ exports.buildProduct = function (req) {
   product.dec_style = tools.trim(req.body.dec_style);
   product.work_type = tools.trim(req.body.work_type);
   product.total_price = tools.trim(req.body.total_price);
+  product.description = tools.trim(req.body.description);
   product.images = _.map(req.body.images, function (i) {
     i.imageid = new ObjectId(i.imageid);
   });
@@ -77,7 +78,7 @@ exports.buildProduct = function (req) {
   return product;
 }
 
-exports.buildPlan = function(req) {
+exports.buildPlan = function (req) {
   var plan = {};
   plan.duration = req.body.duration;
   plan.total_price = tools.trim(req.body.total_price);
@@ -95,8 +96,8 @@ exports.buildPlan = function(req) {
 exports.buildRequirement = function (req) {
   var requirement = {};
   requirement.province = tools.trim(req.body.province);
-  requirement.city        = tools.trim(req.body.city);
-  requirement.district       = tools.trim(req.body.district);
+  requirement.city = tools.trim(req.body.city);
+  requirement.district = tools.trim(req.body.district);
   requirement.cell = tools.trim(req.body.cell);
   requirement.house_type = tools.trim(req.body.house_type);
   requirement.house_area = req.body.house_area;

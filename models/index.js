@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var config   = require('../config');
+var config = require('../config');
 
 mongoose.connect(config.db, function (err) {
   if (err) {
@@ -20,9 +20,10 @@ require('./team');
 require('./share');
 require('./requirement');
 require('./favorite');
+require('./process');
 
 exports.User = mongoose.model('User');
-exports.Designer  = mongoose.model('Designer');
+exports.Designer = mongoose.model('Designer');
 exports.TempUser = mongoose.model('TempUser');
 exports.Image = mongoose.model('Image');
 exports.Plan = mongoose.model('Plan');
@@ -32,3 +33,4 @@ exports.Team = mongoose.model('Team');
 exports.Requirement = mongoose.model('Requirement');
 exports.Share = mongoose.model('Share');
 exports.Favorite = mongoose.model('Favorite');
+exports.Process = mongoose.model('Process');
