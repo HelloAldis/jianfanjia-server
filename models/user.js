@@ -7,6 +7,7 @@ var UserSchema = new Schema({
   username: { type: String},
   sex: {type: String},
   pass: { type: String },
+  province: {type: String},
   city: { type: String },
   district: {type: String},
   address: { type: String },

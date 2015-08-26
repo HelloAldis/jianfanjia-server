@@ -16,10 +16,12 @@ exports.buildUser = function (req) {
   var user = {};
   user.username = tools.trim(req.body.username);
   user.sex = tools.trim(req.body.sex);
+  use.province = tools.trim(req.body.province);
   user.city = tools.trim(req.body.city);
   user.district = tools.trim(req.body.district);
   user.address = tools.trim(req.body.address);
   user.communication_type = tools.trim(req.body.communication_type);
+  user.imageid = new ObjectId(req.body.imageid);
   return user;
 }
 
@@ -36,6 +38,7 @@ exports.buildDesinger = function (req) {
   designer.dec_fee_all = req.body.dec_fee_all;
   designer.achievement = tools.trim(req.body.achievement);
   designer.philosophy = tools.trim(req.body.philosophy);
+  designer.big_imageid = new ObjectId(req.body.big_imageid);
 
   return designer;
 }
@@ -49,21 +52,27 @@ exports.buildTeam = function (req) {
   team.good_at = tools.trim(req.body.good_at);
   team.working_on = tools.trim(req.body.working_on);
   team.sex = tools.trim(req.body.sex);
-  team.hometown = tools.trim(req.body.hometown);
+  team.province = tools.trim(req.body.province);
+  team.city = tools.trim(req.body.city);
+  team.district = tools.trim(req.body.district);
 
   return team;
 }
 
 exports.buildProduct = function (req) {
   var product = {};
+  product.province = tools.trim(req.body.province);
   product.city = tools.trim(req.body.city);
+  product.district = tools.trim(req.body.district);
   product.cell = tools.trim(req.body.cell);
   product.house_type = tools.trim(req.body.house_type);
   product.house_area = tools.trim(req.body.house_area);
   product.dec_style = tools.trim(req.body.dec_style);
   product.work_type = tools.trim(req.body.work_type);
   product.total_price = tools.trim(req.body.total_price);
-  product.images = req.body.images;
+  product.images = _.map(req.body.images, function (i) {
+    i.imageid = new ObjectId(i.imageid);
+  });
 
   return product;
 }
@@ -85,6 +94,7 @@ exports.buildPlan = function(req) {
 
 exports.buildRequirement = function (req) {
   var requirement = {};
+  requirement.province = tools.trim(req.body.province);
   requirement.city        = tools.trim(req.body.city);
   requirement.district       = tools.trim(req.body.district);
   requirement.cell = tools.trim(req.body.cell);
@@ -107,7 +117,9 @@ exports.buildComment = function (req) {
 exports.buildShare = function (req) {
   var share = {};
   share.manager = tools.trim(req.body.manager);
+  share.province = tools.trim(req.body.province);
   share.city = tools.trim(req.body.city);
+  share.district = tools.trim(req.body.district);
   share.cell = tools.trim(req.body.cell);
   share.house_type = tools.trim(req.body.house_type);
   share.house_area = req.body.house_area;
@@ -128,4 +140,18 @@ exports.buildShare = function (req) {
 
 exports.buildProcess = function (req) {
   var process = {};
+  process.final_designerid = new ObjectId(req.body.final_designerid);
+  process.province = tools.trim(req.body.province);
+  process.city = tools.trim(req.body.city);
+  process.district = tools.trim(req.body.district);
+  process.cell = tools.trim(req.body.cell);
+  process.house_type = tools.trim(req.body.house_type);
+  process.house_area = tools.trim(req.body.house_area);
+  process.dec_style = tools.trim(req.body.dec_style);
+  process.work_type = tools.trim(req.body.work_type);
+  process.total_price = tools.trim(req.body.total_price);
+  process.start_at = req.body.start_at;
+  process.duration = req.body.duration;
+
+  return process;
 }

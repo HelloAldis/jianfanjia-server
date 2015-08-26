@@ -80,6 +80,14 @@ var config = {
   index_top_share_count: 6,
   sms_uid: 'S9w4LEmiYSgR',
   sms_pas: 's5pf823y',
+
+  duration_60_kai_gong: 1,
+  duration_60_chai_gai: 3,
+  duration_60_shui_dian: 11,
+  duration_60_ni_mu: 21,
+  duration_60_you_qi: 10,
+  duration_60_an_zhuang: 13,
+  duration_60_jun_gong: 1,
 };
 
 module.exports = config;

@@ -4,8 +4,9 @@ var ObjectId  = Schema.ObjectId;
 
 var RequirementSchema = new Schema({
   userid: {type: ObjectId},
-  city: { type: String},
-  district: { type: String},
+  province: {type: String},
+  city: { type: String },
+  district: {type: String},
   cell: {type: String},
   house_type: {type: String},
   house_area: {type: Number, default: 0},

@@ -15,14 +15,16 @@ var CellSchema = new Schema({
 });
 
 var CheckSchema = new Schema({
-  date: {type: Date},
-  images: {type: [ObjectId]},
-  status: {type: String, default: '0'},
+  images: {type: [{
+    key: {type: String},
+    imageid: {type: ObjectId},
+  }]},
 });
 
 var ProcessSchema = new Schema({
   userid: {type: ObjectId},
   final_designerid: {type: ObjectId},
+  province: {type: String},
   city: { type: String},
   district: { type: String},
   cell: {type: String},
@@ -34,9 +36,12 @@ var ProcessSchema = new Schema({
 
   start_at: {type: Date},
   duration: {type: Number},
+  going_on: {type: String},
+
   kai_gong: {
     start_at: {type: Date},
     end_at: {type: Date},
+    status: {type: String, default: '0'},
     xcjd: {type: CellSchema},
     cgdyccl: {type: CellSchema},
     qdzmjcl: {type: CellSchema},
@@ -48,18 +53,25 @@ var ProcessSchema = new Schema({
   chai_gai: {
     start_at: {type: Date},
     end_at: {type: Date},
+    status: {type: String, default: '0'},
     cpbh: {type: CellSchema},
     ztcg: {type: CellSchema},
     qpcc: {type: CellSchema},
   },
 
   shui_dian: {
+    start_at: {type: Date},
+    end_at: {type: Date},
+    status: {type: String, default: '0'},
     sdsg: {type: CellSchema},
     ntsg: {type: CellSchema},
     ys: {type: CheckSchema},
   },
 
   ni_mu: {
+    start_at: {type: Date},
+    end_at: {type: Date},
+    status: {type: String, default: '0'},
     sgxaz: {type: CellSchema},
     cwqfssg: {type: CellSchema},
     ktytzsg: {type: CellSchema},
@@ -70,12 +82,18 @@ var ProcessSchema = new Schema({
   }
 
   you_qi: {
+    start_at: {type: Date},
+    end_at: {type: Date},
+    status: {type: String, default: '0'},
     yqsg: {type: CellSchema},
     qmjccl: {type: CellSchema},
     ys: {type: CheckSchema},
   }
 
   an_zhuang: {
+    start_at: {type: Date},
+    end_at: {type: Date},
+    status: {type: String, default: '0'},
     scaz: {type: CellSchema},
     jjaz: {type: CellSchema},
     cwddaz: {type: CellSchema},
@@ -90,6 +108,9 @@ var ProcessSchema = new Schema({
   }
 
   jun_gong: {
+    start_at: {type: Date},
+    end_at: {type: Date},
+    status: {type: String, default: '0'},
     ys: {type: CheckSchema},
   }
 

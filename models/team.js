@@ -11,7 +11,9 @@ var TeamSchema = new Schema({
   good_at: {type: String},
   working_on: {type: String},
   sex: {type: String},
-  hometown: {type: String},
+  province: {type: String},
+  city: { type: String },
+  district: {type: String},
 });
 
 mongoose.model('Team', TeamSchema);

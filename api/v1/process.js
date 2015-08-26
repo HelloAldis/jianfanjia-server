@@ -13,7 +13,23 @@ var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../type');
 
 exports.start = function (req, res, next) {
-  var start_at = req.body.start_at;
+  var userid = ApiUtil.getUserid(req);
+  var process = ApiUtil.buildProcess(req);
+  process.userid = userid;
+  process.going_on = 'kai_gong';
+  process.kai_gong = {};
+  process.chai_gai = {};
+  process.shui_dian = {};
+  process.ni_mu = {};
+  process.you_qi = {};
+  process.an_zhuang = {};
+  process.jun_gong = {};
+
+  if (process.duration === 60) {
+    process.kai_gong.start_at = process.start_at;
+    process.kai_gong.end_at = process.kai_gong.start_at
+  }
+
 }
 
 exports.addComment = function (req, res, next) {
