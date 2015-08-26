@@ -8,6 +8,7 @@ var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
 var ApiUtil = require('../../common/api_util');
+var DateUtil = require('../../common/date_util');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../type');
@@ -27,7 +28,19 @@ exports.start = function (req, res, next) {
 
   if (process.duration === 60) {
     process.kai_gong.start_at = process.start_at;
-    process.kai_gong.end_at = process.kai_gong.start_at
+    process.kai_gong.end_at = DateUtil.add(process.kai_gong.start_at, config.duration_60_kai_gong);
+
+    process.chai_gai.start_at = process.kai_gong.end_at;
+    process.chai_gai.end_at = DateUtil.add(process.chai_gai.start_at, config.duration_60_chai_gai);
+
+    process.shui_dian.start_at = process.chai_gai.end_at;
+    process.shui_dian.end_at = DateUtil.add(process.shui_dian.start_at, config.duration_60_shui_dian);
+
+    process.ni_mu.start_at = process.shui_dian.start_at;
+    process.ni_mu.end_at = DateUtil.add(process.ni_mu.start_at, config.duration_60_ni_mu);
+
+    process.you_qi.start_at = process.ni_mu.end_at;
+    process.you_qi.start_at = process.you_qi.start_at;
   }
 
 }
