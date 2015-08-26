@@ -13,7 +13,7 @@ var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../type');
 
 exports.start = function (req, res, next) {
-
+  var start_at = req.body.start_at;
 }
 
 exports.addComment = function (req, res, next) {

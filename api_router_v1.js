@@ -6,7 +6,6 @@ var user = require('./api/v1/user');
 var plan = require('./api/v1/plan');
 var product = require('./api/v1/product');
 var favorite = require('./api/v1/favorite');
-var comment = require('./api/v1/comment');
 var team = require('./api/v1/team');
 var share = require('./api/v1/share');
 var designer = require('./api/v1/designer');
