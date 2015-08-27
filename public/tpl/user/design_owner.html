@@ -7,9 +7,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
-	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
-	<link rel="stylesheet" type="text/css" href="../../css/user.css" />
-	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
+	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/page.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -117,6 +119,7 @@
 						</div>
 					</div>
 				</div>
+				<div class="m-page g-wp" id="j-home-page"></div>
 			</div>
 		</div>
 	</div>
@@ -170,6 +173,7 @@
 				$item.remove();
 			}
 		});
+
 		$designOwner.delegate('.respond','click',function(ev){
 				ev.stopPropagation();
 			var $item = $(this).closest($items),
@@ -291,4 +295,74 @@ console.log(this.eventConfirm(this.popupConfirm))
 	}
 	window["Popup"] = Popup;
 })(jQuery);
+
+
+
+
+
+
+
+	//渲染生成列表
+	function loadList(){
+		var url = RootUrl+'api/v1/designer/user';
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function(res){
+				console.log(res)
+				page(res['data'])
+		   	}
+		});
+	}
+
+	loadList();
+	//创建列表
+	function createList(data){
+		return /*'<div class="item f-cb" data-item="0002">
+					<div class="head f-fl">
+						<img src="" alt="" />
+					</div>
+					<div class="info f-fl">
+						<h4>业主：张女士</h4>
+						<p>小区名称：武汉市洪山区xx小区</p>
+						<p>物业描述：三室， 115㎡，装修预算 12万</p>
+						<p>风格喜好：欧式</p>
+						<p>电话：<span class="phone">响应后可见</span></p>
+						<p>量房时间：<span class="time">响应后安排</span></p>
+						<div class="btns">
+							<a href="javascript:;" class="respond">响应</a>
+							<a href="javascript:;" class="refuse">拒绝</a>
+						</div>
+					</div>
+				</div>'*/
+	}
+
+	function page(arr){
+		var page = new Pageing({
+			id : 'j-page',
+			allNumPage : arr.length,
+			itemPage : 5,
+			showPageNum : 9,
+			endPageNum : 1,
+			currentPage : 0,
+			linkTo : '',
+			callback : function(num,obj){
+				var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
+				$designOwner.html('');
+				for(var i=num*this.itemPage;i<maxElem;i++){
+					$designOwner.append(createList(arr[i]));
+				}
+				$designOwner.find('li:odd').attr('class', 'even');
+				obj.find('.btns').on('click' , function(ev){
+					ev.stopPropagation();
+					$('body,html').animate({scrollTop:$designOwner.offset().top},1000);
+				});
+				
+				return false;
+			}
+		});
+	};
+
 </script>

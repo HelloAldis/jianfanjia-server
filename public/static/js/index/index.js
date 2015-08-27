@@ -183,43 +183,61 @@ $(function(){
 		]
 	});
 	(function($){
+		//banner
 		var $banner = $('#j-banner');
-		var banner = $banner.find('.banner');
-		var oUl = banner.find('ul');
-		var aLi = banner.find('ol').find('li');
-		var oPrev = banner.find('.prev');
-		var oNext = banner.find('.next');
-		var timer = 0;
-		var iNum = 0;
-		var iNum2 = 0;
-		function fnMove(){
-			aLi.eq(iNum).attr('class','active').siblings().attr('class','');
-			oUl.stop().animate({left: -iNum2*100+'%'},500);
-		}
+		var oUl = $banner.find('ul');
+		var aLi = $banner.find('ol').find('li');
+		var oPrev = $banner.find('.prev');
+		var oNext = $banner.find('.next');
+		var num = 0;
+		var now = 0;
+		var timer = null;
 		aLi.on('click',function(){
-			iNum = $(this).index();
-			iNum2 = $(this).index();
+			num = now = $(this).index();
 			fnMove()
 		})
 		oPrev.on('click',function(){
-			iNum ++;
-			iNum2 ++;
+			if(num == 0){
+				num = aLi.size()-1;
+			}else{
+				num--;
+			}
+			now = num
 			fnMove()
 		})
-		function fnAuto(){
-			if(iNum == aLi.size()){
-				iNum2 = 0;
+		oNext.on('click',function(){
+			if(num == aLi.size()-1){
+				num = 0;
 			}else{
-				iNum++
+				num++;
 			}
-			if(iNum2 == 0){
+			now = num
+			fnMove()
+		})
+		function fnMove(){
+			aLi.eq(num).attr('class', 'active').siblings().attr('class','');
+			oUl.stop().animate({left:-now*100+'%'}, 500)
+		}
+		function fnAuto(){
+			if(num == 0){
+				now = 0;
 				oUl.css('left',0);
-				iNum = 0
 			}
-			iNum2++;
+			if(num == aLi.size()-1){
+				num = 0;
+			}else{
+				num++;
+			}
+			now++;
 			fnMove()
 		}
-		// /timer = setInterval(fnAuto, 1000)
+		timer = setInterval(fnAuto, 5000);
+		$banner.hover(function() {
+			clearInterval(timer);
+		}, function() {
+			clearInterval(timer);
+			timer = setInterval(fnAuto, 5000);
+		});
 	})(jQuery);
 })
 ;(function($){

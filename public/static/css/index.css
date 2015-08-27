@@ -4,51 +4,7 @@
 }
 .g-banner{
 	width: 100%;
-	height: 640px;
-}
-.m-user{
-	position: absolute;
-	top:150px;
-	right:150px;
-	width: 262px;
-	height: 356px;
-	padding:32px 24px 0;
-	background-color: rgba(255,255,255,0.8);
-	border-radius: 10px;
-	box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.10);
-}
-.m-user .head{
-	width: 90px;
-	height: 90px;
-	line-height: 90px;
-	text-align: center;
-	overflow: hidden;
-	margin: 0 auto 30px;
-	border-radius: 50%;
-	background-color: #fe7004;
-}
-.m-user .head i{font-size: 30px;color: #fff;}
-.m-user .sign-mn{
-	width: 262px;
-	padding-right: 0;
-}
-.m-user .sign-mn .item .u-inp{
-	width: 205px;
-}
-.m-user .sign-mn .u-btn{
-	padding-top: 5px;
-}
-.m-user .sign-mn .u-btn .btn{
-	width: 262px;
-	line-height: 48px;
-}
-.m-user .sign-mn .other a{
-	font-size: 14px;
-	text-decoration: none;
-	color: #34495c;
-}
-.m-user .sign-mn .other a:hover{
-	color: #fe7004;
+	height: 400px;
 }
 .g-banner .banner{
 	position: relative;
@@ -61,15 +17,29 @@
 	left:0;
 	top:0;
 	width: 500%;
+	height: 100%;
 }
 .g-banner .banner ul li{
 	float: left;
 	width: 20%;
+	height: 100%;
+}
+.g-banner .banner ul li a{
+	display: block;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.g-banner .banner ul li img{
+	position: relative;
+	left:50%;
+	margin-left: -960px;
 }
 .g-banner .banner ol{
 	position: absolute;
-	bottom:56px;
+	bottom:25px;
 	left:0;
+	z-index: 10;
 	width: 100%;
 	height: 16px;
 	overflow: hidden;
@@ -90,14 +60,16 @@
 }
 .g-banner .banner .btns{
 	position: relative;
+	height: 100%;
 }
 .g-banner .banner .btns a{
 	position: absolute;
 	z-index: 2;
-	top:260px;
+	top:50%;
+	left:0;
 	width: 70px;
 	height: 70px;
-	left:0;
+	margin-top: -35px;
 	line-height: 70px;
 	opacity: 0.5;
 	filter: alpha(opacity=50);
