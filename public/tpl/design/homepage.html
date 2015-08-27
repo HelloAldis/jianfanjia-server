@@ -7,11 +7,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
-	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
-	<link rel="stylesheet" type="text/css" href="../../css/design.css" />
-	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../../js/lib/page.js"></script>
-	<script type="text/javascript" src="../../js/design/home.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="../../static/css/design.css" />
+	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/page.js"></script>
+	<script type="text/javascript" src="../../static/js/design/home.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -33,7 +34,7 @@
 		</div>
 	</div>
 	<div class="home-info">
-		<div class="m-infoplate">
+		<div class="m-infoplate" id="j-infoplate">
 			<div class="head"><img src="../../img/index/head.jpg" alt="" /></div>
 			<h4>杨杰<i class="iconfont">&#xe60b;</i></h4>
 			<div class="auth notauth">
@@ -50,10 +51,10 @@
 					<dd>预约</dd>
 				</dl>
 			</div>
-			<a href="../user/owner_design.html" class="btn">添加意向</a>
+			<a href="../user/owner_design.html?55d2ec5174803176eb6f80a8" class="btn">添加意向</a>
 		</div>
 	</div>
-	<div class="home-desc g-wp">
+	<div class="home-desc g-wp" id="j-home-desc">
 		<dl class="f-cb">
 			<dt>服务区域：</dt>
 			<dd>湖北省武汉市洪山区<i class="iconfont">&#xe615;</i></dd>
@@ -80,7 +81,9 @@
 			<div class="m-tt">
 				<h2><span><strong>设计案例</strong></span></h2>
 			</div>
-			<div class="m-ct" id="j-home-list"></div>
+			<div class="m-ct" id="j-home-list">
+				<ul class="f-cb"></ul>
+			</div>
 			<div class="m-page g-wp" id="j-home-page"></div>
 		</div>
 		
@@ -120,3 +123,120 @@
 	</div>
 </body>
 </html>
+<script type="text/javascript">
+	var $homeList = $('#j-home-list');
+	var $list = $homeList.find('ul');
+	var $homeDesc = $('#j-home-desc');
+	var $infoplate =$('#j-infoplate');
+	var winHash = window.location.search.substring(1);
+	winHash = '55d157fee6be292429b341bf'
+	function loadList(){
+		var url = RootUrl+'api/v1/designer/'+winHash+'/products';
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function(res){
+				page(res['data'])
+		   	}
+		});
+	}
+	loadList();
+	function loadInfo(){
+		var url = RootUrl+'api/v1/designer/'+winHash+'/basicinfo';
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function(res){
+				createInfo(res['data'])
+		   	}
+		});
+	}
+	loadInfo();
+	function createInfo(data){
+		console.log(data)
+		var ImgId = !!data.imageid ? RootUrl+'api/v1/image/'+data.imageid : '../../static/img/public/headpic.jpg';
+		var sStyle = '';
+		for (var i = 0; i < data.dec_styles.length; i++) {
+			sStyle += '<span>'+globalData.dec_style[data.dec_styles[i]]+'</span>'
+		};
+		var sHomeDesc = '<dl class="f-cb">'
+							+'<dt>服务区域：</dt>'
+							+'<dd>'+data.district+'<i class="iconfont">&#xe615;</i></dd>'
+						+'</dl>'
+						+'<dl class="f-cb">'
+							+'<dt>设计风格：</dt>'
+							+'<dd>'+sStyle+'</dd>'
+						+'</dl>'
+						+'<dl class="f-cb">'
+							+'<dt>设计收费：</dt>'
+							+'<dd><strong>'+globalData.price_area[data.auth_type]+'</strong>元/m&sup2;</dd>'
+						+'</dl>'
+						+'<dl class="f-cb">'
+							+'<dt>施工团队：</dt>'
+							+'<dd>5个施工队</dd>'
+						+'</dl>'
+						+'<dl class="f-cb">'
+							+'<dt>个人介绍：</dt>'
+							+'<dd></dd>'
+						+'</dl>';
+		var sInfo = '<div class="head"><img src="'+ImgId+'" alt="" /></div>'
+						+'<h4>杨杰<i class="iconfont">&#xe60b;</i></h4>'
+						+'<div class="auth notauth">认证设计师</div>'
+						+'<div class="works f-cb">'
+							+'<dl>'
+								+'<dt>5</dt>'
+								+'<dd>作品</dd>'
+							+'</dl>'
+							+'<span></span>'
+							+'<dl>'
+								+'<dt>15</dt>'
+								+'<dd>预约</dd>'
+							+'</dl>'
+						+'</div>'
+						+'<a href="../user/owner_design.html?55d2ec5174803176eb6f80a8" class="btn">添加意向</a>'
+		$homeDesc.html(sHomeDesc)
+		$infoplate.html(sInfo)
+
+	}
+	function page(arr){
+		var page = new Pageing({
+			id : 'j-page',
+			allNumPage : arr.length,
+			itemPage : 5,
+			showPageNum : 9,
+			endPageNum : 1,
+			currentPage : 0,
+			linkTo : '',
+			callback : function(num,obj){
+				var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
+				$list.html('');
+				for(var i=num*this.itemPage;i<maxElem;i++){
+					$list.append(createList(arr[i]));
+				}
+				obj.find('.btn').on('click' , function(ev){
+					ev.stopPropagation();
+					$('body,html').animate({scrollTop:$homeList.offset().top},1000);
+				});
+				return false;
+			}
+		});
+	};
+	//创建列表
+	function createList(data){
+	return  '<li>'
+				+'<div class="pic"><img alt="清江山水" src="../../img/index/index-live-01.jpg"></div>'
+				+'<div class="txt">'
+					+'<h4>'+data.cell+'</h4>'
+					+'<div class="desc">'
+						+'<span>'+data.house_area+'m&sup2;</span><span>'+globalData.house_type[data.house_type]+'</span><span>'+globalData.dec_style[data.dec_style]+'</span>'
+					+'</div>'
+					+'<p>This is the brand new house for family johnson.</p>'
+				+'</div>'
+				+'<a href="detail.html?'+data._id+'" class="btn">查看详情</a>'
+			+'</li>'
+	};
+</script>

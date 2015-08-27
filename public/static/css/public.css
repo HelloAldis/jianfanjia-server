@@ -24,8 +24,8 @@ table{border-collapse:collapse;border-spacing:0}
 .f-fl{float:left}
 .f-fr{float:right}
 .f-fl,.f-fr{display:inline}
-.f-cb:after,.f-cb:before{content: "";display:table;clear:both;}
-.f-cb{*zoom:1}
+.f-cb:after,.f-cb:before,.item:after,.item:before{content: "";display:table;clear:both;}
+.f-cb,.item{*zoom:1}
 .f-tac{text-align: center;}
 .f-st{font-family:\5b8b\4f53,"SimSun", "宋体";}
 .f-fz16{font-size: 16px;}
@@ -158,6 +158,33 @@ table{border-collapse:collapse;border-spacing:0}
 	left:0;
 	top:9px;
 }
+.w-form .m-item{
+	position: relative;
+}
+.w-form .m-item .tips-icon{
+	position: absolute;
+	left:348px;
+	top:0;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #d92222;
+}
+.w-form .m-item .tips-icon-ok{
+	color: #28b726;
+}
+.w-form .m-item .tips-icon .iconfont{
+	font-size: 24px;
+}
+.w-form .m-item .tips-info,.w-form .m-error-info{
+	line-height: 24px;
+	padding-left: 120px;
+	color:#d92222;
+}
+.w-form .m-error-info{
+	padding-left: 0;
+}
 .m-sign{
 	width: 570px;
 	margin: 0 auto;
@@ -214,6 +241,14 @@ table{border-collapse:collapse;border-spacing:0}
 .sign-mn .m-item .input{
 	background-color: #fbfbfb;
 }
+.sign-mn .m-item .tips-icon{
+	left:297px;
+	height: 37px;
+	line-height: 37px;
+}
+.sign-mn .m-item .tips-info{
+	padding-left: 50px;
+}
 .sign-mn .verifyCode .vcode{
 	width: 120px;
 	line-height: 37px;
@@ -234,33 +269,6 @@ table{border-collapse:collapse;border-spacing:0}
 .sign-mn .u-btn a{
 	margin-left: 17px;
 	color: #6d6d6d;
-}
-.sign-mn .m-item{
-	position: relative;
-}
-.sign-mn .m-item .tips-icon{
-	position: absolute;
-	left:297px;
-	top:0;
-	width: 30px;
-	height: 37px;
-	line-height: 37px;
-	text-align: center;
-	color: #d92222;
-}
-.sign-mn .m-item .tips-icon-ok{
-	color: #28b726;
-}
-.sign-mn .m-item .tips-icon .iconfont{
-	font-size: 24px;
-}
-.sign-mn .m-item .tips-info,.sign-mn .m-error-info{
-	line-height: 24px;
-	padding-left: 50px;
-	color:#d92222;
-}
-.sign-mn .m-error-info{
-	padding-left: 0;
 }
 .sign-mn .u-btn a:hover{
 	color: #fe7004;
@@ -856,6 +864,9 @@ table{border-collapse:collapse;border-spacing:0}
 }
 .g-index-live .txt .desc{
 	line-height: 44px;
+}
+.g-index-live .txt .desc span{
+	margin: 0 10px;
 }
 .g-index-live li .btn{
 	position: absolute;

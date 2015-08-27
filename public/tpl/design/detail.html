@@ -7,10 +7,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
-	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
-	<link rel="stylesheet" type="text/css" href="../../css/design.css" />
-	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../../js/lib/page.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="../../static/css/design.css" />
+	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -33,23 +33,14 @@
 	</div>
 	<div class="design-detail">
 		<div class="g-wp">
-			<div class="m-tt">
-				<div class="head">
-					<img src="../../img/design/index-live-head-01.jpg" alt="" />
-				</div>
-				<h2>百瑞景中央生活社区</h2>
-				<p>参考造价：<strong>40</strong>万元<span>|</span>户型：三室一厅<span>|</span>面积：110平米</p>
-				<p>浏览数：1669<span>|</span>收藏数：600</p>
+			<div class="m-tt" >
+				<div id="detail-info"></div>
 				<a href="javascript:;" class="btn" id="j-collect">收藏</a>
 			</div>
 			<div class="m-ct">
 				<div class="desc">
 					<h3>案例介绍：</h3>
-					<p>
-						深圳优秀室内设计师，深圳室内设计师协会(SZAID)理事，高级室内建筑师，从事室内设计12年，现任深圳太合南方建筑室内设计事务所<br />
-设计总监。作品多次刊登TOP《装潢世界》.《时代空间》.《上海家居》.《时尚家居》.等杂志中，现长期受邀担任 “深圳电台”栏目客座设计嘉宾，<br />
-作品且多次整版刊登于《南方都市报》家居版，2010年应意邀去意大利设计考察交流。
-					</p>
+					<p id="desc-description"></p>
 				</div>
 				<ul class="list">
 					<li>
@@ -101,3 +92,88 @@
 	</div>
 </body>
 </html>
+<script type="text/javascript">
+	var doc = $(document.body);
+	var $collect = $('#j-collect');
+	var winHash = window.location.search.substring(1);
+	//winHash = '55d157fee6be292429b341bf'
+	function loadList(){
+		var url = RootUrl+'api/v1/product/'+winHash;
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function(res){
+				console.log(res['data'])
+				createInfo(res['data'])
+				
+		   	}
+		});
+	}
+	loadList();
+	function getFavorite(){
+		var url = RootUrl+'api/v1/favorite/product';
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function(res){	
+				$.each(res['data']['favorite_product'],function(i,el){
+					if(winHash == el){
+						$collect.addClass('cancel').html('取消收藏');
+					}else{
+						$collect.removeClass('cancel').html('收藏');
+					}
+				})	
+		   	}
+		});
+	}
+	getFavorite()
+	function createInfo(data){
+		var info = '<div class="head">'
+						+'<img src="../../img/design/index-live-head-01.jpg" alt="" />'
+					+'</div>'
+					+'<h2>'+data.cell+'</h2>'
+					+'<p>参考造价：<strong>'+data.total_price+'</strong>万元<span>|</span>户型：'+globalData.house_type[data.house_type]+'<span>|</span>面积：'+data.house_area+'m&sup2;</p>'
+					+'<p>浏览数：'+data.view_count+'<span>|</span>收藏数：'+data.favorite_count+'</p>'
+		$('#detail-info').html(info);
+		$('#desc-description').html(data.description);
+	}
+	$collect.on('click',function(){
+		if(!$(this).hasClass('cancel')){
+			favorite('POST',function(res){
+				if(res['msg'] === "success"){
+					$collect.addClass('cancel').html('取消收藏');
+				}
+				console.log("收藏"+res)
+			})
+		}else{
+			if(confirm("你确定要取消收藏吗？")){
+				favorite('DELETE',function(res){
+					if(res['msg'] === "success"){
+						$collect.removeClass('cancel').html('收藏')
+					}
+					console.log("取消收藏"+res)
+				})
+			}
+		}
+	})
+	function favorite(type,fn){
+		var url = RootUrl+'api/v1/favorite/product';
+		$.ajax({
+			url:url,
+			type: type,
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			data : JSON.stringify({
+				"_id": winHash
+			}),
+			processData : false,
+			success: function(res){
+				fn(res)				
+		   	}
+		});
+	}
+</script>

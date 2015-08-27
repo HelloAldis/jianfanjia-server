@@ -72,6 +72,10 @@
 	border: 3px solid #fff;
 	border-radius: 50%;
 }
+.design-list .m-list .head img{
+	width: 100%;
+	height: 100%;
+}
 .design-list .m-list .msg dl{
 	float: left;
 	width: 56px;
@@ -138,7 +142,7 @@
 .design-list .m-list .atte1 span{
 	background-position: 0 -70px;
 }
-.design-list .m-list .addr span{
+.design-list .m-list .addr .i-icon{
 	display: inline-block;
 	width: 13px;
 	height: 19px;
@@ -147,6 +151,7 @@
 	vertical-align: middle;
 	background-position: 0 -32px;
 }
+.design-list .m-list .addr span,.design-list .m-list .style span{margin-right: 10px;}
 .design-list .m-list .order{
 	padding-right: 28px;
 	padding-top: 42px;
@@ -250,7 +255,7 @@
 .design-detail{
 	width: 100%;
 	min-width: 1200px;
-	padding: 208px 0 130px;
+	padding: 108px 0 130px;
 	background:url(../img/design/design_detail-bg.jpg) repeat;
 }
 .design-detail .head{

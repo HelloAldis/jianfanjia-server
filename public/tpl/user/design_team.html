@@ -11,6 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/IdentityCodeValid.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -49,25 +50,7 @@
 				<a href="javascript:;" class="addteam f-fr">添加施工团队</a>
 			</div>
 			<div class="m-ct">
-				<div class="list">
-					<!-- <dl>
-						<dt>施工团队一</dt>
-						<dd>
-							<p><span>工长姓名：</span>张起灵</p>
-							<P><span>性&nbsp;&nbsp;&nbsp;别：</span>男</P>
-							<p><span>所在地：</span>湖北武汉</p>
-							<P><span>身份证号码：</span>42123456789456111</P>
-							<p><span>曾就职装饰公司：</span>海天装饰</p>
-							<P><span>从业年限：</span>10年</P>
-							<p><span>擅长工种：</span>挖墙脚</p>
-							<P><span>正在施工工地：</span>没有</P>
-						</dd>
-						<dd>
-							<a href="javascript:;" class="btn editor">编辑</a>
-							<a href="javascript:;" class="btn delete">删除</a>
-						</dd>
-					</dl> -->
-				</div>
+				<div class="list"></div>
 			</div>
 		</div>	
 	</div>
@@ -111,51 +94,94 @@
 		</div>
 		<div class="popup-ct">
 			<div class="w-form user-form">
-				<form action="http://www.jianfanjia.com" id="form-owner" method="get">
+				<form action="http://www.jianfanjia.com" id="design_team" method="get">
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-area">项目经理：</label>
+							<label class="u-lab" for="tame-manager">项目经理：</label>
 							<div class="u-inp">
 								<div class="box">
-									<input type="text" class="input" name="dec-budget" id="dec-budget" />
+									<input type="text" class="input" name="tame-manager" id="tame-manager" />
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="com-name">性&nbsp;&nbsp;&nbsp;别：</label><div class="u-inp">
-								<div class="sex">
-									<label><input type="radio" name="owner-sex" id="" />男</label>
-									<label><input type="radio" name="owner-sex" id="" />女</label>
+							<label class="u-lab" for="tame-sex">性&nbsp;&nbsp;&nbsp;别：</label><div class="u-inp">
+								<div class="sex" id="tame-sex">
+									<label><input type="radio" checked="checked" name="tame-sex" value="0" />男</label>
+									<label><input type="radio" name="tame-sex" value="1" />女</label>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="your_city">所在地 ：</label>
+							<label class="u-lab" for="tame-hometown">所在地 ：</label>
 							<div class="u-inp">
-								<div class="m-cities" id="team-current-area"></div>
+								<div class="m-cities" id="tame-hometown"></div>
 							</div>
 						</div>
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="dec_area">身份证号码：</label>
+							<label class="u-lab" for="tame-uid">身份证号码：</label>
 							<div class="u-inp">
 								<div class="box">
-									<input type="text" class="input" name="dec_area" id="dec_area" />
+									<input type="text" class="input" name="tame-uid" id="tame-uid" />
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="dec_style">曾就职装饰公司：</label>
+							<label class="u-lab" for="tame-company">曾就职装饰公司：</label>
 							<div class="u-inp">
 								<div class="box">
-									<input type="text" class="input" name="dec-budget" id="dec-budget" /></div></div></div></div><div class="m-item f-cb"><div class="item"><label class="u-lab" for="work_type">从业年限：</label><div class="u-inp"><div class="box"><input type="text" class="input" name="dec-budget" id="dec-budget" /><span class="unit">年</span></div></div></div></div><div class="m-item f-cb"><div class="item"><label class="u-lab" for="dec-budget">擅长工种：</label><div class="u-inp"><div class="m-select" id="strengths_type"></div></div></div></div><div class="m-item f-cb"><div class="item"><label class="u-lab" for="dec-budget">正在施工工地：</label><div class="u-inp"><div class="box"><input type="text" class="input" name="dec-budget" id="dec-budget" /></div></div></div></div><div class="m-item m-error-info hide"></div><div class="m-item"><div class="u-btn"><input type="submit" class="btn" id="team-submit" value="创建" /><input type="submit" class="btn" id="team-cancel" value="取消" /></div></div></form></div></div>
+									<input type="text" class="input" name="tame-company" id="tame-company" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab" for="tame-year">从业年限：</label>
+							<div class="u-inp">
+								<div class="box">
+									<input type="text" class="input" name="tame-year" id="tame-year" />
+									<span class="unit">年</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab" for="tame-good">擅长工种：</label>
+							<div class="u-inp">
+								<div class="m-select" id="tame-good"></div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab" for="team-working">正在施工工地：</label>
+							<div class="u-inp">
+								<div class="box">
+									<input type="text" class="input" name="team-working" id="team-working" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item m-error-info hide"></div>
+					<div class="m-item">
+						<div class="u-btn">
+							<input type="submit" class="btn" id="team-submit" value="创建" />
+							<input type="submit" class="btn" id="team-cancel" value="取消" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 	<script type="text/javascript" src="../../static/js/lib/tdist.js"></script>
 	<script type="text/javascript" src="../../static/js/user/team.js"></script>

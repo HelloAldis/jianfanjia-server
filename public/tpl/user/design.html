@@ -66,21 +66,7 @@
 										<th class="td6">操作</th>	
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
-										<td class="td1">禅意东方—深圳万科东海岸别墅</td>
-										<td class="td2">一室</td>
-										<td class="td3">中式</td>
-										<td class="td4">全包</td>
-										<td class="td5">
-											<a href=""><i class="iconfont">&#xe60f;</i></a>
-										</td>
-										<td class="td6">
-											<a href="" class="editor"><i class="iconfont">&#xe607;</i>编辑</a>
-											<a href="" class="delete"><i class="iconfont">&#xe611;</i>删除</a>
-										</td>
-									</tr>
-								</tbody>
+								<tbody></tbody>
 							</table>
 						</div>
 						<div class="create">
@@ -89,41 +75,39 @@
 					</div>
 					<div class="list">
 						<div class="w-form user-form">
-							<form action="http://www.jianfanjia.com" id="form-owner" method="get">
+							<form action="http://www.jianfanjia.com" id="design-product" method="get">
 								<div class="m-item f-cb">
 									<div class="item">
-										<label class="u-lab" for="owner-area">所在城市：</label>
+										<label class="u-lab" for="product-area">所在地区：</label>
+										<div class="u-inp">
+											<div class="m-cities" id="product-area"></div>
+										</div>
+									</div>
+								</div>
+								<div class="m-item f-cb">
+									<div class="item">
+										<label class="u-lab" for="product_name">小区名称：</label>
 										<div class="u-inp">
 											<div class="box">
-												<input type="text" class="input" name="dec-budget" id="dec-budget" />
+												<input type="text" class="input" name="product_name" id="product_name" />
 											</div>
 										</div>
 									</div>
 								</div>
 								<div class="m-item f-cb">
 									<div class="item">
-										<label class="u-lab" for="your_city">小区名称：</label>
+										<label class="u-lab" for="product-house-type">装修户型：</label>
 										<div class="u-inp">
-											<div class="box">
-												<input type="text" class="input" name="dec-budget" id="dec-budget" />
-											</div>
+											<div class="m-select" id="product-house-type"></div>
 										</div>
 									</div>
 								</div>
 								<div class="m-item f-cb">
 									<div class="item">
-										<label class="u-lab" for="dec_house_type">装修户型：</label>
-										<div class="u-inp">
-											<div class="m-select" id="dec_house_type"></div>
-										</div>
-									</div>
-								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="dec_area">装修面积：</label>
+										<label class="u-lab" for="product-dec-area">装修面积：</label>
 										<div class="u-inp">
 											<div class="box">
-												<input type="text" class="input" name="dec_area" id="dec_area" />
+												<input type="text" class="input" name="product-dec-area" id="product-dec-area" />
 												<span class="unit">m&sup2;</span>
 											</div>
 										</div>
@@ -131,55 +115,44 @@
 								</div>
 								<div class="m-item f-cb">
 									<div class="item">
-										<label class="u-lab" for="work_type">从业年限：</label>
+										<label class="u-lab" for="product-dec-style">装修风格：</label>
+										<div class="u-inp">
+											<div class="m-select" id="product-dec-style"></div>
+										</div>
+									</div>
+								</div>
+								<div class="m-item f-cb">
+									<div class="item">
+										<label class="u-lab" for="product-dec-type">装修类型：</label>
+										<div class="u-inp">
+											<div class="m-select" id="product-dec-type"></div>
+										</div>
+									</div>
+								</div>
+								<div class="m-item f-cb">
+									<div class="item">
+										<label class="u-lab" for="product-work-type">包工类型：</label>
+										<div class="u-inp">
+											<div class="m-select" id="product-work-type"></div>
+										</div>
+									</div>
+								</div>
+								<div class="m-item f-cb">
+									<div class="item">
+										<label class="u-lab" for="product-price">装修造价：</label>
 										<div class="u-inp">
 											<div class="box">
-												<input type="text" class="input" name="dec-budget" id="dec-budget" />
-												<span class="unit">年</span>
+												<input type="text" class="input" name="product-price" id="product-price" />
+												<span class="unit">万元</span>
 											</div>
 										</div>
 									</div>
 								</div>
 								<div class="m-item f-cb">
 									<div class="item">
-										<label class="u-lab" for="dec_style">装修风格：</label>
+										<label class="u-lab" for="product-description">作品引言：</label>
 										<div class="u-inp">
-											<div class="m-select" id="dec_style"></div>
-										</div>
-									</div>
-								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="dec_type">装修类型：</label>
-										<div class="u-inp">
-											<div class="m-select" id="dec_type"></div>
-										</div>
-									</div>
-								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="work_type">包工类型：</label>
-										<div class="u-inp">
-											<div class="m-select" id="work_type"></div>
-										</div>
-									</div>
-								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="work_type">装修造价：</label>
-										<div class="u-inp">
-											<div class="box">
-												<input type="text" class="input" name="dec-budget" id="dec-budget" />
-												<span class="unit">元</span>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="work_type">作品引言：</label>
-										<div class="u-inp">
-											<div class="textarea"><textarea name="" id="" cols="30" rows="10"></textarea></div>
+											<div class="textarea"><textarea name="product-description" id="product-description" cols="30" rows="10"></textarea></div>
 										</div>
 									</div>
 								</div>
@@ -262,32 +235,26 @@
 </body>
 </html>
 <script type="text/javascript">
-	var designData = {
 
-	}
-
-	var $design = $('#j-design');
-
-	var abc = new ComboBox({
-		id : 'strengths_type1',
-		list : ['1','2','3'],
-		editor : true
-	});
 	var dec_house_type = new ComboBox({
-		id : 'dec_house_type',
+		id : 'product-house-type',
 		list : globalData.house_type,
+		index :true
 	});
-	var dec_style = new  ComboBox({
-		id : 'dec_style',
+	var dec_style = new ComboBox({
+		id : 'product-dec-style',
 		list : globalData.dec_style,
+		index :true
 	});
-	var dec_type = new  ComboBox({
-		id : 'dec_type',
+	var dec_type = new ComboBox({
+		id : 'product-dec-type',
 		list : globalData.dec_type,
+		index :true
 	});
-	var work_type = new  ComboBox({
-		id : 'work_type',
+	var work_type = new ComboBox({
+		id : 'product-work-type',
 		list : globalData.work_type,
+		index :true
 	});
 	var itme_typeArr = ['基础工程','水电工程','客餐厅及走道','衣帽间','书房','厨房','安装工程','其他工程','设计费','主卧'];
 	var itme_type = new  ComboBox({
