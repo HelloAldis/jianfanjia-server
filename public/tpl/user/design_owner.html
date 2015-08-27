@@ -49,76 +49,7 @@
 				<h3>我的业主</h3>
 			</div>
 			<div class="m-ct">
-				<div class="design-owner" id="j-design-owner">
-					<div class="item f-cb" data-item="0003">
-						<div class="head f-fl">
-							<img src="" alt="" />
-						</div>
-						<div class="info f-fl">
-							<h4>业主：张女士</h4>
-							<p>小区名称：武汉市洪山区xx小区</p>
-							<p>物业描述：三室， 115㎡，装修预算 12万</p>
-							<p>风格喜好：欧式</p>
-							<p>电话：<span class="phone">响应后可见</span></p>
-							<p>量房时间：<span class="time">响应后安排</span></p>
-							<div class="btns">
-								<a href="javascript:;" class="respond">响应</a>
-								<a href="javascript:;" class="refuse">拒绝</a>
-							</div>
-						</div>
-					</div>
-					<div class="item f-cb" data-item="0002">
-						<div class="head f-fl">
-							<img src="" alt="" />
-						</div>
-						<div class="info f-fl">
-							<h4>业主：张女士</h4>
-							<p>小区名称：武汉市洪山区xx小区</p>
-							<p>物业描述：三室， 115㎡，装修预算 12万</p>
-							<p>风格喜好：欧式</p>
-							<p>电话：<span class="phone">响应后可见</span></p>
-							<p>量房时间：<span class="time">响应后安排</span></p>
-							<div class="btns">
-								<a href="javascript:;" class="respond">响应</a>
-								<a href="javascript:;" class="refuse">拒绝</a>
-							</div>
-						</div>
-					</div>
-					<div class="item f-cb" data-item="0001">
-						<div class="head f-fl">
-							<img src="" alt="" />
-						</div>
-						<div class="info f-fl">
-							<h4>业主：张女士</h4>
-							<p>小区名称：武汉市洪山区xx小区</p>
-							<p>物业描述：三室， 115㎡，装修预算 12万</p>
-							<p>风格喜好：欧式</p>
-							<p>电话：<span class="phone">响应后可见</span></p>
-							<p>量房时间：<span class="time">响应后安排</span></p>
-							<div class="btns">
-								<a href="javascript:;" class="respond">响应</a>
-								<a href="javascript:;" class="refuse">拒绝</a>
-							</div>
-						</div>
-					</div>
-					<div class="item f-cb" data-item="0000">
-						<div class="head f-fl">
-							<img src="" alt="" />
-						</div>
-						<div class="info f-fl">
-							<h4>业主：张女士</h4>
-							<p>小区名称：武汉市洪山区xx小区</p>
-							<p>物业描述：三室， 115㎡，装修预算 12万</p>
-							<p>风格喜好：欧式</p>
-							<p>电话：<span class="phone">15612121212</span></p>
-							<p>量房时间：<span class="time">10月8日 下午6:00（星期三）</span></p>
-							<div class="btns">
-								<a href="scheme_create.html" class="scheme">提交方案</a>
-								<span>(可提交多个方案)</span>
-							</div>
-						</div>
-					</div>
-				</div>
+				<div class="design-owner" id="j-design-owner"></div>
 				<div class="m-page g-wp" id="j-home-page"></div>
 			</div>
 		</div>
@@ -299,7 +230,44 @@ console.log(this.eventConfirm(this.popupConfirm))
 
 
 
-
+function unique(arr,a,b) {
+  var ayy = [];
+  var ret = [];
+  var keys = [];
+  var hash = {};
+  for (var i = 0; i < arr.length; i++) {
+    var item = arr[i][a]
+    var key = typeof(item) + item
+    if (hash[key] !== 1) {
+      keys.push(arr[i][a])
+      hash[key] = 1;
+    }
+  }
+  for (var j = 0; j < keys.length; j++) {
+	var temp = [];
+	for (var i = 0; i < arr.length; i++) {
+	    if (arr[i][a] == keys[j]){
+	      temp.push(arr[i])
+	    }
+    };
+    ret.push(temp)
+  }
+  for(var j = 0; j < ret.length; j++) {
+  	ayy.push(fn(ret[j]))
+  };
+  function fn(data){
+  	var index = 0
+  	var max = parseInt(data[index][b]);
+  	for(var i=1;i<data.length;i++){ 
+		if(max<parseInt(data[i][b])){
+			max=parseInt(data[i][b]);
+			index = i;
+		}
+	}
+	return data[index];
+  }
+  return ayy
+}
 
 
 	//渲染生成列表
@@ -311,8 +279,8 @@ console.log(this.eventConfirm(this.popupConfirm))
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				console.log(res)
-				page(res['data'])
+				console.log(unique(res['data'],'requirementid','status'))
+				page(unique(res['data'],'requirementid','status'))
 		   	}
 		});
 	}
@@ -320,25 +288,28 @@ console.log(this.eventConfirm(this.popupConfirm))
 	loadList();
 	//创建列表
 	function createList(data){
-		return /*'<div class="item f-cb" data-item="0002">
-					<div class="head f-fl">
-						<img src="" alt="" />
-					</div>
-					<div class="info f-fl">
-						<h4>业主：张女士</h4>
-						<p>小区名称：武汉市洪山区xx小区</p>
-						<p>物业描述：三室， 115㎡，装修预算 12万</p>
-						<p>风格喜好：欧式</p>
-						<p>电话：<span class="phone">响应后可见</span></p>
-						<p>量房时间：<span class="time">响应后安排</span></p>
-						<div class="btns">
-							<a href="javascript:;" class="respond">响应</a>
-							<a href="javascript:;" class="refuse">拒绝</a>
-						</div>
-					</div>
-				</div>'*/
+		var sStatus = '';
+		if(data.status == 0){
+			sStatus = '<a href="javascript:;" class="respond">响应</a><a href="javascript:;" class="refuse">拒绝</a></div>';
+		}else if(data.status == 1){
+			sStatus = '你已经拒绝该业主';
+		}else if(data.status >= 2){
+			sStatus = '<a href="scheme_create.html?'+data.userid+'" class="scheme">提交方案</a><span>(可提交多个方案)</span>';
+		}
+		return '<div class="item f-cb" data-item="'+data.requirementid+'">'
+					+'<div class="head f-fl"><img src="" alt="" /></div>'
+					+'<div class="info f-fl">'
+						+'<h4>业主：'+data.user.username+'</h4>'
+						+'<p>小区名称：'+data.requirement.cell+'</p>'
+						+'<p>物业描述：'+globalData.house_type[data.requirement.house_type]+'， '+data.requirement.house_area+'m&sup2;，装修预算 '+data.requirement.total_price+'万</p>'
+						+'<p>风格喜好：'+globalData.dec_style[data.requirement.dec_style]+'</p>'
+						+'<p>电话：<span class="phone">'+(data.status >= 2 ? data.user.phone : "响应后可见")+'</span></p>'
+						+'<p>量房时间：<span class="time">响应后安排</span></p>'
+						+'<div class="btns">'+sStatus+'</div>'
+					+'</div>'
+				+'</div>'
 	}
-
+	//生成分页
 	function page(arr){
 		var page = new Pageing({
 			id : 'j-page',
@@ -364,5 +335,4 @@ console.log(this.eventConfirm(this.popupConfirm))
 			}
 		});
 	};
-
 </script>

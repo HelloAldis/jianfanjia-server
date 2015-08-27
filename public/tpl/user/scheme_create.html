@@ -7,10 +7,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
-	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
-	<link rel="stylesheet" type="text/css" href="../../css/user.css" />
-	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../../js/lib/public.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
+	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -41,23 +41,23 @@
 				<a href="javascript:history.go(-1);" class="return f-fr"><i class="iconfont">&#xe61e;</i>返回</a>
 			</div>
 			<div class="scheme-box">
-				<div class="scheme-list">
+				<div class="scheme-list hide">
 					<div class="w-form user-form scheme_create" id="j-scheme_create">
-					<form action="http://www.jianfanjia.com" id="form-design" method="get">
+					<form action="http://www.jianfanjia.com" id="form-scheme_create" method="post">
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="design-name">业主姓名：</label>
+								<label class="u-lab" for="userName">业主姓名：</label>
 								<div class="u-inp">
-									<div class="name">张杰</div>
+									<div class="name" id="userName">张杰</div>
 								</div>
 							</div>
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="design-name">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</label>
+								<label class="u-lab" for="scheme-cycle">工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：</label>
 								<div class="u-inp">
 									<div class="box">
-										<input type="text" class="input" name="design-name" id="design-name" />
+										<input type="text" class="input" name="scheme-cycle" id="scheme-cycle" />
 										<span class="unit">天</span>
 									</div>
 								</div>
@@ -65,10 +65,10 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="design-sex">报&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价：</label>
+								<label class="u-lab" for="scheme-price">报&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价：</label>
 								<div class="u-inp">
 									<div class="box">
-										<input type="text" class="input" name="design-name" id="design-name" />
+										<input type="text" class="input" name="scheme-price" id="scheme-price" />
 										<span class="unit" id="outcry"><i class="iconfont">&#xe61a;</i></span>
 									</div>
 								</div>
@@ -76,9 +76,9 @@
 						</div>
 						<div class="m-item f-cb">
 									<div class="item">
-										<label class="u-lab" for="work_type">方案说明：</label>
+										<label class="u-lab" for="scheme-description">方案说明：</label>
 										<div class="u-inp">
-											<div class="textarea"><textarea name="" id="" cols="30" rows="10"></textarea></div>
+											<div class="textarea"><textarea name="scheme-description" id="scheme-description" cols="30" rows="10"></textarea></div>
 										</div>
 									</div>
 								</div>
@@ -117,75 +117,22 @@
 					</form>
 				</div>	
 				</div>
-				<div class="scheme-list hide">
-					<div class="scheme-item">
-						<form action="">
-							<table>
-								<thead>
-									<tr>
-										<th class="td1">项目名称</th>
-										<th class="td2">项目总价(元)</th>
-										<th class="td3">备注说明</th>
-										<th class="td4">操作</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td class="td1">基础工程</td>
-										<td class="td2"><div class="inp"><input type="text" name="" id="" /></div></td>
-										<td class="td3"><div class="textarea"><textarea name="" id="" cols="30" rows="10"></textarea></div></td>
-										<td class="td4"><a href="javascript:;" class="remove"><em></em></a></td>
-									</tr>
-									<tr>
-										<td class="td1">水电工程</td>
-										<td class="td2"><div class="inp"><input type="text" name="" id="" /></div></td>
-										<td class="td3"><div class="textarea"><textarea name="" id="" cols="30" rows="10"></textarea></div></td>
-										<td class="td4"><a href="javascript:;" class="remove"><em></em></a></td>
-									</tr>
-									<tr>
-										<td class="td1">客餐厅及走道</td>
-										<td class="td2"><div class="inp"><input type="text" name="" id="" /></div></td>
-										<td class="td3"><div class="textarea"><textarea name="" id="" cols="30" rows="10"></textarea></div></td>
-										<td class="td4"><a href="javascript:;" class="remove"><em></em></a></td>
-									</tr>
-									<tr>
-										<td class="td1">主卧</td>
-										<td class="td2"><div class="inp"><input type="text" name="" id="" /></div></td>
-										<td class="td3"><div class="textarea"><textarea name="" id="" cols="30" rows="10"></textarea></div></td>
-										<td class="td4"><a href="javascript:;" class="add"><em></em><span></span></a></td>
-									</tr>
-									<tr>
-										<td class="td1">厨房</td>
-										<td class="td2"><div class="inp"><input type="text" name="" id="" /></div></td>
-										<td class="td3"><div class="textarea"><textarea name="" id="" cols="30" rows="10"></textarea></div></td>
-										<td class="td4"><a href="javascript:;" class="remove"><em></em></a></td>
-									</tr>
-									<tr>
-										<td class="td1">安装工程</td>
-										<td class="td2"><div class="inp"><input type="text" name="" id="" /></div></td>
-										<td class="td3"><div class="textarea"><textarea name="" id="" cols="30" rows="10"></textarea></div></td>
-										<td class="td4"><a href="javascript:;" class="remove"><em></em></a></td>
-									</tr>
-									<tr>
-										<td class="td1">其他工程</td>
-										<td class="td2"><div class="inp"><input type="text" name="" id="" /></div></td>
-										<td class="td3"><div class="textarea"><textarea name="" id="" cols="30" rows="10"></textarea></div></td>
-										<td class="td4"><a href="javascript:;" class="remove"><em></em></a></td>
-									</tr>
-								</tbody>
-								<tfoot>
-									<tr>
-										<td class="td1">设计费</td>
-										<td class="td2"><div class="inp"><input type="text" name="" id="" /></div></td>
-										<td class="td3"><div class="textarea"><textarea name="" id="" cols="30" rows="10"></textarea></div></td>
-										<td class="td4">&nbsp;</td>
-									</tr>
-								</tfoot>
-							</table>
-							<p>工程总造价：<span>120，000</span>元（不含设计费）</p>
-							<p>项目总造价：<span>130，000</span>元（含设计费）</p>
-							<input type="submit" class="btn" id="login-submit" value="创建报价" />
-						</form>
+				<div class="scheme-list">
+					<div class="scheme-item" id="j-scheme-item">
+						<table>
+							<thead>
+								<tr>
+									<th class="td1">项目名称</th>
+									<th class="td2">项目总价(元)</th>
+									<th class="td3">备注说明</th>
+									<th class="td4">操作</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+							<tfoot></tfoot>
+						</table>
+						<div class="allPrice"></div>
+						<a href="javascript:;" class="btn" id="create-quotes">创建报价</a>
 					</div>
 				</div>
 			</div>
@@ -227,6 +174,7 @@
 </body>
 </html>
 <script type="text/javascript">
+	var winHash = window.location.search.substring(1);
 	var $scheme = $('#j-scheme');
 	var $schemeTab = $scheme.find('.scheme-tab').find('li');
 	var $schemeList = $scheme.find('.scheme-list');
@@ -241,4 +189,208 @@
 		id : 'pmobj',
 		list : itme_typeArr
 	});
+	//表单提交
+	$('#form-scheme_create').on('submit',function(){
+		var url = RootUrl+'api/v1/designer/plan';
+		$.ajax({
+			url:url,
+			type: 'POST',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			data : JSON.stringify({
+			  "userid": winHash,
+			  "duration":parseInt($('#scheme-cycle').val()),
+			  "total_price":parseInt($('#scheme-price').val()),
+			  "price_detail":$('#scheme-price').data('detail'),
+			  "description":$('#scheme-description').val(),
+			  "manager": $('#userName').html(),
+			}),
+			processData : false,
+			success: function(res){
+				if(res['msg'] === 'success'){
+					window.location.href = 'design_scheme.html';
+					alert(1)
+				}
+		   	}
+		});
+		return false;
+	})
+	//创建报价
+	;(function($){
+		function OnlinePrice(options){
+			var self = this;
+			this.win = $(window);
+			this.doc = $(document);
+			this.body = $(document.body);
+			$.extend(this.settings = {
+				id : null,
+				data : [],
+				list : []
+			},options || {});
+			this.countId = 0;
+			this.PriceBox = $('#'+this.settings.id);
+			this.tBody = this.PriceBox.find('tbody');
+			this.tFoot = this.PriceBox.find('tfoot');
+			this.createItem = this.PriceBox.find('.createItem');
+			this.allPrice = this.PriceBox.find('.allPrice');
+			this.createTrList(this.settings.data);
+			this.createTrEvent();
+			this.deleteTrEvent();
+			this.reckonTrPrice();
+			this.reckonAllPrice();
+			this.inputBlur();
+		}
+		OnlinePrice.prototype = {
+			createTrData : function(data){
+				var self = this;
+				var oTr = $('<tr>');
+				oTr.append($('<td class="td1">'+data.item+'</td>'));
+				oTr.append($('<td class="td2"><div class="inp"><input class="price" type="text" name="'+this.settings.id+"-num-"+self.countId+'" id="'+this.settings.id+"-num-"+self.countId+'" placeholder="请输入整数金额" /></div></td>'));
+				oTr.append($('<td class="td3"><div class="textarea"><textarea name="'+this.settings.id+"-con-"+this.countId+'" id="'+this.settings.id+"-con-"+this.countId+'" cols="30" rows="10"></textarea></div></td>'));
+				if(data.item === '主卧'){
+					oTr.append($('<td class="td4"><a href="javascript:;" class="add"><span></span><em></em></a></td>'))
+				}else{	
+					oTr.append($('<td class="td4"><a href="javascript:;" class="remove"><em></em></a></td>'))
+				}
+				if(data.item === '设计费'){
+					this.tFoot.append(oTr);
+				}else{
+					this.tBody.append(oTr);
+				}			
+			},
+			createTrEvent : function(){
+				var self = this;
+				this.PriceBox.delegate('.add','click',function(){
+					self.countId++;
+					var name = prompt("请输入新项目名称", "");
+					if(!!name){
+						self.createTrData(name) 
+					}else{
+						alert('请输入新项目名称')
+					}
+				})
+			},
+			deleteTrEvent : function(){
+				var self = this;
+				this.PriceBox.delegate('.remove','click',function(ev){
+					ev.stopPropagation();
+					if (confirm("你确定删除吗？")) {  
+			            $(this).closest('tr').remove();
+			            self.reckonAllPrice(); 
+			        }
+				})
+			},
+			inputBlur : function(){
+				this.PriceBox.delegate('.price','blur',function(ev){
+					ev.stopPropagation();
+					var  value = $(this).val();
+					var reg = /^[1-9]*[1-9][0-9]*$/
+					if(!!$.trim(value)){
+						if(value != 0){
+							if(!reg.test(value)){
+								alert('请输入整数金额');
+								$(this).val('');
+							}
+						}
+						
+					}
+				})
+			},
+			createTrList : function(data){
+				for (var i = 0; i < data.length; i++) {
+					this.countId = i;
+					this.createTrData(data[i])
+				};
+			},
+			reckonTrPrice : function(){
+				var self = this;
+				this.PriceBox.delegate('tr','focus blur input keyup propertychange resetplaceholder',function(ev){
+					ev.stopPropagation();
+					self.reckonAllPrice();			 
+				})
+			},
+			reckonAllPrice : function(){
+				var self = this;
+				var aPrice = this.tBody.find('input');
+				var oDesign = parseInt(this.tFoot.find('input').val());
+				var price = 0;
+				aPrice.each(function(i,el){
+					price += isNaN(parseInt(aPrice.eq(i).val())) || parseInt(aPrice.eq(i).val()) === '' ? 0 : parseInt(aPrice.eq(i).val());
+				})
+				all = price+oDesign;	
+				var html = '<p>工程总造价：<span>'+(number_format(price,0,".",","))+'</span>元（不含设计费）</p>'
+							+'<p>项目总造价：<span id="allPrice">'+number_format(all,0,".",",")+'</span>元（含设计费）</p>'
+				this.allPrice.html(html)
+			}
+		}
+		window["OnlinePrice"] = OnlinePrice;
+	})(jQuery);
+	var schemeItem =new OnlinePrice({
+		id : 'j-scheme-item',
+		data : [{"item": "基础工程", "price": 0},{"item": "水电工程", "price": 0},{"item": "客餐厅及走道", "price": 0},{"item": "主卧", "price": 0},{"item": "厨房", "price": 0},{"item": "安装工程", "price": 0},{"item": "其他工程", "price": 0},{"item": "设计费", "price": 0}],
+		list : ['']
+	});
+	var priceDetail = []
+	var aTr = $('#j-scheme-item').find('tr:gt(0)');
+	$('#create-quotes').on('click',function(){
+		priceDetail = [];
+		aTr.each(function(i, el) {
+			var item = $(el).find('.td1').html() || "";
+			var price = parseInt($(el).find('input').val()) || 0;
+			var remark = parseInt($(el).find('textarea').val()) || "";
+			priceDetail.push(
+			{
+				"item": item, 
+				"price": price,
+				"remark" : remark
+			})
+		});
+		$('#scheme-price').val($('#allPrice').html()).data('detail',priceDetail)
+	})
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	    /*
+	    * 参数说明：
+	    * number：要格式化的数字
+	    * decimals：保留几位小数
+	    * dec_point：小数点符号
+	    * thousands_sep：千分位符号
+	    * */
+	function number_format(number, decimals, dec_point, thousands_sep) {
+	    number = (number + '').replace(/[^0-9+-Ee.]/g, '');
+	    var n = !isFinite(+number) ? 0 : +number,
+	        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+	        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+	        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+	        s = '',
+	        toFixedFix = function (n, prec) {
+	            var k = Math.pow(10, prec);
+	            return '' + Math.ceil(n * k) / k;
+	        };
+	 
+	    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+	    var re = /(-?\d+)(\d{3})/;
+	    while (re.test(s[0])) {
+	        s[0] = s[0].replace(re, "$1" + sep + "$2");
+	    }
+	 
+	    if ((s[1] || '').length < prec) {
+	        s[1] = s[1] || '';
+	        s[1] += new Array(prec - s[1].length + 1).join('0');
+	    }
+	    return s.join(dec);
+	}
 </script>
