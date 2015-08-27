@@ -78,3 +78,7 @@ auth_type
 0. 自由行
 1. 表达型
 2. 倾听型
+
+agreee_license
+0. 没有
+1. 有

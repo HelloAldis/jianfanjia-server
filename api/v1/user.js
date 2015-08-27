@@ -64,13 +64,20 @@ exports.updateRequirement = function (req, res, next) {
   var ep = eventproxy();
 
   var price_perm = requirement.total_price * 10000 / requirement.house_area;
+  var province = requirement.province;
   var city = requirement.city;
   var district = requirement.district;
+  var dec_style = requirement.dec_style;
 
   ep.fail(next);
-  ep.on('alldesigners', function (alldesigners) {
+  ep.on('final', function (designers) {
     //设计确定了
-    var designerids = _.uniq(_.pluck(alldesigners, '_id'), '_id');
+    console.log(designers);
+    if (designers.length > config.recommend_designer_count) {
+      designers = designers.slice(0, config.recommend_designer_count);
+    }
+
+    var designerids = _.pluck(designers, '_id');
     requirement.designerids = designerids;
     requirement.rec_designerids = designerids;
 
@@ -83,49 +90,73 @@ exports.updateRequirement = function (req, res, next) {
     });
   });
 
-  ep.on('recdesigners', function (recdesigners) {
-    //推荐的设计师确定了
-    if (recdesigners.length < 3) {
-      //获取其他设计师
-      Designer.findDesignersByCityDistrict(city,
-        district, config.recommend_designer_count,
-        function (err, others) {
-          if (err) {
-            return next(err);
-          }
+  ep.on('user', function (user) {
+    Designer.getSByQueryAndProject({
+      auth_type: type.designer_auth_type_done,
+      // province: province,
+      city: city,
+    }, {
+      pass: 0,
+      accessToken: 0
+    }, function (err, designers) {
+      if (err) {
+        return next(err);
+      }
 
-          recdesigners = recdesigners.concat(others);
-          ep.emit('alldesigners', recdesigners);
-        });
-    } else {
-      ep.emit('alldesigners', recdesigners);
-    }
+      console.log('designers= ' + designers);
+
+      _.forEach(designers, function (designer) {
+        //匹配区域
+        console.log(district);
+        console.log(designer.dec_districts);
+
+        if (validator.isIn(district, [designer.dec_districts])) {
+          console.log(
+            'sdfsadfasdfsdfsd----------------------------------'
+          );
+          designer.match++;
+        }
+
+        //匹配钱
+        if (requirement.work_type === type.work_type_half) {
+          if (designer.dec_fee_half <= price_perm) {
+            designer.match++;
+          }
+        } else if (requirement.work_type === type.work_type_all) {
+          if (designer.dec_fee_all <= price_perm) {
+            designer.match++;
+          }
+        }
+
+        //匹配风格
+        if (validator.isIn(dec_style, designer.dec_styles)) {
+          designer.match++;
+        }
+
+        //匹配沟通
+        if (user.communication_type === designer.communication_type) {
+          designer.match++;
+        }
+
+        //匹配房型
+        if (validator.isIn(requirement.house_type, designer.dec_house_types)) {
+          designer.match++;
+        }
+      });
+
+      var designersSort = _.sortByOrder(designers, ['match'], ['desc']);
+
+      ep.emit('final', designersSort);
+    });
   });
 
-  //推荐3个设计师
-  if (requirement.work_type === type.work_type_half) {
-    //半包
-    Designer.findDesignersByCityDistrictHalf(city, district, price_perm,
-      config.recommend_designer_count,
-      function (err, recdesigners) {
-        if (err) {
-          return next(err);
-        }
+  User.getUserById(userid, function (err, user) {
+    if (err) {
+      return next(err);
+    }
 
-        ep.emit('recdesigners', recdesigners);
-      });
-  } else if (requirement.work_type === type.work_type_all) {
-    //全包
-    Designer.findDesignersByCityDistrictAll(city, district, price_perm,
-      config.recommend_designer_count,
-      function (err, recdesigners) {
-        if (err) {
-          return next(err);
-        }
-
-        ep.emit('recdesigners', recdesigners);
-      });
-  }
+    ep.emit('user', user);
+  });
 };
 
 exports.myDesigner = function (req, res, next) {

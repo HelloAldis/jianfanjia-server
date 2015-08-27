@@ -37,6 +37,10 @@ var DesignerSchema = new Schema({
     type: Number,
     default: 0
   },
+  match: {
+    type: Number,
+    default: 0
+  },
   is_block: {
     type: Boolean,
     default: false
@@ -66,6 +70,9 @@ var DesignerSchema = new Schema({
     type: [String]
   },
   dec_districts: {
+    type: [String]
+  },
+  dec_house_types: {
     type: [String]
   },
   design_fee_range: {
@@ -107,6 +114,10 @@ var DesignerSchema = new Schema({
   },
   auth_date: {
     type: Date
+  },
+  agreee_license: {
+    type: String,
+    default: '0'
   },
 });
 

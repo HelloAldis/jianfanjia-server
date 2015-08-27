@@ -59,15 +59,6 @@ exports.getOne = function (req, res, next) {
       res.sendData(null);
     }
 
-    // Product.getProductsByDesignerid(designerid, function (err, products) {
-    //   if (err) {
-    //     return next(err);
-    //   }
-    //
-    //   designer.products = products;
-    //
-    // });
-
   });
 }
 
@@ -95,7 +86,7 @@ exports.search = function (req, res, next) {
     }
 
     res.sendData(designers);
-  })
+  });
 }
 
 exports.myUser = function (req, res, next) {
@@ -104,7 +95,6 @@ exports.myUser = function (req, res, next) {
 
   ep.fail(next);
   ep.on('plans', function (plans) {
-    console.log('11111111' + plans);
     async.mapLimit(plans, 3, function (plan, callback) {
       User.getOneByQueryAndProject({
         _id: plan.userid
@@ -125,7 +115,6 @@ exports.myUser = function (req, res, next) {
   });
 
   ep.on('hasUser', function (plans) {
-    console.log('222222222' + plans);
     async.mapLimit(plans, 3, function (plan, callback) {
       Requirement.getRequirementByUserid(plan.userid, function (err,
         requirement) {
@@ -133,7 +122,6 @@ exports.myUser = function (req, res, next) {
         callback(err, plan);
       });
     }, function (err, results) {
-      console.log('3333333');
       if (err) {
         return next(err);
       }

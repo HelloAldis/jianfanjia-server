@@ -33,6 +33,7 @@ exports.buildDesinger = function (req) {
   designer.dec_types = req.body.dec_types;
   designer.dec_styles = req.body.dec_styles;
   designer.dec_districts = req.body.dec_districts;
+  designer.dec_house_types = req.body.dec_house_types;
   designer.design_fee_range = tools.trim(req.body.design_fee_range);
   designer.dec_fee_half = req.body.dec_fee_half;
   designer.dec_fee_all = req.body.dec_fee_all;

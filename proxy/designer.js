@@ -138,3 +138,7 @@ exports.findDesignersByQuery = function (query, sort, callback) {
     sort: sort
   }, callback);
 }
+
+exports.getSByQueryAndProject = function (query, project, callback) {
+  Designer.find(query, project, callback);
+}

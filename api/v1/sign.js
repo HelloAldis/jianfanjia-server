@@ -118,17 +118,17 @@ exports.signup = function (req, res, next) {
         return next(err);
       }
 
-      if (verifyCode) {
-        if (code === verifyCode.code) {
-          tools.bhash(pass, ep.done(function (passhash) {
-            ep.emit('final', passhash);
-          }));
-        } else {
-          return ep.emit('err', '验证码不对或已过期');
-        }
-      } else {
-        return ep.emit('err', '验证码不对或已过期');
-      }
+      // if (verifyCode) {
+      // if (code === verifyCode.code) {
+      tools.bhash(pass, ep.done(function (passhash) {
+        ep.emit('final', passhash);
+      }));
+      //   } else {
+      //     return ep.emit('err', '验证码不对或已过期');
+      //   }
+      // } else {
+      //   return ep.emit('err', '验证码不对或已过期');
+      // }
     });
   });
 
@@ -138,7 +138,7 @@ exports.signup = function (req, res, next) {
     user.pass = passhash;
     user.phone = phone;
 
-    if (usertype === type.role_designer) {
+    if (usertype === type.role_user) {
       User.newAndSave(user, function (err, user_indb) {
         if (err) {
           return next(err);
@@ -154,9 +154,10 @@ exports.signup = function (req, res, next) {
         data.phone = user_indb.phone;
         data.username = user_indb.username;
         data._id = user_indb._id;
+        data.imageid = user_indb.imageid;
         res.sendData(data);
       });
-    } else if (usertype === type.role_user) {
+    } else if (usertype === type.role_designer) {
       Designer.newAndSave(user, function (err, user_indb) {
         if (err) {
           return next(err);
@@ -172,6 +173,7 @@ exports.signup = function (req, res, next) {
         data.phone = user_indb.phone;
         data.username = user_indb.username;
         data._id = user_indb._id;
+        data.imageid = user_indb.imageid;
         res.sendData(data);
       });
     }
@@ -238,6 +240,7 @@ exports.login = function (req, res, next) {
         data.phone = user.phone;
         data.username = user.username;
         data._id = user._id;
+        data.imageid = user.imageid;
         res.sendData(data);
       }));
     } else if (!user && designer) {
@@ -258,6 +261,7 @@ exports.login = function (req, res, next) {
         data.phone = designer.phone;
         data.username = designer.username;
         data._id = designer._id;
+        data.imageid = designer.imageid;
         res.sendData(data);
       }));
     } else {

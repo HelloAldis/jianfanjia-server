@@ -99,3 +99,13 @@ exports.getProcessById = function (id, callback) {
     _id: id
   }, callback);
 }
+
+exports.getProcessByUserid = function (userid, callback) {
+  Process.findOne({
+    userid: userid
+  }, callback);
+}
+
+exports.getSByQueryAndProject = function (query, project, callback) {
+  Process.find(query, project, callback);
+}

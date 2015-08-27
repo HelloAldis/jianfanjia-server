@@ -12,6 +12,7 @@ var DateUtil = require('../../common/date_util');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../type');
+var async = require('async');
 
 exports.start = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -244,6 +245,68 @@ exports.getOne = function (req, res, next) {
   });
 }
 
-exports.list = function (req, res, next) {
+exports.userGetOne = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
+
+  Process.getProcessByUserid(userid, function (err, process) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendData(process);
+  });
+}
+
+exports.listForDesigner = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
+  var ep = eventproxy();
+
+  ep.fail(next);
+  ep.on('processes', function (processes) {
+    async.mapLimit(processes, 3, function (process, callback) {
+      User.getOneByQueryAndProject({
+        _id: process.userid
+      }, {
+        username: 1,
+        imageid: 1,
+        phone: 1,
+      }, function (err, user) {
+        process.user = user;
+        callback(err, process);
+      });
+    }, function (err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      res.sendData(results);
+    });
+  });
+
+  Process.getSByQueryAndProject({
+    final_designerid: designerid
+  }, {
+    userid: 1,
+    city: 1,
+    district: 1,
+    cell: 1,
+    going_on: 1,
+  }, function (err, processes) {
+    if (err) {
+      return next(err);
+    }
+
+    var ps = _.map(processes, function (process) {
+      var p = {};
+      p.userid = process.userid;
+      p.city = process.city;
+      p.district = process.district;
+      p.cell = process.cell;
+      p.going_on = process.going_on;
+      return p;
+    });
+
+    ep.emit('processes', ps);
+  });
+
 }
