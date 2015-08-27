@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/tdist.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
-	<script type="text/javascript" src="../../static/js/lib/jquery.uploadify.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/jquery.uploadify-3.1.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -203,6 +203,21 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item more">
+								<label class="u-lab" for="work_type">擅长风格：</label>
+								<div class="u-inp">
+									<div class="check" id="decoration-style">
+										<label><input type="checkbox" name="decoration-style0" value="0" />欧式风格</label>
+										<label><input type="checkbox" name="decoration-style1" value="1" />中式风格</label>
+										<label><input type="checkbox" name="decoration-style2" value="2" />现代风格</label>
+										<label><input type="checkbox" name="decoration-style3" value="3" />地中海风格</label>
+										<label><input type="checkbox" name="decoration-style4" value="4" />美式风格</label>
+										<label><input type="checkbox" name="decoration-style5" value="5" />东南亚风格</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item more">
 								<label class="u-lab" for="work_type">设计理念：<span>(显示在主页显著位置，迅速建立别人对你的第一映像！)</span></label>
 								<div class="u-inp">
 									<div class="textarea"><textarea name="design-philosophy" id="design-philosophy" cols="30" rows="10"></textarea></div>
@@ -225,7 +240,11 @@
 								<img src="" alt="" />
 							</div>
 							<p>请上传350*500 我的头像</p>
-							<input id="fileToUpload" style="" type="file" name="upfile">
+							<input id="fileToUpload" type="file" name="upfile">
+								<p><a href="javascript:$('#fileToUpload').uploadify('settings', 'formData', {'typeCode':document.getElementById('id_file').value});$('#fileToUpload').uploadify('upload','*')">上传</a>
+<a href="javascript:$('#fileToUpload').uploadify('cancel','*')">重置上传队列</a>
+</p>
+<input type="hidden" value="1215154" name="tmpdir" id="id_file">
 						</div>
 						<div class="m-item m-error-info hide">
 						</div>
@@ -559,63 +578,89 @@
 
 
 
-
+/*
 var img_id_upload=new Array();//初始化数组，存储已经上传的图片名
 
 var i=0;//初始化数组下标
 
-$(function() {
+window.onload = function(){
+	$('#fileToUpload').uploadify({
+    	debug : true,
+        auto     : false,//关闭自动上传
 
-    $('#fileToUpload').uploadify({
+        removeTimeout : 1,//文件队列上传完成1秒后删除
 
-        'auto'     : false,//关闭自动上传
+        swf     : 'uploadify.swf',
 
-        'removeTimeout' : 1,//文件队列上传完成1秒后删除
+        uploader : RootUrl+'api/v1/image/upload',
 
-        'swf'      : 'uploadify.swf',
+        method   : 'Post',//方法，服务端可以用$_POST数组获取数据
+        settings : 'upfile',
 
-        'uploader' : RootUrl+'api/v1/image/upload',
+        buttonText : '选择图片',//设置按钮文本
 
-        'method'   : 'post',//方法，服务端可以用$_POST数组获取数据
+        multi    : true,//允许同时上传多张图片
 
-        'buttonText' : '选择图片',//设置按钮文本
+        uploadLimit : 10,//一次最多只允许上传10张图片
 
-        'multi'    : true,//允许同时上传多张图片
+        fileTypeDesc : 'Image Files',//只允许上传图像
 
-        'uploadLimit' : 10,//一次最多只允许上传10张图片
+        fileTypeExts : '*.gif; *.jpg; *.png',//限制允许上传的图片后缀
 
-        'fileTypeDesc' : 'Image Files',//只允许上传图像
-
-        'fileTypeExts' : '*.gif; *.jpg; *.png',//限制允许上传的图片后缀
-
-        'fileSizeLimit' : '20000KB',//限制上传的图片不得超过200KB
-
-        'onUploadSuccess' : function(file, data, response) {//每次成功上传后执行的回调函数，从服务端返回数据到前端
+        fileSizeLimit : '20000KB',//限制上传的图片不得超过200KB
+        onUploadSuccess : function(file, data, response) {//每次成功上传后执行的回调函数，从服务端返回数据到前端
                img_id_upload[i]=data;
-
                i++;
-
-               alert(data);
-
+               console.log('onUploadSuccess'+file);
+               console.log('onUploadSuccess'+data);
+               alert(response);
         },
-
-        'onQueueComplete' : function(queueData) {//上传队列全部完成后执行的回调函数
+        onUploadComplete :  function(file){
+        	console.log('onUploadComplete'+file)
+        },
+        onQueueComplete : function(queueData) {//上传队列全部完成后执行的回调函数
         	console.log(queueData)
            if(img_id_upload.length>0)
-
             alert('成功上传的文件有：'+encodeURIComponent(img_id_upload));
-
         } 
-
-        // Put your options here
-
     });
-
-});
-
-
+}*/
+    
 
 
 
+
+
+
+
+</script>
+<script type="text/javascript">
+	var img_id_upload=new Array();//初始化数组，存储已经上传的图片名
+	var i=0;//初始化数组下标
+	$(function() {
+	    $('#fileToUpload').uploadify({
+	    	'auto'     : false,//关闭自动上传
+	    	'removeTimeout' : 1,//文件队列上传完成1秒后删除
+	        'swf'      : 'uploadify.swf',
+	        'uploader' : RootUrl+'api/v1/image/upload',
+	        'method'   : 'post',//方法，服务端可以用$_POST数组获取数据
+			'buttonText' : '选择图片',//设置按钮文本
+	        'multi'    : true,//允许同时上传多张图片
+	        'uploadLimit' : 10,//一次最多只允许上传10张图片
+	        'fileTypeDesc' : 'Image Files',//只允许上传图像
+	        'fileTypeExts' : '*.gif; *.jpg; *.png',//限制允许上传的图片后缀
+	        'fileSizeLimit' : '20000KB',//限制上传的图片不得超过200KB 
+	        'onUploadSuccess' : function(file, data, response) {//每次成功上传后执行的回调函数，从服务端返回数据到前端
+	               img_id_upload[i]=data;
+	               i++;
+				   alert(data);
+	        },
+	        'onQueueComplete' : function(queueData) {//上传队列全部完成后执行的回调函数
+	           // if(img_id_upload.length>0)
+	           // alert('成功上传的文件有：'+encodeURIComponent(img_id_upload));
+	        }  
+	        // Put your options here
+	    });
+	});
 
 </script>

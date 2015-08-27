@@ -7,9 +7,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
-	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
-	<link rel="stylesheet" type="text/css" href="../../css/user.css" />
-	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
+	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/page.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -54,14 +56,14 @@
 							<img src="../../img/user/scheme-show01.jpg" height="386" width="660" alt="" />
 							<img src="../../img/user/scheme-show02.jpg" height="386" width="660" alt="" />
 						</div>
-						<div class="comment">
+						<div class="comment" id="comment">
 							<div class="tt">
 								<h3 class="f-fl">留言评论</h3>
-								<p class="f-fr">2条留言</p>
+								<p class="f-fr" id="comment-size">2条留言</p>
 							</div>
 							<div class="reply">
 								<div class="textarea">
-									<textarea name="" id="" cols="30" rows="10"></textarea>
+									<textarea name="" id="comment-textarea" cols="30" rows="10"></textarea>
 								</div>
 								<div class="publish">
 									<p class="f-fl">
@@ -221,6 +223,7 @@
 	var $schemeTab = $scheme.find('.scheme-tab').find('li');
 	var $schemeList = $scheme.find('.scheme-list');
 	var $schemeDesign = $('#j-scheme-design');
+	var $comment = $('#comment');
 	var arr = [$schemeDesign.offset().top,$schemeDesign.offset().left]
 	$(window).on('scroll',function(){
 		var winT = $(window).scrollTop();
@@ -235,4 +238,99 @@
 		$(this).attr('class','active').siblings().attr('class', '');
 		$schemeList.eq(index).removeClass('hide').siblings().addClass('hide');
 	});
+
+	var $textarea = $('#comment-textarea');
+	var winHash = window.location.search.substring(1);
+	alert(winHash)
+	$('#publish_btn').on('click',function(){
+		if(!!$.trim($textarea.val())){
+			var url = RootUrl+'api/v1/designer/plan';
+			$.ajax({
+				url:url,
+				type: 'POST',
+				contentType : 'application/json; charset=utf-8',
+				dataType: 'json',
+				data : JSON.stringify({
+				  "planid":winHash,
+				  "content":$textarea.val()
+				}),
+				processData : false,
+				success: function(res){
+					if(res['msg'] === 'success'){
+						loadList()
+						alert(1)
+					}
+			   	}
+			});
+		}else{
+			alert('请填写留言内容')
+		}
+	})
+	function loadList(){
+
+	}
+
+	//生成分页
+	function page(arr){
+		var page = new Pageing({
+			id : 'j-page',
+			allNumPage : arr.length,
+			itemPage : 5,
+			showPageNum : 9,
+			endPageNum : 1,
+			currentPage : 0,
+			linkTo : '',
+			callback : function(num,obj){
+				var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
+				$comment.html('');
+				for(var i=num*this.itemPage;i<maxElem;i++){
+					$comment.append(createList(arr[i]));
+				}
+				$comment.find('li:odd').attr('class', 'even');
+				obj.find('.btns').on('click' , function(ev){
+					ev.stopPropagation();
+					$('body,html').animate({scrollTop:$comment.offset().top},1000);
+				});
+				return false;
+			}
+		});
+	};
+    //方案预览
+	$comment.delegate('.reply-btn','click',function(ev){
+		ev.preventDefault();
+		$('body,html').animate({scrollTop:$comment.offset().top},1000);
+	})
+	function timeFormat(time){    //格式化个性时间
+	    var date = new Date(time),
+	        curDate = new Date(),
+	        year = date.getFullYear(),
+	        month = date.getMonth() + 10,
+	        day = date.getDate(),
+	        hour = date.getHours(),
+	        minute = date.getMinutes(),
+	        curYear = curDate.getFullYear(),
+	        curHour = curDate.getHours(),
+	        timeStr;
+	 
+	    if(year < curYear){
+	        timeStr = year +'年'+ month +'月'+ day +'日 '+ hour +':'+ minute;
+	    }else{
+	        var pastTime = curDate - date,
+	            pastH = pastTime/3600000;
+	 
+	        if(pastH > curHour){
+	              timeStr = month +'月'+ day +'日 '+ hour +':'+ minute;
+	        }else if(pastH >= 1){
+	              timeStr = '今天 ' + hour +':'+ minute +'分';
+	        }else{
+	              var pastM = curDate.getMinutes() - minute;
+	              if(pastM > 1){
+	                timeStr = pastM +'分钟前';
+	              }else{
+	                timeStr = '刚刚';
+	              }
+	        }
+	    }
+	    return timeStr;
+	}
 </script>

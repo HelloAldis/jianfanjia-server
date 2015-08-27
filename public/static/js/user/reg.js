@@ -9,10 +9,7 @@ $(function(){
 	function isVerifyCode(str){
 	   return (/^[\d]{6}$/.test(str));
 	}
-	var reg_success_url = {
-		"1" : "owner",
-		"2" : "design"
-	};
+	var reg_success_url =["/","owner.html#new","design_agreement.html"];
 	var emptyMsg = {
         "reg_mobile" : "请输入手机号",
         "reg_password": "请输入密码",
@@ -142,14 +139,13 @@ $(function(){
 			success: function(res){
 				console.log(res)
 				if(res["data"]){
-					window.location.href = reg_success_url[res.data.usertype]+'.html#new'
+					window.location.href = reg_success_url[res.data.usertype];
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');
 				}
 				if(res['err_msg']){
 					$('#error-info').html(res['err_msg']).removeClass('hide');
 				}
-		        //$('#form-login').find('m-error-info').html(msg).removeClass('hide');
 		   	}
 		});
 		return false;
