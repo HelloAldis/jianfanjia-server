@@ -129,7 +129,6 @@
 	var $homeDesc = $('#j-home-desc');
 	var $infoplate =$('#j-infoplate');
 	var winHash = window.location.search.substring(1);
-	winHash = '55d157fee6be292429b341bf'
 	function loadList(){
 		var url = RootUrl+'api/v1/designer/'+winHash+'/products';
 		$.ajax({
@@ -163,9 +162,13 @@
 		for (var i = 0; i < data.dec_styles.length; i++) {
 			sStyle += '<span>'+globalData.dec_style[data.dec_styles[i]]+'</span>'
 		};
+		var decDistricts = '';
+		for (var i = 0,len = data.dec_districts.length; i < len; i++) {
+			decDistricts += '<span>'+globalData.orders_area[data.dec_districts[i]]+'</span>'
+		};
 		var sHomeDesc = '<dl class="f-cb">'
 							+'<dt>服务区域：</dt>'
-							+'<dd>'+data.district+'<i class="iconfont">&#xe615;</i></dd>'
+							+'<dd>'+decDistricts+'<i class="iconfont">&#xe615;</i></dd>'
 						+'</dl>'
 						+'<dl class="f-cb">'
 							+'<dt>设计风格：</dt>'
@@ -181,19 +184,19 @@
 						+'</dl>'
 						+'<dl class="f-cb">'
 							+'<dt>个人介绍：</dt>'
-							+'<dd></dd>'
+							+'<dd>'+data.philosophy+'</dd>'
 						+'</dl>';
 		var sInfo = '<div class="head"><img src="'+ImgId+'" alt="" /></div>'
-						+'<h4>杨杰<i class="iconfont">&#xe60b;</i></h4>'
-						+'<div class="auth notauth">认证设计师</div>'
+						+'<h4>'+data.username+'<i class="iconfont">&#xe60b;</i></h4>'
+						+'<div class="auth '+(data.auth_type == 0 ? "notauth" : "")+'">认证设计师</div>'
 						+'<div class="works f-cb">'
 							+'<dl>'
-								+'<dt>5</dt>'
+								+'<dt>'+data.product_count+'</dt>'
 								+'<dd>作品</dd>'
 							+'</dl>'
 							+'<span></span>'
 							+'<dl>'
-								+'<dt>15</dt>'
+								+'<dt>'+data.order_count+'</dt>'
 								+'<dd>预约</dd>'
 							+'</dl>'
 						+'</div>'
