@@ -177,19 +177,39 @@ exports.addYsImage = function (req, res, next) {
   var imageid = new ObjectId(req.body.imageid);
   var _id = req.body._id;
 
-  Process.addYsImage(_id, section, key, imageid, function (err) {
+  Process.updateYsImage(_id, section, key, imageid, function (err,
+    process) {
+    if (err) {
+      return next(err);
+    }
+
+    if (process) {
+      res.sendSuccessMsg();
+    } else {
+      //没有更新的 创建新的
+      Process.addYsImage(_id, section, key, imageid, function (err) {
+        if (err) {
+          return next(err);
+        }
+
+        res.sendSuccessMsg();
+      });
+    }
+  });
+}
+
+exports.deleteYsImage = function (req, res, next) {
+  var section = tools.trim(req.body.section);
+  var key = tools.trim(req.body.key);
+  var _id = req.body._id;
+
+  Process.deleteYsImage(_id, section, key, function (err) {
     if (err) {
       return next(err);
     }
 
     res.sendSuccessMsg();
   });
-
-
-}
-
-exports.deleteImage = function (req, res, next) {
-
 };
 
 exports.reschedule = function (req, res, next) {
@@ -212,7 +232,6 @@ exports.done = function (req, res, next) {
     });
 };
 
-
 exports.getOne = function (req, res, next) {
   var _id = req.params._id;
 
@@ -223,4 +242,8 @@ exports.getOne = function (req, res, next) {
 
     res.sendData(process);
   });
+}
+
+exports.list = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
 }

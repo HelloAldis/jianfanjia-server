@@ -161,6 +161,7 @@ exports.myUser = function (req, res, next) {
       p.requirementid = plan.requirementid;
       p.house_check_time = plan.house_check_time;
       p.status = plan.status;
+      p._id = plan._id;
       return p;
     });
     console.log(ps);
@@ -170,11 +171,11 @@ exports.myUser = function (req, res, next) {
 
 exports.okUser = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
-  var planid = tools.trim(req.body.planid);
+  var userid = tools.trim(req.body.userid);
   var house_check_time = req.body.house_check_time;
 
   Plan.updateByQuery({
-      _id: planid,
+      userid: userid,
       designerid: designerid
     }, {
       house_check_time: house_check_time,
@@ -191,10 +192,10 @@ exports.okUser = function (req, res, next) {
 
 exports.rejectUser = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
-  var planid = tools.trim(req.body.planid);
+  var userid = tools.trim(req.body.userid);
 
   Plan.updateByQuery({
-      _id: planid,
+      userid: userid,
       designerid: designerid
     }, {
       status: type.plan_status_designer_reject

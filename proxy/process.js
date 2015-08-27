@@ -36,12 +36,26 @@ exports.addYsImage = function (id, section, key, imageid, callback) {
 exports.updateYsImage = function (id, section, key, imageid, callback) {
   var query = {};
   query._id = id;
-  var path = section + '.' + 'ys.images.key';
+  var path = section + '.ys.images.key';
   query[path] = key;
 
-  path = section + '.' + 'ys.images.$.imageid';
+  path = section + '.ys.images.$.imageid';
   var update = {};
   update[path] = imageid;
+  Process.findOneAndUpdate(query, {
+    $set: update
+  }, callback);
+}
+
+exports.deleteYsImage = function (id, section, key, callback) {
+  var query = {};
+  var path = section + '.ys.images.key';
+  query._id = id;
+  query[path] = key;
+  var update = {};
+  path = section + '.ys.images.$.imageid'
+  update[path] = null;
+
   Process.findOneAndUpdate(query, {
     $set: update
   }, callback);

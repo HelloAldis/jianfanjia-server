@@ -11,9 +11,9 @@ var ApiUtil = require('../../common/api_util');
 var type = require('../../type');
 
 exports.updatePass = function (req, res, next) {
-  var phone   = tools.trim(req.body.phone);
-  var pass   = tools.trim(req.body.pass);
-  var code   = tools.trim(req.body.code);
+  var phone = tools.trim(req.body.phone);
+  var pass = tools.trim(req.body.pass);
+  var code = tools.trim(req.body.code);
 
   var ep = new eventproxy();
   ep.fail(next);
@@ -21,7 +21,9 @@ exports.updatePass = function (req, res, next) {
     res.sendErrMsg(msg);
   });
 
-  if ([phone, code, pass].some(function (item) { return item === ''; })) {
+  if ([phone, code, pass].some(function (item) {
+      return item === '';
+    })) {
     ep.emit('user_err', '信息不完整');
     return;
   }
@@ -49,7 +51,7 @@ exports.updatePass = function (req, res, next) {
       }
 
       tools.bhash(pass, ep.done(function (passhash) {
-        user.pass          = passhash;
+        user.pass = passhash;
 
         user.save(function (err) {
           if (err) {
@@ -63,7 +65,7 @@ exports.updatePass = function (req, res, next) {
 };
 
 exports.sendVerifyCode = function (req, res, next) {
-  var phone   = tools.trim(req.body.phone);
+  var phone = tools.trim(req.body.phone);
 
   var ep = new eventproxy();
   ep.fail(next);
@@ -81,7 +83,7 @@ exports.sendVerifyCode = function (req, res, next) {
       return next(err);
     }
 
-    sms.sendVerifyCode(phone, code);
+    // sms.sendVerifyCode(phone, code);
     res.sendSuccessMsg();
   });
 }
@@ -98,7 +100,9 @@ exports.signup = function (req, res, next) {
     res.sendErrMsg(msg);
   });
 
-  if ([pass, phone, usertype].some(function (item) { return item === ''; })) {
+  if ([pass, phone, usertype].some(function (item) {
+      return item === '';
+    })) {
     ep.emit('err', '信息不完整。');
     return;
   }
@@ -131,8 +135,8 @@ exports.signup = function (req, res, next) {
   ep.on('final', function (passhash) {
     //save user to db
     var user = {};
-    user.pass        = passhash;
-    user.phone       = phone;
+    user.pass = passhash;
+    user.phone = phone;
 
     if (usertype === type.role_designer) {
       User.newAndSave(user, function (err, user_indb) {
@@ -202,8 +206,8 @@ exports.signup = function (req, res, next) {
 
 exports.login = function (req, res, next) {
   var phone = validator.trim(req.body.phone);
-  var pass      = validator.trim(req.body.pass);
-  var ep        = new eventproxy();
+  var pass = validator.trim(req.body.pass);
+  var ep = new eventproxy();
 
   ep.fail(next);
   ep.on('err', function (msg) {
@@ -257,7 +261,7 @@ exports.login = function (req, res, next) {
         res.sendData(data);
       }));
     } else {
-      return  ep.emit('err', '用户名或密码错误');
+      return ep.emit('err', '用户名或密码错误');
     }
   });
 
@@ -282,5 +286,7 @@ exports.login = function (req, res, next) {
 // sign out
 exports.signout = function (req, res, next) {
   req.session.destroy();
-  res.clearCookie(config.auth_cookie_name, { path: '/' });
+  res.clearCookie(config.auth_cookie_name, {
+    path: '/'
+  });
 };

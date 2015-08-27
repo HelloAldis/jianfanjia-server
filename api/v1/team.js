@@ -1,6 +1,6 @@
 var validator = require('validator');
 var eventproxy = require('eventproxy');
-var User = require('../../proxy').User;
+var Designer = require('../../proxy').Designer;
 var Team = require('../../proxy').Team;
 var tools = require('../../common/tools');
 var _ = require('lodash');
@@ -20,6 +20,7 @@ exports.add = function (req, res, next) {
       return next(err);
     }
 
+    Designer.addTeamCountForDesigner(designerid, 1);
     res.sendSuccessMsg();
   });
 };
@@ -34,7 +35,10 @@ exports.update = function (req, res, next) {
     return;
   }
 
-  Team.updateByQuery({_id: new ObjectId(oid), designerid: designerid}, team, function (err) {
+  Team.updateByQuery({
+    _id: new ObjectId(oid),
+    designerid: designerid
+  }, team, function (err) {
     if (err) {
       return next(err);
     }
@@ -52,9 +56,16 @@ exports.delete = function (req, res, next) {
     return;
   }
 
-  Team.removeOneByQuery({_id: new ObjectId(oid), designerid: designerid}, function (err) {
+  Team.removeOneByQuery({
+    _id: new ObjectId(oid),
+    designerid: designerid
+  }, function (err, team) {
     if (err) {
       return next(err);
+    }
+
+    if (team) {
+      Designer.addTeamCountForDesigner(designerid, -1);
     }
 
     res.sendSuccessMsg();
