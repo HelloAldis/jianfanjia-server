@@ -27,3 +27,15 @@ exports.listtop = function (req, res, next) {
     res.sendData(shares);
   });
 }
+
+exports.getOne = function (req, res, next) {
+  var _id = req.params._id;
+
+  Share.findById(_id, function (err, share) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendData(share);
+  });
+}

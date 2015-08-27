@@ -5,7 +5,6 @@ var ObjectId  = Schema.ObjectId;
 var ProductSchema = new Schema({
   designerid: {type: ObjectId},
   province: {type: String},
-  province: {type: String},
   city: { type: String },
   district: {type: String},
   cell: { type: String},
@@ -24,5 +23,9 @@ var ProductSchema = new Schema({
   view_count: {type: Number, default: 0},
   favorite_count: {type: Number, default: 0},
 });
+
+ProductSchema.index({
+  designerid: 1
+};
 
 mongoose.model('Product', ProductSchema);

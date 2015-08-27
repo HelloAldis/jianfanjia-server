@@ -7,6 +7,9 @@ var type = {
   designer_auth_type_processing: '1',
   designer_auth_type_done: '2',
 
+  designer_agree_type_new: '0',
+  designer_agree_type_yes: '1',
+
   plan_status_not_respond: '0',
   plan_status_designer_reject: '1',
   plan_status_designer_respond: '2',
@@ -32,6 +35,9 @@ var type = {
   process_section_you_qi: 'you_qi',
   process_section_an_zhuang: 'an_zhuang',
   process_sction_jun_gong: 'jun_gong',
+
+  process_work_flow: [process_section_kai_gong, process_section_chai_gai, process_section_shui_dian,
+  process_section_ni_mu, process_section_you_qi, process_section_an_zhuang, process_sction_jun_gong];
 }
 
 

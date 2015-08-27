@@ -35,6 +35,7 @@ router.post('/login', sign.login); //手机端登录
 router.post('/update_pass', sign.updatePass); //修改密码
 router.get('/share', share.list); //获取装修直播分享
 router.get('/share/listtop', share.listtop); //获取最火热的装修直播分享
+router.get('/share/:_id', share.getOne); //获取某个直播分享
 router.get('/product/:_id', product.getOne); //获取某个作品信息
 router.get('/designer/:_id/basicinfo', designer.getOne); //获取设计师信息
 router.get('/designer/:_id/products', product.list); //获取设计师作品列表
@@ -48,6 +49,7 @@ router.post('/image/upload', auth.normalUserRequired, upload.single('Filedata'),
 router.get('/favorite/product', auth.normalUserRequired, favorite.list); //收藏列表
 router.post('/favorite/product', auth.normalUserRequired, favorite.add); //收藏作品
 router.delete('/favorite/product', auth.normalUserRequired, favorite.delete); //删除收藏作品
+router.get('/plan/:_id', auth.normalUserRequired, plan.getOne); //获取某个方案信息
 router.post('/plan/comment', auth.normalUserRequired, plan.addCommentForPlan); //添加评论
 router.get('/user/:_id/info', auth.normalUserRequired, user.getInfo); //获取业主个人资料
 router.get('/signout', auth.normalUserRequired, sign.signout); //登出
@@ -85,6 +87,7 @@ router.post('/designer/team', auth.designerRequired, team.add); //添加施工�
 router.put('/designer/team', auth.designerRequired, team.update); //更新施工队伍
 router.delete('/designer/team', auth.designerRequired, team.delete); //删除施工队伍
 router.post('/designer/auth', auth.designerRequired, designer.auth); //提交认证申请
+router.post('/designer/agree', auth.designerRequired, designer.agree); //提交认证申请
 router.post('/process/ysimage', auth.designerRequired, process.addYsImage); //提交验收照片
 router.delete('/process/ysimage', auth.designerRequired, process.deleteYsImage); //删除验收照片
 router.get('/designer/process/list', auth.designerRequired, process.listForDesigner); //设计师获取装修工地列表

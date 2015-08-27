@@ -126,5 +126,8 @@ DesignerSchema.index({
 }, {
   unique: true
 });
+DesignerSchema.index({
+  city: 1
+};
 
 mongoose.model('Designer', DesignerSchema);

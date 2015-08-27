@@ -7,4 +7,6 @@ var ImageSchema = new Schema({
   userid: {type: String},
 });
 
+ImageSchema.index({md5: 1});
+
 mongoose.model('Image', ImageSchema);

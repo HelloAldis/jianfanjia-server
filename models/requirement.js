@@ -18,4 +18,8 @@ var RequirementSchema = new Schema({
   final_designerid: {type: ObjectId},
 });
 
+RequirementSchema.index({
+  userid: 1
+};
+
 mongoose.model('Requirement', RequirementSchema);

@@ -28,53 +28,6 @@ exports.updateByQuery = function (query, json, callback) {
   }, callback);
 };
 
-exports.findDesignersByCityDistrictHalf = function (city, district, price_perm,
-  limit, callback) {
-  Designer.find({
-    auth_type: type.designer_auth_type_done,
-    city: city,
-    dec_districts: district,
-    dec_fee_half: {
-      '$lte': price_perm
-    }
-  }, null, {
-    sort: {
-      score: -1
-    },
-    limit: 3
-  }, callback);
-};
-
-exports.findDesignersByCityDistrictAll = function (city, district, price_perm,
-  limit, callback) {
-  Designer.find({
-    auth_type: type.designer_auth_type_done,
-    city: city,
-    dec_districts: district,
-    dec_fee_all: {
-      '$lte': price_perm
-    }
-  }, null, {
-    sort: {
-      score: -1
-    },
-    limit: 3
-  }, callback);
-};
-
-exports.findDesignersByCityDistrict = function (city, district, limit, callback) {
-  Designer.find({
-    auth_type: type.designer_auth_type_done,
-    city: city,
-    dec_districts: district,
-  }, null, {
-    sort: {
-      score: -1
-    },
-    limit: 3
-  }, callback);
-};
-
 exports.addViewCountForDesigner = function (desingerid, num) {
   Designer.update({
     _id: desingerid

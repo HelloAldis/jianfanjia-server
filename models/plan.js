@@ -26,6 +26,9 @@ var PlanSchema = new Schema({
       price: {
         type: Number
       },
+      description: {
+        type: String
+      },
     }]
   },
   description: {
@@ -63,5 +66,12 @@ var PlanSchema = new Schema({
     }]
   },
 });
+
+PlanSchema.index({
+  userid: 1
+};
+PlanSchema.index({
+  designerid: 1
+};
 
 mongoose.model('Plan', PlanSchema);

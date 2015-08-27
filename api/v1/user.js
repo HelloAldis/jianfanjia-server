@@ -110,7 +110,7 @@ exports.updateRequirement = function (req, res, next) {
         console.log(district);
         console.log(designer.dec_districts);
 
-        if (validator.isIn(district, [designer.dec_districts])) {
+        if (_.indexOf(designer.dec_districts, district)) {
           console.log(
             'sdfsadfasdfsdfsd----------------------------------'
           );
@@ -129,7 +129,7 @@ exports.updateRequirement = function (req, res, next) {
         }
 
         //匹配风格
-        if (validator.isIn(dec_style, designer.dec_styles)) {
+        if (_.indexOf(designer.dec_styles, dec_style)) {
           designer.match++;
         }
 
@@ -139,7 +139,7 @@ exports.updateRequirement = function (req, res, next) {
         }
 
         //匹配房型
-        if (validator.isIn(requirement.house_type, designer.dec_house_types)) {
+        if (_.indexOf(designer.dec_house_types, requirement.house_type)) {
           designer.match++;
         }
       });

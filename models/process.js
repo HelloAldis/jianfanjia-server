@@ -982,4 +982,11 @@ var ProcessSchema = new Schema({
 
 });
 
+ProcessSchema.index({
+  userid: 1
+};
+ProcessSchema.index({
+  final_designerid: 1
+};
+
 mongoose.model('Process', ProcessSchema);

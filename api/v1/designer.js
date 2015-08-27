@@ -78,8 +78,6 @@ exports.search = function (req, res, next) {
   var sort = req.body.sort;
   query.auth_type = type.designer_auth_type_done;
 
-  console.log(query);
-
   Designer.findDesignersByQuery(query, sort, function (err, designers) {
     if (err) {
       return next(err);
@@ -213,4 +211,17 @@ exports.auth = function (req, res, next) {
 
       res.sendSuccessMsg();
     });
+}
+
+exports.agree = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
+
+  Designer.updateByQuery({_id:designerid}, {'agreee_license': type.designer_agree_type_yes},
+  function (err) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendSuccessMsg();
+  });
 }

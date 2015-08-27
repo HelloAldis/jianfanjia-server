@@ -115,64 +115,6 @@ exports.delete = function (req, res, next) {
   });
 }
 
-// exports.list = function (req, res, next) {
-//   var user = req.user || req.session.user;
-//
-//   if (user.type === '1') {
-//     Plan.getPlansByUserid(user._id, function (err, plans) {
-//       if (err) {
-//         return next(err);
-//       }
-//
-//       async.mapLimit(plans, 3, function (p) {
-//         User.getUserById({_id: p.designerid}, function (err, designer_indb) {
-//           if (err) {
-//             return next(err);
-//           }
-//
-//           var designer = {};
-//           designer.username = designer_indb.username;
-//           p.designer = designer;
-//         });
-//       }, function (err, results) {
-//         if (err) {
-//           return next(err);
-//         }
-//
-//         res.send({
-//           data: plans
-//         });
-//       });
-//     });
-//   } else if(user.type === '2') {
-//     Plan.getPlansByDesignerid(user._id, function (err, plans) {
-//       if (err) {
-//         return next(err);
-//       }
-//
-//       async.mapLimit(plans, 3, function (p) {
-//         User.getUserById({_id: p.userid}, function (err, user_indb) {
-//           if (err) {
-//             return next(err);
-//           }
-//
-//           var user = {};
-//           user.username = user_indb.username;
-//           p.user = user;
-//         });
-//       }, function (err, results) {
-//         if (err) {
-//           return next(err);
-//         }
-//
-//         res.send({
-//           data: plans
-//         });
-//       });
-//     });
-//   }
-// }
-
 exports.userMyPlan = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
 
@@ -240,5 +182,17 @@ exports.addCommentForPlan = function (req, res, next) {
     }
 
     res.sendSuccessMsg();
+  });
+}
+
+exports.getOne = function (req, res, next) {
+  var _id = req.params._id;
+
+  Plan.findById(_id, function (err, plan) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendData(plan);
   });
 }

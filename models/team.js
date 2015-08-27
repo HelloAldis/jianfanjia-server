@@ -16,4 +16,8 @@ var TeamSchema = new Schema({
   district: {type: String},
 });
 
+TeamSchema.index({
+  designerid: 1
+};
+
 mongoose.model('Team', TeamSchema);
