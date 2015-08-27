@@ -10,15 +10,15 @@ var globalData = {
 	price_area  : ['50－100','100-200','200－300','300以上'],
 	house_type : ['一居','二居','三居','四居','复式','别墅'],
 	dec_flow : ['开工','拆改','水电','泥木','油漆','安装','竣工'],
-	des_type : ['不限','表达型','聆听型']
+	des_type : ['不限','表达型','聆听型'],
+	auth_type : ['未提交认证','审核中','审核通过'],
+	scheme_status : ['已预约但没有响应','已拒绝业主','已响应但是没有方案','提交了方案','方案被拒绝','方案被选中']
 }
-var RootUrl = 'http://192.168.1.107:80/';
+//var RootUrl = 'http://192.168.1.107:80/';
 var global_success_url = window.location;
-//var RootUrl = 'http://192.168.1.107:8080/';
+var RootUrl = 'http://www.jianfanjia.com/';
 // 检测浏览器是否支持css3新属性，来给低版本浏览器做优雅降级；
 function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentElement.style,t=function(r){return r.replace(/-(\w)/g,function($0,$1){return $1.toUpperCase()})};for(i in p){a.push(t(p[i]+'-'+c));a.push(t(c))}for(i in a){if(a[i]in s){return true}}return false};
-
-
 /*
 	下拉选择框插件
 	3个参数：
@@ -40,10 +40,11 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 				id : null,
 				list : [],
 				btn : true,
-				editor : false
+				editor : false,
+				index : false
 			},options || {})
 			this.selectBox = $('#'+this.settings.id);
-			this.input = $('<input type="hidden" name="'+this.settings.id+'" value="'+this.settings.list[0]+'" />');
+			this.input = $('<input type="hidden" name="'+this.settings.id+'" value="'+(this.settings.index ? "0" : this.settings.list[0])+'" />');
 			this.option = $('<div class="option"><span class="value">'+this.settings.list[0]+'</span>'+(this.settings.btn?'<span class="arrow"><em></em><i></i></span>':'')+'</div>');
 			this.editor = $('<div class="editor"><input class="value" name="'+this.settings.id+'" value="'+this.settings.list[0]+'" />'+(this.settings.btn?'<span class="arrow"><em></em><i></i></span>':'')+'</div>');
 			this.createList(this.settings.list);
@@ -82,7 +83,11 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 			this.select.delegate('li', 'click' , function(ev){
 				ev.stopPropagation();
 				var value = $(this).find('a').text();
-				self.input.val(value)
+				if(self.settings.index){
+					self.input.val($(this).index())
+				}else{
+					self.input.val(value)
+				}
 				self.option.find('.value').html(value);
 				if(self.settings.editor){
 					self.editor.find('.value').val(value);

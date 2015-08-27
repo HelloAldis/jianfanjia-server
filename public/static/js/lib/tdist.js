@@ -21,6 +21,7 @@ var tdist={"110000":["\u5317\u4eac","1"],"110100":["\u5317\u4eac\u5e02","110000"
 				id : null,
 				data : tdist || {},
 				btn : true,
+				query : ''
 			},options || {})
 			this.selectBox = $('#'+this.settings.id);
 			var Default = [
@@ -41,18 +42,23 @@ var tdist={"110000":["\u5317\u4eac","1"],"110100":["\u5317\u4eac\u5e02","110000"
 				}
 			];
 			var selectData = '';
+			this.queryData = this.settings.query.split(' ');
 			for (var i = 0; i < Default.length; i++) {
 				var selectDataInput = '';
 				var selectDataOption = '';
 				for (var j = 0; j < 1; j++) {
-					selectDataInput += '<input type="hidden" name="'+this.settings.id+i+'" value="'+Default[i].cn+'" />';
-					selectDataOption += '<div class="option"><span class="value">请选择'+Default[i].cn+'</span>'+(this.settings.btn?'<span class="arrow"><em></em><i></i></span>':'')+'</div>'
+					selectDataInput += '<input type="hidden" name="'+this.settings.id+i+'" value="" />';
+					selectDataOption += '<div class="option"><span class="value">'+((this.queryData[i]) ? this.queryData[i] : '请选择'+Default[i].cn)+'</span>'+(this.settings.btn?'<span class="arrow"><em></em><i></i></span>':'')+'</div>'
 				};
 				selectData += '<div class="list '+Default[i].en+'">'+selectDataInput+selectDataOption+'</div>';
 			};
 			this.bOFF = false;
 			this.bOff = false;
+			this.value = '没有选择';
+			this.input = $('<input type="hidden" name="'+this.settings.id+'" value="'+this.value+'" />');
+			this.selectBox.append(this.input);
 			this.selectBox.append(selectData);
+			this.input.val(this.settings.query)
 			this.list1 = this.selectBox.find('.province');
 			this.list2 = this.selectBox.find('.city');
 			this.list3 = this.selectBox.find('.area');
@@ -138,6 +144,7 @@ var tdist={"110000":["\u5317\u4eac","1"],"110100":["\u5317\u4eac\u5e02","110000"
 						self.selectShow(self.list3)
 						self.selectHide(self.list2)
 						self.clearValue(self.list3);
+
 					}
 					if(obj == self.list3){
 						self.selectHide(self.list3)

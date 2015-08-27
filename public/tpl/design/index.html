@@ -7,12 +7,13 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
-	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
-	<link rel="stylesheet" type="text/css" href="../../css/design.css" />
-	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../../js/lib/handlebars.js"></script>
-	<script type="text/javascript" src="../../js/lib/page.js"></script>
-	<script type="text/javascript" src="../../js/design/index.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="../../static/css/design.css" />
+	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/handlebars.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/page.js"></script>
+	<script type="text/javascript" src="../../static/js/design/index.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -34,48 +35,48 @@
 		</div>
 	</div>
 	<div class="g-subad"><img src="../../img/index/02.jpg" height="640" width="1920" alt="" /></div>
-	<div class="design-list">
+	<div class="design-list" id="j-design-list">
 		<div class="m-filter g-wp">
-			<dl data-style="0" class="f-cb">
+			<dl data-type="dec_style" class="f-cb">
 				<dt>擅长风格：</dt>
 				<dd>
-					<a href="javascript:;" class="current">不限</a>
-					<a href="javascript:;">欧式</a>
-					<a href="javascript:;">中式</a>
-					<a href="javascript:;">现代</a>
-					<a href="javascript:;">地中海</a>
-					<a href="javascript:;">美式</a>
-					<a href="javascript:;">东南亚</a>
+					<a href="javascript:;" class="current" data-query="-1">不限</a>
+					<a href="javascript:;" data-query="0">欧式</a>
+					<a href="javascript:;" data-query="1">中式</a>
+					<a href="javascript:;" data-query="2">现代</a>
+					<a href="javascript:;" data-query="3">地中海</a>
+					<a href="javascript:;" data-query="4">美式</a>
+					<a href="javascript:;" data-query="5">东南亚</a>
 				</dd>
 			</dl>
-			<dl data-area="0" class="f-cb">
+			<dl data-type="orders_area" class="f-cb">
 				<dt>接单区域：</dt>
 				<dd>
-					<a href="javascript:;" class="current">不限</a>
-					<a href="javascript:;">武昌</a>
-					<a href="javascript:;">汉口</a>
-					<a href="javascript:;">汉阳</a>
+					<a href="javascript:;" class="current" data-query="-1">不限</a>
+					<a href="javascript:;" data-query="0">武昌</a>
+					<a href="javascript:;" data-query="1">汉口</a>
+					<a href="javascript:;" data-query="2">汉阳</a>
 				</dd>
 			</dl>
-			<dl data-price="0" class="f-cb">
+			<dl data-type="price_area" class="f-cb">
 				<dt>设计收费：</dt>
 				<dd>
-					<a href="javascript:;" class="current">不限</a>
-					<a href="javascript:;">50-100</a>
-					<a href="javascript:;">100-200</a>
-					<a href="javascript:;">200-300</a>
-					<a href="javascript:;">300以上</a>
+					<a href="javascript:;" class="current" data-query="-1">不限</a>
+					<a href="javascript:;" data-query="0">50-100</a>
+					<a href="javascript:;" data-query="1">100-200</a>
+					<a href="javascript:;" data-query="2">200-300</a>
+					<a href="javascript:;" data-query="3">300以上</a>
 				</dd>
 			</dl>
 		</div>
 		<div class="m-sort">
 			<div class="g-wp">
-				<a href="" class="current">默认排序</a>
-				<a href="" class="current">预约数</a>
-				<a href="" class="current">浏览数</a>
+				<a href="" class="current" data-query="all">默认排序</a>
+				<a href="" class="current" data-query="all">预约数</a>
+				<a href="" class="current" data-query="all">浏览数</a>
 			</div>
 		</div>
-		<ul class="m-list" id="j-design-list"></ul>
+		<ul class="m-list"></ul>
 		<div class="m-page g-wp" id="j-page"></div>
 	</div>
 	<div class="g-ft">
@@ -105,51 +106,6 @@
 				</div>
 			</div>
 		</div>
-		<script id="design-template" type="text/x-handlebars-template">
-	        {{#each list}}
-            <li>
-          		<div class="g-wp">
-          			<div class="m-tt f-cb">
-          				<div class="info f-fl">
-          					<div class="head">
-          						<img src="{{head}}" alt="{{name}}"/>
-          					</div>
-          					<div class="msg f-cb">
-          						<dl>
-          							<dt>{{work}}</dt>
-          							<dd>作品</dd>
-          						</dl>
-          						<dl>
-          							<dt>{{order}}</dt>
-          							<dd>预约</dd>
-          						</dl>
-          					</div>
-          				</div>
-          				<div class="status f-fl">
-	          				<h4>{{name}}<span class="i-icon sex{{sex}}"></span></h4>
-          					<div class="atte atte{{atte}}"><span class="i-icon"></span>认证设计师</div>
-          					<div class="addr"><strong>地址：</strong>{{addr}}<span class="i-icon"></span></div>
-          					<div class="style">
-          						<strong>风格：</strong>
-      							{{#each style}}
-      								<span>{{decorate this}}</span>
-      							{{/each}}
-          					</div>
-          				</div>
-          				<div class="order f-fr">
-          					<p><strong>{{commit price}}</strong>元/m&sup2;</p>
-          					<a href="{{url}}" class="btn">前往预约</a>
-          				</div>
-          			</div>
-          			<div class="m-ct f-cb">
-							{{#each works}}
-								<div class="works"><img src="{{this}}" alt="{{../name}}的作品"/></div>
-							{{/each}}
-          			</div>
-          		</div>
-            </li>
-	      {{/each}}
-	    </script>
 		<div class="m-copy">
 			<div class="g-wp">
 			Copyright © 2015-2025 jianfanjia.com All Rights Reserved 武汉家易装科技有限公司 隐私权政策 鄂ICP备15014103号

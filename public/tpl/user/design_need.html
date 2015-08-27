@@ -7,9 +7,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
-	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
-	<link rel="stylesheet" type="text/css" href="../../css/user.css" />
-	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
+	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -47,47 +48,7 @@
 				<h3>我的收藏</h3>
 			</div>
 			<div class="m-ct m-need">
-				<ul class="f-cb">
-					<li>
-						<div class="pic"><img src="../../img/index/index-live-01.jpg" alt="清江山水"></div>
-						<div class="txt"><h4>清江山水</h4><div class="desc"><span>120m²</span><span>三室一厅</span><span>现代简约</span></div><p>This is the brand new house for family johnson.</p></div>
-						<div class="head"><img src="../../img/index/index-live-head-01.jpg" alt="清江山水"></div>
-						<a href="../design/detail.html" class="btn">查看详情</a>
-					</li>
-					<li>
-						<div class="pic"><img src="../../img/index/index-live-01.jpg" alt="清江山水"></div>
-						<div class="txt"><h4>清江山水</h4><div class="desc"><span>120m²</span><span>三室一厅</span><span>现代简约</span></div><p>This is the brand new house for family johnson.</p></div>
-						<div class="head"><img src="../../img/index/index-live-head-01.jpg" alt="清江山水"></div>
-						<a href="../design/detail.html" class="btn">查看详情</a>
-					</li>
-					<li>
-						<div class="pic"><img src="../../img/index/index-live-01.jpg" alt="清江山水"></div>
-						<div class="txt"><h4>清江山水</h4><div class="desc"><span>120m²</span><span>三室一厅</span><span>现代简约</span></div><p>This is the brand new house for family johnson.</p></div>
-						<div class="head"><img src="../../img/index/index-live-head-01.jpg" alt="清江山水"></div>
-						<a href="../design/detail.html" class="btn">查看详情</a>
-					</li>
-					<li>
-						<div class="pic"><img src="../../img/index/index-live-01.jpg" alt="清江山水"></div>
-						<div class="txt">
-							<h4>清江山水</h4>
-							<div class="desc"><span>120m²</span><span>三室一厅</span><span>现代简约</span></div>
-							<p>This is the brand new house for family johnson.</p></div>
-						<div class="head"><img src="../../img/index/index-live-head-01.jpg" alt="清江山水"></div>
-						<a href="../design/detail.html" class="btn">查看详情</a>
-					</li>
-					<li>
-						<div class="pic"><img src="../../img/index/index-live-01.jpg" alt="清江山水"></div>
-						<div class="txt"><h4>清江山水</h4><div class="desc"><span>120m²</span><span>三室一厅</span><span>现代简约</span></div><p>This is the brand new house for family johnson.</p></div>
-						<div class="head"><img src="../../img/index/index-live-head-01.jpg" alt="清江山水"></div>
-						<a href="../design/detail.html" class="btn">查看详情</a>
-					</li>
-					<li>
-						<div class="pic"><img src="../../img/index/index-live-01.jpg" alt="清江山水"></div>
-						<div class="txt"><h4>清江山水</h4><div class="desc"><span>120m²</span><span>三室一厅</span><span>现代简约</span></div><p>This is the brand new house for family johnson.</p></div>
-						<div class="head"><img src="../../img/index/index-live-head-01.jpg" alt="清江山水"></div>
-						<a href="../design/detail.html" class="btn">查看详情</a>
-					</li>
-				</ul>
+				<ul class="f-cb" id="favorites-list"></ul>
 			</div>
 		</div>	
 	</div>
@@ -126,3 +87,82 @@
 	</div>
 </body>
 </html>
+<script type="text/javascript">
+		var $list = $('#favorites-list'); 
+		function loadList(){
+			var url = RootUrl+'api/v1/favorite/product';
+			$.ajax({
+				url:url,
+				type: 'GET',
+				contentType : 'application/json; charset=utf-8',
+				dataType: 'json',
+				success: function(res){
+					var data = res['data']['favorite_product'];
+					for (var i = 0,len = data.length; i < len; i++){
+						shareData(data[i])
+					};
+			   	}
+			});
+			return false;
+		}
+		loadList();
+		function shareData(data){
+			var url = RootUrl+'api/v1/product/'+data;
+			$.ajax({
+				url:url,
+				type: 'GET',
+				contentType : 'application/json; charset=utf-8',
+				dataType: 'json',
+				success: function(res){
+					createList(res['data'],data)
+			   	}
+			});
+			return false;
+		}
+		function createList(data,id){
+			var sLi = '';
+			if(data == null){
+				sLi = '<li data-uid="'+id+'">'
+							+'<div class="pic"><img alt="" src="../../img/index/index-live-01.jpg"></div>'
+							+'<div class="txt">'
+								+'<h4>很遗憾</h4>'
+								+'<div class="desc"> </div>'
+								+'<p>您收藏的作品已被作品无情的删除，点击取消收藏</p>'
+							+'</div>'
+							+'<a href="javascript:;" class="btn cancel">取消收藏</a>'
+						+'</li>';
+			}else{
+				sLi += '<li>'
+							+'<div class="pic"><img alt="'+data.cell+'" src="../../img/index/index-live-01.jpg"></div>'
+							+'<div class="txt">'
+								+'<h4>'+data.cell+'</h4>'
+								+'<div class="desc">'
+									+'<span>'+data.house_area+'m&sup2;</span><span>'+globalData.house_type[data.house_type]+'</span><span>'+globalData.dec_style[data.dec_style]+'</span>'
+								+'</div>'
+								+'<p>This is the brand new house for family johnson.</p>'
+							+'</div>'
+							+'<a href="../design/detail.html?'+data._id+'" class="btn">查看详情</a>'
+						+'</li>'
+			}
+			$list.append(sLi)
+		}
+		$list.delegate('.cancel','click',function(ev){
+			ev.preventDefault();
+			var url = RootUrl+'api/v1/favorite/product';
+			var Uid = $(this).closest('li').data('uid');
+			$.ajax({
+				url:url,
+				type: 'DELETE',
+				contentType : 'application/json; charset=utf-8',
+				dataType: 'json',
+				data : JSON.stringify({
+					"_id": Uid
+				}),
+				processData : false,
+				success: function(res){
+					$list.html('');
+					loadList();
+			   	}
+			});
+		})
+</script>

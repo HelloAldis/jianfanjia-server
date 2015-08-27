@@ -7,11 +7,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
-	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
-	<link rel="stylesheet" type="text/css" href="../../css/user.css" />
-	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../../js/lib/tdist.js"></script>
-	<script type="text/javascript" src="../../js/lib/public.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
+	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/tdist.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -49,7 +49,7 @@
 			</div>
 			<div class="m-ct">
 				<div class="w-form user-form">
-					<form action="http://www.jianfanjia.com" id="owner-info" method="get">
+					<form action="http://www.jianfanjia.com" id="owner-info" method="post">
 						<div class="m-item f-cb">
 							<div class="item">
 								<label class="u-lab" for="owner-name">姓&nbsp;&nbsp;&nbsp;名</label>
@@ -64,9 +64,9 @@
 							<div class="item">
 								<label class="u-lab" for="owner-sex">性&nbsp;&nbsp;&nbsp;别</label>
 								<div class="u-inp">
-									<div class="sex">
-									<label><input type="radio" name="owner-sex" id="" />男</label>
-									<label><input type="radio" name="owner-sex" id="" />女</label>
+									<div class="sex" id="owner-sex">
+									<label><input type="radio" checked="checked"  name="owner-sex" value="0" />男</label>
+									<label><input type="radio" name="owner-sex" value="1" />女</label>
 								</div>
 								</div>
 							</div>
@@ -85,7 +85,7 @@
 							<div class="item">
 								<label class="u-lab" for="dec_area">所在地区</label>
 								<div class="u-inp">
-									<div class="m-cities" id="owner-current-area"></div>
+									<div class="m-cities" id="owner-area"></div>
 								</div>
 							</div>
 						</div>
@@ -104,7 +104,7 @@
 							<p>请上传350*500 我的头像</p>
 							<input type="file" name="" id="" />
 						</div>
-						<div class="m-item m-error-info hide"></div>
+						<div class="m-item m-error-info hide" id="error-info"></div>
 						<div class="m-item">
 							<div class="u-btn">
 								<input type="submit" class="btn" id="owner-submit" value="保存" />
@@ -148,12 +148,6 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="../../static/js/user/owner_info.js"></script>
 </body>
 </html>
-<script type="text/javascript">
-	
-	var ownerCurrentArea = new CitySelect({
-		id : 'owner-current-area',
-		data : tdist
-	})
-</script>

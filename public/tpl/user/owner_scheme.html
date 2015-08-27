@@ -7,10 +7,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
-	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
-	<link rel="stylesheet" type="text/css" href="../../css/user.css" />
-	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../../js/index/index.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
+	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -47,7 +47,7 @@
 				<h3>我的方案</h3>
 			</div>
 			<div class="m-ct">
-				<div class="scheme owner_scheme">
+				<div class="scheme owner_scheme" id="j-owner_scheme">
 					<div class="item">
 						<div class="info f-cb">
 							<ul class="f-fl">
@@ -165,3 +165,60 @@
 	</div>
 </body>
 </html>
+<script type="text/javascript">
+	var $ownerScheme = $('#j-owner_scheme');
+	function loadList(){
+		var url = RootUrl+'api/v1/user/plan';
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function(res){
+				console.log(res['data'])
+				createList(res['data'])
+		   	}
+		});
+		return false;
+	}
+	loadList();
+	function createList(data){
+			$ownerScheme.html('')
+			var sItem = '';
+			for (var i = 0; i < data.length; i++) {
+				var sLi = '';
+				for (var j = 0; j < data[i].comments.length; j++) {
+					sLi += '<li>'+data[i].comments[j].content+'<br>'+data[i].comments[j].date+'</li>'
+				};
+				var sImg = ''
+				for (var j = 0; j < data[i].images.length; j++) {
+					sImg += '<img src="'+data[i].images[j].src+'" alt="" />'
+				};
+				sItem += '<div class="item">'
+							+'<div class="info f-cb">'
+								+'<ul class="f-fl">'
+									+'<li><h4>设计师 <span>'+data[i].manager+'</span> 提交的方案</h4></li>'
+									+'<li>报价：&yen;<span>'+data[i].total_price+'</span></li>'
+									+'<li>工期：<span>'+data[i].duration+'</span> 天</li>'
+								+'</ul>'
+								+'<div class="f-fr state state0">'
+									+'<i class="iconfont">&#xe603;</i>未中标'
+								+'</div>'
+							+'</div>'
+							+'<div class="desc">'
+								+'<p>'+data[i].description+'</p>'
+								+'<div class="pic f-cb">'+sImg+'</div>'
+							+'</div>'
+							+'<div class="handle">'
+								+'<a href="" class="msg">留言<span>('+data[i].comments.length+')</span></a>'
+								+'<a href="javascript:;" class="btns confirm">选定方案</a>'
+								+'<a href="scheme_detail.html" class="btns browse">预览方案</a>'
+							+'</div>'
+							+'<ul>'+sLi+'</ul>'
+						+'</div>'
+			};
+			$ownerScheme.html(sItem)
+		}
+
+
+</script>
