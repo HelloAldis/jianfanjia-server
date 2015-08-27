@@ -84,7 +84,7 @@ router.post('/designer/team', auth.designerRequired, team.add); //添加施工�
 router.put('/designer/team', auth.designerRequired, team.update); //更新施工队伍
 router.delete('/designer/team', auth.designerRequired, team.delete); //删除施工队伍
 router.post('/designer/auth', auth.designerRequired, designer.auth); //提交认证申请
-
+router.post('/process/ysimage', auth.normalUserRequired, process.addYsImage); //提交验收照片
 //管理员独有的功能
 router.post('/admin/authed', auth.adminRequired, admin.authed); //审核设计师
 router.post('/share', auth.adminRequired, admin.add); //创建直播分享

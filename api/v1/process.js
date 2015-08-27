@@ -177,7 +177,7 @@ exports.addYsImage = function (req, res, next) {
   var imageid = new ObjectId(req.body.imageid);
   var _id = req.body._id;
 
-  Process.addYsImage(id, section, key, image, function (err) {
+  Process.addYsImage(_id, section, key, imageid, function (err) {
     if (err) {
       return next(err);
     }

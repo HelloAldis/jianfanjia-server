@@ -3,6 +3,8 @@ var eventproxy = require('eventproxy');
 var Designer = require('../../proxy').Designer;
 var Product = require('../../proxy').Product;
 var Plan = require('../../proxy').Plan;
+var User = require('../../proxy').User;
+var Requirement = require('../../proxy').Requirement;
 var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
@@ -29,7 +31,9 @@ exports.updateInfo = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var designer = ApiUtil.buildDesinger(req);
 
-  Designer.updateByQuery({_id: userid}, designer, function (err) {
+  Designer.updateByQuery({
+    _id: userid
+  }, designer, function (err) {
     if (err) {
       return next(err);
     }
@@ -68,13 +72,14 @@ exports.getOne = function (req, res, next) {
 }
 
 exports.listtop = function (req, res, next) {
-  Designer.findDesignersOrderByScore(config.index_top_designer_count, function (err, designer) {
-    if (err) {
-      return next(err);
-    }
+  Designer.findDesignersOrderByScore(config.index_top_designer_count,
+    function (err, designer) {
+      if (err) {
+        return next(err);
+      }
 
-    res.sendData(designer);
-  })
+      res.sendData(designer);
+    })
 }
 
 exports.search = function (req, res, next) {
@@ -98,16 +103,68 @@ exports.myUser = function (req, res, next) {
   var ep = eventproxy();
 
   ep.fail(next);
-  ep.on('user', function (user) {
-    res.sendData(user);
+  ep.on('plans', function (plans) {
+    console.log('11111111' + plans);
+    async.mapLimit(plans, 3, function (plan, callback) {
+      User.getOneByQueryAndProject({
+        _id: plan.userid
+      }, {
+        username: 1,
+        phone: 1,
+      }, function (err, user) {
+        plan.user = user;
+        callback(err, plan);
+      });
+    }, function (err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      ep.emit('hasUser', results);
+    });
   });
 
-  Plan.getPlansByDesignerid(designerid, function (err, plans) {
+  ep.on('hasUser', function (plans) {
+    console.log('222222222' + plans);
+    async.mapLimit(plans, 3, function (plan, callback) {
+      Requirement.getRequirementByUserid(plan.userid, function (err,
+        requirement) {
+        plan.requirement = requirement;
+        callback(err, plan);
+      });
+    }, function (err, results) {
+      console.log('3333333');
+      if (err) {
+        return next(err);
+      }
+
+      res.sendData(results);
+    });
+  });
+
+  Plan.getPlansByQueryAndProject({
+    designerid: designerid
+  }, {
+    designerid: 1,
+    userid: 1,
+    requirementid: 1,
+    house_check_time: 1,
+    status: 1,
+  }, function (err, plans) {
     if (err) {
       return next(err);
     }
-
-    ep.emit('user', plans);
+    var ps = _.map(plans, function (plan) {
+      var p = {};
+      p.designerid = plan.designerid;
+      p.userid = plan.userid;
+      p.requirementid = plan.requirementid;
+      p.house_check_time = plan.house_check_time;
+      p.status = plan.status;
+      return p;
+    });
+    console.log(ps);
+    ep.emit('plans', ps);
   });
 }
 
@@ -116,7 +173,13 @@ exports.okUser = function (req, res, next) {
   var planid = tools.trim(req.body.planid);
   var house_check_time = req.body.house_check_time;
 
-  Plan.updateByQuery({_id: planid, designerid:designerid}, {house_check_time:house_check_time, status: type.plan_status_designer_respond},
+  Plan.updateByQuery({
+      _id: planid,
+      designerid: designerid
+    }, {
+      house_check_time: house_check_time,
+      status: type.plan_status_designer_respond
+    },
     function (err) {
       if (err) {
         return next(err);
@@ -130,7 +193,12 @@ exports.rejectUser = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
   var planid = tools.trim(req.body.planid);
 
-  Plan.updateByQuery({_id: planid, designerid:designerid}, {status: type.plan_status_designer_reject},
+  Plan.updateByQuery({
+      _id: planid,
+      designerid: designerid
+    }, {
+      status: type.plan_status_designer_reject
+    },
     function (err) {
       if (err) {
         return next(err);
@@ -143,12 +211,17 @@ exports.rejectUser = function (req, res, next) {
 exports.auth = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
 
-  Designer.updateByQuery({_id:designerid}, {auth_type: type.designer_auth_type_processing, auth_date: new Date()},
-  function (err) {
-    if (err) {
-      return next(err);
-    }
+  Designer.updateByQuery({
+      _id: designerid
+    }, {
+      auth_type: type.designer_auth_type_processing,
+      auth_date: new Date()
+    },
+    function (err) {
+      if (err) {
+        return next(err);
+      }
 
-    res.sendSuccessMsg();
-  });
+      res.sendSuccessMsg();
+    });
 }

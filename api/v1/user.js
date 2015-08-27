@@ -35,7 +35,9 @@ exports.updateInfo = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var user = ApiUtil.buildUser(req);
 
-  User.updateByQuery({_id: userid}, user, function (err) {
+  User.updateByQuery({
+    _id: userid
+  }, user, function (err) {
     if (err) {
       return next(err);
     }
@@ -86,14 +88,15 @@ exports.updateRequirement = function (req, res, next) {
     if (recdesigners.length < 3) {
       //获取其他设计师
       Designer.findDesignersByCityDistrict(city,
-        district, config.recommend_designer_count, function (err, others) {
-        if (err) {
-          return next(err);
-        }
+        district, config.recommend_designer_count,
+        function (err, others) {
+          if (err) {
+            return next(err);
+          }
 
-        recdesigners = recdesigners.concat(others);
-        ep.emit('alldesigners', recdesigners);
-      });
+          recdesigners = recdesigners.concat(others);
+          ep.emit('alldesigners', recdesigners);
+        });
     } else {
       ep.emit('alldesigners', recdesigners);
     }
@@ -103,23 +106,25 @@ exports.updateRequirement = function (req, res, next) {
   if (requirement.work_type === type.work_type_half) {
     //半包
     Designer.findDesignersByCityDistrictHalf(city, district, price_perm,
-      config.recommend_designer_count, function (err, recdesigners) {
-      if (err) {
-        return next(err);
-      }
+      config.recommend_designer_count,
+      function (err, recdesigners) {
+        if (err) {
+          return next(err);
+        }
 
-      ep.emit('recdesigners', recdesigners);
-    });
+        ep.emit('recdesigners', recdesigners);
+      });
   } else if (requirement.work_type === type.work_type_all) {
     //全包
-    Designer.findDesignersByCityDistrictAll(city, district, price_perm, config.recommend_designer_count,
+    Designer.findDesignersByCityDistrictAll(city, district, price_perm,
+      config.recommend_designer_count,
       function (err, recdesigners) {
-      if (err) {
-        return next(err);
-      }
+        if (err) {
+          return next(err);
+        }
 
-      ep.emit('recdesigners', recdesigners);
-    });
+        ep.emit('recdesigners', recdesigners);
+      });
   }
 };
 
@@ -139,7 +144,10 @@ exports.myDesigner = function (req, res, next) {
 
     ep.on('hasDesigner', function (designers) {
       async.mapLimit(designers, 3, function (designer, callback) {
-        Plan.getPlansByDesigneridAndUserid(designer._id, userid, {house_check_time:1, status:1}, function (err, plans) {
+        Plan.getPlansByDesigneridAndUserid(designer._id, userid, {
+          house_check_time: 1,
+          status: 1
+        }, function (err, plans) {
           designer.plans = plans;
           console.log('designer ' + designer);
           callback(err, designer);
@@ -157,8 +165,10 @@ exports.myDesigner = function (req, res, next) {
       ep.emit('final', []);
       return;
     } else {
-      async.mapLimit(requirement.designerids, 3, function (designerid, callback) {
-        Designer.getDesignerById(designerid, function (err, designer_indb) {
+      async.mapLimit(requirement.designerids, 3, function (designerid,
+        callback) {
+        Designer.getDesignerById(designerid, function (err,
+          designer_indb) {
           var designer = {};
           designer._id = designer_indb._id;
           designer.phone = designer_indb.phone;
@@ -177,7 +187,6 @@ exports.myDesigner = function (req, res, next) {
 
         ep.emit('hasDesigner', results);
       });
-      return;
     }
   });
 };
@@ -196,25 +205,32 @@ exports.addDesigner = function (req, res, next) {
       return;
     }
 
-    Requirement.getRequirementByQuery({userid: userid, 'designerids': designerid},
-    function (err, requirement) {
-      if (err) {
-        return next(err);
-      }
-
-      if (requirement) {
-        res.sendErrMsg('已经添加过了');
-        return;
-      }
-
-      Requirement.updateByUserid(userid, {$push: {designerids:designerid}}, function (err) {
+    Requirement.getRequirementByQuery({
+        userid: userid,
+        'designerids': designerid
+      },
+      function (err, requirement) {
         if (err) {
           return next(err);
         }
 
-        res.sendSuccessMsg();
+        if (requirement) {
+          res.sendErrMsg('已经添加过了');
+          return;
+        }
+
+        Requirement.updateByUserid(userid, {
+          $push: {
+            designerids: designerid
+          }
+        }, function (err) {
+          if (err) {
+            return next(err);
+          }
+
+          res.sendSuccessMsg();
+        });
       });
-    });
   });
 };
 

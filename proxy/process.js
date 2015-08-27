@@ -19,13 +19,32 @@ exports.addImage = function (id, section, item, imageid, callback) {
 };
 
 exports.addYsImage = function (id, section, key, imageid, callback) {
+  var update = {};
+  path = section + '.' + 'ys.images';
+  update[path] = {
+    key: key,
+    imageid: imageid
+  };
+
+  Process.findOneAndUpdate({
+    _id: id
+  }, {
+    $push: update
+  }, callback);
+}
+
+exports.updateYsImage = function (id, section, key, imageid, callback) {
   var query = {};
   query._id = id;
-  path = section + '.' + 'ys.images.key';
+  var path = section + '.' + 'ys.images.key';
   query[path] = key;
 
-  var update = {key:key, imageid:imageid};
-  Process.findOneAndUpdate(query, update, {upsert:true}, callback);
+  path = section + '.' + 'ys.images.$.imageid';
+  var update = {};
+  update[path] = imageid;
+  Process.findOneAndUpdate(query, {
+    $set: update
+  }, callback);
 }
 
 exports.addComment = function (id, section, item, content, by, callback) {
