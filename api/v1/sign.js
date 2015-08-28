@@ -145,7 +145,7 @@ exports.signup = function (req, res, next) {
         }
 
         // store session cookie
-        authMiddleWare.gen_session(user_indb, res);
+        authMiddleWare.gen_session(user_indb, usertype, res);
         req.session.userid = user_indb._id;
         req.session.usertype = usertype;
 
@@ -164,7 +164,7 @@ exports.signup = function (req, res, next) {
         }
 
         // store session cookie
-        authMiddleWare.gen_session(user_indb, res);
+        authMiddleWare.gen_session(user_indb, usertype, res);
         req.session.userid = user_indb._id;
         req.session.usertype = usertype;
 
@@ -231,7 +231,7 @@ exports.login = function (req, res, next) {
         }
 
         // store session cookie
-        authMiddleWare.gen_session(user, res);
+        authMiddleWare.gen_session(user, type.role_user, res);
         req.session.userid = user._id;
         req.session.usertype = type.role_user;
 
@@ -252,7 +252,8 @@ exports.login = function (req, res, next) {
         }
 
         // store session cookie
-        authMiddleWare.gen_session(designer, res);
+        authMiddleWare.gen_session(designer, type.role_designer,
+          res);
         req.session.userid = designer._id;
         req.session.usertype = type.role_designer;
 
@@ -290,9 +291,13 @@ exports.login = function (req, res, next) {
 // sign out
 exports.signout = function (req, res, next) {
   req.session.destroy();
-  res.clearCookie(config.auth_cookie_name, {
+  res.clearCookie('username', {
     path: '/'
   });
+  res.clearCookie('usertype', {
+    path: '/'
+  });
+  res.sendSuccessMsg();
 };
 
 exports.verifyPhone = function (req, res, next) {

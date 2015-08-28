@@ -67,7 +67,7 @@ exports.delete = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var productid = tools.trim(req.body._id);
 
-  Favorite.deleteProductFavorite(userid, productid, function (err) {
+  Favorite.deleteProductFavorite(userid, productid, function (err, favorite) {
     if (err) {
       return next(err);
     }

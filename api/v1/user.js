@@ -194,7 +194,9 @@ exports.myDesigner = function (req, res, next) {
           var designer = {};
           designer._id = designer_indb._id;
           designer.phone = designer_indb.phone;
+          designer.province = designer_indb.province;
           designer.city = designer_indb.district;
+          designer.district = designer_indb.district;
           designer.username = designer_indb.username;
           designer.view_count = designer_indb.view_count;
           designer.order_count = designer_indb.order_count;
@@ -287,6 +289,10 @@ exports.addDesigner2HouseCheck = function (req, res, next) {
         } else {
           Plan.newAndSave(json);
           Designer.addOrderCountForDesigner(designerid, 1);
+          Designer.getDesignerById(designerid, function (err,
+            designer) {
+            // body...
+          });
           return ep.emit('final');
         }
       });

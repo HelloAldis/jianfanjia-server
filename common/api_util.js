@@ -5,11 +5,15 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 
 exports.getUserid = function (req) {
-  return req.session.userid;
+  if (req.session) {
+    return req.session.userid;
+  }
 }
 
 exports.getUsertype = function (req) {
-  return req.session.usertype;
+  if (req.session) {
+    return req.session.usertype;
+  }
 }
 
 exports.buildUser = function (req) {

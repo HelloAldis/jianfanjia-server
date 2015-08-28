@@ -53,15 +53,16 @@ exports.adminRequired = function (req, res, next) {
   next();
 };
 
-function gen_session(user, res) {
-  // var auth_token = user._id + '$$$$'; // 以后可能会存储更多信息，用 $$$$ 来分隔
-  // var opts = {
-  //   path: '/',
-  //   maxAge: 1000 * 60 * 60 * 24 * 30,
-  //   signed: true,
-  //   httpOnly: true
-  // };
-  // res.cookie(config.auth_cookie_name, auth_token, opts); //cookie 有效期30天
+function gen_session(user, usertype, res) {
+  var auth_token = user._id + '$$$$'; // 以后可能会存储更多信息，用 $$$$ 来分隔
+  var opts = {
+    path: '/',
+    maxAge: config.session_time,
+    signed: false,
+    httpOnly: true
+  };
+  res.cookie('username', user.username, opts); //cookie 有效期30天
+  res.cookie('usertype', usertype, opts);
 }
 
 exports.gen_session = gen_session;
@@ -118,21 +119,30 @@ exports.authUser = function (req, res, next) {
 // };
 
 
-var loginPages = ['/tpl/user/login.html'];
-var designerPages = ['/tpl/user/design.html'];
-var userPages = ['/tpl/user/owner.html'];
+var loginPages = ['/login.html'];
+var designerPages = ['/design.html', '/design_agreement.html',
+  '/design_info.html', '/design_need.html',
+  '/design_offer.html', '/design_owner.html',
+  '/design_scheme.html', '/design_team.html',
+  '/design_upload.html'
+];
+var userPages = ['/owner.html', '/owner_design.html',
+  '/owner_info.html', '/owner_need.html',
+  '/owner_scheme.html'
+];
 
 exports.authWeb = function (req, res, next) {
   var url = req.url
   var userid = ApiUtil.getUserid(req);
   var usertype = ApiUtil.getUsertype(req);
+  console.log(url);
 
   if (_.indexOf(loginPages, url) >= 0) {
     if (userid) {
       if (usertype === type.role_user) {
-        res.redirect('/tpl/user/owner.html');
+        res.redirect('owner.html');
       } else if (usertype === type.role_designer) {
-        res.redirect('/tpl/user/design.html');
+        res.redirect('design.html');
       }
     } else {
       next();
@@ -145,7 +155,7 @@ exports.authWeb = function (req, res, next) {
         next();
       }
     } else {
-      res.redirect('/tpl/user/login.html');
+      res.redirect('login.html');
     }
   } else if (_.indexOf(userPages, url) >= 0) {
     if (userid) {
@@ -155,7 +165,7 @@ exports.authWeb = function (req, res, next) {
         res.status(403).send('forbidden!');
       }
     } else {
-      res.redirect('/tpl/user/login.html');
+      res.redirect('login.html');
     }
   } else {
     next();

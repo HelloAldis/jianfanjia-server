@@ -43,6 +43,7 @@ var config = {
 
   session_secret: 'jiayizhuang_jianfanjia_secret', // 务必修改
   auth_cookie_name: 'jianfanjia',
+  session_time: 1000 * 60 * 60 * 24 * 5,
 
   // 程序运行的端口
   port: 80,

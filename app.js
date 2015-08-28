@@ -15,6 +15,7 @@ var responseUtil = require('./middlewares/response_util');
 var RedisStore = require('connect-redis')(session);
 var _ = require('lodash');
 var bodyParser = require('body-parser');
+// var cookieParser = require('cookie-parser');
 var errorhandler = require('errorhandler');
 var cors = require('cors');
 var morgan = require('morgan');
@@ -37,6 +38,7 @@ app.use(morgan(
 
 app.use(compression());
 // 静态资源
+app.use('/tpl/user', auth.authWeb);
 app.use('/', express.static(staticDir));
 // 通用的中间件
 app.use(require('response-time')());
@@ -63,15 +65,15 @@ app.use(session({
     path: '/',
     httpOnly: true,
     secure: false,
-    maxAge: 1000 * 60 * 60 * 24 * 3
+    maxAge: config.session_time,
   },
   secret: config.session_secret,
   store: new RedisStore({
     port: config.redis_port,
     host: config.redis_host,
   }),
-  rolling: true,
-  resave: true,
+  rolling: false,
+  resave: false,
   saveUninitialized: false,
 }));
 
