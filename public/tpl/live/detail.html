@@ -7,11 +7,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
-	<link rel="stylesheet" type="text/css" href="../../css/public.css" />
-	<link rel="stylesheet" type="text/css" href="../../css/live.css" />
-	<script type="text/javascript" src="../../js/lib/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../../js/lib/public.js"></script>
-	<script type="text/javascript" src="../../js/live/index.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="../../static/css/live.css" />
+	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -67,93 +66,6 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="../../static/js/live/detail.js"></script>
 </body>
 </html>
-<script type="text/javascript">
-	var data = {
-		'list' : {
-			'header' : {
-				'title' : '百瑞景中央生活社区',
-				'info'  : {
-					'price' : '40',
-					'type'  : '三室一厅',
-					'area'  : '110平米'
-				},
-				'design' : {
-					'pic'   : '../../img/index/index-live-head-01.jpg',
-					'url'   : '../design/homepage.html',
-					'name'  : '杨杰',
-					'job'   : '设计师'
-				},
-				'pmname'    : '杨姐'
-			},
-			'state'   :  3,
-			'desc'    :  '深圳优秀室内设计师，深圳室内设计师协会(SZAID)理事，高级室内建筑师，从事室内设计12年，现任深圳太合南方建筑室内设计事务所设计总监。作品多次刊登TOP《装潢世界》.《时代空间》.《上海家居》.《时尚家居》.等杂志中，现长期受邀担任 “深圳电台”栏目客座设计嘉宾，作品且多次整版刊登于《南方都市报》家居版，2010年应意邀去意大利设计考察交流。设计总监。作品多次刊登TOP《装潢世界》.《时代空间》.《上海家居》.《时尚家居》.等杂志中，现长期受邀担任 “深圳电台”栏目客座设计嘉宾，作品且多次整版刊登于《南方都市报》家居版，2010年应意邀去意大利设计考察交流。',
-			'step'    : [
-				{
-					'time' : '2015-3-25',
-					'state' : 0,
-					'pic'  : ['../../img/design/design-detail-01.jpg']
-				},
-				{
-					'time' : '2015-3-27',
-					'state' : 1,
-					'pic'  : ['../../img/design/design-detail-02.jpg']
-				}
-			]
-		}
-	};
-	var stateArr = globalData.dec_flow;
-	var $liveBanner = $('#j-live-banner');
-	var $liveShow = $('#j-live-show');
-
-	var sBanner = '<div class="g-wp">'
-				+'<h2>'+data.list.header.title+'</h2>'
-			+'<p>参考造价：<strong>'+data.list.header.info.price+'</strong>万元<span>|</span>户型：'+data.list.header.info.type+'<span>|</span>面积：'+data.list.header.info.area+'</p>'
-			+'<ul>'
-				+'<li>'
-					+'<a href="'+data.list.header.design.url+'" class="head">'
-						+'<span class="head-pic"><img src="'+data.list.header.design.pic+'" alt="'+data.list.header.design.name+'" /></span>'
-						+'<span class="head-name">'+data.list.header.design.name+'</span>'
-						+'<span class="head-name">'+data.list.header.design.job+'</span>'
-					+'</a>'
-				+'</li>'
-				+'<li>'
-					+'<div class="head">'
-						+'<span class="head-pic"><i class="iconfont">&#xe618;</i></span>'
-						+'<span class="head-name">'+data.list.header.pmname+'</span>'
-						+'<span class="head-name">项目经理</span>'
-					+'</div>'
-				+'</li>'
-			+'</ul>'
-		+'</div>';
-		$liveBanner.html(sBanner)
-
-		var sState = '<div class="m-state"><div class="state-box"><div class="list f-cb">';
-		for (var i = 0; i < stateArr.length; i++) {
-			if(i == data.list.state){
-				sState += '<div class="state active current"><div class="circle"></div><p>'+stateArr[i]+'</p></div>'
-			}else if(i < data.list.state){
-				sState += '<div class="state active"><div class="circle"></div><p>'+stateArr[i]+'</p></div>'
-			}else{
-				sState += '<div class="state"><div class="circle"></div><p>'+stateArr[i]+'</p></div>'
-			}
-			
-		};
-		sState += '<div class="line"><div class="line-in line'+data.list.state+'"></div></div></div></div>';
-		$liveShow.append(sState);
-		var sDoec = '<div class="m-desc"><h3>设计方案简介：</h3><p>'+data.list.desc+'</p></div>';
-		$liveShow.append(sDoec);
-		var sStep = '<div class="m-step">';
-		for (var i = 0; i < data.list.step.length; i++) {
-			sStep += '<div class="item" data-itme="'+data.list.step[i].state+'"><h4><i></i><span class="time">'+data.list.step[i].time+'</span><span class="state">'+stateArr[data.list.step[i].state]+'</span></h4><div class="pic">'
-			var sPic = '';
-			for (var j = 0; j < data.list.step[i].pic.length; j++) {
-				sPic += '<img src="'+data.list.step[i].pic[j]+'" alt="">'
-			};
-			sStep += sPic + '</div></div>'
-
-		};
-		sStep += '</div>';
-		$liveShow.append(sStep);
-</script>

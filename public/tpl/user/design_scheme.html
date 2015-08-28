@@ -49,87 +49,8 @@
 				<h3>业主方案</h3>
 			</div>
 			<div class="m-ct">
-				<div class="scheme owner_scheme" id="j-owner_scheme">
-					<div class="item">
-						<div class="info f-cb">
-							<ul class="f-fl">
-								<li><h4>业主<span>张老</span>的方案</h4></li>
-								<li>报价：&yen;<span>56900</span></li>
-								<li>工期：<span>45</span>天</li>
-							</ul>
-							<div class="f-fr state state1">
-								<i class="iconfont">&#xe60e;</i>沟通中
-							</div>
-						</div>
-						<div class="desc">
-							<p>设计说明：新中式风格，优雅、绅士、带点书香味是中国传统家庭的体，再把热情好客的状态用
-扇形的怀抱放到门厅来显示。。。</p>
-							<div class="pic f-cb">
-								<img src="../../img/user/scheme1.jpg" alt="" />
-								<img src="../../img/user/scheme2.jpg" alt="" />
-								<img src="../../img/user/scheme3.jpg" alt="" />
-							</div>
-						</div>
-						<div class="handle">
-							<a href="" class="msg">留言<span>(5)</span></a>
-							<a href="scheme_create.html" class="btns confirm">修改方案</a>
-							<a href="scheme_detail.html" class="btns browse">预览方案</a>
-						</div>
-					</div>
-					<div class="item">
-						<div class="info f-cb">
-							<ul class="f-fl">
-								<li><h4>业主<span>张老</span>的方案</h4></li>
-								<li>报价：&yen;<span>56900</span></li>
-								<li>工期：<span>45</span>天</li>
-							</ul>
-							<div class="f-fr state state2">
-								<i class="iconfont">&#xe616;</i>已中标
-							</div>
-						</div>
-						<div class="desc">
-							<p>设计说明：新中式风格，优雅、绅士、带点书香味是中国传统家庭的体，再把热情好客的状态用
-扇形的怀抱放到门厅来显示。。。</p>
-							<div class="pic f-cb">
-								<img src="../../img/user/scheme1.jpg" alt="" />
-								<img src="../../img/user/scheme2.jpg" alt="" />
-								<img src="../../img/user/scheme3.jpg" alt="" />
-							</div>
-						</div>
-						<div class="handle">
-							<a href="scheme_detail.html#comment" class="msg">留言<span>(5)</span></a>
-							<a href="scheme_create.html" class="btns confirm">修改方案</a>
-							<a href="scheme_detail.html" class="btns browse">预览方案</a>
-						</div>
-					</div>
-					<div class="item">
-						<div class="info f-cb">
-							<ul class="f-fl">
-								<li><h4>业主<span>张老</span>的方案</h4></li>
-								<li>报价：&yen;<span>56900</span></li>
-								<li>工期：<span>45</span>天</li>
-							</ul>
-							<div class="f-fr state state0">
-								<i class="iconfont">&#xe603;</i>未中标
-							</div>
-						</div>
-						<div class="desc">
-							<p>设计说明：新中式风格，优雅、绅士、带点书香味是中国传统家庭的体，再把热情好客的状态用
-扇形的怀抱放到门厅来显示。。。</p>
-							<div class="pic f-cb">
-								<img src="../../img/user/scheme1.jpg" alt="" />
-								<img src="../../img/user/scheme2.jpg" alt="" />
-								<img src="../../img/user/scheme3.jpg" alt="" />
-							</div>
-						</div>
-						<div class="handle">
-							<a href="" class="msg">留言<span>(5)</span></a>
-							<a href="scheme_create.html" class="btns confirm">修改方案</a>
-							<a href="scheme_detail.html" class="btns browse">预览方案</a>
-						</div>
-					</div>
-				</div>
-				<div class="m-page g-wp" id="j-home-page"></div>
+				<div class="scheme owner_scheme" id="j-owner_scheme"></div>
+				<div class="m-page" id="j-page"></div>
 			</div>
 		</div>
 	</div>
@@ -170,7 +91,7 @@
 </html>
 <script type="text/javascript">
 	var $ownerScheme = $('#j-owner_scheme');
-		//渲染生成列表
+	//渲染生成列表
 	function loadList(){
 		var url = RootUrl+'api/v1/designer/plan';
 		$.ajax({
@@ -180,12 +101,15 @@
 			dataType: 'json',
 			success: function(res){
 				console.log(res['data'])
-				page(res['data'])
+				if(res['data'].length){
+					page(res['data'])
+				}else{
+					alert('没有数据')
+				}
+				
 		   	}
 		});
 	}
-
-	loadList();
 	//创建列表
 	function createList(data){
 		var sStatus = '';
@@ -210,7 +134,7 @@
 						+'<div class="info f-cb">'
 							+'<ul class="f-fl">'
 								+'<li><h4>业主<span>'+data.manager+'</span>的方案</h4></li>'
-								+'<li>报价：&yen;<span>'+data.total_price+'</span></li>'
+								+'<li>报价：&yen;<span>'+data.total_price+'</span>万</li>'
 								+'<li>工期：<span>'+data.duration+'</span>天</li>'
 							+'</ul>'
 							+'<div class="f-fr state state'+data.status+'">'
@@ -223,8 +147,7 @@
 						+'</div>'
 						+'<div class="handle">'
 							+'<a href="scheme_detail.html?'+data._id+'#comment" class="msg">留言<span>('+data.comments.length+')</span></a>'
-							+'<a href="scheme_create.html?'+data._id+'" class="btns confirm">修改方案</a>'
-							+'<a href="scheme_detail.html?'+data._id+'" class="btns browse">预览方案</a>'
+							+(data.status == 5 ? "" : '<a href="scheme_create.html?'+data._id+'" class="btns confirm">修改方案</a>')+'<a href="scheme_detail.html?'+data._id+'" class="btns browse">预览方案</a>'
 						+'</div>'
 					+'</div>'
 	}
@@ -239,31 +162,21 @@
 			currentPage : 0,
 			linkTo : '',
 			callback : function(num,obj){
-				var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
-				$ownerScheme.html('');
-				for(var i=num*this.itemPage;i<maxElem;i++){
-					$ownerScheme.append(createList(arr[i]));
+				if(this.allNumPage > 0){
+					var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
+					$ownerScheme.html('');
+					for(var i=num*this.itemPage;i<maxElem;i++){
+						$ownerScheme.append(createList(arr[i]));
+					}
+					$ownerScheme.find('li:odd').attr('class', 'even');
+					obj.find('.btns').on('click' , function(ev){
+						ev.stopPropagation();
+						$('body,html').animate({scrollTop:$ownerScheme.offset().top},1000);
+					});
 				}
-				$ownerScheme.find('li:odd').attr('class', 'even');
-				obj.find('.btns').on('click' , function(ev){
-					ev.stopPropagation();
-					$('body,html').animate({scrollTop:$ownerScheme.offset().top},1000);
-				});
-				
 				return false;
 			}
 		});
 	};
-	// //方案预览
-	// $ownerScheme.delegate('.browse','click',function(ev){
-	// 	ev.preventDefault();
-	// 	var oDl = $(this).closest('.item');
-
-	// })
-	//方案修改
-	// $ownerScheme.delegate('.confirm','click',function(ev){
-	// 	ev.preventDefault();
-	// 	var oDl = $(this).closest('.item');
-		
-	// })
+	loadList()
 </script>

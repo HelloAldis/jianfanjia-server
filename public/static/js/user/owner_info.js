@@ -6,7 +6,7 @@
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				$('#owner-name').val(res['data']['username']);
+				$('#owner-name').val(res['data']['username'] || "");
 				$('#owner-mobile').val(res['data']['phone']);
 				$('#owner-addr').val(res['data']['address']);
 				$('#owner-sex').find('input[value='+res['data']['sex']+']').attr('checked','checked');

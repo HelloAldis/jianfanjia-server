@@ -43,23 +43,17 @@
 			</div>
 			<div class="scheme-box">
 				<div class="scheme-list scheme-show">
-					<div class="case">
-						<div class="title">
-							<h2>《暗香》</h2>
-							<p>报价：<strong>18万元</strong><span>|</span>风风格：现代<span>|</span>空间：三居<span>|</span>面积：98平米<span>|</span>浏览量：324</p>
-						</div>
+					<div class="case" id="j-case">
+						<div class="title"></div>
 						<div class="desc">
 							<h3>案例简介 Case description</h3>
-							<p>此作品《暗香》的设计感整体和谐，色彩以高级灰为主，在客厅的设计中我们可以看见整个空间采用无主灯的设计，简约而不简单。现代简约风格在《暗香》中大放异彩，打破了传统的以单一的色彩为配色系统的局面，餐厅的灯也是一大亮点，卧室没有复杂的设计，整体都是靠色彩在做效果，在空间中以简练和节约为主，尽量采用柔和的灯光，在温馨细腻的简装环境下，感受浪漫的气息。整体设计带来心理上的平和、恬静，追求沉静，舒畅，内敛，含蓄的知性之美。</p>
+							<p></p>
 						</div>
-						<div class="casepic">
-							<img src="../../img/user/scheme-show01.jpg" height="386" width="660" alt="" />
-							<img src="../../img/user/scheme-show02.jpg" height="386" width="660" alt="" />
-						</div>
+						<div class="casepic"></div>
 						<div class="comment" id="comment">
 							<div class="tt">
 								<h3 class="f-fl">留言评论</h3>
-								<p class="f-fr" id="comment-size">2条留言</p>
+								<p class="f-fr" id="comment-size"></p>
 							</div>
 							<div class="reply">
 								<div class="textarea">
@@ -72,54 +66,14 @@
 									<a href="javascript:void(0)" id="publish_btn" >发表评论</a>
 								</div>
 							</div>
-							<ul class="list">
-								<li>
-									<div class="pic">
-										<i class="iconfont">&#xe618;</i>
-										<!-- <img src="" alt="" /> -->
-									</div>
-									<h4>
-										<strong>萧萧</strong>
-										<span>十分钟前</span>
-										<a href="javascript:;" class="reply-btn"><i class="iconfont">&#xe612;</i>回复</a>
-									</h4>
-									<p>好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！好棒的！</p>
-								</li>
-								<li>
-									<div class="pic">
-										<img src="../../img/index/index-live-head-01.jpg" alt="" />
-									</div>
-									<h4>
-										<strong>杨杰</strong>
-										<span>二十分钟前</span>
-										<a href="javascript:;" class="reply-btn"><i class="iconfont">&#xe612;</i>回复</a>
-									</h4>
-									<p>就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的就是这样的的的</p>
-								</li>
-							</ul>
+							<ul class="list"></ul>
+							<div class="m-page" id="j-page"></div>
 						</div>
 					</div>
-					<div class="design" id="j-scheme-design">
-						<a class="head" href=""><img src="../../img/index/index-live-head-01.jpg" alt="" /></a>
-						<h4>杨杰<i class="iconfont">&#xe60b;</i></h4>
-						<div class="auth">
-							<i class="iconfont">&#xe60b;</i>认证设计师
-						</div>
-						<div class="info f-cb">
-							<dl class="f-fl">
-								<dt>5</dt>
-								<dd>作品</dd>
-							</dl>
-							<span class="f-fl"></span>
-							<dl class="f-fl">
-								<dt>15</dt>
-								<dd>预约</dd>
-							</dl>
-						</div>
-					</div>
+					<div class="design" id="j-scheme-design"></div>
 				</div>
 				<div class="scheme-list hide">
-					<div class="m-table">
+					<div class="m-table" id="j-item">
 						<table>
 							<thead>
 								<tr>
@@ -169,15 +123,10 @@
 									<td class="td2">3000元</td>
 									<td class="td3">顶面基层处理，顶面乳胶漆，墙面基层处理，墙面乳胶漆，石膏板造型吊顶，地面找平，电视背景墙鞋柜及挂衣板</td>
 								</tr>
-								<tr>
-									<td class="td1">设计费</td>
-									<td class="td2">3000元</td>
-									<td class="td3">项目：暗香，人数20人</td>
-								</tr>
+								
 							</tbody>
 						</table>
-						<p>工程总造价：<span>120，000元</span>（不含设计费）</p>
-						<p>项目总造价：<span>130，000元</span>（含设计费）</p>
+						<div class="price"></div>
 					</div>
 				</div>
 			</div>
@@ -224,6 +173,8 @@
 	var $schemeList = $scheme.find('.scheme-list');
 	var $schemeDesign = $('#j-scheme-design');
 	var $comment = $('#comment');
+	var $case = $('#j-case');
+	var $item = $('#j-item');
 	var arr = [$schemeDesign.offset().top,$schemeDesign.offset().left]
 	$(window).on('scroll',function(){
 		var winT = $(window).scrollTop();
@@ -241,10 +192,9 @@
 
 	var $textarea = $('#comment-textarea');
 	var winHash = window.location.search.substring(1);
-	alert(winHash)
 	$('#publish_btn').on('click',function(){
 		if(!!$.trim($textarea.val())){
-			var url = RootUrl+'api/v1/designer/plan';
+			var url = RootUrl+'api/v1/plan/comment';
 			$.ajax({
 				url:url,
 				type: 'POST',
@@ -258,7 +208,8 @@
 				success: function(res){
 					if(res['msg'] === 'success'){
 						loadList()
-						alert(1)
+						$textarea.val('');
+						$('body,html').animate({scrollTop:$comment.offset().top},1000);
 					}
 			   	}
 			});
@@ -266,12 +217,135 @@
 			alert('请填写留言内容')
 		}
 	})
+	loadList()
 	function loadList(){
-
+		var url = RootUrl+'api/v1/plan/'+winHash;
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function(res){
+				if(res['data']){
+					createInfo(res['data'])
+				}
+		   	}
+		});
 	}
-
+	var $title = $case.find('.title');
+	var $desc = $case.find('.desc').find('p');
+	var $casepic = $case.find('.casepic');
+	function createInfo(data){
+		$schemeDesign.html("")
+		$title.html("");
+		$desc.html("");
+		$casepic.html("");
+		var title = '<h2>'+data.manager+'的方案</h2><p>报价：<strong>'+data.total_price+'万元</strong><span>|</span>风格：'+data.manager+'<span>|</span>空间：'+data.manager+'<span>|</span>面积：'+data.manager+'m&sup2;</p>';
+		var casepic = '<div class="casepic">'
+		if(data.images.length == 0){
+			casepic += '暂无方案图片'
+		}
+		for (var i = 0; i < data.images.length; i++) {
+			casepic += '<img src="'+RootUrl+'api/v1/image/'+data.images[i]+'" alt="" />'
+		};
+		casepic += '</div>'
+		$title.html(title);
+		$desc.html(data.description || "暂无方案描述");
+		$casepic.html(casepic);
+		
+		
+		if(data.comments.length){
+			var info = getInfo(data.comments)
+			page(data.comments.reverse(),info)
+		}
+		$('#comment-size').html(data.comments.length+'条留言')
+		getPriceDetail(data.price_detail)
+		var url = RootUrl+'api/v1/designer/'+data.designerid+'/basicinfo';
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			async : false,
+			success: function(res){
+				var resData = res['data']
+				if(resData){
+					var img = resData.imageid === "" ? '../../static/img/public/headpic.jpg' : RootUrl+'api/v1/image/'+resData.imageid;
+						var schemeDesign = '<a class="head" href="../design/homepage.html?'+resData._id+'"><img src="'+img+'" alt="" /></a>'
+												+'<h4>'+resData.username+'<i class="iconfont">&#xe60b;</i></h4>'
+												+'<div class="auth">'
+													+'<i class="iconfont">&#xe60b;</i>认证设计师'
+												+'</div>'
+												+'<div class="info f-cb">'
+													+'<dl class="f-fl">'
+														+'<dt>'+resData.product_count+'</dt>'
+														+'<dd>作品</dd>'
+													+'</dl>'
+													+'<span class="f-fl"></span>'
+													+'<dl class="f-fl">'
+														+'<dt>'+resData.order_count+'</dt>'
+														+'<dd>预约</dd>'
+													+'</dl>'
+												+'</div>'
+						$schemeDesign.html(schemeDesign)
+				}
+		   	}
+		});
+		
+	}
+	var $itemprice = $item.find('.price');
+	var $itemTbody = $item.find('tbody');
+	function getPriceDetail(data){
+		$itemTbody.html('');
+		$itemprice.html('');
+		var str = '';
+		for (var i = 0; i < data.length; i++) {
+			if(data[i].item === "工程总造价"){
+				$item.append('<p>工程总造价：<span>'+number_format(data[i].price,0,".",",")+'元</span>（不含设计费）</p>')
+			}else if(data[i].item === "项目总造价"){
+				$item.append('<p>项目总造价：<span>'+number_format(data[i].price,0,".",",")+'元</span>（含设计费）</p>')
+			}else{
+				str += '<tr><td class="td1">'+data[i].item+'</td><td class="td2">'+number_format(data[i].price,0,".",",")+'元</td><td class="td3">'+(data[i].description ? data[i].description : "")+'</td></tr>'
+			}
+		};
+		$itemTbody.html(str)
+	}
+	function createList(data,info){
+		var img = info.imageid === "" ? '../../static/img/public/headpic.jpg' : RootUrl+'api/v1/image/'+info.imageid
+		return  '<li>'
+					+'<div class="pic">'
+						+'<img src="'+img+'" alt="" />'
+					+'</div>'
+					+'<h4>'
+						+'<strong>'+info.username+'</strong>'
+						+'<span>'+timeFormat(data.date)+'</span>'
+						+'<a href="javascript:;" class="reply-btn"><i class="iconfont">&#xe612;</i>回复</a>'
+					+'</h4>'
+					+'<p>'+data.content+'</p>'
+				+'</li>'
+	}
+	
+	function getInfo(by){
+		var infoArr = [];
+		for (var i = 0; i < by.length; i++) {
+			var url = RootUrl+'api/v1/designer/'+by[i].by+'/basicinfo';
+			$.ajax({
+				url:url,
+				type: 'GET',
+				contentType : 'application/json; charset=utf-8',
+				dataType: 'json',
+				async : false,
+				success: function(res){
+					if(res['data']){
+						infoArr.push(res['data'])
+					}
+			   	}
+			});
+		};
+		return infoArr
+	}
 	//生成分页
-	function page(arr){
+	function page(arr,info){
 		var page = new Pageing({
 			id : 'j-page',
 			allNumPage : arr.length,
@@ -281,16 +355,18 @@
 			currentPage : 0,
 			linkTo : '',
 			callback : function(num,obj){
-				var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
-				$comment.html('');
-				for(var i=num*this.itemPage;i<maxElem;i++){
-					$comment.append(createList(arr[i]));
+				if(this.allNumPage > 0){
+					var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
+					$comment.find('.list').html('');
+					for(var i=num*this.itemPage;i<maxElem;i++){
+						$comment.find('.list').append(createList(arr[i],info[i]));
+					}
+					$comment.find('li:odd').attr('class', 'even');
+					obj.find('.btns').on('click' , function(ev){
+						ev.stopPropagation();
+						$('body,html').animate({scrollTop:$comment.offset().top},1000);
+					});
 				}
-				$comment.find('li:odd').attr('class', 'even');
-				obj.find('.btns').on('click' , function(ev){
-					ev.stopPropagation();
-					$('body,html').animate({scrollTop:$comment.offset().top},1000);
-				});
 				return false;
 			}
 		});
@@ -332,5 +408,29 @@
 	        }
 	    }
 	    return timeStr;
+	}
+	function number_format(number, decimals, dec_point, thousands_sep) {
+	    number = (number + '').replace(/[^0-9+-Ee.]/g, '');
+	    var n = !isFinite(+number) ? 0 : +number,
+	        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+	        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+	        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+	        s = '',
+	        toFixedFix = function (n, prec) {
+	            var k = Math.pow(10, prec);
+	            return '' + Math.ceil(n * k) / k;
+	        };
+	 
+	    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+	    var re = /(-?\d+)(\d{3})/;
+	    while (re.test(s[0])) {
+	        s[0] = s[0].replace(re, "$1" + sep + "$2");
+	    }
+	 
+	    if ((s[1] || '').length < prec) {
+	        s[1] = s[1] || '';
+	        s[1] += new Array(prec - s[1].length + 1).join('0');
+	    }
+	    return s.join(dec);
 	}
 </script>

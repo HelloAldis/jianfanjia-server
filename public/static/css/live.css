@@ -122,7 +122,7 @@
 	height: 2px;
 	background-color: #fe7004;
 }
-.state-box .line0{width: 0;}
+.state-box .line0{width: 20px;}
 .state-box .line1{width: 133px;}
 .state-box .line2{width: 246px;}
 .state-box .line3{width: 359px;}
@@ -166,13 +166,13 @@
 }
 /*详情页面*/
 .live-banner1{
-	height: 490px;
+	height: 400px;
 	min-width: 1200px;
 	text-align: center;
 	background: url(../img/design/design_detail-bg.jpg) repeat;
 }
 .live-banner1 h2{
-	padding-top: 216px;
+	padding-top: 100px;
 	font-size: 18px;
 	line-height: 18px;
 	font-weight: normal;
@@ -281,7 +281,7 @@
 	top:0;
 }
 .m-state .state-box p{font-size: 18px;}
-.m-state .state-box .line0{width: 0;}
+.m-state .state-box .line0{width: 25px;}
 .m-state .state-box .line1{width: 205px;}
 .m-state .state-box .line2{width: 385px;}
 .m-state .state-box .line3{width: 565px;}

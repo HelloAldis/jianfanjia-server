@@ -11,6 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/jquery.uploadify-3.1.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -41,7 +42,7 @@
 				<a href="javascript:history.go(-1);" class="return f-fr"><i class="iconfont">&#xe61e;</i>返回</a>
 			</div>
 			<div class="scheme-box">
-				<div class="scheme-list hide">
+				<div class="scheme-list">
 					<div class="w-form user-form scheme_create" id="j-scheme_create">
 					<form action="http://www.jianfanjia.com" id="form-scheme_create" method="post">
 						<div class="m-item f-cb">
@@ -98,8 +99,12 @@
 												<p class="tips">*作品上传每张大小为1M以内</p>
 												<div class="file-list f-cb">
 													<div class="create-item">
-														<div class="pic">
-															
+														<div class="pic" id="upload">
+															<input id="fileToUpload" type="file" name="upfile">
+								<p class="hide"><a href="javascript:$('#fileToUpload').uploadify('settings', 'formData', {'typeCode':document.getElementById('id_file').value});$('#fileToUpload').uploadify('upload','*')">上传</a>
+<a href="javascript:$('#fileToUpload').uploadify('cancel','*')">重置上传队列</a>
+</p>
+<input type="hidden" value="1215154" name="tmpdir" id="id_file">
 														</div>
 													</div>
 												</div>
@@ -117,7 +122,7 @@
 					</form>
 				</div>	
 				</div>
-				<div class="scheme-list">
+				<div class="scheme-list hide">
 					<div class="scheme-item" id="j-scheme-item">
 						<table>
 							<thead>
@@ -180,10 +185,15 @@
 	var $schemeList = $scheme.find('.scheme-list');
 	var $schemeDesign = $('#j-scheme-design');
 	$schemeTab.on('click',function(){
-		var index = $(this).index();
-		$(this).attr('class','active').siblings().attr('class', '');
-		$schemeList.eq(index).removeClass('hide').siblings().addClass('hide');
+		fnTab($(this).index())
 	});
+	function fnTab(index){
+		$schemeTab.eq(index).attr('class','active').siblings().attr('class', '');
+		$schemeList.eq(index).removeClass('hide').siblings().addClass('hide');
+	}
+	$('#outcry').on('click',function(){
+		fnTab(1)
+	})
 	var itme_typeArr = ['张起灵','吴邪','王胖子','黑金牙'];
 	var pmobj = new  ComboBox({
 		id : 'pmobj',
@@ -191,6 +201,10 @@
 	});
 	//表单提交
 	$('#form-scheme_create').on('submit',function(){
+		var imgArr = [];
+		$('#upload').find('.list').each(function(index, el) {
+			imgArr.push($(el).data('img'))
+		});
 		var url = RootUrl+'api/v1/designer/plan';
 		$.ajax({
 			url:url,
@@ -204,12 +218,12 @@
 			  "price_detail":$('#scheme-price').data('detail'),
 			  "description":$('#scheme-description').val(),
 			  "manager": $('#userName').html(),
+			  "images" : imgArr
 			}),
 			processData : false,
 			success: function(res){
 				if(res['msg'] === 'success'){
 					window.location.href = 'design_scheme.html';
-					alert(1)
 				}
 		   	}
 		});
@@ -318,7 +332,7 @@
 					price += isNaN(parseInt(aPrice.eq(i).val())) || parseInt(aPrice.eq(i).val()) === '' ? 0 : parseInt(aPrice.eq(i).val());
 				})
 				all = price+oDesign;	
-				var html = '<p>工程总造价：<span>'+(number_format(price,0,".",","))+'</span>元（不含设计费）</p>'
+				var html = '<p>工程总造价：<span id="itemprice">'+(number_format(price,0,".",","))+'</span>元（不含设计费）</p>'
 							+'<p>项目总造价：<span id="allPrice">'+number_format(all,0,".",",")+'</span>元（含设计费）</p>'
 				this.allPrice.html(html)
 			}
@@ -327,10 +341,10 @@
 	})(jQuery);
 	var schemeItem =new OnlinePrice({
 		id : 'j-scheme-item',
-		data : [{"item": "基础工程", "price": 0},{"item": "水电工程", "price": 0},{"item": "客餐厅及走道", "price": 0},{"item": "主卧", "price": 0},{"item": "厨房", "price": 0},{"item": "安装工程", "price": 0},{"item": "其他工程", "price": 0},{"item": "设计费", "price": 0}],
+		data : [{"item": "基础工程", "price": 0,"description":"","description":""},{"item": "水电工程", "price": 0,"description":""},{"item": "客餐厅及走道", "price": 0,"description":""},{"item": "主卧", "price": 0,"description":""},{"item": "厨房", "price": 0,"description":""},{"item": "安装工程", "price": 0,"description":""},{"item": "其他工程", "price": 0,"description":""},{"item": "设计费", "price": 0,"description":""}],
 		list : ['']
 	});
-	var priceDetail = []
+	var priceDetail = [];
 	var aTr = $('#j-scheme-item').find('tr:gt(0)');
 	$('#create-quotes').on('click',function(){
 		priceDetail = [];
@@ -345,9 +359,19 @@
 				"remark" : remark
 			})
 		});
-		$('#scheme-price').val($('#allPrice').html()).data('detail',priceDetail)
+		priceDetail.push({
+				"item": "工程总造价", 
+				"price": parseInt($('#itemprice').html()) || 0,
+				"remark" : "不含设计费"
+			},{
+				"item": "项目总造价", 
+				"price": parseInt($('#allPrice').html()) || 0,
+				"remark" : "含设计费"
+			})
+		console.log($('#scheme-price'))
+		$('#scheme-price').val($('#allPrice').html()).data('detail',priceDetail);
+		fnTab(0)
 	})
-	
 
 
 
@@ -355,8 +379,43 @@
 
 
 
-
-
+var img_id_upload=[];//初始化数组，存储已经上传的图片名
+	var i=0;//初始化数组下标
+	$(function() {
+	    $('#fileToUpload').uploadify({
+	    	'auto'     : true,//关闭自动上传
+	    	'removeTimeout' : 1,//文件队列上传完成1秒后删除
+	        'swf'      : 'uploadify.swf',
+	        'uploader' : RootUrl+'api/v1/image/upload',
+	        'method'   : 'post',//方法，服务端可以用$_POST数组获取数据
+			'buttonText' : '选择图片',//设置按钮文本
+	        'multi'    : true,//允许同时上传多张图片
+	        'uploadLimit' : 10,//一次最多只允许上传10张图片
+	        'width' : 244,
+	        'height' : 244,
+	        'fileTypeDesc' : 'Image Files',//只允许上传图像
+	        'fileTypeExts' : '*.gif; *.jpg; *.png',//限制允许上传的图片后缀
+	        'fileSizeLimit' : '20000KB',//限制上传的图片不得超过200KB 
+	        'onUploadSuccess' : function(file, data, response) {//每次成功上传后执行的回调函数，从服务端返回数据到前端
+	        	var data = $.parseJSON(data)
+	               img_id_upload[i]=data.data;
+	               i++;
+	               console.log(img_id_upload)
+	               img()
+	        },
+	        'onQueueComplete' : function(queueData) {//上传队列全部完成后执行的回调函数
+	           // if(img_id_upload.length>0)
+	           // alert('成功上传的文件有：'+encodeURIComponent(img_id_upload));
+	        }  
+	        // Put your options here
+	    });
+	});
+	function img(){
+		$('#upload').find('.list').remove();
+       for (var i = 0; i < img_id_upload.length; i++) {
+       	 $('#upload').append('<div class="list" data-img="'+img_id_upload[i]+'"><img src="'+RootUrl+'api/v1/image/'+img_id_upload[i]+'" alt="" /></div>')
+       };
+	}
 
 
 

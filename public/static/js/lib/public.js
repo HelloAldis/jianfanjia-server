@@ -14,8 +14,9 @@ var globalData = {
 	auth_type : ['未提交认证','审核中','审核通过'],
 	scheme_status : ['已预约但没有响应','已拒绝业主','已响应但是没有方案','提交了方案','方案被拒绝','方案被选中']
 }
+//var RootUrl = 'http://192.168.1.107:80/';
 var global_success_url = window.location;
-var RootUrl = 'http://www.jianfanjia.com:8080/';
+var RootUrl = 'http://192.168.1.107:8080/';
 // 检测浏览器是否支持css3新属性，来给低版本浏览器做优雅降级；
 function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentElement.style,t=function(r){return r.replace(/-(\w)/g,function($0,$1){return $1.toUpperCase()})};for(i in p){a.push(t(p[i]+'-'+c));a.push(t(c))}for(i in a){if(a[i]in s){return true}}return false};
 /*
@@ -120,3 +121,27 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 	}
 	window["ComboBox"] = ComboBox;
 })(jQuery);
+
+/*
+	1,格式化形式 "yyyy-MM-dd hh:mm:ss"
+	2，时间 
+
+*/ 
+function format(format,data){
+	var date = new Date(data)
+    var o = {
+        "M+" : date.getMonth()+1, //month
+        "d+" : date.getDate(),    //day
+        "h+" : date.getHours(),   //hour
+        "m+" : date.getMinutes(), //minute
+        "s+" : date.getSeconds(), //second
+        "q+" : Math.floor((date.getMonth()+3)/3),  //quarter
+        "S" : date.getMilliseconds() //millisecond
+    };
+    if(/(y+)/.test(format)) format=format.replace(RegExp.$1,(date.getFullYear()+"").substr(4 - RegExp.$1.length));
+    for(var k in o){
+        if(new RegExp("("+ k +")").test(format))
+            format = format.replace(RegExp.$1,RegExp.$1.length==1 ? o[k] :("00"+ o[k]).substr((""+ o[k]).length));
+    }
+    return format;
+}

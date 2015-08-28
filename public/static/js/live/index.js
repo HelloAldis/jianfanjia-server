@@ -1,374 +1,109 @@
-	      	data = {
-	      		"list" : [
-	      			{
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 1,
-		      			atte :  0,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 1,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 1,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  0,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 1,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  0,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  0,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    },
-                    {
-                        name : '杨姐',
-		      			sex  : 0,
-		      			atte :  1,
-		      			addr : 'wuhan',
-		      			style : ['1','2','3','4','7','8'],
-		      			works : [
-							'../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg','../../img/design/index-live-01.jpg'
-		      			],
-		      			url : 'homepage.html',
-		      			work  : 5,
-		      			order : 15,
-		      			read  : 400,
-		      			head  : '../../img/design/index-live-head-01.jpg',
-		      			area  :  'wuc',
-		      			price :  1
-                    }
-	      		]
-
-	      	}
 $(function(){
-	var $design = $("#j-live-list")
-	var arr = [];
-	$design.find('li').each(function(i,el){
-		arr.push($(el))
-		$(el).remove();
-	})
-	var page = new Pageing({
-		id : 'j-page',
-		allNumPage : arr.length,
-		itemPage : 5,
-		showPageNum : 9,
-		endPageNum : 1,
-		currentPage : 0,
-		linkTo : '',
-		callback : function(num,obj){
-			var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
-			for(var i=num*this.itemPage;i<maxElem;i++){
-				$design.append(arr[i]);
-			}
-			$design.find('li:odd').attr('class', 'even');
-			obj.find('.btn').on('click' , function(ev){
-				ev.stopPropagation();
-				$('body,html').animate({scrollTop:$design.offset().top},1000);
+	var $liveList = $('#j-live-list');
+	//渲染生成列表
+	function loadList(){
+		var url = RootUrl+'api/v1/share';
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function(res){
+				if(res['data'].length){
+					var info = getInfo(res['data'])
+					page(res['data'],info)
+				}else{
+					alert('没有数据')
+				}
+		   	}
+		});
+	}
+	//获取设计师信息
+	function getInfo(by){
+		var infoArr = [];
+		for (var i = 0; i < by.length; i++) {
+			var url = RootUrl+'api/v1/designer/'+by[i].designerid+'/basicinfo';
+			$.ajax({
+				url:url,
+				type: 'GET',
+				contentType : 'application/json; charset=utf-8',
+				dataType: 'json',
+				async : false,
+				success: function(res){
+					if(res['data']){
+						infoArr.push(res['data'])
+					}
+			   	}
 			});
-			return false;
-		}
-	});
-});
+		};
+		return infoArr
+	}
+	//创建列表
+	function createList(data,info){
+		var status = data.process.length-1;
+		var sList = '';
+		for (var i = 0; i < 7; i++) {
+			if(i == status){
+				sList += '<div class="state active current"><div class="circle"></div><p>'+globalData.dec_flow[i]+'</p></div>'
+			}else if(i < status){
+				sList += '<div class="state active"><div class="circle"></div><p>'+globalData.dec_flow[i]+'</p></div>'
+			}else{	
+				sList += '<div class="state"><div class="circle"></div><p>'+globalData.dec_flow[i]+'</p></div>'
+			}
+		};
+		var imgId = '55dd93f361ed917260093096' || data.process[status].images[0];
+		var head = info.imageid ? RootUrl+'api/v1/image/'+info.imageid : '../../static/img/public/headpic.jpg';
+		return '<li>'
+					+'<div class="g-wp f-cb">'
+						+'<a class="pic f-fl" href="detail.html"><img src="'+RootUrl+'api/v1/image/'+imgId+'" alt="" /></a>'
+						+'<div class="txt f-fl">'
+							+'<div class="info">'
+								+'<h4><a href="detail.html">'+data.cell+'</a><span><strong>'+data.house_area+'m&sup2;</strong><strong>'+globalData.house_type[data.house_type]+'</strong></span></h4>'
+								+'<p>装修风格：<span>'+globalData.dec_style[data.dec_style]+'</span>'
+								+'</p>'
+								+'<p>开工时间：<span>'+format("yyyy-MM-dd",data.start_at)+'</span></p>'
+								+'<p>当前阶段：<span>'+globalData.dec_flow[status]+'</span></p>'
+								+'<a href="detail.html?'+data._id+'" class="head">'
+									+'<span class="head-pic"><img src="'+head+'" alt="" /></span>'
+									+'<span class="head-name">'+info.username+'</span>'
+								+'</a>'
+							+'</div>'
+							+'<div class="state-box">'
+								+'<div class="list">'+sList+'</div>'
+								+'<div class="line">'
+									+'<div class="line-in line'+status+'"></div>'
+								+'</div>'
+							+'</div>'
+						+'</div>'
+					+'</div>'
+				+'</li>'
+	}
+	//生成分页
+	function page(arr,info){
+		var page = new Pageing({
+			id : 'j-page',
+			allNumPage : arr.length,
+			itemPage : 5,
+			showPageNum : 9,
+			endPageNum : 1,
+			currentPage : 0,
+			linkTo : '',
+			callback : function(num,obj){
+				if(this.allNumPage > 0){
+					var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
+					$liveList.html('');
+					for(var i=num*this.itemPage;i<maxElem;i++){
+						$liveList.append(createList(arr[i],info[i]));
+					}
+					$liveList.find('li:odd').attr('class', 'even');
+					obj.find('.btns').on('click' , function(ev){
+						ev.stopPropagation();
+						$('body,html').animate({scrollTop:$liveList.offset().top},1000);
+					});
+				}
+				return false;
+			}
+		});
+	};
+	loadList();
+})

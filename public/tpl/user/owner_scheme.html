@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
 	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/page.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 </head>
 <body>
@@ -127,6 +128,7 @@
 						</div>
 					</div>
 				</div>
+				<div class="m-page" id="j-page"></div>
 			</div>
 		</div>
 	</div>
@@ -167,6 +169,7 @@
 </html>
 <script type="text/javascript">
 	var $ownerScheme = $('#j-owner_scheme');
+	//渲染生成列表
 	function loadList(){
 		var url = RootUrl+'api/v1/user/plan';
 		$.ajax({
@@ -176,49 +179,107 @@
 			dataType: 'json',
 			success: function(res){
 				console.log(res['data'])
-				createList(res['data'])
+				if(res['data'].length){
+					page(res['data'])
+				}else{
+					alert('没有数据')
+				}
+				
 		   	}
 		});
-		return false;
 	}
-	loadList();
+	//创建列表
 	function createList(data){
-			$ownerScheme.html('')
-			var sItem = '';
-			for (var i = 0; i < data.length; i++) {
-				var sLi = '';
-				for (var j = 0; j < data[i].comments.length; j++) {
-					sLi += '<li>'+data[i].comments[j].content+'<br>'+data[i].comments[j].date+'</li>'
-				};
-				var sImg = ''
-				for (var j = 0; j < data[i].images.length; j++) {
-					sImg += '<img src="'+data[i].images[j].src+'" alt="" />'
-				};
-				sItem += '<div class="item">'
-							+'<div class="info f-cb">'
-								+'<ul class="f-fl">'
-									+'<li><h4>设计师 <span>'+data[i].manager+'</span> 提交的方案</h4></li>'
-									+'<li>报价：&yen;<span>'+data[i].total_price+'</span></li>'
-									+'<li>工期：<span>'+data[i].duration+'</span> 天</li>'
-								+'</ul>'
-								+'<div class="f-fr state state0">'
-									+'<i class="iconfont">&#xe603;</i>未中标'
-								+'</div>'
-							+'</div>'
-							+'<div class="desc">'
-								+'<p>'+data[i].description+'</p>'
-								+'<div class="pic f-cb">'+sImg+'</div>'
-							+'</div>'
-							+'<div class="handle">'
-								+'<a href="" class="msg">留言<span>('+data[i].comments.length+')</span></a>'
-								+'<a href="javascript:;" class="btns confirm">选定方案</a>'
-								+'<a href="scheme_detail.html" class="btns browse">预览方案</a>'
-							+'</div>'
-							+'<ul>'+sLi+'</ul>'
-						+'</div>'
-			};
-			$ownerScheme.html(sItem)
+		var sStatus = '';
+		if(data.status == 0){
+			sStatus = '<a href="javascript:;" class="respond">响应</a><a href="javascript:;" class="refuse">拒绝</a></div>';
+		}else if(data.status == 1){
+			sStatus = '你已经拒绝该业主';
+		}else if(data.status == 2){
+			sStatus = '<a href="scheme_create.html" class="scheme">提交方案</a><span>(可提交多个方案)</span>';
+		}else if(data.status == 3){
+			sStatus = '<i class="iconfont">&#xe616;</i>沟通中';
+		}else if(data.status == 4){
+			sStatus = '<i class="iconfont">&#xe616;</i>未中标';
+		}else if(data.status == 5){
+			sStatus = '<i class="iconfont">&#xe616;</i>已中标';
 		}
-
-
+		var images = '';
+		for (var i = 0; i < images.length; i++) {
+			images = '<img src="../../img/user/scheme1.jpg" alt="" />'
+		};
+		return '<div class="item" data-uid="'+data._id+'">'
+						+'<div class="info f-cb">'
+							+'<ul class="f-fl">'
+								+'<li><h4>设计师<span>'+data.manager+'</span>的方案</h4></li>'
+								+'<li>报价：&yen;<span>'+data.total_price+'</span>万</li>'
+								+'<li>工期：<span>'+data.duration+'</span>天</li>'
+							+'</ul>'
+							+'<div class="f-fr state state'+data.status+'">'+sStatus+'</div>'
+						+'</div>'
+						+'<div class="desc">'
+							+'<p>设计说明：'+data.description+'</p>'
+							+'<div class="pic f-cb">'+images+'</div>'
+						+'</div>'
+						+'<div class="handle">'
+							+'<a href="scheme_detail.html?'+data._id+'#comment" class="msg">留言<span>('+data.comments.length+')</span></a>'
+							+(data.status == 5 ? "" : '<a href="javascript:;" class="btns confirm">选定方案</a>')+'<a href="scheme_detail.html?'+data._id+'" class="btns browse">预览方案</a>'
+						+'</div>'
+					+'</div>'
+	}
+	//生成分页
+	function page(arr){
+		var page = new Pageing({
+			id : 'j-page',
+			allNumPage : arr.length,
+			itemPage : 5,
+			showPageNum : 9,
+			endPageNum : 1,
+			currentPage : 0,
+			linkTo : '',
+			callback : function(num,obj){
+				if(this.allNumPage > 0){
+					var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
+					$ownerScheme.html('');
+					for(var i=num*this.itemPage;i<maxElem;i++){
+						$ownerScheme.append(createList(arr[i]));
+					}
+					$ownerScheme.find('li:odd').attr('class', 'even');
+					obj.find('.btns').on('click' , function(ev){
+						ev.stopPropagation();
+						$('body,html').animate({scrollTop:$ownerScheme.offset().top},1000);
+					});
+				}
+				return false;
+			}
+		});
+	};
+	loadList();
+	//选定方案
+	$ownerScheme.delegate('.confirm','click',function(ev){
+		ev.preventDefault();
+		var self = $(this);
+		var oDl = $(this).closest('.item');
+		var uidName = oDl.data('uid');
+		var url = RootUrl+'api/v1/user/plan/final';
+		$.ajax({
+			url:url,
+			type: 'POST',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			data : JSON.stringify({
+				"planid" : uidName
+			}),
+			processData : false,
+			success: function(res){
+				if(res["msg"] === "success"){
+					loadList();
+					self.remove();
+				}else{
+					alert('提交失败')
+				}
+				
+		   	}
+		});
+	})
 </script>
