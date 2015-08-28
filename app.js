@@ -38,7 +38,7 @@ app.use(morgan(
 
 app.use(compression());
 // 静态资源
-app.use('/tpl/user', auth.authWeb);
+// app.use('/tpl/user', auth.authWeb);
 app.use('/', express.static(staticDir));
 // 通用的中间件
 app.use(require('response-time')());
