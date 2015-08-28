@@ -45,11 +45,10 @@ var PlanSchema = new Schema({
     default: '0'
   },
   house_check_time: {
-    type: Date
+    type: Number
   },
   request_date: {
-    type: Date,
-    default: Date.now
+    type: Number,
   },
   comments: {
     type: [{
@@ -60,8 +59,7 @@ var PlanSchema = new Schema({
         type: String
       },
       date: {
-        type: Date,
-        default: Date.now
+        type: Number,
       },
     }]
   },

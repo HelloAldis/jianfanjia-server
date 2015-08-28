@@ -150,7 +150,6 @@ exports.myUser = function (req, res, next) {
       p._id = plan._id;
       return p;
     });
-    console.log(ps);
     ep.emit('plans', ps);
   });
 }
@@ -202,7 +201,7 @@ exports.auth = function (req, res, next) {
       _id: designerid
     }, {
       auth_type: type.designer_auth_type_processing,
-      auth_date: new Date()
+      auth_date: new Date().getTime(),
     },
     function (err) {
       if (err) {
@@ -216,12 +215,16 @@ exports.auth = function (req, res, next) {
 exports.agree = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
 
-  Designer.updateByQuery({_id:designerid}, {'agreee_license': type.designer_agree_type_yes},
-  function (err) {
-    if (err) {
-      return next(err);
-    }
+  Designer.updateByQuery({
+      _id: designerid
+    }, {
+      'agreee_license': type.designer_agree_type_yes
+    },
+    function (err) {
+      if (err) {
+        return next(err);
+      }
 
-    res.sendSuccessMsg();
-  });
+      res.sendSuccessMsg();
+    });
 }

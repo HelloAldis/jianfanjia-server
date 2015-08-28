@@ -182,7 +182,7 @@ exports.signup = function (req, res, next) {
   //检查phone是不是被用了
   ep.all('user', 'designer', function (user, designer) {
     if (user || designer) {
-      ep.emit('err', '用户名或手机号码已被使用');
+      ep.emit('err', '手机号码已被使用');
     } else {
       ep.emit('phone_ok');
     }
@@ -294,3 +294,34 @@ exports.signout = function (req, res, next) {
     path: '/'
   });
 };
+
+exports.verifyPhone = function (req, res, next) {
+  var phone = tools.trim(req.body.phone);
+  var ep = new eventproxy();
+
+  ep.fail(next);
+  //检查phone是不是被用了
+  ep.all('user', 'designer', function (user, designer) {
+    if (user || designer) {
+      res.sendErrMsg('手机号码已被使用');
+    } else {
+      res.sendSuccessMsg();
+    }
+  });
+
+  User.getUserByPhone(phone, function (err, user) {
+    if (err) {
+      return next(err);
+    }
+
+    ep.emit('user', user);
+  });
+
+  Designer.getDesignerByPhone(phone, function (err, designer) {
+    if (err) {
+      return next(err);
+    }
+
+    ep.emit('designer', designer);
+  });
+}

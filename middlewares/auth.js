@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
-var Message = require('../proxy').Message;
 var config = require('../config');
 var eventproxy = require('eventproxy');
 var UserProxy = require('../proxy').User;
 var type = require('../type');
 var ApiUtil = require('../common/api_util');
+var _ = require('lodash');
 
 /**
  * 需要通用用户登录
@@ -117,6 +117,47 @@ exports.authUser = function (req, res, next) {
 //
 // };
 
+
+var loginPages = ['/tpl/user/login.html'];
+var designerPages = ['/tpl/user/design.html'];
+var userPages = ['/tpl/user/owner.html'];
+
 exports.authWeb = function (req, res, next) {
-  // body...
+  var url = req.url
+  var userid = ApiUtil.getUserid(req);
+  var usertype = ApiUtil.getUsertype(req);
+
+  if (_.indexOf(loginPages, url) >= 0) {
+    if (userid) {
+      if (usertype === type.role_user) {
+        res.redirect('/tpl/user/owner.html');
+      } else if (usertype === type.role_designer) {
+        res.redirect('/tpl/user/design.html');
+      }
+    } else {
+      next();
+    }
+  } else if (_.indexOf(designerPages, url) >= 0) {
+    if (userid) {
+      if (usertype === type.role_user) {
+        res.status(403).send('forbidden!');
+      } else if (usertype === type.role_designer) {
+        next();
+      }
+    } else {
+      res.redirect('/tpl/user/login.html');
+    }
+  } else if (_.indexOf(userPages, url) >= 0) {
+    if (userid) {
+      if (usertype === type.role_user) {
+        next();
+      } else if (usertype === type.role_designer) {
+        res.status(403).send('forbidden!');
+      }
+    } else {
+      res.redirect('/tpl/user/login.html');
+    }
+  } else {
+    next();
+  }
 }

@@ -72,7 +72,6 @@ exports.updateRequirement = function (req, res, next) {
   ep.fail(next);
   ep.on('final', function (designers) {
     //设计确定了
-    console.log(designers);
     if (designers.length > config.recommend_designer_count) {
       designers = designers.slice(0, config.recommend_designer_count);
     }
@@ -102,8 +101,6 @@ exports.updateRequirement = function (req, res, next) {
       if (err) {
         return next(err);
       }
-
-      console.log('designers= ' + designers);
 
       _.forEach(designers, function (designer) {
         //匹配区域
@@ -175,7 +172,6 @@ exports.myDesigner = function (req, res, next) {
           status: 1
         }, function (err, plans) {
           designer.plans = plans;
-          console.log('designer ' + designer);
           callback(err, designer);
         });
       }, function (err, results) {

@@ -1,12 +1,12 @@
 var validator = require('validator');
 var eventproxy = require('eventproxy');
-var User = require('../../proxy').User;
+var Designer = require('../../proxy').Designer;
 var Share = require('../../proxy').Share;
 var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
 var ApiUtil = require('../../common/api_util');
-
+var async = require('async');
 
 exports.list = function (req, res, next) {
   Share.getAll(function (err, shares) {
@@ -14,7 +14,25 @@ exports.list = function (req, res, next) {
       return next(err);
     }
 
-    res.sendData(shares);
+    async.mapLimit(shares, 3, function (share, callback) {
+      Designer.getSByQueryAndProject({
+        _id: share.designerid
+      }, {
+        _id: 1,
+        username: 1,
+        imageid: 1
+      }, function (err, designer_indb) {
+        var s = share.toObject();
+        s.designer = designer_indb;
+        callback(err, s);
+      });
+    }, function (err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      res.sendData(results);
+    });
   });
 }
 
@@ -24,7 +42,25 @@ exports.listtop = function (req, res, next) {
       return next(err);
     }
 
-    res.sendData(shares);
+    async.mapLimit(shares, 3, function (share, callback) {
+      Designer.getSByQueryAndProject({
+        _id: share.designerid
+      }, {
+        _id: 1,
+        username: 1,
+        imageid: 1
+      }, function (err, designer_indb) {
+        var s = share.toObject();
+        s.designer = designer_indb;
+        callback(err, s);
+      });
+    }, function (err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      res.sendData(results);
+    });
   });
 }
 

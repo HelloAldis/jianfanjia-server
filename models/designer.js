@@ -49,8 +49,7 @@ var DesignerSchema = new Schema({
     type: String
   },
   create_at: {
-    type: Date,
-    default: Date.now
+    type: Number
   },
   communication_type: {
     type: String,
@@ -113,7 +112,7 @@ var DesignerSchema = new Schema({
     default: '0'
   },
   auth_date: {
-    type: Date
+    type: Number,
   },
   agreee_license: {
     type: String,

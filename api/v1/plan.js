@@ -178,7 +178,7 @@ exports.addCommentForPlan = function (req, res, next) {
   var planid = tools.trim(req.body.planid);
   var comment = ApiUtil.buildComment(req);
   comment.by = userid;
-  comment.date = new Date();
+  comment.date = new Date().getTime();
 
   Plan.addComment(planid, comment, function (err) {
     if (err) {

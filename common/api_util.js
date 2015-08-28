@@ -130,6 +130,7 @@ exports.buildShare = function (req) {
   share.total_price = req.body.total_price;
   share.description = tools.trim(req.body.description);
   share.process = req.body.process;
+  share.start_at = req.body.start_at;
 
   _.forEach(share.process, function (p) {
     p.images = _.map(p.images, function (i) {

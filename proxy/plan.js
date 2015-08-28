@@ -32,6 +32,8 @@ exports.getPlansByDesigneridAndUserid = function (designerid, userid, project,
 
 exports.newAndSave = function (json, callback) {
   var plan = new Plan(json);
+  plan.request_date = new Date().getTime();
+
   plan.save(callback);
 };
 

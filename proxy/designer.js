@@ -18,6 +18,7 @@ exports.getDesignerByPhone = function (phone, callback) {
 exports.newAndSave = function (json, callback) {
   var designer = new Designer(json);
   designer.accessToken = uuid.v4();
+  designer.create_at = new Date().getTime();
 
   designer.save(callback);
 };

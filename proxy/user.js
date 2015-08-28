@@ -25,6 +25,7 @@ exports.getUsersByQuery = function (query, opt, callback) {
 exports.newAndSave = function (json, callback) {
   var user = new User(json);
   user.accessToken = uuid.v4();
+  user.create_at = new Date().getTime();
 
   user.save(callback);
 };

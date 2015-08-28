@@ -30,6 +30,7 @@ var upload = multer({
 //未登录用户拥有的功能
 router.post('/send_verify_code', limit.peripperday('send_verify_code', config.send_verify_code_per_day),
   sign.sendVerifyCode); //发送验证码
+router.post('/verify_phone', sign.verifyPhone); //验证手机
 router.post('/signup', sign.signup); //手机端注册
 router.post('/login', sign.login); //手机端登录
 router.post('/update_pass', sign.updatePass); //修改密码

@@ -40,7 +40,7 @@ var ProcessSchema = new Schema({
   },
 
   start_at: {
-    type: Date
+    type: Number,
   },
   duration: {
     type: Number
@@ -51,10 +51,10 @@ var ProcessSchema = new Schema({
 
   kai_gong: {
     start_at: {
-      type: Date
+      type: Number
     },
     end_at: {
-      type: Date
+      type: Number
     },
     status: {
       type: String,
@@ -62,7 +62,7 @@ var ProcessSchema = new Schema({
     },
     xcjd: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -80,15 +80,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     cgdyccl: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -106,15 +106,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     qdzmjcl: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -132,15 +132,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     sgxcl: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -158,15 +158,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     mdbcl: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -184,15 +184,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     kgmbslcl: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -210,8 +210,8 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
@@ -220,10 +220,10 @@ var ProcessSchema = new Schema({
 
   chai_gai: {
     start_at: {
-      type: Date
+      type: Number
     },
     end_at: {
-      type: Date
+      type: Number
     },
     status: {
       type: String,
@@ -231,7 +231,7 @@ var ProcessSchema = new Schema({
     },
     cpbh: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -249,15 +249,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     ztcg: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -275,15 +275,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     qpcc: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -301,8 +301,8 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
@@ -311,10 +311,10 @@ var ProcessSchema = new Schema({
 
   shui_dian: {
     start_at: {
-      type: Date
+      type: Number
     },
     end_at: {
-      type: Date
+      type: Number
     },
     status: {
       type: String,
@@ -322,7 +322,7 @@ var ProcessSchema = new Schema({
     },
     sdsg: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -340,15 +340,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     ntsg: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -366,8 +366,8 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
@@ -388,10 +388,10 @@ var ProcessSchema = new Schema({
 
   ni_mu: {
     start_at: {
-      type: Date
+      type: Number
     },
     end_at: {
-      type: Date
+      type: Number
     },
     status: {
       type: String,
@@ -399,7 +399,7 @@ var ProcessSchema = new Schema({
     },
     sgxaz: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -417,15 +417,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     cwqfssg: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -443,15 +443,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     cwqdzsg: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -469,15 +469,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     ktytzsg: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -495,15 +495,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     dmzp: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -521,15 +521,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     ddsg: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -547,15 +547,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     gtsg: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -573,8 +573,8 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
@@ -595,10 +595,10 @@ var ProcessSchema = new Schema({
 
   you_qi: {
     start_at: {
-      type: Date
+      type: Number
     },
     end_at: {
-      type: Date
+      type: Number
     },
     status: {
       type: String,
@@ -606,7 +606,7 @@ var ProcessSchema = new Schema({
     },
     yqsg: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -624,15 +624,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     qmjccl: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -650,8 +650,8 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
@@ -672,10 +672,10 @@ var ProcessSchema = new Schema({
 
   an_zhuang: {
     start_at: {
-      type: Date
+      type: Number
     },
     end_at: {
-      type: Date
+      type: Number
     },
     status: {
       type: String,
@@ -683,7 +683,7 @@ var ProcessSchema = new Schema({
     },
     scaz: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -701,15 +701,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     jjaz: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -727,15 +727,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     cwddaz: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -753,15 +753,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     wjaz: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -779,15 +779,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     cgscaz: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -805,15 +805,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     yjzjaz: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -831,15 +831,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     mdbmmaz: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -857,15 +857,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     qzpt: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -883,15 +883,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     mbdjaz: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -909,15 +909,15 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
     },
     snzl: {
       date: {
-        type: Date
+        type: Number
       },
       status: {
         type: String,
@@ -935,8 +935,8 @@ var ProcessSchema = new Schema({
             type: String
           },
           date: {
-            type: Date,
-            default: Date.now
+            type: Number,
+
           },
         }]
       },
@@ -957,10 +957,10 @@ var ProcessSchema = new Schema({
 
   jun_gong: {
     start_at: {
-      type: Date
+      type: Number
     },
     end_at: {
-      type: Date
+      type: Number
     },
     status: {
       type: String,
