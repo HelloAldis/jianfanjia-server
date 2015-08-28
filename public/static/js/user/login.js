@@ -136,8 +136,8 @@ $(function(){
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			data : JSON.stringify({
-				phone : userName,
-				pass  : passWord
+				"phone" : userName,
+				"pass"  : passWord
 			}),
 			processData : false,
 			success: function(res){

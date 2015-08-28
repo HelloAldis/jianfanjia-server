@@ -29,7 +29,7 @@ $(function(){
     var captcha = $("#reg-VerifyCode");
     var pass = $("#reg-password");
     var pass2 = $("#reg-password2");
-    var status = $('#reg-status').find('input:checked');
+    var status = $('#reg-status');
     var agreement = $("#reg-agreement");
     //验证函数
     function checkMobile(){    //手机验证
@@ -122,18 +122,18 @@ $(function(){
 		var verifyCode = captcha.val();
 		var passWord = pass.val();
 		var passWord2 = pass2.val();
-		var statusType = status.val();
+		var statusType = status.find('input:checked').val();
 		$.ajax({
 			url:url,
 			type: 'post',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			data : JSON.stringify({
-				phone : userName,
-				code : verifyCode,
-				pass  : passWord,
-				repass : passWord2,
-				type : statusType
+				"phone" : userName,
+				"code" : verifyCode,
+				"pass"  : passWord,
+				"repass" : passWord2,
+				"type" : statusType
 			}),
 			processData : false,
 			success: function(res){

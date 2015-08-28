@@ -105,10 +105,10 @@ $(function(){
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			data : JSON.stringify({
-				phone : userName,
-				code : verifyCode,
-				pass  : passWord,
-				repass : passWord2
+				"phone" : userName,
+				"code" : verifyCode,
+				"pass"  : passWord,
+				"repass" : passWord2
 			}),
 			processData : false,
 			success: function(res){
