@@ -116,3 +116,7 @@ exports.authUser = function (req, res, next) {
 //   }));
 //
 // };
+
+exports.authWeb = function (req, res, next) {
+  // body...
+}

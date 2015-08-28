@@ -107,13 +107,7 @@ exports.updateRequirement = function (req, res, next) {
 
       _.forEach(designers, function (designer) {
         //匹配区域
-        console.log(district);
-        console.log(designer.dec_districts);
-
-        if (_.indexOf(designer.dec_districts, district)) {
-          console.log(
-            'sdfsadfasdfsdfsd----------------------------------'
-          );
+        if (_.indexOf(designer.dec_districts, district) >= 0) {
           designer.match++;
         }
 
@@ -129,7 +123,7 @@ exports.updateRequirement = function (req, res, next) {
         }
 
         //匹配风格
-        if (_.indexOf(designer.dec_styles, dec_style)) {
+        if (_.indexOf(designer.dec_styles, dec_style) >= 0) {
           designer.match++;
         }
 
@@ -139,7 +133,8 @@ exports.updateRequirement = function (req, res, next) {
         }
 
         //匹配房型
-        if (_.indexOf(designer.dec_house_types, requirement.house_type)) {
+        if (_.indexOf(designer.dec_house_types, requirement.house_type) >=
+          0) {
           designer.match++;
         }
       });
