@@ -67,7 +67,11 @@ exports.add = function (req, res, next) {
       return next(err);
     }
 
-    ep.emit('requirement', requirement);
+    if (requirement) {
+      ep.emit('requirement', requirement);
+    } else {
+      return res.sendErrMsg('需求不完整');
+    }
   });
 };
 
@@ -188,7 +192,7 @@ exports.addCommentForPlan = function (req, res, next) {
 exports.getOne = function (req, res, next) {
   var _id = req.params._id;
 
-  Plan.findById(_id, function (err, plan) {
+  Plan.getOneById(_id, function (err, plan) {
     if (err) {
       return next(err);
     }

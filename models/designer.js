@@ -128,6 +128,6 @@ DesignerSchema.index({
 });
 DesignerSchema.index({
   city: 1
-};
+});
 
 mongoose.model('Designer', DesignerSchema);

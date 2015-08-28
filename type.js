@@ -36,8 +36,9 @@ var type = {
   process_section_an_zhuang: 'an_zhuang',
   process_sction_jun_gong: 'jun_gong',
 
-  process_work_flow: [process_section_kai_gong, process_section_chai_gai, process_section_shui_dian,
-  process_section_ni_mu, process_section_you_qi, process_section_an_zhuang, process_sction_jun_gong];
+  process_work_flow: ['kai_gong', 'chai_gai', 'shui_dian', 'ni_mu', 'you_qi',
+    'an_zhuang', 'jun_gong'
+  ],
 }
 
 

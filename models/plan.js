@@ -69,9 +69,9 @@ var PlanSchema = new Schema({
 
 PlanSchema.index({
   userid: 1
-};
+});
 PlanSchema.index({
   designerid: 1
-};
+});
 
 mongoose.model('Plan', PlanSchema);

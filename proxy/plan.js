@@ -2,6 +2,9 @@ var models = require('../models');
 var Plan = models.Plan;
 var uuid = require('node-uuid');
 
+exports.getOneById = function (id, callback) {
+  Plan.findById(id, callback);
+}
 
 exports.getPlansByDesignerid = function (designerid, callback) {
   Plan.find({

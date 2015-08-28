@@ -31,7 +31,7 @@ exports.listtop = function (req, res, next) {
 exports.getOne = function (req, res, next) {
   var _id = req.params._id;
 
-  Share.findById(_id, function (err, share) {
+  Share.getOneById(_id, function (err, share) {
     if (err) {
       return next(err);
     }
