@@ -64,11 +64,16 @@ exports.update = function (req, res, next) {
 };
 
 exports.listAuthingDesigner = function (req, res, next) {
-  Designer.getSByQueryAndProject({}, {}, function (err, designers) {
+  Designer.getSByQueryAndProject({
+    auth_type: type.designer_auth_type_processing
+  }, {
+    pass: 0,
+    accessToken: 0
+  }, function (err, designers) {
     if (err) {
       return next(err);
     }
 
     res.sendData(designers);
-  })
+  });
 };

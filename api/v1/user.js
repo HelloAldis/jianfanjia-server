@@ -12,6 +12,7 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../type');
 var async = require('async');
+var sms = require('../../common/sms');
 
 exports.getInfo = function (req, res, next) {
   var userid = req.params._id;
@@ -291,7 +292,14 @@ exports.addDesigner2HouseCheck = function (req, res, next) {
           Designer.addOrderCountForDesigner(designerid, 1);
           Designer.getDesignerById(designerid, function (err,
             designer) {
-            // body...
+
+            if (err) {
+              return next(err);
+            }
+
+            if (designer) {
+              sms.sendYuyue(phone);
+            }
           });
           return ep.emit('final');
         }
