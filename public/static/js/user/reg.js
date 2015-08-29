@@ -136,17 +136,17 @@ $(function(){
 				"type" : statusType
 			}),
 			processData : false,
+            cache : false,
 			success: function(res){
 				console.log(res)
-				if(res["data"]){
-					window.location.href = reg_success_url[res.data.usertype-1]+''
+				if(res["data"] != null){
+					window.location.href = reg_success_url[res.data.usertype];
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');
 				}
 				if(res['err_msg']){
 					$('#error-info').html(res['err_msg']).removeClass('hide');
 				}
-		        //$('#form-login').find('m-error-info').html(msg).removeClass('hide');
 		   	}
 		});
 		return false;
@@ -164,6 +164,7 @@ $(function(){
                 type: 'post',
                 contentType : 'application/json; charset=utf-8',
                 dataType: 'json',
+                cache : false,
                 data : JSON.stringify({
                     phone : userName
                 }),
