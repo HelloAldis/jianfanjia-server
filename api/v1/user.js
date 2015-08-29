@@ -139,7 +139,7 @@ exports.updateRequirement = function (req, res, next) {
         }
 
         //匹配沟通
-        if (user.communication_type === designer.communication_type) {
+        if (requirement.communication_type === designer.communication_type) {
           designer.match++;
         }
 
@@ -311,7 +311,7 @@ exports.addDesigner2HouseCheck = function (req, res, next) {
             }
 
             if (designer) {
-              sms.sendYuyue(phone);
+              sms.sendYuyue(designer.phone);
             }
           });
           return ep.emit('final');

@@ -74,7 +74,7 @@ exports.sendVerifyCode = function (phone, code) {
   req.end();
 }
 
-exports.sendYuyue - function (phone) {
+exports.sendYuyue = function (phone) {
   var postData = {
     uid: config.sms_uid,
     pas: config.sms_pas,

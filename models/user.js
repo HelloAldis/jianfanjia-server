@@ -44,10 +44,6 @@ var UserSchema = new Schema({
   create_at: {
     type: Number,
   },
-  communication_type: {
-    type: String,
-    default: '0'
-  },
 });
 
 UserSchema.index({

@@ -44,6 +44,10 @@ var RequirementSchema = new Schema({
   final_designerid: {
     type: ObjectId
   },
+  communication_type: {
+    type: String,
+    default: '0'
+  },
 });
 
 RequirementSchema.index({

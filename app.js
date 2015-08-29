@@ -75,7 +75,7 @@ app.use(session({
 }));
 
 // 静态资源
-// app.use('/tpl/user', auth.authWeb);
+app.use('/tpl/user', auth.authWeb);
 app.use('/', express.static(staticDir));
 
 // custom middleware
