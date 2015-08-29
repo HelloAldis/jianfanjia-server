@@ -37,9 +37,6 @@ app.use(morgan(
 ));
 
 app.use(compression());
-// 静态资源
-// app.use('/tpl/user', auth.authWeb);
-app.use('/', express.static(staticDir));
 // 通用的中间件
 app.use(require('response-time')());
 app.use(helmet.frameguard('deny')); // 防止 clickjacking attacks
@@ -77,6 +74,10 @@ app.use(session({
   saveUninitialized: false,
 }));
 
+// 静态资源
+app.use('/tpl/user', auth.authWeb);
+app.use('/', express.static(staticDir));
+
 // custom middleware
 // app.use(auth.authUser);
 
@@ -104,7 +105,6 @@ if (config.debug) {
     next();
   });
 }
-
 
 app.use('/api/v1', cors(), apiRouterV1);
 app.use('/', webRouter);
