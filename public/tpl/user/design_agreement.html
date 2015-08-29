@@ -94,18 +94,17 @@
 </html>
 <script type="text/javascript">
 	function loadList(url){
-		// $.ajax({
-  //           url:'http://192.168.1.107:8080/api/v1/send_verify_code',
-  //           type: 'post',
-  //           contentType : 'application/json; charset=utf-8',
-  //           dataType: 'json',
-  //           success: function(res){
-		// 		if(res["msg"] == 'success'){
-		// 			window.location.href = url;
-		// 		}
-		//    	}
-  //       });
-		window.location.href = url;
+		$.ajax({
+            url:'http://http://www.jianfanjia.com:8080/api/v1/designer/agree',
+            type: 'POST',
+            contentType : 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function(res){
+				if(res["msg"] == 'success'){
+					window.location.href = url;
+				}
+		   	}
+        });
 	}
 	$('#upload').on('click',function(){
 		if($('#agree').is(":checked")){

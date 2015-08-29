@@ -6,13 +6,17 @@
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				$('#owner-name').val(res['data']['username'] || "");
-				$('#owner-mobile').val(res['data']['phone']);
-				$('#owner-addr').val(res['data']['address']);
-				$('#owner-sex').find('input[value='+res['data']['sex']+']').attr('checked','checked');
-				$('#owner-area').empty()
-				var ownerArea = new CitySelect({id :'owner-area','query':res['data']['city']});
-		   	}
+				var data = res['data'];
+				console.log(res['data'])
+				if(data !== null){
+					$('#owner-name').val(data.username. || "");
+					$('#owner-mobile').val(data.phone);
+					$('#owner-addr').val(data.address);
+					$('#owner-sex').find('input[value='+data.sex.+']').attr('checked','checked');
+					$('#owner-area').empty()
+					var ownerArea = new CitySelect({id :'owner-area','query':data.city});
+				}
+		   	
 		});
 	}
 	loadList();
@@ -34,13 +38,14 @@
 				"phone" : userPhone,
 				"sex":userSex,
 				"city":userCity,
-				"district":"不知道是什么字段",
+				"district":"",
 				"address":userAddr
 			}),
 			processData : false,
 			success: function(res){
 				if(res['msg'] === "success"){
 					loadList()
+					alert('保存成功')
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');
 				}
