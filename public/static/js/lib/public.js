@@ -46,6 +46,8 @@ function delCookie(name) {
     	setCookie(name,value,-9);
     }
 }
+window.username = getCookie("username");
+window.usertype = getCookie("usertype");
 /*
 	下拉选择框插件
 	3个参数：
@@ -173,9 +175,39 @@ function format(format,data){
     return format;
 }
 
-console.log('已经登陆成功状态'+setCookie("username") + " : "+  setCookie("usertype"))
-if(setCookie("usertype") || setCookie("username") || setCookie("username") === "undefined" ){
-	console.log('已经登陆成功状态')
-}else{
-	console.log('未登陆状态')
-}
+
+$(function(){
+	var userLogin = $('#j-userLogin');
+	if(window.username && window.usertype){
+		if(window.usertype == 1){
+			userLogin.html('业主'+window.username+'<a href="javascript:;" id="signout">退出</a>')
+		}else if(window.usertype == 2){
+			userLogin.html('设计师'+window.username+'<a href="javascript:;" id="signout">退出</a>')
+		}
+	}else{
+		console.log('未登陆状态')
+	}
+	//退出操作
+	$(document.body).delegate('#signout','click',function(ev){
+		ev.preventDefault();
+		var url = RootUrl+'api/v1/signout';
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			cache : false,
+			success: function(res){
+				if(res["msg"] === "success"){
+					delCookie("username");
+					delCookie("usertype");
+					window.location.href = "/";
+					userLogin.html('<a href="../user/login.html">登录</a>/<a href="../user/reg.html">注册</a>')
+				}else{
+					alert('提交失败')
+				}
+				
+		   	}
+		});
+	})
+})

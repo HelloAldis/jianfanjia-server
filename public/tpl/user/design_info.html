@@ -51,7 +51,7 @@
 			</div>
 			<div class="m-ct">
 				<div class="w-form user-form design_info" id="j-design-info">
-					<form action="http://www.jianfanjia.com" id="design-info" method="PUT" enctype="multipart/form-data">
+					<form action="http://www.jianfanjia.com" id="design-info" method="PUT">
 						<div class="m-item f-cb">
 							<div class="item">
 								<label class="u-lab" for="design-name">姓&nbsp;&nbsp;&nbsp;名：</label>
@@ -318,7 +318,9 @@
 	        	var data = $.parseJSON(data)
 	               img_id_upload[i]=data.data;
 	               i++;
-	               $('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+data.data)
+	               if(!data.data){
+	               		$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+data.data).data('imgId',data.data)
+	               }
 	        },
 	        'onQueueComplete' : function(queueData) {//上传队列全部完成后执行的回调函数
 	           // if(img_id_upload.length>0)
@@ -327,7 +329,74 @@
 	        // Put your options here
 	    });
 	});
-	
+	var check_step = 0;
+	var emptyMsg = {
+        "reg_mobile" : "请输入手机号",
+        "reg_password": "请输入密码",
+        "reg_password_confirm": "请输入确认密码",
+        "reg_smscode" : "请输入验证码",
+        "reg_agree" : "请先同意注册协议"
+    };
+    var errMsg = {
+        "reg_mobile": "手机号不正确",
+        "reg_password": "密码需为6~30个字母或数字",
+        "reg_password_confirm": "两次输入的密码不一样",
+        "reg_smscode" : "短信验证码不正确"
+    };
+    //获取对象
+    var mobile = $("#reg-account");
+    var captcha = $("#reg-VerifyCode");
+    var pass = $("#reg-password");
+    var pass2 = $("#reg-password2");
+    var status = $('#reg-status');
+    var agreement = $("#reg-agreement");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	function loadList(){
 		var url = RootUrl+'api/v1/designer/info';
 		$.ajax({
@@ -369,15 +438,18 @@
 				$.each(res['data']['dec_districts'],function(i,el){
 					$('#decoration-area').find('[value='+res['data']['dec_districts'][i]+']').attr('checked','checked')
 				});
-				$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+res['data']['imageid'])
+				if(!!res['data']['imageid']){	
+					$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+res['data']['imageid'])
+				}
 		   	}
 		});
 	}
 	loadList();
 	//表单提交
 	$('#design-info').on('submit',function(){
+		check_step = 13;
         var url = RootUrl+'api/v1/designer/info';
-		var userName = $('#design-name').val();
+		/*var userName = $('#design-name').val();
 		var userSex = $('#design-sex').find('input:checked').val();
 		var userPhone = $('#design-mobile').val();
 		var userProv = $('#design-area').find('input[name=design-area0]').val();
@@ -404,7 +476,7 @@
 		$('#decoration-style').find('input:checked').each(function(){
 			userDecStyles.push($(this).val())
 		})
-		var imgId = $('#upload').find('img').attr('src').split('image/')[1];
+		var imgId = $('#upload').find('img').data('imgId',data.data) || "";*/
 		$.ajax({
 			url:url,
 			type: 'PUT',
@@ -441,7 +513,25 @@
 		});
 		return false;
 	});
-
+	//认证提交
+	$('#auth-submit').on('click',function(){
+        var url = RootUrl+'api/v1/designer/auth';
+		$.ajax({
+			url:url,
+			type: 'POST',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function(res){
+				if(res['msg'] === "success"){
+					loadList()
+					alert('认证成功！')
+				}else{
+					$('#error-info').html(res['err_msg']).removeClass('hide');
+				}
+		   	}
+		});
+		return false;
+	});
 
 // //点击打开文件选择器  
 //     $("#upload").on('click', function() {  
