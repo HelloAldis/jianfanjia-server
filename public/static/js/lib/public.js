@@ -173,6 +173,7 @@ function format(format,data){
     return format;
 }
 
+console.log('已经登陆成功状态'+setCookie("username") + " : "+  setCookie("usertype"))
 if(setCookie("usertype") || setCookie("username") || setCookie("username") === "undefined" ){
 	console.log('已经登陆成功状态')
 }else{
