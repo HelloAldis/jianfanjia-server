@@ -61,6 +61,7 @@ router.post('/process/done', auth.normalUserRequired, process.done); //设置节
 
 //业主独有功能
 router.put('/user/info', auth.userRequired, user.updateInfo); //修改业主个人资料
+router.get('/user/info', auth.userRequired, user.getInfo); //修改业主个人资料
 router.put('/user/requirement', auth.userRequired, user.updateRequirement); //更新我的装修需求
 router.get('/user/requirement', auth.userRequired, user.getRequirement); //获取我的装修需求
 router.get('/user/designer', auth.userRequired, user.myDesigner); //我的设计师

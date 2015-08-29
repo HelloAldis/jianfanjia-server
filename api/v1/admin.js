@@ -11,6 +11,15 @@ var type = require('../../type');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 
+exports.login = function (req, res, next) {
+  if (req.body.username === 'admin' && req.body.pass === 'admin') {
+    req.session.usertype = type.role_admin;
+    res.sendSuccessMsg();
+  } else {
+    res.sendErrMsg('ooooooOps');
+  }
+}
+
 exports.authed = function (req, res, next) {
   var designerid = tools.trim(req.body._id);
 

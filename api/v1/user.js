@@ -15,7 +15,7 @@ var async = require('async');
 var sms = require('../../common/sms');
 
 exports.getInfo = function (req, res, next) {
-  var userid = req.params._id;
+  var userid = req.params._id || ApiUtil.getUserid(req);
 
   User.getUserById(userid, function (err, user) {
     if (err) {
