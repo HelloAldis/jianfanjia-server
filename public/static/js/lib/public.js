@@ -19,6 +19,33 @@ var global_success_url = window.location;
 var RootUrl = 'http://www.jianfanjia.com:8080/';
 // 检测浏览器是否支持css3新属性，来给低版本浏览器做优雅降级；
 function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentElement.style,t=function(r){return r.replace(/-(\w)/g,function($0,$1){return $1.toUpperCase()})};for(i in p){a.push(t(p[i]+'-'+c));a.push(t(c))}for(i in a){if(a[i]in s){return true}}return false};
+//Cookie操作
+function setCookie(name,value,exp,path,domain) {
+    var exp = exp || 0;
+    var et = new Date();
+    if ( exp != 0 ) {
+        et.setTime(et.getTime() + exp*3600000);
+    } else {
+        et.setHours(23); et.setMinutes(59); et.setSeconds(59); et.setMilliseconds(999);
+    }
+    var more = "";
+    var path = path || "/";
+    var domain = domain || "";
+    if (domain != "")
+        more += "; domain="+domain;
+    more += "; path="+path;
+    document.cookie = name + "=" + escape(value) + more + "; expires=" + et.toGMTString();
+}
+function getCookie(name) {
+    var res = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+    return null != res ? unescape(res[2]) : null;
+}
+function delCookie(name) {
+    var value = getCookie(name);
+    if (null != value) { 
+    	setCookie(name,value,-9);
+    }
+}
 /*
 	下拉选择框插件
 	3个参数：
@@ -144,4 +171,10 @@ function format(format,data){
             format = format.replace(RegExp.$1,RegExp.$1.length==1 ? o[k] :("00"+ o[k]).substr((""+ o[k]).length));
     }
     return format;
+}
+
+if(setCookie("usertype") || setCookie("username") || setCookie("username") === "undefined" ){
+	console.log('已经登陆成功状态')
+}else{
+	console.log('未登陆状态')
 }

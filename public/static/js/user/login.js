@@ -23,33 +23,6 @@ $(function(){
         "login_password": "密码需为6~30个字母或数字"
     };
     var check_step = 0;
-	//Cookie操作
-	function setCookie(name,value,exp,path,domain) {
-        var exp = exp || 0;
-        var et = new Date();
-        if ( exp != 0 ) {
-            et.setTime(et.getTime() + exp*3600000);
-        } else {
-            et.setHours(23); et.setMinutes(59); et.setSeconds(59); et.setMilliseconds(999);
-        }
-        var more = "";
-        var path = path || "/";
-        var domain = domain || "";
-        if (domain != "")
-            more += "; domain="+domain;
-        more += "; path="+path;
-        document.cookie = name + "=" + escape(value) + more + "; expires=" + et.toGMTString();
-    }
-    function getCookie(name) {
-        var res = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
-        return null != res ? unescape(res[2]) : null;
-    }
-    function delCookie(name) {
-        var value = getCookie(name);
-        if (null != value) { 
-        	setCookie(name,value,-9);
-        }
-    }
     //获取对象
 	var mobile = $("#login-account");
     var pass = $("#login-password");
