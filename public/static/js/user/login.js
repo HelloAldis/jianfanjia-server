@@ -9,10 +9,7 @@ $(function(){
 	function isVerifyCode(str){
 	   return (/^[\d]{6}$/.test(str));
 	}
-	var login_success_url = {
-		"1" : "owner",
-		"2" : "design"
-	};
+    var login_success_url =["/","owner.html","design.html"];
 	var emptyMsg = {
         "login_mobile" : "请输入手机号",
         "login_password": "请输入密码",
@@ -114,8 +111,8 @@ $(function(){
 			}),
 			processData : false,
 			success: function(res){
-				if(res["data"]){
-					window.location.href = login_success_url[res.data.usertype]+'.html'
+				if(res["data"] != null){
+                    window.location.href = login_success_url[res.data.usertype]
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');	
 				}
