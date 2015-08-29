@@ -318,7 +318,7 @@
 	        	var data = $.parseJSON(data)
 	               img_id_upload[i]=data.data;
 	               i++;
-	               $('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+data.data)
+	               $('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+data.data).data('imgId',data.data)
 	        },
 	        'onQueueComplete' : function(queueData) {//上传队列全部完成后执行的回调函数
 	           // if(img_id_upload.length>0)
@@ -369,7 +369,9 @@
 				$.each(res['data']['dec_districts'],function(i,el){
 					$('#decoration-area').find('[value='+res['data']['dec_districts'][i]+']').attr('checked','checked')
 				});
-				$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+res['data']['imageid'])
+				if(!!res['data']['imageid']){	
+					$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+res['data']['imageid'])
+				}
 		   	}
 		});
 	}
@@ -404,7 +406,7 @@
 		$('#decoration-style').find('input:checked').each(function(){
 			userDecStyles.push($(this).val())
 		})
-		var imgId = $('#upload').find('img').attr('src').split('image/')[1];
+		var imgId = $('#upload').find('img').data('imgId',data.data) || "";
 		$.ajax({
 			url:url,
 			type: 'PUT',
@@ -441,7 +443,25 @@
 		});
 		return false;
 	});
-
+	//认证提交
+	$('#auth-submit').on('click',function(){
+        var url = RootUrl+'api/v1/designer/auth';
+		$.ajax({
+			url:url,
+			type: 'POST',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function(res){
+				if(res['msg'] === "success"){
+					loadList()
+					alert('认证成功！')
+				}else{
+					$('#error-info').html(res['err_msg']).removeClass('hide');
+				}
+		   	}
+		});
+		return false;
+	});
 
 // //点击打开文件选择器  
 //     $("#upload").on('click', function() {  

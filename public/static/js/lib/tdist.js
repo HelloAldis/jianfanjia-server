@@ -100,14 +100,14 @@ var tdist={"110000":["\u5317\u4eac","1"],"110100":["\u5317\u4eac\u5e02","110000"
 					}
 				}
 				if(!self.bOFF){
-					if(obj == self.list3){
-						alert('请先选择市');
+					if(obj == self.list3 && obj.find('value') == "请选择市"){
+						alert('请先选择市1');
 						return false;
 					}
 				}else{
 					if(!self.bOff){
-						if(obj == self.list3){
-							alert('请先选择市');
+						if(obj == self.list3 && obj.find('value') == "请选择市"){
+							alert('请先选择市2');
 							return false;
 						}
 					}
@@ -144,7 +144,6 @@ var tdist={"110000":["\u5317\u4eac","1"],"110100":["\u5317\u4eac\u5e02","110000"
 						self.selectShow(self.list3)
 						self.selectHide(self.list2)
 						self.clearValue(self.list3);
-
 					}
 					if(obj == self.list3){
 						self.selectHide(self.list3)

@@ -20,15 +20,24 @@ $(function(){
 		list:globalData.des_type
 	});
 	var errMsg = {
+		"owner_name": "请输入业主名字",
         "owner_area": "请输入装修面积",
         "owner_price": "请输入装修预算金额",
         "owner_cell": "请输入小区名称"
     };
     var check_step = 0;
+    var userName = $('#user-name');
     var comName = $('#com-name');
     var decArea = $('#dec_area');
     var decBudget = $('#dec-budget');
 	//验证函数
+	function checkUserName(){    //小区名称
+        var id = "owner_name";
+        if ($.trim(userName.val()) != "") {
+            return showOk(userName,id);
+        }
+        return showError(userName,id);
+    }
     function checkComName(){    //小区名称
         var id = "owner_cell";
         if ($.trim(comName.val()) != "") {
@@ -70,6 +79,9 @@ $(function(){
         return true;
     }
 	//事件操作
+	 userName.on('blur',function(){
+        checkUserName()
+    });
     comName.on('blur',function(){
         checkComName()
     });
@@ -81,7 +93,8 @@ $(function(){
     });
     //表单提交
 	$('#form-owner').on('submit',function(){
-		check_step = 3;
+		check_step = 4;
+		checkUserName()
 		checkComName();
 		checkDecArear();
 		checkDecBudget();
@@ -89,7 +102,8 @@ $(function(){
 			return false;
 		}
 		var url = RootUrl+'api/v1/user/requirement';
-		var disName = comName.val();
+		var disName = userName.val();
+		var discell = comName.val();
 		var disAreaM = parseFloat(decArea.val());
 		var disPrice = parseFloat(decBudget.val());
 		var disOwner = $('input[name=owner-area]').val();
@@ -103,18 +117,20 @@ $(function(){
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			data : JSON.stringify({
+				"username":disName,
 				"city":"武汉",
 				"district":disOwner,
-				"cell":disName,
+				"cell":discell,
 				"house_type":disHouse,
 				"house_area":disAreaM,
 				"dec_style":disDec,
 				"work_type":disWork,
-				"total_price":disPrice
+				"total_price":disPrice,
+				"des_type": disDesign
 			}),
 			processData : false,
+			cache : false,
 			success: function(res){
-				console.log(res)
 				if(res['msg'] === 'success'){
 					window.location.href = 'owner_design.html';
 				}else{
@@ -135,15 +151,15 @@ $(function(){
 				console.log(res['data'])
 				var data = res['data']
 				if(data !== null){
+					userName.val(data.username);
 					comName.val(data.cell);
 					decArea.val(data.total_price)
 					decBudget.val(data.house_area)
-					$('#owner-name').val(res['data']['username'] || "");
-					$('#owner-mobile').val(res['data']['phone']);
-					$('#owner-addr').val(res['data']['address']);
-					$('#owner-sex').find('input[value='+res['data']['sex']+']').attr('checked','checked');
-					$('#owner-area').empty()
-					var ownerArea = new CitySelect({id :'owner-area','query':res['data']['city']});
+					$('#owner-area').find('.value').html(data.district);
+					$('#house_type').find('.value').html(globalData.house_type[data.house_type]);
+					$('#dec_style').find('.value').html(globalData.dec_style[data.dec_style]);
+					$('#work_type').find('.value').html(globalData.work_type[data.work_type]);
+					$('#design_type').find('.value').html(globalData.des_type[data.des_type]);
 				}
 		   	}
 		});
