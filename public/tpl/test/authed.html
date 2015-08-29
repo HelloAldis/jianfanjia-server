@@ -9,6 +9,58 @@
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
 	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
 	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
+	<style> 
+		.authed table{
+			width: 100%;
+			text-align: center;
+		}
+		.authed th{
+			line-height: 40px;
+			font-size: 16px;
+			background-color: #fafafa;
+		}
+		.authed th,.authed td{
+			border-bottom: 1px solid #e2e2e2;
+		}
+		.authed td{
+			line-height: 34px;
+			font-size: 14px;
+		}
+		.authed td.td5 a{
+			line-height: 34px;
+			color: #5494e4;
+		}
+		.authed td.td5 a i{
+			font-size: 24px;
+		}
+		.authed td.td5 a:hover{
+			text-decoration: none;
+			color: #0071ff;
+		}
+		.authed td.td6 a{
+			margin: 0 10px;
+			color: #666;
+		}
+		.authed td.td6 a i{
+			margin-right: 3px;
+		}
+		.authed td.td6 a:hover{
+			text-decoration: none;
+			color: #fe7004;
+		}
+		.authed .editor .iconfont{
+			color: #fc8c49;
+		}
+		.authed .delete .iconfont{
+			color: #666;
+		}
+		.authed .td1{width: 100px;}
+		.authed .td2{width: 50px;}
+		.authed .td3{width: 80px;}
+		.authed .td4{width: 300px;}
+		.authed .td5{width: 60px;}
+		.authed .td6{width: 160px;}
+	</style>
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/page.js"></script>
@@ -36,8 +88,8 @@
 		<div class="user-sd f-fl">
 			<h2>后台管理</h2>
 			<ul>
-				<li class="current"><a href="../test/live.html">装修直播</a></li>
-				<li><a href="../test/authed.html">设计师认证</a></li>
+				<li><a href="../test/live.html">装修直播</a></li>
+				<li class="current"><a href="../test/authed.html">设计师认证</a></li>
 			</ul>
 		</div>
 		<div class="user-mn f-fr">
@@ -49,18 +101,15 @@
 					<table>
 						<thead>
 							<tr>
-								<th>姓名</th>
-								<th>手机号码</th>
-								
-								<th>认证操作</th>
+								<th class="td1">姓名</th>
+								<th class="td2">性别</th>
+								<th class="td3">手机号码</th>
+								<th class="td4">所在地区</th>
+								<th class="td5">作品数</th>
+								<th class="td6">认证操作</th>
 							</tr>
 						</thead>
-						<thead>
-							<tr>
-								<th>jiayi</th>
-								<th><a href="javascript:;" class="confirm">认证</a></th>
-							</tr>
-						</thead>
+						<tbody></tbody>
 					</table>
 				</div>
 				<div class="m-page" id="j-page"></div>
@@ -100,80 +149,6 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="../../static/js/test/authed.js"></script>
 </body>
 </html>
-<script type="text/javascript">
-	var $list = $('#authed');
-	//渲染生成列表
-	function loadList(){
-		var url = RootUrl+'api/v1/admin/authing_designer';
-		$.ajax({
-			url:url,
-			type: 'GET',
-			contentType : 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function(res){
-				console.log(res['data'])
-		   	}
-		});
-	}
-
-	loadList();
-	//创建列表
-	function createList(data){
-		return ""
-	}
-	//生成分页
-	function page(arr){
-		var page = new Pageing({
-			id : 'j-page',
-			allNumPage : arr.length,
-			itemPage : 5,
-			showPageNum : 9,
-			endPageNum : 1,
-			currentPage : 0,
-			linkTo : '',
-			callback : function(num,obj){
-				var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
-				$list.html('');
-				for(var i=num*this.itemPage;i<maxElem;i++){
-					$list.append(createList(arr[i]));
-				}
-				$list.find('li:odd').attr('class', 'even');
-				obj.find('.btns').on('click' , function(ev){
-					ev.stopPropagation();
-					$('body,html').animate({scrollTop:$list.offset().top},1000);
-				});
-				
-				return false;
-			}
-		});
-	};
-	// //认证操作
-	// $ownerScheme.delegate('.confirm','click',function(ev){
-	// 	ev.preventDefault();
-	// 	var self = $(this);
-	// 	var oDl = $(this).closest('tr');
-	// 	var uidName = oDl.data('uid');
-	// 	var url = RootUrl+'api/v1/admin/authed';
-	// 	$.ajax({
-	// 		url:url,
-	// 		type: 'POST',
-	// 		contentType : 'application/json; charset=utf-8',
-	// 		dataType: 'json',
-	// 		data : JSON.stringify({
-	// 			"_id" : uidName
-	// 		}),
-	// 		processData : false,
-	// 		success: function(res){
-	// 			if(res["msg"] === "success"){
-	// 				loadList();
-	// 				self.remove();
-	// 			}else{
-	// 				alert('提交失败')
-	// 			}
-				
-	// 	   	}
-	// 	});
-	// })
-</script>

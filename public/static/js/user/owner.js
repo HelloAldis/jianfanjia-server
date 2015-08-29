@@ -133,6 +133,7 @@ $(function(){
 			success: function(res){
 				if(res['msg'] === 'success'){
 					window.location.href = 'owner_design.html';
+					loadList();
 				}else{
 					$('#error-info').html(res['err']).removeClass('hide');	
 				}
@@ -148,13 +149,22 @@ $(function(){
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				console.log(res['data'])
 				var data = res['data']
 				if(data !== null){
-					userName.val(data.username);
+					$.ajax({
+						url:RootUrl+'api/v1/user/info',
+						type: 'GET',
+						contentType : 'application/json; charset=utf-8',
+						dataType: 'json',
+						success: function(res){
+							if(res['data'] !== null){
+								userName.val(res['data']["username"] || "");
+							}
+						}
+					});
 					comName.val(data.cell);
-					decArea.val(data.total_price)
-					decBudget.val(data.house_area)
+					decArea.val(data.house_area)
+					decBudget.val(data.total_price)
 					$('#owner-area').find('.value').html(data.district);
 					$('#house_type').find('.value').html(globalData.house_type[data.house_type]);
 					$('#dec_style').find('.value').html(globalData.dec_style[data.dec_style]);
