@@ -95,9 +95,11 @@ router.delete('/process/ysimage', auth.designerRequired, process.deleteYsImage);
 router.get('/designer/process/list', auth.designerRequired, process.listForDesigner); //设计师获取装修工地列表
 
 //管理员独有的功能
+router.post('/admin/login', admin.login); //审核设计师
 router.post('/admin/authed', auth.adminRequired, admin.authed); //审核设计师
 router.post('/share', auth.adminRequired, admin.add); //创建直播分享
 router.put('/share', auth.adminRequired, admin.update); //更新直播分享
-router.get('/admin/authing_designer', admin.listAuthingDesigner);
+router.get('/admin/authing_designer', auth.adminRequired, admin.listAuthingDesigner); //获取申请认证的设计师
+router.post('/admin/search_designer', auth.adminRequired, admin.searchDesigner); //按照手机号申请设计师
 
 module.exports = router;

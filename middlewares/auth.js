@@ -46,9 +46,9 @@ exports.designerRequired = function (req, res, next) {
  * 需要admin登录
  */
 exports.adminRequired = function (req, res, next) {
-  // if (ApiUtil.getUsertype(req) !== type.role_admin) {
-  //   return res.status(403).send('forbidden!');
-  // }
+  if (ApiUtil.getUsertype(req) !== type.role_admin) {
+    return res.status(403).send('forbidden!');
+  }
 
   next();
 };

@@ -70,6 +70,19 @@ exports.updateRequirement = function (req, res, next) {
   var district = requirement.district;
   var dec_style = requirement.dec_style;
 
+  var username = tools.trim(req.body.username);
+  if (username) {
+    User.updateByQuery({
+      _id: userid
+    }, {
+      username: username
+    }, function (err) {
+      if (err) {
+        console.log(err);
+      }
+    });
+  }
+
   ep.fail(next);
   ep.on('final', function (designers) {
     //设计确定了

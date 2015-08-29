@@ -86,3 +86,18 @@ exports.listAuthingDesigner = function (req, res, next) {
     res.sendData(designers);
   });
 };
+
+exports.searchDesigner = function (req, res, next) {
+  var phone = new RegExp('^' + tools.trim(req.body.phone));
+  Designer.findDesignersByQuery({
+    phone: phone
+  }, {
+    phone: 1,
+  }, function (err, designers) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendData(designers);
+  });
+}
