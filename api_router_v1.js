@@ -97,5 +97,6 @@ router.get('/designer/process/list', auth.designerRequired, process.listForDesig
 router.post('/admin/authed', auth.adminRequired, admin.authed); //审核设计师
 router.post('/share', auth.adminRequired, admin.add); //创建直播分享
 router.put('/share', auth.adminRequired, admin.update); //更新直播分享
+router.get('/admin/authing_designer', admin.listAuthingDesigner);
 
 module.exports = router;

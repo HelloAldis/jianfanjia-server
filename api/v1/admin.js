@@ -62,3 +62,13 @@ exports.update = function (req, res, next) {
     res.sendSuccessMsg();
   });
 };
+
+exports.listAuthingDesigner = function (req, res, next) {
+  Designer.getSByQueryAndProject({}, {}, function (err, designers) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendData(designers);
+  })
+};
