@@ -61,7 +61,7 @@ function gen_session(user, usertype, res) {
     signed: false,
     httpOnly: false,
   };
-  res.cookie('username', user.username, opts); //cookie 有效期30天
+  res.cookie('username', user.username || user.phone, opts); //cookie 有效期1天
   res.cookie('usertype', usertype, opts);
 }
 
