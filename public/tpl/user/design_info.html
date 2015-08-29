@@ -21,7 +21,7 @@
 				<h1><a href="../index/index.html">简繁家</a></h1>
 			</div>
 			<div class="f-fr">
-				<div class="user">
+				<div class="user" id="j-userLogin">
 					<a href="../user/login.html">登录</a>/<a href="../user/reg.html">注册</a>
 				</div>
 				<ul class="m-nav f-fl">
@@ -67,7 +67,7 @@
 								<label class="u-lab" for="design-sex">性&nbsp;&nbsp;&nbsp;别：</label>
 								<div class="u-inp">
 									<div class="sex" id="design-sex">
-										<label><input type="radio" name="design-sex" value="0" checked="checked" />男</label>
+										<label><input type="radio" name="design-sex" value="0" />男</label>
 										<label><input type="radio" name="design-sex" value="1" />女</label>
 									</div>
 								</div>
@@ -203,15 +203,15 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item more">
-								<label class="u-lab" for="work_type">擅长风格：</label>
+								<label class="u-lab" for="work_type">意向接单户型：</label>
 								<div class="u-inp">
 									<div class="check" id="decoration-style">
-										<label><input type="checkbox" name="decoration-style0" value="0" />欧式风格</label>
-										<label><input type="checkbox" name="decoration-style1" value="1" />中式风格</label>
-										<label><input type="checkbox" name="decoration-style2" value="2" />现代风格</label>
-										<label><input type="checkbox" name="decoration-style3" value="3" />地中海风格</label>
-										<label><input type="checkbox" name="decoration-style4" value="4" />美式风格</label>
-										<label><input type="checkbox" name="decoration-style5" value="5" />东南亚风格</label>
+										<label><input type="checkbox" name="decoration-style0" value="0" checked="checked" />一居</label>
+										<label><input type="checkbox" name="decoration-style1" value="1" checked="checked" />二居</label>
+										<label><input type="checkbox" name="decoration-style2" value="2" checked="checked" />三居</label>
+										<label><input type="checkbox" name="decoration-style3" value="3" checked="checked" />四居</label>
+										<label><input type="checkbox" name="decoration-style4" value="4" checked="checked" />复式</label>
+										<label><input type="checkbox" name="decoration-style5" value="5" checked="checked" />别墅</label>
 									</div>
 								</div>
 							</div>
@@ -344,7 +344,7 @@
         "reg_smscode" : "短信验证码不正确"
     };
     //获取对象
-    var mobile = $("#reg-account");
+    var desName = $("#design-name");
     var captcha = $("#reg-VerifyCode");
     var pass = $("#reg-password");
     var pass2 = $("#reg-password2");

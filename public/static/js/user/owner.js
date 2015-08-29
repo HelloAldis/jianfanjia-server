@@ -126,7 +126,7 @@ $(function(){
 				"dec_style":disDec,
 				"work_type":disWork,
 				"total_price":disPrice,
-				"des_type": disDesign
+				"communication_type": disDesign
 			}),
 			processData : false,
 			cache : false,
@@ -154,6 +154,8 @@ $(function(){
 					$.ajax({
 						url:RootUrl+'api/v1/user/info',
 						type: 'GET',
+						async : false,
+						cache : false,
 						contentType : 'application/json; charset=utf-8',
 						dataType: 'json',
 						success: function(res){
@@ -169,7 +171,7 @@ $(function(){
 					$('#house_type').find('.value').html(globalData.house_type[data.house_type]);
 					$('#dec_style').find('.value').html(globalData.dec_style[data.dec_style]);
 					$('#work_type').find('.value').html(globalData.work_type[data.work_type]);
-					$('#design_type').find('.value').html(globalData.des_type[data.des_type]);
+					$('#design_type').find('.value').html(globalData.des_type[data.communication_type]);
 				}
 		   	}
 		});
