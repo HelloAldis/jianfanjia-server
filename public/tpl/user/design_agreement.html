@@ -99,6 +99,7 @@
             type: 'POST',
             contentType : 'application/json; charset=utf-8',
             dataType: 'json',
+            cache : false,
             success: function(res){
 				if(res["msg"] == 'success'){
 					window.location.href = url;
