@@ -109,7 +109,7 @@ exports.buildRequirement = function (req) {
   requirement.dec_style = tools.trim(req.body.dec_style);
   requirement.work_type = tools.trim(req.body.work_type);
   requirement.total_price = req.body.total_price;
-  designer.communication_type = tools.trim(req.body.communication_type);
+  requirement.communication_type = tools.trim(req.body.communication_type);
 
   return requirement;
 }
