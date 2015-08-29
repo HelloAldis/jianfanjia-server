@@ -20,7 +20,11 @@ $(function(){
 			processData : false,
 			success: function(res){
 				console.log(res)
-				page(res['data'])
+				if(res['data'].length > 0){
+					page(res['data'])
+				}else{
+					alert('没有数据')
+				}
 		   	}
 		});
 	}
@@ -127,6 +131,7 @@ $(function(){
 	$filter.delegate('a','click',function(ev){
 		ev.preventDefault();
 		var oDl = $(this).closest('dl');
+		$(this).attr('class','current').siblings().attr('class', '');
 		filterSort(oDl.data('type'),$(this).data('query'));
 	})
 });

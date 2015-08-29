@@ -124,4 +124,29 @@ $(function(){
 		});
 		return false;
 	})
+	function loadList(){
+		var url = RootUrl+'api/v1/user/requirement';
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function(res){
+				console.log(res['data'])
+				var data = res['data']
+				if(data !== null){
+					comName.val(data.cell);
+					decArea.val(data.total_price)
+					decBudget.val(data.house_area)
+					$('#owner-name').val(res['data']['username'] || "");
+					$('#owner-mobile').val(res['data']['phone']);
+					$('#owner-addr').val(res['data']['address']);
+					$('#owner-sex').find('input[value='+res['data']['sex']+']').attr('checked','checked');
+					$('#owner-area').empty()
+					var ownerArea = new CitySelect({id :'owner-area','query':res['data']['city']});
+				}
+		   	}
+		});
+	}
+	loadList();
 })

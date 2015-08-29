@@ -9,7 +9,7 @@ $(function(){
 	function isVerifyCode(str){
 	   return (/^[\d]{6}$/.test(str));
 	}
-	var reg_success_url =["owner","design"];
+	var reg_success_url =["/","owner.html#new","design_agreement.html"];
 	var emptyMsg = {
         "reg_mobile" : "请输入手机号",
         "reg_password": "请输入密码",
@@ -29,7 +29,7 @@ $(function(){
     var captcha = $("#reg-VerifyCode");
     var pass = $("#reg-password");
     var pass2 = $("#reg-password2");
-    var status = $('#reg-status').find('input:checked');
+    var status = $('#reg-status');
     var agreement = $("#reg-agreement");
     //验证函数
     function checkMobile(){    //手机验证
@@ -122,7 +122,7 @@ $(function(){
 		var verifyCode = captcha.val();
 		var passWord = pass.val();
 		var passWord2 = pass2.val();
-		var statusType = status.val();
+		var statusType = status.find('input:checked').val();
 		$.ajax({
 			url:url,
 			type: 'post',
@@ -136,17 +136,17 @@ $(function(){
 				"type" : statusType
 			}),
 			processData : false,
+            cache : false,
 			success: function(res){
 				console.log(res)
-				if(res["data"]){
-					window.location.href = reg_success_url[res.data.usertype-1]+'.html#new'
+				if(res["data"] != null){
+					window.location.href = reg_success_url[res.data.usertype];
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');
 				}
 				if(res['err_msg']){
 					$('#error-info').html(res['err_msg']).removeClass('hide');
 				}
-		        //$('#form-login').find('m-error-info').html(msg).removeClass('hide');
 		   	}
 		});
 		return false;
@@ -164,6 +164,7 @@ $(function(){
                 type: 'post',
                 contentType : 'application/json; charset=utf-8',
                 dataType: 'json',
+                cache : false,
                 data : JSON.stringify({
                     phone : userName
                 }),
