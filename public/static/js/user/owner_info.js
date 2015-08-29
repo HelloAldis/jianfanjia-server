@@ -5,18 +5,22 @@
 			type: 'GET',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
+			cache : false,
 			success: function(res){
 				var data = res['data'];
 				console.log(res['data'])
 				if(data !== null){
-					$('#owner-name').val(data.username. || "");
+					$('#owner-name').val(data.username || "");
 					$('#owner-mobile').val(data.phone);
 					$('#owner-addr').val(data.address);
-					$('#owner-sex').find('input[value='+data.sex.+']').attr('checked','checked');
+					$('#owner-sex').find('input[value='+data.sex+']').attr('checked','checked');
 					$('#owner-area').empty()
 					var ownerArea = new CitySelect({id :'owner-area','query':data.city});
+				}else{
+					$('#owner-area').empty()
+					var ownerArea = new CitySelect({id :'owner-area'});
 				}
-		   	
+			}	
 		});
 	}
 	loadList();
@@ -42,6 +46,7 @@
 				"address":userAddr
 			}),
 			processData : false,
+			cache : false,
 			success: function(res){
 				if(res['msg'] === "success"){
 					loadList()
