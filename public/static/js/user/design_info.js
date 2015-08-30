@@ -253,14 +253,12 @@ $(function(){
 					desHouseIntent.html("");
 					var yxhx = ""
 					for (var i = 0,len = globalData.house_type.length; i < len; i++) {
-						for (var j = 0; j < data.dec_house_types.length; j++) {
-							if(data.dec_house_types[j] == i){
-								yxhx += '<label><input name="decoration-style0" value="'+i+'" checked="checked" />'+globalData.house_type[i]+'</label>'
-							}
-						};
-						yxhx += '<label><input name="decoration-style0" value="'+i+'" />'+globalData.house_type[i]+'</label>'
+							yxhx += '<label><input type="checkbox" name="decoration-style0" value="'+i+'" />'+globalData.house_type[i]+'</label>'
 					};
 					desHouseIntent.html(yxhx)
+					$.each(data.dec_house_types,function(i,el){
+						desHouseIntent.find('[value='+data.dec_house_types[i]+']').attr('checked','checked')
+					});
 					if(!!data.imageid){	
 						$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+data.imageid)
 					}

@@ -118,7 +118,7 @@ $(function(){
 			dataType: 'json',
 			data : JSON.stringify({
 				"username":disName,
-				"city":"武汉",
+				"city":"武汉市",
 				"district":disOwner,
 				"cell":discell,
 				"house_type":disHouse,

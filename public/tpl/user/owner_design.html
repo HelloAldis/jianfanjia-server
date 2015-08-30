@@ -114,7 +114,7 @@
 			}
 		})
 	$('#owner-booking').on('click',function(){
-			var url = RootUrl+'api/v1/user/designer';
+			var url = RootUrl+'api/v1/user/designer/house_check';
 			var aLi = $designLsit.find('li');
 			var designers = [];
 			 aLi.each(function(i,el){
@@ -122,6 +122,7 @@
 			 		designers.push($(el).data('uid'))
 			 	}
 			 })
+			 console.log(designers)
 			 if(designers.length){
 			 	$.ajax({
 					url:url,
@@ -129,11 +130,15 @@
 					contentType : 'application/json; charset=utf-8',
 					dataType: 'json',
 					data : JSON.stringify({
-						"_id":designers
+						"designerids":designers
 					}),
 					processData : false,
 					success: function(res){
-						console.log(res)
+						if(res["msg"] == "success"){
+							alert('预约成功,等待设计师响应')
+						}else{
+							alert('预约失败')
+						}
 				   	}
 				});
 			 }else{
@@ -162,31 +167,33 @@
 	}
 	//创建列表
 	function createList(data){
-		var img = '../../static/img/public/headpic.jpg' || RootUrl+'api/v1/image/'+data.imageid
-		var index = 0;
-	  	var max = parseInt(data.plans[index].status);
-	  	for(var i=1;i<data.plans.length;i++){ 
-			if(max<parseInt(data.plans[i].status)){
-				max=parseInt(data.plans[i].status);
-				index = i;
+		var img = '../../static/img/public/headpic.jpg' || RootUrl+'api/v1/image/'+data.imageid;
+		if(data.plans.length){
+			var index = 0;
+		  	var max = parseInt(data.plans[index].status);
+		  	for(var i=1;i<data.plans.length;i++){ 
+				if(max<parseInt(data.plans[i].status)){
+					max=parseInt(data.plans[i].status);
+					index = i;
+				}
+			}
+			var sStatus = '';
+			if(data.plans[index].status == 0){
+				sStatus = '等待设计师响应';
+			}else if(data.plans[index].status == 1){
+				sStatus = '你已经被设计师拒绝';
+			}else if(data.plans[index].status == 2){
+				sStatus = '<a href="scheme_create.html" class="scheme">提交方案</a><span>(可提交多个方案)</span>';
+			}else if(data.plans[index].status == 3){
+				sStatus = '<i class="iconfont">&#xe616;</i>沟通中';
+			}else if(data.plans[index].status == 4){
+				sStatus = '<i class="iconfont">&#xe616;</i>未中标';
+			}else if(data.plans[index].status == 5){
+				sStatus = '<i class="iconfont">&#xe616;</i>已中标';
 			}
 		}
-		var sStatus = '';
-		if(data.plans[index].status == 0){
-			sStatus = '<a href="javascript:;" class="respond">响应</a><a href="javascript:;" class="refuse">拒绝</a></div>';
-		}else if(data.plans[index].status == 1){
-			sStatus = '你已经拒绝该业主';
-		}else if(data.plans[index].status == 2){
-			sStatus = '<a href="scheme_create.html" class="scheme">提交方案</a><span>(可提交多个方案)</span>';
-		}else if(data.plans[index].status == 3){
-			sStatus = '<i class="iconfont">&#xe616;</i>沟通中';
-		}else if(data.plans[index].status == 4){
-			sStatus = '<i class="iconfont">&#xe616;</i>未中标';
-		}else if(data.plans[index].status == 5){
-			sStatus = '<i class="iconfont">&#xe616;</i>已中标';
-		}
 		console.log(data);
-		return '<li class="f-cb" data-uid="'+data._id+'">'
+		var str = '<li class="f-cb" data-uid="'+data._id+'">'
 					+'<div class="operate f-fl">'
 						+'<label><input type="checkbox" name="" id="" />选中</label>'
 					+'</div>'
@@ -199,7 +206,10 @@
 						+'<p>作品数：<span>'+data.product_count+'</span>预约数：<span>'+data.order_count+'</span></p>'
 						+'<p>量房时间：<span>10月8日 下午6:00（星期三）</span></p>'
 					+'</div>'
-					+'<div class="state state2 f-fr">'+sStatus+'</div></li>'
+			if(data.plans.length){
+				str += '<div class="state state2 f-fr">'+sStatus+'</div></li>'
+			}
+		return str;
 	}
 	//生成分页
 	function page(arr){
@@ -218,7 +228,6 @@
 					for(var i=num*this.itemPage;i<maxElem;i++){
 						$designLsit.append(createList(arr[i]));
 					}
-					$designLsit.find('li:odd').attr('class', 'even');
 					obj.find('.btns').on('click' , function(ev){
 						ev.stopPropagation();
 						$('body,html').animate({scrollTop:$designLsit.offset().top},1000);

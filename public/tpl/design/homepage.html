@@ -200,10 +200,11 @@
 								+'<dd>预约</dd>'
 							+'</dl>'
 						+'</div>'
-						+'<a href="../user/owner_design.html?55d2ec5174803176eb6f80a8" class="btn">添加意向</a>'
+			if(window.usertype == 1){
+				sInfo += '<a href="../user/owner_design.html" data-uid="'+data._id+'" id="addDesign" class="btn">添加意向</a>'
+			}
 		$homeDesc.html(sHomeDesc)
 		$infoplate.html(sInfo)
-
 	}
 	function page(arr){
 		var page = new Pageing({
@@ -242,4 +243,36 @@
 				+'<a href="detail.html?'+data._id+'" class="btn">查看详情</a>'
 			+'</li>'
 	};
+	//添加意向
+	$(document.body).delegate('#addDesign','click',function(ev){
+		ev.preventDefault();
+		var slth = $(this);
+		var uidName = $(this).data('uid');
+		var url = RootUrl+'api/v1/user/designer';
+		$.ajax({
+			url:url,
+			type: 'POST',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			cache : false,
+			data : JSON.stringify({
+				"_id" : uidName
+			}),
+			processData : false,
+			success: function(res){
+				console.log(res)
+				if(res["msg"] === "success"){
+					alert('添加成功')
+				}else{
+					alert('已经添加过了')
+					return false;
+				}
+				if(res["err_msg"]){
+					alert('已经添加过了')
+					slth.remove();
+					return false;
+				}
+		   	}
+		});
+	})
 </script>

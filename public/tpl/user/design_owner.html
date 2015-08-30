@@ -96,25 +96,59 @@
 		sBtns = '<a href="design_scheme.html" class="scheme">提交方案</a><span>(可提交多个方案)</span>';
 		$designOwner.delegate('.refuse','click',function(ev){
 			ev.stopPropagation();
-			var $item = $(this).closest($items),
-				uid = $item.data('item');
-
-				
+			var url = RootUrl+'api/v1/designer/user/reject';
+			var item = $(this).closest('.item'),
+				uid = item.data('item');		
 			if(confirm("你确定拒绝吗？")){
-				$item.remove();
+				$.ajax({
+					url:url,
+					type: 'POST',
+					contentType : 'application/json; charset=utf-8',
+					dataType: 'json',
+					data : JSON.stringify({
+						"userid":uid
+					}),
+					processData : false,
+					success: function(res){
+						if(res["msg"] == "success"){
+							alert('拒绝成功')
+						}else{
+							alert('拒绝失败')
+						}
+				   	}
+				});
 			}
 		});
-
 		$designOwner.delegate('.respond','click',function(ev){
-				ev.stopPropagation();
-			var $item = $(this).closest($items),
+			ev.stopPropagation();
+			var url = RootUrl+'api/v1/designer/user/ok';
+			var $item = $(this).closest('.item'),
 				uid = $item.data('item'),
 				$btns  = $item.find('.btns'),
-				$phone  = $item.find('.phone'),
+				$phone = $item.find('.phone'),
 				$time  = $item.find('.time');
-			$btns.empty().html(sBtns);
-			$phone.html('15612121212');
-			$time.html('10月8日 下午6:00（星期三）');
+			$.ajax({
+					url:url,
+					type: 'POST',
+					contentType : 'application/json; charset=utf-8',
+					dataType: 'json',
+					data : JSON.stringify({
+						"userid": uid,
+  						"house_check_time": new Date()
+					}),
+					processData : false,
+					success: function(res){
+						console.log(res)
+						if(res["msg"] == "success"){
+							$btns.empty().html(sBtns);
+							$phone.html('15612121212');
+							$time.html('10月8日 下午6:00（星期三）');
+						}else{
+							alert('拒绝失败')
+						}
+				   	}
+				});
+			
 		});
 		/*
 	弹出窗口
@@ -296,7 +330,7 @@ function unique(arr,a,b) {
 		}else if(data.status >= 2){
 			sStatus = '<a href="scheme_create.html?'+data.userid+'" class="scheme">提交方案</a><span>(可提交多个方案)</span>';
 		}
-		return '<div class="item f-cb" data-item="'+data.requirementid+'">'
+		return '<div class="item f-cb" data-item="'+data.userid+'">'
 					+'<div class="head f-fl"><img src="" alt="" /></div>'
 					+'<div class="info f-fl">'
 						+'<h4>业主：'+data.user.username+'</h4>'

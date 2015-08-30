@@ -100,7 +100,6 @@ $(function(){
 					ev.stopPropagation();
 					$('body,html').animate({scrollTop:$design.offset().top},1000);
 				});
-				
 				return false;
 			}
 		});
@@ -108,23 +107,21 @@ $(function(){
 	//排序
 	function filterSort(oType,query){
 		var url = RootUrl+'api/v1/designer/search';
+		var oData = {"query":{},
+				 	"sort":{
+				    "auth_date":1
+					}};
+		oData["query"][oType] = query;
 		$.ajax({
 			url:url,
 			type: 'POST',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
-			data : JSON.stringify({
-			  	"query":{
-			  		oType : query
-			  	},
-				 "sort":{
-				    "auth_date":1
-				}
-			}),
+			data : JSON.stringify(oData),
 			processData : false,
 			success: function(res){
 				console.log(res)
-				//loadList();
+				loadList();
 		   	}
 		});
 	}

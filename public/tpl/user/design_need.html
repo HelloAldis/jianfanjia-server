@@ -160,8 +160,14 @@
 				}),
 				processData : false,
 				success: function(res){
-					$list.html('');
-					loadList();
+					if(res["msg"] == "success"){
+						alert('取消收藏成功')
+						$list.html('');
+						loadList();
+					}else{
+						alert('取消收藏失败')
+					}
+					
 			   	}
 			});
 		})

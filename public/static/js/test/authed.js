@@ -25,7 +25,7 @@ $(function(){
 					+'<td class="td2">'+data.sex+'</td>'
 					+'<td class="td3">'+data.phone+'</td>'
 					+'<td class="td4">'+data.province+' '+data.city+' '+data.district+'</td>'
-					+'<td class="td5"><a href="../design/homepage.html?'+data._id+'">查看('+data.product_count+')</a></td>'
+					+'<td class="td5"><a href="../tpl/design/homepage.html?'+data._id+'">查看('+data.product_count+')</a></td>'
 					+'<td class="td6"><a href="javascript:;" class="confirm">认证</a></td>'
 				+'</tr>'
 	}
