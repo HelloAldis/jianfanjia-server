@@ -155,8 +155,6 @@
 <script type="text/javascript">
 //获取HTML5特性支持情况
 	//图片上传
-	var img_id_upload=[];//初始化数组，存储已经上传的图片名
-	var i=0;//初始化数组下标
 	var checkSupport = function(){
 		var input = document.createElement('input');
 		var fileSupport = !!(window.File && window.FileList);
@@ -213,8 +211,6 @@
 	}
 	function callbackImg(arr){
 		var data = $.parseJSON(arr)
-       	img_id_upload[i]=data.data;
-       	i++;
-		$('#userHead').attr('src',RootUrl+'api/v1/image/'+img_id_upload[0]).data('img',img_id_upload[0]);
+		$('#userHead').attr('src',RootUrl+'api/v1/image/'+data).data('img',data);
 	}
 </script>

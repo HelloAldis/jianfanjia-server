@@ -314,11 +314,12 @@ $(function(){
 	//decodeURI("url地址")//解码
 	var userLogin = $('#j-userLogin');
 	if(window.username && window.usertype){
-		if(window.usertype == 1){
-			console.log(decodeURI(window.username))
-			userLogin.html('<a href="../user/owner.html">业主'+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
+		if(window.usertype == 0){
+			userLogin.html('<a href="../jyz/live.html">管理员 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
+		}else if(window.usertype == 1){
+			userLogin.html('<a href="../user/owner.html">业主 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
 		}else if(window.usertype == 2){
-			userLogin.html('<a href="../user/design.html">设计师'+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
+			userLogin.html('<a href="../user/design.html">设计师 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
 		}
 	}else{
 		console.log('未登陆状态')

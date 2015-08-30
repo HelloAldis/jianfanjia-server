@@ -10,8 +10,10 @@
 	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
 	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/tdist.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
-	<script type="text/javascript" src="../../static/js/user/design.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/jquery.uploadify-3.1.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/jquery.Huploadify.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -53,7 +55,7 @@
 			</div>
 			<div class="m-ct design">
 				<div class="tabBox">
-					<div class="list hide">
+					<div class="listBox hide">
 						<div class="m-table">
 							<table>
 								<thead>
@@ -73,7 +75,7 @@
 							<a href="" class="btn create-btn">添加作品</a>
 						</div>
 					</div>
-					<div class="list">
+					<div class="listBox">
 						<div class="w-form user-form">
 							<form action="http://www.jianfanjia.com" id="design-product" method="get">
 								<div class="m-item f-cb">
@@ -83,6 +85,7 @@
 											<div class="m-cities" id="product-area"></div>
 										</div>
 									</div>
+									<p class="tips-info hide"></p>
 								</div>
 								<div class="m-item f-cb">
 									<div class="item">
@@ -93,6 +96,9 @@
 											</div>
 										</div>
 									</div>
+									<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+									<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+									<p class="tips-info hide"></p>
 								</div>
 								<div class="m-item f-cb">
 									<div class="item">
@@ -112,6 +118,9 @@
 											</div>
 										</div>
 									</div>
+									<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+									<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+									<p class="tips-info hide"></p>
 								</div>
 								<div class="m-item f-cb">
 									<div class="item">
@@ -147,6 +156,9 @@
 											</div>
 										</div>
 									</div>
+									<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+									<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+									<p class="tips-info hide"></p>
 								</div>
 								<div class="m-item f-cb">
 									<div class="item">
@@ -162,13 +174,19 @@
 										<div class="u-inp">
 											<div class="file">
 												<p class="tips">*作品上传每张大小为1M以内</p>
-												<div class="file-list f-cb">
+												<div class="file-list f-cb" id="j-file-list">
 													<div class="create-item">
-														<div class="pic">
-															
+														<div class="pic" id="upload">
+															<div class="fileBtn">
+																<input class="hide" id="fileToUpload" type="file" name="upfile">
+																<p class="hide"><a href="javascript:$('#fileToUpload').uploadify('settings', 'formData', {'typeCode':document.getElementById('id_file').value});$('#fileToUpload').uploadify('upload','*')">上传</a>
+																<a href="javascript:$('#fileToUpload').uploadify('cancel','*')">重置上传队列</a>
+																</p>
+																<input type="hidden" id="sessionId" value="${pageContext.session.id}" />
+																<input type="hidden" value="1215154" name="tmpdir" id="id_file">
+															</div>
+															<img src="../../static/img/user/uploadify.jpg" alt="" />
 														</div>
-														<div class="m-select" id="itme_type"></div>
-														<div class="textarea"><textarea name="itme_con" cols="30" rows="10">图片说明:</textarea></div>
 													</div>
 													<div class="previews-item">
 														<div class="pic"></div>
@@ -232,10 +250,11 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="../../static/js/user/design.js"></script>
 </body>
 </html>
 <script type="text/javascript">
-
+	var designArea = new CitySelect({id :'product-area'});
 	var dec_house_type = new ComboBox({
 		id : 'product-house-type',
 		list : globalData.house_type,
@@ -256,7 +275,6 @@
 		list : globalData.work_type,
 		index :true
 	});
-
 	var itme_typeArr = ['客厅','卧室','卫生间','餐厅','书房','厨房','厨房','儿童房','阳台','衣帽间','玄关','过道','休闲区','花园','地下室','窗台','楼梯','阁楼'];
 	var itme_type = new  ComboBox({
 		id : 'itme_type',
@@ -273,4 +291,82 @@
 		list : itme_typeArr,
 		editor : true
 	});
+</script>
+<script type="text/javascript">
+//获取HTML5特性支持情况
+	//图片上传
+	var img_id_upload=[];//初始化数组，存储已经上传的图片名
+	var i=0;//初始化数组下标
+	var checkSupport = function(){
+		var input = document.createElement('input');
+		var fileSupport = !!(window.File && window.FileList);
+		var xhr = new XMLHttpRequest();
+		var fd = !!window.FormData;
+		return 'multiple' in input && fileSupport && 'onprogress' in xhr && 'upload' in xhr && fd ? 'html5' : 'flash';
+	};
+	var uploaderUrl = RootUrl+'api/v1/image/upload';
+	if(checkSupport() === "html5"){
+		$('#upload').Huploadify({
+			auto:true,
+			fileTypeExts:'*.jpg;*.png',
+			multi:true,
+			formData:{key:123456,key2:'vvvv'},
+			fileSizeLimit:1024,
+			showUploadedPercent:true,//是否实时显示上传的百分比，如20%
+			showUploadedSize:true,
+			removeTimeout:1,
+			fileObjName:'Filedata',
+			buttonText : "",
+			uploader:uploaderUrl,
+			onUploadComplete:function(file, data, response){
+				callbackImg(data)
+			},
+			onDelete:function(file){
+				console.log('删除的文件：'+file);
+				console.log(file);
+			}
+		});
+	}else{
+		$('#fileToUpload').uploadify({
+	    	'auto'     : true,//关闭自动上传
+	    	'removeTimeout' : 1,//文件队列上传完成1秒后删除
+	        'swf'      : 'uploadify.swf',
+	        'uploader' : RootUrl+'api/v1/image/upload',
+	        'method'   : 'post',//方法，服务端可以用$_POST数组获取数据
+			'buttonText' : '',//设置按钮文本
+	        'multi'    : true,//允许同时上传多张图片
+	        'uploadLimit' : 10,//一次最多只允许上传10张图片
+	        'width' : 250,
+	        'height' : 250,
+	        'fileTypeDesc' : 'Image Files',//只允许上传图像
+	        'fileTypeExts' : '*.gif; *.jpg; *.png',//限制允许上传的图片后缀
+	        'fileSizeLimit' : '1024KB',//限制上传的图片不得超过200KB 
+	        'onUploadSuccess' : function(file, data, response) {//每次成功上传后执行的回调函数，从服务端返回数据到前端
+	               callbackImg(data)
+	        },
+	        'onQueueComplete' : function(queueData) {//上传队列全部完成后执行的回调函数
+	           // if(img_id_upload.length>0)
+	           // alert('成功上传的文件有：'+encodeURIComponent(img_id_upload));
+	        }
+	    });
+	}
+	var iCounter = 0;
+	function callbackImg(arr){
+		var data = $.parseJSON(arr);
+		iCounter++;
+		$('#userHead').attr('src',RootUrl+'api/v1/image/'+data.data).data('img',data.data);
+		var str = '<div class="previews-item">'
+			+'<div class="pic" id="upload'+iCounter+'">'
+				+'<div class="fileBtn">'
+					+'<input class="hide" id="fileToUpload'+iCounter+'" type="file" name="upfile">'
+					+'<input type="hidden" id="sessionId" value="${pageContext.session.id}" />'
+					+'<input type="hidden" value="1215154" name="tmpdir" id="id_file">'
+				+'</div>'
+				+'<img class="img" src="'+RootUrl+'api/v1/image/'+data.data+'" alt="" />'
+			+'</div>'
+			+'<div class="m-select" id="itme_type1"></div>'
+			+'<div class="textarea"><textarea name="itme_con" cols="30" rows="10"></textarea></div>'
+		+'</div>'
+		$('#j-file-list').append(str)
+	}
 </script>

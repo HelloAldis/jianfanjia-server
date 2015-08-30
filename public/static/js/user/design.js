@@ -1,12 +1,12 @@
 $(function(){
 	var winHash = window.location.hash.substring(1),
-		index = 0,
+		index = 1,
 		$design = $('#j-design'),
 		$aLi = $design.find('.tabNav').find('li'),
-		$oList = $design.find('.list'),
+		$oList = $design.find('.listBox'),
 		$createBtn = $design.find('.create-btn'),
 		$list = $design.find('.m-table').find('tbody'),
-		desUid = '55d157fee6be292429b341bf';
+		desUid = '55e158b533a00edd07ecb398';
 		if(winHash != 'new'){
 			fnToggle(index)
 		}
@@ -38,7 +38,7 @@ $(function(){
 					fnToggle(1)
 					$aLi.eq(0).hide();
 				}else{
-					fnToggle(0)
+					fnToggle(1)
 					$aLi.eq(0).show();
 					createList(res['data'])
 				}
@@ -70,6 +70,10 @@ $(function(){
 	//删除
 	$design.delegate('.delete','click',function(ev){
 		ev.preventDefault();
+		if($list.find('tr').size() < 2){
+			alert('至少保留一个作品')
+			return false;
+		}
 		if(confirm("你确定要删除吗？删除不能恢复")){
 			var oDl = $(this).closest('tr');
 			var uidName = oDl.data('uid');
@@ -85,13 +89,19 @@ $(function(){
 				}),
 				processData : false,
 				success: function(res){
-					loadList();
+					if(res["msg"] == "success"){
+						alert('删除成功')
+						loadList();
+					}else{
+						alert('删除失败')
+					}
 			   	}
 			});
 		}
 	})
 	//发布作品
 	$('#design-product').on('submit',function(){
+
 		var url = RootUrl+'api/v1/designer/product';
 		$.ajax({
 			url:url,
