@@ -253,6 +253,8 @@ $(function(){
 					if(!!data.imageid){	
 						$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+data.imageid)
 					}
+					var img = data.imageid != null  ?  RootUrl+'api/v1/image/'+data.imageid : '../../../static/img/public/headpic.jpg'
+					$('#userHead').attr('src',img).data('img',data.imageid != null ? data.imageid : null)
 				}else{
 					var designArea = new CitySelect({id :'design-area'});
 				}
