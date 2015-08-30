@@ -53,8 +53,10 @@ exports.adminRequired = function (req, res, next) {
   next();
 };
 
-function gen_session(user, usertype, res) {
-  var auth_token = user._id + '$$$$'; // 以后可能会存储更多信息，用 $$$$ 来分隔
+exports.gen_session = function (user, usertype, req, res) {
+  req.session.userid = user._id;
+  req.session.usertype = usertype;
+
   var opts = {
     path: '/',
     maxAge: config.session_time,
@@ -65,7 +67,17 @@ function gen_session(user, usertype, res) {
   res.cookie('usertype', usertype, opts);
 }
 
-exports.gen_session = gen_session;
+exports.clear_session = function (req, res) {
+  if (req.session) {
+    req.session.destroy();
+  }
+  res.clearCookie('username', {
+    path: '/'
+  });
+  res.clearCookie('usertype', {
+    path: '/'
+  });
+}
 
 // 验证用户是否登录
 exports.authUser = function (req, res, next) {
@@ -130,6 +142,23 @@ var userPages = ['/owner.html', '/owner_design.html',
   '/owner_info.html', '/owner_need.html',
   '/owner_scheme.html'
 ];
+
+exports.checkCookie = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+
+  if (userid) {
+    //有ID session 但是username usertype cookies被篡改了 注销session
+    if (!req.cookies['username'] || !req.cookies['usertype']) {
+      exports.clear_session(req, res);
+    }
+  } else {
+    //清空session
+    console.log('sdfsdfsdfsdfs');
+    exports.clear_session(req, res);
+  }
+
+  next();
+}
 
 exports.authWeb = function (req, res, next) {
   var url = req.url

@@ -56,7 +56,7 @@ app.use(bodyParser.raw({
 }));
 
 app.use(require('method-override')());
-// app.use(require('cookie-parser')(config.session_secret));
+app.use(require('cookie-parser')(config.session_secret));
 app.use(session({
   cookie: {
     path: '/',
@@ -75,8 +75,11 @@ app.use(session({
   saveUninitialized: false,
 }));
 
-// 静态资源
+//check浏览器段cookie状态
+app.use('/tpl', auth.checkCookie);
+//拦截web
 app.use('/tpl/user', auth.authWeb);
+// 静态资源
 app.use('/', express.static(staticDir));
 
 // custom middleware

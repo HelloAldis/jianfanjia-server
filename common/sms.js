@@ -3,11 +3,14 @@ var querystring = require('querystring');
 var config = require('../config');
 
 exports.send = function (phone, con) {
+  if (config.debug) {
+    return;
+  }
+
   var postData = {
     uid: config.sms_uid,
     pas: config.sms_pas,
     mob: phone,
-    // con:'【微米】您的验证码是：610912，3分钟内有效。如非您本人操作，可忽略本消息。',
     con: con,
     type: 'json'
   };
@@ -39,6 +42,10 @@ exports.send = function (phone, con) {
 }
 
 exports.sendVerifyCode = function (phone, code) {
+  if (config.debug) {
+    return;
+  }
+
   var postData = {
     uid: config.sms_uid,
     pas: config.sms_pas,
@@ -75,6 +82,10 @@ exports.sendVerifyCode = function (phone, code) {
 }
 
 exports.sendYuyue = function (phone) {
+  if (config.debug) {
+    return;
+  }
+
   var postData = {
     uid: config.sms_uid,
     pas: config.sms_pas,

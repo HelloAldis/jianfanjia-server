@@ -83,7 +83,7 @@ exports.sendVerifyCode = function (req, res, next) {
       return next(err);
     }
 
-    // sms.sendVerifyCode(phone, code);
+    sms.sendVerifyCode(phone, code);
     res.sendSuccessMsg();
   });
 }
@@ -145,9 +145,7 @@ exports.signup = function (req, res, next) {
         }
 
         // store session cookie
-        authMiddleWare.gen_session(user_indb, usertype, res);
-        req.session.userid = user_indb._id;
-        req.session.usertype = usertype;
+        authMiddleWare.gen_session(user_indb, usertype, req, res);
 
         var data = {};
         data.usertype = usertype;
@@ -164,9 +162,7 @@ exports.signup = function (req, res, next) {
         }
 
         // store session cookie
-        authMiddleWare.gen_session(user_indb, usertype, res);
-        req.session.userid = user_indb._id;
-        req.session.usertype = usertype;
+        authMiddleWare.gen_session(user_indb, usertype, req, res);
 
         var data = {};
         data.usertype = usertype;
@@ -231,9 +227,7 @@ exports.login = function (req, res, next) {
         }
 
         // store session cookie
-        authMiddleWare.gen_session(user, type.role_user, res);
-        req.session.userid = user._id;
-        req.session.usertype = type.role_user;
+        authMiddleWare.gen_session(user, type.role_user, req, res);
 
         var data = {};
         data.usertype = type.role_user;
@@ -253,9 +247,7 @@ exports.login = function (req, res, next) {
 
         // store session cookie
         authMiddleWare.gen_session(designer, type.role_designer,
-          res);
-        req.session.userid = designer._id;
-        req.session.usertype = type.role_designer;
+          req, res);
 
         var data = {};
         data.usertype = type.role_designer;
@@ -290,13 +282,7 @@ exports.login = function (req, res, next) {
 
 // sign out
 exports.signout = function (req, res, next) {
-  req.session.destroy();
-  res.clearCookie('username', {
-    path: '/'
-  });
-  res.clearCookie('usertype', {
-    path: '/'
-  });
+  authMiddleWare.clear_session(req, res);
   res.sendSuccessMsg();
 };
 
