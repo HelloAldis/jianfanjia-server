@@ -77,8 +77,10 @@ app.use(session({
 
 //check浏览器段cookie状态
 app.use('/tpl', auth.checkCookie);
+app.use('/jyz', auth.checkCookie);
 //拦截web
 app.use('/tpl/user', auth.authWeb);
+app.use('/jyz', auth.authAdminWeb);
 // 静态资源
 app.use('/', express.static(staticDir));
 

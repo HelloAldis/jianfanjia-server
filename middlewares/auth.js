@@ -199,3 +199,25 @@ exports.authWeb = function (req, res, next) {
     next();
   }
 }
+
+var adminLoginPages = ['/login.html'];
+
+exports.authAdminWeb = function (req, res, next) {
+  var url = req.url
+  var userid = ApiUtil.getUserid(req);
+  var usertype = ApiUtil.getUsertype(req);
+
+  if (_.indexOf(adminLoginPages, url) >= 0) {
+    if (userid && usertype === type.role_admin) {
+      res.redirect('live.html');
+    } else {
+      next();
+    }
+  } else {
+    if (userid && usertype === type.role_admin) {
+      next();
+    } else {
+      res.status(403).send('forbidden!');
+    }
+  }
+}

@@ -13,7 +13,11 @@ var ObjectId = mongoose.Types.ObjectId;
 
 exports.login = function (req, res, next) {
   if (req.body.username === 'admin' && req.body.pass === 'admin') {
+    req.session.userid = 'Admin';
     req.session.usertype = type.role_admin;
+    res.cookie('username', 'Admin'); //cookie 有效期1天
+    res.cookie('usertype', type.role_admin);
+
     res.sendSuccessMsg();
   } else {
     res.sendErrMsg('ooooooOps');
