@@ -58,7 +58,18 @@ var type = {
   process_ni_mu_item_dmzp: 'dmzp',
   process_ni_mu_item_ddsg: 'ddsg',
   process_ni_mu_item_gtsg: 'gtsg',
-
+  process_you_qi_item_mqqsg: 'mqqsg',
+  process_you_qi_item_qmjccl: 'qmjccl',
+  process_an_zhuang_item_scaz: 'scaz',
+  process_an_zhuang_item_jjaz: 'jjaz',
+  process_an_zhuang_item_cwddaz: 'cwddaz',
+  process_an_zhuang_item_wjaz: 'wjaz',
+  process_an_zhuang_item_cgscaz: 'cgscaz',
+  process_an_zhuang_item_yjzjaz: 'yjzjaz',
+  process_an_zhuang_item_mdbmmaz: 'mdbmmaz',
+  process_an_zhuang_item_qzpt: 'qzpt',
+  process_an_zhuang_item_mbdjaz: 'mbdjaz',
+  process_an_zhuang_item_snzl: 'snzl',
 }
 
 module.exports = type;

@@ -85,6 +85,7 @@ var config = {
   sms_uid: 'S9w4LEmiYSgR',
   sms_pas: 's5pf823y',
 
+  duration_60: 60,
   duration_60_kai_gong: 1,
   duration_60_chai_gai: 3,
   duration_60_shui_dian: 11,

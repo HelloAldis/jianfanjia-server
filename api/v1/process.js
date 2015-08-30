@@ -94,87 +94,92 @@ exports.start = function (req, res, next) {
   process.sections[3].items[6] = {};
   process.sections[3].items[6].name = type.process_ni_mu_item_ktytzsg;
   process.sections[3].items[6].status = type.process_item_status_new;
+  process.sections[3].ys = {};
+  process.sections[3].ys.images = [];
 
   process.sections[4] = {}
   process.sections[4].name = type.process_section_you_qi;
   process.sections[4].status = type.process_item_status_new;
-  process.sections[3] = {}
-  process.sections[3].name = type.process_section_an_zhuang;
-  process.sections[3].status = type.process_item_status_new;
-  process.sections[0] = {}
-  process.sections[0].name = type.process_section_jun_gong;
-  process.sections[0].status = type.process_item_status_new;
+  process.sections[4].items[0] = {};
+  process.sections[4].items[0].name = type.process_you_qi_item_mqqsg;
+  process.sections[4].items[0].status = type.process_item_status_new;
+  process.sections[4].items[1] = {};
+  process.sections[4].items[1].name = type.process_you_qi_item_qmjccl;
+  process.sections[4].items[1].status = type.process_item_status_new;
+  process.sections[4].ys = {};
+  process.sections[4].ys.images = [];
 
+  process.sections[5] = {}
+  process.sections[5].name = type.process_section_an_zhuang;
+  process.sections[5].status = type.process_item_status_new;
+  process.sections[5].items[0] = {};
+  process.sections[5].items[0].name = type.process_an_zhuang_item_mdbmmaz;
+  process.sections[5].items[0].status = type.process_item_status_new;
+  process.sections[5].items[1] = {};
+  process.sections[5].items[1].name = type.process_an_zhuang_item_cgscaz;
+  process.sections[5].items[1].status = type.process_item_status_new;
+  process.sections[5].items[2] = {};
+  process.sections[5].items[2].name = type.process_an_zhuang_item_mbdjaz;
+  process.sections[5].items[2].status = type.process_item_status_new;
+  process.sections[5].items[3] = {};
+  process.sections[5].items[3].name = type.process_an_zhuang_item_yjzjaz;
+  process.sections[5].items[3].status = type.process_item_status_new;
+  process.sections[5].items[4] = {};
+  process.sections[5].items[4].name = type.process_kai_gong_item_qdzmjcl;
+  process.sections[5].items[4].status = type.process_item_status_new;
+  process.sections[5].items[5] = {};
+  process.sections[5].items[5].name = type.process_an_zhuang_item_cwddaz;
+  process.sections[5].items[5].status = type.process_item_status_new;
+  process.sections[5].items[6] = {};
+  process.sections[5].items[6].name = type.process_kai_gong_item_mdbcl;
+  process.sections[5].items[6].status = type.process_item_status_new;
+  process.sections[5].items[7] = {};
+  process.sections[5].items[7].name = type.process_an_zhuang_item_snzl;
+  process.sections[5].items[7].status = type.process_item_status_new;
+  process.sections[5].items[8] = {};
+  process.sections[5].items[8].name = type.process_an_zhuang_item_jjaz;
+  process.sections[5].items[8].status = type.process_item_status_new;
+  process.sections[5].items[9] = {};
+  process.sections[5].items[9].name = type.process_an_zhuang_item_wjaz;
+  process.sections[5].items[9].status = type.process_item_status_new;
+  process.sections[5].ys = {};
+  process.sections[5].ys.images = [];
 
+  process.sections[6] = {}
+  process.sections[6].name = type.process_section_jun_gong;
+  process.sections[6].status = type.process_item_status_new;
+  process.sections[6].ys = {};
+  process.sections[6].ys.images = [];
 
-  process.chai_gai = {};
+  var f = process.duration / type.duration_60;
 
+  process.sections[0].start_at = process.start_at;
+  process.sections[0].end_at = DateUtil.add(process.sections[0].start_at,
+    config.duration_60_kai_gong, f);
 
-  process.shui_dian = {};
+  process.sections[1].start_at = process.sections[0].end_at;
+  process.sections[1].end_at = DateUtil.add(process.sections[1].start_at,
+    config.duration_60_chai_gai, f);
 
-  process.shui_dian.ys = {};
+  process.sections[2].start_at = process.sections[1].end_at;
+  process.sections[2].end_at = DateUtil.add(process.sections[2].start_at,
+    config.duration_60_shui_dian, f);
 
-  process.ni_mu = {};
+  process.sections[3].start_at = process.sections[2].end_at;
+  process.sections[3].end_at = DateUtil.add(process.sections[3].start_at,
+    config.duration_60_ni_mu, f);
 
-  process.ni_mu.ys = {};
+  process.sections[4].start_at = process.sections[3].end_at;
+  process.sections[4].end_at = DateUtil.add(process.sections[4].start_at,
+    config.duration_60_you_qi, f);
 
-  process.you_qi = {};
-  process.you_qi.yqsg = {};
-  process.you_qi.yqsg.status = type.process_item_status_new;
-  process.you_qi.qmjccl = {};
-  process.you_qi.qmjccl.status = type.process_item_status_new;
-  process.you_qi.ys = {};
+  process.sections[5].start_at = process.sections[4].end_at;
+  process.sections[5].end_at = DateUtil.add(process.sections[5].start_at,
+    config.duration_60_an_zhuang, f);
 
-  process.an_zhuang = {};
-  process.an_zhuang.scaz = {};
-  process.an_zhuang.scaz.status = type.process_item_status_new;
-  process.an_zhuang.jjaz = {};
-  process.an_zhuang.jjaz.status = type.process_item_status_new;
-  process.an_zhuang.cwddaz = {};
-  process.an_zhuang.cwddaz.status = type.process_item_status_new;
-  process.an_zhuang.wjaz = {};
-  process.an_zhuang.wjaz.status = type.process_item_status_new;
-  process.an_zhuang.cgscaz = {};
-  process.an_zhuang.cgscaz.status = type.process_item_status_new;
-  process.an_zhuang.yjzjaz = {};
-  process.an_zhuang.yjzjaz.status = type.process_item_status_new;
-  process.an_zhuang.mdbmmaz = {};
-  process.an_zhuang.mdbmmaz.status = type.process_item_status_new;
-  process.an_zhuang.qzpt = {};
-  process.an_zhuang.qzpt.status = type.process_item_status_new;
-  process.an_zhuang.mbdjaz = {};
-  process.an_zhuang.mbdjaz.status = type.process_item_status_new;
-  process.an_zhuang.snzl = {};
-  process.an_zhuang.snzl.status = type.process_item_status_new;
-  process.an_zhuang.ys = {};
-
-  process.jun_gong = {};
-  process.jun_gong.ys = {};
-
-  if (process.duration === 60) {
-    process.kai_gong.start_at = process.start_at;
-    process.kai_gong.end_at = DateUtil.add(process.kai_gong.start_at, config.duration_60_kai_gong);
-
-    process.chai_gai.start_at = process.kai_gong.end_at;
-    process.chai_gai.end_at = DateUtil.add(process.chai_gai.start_at, config.duration_60_chai_gai);
-
-    process.shui_dian.start_at = process.chai_gai.end_at;
-    process.shui_dian.end_at = DateUtil.add(process.shui_dian.start_at,
-      config.duration_60_shui_dian);
-
-    process.ni_mu.start_at = process.shui_dian.start_at;
-    process.ni_mu.end_at = DateUtil.add(process.ni_mu.start_at, config.duration_60_ni_mu);
-
-    process.you_qi.start_at = process.ni_mu.end_at;
-    process.you_qi.end_at = DateUtil.add(process.you_qi.start_at, config.duration_60_you_qi);
-
-    process.an_zhuang.start_at = process.you_qi.start_at;
-    process.an_zhuang.end_at = DateUtil.add(process.an_zhuang.start_at,
-      config.duration_60_an_zhuang);
-
-    process.jun_gong.start_at = process.an_zhuang.end_at;
-    process.jun_gong.end_at = DateUtil.add(process.jun_gong.start_at, config.duration_60_jun_gong);
-  }
+  process.sections[6].start_at = process.sections[5].end_at;
+  process.sections[6].end_at = DateUtil.add(process.sections[6].start_at,
+    config.duration_60_jun_gong, f);
 
   Process.newAndSave(process, function (err, process_indb) {
     if (err) {

@@ -35,7 +35,10 @@ exports.update = function (req, res, next) {
     return;
   }
 
-  Product.updateByQuery({_id: oid, designerid: designerid}, product, function (err) {
+  Product.updateByQuery({
+    _id: oid,
+    designerid: designerid
+  }, product, function (err) {
     if (err) {
       return next(err);
     }
@@ -53,18 +56,24 @@ exports.delete = function (req, res, next) {
     return;
   }
 
-  Product.removeOneByQuery({_id: new ObjectId(oid), designerid: designerid}, function (err) {
+  Product.removeOneByQuery({
+    _id: new ObjectId(oid),
+    designerid: designerid
+  }, function (err, product) {
     if (err) {
       return next(err);
     }
 
-    Designer.addProductCountForDesigner(designerid, -1);
+    if (product) {
+      Designer.addProductCountForDesigner(designerid, -1);
+    }
+
     res.sendSuccessMsg();
   });
 }
 
 exports.list = function (req, res, next) {
-  var designerid = tools.trim(req.params._id);
+  var designerid = tools.trim(req.params._id) || ApiUtil.getUserid(req);
 
   Product.getProductsByDesignerid(designerid, function (err, products) {
     if (err) {

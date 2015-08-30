@@ -81,6 +81,7 @@ router.post('/designer/user/reject', auth.designerRequired, designer.rejectUser)
 router.get('/designer/plan', auth.designerRequired, plan.designerMyPlan); //我的装修方案
 router.post('/designer/plan', auth.designerRequired, plan.add); //提交方案
 router.put('/designer/plan', auth.designerRequired, plan.update); //更新方案
+router.get('/designer/product', auth.designerRequired, product.list); //上传作品
 router.post('/designer/product', auth.designerRequired, product.add); //上传作品
 router.put('/designer/product', auth.designerRequired, product.update); //更新作品
 router.delete('/designer/product', auth.designerRequired, product.delete); //删除作品
