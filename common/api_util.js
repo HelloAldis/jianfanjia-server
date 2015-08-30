@@ -78,6 +78,7 @@ exports.buildProduct = function (req) {
   product.description = tools.trim(req.body.description);
   product.images = _.map(req.body.images, function (i) {
     i.imageid = new ObjectId(i.imageid);
+    return i;
   });
 
   return product;

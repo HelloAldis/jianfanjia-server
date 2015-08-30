@@ -47,6 +47,7 @@ exports.start = function (req, res, next) {
   process.sections[1] = {}
   process.sections[1].name = type.process_section_chai_gai;
   process.sections[1].status = type.process_item_status_new;
+  process.sections[1].items = [];
   process.sections[1].items[0] = {};
   process.sections[1].items[0].name = type.process_chai_gai_item_cpbh;
   process.sections[1].items[0].status = type.process_item_status_new;
@@ -61,6 +62,7 @@ exports.start = function (req, res, next) {
   process.sections[2] = {}
   process.sections[2].name = type.process_section_shui_dian;
   process.sections[2].status = type.process_item_status_new;
+  process.sections[2].items = [];
   process.sections[2].items[0] = {};
   process.sections[2].items[0].name = type.process_shui_dian_item_sdsg;
   process.sections[2].items[0].status = type.process_item_status_new;
@@ -73,6 +75,7 @@ exports.start = function (req, res, next) {
   process.sections[3] = {}
   process.sections[3].name = type.process_section_ni_mu;
   process.sections[3].status = type.process_item_status_new;
+  process.sections[3].items = [];
   process.sections[3].items[0] = {};
   process.sections[3].items[0].name = type.process_ni_mu_item_dmzp;
   process.sections[3].items[0].status = type.process_item_status_new;
@@ -100,6 +103,7 @@ exports.start = function (req, res, next) {
   process.sections[4] = {}
   process.sections[4].name = type.process_section_you_qi;
   process.sections[4].status = type.process_item_status_new;
+  process.sections[4].items = [];
   process.sections[4].items[0] = {};
   process.sections[4].items[0].name = type.process_you_qi_item_mqqsg;
   process.sections[4].items[0].status = type.process_item_status_new;
@@ -112,6 +116,7 @@ exports.start = function (req, res, next) {
   process.sections[5] = {}
   process.sections[5].name = type.process_section_an_zhuang;
   process.sections[5].status = type.process_item_status_new;
+  process.sections[5].items = [];
   process.sections[5].items[0] = {};
   process.sections[5].items[0].name = type.process_an_zhuang_item_mdbmmaz;
   process.sections[5].items[0].status = type.process_item_status_new;
@@ -151,7 +156,7 @@ exports.start = function (req, res, next) {
   process.sections[6].ys = {};
   process.sections[6].ys.images = [];
 
-  var f = process.duration / type.duration_60;
+  var f = process.duration / config.duration_60;
 
   process.sections[0].start_at = process.start_at;
   process.sections[0].end_at = DateUtil.add(process.sections[0].start_at,
@@ -181,6 +186,7 @@ exports.start = function (req, res, next) {
   process.sections[6].end_at = DateUtil.add(process.sections[6].start_at,
     config.duration_60_jun_gong, f);
 
+  console.log(process);
   Process.newAndSave(process, function (err, process_indb) {
     if (err) {
       return next(err);
