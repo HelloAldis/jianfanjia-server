@@ -251,7 +251,6 @@ $(function(){
 						desDecArea.find('[value='+data.dec_districts[i]+']').attr('checked','checked')
 					});
 					desHouseIntent.find('input').each(function(i,el){
-						console.log(1)
 						$(el).attr('checked','');
 					});
 					$.each(data.dec_house_types,function(i,el){
@@ -288,16 +287,17 @@ $(function(){
         var url = RootUrl+'api/v1/designer/info';
 		var userName = desName.val();
 		var userSex = desSex.find('input:checked').val();
-		var userLocation = desDecArea.find('input[name=design-area]');
+		var userLocation = desArea.find('input[name=design-area]');
+		console.log(!!userLocation.val())
 		if(!!userLocation.val()){
 			var userArr = userLocation.val().split(" ");
 			var userProv = userArr[0];
 			var userCity = userArr[1];
 			var userDist = userArr[2];
 		}else{
-			var userProv = desDecArea.find('input[name=design-area0]').val();
-			var userCity = desDecArea.find('input[name=design-area1]').val();
-			var userDist = desDecArea.find('input[name=design-area2]').val();
+			var userProv = desArea.find('input[name=design-area0]').val();
+			var userCity = desArea.find('input[name=design-area1]').val();
+			var userDist = desArea.find('input[name=design-area2]').val();
 		}
 		var userAddr = desAddr.val();
 		var userUid = desUid.val();
