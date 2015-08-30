@@ -227,7 +227,7 @@ $(function(){
 						var designArea = new CitySelect({id :'design-area'});
 					}
 					desCom.val(data.company || "");
-					desHouseIntent.val(data.philosophy || "");
+					desPhilosophy.val(data.philosophy || "");
 					desAchievement.val(data.achievement || "");
 					desChatType.find('input[value='+data.communication_type+']').attr('checked','checked');
 					desPrice.find('input[value='+data.design_fee_range+']').attr('checked','checked');
@@ -249,6 +249,13 @@ $(function(){
 					});
 					$.each(data.dec_districts,function(i,el){
 						desDecArea.find('[value='+data.dec_districts[i]+']').attr('checked','checked')
+					});
+					desHouseIntent.find('input').each(function(i,el){
+						console.log(1)
+						$(el).attr('checked','');
+					});
+					$.each(data.dec_house_types,function(i,el){
+						desHouseIntent.find('[value='+data.dec_house_types[i]+']').attr('checked','checked')
 					});
 					if(!!data.imageid){	
 						$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+data.imageid)
@@ -317,7 +324,7 @@ $(function(){
 		desHouseIntent.find('input:checked').each(function(){
 			userDecHouse.push($(this).val())
 		})
-		var imgId = $('#upload').find('.img').data('imgId') || null;
+		var imgId = $('#userHead').data('img') || null;
 		$.ajax({
 			url:url,
 			type: 'PUT',
