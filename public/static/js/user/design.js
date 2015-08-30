@@ -5,8 +5,8 @@ $(function(){
 		$aLi = $design.find('.tabNav').find('li'),
 		$oList = $design.find('.listBox'),
 		$createBtn = $design.find('.create-btn'),
-		$list = $design.find('.m-table').find('tbody'),
-		desUid = ;
+		$list = $design.find('.m-table').find('tbody');
+
 		if(winHash != 'new'){
 			fnToggle(index)
 		}
@@ -119,11 +119,12 @@ $(function(){
 		var images = []
 		aPreviewsItem.each(function(i,el){
 			images.push({
-				section:$(el).find('.value').val(),
-			    imageid:$(el).data('imgid'),
-			    description:$(el).find('.textarea').val()
+				"section":$(el).find('.value').val(),
+			    "imageid":$(el).data('imgid'),
+			    "description":$(el).find('.textarea').val()
 			})
 		})
+		console.log(images);
 		$.ajax({
 			url:url,
 			type: 'POST',

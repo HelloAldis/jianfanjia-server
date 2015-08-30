@@ -42,18 +42,7 @@
 					<h3>案例介绍：</h3>
 					<p id="desc-description"></p>
 				</div>
-				<ul class="list">
-					<li>
-						<h4>客厅1</h4>
-						<img src="../../img/design/design-detail-01.jpg" alt="" />
-						<p>深圳优秀室内设计师，深圳室内设计师协会(SZAID)理事，高级室内建筑师，从事室内设计12年，现任深圳太合南方建筑室内设计事务所</p>
-					</li>
-					<li>
-						<h4>客厅2</h4>
-						<img src="../../img/design/design-detail-02.jpg" alt="" />
-						<p>深圳优秀室内设计师，深圳室内设计师协会(SZAID)理事，高级室内建筑师，从事室内设计12年，现任深圳太合南方建筑室内设计事务所</p>
-					</li>
-				</ul>
+				<ul class="list" id="imgList"></ul>
 			</div>
 		</div>
 	</div>
@@ -107,7 +96,6 @@
 			success: function(res){
 				console.log(res['data'])
 				createInfo(res['data'])
-				
 		   	}
 		});
 	}
@@ -120,13 +108,15 @@
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){	
-				$.each(res['data']['favorite_product'],function(i,el){
-					if(winHash == el){
-						$collect.addClass('cancel').html('取消收藏');
-					}else{
-						$collect.removeClass('cancel').html('收藏');
-					}
-				})	
+				if(res['data'] != null){
+					$.each(res['data']['favorite_product'],function(i,el){
+						if(winHash == el){
+							$collect.addClass('cancel').html('取消收藏');
+						}else{
+							$collect.removeClass('cancel').html('收藏');
+						}
+					})	
+				}
 		   	}
 		});
 	}
@@ -138,8 +128,13 @@
 					+'<h2>'+data.cell+'</h2>'
 					+'<p>参考造价：<strong>'+data.total_price+'</strong>万元<span>|</span>户型：'+globalData.house_type[data.house_type]+'<span>|</span>面积：'+data.house_area+'m&sup2;</p>'
 					+'<p>浏览数：'+data.view_count+'<span>|</span>收藏数：'+data.favorite_count+'</p>'
+		var imgList = '';
+		for (var i = 0,len = data.images.length; i < len; i++) {
+			imgList += '<li><h4>'+data.images[i].section+'</h4><img src="'+RootUrl+'api/v1/image/'+data.images[i].imageid+'" alt="" /><p>'+data.images[i].description+'</p></li>' 
+		};
 		$('#detail-info').html(info);
 		$('#desc-description').html(data.description);
+		$('#imgList').html(imgList);
 	}
 	$collect.on('click',function(){
 		if(!$(this).hasClass('cancel')){
