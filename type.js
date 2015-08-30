@@ -34,12 +34,31 @@ var type = {
   process_section_ni_mu: 'ni_mu',
   process_section_you_qi: 'you_qi',
   process_section_an_zhuang: 'an_zhuang',
-  process_sction_jun_gong: 'jun_gong',
+  process_section_jun_gong: 'jun_gong',
 
   process_work_flow: ['kai_gong', 'chai_gai', 'shui_dian', 'ni_mu', 'you_qi',
     'an_zhuang', 'jun_gong'
   ],
-}
 
+  process_kai_gong_item_xcjd: 'xcjd',
+  process_kai_gong_item_cgdyccl: 'cgdyccl',
+  process_kai_gong_item_qdzmjcl: 'qdzmjcl',
+  process_kai_gong_item_sgxcl: 'sgxcl',
+  process_kai_gong_item_mdbcl: 'mdbcl',
+  process_kai_gong_item_kgmbslcl: 'kgmbslcl',
+  process_chai_gai_item_cpbh: 'cpbh',
+  process_chai_gai_item_ztcg: 'ztcg',
+  process_chai_gai_item_qpcc: 'qpcc',
+  process_shui_dian_item_sdsg: 'sdsg',
+  process_shui_dian_item_ntsg: 'ntsg',
+  process_ni_mu_item_sgxaz: 'sgxaz',
+  process_ni_mu_item_cwqfssg: 'cwqfssg',
+  process_ni_mu_item_cwqdzsg: 'cwqdzsg',
+  process_ni_mu_item_ktytzsg: 'ktytzsg',
+  process_ni_mu_item_dmzp: 'dmzp',
+  process_ni_mu_item_ddsg: 'ddsg',
+  process_ni_mu_item_gtsg: 'gtsg',
+
+}
 
 module.exports = type;

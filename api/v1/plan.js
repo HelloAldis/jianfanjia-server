@@ -122,7 +122,14 @@ exports.delete = function (req, res, next) {
 exports.userMyPlan = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
 
-  Plan.getPlansByUserid(userid, function (err, plans) {
+  Plan.getPlansByQueryAndProject({
+    userid: userid,
+    status: {
+      $in: [type.plan_status_user_final, type.plan_status_user_reject,
+        type.plan_status_desinger_upload
+      ]
+    }
+  }, function (err, plans) {
     if (err) {
       return next(err);
     }
@@ -164,7 +171,14 @@ exports.finalPlan = function (req, res, next) {
 exports.designerMyPlan = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
 
-  Plan.getPlansByDesignerid(designerid, function (err, plans) {
+  Plan.getPlansByQueryAndProject({
+    designerid: designerid,
+    status: {
+      $in: [type.plan_status_user_final, type.plan_status_user_reject,
+        type.plan_status_desinger_upload
+      ]
+    }
+  }, function (err, plans) {
     if (err) {
       return next(err);
     }

@@ -19,52 +19,103 @@ exports.start = function (req, res, next) {
   var process = ApiUtil.buildProcess(req);
   process.userid = userid;
   process.going_on = type.process_section_kai_gong;
+  process.sections = [];
 
-  process.kai_gong = {};
-  process.kai_gong.status = type.process_item_status_going;
-  process.kai_gong.xcjd = {};
-  process.kai_gong.xcjd.status = type.process_item_status_new;
-  process.kai_gong.cgdyccl = {};
-  process.kai_gong.cgdyccl.status = type.process_item_status_new;
-  process.kai_gong.qdzmjcl = {};
-  process.kai_gong.qdzmjcl.status = type.process_item_status_new;
-  process.kai_gong.sgxcl = {};
-  process.kai_gong.sgxcl.status = type.process_item_status_new;
-  process.kai_gong.mdbcl = {};
-  process.kai_gong.mdbcl.status = type.process_item_status_new;
-  process.kai_gong.kgmbslcl = {};
-  process.kai_gong.kgmbslcl.status = type.process_item_status_new;
+  process.sections[0] = {}
+  process.sections[0].name = type.process_section_kai_gong;
+  process.sections[0].status = type.process_item_status_going;
+  process.sections[0].items = [];
+  process.sections[0].items[0] = {};
+  process.sections[0].items[0].name = type.process_kai_gong_item_xcjd;
+  process.sections[0].items[0].status = type.process_item_status_new;
+  process.sections[0].items[1] = {};
+  process.sections[0].items[1].name = type.process_kai_gong_item_sgxcl;
+  process.sections[0].items[1].status = type.process_item_status_new;
+  process.sections[0].items[2] = {};
+  process.sections[0].items[2].name = type.process_kai_gong_item_mdbcl;
+  process.sections[0].items[2].status = type.process_item_status_new;
+  process.sections[0].items[3] = {};
+  process.sections[0].items[3].name = type.process_kai_gong_item_cgdyccl;
+  process.sections[0].items[3].status = type.process_item_status_new;
+  process.sections[0].items[4] = {};
+  process.sections[0].items[4].name = type.process_kai_gong_item_qdzmjcl;
+  process.sections[0].items[4].status = type.process_item_status_new;
+  process.sections[0].items[5] = {};
+  process.sections[0].items[5].name = type.process_kai_gong_item_kgmbslcl;
+  process.sections[0].items[5].status = type.process_item_status_new;
+
+  process.sections[1] = {}
+  process.sections[1].name = type.process_section_chai_gai;
+  process.sections[1].status = type.process_item_status_new;
+  process.sections[1].items[0] = {};
+  process.sections[1].items[0].name = type.process_chai_gai_item_cpbh;
+  process.sections[1].items[0].status = type.process_item_status_new;
+  process.sections[1].items[1] = {};
+  process.sections[1].items[1].name = type.process_chai_gai_item_ztcg;
+  process.sections[1].items[1].status = type.process_item_status_new;
+  process.sections[1].items[2] = {};
+  process.sections[1].items[2].name = type.process_chai_gai_item_qpcc;
+  process.sections[1].items[2].status = type.process_item_status_new;
+
+
+  process.sections[2] = {}
+  process.sections[2].name = type.process_section_shui_dian;
+  process.sections[2].status = type.process_item_status_new;
+  process.sections[2].items[0] = {};
+  process.sections[2].items[0].name = type.process_shui_dian_item_sdsg;
+  process.sections[2].items[0].status = type.process_item_status_new;
+  process.sections[2].items[1] = {};
+  process.sections[2].items[1].name = type.process_shui_dian_item_ntsg;
+  process.sections[2].items[1].status = type.process_item_status_new;
+  process.sections[2].ys = {};
+  process.sections[2].ys.images = [];
+
+  process.sections[3] = {}
+  process.sections[3].name = type.process_section_ni_mu;
+  process.sections[3].status = type.process_item_status_new;
+  process.sections[3].items[0] = {};
+  process.sections[3].items[0].name = type.process_ni_mu_item_dmzp;
+  process.sections[3].items[0].status = type.process_item_status_new;
+  process.sections[3].items[1] = {};
+  process.sections[3].items[1].name = type.process_ni_mu_item_ddsg;
+  process.sections[3].items[1].status = type.process_item_status_new;
+  process.sections[3].items[2] = {};
+  process.sections[3].items[2].name = type.process_ni_mu_item_gtsg;
+  process.sections[3].items[2].status = type.process_item_status_new;
+  process.sections[3].items[3] = {};
+  process.sections[3].items[3].name = type.process_ni_mu_item_sgxaz;
+  process.sections[3].items[3].status = type.process_item_status_new;
+  process.sections[3].items[4] = {};
+  process.sections[3].items[4].name = type.process_ni_mu_item_cwqfssg;
+  process.sections[3].items[4].status = type.process_item_status_new;
+  process.sections[3].items[5] = {};
+  process.sections[3].items[5].name = type.process_ni_mu_item_cwqdzsg;
+  process.sections[3].items[5].status = type.process_item_status_new;
+  process.sections[3].items[6] = {};
+  process.sections[3].items[6].name = type.process_ni_mu_item_ktytzsg;
+  process.sections[3].items[6].status = type.process_item_status_new;
+
+  process.sections[4] = {}
+  process.sections[4].name = type.process_section_you_qi;
+  process.sections[4].status = type.process_item_status_new;
+  process.sections[3] = {}
+  process.sections[3].name = type.process_section_an_zhuang;
+  process.sections[3].status = type.process_item_status_new;
+  process.sections[0] = {}
+  process.sections[0].name = type.process_section_jun_gong;
+  process.sections[0].status = type.process_item_status_new;
+
+
 
   process.chai_gai = {};
-  process.chai_gai.cpbh = {};
-  process.chai_gai.cpbh.status = type.process_item_status_new;
-  process.chai_gai.ztcg = {};
-  process.chai_gai.ztcg.status = type.process_item_status_new;
-  process.chai_gai.qpcc = {};
-  process.chai_gai.qpcc.status = type.process_item_status_new;
+
 
   process.shui_dian = {};
-  process.shui_dian.sdsg = {};
-  process.shui_dian.sdsg.status = type.process_item_status_new;
-  process.shui_dian.ntsg = {};
-  process.shui_dian.ntsg.status = type.process_item_status_new;
+
   process.shui_dian.ys = {};
 
   process.ni_mu = {};
-  process.ni_mu.sgxaz = {};
-  process.ni_mu.sgxaz.status = type.process_item_status_new;
-  process.ni_mu.cwqfssg = {};
-  process.ni_mu.cwqfssg.status = type.process_item_status_new;
-  process.ni_mu.cwqdzsg = {};
-  process.ni_mu.cwqdzsg.status = type.process_item_status_new;
-  process.ni_mu.ktytzsg = {};
-  process.ni_mu.ktytzsg.status = type.process_item_status_new;
-  process.ni_mu.dmzp = {};
-  process.ni_mu.dmzp.status = type.process_item_status_new;
-  process.ni_mu.ddsg = {};
-  process.ni_mu.ddsg.status = type.process_item_status_new;
-  process.ni_mu.gtsg = {};
-  process.ni_mu.gtsg.status = type.process_item_status_new;
+
   process.ni_mu.ys = {};
 
   process.you_qi = {};
