@@ -834,14 +834,48 @@
 }
 .user-form .fileBox{
 	position: absolute;
-	right:80px;
+	right:0px;
 	top:30px;
-	width: 180px;
+	width: 250px;
 }
 .user-form .fileBox .pic{
-	width: 180px;
-	height: 180px;
+	position: relative;
+	width: 250px;
+	height: 250px;
+	overflow: hidden;
 	background-color: #ccc;
+	text-align: center;
+}
+.user-form .fileBox .pic .img{
+	width: 100%;
+}
+.user-form .fileBox .pic .fileBtn{
+	position: absolute;
+	z-index: 1;
+	left:0;
+	top:0;
+	width: 250px;
+	height: 250px;
+}
+.user-form .fileBox .pic .fileBtn .uploadify-button-text{
+	width: 250px;
+	height: 250px;
+	display: block;
+}
+.uploadify-button{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 10;
+	width: 250px;
+	height: 250px;
+}
+.user-form .fileBox .pic .uploadify-queue{
+	display: none;
+}
+.user-form .fileBox .pic .fileBtn .swfupload{
+	left:0;
+	top:0;
 }
 .user-form .fileBox p{
 	line-height: 30px;

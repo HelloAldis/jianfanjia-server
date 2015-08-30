@@ -1,3 +1,4 @@
+	var $ownerArea = $('#owner-area');
 	function loadList(){
 
 		var url = RootUrl+'api/v1/user/info';
@@ -10,6 +11,7 @@
 			success: function(res){
 				var data = res['data'];
 				console.log(res['data'])
+				$('#owner-area').empty()
 				if(data !== null){
 					$('#owner-name').val(data.username || "");
 					$('#owner-mobile').val(data.phone || "");
@@ -19,17 +21,19 @@
 						$('#owner-sex').find('input[value='+data.sex+']').attr('checked','checked');
 					}
 					if(!!data.province){
-						console.log(data.province)
-						$('#owner-area').empty()
-						var ownerArea = new CitySelect({id :'owner-area',"query":data.province+" "+data.city+" "+data.district});
+						var designAreaQuery = data.province+" "+data.city+" "+data.district;
+						$ownerArea.find('input[name=owner-area]').val(designAreaQuery)
+						var ownerArea = new CitySelect({id :'owner-area',"query":designAreaQuery});
 					}else{
-						$('#owner-area').empty()
+						$ownerArea.find('input[name=owner-area]').val("")
 						var ownerArea = new CitySelect({id :'owner-area'});
 					}
+					var img = data.imageid != null  ?  RootUrl+'api/v1/image/'+data.imageid : '../../../static/img/public/headpic.jpg'
+					$('#userHead').attr('src',img).data('img',data.imageid != null ? data.imageid : null)
 				}else{
-					$('#owner-area').empty()
 					var ownerArea = new CitySelect({id :'owner-area'});
 				}
+				
 			}	
 		});
 	}
@@ -44,11 +48,19 @@
 		var sProv = $ownerArea.find('input[name=owner-area0]').val()
 		var sCity = $ownerArea.find('input[name=owner-area1]').val()
 		var sDist = $ownerArea.find('input[name=owner-area2]').val()
-		var userLocation = $ownerArea.find('input[name=owner-area]')
-		var userProv = sProv;
-		var userCity = sCity;
-		var userDist = sDist;
+		var userLocation = $ownerArea.find('input[name=owner-area]');
+		if(!!userLocation.val()){
+			var userArr = userLocation.val().split(" ");
+			var userProv = userArr[0];
+			var userCity = userArr[1];
+			var userDist = userArr[2];
+		}else{
+			var userProv = sProv;
+			var userCity = sCity;
+			var userDist = sDist;
+		}
 		var userAddr = $('#owner-addr').val();
+		var imgId = $('#userHead').data('img') || null;
 		$.ajax({
 			url:url,
 			type: 'PUT',
@@ -61,7 +73,8 @@
 				"province" : userProv,
 				"city":userCity,
 				"district":userDist,
-				"address":userAddr
+				"address":userAddr,
+				"imageid" : imgId
 			}),
 			processData : false,
 			cache : false,

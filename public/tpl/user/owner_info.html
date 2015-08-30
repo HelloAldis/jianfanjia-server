@@ -12,6 +12,8 @@
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/tdist.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/jquery.uploadify-3.1.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/jquery.Huploadify.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -73,16 +75,6 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="owner-mobile">手机号码</label>
-								<div class="u-inp">
-									<div class="box">
-										<input type="text" class="input" name="owner-mobile" id="owner-mobile" />
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="m-item f-cb">
-							<div class="item">
 								<label class="u-lab" for="dec_area">所在地区</label>
 								<div class="u-inp">
 									<div class="m-cities" id="owner-area"></div>
@@ -100,9 +92,18 @@
 							</div>
 						</div>
 						<div class="fileBox">
-							<div class="pic"></div>
-							<p>请上传350*500 我的头像</p>
-							<input type="file" name="" id="" />
+							<div class="pic" id="upload">
+								<div class="fileBtn">
+									<input class="hide" id="fileToUpload" type="file" name="upfile">
+									<p class="hide"><a href="javascript:$('#fileToUpload').uploadify('settings', 'formData', {'typeCode':document.getElementById('id_file').value});$('#fileToUpload').uploadify('upload','*')">上传</a>
+									<a href="javascript:$('#fileToUpload').uploadify('cancel','*')">重置上传队列</a>
+									</p>
+									<input type="hidden" id="sessionId" value="${pageContext.session.id}" />
+									<input type="hidden" value="1215154" name="tmpdir" id="id_file">
+								</div>
+								<img class="img" id="userHead" src="" alt="" />
+							</div>
+							<p>请上传500*500头像照片1M以内jpg格式</p>
 						</div>
 						<div class="m-item m-error-info hide" id="error-info"></div>
 						<div class="m-item">
@@ -151,3 +152,69 @@
 	<script type="text/javascript" src="../../static/js/user/owner_info.js"></script>
 </body>
 </html>
+<script type="text/javascript">
+//获取HTML5特性支持情况
+	//图片上传
+	var img_id_upload=[];//初始化数组，存储已经上传的图片名
+	var i=0;//初始化数组下标
+	var checkSupport = function(){
+		var input = document.createElement('input');
+		var fileSupport = !!(window.File && window.FileList);
+		var xhr = new XMLHttpRequest();
+		var fd = !!window.FormData;
+		return 'multiple' in input && fileSupport && 'onprogress' in xhr && 'upload' in xhr && fd ? 'html5' : 'flash';
+	};
+	var uploaderUrl = RootUrl+'api/v1/image/upload';
+	if(checkSupport() === "html5"){
+		$('#upload').Huploadify({
+			auto:true,
+			fileTypeExts:'*.jpg;*.png',
+			multi:true,
+			formData:{key:123456,key2:'vvvv'},
+			fileSizeLimit:1024,
+			showUploadedPercent:true,//是否实时显示上传的百分比，如20%
+			showUploadedSize:true,
+			removeTimeout:1,
+			fileObjName:'Filedata',
+			buttonText : "",
+			uploader:uploaderUrl,
+			onUploadComplete:function(file, data, response){
+				callbackImg(data)
+			},
+			onDelete:function(file){
+				console.log('删除的文件：'+file);
+				console.log(file);
+			}
+		});
+	}else{
+		$('#fileToUpload').uploadify({
+	    	'auto'     : true,//关闭自动上传
+	    	'removeTimeout' : 1,//文件队列上传完成1秒后删除
+	        'swf'      : 'uploadify.swf',
+	        'uploader' : RootUrl+'api/v1/image/upload',
+	        'method'   : 'post',//方法，服务端可以用$_POST数组获取数据
+			'buttonText' : '',//设置按钮文本
+	        'multi'    : true,//允许同时上传多张图片
+	        'uploadLimit' : 10,//一次最多只允许上传10张图片
+	        'width' : 250,
+	        'height' : 250,
+	        'fileTypeDesc' : 'Image Files',//只允许上传图像
+	        'fileTypeExts' : '*.gif; *.jpg; *.png',//限制允许上传的图片后缀
+	        'fileSizeLimit' : '1024KB',//限制上传的图片不得超过200KB 
+	        'onUploadSuccess' : function(file, data, response) {//每次成功上传后执行的回调函数，从服务端返回数据到前端
+	               callbackImg(data)
+	               
+	        },
+	        'onQueueComplete' : function(queueData) {//上传队列全部完成后执行的回调函数
+	           // if(img_id_upload.length>0)
+	           // alert('成功上传的文件有：'+encodeURIComponent(img_id_upload));
+	        }
+	    });
+	}
+	function callbackImg(arr){
+		var data = $.parseJSON(arr)
+       	img_id_upload[i]=data.data;
+       	i++;
+		$('#userHead').attr('src',RootUrl+'api/v1/image/'+img_id_upload[0]).data('img',img_id_upload[0]);
+	}
+</script>
