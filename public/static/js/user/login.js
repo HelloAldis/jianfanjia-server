@@ -73,21 +73,21 @@ $(function(){
 		var userName = decodeURIComponent(mobile.val()); 
 		var passWord = decodeURIComponent(pass.val());
 		if (save.is(":checked")) { 
-			setCookie("rmbUser", "true",  7 ); 
-			setCookie("userName", userName, 7 ); 
-			setCookie("passWord", passWord,  7 ); 
+			$.cookie("rmbUser", "true",  7 ); 
+			$.cookie("userPhone", userName, 7 ); 
+			$.cookie("passWord", passWord,  7 ); 
 			$('#error-info').removeClass('hide').html(emptyMsg['login_tips']);
 		}else{ 
-			delCookie("rmbUser"); 
-			delCookie("userName"); 
-			delCookie("passWord"); 
+			$.removeCookie("rmbUser"); 
+			$.removeCookie("userPhone"); 
+			$.removeCookie("passWord"); 
 			$('#error-info').addClass('hide').html('');
 		} 
 	}
 	//记住密码
-	if(!getCookie("rmbUser") == null || getCookie("rmbUser")){
-		mobile.val(encodeURIComponent(getCookie("userName")));
-		pass.val(encodeURIComponent(getCookie("passWord")));
+	if(!$.cookie("rmbUser") == null || $.cookie("rmbUser")){
+		mobile.val(encodeURIComponent($.cookie("userName")));
+		pass.val(encodeURIComponent($.cookie("passWord")));
 		save.attr("checked","checked");
 	}
 	$('#form-login').submit(function(){

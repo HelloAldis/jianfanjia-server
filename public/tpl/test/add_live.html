@@ -90,14 +90,15 @@
 
 	//渲染生成列表
 	function loadList(){
-		var url = RootUrl+'api/v1/admin/share';
+		var url = RootUrl+'api/v1/designer/user';
 		$.ajax({
 			url:url,
 			type: 'GET',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				console.log()
+				console.log(unique(res['data'],'requirementid','status'))
+				page(unique(res['data'],'requirementid','status'))
 		   	}
 		});
 	}

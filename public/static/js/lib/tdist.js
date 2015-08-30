@@ -129,6 +129,7 @@ var tdist={"110000":["\u5317\u4eac","1"],"110100":["\u5317\u4eac\u5e02","110000"
 					value = $(this).find('a').text();
 					oInput.val(value);
 					oOption.html(value);
+					self.input.val("");
 					if(obj == self.list1){
 						self.list2.find('.select').remove();
 						self.createList(dataVal,self.list2)

@@ -13,6 +13,7 @@
 	<script type="text/javascript" src="../../static/js/lib/tdist.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/jquery.uploadify-3.1.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/jquery.Huploadify.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -51,7 +52,7 @@
 			</div>
 			<div class="m-ct">
 				<div class="w-form user-form design_info" id="j-design-info">
-					<form action="http://www.jianfanjia.com" id="design-info" method="PUT">
+					<form action="http://www.jianfanjia.com" id="design-info" method="post">
 						<div class="m-item f-cb">
 							<div class="item">
 								<label class="u-lab" for="design-name">姓&nbsp;&nbsp;&nbsp;名：</label>
@@ -61,6 +62,9 @@
 									</div>
 								</div>
 							</div>
+							<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+							<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+							<p class="tips-info hide"></p>
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
@@ -72,16 +76,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="m-item f-cb">
-							<div class="item">
-								<label class="u-lab" for="design-mobile">手机号码：</label>
-								<div class="u-inp">
-									<div class="box">
-										<input type="text" class="input" name="design-mobile" id="design-mobile" />
-									</div>
-								</div>
-							</div>
+							<p class="tips-info hide"></p>
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
@@ -100,6 +95,9 @@
 									</div>
 								</div>
 							</div>
+							<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+							<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+							<p class="tips-info hide"></p>
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
@@ -110,6 +108,9 @@
 									</div>
 								</div>
 							</div>
+							<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+							<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+							<p class="tips-info hide"></p>
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
@@ -122,8 +123,8 @@
 							</div>
 						</div>
 						<div class="m-item f-cb">
-							<div class="item">
-								<label class="u-lab" for="dec_area">装修类别：</label>
+							<div class="item long">
+								<label class="u-lab" for="decoration-type">装修类别（最少1项）：</label>
 								<div class="u-inp">
 									<div class="check" id="decoration-type">
 										<label><input type="checkbox" name="decoration-type0" value="0" />家装</label>
@@ -132,10 +133,11 @@
 									</div>
 								</div>
 							</div>
+							<p class="tips-info hide"></p>
 						</div>
 						<div class="m-item f-cb">
 							<div class="item more">
-								<label class="u-lab" for="work_type">擅长风格（最多3项）：</label>
+								<label class="u-lab" for="decoration-style">擅长风格（最多3项）：</label>
 								<div class="u-inp">
 									<div class="check" id="decoration-style">
 										<label><input type="checkbox" name="decoration-style0" value="0" />欧式风格</label>
@@ -147,10 +149,11 @@
 									</div>
 								</div>
 							</div>
+							<p class="tips-info hide"></p>
 						</div>
 						<div class="m-item f-cb">
-							<div class="item">
-								<label class="u-lab" for="decoration-area">接单区域：</label>
+							<div class="item long">
+								<label class="u-lab" for="decoration-area">接单区域（最少1项）：</label>
 								<div class="u-inp">
 									<div class="check" id="decoration-area">
 										<label><input type="checkbox" name="decoration-area0" value="0" />武昌</label>
@@ -159,6 +162,7 @@
 									</div>
 								</div>
 							</div>
+							<p class="tips-info hide"></p>
 						</div>
 						<div class="m-item f-cb">
 							<div class="item long">
@@ -175,37 +179,38 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item long">
-								<label class="u-lab" for="dec_type">施工费报价（元/m&sup2;）：</label>
+								<label class="u-lab" for="decoration-price">施工费报价（元/m&sup2;）：</label>
 								<div class="u-inp">
 									<div class="check">
 										<ul>
 											<li>
-												半包<span><input type="text" name="decoration-price0" id="decoration-price0" value="" /></span>元以上
+												半包<span><input type="text" name="decoration-price0" id="decoration-price0" /></span>元以上
 											</li>
-											<li>全包<span><input type="text" name="decoration-price1" id="decoration-price1" value="" /></span>元以上
+											<li>全包<span><input type="text" name="decoration-price1" id="decoration-price1" /></span>元以上
 											</li>
 										</ul>
 									</div>
 								</div>
 							</div>
+							<p class="tips-info hide"></p>
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="design-type">习惯沟通方式：</label>
+								<label class="u-lab" for="chat-type">习惯沟通方式：</label>
 								<div class="u-inp">
-									<div class="sex" id="design-type">
-										<label><input type="radio" name="design-type" value="0" checked="checked" />不限</label>
-										<label><input type="radio" name="design-type" value="1" />表达型</label>
-										<label><input type="radio" name="design-type" value="2" />聆听型</label>
+									<div class="sex" id="chat-type">
+										<label><input type="radio" name="chat-type" value="0" checked="checked" />不限</label>
+										<label><input type="radio" name="chat-type" value="1" />表达型</label>
+										<label><input type="radio" name="chat-type" value="2" />聆听型</label>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="m-item f-cb">
 							<div class="item more">
-								<label class="u-lab" for="work_type">意向接单户型：</label>
+								<label class="u-lab" for="house-intent">意向接单户型（最少1项）：</label>
 								<div class="u-inp">
-									<div class="check" id="decoration-style">
+									<div class="check" id="house-intent">
 										<label><input type="checkbox" name="decoration-style0" value="0" checked="checked" />一居</label>
 										<label><input type="checkbox" name="decoration-style1" value="1" checked="checked" />二居</label>
 										<label><input type="checkbox" name="decoration-style2" value="2" checked="checked" />三居</label>
@@ -215,10 +220,11 @@
 									</div>
 								</div>
 							</div>
+							<p class="tips-info hide"></p>
 						</div>
 						<div class="m-item f-cb">
 							<div class="item more">
-								<label class="u-lab" for="work_type">设计理念：<span>(显示在主页显著位置，迅速建立别人对你的第一映像！)</span></label>
+								<label class="u-lab" for="design-philosophy">设计理念：<span>(显示在主页显著位置，迅速建立别人对你的第一映像！)</span></label>
 								<div class="u-inp">
 									<div class="textarea"><textarea name="design-philosophy" id="design-philosophy" cols="30" rows="10"></textarea></div>
 								</div>
@@ -226,7 +232,7 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item more">
-								<label class="u-lab" for="work_type">设计成就：<span>(在这里介绍关与你的经历，你的荣誉，当然还有你的梦想，或许可以讲讲故事，多多利用这里给自己加分哦！)</span></label>
+								<label class="u-lab" for="design-achievement">设计成就：<span>(在这里介绍关与你的经历，你的荣誉，当然还有你的梦想，或许可以讲讲故事，多多利用这里给自己加分哦！)</span></label>
 								<div class="u-inp">
 									<div class="textarea"><textarea name="design-achievement" id="design-achievement" cols="30" rows="10"></textarea></div>
 								</div>
@@ -237,14 +243,17 @@
 						</div>
 						<div class="fileBox">
 							<div class="pic" id="upload">
-								<img src="" alt="" />
+								<div class="fileBtn">
+									<input class="hide" id="fileToUpload" type="file" name="upfile">
+									<p class="hide"><a href="javascript:$('#fileToUpload').uploadify('settings', 'formData', {'typeCode':document.getElementById('id_file').value});$('#fileToUpload').uploadify('upload','*')">上传</a>
+									<a href="javascript:$('#fileToUpload').uploadify('cancel','*')">重置上传队列</a>
+									</p>
+									<input type="hidden" id="sessionId" value="${pageContext.session.id}" />
+									<input type="hidden" value="1215154" name="tmpdir" id="id_file">
+								</div>
+								<img class="img" id="userHead" src="" alt="" />
 							</div>
-							<p>请上传350*500 我的头像</p>
-							<input id="fileToUpload" type="file" name="upfile">
-								<p><a href="javascript:$('#fileToUpload').uploadify('settings', 'formData', {'typeCode':document.getElementById('id_file').value});$('#fileToUpload').uploadify('upload','*')">上传</a>
-<a href="javascript:$('#fileToUpload').uploadify('cancel','*')">重置上传队列</a>
-</p>
-<input type="hidden" value="1215154" name="tmpdir" id="id_file">
+							<p>请上传500*500头像照片1M以内jpg格式</p>
 						</div>
 						<div class="m-item m-error-info hide">
 						</div>
@@ -296,464 +305,74 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="../../static/js/user/design_info.js"></script>
 </body>
 </html>
 <script type="text/javascript">
+//获取HTML5特性支持情况
+	//图片上传
 	var img_id_upload=[];//初始化数组，存储已经上传的图片名
 	var i=0;//初始化数组下标
-	$(function() {
-	    $('#fileToUpload').uploadify({
-	    	'auto'     : false,//关闭自动上传
+	var checkSupport = function(){
+		var input = document.createElement('input');
+		var fileSupport = !!(window.File && window.FileList);
+		var xhr = new XMLHttpRequest();
+		var fd = !!window.FormData;
+		return 'multiple' in input && fileSupport && 'onprogress' in xhr && 'upload' in xhr && fd ? 'html5' : 'flash';
+	};
+	var uploaderUrl = RootUrl+'api/v1/image/upload';
+	if(checkSupport() === "html5"){
+		$('#upload').Huploadify({
+			auto:true,
+			fileTypeExts:'*.jpg;*.png',
+			multi:true,
+			formData:{key:123456,key2:'vvvv'},
+			fileSizeLimit:1024,
+			showUploadedPercent:true,//是否实时显示上传的百分比，如20%
+			showUploadedSize:true,
+			removeTimeout:1,
+			fileObjName:'Filedata',
+			buttonText : "",
+			uploader:uploaderUrl,
+			onUploadComplete:function(file, data, response){
+				callbackImg(data)
+			},
+			onDelete:function(file){
+				console.log('删除的文件：'+file);
+				console.log(file);
+			}
+		});
+	}else{
+		$('#fileToUpload').uploadify({
+	    	'auto'     : true,//关闭自动上传
 	    	'removeTimeout' : 1,//文件队列上传完成1秒后删除
 	        'swf'      : 'uploadify.swf',
 	        'uploader' : RootUrl+'api/v1/image/upload',
 	        'method'   : 'post',//方法，服务端可以用$_POST数组获取数据
-			'buttonText' : '选择图片',//设置按钮文本
+			'buttonText' : '',//设置按钮文本
 	        'multi'    : true,//允许同时上传多张图片
 	        'uploadLimit' : 10,//一次最多只允许上传10张图片
+	        'width' : 250,
+	        'height' : 250,
 	        'fileTypeDesc' : 'Image Files',//只允许上传图像
 	        'fileTypeExts' : '*.gif; *.jpg; *.png',//限制允许上传的图片后缀
-	        'fileSizeLimit' : '20000KB',//限制上传的图片不得超过200KB 
+	        'fileSizeLimit' : '1024KB',//限制上传的图片不得超过200KB 
 	        'onUploadSuccess' : function(file, data, response) {//每次成功上传后执行的回调函数，从服务端返回数据到前端
-	        	var data = $.parseJSON(data)
-	               img_id_upload[i]=data.data;
-	               i++;
-	               if(!data.data){
-	               		$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+data.data).data('imgId',data.data)
-	               }
+	               callbackImg(data)
+	               
 	        },
 	        'onQueueComplete' : function(queueData) {//上传队列全部完成后执行的回调函数
 	           // if(img_id_upload.length>0)
 	           // alert('成功上传的文件有：'+encodeURIComponent(img_id_upload));
-	        }  
-	        // Put your options here
+	        }
 	    });
-	});
-	var check_step = 0;
-	var emptyMsg = {
-        "reg_mobile" : "请输入手机号",
-        "reg_password": "请输入密码",
-        "reg_password_confirm": "请输入确认密码",
-        "reg_smscode" : "请输入验证码",
-        "reg_agree" : "请先同意注册协议"
-    };
-    var errMsg = {
-        "reg_mobile": "手机号不正确",
-        "reg_password": "密码需为6~30个字母或数字",
-        "reg_password_confirm": "两次输入的密码不一样",
-        "reg_smscode" : "短信验证码不正确"
-    };
-    //获取对象
-    var desName = $("#design-name");
-    var captcha = $("#reg-VerifyCode");
-    var pass = $("#reg-password");
-    var pass2 = $("#reg-password2");
-    var status = $('#reg-status');
-    var agreement = $("#reg-agreement");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	function loadList(){
-		var url = RootUrl+'api/v1/designer/info';
-		$.ajax({
-			url:url,
-			type: 'GET',
-			contentType : 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function(res){
-				console.log(res)
-				$('#design-name').val(res['data']['username'] || "");
-				$('#design-mobile').val(res['data']['phone']);
-				$('#design-addr').val(res['data']['address']);
-				$('#design-sex').find('input[value='+res['data']['sex']+']').attr('checked','checked');
-				$('#design-uid').val(res['data']['uid'])
-				$('#design-area').empty()
-				var designAreaQuery = res['data']['province']+" "+res['data']['city']+" "+res['data']['district'];
-				var designArea = new CitySelect({id :'design-area','query':designAreaQuery});
-				$('#design-com').val(res['data']['company']);
-				$('#design-philosophy').val(res['data']['philosophy']);
-				$('#design-achievement').val(res['data']['achievement']);
-				$('#design-type').find('input[value='+res['data']['communication_type']+']').attr('checked','checked');
-				$('#design-price').find('input[value='+res['data']['design_fee_range']+']').attr('checked','checked');
-				$('#decoration-price0').val(res['data']['dec_fee_half'])
-				$('#decoration-price1').val(res['data']['dec_fee_all'])
-				$('#product-count').html(res['data']['product_count']+'个');
-				if(res['data']['auth_type'] == 0){
-					$('#auth-box').show();
-				}else if(res['data']['auth_type'] == 1){
-					$('#auth-box').empty().html('正在认证中，请耐心等待！');
-				}else if(res['data']['auth_type'] == 2){
-					$('#auth-box').empty().html('认证成功！');
-				}
-				$.each(res['data']['dec_styles'],function(i,el){
-					$('#decoration-style').find('[value='+res['data']['dec_styles'][i]+']').attr('checked','checked')
-				});
-				$.each(res['data']['dec_types'],function(i,el){
-					$('#decoration-type').find('[value='+res['data']['dec_types'][i]+']').attr('checked','checked')
-				});
-				$.each(res['data']['dec_districts'],function(i,el){
-					$('#decoration-area').find('[value='+res['data']['dec_districts'][i]+']').attr('checked','checked')
-				});
-				if(!!res['data']['imageid']){	
-					$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+res['data']['imageid'])
-				}
-		   	}
-		});
 	}
-	loadList();
-	//表单提交
-	$('#design-info').on('submit',function(){
-		check_step = 13;
-        var url = RootUrl+'api/v1/designer/info';
-		/*var userName = $('#design-name').val();
-		var userSex = $('#design-sex').find('input:checked').val();
-		var userPhone = $('#design-mobile').val();
-		var userProv = $('#design-area').find('input[name=design-area0]').val();
-		var userCity = $('#design-area').find('input[name=design-area1]').val();
-		var userDist = $('#design-area').find('input[name=design-area2]').val();
-		var userAddr = $('#design-addr').val();
-		var userUid = $('#design-uid').val();
-		var userCom = $('#design-com').val();
-		var userPhil = $('#design-philosophy').val();
-		var userAchi = $('#design-achievement').val();
-		var userType = $('#design-type').find('input:checked').val();
-		var userDecPrice0 = parseInt($('#decoration-price0').val());
-		var userDecPrice1 = parseInt($('#decoration-price1').val());
-		var userDesPrice = $('#design-price').find('input:checked').val();
-		var userDecDis = [];
-		$('#decoration-area').find('input:checked').each(function(){
-			userDecDis.push($(this).val())
-		})
-		var userDecTypes = [];
-		$('#decoration-type').find('input:checked').each(function(){
-			userDecTypes.push($(this).val())
-		})
-		var userDecStyles = [];
-		$('#decoration-style').find('input:checked').each(function(){
-			userDecStyles.push($(this).val())
-		})
-		var imgId = $('#upload').find('img').data('imgId',data.data) || "";*/
-		$.ajax({
-			url:url,
-			type: 'PUT',
-			contentType : 'application/json; charset=utf-8',
-			dataType: 'json',
-			data : JSON.stringify({
-				"username" : userName,
-				"sex":userSex,
-				"province" : userProv,
-				"city" : userCity,
-				"district" : userDist,
-				"address":userAddr,
-				"uid":userUid,
-				"company":userCom,
-				"dec_types":userDecTypes,
-				"dec_styles":userDecStyles,
-				"dec_districts":userDecDis,
-				"design_fee_range":userDesPrice,
-				"dec_fee_half":userDecPrice0,
-				"dec_fee_all":userDecPrice1,
-				"achievement":userAchi,
-				"philosophy":userPhil,
-				"communication_type" : userType,
-				"imageid" : imgId
-			}),
-			processData : false,
-			success: function(res){
-				if(res['msg'] === "success"){
-					loadList()
-				}else{
-					$('#error-info').html(res['err_msg']).removeClass('hide');
-				}
-		   	}
-		});
-		return false;
-	});
-	//认证提交
-	$('#auth-submit').on('click',function(){
-        var url = RootUrl+'api/v1/designer/auth';
-		$.ajax({
-			url:url,
-			type: 'POST',
-			contentType : 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function(res){
-				if(res['msg'] === "success"){
-					loadList()
-					alert('认证成功！')
-				}else{
-					$('#error-info').html(res['err_msg']).removeClass('hide');
-				}
-		   	}
-		});
-		return false;
-	});
-
-// //点击打开文件选择器  
-//     $("#upload").on('click', function() {  
-//         $('#fileToUpload').click();  
-//     });  
-      
-//     //选择文件之后执行上传  
-//     $('#fileToUpload').on('change', function() {  
-//     	var url = RootUrl+'api/v1/image/upload';
-//         $.ajaxFileUpload({  
-//             url:url,  
-//             type : 'PUT',
-//             secureuri:false,  
-//             contentType : 'application/json; charset=utf-8',
-//             fileElementId:'fileToUpload',//file标签的id  
-//             dataType: 'json',//返回数据的类型  
-//             data:{name:'upfile'},//一同上传的数据  
-//             success: function (data, status) {  
-//                 //把图片替换  
-//                 console.log(data)
-//                 var obj = jQuery.parseJSON(data);  
-//                 $("#upload").find('img').attr("src", "../image/"+obj.fileName);  
-      
-//                 if(typeof(data.error) != 'undefined') {  
-//                     if(data.error != '') {  
-//                         alert(data.error);  
-//                     } else {  
-//                         alert(data.msg);  
-//                     }  
-//                 }  
-//             },  
-//             error: function (data, status, e) {  
-//                 alert(e);  
-//             }  
-//         });  
-//     });  
-
-// $("#upload").on('click', function() {  
-//    	$('#fileToUpload').click();  
-// });  
-// $('#fileToUpload').on('change', function() { 
-// 		uploadImg('fileToUpload', 'upload')
-// })
-// function uploadImg(imgfileId, imgcontainerId) {  
-// 		var url = RootUrl+'api/v1/image/upload';
-//   $.ajaxFileUpload({  
-//     fileElementId: imgfileId,  
-//     url: url, 
-//    type : 'PUT', 
-//     dataType: 'json', 
-//     contentType : 'application/json; charset=utf-8', 
-//     data: { name: 'upfile' },  
-//     beforeSend: function (XMLHttpRequest) {  
-//       //("loading");  
-//     },  
-//     success: function (data, textStatus) {  
-//       var img = "<img src='' width='300' height='300' />";  
-//       $("#" + imgcontainerId).append(img);  
-//     },  
-//     error: function (XMLHttpRequest, textStatus, errorThrown) {  
-//       var img = "图片上传失败！";  
-//       $("#" + imgcontainerId).append(img);  
-//       var msg = "服务器出错，错误内容：" + XMLHttpRequest.responseText;  
-//       $.messager.showWin({ msg: msg, title: '错误提示', color: 'red' });  
-//     },  
-//     complete: function (XMLHttpRequest, textStatus) {  
-//       //("loaded");  
-//     }  
-//   });  
-// }  
-// $("#fileToUpload").uploadify({         
-// 	height        : 30,         
-// 	swf           : '../../static/swf/uploadify.swf',        
-// 	uploader      : RootUrl+'api/v1/image/upload',         
-// 	width         : 120     
-// }); 
-
-/*$("#fileToUpload").uploadify({
-     
-                'uploader'      : 'uploadify.swf', 
-
-                'script': RootUrl+'api/v1/image/upload',
-
-                'cancelImg': '/',
-
-                'folder': '/',
-                'fileDataName' : 'upfile',
-
-                'queueID': 'fileQueue',
-
-                'fileDesc': "请选择png或者jpg格式图片",
-
-                'fileExt': "*.jpg;*.png",
-
-                //        'buttonImg': "../images/upload2.png",
-
-                'auto': false,
-
-                'buttonText': "浏 览",
-
-                'multi': false,
-
-                'onComplete': function (event, queueID, fileObj, response, data) {
-
-                    //把上传图标的地址存到session
-
-                    $.ajax({
-
-                        type: "POST",
-
-                        //dataType:"Text",  
-
-                        url: RootUrl+'api/v1/image/upload',
-
-                        contentType: "application/x-www-form-urlencoded; charset=utf-8",
-
-                        data: { key: "", value: "" + fileObj.name },
-
-                        success: function (msg) {
-
-                            if (msg != "N") {
-
-                                //上次图标后把勾上的系统图标隐藏
-
-                                $(".checks").hide();
-
-                                $("#imgUpload").attr("src", msg);
-
-                                //                        alert("图片：" + fileObj.name + "，上传成功");
-
-                            }
-
-                        }
-
-                    });
-
-                    $("#full_dark").hide();
-
-                    $(".imgLoad2").hide();
-
-                },
-
-                'onError': function (event, queueID, fileObj, errorObj) {
-
-                    if (fileObj.size > "5271521") {
-
-                        alert("请上传5M以下的图片");
-
-                    }
-
-                }
-
-            });
-
-
-
-
-
-*/
-
-
-
-
-
-
-
-
-
-/*
-var img_id_upload=new Array();//初始化数组，存储已经上传的图片名
-
-var i=0;//初始化数组下标
-
-window.onload = function(){
-	$('#fileToUpload').uploadify({
-    	debug : true,
-        auto     : false,//关闭自动上传
-
-        removeTimeout : 1,//文件队列上传完成1秒后删除
-
-        swf     : 'uploadify.swf',
-
-        uploader : RootUrl+'api/v1/image/upload',
-
-        method   : 'Post',//方法，服务端可以用$_POST数组获取数据
-        settings : 'upfile',
-
-        buttonText : '选择图片',//设置按钮文本
-
-        multi    : true,//允许同时上传多张图片
-
-        uploadLimit : 10,//一次最多只允许上传10张图片
-
-        fileTypeDesc : 'Image Files',//只允许上传图像
-
-        fileTypeExts : '*.gif; *.jpg; *.png',//限制允许上传的图片后缀
-
-        fileSizeLimit : '20000KB',//限制上传的图片不得超过200KB
-        onUploadSuccess : function(file, data, response) {//每次成功上传后执行的回调函数，从服务端返回数据到前端
-               img_id_upload[i]=data;
-               i++;
-               console.log('onUploadSuccess'+file);
-               console.log('onUploadSuccess'+data);
-               alert(response);
-        },
-        onUploadComplete :  function(file){
-        	console.log('onUploadComplete'+file)
-        },
-        onQueueComplete : function(queueData) {//上传队列全部完成后执行的回调函数
-        	console.log(queueData)
-           if(img_id_upload.length>0)
-            alert('成功上传的文件有：'+encodeURIComponent(img_id_upload));
-        } 
-    });
-}*/
-    
-
-
-
-
-
-
-
+	function callbackImg(arr){
+		var data = $.parseJSON(arr)
+       	img_id_upload[i]=data.data;
+       	i++;
+		$('#upload').find('.img').attr('src',RootUrl+'api/v1/image/'+img_id_upload[0]).data('img',img_id_upload[0]);
+	}
 </script>
+
 
