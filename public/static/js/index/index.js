@@ -117,71 +117,6 @@ $(function(){
 			}
 		]
 	});
-	var liveList = new LiveList({
-		id : 'j-index-live',
-		data : [
-			{
-				pic    : '../../img/index/index-live-01.jpg',
-				title  : '清江山水',
-				area   : '120m&sup2;',
-				type   : '三室一厅',
-				style  : '现代简约',
-				idea   : 'This is the brand new house for family johnson.',
-				head   : '../../img/index/index-live-head-01.jpg',
-				url    : ''
- 			},
- 			{
-				pic    : '../../img/index/index-live-01.jpg',
-				title  : '清江山水',
-				area   : '120m&sup2;',
-				type   : '三室一厅',
-				style  : '现代简约',
-				idea   : 'This is the brand new house for family johnson.',
-				head   : '../../img/index/index-live-head-01.jpg',
-				url    : ''
- 			},
- 			{
-				pic    : '../../img/index/index-live-01.jpg',
-				title  : '清江山水',
-				area   : '120m&sup2;',
-				type   : '三室一厅',
-				style  : '现代简约',
-				idea   : 'This is the brand new house for family johnson.',
-				head   : '../../img/index/index-live-head-01.jpg',
-				url    : ''
- 			},
- 			{
-				pic    : '../../img/index/index-live-01.jpg',
-				title  : '清江山水',
-				area   : '120m&sup2;',
-				type   : '三室一厅',
-				style  : '现代简约',
-				idea   : 'This is the brand new house for family johnson.',
-				head   : '../../img/index/index-live-head-01.jpg',
-				url    : ''
- 			},
- 			{
-				pic    : '../../img/index/index-live-01.jpg',
-				title  : '清江山水',
-				area   : '120m&sup2;',
-				type   : '三室一厅',
-				style  : '现代简约',
-				idea   : 'This is the brand new house for family johnson.',
-				head   : '../../img/index/index-live-head-01.jpg',
-				url    : ''
- 			},
- 			{
-				pic    : '../../img/index/index-live-01.jpg',
-				title  : '清江山水',
-				area   : '120m&sup2;',
-				type   : '三室一厅',
-				style  : '现代简约',
-				idea   : 'This is the brand new house for family johnson.',
-				head   : '../../img/index/index-live-head-01.jpg',
-				url    : ''
- 			}
-		]
-	});
 	(function($){
 		//banner
 		var $banner = $('#j-banner');
@@ -391,3 +326,33 @@ $(function(){
 // 检测浏览器是否支持css3新属性，来给低版本浏览器做优雅降级；
 function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentElement.style,t=function(r){return r.replace(/-(\w)/g,function($0,$1){return $1.toUpperCase()})};for(i in p){a.push(t(p[i]+'-'+c));a.push(t(c))}for(i in a){if(a[i]in s){return true}}return false};
 
+
+var liveList = new LiveList({
+	id : 'j-index-live',
+	data : [
+		{
+			pic    : '../../img/index/index-live-01.jpg',
+			title  : '清江山水',
+			area   : '120m&sup2;',
+			type   : '三室一厅',
+			style  : '现代简约',
+			idea   : 'This is the brand new house for family johnson.',
+			head   : '../../img/index/index-live-head-01.jpg',
+			url    : ''
+			}
+	]
+});
+var url = RootUrl+'api/v1/share/listtop';
+$.ajax({
+	url:url,
+	type: 'GET',
+	contentType : 'application/json; charset=utf-8',
+	dataType: 'json',
+	success: function(res){
+		console.log(res['data'])
+		if(res['data'].length){
+		}else{
+			//alert('没有数据')
+		}
+   	}
+});

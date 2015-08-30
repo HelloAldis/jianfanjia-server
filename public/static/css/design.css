@@ -335,8 +335,8 @@
 }
 .design-detail .list p{
 	padding: 50px 0 70px;
-	text-align: center;
 	line-height: 36px;
 	font-size: 14px;
 	color: #7c8389;
+	text-indent: 2em;
 }

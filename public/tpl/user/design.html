@@ -300,13 +300,13 @@
 		var data = $.parseJSON(arr);
 		iCounter++;
 		var str = '<div class="previews-item" data-imgid="'+data.data+'">'
-			+'<span class="close"></span>'
-			+'<div class="pic">'
+				+'<span class="close"></span>'
+				+'<div class="pic">'
 				+'<img class="img" src="'+RootUrl+'api/v1/image/'+data.data+'" alt="" />'
-			+'</div>'
-			+'<div class="m-select" id="itme_type'+iCounter+'"></div>'
-			+'<div class="textarea"><textarea name="itme_con" cols="30" rows="10"></textarea></div>'
-		+'</div>'
+				+'</div>'
+				+'<div class="m-select" id="itme_type'+iCounter+'"></div>'
+				+'<div class="textarea"><textarea name="itme_con" cols="30" rows="10"></textarea></div>'
+				+'</div>'
 		$('#j-file-list').append(str)
 		var itme_type = new ComboBox({
 			id : 'itme_type'+iCounter,

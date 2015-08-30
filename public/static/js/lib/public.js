@@ -211,9 +211,8 @@ window.usertype = $.cookie("usertype");
 				}else{
 					self.input.val(value)
 				}
-				self.option.find('.value').html(value);
 				if(self.settings.editor){
-					self.editor.find('.value').val(value);
+					self.editor.find('.value').val(value).data('val',value);
 				}else{
 					self.option.find('.value').html(value);
 				}

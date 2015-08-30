@@ -119,9 +119,9 @@ $(function(){
 		var images = []
 		aPreviewsItem.each(function(i,el){
 			images.push({
-				"section":$(el).find('.value').val(),
+				"section":$(el).find('.value').data('val'),
 			    "imageid":$(el).data('imgid'),
-			    "description":$(el).find('.textarea').val()
+			    "description":$(el).find('textarea').val()
 			})
 		})
 		console.log(images);
