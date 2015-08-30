@@ -26,7 +26,7 @@ $(function(){
 	})
 	//渲染生成列表
 	function loadList(){
-		var url = RootUrl+'api/v1/designer/'+desUid+'/products';
+		var url = RootUrl+'api/v1/designer/product';
 		$.ajax({
 			url:url,
 			type: 'GET',
