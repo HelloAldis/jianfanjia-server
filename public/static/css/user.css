@@ -73,7 +73,17 @@
 	height: 386px;
 	padding-top: 20px;
 }
-
+.previews-item{
+	position: relative;
+}
+.previews-item .close{
+	position: absolute;
+	right:0;
+	top:0;
+	width: 20px;
+	height: 20px;
+	background:url(../../static/img/user/uploadify-cancel.png) center center no-repeat;
+}
 .user-form .file-list .m-select{
 	width: 232px;
 }

@@ -49,12 +49,11 @@
 					<table>
 						<thead>
 							<tr>
-								<th class="td1">姓名</th>
-								<th class="td2">性别</th>
-								<th class="td3">手机号码</th>
-								<th class="td4">所在地区</th>
-								<th class="td5">作品数</th>
-								<th class="td6">认证操作</th>
+								<th class="td1">项目名称</th>
+								<th class="td2">所在地区</th>
+								<th class="td4">当前状态</th>
+								<th class="td5">查看详情</th>
+								<th class="td6">操作</th>
 							</tr>
 						</thead>
 						<tbody></tbody>
@@ -100,23 +99,19 @@
 </body>
 </html>
 <script type="text/javascript">
-
-
-
 	//渲染生成列表
 	function loadList(){
-		var url = RootUrl+'api/v1/admin/share';
+		var url = RootUrl+'api/v1/share';
 		$.ajax({
 			url:url,
 			type: 'GET',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				console.log()
+				console.log(res)
 		   	}
 		});
 	}
-
 	loadList();
 	//创建列表
 	function createList(data){
