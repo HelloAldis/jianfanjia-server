@@ -6,7 +6,7 @@ $(function(){
 		$oList = $design.find('.listBox'),
 		$createBtn = $design.find('.create-btn'),
 		$list = $design.find('.m-table').find('tbody'),
-		desUid = '55e158b533a00edd07ecb398';
+		desUid = ;
 		if(winHash != 'new'){
 			fnToggle(index)
 		}
@@ -26,7 +26,7 @@ $(function(){
 	})
 	//渲染生成列表
 	function loadList(){
-		var url = RootUrl+'api/v1/designer/'+desUid+'/products';
+		var url = RootUrl+'api/v1/designer/product';
 		$.ajax({
 			url:url,
 			type: 'GET',
@@ -38,7 +38,7 @@ $(function(){
 					fnToggle(1)
 					$aLi.eq(0).hide();
 				}else{
-					fnToggle(1)
+					fnToggle(0)
 					$aLi.eq(0).show();
 					createList(res['data'])
 				}
@@ -67,6 +67,19 @@ $(function(){
 		};
 		$list.html(sLi)
 	}
+	//删除作品列表图片
+	$design.delegate('.close','click',function(ev){
+		ev.preventDefault();
+
+		if($('#j-file-list').find('.previews-item').size() < 2){
+			alert('至少保留一个作品效果图')
+			return false;
+		}
+		if(confirm("你确定要删除吗？删除不能恢复")){
+			var oDl = $(this).closest('.previews-item');
+			oDl.remove();
+		}
+	})
 	//删除
 	$design.delegate('.delete','click',function(ev){
 		ev.preventDefault();
@@ -101,8 +114,16 @@ $(function(){
 	})
 	//发布作品
 	$('#design-product').on('submit',function(){
-
 		var url = RootUrl+'api/v1/designer/product';
+		var aPreviewsItem = $('#j-file-list').find('.previews-item');
+		var images = []
+		aPreviewsItem.each(function(i,el){
+			images.push({
+				section:$(el).find('.value').val(),
+			    imageid:$(el).data('imgid'),
+			    description:$(el).find('.textarea').val()
+			})
+		})
 		$.ajax({
 			url:url,
 			type: 'POST',
@@ -116,10 +137,12 @@ $(function(){
 			  	"dec_style":$('#product-dec-type').find('input').val(),
 			  	"work_type":$('#product-work-type').find('input').val(),
 			  	"total_price":parseInt($('#product-price').val()),
-			  	"description" : $('#product-description').val()
+			  	"description" : $('#product-description').val(),
+			  	"images" : images
 			}),
 			processData : false,
 			success: function(res){
+				console.log(res)
 				loadList();
 		   	}
 		});

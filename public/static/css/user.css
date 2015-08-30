@@ -56,8 +56,12 @@
 .w-form .m-item .file-list .pic{
 	width: 244px;
 	height: 244px;
+	overflow: hidden;
 	margin-bottom: 10px;
 	background-color: #ccc;
+}
+.w-form .m-item .file-list .pic .img{
+	width: 100%;
 }
 .w-form .m-item .file-list .textarea{
 	margin-top: 10px;
@@ -69,7 +73,17 @@
 	height: 386px;
 	padding-top: 20px;
 }
-
+.previews-item{
+	position: relative;
+}
+.previews-item .close{
+	position: absolute;
+	right:0;
+	top:0;
+	width: 20px;
+	height: 20px;
+	background:url(../../static/img/user/uploadify-cancel.png) center center no-repeat;
+}
 .user-form .file-list .m-select{
 	width: 232px;
 }
