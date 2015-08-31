@@ -136,7 +136,7 @@ $(function(){
 		loadList(oData);
 	}
 	//筛选
-	$design.delegate('a','click',function(ev){
+	$design.find('.m-filter').find('a').on('click',function(ev){
 		ev.preventDefault();
 		var oDl = $(this).closest('dl');
 		$(this).attr('class','current').siblings().attr('class', '');
@@ -144,7 +144,7 @@ $(function(){
 		return false;
 	});
 	//排序
-	$design.find('.m-sort').delegate('a','click',function(ev){
+	$design.find('.m-sort').find('a').on('click',function(ev){
 		ev.preventDefault();
 		var oDl = $(this).closest('dl');
 		$(this).attr('class','current').siblings().attr('class', '');
