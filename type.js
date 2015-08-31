@@ -67,6 +67,8 @@ var type = {
   process_an_zhuang_item_jjaz: 'jjaz',
   process_an_zhuang_item_cwddaz: 'cwddaz',
   process_an_zhuang_item_wjaz: 'wjaz',
+
+
   process_an_zhuang_item_cgscaz: 'cgscaz',
   process_an_zhuang_item_yjzjaz: 'yjzjaz',
   process_an_zhuang_item_mdbmmaz: 'mdbmmaz',

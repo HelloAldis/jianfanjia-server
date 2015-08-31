@@ -57,7 +57,7 @@ router.get('/signout', auth.normalUserRequired, sign.signout); //登出
 router.post('/process/image', auth.normalUserRequired, process.addImage); //上传照片到工地
 router.get('/process/:_id', auth.normalUserRequired, process.getOne); //获取装修进度
 router.post('/process/comment', auth.normalUserRequired, process.addComment); //评论装修进度
-router.post('/process/done', auth.normalUserRequired, process.done); //设置节点为已完成状态
+router.post('/process/done_item', auth.normalUserRequired, process.doneItem); //设置节点为已完成状态
 
 //业主独有功能
 router.put('/user/info', auth.userRequired, user.updateInfo); //修改业主个人资料
@@ -94,6 +94,7 @@ router.post('/designer/agree', auth.designerRequired, designer.agree); //提交�
 router.post('/process/ysimage', auth.designerRequired, process.addYsImage); //提交验收照片
 router.delete('/process/ysimage', auth.designerRequired, process.deleteYsImage); //删除验收照片
 router.get('/designer/process/list', auth.designerRequired, process.listForDesigner); //设计师获取装修工地列表
+router.post('/process/done_section', auth.normalUserRequired, process.doneSection); //对比验收完成
 
 //管理员独有的功能
 router.post('/admin/login', admin.login); //审核设计师

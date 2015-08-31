@@ -130,13 +130,13 @@ exports.start = function (req, res, next) {
   process.sections[5].items[3].name = type.process_an_zhuang_item_yjzjaz;
   process.sections[5].items[3].status = type.process_item_status_new;
   process.sections[5].items[4] = {};
-  process.sections[5].items[4].name = type.process_kai_gong_item_qdzmjcl;
+  process.sections[5].items[4].name = type.process_an_zhuang_item_scaz;
   process.sections[5].items[4].status = type.process_item_status_new;
   process.sections[5].items[5] = {};
   process.sections[5].items[5].name = type.process_an_zhuang_item_cwddaz;
   process.sections[5].items[5].status = type.process_item_status_new;
   process.sections[5].items[6] = {};
-  process.sections[5].items[6].name = type.process_kai_gong_item_mdbcl;
+  process.sections[5].items[6].name = type.process_an_zhuang_item_qzpt;
   process.sections[5].items[6].status = type.process_item_status_new;
   process.sections[5].items[7] = {};
   process.sections[5].items[7].name = type.process_an_zhuang_item_snzl;
@@ -279,10 +279,14 @@ exports.reschedule = function (req, res, next) {
 
 };
 
-exports.done = function (req, res, next) {
+exports.doneItem = function (req, res, next) {
   var section = tools.trim(req.body.section);
   var item = tools.trim(req.body.item);
   var _id = req.body._id;
+
+  if (!item) {
+    return res.sendErrMsg('item 不能空')
+  }
 
   //TODO start next section
   Process.updateStatus(_id, section, item, type.process_item_status_done,
@@ -292,6 +296,34 @@ exports.done = function (req, res, next) {
       }
 
       res.sendSuccessMsg();
+    });
+};
+
+exports.doneSection = function (req, res, next) {
+  var section = tools.trim(req.body.section);
+  var _id = req.body._id;
+
+  Process.updateStatus(_id, section, null, type.process_item_status_done,
+    function (err) {
+      if (err) {
+        return next(err);
+      }
+
+      //开启下个流程
+      var index = _.indexOf(type.process_work_flow, section);
+      var next = type.process_work_flow[index + 1];
+      if (next) {
+        Process.updateStatus(_id, next, null, type.process_item_status_going,
+          function (err) {
+            if (err) {
+              return next(err);
+            }
+
+            res.sendSuccessMsg()
+          });
+      } else {
+        res.sendSuccessMsg();
+      }
     });
 };
 
@@ -359,13 +391,7 @@ exports.listForDesigner = function (req, res, next) {
     }
 
     var ps = _.map(processes, function (process) {
-      var p = {};
-      p.userid = process.userid;
-      p.city = process.city;
-      p.district = process.district;
-      p.cell = process.cell;
-      p.going_on = process.going_on;
-      return p;
+      return process.toObject();
     });
 
     ep.emit('processes', ps);
