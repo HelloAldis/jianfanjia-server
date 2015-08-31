@@ -91,7 +91,7 @@
 .g-index-flow .m-ct{
 	position: relative;
 	height: 140px;
-	margin-top: 100px;
+	margin-top: 50px;
 	overflow: hidden;
 	padding-top: 120px;
 }
@@ -223,6 +223,7 @@
 }
 .g-index-design .m-ct p{
 	font-size: 14px;
+	padding: 0 20px;
 	line-height: 28px;
 	color: #7c8389;
 }

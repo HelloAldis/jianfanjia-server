@@ -22,10 +22,10 @@ $(function(){
 	function createList(data){
 		return '<tr data-uid="'+data._id+'">'
 					+'<td class="td1">'+data.username+'</td>'
-					+'<td class="td2">'+data.sex+'</td>'
+					+'<td class="td2">'+globalData.sex[data.sex]+'</td>'
 					+'<td class="td3">'+data.phone+'</td>'
 					+'<td class="td4">'+data.province+' '+data.city+' '+data.district+'</td>'
-					+'<td class="td5"><a href="../tpl/design/homepage.html?'+data._id+'">查看('+data.product_count+')</a></td>'
+					+'<td class="td5"><a href="../tpl/design/homepage.html?'+data._id+'" target="_blank">查看('+data.product_count+')</a></td>'
 					+'<td class="td6"><a href="javascript:;" class="confirm">认证</a></td>'
 				+'</tr>'
 	}
@@ -34,7 +34,7 @@ $(function(){
 		var page = new Pageing({
 			id : 'j-page',
 			allNumPage : arr.length,
-			itemPage : 5,
+			itemPage : 10,
 			showPageNum : 9,
 			endPageNum : 1,
 			currentPage : 0,
@@ -48,7 +48,6 @@ $(function(){
 				$list.find('li:odd').attr('class', 'even');
 				obj.find('.btns').on('click' , function(ev){
 					ev.stopPropagation();
-					$('body,html').animate({scrollTop:$authed.offset().top},1000);
 				});
 				return false;
 			}

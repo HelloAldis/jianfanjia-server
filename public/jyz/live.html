@@ -9,6 +9,59 @@
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
 	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
 	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
+		<style> 
+		.authed table{
+			width: 100%;
+			text-align: center;
+		}
+		.authed th{
+			line-height: 40px;
+			font-size: 16px;
+			background-color: #fafafa;
+		}
+		.authed th,.authed td{
+			border-bottom: 1px solid #e2e2e2;
+		}
+		.authed td{
+			line-height: 34px;
+			font-size: 14px;
+		}
+		.authed td.td5 a{
+			line-height: 34px;
+			color: #5494e4;
+		}
+		.authed td.td5 a i{
+			font-size: 24px;
+		}
+		.authed td.td5 a:hover{
+			text-decoration: none;
+			color: #0071ff;
+		}
+		.authed td.td6 a{
+			margin: 0 10px;
+			color: #666;
+		}
+		.authed td.td6 a i{
+			margin-right: 3px;
+		}
+		.authed td.td6 a:hover{
+			text-decoration: none;
+			color: #fe7004;
+		}
+		.authed .editor .iconfont{
+			color: #fc8c49;
+		}
+		.authed .delete .iconfont{
+			color: #666;
+		}
+		.authed .td1{width: 100px;}
+		.authed .td2{width: 300px;}
+		.authed .td3{width: 80px;}
+		.authed .td4{width: 100px;}
+		.authed .td5{width: 60px;}
+		.authed .td6{width: 160px;}
+		.btns{padding-top: 30px;text-align: center;}
+	</style>
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/page.js"></script>
@@ -51,15 +104,20 @@
 							<tr>
 								<th class="td1">项目名称</th>
 								<th class="td2">所在地区</th>
-								<th class="td4">当前状态</th>
-								<th class="td5">查看详情</th>
-								<th class="td6">操作</th>
+								<th class="td3">当前状态</th>
+								<th class="td4">设计师</th>
+								<th class="td4">项目经理</th>
+								<th class="td6">查看详情</th>
+								<th class="td7">操作</th>
 							</tr>
 						</thead>
 						<tbody></tbody>
 					</table>
 				</div>
 				<div class="m-page" id="j-page"></div>
+				<div class="btns">
+					<a href="add_live.html" target="_blank" class="btn">新建装修直播</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -99,6 +157,8 @@
 </body>
 </html>
 <script type="text/javascript">
+	var $authed = $('#j-live');
+	var $list = $authed.find('tbody');
 	//渲染生成列表
 	function loadList(){
 		var url = RootUrl+'api/v1/share';
@@ -109,63 +169,74 @@
 			dataType: 'json',
 			success: function(res){
 				console.log(res)
+				if(res["data"].length){
+					page(res["data"]);
+				}
 		   	}
 		});
 	}
-	loadList();
 	//创建列表
 	function createList(data){
-		var sStatus = '';
-		if(data.status == 0){
-			sStatus = '<a href="javascript:;" class="respond">响应</a><a href="javascript:;" class="refuse">拒绝</a></div>';
-		}else if(data.status == 1){
-			sStatus = '你已经拒绝该业主';
-		}else if(data.status >= 2){
-			sStatus = '<a href="scheme_create.html?'+data.userid+'" class="scheme">提交方案</a><span>(可提交多个方案)</span>';
-		}
-		return '<div class="item f-cb" data-item="'+data.requirementid+'">'
-					+'<div class="head f-fl"><img src="" alt="" /></div>'
-					+'<div class="info f-fl">'
-						+'<h4>业主：'+data.user.username+'</h4>'
-						+'<p>小区名称：'+data.requirement.cell+'</p>'
-						+'<p>物业描述：'+globalData.house_type[data.requirement.house_type]+'， '+data.requirement.house_area+'m&sup2;，装修预算 '+data.requirement.total_price+'万</p>'
-						+'<p>风格喜好：'+globalData.dec_style[data.requirement.dec_style]+'</p>'
-						+'<p>电话：<span class="phone">'+(data.status >= 2 ? data.user.phone : "响应后可见")+'</span></p>'
-						+'<p>量房时间：<span class="time">响应后安排</span></p>'
-						+'<div class="btns">'+sStatus+'</div>'
-					+'</div>'
-				+'</div>'
+		return '<tr data-uid="'+data._id+'">'
+					+'<td class="td1">'+data.cell+'</td>'
+					+'<td class="td2">'+data.province+" "+data.city+" "+data.district+'</td>'
+					+'<td class="td3">'+globalData.dec_flow[data.process.length-1]+'</td>'
+					+'<td class="td4">'+data.designer.username+'</td>'
+					+'<td class="td4">'+data.manager+'</td>'
+					+'<td class="td5"><a href="../tpl/live/detail.html?'+data._id+'" target="_blank">查看</a></td>'
+					+'<td class="td6"><a href="update_live.html?'+data._id+'" class="update">更新</a> | <a href="javascript:;" class="delete">删除</a></td>'
+				+'</tr>'
 	}
 	//生成分页
 	function page(arr){
 		var page = new Pageing({
 			id : 'j-page',
 			allNumPage : arr.length,
-			itemPage : 5,
+			itemPage : 10,
 			showPageNum : 9,
 			endPageNum : 1,
 			currentPage : 0,
 			linkTo : '',
 			callback : function(num,obj){
 				var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
-				$designOwner.html('');
+				$list.html('');
 				for(var i=num*this.itemPage;i<maxElem;i++){
-					$designOwner.append(createList(arr[i]));
+					$list.append(createList(arr[i]));
 				}
-				$designOwner.find('li:odd').attr('class', 'even');
 				obj.find('.btns').on('click' , function(ev){
 					ev.stopPropagation();
-					$('body,html').animate({scrollTop:$designOwner.offset().top},1000);
 				});
-				
 				return false;
 			}
 		});
 	};
-
-
-
-
+	//删除列表
+	$authed.delegate('.delete','click',function(ev){
+		ev.preventDefault();
+		var oDl = $(this).closest('tr');
+		var uidName = oDl.data('uid');
+		var url = RootUrl+'api/v1/share';
+		$.ajax({
+			url:url,
+			type: 'DELETE',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			data : JSON.stringify({
+				"_id":uidName
+			}),
+			processData : false,
+			success: function(res){
+				console.log(res)
+				if(res["msg"] == "success"){
+					alert('删除成功')
+					loadList();
+				}else{
+					alert('删除失败')
+				}
+		   	}
+		});
+	});
+	loadList();
 
 	// {
 	//   "manager":"王聪",

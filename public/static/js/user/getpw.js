@@ -112,11 +112,16 @@ $(function(){
 			}),
 			processData : false,
 			success: function(res){
+                msg: "success"
 				console.log(res)
-                if(res["data"]){
-                    window.location.href = reg_success_url;
+                if(res["msg"] == "success"){
+                    $('#error-info').html('保存成功').removeClass('hide');
+                    setTimeout(function(){
+                        window.location.href = reg_success_url;
+                        $('#error-info').html('').addClass('hide');
+                    }, 5000)
                 }else{
-                    $('#error-info').html(res['err_msg']).removeClass('hide');
+                    $('#error-info').html('res['err_msg']').removeClass('hide');
                     console.log(res['err_msg']);
                 }
                 if(res['err_msg']){
