@@ -30,6 +30,9 @@ var type = {
   process_item_status_new: '0',
   process_item_status_going: '1',
   process_item_status_done: '2',
+  process_item_status_reschedule_new: '3',
+  process_item_status_reschedule_ok: '4',
+  process_item_status_reschedule_reject: '5',
 
   process_section_kai_gong: 'kai_gong',
   process_section_chai_gai: 'chai_gai',
@@ -67,8 +70,6 @@ var type = {
   process_an_zhuang_item_jjaz: 'jjaz',
   process_an_zhuang_item_cwddaz: 'cwddaz',
   process_an_zhuang_item_wjaz: 'wjaz',
-
-
   process_an_zhuang_item_cgscaz: 'cgscaz',
   process_an_zhuang_item_yjzjaz: 'yjzjaz',
   process_an_zhuang_item_mdbmmaz: 'mdbmmaz',

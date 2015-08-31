@@ -80,7 +80,7 @@ var config = {
   visit_per_day: 1000, // 每个 ip 每天能访问的次数
   send_verify_code_per_day: 5, //每个 ip 每天能发的验证码次数
   recommend_designer_count: 3, //我的设计师页面 推荐的设计师个数
-  index_top_designer_count: 5,
+  index_top_designer_count: 7, //首页设计师个数
   index_top_share_count: 6,
   sms_uid: 'S9w4LEmiYSgR',
   sms_pas: 's5pf823y',

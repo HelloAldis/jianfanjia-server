@@ -76,6 +76,18 @@ exports.update = function (req, res, next) {
   });
 };
 
+exports.delete = function (req, res, next) {
+  var _id = tools.trim(req.body._id);
+
+  Share.removeOneById(_id, function (err) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendSuccessMsg();
+  });
+}
+
 exports.listAuthingDesigner = function (req, res, next) {
   Designer.getSByQueryAndProject({
     auth_type: type.designer_auth_type_processing

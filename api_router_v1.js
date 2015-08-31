@@ -101,6 +101,7 @@ router.post('/admin/login', admin.login); //审核设计师
 router.post('/admin/authed', auth.adminRequired, admin.authed); //审核设计师
 router.post('/share', auth.adminRequired, admin.add); //创建直播分享
 router.put('/share', auth.adminRequired, admin.update); //更新直播分享
+router.delete('/share', auth.adminRequired, admin.delete); //删除直播分享
 router.get('/admin/authing_designer', auth.adminRequired, admin.listAuthingDesigner); //获取申请认证的设计师
 router.post('/admin/search_designer', auth.adminRequired, admin.searchDesigner); //按照手机号申请设计师
 
