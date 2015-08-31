@@ -7,6 +7,9 @@ var type = {
   designer_auth_type_processing: '1',
   designer_auth_type_done: '2',
 
+  share_status_invisible: '0',
+  share_status_visible: '1',
+
   designer_agree_type_new: '0',
   designer_agree_type_yes: '1',
 

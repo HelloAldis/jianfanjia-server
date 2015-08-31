@@ -63,14 +63,14 @@ exports.getOne = function (req, res, next) {
 }
 
 exports.listtop = function (req, res, next) {
-  Designer.findDesignersOrderByScore(config.index_top_designer_count,
+  Designer.getTopDesigners(config.index_top_designer_count,
     function (err, designer) {
       if (err) {
         return next(err);
       }
 
       res.sendData(designer);
-    })
+    });
 }
 
 exports.search = function (req, res, next) {

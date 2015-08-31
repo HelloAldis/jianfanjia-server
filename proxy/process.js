@@ -1,5 +1,7 @@
 var models = require('../models');
 var Process = models.Process;
+var type = require('../type');
+var _ = require('lodash');
 
 exports.newAndSave = function (json, callback) {
   var process = new Process(json);
@@ -7,40 +9,44 @@ exports.newAndSave = function (json, callback) {
 };
 
 exports.addImage = function (id, section, item, imageid, callback) {
+  var index = _.indexOf(type.process_work_flow, section);
+  var path = 'sections.' + index + '.items.name';
+  var query = {};
+  query._id = id;
+  query[path] = item;
+  path = 'sections.' + index + '.items.$.images';
   var update = {};
-  var u = section + '.' + item + '.images';
-  update[u] = imageid;
+  update[path] = imageid;
 
-  Process.findOneAndUpdate({
-    _id: id
-  }, {
+  Process.findOneAndUpdate(query, {
     $push: update
   }, callback);
 };
 
 exports.addYsImage = function (id, section, key, imageid, callback) {
   var update = {};
-  path = section + '.' + 'ys.images';
-  update[path] = {
+  update['sections.$.ys.images'] = {
     key: key,
     imageid: imageid
   };
 
   Process.findOneAndUpdate({
-    _id: id
+    _id: id,
+    'sections.name': section
   }, {
     $push: update
   }, callback);
 }
 
 exports.updateYsImage = function (id, section, key, imageid, callback) {
+  var index = _.indexOf(type.process_work_flow, section);
+  var path = 'sections.' + index + '.ys.images.key'
   var query = {};
   query._id = id;
-  var path = section + '.ys.images.key';
   query[path] = key;
 
-  path = section + '.ys.images.$.imageid';
   var update = {};
+  path = 'sections.' + index + '.ys.images.$.imageid'
   update[path] = imageid;
   Process.findOneAndUpdate(query, {
     $set: update
@@ -62,34 +68,50 @@ exports.deleteYsImage = function (id, section, key, callback) {
 }
 
 exports.addComment = function (id, section, item, content, by, callback) {
+  var index = _.indexOf(type.process_work_flow, section);
+  var path = 'sections.' + index + '.items.name';
+  var query = {};
+  query[path] = item;
+  query._id = id;
+  path = 'sections.' + index + '.items.$.comments';
   var update = {};
-  var u = section + '.' + item + '.comments';
-  update[u] = {
-    content: content,
+  update[path] = {
     by: by,
-    date: new Date(),
+    content: content,
+    date: new Date().getTime(),
   };
 
-  Process.findOneAndUpdate({
-    _id: id
-  }, {
+  Process.findOneAndUpdate(query, {
     $push: update
   }, callback);
 };
 
-exports.updateStatus = function (id, section, item, status, callback) {
-  var path = "";
-  if (item) {
-    path = section + "." + item + ".status";
-  } else {
-    path = section + ".status";
-  }
-  var update = {};
-  update[path] = status;
+exports.getOneById = function (id, callback) {
+  Process.findOne({
+    _id: id,
+  }, callback);
+}
 
-  Process.findOneAndUpdate({
-    _id: id
-  }, {
+exports.updateStatus = function (id, section, item, status, callback) {
+  var index = _.indexOf(type.process_work_flow, section);
+  var query = {};
+  var update = {};
+
+  if (item) {
+    var path = 'sections.' + index + '.items.name';
+    query[path] = item;
+    query._id = id;
+
+    path = 'sections.' + index + '.items.$.status';
+    update[path] = status;
+  } else {
+    query._id = id;
+
+    var path = 'sections.' + index + '.status';
+    update[path] = status;
+  }
+
+  Process.findOneAndUpdate(query, {
     $set: update
   }, callback);
 }

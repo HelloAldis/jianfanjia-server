@@ -69,14 +69,15 @@ exports.addTeamCountForDesigner = function (desingerid, num) {
   }, function (err) {});
 };
 
-exports.findDesignersOrderByScore = function (limit, callback) {
+exports.getTopDesigners = function (limit, callback) {
   Designer.find({
       auth_type: type.designer_auth_type_done
     }, {
-      'pass': 0
+      pass: 0,
+      accessToken: 0,
     }, {
       sort: {
-        score: -1
+        auth_date: -1
       },
       limit: limit
     },

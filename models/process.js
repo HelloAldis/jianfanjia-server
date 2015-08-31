@@ -38,7 +38,6 @@ var ProcessSchema = new Schema({
     type: Number,
     default: 0
   },
-
   start_at: {
     type: Number,
   },
@@ -63,7 +62,10 @@ var ProcessSchema = new Schema({
       type: String,
       default: '1'
     },
-    items: {
+    items: [{
+      name: {
+        type: String
+      },
       date: {
         type: Number
       },
@@ -88,7 +90,7 @@ var ProcessSchema = new Schema({
           },
         }]
       },
-    },
+    }],
     ys: {
       images: {
         type: [{

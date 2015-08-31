@@ -161,7 +161,7 @@ exports.checkCookie = function (req, res, next) {
 }
 
 exports.authWeb = function (req, res, next) {
-  var url = req.url
+  var url = req.path;
   var userid = ApiUtil.getUserid(req);
   var usertype = ApiUtil.getUsertype(req);
 
@@ -203,7 +203,7 @@ exports.authWeb = function (req, res, next) {
 var adminLoginPages = ['/login.html'];
 
 exports.authAdminWeb = function (req, res, next) {
-  var url = req.url
+  var url = req.path;
   var userid = ApiUtil.getUserid(req);
   var usertype = ApiUtil.getUsertype(req);
 

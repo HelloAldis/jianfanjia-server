@@ -199,7 +199,7 @@ exports.start = function (req, res, next) {
 exports.addComment = function (req, res, next) {
   var section = tools.trim(req.body.section);
   var item = tools.trim(req.body.item);
-  var content = new ObjectId(req.body.imageid);
+  var content = tools.trim(req.body.content);
   var _id = req.body._id;
   var userid = ApiUtil.getUserid(req);
 
@@ -266,7 +266,7 @@ exports.deleteYsImage = function (req, res, next) {
   var key = tools.trim(req.body.key);
   var _id = req.body._id;
 
-  Process.deleteYsImage(_id, section, key, function (err) {
+  Process.updateYsImage(_id, section, key, null, function (err, process) {
     if (err) {
       return next(err);
     }

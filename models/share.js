@@ -64,6 +64,10 @@ var ShareSchema = new Schema({
   },
   start_at: {
     type: Number,
+  },
+  status: {
+    type: String,
+    default: '0',
   }
 });
 
