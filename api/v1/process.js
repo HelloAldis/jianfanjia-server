@@ -1,7 +1,7 @@
 var validator = require('validator');
 var eventproxy = require('eventproxy');
 var User = require('../../proxy').User;
-var Plan = require('../../proxy').Plan;
+var Reschedule = require('../../proxy').Reschedule;
 var Requirement = require('../../proxy').Requirement;
 var Process = require('../../proxy').Process;
 var tools = require('../../common/tools');
@@ -276,7 +276,29 @@ exports.deleteYsImage = function (req, res, next) {
 };
 
 exports.reschedule = function (req, res, next) {
+  var reschedule = ApiUtil.buildReschedule(req);
 
+  if (usertype === type.role_user) {
+    reschedule.status = type.process_item_status_reschedule_req_by_user;
+  } else if (usertype === type.role_designer) {
+    reschedule.status = type.process_item_status_reschedule_req_by_designer;
+  }
+
+  Reschedule.newAndSave(reschedule, function (err, reschedule) {
+    if (err) {
+      return next(err);
+    }
+
+    Process.updateStatus(reschedule.processid, reschedule.section, null,
+      reschedule.status,
+      function (err) {
+        if (err) {
+          return next(err);
+        }
+
+        res.sendSuccessMsg();
+      });
+  });
 };
 
 exports.doneItem = function (req, res, next) {

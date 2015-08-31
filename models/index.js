@@ -21,6 +21,7 @@ require('./share');
 require('./requirement');
 require('./favorite');
 require('./process');
+require('./reschedule');
 
 exports.User = mongoose.model('User');
 exports.Designer = mongoose.model('Designer');
@@ -34,3 +35,4 @@ exports.Requirement = mongoose.model('Requirement');
 exports.Share = mongoose.model('Share');
 exports.Favorite = mongoose.model('Favorite');
 exports.Process = mongoose.model('Process');
+exports.Reschedule = mongoose.model('Reschedule');

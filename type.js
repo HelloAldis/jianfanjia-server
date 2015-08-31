@@ -30,9 +30,10 @@ var type = {
   process_item_status_new: '0',
   process_item_status_going: '1',
   process_item_status_done: '2',
-  process_item_status_reschedule_new: '3',
-  process_item_status_reschedule_ok: '4',
-  process_item_status_reschedule_reject: '5',
+  process_item_status_reschedule_req_by_user: '3',
+  process_item_status_reschedule_req_by_designer: '4',
+  process_item_status_reschedule_ok: '5',
+  process_item_status_reschedule_reject: '6',
 
   process_section_kai_gong: 'kai_gong',
   process_section_chai_gai: 'chai_gai',

@@ -7,5 +7,6 @@ exports.findOneByQueryAndProject = function (query, project, callback) {
 
 exports.newAndSave = function (json, callback) {
   var reschedule = new Reschedule(json);
+  reschedule.request_date = new Date().getTime();
   reschedule.save(callback);
 };

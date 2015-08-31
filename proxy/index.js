@@ -10,3 +10,4 @@ exports.Share = require('./share');
 exports.Favorite = require('./favorite');
 exports.Team = require('./team');
 exports.Process = require('./process');
+exports.Reschedule = require('./reschedule');

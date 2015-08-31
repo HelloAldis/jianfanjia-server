@@ -3,18 +3,21 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
 var RescheduleSchema = new Schema({
+  processid: {
+    type: ObjectId,
+  },
   userid: {
     type: ObjectId,
   },
   designerid: {
     type: ObjectId,
   },
-  request_by: {
-    type: ObjectId,
+  section: {
+    type: String,
   },
   request_date: {
     type: Number,
-  }
+  },
   new_date: {
     type: Number
   },
@@ -23,10 +26,10 @@ var RescheduleSchema = new Schema({
   },
 });
 
-UserSchema.index({
+RescheduleSchema.index({
   userid: 1
 });
-UserSchema.index({
+RescheduleSchema.index({
   designerid: 1
 });
 
