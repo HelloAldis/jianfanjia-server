@@ -13,7 +13,7 @@
 		this.carouselBox = $('#'+this.settings.id);
 		this.prevBtn = this.carouselBox.find('.prev');
 		this.nextBtn = this.carouselBox.find('.next');
-		this.createList(this.settings.data);
+		this.createList(this.settings.data,this.settings.list);
 		this.aLi = this.carouselBox.find('li');
 		this.prevEvent();
 		this.nextEvent();
@@ -30,12 +30,11 @@
 			var sHtml = '<ul class="f-cb">';
 			for (var i = 0; i < data.length; i++) {
 				sHtml += '<li class="'+(data[i].zIndex == 2 ? 'hover' : '')+'" style="width:'+data[i].width+'px;height:'+data[i].height+'px;left:'+data[i].left+'px;top:'+data[i].top+'px;z-index:'+data[i].zIndex+';">'+
-					     '<div class="name" style="height:'+data[i].picH+'px"><img src="'+list[i].big_imageid+'" alt="" /></div>'+
+					     '<div class="name" style="height:'+data[i].picH+'px"><img src="'+RootUrl+'api/v1/image/'+list[i].imageid+'" alt="" /></div>'+
 					     '<div class="txt">'+
 					     '<h4>'+list[i].username+'</h4>'+
-						'<div class="desc">'+data[i].type+'</div>'+
-						'<p>'+ellipsisStr(list[i].philosophy,80)+'</p>'+
-						'</div>'+
+						'<div class="desc">认证设计师</div>'+
+						'<p>' + ellipsisStr(list[i].philosophy,40) + '</p></div>'+
 						'<a href="../design/homepage.html?'+list[i]._id+'" class="btn">查看详情</a>'+
 					'</li>'
 			};
@@ -94,7 +93,14 @@
 			this.timer = setInterval(function(){
 				self.prevBtn.click();
 			}, 5000)
-			
+			this.carouselBox.hover(function() {
+				clearInterval(self.timer)
+			}, function() {
+				clearInterval(self.timer)
+				self.timer = setInterval(function(){
+					self.prevBtn.click();
+				}, 5000)
+			});
 		}
 	}
 	window["Carousel"] = Carousel;

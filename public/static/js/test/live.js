@@ -1,9 +1,9 @@
 $(function(){
-	var $authed = $('#j-authed');
+	var $authed = $('#j-live');
 	var $list = $authed.find('tbody');
 	//渲染生成列表
 	function loadList(){
-		var url = RootUrl+'api/v1/admin/authing_designer';
+		var url = RootUrl+'api/v1/share';
 		$.ajax({
 			url:url,
 			type: 'GET',
@@ -46,8 +46,9 @@ $(function(){
 					$list.append(createList(arr[i]));
 				}
 				$list.find('li:odd').attr('class', 'even');
-				obj.find('.btns').on('click' , function(){
-					$('body,html').animate({scrollTop:$authed.offset().top},1000);
+				obj.find('.btns').on('click' , function(ev){
+					ev.stopPropagation();
+					$('body,html').animate({scrollTop:$designOwner.offset().top},1000);
 				});
 				return false;
 			}
