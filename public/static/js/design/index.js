@@ -3,20 +3,14 @@ $(function(){
 	var $list = $design.find('.m-list');
 	var $filter = $design.find('.m-filter');
 	//渲染生成列表
-	function loadList(){
+	function loadList(data){
 		var url = RootUrl+'api/v1/designer/search';
 		$.ajax({
 			url:url,
 			type: 'POST',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
-			data : JSON.stringify({
-				"query":{
-				},
-				"sort":{
-				    "auth_date":1
-				}
-			}),
+			data : JSON.stringify(data),
 			processData : false,
 			success: function(res){
 				console.log(res)
@@ -28,7 +22,13 @@ $(function(){
 		   	}
 		});
 	}
-	loadList();
+	loadList({
+				"query":{
+				},
+				"sort":{
+				    "auth_date":1
+				}
+			});
 	//创建列表
 	function createList(data){
 		var ImgId = !!data.imageid ? RootUrl+'api/v1/image/'+data.imageid : '../../static/img/public/headpic.jpg';
@@ -54,7 +54,6 @@ $(function(){
 				}
 		   	}
 		});
-		console.log(images[0])
 		var len1 = images[0].length > 3 ? 3 : images[0].length;
 		var works = '';
 		if(len1){
@@ -126,7 +125,7 @@ $(function(){
 			}
 		});
 	};
-	//排序
+	//排序筛选
 	function filterSort(oType,query){
 		var url = RootUrl+'api/v1/designer/search';
 		var oData = {"query":{},
@@ -134,24 +133,23 @@ $(function(){
 				    "auth_date":1
 					}};
 		oData["query"][oType] = query;
-		$.ajax({
-			url:url,
-			type: 'POST',
-			contentType : 'application/json; charset=utf-8',
-			dataType: 'json',
-			data : JSON.stringify(oData),
-			processData : false,
-			success: function(res){
-				console.log(res)
-				loadList();
-		   	}
-		});
+		loadList(oData);
 	}
-	$filter.delegate('a','click',function(ev){
+	//筛选
+	$design.delegate('a','click',function(ev){
 		ev.preventDefault();
 		var oDl = $(this).closest('dl');
 		$(this).attr('class','current').siblings().attr('class', '');
 		filterSort(oDl.data('type'),$(this).data('query'));
+		return false;
+	});
+	//排序
+	$design.find('.m-sort').delegate('a','click',function(ev){
+		ev.preventDefault();
+		var oDl = $(this).closest('dl');
+		$(this).attr('class','current').siblings().attr('class', '');
+		filterSort(oDl.data('type'),$(this).data('query'));
+		return false;
 	});
 	$design.delegate('.addIntent','click',function(ev){
 		var slef = $(this)

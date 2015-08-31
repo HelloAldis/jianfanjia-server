@@ -49,11 +49,14 @@
 .design-list .m-sort a{
 	display: inline-block;
 	min-width: 80px;
-	_width:80px;
 	margin: 0 35px;
 	text-align: center;
 	font-size: 14px;
 	color: #7c8389;
+}
+.design-list .m-sort .current{
+	color: #fe7004;
+	font-weight: bold;
 }
 .design-list .m-list{
 
