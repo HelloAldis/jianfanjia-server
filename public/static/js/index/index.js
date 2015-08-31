@@ -337,40 +337,93 @@ $(function(){
 })(jQuery);
 // 检测浏览器是否支持css3新属性，来给低版本浏览器做优雅降级；
 function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentElement.style,t=function(r){return r.replace(/-(\w)/g,function($0,$1){return $1.toUpperCase()})};for(i in p){a.push(t(p[i]+'-'+c));a.push(t(c))}for(i in a){if(a[i]in s){return true}}return false};
-$(function(){
+$(function(){ 
 	if(window.usertype == 2){
 		$('#submit_needs').hide();		
 	}else{
 		$('#submit_needs').show();
 	}
 })
-
-var liveList = new LiveList({
-	id : 'j-index-live',
-	data : [
-		{
-			pic    : '../../img/index/index-live-01.jpg',
-			title  : '清江山水',
-			area   : '120m&sup2;',
-			type   : '三室一厅',
-			style  : '现代简约',
-			idea   : 'This is the brand new house for family johnson.',
-			head   : '../../img/index/index-live-head-01.jpg',
-			url    : ''
+$liveList = $('#j-index-live');
+//渲染装修直播数据
+function loadList(){
+	var url = RootUrl+'api/v1/share/listtop';
+	$.ajax({
+		url:url,
+		type: 'GET',
+		contentType : 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function(res){
+			console.log(res['data'])
+			if(res['data'].length){
+			}else{
+				//alert('没有数据')
 			}
-	]
-});
-var url = RootUrl+'api/v1/share/listtop';
-$.ajax({
-	url:url,
-	type: 'GET',
-	contentType : 'application/json; charset=utf-8',
-	dataType: 'json',
-	success: function(res){
-		console.log(res['data'])
-		if(res['data'].length){
-		}else{
-			//alert('没有数据')
+	   	}
+	});
+}
+//创建列表
+function createList(data,info){
+	var status = data.process.length-1;
+	var sList = '';
+	for (var i = 0; i < 7; i++) {
+		if(i == status){
+			sList += '<div class="state active current"><div class="circle"></div><p>'+globalData.dec_flow[i]+'</p></div>'
+		}else if(i < status){
+			sList += '<div class="state active"><div class="circle"></div><p>'+globalData.dec_flow[i]+'</p></div>'
+		}else{	
+			sList += '<div class="state"><div class="circle"></div><p>'+globalData.dec_flow[i]+'</p></div>'
 		}
-   	}
-});
+	};
+	var imgId = data.process[status].images[0];
+	var head = info.imageid ? RootUrl+'api/v1/image/'+info.imageid : '../../static/img/public/headpic.jpg';
+	return '<li>'
+				+'<div class="g-wp f-cb">'
+					+'<a class="pic f-fl" href="detail.html?'+data._id+'"><img src="'+RootUrl+'api/v1/image/'+imgId+'" alt="" /></a>'
+					+'<div class="txt f-fl">'
+						+'<div class="info">'
+							+'<h4><a href="detail.html?'+data._id+'">'+data.cell+'</a><span><strong>'+data.house_area+'m&sup2;</strong><strong>'+globalData.house_type[data.house_type]+'</strong></span></h4>'
+							+'<p>装修风格：<span>'+globalData.dec_style[data.dec_style]+'</span>'
+							+'</p>'
+							+'<p>开工时间：<span>'+format("yyyy-MM-dd",data.start_at)+'</span></p>'
+							+'<p>当前阶段：<span>'+globalData.dec_flow[status]+'</span></p>'
+							+'<a href="detail.html?'+data._id+'" class="head">'
+								+'<span class="head-pic"><img src="'+head+'" alt="" /></span>'
+								+'<span class="head-name">'+info.username+'</span>'
+							+'</a>'
+						+'</div>'
+						+'<div class="state-box">'
+							+'<div class="list">'+sList+'</div>'
+							+'<div class="line">'
+								+'<div class="line-in line'+status+'"></div>'
+							+'</div>'
+						+'</div>'
+					+'</div>'
+				+'</div>'
+			+'</li>'
+
+
+
+
+	var sHtml = '<ul class="f-cb">';
+	for (var i = 0; i < data.length; i++) {
+		var imgId = data.process[data.process.length-1].images[0];
+		var head = !data[i].designer.imageid ? RootUrl+'api/v1/image/'+data[i].designer.imageid  : '../../static/img/public/headpic.jpg';
+		sHtml += '<li>'+
+			     '<div class="pic"><img src="'+ head +'" alt="'+data[i].designer.username+'" /></div>'+
+			     '<div class="txt">'+
+			      '<h4>'+data[i].cell+'</h4>'+
+					'<div class="desc">'+
+						'<span>'+data[i].house_area+'m&sup2;</span>'+
+						'<span>'+globalData.house_type[data[i].house_type]+'</span>'+
+						'<span>'+globalData.dec_style[data[i].dec_style]+'</span>'+
+					'</div>'+
+					'<p>'+ellipsisStr(data[i].description,80)+'</p>'+
+				'</div>'+
+				'<div class="head"><img src="'+RootUrl+'api/v1/image/'+imgId+'" alt="'+data[i].cell+'" /></div>'+
+				'<a href="../live/detail.html?'+data[i]._id+'" class="btn">查看详情</a>'+
+			'</li>'
+	};
+	sHtml+='</ul>'
+	$liveList.html(sHtml)
+}
