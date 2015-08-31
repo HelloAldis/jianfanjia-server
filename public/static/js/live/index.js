@@ -51,14 +51,14 @@ $(function(){
 				sList += '<div class="state"><div class="circle"></div><p>'+globalData.dec_flow[i]+'</p></div>'
 			}
 		};
-		var imgId = '55dd93f361ed917260093096' || data.process[status].images[0];
+		var imgId = data.process[status].images[0];
 		var head = info.imageid ? RootUrl+'api/v1/image/'+info.imageid : '../../static/img/public/headpic.jpg';
 		return '<li>'
 					+'<div class="g-wp f-cb">'
-						+'<a class="pic f-fl" href="detail.html"><img src="'+RootUrl+'api/v1/image/'+imgId+'" alt="" /></a>'
+						+'<a class="pic f-fl" href="detail.html?'+data._id+'"><img src="'+RootUrl+'api/v1/image/'+imgId+'" alt="" /></a>'
 						+'<div class="txt f-fl">'
 							+'<div class="info">'
-								+'<h4><a href="detail.html">'+data.cell+'</a><span><strong>'+data.house_area+'m&sup2;</strong><strong>'+globalData.house_type[data.house_type]+'</strong></span></h4>'
+								+'<h4><a href="detail.html?'+data._id+'">'+data.cell+'</a><span><strong>'+data.house_area+'m&sup2;</strong><strong>'+globalData.house_type[data.house_type]+'</strong></span></h4>'
 								+'<p>装修风格：<span>'+globalData.dec_style[data.dec_style]+'</span>'
 								+'</p>'
 								+'<p>开工时间：<span>'+format("yyyy-MM-dd",data.start_at)+'</span></p>'

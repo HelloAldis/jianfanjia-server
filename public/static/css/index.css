@@ -203,6 +203,9 @@
 	-o-transition:height 0.5s;
 	transition:height 0.5s;
 }
+.g-index-design .m-ct .name img{
+	width: 100%;
+}
 .g-index-design .m-ct .txt{
 	padding-top: 45px;
 	text-align: center;

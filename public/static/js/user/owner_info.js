@@ -1,6 +1,5 @@
 	var $ownerArea = $('#owner-area');
 	function loadList(){
-
 		var url = RootUrl+'api/v1/user/info';
 		$.ajax({
 			url:url,
@@ -11,7 +10,7 @@
 			success: function(res){
 				var data = res['data'];
 				console.log(res['data'])
-				$('#owner-area').empty()
+				$ownerArea.empty()
 				if(data !== null){
 					$('#owner-name').val(data.username || "");
 					$('#owner-mobile').val(data.phone || "");

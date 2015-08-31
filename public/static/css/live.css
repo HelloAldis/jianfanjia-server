@@ -9,7 +9,7 @@
 .live-list li{
 	width: 100%;
 	min-width: 1200px;
-	padding: 43px 0 50px 28px;
+	padding: 43px 0 50px;
 } 
 .live-list .even{
 	background-color: #f6f7f9;
@@ -17,20 +17,20 @@
 .live-list .pic{
 	width: 384px;
 	height: 285px;
-	overflow: hidden;
 	border-radius: 8px;
 	-webkit-box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
 	-moz-box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
 	box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
 }
 .live-list .even .pic{
-	-webkit-box-shadow: 0px 0px 11px rgba(0,0,0,0.25);
-	-moz-box-shadow: 0px 0px 11px rgba(0,0,0,0.25);
-	box-shadow: 0px 0px 11px rgba(0,0,0,0.25);
+	-webkit-box-shadow: 0px 0px 11px rgba(0,0,0,0.35);
+	-moz-box-shadow: 0px 0px 11px rgba(0,0,0,0.35);
+	box-shadow: 0px 0px 11px rgba(0,0,0,0.35);
 }
 .live-list .pic img{
 	width: 384px;
 	height: 285px;
+	border-radius: 8px;
 }
 .live-list .txt{
 	overflow: hidden;
@@ -300,6 +300,9 @@
 }
 .m-step .item{
 	padding-bottom: 48px;
+}
+.m-step .item img{
+	margin-bottom: 20px;
 }
 .m-step h4{
 	padding-left: 30px;

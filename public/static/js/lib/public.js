@@ -308,6 +308,32 @@ function IdentityCodeValid(code){
     }
 }
 
+/*
+	str  要截取字符串
+	len  截取长度
+*/
+function ellipsisStr(str, len){
+	var temp,
+    icount = 0,
+    patrn = /[^\x00-\xff]/,
+    strre = "";
+    for (var i = 0; i < str.length; i++) {
+        if (icount < len - 1) {
+            temp = str.substr(i, 1);
+                if (patrn.exec(temp) == null) {
+                   icount = icount + 1
+            } else {
+                icount = icount + 2
+            }
+            strre += temp
+            } else {
+            break;
+        }
+    }
+	return icount < len ? str : strre + "..."
+}
+    
+
 $(function(){
 	//encodeURI("url地址")//编码
 	//decodeURI("url地址")//解码

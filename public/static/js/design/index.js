@@ -28,7 +28,6 @@ $(function(){
 		   	}
 		});
 	}
-
 	loadList();
 	//创建列表
 	function createList(data){
@@ -41,10 +40,36 @@ $(function(){
 		for (var i = 0,len = data.dec_districts.length; i < len; i++) {
 			decDistricts += '<span>'+globalData.orders_area[data.dec_districts[i]]+'</span>'
 		};
-		// var works = '';
-		// for (var i = 0,len = data.; i < Things.length; i++) {
-		// 	Things[i]
-		// };
+		var url = RootUrl+'api/v1/designer/'+data._id+'/products';
+		var images = [];
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			async : false,
+			success: function(res){
+				if(res['data']){
+					images.push(res['data'])
+				}
+		   	}
+		});
+		console.log(images[0])
+		var len1 = images[0].length > 3 ? 3 : images[0].length;
+		var works = '';
+		if(len1){
+			for (var i = 0; i < len1; i++) {
+				works += '<a class="works" href="detail.html?'+images[0][i]._id+'"><img src="'+RootUrl+'api/v1/image/'+images[0][i].images[0].imageid+'" alt="'+images[0][i].cell+'"/></a>'
+			};
+		}else{
+			works = '<a class="works" href="homepage.html?'+data._id+'"><img src="../../static/img/public/default_products.jpg" alt="'+data.username+'的作品"/></a>';
+		}
+		var gohome = "";			
+		if(window.usertype == 2){
+			gohome = '<a href="homepage.html?'+data._id+'" class="btn">查看详情</a>'
+		}else{
+			gohome = '<a href="../user/owner_design.html" data-uid="'+data._id+'" class="btn addIntent">添加意向</a>'
+		}
 	return  '<li>'
           		+'<div class="g-wp">'
           			+'<div class="m-tt f-cb">'
@@ -71,12 +96,9 @@ $(function(){
           				+'</div>'
           				+'<div class="order f-fr">'
           					+'<p><strong>'+globalData.price_area[data.design_fee_range]+'</strong>元/m&sup2;</p>'
-          					+'<a href="../user/owner_design.html?'+data._id+'" class="btn">添加意向</a>'
-          				+'</div>'
+          					+gohome+'</div>'
           			+'</div>'
-          			+'<div class="m-ct f-cb">'
-							+'<div class="works"><img src="'+ImgId+'" alt="{{../name}}的作品"/></div>'
-          			+'</div>'
+          			+'<div class="m-ct f-cb">'+works+'</div>'
           		+'</div>'
            +'</li>'
 	};
@@ -130,5 +152,33 @@ $(function(){
 		var oDl = $(this).closest('dl');
 		$(this).attr('class','current').siblings().attr('class', '');
 		filterSort(oDl.data('type'),$(this).data('query'));
-	})
+	});
+	$design.delegate('.addIntent','click',function(ev){
+		var slef = $(this)
+		if(window.usertype == 1){
+			ev.preventDefault();
+			var uidname = $(this).data('uid');
+			var url = RootUrl+'api/v1/user/designer';
+			$.ajax({
+				url:url,
+				type: 'POST',
+				contentType : 'application/json; charset=utf-8',
+				dataType: 'json',
+				data : JSON.stringify({
+					"_id":uidname
+				}),
+				processData : false,
+				success: function(res){
+					if(res["msg"] == "success"){
+						alert('添加成功');
+						slef.html('查看详情').attr('href','homepage.html?'+uidname).removeClass('addIntent');
+					}else if(res["err_msg"] != null){
+						window.location.href = "../user/owner_design.html";
+					}else{
+						alert("添加失败")
+					}
+			   	}
+			});
+		}
+	});
 });

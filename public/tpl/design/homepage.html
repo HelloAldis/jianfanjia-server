@@ -34,48 +34,9 @@
 		</div>
 	</div>
 	<div class="home-info">
-		<div class="m-infoplate" id="j-infoplate">
-			<div class="head"><img src="../../img/index/head.jpg" alt="" /></div>
-			<h4>杨杰<i class="iconfont">&#xe60b;</i></h4>
-			<div class="auth notauth">
-				认证设计师
-			</div>
-			<div class="works f-cb">
-				<dl>
-					<dt>5</dt>
-					<dd>作品</dd>
-				</dl>
-				<span></span>
-				<dl>
-					<dt>15</dt>
-					<dd>预约</dd>
-				</dl>
-			</div>
-			<a href="../user/owner_design.html?55d2ec5174803176eb6f80a8" class="btn">添加意向</a>
-		</div>
+		<div class="m-infoplate" id="j-infoplate"></div>
 	</div>
-	<div class="home-desc g-wp" id="j-home-desc">
-		<dl class="f-cb">
-			<dt>服务区域：</dt>
-			<dd>湖北省武汉市洪山区<i class="iconfont">&#xe615;</i></dd>
-		</dl>
-		<dl class="f-cb">
-			<dt>设计风格：</dt>
-			<dd><span>欧式</span><span>地中海式</span><span>美式<span></dd>
-		</dl>
-		<dl class="f-cb">
-			<dt>设计收费：</dt>
-			<dd><strong>50-100</strong>元/m&sup2;</dd>
-		</dl>
-		<dl class="f-cb">
-			<dt>施工团队：</dt>
-			<dd>5个施工队</dd>
-		</dl>
-		<dl class="f-cb">
-			<dt>个人介绍：</dt>
-			<dd>深圳优秀室内设计师，深圳室内设计师协会(SZAID)理事，高级室内建筑师，从事室内设计12年，现任深圳太合南方建筑室内设计事务所设计总监。作品多次刊登TOP《装潢世界》.《时代空间》.《上海家居》.《时尚家居》.等杂志中，现长期受邀担任 “深圳电台”栏目客座设计嘉宾，作品且多次整版刊登于《南方都市报》家居版，2010年应意邀去意大利设计考察交流。</dd>
-		</dl>
-	</div>
+	<div class="home-desc g-wp" id="j-home-desc"></div>
 	<div class="home-list">
 		<div class="g-index-item g-index-live g-wp">
 			<div class="m-tt">
@@ -137,7 +98,11 @@
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				page(res['data'])
+				if(res['data'].length){
+					page(res['data'])
+				}else{
+					alert('暂无作品');
+				}
 		   	}
 		});
 	}
@@ -150,13 +115,15 @@
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				createInfo(res['data'])
+				if(res['data']){
+					createInfo(res['data'])
+				}
 		   	}
 		});
 	}
 	loadInfo();
 	function createInfo(data){
-		console.log(data)
+		console.log(!data.team_count)
 		var ImgId = !!data.imageid ? RootUrl+'api/v1/image/'+data.imageid : '../../static/img/public/headpic.jpg';
 		var sStyle = '';
 		for (var i = 0; i < data.dec_styles.length; i++) {
@@ -180,7 +147,7 @@
 						+'</dl>'
 						+'<dl class="f-cb">'
 							+'<dt>施工团队：</dt>'
-							+'<dd>5个施工队</dd>'
+							+'<dd>'+(!data.team_count ? "暂无施工团队" : data.team_count+"个施工队" )+'</dd>'
 						+'</dl>'
 						+'<dl class="f-cb">'
 							+'<dt>个人介绍：</dt>'
@@ -231,14 +198,16 @@
 	};
 	//创建列表
 	function createList(data){
+		console.log(data)
+		var img = data.images.length ? RootUrl+'api/v1/image/'+ data.images[0].imageid : "../../img/index/index-live-01.jpg";
 	return  '<li>'
-				+'<div class="pic"><img alt="清江山水" src="../../img/index/index-live-01.jpg"></div>'
+				+'<div class="pic"><img alt="清江山水" src="'+img+'"></div>'
 				+'<div class="txt">'
 					+'<h4>'+data.cell+'</h4>'
 					+'<div class="desc">'
 						+'<span>'+data.house_area+'m&sup2;</span><span>'+globalData.house_type[data.house_type]+'</span><span>'+globalData.dec_style[data.dec_style]+'</span>'
 					+'</div>'
-					+'<p>This is the brand new house for family johnson.</p>'
+					+'<p>'+ellipsisStr(data.description,140)+'</p>'
 				+'</div>'
 				+'<a href="detail.html?'+data._id+'" class="btn">查看详情</a>'
 			+'</li>'
@@ -260,17 +229,13 @@
 			}),
 			processData : false,
 			success: function(res){
-				console.log(res)
-				if(res["msg"] === "success"){
-					alert('添加成功')
+				if(res["msg"] == "success"){
+					alert('添加成功');
+					slef.html('查看详情').attr('href','homepage.html?'+uidname).removeClass('addIntent');
+				}else if(res["err_msg"] != null){
+					window.location.href = "../user/owner_design.html";
 				}else{
-					alert('已经添加过了')
-					return false;
-				}
-				if(res["err_msg"]){
-					alert('已经添加过了')
-					slth.remove();
-					return false;
+					alert("添加失败")
 				}
 		   	}
 		});

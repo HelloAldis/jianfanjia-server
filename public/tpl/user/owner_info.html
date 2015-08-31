@@ -211,6 +211,6 @@
 	}
 	function callbackImg(arr){
 		var data = $.parseJSON(arr)
-		$('#userHead').attr('src',RootUrl+'api/v1/image/'+data).data('img',data);
+		$('#userHead').attr('src',RootUrl+'api/v1/image/'+data.data).data('img',data.data);
 	}
 </script>
