@@ -10,18 +10,13 @@ $(function(){
 	   return (/^[\d]{6}$/.test(str));
 	}
 	var reg_success_url =["/","owner.html#new","design_agreement.html"];
-	var emptyMsg = {
-        "reg_mobile" : "请输入手机号",
-        "reg_password": "请输入密码",
-        "reg_password_confirm": "请输入确认密码",
-        "reg_smscode" : "请输入验证码",
-        "reg_agree" : "请先同意注册协议"
-    };
     var errMsg = {
         "reg_mobile": "手机号不正确",
         "reg_password": "密码需为6~30个字母或数字",
         "reg_password_confirm": "两次输入的密码不一样",
-        "reg_smscode" : "短信验证码不正确"
+        "reg_smscode" : "短信验证码不正确",
+        "reg_status" : "请选择身份",
+        "reg_agree" : "请先同意注册协议"
     };
     var check_step = 0;
     //获取对象
@@ -66,11 +61,22 @@ $(function(){
             check_step--;
             return true;
         } else {
-            alert(emptyMsg["reg_agree"]);
+            alert(errMsg["reg_agree"]);
             return false;
         }
     }
-
+    function checkRoles(){    //注册协议验证
+        status.find('input').each(function(index, el) {
+            console.log($(el).is(":checked"))
+            if($(el).is(":checked")){
+                check_step--;
+                status.find('.tips-info').addClass('hide').html("")
+                return true;
+            }
+        });
+        status.find('.tips-info').removeClass('hide').html(errMsg["reg_status"])
+        return false;
+    }
     //显示验证信息
    	function showError(obj,id, msg) {
         var msg = msg || errMsg[id];
@@ -92,7 +98,30 @@ $(function(){
     }
    	//事件操作
     mobile.on('blur',function(){
-        checkMobile();
+        var userName = $.trim(mobile.val());
+        if(isMobile(userName)){
+            $.ajax({
+                url:RootUrl+'api/v1/verify_phone',
+                type: 'post',
+                contentType : 'application/json; charset=utf-8',
+                dataType: 'json',
+                cache : false,
+                data : JSON.stringify({
+                    phone : userName
+                }),
+                processData : false,
+                cache : false,
+                success: function(res){
+                    console.log(res)
+                    if(res["msg"] == "success"){
+                        checkMobile()
+                    }
+                    if(res["err_msg"] != null){
+                        showError(mobile,id, res["err_msg"])
+                    }
+                }
+            });
+        }
     });
     captcha.on('blur',function(){
         checkCaptcha();
@@ -108,12 +137,13 @@ $(function(){
     });
     //表单提交
 	$('#form-reg').on('submit',function(){
-		check_step = 5;
+		check_step = 6;
 		checkMobile();
         checkCaptcha();
         checkPassword();
         checkPasswordConfirm();
         checkAgree();
+        checkRoles()
 		if(check_step > 0){
 			return false;
 		}
