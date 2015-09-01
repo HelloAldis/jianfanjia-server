@@ -28,7 +28,7 @@ exports.add = function (req, res, next) {
 exports.update = function (req, res, next) {
   var team = ApiUtil.buildTeam(req);
   var oid = tools.trim(req.body._id);
-  var designerid = ApiUtil.getUserid(designerid);
+  var designerid = ApiUtil.getUserid(req);
 
   if (oid === '') {
     res.sendErrMsg('信息不完全');
