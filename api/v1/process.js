@@ -186,7 +186,6 @@ exports.start = function (req, res, next) {
   process.sections[6].end_at = DateUtil.add(process.sections[6].start_at,
     config.duration_60_jun_gong, f);
 
-  console.log(process);
   Process.newAndSave(process, function (err, process_indb) {
     if (err) {
       return next(err);
@@ -277,20 +276,140 @@ exports.deleteYsImage = function (req, res, next) {
 
 exports.reschedule = function (req, res, next) {
   var reschedule = ApiUtil.buildReschedule(req);
-
-  if (usertype === type.role_user) {
-    reschedule.status = type.process_item_status_reschedule_req_by_user;
-  } else if (usertype === type.role_designer) {
-    reschedule.status = type.process_item_status_reschedule_req_by_designer;
-  }
+  var usertype = ApiUtil.getUsertype(req);
+  reschedule.request_role = usertype;
+  reschedule.status = type.process_item_status_reschedule_req_new;
 
   Reschedule.newAndSave(reschedule, function (err, reschedule) {
     if (err) {
       return next(err);
     }
 
-    Process.updateStatus(reschedule.processid, reschedule.section, null,
-      reschedule.status,
+    if (reschedule) {
+      Process.updateStatus(reschedule.processid, reschedule.section, null,
+        reschedule.status,
+        function (err) {
+          if (err) {
+            return next(err);
+          }
+
+          res.sendSuccessMsg();
+        });
+    } else {
+      res.sendErrMsg('无法保存成功');
+    }
+  });
+};
+
+exports.listReschdule = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var usertype = ApiUtil.getUsertype(req);
+  var query = {};
+
+  if (usertype === type.role_user) {
+    query.userid = userid;
+  } else if (usertype === type.role_designer) {
+    query.designerid = userid;
+  }
+
+  Reschedule.findByQueryAndProjectAndOption(query, {}, {}, function (err,
+    reschedules) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendData(reschedules);
+  });
+}
+
+exports.okReschedule = function (req, res, next) {
+  var usertype = ApiUtil.getUsertype(req);
+  var query = {};
+  var userid = ApiUtil.getUserid(req);
+  query.processid = req.body.processid;
+
+  if (usertype === type.role_user) {
+    query.userid = userid;
+  } else if (usertype === type.role_designer) {
+    query.designerid = userid;
+  }
+
+  Reschedule.updateOneByQueryAndOption(query, {
+    status: type.process_item_status_reschedule_ok
+  }, {
+    sort: {
+      request_date: -1,
+    }
+  }, function (err, reschedule) {
+    if (err) {
+      return next(err);
+    }
+
+    if (!reschedule) {
+      return res.sendErrMsg('改期不存在');
+    }
+
+    var newDate = reschedule.new_date;
+    var index = _.indexOf(type.process_work_flow, reschedule.section);
+    Process.getProcessById(reschedule.processid, function (err, process) {
+      if (err) {
+        return next(err);
+      }
+
+      if (process) {
+        if (process.sections[index].start_at >= newDate) {
+          res.sendErrMsg('无法改期到比开始还早');
+        } else {
+          var diff = newDate - process.sections[index].end_at;
+          process.sections[index].end_at = newDate;
+          for (var i = index + 1; i < process.sections.length; i++) {
+            process.sections[i].start_at += diff;
+            process.sections[i].end_at += diff;
+          }
+
+          process.save(function (err) {
+            if (err) {
+              return next(err);
+            }
+
+            res.sendSuccessMsg();
+          });
+        }
+      } else {
+        res.sendErrMsg('工地不存在');
+      }
+    });
+  });
+}
+
+exports.rejectReschedule = function (req, res, next) {
+  var usertype = ApiUtil.getUsertype(req);
+  var query = {};
+  var userid = ApiUtil.getUserid(req);
+  query.processid = req.body.processid;
+
+  if (usertype === type.role_user) {
+    query.userid = userid;
+  } else if (usertype === type.role_designer) {
+    query.designerid = userid;
+  }
+
+  Reschedule.updateOneByQueryAndOption(query, {
+    status: type.process_item_status_reschedule_reject
+  }, {
+    sort: {
+      request_date: -1,
+    },
+  }, function (err, reschedule) {
+    if (err) {
+      return next(err);
+    }
+
+    if (!reschedule) {
+      return res.sendErrMsg('改期不存在');
+    }
+
+    Process.updateStatus(query.processid, reschedule.section, null, type.process_item_status_reschedule_reject,
       function (err) {
         if (err) {
           return next(err);
@@ -299,7 +418,7 @@ exports.reschedule = function (req, res, next) {
         res.sendSuccessMsg();
       });
   });
-};
+}
 
 exports.doneItem = function (req, res, next) {
   var section = tools.trim(req.body.section);

@@ -15,6 +15,9 @@ var RescheduleSchema = new Schema({
   section: {
     type: String,
   },
+  request_role: {
+    type: String,
+  },
   request_date: {
     type: Number,
   },

@@ -167,7 +167,7 @@ exports.buildProcess = function (req) {
 
 exports.buildReschedule = function (req) {
   var reschedule = {};
-  reschedule.processid = new ObjectId(ools.trim(req.body.processid));
+  reschedule.processid = new ObjectId(tools.trim(req.body.processid));
   reschedule.userid = new ObjectId(tools.trim(req.body.userid));
   reschedule.designerid = new ObjectId(tools.trim(req.body.designerid));
   reschedule.section = tools.trim(req.body.section);

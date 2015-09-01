@@ -58,6 +58,10 @@ router.post('/process/image', auth.normalUserRequired, process.addImage); //上�
 router.get('/process/:_id', auth.normalUserRequired, process.getOne); //获取装修进度
 router.post('/process/comment', auth.normalUserRequired, process.addComment); //评论装修进度
 router.post('/process/done_item', auth.normalUserRequired, process.doneItem); //设置节点为已完成状态
+router.get('/process/reschedule/all', auth.normalUserRequired, process.listReschdule); //获取我的改期提醒
+router.post('/process/reschedule', auth.normalUserRequired, process.reschedule); //提交改期提醒
+router.post('/process/reschedule/ok', auth.normalUserRequired, process.okReschedule); //同意改期提醒
+router.post('/process/reschedule/reject', auth.normalUserRequired, process.rejectReschedule); //拒绝改期提醒
 
 //业主独有功能
 router.put('/user/info', auth.userRequired, user.updateInfo); //修改业主个人资料

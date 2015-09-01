@@ -86,12 +86,6 @@ exports.addComment = function (id, section, item, content, by, callback) {
   }, callback);
 };
 
-exports.getOneById = function (id, callback) {
-  Process.findOne({
-    _id: id,
-  }, callback);
-}
-
 exports.updateStatus = function (id, section, item, status, callback) {
   var index = _.indexOf(type.process_work_flow, section);
   var query = {};
