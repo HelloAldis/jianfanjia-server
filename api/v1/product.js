@@ -15,13 +15,17 @@ exports.add = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
   product.designerid = designerid;
 
-  Product.newAndSave(product, function (err) {
+  Product.newAndSave(product, function (err, product) {
     if (err) {
       return next(err);
     }
 
-    Designer.addProductCountForDesigner(designerid, 1);
-    res.sendSuccessMsg();
+    if (product) {
+      Designer.addProductCountForDesigner(designerid, 1);
+      res.sendSuccessMsg();
+    } else {
+      res.sendErrMsg('添加失败');
+    }
   });
 };
 
