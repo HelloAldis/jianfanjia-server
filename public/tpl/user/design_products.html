@@ -9,112 +9,75 @@
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
 	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
 	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
-	<style> 
-		.authed table{
-			width: 100%;
-			text-align: center;
-		}
-		.authed th{
-			line-height: 40px;
-			font-size: 16px;
-			background-color: #fafafa;
-		}
-		.authed th,.authed td{
-			border-bottom: 1px solid #e2e2e2;
-		}
-		.authed td{
-			line-height: 34px;
-			font-size: 14px;
-		}
-		.authed td.td5 a{
-			line-height: 34px;
-			color: #5494e4;
-		}
-		.authed td.td5 a i{
-			font-size: 24px;
-		}
-		.authed td.td5 a:hover{
-			text-decoration: none;
-			color: #0071ff;
-		}
-		.authed td.td6 a{
-			margin: 0 10px;
-			color: #666;
-		}
-		.authed td.td6 a i{
-			margin-right: 3px;
-		}
-		.authed td.td6 a:hover{
-			text-decoration: none;
-			color: #fe7004;
-		}
-		.authed .editor .iconfont{
-			color: #fc8c49;
-		}
-		.authed .delete .iconfont{
-			color: #666;
-		}
-		.authed .td1{width: 100px;}
-		.authed .td2{width: 50px;}
-		.authed .td3{width: 80px;}
-		.authed .td4{width: 300px;}
-		.authed .td5{width: 60px;}
-		.authed .td6{width: 160px;}
-	</style>
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/tdist.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
-	<script type="text/javascript" src="../../static/js/lib/page.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/jquery.uploadify-3.1.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/jquery.Huploadify.js"></script>
 </head>
 <body>
 	<div class="g-hd">
 		<div class="g-wp f-cb">
 			<div class="m-logo f-fl">
-				<h1><a href="../tpl/index/index.html">简繁家</a></h1>
+				<h1><a href="../index/index.html">简繁家</a></h1>
 			</div>
 			<div class="f-fr">
 				<div class="user" id="j-userLogin">
-					<a href="../tpl/user/login.html">登录</a>/<a href="../tpl/user/reg.html">注册</a>
+					<a href="../user/login.html">登录</a>/<a href="../user/reg.html">注册</a>
 				</div>
 				<ul class="m-nav f-fl">
-					<li class="active"><a href="../tpl/index/index.html">首页</a></li>
-					<li><a href="../tpl/design/index.html">设计师</a></li>
-					<li><a href="../tpl/live/index.html">装修直播</a></li>
-					<li><a href="../tpl/merit/index.html">为什么选简繁家</a></li>
+					<li class="active"><a href="../index/index.html">首页</a></li>
+					<li><a href="../design/index.html">设计师</a></li>
+					<li><a href="../live/index.html">装修直播</a></li>
+					<li><a href="../merit/index.html">为什么选简繁家</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
 	<div class="g-wp g-user f-cb">
 		<div class="user-sd f-fl">
-			<h2>后台管理</h2>
+			<h2>我是设计师</h2>
 			<ul>
-				<li><a href="live.html">装修直播</a></li>
-				<li class="current"><a href="authed.html">设计师认证</a></li>
+				<li class="current"><a href="design.html">我的作品</a></li>
+				<li><a href="design_owner.html">我的业主</a></li>
+				<li><a href="design_scheme.html">业主方案</a></li>
+				<li><a href="design_need.html">我的收藏</a></li>
+				<li><a href="design_info.html">我的资料</a></li>
+				<li><a href="design_team.html">我的施工团队</a></li>
 			</ul>
 		</div>
-		<div class="user-mn f-fr">
+		<div class="user-mn f-fr" id="j-design">
 			<div class="m-tt">
-				<h3>设计师认证</h3>
+				<ul class="tabNav">
+					<li class="active"><a href="design_products.html">我的作品</a></li>
+					<li class="active"><a href="design.html">发布作品</a></li>
+				</ul>
 			</div>
-			<div class="m-ct">
-				<div class="authed" id="j-authed">
-					<table>
-						<thead>
-							<tr>
-								<th class="td1">姓名</th>
-								<th class="td2">性别</th>
-								<th class="td3">手机号码</th>
-								<th class="td4">所在地区</th>
-								<th class="td5">作品数</th>
-								<th class="td6">认证操作</th>
-							</tr>
-						</thead>
-						<tbody></tbody>
-					</table>
+			<div class="m-ct design">
+				<div class="tabBox">
+					<div class="listBox hide">
+						<div class="m-table">
+							<table>
+								<thead>
+									<tr>
+										<th class="td1">标题</th>
+										<th class="td2">住宅空间</th>
+										<th class="td3">风格</th>
+										<th class="td4">包工类型</th>
+										<th class="td5">预览</th>
+										<th class="td6">操作</th>	
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+						<div class="create">
+							<a href="" class="btn create-btn">添加作品</a>
+						</div>
+					</div>
 				</div>
-				<div class="m-page" id="j-page"></div>
 			</div>
-		</div>
+		</div>	
 	</div>
 	<div class="g-ft">
 		<div class="m-sitemap f-cb">
@@ -149,6 +112,6 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="../../static/js/test/authed.js"></script>
+	<script type="text/javascript" src="../../static/js/user/design.js"></script>
 </body>
 </html>

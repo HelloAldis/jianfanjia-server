@@ -44,7 +44,7 @@ $(function(){
 		$liveShow.html("");
 		var status = data.process.length-1;
 		var sList = '<div class="m-state"><div class="state-box"><div class="list f-cb">';
-		for (var i = 0; i < 7; i++) {
+		for (var i = 0; i < 7; i++){
 			if(i == status){
 				sList += '<div class="state active current"><div class="circle"></div><p>'+globalData.dec_flow[i]+'</p></div>'
 			}else if(i < status){

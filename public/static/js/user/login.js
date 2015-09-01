@@ -70,24 +70,30 @@ $(function(){
     })
     // 存储一个带7天期限的 cookie 
 	function saveUserInfo(){
-		var userName = decodeURIComponent(mobile.val()); 
-		var passWord = decodeURIComponent(pass.val());
-		if (save.is(":checked")) { 
-			$.cookie("rmbUser", "true",  7 ); 
-			$.cookie("userPhone", userName, 7 ); 
-			$.cookie("passWord", passWord,  7 ); 
-			$('#error-info').removeClass('hide').html(emptyMsg['login_tips']);
-		}else{ 
-			$.removeCookie("rmbUser"); 
-			$.removeCookie("userPhone"); 
-			$.removeCookie("passWord"); 
-			$('#error-info').addClass('hide').html('');
-		} 
+
+		if($.trim(mobile.val()) != "" && $.trim(pass.val()) != ""){
+			var userName = encodeURI(mobile.val()); 
+			var passWord = encodeURI(pass.val());
+			if (save.is(":checked")) { 
+				$.cookie("rmbUser", "true",  7 ); 
+				$.cookie("userPhone", userName, 7 ); 
+				$.cookie("passWord", passWord,  7 ); 
+				$('#error-info').removeClass('hide').html(emptyMsg['login_tips']);
+			}else{ 
+				$.removeCookie("rmbUser"); 
+				$.removeCookie("userPhone"); 
+				$.removeCookie("passWord"); 
+				$('#error-info').addClass('hide').html('');
+			} 
+			$('#error-info').html('').addClass('hide');
+		}else{
+			$('#error-info').html('请先填写账号密码').removeClass('hide');	
+		}
 	}
 	//记住密码
 	if(!$.cookie("rmbUser") == null || $.cookie("rmbUser")){
-		mobile.val(encodeURIComponent($.cookie("userName")));
-		pass.val(encodeURIComponent($.cookie("passWord")));
+		mobile.val(decodeURI($.cookie("userPhone")));
+		pass.val(decodeURI($.cookie("passWord")));
 		save.attr("checked","checked");
 	}
 	$('#form-login').submit(function(){

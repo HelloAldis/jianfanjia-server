@@ -18,17 +18,17 @@
 	<div class="g-hd">
 		<div class="g-wp f-cb">
 			<div class="m-logo f-fl">
-				<h1><a href="../index/index.html">简繁家</a></h1>
+				<h1><a href="../tpl/index/index.html">简繁家</a></h1>
 			</div>
 			<div class="f-fr">
 				<div class="user" id="j-userLogin">
-					<a href="../user/login.html">登录</a>/<a href="../user/reg.html">注册</a>
+					<a href="../tpl/user/login.html">登录</a>/<a href="../tpl/user/reg.html">注册</a>
 				</div>
 				<ul class="m-nav f-fl">
-					<li class="active"><a href="../index/index.html">首页</a></li>
-					<li><a href="../design/index.html">设计师</a></li>
-					<li><a href="../live/index.html">装修直播</a></li>
-					<li><a href="../merit/index.html">为什么选简繁家</a></li>
+					<li class="active"><a href="../tpl/index/index.html">首页</a></li>
+					<li><a href="../tpl/design/index.html">设计师</a></li>
+					<li><a href="../tpl/live/index.html">装修直播</a></li>
+					<li><a href="../tpl/merit/index.html">为什么选简繁家</a></li>
 				</ul>
 			</div>
 		</div>
@@ -47,7 +47,6 @@
 			</div>
 			<div class="m-ct">
 				<div class="w-form user-form">
-							<form action="http://www.jianfanjia.com" id="decoration-live" method="get">
 								<div class="m-item f-cb">
 									<div class="item">
 										<label class="u-lab" for="decoration-phone">设计师查询：</label>
@@ -232,7 +231,6 @@
 										<input type="submit" class="btn" id="login-submit" value="发布" />
 									</div>
 								</div>
-							</form>
 						</div>		
 			</div>
 		</div>
@@ -353,7 +351,7 @@
 		return date.getTime();
 	}
 	//发布装修直播
-	$('#decoration-live').on('submit',function(){
+	$('#login-submit').on('click',function(){
 		var url = RootUrl+'api/v1/share';
 		var aPreviewsItem = $('#j-file-list').find('.previews-item');
 		var images = []
