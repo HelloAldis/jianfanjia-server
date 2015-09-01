@@ -122,8 +122,24 @@
 	}
 	getFavorite()
 	function createInfo(data){
+		var url = RootUrl+'api/v1/designer/'+data.designerid+'/basicinfo';
+		var imgID = '';
+		var userNamer = ''
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			async : false,
+			success: function(res){	
+				if(res['data'] != null){
+					imgID = !!res['data'].imageid ? RootUrl+'api/v1/image/'+res['data'].imageid : '../../static/img/public/headpic.jpg';
+					userNamer = !!res['data'].username ? !!res['data'].username : "";
+				}
+		   	}
+		});
 		var info = '<div class="head">'
-						+'<img src="../../img/design/index-live-head-01.jpg" alt="" />'
+						+'<img src="'+imgID+'" alt="'+userNamer+'" />'
 					+'</div>'
 					+'<h2>'+data.cell+'</h2>'
 					+'<p>参考造价：<strong>'+data.total_price+'</strong>万元<span>|</span>户型：'+globalData.house_type[data.house_type]+'<span>|</span>面积：'+data.house_area+'m&sup2;</p>'

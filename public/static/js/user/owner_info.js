@@ -13,9 +13,8 @@
 				$ownerArea.empty()
 				if(data !== null){
 					$('#owner-name').val(data.username || "");
-					$('#owner-mobile').val(data.phone || "");
 					$('#owner-addr').val(data.address || "");
-					
+					$('#owner-phone').html(data.phone);
 					if(!!data.sex){
 						$('#owner-sex').find('input[value='+data.sex+']').attr('checked','checked');
 					}
@@ -78,10 +77,10 @@
 			processData : false,
 			cache : false,
 			success: function(res){
-				if(res['msg'] === "success"){
-					loadList()
+				if(res["msg"] == "success"){
+					promptMessage('保存成功',"success")
 					userLocation.val(userProv+" "+userCity+" "+userDist);
-					alert('保存成功')
+					loadList();
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');
 				}

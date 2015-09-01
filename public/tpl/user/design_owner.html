@@ -127,6 +127,7 @@
 				$btns  = $item.find('.btns'),
 				$phone = $item.find('.phone'),
 				$time  = $item.find('.time');
+
 			$.ajax({
 					url:url,
 					type: 'POST',
@@ -134,7 +135,7 @@
 					dataType: 'json',
 					data : JSON.stringify({
 						"userid": uid,
-  						"house_check_time": new Date()
+  						"house_check_time": (new Date()).getTime()
 					}),
 					processData : false,
 					success: function(res){

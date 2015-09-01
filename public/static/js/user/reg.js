@@ -66,16 +66,19 @@ $(function(){
             return false;
         }
     }
-    function checkRoles(){    //注册协议验证
-        status.find('input').each(function(index, el) {
-            if($(el).is(":checked")){
-                check_step--;
-                status.find('.tips-info').addClass('hide').html("")
-                return false;
-            }
+    function checkRoles(){    //选择身份
+        if(status.find('input').eq(0).is(":checked")){
+            check_step--;
+            status.find('.tips-info').addClass('hide').html("")
+            return false;
+        }else if(status.find('input').eq(1).is(":checked")){
+            check_step--;
+            status.find('.tips-info').addClass('hide').html("")
+            return false;
+        }else{
             status.find('.tips-info').removeClass('hide').html(errMsg["reg_status"])
             return false;
-        });
+        } 
     }
     //显示验证信息
    	function showError(obj,id, msg) {
