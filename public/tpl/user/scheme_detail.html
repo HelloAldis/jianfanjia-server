@@ -252,8 +252,6 @@
 		$title.html(title);
 		$desc.html(data.description || "暂无方案描述");
 		$casepic.html(casepic);
-		
-		
 		if(data.comments.length){
 			var info = getInfo(data.comments)
 			page(data.comments.reverse(),info)
@@ -287,7 +285,7 @@
 														+'<dd>预约</dd>'
 													+'</dl>'
 												+'</div>'
-						$schemeDesign.html(schemeDesign)
+					$schemeDesign.html(schemeDesign)
 				}
 		   	}
 		});
@@ -311,13 +309,14 @@
 		$itemTbody.html(str)
 	}
 	function createList(data,info){
-		var img = info.imageid === "" ? '../../static/img/public/headpic.jpg' : RootUrl+'api/v1/image/'+info.imageid
+		console.log(info)
+		//var img = info.imageid === "" ? '../../static/img/public/headpic.jpg' : RootUrl+'api/v1/image/'+info.imageid
 		return  '<li>'
 					+'<div class="pic">'
-						+'<img src="'+img+'" alt="" />'
+						//+'<img src="'+img+'" alt="" />'
 					+'</div>'
 					+'<h4>'
-						+'<strong>'+info.username+'</strong>'
+						//+'<strong>'+info.username+'</strong>'
 						+'<span>'+timeFormat(data.date)+'</span>'
 						+'<a href="javascript:;" class="reply-btn"><i class="iconfont">&#xe612;</i>回复</a>'
 					+'</h4>'

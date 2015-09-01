@@ -223,6 +223,7 @@ $(function(){
 				if(data != null){
 					desName.val(data.username);
 					desAddr.val(data.address);
+					$('#design-phone').html(data.phone);
 					desSex.find('input[value='+data.sex+']').attr('checked','checked');
 					desUid.val(data.uid)
 					if(!!data.province){

@@ -126,7 +126,7 @@ $(function(){
     	checkYear();
     })
     function addTeam(){
-    	$teamSubmit.val('创建');
+    	$teamSubmit.html('创建');
 		$teamSubmit.on('click',function(){
 			check_step = 6;
 	    	checkName();
@@ -179,7 +179,7 @@ $(function(){
 		})
 	}
 	function editorTeam(id){
-		$teamSubmit.val('编辑');
+		$teamSubmit.html('编辑');
 		$teamSubmit.on('click',function(){
 			check_step = 6;
 	    	checkName();
@@ -242,12 +242,6 @@ $(function(){
 		})
 	}
 	function clearTeam(){
-		checkName();
-    	checkSex();
-    	checkUid();
-    	checkCom();
-    	checkWorking();
-    	checkYear()
 		$temaName.val("");
 		$temaSex.find('input:checked').attr('checked', '');
 		 $tameUid.val("");
