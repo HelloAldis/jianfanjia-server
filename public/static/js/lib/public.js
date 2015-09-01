@@ -130,18 +130,21 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 }));
 window.username = $.cookie("username");
 window.usertype = $.cookie("usertype");
-
-
-
-
-
-
-
-
-
-
-
-
+//消息提示框
+function promptMessage(str,msg){
+	var $win = $(window);
+	var $body = $(document.body);
+	var $promptBox = $('<div class="k-prompt"><h3>消息提示</h3><p class="'+msg+'">'+str+'</p></div>');
+	$body.append($promptBox)
+	var top = ($win.height()-$promptBox.outerHeight())/2;
+	$promptBox.stop().animate({top:top,opacity:1},function(){
+		setTimeout(function(){
+            $promptBox.stop().fadeToggle('slow',0,function(){
+            	$promptBox.remove();
+            })
+		}, 3000)
+	});
+}
 /*
 	下拉选择框插件
 	3个参数：
@@ -164,12 +167,13 @@ window.usertype = $.cookie("usertype");
 				list : [],
 				btn : true,
 				editor : false,
-				index : false
-			},options || {})
+				index : false,
+				query : 0
+			},options || {});
 			this.selectBox = $('#'+this.settings.id);
-			this.input = $('<input type="hidden" name="'+this.settings.id+'" value="'+(this.settings.index ? "0" : this.settings.list[0])+'" />');
-			this.option = $('<div class="option"><span class="value">'+this.settings.list[0]+'</span>'+(this.settings.btn?'<span class="arrow"><em></em><i></i></span>':'')+'</div>');
-			this.editor = $('<div class="editor"><input class="value" name="'+this.settings.id+'" value="'+this.settings.list[0]+'" />'+(this.settings.btn?'<span class="arrow"><em></em><i></i></span>':'')+'</div>');
+			this.input = $('<input type="hidden" name="'+this.settings.id+'" value="'+(this.settings.index ? "0" : this.settings.list[this.settings.query])+'" />');
+			this.option = $('<div class="option"><span class="value">'+this.settings.list[this.settings.query]+'</span>'+(this.settings.btn?'<span class="arrow"><em></em><i></i></span>':'')+'</div>');
+			this.editor = $('<div class="editor"><input class="value" name="'+this.settings.id+'" value="'+this.settings.list[this.settings.query]+'" />'+(this.settings.btn?'<span class="arrow"><em></em><i></i></span>':'')+'</div>');
 			this.createList(this.settings.list);
 			if(this.settings.editor){
 				this.selectBox.append(this.editor);

@@ -21,41 +21,9 @@ $(function(){
 		fnToggle(1)
 		return false;
 	})
-	//删除
-	$design.delegate('.delete','click',function(ev){
-		ev.preventDefault();
-		if($list.find('tr').size() < 2){
-			alert('至少保留一个作品')
-			return false;
-		}
-		if(confirm("你确定要删除吗？删除不能恢复")){
-			var oDl = $(this).closest('tr');
-			var uidName = oDl.data('uid');
-			oDl.remove();
-			var url = RootUrl+'api/v1/designer/product';
-			$.ajax({
-				url:url,
-				type: 'DELETE',
-				contentType : 'application/json; charset=utf-8',
-				dataType: 'json',
-				data : JSON.stringify({
-					"_id" : uidName
-				}),
-				processData : false,
-				success: function(res){
-					if(res["msg"] == "success"){
-						alert('删除成功')
-						loadList();
-					}else{
-						alert('删除失败')
-					}
-			   	}
-			});
-		}
-	})
 	var $productArea = $('#product-area');
 	//发布作品
-	$('#design-product').on('submit',function(){
+	$('#login-submit').on('click',function(){
 		var url = RootUrl+'api/v1/designer/product';
 		var aPreviewsItem = $('#j-file-list').find('.previews-item');
 		var images = []
@@ -80,7 +48,20 @@ $(function(){
 			var userCity = sCity;
 			var userDist = sDist;
 		}
-		console.log(images);
+		console.log({
+				"province":sProv,
+				"city":sCity,
+				"district":sDist,
+			  	"cell": $('#product_name').val(),
+			  	"house_type":$('#product-house-type').find('input').val(),
+			  	"house_area": parseInt($('#product-dec-area').val()),
+			  	"dec_type":$('#product-dec-type').find('input').val(),
+			  	"dec_style":$('#product-dec-style').find('input').val(),
+			  	"work_type":$('#product-work-type').find('input').val(),
+			  	"total_price":parseInt($('#product-price').val()),
+			  	"description" : $('#product-description').val(),
+			  	"images" : images
+			})
 		$.ajax({
 			url:url,
 			type: 'POST',
@@ -93,7 +74,8 @@ $(function(){
 			  	"cell": $('#product_name').val(),
 			  	"house_type":$('#product-house-type').find('input').val(),
 			  	"house_area": parseInt($('#product-dec-area').val()),
-			  	"dec_style":$('#product-dec-type').find('input').val(),
+			  	"dec_type":$('#product-dec-type').find('input').val(),
+			  	"dec_style":$('#product-dec-style').find('input').val(),
 			  	"work_type":$('#product-work-type').find('input').val(),
 			  	"total_price":parseInt($('#product-price').val()),
 			  	"description" : $('#product-description').val(),
@@ -102,63 +84,68 @@ $(function(){
 			processData : false,
 			success: function(res){
 				console.log(res)
-				loadList();
 		   	}
 		});
 		return false;
 	});
-	//编辑
-	$design.delegate('.editor','click',function(ev){
-		ev.preventDefault();
-		var oDl = $(this).closest('tr');
-		var uidName = oDl.data('uid');
-		var url = RootUrl+'api/v1/product/'+uidName;
+	//获取数据
+	function loadList(){
+		var url = RootUrl+'api/v1/product/'+window.location.search.substring(1);
 		$.ajax({
 			url:url,
 			type: 'GET',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				var data = res['data'];
-				console.log(res['data'])
-				$productArea.empty()
-				if(data !== null){
-					$('#login-submit').val('保存编辑');
-					$('#product_name').val(data.username || "");
-					$('#product-description').val(data.description || "");
-					$('#owner-addr').val(data.address || "");
-					if(!!data.province){
-						var designAreaQuery = data.province+" "+data.city+" "+data.district;
-						$productArea.find('input[name=product-area]').val(designAreaQuery)
-						var productArea = new CitySelect({id :'product-area',"query":designAreaQuery});
-					}else{
-						$$productArea.find('input[name=product-area]').val("")
-						var $productArea = new CitySelect({id :'product-area'});
-					}
-					var str = '';
-					for (var i = 0,len = images.length; i < len; i++) {
-						str += '<div class="previews-item" data-imgid="'+images[i].imageid+'">'
-								+'<span class="close"></span>'
-								+'<div class="pic">'
-								+'<img class="img" src="'+RootUrl+'api/v1/image/'+images[i].imageid+'" alt="" />'
-								+'</div>'
-								+'<div class="m-select" id="itme_type'+i+'"></div>'
-								+'<div class="textarea"><textarea name="itme_con" cols="30" rows="10">'+images[i].description+'</textarea></div>'
-								+'</div>'
-					};
-					$('#j-file-list').append(str)
-					for (var i = 0,len = images.length; i < len; i++) {
-						var itme_type = new ComboBox({
-							id : 'itme_type'+i,
-							list : itme_typeArr,
-							editor : true
-						});
-					}
-					fnToggle(1)
-				}else{
-					var ownerArea = new CitySelect({id :'product-area'});
-				}
-		   	}
-		});
-	})
+				editorData(res['data'])
+			}
+		})
+	}
+	loadList()
+	var $productArea = $('#product-area');
+	function editorData(data){
+		console.log(data)
+		$productArea.empty();
+		if(!!data.province){
+			var sProductArea = data.province+" "+data.city+" "+data.district;
+			$productArea.find('input[name=product-area]').val(sProductArea)
+			var productArea = new CitySelect({id :'product-area',"query":sProductArea});
+		}else{
+			$productArea.find('input[name=product-area]').val("")
+			var productArea = new CitySelect({id :'product-area'});
+		}
+		$('#login-submit').val('保存编辑');
+		$('#product_name').val(data.cell || "");
+		$('#product-house-type').find('.value').html(globalData["house_type"][data.house_type]);
+		$('#product-house-type').find('input').val(data.house_type);
+		$('#product-dec-area').val(data.house_area);
+		$('#product-dec-style').find('.value').html(globalData["dec_style"][data.dec_style]);
+		$('#product-dec-style').find('input').val(data.dec_style);
+		$('#product-dec-type').find('.value').html(globalData["dec_type"][data.work_type]);
+		$('#product-dec-type').find('input').val(data.work_type);
+		$('#product-work-type').find('.value').html(globalData["work_type"][data.work_type]);
+		$('#product-work-type').find('input').val(data.work_type);
+		$('#product-description').val(data.description);
+		$('#product-price').val(data.total_price);
+		var str = '';
+		for (var i = 0,len = data.images.length; i < len; i++) {
+			str += '<div class="previews-item" data-imgid="'+data.images[i].imageid+'">'
+					+'<span class="close"></span>'
+					+'<div class="pic">'
+					+'<img class="img" src="'+RootUrl+'api/v1/image/'+data.images[i].imageid+'" alt="" />'
+					+'</div>'
+					+'<div class="m-select" id="itme_type'+i+'"></div>'
+					+'<div class="textarea"><textarea name="itme_con" cols="30" rows="10">'+data.images[i].description+'</textarea></div>'
+					+'</div>'
+		};
+		$('#j-file-list').append(str)
+		for (var i = 0,len = data.images.length; i < len; i++) {
+			var itme_type = new ComboBox({
+				id : 'itme_type'+i,
+				list : itme_typeArr,
+				editor : true,
+				query : $.inArray(data.images[i].section,itme_typeArr)
+			});
+		}
+	}
 })

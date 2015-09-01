@@ -99,6 +99,39 @@ table{border-collapse:collapse;border-spacing:0}
     border-radius: 50px;
 }
 /*组件  widget********************************************************/
+/*消息提示框*/
+.k-prompt{
+	position: fixed;
+	left:50%;
+	width: 300px;
+	margin-left: -151px;
+	background-color: #fff;
+	border: 2px solid #dcdcdc;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 0px 11px rgba(0,0,0,0.25);
+	-moz-box-shadow: 0px 0px 11px rgba(0,0,0,0.25);
+	box-shadow: 0px 0px 11px rgba(0,0,0,0.25);
+}
+.k-prompt h3{
+	height: 40px;
+	line-height: 40px;
+	font-size: 14px;
+	color: #333;
+	padding-left: 20px;
+	border-bottom: 1px solid #dcdcdc;
+}
+.k-prompt p{
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	font-size: 24px;
+}
+.k-prompt .success{
+	color: #28b726;
+}
+.k-prompt .error{
+	color: #d92222;
+}
 /*表单组件*/
 .w-form{padding-right: 4px;}
 .w-form .m-item{padding-bottom: 15px;}
