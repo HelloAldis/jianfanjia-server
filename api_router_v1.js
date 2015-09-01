@@ -98,7 +98,7 @@ router.post('/designer/agree', auth.designerRequired, designer.agree); //提交�
 router.post('/process/ysimage', auth.designerRequired, process.addYsImage); //提交验收照片
 router.delete('/process/ysimage', auth.designerRequired, process.deleteYsImage); //删除验收照片
 router.get('/designer/process/list', auth.designerRequired, process.listForDesigner); //设计师获取装修工地列表
-router.post('/process/done_section', auth.normalUserRequired, process.doneSection); //对比验收完成
+router.post('/process/done_section', auth.designerRequired, process.doneSection); //对比验收完成
 
 //管理员独有的功能
 router.post('/admin/login', admin.login); //审核设计师

@@ -136,7 +136,7 @@ var designerPages = ['/design.html', '/design_agreement.html',
   '/design_info.html', '/design_need.html',
   '/design_offer.html', '/design_owner.html',
   '/design_scheme.html', '/design_team.html',
-  '/design_upload.html'
+  '/design_upload.html', '/design_products.html'
 ];
 var userPages = ['/owner.html', '/owner_design.html',
   '/owner_info.html', '/owner_need.html',

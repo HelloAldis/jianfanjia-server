@@ -73,6 +73,7 @@ exports.buildProduct = function (req) {
   product.house_type = tools.trim(req.body.house_type);
   product.house_area = tools.trim(req.body.house_area);
   product.dec_style = tools.trim(req.body.dec_style);
+  product.dec_type = tools.trim(req.body.dec_type);
   product.work_type = tools.trim(req.body.work_type);
   product.total_price = tools.trim(req.body.total_price);
   product.description = tools.trim(req.body.description);

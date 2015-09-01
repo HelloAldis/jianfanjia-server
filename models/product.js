@@ -21,6 +21,9 @@ var ProductSchema = new Schema({
   house_type: {
     type: String
   },
+  dec_type: {
+    type: String,
+  },
   house_area: {
     type: Number
   },
