@@ -137,7 +137,6 @@ $(function(){
 		if(confirm("你确定要删除吗？删除不能恢复")){
 			var oDl = $(this).closest('dl');
 			var uidName = oDl.data('uid');
-			oDl.remove();
 			var url = RootUrl+'api/v1/designer/team';
 			$.ajax({
 				url:url,
@@ -149,6 +148,7 @@ $(function(){
 				}),
 				processData : false,
 				success: function(res){
+					if(res['msg'] == )
 					loadList();
 			   	}
 			});
