@@ -23,7 +23,7 @@ $(function(){
 	})
 	var $productArea = $('#product-area');
 	//发布作品
-	$('#login-submit').on('click',function(){
+/*	$('#login-submit').on('click',function(){
 		var url = RootUrl+'api/v1/designer/product';
 		var aPreviewsItem = $('#j-file-list').find('.previews-item');
 		var images = []
@@ -87,7 +87,7 @@ $(function(){
 		   	}
 		});
 		return false;
-	});
+	});*/
 	//获取数据
 	function loadList(){
 		var url = RootUrl+'api/v1/product/'+window.location.search.substring(1);
@@ -147,5 +147,70 @@ $(function(){
 				query : $.inArray(data.images[i].section,itme_typeArr)
 			});
 		}
+		$('#login-submit').on('click',function(){
+			var url = RootUrl+'api/v1/designer/product';
+			var aPreviewsItem = $('#j-file-list').find('.previews-item');
+			var images = []
+			aPreviewsItem.each(function(i,el){
+				images.push({
+					"section":$(el).find('.value').data('val'),
+				    "imageid":$(el).data('imgid'),
+				    "description":$(el).find('textarea').val()
+				})
+			})
+			var sProv = $productArea.find('input[name=product-area0]').val()
+			var sCity = $productArea.find('input[name=product-area1]').val()
+			var sDist = $productArea.find('input[name=product-area2]').val()
+			var userLocation = $productArea.find('input[name=product-area]');
+			if(!!userLocation.val()){
+				var userArr = userLocation.val().split(" ");
+				var userProv = userArr[0];
+				var userCity = userArr[1];
+				var userDist = userArr[2];
+			}else{
+				var userProv = sProv;
+				var userCity = sCity;
+				var userDist = sDist;
+			}
+			console.log({
+					"province":sProv,
+					"city":sCity,
+					"district":sDist,
+				  	"cell": $('#product_name').val(),
+				  	"house_type":$('#product-house-type').find('input').val(),
+				  	"house_area": parseInt($('#product-dec-area').val()),
+				  	"dec_type":$('#product-dec-type').find('input').val(),
+				  	"dec_style":$('#product-dec-style').find('input').val(),
+				  	"work_type":$('#product-work-type').find('input').val(),
+				  	"total_price":parseInt($('#product-price').val()),
+				  	"description" : $('#product-description').val(),
+				  	"images" : images
+				})
+			$.ajax({
+				url:url,
+				type: 'POU',
+				contentType : 'application/json; charset=utf-8',
+				dataType: 'json',
+				data : JSON.stringify({
+					"province":sProv,
+					"city":sCity,
+					"district":sDist,
+				  	"cell": $('#product_name').val(),
+				  	"house_type":$('#product-house-type').find('input').val(),
+				  	"house_area": parseInt($('#product-dec-area').val()),
+				  	"dec_type":$('#product-dec-type').find('input').val(),
+				  	"dec_style":$('#product-dec-style').find('input').val(),
+				  	"work_type":$('#product-work-type').find('input').val(),
+				  	"total_price":parseInt($('#product-price').val()),
+				  	"description" : $('#product-description').val(),
+				  	"images" : images
+				}),
+				processData : false,
+				success: function(res){
+					console.log(res)
+			   	}
+			});
+			return false;
+		});
 	}
 })

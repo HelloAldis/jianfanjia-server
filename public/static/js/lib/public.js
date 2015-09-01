@@ -142,7 +142,7 @@ function promptMessage(str,msg){
             $promptBox.stop().fadeToggle('slow',0,function(){
             	$promptBox.remove();
             })
-		}, 3000)
+		}, 2000)
 	});
 }
 /*

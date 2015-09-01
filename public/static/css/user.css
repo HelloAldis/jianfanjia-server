@@ -745,7 +745,7 @@
 	font-size: 14px;
 	line-height: 36px;
 }
-.design_team dd span{
+.design_team dd .key{
 	display: inline-block;
 	width: 120px;
 }

@@ -129,12 +129,19 @@ $(function(){
         }
         return showError(desName,id);
     }
-    function checkSex(){    //性别验证
-     	var id = "reg_sex";
-        if (desSex.find('input').is(":checked")){
-            return showOk(desSex,true);
-        }
-        return showError(desSex,id);
+    function checkSex(){    //性别
+        if(desSex.find('input').eq(0).is(":checked")){
+            check_step--;
+            desSex.find('.tips-info').addClass('hide').html("")
+            return false;
+        }else if(desSex.find('input').eq(1).is(":checked")){
+        	check_step--;
+            desSex.find('.tips-info').addClass('hide').html("")
+            return false;
+        }else{
+        	desSex.find('.tips-info').removeClass('hide').html(errMsg["reg_sex"])
+        	return false;
+        } 
     }
     function checkAddr(){    //邮寄地址验证
      	var id = "reg_addr";
