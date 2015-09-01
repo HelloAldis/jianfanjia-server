@@ -55,7 +55,8 @@ exports.get = function (req, res, next) {
 
     if (image) {
       res.writeHead(200, {
-        'Content-Type': 'image/jpeg'
+        'Content-Type': 'image/jpeg',
+        'Cache-Control': 'max-age=315360000'
       });
       res.write(image.data);
       res.end();
