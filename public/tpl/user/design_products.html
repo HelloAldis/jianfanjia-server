@@ -38,7 +38,7 @@
 		<div class="user-sd f-fl">
 			<h2>我是设计师</h2>
 			<ul>
-				<li class="current"><a href="design.html">我的作品</a></li>
+				<li class="current"><a href="design_products.html">我的作品</a></li>
 				<li><a href="design_owner.html">我的业主</a></li>
 				<li><a href="design_scheme.html">业主方案</a></li>
 				<li><a href="design_need.html">我的收藏</a></li>
@@ -50,12 +50,12 @@
 			<div class="m-tt">
 				<ul class="tabNav">
 					<li class="active"><a href="design_products.html">我的作品</a></li>
-					<li class="active"><a href="design.html">发布作品</a></li>
+					<li><a href="design.html">发布作品</a></li>
 				</ul>
 			</div>
 			<div class="m-ct design">
 				<div class="tabBox">
-					<div class="listBox hide">
+					<div class="listBox">
 						<div class="m-table">
 							<table>
 								<thead>
@@ -72,7 +72,7 @@
 							</table>
 						</div>
 						<div class="create">
-							<a href="" class="btn create-btn">添加作品</a>
+							<a href="design.html" class="btn create-btn">添加作品</a>
 						</div>
 					</div>
 				</div>
@@ -112,6 +112,68 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="../../static/js/user/design.js"></script>
 </body>
 </html>
+<script type="text/javascript">
+	var $design = $('#j-design'),
+		$list = $design.find('.m-table').find('tbody');
+	//渲染生成列表
+	function loadList(){
+		var url = RootUrl+'api/v1/designer/product';
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function(res){
+				console.log(res['data'])
+				if(res['data'].length == 0 || res['data'].length < 1){
+					fnToggle(1)
+					$aLi.eq(0).hide();
+				}else{
+					fnToggle(0)
+					$aLi.eq(0).show();
+					createList(res['data'])
+				}
+		   	}
+		});
+	};
+	//创建列表
+	function createList(data){
+		$list.html('');
+		var sLi = '';
+		for (var i = 0,len = data.length; i < len; i++) {
+			sLi += '<tr data-uid="'+data[i]._id+'">'
+						+'<td class="td1">'+data[i].cell+'</td>'
+						+'<td class="td2">'+globalData.house_type[data[i].house_type]+'</td>'
+						+'<td class="td3">'+globalData.dec_style[data[i].dec_style]+'</td>'
+						+'<td class="td4">'+globalData.work_type[data[i].work_type]+'</td>'
+						+'<td class="td5">'
+							+'<a href="../design/detail.html?'+data[i]._id+'"><i class="iconfont">&#xe60f;</i></a>'
+						+'</td>'
+						+'<td class="td6">'
+							+'<a href="javascript:;" class="editor"><i class="iconfont">&#xe607;</i>编辑</a>'
+							+'<a href="javascript:;" class="delete"><i class="iconfont">&#xe611;</i>删除</a>'
+						+'</td>'
+					+'</tr>'
+		};
+		$list.html(sLi)
+	};
+	//删除作品列表图片
+	$design.delegate('.close','click',function(ev){
+		ev.preventDefault();
+
+		if($('#j-file-list').find('.previews-item').size() < 2){
+			alert('至少保留一个作品效果图')
+			return false;
+		}
+		if(confirm("你确定要删除吗？删除不能恢复")){
+			var oDl = $(this).closest('.previews-item');
+			oDl.remove();
+		}
+	});
+	$design.delegate('.editor','click',function(ev){
+		ev.preventDefault();
+	});
+	loadList()
+</script>

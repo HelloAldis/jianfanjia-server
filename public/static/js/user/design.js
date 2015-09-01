@@ -5,7 +5,6 @@ $(function(){
 		$aLi = $design.find('.tabNav').find('li'),
 		$oList = $design.find('.listBox'),
 		$createBtn = $design.find('.create-btn'),
-		$list = $design.find('.m-table').find('tbody'),
         itme_typeArr = ['客厅','卧室','卫生间','餐厅','书房','厨房','厨房','儿童房','阳台','衣帽间','玄关','过道','休闲区','花园','地下室','窗台','楼梯','阁楼'];
 		if(winHash != 'new'){
 			fnToggle(index)
@@ -21,65 +20,6 @@ $(function(){
 	$createBtn.on('click',function(){
 		fnToggle(1)
 		return false;
-	})
-	$design.delegate('.editor','click',function(ev){
-		ev.preventDefault();
-	})
-	//渲染生成列表
-	function loadList(){
-		var url = RootUrl+'api/v1/designer/product';
-		$.ajax({
-			url:url,
-			type: 'GET',
-			contentType : 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function(res){
-				console.log(res['data'])
-				if(res['data'].length == 0 || res['data'].length < 1){
-					fnToggle(1)
-					$aLi.eq(0).hide();
-				}else{
-					fnToggle(0)
-					$aLi.eq(0).show();
-					createList(res['data'])
-				}
-		   	}
-		});
-	}
-	loadList()
-	//创建列表
-	function createList(data){
-		$list.html('');
-		var sLi = '';
-		for (var i = 0,len = data.length; i < len; i++) {
-			sLi += '<tr data-uid="'+data[i]._id+'">'
-						+'<td class="td1">'+data[i].cell+'</td>'
-						+'<td class="td2">'+globalData.house_type[data[i].house_type]+'</td>'
-						+'<td class="td3">'+globalData.dec_style[data[i].dec_style]+'</td>'
-						+'<td class="td4">'+globalData.work_type[data[i].work_type]+'</td>'
-						+'<td class="td5">'
-							+'<a href="../design/detail.html?'+data[i]._id+'"><i class="iconfont">&#xe60f;</i></a>'
-						+'</td>'
-						+'<td class="td6">'
-							+'<a href="javascript:;" class="editor"><i class="iconfont">&#xe607;</i>编辑</a>'
-							+'<a href="javascript:;" class="delete"><i class="iconfont">&#xe611;</i>删除</a>'
-						+'</td>'
-					+'</tr>'
-		};
-		$list.html(sLi)
-	}
-	//删除作品列表图片
-	$design.delegate('.close','click',function(ev){
-		ev.preventDefault();
-
-		if($('#j-file-list').find('.previews-item').size() < 2){
-			alert('至少保留一个作品效果图')
-			return false;
-		}
-		if(confirm("你确定要删除吗？删除不能恢复")){
-			var oDl = $(this).closest('.previews-item');
-			oDl.remove();
-		}
 	})
 	//删除
 	$design.delegate('.delete','click',function(ev){
