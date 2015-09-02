@@ -20,8 +20,8 @@ exports.pushMessageToSingle = function (userid, playload) {
     data: new TransmissionTemplate({
       appId: config.APPID,
       appKey: config.APPKEY,
-      transmissionType: 1,
-      transmissionContent: playload,
+      transmissionType: 2,
+      transmissionContent: JSON.stringify(playload),
     }), //设置推送消息类型
   });
 

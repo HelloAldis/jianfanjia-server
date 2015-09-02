@@ -319,7 +319,7 @@ exports.reschedule = function (req, res, next) {
         }
 
         var json = buildMessage(usertype, user, designer,
-          reschedule, '向您提出了改期提醒, 希望可以将验收改期到');
+          reschedule, '向您提出了改期, 希望可以将验收改期到');
         // gt.pushMessageToSingle(json.id, {
         //   content: json.content,
         //   type: type.message_type_reschedule,
@@ -399,7 +399,7 @@ exports.okReschedule = function (req, res, next) {
         }
 
         var json = buildMessage(usertype, user, designer,
-          reschedule, '同意了您的改期提醒, 验收将改期到');
+          reschedule, '同意了您的改期, 验收将改期到');
         // gt.pushMessageToSingle(json.id, {
         //   content: json.content,
         //   type: type.message_type_reschedule,
@@ -489,7 +489,7 @@ exports.rejectReschedule = function (req, res, next) {
         }
 
         var json = buildMessage(usertype, user, designer,
-          reschedule, '拒绝了您的改期提醒, 无法改期到');
+          reschedule, '拒绝了您的改期, 无法改期到');
         // gt.pushMessageToSingle(json.id, {
         //   content: json.content,
         //   type: type.message_type_reschedule,
