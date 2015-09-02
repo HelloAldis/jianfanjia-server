@@ -44,6 +44,7 @@ house_type:
 3. 四居
 4. 复式
 5. 别墅
+6. 商业
 
 装修流程
 0. 开工
@@ -82,3 +83,6 @@ auth_type
 agreee_license
 0. 没有
 1. 有
+
+message_type
+0. 延期提醒

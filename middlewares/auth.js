@@ -153,7 +153,6 @@ exports.checkCookie = function (req, res, next) {
     }
   } else {
     //清空session
-    console.log('sdfsdfsdfsdfs');
     exports.clear_session(req, res);
   }
 

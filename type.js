@@ -76,6 +76,8 @@ var type = {
   process_an_zhuang_item_qzpt: 'qzpt',
   process_an_zhuang_item_mbdjaz: 'mbdjaz',
   process_an_zhuang_item_snzl: 'snzl',
+
+  message_type_reschedule: '0',
 }
 
 module.exports = type;

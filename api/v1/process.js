@@ -4,6 +4,7 @@ var User = require('../../proxy').User;
 var Reschedule = require('../../proxy').Reschedule;
 var Requirement = require('../../proxy').Requirement;
 var Process = require('../../proxy').Process;
+var Designer = require('../../proxy').Designer;
 var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
@@ -13,6 +14,7 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../type');
 var async = require('async');
+var gt = require('../../getui/gt.js');
 
 exports.start = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -274,11 +276,62 @@ exports.deleteYsImage = function (req, res, next) {
   });
 };
 
+function buildMessage(usertype, user, designer, reschedule, msg) {
+  var id = '';
+  var name = '';
+  if (usertype === type.role_user) {
+    name = user.username || user.phone;
+    name = '业主' + name;
+    id = designer._id;
+  } else if (usertype === type.role_designer) {
+    name = designer.username || designer.phone;
+    name = '设计师' + name;
+    id = user._id;
+  }
+  // var content = name + '向您提出了一个延期提醒, 希望可以延期到' + DateUtil.YYYY_MM_DD(
+  // reschedule.new_date);
+  var content = name + msg + DateUtil.YYYY_MM_DD(reschedule.new_date);
+
+  return {
+    id: id,
+    content: content
+  };
+}
+
 exports.reschedule = function (req, res, next) {
   var reschedule = ApiUtil.buildReschedule(req);
   var usertype = ApiUtil.getUsertype(req);
   reschedule.request_role = usertype;
   reschedule.status = type.process_item_status_reschedule_req_new;
+  var ep = eventproxy();
+
+  ep.fail(next);
+  ep.on('sendMessage', function () {
+    User.getUserById(reschedule.userid, function (err, user) {
+      if (err) {
+        return next(err);
+      }
+
+      Designer.getDesignerById(reschedule.designerid, function (err,
+        designer) {
+        if (err) {
+          return next(err);
+        }
+
+        var json = buildMessage(usertype, user, designer,
+          reschedule, '向您提出了改期提醒, 希望可以将验收改期到');
+        // gt.pushMessageToSingle(json.id, {
+        //   content: json.content,
+        //   type: type.message_type_reschedule,
+        // });
+        console.log(json.content);
+        gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
+          content: json.content,
+          type: type.message_type_reschedule,
+        });
+      });
+    });
+  });
 
   Reschedule.newAndSave(reschedule, function (err, reschedule) {
     if (err) {
@@ -294,11 +347,14 @@ exports.reschedule = function (req, res, next) {
           }
 
           res.sendSuccessMsg();
+          ep.emit('sendMessage');
         });
     } else {
       res.sendErrMsg('无法保存成功');
     }
   });
+
+
 };
 
 exports.listReschdule = function (req, res, next) {
@@ -327,6 +383,35 @@ exports.okReschedule = function (req, res, next) {
   var query = {};
   var userid = ApiUtil.getUserid(req);
   query.processid = req.body.processid;
+  var ep = eventproxy();
+
+  ep.fail(next);
+  ep.on('sendMessage', function (reschedule) {
+    User.getUserById(reschedule.userid, function (err, user) {
+      if (err) {
+        return next(err);
+      }
+
+      Designer.getDesignerById(reschedule.designerid, function (err,
+        designer) {
+        if (err) {
+          return next(err);
+        }
+
+        var json = buildMessage(usertype, user, designer,
+          reschedule, '同意了您的改期提醒, 验收将改期到');
+        // gt.pushMessageToSingle(json.id, {
+        //   content: json.content,
+        //   type: type.message_type_reschedule,
+        // });
+        console.log(json.content);
+        gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
+          content: json.content,
+          type: type.message_type_reschedule,
+        });
+      });
+    });
+  });
 
   if (usertype === type.role_user) {
     query.userid = userid;
@@ -373,6 +458,7 @@ exports.okReschedule = function (req, res, next) {
             }
 
             res.sendSuccessMsg();
+            ep.emit('sendMessage', reschedule)
           });
         }
       } else {
@@ -387,6 +473,35 @@ exports.rejectReschedule = function (req, res, next) {
   var query = {};
   var userid = ApiUtil.getUserid(req);
   query.processid = req.body.processid;
+  var ep = eventproxy();
+
+  ep.fail(next);
+  ep.on('sendMessage', function (reschedule) {
+    User.getUserById(reschedule.userid, function (err, user) {
+      if (err) {
+        return next(err);
+      }
+
+      Designer.getDesignerById(reschedule.designerid, function (err,
+        designer) {
+        if (err) {
+          return next(err);
+        }
+
+        var json = buildMessage(usertype, user, designer,
+          reschedule, '拒绝了您的改期提醒, 无法改期到');
+        // gt.pushMessageToSingle(json.id, {
+        //   content: json.content,
+        //   type: type.message_type_reschedule,
+        // });
+        console.log(json.content);
+        gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
+          content: json.content,
+          type: type.message_type_reschedule,
+        });
+      });
+    });
+  });
 
   if (usertype === type.role_user) {
     query.userid = userid;
@@ -416,6 +531,7 @@ exports.rejectReschedule = function (req, res, next) {
         }
 
         res.sendSuccessMsg();
+        ep.emit('sendMessage', reschedule);
       });
   });
 }
