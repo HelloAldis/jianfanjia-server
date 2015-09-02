@@ -10,7 +10,10 @@ $(function(){
 	var $close = $kPopup.find('.close');
 	var $teamCancel = $('#team-cancel');
 	var $teamSubmit = $('#team-submit');
+	var $teamEditor = $('#team-editor');
 	var check_step = 0;
+	var submitOff = true;
+	var editorOff = true;
 	//验证信息
 	var errMsg = {
         "reg_name": "请填写项目经理姓名",
@@ -126,8 +129,10 @@ $(function(){
     	checkYear();
     })
     function addTeam(){
-    	$teamSubmit.html('创建');
-		$teamSubmit.on('click',function(){
+		$teamSubmit.removeClass('hide');
+    	$teamEditor.addClass('hide');
+		$teamSubmit.on('click',function(event){
+			event.preventDefault();
 			check_step = 6;
 	    	checkName();
 	    	checkSex();
@@ -149,45 +154,50 @@ $(function(){
 			var teamProv = $tameHometown.find('input[name=tame-hometown0]').val();
 			var teamCity = $tameHometown.find('input[name=tame-hometown1]').val();
 			var teamDist = $tameHometown.find('input[name=tame-hometown2]').val();
-			$.ajax({
-				url:url,
-				type: "post",
-				contentType : 'application/json; charset=utf-8',
-				dataType: 'json',
-				data : JSON.stringify({
-					"manager": teamName,
-					"province": teamProv,
-					"district":teamCity,
-					"city":teamCity,
-					"sex":teamSex,
-					"uid":teamUid,
-					"company": teamCom,
-					"work_year":teamWork,
-					"good_at": teamGood,
-					"working_on": teamIng
-				}),
-				processData : false,
-				success: function(res){
-					closePopup()
-					loadList()
-					setTimeout(function(){
-						clearTeam()
-					},100)
-			   	}
-			});
+			if(submitOff){
+				submitOff = false;
+				$.ajax({
+					url:url,
+					type: "post",
+					contentType : 'application/json; charset=utf-8',
+					dataType: 'json',
+					data : JSON.stringify({
+						"manager": teamName,
+						"province": teamProv,
+						"district":teamCity,
+						"city":teamCity,
+						"sex":teamSex,
+						"uid":teamUid,
+						"company": teamCom,
+						"work_year":teamWork,
+						"good_at": teamGood,
+						"working_on": teamIng
+					}),
+					processData : false,
+					success: function(res){
+						closePopup()
+						loadList()
+						setTimeout(function(){
+							clearTeam()
+							submitOff = true;
+						},100)
+				   	}
+				});
+			}
 			return false;
 		})
 	}
 	function editorTeam(id){
-		$teamSubmit.html('编辑');
-		$teamSubmit.on('click',function(){
+		$teamEditor.removeClass('hide');
+		$teamSubmit.addClass('hide');
+		$teamEditor.on('click',function(){
 			check_step = 6;
 	    	checkName();
 	    	checkSex();
 	    	checkUid();
 	    	checkCom();
 	    	checkWorking();
-	    	checkYear()
+	    	checkYear();
 	    	if(check_step > 0){
 				return false;
 			}
@@ -199,7 +209,7 @@ $(function(){
 			var teamWork = parseInt($tameYear.val());
 			var teamGood = $tameGood.find('input').val();
 			var teamIng = $temeWorking.val();
-			var userLocation = $tameHometown.find('input[name=design-area]');
+			var userLocation = $tameHometown.find('input[name=tame-hometown]');
 			if(!!userLocation.val()){
 				var userArr = userLocation.val().split(" ");
 				var teamProv = userArr[0];
@@ -232,7 +242,6 @@ $(function(){
 				success: function(res){
 					closePopup()
 					loadList()
-
 					setTimeout(function(){
 						clearTeam()
 					}, 100)
@@ -244,7 +253,7 @@ $(function(){
 	function clearTeam(){
 		$temaName.val("");
 		$temaSex.find('input:checked').attr('checked', '');
-		 $tameUid.val("");
+		$tameUid.val("");
 		$tameCom.val("");
 		$tameYear.val("");
 		$temeWorking.val("");
@@ -323,7 +332,7 @@ $(function(){
 		return false;
 	})
 	//删除操作
-	$designTeam.on('click', '.delete', function(event) {
+	$designTeam.delegate('.delete','click', function(event) {
 		event.preventDefault();
 		if(confirm("你确定要删除吗？删除不能恢复")){
 			var oDl = $(this).closest('dl');
@@ -350,12 +359,12 @@ $(function(){
 		}
 	});
 	//添加操作
-	$designTeam.on('click', '.addteam1', function(event) {
+	$designTeam.delegate( '.addteam1', 'click',function(event) {
 		event.preventDefault();
 		$addteam.click();
 	});
 	//编辑
-	$designTeam.on('click', '.editor', function(event){
+	$designTeam.delegate( '.editor', 'click', function(event){
 	     event.preventDefault();
 	     clearTeam()
 	     var oDl = $(this).closest('dl');

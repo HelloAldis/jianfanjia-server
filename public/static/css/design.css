@@ -334,6 +334,7 @@
 	background:url(../img/design/design_detail-bg.jpg) repeat;
 }
 .design-detail .head{
+	display: block;
 	width: 90px;
 	height: 90px;
 	margin:0 auto 54px;

@@ -12,6 +12,7 @@
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/jquery.uploadify-3.1.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/jquery.Huploadify.js"></script>
 </head>
 <body>
 	<div class="g-hd">
@@ -44,12 +45,11 @@
 			<div class="scheme-box">
 				<div class="scheme-list">
 					<div class="w-form user-form scheme_create" id="j-scheme_create">
-					<form action="http://www.jianfanjia.com" id="form-scheme_create" method="post">
 						<div class="m-item f-cb">
 							<div class="item">
 								<label class="u-lab" for="userName">业主姓名：</label>
 								<div class="u-inp">
-									<div class="name" id="userName">张杰</div>
+									<div class="name" id="userName"></div>
 								</div>
 							</div>
 						</div>
@@ -63,63 +63,73 @@
 									</div>
 								</div>
 							</div>
+							<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+							<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+							<p class="tips-info hide"></p>
 						</div>
-						<div class="m-item f-cb">
+						<div class="m-item f-cb" id="scheme-price-box">
 							<div class="item">
 								<label class="u-lab" for="scheme-price">报&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价：</label>
 								<div class="u-inp">
 									<div class="box">
-										<input type="text" class="input" name="scheme-price" id="scheme-price" />
+										<span id="scheme-price"></span>
 										<span class="unit" id="outcry"><i class="iconfont">&#xe61a;</i></span>
 									</div>
 								</div>
 							</div>
+							<p class="tips-info hide"></p>
 						</div>
 						<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="scheme-description">方案说明：</label>
-										<div class="u-inp">
-											<div class="textarea"><textarea name="scheme-description" id="scheme-description" cols="30" rows="10"></textarea></div>
-										</div>
-									</div>
+							<div class="item">
+								<label class="u-lab" for="scheme-description">方案说明：</label>
+								<div class="u-inp">
+									<div class="textarea"><textarea name="scheme-description" id="scheme-description" cols="30" rows="10"></textarea></div>
 								</div>
-						<div class="m-item f-cb">
+							</div>
+							<p class="tips-info hide"></p>
+						</div>
+						<div class="m-item f-cb" id="pmobj-box">
 							<div class="item">
 								<label class="u-lab" for="dec_area">项目经理：</label>
 								<div class="u-inp">
 									<div class="m-select" id="pmobj"></div>
 								</div>
 							</div>
+							<p class="tips-info hide"></p>
 						</div>
 						<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="work_type">上传平面图：</label>
-										<div class="u-inp">
-											<div class="file">
-												<p class="tips">*作品上传每张大小为1M以内</p>
-												<div class="file-list f-cb">
-													<div class="create-item">
-														<div class="pic" id="upload">
-															<input id="fileToUpload" type="file" name="upfile">
-								<p class="hide"><a href="javascript:$('#fileToUpload').uploadify('settings', 'formData', {'typeCode':document.getElementById('id_file').value});$('#fileToUpload').uploadify('upload','*')">上传</a>
-<a href="javascript:$('#fileToUpload').uploadify('cancel','*')">重置上传队列</a>
-</p>
-<input type="hidden" value="1215154" name="tmpdir" id="id_file">
-														</div>
+							<div class="item" id="j-file-list">
+								<label class="u-lab" for="work_type">上传平面图：</label>
+								<div class="u-inp">
+									<div class="file">
+										<p class="tips">*作品上传每张大小为1M以内</p>
+										<div class="file-list f-cb">
+											<div class="create-item">
+												<div class="pic" id="upload">
+													<div class="fileBtn">
+														<input class="hide" id="fileToUpload" type="file" name="upfile">
+														<p class="hide"><a href="javascript:$('#fileToUpload').uploadify('settings', 'formData', {'typeCode':document.getElementById('id_file').value});$('#fileToUpload').uploadify('upload','*')">上传</a>
+														<a href="javascript:$('#fileToUpload').uploadify('cancel','*')">重置上传队列</a>
+														</p>
+														<input type="hidden" id="sessionId" value="${pageContext.session.id}" />
+														<input type="hidden" value="1215154" name="tmpdir" id="id_file">
 													</div>
+													<img src="../../static/img/user/uploadify.jpg" alt="" />
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
+								<p class="tips-info hide"></p>
+							</div>
+						</div>
 						<div class="m-item m-error-info hide">
 						</div>
 						<div class="m-item">
 							<div class="u-btn">
-								<input type="submit" class="btn" id="login-submit" value="提交方案" />
+								<a href="javascript:;" class="btn" id="scheme-submit">提交方案</a>
 							</div>
 						</div>
-					</form>
 				</div>	
 				</div>
 				<div class="scheme-list hide">
@@ -176,14 +186,24 @@
 			</div>
 		</div>
 	</div>
+	<style type="text/css">
+		#outcry{
+			width: 100%;
+			text-align: right;
+		}
+	</style>
 </body>
 </html>
 <script type="text/javascript">
-	var winHash = window.location.search.substring(1);
+	var winHash = window.location.search.substring(1).split("&");
+	var userid = winHash[0].split("=")[1];
+	var manager = decodeURI(winHash[1].split("=")[1]);
 	var $scheme = $('#j-scheme');
 	var $schemeTab = $scheme.find('.scheme-tab').find('li');
 	var $schemeList = $scheme.find('.scheme-list');
 	var $schemeDesign = $('#j-scheme-design');
+	var $fileListBox = $('#j-file-list');
+	var $fileList = $fileListBox.find('.file-list');
 	$schemeTab.on('click',function(){
 		fnTab($(this).index())
 	});
@@ -194,17 +214,145 @@
 	$('#outcry').on('click',function(){
 		fnTab(1)
 	})
-	var itme_typeArr = ['张起灵','吴邪','王胖子','黑金牙'];
-	var pmobj = new  ComboBox({
-		id : 'pmobj',
-		list : itme_typeArr
-	});
-	//表单提交
-	$('#form-scheme_create').on('submit',function(){
-		var imgArr = [];
-		$('#upload').find('.list').each(function(index, el) {
-			imgArr.push($(el).data('img'))
+	
+	//验证
+	var $userName = $('#userName'),
+		$schemeCycle = $('#scheme-cycle'),
+		$schemePriceBox = $('#scheme-price-box'),
+		$schemePrice = $('#scheme-price'),
+		$schemeDescription = $('#scheme-description'),
+		$pmobj = $('#pmobj');
+	//验证信息
+	var check_step = 0;
+	var errMsg = {
+        "reg_time": "请填写装修工期",
+        "reg_price" : "请填写装修报价",
+        "reg_dscription": "请填写方案说明",
+        "reg_job": "必须有一位项目经理",
+        "reg_product": "必须有一个作品效果图"
+    };
+    loadList();
+	//验证函数
+	function checkTime(){    //装修工期
+    	var id = "reg_time";
+    	var reg = /^[1-9]*[1-9][0-9]*$/;
+		if(!!$.trim($schemeCycle.val())){
+			if($schemeCycle.val() != 0){
+				if(reg.test($schemeCycle.val())){
+					return showOk($schemeCycle);
+				}
+			}
+		}
+     	return showError($schemeCycle,id);
+    }
+    function checkDescription(){    //方案说明
+    	var id = "reg_dscription";
+        if (!!$.trim($schemeDescription.val())) {
+            return showOk($schemeDescription,id);
+        }
+        return showError($schemeDescription,id);
+    }
+	function checkProduct(){    //作品平面图个数
+    	var id = "reg_product";
+    	var $proItem = $fileListBox.find('.previews-item');
+    	if($proItem.size()){
+    		check_step--;
+    		return true;
+    	}
+    	$fileListBox.find('.tips-info').html(errMsg[id]).removeClass('hide');
+        return false;
+    }
+    function checkPrice(){    //报价
+    	var id = "reg_price";
+    	if(!!$schemePrice.html()){
+    		check_step--;
+    		return true;
+    	}
+    	$schemePriceBox.find('.tips-info').html(errMsg[id]).removeClass('hide');
+        return false;
+    }
+    function chechJobs(){
+    	var id = "reg_job";
+    	var $value = $pmobj.find('.value');
+    	if($value.size()){
+    		check_step--;
+    		return true;
+    	}
+    	$pmobj.find('.tips-info').html(errMsg[id]).removeClass('hide');
+        return false;
+    }
+    //显示验证信息
+   	function showError(obj,id, msg) {
+        var msg = msg || errMsg[id];
+        var parent = obj.closest('.m-item');
+        parent.find('.tips-icon-ok').addClass('hide');
+        parent.find('.tips-icon-err').removeClass('hide');
+        parent.find('.tips-info').html(msg).removeClass('hide')
+        return false;
+    }
+    function showOk(obj) {
+    	var parent = obj.closest('.m-item');
+        parent.find('.tips-icon-err').addClass('hide');
+        if ($.trim(obj.val()) != ""){
+        	parent.find('.tips-icon-ok').removeClass('hide');
+        	parent.find('.tips-info').html('').addClass('hide')
+        }
+        check_step--;
+        return true;
+    }
+    //事件操作
+    $schemeCycle.on('blur',function(){
+    	checkTime();
+    });
+    $schemeDescription.on('blur',function(){
+    	checkDescription();
+    })  
+    $('#userName').html(manager);
+	function loadList(){
+		var url = RootUrl+'api/v1/designer/team';
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function(res){
+				if(res['data'].length){
+					var itme_typeArr = [];
+					for (var i = 0; i < res['data'].length; i++) {
+						itme_typeArr.push(res['data'][i].manager)
+					};
+					var pmobj = new  ComboBox({
+						id : 'pmobj',
+						list : itme_typeArr
+					});
+				}else{
+					$pmobj.html('你还没有项目经理，<a href="" target="_blank">点击添加</a>').css('border','none')
+				}
+		   	}
 		});
+	}
+
+
+	//表单提交
+	$('#scheme-submit').on('click',function(){
+		check_step = 5;
+		checkTime();
+		chechJobs();
+		checkDescription();
+		checkPrice();
+		checkPrice();
+		if(check_step > 0){
+			return false;
+		}
+		var images = []
+		var aPreviewsItem = $('#j-file-list').find('.previews-item');
+		aPreviewsItem.each(function(i,el){
+			images.push({
+				"section":$(el).find('.value').val(),
+			    "imageid":$(el).data('imgid'),
+			    "description":$(el).find('textarea').val()
+			})
+		})
 		var url = RootUrl+'api/v1/designer/plan';
 		$.ajax({
 			url:url,
@@ -212,13 +360,13 @@
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			data : JSON.stringify({
-			  "userid": winHash,
-			  "duration":parseInt($('#scheme-cycle').val()),
-			  "total_price":parseInt($('#scheme-price').val()),
-			  "price_detail":$('#scheme-price').data('detail'),
-			  "description":$('#scheme-description').val(),
-			  "manager": $('#userName').html(),
-			  "images" : imgArr
+			  "userid": userid,
+			  "duration":parseInt($schemeCycle.val()),
+			  "total_price":parseInt($schemePrice.html()),
+			  "price_detail":$schemePrice.data('detail'),
+			  "description":$schemeDescription.val(),
+			  "manager": manager,
+			  "images" : images
 			}),
 			processData : false,
 			success: function(res){
@@ -306,7 +454,6 @@
 								$(this).val('');
 							}
 						}
-						
 					}
 				})
 			},
@@ -369,7 +516,8 @@
 				"remark" : "含设计费"
 			})
 		console.log($('#scheme-price'))
-		$('#scheme-price').val($('#allPrice').html()).data('detail',priceDetail);
+		$('#scheme-price').html($('#allPrice').html()).data('detail',priceDetail);
+		$schemePriceBox.find('.tips-info').html("").addClass('hide');
 		fnTab(0)
 	})
 
@@ -379,42 +527,76 @@
 
 
 
-var img_id_upload=[];//初始化数组，存储已经上传的图片名
+	//获取HTML5特性支持情况
+	//图片上传
+	var img_id_upload=[];//初始化数组，存储已经上传的图片名
 	var i=0;//初始化数组下标
-	$(function() {
-	    $('#fileToUpload').uploadify({
-	    	'auto'     : true,//关闭自动上传
-	    	'removeTimeout' : 1,//文件队列上传完成1秒后删除
-	        'swf'      : 'uploadify.swf',
-	        'uploader' : RootUrl+'api/v1/image/upload',
-	        'method'   : 'post',//方法，服务端可以用$_POST数组获取数据
-			'buttonText' : '选择图片',//设置按钮文本
-	        'multi'    : true,//允许同时上传多张图片
-	        'uploadLimit' : 10,//一次最多只允许上传10张图片
-	        'width' : 244,
-	        'height' : 244,
-	        'fileTypeDesc' : 'Image Files',//只允许上传图像
-	        'fileTypeExts' : '*.gif; *.jpg; *.png',//限制允许上传的图片后缀
-	        'fileSizeLimit' : '20000KB',//限制上传的图片不得超过200KB 
-	        'onUploadSuccess' : function(file, data, response) {//每次成功上传后执行的回调函数，从服务端返回数据到前端
-	        	var data = $.parseJSON(data)
-	               img_id_upload[i]=data.data;
-	               i++;
-	               console.log(img_id_upload)
-	               img()
-	        },
-	        'onQueueComplete' : function(queueData) {//上传队列全部完成后执行的回调函数
-	           // if(img_id_upload.length>0)
-	           // alert('成功上传的文件有：'+encodeURIComponent(img_id_upload));
-	        }  
-	        // Put your options here
-	    });
-	});
-	function img(){
-		$('#upload').find('.list').remove();
-       for (var i = 0; i < img_id_upload.length; i++) {
-       	 $('#upload').append('<div class="list" data-img="'+img_id_upload[i]+'"><img src="'+RootUrl+'api/v1/image/'+img_id_upload[i]+'" alt="" /></div>')
-       };
+	var checkSupport = function(){
+		var input = document.createElement('input');
+		var fileSupport = !!(window.File && window.FileList);
+		var xhr = new XMLHttpRequest();
+		var fd = !!window.FormData;
+		return 'multiple' in input && fileSupport && 'onprogress' in xhr && 'upload' in xhr && fd ? 'html5' : 'flash';
+	};
+	var uploaderUrl = RootUrl+'api/v1/image/upload';
+	uploadImg('upload','fileToUpload',function(arr){
+		var data = $.parseJSON(arr);
+		var iCount = (new Date()).getTime();
+		var str = '<div class="previews-item" data-imgid="'+data.data+'">'
+				+'<span class="close"></span>'
+				+'<div class="pic">'
+				+'<img class="img" src="'+RootUrl+'api/v1/image/'+data.data+'" alt="" />'
+				+'</div>'
+				+'</div>'
+		$fileList.append(str)
+		$fileListBox.find('.tips-info').html("").addClass('hide');
+	})
+	function uploadImg(obj1,obj2,callback){
+		if(checkSupport() === "html5"){
+			$('#'+obj1).Huploadify({
+				auto:true,
+				fileTypeExts:'*.jpg;*.png',
+				multi:false,
+				formData:{key:123456,key2:'vvvv'},
+				fileSizeLimit:1024,
+				showUploadedPercent:true,//是否实时显示上传的百分比，如20%
+				showUploadedSize:true,
+				removeTimeout:1,
+				fileObjName:'Filedata',
+				buttonText : "",
+				uploader:uploaderUrl,
+				onUploadComplete:function(file, data, response){
+					 callback(data)
+				},
+				onDelete:function(file){
+					console.log('删除的文件：'+file);
+					console.log(file);
+				}
+			});
+		}else{
+			$('#'+obj2).uploadify({
+		    	'auto'     : true,//关闭自动上传
+		    	'removeTimeout' : 1,//文件队列上传完成1秒后删除
+		        'swf'      : 'uploadify.swf',
+		        'uploader' : RootUrl+'api/v1/image/upload',
+		        'method'   : 'post',//方法，服务端可以用$_POST数组获取数据
+				'buttonText' : '',//设置按钮文本
+		        'multi'    : false,//允许同时上传多张图片
+		        'uploadLimit' : 10,//一次最多只允许上传10张图片
+		        'width' : 250,
+		        'height' : 250,
+		        'fileTypeDesc' : 'Image Files',//只允许上传图像
+		        'fileTypeExts' : '*.gif; *.jpg; *.png',//限制允许上传的图片后缀
+		        'fileSizeLimit' : '1024KB',//限制上传的图片不得超过200KB 
+		        'onUploadSuccess' : function(file, data, response) {//每次成功上传后执行的回调函数，从服务端返回数据到前端
+		               callback(data)
+		        },
+		        'onQueueComplete' : function(queueData) {//上传队列全部完成后执行的回调函数
+		           // if(img_id_upload.length>0)
+		           // alert('成功上传的文件有：'+encodeURIComponent(img_id_upload));
+		        }
+		    });
+		}
 	}
 
 
@@ -452,4 +634,14 @@ var img_id_upload=[];//初始化数组，存储已经上传的图片名
 	    }
 	    return s.join(dec);
 	}
+
+	function moneyToNumFiled(str){  
+	    var num=$.trim(str);  
+	    var ss=num.toString();  
+	    if(ss.length==0){  
+	      return "";  
+	    }     
+	    num=new Number(ss.replace(/,/g, ""));  
+	    obj.value=num;       
+	} 
 </script>
