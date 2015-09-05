@@ -151,9 +151,9 @@ $(function(){
 			var teamWork = parseInt($tameYear.val());
 			var teamGood = $tameGood.find('input').val();
 			var teamIng = $temeWorking.val();
-			var teamProv = $tameHometown.find('input[name=tame-hometown0]').val();
-			var teamCity = $tameHometown.find('input[name=tame-hometown1]').val();
-			var teamDist = $tameHometown.find('input[name=tame-hometown2]').val();
+			var teamProv = $tameHometown.find('.province').find('.value').html();
+			var teamCity = $tameHometown.find('.city').find('.value').html();
+			var teamDist = $tameHometown.find('.area').find('.value').html();
 			if(submitOff){
 				submitOff = false;
 				$.ajax({
@@ -164,8 +164,8 @@ $(function(){
 					data : JSON.stringify({
 						"manager": teamName,
 						"province": teamProv,
-						"district":teamCity,
 						"city":teamCity,
+						"district":teamDist,
 						"sex":teamSex,
 						"uid":teamUid,
 						"company": teamCom,
@@ -220,33 +220,37 @@ $(function(){
 				var teamCity = $tameHometown.find('.city').find('.value').html();
 				var teamDist = $tameHometown.find('.area').find('.value').html();
 			}
-			$.ajax({
-				url:url,
-				type: "PUT",
-				contentType : 'application/json; charset=utf-8',
-				dataType: 'json',
-				data : JSON.stringify({
-					"_id" : id,
-					"manager": teamName,
-					"province": teamProv,
-					"city":teamCity,
-					"district":teamDist,
-					"sex":teamSex,
-					"uid":teamUid,
-					"company": teamCom,
-					"work_year":teamWork,
-					"good_at": teamGood,
-					"working_on": teamIng
-				}),
-				processData : false,
-				success: function(res){
-					closePopup()
-					loadList()
-					setTimeout(function(){
-						clearTeam()
-					}, 100)
-			   	}
-			});
+			if(editorOff){
+				editorOff = false;
+				$.ajax({
+					url:url,
+					type: "PUT",
+					contentType : 'application/json; charset=utf-8',
+					dataType: 'json',
+					data : JSON.stringify({
+						"_id" : id,
+						"manager": teamName,
+						"province": teamProv,
+						"city":teamCity,
+						"district":teamDist,
+						"sex":teamSex,
+						"uid":teamUid,
+						"company": teamCom,
+						"work_year":teamWork,
+						"good_at": teamGood,
+						"working_on": teamIng
+					}),
+					processData : false,
+					success: function(res){
+						closePopup()
+						loadList()
+						setTimeout(function(){
+							clearTeam()
+							editorOff = true;
+						}, 100)
+				   	}
+				});
+			}
 			return false;
 		})
 	}
@@ -269,7 +273,6 @@ $(function(){
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				console.log(res['data'])
 				if(res['data'].length == 0 || res['data'].length < 1){
 					$list.html('<h2>您还没有施工团队，点击<a href="javascript:;" class="addteam1">添加施工团队</a></h2>');
 				}else{
@@ -383,8 +386,8 @@ $(function(){
 		$temeWorking.val(oDl.find('.value8').text());
 		$tameHometown.empty();
 		var tameHometown = new CitySelect({id : 'tame-hometown',query : oDl.find('.value3').text()});
-	     openPopup()
-	     editorTeam(uidName)
+	    openPopup();
+	    editorTeam(uidName);
 	});
 	var tameGood = new ComboBox({
 		id:'tame-good',

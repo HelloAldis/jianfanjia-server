@@ -68,20 +68,20 @@
 				<div class="sitemap f-fl">
 					<dl>
 						<dt>业主指南</dt>
-						<dd><a href="">提交需求</a></dd>
-						<dd><a href="">预约设计师</a></dd>
+						<dd><a href="../guide/index.html?0">业务流程</a></dd>
+						<dd><a href="../guide/index.html?1">三方保障合同</a></dd>
 					</dl>
 					<dl>
 						<dt>设计师指南</dt>
-						<dd><a href="">设计师认证</a></dd>
-						<dd><a href="">入驻协议</a></dd>
-						<dd><a href="">上传作品</a></dd>
-						<dd><a href="">上门量房</a></dd>
+						<dd><a href="../guide/design.html?0">设计师认证</a></dd>
+						<dd><a href="../guide/design.html?1">作品上传</a></dd>
+						<dd><a href="../guide/design.html?2">上门沟通及量房</a></dd>
+						<dd><a href="../guide/design.html?3">设计师入驻协议</a></dd>
 					</dl>
 					<dl>
 						<dt>关于我们</dt>
-						<dd><a href="">关于我们</a></dd>
-						<dd><a href="">联系我们</a></dd>
+						<dd><a href="../about/index.html#about">关于我们</a></dd>
+						<dd><a href="../about/index.html#contact">联系我们</a></dd>
 					</dl>
 				</div>
 				<div class="erweima f-fr">
@@ -134,9 +134,10 @@
 		}else if(data.status == 5){
 			sStatus = '<i class="iconfont">&#xe616;</i>已中标';
 		}
-		var image = '';
-		for (var i = 0; i < data.images.length; i++) {
-			image = '<img src="'+RootUrl+'api/v1/image/'+data.images[i]+'" alt="" />'
+		var images = '';
+		var len = data.images.length > 3 ? 3 : data.images.length
+		for (var i = 0; i < len; i++) {
+			images += '<img src="'+RootUrl+'api/v1/image/'+data.images[i]+'" alt="" />'
 		};
 		return '<div class="item" data-uid="'+data._id+'">'
 						+'<div class="info f-cb">'
@@ -151,11 +152,11 @@
 						+'</div>'
 						+'<div class="desc">'
 							+'<p>设计说明：'+data.description+'</p>'
-							+'<div class="pic f-cb">'+image+'</div>'
+							+'<div class="pic f-cb">'+images+'</div>'
 						+'</div>'
 						+'<div class="handle">'
-							+'<a href="scheme_detail.html?'+data._id+'#comment" class="msg">留言<span>('+data.comments.length+')</span></a>'
-							+(data.status == 5 ? "" : '<a href="scheme_create.html?userid='+data._id+'&name='+encodeURI(data.manager)+'" class="btns confirm">修改方案</a>')+'<a href="scheme_detail.html?'+data._id+'" class="btns browse">预览方案</a>'
+							+'<a href="scheme_detail.html?planid='+data._id+'&name='+encodeURI(data.designer.username)+'#comment" class="msg">留言<span>('+data.comments.length+')</span></a>'
+							+(data.status == 5 ? "" : '<a href="scheme_create.html?userid='+data._id+'&name='+encodeURI(data.user.username)+'" class="btns confirm">修改方案</a>')+'<a href="scheme_detail.html?planid='+data._id+'&name='+encodeURI(data.user.username)+'" class="btns browse">预览方案</a>'
 						+'</div>'
 					+'</div>'
 	}

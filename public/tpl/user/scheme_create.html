@@ -168,20 +168,20 @@
 				<div class="sitemap f-fl">
 					<dl>
 						<dt>业主指南</dt>
-						<dd><a href="">提交需求</a></dd>
-						<dd><a href="">预约设计师</a></dd>
+						<dd><a href="../guide/index.html?0">业务流程</a></dd>
+						<dd><a href="../guide/index.html?1">三方保障合同</a></dd>
 					</dl>
 					<dl>
 						<dt>设计师指南</dt>
-						<dd><a href="">设计师认证</a></dd>
-						<dd><a href="">入驻协议</a></dd>
-						<dd><a href="">上传作品</a></dd>
-						<dd><a href="">上门量房</a></dd>
+						<dd><a href="../guide/design.html?0">设计师认证</a></dd>
+						<dd><a href="../guide/design.html?1">作品上传</a></dd>
+						<dd><a href="../guide/design.html?2">上门沟通及量房</a></dd>
+						<dd><a href="../guide/design.html?3">设计师入驻协议</a></dd>
 					</dl>
 					<dl>
 						<dt>关于我们</dt>
-						<dd><a href="">关于我们</a></dd>
-						<dd><a href="">联系我们</a></dd>
+						<dd><a href="../about/index.html#about">关于我们</a></dd>
+						<dd><a href="../about/index.html#contact">联系我们</a></dd>
 					</dl>
 				</div>
 				<div class="erweima f-fr">
@@ -229,7 +229,7 @@
 			this.reckonTrPrice();
 			this.reckonAllPrice();
 			this.inputBlur();
-			this.pupop = $('<div class="m-newItem"><h3>添加新项目</h3><div class="list"></div><div class="custom"></div></div>')
+			this.pupop = $('<div class="m-newItem"><h3>添加新项目</h3><span class="close"></span><div class="list"></div><div class="custom"></div></div>')
 			this.body.append(this.pupop)
 		}
 		OnlinePrice.prototype = {
@@ -280,7 +280,7 @@
 			},
 			customTrList : function(){
 				var self = this;
-				var sHtml = '自定义：<input type="text" id="customVal" /><input type="button" id="customBtn" value="添加新项目" />'
+				var sHtml = '自定义：<br /><input type="text" id="customVal" /><input type="button" id="customBtn" value="添加新项目" />'
 				this.pupop.find('.custom').html(sHtml);
 				$('#customBtn').on('click',function(){
 					var value = $('#customVal').val()
@@ -292,6 +292,13 @@
 					}
 				})
 			},
+			closeTrList : function(){
+				var self = this;
+				var close = self.pupop.find('.close');
+				close.on('click',function(){
+					self.pupop.hide();
+				})
+			},
 			createTrEvent : function(){
 				var self = this;
 				this.PriceBox.delegate('.add','click',function(){
@@ -299,6 +306,7 @@
 					self.newTrList();
 					self.customTrList();
 					self.pupop.show();
+					self.closeTrList();
 				})
 			},
 			newTrItem : function(){
@@ -371,7 +379,7 @@
 		if(!!winHash[2]){
 			submitScheme()
 		}else{
-			editorScheme()
+			loadList();
 		}
 		
 	var $scheme = $('#j-scheme');
@@ -512,6 +520,24 @@
 			id : 'j-scheme-item',
 			data : [{"item": "基础工程", "price": 0,"description":""},{"item": "水电工程", "price": 0,"description":""},{"item": "客餐厅及走道", "price": 0,"description":""},{"item": "主卧", "price": 0,"description":""},{"item": "厨房", "price": 0,"description":""},{"item": "安装工程", "price": 0,"description":""},{"item": "其他工程", "price": 0,"description":""},{"item": "设计费", "price": 0,"description":""}]
 		});
+		var aTr = $('#j-scheme-item').find('tr:gt(0)');
+		$('#create-quotes').on('click',function(){
+			var priceDetail = [];
+			aTr.each(function(i, el) {
+				var item = $(el).find('.td1').html() || "";
+				var price = parseInt($(el).find('input').val()) || 0;
+				var description = $(el).find('textarea').val() || "";
+				priceDetail.push(
+				{
+					"item": item, 
+					"price": price,
+					"description" : description
+				})
+			});
+			$('#scheme-price').html(moneyToNumFiled($('#allPrice').html())).data('detail',priceDetail);
+			$schemePriceBox.find('.tips-info').html("").addClass('hide');
+			fnTab(0)
+		})
 		$('#scheme-submit').removeClass('hide');
 		$('#scheme-editor').addClass('hide');
 		$('#scheme-submit').on('click',function(){
@@ -520,7 +546,7 @@
 			chechJobs();
 			checkDescription();
 			checkPrice();
-			checkPrice();
+			checkProduct();
 			if(check_step > 0){
 				return false;
 			}
@@ -553,26 +579,6 @@
 			return false;
 		})
 	}
-	var priceDetail = [];
-	var aTr = $('#j-scheme-item').find('tr:gt(0)');
-	$('#create-quotes').on('click',function(){
-		priceDetail = [];
-		aTr.each(function(i, el) {
-			var item = $(el).find('.td1').html() || "";
-			var price = parseInt($(el).find('input').val()) || 0;
-			var remark = parseInt($(el).find('textarea').val()) || "";
-			priceDetail.push(
-			{
-				"item": item, 
-				"price": price,
-				"remark" : remark
-			})
-		});
-		console.log($('#scheme-price'))
-		$('#scheme-price').html(moneyToNumFiled($('#allPrice').html())).data('detail',priceDetail);
-		$schemePriceBox.find('.tips-info').html("").addClass('hide');
-		fnTab(0)
-	})
 	function loadList(){
 		$.ajax({
 			method: 'GET',
@@ -583,18 +589,51 @@
 				console.log(res['data'])
 				var data = res['data']
 				if(data != null){
-					console.log(data.price_detail)
-					var schemeItem =new OnlinePrice({
+					$schemeCycle.val(data.duration)
+					$schemePrice.html(data.total_price).data('detail',data.price_detail);
+					$schemeDescription.val(data.description);
+					$pmobj.find('.value').html(data.manager);
+					$('#j-file-list').find('.previews-item').remove();
+					var str = '';
+					for (var i = 0,len = data.images.length; i < len; i++) {
+						str += '<div class="previews-item" data-imgid="'+data.images[i]+'">'
+								+'<span class="close"></span>'
+								+'<div class="pic">'
+								+'<img class="img" src="'+RootUrl+'api/v1/image/'+data.images[i]+'" alt="" />'
+								+'</div>'
+								+'</div>'
+					};
+					$fileList.append(str);
+					var schemeItem = new OnlinePrice({
 						id : 'j-scheme-item',
 						data : data.price_detail
 					});
+					editorScheme();
 				}
 		   	}
 		});
 	}
 	//修改方案
 	function editorScheme(){
-		loadList()
+		var aTr = $('#j-scheme-item').find('tr:gt(0)');
+		$('#create-quotes').on('click',function(){
+			var priceDetail = [];
+			aTr.each(function(i, el) {
+				var item = $(el).find('.td1').html() || "";
+				var price = parseInt($(el).find('input').val()) || 0;
+				var description = $(el).find('textarea').val() || "";
+				priceDetail.push(
+				{
+					"item": item, 
+					"price": price,
+					"description" : description
+				})
+			});
+			console.log(priceDetail)
+			$('#scheme-price').html(moneyToNumFiled($('#allPrice').html())).data('detail',priceDetail);
+			$schemePriceBox.find('.tips-info').html("").addClass('hide');
+			fnTab(0)
+		})
 		$('#scheme-submit').addClass('hide');
 		$('#scheme-editor').removeClass('hide');
 		$('#scheme-editor').on('click',function(){
@@ -603,7 +642,7 @@
 			chechJobs();
 			checkDescription();
 			checkPrice();
-			checkPrice();
+			checkProduct();
 			if(check_step > 0){
 				return false;
 			}
@@ -618,7 +657,7 @@
 				contentType : 'application/json; charset=utf-8',
 				dataType: 'json',
 				data : JSON.stringify({
-				  "userid": userid,
+				  "_id": userid,
 				  "duration":parseInt($schemeCycle.val()),
 				  "total_price":parseInt($schemePrice.html()),
 				  "price_detail":$schemePrice.data('detail'),
