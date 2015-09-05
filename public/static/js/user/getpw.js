@@ -113,7 +113,6 @@ $(function(){
 			processData : false,
 			success: function(res){
                 msg: "success"
-				console.log(res)
                 if(res["msg"] == "success"){
                     $('#error-info').html('保存成功').removeClass('hide');
                     setTimeout(function(){
@@ -121,8 +120,7 @@ $(function(){
                         $('#error-info').html('').addClass('hide');
                     }, 5000)
                 }else{
-                    $('#error-info').html('res['err_msg']').removeClass('hide');
-                    console.log(res['err_msg']);
+                    $('#error-info').html(res['err_msg']).removeClass('hide');
                 }
                 if(res['err_msg']){
                     $('#error-info').html(res['err_msg']).removeClass('hide');

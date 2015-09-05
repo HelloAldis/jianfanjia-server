@@ -128,6 +128,7 @@
 			return false;
 		}
 		function createList(data,id){
+			console.log(data)
 			var sLi = '';
 			if(data == null){
 				sLi = '<li data-uid="'+id+'">'
@@ -141,13 +142,13 @@
 						+'</li>';
 			}else{
 				sLi += '<li>'
-							+'<div class="pic"><img alt="'+data.cell+'" src="../../img/index/index-live-01.jpg"></div>'
+							+'<div class="pic"><img alt="'+data.cell+'" src="'+RootUrl+'api/v1/image/'+data.images[0].imageid+'"></div>'
 							+'<div class="txt">'
 								+'<h4>'+data.cell+'</h4>'
 								+'<div class="desc">'
 									+'<span>'+data.house_area+'m&sup2;</span><span>'+globalData.house_type[data.house_type]+'</span><span>'+globalData.dec_style[data.dec_style]+'</span>'
 								+'</div>'
-								+'<p>This is the brand new house for family johnson.</p>'
+								+'<p>'+ellipsisStr(data.description,80)+'</p>'
 							+'</div>'
 							+'<a href="../design/detail.html?'+data._id+'" class="btn">查看详情</a>'
 						+'</li>'
