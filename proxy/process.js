@@ -125,3 +125,7 @@ exports.getProcessByUserid = function (userid, callback) {
 exports.getSByQueryAndProject = function (query, project, callback) {
   Process.find(query, project, callback);
 }
+
+exports.removeOneByQuery = function (query, callback) {
+  Process.findOneAndRemove(query, callback);
+}

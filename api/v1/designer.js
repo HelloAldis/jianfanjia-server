@@ -13,6 +13,7 @@ var ApiUtil = require('../../common/api_util');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../type');
+var limit = require('../../middlewares/limit')
 
 exports.getInfo = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
@@ -53,12 +54,15 @@ exports.getOne = function (req, res, next) {
     if (designer) {
       designer.pass = '';
       designer.accessToken = '';
-      Designer.addViewCountForDesigner(designerid, 1);
       res.sendData(designer);
+
+      limit.perwhatperdaydo('designergetone', req.ip + designerid, 1,
+        function () {
+          Designer.addViewCountForDesigner(designerid, 1);
+        });
     } else {
       res.sendData(null);
     }
-
   });
 }
 

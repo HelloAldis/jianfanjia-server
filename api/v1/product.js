@@ -9,6 +9,7 @@ var async = require('async');
 var ApiUtil = require('../../common/api_util');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
+var limit = require('../../middlewares/limit')
 
 exports.add = function (req, res, next) {
   var product = ApiUtil.buildProduct(req);
@@ -90,13 +91,17 @@ exports.list = function (req, res, next) {
 
 exports.getOne = function (req, res, next) {
   var productid = tools.trim(req.params._id);
-
   Product.getProductById(productid, function (err, product) {
     if (err) {
       return next(err);
     }
 
-    Product.addViewCountForProduct(productid, 1);
+    if (product) {
+      limit.perwhatperdaydo('productgetone', req.ip + productid, 1,
+        function () {
+          Product.addViewCountForProduct(productid, 1);
+        });
+    }
 
     res.sendData(product);
   });

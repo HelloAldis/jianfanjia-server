@@ -19,6 +19,16 @@ var gt = require('../../getui/gt.js');
 exports.start = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var process = ApiUtil.buildProcess(req);
+
+  //删除老工地，每一个用户只能有一个工地
+  Process.removeOneByQuery({
+    userid: userid
+  }, function (err) {
+    if (err) {
+      return next(err);
+    }
+  });
+
   process.userid = userid;
   process.going_on = type.process_section_kai_gong;
   process.sections = [];
