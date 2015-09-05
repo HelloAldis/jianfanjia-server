@@ -339,8 +339,9 @@ function unique(arr,a,b) {
 		}else if(data.status >= 2){
 			sStatus = '<a href="scheme_create.html?userid='+data.userid+'&name='+encodeURI(data.user.username)+'&create" class="scheme">提交方案</a><span>(可提交多个方案)</span>';
 		}
+		var imgid = data.user.imageid ? RootUrl+'api/v1/image/'+data.user.imageid : '../../static/img/public/headpic.jpg';
 		return '<div class="item f-cb" data-item="'+data.userid+'">'
-					+'<div class="head f-fl"><img src="" alt="" /></div>'
+					+'<div class="head f-fl"><img src="'+imgid+'" alt="" /></div>'
 					+'<div class="info f-fl">'
 						+'<h4>业主：'+data.user.username+'</h4>'
 						+'<p>小区名称：'+data.requirement.cell+'</p>'

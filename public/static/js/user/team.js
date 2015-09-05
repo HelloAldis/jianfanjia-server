@@ -216,9 +216,9 @@ $(function(){
 				var teamCity = userArr[1];
 				var teamDist = userArr[2];
 			}else{
-				var teamProv = $tameHometown.find('input[name=tame-hometown0]').val();
-				var teamCity = $tameHometown.find('input[name=tame-hometown1]').val();
-				var teamDist = $tameHometown.find('input[name=tame-hometown2]').val();
+				var teamProv = $tameHometown.find('.province').find('.value').html();
+				var teamCity = $tameHometown.find('.city').find('.value').html();
+				var teamDist = $tameHometown.find('.area').find('.value').html();
 			}
 			$.ajax({
 				url:url,
@@ -229,8 +229,8 @@ $(function(){
 					"_id" : id,
 					"manager": teamName,
 					"province": teamProv,
-					"district":teamCity,
 					"city":teamCity,
+					"district":teamDist,
 					"sex":teamSex,
 					"uid":teamUid,
 					"company": teamCom,
