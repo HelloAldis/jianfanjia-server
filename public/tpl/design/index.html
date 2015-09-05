@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -13,7 +13,14 @@
 	<script type="text/javascript" src="../../static/js/lib/handlebars.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/page.js"></script>
-	<script type="text/javascript" src="../../static/js/design/index.js"></script>
+	<!--[if lt IE 9]>
+      <script type="text/javascript" src="../../static/js/lib/json2-min.js"></script>
+    <![endif]-->
+     <!--[if lt IE 8]>
+      <script type="text/javascript">
+      	if(!-[1,]){window.location.href = "../other/error.html";} 
+      </script>
+    <![endif]-->
 </head>
 <body>
 	<div class="g-hd">
@@ -34,7 +41,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="g-subad"><img src=".../../../../static/img/design/banner.jpg" height="434" width="1920" alt="" /></div>
+	<div class="g-subad"><img src=".../../../../static/img/design/banner.jpg" alt="" /></div>
 	<div class="design-list" id="j-design-list">
 		<div class="m-filter g-wp">
 			<dl data-type="dec_styles" class="f-cb">
@@ -112,5 +119,6 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="../../static/js/design/index.js"></script>
 </body>
 </html>
