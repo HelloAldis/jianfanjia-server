@@ -160,6 +160,9 @@
 		$('#imgList').html(imgList);
 	}
 	$collect.on('click',function(){
+		if(!window.usertype){
+			window.location.href = "../user/login.html";
+		}
 		if(!$(this).hasClass('cancel')){
 			favorite('POST',function(res){
 				if(res['msg'] === "success"){

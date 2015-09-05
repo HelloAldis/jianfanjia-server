@@ -214,8 +214,9 @@
 			$.extend(this.settings = {
 				id : null,
 				data : [],
-				list : ['次卧','客卧','衣帽间','书房']
+				list : ['次卧','客卧','衣帽间','书房','主卫','客卫','阳台一','阳台二']
 			},options || {});
+			this.listArr = this.settings.list;
 			this.countId = 0;
 			this.PriceBox = $('#'+this.settings.id);
 			this.tBody = this.PriceBox.find('tbody');
@@ -228,16 +229,17 @@
 			this.reckonTrPrice();
 			this.reckonAllPrice();
 			this.inputBlur();
-			this.pupop = $('<div class=""></div>')
+			this.pupop = $('<div class="m-newItem"><h3>添加新项目</h3><div class="list"></div><div class="custom"></div></div>')
 			this.body.append(this.pupop)
 		}
 		OnlinePrice.prototype = {
-			createTrData : function(data){
+			createTrData : function(data,color,order){
 				var self = this;
-				var oTr = $('<tr>');
+				var oBtn = true;
+				var oTr = $('<tr id="'+(data.item === '主卧' ? "addTo" : "")+' class="'+(color ? "color" : "")+'">');
 				oTr.append($('<td class="td1">'+data.item+'</td>'));
-				oTr.append($('<td class="td2"><div class="inp"><input class="price" type="text" name="'+this.settings.id+"-num-"+self.countId+'" id="'+this.settings.id+"-num-"+self.countId+'" placeholder="请输入整数金额" value="'+data.price+'" /></div></td>'));
-				oTr.append($('<td class="td3"><div class="textarea"><textarea name="'+this.settings.id+"-con-"+this.countId+'" id="'+this.settings.id+"-con-"+this.countId+'" cols="30" rows="10">'+data.remark+'</textarea></div></td>'));
+				oTr.append($('<td class="td2"><div class="inp"><input class="price" type="text" name="'+this.settings.id+"-num-"+self.countId+'" id="'+this.settings.id+"-num-"+self.countId+'" placeholder="请输入整数金额" value="'+(data.price == 0 ? "" : data.price)+'" /></div></td>'));
+				oTr.append($('<td class="td3"><div class="textarea"><textarea name="'+this.settings.id+"-con-"+this.countId+'" id="'+this.settings.id+"-con-"+this.countId+'" cols="30" rows="10">'+data.description+'</textarea></div></td>'));
 				if(data.item === '主卧'){
 					oTr.append($('<td class="td4"><a href="javascript:;" class="add"><span></span><em></em></a></td>'))
 				}else if(data.item === '设计费'){
@@ -248,19 +250,61 @@
 				if(data.item === '设计费'){
 					this.tFoot.append(oTr);
 				}else{
-					this.tBody.append(oTr);
+					if(!!order){
+						if(oBtn){
+							oBtn = false;
+							$("#addTo").after(oTr);
+						}else{
+							$("#addTo").next().eq(0).before(oTr);
+						}
+					}else{
+						this.tBody.append(oTr);
+					}
 				}			
+			},
+			newTrList : function(){
+				var self = this;
+				var sHtml = ''
+				for (var i = 0,len = this.listArr.length; i < len; i++) {
+					sHtml+= '<a href="javascript:;" class="btns">'+this.listArr[i]+'</a>'
+				};
+				this.pupop.find('.list').html(sHtml);
+				var aBtn = this.pupop.find('.btns');
+				aBtn.on('click',function(){
+					var index = $(this).index();
+					this.countId++;
+					self.createTrData({"item": $(this).html(), "price": 0,"description":""},true,true) 
+					self.listArr.splice(index,1);
+					self.pupop.hide();
+				})
+			},
+			customTrList : function(){
+				var self = this;
+				var sHtml = '自定义：<input type="text" id="customVal" /><input type="button" id="customBtn" value="添加新项目" />'
+				this.pupop.find('.custom').html(sHtml);
+				$('#customBtn').on('click',function(){
+					var value = $('#customVal').val()
+					if(!!$.trim(value)){
+						self.createTrData({"item": value, "price": 0,"description":""},true);
+						self.pupop.hide();
+					}else{
+						alert('请输入新添加项目名称')
+					}
+				})
 			},
 			createTrEvent : function(){
 				var self = this;
 				this.PriceBox.delegate('.add','click',function(){
 					self.countId++;
-					var name = prompt("请输入新项目名称", "");
-					if(!!name){
-						self.createTrData(name) 
-					}else{
-						alert('请输入新项目名称')
-					}
+					self.newTrList();
+					self.customTrList();
+					self.pupop.show();
+					// var name = prompt("请输入新项目名称", "");
+					// if(!!name){
+					// 	self.createTrData(name) 
+					// }else{
+					// 	alert('请输入新项目名称')
+					// }
 				})
 			},
 			newTrItem : function(){
@@ -472,7 +516,7 @@
 	function submitScheme(){
 		var schemeItem =new OnlinePrice({
 			id : 'j-scheme-item',
-			data : [{"item": "基础工程", "price": 0,"remark":""},{"item": "水电工程", "price": 0,"remark":""},{"item": "客餐厅及走道", "price": 0,"remark":""},{"item": "主卧", "price": 0,"remark":""},{"item": "厨房", "price": 0,"remark":""},{"item": "安装工程", "price": 0,"remark":""},{"item": "其他工程", "price": 0,"remark":""},{"item": "设计费", "price": 0,"remark":""}]
+			data : [{"item": "基础工程", "price": 0,"description":""},{"item": "水电工程", "price": 0,"description":""},{"item": "客餐厅及走道", "price": 0,"description":""},{"item": "主卧", "price": 0,"description":""},{"item": "厨房", "price": 0,"description":""},{"item": "安装工程", "price": 0,"description":""},{"item": "其他工程", "price": 0,"description":""},{"item": "设计费", "price": 0,"description":""}]
 		});
 		$('#scheme-submit').removeClass('hide');
 		$('#scheme-editor').addClass('hide');
@@ -598,8 +642,6 @@
 			return false;
 		})
 	}
-
-
 	//获取HTML5特性支持情况
 	//图片上传
 	var img_id_upload=[];//初始化数组，存储已经上传的图片名

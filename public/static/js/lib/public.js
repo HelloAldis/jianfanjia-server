@@ -8,7 +8,7 @@ var globalData = {
 	scheme_state : ['沟通中','已中标','未中标'],
 	orders_area : ['汉口','汉阳','武昌'],
 	price_area  : ['50－100','100-200','200－300','300以上'],
-	house_type : ['一居','二居','三居','四居','复式','别墅'],
+	house_type : ['一居','二居','三居','四居','复式','别墅','商业'],
 	dec_flow : ['开工','拆改','水电','泥木','油漆','安装','竣工'],
 	des_type : ['不限','表达型','聆听型'],
 	auth_type : ['未提交认证','审核中','审核通过'],
@@ -294,65 +294,30 @@ function IdentityCodeValid(code){
 }
 
 /*
-	pStr  要截取字符串
-	pLen  截取长度
+	str  要截取字符串
+	len  截取长度
 */
-function ellipsisStr(pStr, pLen) { 
- 
-    var _ret = cutString(pStr, pLen); 
-    var _cutFlag = _ret.cutflag; 
-    var _cutStringn = _ret.cutstring; 
- 	function cutString(pStr, pLen) { 
-	    // 原字符串长度 
-	    var _strLen = pStr.length,
-	    	_tmpCode,
-	   	    _cutString; 
-	    // 默认情况下，返回的字符串是原字符串的一部分 
-	    var _cutFlag = "1"; 
-	    var _lenCount = 0; 
-	    var _ret = false; 
-	    if (_strLen <= pLen/2) { 
-	        _cutString = pStr; 
-	        _ret = true; 
-	    } 
-	    if (!_ret) { 
-	        for (var i = 0; i < _strLen ; i++ ) { 
-	            if (isFull(pStr.charAt(i))) { 
-	                _lenCount += 2; 
-	            } else { 
-	                _lenCount += 1; 
-	            } 
-	 
-	            if (_lenCount > pLen) { 
-	                _cutString = pStr.substring(0, i); 
-	                _ret = true; 
-	                break; 
-	            } else if (_lenCount == pLen) { 
-	                _cutString = pStr.substring(0, i + 1); 
-	                _ret = true; 
-	                break; 
-	            } 
-	        } 
-	    }  
-	    if (!_ret) { 
-	        _cutString = pStr; 
-	        _ret = true; 
-	    } 
-	    if (_cutString.length == _strLen) { 
-	        _cutFlag = "0"; 
-	    } 
-	    return {"cutstring":_cutString, "cutflag":_cutFlag}; 
+function ellipsisStr(str, len){ 
+	if(str.length*2 <= len) {
+	    return str;
 	}
-	function isFull(pChar) {
-		for (var i = 0; i < pChar.strLen ; i++ ) {     
-		    if ((pChar.charCodeAt(i) > 128)) { 
-		        return true; 
-		    } else { 
-		        return false; 
-		    }
-		}
-	}
-    return "1" == _cutFlag ? _cutStringn + "..." : _cutStringn;
+    var strlen = 0;
+    var s = "";
+    for(var i = 0;i < str.length; i++) {
+        s = s + str.charAt(i);
+        if (str.charCodeAt(i) > 128) {
+            strlen = strlen + 2;
+            if(strlen >= len){
+                return s.substring(0,s.length-1) + "...";
+            }
+        } else {
+            strlen = strlen + 1;
+            if(strlen >= len){
+                return s.substring(0,s.length-2) + "...";
+            }
+        }
+    }
+	return s;
 } 
  
 
