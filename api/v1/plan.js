@@ -3,6 +3,7 @@ var eventproxy = require('eventproxy');
 var User = require('../../proxy').User;
 var Plan = require('../../proxy').Plan;
 var Requirement = require('../../proxy').Requirement;
+var Designer = require('../../proxy').Designer;
 var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
@@ -134,7 +135,23 @@ exports.userMyPlan = function (req, res, next) {
       return next(err);
     }
 
-    res.sendData(plans);
+    async.mapLimit(plans, 3, function (plan, callback) {
+      Designer.findOne({
+        _id: plan.designerid
+      }, {
+        username: 1
+      }, function (err, designer) {
+        plan = plan.toObject();
+        plan.designer = designer;
+        callback(err, plan);
+      });
+    }, function (err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      res.sendData(results);
+    });
   });
 }
 

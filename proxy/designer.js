@@ -101,3 +101,23 @@ exports.getSByQueryAndProject = function (query, project, callback) {
 exports.getOneByQueryAndProject = function (query, project, callback) {
   Designer.findOne(query, project, callback);
 }
+
+exports.findOne = function (query, project, callback) {
+  Designer.findOne(query, project, callback);
+}
+
+exports.find = function (query, project, option, callback) {
+  Designer.find(query, project, option, callback);
+}
+
+exports.updateOne = function (query, update, option, callback) {
+  Designer.findOneAndUpdate(query, update, option, callback)
+}
+
+exports.update = function (query, option, callback) {
+  Designer.findOne(query, option, callback);
+}
+
+exports.removeOne = function (query, option, callback) {
+  Designer.findOneAndRemove(query, option, callback);
+}
