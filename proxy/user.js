@@ -18,10 +18,6 @@ exports.getUserById = function (id, callback) {
   }, callback);
 };
 
-exports.getUsersByQuery = function (query, opt, callback) {
-  User.find(query, '', opt, callback);
-};
-
 exports.newAndSave = function (json, callback) {
   var user = new User(json);
   user.accessToken = uuid.v4();

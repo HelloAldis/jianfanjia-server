@@ -103,6 +103,7 @@ exports.myUser = function (req, res, next) {
       }, {
         username: 1,
         phone: 1,
+        imageid: 1,
       }, function (err, user) {
         plan.user = user;
         callback(err, plan);

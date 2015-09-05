@@ -183,7 +183,23 @@ exports.designerMyPlan = function (req, res, next) {
       return next(err);
     }
 
-    res.sendData(plans);
+    async.mapLimit(plans, 3, function (plan, callback) {
+      User.getOneByQueryAndProject({
+        _id: plan.userid
+      }, {
+        username: 1
+      }, function (err, user) {
+        plan = plan.toObject();
+        plan.user = user;
+        callback(err, plan);
+      });
+    }, function (err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      res.sendData(results);
+    });
   });
 }
 
