@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -12,6 +12,14 @@
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/IdentityCodeValid.js"></script>
+	<!--[if lt IE 9]>
+      <script type="text/javascript" src="../../static/js/lib/json2-min.js"></script>
+    <![endif]-->
+     <!--[if lt IE 8]>
+      <script type="text/javascript">
+      	if(!-[1,]){window.location.href = "../other/error.html";} 
+      </script>
+    <![endif]-->
 </head>
 <body>
 	<div class="g-hd">
@@ -191,8 +199,9 @@
 					<div class="m-item m-error-info hide"></div>
 					<div class="m-item">
 						<div class="u-btn">
-							<a class="javascript:;" class="btn" id="team-submit" />创建</a>
-							<a class="javascript:;" class="btn" id="team-cancel" />取消</a>
+							<a href="javascript:;" class="btn" id="team-submit" />创建</a>
+							<a href="javascript:;" class="btn hide" id="team-editor" />编辑</a>
+							<a href="javascript:;" class="btn" id="team-cancel" />取消</a>
 						</div>
 					</div>
 			</div>

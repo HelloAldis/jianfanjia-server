@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -12,6 +12,14 @@
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/page.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+		<!--[if lt IE 9]>
+      <script type="text/javascript" src="../../static/js/lib/json2-min.js"></script>
+    <![endif]-->
+     <!--[if lt IE 8]>
+      <script type="text/javascript">
+      	if(!-[1,]){window.location.href = "../other/error.html";} 
+      </script>
+    <![endif]-->
 </head>
 <body>
 	<div class="g-hd">
@@ -167,7 +175,7 @@
 	}
 	//创建列表
 	function createList(data){
-		var img = '../../static/img/public/headpic.jpg' || RootUrl+'api/v1/image/'+data.imageid;
+		var img = data.imageid ? RootUrl+'api/v1/image/'+data.imageid : '../../static/img/public/headpic.jpg';
 		if(data.plans.length){
 			var index = 0;
 		  	var max = parseInt(data.plans[index].status);
@@ -198,11 +206,11 @@
 						+'<label><input type="checkbox" name="" id="" />选中</label>'
 					+'</div>'
 					+'<div class="info f-fl">'
-						+'<a href="" class="head">'
+						+'<a href="../design/homepage.html?'+data._id+'" class="head">'
 							+'<img src="'+img+'" alt="'+data.username+'" />'
 						+'</a>'
 						+'<h4>'+data.username+'</h4>'
-						+'<p>'+data.order_count+'</p>'
+						+'<p>'+(!!data.province ? data.province+" "+data.city+" "+data.district : "&nbsp;")+'</p>'
 						+'<p>作品数：<span>'+data.product_count+'</span>预约数：<span>'+data.order_count+'</span></p>'
 						+'<p>量房时间：<span>10月8日 下午6:00（星期三）</span></p>'
 					+'</div>'

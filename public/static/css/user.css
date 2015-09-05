@@ -1289,18 +1289,6 @@
 	margin-right: 10px;
 	margin-bottom: 10px;
 }
-.scheme_create .create-item{
-	width: 100%;
-}
-.scheme_create .m-item .file-list .pic{
-	width: 100%;
-	height: auto;
-	background: none;
-}
-.scheme_create .uploadify-button{
-	text-align: center;
-	background-color: #ddd;
-}
 .scheme_create .m-item .file-list .pic .list{
 	float: left;
 	width: 244px;
@@ -1308,6 +1296,9 @@
 	overflow: hidden;
 	margin-right: 10px;
 	margin-bottom: 10px;
+}
+.scheme_create .create-item,.scheme_create .previews-item{
+	height: 275px;
 }
 .scheme_create .m-item .file-list .pic .list img{
 	width: 100%;

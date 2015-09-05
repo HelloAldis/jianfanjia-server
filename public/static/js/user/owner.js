@@ -1,4 +1,5 @@
 $(function(){
+	var winHash = window.location.hash.substring(1);
 	var ownerArea = new ComboBox({
 		id:'owner-area',
 		list:globalData.orders_area
@@ -133,7 +134,6 @@ $(function(){
 			success: function(res){
 				if(res['msg'] === 'success'){
 					window.location.href = 'owner_design.html';
-					loadList();
 				}else{
 					$('#error-info').html(res['err']).removeClass('hide');	
 				}
@@ -150,31 +150,27 @@ $(function(){
 			dataType: 'json',
 			success: function(res){
 				var data = res['data']
+				console.log(data)
 				if(data !== null){
-					$.ajax({
-						url:RootUrl+'api/v1/user/info',
-						type: 'GET',
-						async : false,
-						cache : false,
-						contentType : 'application/json; charset=utf-8',
-						dataType: 'json',
-						success: function(res){
-							if(res['data'] !== null){
-								userName.val(res['data']["username"] || "");
-							}
-						}
-					});
+					userName.val(decodeURI(window.username) || "");
 					comName.val(data.cell);
 					decArea.val(data.house_area)
 					decBudget.val(data.total_price)
 					$('#owner-area').find('.value').html(data.district);
+					$('#owner-area').find('input[name=owner-area]').val(data.district);
 					$('#house_type').find('.value').html(globalData.house_type[data.house_type]);
+					$('#house_type').find('input[name=house_type]').val(globalData.house_type[data.house_type]);
 					$('#dec_style').find('.value').html(globalData.dec_style[data.dec_style]);
+					$('#dec_style').find('input[name=dec_style]').val(globalData.dec_style[data.dec_style]);
 					$('#work_type').find('.value').html(globalData.work_type[data.work_type]);
+					$('#work_type').find('input[name=work_type]').val(globalData.work_type[data.work_type]);
 					$('#design_type').find('.value').html(globalData.des_type[data.communication_type]);
+					$('#design_type').find('input[name=design_type]').val(globalData.des_type[data.communication_type]);
 				}
 		   	}
 		});
 	}
-	loadList();
+	if(winHash != 'new'){
+		loadList();
+	}
 })

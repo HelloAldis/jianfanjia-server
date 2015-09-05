@@ -27,15 +27,18 @@ var tdist={"110000":["\u5317\u4eac","1"],"110100":["\u5317\u4eac\u5e02","110000"
 			var Default = [
 				{
 					en : 'province',
-					cn : '省'
+					cn : '省',
+					num : '1'
 				},
 				{
 					en : 'city',
-					cn : '市'
+					cn : '市',
+					num : '110000'
 				},
 				{
 					en : 'area',
-					cn : '县/区'
+					cn : '县/区',
+					num : '110100'
 				}
 			];
 			var selectData = '';
@@ -52,13 +55,16 @@ var tdist={"110000":["\u5317\u4eac","1"],"110100":["\u5317\u4eac\u5e02","110000"
 			this.bOFF = false;
 			this.bOff = false;
 			this.value = '没有选择';
-			this.input = $('<input type="hidden" name="'+this.settings.id+'" data-coding="1 110000 110100" value="'+this.value+'" />');
+			this.input = $('<input type="hidden" name="'+this.settings.id+'" value="'+this.value+'" />');
 			this.selectBox.append(this.input);
 			this.selectBox.append(selectData);
 			this.input.val(this.settings.query);
-			var areaData = this.input.data("coding").split(' ');
-			for (var i = 0; i < areaData.length; i++) {
-				Default[i].num = areaData[i]
+			for (var i = 0; i < this.queryData.length; i++) {
+				for(var attr in this.settings.data){
+					if(this.queryData[i] == this.settings.data[attr][0]){
+						Default[i].num = this.settings.data[attr][1];
+					}
+				}
 			};
 			this.list1 = this.selectBox.find('.province');
 			this.list2 = this.selectBox.find('.city');
@@ -85,40 +91,26 @@ var tdist={"110000":["\u5317\u4eac","1"],"110100":["\u5317\u4eac\u5e02","110000"
 		optionEvevt : function(obj){
 			var self = this;
 			var option = obj.find('.option');
+			var value = option.find('.value').html();
 			option.on('click' , function(ev){
 				self.body.click();
-				if(obj == self.list1){
+				if(value != "请选择省" && obj == self.list1){
 					self.bOFF = true;
 					self.bOff = false;
 				}
-				if(self.list1.find('.value').html() != "请选择省"){
-					self.bOFF = true;
-					self.bOff = false;
-				}
-				if(self.list2.find('.value').html() != "请选择市"){
+				if(obj == self.list2 && value != "请选择市"){
 					self.bOff = true;
 				}
-				if(obj == self.list2){
-					self.bOff = true;
-				}
-				if(!self.bOFF){
-					console.log(4)
-					if(obj == self.list2){
+				if(!self.bOFF && obj == self.list2){
+					if(self.list1.find('.value').html() == "请选择省"){
 						alert('请先选择省');
 						return false;
 					}
 				}
 				if(!self.bOFF && !self.bOff){
-					if(obj == self.list3){
-						alert('请先选择市');
+					if(obj == self.list3 && self.list2.find('.value').html() == "请选择市"){
+						alert('请先选择市1');
 						return false;
-					}
-				}else{
-					if(!self.bOff){
-						if(obj == self.list3 && self.list2.find('.value').html() != "请选择市"){
-							alert('请先选择市2');
-							return false;
-						}
 					}
 				}
 				self.selectShow(obj);
@@ -129,7 +121,7 @@ var tdist={"110000":["\u5317\u4eac","1"],"110100":["\u5317\u4eac\u5e02","110000"
 			var self = this,
 				oInput = obj.find('input'),
 				oOption = obj.find('.option').find('.value');
-			this.body.on('click' , function(ev){
+			this.body.on('click', function(ev){
 				self.selectHide(); 
 			});
 			obj.delegate('li', 'click' , function(ev){

@@ -1,7 +1,7 @@
 /*装修直播*/
 .live-banner{
-	height: 515px;
-	background:url(../img/live/live-banner.jpg) 0 0 no-repeat;
+	height: 400px;
+	background:#ededed url(../img/live/banner.jpg) center 0 no-repeat;
 }
 .live-list{
 	padding-top: 36px;

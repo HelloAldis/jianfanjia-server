@@ -33,27 +33,21 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 	}
 }
 (function ($) {
-
 	var pluses = /\+/g;
-
 	function encode(s) {
 		return config.raw ? s : encodeURIComponent(s);
 	}
-
 	function decode(s) {
 		return config.raw ? s : decodeURIComponent(s);
 	}
-
 	function stringifyCookieValue(value) {
 		return encode(config.json ? JSON.stringify(value) : String(value));
 	}
-
 	function parseCookieValue(s) {
 		if (s.indexOf('"') === 0) {
 			// This is a quoted cookie as according to RFC2068, unescape...
 			s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
 		}
-
 		try {
 			// Replace server-side written pluses with spaces.
 			// If we can't decode the cookie, ignore it, it's unusable.
@@ -62,16 +56,12 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 			return config.json ? JSON.parse(s) : s;
 		} catch(e) {}
 	}
-
 	function read(s, converter) {
 		var value = config.raw ? s : parseCookieValue(s);
 		return $.isFunction(converter) ? converter(value) : value;
 	}
-
 	var config = $.cookie = function (key, value, options) {
-
 		// Write
-
 		if (arguments.length > 1 && !$.isFunction(value)) {
 			options = $.extend({}, config.defaults, options);
 
@@ -79,7 +69,6 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 				var days = options.expires, t = options.expires = new Date();
 				t.setMilliseconds(t.getMilliseconds() + days * 864e+5);
 			}
-
 			return (document.cookie = [
 				encode(key), '=', stringifyCookieValue(value),
 				options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
@@ -88,9 +77,7 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 				options.secure  ? '; secure' : ''
 			].join(''));
 		}
-
 		// Read
-
 		var result = key ? undefined : {},
 			// To prevent the for loop in the first place assign an empty array
 			// in case there are no cookies at all. Also prevents odd result when
@@ -98,38 +85,32 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 			cookies = document.cookie ? document.cookie.split('; ') : [],
 			i = 0,
 			l = cookies.length;
-
 		for (; i < l; i++) {
 			var parts = cookies[i].split('='),
 				name = decode(parts.shift()),
 				cookie = parts.join('=');
-
 			if (key === name) {
 				// If second argument (value) is a function it's a converter...
 				result = read(cookie, value);
 				break;
 			}
-
 			// Prevent storing a cookie that we couldn't decode.
 			if (!key && (cookie = read(cookie)) !== undefined) {
 				result[name] = cookie;
 			}
 		}
-
 		return result;
 	};
-
 	config.defaults = {};
-
 	$.removeCookie = function (key, options) {
 		// Must not alter options, thus extending a fresh object...
 		$.cookie(key, '', $.extend({}, options, { expires: -1 }));
 		return !$.cookie(key);
 	};
-
 }));
 window.username = $.cookie("username");
 window.usertype = $.cookie("usertype");
+ $.ajaxSetup({cache:false}) //全局缓存，解决ie问题
 //消息提示框
 function promptMessage(str,msg){
 	var $win = $(window);
@@ -389,8 +370,6 @@ $(function(){
 		}else if(window.usertype == 2){
 			userLogin.html('<a href="../user/design.html">设计师 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
 		}
-	}else{
-		console.log('未登陆状态')
 	}
 	//退出操作
 	$(document.body).delegate('#signout','click',function(ev){

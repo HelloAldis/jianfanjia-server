@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -12,6 +12,14 @@
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/page.js"></script>
+			<!--[if lt IE 9]>
+      <script type="text/javascript" src="../../static/js/lib/json2-min.js"></script>
+    <![endif]-->
+     <!--[if lt IE 8]>
+      <script type="text/javascript">
+      	if(!-[1,]){window.location.href = "../other/error.html";} 
+      </script>
+    <![endif]-->
 </head>
 <body>
 	<div class="g-hd">
@@ -82,49 +90,7 @@
 									<th class="td3">备注说明</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<td class="td1">基础工程</td>
-									<td class="td2">3000元</td>
-									<td class="td3">项目：暗香，人数20人</td>
-								</tr>
-								<tr>
-									<td class="td1">水电工程</td>
-									<td class="td2">3000元</td>
-									<td class="td3">顶面基层处理，顶面乳胶漆，墙面基层处理，墙面乳胶漆，石膏板造型吊顶，地面找平，电视背景墙鞋柜及挂衣板</td>
-								</tr>
-								<tr>
-									<td class="td1">客餐厅及走道</td>
-									<td class="td2">3000元</td>
-									<td class="td3">顶面基层处理，顶面乳胶漆，墙面基层处理，墙面乳胶漆，石膏板造型吊顶，地面找平，电视背景墙鞋柜及挂衣板</td>
-								</tr>
-								<tr>
-									<td class="td1">基础工程</td>
-									<td class="td2">3000元</td>
-									<td class="td3">项目：暗香，人数20人</td>
-								</tr>
-								<tr>
-									<td class="td1">水电工程</td>
-									<td class="td2">3000元</td>
-									<td class="td3">顶面基层处理，顶面乳胶漆，墙面基层处理，墙面乳胶漆，石膏板造型吊顶，地面找平，电视背景墙鞋柜及挂衣板</td>
-								</tr>
-								<tr>
-									<td class="td1">客餐厅及走道</td>
-									<td class="td2">3000元</td>
-									<td class="td3">顶面基层处理，顶面乳胶漆，墙面基层处理，墙面乳胶漆，石膏板造型吊顶，地面找平，电视背景墙鞋柜及挂衣板</td>
-								</tr>
-								<tr>
-									<td class="td1">基础工程</td>
-									<td class="td2">3000元</td>
-									<td class="td3">项目：暗香，人数20人</td>
-								</tr>
-								<tr>
-									<td class="td1">水电工程</td>
-									<td class="td2">3000元</td>
-									<td class="td3">顶面基层处理，顶面乳胶漆，墙面基层处理，墙面乳胶漆，石膏板造型吊顶，地面找平，电视背景墙鞋柜及挂衣板</td>
-								</tr>
-								
-							</tbody>
+							<tbody></tbody>
 						</table>
 						<div class="price"></div>
 					</div>
@@ -294,6 +260,7 @@
 	var $itemprice = $item.find('.price');
 	var $itemTbody = $item.find('tbody');
 	function getPriceDetail(data){
+		console.log(data)
 		$itemTbody.html('');
 		$itemprice.html('');
 		var str = '';

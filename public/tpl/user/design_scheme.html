@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -12,6 +12,14 @@
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/page.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<!--[if lt IE 9]>
+      <script type="text/javascript" src="../../static/js/lib/json2-min.js"></script>
+    <![endif]-->
+     <!--[if lt IE 8]>
+      <script type="text/javascript">
+      	if(!-[1,]){window.location.href = "../other/error.html";} 
+      </script>
+    <![endif]-->
 </head>
 <body>
 	<div class="g-hd">
@@ -126,15 +134,15 @@
 		}else if(data.status == 5){
 			sStatus = '<i class="iconfont">&#xe616;</i>已中标';
 		}
-		var images = '';
-		for (var i = 0; i < images.length; i++) {
-			images = '<img src="../../img/user/scheme1.jpg" alt="" />'
+		var image = '';
+		for (var i = 0; i < data.images.length; i++) {
+			image = '<img src="'+RootUrl+'api/v1/image/'+data.images[i]+'" alt="" />'
 		};
 		return '<div class="item" data-uid="'+data._id+'">'
 						+'<div class="info f-cb">'
 							+'<ul class="f-fl">'
 								+'<li><h4>业主<span>'+data.manager+'</span>的方案</h4></li>'
-								+'<li>报价：&yen;<span>'+data.total_price+'</span>万</li>'
+								+'<li>报价：&yen;<span>'+(data.total_price/10000)+'</span>万</li>'
 								+'<li>工期：<span>'+data.duration+'</span>天</li>'
 							+'</ul>'
 							+'<div class="f-fr state state'+data.status+'">'
@@ -143,11 +151,11 @@
 						+'</div>'
 						+'<div class="desc">'
 							+'<p>设计说明：'+data.description+'</p>'
-							+'<div class="pic f-cb">'+images+'</div>'
+							+'<div class="pic f-cb">'+image+'</div>'
 						+'</div>'
 						+'<div class="handle">'
 							+'<a href="scheme_detail.html?'+data._id+'#comment" class="msg">留言<span>('+data.comments.length+')</span></a>'
-							+(data.status == 5 ? "" : '<a href="scheme_create.html?'+data._id+'" class="btns confirm">修改方案</a>')+'<a href="scheme_detail.html?'+data._id+'" class="btns browse">预览方案</a>'
+							+(data.status == 5 ? "" : '<a href="scheme_create.html?userid='+data._id+'&name='+encodeURI(data.manager)+'" class="btns confirm">修改方案</a>')+'<a href="scheme_detail.html?'+data._id+'" class="btns browse">预览方案</a>'
 						+'</div>'
 					+'</div>'
 	}

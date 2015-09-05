@@ -262,7 +262,6 @@ $(function(){
 				contentType : 'application/json; charset=utf-8',
 				dataType: 'json',
 				success: function(res){
-					console.log(res['data'])
 					if(res['data'].length){
 						var carousel = new Carousel({
 							id : 'j-index-design',
@@ -288,7 +287,6 @@ $(function(){
 				contentType : 'application/json; charset=utf-8',
 				dataType: 'json',
 				success: function(res){
-					console.log(res['data'])
 					if(res['data'].length){
 						createList(res['data'])
 					}else{

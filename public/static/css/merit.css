@@ -1,16 +1,20 @@
 .g-banner1{
-	height: 3145px;
+	overflow: hidden;
+	height: 3000px;
 	background:url(../../static/img/merit/merit01.jpg) center 0 no-repeat;
 }
 .g-banner2{
-	height: 4102px;
+	overflow: hidden;
+	height: 4016px;
 	background:url(../../static/img/merit/merit02.jpg) center 0 no-repeat;
 }
 .g-banner3{
-	height: 6084px;
+	overflow: hidden;
+	height: 5900px;
 	background:url(../../static/img/merit/merit03.jpg) center 0 no-repeat;
 }
 .tabNav{
+	margin-top: 400px;
 	height: 100px;
 }
 .tabNav li{
