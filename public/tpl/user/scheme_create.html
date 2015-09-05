@@ -239,7 +239,7 @@
 				var oTr = $('<tr id="'+(data.item === '主卧' ? "addTo" : "")+' class="'+(color ? "color" : "")+'">');
 				oTr.append($('<td class="td1">'+data.item+'</td>'));
 				oTr.append($('<td class="td2"><div class="inp"><input class="price" type="text" name="'+this.settings.id+"-num-"+self.countId+'" id="'+this.settings.id+"-num-"+self.countId+'" placeholder="请输入整数金额" value="'+(data.price == 0 ? "" : data.price)+'" /></div></td>'));
-				oTr.append($('<td class="td3"><div class="textarea"><textarea name="'+this.settings.id+"-con-"+this.countId+'" id="'+this.settings.id+"-con-"+this.countId+'" cols="30" rows="10">'+data.description+'</textarea></div></td>'));
+				oTr.append($('<td class="td3"><div class="textarea"><textarea name="'+this.settings.id+"-con-"+this.countId+'" id="'+this.settings.id+"-con-"+this.countId+'" cols="30" rows="10">'+(data.description ? data.description : '')+'</textarea></div></td>'));
 				if(data.item === '主卧'){
 					oTr.append($('<td class="td4"><a href="javascript:;" class="add"><span></span><em></em></a></td>'))
 				}else if(data.item === '设计费'){
@@ -299,12 +299,6 @@
 					self.newTrList();
 					self.customTrList();
 					self.pupop.show();
-					// var name = prompt("请输入新项目名称", "");
-					// if(!!name){
-					// 	self.createTrData(name) 
-					// }else{
-					// 	alert('请输入新项目名称')
-					// }
 				})
 			},
 			newTrItem : function(){

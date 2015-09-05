@@ -27,8 +27,11 @@ $(function(){
 			type: 'GET',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
+			async : false,
 			success: function(res){
-				createList(res['data'],data)
+				if(res['data'] != null){
+					createList(res['data'],data)
+				}
 		   	}
 		});
 		return false;
