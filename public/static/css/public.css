@@ -583,7 +583,7 @@ table{border-collapse:collapse;border-spacing:0}
 	width: 100%;
 	min-width: 1200px;
 	padding-top: 50px;
-	padding-bottom: 20px;
+	padding-bottom: 30px;
 	background-color: #3c3c3c;
 	border-bottom: 1px solid #4c4c4c;
 }
@@ -612,7 +612,11 @@ table{border-collapse:collapse;border-spacing:0}
 	color: #fff;
 }
 .m-sitemap .erweima{
+	width: 180px;
 	padding-right: 115px;
+}
+.m-sitemap .erweima img{
+	width: 100%;
 }
 .m-copy{
 	width: 100%;

@@ -1,32 +1,4 @@
 $(function(){
-	var img_id_upload=[];//初始化数组，存储已经上传的图片名
-	var i=0;//初始化数组下标
-	    $('#fileToUpload').uploadify({
-	    	'auto'     : false,//关闭自动上传
-	    	'removeTimeout' : 1,//文件队列上传完成1秒后删除
-	        'swf'      : 'uploadify.swf',
-	        'uploader' : RootUrl+'api/v1/image/upload',
-	        'method'   : 'post',//方法，服务端可以用$_POST数组获取数据
-			'buttonText' : '选择图片',//设置按钮文本
-	        'multi'    : true,//允许同时上传多张图片
-	        'uploadLimit' : 10,//一次最多只允许上传10张图片
-	        'fileTypeDesc' : 'Image Files',//只允许上传图像
-	        'fileTypeExts' : '*.gif; *.jpg; *.png',//限制允许上传的图片后缀
-	        'fileSizeLimit' : '20000KB',//限制上传的图片不得超过200KB 
-	        'onUploadSuccess' : function(file, data, response) {//每次成功上传后执行的回调函数，从服务端返回数据到前端
-	        	var data = $.parseJSON(data)
-	               img_id_upload[i]=data.data;
-	               i++;
-	               if(!data.data){
-	               		$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+data.data).data('imgId',data.data)
-	               }
-	        },
-	        'onQueueComplete' : function(queueData) {//上传队列全部完成后执行的回调函数
-	           // if(img_id_upload.length>0)
-	           // alert('成功上传的文件有：'+encodeURIComponent(img_id_upload));
-	        }  
-	        // Put your options here
-	    });
 	var check_step = 0;
     var errMsg = {
         "reg_name": "请输入姓名",
@@ -132,14 +104,14 @@ $(function(){
     function checkSex(){    //性别
         if(desSex.find('input').eq(0).is(":checked")){
             check_step--;
-            desSex.find('.tips-info').addClass('hide').html("")
-            return false;
+            $('#design-sex-box').find('.tips-info').addClass('hide').html("")
+            return true;
         }else if(desSex.find('input').eq(1).is(":checked")){
         	check_step--;
-            desSex.find('.tips-info').addClass('hide').html("")
-            return false;
+            $('#design-sex-box').find('.tips-info').addClass('hide').html("")
+            return true;
         }else{
-        	desSex.find('.tips-info').removeClass('hide').html(errMsg["reg_sex"])
+        	$('#design-sex-box').find('.tips-info').removeClass('hide').html(errMsg["reg_sex"])
         	return false;
         } 
     }
@@ -204,10 +176,10 @@ $(function(){
     }
     function checkHouseIntent(){    //意向接单户型验证
      	var id = "reg_decType1";
-        if (!desChatType.find('input').is(":checked")){
-            return showOk(desChatType,true);
+        if (desHouseIntent.find('input').is(":checked")){
+            return showOk(desHouseIntent,true);
         }
-        return showError(desChatType,id);
+        return showError(desHouseIntent,id);
     }
 	function loadList(){
 		var url = RootUrl+'api/v1/designer/info';
@@ -224,7 +196,9 @@ $(function(){
 					desName.val(data.username);
 					desAddr.val(data.address);
 					$('#design-phone').html(data.phone);
-					desSex.find('input[value='+data.sex+']').attr('checked','checked');
+					if(data.sex == 0 || data.sex == 1){
+						desSex.find('input[value='+data.sex+']').attr('checked','checked');
+					}
 					desUid.val(data.uid)
 					if(!!data.province){
 						var designAreaQuery = data.province+" "+data.city+" "+data.district;
@@ -237,8 +211,12 @@ $(function(){
 					desCom.val(data.company || "");
 					desPhilosophy.val(data.philosophy || "");
 					desAchievement.val(data.achievement || "");
-					desChatType.find('input[value='+data.communication_type+']').attr('checked','checked');
-					desPrice.find('input[value='+data.design_fee_range+']').attr('checked','checked');
+					if(!!data.communication_type){
+						desChatType.find('input[value='+data.communication_type+']').attr('checked','checked');
+					}
+					if(!!data.design_fee_range){
+						desPrice.find('input[value='+data.design_fee_range+']').attr('checked','checked');
+					}
 					desDecPrice0.val(data.dec_fee_half || "")
 					desDecPrice1.val(data.dec_fee_all || "")
 					$('#product-count').html(data.product_count+'个');
@@ -270,7 +248,8 @@ $(function(){
 					if(!!data.imageid){	
 						$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+data.imageid)
 					}
-					var img = data.imageid != null  ?  RootUrl+'api/v1/image/'+data.imageid : '../../../static/img/public/headpic.jpg'
+					console.log(data.imageid)
+					var img = data.imageid != null && !!data.imageid  ?  RootUrl+'api/v1/image/'+data.imageid : '../../../static/img/public/headpic.jpg'
 					$('#userHead').attr('src',img).data('img',data.imageid != null ? data.imageid : null)
 				}else{
 					var designArea = new CitySelect({id :'design-area'});
@@ -284,6 +263,7 @@ $(function(){
 		check_step = 9;
 		checkName();
 		checkSex();
+		console.log(checkHouseIntent())
 		checkAddr();
 		checkUid();
 		checkDecType();
@@ -292,24 +272,27 @@ $(function(){
 		checkPrice1();
         checkPrice2();
         checkHouseIntent();
+        var userProv = desArea.find('.province').find('.value').html();
+		var userCity = desArea.find('.city').find('.value').html();
+		var userDist = desArea.find('.area').find('.value').html();
+        if(userProv == '请选择省'){
+        	$('#design-area-box').find('.tips-info').html('请选择所在地区').removeClass('hide');
+			return false;
+		}else{
+			$('#design-area-box').find('.tips-info').html('').addClass('hide');
+		}
+		var imgId = $('#userHead').data('img') || null;
+		if(imgId == null){
+
+		}
 		if(check_step > 0){
 			return false;
 		}
         var url = RootUrl+'api/v1/designer/info';
 		var userName = desName.val();
 		var userSex = desSex.find('input:checked').val();
-		var userLocation = desArea.find('input[name=design-area]');
-		console.log(!!userLocation.val())
-		if(!!userLocation.val()){
-			var userArr = userLocation.val().split(" ");
-			var userProv = userArr[0];
-			var userCity = userArr[1];
-			var userDist = userArr[2];
-		}else{
-			var userProv = desArea.find('input[name=design-area0]').val();
-			var userCity = desArea.find('input[name=design-area1]').val();
-			var userDist = desArea.find('input[name=design-area2]').val();
-		}
+		
+
 		var userAddr = desAddr.val();
 		var userUid = desUid.val();
 		var userCom = desCom.val();
@@ -335,7 +318,6 @@ $(function(){
 		desHouseIntent.find('input:checked').each(function(){
 			userDecHouse.push($(this).val())
 		})
-		var imgId = $('#userHead').data('img') || null;
 		$.ajax({
 			url:url,
 			type: 'PUT',
@@ -343,21 +325,21 @@ $(function(){
 			dataType: 'json',
 			data : JSON.stringify({
 				"username" : userName,
-				"sex":userSex,
+				"sex" : userSex,
 				"province" : userProv,
 				"city" : userCity,
 				"district" : userDist,
-				"address":userAddr,
-				"uid":userUid,
-				"company":userCom,
-				"dec_types":userDecTypes,
-				"dec_styles":userDecStyles,
-				"dec_districts":userDecDis,
-				"design_fee_range":userDesPrice,
-				"dec_fee_half":userDecPrice0,
-				"dec_fee_all":userDecPrice1,
-				"achievement":userAchi,
-                "philosophy":userPhil,
+				"address" : userAddr,
+				"uid" : userUid,
+				"company" : userCom,
+				"dec_types" : userDecTypes,
+				"dec_styles" : userDecStyles,
+				"dec_districts" : userDecDis,
+				"design_fee_range" : userDesPrice,
+				"dec_fee_half" : userDecPrice0,
+				"dec_fee_all" : userDecPrice1,
+				"achievement" : userAchi,
+                "philosophy" : userPhil,
 				"dec_house_types" : userDecHouse,
 				"communication_type" : userType,
 				"imageid" : imgId
@@ -367,6 +349,7 @@ $(function(){
 				if(res['msg'] === "success"){
 					alert('保存成功')
 					loadList()
+					$('#auth-box').removeClass('hide');
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');
 				}
