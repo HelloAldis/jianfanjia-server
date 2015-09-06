@@ -212,9 +212,14 @@ exports.addComment = function (req, res, next) {
   var item = tools.trim(req.body.item);
   var content = tools.trim(req.body.content);
   var _id = req.body._id;
-  var userid = ApiUtil.getUserid(req);
+  var comment = {
+    by: ApiUtil.getUserid(req),
+    usertype: ApiUtil.getUsertype(req),
+    content: content,
+    date: new Date().getTime(),
+  };
 
-  Process.addComment(_id, section, item, content, userid, function (err) {
+  Process.addComment(_id, section, item, comment, function (err) {
     if (err) {
       return next(err);
     }

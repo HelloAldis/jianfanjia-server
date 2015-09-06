@@ -24,7 +24,11 @@ exports.buildUser = function (req) {
   user.city = tools.trim(req.body.city);
   user.district = tools.trim(req.body.district);
   user.address = tools.trim(req.body.address);
-  user.imageid = new ObjectId(req.body.imageid);
+
+  if (req.body.imageid) {
+    user.imageid = new ObjectId(req.body.imageid);
+  }
+
   return user;
 }
 
@@ -42,7 +46,11 @@ exports.buildDesinger = function (req) {
   designer.dec_fee_all = req.body.dec_fee_all;
   designer.achievement = tools.trim(req.body.achievement);
   designer.philosophy = tools.trim(req.body.philosophy);
-  designer.big_imageid = new ObjectId(req.body.big_imageid);
+
+  if (req.body.big_imageid) {
+    designer.big_imageid = new ObjectId(req.body.big_imageid);
+  }
+
   designer.communication_type = tools.trim(req.body.communication_type);
 
   return designer;

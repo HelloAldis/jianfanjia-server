@@ -67,7 +67,7 @@ exports.deleteYsImage = function (id, section, key, callback) {
   }, callback);
 }
 
-exports.addComment = function (id, section, item, content, by, callback) {
+exports.addComment = function (id, section, item, comment, callback) {
   var index = _.indexOf(type.process_work_flow, section);
   var path = 'sections.' + index + '.items.name';
   var query = {};
@@ -75,11 +75,7 @@ exports.addComment = function (id, section, item, content, by, callback) {
   query._id = id;
   path = 'sections.' + index + '.items.$.comments';
   var update = {};
-  update[path] = {
-    by: by,
-    content: content,
-    date: new Date().getTime(),
-  };
+  update[path] = comment;
 
   Process.findOneAndUpdate(query, {
     $push: update
