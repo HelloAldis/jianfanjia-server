@@ -28,6 +28,25 @@ exports.updatePass = function (req, res, next) {
     return;
   }
 
+  //检查phone是不是被用了
+  ep.all('user', 'designer', function (user, designer) {
+    if (user || designer) {
+      var user = user || designer;
+      tools.bhash(pass, ep.done(function (passhash) {
+        user.pass = passhash;
+
+        user.save(function (err) {
+          if (err) {
+            return next(err);
+          }
+          return res.sendSuccessMsg();
+        });
+      }));
+    } else {
+      return ep.emit('user_err', '用户不存在');
+    }
+  });
+
   VerifyCode.getCodeByPhone(phone, function (err, verifyCode) {
     if (err) {
       return next(err);
@@ -47,20 +66,29 @@ exports.updatePass = function (req, res, next) {
         return next(err);
       }
 
+      ep.emit('user', user);
+    });
+
+    Designer.findOne({
+      phone: phone
+    }, {}, function (err, designer) {
+      if (err) {
+        return next(err);
+      }
+
+      ep.emit('designer', designer);
+    });
+
+    User.getUserByPhone(phone, function (err, user) {
+      if (err) {
+        return next(err);
+      }
+
       if (!user) {
         return ep.emit('user_err', '用户不存在');;
       }
 
-      tools.bhash(pass, ep.done(function (passhash) {
-        user.pass = passhash;
 
-        user.save(function (err) {
-          if (err) {
-            return next(err);
-          }
-          return res.sendSuccessMsg();
-        });
-      }));
     });
   });
 };
