@@ -29,8 +29,9 @@
 		createList : function(data,list){
 			var sHtml = '<ul class="f-cb">';
 			for (var i = 0; i < data.length; i++) {
+				var imgid = list[i].imageid ? RootUrl+'api/v1/image/'+list[i].imageid : '../../../static/img/public/indexhead.jpg'
 				sHtml += '<li class="'+(data[i].zIndex == 2 ? 'hover' : '')+'" style="width:'+data[i].width+'px;height:'+data[i].height+'px;left:'+data[i].left+'px;top:'+data[i].top+'px;z-index:'+data[i].zIndex+';">'+
-					     '<div class="name" style="height:'+data[i].picH+'px"><img src="'+RootUrl+'api/v1/image/'+list[i].imageid+'" alt="" /></div>'+
+					     '<div class="name" style="height:'+data[i].picH+'px"><img src="'+imgid+'" alt="" /></div>'+
 					     '<div class="txt">'+
 					     '<h4>'+list[i].username+'</h4>'+
 						'<div class="desc">认证设计师</div>'+
