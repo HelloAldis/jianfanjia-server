@@ -84,7 +84,6 @@ $(function(){
 			}),
 			processData : false,
 			success: function(res){
-				console.log(res)
 				if(res["msg"] == "success"){
                     window.location.href = "live.html";
 				}else{

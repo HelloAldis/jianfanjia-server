@@ -150,7 +150,6 @@ $(function(){
 			dataType: 'json',
 			success: function(res){
 				var data = res['data']
-				console.log(data)
 				if(data !== null){
 					userName.val(decodeURI(window.username) || "");
 					comName.val(data.cell);

@@ -284,7 +284,6 @@
 			}),
 			processData : false,
 			success: function(res){
-				console.log(res)
 				if(res['data']){
 					designList(res['data'])
 				}else{
@@ -304,7 +303,6 @@
 		}
 	}
 	function createList(obj,data){
-		console.log(data)
 		var $body = $(document.body);
 		var sUl = '<ul class="select">';
 			for (var i = 0; i < data.length; i++) {
@@ -463,10 +461,6 @@
 		uploader:uploaderUrl,
 		onUploadComplete:function(file, data, response){
 			 callback(data)
-		},
-		onDelete:function(file){
-			console.log('删除的文件：'+file);
-			console.log(file);
 		}
 	});
 </script>

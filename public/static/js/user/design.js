@@ -5,7 +5,7 @@ $(function(){
 		$aLi = $design.find('.tabNav').find('li'),
 		$oList = $design.find('.listBox'),
 		$createBtn = $design.find('.create-btn'),
-        itme_typeArr = ['客厅','卧室','卫生间','餐厅','书房','厨房','儿童房','阳台','衣帽间','玄关','过道','休闲区','花园','地下室','窗台','楼梯','阁楼'];
+        itme_typeArr = ['客厅','卧室','卫生间','餐厅','书房','厨房','儿童房','阳台','衣帽间','玄关','过道','休闲区','花园','地下室','窗台','楼梯','阁楼','商装','平面图'];
 		if(winHash != 'new'){
 			fnToggle(index)
 		}
@@ -188,20 +188,6 @@ $(function(){
 			var sProv = $proArea.find('input[name=product-area0]').val()
 			var sCity = $proArea.find('input[name=product-area1]').val()
 			var sDist = $proArea.find('input[name=product-area2]').val()
-			console.log({
-					"province":sProv,
-					"city":sCity,
-					"district":sDist,
-				  	"cell": $('#product_name').val(),
-				  	"house_type":$('#product-house-type').find('input').val(),
-				  	"house_area": parseInt($('#product-dec-area').val()),
-				  	"dec_type":$('#product-dec-type').find('input').val(),
-				  	"dec_style":$('#product-dec-style').find('input').val(),
-				  	"work_type":$('#product-work-type').find('input').val(),
-				  	"total_price":parseInt($('#product-price').val()),
-				  	"description" : $('#product-description').val(),
-				  	"images" : images
-				})
 			$.ajax({
 				url:url,
 				type: 'POST',
@@ -247,7 +233,6 @@ $(function(){
 	})
 	var $productArea = $('#product-area');
 	function editorData(data){
-		console.log(data)
 		$productArea.empty();
 		if(!!data.province){
 			var sProductArea = data.province+" "+data.city+" "+data.district;
@@ -313,21 +298,6 @@ $(function(){
 				var userCity = $productArea.find('input[name=product-area1]').val();
 				var userDist = $productArea.find('input[name=product-area2]').val();
 			}
-			console.log({
-					"_id" : winHashs,
-					"province":userProv,
-					"city":userCity,
-					"district":userDist,
-				  	"cell": $('#product_name').val(),
-				  	"house_type":$('#product-house-type').find('input').val(),
-				  	"house_area": parseInt($('#product-dec-area').val()),
-				  	"dec_type":$('#product-dec-type').find('input').val(),
-				  	"dec_style":$('#product-dec-style').find('input').val(),
-				  	"work_type":$('#product-work-type').find('input').val(),
-				  	"total_price":parseInt($('#product-price').val()),
-				  	"description" : $('#product-description').val(),
-				  	"images" : images
-				})
 			$.ajax({
 				url:url,
 				type: 'PUT',
@@ -401,7 +371,7 @@ $(function(){
 				multi:false,
 				formData:{key:123456,key2:'vvvv'},
 				fileSizeLimit:1024,
-				showUploadedPercent:true,//是否实时显示上传的百分比，如20%
+				showUploadedPercent:true,
 				showUploadedSize:true,
 				removeTimeout:1,
 				fileObjName:'Filedata',
@@ -409,33 +379,25 @@ $(function(){
 				uploader:uploaderUrl,
 				onUploadComplete:function(file, data, response){
 					 callback(data)
-				},
-				onDelete:function(file){
-					console.log('删除的文件：'+file);
-					console.log(file);
 				}
 			});
 		}else{
 			$('#'+obj2).uploadify({
-		    	'auto'     : true,//关闭自动上传
-		    	'removeTimeout' : 1,//文件队列上传完成1秒后删除
+		    	'auto'     : true,
+		    	'removeTimeout' : 1,
 		        'swf'      : 'uploadify.swf',
 		        'uploader' : RootUrl+'api/v1/image/upload',
-		        'method'   : 'post',//方法，服务端可以用$_POST数组获取数据
-				'buttonText' : '',//设置按钮文本
-		        'multi'    : false,//允许同时上传多张图片
-		        'uploadLimit' : 10,//一次最多只允许上传10张图片
+		        'method'   : 'post',
+				'buttonText' : '',
+		        'multi'    : false,
+		        'uploadLimit' : 10,
 		        'width' : 250,
 		        'height' : 250,
-		        'fileTypeDesc' : 'Image Files',//只允许上传图像
-		        'fileTypeExts' : '*.gif; *.jpg; *.png',//限制允许上传的图片后缀
-		        'fileSizeLimit' : '1024KB',//限制上传的图片不得超过200KB 
-		        'onUploadSuccess' : function(file, data, response) {//每次成功上传后执行的回调函数，从服务端返回数据到前端
+		        'fileTypeDesc' : 'Image Files',
+		        'fileTypeExts' : '*.gif; *.jpg; *.png',
+		        'fileSizeLimit' : '1024KB',
+		        'onUploadSuccess' : function(file, data, response) {
 		               callback(data)
-		        },
-		        'onQueueComplete' : function(queueData) {//上传队列全部完成后执行的回调函数
-		           // if(img_id_upload.length>0)
-		           // alert('成功上传的文件有：'+encodeURIComponent(img_id_upload));
 		        }
 		    });
 		}

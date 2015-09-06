@@ -142,7 +142,6 @@
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				console.log(res)
 				if(res['data']){
 					$('#decoration-phase').find('.value').html(globalData.dec_flow[res['data'].process.length-1])
 					upData(res['data'])
@@ -241,10 +240,6 @@
 		uploader:uploaderUrl,
 		onUploadComplete:function(file, data, response){
 			 callback(data)
-		},
-		onDelete:function(file){
-			console.log('删除的文件：'+file);
-			console.log(file);
 		}
 	});
 </script>

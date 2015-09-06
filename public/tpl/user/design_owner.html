@@ -176,35 +176,41 @@
 		        curgetday= 30;
 		    }
 		    //获取当前年份剩余月份
-			for (var i = mouth; i < 13; i++) {
+			for (var i = 1; i < 13; i++) {
 				monthArr.push(i+'月')
 			};
 			//获取当前月份剩余天数
-			for (var i = days; i < curgetday+1; i++) {
+			for (var i = 1; i < curgetday+1; i++) {
 				dayArr.push(i+'日')
 			};
 			//获取当前天剩余小时
 			for (var i = 1; i < 25; i++) {
 				hourArr.push(i+'点')
 			};
-			console.log(monthArr +"::" + dayArr +"::" + hourArr)
 			//初始化下拉控件
 			var tameGood = new ComboBox({
 				id:'booking-month',
-				list:monthArr
+				list:monthArr,
+				index : 0,
+				query : mouth-1
 			});
 			var tameGood = new ComboBox({
 				id:'booking-day',
-				list:dayArr
+				list:dayArr,
+				index : 0,
+				query : days-1
 			});
 			var tameGood = new ComboBox({
 				id:'booking-hour',
-				list:hourArr
+				list:hourArr,
+				index : 0,
+				query : houre-1
 			});
 			$cancel.on('click',function(){
 				$booking.hide();
 			});
-			var timer = year + $('#booking-month').find('.value').html() + $('#booking-day').find('.value').html() + $('#booking-hour').find('.value').html();
+			var timer = year+"-"+ parseInt($('#booking-month').find('.value').html()) +"-"+ parseInt($('#booking-day').find('.value').html())+" "+ ( parseInt($('#booking-hour').find('.value').html()) > 10 ? parseInt($('#booking-hour').find('.value').html()) : "0"+parseInt($('#booking-hour').find('.value').html()) ) + ':00:00';
+			var dateTime = new Date(Date.parse(timer.replace(/-/g, "/")));
 			$define.on('click',function(){
 				var url = RootUrl+'api/v1/designer/user/ok';
 				$booking.hide();
@@ -215,11 +221,10 @@
 					dataType: 'json',
 					data : JSON.stringify({
 						"userid": uid,
-						"house_check_time": (new Date()).getTime()
+						"house_check_time": dateTime.getTime()
 					}),
 					processData : false,
 					success: function(res){
-						console.log(res)
 						if(res["msg"] == "success"){
 							loadList()
 						}else{
@@ -280,7 +285,6 @@ function unique(arr,a,b) {
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				console.log(unique(res['data'],'requirementid','status'))
 				if(res['data'].length){
 					page(unique(res['data'],'requirementid','status'))
 				}else{

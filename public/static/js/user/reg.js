@@ -115,9 +115,7 @@ $(function(){
                 processData : false,
                 cache : false,
                 success : function(res){
-                    console.log(res)
                     if(res["msg"] == "success"){
-                        console.log("success")
                         checkMobile()
                     }
                     if(res["err_msg"] != null){
@@ -179,7 +177,6 @@ $(function(){
 			processData : false,
             cache : false,
 			success: function(res){
-				console.log(res)
 				if(res["data"] != null){
 					window.location.href = reg_success_url[res.data.usertype];
 				}else{

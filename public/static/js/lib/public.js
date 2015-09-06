@@ -6,7 +6,7 @@ var globalData = {
 	work_type : ['半包','全包'],
 	dec_style : ['欧式','中式','现代','地中海','美式','东南亚'],
 	scheme_state : ['沟通中','已中标','未中标'],
-	orders_area : ['汉口','汉阳','武昌'],
+	orders_area : ['江岸区','江汉区','硚口区','汉阳区','武昌区','洪山区','青山区'],
 	price_area  : ['50－100','100-200','200－300','300以上'],
 	house_type : ['一居','二居','三居','四居','复式','别墅','商业'],
 	dec_flow : ['开工','拆改','水电','泥木','油漆','安装','竣工'],
@@ -19,19 +19,7 @@ var RootUrl = 'http://www.jianfanjia.com:8080/';
 // 检测浏览器是否支持css3新属性，来给低版本浏览器做优雅降级；
 function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentElement.style,t=function(r){return r.replace(/-(\w)/g,function($0,$1){return $1.toUpperCase()})};for(i in p){a.push(t(p[i]+'-'+c));a.push(t(c))}for(i in a){if(a[i]in s){return true}}return false};
 //Cookie操作
-(function (factory) {
-	if (typeof define === 'function' && define.amd) {
-		// AMD (Register as an anonymous module)
-		define(['jquery'], factory);
-	} else if (typeof exports === 'object') {
-		// Node/CommonJS
-		module.exports = factory(require('jquery'));
-	} else {
-		// Browser globals
-		factory(jQuery);
-	}
-}
-(function ($) {
+(function($){
 	var pluses = /\+/g;
 	function encode(s) {
 		return config.raw ? s : encodeURIComponent(s);
@@ -42,45 +30,35 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 	function stringifyCookieValue(value) {
 		return encode(config.json ? JSON.stringify(value) : String(value));
 	}
-	function parseCookieValue(s) {
+	function parseCookieValue(s){
 		if (s.indexOf('"') === 0) {
-			// This is a quoted cookie as according to RFC2068, unescape...
 			s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
 		}
 		try {
-			// Replace server-side written pluses with spaces.
-			// If we can't decode the cookie, ignore it, it's unusable.
-			// If we can't parse the cookie, ignore it, it's unusable.
 			s = decodeURIComponent(s.replace(pluses, ' '));
 			return config.json ? JSON.parse(s) : s;
 		} catch(e) {}
 	}
-	function read(s, converter) {
+	function read(s, converter){
 		var value = config.raw ? s : parseCookieValue(s);
 		return $.isFunction(converter) ? converter(value) : value;
 	}
 	var config = $.cookie = function (key, value, options) {
-		// Write
 		if (arguments.length > 1 && !$.isFunction(value)) {
 			options = $.extend({}, config.defaults, options);
-
 			if (typeof options.expires === 'number') {
 				var days = options.expires, t = options.expires = new Date();
 				t.setMilliseconds(t.getMilliseconds() + days * 864e+5);
 			}
 			return (document.cookie = [
 				encode(key), '=', stringifyCookieValue(value),
-				options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+				options.expires ? '; expires=' + options.expires.toUTCString() : '', 
 				options.path    ? '; path=' + options.path : '',
 				options.domain  ? '; domain=' + options.domain : '',
 				options.secure  ? '; secure' : ''
 			].join(''));
 		}
-		// Read
 		var result = key ? undefined : {},
-			// To prevent the for loop in the first place assign an empty array
-			// in case there are no cookies at all. Also prevents odd result when
-			// calling $.cookie().
 			cookies = document.cookie ? document.cookie.split('; ') : [],
 			i = 0,
 			l = cookies.length;
@@ -89,11 +67,9 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 				name = decode(parts.shift()),
 				cookie = parts.join('=');
 			if (key === name) {
-				// If second argument (value) is a function it's a converter...
 				result = read(cookie, value);
 				break;
 			}
-			// Prevent storing a cookie that we couldn't decode.
 			if (!key && (cookie = read(cookie)) !== undefined) {
 				result[name] = cookie;
 			}
@@ -102,7 +78,6 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 	};
 	config.defaults = {};
 	$.removeCookie = function (key, options) {
-		// Must not alter options, thus extending a fresh object...
 		$.cookie(key, '', $.extend({}, options, { expires: -1 }));
 		return !$.cookie(key);
 	};
@@ -147,7 +122,7 @@ function promptMessage(str,msg){
 				list : [],
 				btn : true,
 				editor : false,
-				index : false,
+				index : 0,
 				query : 0
 			},options || {});
 			this.selectBox = $('#'+this.settings.id);
@@ -227,7 +202,6 @@ function promptMessage(str,msg){
 	}
 	window["ComboBox"] = ComboBox;
 })(jQuery);
-
 /*
 	1,格式化形式 "yyyy-MM-dd hh:mm:ss"
 	2，时间 
@@ -262,13 +236,9 @@ function IdentityCodeValid(code){
         tip = "地址编码错误";
         pass = false;
     }else{
-        //18位身份证需要验证最后一位校验位
         if(code.length == 18){
             code = code.split('');
-            //∑(ai×Wi)(mod 11)
-            //加权因子
             var factor = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];
-            //校验位
             var parity = [ 1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2 ];
             var sum = 0;
             var ai = 0;
@@ -291,7 +261,6 @@ function IdentityCodeValid(code){
         info : tip
     }
 }
-
 /*
 	str  要截取字符串
 	len  截取长度
@@ -318,13 +287,7 @@ function ellipsisStr(str, len){
     }
 	return s;
 } 
- 
-
-    
-
 $(function(){
-	//encodeURI("url地址")//编码
-	//decodeURI("url地址")//解码
 	var userLogin = $('#j-userLogin');
 	if(window.username && window.usertype){
 		if(window.usertype == 0){

@@ -132,7 +132,6 @@
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				console.log(res['data'])
 				if(res['data'].length == 0 || res['data'].length < 1){
 					$list.html('暂无作品')
 				}else{

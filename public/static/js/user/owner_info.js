@@ -9,7 +9,6 @@
 			cache : false,
 			success: function(res){
 				var data = res['data'];
-				console.log(res['data'])
 				$ownerArea.empty()
 				if(data !== null){
 					$('#owner-name').val(data.username || "");
