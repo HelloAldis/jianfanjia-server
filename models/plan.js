@@ -55,6 +55,9 @@ var PlanSchema = new Schema({
       by: {
         type: ObjectId
       },
+      usertype: {
+        type: String,
+      },
       content: {
         type: String
       },

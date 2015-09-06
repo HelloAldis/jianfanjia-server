@@ -81,6 +81,9 @@ var ProcessSchema = new Schema({
           by: {
             type: ObjectId
           },
+          usertype: {
+            type: String,
+          },
           content: {
             type: String
           },
