@@ -328,5 +328,20 @@ $(function(){
 				
 		   	}
 		});
+	});
+	//回到顶部
+	var winH = $(window).height();
+	var $goto = $('<a class="goto" href="javascript:;"></a>');
+	$(document.body).append($goto);
+	$goto.on('click',function(){
+		$('html,body').animate({scrollTop: 0}, 500)
+		return false;
+	})
+	$(window).on('scroll',function(){
+		if($(this).scrollTop() > winH){
+			$goto.fadeIn(500)
+		}else{
+			$goto.fadeOut(500)
+		}
 	})
 })
