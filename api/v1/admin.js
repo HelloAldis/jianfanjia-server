@@ -27,19 +27,18 @@ exports.login = function (req, res, next) {
 exports.authed = function (req, res, next) {
   var designerid = tools.trim(req.body._id);
 
-  Designer.updateByQuery({
-      _id: designerid
-    }, {
-      'auth_type': type.designer_auth_type_done,
-      'auth_date': new Date().getTime(),
-    },
-    function (err) {
-      if (err) {
-        return next(err);
-      }
+  Designer.setOne({
+    _id: designerid
+  }, {
+    auth_type: type.designer_auth_type_done,
+    auth_date: new Date().getTime(),
+  }, {}, function (err) {
+    if (err) {
+      return next(err);
+    }
 
-      res.sendSuccessMsg();
-    });
+    res.sendSuccessMsg();
+  });
 }
 
 exports.add = function (req, res, next) {
@@ -89,12 +88,12 @@ exports.delete = function (req, res, next) {
 }
 
 exports.listAuthingDesigner = function (req, res, next) {
-  Designer.getSByQueryAndProject({
+  Designer.find({
     auth_type: type.designer_auth_type_processing
   }, {
     pass: 0,
     accessToken: 0
-  }, function (err, designers) {
+  }, {}, function (err, designers) {
     if (err) {
       return next(err);
     }
@@ -105,10 +104,16 @@ exports.listAuthingDesigner = function (req, res, next) {
 
 exports.searchDesigner = function (req, res, next) {
   var phone = new RegExp('^' + tools.trim(req.body.phone));
-  Designer.findDesignersByQuery({
+
+  Designer.find({
     phone: phone
   }, {
-    phone: 1,
+    pass: 0,
+    accessToken: 0
+  }, {
+    sort: {
+      phone: 1
+    }
   }, function (err, designers) {
     if (err) {
       return next(err);

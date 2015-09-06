@@ -15,7 +15,7 @@ exports.list = function (req, res, next) {
     }
 
     async.mapLimit(shares, 3, function (share, callback) {
-      Designer.getOneByQueryAndProject({
+      Designer.findOne({
         _id: share.designerid
       }, {
         _id: 1,
@@ -43,7 +43,7 @@ exports.listtop = function (req, res, next) {
     }
 
     async.mapLimit(shares, 3, function (share, callback) {
-      Designer.getOneByQueryAndProject({
+      Designer.findOne({
         _id: share.designerid
       }, {
         _id: 1,

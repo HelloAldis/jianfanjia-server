@@ -322,8 +322,12 @@ exports.reschedule = function (req, res, next) {
         return next(err);
       }
 
-      Designer.getDesignerById(reschedule.designerid, function (err,
-        designer) {
+      Designer.findOne({
+        _id: reschedule.designerid
+      }, {
+        _id: 1,
+        username: 1
+      }, function (err, designer) {
         if (err) {
           return next(err);
         }
@@ -402,8 +406,12 @@ exports.okReschedule = function (req, res, next) {
         return next(err);
       }
 
-      Designer.getDesignerById(reschedule.designerid, function (err,
-        designer) {
+      Designer.findOne({
+        _id: reschedule.designerid
+      }, {
+        _id: 1,
+        username: 1
+      }, function (err, designer) {
         if (err) {
           return next(err);
         }
@@ -492,8 +500,12 @@ exports.rejectReschedule = function (req, res, next) {
         return next(err);
       }
 
-      Designer.getDesignerById(reschedule.designerid, function (err,
-        designer) {
+      Designer.findOne({
+        _id: reschedule.designerid
+      }, {
+        _id: 1,
+        username: 1
+      }, function (err, designer) {
         if (err) {
           return next(err);
         }

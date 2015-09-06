@@ -15,15 +15,21 @@ var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../type');
 var limit = require('../../middlewares/limit')
 
+var noPassAndToken = {
+  pass: 0,
+  accessToken: 0
+};
+
 exports.getInfo = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
-  Designer.getDesignerById(designerid, function (err, designer) {
+
+  Designer.findOne({
+    _id: designerid
+  }, noPassAndToken, function (err, designer) {
     if (err) {
       return next(err);
     }
 
-    designer.pass = '';
-    designer.accessToken = '';
     res.sendData(designer);
   });
 };
@@ -32,9 +38,9 @@ exports.updateInfo = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var designer = ApiUtil.buildDesinger(req);
 
-  Designer.updateByQuery({
+  Designer.setOne({
     _id: userid
-  }, designer, function (err) {
+  }, designer, {}, function (err) {
     if (err) {
       return next(err);
     }
@@ -46,19 +52,23 @@ exports.updateInfo = function (req, res, next) {
 exports.getOne = function (req, res, next) {
   var designerid = req.params._id;
 
-  Designer.getDesignerById(designerid, function (err, designer) {
+  Designer.findOne({
+    _id: designerid
+  }, noPassAndToken, function (err, designer) {
     if (err) {
       return next(err);
     }
 
     if (designer) {
-      designer.pass = '';
-      designer.accessToken = '';
       res.sendData(designer);
 
       limit.perwhatperdaydo('designergetone', req.ip + designerid, 1,
         function () {
-          Designer.addViewCountForDesigner(designerid, 1);
+          Designer.incOne({
+            _id: designerid
+          }, {
+            view_count: 1
+          }, {});
         });
     } else {
       res.sendData(null);
@@ -67,14 +77,20 @@ exports.getOne = function (req, res, next) {
 }
 
 exports.listtop = function (req, res, next) {
-  Designer.getTopDesigners(config.index_top_designer_count,
-    function (err, designer) {
-      if (err) {
-        return next(err);
-      }
+  Designer.find({
+    auth_type: type.designer_auth_type_done
+  }, noPassAndToken, {
+    sort: {
+      auth_date: -1
+    },
+    limit: config.index_top_designer_count
+  }, function (err, designers) {
+    if (err) {
+      return next(err);
+    }
 
-      res.sendData(designer);
-    });
+    res.sendData(designers);
+  });
 }
 
 exports.search = function (req, res, next) {
@@ -82,7 +98,9 @@ exports.search = function (req, res, next) {
   var sort = req.body.sort;
   query.auth_type = type.designer_auth_type_done;
 
-  Designer.findDesignersByQuery(query, sort, function (err, designers) {
+  Designer.find(query, noPassAndToken, {
+    sort: sort,
+  }, function (err, designers) {
     if (err) {
       return next(err);
     }
@@ -202,34 +220,32 @@ exports.rejectUser = function (req, res, next) {
 exports.auth = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
 
-  Designer.updateByQuery({
-      _id: designerid
-    }, {
-      auth_type: type.designer_auth_type_processing,
-      auth_date: new Date().getTime(),
-    },
-    function (err) {
-      if (err) {
-        return next(err);
-      }
+  Designer.setOne({
+    _id: designerid
+  }, {
+    auth_type: type.designer_auth_type_processing,
+    auth_date: new Date().getTime(),
+  }, {}, function (err) {
+    if (err) {
+      return next(err);
+    }
 
-      res.sendSuccessMsg();
-    });
+    res.sendSuccessMsg();
+  });
 }
 
 exports.agree = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
 
-  Designer.updateByQuery({
-      _id: designerid
-    }, {
-      'agreee_license': type.designer_agree_type_yes
-    },
-    function (err) {
-      if (err) {
-        return next(err);
-      }
+  Designer.setOne({
+    _id: designerid
+  }, {
+    'agreee_license': type.designer_agree_type_yes
+  }, {}, function (err) {
+    if (err) {
+      return next(err);
+    }
 
-      res.sendSuccessMsg();
-    });
+    res.sendSuccessMsg();
+  });
 }

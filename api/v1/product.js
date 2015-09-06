@@ -22,7 +22,12 @@ exports.add = function (req, res, next) {
     }
 
     if (product) {
-      Designer.addProductCountForDesigner(designerid, 1);
+      Designer.incOne({
+        _id: designerid
+      }, {
+        product_count: 1
+      }, {});
+
       res.sendSuccessMsg();
     } else {
       res.sendErrMsg('添加失败');
@@ -70,7 +75,11 @@ exports.delete = function (req, res, next) {
     }
 
     if (product) {
-      Designer.addProductCountForDesigner(designerid, -1);
+      Designer.incOne({
+        _id: designerid
+      }, {
+        product_count: -1
+      }, {});
     }
 
     res.sendSuccessMsg();

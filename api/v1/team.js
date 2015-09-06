@@ -20,7 +20,12 @@ exports.add = function (req, res, next) {
       return next(err);
     }
 
-    Designer.addTeamCountForDesigner(designerid, 1);
+    Designer.incOne({
+      _id: designerid
+    }, {
+      team_count: 1
+    }, {});
+
     res.sendSuccessMsg();
   });
 };
@@ -65,7 +70,11 @@ exports.delete = function (req, res, next) {
     }
 
     if (team) {
-      Designer.addTeamCountForDesigner(designerid, -1);
+      Designer.incOne({
+        _id: designerid
+      }, {
+        team_count: -1
+      }, {});
     }
 
     res.sendSuccessMsg();

@@ -194,7 +194,9 @@ exports.signup = function (req, res, next) {
     ep.emit('user', user);
   });
 
-  Designer.getDesignerByPhone(phone, function (err, designer) {
+  Designer.findOne({
+    phone: phone
+  }, {}, function (err, designer) {
     if (err) {
       return next(err);
     }
@@ -272,7 +274,9 @@ exports.login = function (req, res, next) {
     ep.emit('user', user);
   });
 
-  Designer.getDesignerByPhone(phone, function (err, designer) {
+  Designer.findOne({
+    phone: phone
+  }, {}, function (err, designer) {
     if (err) {
       return next(err);
     }
@@ -309,7 +313,9 @@ exports.verifyPhone = function (req, res, next) {
     ep.emit('user', user);
   });
 
-  Designer.getDesignerByPhone(phone, function (err, designer) {
+  Designer.findOne({
+    phone: phone
+  }, {}, function (err, designer) {
     if (err) {
       return next(err);
     }

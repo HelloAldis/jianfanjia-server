@@ -104,14 +104,14 @@ exports.updateRequirement = function (req, res, next) {
   });
 
   ep.on('user', function (user) {
-    Designer.getSByQueryAndProject({
+    Designer.find({
       auth_type: type.designer_auth_type_done,
       // province: province,
       city: city,
     }, {
       pass: 0,
       accessToken: 0
-    }, function (err, designers) {
+    }, {}, function (err, designers) {
       if (err) {
         return next(err);
       }
@@ -203,19 +203,20 @@ exports.myDesigner = function (req, res, next) {
     } else {
       async.mapLimit(requirement.designerids, 3, function (designerid,
         callback) {
-        Designer.getDesignerById(designerid, function (err,
-          designer_indb) {
-          var designer = {};
-          designer._id = designer_indb._id;
-          designer.phone = designer_indb.phone;
-          designer.province = designer_indb.province;
-          designer.city = designer_indb.city;
-          designer.district = designer_indb.district;
-          designer.username = designer_indb.username;
-          designer.view_count = designer_indb.view_count;
-          designer.order_count = designer_indb.order_count;
-          designer.product_count = designer_indb.product_count;
-          designer.imageid = designer_indb.imageid;
+        Designer.findOne({
+          _id: designerid
+        }, {
+          phone: 1,
+          province: 1,
+          city: 1,
+          district: 1,
+          username: 1,
+          view_count: 1,
+          order_count: 1,
+          product_count: 1,
+          imageid: 1,
+        }, function (err, designer) {
+          designer = designer.toObject();
           callback(err, designer);
         });
       }, function (err, results) {
@@ -302,10 +303,18 @@ exports.addDesigner2HouseCheck = function (req, res, next) {
           return ep.emit('final');
         } else {
           Plan.newAndSave(json);
-          Designer.addOrderCountForDesigner(designerid, 1);
-          Designer.getDesignerById(designerid, function (err,
-            designer) {
 
+          Designer.incOne({
+            _id: designerid
+          }, {
+            order_count: 1
+          }, {});
+
+          Designer.findOne({
+            _id: designerid
+          }, {
+            phone: 1
+          }, function (err, designer) {
             if (err) {
               return next(err);
             }
