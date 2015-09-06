@@ -247,13 +247,13 @@
 	z-index: 10;
 	top:50%;
 	left:150px;
-	width: 35px;
-	height: 63px;
-	margin-top: -31px;
+	width: 40px;
+	height: 70px;
+	margin-top: 20px;
 	background:url(../img/index/index-design-toggle.png) no-repeat left 0;		
 }
 .toggle .next{
 	left:auto;
 	right:150px;
-	background-position: 0 -63px;
+	background-position: 0 -70px;
 }
