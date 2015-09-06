@@ -281,7 +281,11 @@ function unique(arr,a,b) {
 			dataType: 'json',
 			success: function(res){
 				console.log(unique(res['data'],'requirementid','status'))
-				page(unique(res['data'],'requirementid','status'))
+				if(res['data'].length){
+					page(unique(res['data'],'requirementid','status'))
+				}else{
+					$designOwner.html('您还没有业主')
+				}
 		   	}
 		});
 	}
@@ -290,13 +294,13 @@ function unique(arr,a,b) {
 	function createList(data){
 		var dateStr;
 		if(!!data.house_check_time){
-			var date = new Date(data.house_check_time);
-		var year = date.getFullYear(),
-			mouth = date.getMonth()+1,
-			days =  date.getDate(),
-			houre =  date.getHours(),
-			day = date.getDay(),
-			Week = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+			var date = new Date(data.house_check_time),
+				year = date.getFullYear(),
+				mouth = date.getMonth()+1,
+				days =  date.getDate(),
+				houre =  date.getHours(),
+				day = date.getDay(),
+				Week = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
 			dateStr = mouth+'月'+days+'日 '+(houre > 12 ? '下午'+(houre-12) : '上午'+houre)+":00 ("+Week[day]+")";
 		}else{
 			dateStr = '响应后可见'
@@ -322,7 +326,6 @@ function unique(arr,a,b) {
 						+'<div class="btns">'+sStatus+'</div>'
 					+'</div>'
 				+'</div>'
-
 	}
 	//encodeURI("url地址")//编码
 	//decodeURI("url地址")//解码

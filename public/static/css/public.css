@@ -285,6 +285,10 @@ table{border-collapse:collapse;border-spacing:0}
 	position: relative;
 	z-index: 2;
 }
+.m-cities .tipsinfo{
+	line-height: 24px;
+    color: #d92222;
+}
 .m-cities .list{
 	position: relative;
     z-index: 2;

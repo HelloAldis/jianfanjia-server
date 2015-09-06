@@ -21,6 +21,7 @@ var tdist={"110000":["\u5317\u4eac","1"],"110100":["\u5317\u4eac\u5e02","110000"
 				id : null,
 				data : tdist || {},
 				btn : true,
+				tips : '',
 				query : ''
 			},options || {})
 			this.selectBox = $('#'+this.settings.id);
@@ -56,8 +57,10 @@ var tdist={"110000":["\u5317\u4eac","1"],"110100":["\u5317\u4eac\u5e02","110000"
 			this.bOff = false;
 			this.value = '没有选择';
 			this.input = $('<input type="hidden" name="'+this.settings.id+'" value="'+this.value+'" />');
+			this.tips = $('<p class="tipsinfo hide">'+this.settings.tips+'</p>')
 			this.selectBox.append(this.input);
 			this.selectBox.append(selectData);
+			this.selectBox.append(this.tips);
 			this.input.val(this.settings.query);
 			for (var i = 0; i < this.queryData.length; i++) {
 				for(var attr in this.settings.data){
@@ -113,6 +116,7 @@ var tdist={"110000":["\u5317\u4eac","1"],"110100":["\u5317\u4eac\u5e02","110000"
 						return false;
 					}
 				}
+				self.tips.addClass('hide');
 				self.selectShow(obj);
 				return false;
 			});

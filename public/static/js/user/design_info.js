@@ -276,10 +276,8 @@ $(function(){
 		var userCity = desArea.find('.city').find('.value').html();
 		var userDist = desArea.find('.area').find('.value').html();
         if(userProv == '请选择省'){
-        	$('#design-area-box').find('.tips-info').html('请选择所在地区').removeClass('hide');
+        	$('#design-area-box').find('.tipsinfo').html('请选择所在地区').removeClass('hide');
 			return false;
-		}else{
-			$('#design-area-box').find('.tips-info').html('').addClass('hide');
 		}
 		var imgId = $('#userHead').data('img') || null;
 		if(imgId == null){

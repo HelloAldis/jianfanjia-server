@@ -195,16 +195,49 @@
 			dataType: 'json',
 			success: function(res){
 				if(res['data']){
-					createInfo(res['data'])
+					designer = getDesigner(res['data'].designerid);
+					user = getUser(res['data'].userid);
+					createInfo(res['data'],designer,user);
 				}
 		   	}
 		});
 	}
+	function getDesigner(id){
+		var designer;
+		$.ajax({
+			url:RootUrl+'api/v1/designer/'+id+'/basicinfo',
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			async : false,
+			success: function(res){
+				if(res['data']){
+					designer = res['data'];
+				}
+		   	}
+		});
+		return designer;
+	}
+	function getUser(id){
+		var user;
+		$.ajax({
+			url:RootUrl+'api/v1/user/'+id+'/info',
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			async : false,
+			success: function(res){
+				if(res['data']){
+					user = res['data'];
+				}
+		   	}
+		});
+		return user;
+	}
 	var $title = $case.find('.title');
 	var $desc = $case.find('.desc').find('p');
 	var $casepic = $case.find('.casepic');
-	function createInfo(data){
-		console.log(data)
+	function createInfo(data,designer,user){
 		$schemeDesign.html("")
 		$title.html("");
 		$desc.html("");
@@ -222,48 +255,33 @@
 		$desc.html(data.description || "暂无方案描述");
 		$casepic.html(casepic);
 		if(data.comments.length){
-			console.log(data.comments)
-			page(data.comments.reverse())
+			page(data.comments.reverse(),designer,user)
 		}
 		$('#comment-size').html(data.comments.length+'条留言')
 		getPriceDetail(data.price_detail)
-		var url = RootUrl+'api/v1/designer/'+data.designerid+'/basicinfo';
-		$.ajax({
-			url:url,
-			type: 'GET',
-			contentType : 'application/json; charset=utf-8',
-			dataType: 'json',
-			async : false,
-			success: function(res){
-				var resData = res['data']
-				if(resData){
-					var img = resData.imageid === "" ? '../../static/img/public/headpic.jpg' : RootUrl+'api/v1/image/'+resData.imageid;
-						var schemeDesign = '<a class="head" href="../design/homepage.html?'+resData._id+'"><img src="'+img+'" alt="" /></a>'
-												+'<h4>'+resData.username+'<i class="iconfont">&#xe60b;</i></h4>'
-												+'<div class="auth">'
-													+'<i class="iconfont">&#xe60b;</i>认证设计师'
-												+'</div>'
-												+'<div class="info f-cb">'
-													+'<dl class="f-fl">'
-														+'<dt>'+resData.product_count+'</dt>'
-														+'<dd>作品</dd>'
-													+'</dl>'
-													+'<span class="f-fl"></span>'
-													+'<dl class="f-fl">'
-														+'<dt>'+resData.order_count+'</dt>'
-														+'<dd>预约</dd>'
-													+'</dl>'
-												+'</div>'
-					$schemeDesign.html(schemeDesign)
-				}
-		   	}
-		});
+		var img = designer.imageid === "" ? '../../static/img/public/headpic.jpg' : RootUrl+'api/v1/image/'+designer.imageid;
+		var schemeDesign = '<a class="head" href="../design/homepage.html?'+designer._id+'"><img src="'+img+'" alt="" /></a>'
+								+'<h4>'+designer.username+'<i class="iconfont">&#xe60b;</i></h4>'
+								+'<div class="auth">'
+									+'<i class="iconfont">&#xe60b;</i>认证设计师'
+								+'</div>'
+								+'<div class="info f-cb">'
+									+'<dl class="f-fl">'
+										+'<dt>'+designer.product_count+'</dt>'
+										+'<dd>作品</dd>'
+									+'</dl>'
+									+'<span class="f-fl"></span>'
+									+'<dl class="f-fl">'
+										+'<dt>'+designer.order_count+'</dt>'
+										+'<dd>预约</dd>'
+									+'</dl>'
+								+'</div>'
+		$schemeDesign.html(schemeDesign)
 		
 	}
 	var $itemprice = $item.find('.price');
 	var $itemTbody = $item.find('tbody');
 	function getPriceDetail(data){
-		console.log(data)
 		$itemTbody.html('');
 		$itemprice.html('');
 		var str = '';
@@ -281,40 +299,29 @@
 		$itemTbody.html(str);
 		$itemprice.html(html);
 	}
-	function createList(data){
-		var img,username,url;
+	function createList(data,designer,user){
+		var imgid,username,url;
 		if(data.usertype == 2){
-			url = RootUrl+'api/v1/designer/'+data.by+'/basicinfo';
-		}else{
-			url = RootUrl+'api/v1/user/'+data.by+'/info';
+			imgid = designer.imageid;
+			name = designer.username;
+		}else if(data.usertype == 1){
+			imgid = user.imageid;
+			name = user.username;
 		}
-		$.ajax({
-			url:url,
-			type: 'GET',
-			contentType : 'application/json; charset=utf-8',
-			dataType: 'json',
-			async : false,
-			success: function(res){
-				if(res['data']){
-					imgid = res['data'].imageid;
-					username = res['data'].username;
-				}
-		   	}
-		});
 		var img = imgid != null ? RootUrl+'api/v1/image/'+imgid : '../../static/img/public/headpic.jpg';
 		return  '<li>'
 					+'<div class="pic">'
-						+'<img src="'+img+'" alt="'+username+'" />'
+						+'<img src="'+img+'" alt="'+name+'" />'
 					+'</div>'
 					+'<h4>'
-						+'<strong>'+username+'</strong>'
+						+'<strong>'+name+'</strong>'
 						+'<span>'+timeFormat(data.date)+'</span>'
 					+'</h4>'
 					+'<p>'+data.content+'</p>'
 				+'</li>'
 	}
 	//生成分页
-	function page(arr){
+	function page(arr,designer,user){
 		var page = new Pageing({
 			id : 'j-page',
 			allNumPage : arr.length,
@@ -328,7 +335,7 @@
 					var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
 					$comment.find('.list').html('');
 					for(var i=num*this.itemPage;i<maxElem;i++){
-						$comment.find('.list').append(createList(arr[i]));
+						$comment.find('.list').append(createList(arr[i],designer,user));
 					}
 				}
 				return false;
@@ -344,7 +351,7 @@
 	    var date = new Date(time),
 	        curDate = new Date(),
 	        year = date.getFullYear(),
-	        month = date.getMonth() + 10,
+	        month = date.getMonth() + 1,
 	        day = date.getDate(),
 	        hour = date.getHours(),
 	        minute = date.getMinutes(),

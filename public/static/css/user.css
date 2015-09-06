@@ -460,11 +460,14 @@
 	border-bottom: 1px dotted #d4d4d4;
 }
 .design-owner .head{
-	width: 122px;
-	height: 134px;
+	width: 160px;
+	height: 160px;
 	overflow: hidden;
 	background-color: #ccc;
-	border-radius: 4px;
+	border-radius: 50%;
+}
+.design-owner .head img{
+	width: 100%;
 }
 .design-owner .info{
 	padding-left: 24px;
