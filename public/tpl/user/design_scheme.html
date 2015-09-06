@@ -155,7 +155,7 @@
 							+'<div class="pic f-cb">'+images+'</div>'
 						+'</div>'
 						+'<div class="handle">'
-							+'<a href="scheme_detail.html?planid='+data._id+'&name='+encodeURI(data.designer.username)+'#comment" class="msg">留言<span>('+data.comments.length+')</span></a>'
+							+'<a href="scheme_detail.html?planid='+data._id+'&name='+encodeURI(data.user.username)+'#comment" class="msg">留言<span>('+data.comments.length+')</span></a>'
 							+(data.status == 5 ? "" : '<a href="scheme_create.html?userid='+data._id+'&name='+encodeURI(data.user.username)+'" class="btns confirm">修改方案</a>')+'<a href="scheme_detail.html?planid='+data._id+'&name='+encodeURI(data.user.username)+'" class="btns browse">预览方案</a>'
 						+'</div>'
 					+'</div>'

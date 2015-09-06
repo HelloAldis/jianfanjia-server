@@ -222,8 +222,8 @@
 		$desc.html(data.description || "暂无方案描述");
 		$casepic.html(casepic);
 		if(data.comments.length){
-			var info = getInfo(data.comments)
-			page(data.comments.reverse(),info)
+			console.log(data.comments)
+			page(data.comments.reverse())
 		}
 		$('#comment-size').html(data.comments.length+'条留言')
 		getPriceDetail(data.price_detail)
@@ -281,43 +281,40 @@
 		$itemTbody.html(str);
 		$itemprice.html(html);
 	}
-	function createList(data,info){
-		console.log(info)
-		var img = info.imageid === "" ? '../../static/img/public/headpic.jpg' : RootUrl+'api/v1/image/'+info.imageid
+	function createList(data){
+		var img,username,url;
+		if(data.usertype == 2){
+			url = RootUrl+'api/v1/designer/'+data.by+'/basicinfo';
+		}else{
+			url = RootUrl+'api/v1/user/'+data.by+'/info';
+		}
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			async : false,
+			success: function(res){
+				if(res['data']){
+					imgid = res['data'].imageid;
+					username = res['data'].username;
+				}
+		   	}
+		});
+		var img = imgid != null ? RootUrl+'api/v1/image/'+imgid : '../../static/img/public/headpic.jpg';
 		return  '<li>'
 					+'<div class="pic">'
-						+'<img src="'+img+'" alt="" />'
+						+'<img src="'+img+'" alt="'+username+'" />'
 					+'</div>'
 					+'<h4>'
-						+'<strong>'+info.username+'</strong>'
+						+'<strong>'+username+'</strong>'
 						+'<span>'+timeFormat(data.date)+'</span>'
-						+'<a href="javascript:;" class="reply-btn"><i class="iconfont">&#xe612;</i>回复</a>'
 					+'</h4>'
 					+'<p>'+data.content+'</p>'
 				+'</li>'
 	}
-	
-	function getInfo(by){
-		var infoArr = [];
-		for (var i = 0; i < by.length; i++) {
-			var url = RootUrl+'api/v1/designer/'+by[i].by+'/basicinfo';
-			$.ajax({
-				url:url,
-				type: 'GET',
-				contentType : 'application/json; charset=utf-8',
-				dataType: 'json',
-				async : false,
-				success: function(res){
-					if(res['data']){
-						infoArr.push(res['data'])
-					}
-			   	}
-			});
-		};
-		return infoArr
-	}
 	//生成分页
-	function page(arr,info){
+	function page(arr){
 		var page = new Pageing({
 			id : 'j-page',
 			allNumPage : arr.length,
@@ -331,13 +328,8 @@
 					var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
 					$comment.find('.list').html('');
 					for(var i=num*this.itemPage;i<maxElem;i++){
-						$comment.find('.list').append(createList(arr[i],info[i]));
+						$comment.find('.list').append(createList(arr[i]));
 					}
-					$comment.find('li:odd').attr('class', 'even');
-					obj.find('.btns').on('click' , function(ev){
-						ev.stopPropagation();
-						$('body,html').animate({scrollTop:$comment.offset().top},1000);
-					});
 				}
 				return false;
 			}

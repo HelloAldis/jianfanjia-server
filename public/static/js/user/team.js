@@ -176,8 +176,8 @@ $(function(){
 					processData : false,
 					success: function(res){
 						closePopup()
-						loadList()
 						setTimeout(function(){
+							loadList()
 							clearTeam()
 							submitOff = true;
 						},100)
@@ -242,9 +242,10 @@ $(function(){
 					}),
 					processData : false,
 					success: function(res){
+						console.log(res)
 						closePopup()
-						loadList()
 						setTimeout(function(){
+							loadList()
 							clearTeam()
 							editorOff = true;
 						}, 100)
@@ -273,10 +274,16 @@ $(function(){
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
+				console.log(res['data'])
 				if(res['data'].length == 0 || res['data'].length < 1){
 					$list.html('<h2>您还没有施工团队，点击<a href="javascript:;" class="addteam1">添加施工团队</a></h2>');
 				}else{
-					createList(res['data']);
+					console.log(res['data'])
+					res['data'].sort(function(n1,n2){
+			                return res['data']['_id'] - res['data']['_id']
+			        });
+					console.log(res['data'])
+					//createList(res['data']);
 				}
 		   	}
 		});
@@ -369,9 +376,10 @@ $(function(){
 	//编辑
 	$designTeam.delegate( '.editor', 'click', function(event){
 	     event.preventDefault();
-	     clearTeam()
+	     clearTeam();
 	     var oDl = $(this).closest('dl');
 		 var uidName = oDl.data('uid');
+	     console.log(uidName)
 		$temaName.val(oDl.find('.value1').text());
 		$temaSex.find('input').eq(oDl.find('.value2').text() == "男" ? 0 : 1).attr('checked', 'checked');
 		 $tameUid.val(oDl.find('.value4').text());
