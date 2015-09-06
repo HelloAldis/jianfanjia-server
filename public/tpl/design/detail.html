@@ -153,7 +153,8 @@
 					+'<p>浏览数：'+data.view_count+'<span>|</span>收藏数：'+data.favorite_count+'</p>'
 		var imgList = '';
 		for (var i = 0,len = data.images.length; i < len; i++) {
-			imgList += '<li><h4>'+data.images[i].section+'</h4><img src="'+RootUrl+'api/v1/image/'+data.images[i].imageid+'" alt="" /><p>'+data.images[i].description+'</p></li>' 
+			var des = data.images[i].description ? '<p>'+data.images[i].description+'</p>' : ''
+			imgList += '<li><h4>'+data.images[i].section+'</h4><img src="'+RootUrl+'api/v1/image/'+data.images[i].imageid+'" alt="" />'+des+'</li>' 
 		};
 		$('#detail-info').html(info);
 		$('#desc-description').html(data.description);
