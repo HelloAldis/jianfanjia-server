@@ -12,7 +12,9 @@ var ObjectId = mongoose.Types.ObjectId;
 exports.list = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
 
-  Favorite.getProductFavorites(userid, function (err, favorite) {
+  Favorite.findOne({
+    userid: userid
+  }, {}, function (err, favorite) {
     if (err) {
       return next(err);
     }
@@ -25,7 +27,9 @@ exports.add = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var productid = new ObjectId(tools.trim(req.body._id));
 
-  Favorite.getProductFavorites(userid, function (err, favorite) {
+  Favorite.findOne({
+    userid: userid
+  }, {}, function (err, favorite) {
     if (err) {
       return next(err);
     }

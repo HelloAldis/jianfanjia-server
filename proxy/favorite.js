@@ -36,21 +36,21 @@ exports.deleteProductFavorite = function (userid, productid, callback) {
 };
 
 exports.incOne = function (query, update, option, callback) {
-  Designer.findOneAndUpdate(query, {
+  Favorite.findOneAndUpdate(query, {
     $inc: update
   }, option, function (err) {});
 }
 
 exports.findOne = function (query, project, callback) {
-  Designer.findOne(query, project, callback);
+  Favorite.findOne(query, project, callback);
 }
 
 exports.find = function (query, project, option, callback) {
-  Designer.find(query, project, option, callback);
+  Favorite.find(query, project, option, callback);
 }
 
 exports.setOne = function (query, update, option, callback) {
-  Designer.findOneAndUpdate(query, {
+  Favorite.findOneAndUpdate(query, {
     $set: update
   }, option, callback)
 }
