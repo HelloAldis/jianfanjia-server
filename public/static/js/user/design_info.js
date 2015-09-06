@@ -85,11 +85,12 @@ $(function(){
     desDecStyle.find('input').on('click',function(){
     	checkDecStyle()
         if($(this).is(":checked")){
-        	iCount ++;
+        	++iCount;
         }else{
-        	iCount --;
+        	iCount--;
         }
         if(iCount > 3){
+        	iCount = 3
         	return showError(desDecStyle,"reg_decType3");
         }
     });
@@ -189,7 +190,6 @@ $(function(){
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				console.log(res)
 				var data = res['data'];
 				desArea.empty()
 				if(data != null){
@@ -221,7 +221,7 @@ $(function(){
 					desDecPrice1.val(data.dec_fee_all || "")
 					$('#product-count').html(data.product_count+'个');
 					if(data.auth_type == 0){
-						$('#auth-box').show();
+						$('#auth-box').append('<span>(验证通过的设计师才能在平台显示,请先填写资料)</span>');
 					}else if(data.auth_type == 1){
 						$('#auth-box').empty().html('正在认证中，请耐心等待！');
 					}else if(data.auth_type == 2){
@@ -248,7 +248,6 @@ $(function(){
 					if(!!data.imageid){	
 						$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+data.imageid)
 					}
-					console.log(data.imageid)
 					var img = data.imageid != null && !!data.imageid  ?  RootUrl+'api/v1/image/'+data.imageid : '../../../static/img/public/headpic.jpg'
 					$('#userHead').attr('src',img).data('img',data.imageid != null ? data.imageid : null)
 				}else{
@@ -263,7 +262,6 @@ $(function(){
 		check_step = 9;
 		checkName();
 		checkSex();
-		console.log(checkHouseIntent())
 		checkAddr();
 		checkUid();
 		checkDecType();
@@ -279,9 +277,9 @@ $(function(){
         	$('#design-area-box').find('.tipsinfo').html('请选择所在地区').removeClass('hide');
 			return false;
 		}
-		var imgId = $('#userHead').data('img') || null;
-		if(imgId == null){
-
+		if($('#userHead').data('img') == null){
+			$('#error-info').removeClass('hide').html('请上传形象头像照片，更好展示信息')
+			return false;
 		}
 		if(check_step > 0){
 			return false;
@@ -289,8 +287,7 @@ $(function(){
         var url = RootUrl+'api/v1/designer/info';
 		var userName = desName.val();
 		var userSex = desSex.find('input:checked').val();
-		
-
+		var imgId = $('#userHead').data('img') || null;
 		var userAddr = desAddr.val();
 		var userUid = desUid.val();
 		var userCom = desCom.val();
@@ -347,7 +344,7 @@ $(function(){
 				if(res['msg'] === "success"){
 					alert('保存成功')
 					loadList()
-					$('#auth-box').removeClass('hide');
+					$('#auth-submit').removeClass('hide');
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');
 				}

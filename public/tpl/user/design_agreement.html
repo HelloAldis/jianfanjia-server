@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
 	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 	<!--[if lt IE 9]>
       <script type="text/javascript" src="../../static/js/lib/json2-min.js"></script>
     <![endif]-->
@@ -101,7 +102,7 @@
 <script type="text/javascript">
 	function loadList(url){
 		$.ajax({
-            url:'http://www.jianfanjia.com:8080/api/v1/designer/agree',
+            url:RootUrl+'api/v1/designer/agree',
             type: 'POST',
             contentType : 'application/json; charset=utf-8',
             dataType: 'json',

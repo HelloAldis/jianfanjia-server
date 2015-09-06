@@ -143,7 +143,6 @@ $(function(){
 	    	if(check_step > 0){
 				return false;
 			}
-	        var url = RootUrl+'api/v1/designer/team';
 			var teamName = $temaName.val();
 			var teamSex = $temaSex.find('input:checked').val();
 			var teamUid = $tameUid.val();
@@ -157,7 +156,7 @@ $(function(){
 			if(submitOff){
 				submitOff = false;
 				$.ajax({
-					url:url,
+					url:RootUrl+'api/v1/designer/team',
 					type: "post",
 					contentType : 'application/json; charset=utf-8',
 					dataType: 'json',
@@ -175,22 +174,30 @@ $(function(){
 					}),
 					processData : false,
 					success: function(res){
-						closePopup()
-						setTimeout(function(){
-							loadList()
-							clearTeam()
+						if(res["msg"] == "success"){
+							closePopup();
 							submitOff = true;
-						},100)
+							setTimeout(function(){
+								clearTeam();
+								loadList();
+							}, 100)
+						}else{
+							alert('编辑失败')
+						}
 				   	}
 				});
 			}
 			return false;
 		})
 	}
-	function editorTeam(id){
+	function editorTeam(){
 		$teamEditor.removeClass('hide');
 		$teamSubmit.addClass('hide');
 		$teamEditor.on('click',function(){
+			if(!editorOff){
+				return false;
+			}
+			editorOff = false;
 			check_step = 6;
 	    	checkName();
 	    	checkSex();
@@ -201,7 +208,6 @@ $(function(){
 	    	if(check_step > 0){
 				return false;
 			}
-	        var url = RootUrl+'api/v1/designer/team';
 			var teamName = $temaName.val();
 			var teamSex = $temaSex.find('input:checked').val();
 			var teamUid = $tameUid.val();
@@ -209,49 +215,40 @@ $(function(){
 			var teamWork = parseInt($tameYear.val());
 			var teamGood = $tameGood.find('input').val();
 			var teamIng = $temeWorking.val();
-			var userLocation = $tameHometown.find('input[name=tame-hometown]');
-			if(!!userLocation.val()){
-				var userArr = userLocation.val().split(" ");
-				var teamProv = userArr[0];
-				var teamCity = userArr[1];
-				var teamDist = userArr[2];
-			}else{
-				var teamProv = $tameHometown.find('.province').find('.value').html();
-				var teamCity = $tameHometown.find('.city').find('.value').html();
-				var teamDist = $tameHometown.find('.area').find('.value').html();
-			}
-			if(editorOff){
-				editorOff = false;
-				$.ajax({
-					url:url,
-					type: "PUT",
-					contentType : 'application/json; charset=utf-8',
-					dataType: 'json',
-					data : JSON.stringify({
-						"_id" : id,
-						"manager": teamName,
-						"province": teamProv,
-						"city":teamCity,
-						"district":teamDist,
-						"sex":teamSex,
-						"uid":teamUid,
-						"company": teamCom,
-						"work_year":teamWork,
-						"good_at": teamGood,
-						"working_on": teamIng
-					}),
-					processData : false,
-					success: function(res){
-						console.log(res)
-						closePopup()
+			var teamProv = $tameHometown.find('.province').find('.value').html();
+			var teamCity = $tameHometown.find('.city').find('.value').html();
+			var teamDist = $tameHometown.find('.area').find('.value').html();
+			$.ajax({
+				url:RootUrl+'api/v1/designer/team',
+				type: "PUT",
+				contentType : 'application/json; charset=utf-8',
+				dataType: 'json',
+				data : JSON.stringify({
+					"_id" : $kPopup.data('uid'),
+					"manager": teamName,
+					"province": teamProv,
+					"city":teamCity,
+					"district":teamDist,
+					"sex":teamSex,
+					"uid":teamUid,
+					"company": teamCom,
+					"work_year":teamWork,
+					"good_at": teamGood,
+					"working_on": teamIng
+				}),
+				processData : false,
+				success: function(res){
+					if(res["msg"] == "success"){
+						closePopup();
 						setTimeout(function(){
-							loadList()
-							clearTeam()
-							editorOff = true;
+							clearTeam();
+							loadList();
 						}, 100)
-				   	}
-				});
-			}
+					}else{
+						alert('编辑失败')
+					}
+			   	}
+			});
 			return false;
 		})
 	}
@@ -274,16 +271,10 @@ $(function(){
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				console.log(res['data'])
 				if(res['data'].length == 0 || res['data'].length < 1){
 					$list.html('<h2>您还没有施工团队，点击<a href="javascript:;" class="addteam1">添加施工团队</a></h2>');
 				}else{
-					console.log(res['data'])
-					res['data'].sort(function(n1,n2){
-			                return res['data']['_id'] - res['data']['_id']
-			        });
-					console.log(res['data'])
-					//createList(res['data']);
+					createList(res['data']);
 				}
 		   	}
 		});
@@ -319,13 +310,18 @@ $(function(){
 		$list.html(sLi)
 	}
 	function closePopup(){  //关闭编辑面板
-		$popupShade.fadeOut(500)
-		$kPopup.fadeOut(500)
-		clearTeam()
+		$popupShade.fadeOut(500);
+		$kPopup.fadeOut(500);
+		clearTeam();
+		editorOff = true;
 	}
-	function openPopup(){   //打开编辑面板
+	function openPopup(id){   //打开编辑面板;
 		$popupShade.fadeTo(500,0.5)
-		$kPopup.fadeIn(500)
+		if(!!id){
+			$kPopup.data('uid', id).fadeIn(500);
+		}else{
+			$kPopup.fadeIn(500)
+		}
 		$body.append($popupShade)
 	}
 	$addteam.on('click',function(){   //添加
@@ -379,7 +375,6 @@ $(function(){
 	     clearTeam();
 	     var oDl = $(this).closest('dl');
 		 var uidName = oDl.data('uid');
-	     console.log(uidName)
 		$temaName.val(oDl.find('.value1').text());
 		$temaSex.find('input').eq(oDl.find('.value2').text() == "男" ? 0 : 1).attr('checked', 'checked');
 		 $tameUid.val(oDl.find('.value4').text());
@@ -394,8 +389,9 @@ $(function(){
 		$temeWorking.val(oDl.find('.value8').text());
 		$tameHometown.empty();
 		var tameHometown = new CitySelect({id : 'tame-hometown',query : oDl.find('.value3').text()});
-	    openPopup();
-	    editorTeam(uidName);
+	    openPopup(uidName);
+	    editorTeam();
+	    return false;
 	});
 	var tameGood = new ComboBox({
 		id:'tame-good',
