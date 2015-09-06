@@ -78,18 +78,6 @@ exports.updatePass = function (req, res, next) {
 
       ep.emit('designer', designer);
     });
-
-    User.getUserByPhone(phone, function (err, user) {
-      if (err) {
-        return next(err);
-      }
-
-      if (!user) {
-        return ep.emit('user_err', '用户不存在');;
-      }
-
-
-    });
   });
 };
 
