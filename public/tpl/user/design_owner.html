@@ -68,20 +68,20 @@
 				<div class="sitemap f-fl">
 					<dl>
 						<dt>业主指南</dt>
-						<dd><a href="">提交需求</a></dd>
-						<dd><a href="">预约设计师</a></dd>
+						<dd><a href="../guide/index.html?0">业务流程</a></dd>
+						<dd><a href="../guide/index.html?1">三方保障合同</a></dd>
 					</dl>
 					<dl>
 						<dt>设计师指南</dt>
-						<dd><a href="">设计师认证</a></dd>
-						<dd><a href="">入驻协议</a></dd>
-						<dd><a href="">上传作品</a></dd>
-						<dd><a href="">上门量房</a></dd>
+						<dd><a href="../guide/design.html?0">设计师认证</a></dd>
+						<dd><a href="../guide/design.html?1">作品上传</a></dd>
+						<dd><a href="../guide/design.html?2">上门沟通及量房</a></dd>
+						<dd><a href="../guide/design.html?3">设计师入驻协议</a></dd>
 					</dl>
 					<dl>
 						<dt>关于我们</dt>
-						<dd><a href="">关于我们</a></dd>
-						<dd><a href="">联系我们</a></dd>
+						<dd><a href="../about/index.html#about">关于我们</a></dd>
+						<dd><a href="../about/index.html#contact">联系我们</a></dd>
 					</dl>
 				</div>
 				<div class="erweima f-fr">
@@ -95,12 +95,28 @@
 			</div>
 		</div>
 	</div>
+	<div id="j-booking" class="m-booking">
+		<h3>请拨打电话可以与业主沟通预约量房时间</h3>
+		<h4><i class="iconfont">&#xe606;</i>拨打<span id="booking-phone"></span></h4>
+		<div class="times f-cb">
+			<span class="f-fl">量房时间</span>
+			<div class="time f-fl">
+				<div id="booking-month" class="m-select"></div>
+				<div id="booking-day" class="m-select"></div>
+				<div id="booking-hour" class="m-select"></div>
+			</div>
+		</div>
+		<div class="btns">
+			<a href="javascript:;" class="btn define">已确定量房</a>
+			<a href="javascript:;" class="btn cancel">未确定量房</a>
+		</div>
+	</div>
 </body>
 </html>
-<script type="text/javascript">
-
+<script type="text/javascript"> 
 	var $designOwner = $('#j-design-owner'),
 		$items = $designOwner.find('.item'),
+		$booking = $('#j-booking'),
 		sBtns = '<a href="design_scheme.html" class="scheme">提交方案</a><span>(可提交多个方案)</span>';
 		$designOwner.delegate('.refuse','click',function(ev){
 			ev.stopPropagation();
@@ -129,150 +145,92 @@
 		});
 		$designOwner.delegate('.respond','click',function(ev){
 			ev.stopPropagation();
-			var url = RootUrl+'api/v1/designer/user/ok';
-			var $item = $(this).closest('.item'),
-				uid = $item.data('item'),
-				$btns  = $item.find('.btns'),
-				$phone = $item.find('.phone'),
-				$time  = $item.find('.time');
-
-			$.ajax({
+			var $item = $(this).closest('.item')
+			var date = new Date();
+			booking($item,date)
+			$booking.show();
+		});
+		function booking(obj,date){
+			var uid = obj.data('item'),
+				$phone = obj.find('.phone'),
+			    year = date.getFullYear(),
+				mouth = date.getMonth()+1,
+				days =  date.getDate(),
+				houre =  date.getHours()+1,
+				monthArr = [],
+				dayArr = [],
+				curgetday = 0,
+				hourArr = [],
+				$define = $booking.find('.define'),
+				$cancel = $booking.find('.cancel');
+			$('#booking-month').empty();
+			$('#booking-day').empty();
+			$('#booking-hour').empty();
+			$('#booking-phone').html($phone.data('phone'));
+			//计算当前月份最大天数
+			if(mouth == 2){
+        		curgetday= year % 4 == 0 ? 29 : 28;
+		    }else if(mouth == 1 || mouth == 3 || mouth == 5 || mouth == 7 || mouth == 8 || mouth == 10 || mouth == 12){
+		        curgetday= 31;
+		    }else{
+		        curgetday= 30;
+		    }
+		    //获取当前年份剩余月份
+			for (var i = mouth; i < 13; i++) {
+				monthArr.push(i+'月')
+			};
+			//获取当前月份剩余天数
+			for (var i = days; i < curgetday+1; i++) {
+				dayArr.push(i+'日')
+			};
+			//获取当前天剩余小时
+			for (var i = 1; i < 25; i++) {
+				hourArr.push(i+'点')
+			};
+			console.log(monthArr +"::" + dayArr +"::" + hourArr)
+			//初始化下拉控件
+			var tameGood = new ComboBox({
+				id:'booking-month',
+				list:monthArr
+			});
+			var tameGood = new ComboBox({
+				id:'booking-day',
+				list:dayArr
+			});
+			var tameGood = new ComboBox({
+				id:'booking-hour',
+				list:hourArr
+			});
+			$cancel.on('click',function(){
+				$booking.hide();
+			});
+			var timer = year + $('#booking-month').find('.value').html() + $('#booking-day').find('.value').html() + $('#booking-hour').find('.value').html();
+			$define.on('click',function(){
+				var url = RootUrl+'api/v1/designer/user/ok';
+				$booking.hide();
+				$.ajax({
 					url:url,
 					type: 'POST',
 					contentType : 'application/json; charset=utf-8',
 					dataType: 'json',
 					data : JSON.stringify({
 						"userid": uid,
-  						"house_check_time": (new Date()).getTime()
+						"house_check_time": (new Date()).getTime()
 					}),
 					processData : false,
 					success: function(res){
 						console.log(res)
 						if(res["msg"] == "success"){
-							$btns.empty().html(sBtns);
-							$phone.html('15612121212');
-							$time.html('10月8日 下午6:00（星期三）');
+							loadList()
 						}else{
-							alert('拒绝失败')
+							alert('提交失败')
 						}
 				   	}
 				});
+			});
 			
-		});
-		/*
-	弹出窗口
-	Popup
-		参数：
-		1，id编号，用来管理弹窗
-		2, 弹窗类型 消息框confirm，提示框prompt，警示框alert，弹出框popup
-		2，shade 遮罩层 启用，透明度
-		3,
-*/
-!(function($){
-	function Popup(options){
-		this.itin(options)
-	}
-	Popup.prototype = {
-		constructor: Popup,
-		itin : function(options){
-			var self = this;
-			this.win = $(window);
-			this.doc = $(document);
-			this.body = $(document.body);
-			this.settings = {
-				id : null,
-				type : 'popup',
-				shade : {
-					show : true,
-					speed : 500,
-					opacity : 0.5
-				},
-				boxes : {
-					confirm : '请输入消息',
-					prompt : '请输入消息',
-					alert  : '请输入警示信息',
-					popup  : {
-						title : '请输入标题',
-						content : '请输入内容'
-					},
-					custom : function(){}
-				}
 
-			}
-			$.extend(this.settings,options || {});
-			this.popupBox = $(this.settings.id);
-			//this.createShade();
-			/*if(this.settings.type == 'popup'){
-				this.createPopup()
-			}*/
-			if(this.settings.type == 'confirm'){
-				this.createConfirm();
-			}
-		},
-		createShade : function(){
-			var self = this;
-			this.popupShade = $('<div id="popup-Shade" class="popup-shade"></div>');
-			this.popupShade.css({
-				width:self.win.width(),
-				height:self.win.height()
-			}).fadeTo(self.settings.shade.speed,self.settings.shade.opacity)
-			this.body.append(this.popupShade)
-		},
-		hideShade : function(){
-			this.popupShade.fadeOut('slow');
-		},
-		createConfirm : function(){
-			var self = this;
-			this.popupConfirm = $('<div id="popup-confirm" class="popup-confirm"></div>');
-			this.popupConfirm.html('<div class="info">'+self.settings.boxes.confirm+'</div><div class="btns"><a href="javascript:;" class="confirm">确定</a><a href="javascript:;" class="cancel">取消</a></div>')
-			this.body.append(this.popupConfirm);
-			this.popupConfirm.css({
-				marginLeft:-self.popupConfirm.outerWidth()/2
-			}).animate({top: (self.win.height() - self.popupConfirm.outerWidth())/2}, self.settings.shade.speed);
-			if(this.settings.shade.show){
-				this.createShade();
-			}
-console.log(this.eventConfirm(this.popupConfirm))
-			//return this.eventConfirm(this.popupConfirm); 
-		},
-		createPrompt : function(){
-
-		},
-		createAlert  : function(){
-
-		},
-		createPopup : function(){
-			alert(1)
-		},
-		createCustom : function(){
-
-		},
-		eventConfirm : function(obj){
-			var self = this;
-			var $confirm = obj.find('.confirm');
-			var $cancel = obj.find('.cancel');
-			this.bOff = false;
-			var b;
-			$confirm.on('click',function(){
-				var b = true;
-				fnPublic()
-			})
-			$cancel.on('click',function(){
-				fnPublic()
-			})
-			function fnPublic(){
-				alert(b)
-				return b;
-			}
-			return fnPublic();
 		}
-	}
-	window["Popup"] = Popup;
-})(jQuery);
-
-
-
-
 function unique(arr,a,b) {
   var ayy = [];
   var ret = [];
@@ -327,10 +285,22 @@ function unique(arr,a,b) {
 		   	}
 		});
 	}
-
 	loadList();
 	//创建列表
 	function createList(data){
+		var dateStr;
+		if(!!data.house_check_time){
+			var date = new Date(data.house_check_time);
+		var year = date.getFullYear(),
+			mouth = date.getMonth()+1,
+			days =  date.getDate(),
+			houre =  date.getHours(),
+			day = date.getDay(),
+			Week = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+			dateStr = mouth+'月'+days+'日 '+(houre > 12 ? '下午'+(houre-12) : '上午'+houre)+":00 ("+Week[day]+")";
+		}else{
+			dateStr = '响应后可见'
+		}
 		var sStatus = '';
 		if(data.status == 0){
 			sStatus = '<a href="javascript:;" class="respond">响应</a><a href="javascript:;" class="refuse">拒绝</a></div>';
@@ -347,11 +317,12 @@ function unique(arr,a,b) {
 						+'<p>小区名称：'+data.requirement.cell+'</p>'
 						+'<p>物业描述：'+globalData.house_type[data.requirement.house_type]+'， '+data.requirement.house_area+'m&sup2;，装修预算 '+data.requirement.total_price+'万</p>'
 						+'<p>风格喜好：'+globalData.dec_style[data.requirement.dec_style]+'</p>'
-						+'<p>电话：<span class="phone">'+(data.status >= 2 ? data.user.phone : "响应后可见")+'</span></p>'
-						+'<p>量房时间：<span class="time">响应后安排</span></p>'
+						+'<p>电话：<span class="phone" data-phone="'+data.user.phone+'">'+(data.status >= 2 ? data.user.phone : "响应后可见")+'</span></p>'
+						+'<p>量房时间：<span class="time">'+dateStr+'</span></p>'
 						+'<div class="btns">'+sStatus+'</div>'
 					+'</div>'
 				+'</div>'
+
 	}
 	//encodeURI("url地址")//编码
 	//decodeURI("url地址")//解码

@@ -8,8 +8,8 @@ $(function(){
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				var data = res['data']['favorite_product'];
-				if(data.length){
+				if(res['data'] != null){
+					var data = res['data']['favorite_product'];
 					for (var i = 0,len = data.length; i < len; i++){
 						shareData(data[i])
 					};

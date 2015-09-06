@@ -13,12 +13,12 @@
 	border: 1px solid #e0e0e0;
 	border-top: none;
 }
-.content ul{
+.content .tabnav{
 	height: 50px;
 	line-height: 50px;
 	border-bottom: 1px solid #fe7004;
 }
-.content li{
+.content .tabnav li{
 	float: left;
 	width: 200px;
 	font-size: 18px;
@@ -26,7 +26,7 @@
 	text-align: center;
 	background-color: #fe7004;
 }
-.content li a{
+.content .tabnav li a{
 	display: inline-block;
 	width: 100%;
 	color: #34495e;
@@ -92,6 +92,7 @@
 	border-bottom: 1px solid #eee;
 }
 .list1 p{
+	font-size: 14px;
 	line-height: 30px;
 	color: #414141;
 }
@@ -107,4 +108,32 @@
 	color: #414141;
 	background-color: #efefef;
 	border-radius: 50%;
+}
+.list2 p{
+	text-indent: 2em;
+	margin-bottom: 20px;
+}
+.list2 .color{
+	color: #fe7004;
+}
+.list2 .table{
+	width: 580px;
+	margin:30px auto 30px;
+	font-size: 18px;
+	text-align: center;
+}
+.list2 .table h4{
+	line-height: 60px;
+	color: #fff;
+	background-color: #ff9100;
+}
+.list2 .table li{
+	line-height: 50px;
+	margin-bottom: 3px;
+	color: #fe7004;
+	background-color: #fff9f0;
+}
+.list2 .table span{
+	display: inline-block;
+	width: 50%;
 }

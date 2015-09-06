@@ -266,6 +266,8 @@ table{border-collapse:collapse;border-spacing:0}
 	border: 1px solid #dcdcdc;
 	border-top: none;
 	display: none;
+	max-height: 240px;
+	overflow-y: auto;
 }
 .m-select .select a{
 	display: block;	

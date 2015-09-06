@@ -104,20 +104,20 @@
 				<div class="sitemap f-fl">
 					<dl>
 						<dt>业主指南</dt>
-						<dd><a href="">提交需求</a></dd>
-						<dd><a href="">预约设计师</a></dd>
+						<dd><a href="../guide/index.html?0">业务流程</a></dd>
+						<dd><a href="../guide/index.html?1">三方保障合同</a></dd>
 					</dl>
 					<dl>
 						<dt>设计师指南</dt>
-						<dd><a href="">设计师认证</a></dd>
-						<dd><a href="">入驻协议</a></dd>
-						<dd><a href="">上传作品</a></dd>
-						<dd><a href="">上门量房</a></dd>
+						<dd><a href="../guide/design.html?0">设计师认证</a></dd>
+						<dd><a href="../guide/design.html?1">作品上传</a></dd>
+						<dd><a href="../guide/design.html?2">上门沟通及量房</a></dd>
+						<dd><a href="../guide/design.html?3">设计师入驻协议</a></dd>
 					</dl>
 					<dl>
 						<dt>关于我们</dt>
-						<dd><a href="">关于我们</a></dd>
-						<dd><a href="">联系我们</a></dd>
+						<dd><a href="../about/index.html#about">关于我们</a></dd>
+						<dd><a href="../about/index.html#contact">联系我们</a></dd>
 					</dl>
 				</div>
 				<div class="erweima f-fr">
@@ -134,6 +134,9 @@
 </body>
 </html>
 <script type="text/javascript">
+	var winHash = window.location.search.substring(1).split("&");
+	var planid = winHash[0].split("=")[1];
+	var userName = decodeURI(winHash[1].split("=")[1]);
 	var $scheme = $('#j-scheme');
 	var $schemeTab = $scheme.find('.scheme-tab').find('li');
 	var $schemeList = $scheme.find('.scheme-list');
@@ -157,7 +160,6 @@
 	});
 
 	var $textarea = $('#comment-textarea');
-	var winHash = window.location.search.substring(1);
 	$('#publish_btn').on('click',function(){
 		if(!!$.trim($textarea.val())){
 			var url = RootUrl+'api/v1/plan/comment';
@@ -167,7 +169,7 @@
 				contentType : 'application/json; charset=utf-8',
 				dataType: 'json',
 				data : JSON.stringify({
-				  "planid":winHash,
+				  "planid":planid,
 				  "content":$textarea.val()
 				}),
 				processData : false,
@@ -185,7 +187,7 @@
 	})
 	loadList()
 	function loadList(){
-		var url = RootUrl+'api/v1/plan/'+winHash;
+		var url = RootUrl+'api/v1/plan/'+planid;
 		$.ajax({
 			url:url,
 			type: 'GET',
@@ -207,7 +209,7 @@
 		$title.html("");
 		$desc.html("");
 		$casepic.html("");
-		var title = '<h2>'+data.manager+'的方案</h2><p>报价：<strong>'+data.total_price+'万元</strong><span>|</span>工期：'+data.duration+'天<span>|</span>项目经理：'+data.manager+'</p>';
+		var title = '<h2>'+userName+'的方案</h2><p>报价：<strong>'+data.total_price/10000+'万元</strong><span>|</span>工期：'+data.duration+'天<span>|</span>项目经理：'+data.manager+'</p>';
 		var casepic = '<div class="casepic">'
 		if(data.images.length == 0){
 			casepic += '暂无方案图片'
@@ -281,13 +283,13 @@
 	}
 	function createList(data,info){
 		console.log(info)
-		//var img = info.imageid === "" ? '../../static/img/public/headpic.jpg' : RootUrl+'api/v1/image/'+info.imageid
+		var img = info.imageid === "" ? '../../static/img/public/headpic.jpg' : RootUrl+'api/v1/image/'+info.imageid
 		return  '<li>'
 					+'<div class="pic">'
-						//+'<img src="'+img+'" alt="" />'
+						+'<img src="'+img+'" alt="" />'
 					+'</div>'
 					+'<h4>'
-						//+'<strong>'+info.username+'</strong>'
+						+'<strong>'+info.username+'</strong>'
 						+'<span>'+timeFormat(data.date)+'</span>'
 						+'<a href="javascript:;" class="reply-btn"><i class="iconfont">&#xe612;</i>回复</a>'
 					+'</h4>'
