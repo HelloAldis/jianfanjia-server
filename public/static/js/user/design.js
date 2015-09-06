@@ -59,9 +59,9 @@ $(function(){
 	//验证信息
 	var errMsg = {
         "reg_name": "请填写小区名称",
-        "reg_area" : "请填写正取装修面积",
-        "reg_price": "请填写正取装修造价",
-        "reg_dscription": "请填写正取作品引言",
+        "reg_area" : "请填写正确装修面积",
+        "reg_price": "请填写正确装修造价",
+        "reg_dscription": "请填写正确作品引言",
         "reg_product": "必须有一个作品效果图"
     };
 	//验证函数
