@@ -14,7 +14,7 @@ $(function(){
 						shareData(data[i])
 					};
 				}else{
-					$list.html('暂无收藏作品')
+					$list.html('<div class="loading nodata" id="j-loading"></div>')
 				}
 		   	}
 		});

@@ -57,7 +57,9 @@
 				<h3>业主方案</h3>
 			</div>
 			<div class="m-ct">
-				<div class="scheme owner_scheme" id="j-owner_scheme"></div>
+				<div class="scheme owner_scheme" id="j-owner_scheme">
+					<div class="loading" id="j-loading"></div>
+				</div>
 				<div class="m-page" id="j-page"></div>
 			</div>
 		</div>
@@ -111,7 +113,7 @@
 				if(res['data'].length){
 					page(res['data'])
 				}else{
-					$ownerScheme.html('您还没有提交方案');
+					$ownerScheme.html('<div class="loading nodata" id="j-loading"></div>');
 				}
 		   	}
 		});

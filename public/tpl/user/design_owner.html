@@ -57,7 +57,9 @@
 				<h3>我的业主</h3>
 			</div>
 			<div class="m-ct">
-				<div class="design-owner" id="j-design-owner"></div>
+				<div class="design-owner" id="j-design-owner">
+					<div class="loading" id="j-loading"></div>
+				</div>
 				<div class="m-page" id="j-page"></div>
 			</div>
 		</div>
@@ -288,7 +290,7 @@ function unique(arr,a,b) {
 				if(res['data'].length){
 					page(unique(res['data'],'requirementid','status'))
 				}else{
-					$designOwner.html('您还没有业主')
+					$designOwner.html('<div class="loading nodata" id="j-loading"></div>')
 				}
 		   	}
 		});

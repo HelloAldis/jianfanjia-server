@@ -74,9 +74,11 @@
 										<th class="td6">操作</th>	
 									</tr>
 								</thead>
-								<tbody></tbody>
+								<tbody>
+								</tbody>
 							</table>
 						</div>
+						<div class="loading" id="j-loading"></div>
 						<div class="create">
 							<a href="design.html" class="btn create-btn">添加作品</a>
 						</div>
@@ -133,7 +135,7 @@
 			dataType: 'json',
 			success: function(res){
 				if(res['data'].length == 0 || res['data'].length < 1){
-					$list.html('暂无作品')
+					$('#j-loading').addClass('nodata');
 				}else{
 					createList(res['data'])
 				}

@@ -712,6 +712,7 @@ table{border-collapse:collapse;border-spacing:0}
 	box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
 }
 .g-index-live .pic{
+	width: 100%;
 	height: 288px;
 	overflow: hidden;
 	-webkit-transition:height 0.5s;
@@ -719,6 +720,7 @@ table{border-collapse:collapse;border-spacing:0}
 	-o-transition:height 0.5s;
 	transition:height 0.5s;
 }
+.g-index-live .pic img{width: 100%;}
 .g-index-live .head{
 	position: absolute;
 	left:50%;
@@ -855,4 +857,13 @@ table{border-collapse:collapse;border-spacing:0}
 	background-color: #fff;
 	opacity: 0.3;
 	filter: alpha(opacity=30);
+}
+.loading{
+	width: 164px;
+	height: 64px;
+	margin:50px auto;
+	background:#fff url(../img/public/loading1.jpg) no-repeat;
+}
+.nodata{
+	background-image: url(../img/public/nodata.jpg);
 }

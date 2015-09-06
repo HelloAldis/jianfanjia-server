@@ -108,10 +108,12 @@ $(function(){
 			linkTo : '',
 			callback : function(num,obj){
 				var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
-				$list.html('');
+				$list.html('<div class="loading" id="j-loading"></div>');
+				var dataArr = [];
 				for(var i=num*this.itemPage;i<maxElem;i++){
-					$list.append(createList(arr[i]));
+					dataArr.push(createList(arr[i]));
 				}
+				$list.html(dataArr);
 				$design.find('li:odd').attr('class', 'even');
 				obj.find('.btns').on('click',function(ev){
 					//ev.stopPropagation();
