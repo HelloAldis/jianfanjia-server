@@ -81,7 +81,7 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 		$.cookie(key, '', $.extend({}, options, { expires: -1 }));
 		return !$.cookie(key);
 	};
-}));
+});
 window.username = $.cookie("username");
 window.usertype = $.cookie("usertype");
  $.ajaxSetup({cache:false}) //全局缓存，解决ie问题
