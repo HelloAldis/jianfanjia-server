@@ -19,7 +19,15 @@ var RootUrl = 'http://www.jianfanjia.com:8080/';
 // 检测浏览器是否支持css3新属性，来给低版本浏览器做优雅降级；
 function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentElement.style,t=function(r){return r.replace(/-(\w)/g,function($0,$1){return $1.toUpperCase()})};for(i in p){a.push(t(p[i]+'-'+c));a.push(t(c))}for(i in a){if(a[i]in s){return true}}return false};
 //Cookie操作
-(function($){
+(function(factory){
+	if (typeof define === 'function' && define.amd) {
+		define(['jquery'], factory);
+	} else if (typeof exports === 'object') {
+		module.exports = factory(require('jquery'));
+	} else {
+		factory(jQuery);
+	}
+}(function($){
 	var pluses = /\+/g;
 	function encode(s) {
 		return config.raw ? s : encodeURIComponent(s);
@@ -30,7 +38,7 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 	function stringifyCookieValue(value) {
 		return encode(config.json ? JSON.stringify(value) : String(value));
 	}
-	function parseCookieValue(s){
+	function parseCookieValue(s) {
 		if (s.indexOf('"') === 0) {
 			s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
 		}
@@ -39,7 +47,7 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 			return config.json ? JSON.parse(s) : s;
 		} catch(e) {}
 	}
-	function read(s, converter){
+	function read(s, converter) {
 		var value = config.raw ? s : parseCookieValue(s);
 		return $.isFunction(converter) ? converter(value) : value;
 	}
@@ -52,7 +60,7 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 			}
 			return (document.cookie = [
 				encode(key), '=', stringifyCookieValue(value),
-				options.expires ? '; expires=' + options.expires.toUTCString() : '', 
+				options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
 				options.path    ? '; path=' + options.path : '',
 				options.domain  ? '; domain=' + options.domain : '',
 				options.secure  ? '; secure' : ''
@@ -81,7 +89,7 @@ function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentE
 		$.cookie(key, '', $.extend({}, options, { expires: -1 }));
 		return !$.cookie(key);
 	};
-});
+}));
 window.username = $.cookie("username");
 window.usertype = $.cookie("usertype");
  $.ajaxSetup({cache:false}) //全局缓存，解决ie问题
