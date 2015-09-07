@@ -125,7 +125,9 @@ $(function(){
     }
     function checkUid(){    //身份证验证
      	var id = "reg_uid";
-        if (!!$.trim(desUid.val())  && IdentityCodeValid(desUid.val()).verify){
+     	var isIDCard1 = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/; 
+     	var isIDCard2 = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/;
+        if (!!$.trim(desUid.val()) && isIDCard1.test(desUid.val()) || isIDCard2.test(desUid.val())){
             return showOk(desUid);
         }
         return showError(desUid,id);

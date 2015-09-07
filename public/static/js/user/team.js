@@ -21,7 +21,7 @@ $(function(){
         "reg_com": "请填写曾就职装饰公司",
         "reg_year": "请填写从业年限",
         "reg_working" : "请填写正在施工工地",
-        "reg_uid" : "请填写正确身份号码"
+        "reg_uid" : "请填写正确15或18位身份号码"
     };
     //选择器
     var $temaName = $('#tame-manager'),
@@ -70,7 +70,9 @@ $(function(){
     }
     function checkUid(){    //身份证验证
      	var id = "reg_uid";
-        if (!!$.trim($tameUid.val())  && IdentityCodeValid($tameUid.val()).verify){
+     	var isIDCard1 = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/; 
+     	var isIDCard2 = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/;
+        if (!!$.trim($tameUid.val()) && isIDCard1.test($tameUid.val()) || isIDCard2.test($tameUid.val())){
             return showOk($tameUid);
         }
         return showError($tameUid,id);
@@ -133,10 +135,9 @@ $(function(){
     	$teamEditor.addClass('hide');
 		$teamSubmit.on('click',function(event){
 			event.preventDefault();
-			check_step = 6;
+			check_step = 5;
 	    	checkName();
 	    	checkSex();
-	    	checkUid();
 	    	checkCom();
 	    	checkWorking();
 	    	checkYear()
@@ -284,6 +285,12 @@ $(function(){
 	function createList(data){
 		var sLi = '';
 		for (var i = 0,len = data.length; i < len; i++) {
+			var uid = '';
+			if(!!data[i].uid){
+				uid += '<P class="itme4"><span class="key">身份证号码：</span><span class="value4">'+data[i].uid+'</span></P>'
+			}else{
+				uid += '';
+			}
 			var area = ""
 			if(!!data[i].province){
 				area += '<p class="itme3"><span class="key">所在地区：</span><span class="value3">'+data[i].province+' '+data[i].city+' '+data[i].district+'</span></p>'
@@ -295,8 +302,7 @@ $(function(){
 					+'<dd>'
 						+'<p class="itme1"><span class="key">项目经理：</span><span class="value1">'+data[i].manager+'</span></p>'
 						+'<P class="itme2"><span class="key">性&nbsp;&nbsp;&nbsp;别：</span><span class="value2">'+globalData.sex[data[i].sex]+'</span></P>'
-						+area+'<P class="itme4"><span class="key">身份证号码：</span><span class="value4">'+data[i].uid+'</span></P>'
-						+'<p class="itme5"><span class="key">曾就职装饰公司：</span><span class="value5">'+data[i].company+'</span></p>'
+						+area+uid+'<p class="itme5"><span class="key">曾就职装饰公司：</span><span class="value5">'+data[i].company+'</span></p>'
 						+'<P class="itme6"><span class="key">从业年限：</span><span class="value6">'+data[i].work_year+'</span></P>'
 						+'<p class="itme7"><span class="key">擅长工种：</span><span class="value7">'+data[i].good_at+'</span></p>'
 						+'<P class="itme8"><span class="key">正在施工工地：</span><span class="value8">'+data[i].working_on+'</span></P>'
