@@ -148,17 +148,17 @@ exports.signup = function (req, res, next) {
         return next(err);
       }
 
-      if (verifyCode) {
-        if (code === verifyCode.code) {
-          tools.bhash(pass, ep.done(function (passhash) {
-            ep.emit('final', passhash);
-          }));
-        } else {
-          return ep.emit('err', '验证码不对或已过期');
-        }
-      } else {
-        return ep.emit('err', '验证码不对或已过期');
-      }
+      // if (verifyCode) {
+      //   if (code === verifyCode.code) {
+      tools.bhash(pass, ep.done(function (passhash) {
+        ep.emit('final', passhash);
+      }));
+      //   } else {
+      //     return ep.emit('err', '验证码不对或已过期');
+      //   }
+      // } else {
+      //   return ep.emit('err', '验证码不对或已过期');
+      // }
     });
   });
 
