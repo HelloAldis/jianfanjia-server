@@ -1,6 +1,6 @@
 $(function(){
 	console.log(window.location.host)
-	if(window.location.host.indexOf('www.') != -1){
+	if(window.location.host == 'jianfanjia.com'){
 		window.location.href = RootUrl + 'tpl/user/login.html';
 	}
 	// 检测函数
