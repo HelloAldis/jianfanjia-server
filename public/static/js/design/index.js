@@ -90,6 +90,7 @@ $(function(){
 	          					+'<div class="style"><strong>擅长风格：</strong>'+decStyles+'</div>'
 	          				+'</div>'
 	          				+'<div class="order f-fr">'
+	          					+'<h5>设计费</h5>'
 	          					+'<p><strong>'+globalData.price_area[data.design_fee_range]+'</strong>元/m&sup2;</p>'
 	          					+gohome+'</div>'
 	          			+'</div>'
