@@ -10,9 +10,11 @@ $(function(){
 			success: function(res){
 				if(res['data'] != null){
 					var data = res['data']['favorite_product'];
+					$list.html('');
 					for (var i = 0,len = data.length; i < len; i++){
 						shareData(data[i])
 					};
+
 				}else{
 					$list.html('<div class="loading nodata" id="j-loading"></div>')
 				}
@@ -77,7 +79,6 @@ $(function(){
 			}),
 			processData : false,
 			success: function(res){
-				$list.html('');
 				loadList();
 		   	}
 		});
