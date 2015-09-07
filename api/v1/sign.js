@@ -66,7 +66,6 @@ exports.updatePass = function (req, res, next) {
       return next(err);
     }
 
-    暂时关闭验证码功能
     if (!verifyCode) {
       return ep.emit('user_err', '验证码不对');
     }
