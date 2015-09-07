@@ -1,5 +1,4 @@
 $(function(){
-	console.log(window.location.host)
 	if(window.location.host == 'jianfanjia.com'){
 		window.location.href = RootUrl + 'tpl/user/login.html';
 	}
