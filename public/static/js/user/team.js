@@ -21,7 +21,7 @@ $(function(){
         "reg_com": "请填写曾就职装饰公司",
         "reg_year": "请填写从业年限",
         "reg_working" : "请填写正在施工工地",
-        "reg_uid" : "请填写正确15或18位身份号码"
+        "reg_uid" : "请填写正确身份号码"
     };
     //选择器
     var $temaName = $('#tame-manager'),
@@ -70,9 +70,8 @@ $(function(){
     }
     function checkUid(){    //身份证验证
      	var id = "reg_uid";
-     	var isIDCard1 = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/; 
-     	var isIDCard2 = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/;
-        if (!!$.trim($tameUid.val()) && isIDCard1.test($tameUid.val()) || isIDCard2.test($tameUid.val())){
+     	var isIDCard = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/;
+        if (!!$.trim($tameUid.val()) && isIDCard.test($tameUid.val())){
             return showOk($tameUid);
         }
         return showError($tameUid,id);
