@@ -37,3 +37,9 @@ exports.pushUpdateByQuery = function (query, json, callback) {
     $push: json
   }, callback);
 }
+
+exports.setOne = function (query, update, option, callback) {
+  User.findOneAndUpdate(query, {
+    $set: update
+  }, option, callback)
+}

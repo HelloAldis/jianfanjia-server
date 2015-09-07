@@ -31,16 +31,30 @@ exports.updatePass = function (req, res, next) {
   //检查phone是不是被用了
   ep.all('user', 'designer', function (user, designer) {
     if (user || designer) {
-      var user = user || designer;
       tools.bhash(pass, ep.done(function (passhash) {
-        user.pass = passhash;
-
-        user.save(function (err) {
-          if (err) {
-            return next(err);
-          }
-          return res.sendSuccessMsg();
-        });
+        if (user) {
+          User.setOne({
+            _id: user._id
+          }, {
+            pass: passhash
+          }, {}, function (err) {
+            if (err) {
+              return next(err);
+            }
+            return res.sendSuccessMsg();
+          });
+        } else if (designer) {
+          Designer.setOne({
+            _id: designer._id
+          }, {
+            pass: passhash
+          }, {}, function (err) {
+            if (err) {
+              return next(err);
+            }
+            return res.sendSuccessMsg();
+          });
+        }
       }));
     } else {
       return ep.emit('user_err', '用户不存在');
