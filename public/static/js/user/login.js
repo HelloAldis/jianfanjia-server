@@ -118,7 +118,7 @@ $(function(){
 			processData : false,
 			success: function(res){
 				if(res["data"] != null){
-                    window.location.href = login_success_url[res.data.usertype]
+                    window.location.href = RootUrl+'tpl/user/'+login_success_url[res.data.usertype]
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');	
 				}

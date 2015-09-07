@@ -109,8 +109,9 @@ $(function(){
 			linkTo : '',
 			callback : function(num,obj){
 				var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
-				$list.html('<div class="loading" id="j-loading"></div>');
+				$list.html('');
 				var dataArr = [];
+				$list.html('<div class="loading" id="j-loading"></div>');
 				for(var i=num*this.itemPage;i<maxElem;i++){
 					dataArr.push(createList(arr[i]));
 				}
