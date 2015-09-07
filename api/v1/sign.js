@@ -66,14 +66,14 @@ exports.updatePass = function (req, res, next) {
       return next(err);
     }
 
-    //暂时关闭验证码功能
-    // if (!verifyCode) {
-    //   return ep.emit('user_err', '验证码不对');
-    // }
-    //
-    // if (verifyCode.code !== code) {
-    //   return ep.emit('user_err', '验证码不对');
-    // }
+    暂时关闭验证码功能
+    if (!verifyCode) {
+      return ep.emit('user_err', '验证码不对');
+    }
+
+    if (verifyCode.code !== code) {
+      return ep.emit('user_err', '验证码不对');
+    }
 
     User.getUserByPhone(phone, function (err, user) {
       if (err) {
@@ -149,17 +149,17 @@ exports.signup = function (req, res, next) {
         return next(err);
       }
 
-      // if (verifyCode) {
-      // if (code === verifyCode.code) {
-      tools.bhash(pass, ep.done(function (passhash) {
-        ep.emit('final', passhash);
-      }));
-      //   } else {
-      //     return ep.emit('err', '验证码不对或已过期');
-      //   }
-      // } else {
-      //   return ep.emit('err', '验证码不对或已过期');
-      // }
+      if (verifyCode) {
+        if (code === verifyCode.code) {
+          tools.bhash(pass, ep.done(function (passhash) {
+            ep.emit('final', passhash);
+          }));
+        } else {
+          return ep.emit('err', '验证码不对或已过期');
+        }
+      } else {
+        return ep.emit('err', '验证码不对或已过期');
+      }
     });
   });
 
