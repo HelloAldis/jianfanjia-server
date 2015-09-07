@@ -1,4 +1,5 @@
 $(function(){
+	console.log(window.location.host)
 	if(window.location.host.indexOf('www.') != -1){
 		window.location.href = RootUrl + 'tpl/user/login.html';
 	}
