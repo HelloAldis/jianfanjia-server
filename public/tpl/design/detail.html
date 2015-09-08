@@ -39,18 +39,32 @@
 			</div>
 		</div>
 	</div>
-	<div class="design-detail">
+	<div class="design-detail" id="j-design-detail">
 		<div class="g-wp">
 			<div class="m-tt">
 				<div id="detail-info"></div>
-				<a href="javascript:;" class="btn" id="j-collect">收藏</a>
+				<a href="javascript:;" class="btn hide" id="j-collect">收藏作品</a>
 			</div>
 			<div class="m-ct">
 				<div class="desc">
 					<h3>案例介绍：</h3>
 					<p id="desc-description"></p>
 				</div>
-				<ul class="list" id="imgList"></ul>
+				<div class="imgBox" id="imgBox">
+					<ul class="list" id="imgList"></ul>
+					<div class="design hide" id="j-scheme-design">
+						<a class="head" href="">
+							<img src="" alt="">
+						</a>
+						<h4></h4>
+						<div class="auth"><span class="i-icon"></span>认证设计师</div>
+						<div class="info f-cb">
+							<dl class="f-fl"><dt class="info1"></dt><dd>作品</dd></dl><span class="f-fl"></span>
+							<dl class="f-fl"><dt class="info2"></dt><dd>预约</dd></dl>
+						</div>
+						<a href="javascript:;" class="btn"></a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -93,6 +107,9 @@
 	var doc = $(document.body);
 	var $collect = $('#j-collect');
 	var winHash = window.location.search.substring(1);
+	var $schemeDesign = $('#j-scheme-design');
+	var $collect1 = $schemeDesign.find('.btn');
+	var arr = [];
 	function loadList(){
 		var url = RootUrl+'api/v1/product/'+winHash;
 		$.ajax({
@@ -118,16 +135,21 @@
 					$.each(res['data']['favorite_product'],function(i,el){
 						if(winHash == el){
 							$collect.addClass('cancel').html('取消收藏');
+							if(window.usertype == 2){
+								$collect1.addClass('cancel').html('取消收藏');
+							}
 							return false;
 						}else{
-							$collect.removeClass('cancel').html('收藏');
+							$collect.removeClass('cancel').html('收藏作品');
+							if(window.usertype == 2){
+								$collect1.removeClass('cancel').html('收藏作品');
+							}
 						}
 					})	
 				}
 		   	}
 		});
 	}
-	getFavorite()
 	function createInfo(data){
 		var url = RootUrl+'api/v1/designer/'+data.designerid+'/basicinfo';
 		var imgID = '';
@@ -139,9 +161,24 @@
 			dataType: 'json',
 			async : false,
 			success: function(res){	
-				if(res['data'] != null){
-					imgID = !!res['data'].imageid ? RootUrl+'api/v1/image/'+res['data'].imageid : '../../static/img/public/headpic.jpg';
-					userNamer = !!res['data'].username ? !!res['data'].username : "";
+				var designer = res['data'];
+				if(designer != null){
+					imgID = !!designer.imageid ? RootUrl+'api/v1/image/'+designer.imageid : '../../static/img/public/headpic.jpg';
+					userNamer = !!designer.username ? !!designer.username : "";
+					$schemeDesign.find('.head').attr('href', '../design/homepage.html?'+designer._id);
+					$schemeDesign.find('img').attr('src', imgID);
+					$schemeDesign.find('h4').html(designer.username+'<span class="i-icon sex'+designer.sex+'"></span>');
+					$schemeDesign.find('.info1').html(designer.product_count);
+					$schemeDesign.find('.info2').html(designer.order_count);
+					$schemeDesign.find('.auth').addClass('auth'+(designer.auth_type-1));
+					if(window.usertype != 2 && window.usertype == 1){
+						$schemeDesign.find('.btn').data('uid',designer._id).html('添加意向')
+					}else if(window.usertype != 2 && window.usertype != 1 && window.usertype != 0){
+						$schemeDesign.find('.btn').attr('href', '../user/login.html?'+window.location.href).html('添加意向')
+					}else if(window.usertype == 2){
+						$schemeDesign.find('.btn').attr('href', 'javascript:;')
+					}
+					$schemeDesign.removeClass('hide');
 				}
 		   	}
 		});
@@ -157,24 +194,56 @@
 			imgList += '<li><h4>'+data.images[i].section+'</h4><img src="'+RootUrl+'api/v1/image/'+data.images[i].imageid+'" alt="" />'+des+'</li>' 
 		};
 		$('#detail-info').html(info);
+		$collect.removeClass('hide');
 		$('#desc-description').html(data.description);
 		$('#imgList').html(imgList);
 	}
 	$collect.on('click',function(){
 		if(!window.usertype){
-			window.location.href = "../user/login.html";
+			window.location.href = '../user/login.html?'+window.location.href;
 		}
 		if(!$(this).hasClass('cancel')){
 			favorite('POST',function(res){
 				if(res['msg'] === "success"){
 					$collect.addClass('cancel').html('取消收藏');
+					if(window.usertype == 2){
+						$collect1.addClass('cancel').html('取消收藏');
+					}
 				}
 			})
 		}else{
 			if(confirm("你确定要取消收藏吗？")){
 				favorite('DELETE',function(res){
 					if(res['msg'] === "success"){
-						$collect.removeClass('cancel').html('收藏')
+						$collect.removeClass('cancel').html('收藏作品');
+						if(window.usertype == 2){
+							$collect1.removeClass('cancel').html('收藏作品');
+						}
+					}
+				})
+			}
+		}
+	})
+	getFavorite();
+	$collect1.on('click',function(){
+		var slef = $(this);
+		if(!$(this).hasClass('cancel')){
+			favorite('POST',function(res){
+				if(res['msg'] === "success"){
+					$collect.addClass('cancel').html('取消收藏');
+					if(window.usertype == 2){
+						$collect1.addClass('cancel').html('取消收藏');
+					}
+				}
+			})
+		}else{
+			if(confirm("你确定要取消收藏吗？")){
+				favorite('DELETE',function(res){
+					if(res['msg'] === "success"){
+						$collect.removeClass('cancel').html('收藏作品');
+						if(window.usertype == 2){
+							$collect1.removeClass('cancel').html('收藏作品');
+						}
 					}
 				})
 			}
@@ -196,4 +265,41 @@
 		   	}
 		});
 	}
+	arr = [$('#imgBox').offset().top+48,$('#imgBox').offset().left+945];
+	$(window).on('scroll',function(){
+		var winT = $(window).scrollTop();
+		if(winT > arr[0]){
+			$schemeDesign.addClass('fixed').css({'top':0,'right':'auto','left':arr[1]})
+		}else{
+			$schemeDesign.removeClass('fixed').css({'top':48,'right':0,'left':'auto'})
+		}
+	});
+	//添加意向
+	$(document.body).delegate('#addIntent','click',function(ev){
+		ev.preventDefault();
+		var slth = $(this);
+		var uidName = $(this).data('uid');
+		var url = RootUrl+'api/v1/user/designer';
+		$.ajax({
+			url:url,
+			type: 'POST',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			cache : false,
+			data : JSON.stringify({
+				"_id" : uidName
+			}),
+			processData : false,
+			success: function(res){
+				if(res["msg"] == "success"){
+					alert('添加成功');
+					slef.html('查看详情').attr('href','homepage.html?'+uidname).removeClass('addIntent');
+				}else if(res["err_msg"] != null){
+					window.location.href = "../user/owner_design.html";
+				}else{
+					alert("添加失败")
+				}
+		   	}
+		});
+	})
 </script>

@@ -37,7 +37,9 @@ $(function(){
 		var gohome = "";			
 		if(window.usertype == 2){
 			gohome = '<a href="homepage.html?'+data._id+'" class="btn">查看详情</a>'
-		}else{
+		}else if(window.usertype != 1 && window.usertype != 2 && window.usertype != 0){
+			gohome = '<a href="../user/login.html?'+window.location.href+'" data-uid="'+data._id+'" class="btn addIntent">添加意向</a>'
+		}else if(window.usertype == 1 && window.usertype != 2 ){
 			gohome = '<a href="../user/owner_design.html" data-uid="'+data._id+'" class="btn addIntent">添加意向</a>'
 		}
 		var url = RootUrl+'api/v1/designer/'+data._id+'/products';
@@ -69,9 +71,7 @@ $(function(){
 	          		+'<div class="g-wp">'
 	          			+'<div class="m-tt f-cb">'
 	          				+'<div class="info f-fl">'
-	          					+'<div class="head">'
-	          						+'<a href="homepage.html?'+data._id+'"><img src="'+ImgId+'" alt="'+data.username+'"/></a>'
-	          					+'</div>'
+	          					+'<a class="head" href="homepage.html?'+data._id+'"><img src="'+ImgId+'" alt="'+data.username+'"/></a>'
 	          					+'<div class="msg f-cb">'
 	          						+'<dl>'
 	          							+'<dt>'+data.product_count+'</dt>'
@@ -116,7 +116,7 @@ $(function(){
 				}
 				setTimeout(function(){
 					$list.html(dataArr);
-					
+
 				}, 1000)
 				$design.find('li:odd').attr('class', 'even');
 				obj.find('.btns').on('click',function(ev){

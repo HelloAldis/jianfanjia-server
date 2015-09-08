@@ -56,7 +56,6 @@ table{border-collapse:collapse;border-spacing:0}
 /*模块  module********************************************************/
 .i-icon{
 	background:url(../img/public/sprite.png) 0 0 no-repeat;
-	_background:url(../img/public/sprite.gif) 0 0 no-repeat;
 }
 .btn{
 	display: inline-block;
@@ -710,17 +709,25 @@ table{border-collapse:collapse;border-spacing:0}
 	-webkit-box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
 	-moz-box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
 	box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
+	-webkit-transition:all 0.5s;
+	-moz-transition:all 0.5s;	
+	-o-transition:all 0.5s;
+	transition:all 0.5s;
+}
+.g-index-live li:hover{
+	-webkit-box-shadow: 0px 0px 11px rgba(0,0,0,0.35);
+	-moz-box-shadow: 0px 0px 11px rgba(0,0,0,0.35);
+	box-shadow: 0px 0px 11px rgba(0,0,0,0.35);
 }
 .g-index-live .pic{
 	width: 100%;
 	height: 288px;
 	overflow: hidden;
-	-webkit-transition:height 0.5s;
-	-moz-transition:height 0.5s;	
-	-o-transition:height 0.5s;
-	transition:height 0.5s;
 }
-.g-index-live .pic img{width: 100%;}
+.g-index-live .pic img{
+	width: 100%;
+	min-height: 288px;
+}
 .g-index-live .head{
 	position: absolute;
 	left:50%;
@@ -732,14 +739,17 @@ table{border-collapse:collapse;border-spacing:0}
 	border-radius: 50%;
 	background-color: #dcdcdc;
 	border: 3px solid #fff;
-	-webkit-transition:top 0.5s;
-	-moz-transition:top 0.5s;	
-	-o-transition:top 0.5s;
-	transition:top 0.5s;
+	-webkit-transition:all 0.5s;
+	-moz-transition:all 0.5s;	
+	-o-transition:all 0.5s;
+	transition:all 0.5s;
 }
 .g-index-live .head img{
 	width: 100%;
 	height: 100%;
+}
+.g-index-live .head:hover{
+	border-color: #fe7004;
 }
 .g-index-live .txt{
 	padding: 48px 20px 0;
@@ -752,31 +762,18 @@ table{border-collapse:collapse;border-spacing:0}
 	font-weight: normal;
 	
 }
+.g-index-live .txt h4 a{
+	color: #333;
+}
+.g-index-live .txt h4 a:hover{
+	color: #fe7004;
+}
 .g-index-live .txt .desc{
 	line-height: 44px;
 }
 .g-index-live .txt .desc span{
 	margin: 0 10px;
 }
-.g-index-live li .btn{
-	position: absolute;
-	top:455px;
-	left:50%;
-	width: 240px;
-	line-height: 50px;
-	margin-left: -121px;
-	border-radius: 50px;
-}
-.g-index-live li:hover .pic{
-	height: 200px;
-}
-.g-index-live li:hover .head{
-	top:140px;
-}
-.g-index-live li:hover .btn{
-	top:385px;
-}
-
 .m-infoplate{
 	width: 320px;
 	padding: 20px;
