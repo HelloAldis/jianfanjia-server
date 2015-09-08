@@ -212,6 +212,11 @@
 	padding-right: 28px;
 	padding-top: 42px;
 }
+.design-list .m-list .order h5{
+	line-height: 30px;
+	text-align: center;
+	font-size: 14px;
+}
 .design-list .m-list .order p{
 	font-size: 14px;
 	line-height: 20px;

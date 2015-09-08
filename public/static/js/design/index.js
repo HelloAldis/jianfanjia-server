@@ -90,6 +90,7 @@ $(function(){
 	          					+'<div class="style"><strong>擅长风格：</strong>'+decStyles+'</div>'
 	          				+'</div>'
 	          				+'<div class="order f-fr">'
+	          					+'<h5>设计费</h5>'
 	          					+'<p><strong>'+globalData.price_area[data.design_fee_range]+'</strong>元/m&sup2;</p>'
 	          					+gohome+'</div>'
 	          			+'</div>'
@@ -108,8 +109,9 @@ $(function(){
 			linkTo : '',
 			callback : function(num,obj){
 				var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
-				$list.html('<div class="loading" id="j-loading"></div>');
+				$list.html('');
 				var dataArr = [];
+				$list.html('<div class="loading" id="j-loading"></div>');
 				for(var i=num*this.itemPage;i<maxElem;i++){
 					dataArr.push(createList(arr[i]));
 				}

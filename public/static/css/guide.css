@@ -137,3 +137,92 @@
 	display: inline-block;
 	width: 50%;
 }
+.list3{
+	font-size: 14px;
+	line-height: 26px;
+}
+.list3 p{
+	text-indent: 2em;
+	margin-bottom: 10px;
+}
+.list3 .title h2{
+	padding-left: 0;
+	font-size: 24px;
+	line-height: 36px;
+	border: none;
+	text-align: center;
+}
+.list3 .title p{
+	padding-left: 50px;
+	color: #333;
+	text-align: center;
+	padding-bottom: 30px;
+}
+.list3 .name{
+
+}
+.list3 .name p{
+	text-indent: 0;
+}
+.list3 .line{
+	display: inline-block;
+	height: 26px;
+	margin: 0 3px;
+	vertical-align: middle;
+	border-bottom: 1px solid #333;
+}
+.list3 .line1{
+	width: 160px;
+}
+.list3 .line2{
+	width: 320px;
+}
+.list3 .line3{
+	width: 380px;
+	text-align: center;
+}
+.list3 .line4{
+	width: 100px;
+}
+.list3 .line5{
+	width: 50px;
+}
+.description{
+	margin-top: 30px;
+}
+.clause h3{
+	font-size: 18px;
+	color: #333;
+	font-weight: bold;
+	margin-top: 20px;
+	line-height: 36px;
+}
+.clause table{
+	width: 100%;
+	margin: 20px 0;
+}
+.clause td{
+	width: 48%;
+	padding-left: 2%;
+	line-height: 50px;
+	border: 1px solid #dcdcdc;
+}
+.signature{
+	padding: 30px 0;
+}
+.signature .area{
+	width: 50%;
+	margin-bottom: 20px;
+}
+.annex h4{
+	font-size: 24px;
+	font-weight: bold;
+	color: #333;
+}
+.annex h3{
+	font-size: 24px;
+	color: #333;
+	text-align: center;
+	line-height: 36px;
+	margin-bottom: 20px;
+}

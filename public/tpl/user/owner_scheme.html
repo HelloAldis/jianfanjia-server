@@ -137,7 +137,7 @@
 		for (var i = 0; i < len; i++) {
 			images += '<img src="'+RootUrl+'api/v1/image/'+data.images[i]+'" alt="" />'
 		};
-		return '<div class="item" data-uid="'+data._id+'">'
+		return '<div class="item" data-uid="'+data._id+'" data-did="'+data.designer._id+'">'
 						+'<div class="info f-cb">'
 							+'<ul class="f-fl">'
 								+'<li><h4>设计师<span>'+data.designer.username+'</span>的方案</h4></li>'
@@ -190,6 +190,7 @@
 		var self = $(this);
 		var oDl = $(this).closest('.item');
 		var uidName = oDl.data('uid');
+		var uidDesigner = oDl.data('did');
 		var url = RootUrl+'api/v1/user/plan/final';
 		$.ajax({
 			url:url,
@@ -197,7 +198,8 @@
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			data : JSON.stringify({
-				"planid" : uidName
+				"planid" : uidName,
+				"designerid" : uidDesigner
 			}),
 			processData : false,
 			success: function(res){

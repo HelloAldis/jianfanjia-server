@@ -211,9 +211,9 @@
 			$cancel.on('click',function(){
 				$booking.hide();
 			});
-			var timer = year+"-"+ parseInt($('#booking-month').find('.value').html()) +"-"+ parseInt($('#booking-day').find('.value').html())+" "+ ( parseInt($('#booking-hour').find('.value').html()) > 10 ? parseInt($('#booking-hour').find('.value').html()) : "0"+parseInt($('#booking-hour').find('.value').html()) ) + ':00:00';
-			var dateTime = new Date(Date.parse(timer.replace(/-/g, "/")));
 			$define.on('click',function(){
+				var timer = year+"-"+ parseInt($('#booking-month').find('.value').html()) +"-"+ parseInt($('#booking-day').find('.value').html())+" "+ ( parseInt($('#booking-hour').find('.value').html()) > 10 ? parseInt($('#booking-hour').find('.value').html()) == 24 ? "00" : parseInt($('#booking-hour').find('.value').html())  : "0"+parseInt($('#booking-hour').find('.value').html()) ) + ':00:00';
+			var dateTime = new Date(Date.parse(timer.replace(/-/g, "/")));
 				var url = RootUrl+'api/v1/designer/user/ok';
 				$booking.hide();
 				$.ajax({
