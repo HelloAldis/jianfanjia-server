@@ -217,6 +217,10 @@ exports.myDesigner = function (req, res, next) {
           imageid: 1,
         }, function (err, designer) {
           designer = designer.toObject();
+          designer.is_rec = _.find(requirement.designerids,
+            function (e) {
+              return e.toString() === designer._id.toString();
+            }) != undefined;
           callback(err, designer);
         });
       }, function (err, results) {
