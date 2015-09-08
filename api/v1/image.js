@@ -28,6 +28,9 @@ exports.add = function (req, res, next) {
         res.sendData(image._id);
       } else {
         Image.newAndSave(md5, data, userid, function (err, savedImage) {
+          if (err) {
+            return next(err);
+          }
           res.sendData(savedImage._id);
         });
       }
