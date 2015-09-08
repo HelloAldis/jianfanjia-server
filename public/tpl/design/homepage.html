@@ -209,7 +209,6 @@
 	};
 	//创建列表
 	function createList(data){
-		console.log(data)
 		var img = data.images.length ? RootUrl+'api/v1/image/'+ data.images[0].imageid : "../../img/index/index-live-01.jpg";
 	return  '<li>'
 				+'<div class="pic"><a href="detail.html?'+data._id+'"><img alt="清江山水" src="'+img+'"></a></div>'
