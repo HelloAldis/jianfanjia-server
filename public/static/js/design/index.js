@@ -4,7 +4,7 @@ $(function(){
 	var $filter = $design.find('.m-filter');
 	//渲染生成列表
 	function loadList(data){
-		var data = data || {"query":{},"sort":{ "auth_date":1}}
+		var data = data || {"query":{},"sort":{ "product_count":-1}}
 		var url = RootUrl+'api/v1/designer/search';
 		$.ajax({
 			url:url,
