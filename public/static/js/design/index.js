@@ -84,7 +84,7 @@ $(function(){
 	          					+'</div>'
 	          				+'</div>'
 	          				+'<div class="status f-fl">'
-		          				+'<h4>'+data.username+'<span class="i-icon sex'+data.sex+'"></span></h4>'
+		          				+'<h4><a href="homepage.html?'+data._id+'">'+data.username+'</a><span class="i-icon sex'+data.sex+'"></span></h4>'
 	          					+'<div class="atte atte'+(data.auth_type-1)+'"><span class="i-icon"></span>认证设计师</div>'
 	          					+'<div class="addr"><strong>接单区域：</strong>'+decDistricts+'<span class="i-icon"></span></div>'
 	          					+'<div class="style"><strong>擅长风格：</strong>'+decStyles+'</div>'
@@ -109,13 +109,14 @@ $(function(){
 			linkTo : '',
 			callback : function(num,obj){
 				var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
-				$list.html('');
-				var dataArr = [];
 				$list.html('<div class="loading" id="j-loading"></div>');
+				var dataArr = [];
 				for(var i=num*this.itemPage;i<maxElem;i++){
 					dataArr.push(createList(arr[i]));
 				}
-				$list.html(dataArr);
+				setTimeout(function(){
+					$list.html(dataArr);
+				}, 1000)
 				$design.find('li:odd').attr('class', 'even');
 				obj.find('.btns').on('click',function(ev){
 					//ev.stopPropagation();
@@ -129,7 +130,7 @@ $(function(){
 	//筛选
 	$design.find('.m-filter').find('a').on('click',function(){
 		$(this).attr('class','current').siblings().attr('class', '');
-		FilterSort()
+		FilterSort();
 		return false;
 	});
 	//排序
@@ -153,6 +154,7 @@ $(function(){
 					filter[oDl.data('type')] = $(this).data('query');
 				}
 			});
+		$list.html('<div class="loading" id="j-loading"></div>');
 		loadList({
 			"query" : filter,
 			"sort" : sort
