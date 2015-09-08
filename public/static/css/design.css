@@ -392,6 +392,12 @@
 	color: #fff;
 	background-color: #fe4504;
 }
+.design-detail .m-tt .cancel{
+	background-color: #999;
+}
+.design-detail .m-tt .cancel:hover{
+	background-color: #666;
+}
 .design-detail .desc{
 	padding-top: 78px;
 	padding-left: 38px;
