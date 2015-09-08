@@ -173,6 +173,15 @@ $(function(){
 		FilterSort()
 		return false;
 	});
+	$('#j-filter-more').on('click',function(){
+		if($(this).hasClass('filterMore')){
+			$(this).removeClass();
+			$('#j-filter').find('.more').addClass('hide');
+		}else{
+			$(this).addClass('filterMore');
+			$('#j-filter').find('.more').removeClass('hide');
+		}
+	});
 	$design.delegate('.addIntent','click',function(ev){
 		var slef = $(this)
 		if(window.usertype == 1){

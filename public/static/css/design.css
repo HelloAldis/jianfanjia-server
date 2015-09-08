@@ -39,6 +39,21 @@
 	color: #fff;
 	text-decoration: none;
 }
+.m-filter-more{
+	border-top: 1px solid #f6f7f9;
+	height: 80px;
+	text-align: center;
+}
+.m-filter-more a{
+	display: inline-block;
+	width: 120px;
+	line-height: 36px;
+	margin-top: -1px;
+	font-size: 14px;
+	color: #333;
+	border: 1px solid #f6f7f9;
+	border-top-color: #fff;
+}
 .design-list .m-sort{
 	height: 86px;
 	text-align: right;

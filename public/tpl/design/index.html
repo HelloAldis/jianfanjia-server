@@ -43,7 +43,29 @@
 	</div>
 	<div class="g-subad"><img src=".../../../../static/img/design/banner.jpg" alt="" /></div>
 	<div class="design-list" id="j-design-list">
-		<div class="m-filter g-wp">
+		<div class="m-filter g-wp" id="j-filter">
+			<dl data-type="dec_types" class="f-cb">
+				<dt>装修类型：</dt>
+				<dd>
+					<a href="javascript:;" class="current" data-query="-1">不限</a>
+					<a href="javascript:;" data-query="0">家装</a>
+					<a href="javascript:;" data-query="1">商装</a>
+					<a href="javascript:;" data-query="2">软装</a>
+				</dd>
+			</dl>
+			<dl data-type="dec_house_types" class="f-cb">
+				<dt>装修户型：</dt>
+				<dd>
+					<a href="javascript:;" class="current" data-query="-1">不限</a>
+					<a href="javascript:;" data-query="0">一室</a>
+					<a href="javascript:;" data-query="1">二室</a>
+					<a href="javascript:;" data-query="2">三室</a>
+					<a href="javascript:;" data-query="3">四室</a>
+					<a href="javascript:;" data-query="4">复式</a>
+					<a href="javascript:;" data-query="5">别墅</a>
+					<a href="javascript:;" data-query="6">LOFT</a>
+				</dd>
+			</dl>
 			<dl data-type="dec_styles" class="f-cb">
 				<dt>擅长风格：</dt>
 				<dd>
@@ -54,9 +76,10 @@
 					<a href="javascript:;" data-query="3">地中海</a>
 					<a href="javascript:;" data-query="4">美式</a>
 					<a href="javascript:;" data-query="5">东南亚</a>
+					<a href="javascript:;" data-query="6">田园</a>
 				</dd>
 			</dl>
-			<dl data-type="dec_districts" class="f-cb">
+			<dl data-type="dec_districts" class="f-cb more hide">
 				<dt>接单区域：</dt>
 				<dd>
 					<a href="javascript:;" class="current" data-query="-1">不限</a>
@@ -69,7 +92,7 @@
 					<a href="javascript:;" data-query="6">青山区</a>
 				</dd>
 			</dl>
-			<dl data-type="design_fee_range" class="f-cb">
+			<dl data-type="design_fee_range" class="f-cb more hide">
 				<dt>设计收费：</dt>
 				<dd>
 					<a href="javascript:;" class="current" data-query="-1">不限</a>
@@ -78,7 +101,10 @@
 					<a href="javascript:;" data-query="2">200-300</a>
 					<a href="javascript:;" data-query="3">300以上</a>
 				</dd>
-			</dl>
+			</dl>			
+		</div>
+		<div class="m-filter-more">
+			<a href="javascript:;" id="j-filter-more">更多选择</a>
 		</div>
 		<div class="m-sort">
 			<div class="g-wp">
