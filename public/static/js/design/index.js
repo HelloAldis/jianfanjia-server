@@ -116,6 +116,7 @@ $(function(){
 				}
 				setTimeout(function(){
 					$list.html(dataArr);
+					
 				}, 1000)
 				$design.find('li:odd').attr('class', 'even');
 				obj.find('.btns').on('click',function(ev){
