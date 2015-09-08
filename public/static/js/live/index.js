@@ -13,7 +13,7 @@ $(function(){
 					var info = getInfo(res['data'])
 					page(res['data'],info)
 				}else{
-					alert('没有数据')
+					$liveList.html('<div class="loading nodata" id="j-loading"></div>');
 				}
 		   	}
 		});

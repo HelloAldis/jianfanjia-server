@@ -14,8 +14,6 @@ $(function(){
 				if(res['data'] != null){
 					var info = getInfo(res['data'].designerid);
 					createList(res['data'],info[0])
-				}else{
-					alert('没有数据')
 				}
 		   	}
 		});
