@@ -243,15 +243,23 @@
 .toggle-btn{
 	position: absolute;
 	z-index: 10;
-	top:50%;
-	left:150px;
+	top:138px;
+	left:0;
+	width:370px;
+	height:483px;
+}
+.toggle-btn i{
+	display: inline-block;
 	width: 40px;
 	height: 70px;
-	margin-top: 20px;
-	background:url(../img/index/index-design-toggle.png) no-repeat left 0;		
+	margin-left: 165px;
+	margin-top: 206px;
+	background:url(../img/index/index-design-toggle.png) no-repeat left 0;	
 }
 .toggle .next{
 	left:auto;
-	right:150px;
+	right:0;
+}
+.toggle .next i{
 	background-position: 0 -70px;
 }
