@@ -4,7 +4,7 @@ $(function(){
 	var $filter = $design.find('.m-filter');
 	//渲染生成列表
 	function loadList(data){
-		var data = data || {"query":{},"sort":{ "auth_date":1}}
+		var data = data || {"query":{},"sort":{ "product_count":-1}}
 		var url = RootUrl+'api/v1/designer/search';
 		$.ajax({
 			url:url,
@@ -37,7 +37,9 @@ $(function(){
 		var gohome = "";			
 		if(window.usertype == 2){
 			gohome = '<a href="homepage.html?'+data._id+'" class="btn">查看详情</a>'
-		}else{
+		}else if(window.usertype != 1 && window.usertype != 2 && window.usertype != 0){
+			gohome = '<a href="../user/login.html?'+window.location.href+'" data-uid="'+data._id+'" class="btn addIntent">添加意向</a>'
+		}else if(window.usertype == 1 && window.usertype != 2 ){
 			gohome = '<a href="../user/owner_design.html" data-uid="'+data._id+'" class="btn addIntent">添加意向</a>'
 		}
 		var url = RootUrl+'api/v1/designer/'+data._id+'/products';
@@ -69,9 +71,7 @@ $(function(){
 	          		+'<div class="g-wp">'
 	          			+'<div class="m-tt f-cb">'
 	          				+'<div class="info f-fl">'
-	          					+'<div class="head">'
-	          						+'<a href="homepage.html?'+data._id+'"><img src="'+ImgId+'" alt="'+data.username+'"/></a>'
-	          					+'</div>'
+	          					+'<a class="head" href="homepage.html?'+data._id+'"><img src="'+ImgId+'" alt="'+data.username+'"/></a>'
 	          					+'<div class="msg f-cb">'
 	          						+'<dl>'
 	          							+'<dt>'+data.product_count+'</dt>'
@@ -116,9 +116,8 @@ $(function(){
 				}
 				setTimeout(function(){
 					$list.html(dataArr);
-					
-				}, 1000)
-				$design.find('li:odd').attr('class', 'even');
+					$design.find('li:odd').attr('class', 'even');
+				}, 300)
 				obj.find('.btns').on('click',function(ev){
 					//ev.stopPropagation();
 					$('body,html').animate({scrollTop:$design.offset().top},1000);
@@ -172,6 +171,15 @@ $(function(){
 		}
 		FilterSort()
 		return false;
+	});
+	$('#j-filter-more').on('click',function(){
+		if($(this).hasClass('filterMore')){
+			$(this).removeClass();
+			$('#j-filter').find('.more').addClass('hide');
+		}else{
+			$(this).addClass('filterMore');
+			$('#j-filter').find('.more').removeClass('hide');
+		}
 	});
 	$design.delegate('.addIntent','click',function(ev){
 		var slef = $(this)

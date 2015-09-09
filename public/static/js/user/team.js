@@ -71,7 +71,7 @@ $(function(){
     function checkUid(){    //身份证验证
      	var id = "reg_uid";
      	var isIDCard = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/;
-        if (!!$.trim($tameUid.val()) && isIDCard.test($tameUid.val())){
+        if (!$.trim($tameUid.val()) || isIDCard.test($tameUid.val())){
             return showOk($tameUid);
         }
         return showError($tameUid,id);

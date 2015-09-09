@@ -1424,8 +1424,16 @@
 	top:0;
 	width: 90px;
 	height: 90px;
+	border: 3px solid #fff;
 	overflow: hidden;
 	border-radius: 50%;
+	-webkit-transition:all 0.5s;
+	-moz-transition:all 0.5s;	
+	-o-transition:all 0.5s;
+	transition:all 0.5s;
+}
+.owner-design-lsit .info .head:hover{
+	border-color:#fe7004;
 }
 .owner-design-lsit .info .head img{
 	width: 100%;
@@ -1435,6 +1443,11 @@
 	font-size: 16px;
 	font-weight: normal;
 	color: #4a4a4a;
+}
+.owner-design-lsit .info h4 span{
+	font-size: 12px;
+	margin-left: 5px;
+	color: #fe7004;
 }
 .owner-design-lsit .info p{
 	line-height: 26px;

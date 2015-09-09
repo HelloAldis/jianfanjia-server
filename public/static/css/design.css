@@ -39,6 +39,21 @@
 	color: #fff;
 	text-decoration: none;
 }
+.m-filter-more{
+	border-top: 1px solid #f6f7f9;
+	height: 80px;
+	text-align: center;
+}
+.m-filter-more a{
+	display: inline-block;
+	width: 120px;
+	line-height: 36px;
+	margin-top: -1px;
+	font-size: 14px;
+	color: #333;
+	border: 1px solid #f6f7f9;
+	border-top-color: #fff;
+}
 .design-list .m-sort{
 	height: 86px;
 	text-align: right;
@@ -121,12 +136,20 @@
 	padding-left: 32px;
 }
 .design-list .m-list .head{
+	display: block;
 	width: 90px;
 	height: 90px;
 	margin-left: 9px;
 	overflow: hidden;
 	border: 3px solid #fff;
 	border-radius: 50%;
+	-webkit-transition:all 0.5s;
+	-moz-transition:all 0.5s;	
+	-o-transition:all 0.5s;
+	transition:all 0.5s;
+}
+.design-list .head:hover{
+	border-color:#fe7004;
 }
 .design-list .m-list .head img{
 	width: 100%;
@@ -155,10 +178,13 @@
 	font-weight: normal;
 	margin-right: 25px;
 }
-.design-list .m-list .status h4{
+.design-list .m-list .status h4 a{
 	font-size: 18px;
 	font-weight: normal;
 	color: #34495e;
+}
+.design-list .m-list .status h4 a:hover{
+	color: #fe7004;
 }
 .design-list .m-list .status h4 span{
 	display: inline-block;
@@ -317,6 +343,7 @@
 }
 .g-index-live .pic img{
 	width: 100%;
+	min-height: 288px;
 }
 .g-index-live .txt{
 	padding-top: 20px;
@@ -346,9 +373,20 @@
 	overflow: hidden;
 	border: 3px solid #fff;
 	border-radius: 50%;
+	-webkit-transition:all 0.5s;
+	-moz-transition:all 0.5s;	
+	-o-transition:all 0.5s;
+	transition:all 0.5s;
 }
 .design-detail .head img{
 	width: 100%;
+	height: 100%;
+}
+.design-detail .head:hover{
+	border-color: #fe7004;
+}
+.design-detail .m-tt{
+	height: 356px;
 }
 .design-detail h2{
 	padding-bottom: 40px;
@@ -398,6 +436,9 @@
 .design-detail .m-tt .cancel:hover{
 	background-color: #666;
 }
+.design-detail .imgBox{
+	position: relative;
+}
 .design-detail .desc{
 	padding-top: 78px;
 	padding-left: 38px;
@@ -415,6 +456,9 @@
 	font-size: 14px;
 	color: #7c8389;
 }
+.design-detail .list{
+	width: 900px;
+}
 .design-detail .list h4{
 	line-height: 30px;
 	font-size: 16px;
@@ -423,10 +467,118 @@
 	font-weight: normal;
 	padding-bottom: 20px;
 }
+.design-detail .list img{
+	width: 100%;
+	height: auto;
+}
 .design-detail .list p{
 	padding: 50px 0 70px;
 	line-height: 36px;
 	font-size: 14px;
 	color: #7c8389;
 	text-indent: 2em;
+}
+.design-detail .design{
+	position: absolute;
+	top:48px;
+	right: 0;
+	width: 255px;
+	padding: 20px 0 25px;
+	text-align: center;
+	background-color: #fff;
+}
+.design-detail .fixed{
+	position: fixed;
+}
+.design-detail .design .head{
+	display: block;
+	width: 90px;
+	height: 90px;
+	margin: 0 auto;
+	overflow: hidden;
+	border-radius: 50%;
+	-webkit-transition:all 0.5s;
+	-moz-transition:all 0.5s;	
+	-o-transition:all 0.5s;
+	transition:all 0.5s;
+}
+.design-detail .design .head:hover{
+	border-color:#fe7004;
+}
+.design-detail .design .head img{
+	width: 100%;
+	height: 100%;
+}
+.design-detail .design h4{
+	padding-top: 14px;
+	line-height: 30px;
+}
+.design-detail .design h4 span,.m-infoplate h4 span{
+	display: inline-block;
+    width: 16px;
+    height: 15px;
+    overflow: hidden;
+    margin-left: 12px;
+    vertical-align: middle;
+}
+.design-detail .design h4 .sex1,.m-infoplate h4 .sex1{
+	background-position: 0 -16px;
+}
+.design-detail .design dl{
+	width: 90px;
+	line-height: 20px;
+	color: #4d4d4d;
+}
+.design-detail .design dt{
+	font-size: 20px;
+	line-height: 25px;
+	color: #fe7004;
+}
+.design-detail .design .info{
+	width: 181px;
+	margin:10px auto 20px; 
+}
+.design-detail .design .info span{
+	width: 1px;
+	height: 25px;
+	overflow: hidden;
+	margin-top: 10px;
+	background-color: #e0e0e0;
+}
+.design-detail .design .auth,.m-infoplate .auth{
+	width: 118px;
+    padding: 1px;
+    margin: 5px auto 7px;
+    font-size: 14px;
+    line-height: 28px;
+    color: #7c8389;
+}
+.design-detail .design .auth1,.m-infoplate .auth1{
+	padding: 0;
+    border: 1px solid #fe7004;
+    border-radius: 28px;
+    color: #fe7004;
+}
+.design-detail .design .auth span,.m-infoplate .auth span{
+	display: inline-block;
+    width: 15px;
+    height: 17px;
+    overflow: hidden;
+    margin-top: -5px;
+    background-position: 0 -52px;
+    vertical-align: middle;
+}
+.design-detail .design .auth1 span,.m-infoplate .auth1 span{
+	background-position: 0 -70px;
+}
+.design-detail .design .btn{
+	width: 192px;
+	line-height: 36px;
+	font-size: 16px;
+}
+.design-detail .design .cancel{
+	background-color: #999;
+}
+.design-detail .design .cancel:hover{
+	background-color: #666;
 }
