@@ -3,6 +3,7 @@ $(function(){
     //获取对象
     var desName = $("#design-name");
     var desSex = $("#design-sex");
+    var desEmail = $("#design-email");
     var desArea = $("#design-area");
     var desAddr = $("#design-addr");
     var desUid = $('#design-uid');
@@ -17,6 +18,8 @@ $(function(){
     var desHouseIntent = $("#house-intent");
     var desPhilosophy = $("#design-philosophy");
     var desAchievement = $("#design-achievement");
+    var desBankCardName = $("#decoration-bankCardName");
+    var desBankCardNum = $("#decoration-bankCardNum");
 	function loadList(){
 		var url = RootUrl+'api/v1/designer/'+winHash+'/basicinfo';
 		$.ajax({
@@ -30,6 +33,7 @@ $(function(){
 					$('#return-home').attr('href', '../tpl/design/homepage.html?'+winHash);
 					desName.html(data.username);
 					desAddr.html(data.address);
+					desEmail.html(data.email || "");
 					$('#design-phone').html(data.phone);
 					if(data.sex == 0 || data.sex == 1){
 						desSex.html((data.sex == 0 ? '男' : '女'));
@@ -72,6 +76,8 @@ $(function(){
 					if(!!data.imageid){	
 						$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+data.imageid)
 					}
+					desBankCardName.val(data.bank || "");
+        			desBankCardNum.val(data.bank_card || "");
 					var img = data.imageid != null && !!data.imageid  ?  RootUrl+'api/v1/image/'+data.imageid : '../../../static/img/public/headpic.jpg'
 					$('#userHead').attr('src',img).data('img',data.imageid != null ? data.imageid : null)
 				}
