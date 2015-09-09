@@ -11,6 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="../../static/css/merit.css" />
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/wow.min.js"></script>
 	<!--[if lt IE 9]>
       <script type="text/javascript" src="../../static/js/lib/json2-min.js"></script>
     <![endif]-->
@@ -19,9 +20,20 @@
       	if(!-[1,]){window.location.href = "../other/error.html";} 
       </script>
     <![endif]-->
-	<script type="text/javascript" src="../../static/js/merit/index.js"></script>
 </head>
 <body>
+	<script type="text/javascript">
+		if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))){
+			var wow = new WOW({
+				boxClass: 'wow',
+				animateClass: 'animated',
+				offset: 100,
+				mobile: true,
+				live: true
+			});
+			wow.init();
+		};
+	</script>
 	<div class="g-hd">
 		<div class="g-wp f-cb">
 			<div class="m-logo f-fl">
@@ -40,12 +52,127 @@
 			</div>
 		</div>
 	</div>
-	<div class="g-banner3">
-		 <ul class="tabNav g-wp">
-		 	<li><a href="index.html"></a></li>
-		 	<li><a href="ensure.html"></a></li>
-		 	<li><a href="answers.html"></a></li>
-		 </ul>
+	<div class="g-merit">
+		<div class="banner banner3">
+			<div class="g-wp">
+				<img src="../../static/img/merit/banner3.jpg" alt="" />
+			</div>
+		</div>
+		<div class="tabNav tabnav3">
+			 <ul class="g-wp">
+			 	<li><a href="index.html">设计师专单</a></li>
+			 	<li><a href="ensure.html">五线谱保障</a></li>
+			 	<li>业主问我答</li>
+			 </ul>
+		</div>
+		<div class="article article-header">
+			<div class="g-wp">
+				<div class="pic" style="right:0;top:62px;">
+					<img src="../../static/img/merit/a01.jpg" height="365" width="377" alt="" />
+					<span></span>
+				</div>
+				<div class="txt" style="left:0;top:175px;">
+					<h3><span></span>简繁家是做什么的？</h3>
+					<p><span></span>简繁家是一个全免费的互联网设计师专单平台，获得知名投资机构险峰华兴近千万的天使投资，旨在为设计师和业主打造互联网+装修的O2O平台。</p>
+				</div>
+			</div>
+		</div>
+		<div class="article article-section">
+			<div class="g-wp">
+				<dl class="f-fl">
+					<dt>简繁家平台</dt>
+					<dd><span></span>足不出户3套方案送到手</dd>
+					<dd><span></span>去除层级化直接低价</dd>
+					<dd><span></span>三方保障合同20%托管费用直接满意验收</dd>
+					<dd><span></span>掌上APP实时掌控施工过程</dd>
+					<dd><span></span>第三方监理</dd>
+					<dd><span></span>第三方质保基金先行赔付</dd>
+				</dl>
+				<div class="f-fl contrast">
+					<h3>
+						<em>简繁家<br />
+						PK<br />
+						传统装修</em>
+						<span></span>
+					</h3>
+					<div class="line"></div>
+					<ul>
+						<li>装修咨询</li>
+						<li>预算报价</li>
+						<li>合同签订</li>
+						<li>施工管理</li>
+						<li>监理服务</li>
+						<li>售后保障</li>
+					</ul>
+				</div>
+				<dl class="f-fr">
+					<dt>传统装修</dt>
+					<dd>到处奔波比.比.比</dd>
+					<dd>分担模式预算偏高</dd>
+					<dd>双方合同</dd>
+					<dd>不能便捷掌握</dd>
+					<dd>内部监理</dd>
+					<dd>按部就班逐级解决</dd>
+				</dl>
+			</div>
+		</div>
+		<div class="article article-main">
+			<div class="g-wp">
+				<div class="pic" style="left:0;top:0;">
+					<img src="../../static/img/merit/a02.jpg" height="365" width="377" alt="" />
+					<span></span>
+				</div>
+				<div class="txt" style="right:0;top:70px;">
+					<h3><span></span>平台怎么匹配设计师？</h3>
+					<p><span></span>业主详细填写装修需求信息，平台根据所填写信息结合设计师信息数据库，从装修风格、预算、户型、服务范围、设计理念、性格、沟通习惯等多维度进行分析得到最佳匹配结果。</p>
+				</div>
+
+				<div class="pic" style="right:0;top:736px;">
+					<img src="../../static/img/merit/a03.jpg" height="365" width="377" alt="" />
+					<span></span>
+				</div>
+				<div class="txt" style="left:0;top:570px;">
+					<h3><span></span>为什么可以比传统装饰公司节省20%？</h3>
+					<p><span></span>整个装修从设计到施工管理是设计师直接负责制，至少节省了20%的传统装修平台的中间费用和分包利润。</p>
+				</div>
+
+				<div class="pic" style="left:0;top:1040px;">
+					<img src="../../static/img/merit/a04.jpg" height="365" width="377" alt="" />
+					<span></span>
+				</div>
+				<div class="txt" style="right:0;top:1205px;">
+					<h3><span></span>为什么要托管20%？</h3>
+					<p><span></span>简繁家平台获得中国顶级投资机构的千万天使投资，致力于让业主获得更好的装修体验。区别于传统装修付款方式，20%的托管款可以让双方共同确认竣工验收合格后平台才予以支付，确保双方的权益得到合理保障。</p>
+				</div>
+
+				<div class="pic" style="right:0;top:1915px;">
+					<img src="../../static/img/merit/a05.jpg" height="365" width="377" alt="" />
+					<span></span>
+				</div>
+				<div class="txt" style="left:0;top:1755px;">
+					<h3><span></span>如何保障施工质量？</h3>
+					<p><span></span>简繁家平台提供掌上APP工地管理工具，让业主实时掌握施工情况，工地进度一目了然，提前获取材料购买提醒，关键节点提供在线或预约上门监理验收。</p>
+				</div>
+
+				<div class="pic" style="left:0;top:2260px;">
+					<img src="../../static/img/merit/a06.jpg" height="365" width="377" alt="" />
+					<span></span>
+				</div>
+				<div class="txt" style="right:0;top:2382px;">
+					<h3><span></span>专项质保基金是什么？</h3>
+					<p><span></span>简繁家平台特设首家专项质保基金，由设计师个人缴纳和平台划拨专项资金共同组成。在质保期内，出现施工合同约定的质保问题如双方沟通无效，平台有权判定责任方，并动用专项质保基金进行“先行赔付”。</p>
+				</div>
+
+				<div class="pic" style="right:0;top:3044px;">
+					<img src="../../static/img/merit/a07.jpg" height="365" width="377" alt="" />
+					<span></span>
+				</div>
+				<div class="txt" style="left:0;top:2944px;">
+					<h3><span></span>网签合同有什么法律保障？</h3>
+					<p><span></span>简繁家平台所有合同经过律师事务所专业审核和监管，所有网签的合同签署后直接交由律所在线备案存档，业主可以在相关法律服务网站随时查询。</p>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="g-ft">
 		<div class="m-sitemap f-cb">

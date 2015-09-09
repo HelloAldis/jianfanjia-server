@@ -11,6 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="../../static/css/merit.css" />
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/wow.min.js"></script>
 	<!--[if lt IE 9]>
       <script type="text/javascript" src="../../static/js/lib/json2-min.js"></script>
     <![endif]-->
@@ -22,6 +23,18 @@
 	<script type="text/javascript" src="../../static/js/merit/index.js"></script>
 </head>
 <body>
+	<script type="text/javascript">
+		if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))){
+			var wow = new WOW({
+				boxClass: 'wow',
+				animateClass: 'animated',
+				offset: 100,
+				mobile: true,
+				live: true
+			});
+			wow.init();
+		};
+	</script>
 	<div class="g-hd">
 		<div class="g-wp f-cb">
 			<div class="m-logo f-fl">
@@ -40,12 +53,79 @@
 			</div>
 		</div>
 	</div>
-	<div class="g-banner2">
-		 <ul class="tabNav g-wp">
-		 	<li><a href="index.html"></a></li>
-		 	<li><a href="ensure.html"></a></li>
-		 	<li><a href="answers.html"></a></li>
-		 </ul>
+	<div class="g-merit">
+		<div class="banner banner2">
+			<div class="g-wp">
+				<img src="../../static/img/merit/banner2.jpg" alt="" />
+			</div>
+		</div>
+		<div class="tabNav tabnav2">
+			 <ul class="g-wp">
+			 	<li><a href="index.html">设计师专单</a></li>
+			 	<li>五线谱保障</li>
+			 	<li><a href="answers.html">业主问我答</a></li>
+			 </ul>
+		</div>
+		<div class="area area1">
+			<div class="g-wp">
+				<div class="txt f-fl wow fadeInLeft">
+					<h3>效果保障</h3>
+					<p>设计师直管施工,</p>
+					<p>确保设计效果100%实现</p>
+				</div>
+				<div class="pic f-fr wow fadeInRight">
+					<img style="top:161px;left:4px;" src="../../static/img/merit/e01.jpg" height="342" width="404" alt="" />
+				</div>
+			</div>
+		</div>
+		<div class="area area2">
+			<div class="g-wp">
+				<div class="txt f-fr wow fadeInRight">
+					<h3>合约保障</h3>
+					<p>全部合约由专业律师事务</p>
+					<p>所存档和托管，并提供相关法律服务</p>
+				</div>
+				<div class="pic f-fl wow fadeInLeft">
+					<img style="top:175px;left:117px;" src="../../static/img/merit/e02.jpg" height="399" width="444" alt="" />
+				</div>
+			</div>
+		</div>
+		<div class="area area3">
+			<div class="g-wp">
+				<div class="txt f-fl wow fadeInLeft">
+					<h3>付款保障</h3>
+					<p>业主20%装修款托管至平台，</p>
+					<p>待验收合格后安心支付</p>
+				</div>
+				<div class="pic f-fr wow fadeInRight">
+					<img style="top:172px;left:82px;" src="../../static/img/merit/e03.jpg" height="364" width="289" alt="" />
+				</div>
+			</div>
+		</div>
+		<div class="area area4">
+			<div class="g-wp">
+				<div class="txt f-fr wow fadeInLeft">
+					<h3>质量保障</h3>
+					<p>掌上APP实时把握施工进度，</p>
+					<p>关键节点提供第三方监理服务</p>
+				</div>
+				<div class="pic f-fl wow fadeInLeft">
+					<img style="top:186px;left:42px;" src="../../static/img/merit/e04.jpg" height="406" width="323" alt="" />
+				</div>
+			</div>
+		</div>
+		<div class="area area5">
+			<div class="g-wp">
+				<div class="txt f-fl wow fadeInLeft">
+					<h3>售后保障</h3>
+					<p>设计师个人缴纳+平台划拨资金</p>
+					<p>共同建立专项质保基金</p>
+				</div>
+				<div class="pic f-fr wow fadeInRight">
+					<img style="top:175px;left:117px;" src="../../static/img/merit/e05.jpg" height="359" width="296" alt="" />
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="g-ft">
 		<div class="m-sitemap f-cb">
