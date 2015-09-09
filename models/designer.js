@@ -120,6 +120,9 @@ var DesignerSchema = new Schema({
   email: {
     type: String,
   },
+  bank: {
+    type: String,
+  },
   bank_card: {
     type: String,
   },

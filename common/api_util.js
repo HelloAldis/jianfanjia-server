@@ -49,6 +49,7 @@ exports.buildDesinger = function (req) {
   designer.philosophy = tools.trim(req.body.philosophy);
   designer.communication_type = tools.trim(req.body.communication_type);
   designer.bank_card = tools.trim(req.body.bank_card);
+  designer.bank = tools.trim(req.body.bank);
 
   if (req.body.big_imageid) {
     designer.big_imageid = new ObjectId(req.body.big_imageid);
