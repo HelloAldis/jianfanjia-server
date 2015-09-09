@@ -1093,6 +1093,12 @@
 	border: none;
 	background: none;
 }
+.design_info .check li span{
+	width: 200px;
+}
+.design_info .bankCard  li input{
+	width: 200px;
+}
 .design_info .m-item .text{
 	font-size: 14px;
 	line-height: 30px;

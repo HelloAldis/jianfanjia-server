@@ -192,6 +192,7 @@ $(function(){
 			dataType: 'json',
 			success: function(res){
 				var data = res['data'];
+				console.log(data)
 				desArea.empty()
 				if(data != null){
 					desName.val(data.username);
