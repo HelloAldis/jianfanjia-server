@@ -100,68 +100,70 @@ exports.updateRequirement = function (req, res, next) {
       }
 
       res.sendSuccessMsg();
-    });
-  });
 
-  ep.on('user', function (user) {
-    Designer.find({
-      auth_type: type.designer_auth_type_done,
-      // province: province,
-      city: city,
-    }, {
-      pass: 0,
-      accessToken: 0
-    }, {}, function (err, designers) {
-      if (err) {
-        return next(err);
-      }
-
-      _.forEach(designers, function (designer) {
-        //匹配区域
-        if (_.indexOf(designer.dec_districts, district) >= 0) {
-          designer.match++;
+      User.getUserById(userid, function (err, user) {
+        if (err) {
+          return next(err);
         }
 
-        //匹配钱
-        if (requirement.work_type === type.work_type_half) {
-          if (designer.dec_fee_half <= price_perm) {
-            designer.match++;
-          }
-        } else if (requirement.work_type === type.work_type_all) {
-          if (designer.dec_fee_all <= price_perm) {
-            designer.match++;
-          }
-        }
-
-        //匹配风格
-        if (_.indexOf(designer.dec_styles, dec_style) >= 0) {
-          designer.match++;
-        }
-
-        //匹配沟通
-        if (requirement.communication_type === designer.communication_type) {
-          designer.match++;
-        }
-
-        //匹配房型
-        if (_.indexOf(designer.dec_house_types, requirement.house_type) >=
-          0) {
-          designer.match++;
+        if (user) {
+          var count = designerids.length >= 3 ? 3 : designerids.length;
+          sms.sendYzxRequirementSuccess(user.phone, count);
         }
       });
-
-      var designersSort = _.sortByOrder(designers, ['match'], ['desc']);
-
-      ep.emit('final', designersSort);
     });
   });
 
-  User.getUserById(userid, function (err, user) {
+  Designer.find({
+    auth_type: type.designer_auth_type_done,
+    // province: province,
+    city: city,
+  }, {
+    pass: 0,
+    accessToken: 0
+  }, {}, function (err, designers) {
     if (err) {
       return next(err);
     }
 
-    ep.emit('user', user);
+    _.forEach(designers, function (designer) {
+      //匹配区域
+      if (_.indexOf(designer.dec_districts, district) >= 0) {
+        designer.match++;
+      }
+
+      //匹配钱
+      if (requirement.work_type === type.work_type_half) {
+        if (designer.dec_fee_half <= price_perm) {
+          designer.match++;
+        }
+      } else if (requirement.work_type === type.work_type_all) {
+        if (designer.dec_fee_all <= price_perm) {
+          designer.match++;
+        }
+      }
+
+      //匹配风格
+      if (_.indexOf(designer.dec_styles, dec_style) >= 0) {
+        designer.match++;
+      }
+
+      //匹配沟通
+      if (requirement.communication_type === designer.communication_type) {
+        designer.match++;
+      }
+
+      //匹配房型
+      if (_.indexOf(designer.dec_house_types, requirement.house_type) >=
+        0) {
+        designer.match++;
+      }
+    });
+
+    var designersSort = _.sortByOrder(designers, ['match'], ['desc']);
+
+    ep.emit('final', designersSort);
+
   });
 };
 

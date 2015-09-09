@@ -27,24 +27,27 @@ exports.login = function (req, res, next) {
 
 exports.authed = function (req, res, next) {
   var designerid = tools.trim(req.body._id);
+  var ep = eventproxy();
+  ep.fail(next);
 
   Designer.setOne({
-    _id: designerid
+    _id: 'designerid'
   }, {
     auth_type: type.designer_auth_type_done,
     auth_date: new Date().getTime(),
-  }, {}, function (err, designer) {
-    if (err) {
-      return next(err);
-    }
-
+  }, {}, ep.done(function (err, designer) {
+    // if (err) {
+    //   return next(err);
+    // }
+    console.log(err);
     if (designer) {
-      sms.sendYzxAuthSuccess(designer.phone, designer.username);
+      // console.log(designer);
+      // sms.sendYzxAuthSuccess(designer.phone, designer.username);
       // sms.sendYzxAuthSuccess('18682109074', designer.username);
     }
 
     res.sendSuccessMsg();
-  });
+  }));
 }
 
 exports.add = function (req, res, next) {

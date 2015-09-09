@@ -155,3 +155,7 @@ function yzx(phone, templateId, param) {
 exports.sendYzxAuthSuccess = function (phone, param) {
   yzx(phone, '12836', param);
 }
+
+exports.sendYzxRequirementSuccess = function (phone, count) {
+  yzx(phone, '12837', count);
+}

@@ -55,7 +55,6 @@ var DesignerSchema = new Schema({
     type: String,
     default: '0'
   },
-
   uid: {
     type: String
   },
@@ -117,6 +116,12 @@ var DesignerSchema = new Schema({
   agreee_license: {
     type: String,
     default: '0'
+  },
+  email: {
+    type: String,
+  },
+  bank_card: {
+    type: String,
   },
 });
 

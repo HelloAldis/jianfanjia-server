@@ -44,6 +44,9 @@ var UserSchema = new Schema({
   create_at: {
     type: Number,
   },
+  email: {
+    type: String,
+  },
 });
 
 UserSchema.index({
