@@ -1,29 +1,275 @@
-.g-banner1{
-	overflow: hidden;
-	height: 3000px;
-	background:url(../../static/img/merit/merit01.jpg) center 0 no-repeat;
+.banner{
+	width: 100%;
+	height: 400px;
+	overflow: hidden;	
 }
-.g-banner2{
-	overflow: hidden;
-	height: 4016px;
-	background:url(../../static/img/merit/merit02.jpg) center 0 no-repeat;
+.banner1{
+	background-color: #1ca76f;
 }
-.g-banner3{
-	overflow: hidden;
-	height: 5900px;
-	background:url(../../static/img/merit/merit03.jpg) center 0 no-repeat;
+.banner2{
+	background-color: #fc6b3b;
+}
+.banner3{
+	background-color: #669ace;
 }
 .tabNav{
-	margin-top: 400px;
-	height: 100px;
+	width: 100%;
+	height: 64px;
+	background:url(../img/merit/tabnav-bg.png) center top no-repeat;
 }
 .tabNav li{
 	float: left;
 	width: 33.33%;
 	height: 100%;
+	font-size: 18px;
+	line-height: 64px;
+	text-align: center;
+	color: #1ca76f;
 }
 .tabNav li a{
 	display: inline-block;
 	width: 100%;
 	height: 100%;
+	color: #34495e;
+}
+.tabnav2{
+	background-position: 0 -64px;
+}
+.tabnav2 li{
+	color: #fc6b3b;
+}
+.tabnav3{
+	background-position: 0 -128px;
+}
+.tabnav3 li{
+	color: #669ace;
+}
+/*首页*/
+.section h3{
+	padding:52px 0 22px 64px;
+	font-size: 48px;
+	line-height: 48px;
+	color: #ff671d;
+}
+.section p{
+	width: 1000px;
+	padding-left: 64px;
+	font-size: 24px;
+	line-height: 36px;
+	color: #414141;
+}
+.section .pics{
+	position: relative;
+	height: 640px;
+}
+.section .pics img{
+	position: absolute;
+}
+.section2{
+	background-color: #f6f7f9;
+}
+.section2 h3{
+	padding-top: 66px;
+	color: #5ebd79;
+}
+.section2 .pics{
+	height: 680px;
+}
+.section3 h3{
+	padding-top: 70px;
+	color: #905656;
+}
+/*五线谱保障*/
+.area{
+	height: 700px;
+	color: #414141;
+}
+.area .txt{
+	width: 566px;
+	padding-left: 100px;
+}
+.area .pic{
+	position: relative;
+	width: 534px;
+	height: 100%;
+}
+.area .pic img{
+	position: absolute;
+}
+.area .txt h3{
+	padding:244px 0 66px;
+	font-size: 60px;
+	line-height: 60px;
+}
+.area .txt p{
+	font-size: 30px;
+	line-height: 46px;
+
+}
+.area2{
+	color: #fff;
+	background-color: #61bdef;
+}
+.area3 h3{
+	color: #f75757;
+}
+.area4{
+	color: #fff;
+	background-color: #1abc9c;
+}
+.area5 h3{
+	color: #50bfcd;
+}
+/*业主问我答*/
+.article .g-wp{
+	position: relative;
+}
+.article .pic{
+	position: absolute;
+	width: 377px;
+	height: 365px;
+	-webkit-box-shadow:0 0 10px rgba(0,0,0,0.1);
+	box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+.article .txt{
+	position: absolute;
+	width: 885px;
+	padding: 54px;
+	font-size: 30px;
+	background-color: #fff;
+	-webkit-box-shadow:0 0 10px rgba(0,0,0,0.1);
+	box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+.article .txt span{
+	position: absolute;
+	left:0;
+	top:17px;
+	width: 25px;
+	height: 27px;
+	overflow: hidden;
+	background:url(../img/merit/icon.png) no-repeat;
+}
+.article .txt p span{
+	top:12px;
+	width: 30px;
+	height: 26px;
+	background-position: 0 -27px;
+}
+.article .txt h3{
+	position: relative;
+	padding-left: 48px;
+	line-height: 58px;
+	color: #414141;
+}
+.article .txt p{
+	position: relative;
+	padding-left: 48px;
+	line-height: 53px;
+	color: #ff7800;
+}
+.article .pic span{
+	position: absolute;
+	left:10px;
+	top:10px;
+	width: 349px;
+	height: 337px;
+	border: 4px solid #fff;
+	opacity: 0.68;
+	filter: alpha(opacity=68);
+}
+.article-header{
+	height: 608px;
+}
+.article-section{
+	height: 1047px;
+	padding-top: 80px;
+	background-color: #f6f7f9;
+}
+.contrast{
+	position: relative;
+	width: 296px;
+	height: 1040px;
+	overflow: hidden;
+}
+.contrast em{
+	position: absolute;
+	width: 100%;
+	padding-top: 10px;
+	font-size: 24px;
+	line-height: 30px;
+	text-align: center;
+	color: #fff;
+}
+.contrast .line{
+	position: absolute;
+	left:50%;
+	top:147px;
+	margin-left: -1px;
+	width: 2px;
+	height: 820px;
+	overflow: hidden;
+	background-color: #5dbe9d;
+}
+.contrast ul{
+	position: absolute;
+	top:174px;
+	left:50%;
+	width: 82px;
+	margin-left: -41px;
+}
+.contrast li{
+	width: 52px;
+	height: 52px;
+	padding: 15px;
+	margin-top: 52px;
+	font-size: 20px;
+	line-height: 26px;
+	color: #fff;
+	text-align: center;
+	background-color: #5dbe9d;
+	border-radius: 50%;
+}
+.contrast span{
+	display: block;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+    font-size: 0;
+    line-height: 0;
+    border-color: #5dbe9d transparent transparent transparent;
+    border-style: solid dashed dashed dashed;
+    border-width: 148px;
+}
+.article-section dl{
+	width: 452px;
+	padding-top: 52px;
+}
+.article-section dt{
+	font-size: 28px;
+	line-height: 152px;
+	color: #5dbe9d;
+	text-align: center;
+}
+.article-section dd{
+	position: relative;
+	padding-left: 70px;
+	margin-bottom: 30px;
+	font-size: 20px;
+	line-height: 105px;
+	color: #fff;
+	background-color: #5dbe9d;
+	border-radius: 4px;
+}
+.article-section dd span{
+	position: absolute;
+	left:17px;
+	top:35px;
+	width: 35px;
+	height: 35px;
+	overflow: hidden;
+	background:url(../img/merit/icon.png) no-repeat 0 -53px;
+}
+.article-main{
+	height: 3600px;
+	padding-top: 96px;
 }
