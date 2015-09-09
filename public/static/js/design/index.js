@@ -116,9 +116,8 @@ $(function(){
 				}
 				setTimeout(function(){
 					$list.html(dataArr);
-
-				}, 1000)
-				$design.find('li:odd').attr('class', 'even');
+					$design.find('li:odd').attr('class', 'even');
+				}, 300)
 				obj.find('.btns').on('click',function(ev){
 					//ev.stopPropagation();
 					$('body,html').animate({scrollTop:$design.offset().top},1000);

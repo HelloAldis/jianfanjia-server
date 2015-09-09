@@ -178,10 +178,13 @@
 	font-weight: normal;
 	margin-right: 25px;
 }
-.design-list .m-list .status h4{
+.design-list .m-list .status h4 a{
 	font-size: 18px;
 	font-weight: normal;
 	color: #34495e;
+}
+.design-list .m-list .status h4 a:hover{
+	color: #fe7004;
 }
 .design-list .m-list .status h4 span{
 	display: inline-block;
