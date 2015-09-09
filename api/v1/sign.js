@@ -148,17 +148,17 @@ exports.signup = function (req, res, next) {
         return next(err);
       }
 
-      // if (verifyCode) {
-      //   if (code === verifyCode.code) {
-      tools.bhash(pass, ep.done(function (passhash) {
-        ep.emit('final', passhash);
-      }));
-      //   } else {
-      //     return ep.emit('err', '验证码不对或已过期');
-      //   }
-      // } else {
-      //   return ep.emit('err', '验证码不对或已过期');
-      // }
+      if (verifyCode) {
+        if (code === verifyCode.code) {
+          tools.bhash(pass, ep.done(function (passhash) {
+            ep.emit('final', passhash);
+          }));
+        } else {
+          return ep.emit('err', '验证码不对或已过期');
+        }
+      } else {
+        return ep.emit('err', '验证码不对或已过期');
+      }
     });
   });
 
@@ -238,8 +238,6 @@ exports.login = function (req, res, next) {
   var phone = validator.trim(req.body.phone);
   var pass = validator.trim(req.body.pass);
   var ep = new eventproxy();
-
-  // sms.send('18107218595', '【简繁家】您有一条装修业主的预约请求，请及时登录网站查看详情并在24小时内响应业主以确定量房时间');
 
   ep.fail(next);
   ep.on('err', function (msg) {

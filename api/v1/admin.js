@@ -10,6 +10,7 @@ var ApiUtil = require('../../common/api_util');
 var type = require('../../type');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
+var sms = require('../../common/sms');
 
 exports.login = function (req, res, next) {
   if (req.body.username === 'admin' && req.body.pass === 'admin') {
@@ -32,9 +33,14 @@ exports.authed = function (req, res, next) {
   }, {
     auth_type: type.designer_auth_type_done,
     auth_date: new Date().getTime(),
-  }, {}, function (err) {
+  }, {}, function (err, designer) {
     if (err) {
       return next(err);
+    }
+
+    if (designer) {
+      sms.sendYzxAuthSuccess(designer.phone, designer.username);
+      // sms.sendYzxAuthSuccess('18682109074', designer.username);
     }
 
     res.sendSuccessMsg();
