@@ -372,8 +372,6 @@ exports.reschedule = function (req, res, next) {
       res.sendErrMsg('无法保存成功');
     }
   });
-
-
 };
 
 exports.listReschdule = function (req, res, next) {

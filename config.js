@@ -84,6 +84,9 @@ var config = {
   index_top_share_count: 6,
   sms_uid: 'S9w4LEmiYSgR',
   sms_pas: 's5pf823y',
+  yzx_sid: '03713bdddee6ff2c763393e316094eb6',
+  yzx_token: '26d602336aa881dbf272873e31b8b723',
+  yzx_appid: '5484c9c5af984884ab8942616de7e5b7',
 
   duration_60: 60,
   duration_60_kai_gong: 1,

@@ -23,3 +23,8 @@ exports.YYYY_MM_DD = function (time) {
   var date = moment(new Date(time));
   return date.format('YYYY-MM-DD');
 };
+
+exports.YYYYMMDDHHmmssSSS = function () {
+  var date = moment(new Date());
+  return date.format('YYYYMMDDHHmmssSSS');
+}
