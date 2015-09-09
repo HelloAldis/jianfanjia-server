@@ -60,7 +60,9 @@
 					*系统自动匹配三名设计师，如果不满足您的需求可更多选择
 					<a href="../design/index.html">更多选择</a>
 				</p>
-				<ul class="design-lsit"></ul>
+				<ul class="design-lsit">
+					<div class="loading" id="j-loading"></div>
+				</ul>
 				<div class="m-page" id="j-page"></div>
 				<div class="owner_btns">
 					<a href="javascript:;" class="btn" id="owner-booking">预约量房</a>
@@ -142,9 +144,9 @@
 					processData : false,
 					success: function(res){
 						if(res["msg"] == "success"){
-							alert('预约成功,等待设计师响应')
+							promptMessage('预约成功,等待设计师响应',"success")
 						}else{
-							alert('预约失败')
+							promptMessage('预约失败',"success")
 						}
 				   	}
 				});
@@ -164,16 +166,17 @@
 			dataType: 'json',
 			success: function(res){
 				if(res['data'].length){
+					console.log(res['data'])
 					page(res['data'])
 				}else{
-					alert('没有数据')
+					$designLsit.html('<div class="loading nodata" id="j-loading"></div>')
 				}
 		   	}
 		});
 	}
 	//创建列表
 	function createList(data){
-		var dateStr;
+		var dateStr,datePhone;
 		if(data.plans.length && !!data.plans[0].house_check_time){
 			var date = new Date(data.plans[0].house_check_time);
 		var year = date.getFullYear(),
@@ -185,6 +188,11 @@
 			dateStr = mouth+'月'+days+'日 '+(houre > 12 ? '下午'+(houre-12) : '上午'+houre)+":00 ("+Week[day]+")";
 		}else{
 			dateStr = '响应后可见'
+		}
+		if(data.plans.length && data.plans[0].status == 2){
+			datePhone = data.phone
+		}else{
+			datePhone = '响应后可见'
 		}
 		var img = data.imageid ? RootUrl+'api/v1/image/'+data.imageid : '../../static/img/public/headpic.jpg';
 		if(data.plans.length){
@@ -219,9 +227,10 @@
 						+'<a href="../design/homepage.html?'+data._id+'" class="head">'
 							+'<img src="'+img+'" alt="'+data.username+'" />'
 						+'</a>'
-						+'<h4>'+data.username+'</h4>'
+						+'<h4>'+data.username+(data.is_rec ? '<span>(自动匹配)</span>' : '')+'</h4>'
 						+'<p>'+(!!data.province ? data.province+" "+data.city+" "+data.district : "&nbsp;")+'</p>'
 						+'<p>作品数：<span>'+data.product_count+'</span>预约数：<span>'+data.order_count+'</span></p>'
+						+'<p>电话：<span>'+datePhone+'</span></p>'
 						+'<p>量房时间：<span>'+dateStr+'</span></p>'
 					+'</div>'
 			if(data.plans.length){
