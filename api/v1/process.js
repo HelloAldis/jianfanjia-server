@@ -313,6 +313,17 @@ function buildMessage(usertype, user, designer, reschedule, msg) {
   };
 }
 
+function buildProcurement(section) {
+  var index = _.indexOf(type.process_work_flow, section);
+  var message = type.procurement_notification_message[index];
+  var next = type.process_work_flow[index + 1];
+
+  return {
+    next: next,
+    message: message,
+  };
+}
+
 exports.reschedule = function (req, res, next) {
   var reschedule = ApiUtil.buildReschedule(req);
   var usertype = ApiUtil.getUsertype(req);
@@ -570,11 +581,34 @@ exports.doneItem = function (req, res, next) {
     return res.sendErrMsg('item 不能空')
   }
 
-  //TODO start next section
   Process.updateStatus(_id, section, item, type.process_item_status_done,
-    function (err) {
+    function (err, process) {
       if (err) {
         return next(err);
+      }
+
+      if (process) {
+        if (procee.work_type === 0) {
+          var result = _.find(procee.sections, function (o) {
+            return o.name === section;
+          });
+          var doneCount = 0;
+          _.forEach(result.items, function (e) {
+            if (e.status === process_item_status_done) {
+              doneCount += 1;
+            }
+          });
+
+          if (results.items.length - doneCount <= 2) {
+            var json = buildProcurement(section);
+            console.log(json);
+            gt.pushMessageToSingle(process.userid, {
+              content: json.message,
+              section: json.next,
+              type: type.message_type_procurement,
+            });
+          }
+        }
       }
 
       res.sendSuccessMsg();

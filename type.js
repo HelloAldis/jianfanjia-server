@@ -46,6 +46,11 @@ var type = {
     'an_zhuang', 'jun_gong'
   ],
 
+  procurement_notification_message: ['', '水电材料', '蹲便器,防水涂料',
+    '石膏线,木工材料,厨卫墙砖,地砖进场',
+    '油漆,涂料及相关辅料,五金,洁具', '厨卫吊顶,石材,橱柜,烟机,灶具,木地板,木门,面板,灯具,墙纸', ''
+  ],
+
   process_kai_gong_item_xcjd: 'xcjd',
   process_kai_gong_item_cgdyccl: 'cgdyccl',
   process_kai_gong_item_qdzmjcl: 'qdzmjcl',
@@ -78,6 +83,7 @@ var type = {
   process_an_zhuang_item_snzl: 'snzl',
 
   message_type_reschedule: '0',
+  message_type_procurement: '1',
 }
 
 module.exports = type;

@@ -47,6 +47,9 @@ var ShareSchema = new Schema({
       name: {
         type: String
       },
+      description: {
+        type: String
+      },
       images: {
         type: [ObjectId]
       },
