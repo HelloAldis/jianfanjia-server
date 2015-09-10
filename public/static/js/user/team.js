@@ -70,7 +70,7 @@ $(function(){
     }
     function checkUid(){    //身份证验证
      	var id = "reg_uid";
-     	var isIDCard = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/;
+     	var isIDCard = /^(\d{6})(18|19|20)?(\d{2})([01]\d)([0123]\d)(\d{3})(\d|X)?$/;
         if (!$.trim($tameUid.val()) || isIDCard.test($tameUid.val())){
             return showOk($tameUid);
         }
