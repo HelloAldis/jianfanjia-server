@@ -4,37 +4,17 @@ $(function(){
     var $liveShow = $('#j-live-show');
 	//渲染生成列表
 	function loadList(){
-		var url = RootUrl+'api/v1/share/'+winHash;
-		$.ajax({
-			url:url,
-			type: 'GET',
-			contentType : 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function(res){
-				if(res['data'] != null){
-					var info = getInfo(res['data'].designerid);
-					createList(res['data'],info[0])
-				}
-		   	}
-		});
-	}
-	//获取设计师信息
-	function getInfo(by){
-		var infoArr = [];
-			var url = RootUrl+'api/v1/designer/'+by+'/basicinfo';
-			$.ajax({
-				url:url,
-				type: 'GET',
-				contentType : 'application/json; charset=utf-8',
-				dataType: 'json',
-				async : false,
-				success: function(res){
-					if(res['data']){
-						infoArr.push(res['data'])
+		$.getJSON(RootUrl+'api/v1/share/'+winHash,function(res){
+			var data = res['data'];
+			if(data != null){
+				$.getJSON(RootUrl+'api/v1/designer/'+data.designerid+'/basicinfo',function(res){
+					var info = res['data'];
+					if(info != null){
+						createList(data,info)
 					}
-			   	}
-			});
-		return infoArr
+				})
+			}
+		})
 	}
 	//渲染数据
 	function createList(data,info){
@@ -81,8 +61,9 @@ $(function(){
 			for (var j = 0; j < data.process[i].images.length; j++) {
 				sPic += '<img src="'+RootUrl+'api/v1/image/'+data.process[i].images[j]+'" alt="">'
 			};
-			sStep += sPic + '</div></div>'
-
+			sStep += sPic
+			sStep += '<p>'+data.process[i].description+'</p>'
+			sStep += '</div></div>'
 		};
 		sStep += '</div>';
 		$liveBanner.html(sBanner);

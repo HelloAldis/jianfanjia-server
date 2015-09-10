@@ -224,6 +224,14 @@
 										</div>
 									</div>
 								</div>
+								<div class="m-item f-cb">
+									<div class="item">
+										<label class="u-lab" for="phase-description">当前阶段描述：</label>
+										<div class="u-inp">
+											<div class="textarea"><textarea name="phase-description" id="phase-description" cols="30" rows="10"></textarea></div>
+										</div>
+									</div>
+								</div>
 								<div class="m-item m-error-info hide">
 								</div>
 								<div class="m-item">
@@ -380,6 +388,7 @@
 			  	"process" : [{
 			  		"images" : images,
 			  		"name" : $('#decoration-phase').find('input').val(),
+			  		"description" : $('#phase-description').val(),
 			  		"date" : time
 			  	}]
 			}),

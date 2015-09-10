@@ -27,7 +27,7 @@
     }
 	function checkEmail(){    //电子邮件验证
     	var id="reg_email"
-     	var isIDCard = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
+     	var isIDCard = /^(\d{6})(18|19|20)?(\d{2})([01]\d)([0123]\d)(\d{3})(\d|X)?$/;
          if (!$.trim(desEmail.val()) || isIDCard.test(desEmail.val())){
             return showOk(desEmail);
         }
