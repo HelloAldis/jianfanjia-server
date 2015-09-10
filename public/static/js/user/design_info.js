@@ -9,10 +9,13 @@ $(function(){
         "reg_decType3" : "最多选择3项",
         "reg_price1" : "请输入正确的半包金额",
         "reg_price2" : "请输入正确的全包金额",
+        "reg_price3" : "请输入正确的银行卡号",
+        "reg_email" : "请输入正确的email"
     };
     //获取对象
     var desName = $("#design-name");
     var desSex = $("#design-sex");
+    var desEmail = $("#design-email");
     var desArea = $("#design-area");
     var desAddr = $("#design-addr");
     var desUid = $('#design-uid');
@@ -27,6 +30,8 @@ $(function(){
     var desHouseIntent = $("#house-intent");
     var desPhilosophy = $("#design-philosophy");
     var desAchievement = $("#design-achievement");
+    var desBankCardName = $("#decoration-bankCardName");
+    var desBankCardNum = $("#decoration-bankCardNum");
     //显示验证信息
    	function showError(obj,id, msg) {
         var msg = msg || errMsg[id];
@@ -54,6 +59,9 @@ $(function(){
     desName.on('blur',function(){
         checkName();
     });
+    desEmail.on('blur',function(){
+        checkEmail();
+    });
     desAddr.on('blur',function(){
         checkAddr()
     });
@@ -65,6 +73,9 @@ $(function(){
     });
     desDecPrice1.on('blur',function(){
         checkPrice2(); 
+    });
+    desBankCardNum.on('blur',function(){
+        checkBankCardNum(); 
     });
     desDecType.find('label').on('click',function(){
         checkDecType();
@@ -183,6 +194,22 @@ $(function(){
         }
         return showError(desHouseIntent,id);
     }
+    function checkEmail(){    //电子邮件验证
+    	var id="reg_email"
+     	var isIDCard = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
+         if (!!$.trim(desEmail.val()) && isIDCard.test(desEmail.val())){
+            return showOk(desEmail);
+        }
+        return showError(desEmail,id);
+    }
+    function checkBankCardNum(){
+    	var id="reg_price3"
+     	var reg = /^[1-9]*[1-9][0-9]*$/
+		if(!$.trim(desBankCardNum.val()) || desBankCardNum.val() != 0 && reg.test(desBankCardNum.val())){
+			return showOk(desBankCardNum);
+		}
+     	return showError(desBankCardNum,id);
+    }
 	function loadList(){
 		var url = RootUrl+'api/v1/designer/info';
 		$.ajax({
@@ -197,6 +224,7 @@ $(function(){
 				if(data != null){
 					desName.val(data.username);
 					desAddr.val(data.address);
+					desEmail.val(data.email || "");
 					$('#design-phone').html(data.phone);
 					if(data.sex == 0 || data.sex == 1){
 						desSex.find('input[value='+data.sex+']').attr('checked','checked');
@@ -250,6 +278,8 @@ $(function(){
 					if(!!data.imageid){	
 						$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+data.imageid)
 					}
+					desBankCardName.val(data.bank || "");
+        			desBankCardNum.val(data.bank_card || "");
 					var img = data.imageid != null && !!data.imageid  ?  RootUrl+'api/v1/image/'+data.imageid : '../../../static/img/public/headpic.jpg'
 					$('#userHead').attr('src',img).data('img',data.imageid != null ? data.imageid : null)
 				}else{
@@ -261,7 +291,7 @@ $(function(){
 	loadList();
 	//表单提交
 	$('#design-info').on('submit',function(){
-		check_step = 9;
+		check_step = 11;
 		checkName();
 		checkSex();
 		checkAddr();
@@ -272,6 +302,7 @@ $(function(){
 		checkPrice1();
         checkPrice2();
         checkHouseIntent();
+        checkEmail();
         var userProv = desArea.find('.province').find('.value').html();
 		var userCity = desArea.find('.city').find('.value').html();
 		var userDist = desArea.find('.area').find('.value').html();
@@ -289,6 +320,7 @@ $(function(){
         var url = RootUrl+'api/v1/designer/info';
 		var userName = desName.val();
 		var userSex = desSex.find('input:checked').val();
+		var userEmail = desEmail.val();
 		var imgId = $('#userHead').data('img') || null;
 		var userAddr = desAddr.val();
 		var userUid = desUid.val();
@@ -300,6 +332,8 @@ $(function(){
 		var userDecPrice1 = parseInt(desDecPrice1.val());
 		var userDesPrice = desPrice.find('input:checked').val();
 		var userDecDis = [];
+		var userBankCardName = desBankCardName.val();
+        var userBankCardNum = desBankCardNum.val();
 		desDecArea.find('input:checked').each(function(){
 			userDecDis.push($(this).val())
 		})
@@ -323,6 +357,7 @@ $(function(){
 			data : JSON.stringify({
 				"username" : userName,
 				"sex" : userSex,
+				"email" : userEmail,
 				"province" : userProv,
 				"city" : userCity,
 				"district" : userDist,
@@ -339,7 +374,9 @@ $(function(){
                 "philosophy" : userPhil,
 				"dec_house_types" : userDecHouse,
 				"communication_type" : userType,
-				"imageid" : imgId
+				"imageid" : imgId,
+				"bank" : userBankCardName,
+				"bank_card" : userBankCardNum 
 			}),
 			processData : false,
 			success: function(res){

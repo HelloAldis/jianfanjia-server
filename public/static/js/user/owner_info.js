@@ -1,4 +1,41 @@
 	var $ownerArea = $('#owner-area');
+	var desEmail = $('#owner-email');
+	var errMsg = {
+        "reg_email" : "请输入正确的email"
+    };
+	//显示验证信息
+   	function showError(obj,id, msg) {
+        var msg = msg || errMsg[id];
+        var parent = obj.closest('.m-item');
+        parent.find('.tips-icon-ok').addClass('hide');
+        parent.find('.tips-icon-err').removeClass('hide');
+        parent.find('.tips-info').html(msg).removeClass('hide')
+        return false;
+    }
+    function showOk(obj,value) {
+    	var parent = obj.closest('.m-item');
+        parent.find('.tips-icon-err').addClass('hide');
+        if(!value){
+	        if ($.trim(obj.val()) != ""){
+	        	parent.find('.tips-icon-ok').removeClass('hide');
+	        	parent.find('.tips-info').html('').addClass('hide')
+	        }
+	    }else{
+	    	parent.find('.tips-info').html('').addClass('hide')
+	    }
+        return true;
+    }
+	function checkEmail(){    //电子邮件验证
+    	var id="reg_email"
+     	var isIDCard = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
+         if (!$.trim(desEmail.val()) || isIDCard.test(desEmail.val())){
+            return showOk(desEmail);
+        }
+        return showError(desEmail,id);
+    }
+    desEmail.on('blur',function(){
+        checkEmail();
+    });
 	function loadList(){
 		var url = RootUrl+'api/v1/user/info';
 		$.ajax({
@@ -14,6 +51,7 @@
 					$('#owner-name').val(data.username || "");
 					$('#owner-addr').val(data.address || "");
 					$('#owner-phone').html(data.phone);
+					desEmail.val(data.email || "");
 					if(!!data.sex){
 						$('#owner-sex').find('input[value='+data.sex+']').attr('checked','checked');
 					}
@@ -40,6 +78,7 @@
         var url = RootUrl+'api/v1/user/info';
 		var userName = $('#owner-name').val();
 		var userSex = $('#owner-sex').find('input:checked').val();
+		var userEmail = desEmail.val();
 		var userPhone = $('#owner-mobile').val();
 		var $ownerArea = $('#owner-area');
 		var sProv = $ownerArea.find('input[name=owner-area0]').val()
@@ -66,6 +105,7 @@
 			data : JSON.stringify({
 				"username" : userName,
 				"phone" : userPhone,
+				"email" :userEmail,
 				"sex":userSex,
 				"province" : userProv,
 				"city":userCity,
