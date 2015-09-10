@@ -4,13 +4,18 @@ $(function(){
 		id:'owner-area',
 		list:globalData.orders_area
 	})
+	$stylePic = $('#j-stylePic');
 	var houseType = new ComboBox({
 		id:'house_type',
 		list:globalData.house_type
 	})
 	var decStyle = new ComboBox({
 		id:'dec_style',
-		list:globalData.dec_style
+		list:globalData.dec_style,
+		callback : function(index){
+			$stylePic.find('img').attr('src','../../static/img/user/stylePic'+index+'.jpg');
+			$stylePic.find('p').html(globalData.dec_style[index])
+		}
 	})
 	var workType = new ComboBox({
 		id:'work_type',

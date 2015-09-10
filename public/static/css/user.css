@@ -1490,7 +1490,38 @@
 .owner_btns{
 	color: #c80000;
 }
-
+.stylePic{
+	position: absolute;
+	right:0;
+	top:20px;
+	width: 480px;
+	height: 350px;
+	background:#fff url(../img/public/loading1.jpg) center center no-repeat;
+}
+.stylePic h4{
+	position: absolute;
+	left:0;
+	top:0;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	font-size: 16px;
+	color: #fff;
+	text-align: center;
+	background-color: rgba(0,0,0,0.5);
+}
+.stylePic p{
+	position: absolute;
+	bottom:0;
+	left:0;
+	width: 100%;
+	font-size: 14px;
+	height: 30px;
+	line-height: 30px;
+	color: #fff;
+	text-align: center;
+	background-color: rgba(0,0,0,0.5);
+}
 /*用户收藏*/
 .m-need li{
 	position: relative;
