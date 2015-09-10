@@ -124,6 +124,10 @@ exports.sendYuyue = function (phone) {
 }
 
 function yzx(phone, templateId, param) {
+  if (config.debug) {
+    return;
+  }
+
   var time = DateUtil.YYYYMMDDHHmmssSSS();
   var sign = utility.md5(config.yzx_sid + time + config.yzx_token);
   var postData = {

@@ -31,18 +31,13 @@ exports.authed = function (req, res, next) {
   ep.fail(next);
 
   Designer.setOne({
-    _id: 'designerid'
+    _id: designerid
   }, {
     auth_type: type.designer_auth_type_done,
     auth_date: new Date().getTime(),
   }, {}, ep.done(function (err, designer) {
-    // if (err) {
-    //   return next(err);
-    // }
-    console.log(err);
     if (designer) {
-      // console.log(designer);
-      // sms.sendYzxAuthSuccess(designer.phone, designer.username);
+      sms.sendYzxAuthSuccess(designer.phone, designer.username);
       // sms.sendYzxAuthSuccess('18682109074', designer.username);
     }
 
