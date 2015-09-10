@@ -132,7 +132,16 @@
 	}
 	loadInfo();
 	function createInfo(data){
+		console.log(data)
 		var ImgId = !!data.imageid ? RootUrl+'api/v1/image/'+data.imageid : '../../static/img/public/headpic.jpg';
+		var decTypes = "";
+		for (var i = 0; i < data.dec_types.length; i++) {
+			decTypes += '<span>'+globalData.dec_type[data.dec_types[i]]+'</span>'
+		};
+		var decHouseTypes = "";
+		for (var i = 0; i < data.dec_house_types.length; i++) {
+			decHouseTypes += '<span>'+globalData.house_type[data.dec_house_types[i]]+'</span>'
+		};
 		var sStyle = '';
 		for (var i = 0; i < data.dec_styles.length; i++) {
 			sStyle += '<span>'+globalData.dec_style[data.dec_styles[i]]+'</span>'
@@ -142,7 +151,15 @@
 			decDistricts += '<span>'+globalData.orders_area[data.dec_districts[i]]+'</span>'
 		};
 		var sHomeDesc = '<dl class="f-cb">'
-							+'<dt>服务区域：</dt>'
+							+'<dt>接单类型：</dt>'
+							+'<dd>'+decTypes+'</dd>'
+						+'</dl>'
+						+'<dl class="f-cb">'
+							+'<dt>接单户型：</dt>'
+							+'<dd>'+decHouseTypes+'</dd>'
+						+'</dl>'
+						+'<dl class="f-cb">'
+							+'<dt>接单区域：</dt>'
 							+'<dd>'+decDistricts+'<i class="iconfont">&#xe615;</i></dd>'
 						+'</dl>'
 						+'<dl class="f-cb">'

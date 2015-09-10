@@ -8,7 +8,7 @@ var globalData = {
 	scheme_state : ['沟通中','已中标','未中标'],
 	orders_area : ['江岸区','江汉区','硚口区','汉阳区','武昌区','洪山区','青山区'],
 	price_area  : ['50－100','100-200','200－300','300以上'],
-	house_type : ['一室','二室','三室','四室','复式','别墅','LOFT'],
+	house_type : ['一室','二室','三室','四室','复式','别墅','LOFT','其他'],
 	dec_flow : ['开工','拆改','水电','泥木','油漆','安装','竣工'],
 	des_type : ['不限','表达型','聆听型'],
 	auth_type : ['未提交认证','审核中','审核通过'],
@@ -16,7 +16,6 @@ var globalData = {
 }
 var global_success_url = window.location;
 var RootUrl = 'http://www.jianfanjia.com/';
-var RootUrl = 'http://101.200.191.159/';
 // 检测浏览器是否支持css3新属性，来给低版本浏览器做优雅降级；
 function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentElement.style,t=function(r){return r.replace(/-(\w)/g,function($0,$1){return $1.toUpperCase()})};for(i in p){a.push(t(p[i]+'-'+c));a.push(t(c))}for(i in a){if(a[i]in s){return true}}return false};
 //Cookie操作
@@ -132,8 +131,10 @@ function promptMessage(str,msg){
 				btn : true,
 				editor : false,
 				index : 0,
-				query : 0
+				query : 0,
+				callback : function(){}
 			},options || {});
+			self.settings.callback(this.settings.index);
 			this.selectBox = $('#'+this.settings.id);
 			this.input = $('<input type="hidden" name="'+this.settings.id+'" value="'+(this.settings.index ? "0" : this.settings.list[this.settings.query])+'" />');
 			this.option = $('<div class="option"><span class="value">'+this.settings.list[this.settings.query]+'</span>'+(this.settings.btn?'<span class="arrow"><em></em><i></i></span>':'')+'</div>');
@@ -175,7 +176,7 @@ function promptMessage(str,msg){
 				ev.stopPropagation();
 				var value = $(this).find('a').text();
 				if(self.settings.index){
-					self.input.val($(this).index())
+					self.input.val($(this).index());
 				}else{
 					self.input.val(value)
 				}
@@ -184,6 +185,7 @@ function promptMessage(str,msg){
 				}else{
 					self.option.find('.value').html(value);
 				}
+				self.settings.callback($(this).index());
 				self.selectHide();
 			});
 		},
