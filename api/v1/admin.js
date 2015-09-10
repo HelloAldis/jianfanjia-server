@@ -13,7 +13,7 @@ var ObjectId = mongoose.Types.ObjectId;
 var sms = require('../../common/sms');
 
 exports.login = function (req, res, next) {
-  if (req.body.username === 'admin' && req.body.pass === 'admin') {
+  if (req.body.username === 'sunny' && req.body.pass === '!@Jyz20150608#$') {
     req.session.userid = 'Admin';
     req.session.usertype = type.role_admin;
     res.cookie('username', 'Admin'); //cookie 有效期1天
