@@ -305,6 +305,14 @@
 	width: 1000px;
 	margin-bottom: 20px;
 }
+.m-step .item p{
+	width: 960px;
+	padding: 20px;
+	text-indent: 2em;
+	line-height: 26px;
+	font-size: 14px;
+	color: #333;
+}
 .m-step h4{
 	padding-left: 30px;
 	font-size: 14px;
