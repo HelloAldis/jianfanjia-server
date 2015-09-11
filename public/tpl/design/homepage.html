@@ -156,6 +156,7 @@
 						+'<dl class="f-cb"><dt>设计风格：</dt><dd>'+sStyle+'</dd></dl>'
 						+'<dl class="f-cb"><dt>设计收费：</dt><dd><strong>'+globalData.price_area[data.design_fee_range]+'</strong>元/m&sup2;</dd></dl>'
 						+'<dl class="f-cb"><dt>施工团队：</dt><dd>'+(!data.team_count ? "暂无施工团队" : data.team_count+"个施工队" )+'</dd></dl>'
+						+'<dl class="f-cb"><dt>曾就职装修公司：</dt><dd>'+(data.company || "未就职装修公司")+'</dd></dl>'
 						+'<dl class="f-cb"><dt>设计理念：</dt><dd>'+(data.philosophy || "暂无设计理念")+'</dd></dl>'
 						+'<dl class="f-cb"><dt>设计成就：</dt><dd>'+(data.achievement || "暂无设计成就")+'</dd></dl>';
 		var sInfo = '<div class="head"><img src="'+ImgId+'" alt="" /></div>'
