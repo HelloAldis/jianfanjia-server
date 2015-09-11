@@ -110,16 +110,19 @@ exports.search = function (req, res, next) {
   var limit = req.body.limit || 10;
   query.auth_type = type.designer_auth_type_done;
 
-  Designer.find(query, noPrivateInfo, {
+  Designer.paginate(query, noPrivateInfo, {
     sort: sort,
     skip: skip,
     limit: limit,
-  }, function (err, designers) {
+  }, function (err, designers, total) {
     if (err) {
       return next(err);
     }
 
-    res.sendData(designers);
+    res.sendData({
+      designers: designers,
+      total: total
+    });
   });
 }
 

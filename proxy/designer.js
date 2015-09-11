@@ -37,6 +37,8 @@ exports.paginate = function (query, project, option, callback) {
       return callback(err, null);
     }
 
-    exports.find(query, project, option, callback);
+    exports.find(query, project, option, function (err, designers) {
+      callback(err, designers, count);
+    });
   });
 }
