@@ -17,8 +17,18 @@ var limit = require('../../middlewares/limit')
 
 var noPassAndToken = {
   pass: 0,
-  accessToken: 0
+  accessToken: 0,
 };
+
+var noPrivateInfo = {
+  pass: 0,
+  accessToken: 0,
+  uid: 0,
+  phone: 0,
+  email: 0,
+  bank: 0,
+  bank_card: 0,
+}
 
 exports.getInfo = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
@@ -54,7 +64,7 @@ exports.getOne = function (req, res, next) {
 
   Designer.findOne({
     _id: designerid
-  }, noPassAndToken, function (err, designer) {
+  }, noPrivateInfo, function (err, designer) {
     if (err) {
       return next(err);
     }
@@ -79,7 +89,7 @@ exports.getOne = function (req, res, next) {
 exports.listtop = function (req, res, next) {
   Designer.find({
     auth_type: type.designer_auth_type_done
-  }, noPassAndToken, {
+  }, noPrivateInfo, {
     sort: {
       auth_date: -1
     },
@@ -96,10 +106,14 @@ exports.listtop = function (req, res, next) {
 exports.search = function (req, res, next) {
   var query = req.body.query;
   var sort = req.body.sort;
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
   query.auth_type = type.designer_auth_type_done;
 
-  Designer.find(query, noPassAndToken, {
+  Designer.find(query, noPrivateInfo, {
     sort: sort,
+    skip: skip,
+    limit: limit,
   }, function (err, designers) {
     if (err) {
       return next(err);
