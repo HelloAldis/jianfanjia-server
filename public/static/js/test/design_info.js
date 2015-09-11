@@ -20,8 +20,10 @@ $(function(){
     var desAchievement = $("#design-achievement");
     var desBankCardName = $("#decoration-bankCardName");
     var desBankCardNum = $("#decoration-bankCardNum");
+    var desSchools = $("#design-schools");
+    var desWorkYear = $("#design-workYear");
 	function loadList(){
-		var url = RootUrl+'api/v1/designer/'+winHash+'/basicinfo';
+		var url = RootUrl+'api/v1/admin/designer/'+winHash;
 		$.ajax({
 			url:url,
 			type: 'GET',
@@ -76,6 +78,8 @@ $(function(){
 					if(!!data.imageid){	
 						$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+data.imageid)
 					}
+					desSchools.val(data.work_year || "");
+    				desWorkYear.val(data.university || "");
 					desBankCardName.val(data.bank || "");
         			desBankCardNum.val(data.bank_card || "");
 					var img = data.imageid != null && !!data.imageid  ?  RootUrl+'api/v1/image/'+data.imageid : '../../../static/img/public/headpic.jpg'
