@@ -655,20 +655,9 @@ exports.getOne = function (req, res, next) {
   });
 }
 
-exports.userGetOne = function (req, res, next) {
+exports.list = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
-
-  Process.getProcessByUserid(userid, function (err, process) {
-    if (err) {
-      return next(err);
-    }
-
-    res.sendData(process);
-  });
-}
-
-exports.listForDesigner = function (req, res, next) {
-  var designerid = ApiUtil.getUserid(req);
+  var usertype = ApiUtil.getUsertype(req);
   var ep = eventproxy();
 
   ep.fail(next);
@@ -693,9 +682,14 @@ exports.listForDesigner = function (req, res, next) {
     });
   });
 
-  Process.getSByQueryAndProject({
-    final_designerid: designerid
-  }, {
+  var query = {};
+  if (usertype === type.role_user) {
+    query.userid = userid;
+  } else if (usertype === type.role_designer) {
+    query.final_designerid = userid;
+  }
+
+  Process.getSByQueryAndProject(query, {
     userid: 1,
     city: 1,
     district: 1,
@@ -712,5 +706,4 @@ exports.listForDesigner = function (req, res, next) {
 
     ep.emit('processes', ps);
   });
-
 }

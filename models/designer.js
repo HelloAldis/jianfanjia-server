@@ -129,6 +129,9 @@ var DesignerSchema = new Schema({
   work_year: {
     type: Number
   },
+  university: {
+    type: String,
+  },
 });
 
 DesignerSchema.index({
