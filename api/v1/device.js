@@ -25,6 +25,7 @@ exports.android_build_version = function (req, res, next) {
   console.log(req.headers);
   res.sendData({
     version: '1.0.3',
-    download_url: req.headers.host + '/android_build/JianFanJia.apk',
+    download_url: 'http://' + req.headers.host +
+      '/android_build/JianFanJia.apk',
   });
 }
