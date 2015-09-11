@@ -22,8 +22,10 @@ exports.bindCid = function (req, res, next) {
 }
 
 exports.android_build_version = function (req, res, next) {
+  console.log(req.headers);
   res.sendData({
-    version: '0.1',
-    download_url: 'www.jianfanjia.com',
+    version: '1.0.3',
+    download_url: 'http://' + req.headers.host +
+      '/android_build/JianFanJia.apk',
   });
 }

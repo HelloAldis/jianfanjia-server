@@ -126,3 +126,24 @@ exports.searchDesigner = function (req, res, next) {
     res.sendData(designers);
   });
 }
+
+exports.getDesigner = function (req, res, next) {
+  var designerid = req.params._id;
+
+  Designer.findOne({
+    _id: designerid
+  }, {
+    pass: 0,
+    accessToken: 0
+  }, function (err, designer) {
+    if (err) {
+      return next(err);
+    }
+
+    if (designer) {
+      res.sendData(designer);
+    } else {
+      res.sendData(null);
+    }
+  });
+}

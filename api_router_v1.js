@@ -45,7 +45,7 @@ router.get('/designer/listtop', designer.listtop); //获取首页设计师
 router.post('/designer/search', designer.search); //搜索设计师
 router.get('/image/:_id', image.get); //获取图片
 //设备使用
-router.get('/device/android_build_version', auth.normalUserRequired, device.android_build_version); //获取android信息
+router.get('/device/android_build_version', device.android_build_version); //获取android信息
 
 //通用用户功能
 router.post('/image/upload', auth.normalUserRequired, upload.single('Filedata'),
@@ -113,6 +113,7 @@ router.put('/share', auth.adminRequired, admin.update); //更新直播分享
 router.delete('/share', auth.adminRequired, admin.delete); //删除直播分享
 router.get('/admin/authing_designer', auth.adminRequired, admin.listAuthingDesigner); //获取申请认证的设计师
 router.post('/admin/search_designer', auth.adminRequired, admin.searchDesigner); //按照手机号申请设计师
+router.get('/admin/designer/:_id', auth.adminRequired, admin.getDesigner); //获取设计师信息
 
 
 module.exports = router;
