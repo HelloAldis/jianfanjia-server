@@ -690,6 +690,7 @@ exports.list = function (req, res, next) {
   }
 
   Process.getSByQueryAndProject(query, {
+    final_designerid: 1,
     userid: 1,
     city: 1,
     district: 1,
