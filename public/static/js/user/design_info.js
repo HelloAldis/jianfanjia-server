@@ -291,6 +291,8 @@ $(function(){
 					if(!!data.imageid){	
 						$('#upload').find('img').attr('src',RootUrl+'api/v1/image/'+data.imageid)
 					}
+					desSchools.val(data.work_year || "");
+    				desWorkYear.val(data.university || "");
 					desBankCardName.val(data.bank || "");
         			desBankCardNum.val(data.bank_card || "");
 					var img = data.imageid != null && !!data.imageid  ?  RootUrl+'api/v1/image/'+data.imageid : '../../../static/img/public/headpic.jpg'
