@@ -10,7 +10,8 @@ $(function(){
         "reg_price1" : "请输入正确的半包金额",
         "reg_price2" : "请输入正确的全包金额",
         "reg_price3" : "请输入正确的银行卡号",
-        "reg_email" : "请输入正确的email"
+        "reg_email" : "请输入正确的email",
+        "reg_workYear" : "请输入正确的工作年限",
     };
     //获取对象
     var desName = $("#design-name");
@@ -32,6 +33,8 @@ $(function(){
     var desAchievement = $("#design-achievement");
     var desBankCardName = $("#decoration-bankCardName");
     var desBankCardNum = $("#decoration-bankCardNum");
+    var desSchools = $("#design-schools");
+    var desWorkYear = $("#design-workYear");
     //显示验证信息
    	function showError(obj,id, msg) {
         var msg = msg || errMsg[id];
@@ -76,6 +79,9 @@ $(function(){
     });
     desBankCardNum.on('blur',function(){
         checkBankCardNum(); 
+    });
+    desWorkYear.on('blur',function(){
+        checkWorkYear(); 
     });
     desDecType.find('label').on('click',function(){
         checkDecType();
@@ -210,6 +216,14 @@ $(function(){
 		}
      	return showError(desBankCardNum,id);
     }
+    function checkWorkYear(){
+    	var id="reg_workYear";
+    	var reg = /^[1-9]*[1-9][0-9]*$/
+		if(!$.trim(desWorkYear.val()) || desWorkYear.val() != 0 && reg.test(desWorkYear.val())){
+			return showOk(desWorkYear);
+		}
+     	return showError(desWorkYear,id);
+    }
 	function loadList(){
 		var url = RootUrl+'api/v1/designer/info';
 		$.ajax({
@@ -290,7 +304,7 @@ $(function(){
 	loadList();
 	//表单提交
 	$('#design-info').on('submit',function(){
-		check_step = 11;
+		check_step = 12;
 		checkName();
 		checkSex();
 		checkAddr();
@@ -302,6 +316,7 @@ $(function(){
         checkPrice2();
         checkHouseIntent();
         checkEmail();
+        checkWorkYear(); 
         var userProv = desArea.find('.province').find('.value').html();
 		var userCity = desArea.find('.city').find('.value').html();
 		var userDist = desArea.find('.area').find('.value').html();
@@ -333,6 +348,8 @@ $(function(){
 		var userDecDis = [];
 		var userBankCardName = desBankCardName.val();
         var userBankCardNum = desBankCardNum.val();
+        var userSchools = desSchools.val();
+        var userWorkYear = desWorkYear.val();
 		desDecArea.find('input:checked').each(function(){
 			userDecDis.push($(this).val())
 		})
@@ -375,7 +392,9 @@ $(function(){
 				"communication_type" : userType,
 				"imageid" : imgId,
 				"bank" : userBankCardName,
-				"bank_card" : userBankCardNum 
+				"bank_card" : userBankCardNum,
+				"work_year" : userWorkYear,
+				"university" : userSchools
 			}),
 			processData : false,
 			success: function(res){
