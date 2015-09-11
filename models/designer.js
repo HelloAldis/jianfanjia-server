@@ -126,6 +126,12 @@ var DesignerSchema = new Schema({
   bank_card: {
     type: String,
   },
+  work_year: {
+    type: Number
+  },
+  university: {
+    type: String,
+  },
 });
 
 DesignerSchema.index({

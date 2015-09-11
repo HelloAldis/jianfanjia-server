@@ -50,6 +50,8 @@ exports.buildDesinger = function (req) {
   designer.communication_type = tools.trim(req.body.communication_type);
   designer.bank_card = tools.trim(req.body.bank_card);
   designer.bank = tools.trim(req.body.bank);
+  designer.work_year = req.body.work_year;
+  designer.university = tools.trim(req.body.university);
 
   if (req.body.big_imageid) {
     designer.big_imageid = new ObjectId(req.body.big_imageid);
