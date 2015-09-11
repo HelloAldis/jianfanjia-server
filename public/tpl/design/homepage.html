@@ -150,34 +150,14 @@
 		for (var i = 0,len = data.dec_districts.length; i < len; i++) {
 			decDistricts += '<span>'+globalData.orders_area[data.dec_districts[i]]+'</span>'
 		};
-		var sHomeDesc = '<dl class="f-cb">'
-							+'<dt>接单类型：</dt>'
-							+'<dd>'+decTypes+'</dd>'
-						+'</dl>'
-						+'<dl class="f-cb">'
-							+'<dt>接单户型：</dt>'
-							+'<dd>'+decHouseTypes+'</dd>'
-						+'</dl>'
-						+'<dl class="f-cb">'
-							+'<dt>接单区域：</dt>'
-							+'<dd>'+decDistricts+'<i class="iconfont">&#xe615;</i></dd>'
-						+'</dl>'
-						+'<dl class="f-cb">'
-							+'<dt>设计风格：</dt>'
-							+'<dd>'+sStyle+'</dd>'
-						+'</dl>'
-						+'<dl class="f-cb">'
-							+'<dt>设计收费：</dt>'
-							+'<dd><strong>'+globalData.price_area[data.design_fee_range]+'</strong>元/m&sup2;</dd>'
-						+'</dl>'
-						+'<dl class="f-cb">'
-							+'<dt>施工团队：</dt>'
-							+'<dd>'+(!data.team_count ? "暂无施工团队" : data.team_count+"个施工队" )+'</dd>'
-						+'</dl>'
-						+'<dl class="f-cb">'
-							+'<dt>个人介绍：</dt>'
-							+'<dd>'+data.philosophy+'</dd>'
-						+'</dl>';
+		var sHomeDesc = '<dl class="f-cb"><dt>接单类型：</dt><dd>'+decTypes+'</dd></dl>'
+						+'<dl class="f-cb"><dt>接单户型：</dt><dd>'+decHouseTypes+'</dd></dl>'
+						+'<dl class="f-cb"><dt>接单区域：</dt><dd>'+decDistricts+'<i class="iconfont">&#xe615;</i></dd></dl>'
+						+'<dl class="f-cb"><dt>设计风格：</dt><dd>'+sStyle+'</dd></dl>'
+						+'<dl class="f-cb"><dt>设计收费：</dt><dd><strong>'+globalData.price_area[data.design_fee_range]+'</strong>元/m&sup2;</dd></dl>'
+						+'<dl class="f-cb"><dt>施工团队：</dt><dd>'+(!data.team_count ? "暂无施工团队" : data.team_count+"个施工队" )+'</dd></dl>'
+						+'<dl class="f-cb"><dt>设计理念：</dt><dd>'+(data.philosophy || "暂无设计理念")+'</dd></dl>'
+						+'<dl class="f-cb"><dt>设计成就：</dt><dd>'+(data.achievement || "暂无设计成就")+'</dd></dl>';
 		var sInfo = '<div class="head"><img src="'+ImgId+'" alt="" /></div>'
 						+'<h4>'+data.username+'<span class="i-icon sex'+data.sex+'"></span></h4>'
 						+'<div class="auth auth'+(data.auth_type-1)+'">'
@@ -266,4 +246,13 @@
 		   	}
 		});
 	})
+</script>
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?66d38d3af612ed7c0979211372aa9682";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
 </script>

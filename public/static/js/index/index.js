@@ -31,9 +31,9 @@
 			for (var i = 0; i < data.length; i++) {
 				var imgid = list[i].imageid ? RootUrl+'api/v1/image/'+list[i].imageid : '../../../static/img/public/indexhead.jpg'
 				sHtml += '<li class="'+(data[i].zIndex == 2 ? 'hover' : '')+'" style="width:'+data[i].width+'px;height:'+data[i].height+'px;left:'+data[i].left+'px;top:'+data[i].top+'px;z-index:'+data[i].zIndex+';">'+
-					     '<div class="name" style="height:'+data[i].picH+'px"><a href="../design/homepage.html?'+list[i]._id+'"><img src="'+imgid+'" alt="" /></a></div>'+
+					     '<div class="name" style="height:'+data[i].picH+'px"><a href="../design/homepage.html?'+list[i]._id+'" target="_blank"><img src="'+imgid+'" alt="" /></a></div>'+
 					     '<div class="txt">'+
-					     '<h4><a href="../design/homepage.html?'+list[i]._id+'">'+list[i].username+'</a></h4>'+
+					     '<h4><a href="../design/homepage.html?'+list[i]._id+'" target="_blank">'+list[i].username+'</a></h4>'+
 						'<div class="auth auth'+(list[i].auth_type-1)+'"><span class="i-icon"></span>认证设计师</div>'+
 						'<p>' + ellipsisStr(list[i].philosophy,40) + '</p></div>'+
 						'<div class="msg f-cb"><dl><dt>'+list[i].product_count+'</dt><dd>作品</dd></dl><dl><dt>'+list[i].order_count+'</dt><dd>预约</dd></dl></div>'
@@ -303,9 +303,9 @@ $(function(){
 				var imgId = data[i].process[data[i].process.length-1].images[0];
 				var head = data[i].designer.imageid ? RootUrl+'api/v1/image/'+data[i].designer.imageid  : '../../static/img/public/headpic.jpg';
 				sHtml += '<li>'+
-					     '<div class="pic"><a href="../live/detail.html?'+data[i]._id+'"><img src="'+RootUrl+'api/v1/image/'+imgId+'" alt="'+data[i].cell+'" /></a></div>'+
+					     '<div class="pic"><a href="../live/detail.html?'+data[i]._id+'" target="_blank"><img src="'+RootUrl+'api/v1/image/'+imgId+'" alt="'+data[i].cell+'" /></a></div>'+
 					     '<div class="txt">'+
-					      '<h4><a href="../live/detail.html?'+data[i]._id+'">'+data[i].cell+'</a></h4>'+
+					      '<h4><a href="../live/detail.html?'+data[i]._id+'" target="_blank">'+data[i].cell+'</a></h4>'+
 							'<div class="desc">'+
 								'<span>'+data[i].house_area+'m&sup2;</span>'+
 								'<span>'+globalData.house_type[data[i].house_type]+'</span>'+
@@ -313,7 +313,7 @@ $(function(){
 							'</div>'+
 							'<p>'+ellipsisStr(data[i].description,80)+'</p>'+
 						'</div>'+
-						'<div class="head"><a href="../design/homepage.html?'+data[i].designer._id+'"><img src="'+ head +'" alt="'+data[i].designer.username+'" /></a></div>'+
+						'<div class="head"><a href="../design/homepage.html?'+data[i].designer._id+'" target="_blank"><img src="'+ head +'" alt="'+data[i].designer.username+'" /></a></div>'+
 					'</li>'
 			};
 			sHtml+='</ul>'
