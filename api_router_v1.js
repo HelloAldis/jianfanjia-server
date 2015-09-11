@@ -45,7 +45,7 @@ router.get('/designer/listtop', designer.listtop); //获取首页设计师
 router.post('/designer/search', designer.search); //搜索设计师
 router.get('/image/:_id', image.get); //获取图片
 //设备使用
-router.get('/device/android_build_version', auth.normalUserRequired, device.android_build_version); //获取android信息
+router.get('/device/android_build_version', device.android_build_version); //获取android信息
 
 //通用用户功能
 router.post('/image/upload', auth.normalUserRequired, upload.single('Filedata'),
