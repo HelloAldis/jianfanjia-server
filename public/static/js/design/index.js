@@ -59,7 +59,7 @@ $(function(){
         if(len1){
 			for (var i = 0; i < len1; i++) {
 				if(!!imgData[i].images[0]){
-					works += '<a class="works" href="detail.html?'+imgData[i]._id+'"><img src="'+RootUrl+'api/v1/image/'+imgData[i].images[0].imageid+'" alt="'+imgData[i].cell+'"/></a>'
+					works += '<a class="works" href="detail.html?'+imgData[i]._id+'" target="_blank"><img src="'+RootUrl+'api/v1/image/'+imgData[i].images[0].imageid+'" alt="'+imgData[i].cell+'"/></a>'
 				}else{
 					works = '<a class="works" href="homepage.html?'+data._id+'"><img src="../../static/img/public/default_products.jpg" alt="'+data.username+'的作品"/></a>';
 				}

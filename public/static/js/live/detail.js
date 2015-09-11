@@ -62,8 +62,10 @@ $(function(){
 				sPic += '<img src="'+RootUrl+'api/v1/image/'+data.process[i].images[j]+'" alt="">'
 			};
 			sStep += sPic
-			sStep += '<p>'+data.process[i].description+'</p>'
-			sStep += '</div></div>'
+			if(!!data.process[i].description){
+				sStep += '<p>'+ data.process[i].description +'</p>'
+			}
+			sStep += '</div></div>';
 		};
 		sStep += '</div>';
 		$liveBanner.html(sBanner);
