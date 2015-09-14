@@ -9,6 +9,7 @@ var utility = require('utility');
 var sms = require('../../common/sms');
 var ApiUtil = require('../../common/api_util');
 var type = require('../../type');
+var config = require('../../config');
 
 exports.updatePass = function (req, res, next) {
   var phone = tools.trim(req.body.phone);
@@ -66,12 +67,14 @@ exports.updatePass = function (req, res, next) {
       return next(err);
     }
 
-    if (!verifyCode) {
-      return ep.emit('user_err', '验证码不对');
-    }
+    if (!config.debug) {
+      if (!verifyCode) {
+        return ep.emit('user_err', '验证码不对或已过期');
+      }
 
-    if (verifyCode.code !== code) {
-      return ep.emit('user_err', '验证码不对');
+      if (verifyCode.code !== code) {
+        return ep.emit('user_err', '验证码不对或已过期');
+      }
     }
 
     User.getUserByPhone(phone, function (err, user) {
@@ -148,17 +151,19 @@ exports.signup = function (req, res, next) {
         return next(err);
       }
 
-      if (verifyCode) {
-        if (code === verifyCode.code) {
-          tools.bhash(pass, ep.done(function (passhash) {
-            ep.emit('final', passhash);
-          }));
-        } else {
+      if (!config.debug) {
+        if (!verifyCode) {
           return ep.emit('err', '验证码不对或已过期');
         }
-      } else {
-        return ep.emit('err', '验证码不对或已过期');
+
+        if (verifyCode.code !== code) {
+          return ep.emit('err', '验证码不对或已过期');
+        }
       }
+
+      tools.bhash(pass, ep.done(function (passhash) {
+        ep.emit('final', passhash);
+      }));
     });
   });
 
