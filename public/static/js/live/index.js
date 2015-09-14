@@ -40,7 +40,7 @@ $(function(){
 	}
 	//创建列表
 	function createList(data,info){
-		var status = data.process.length-1;
+		var status = data.process[data.process.length-1].name;
 		var sList = '';
 		for (var i = 0; i < 7; i++) {
 			if(i == status){
@@ -51,7 +51,7 @@ $(function(){
 				sList += '<div class="state"><div class="circle"></div><p>'+globalData.dec_flow[i]+'</p></div>'
 			}
 		};
-		var imgId = data.process[status].images[0];
+		var imgId = data.process[data.process.length-1].images[0];
 		var head = info.imageid ? RootUrl+'api/v1/image/'+info.imageid : '../../static/img/public/headpic.jpg';
 		return '<li>'
 					+'<div class="g-wp f-cb">'
@@ -62,7 +62,7 @@ $(function(){
 								+'<p>装修风格：<span>'+globalData.dec_style[data.dec_style]+'</span>'
 								+'</p>'
 								+'<p>开工时间：<span>'+format("yyyy-MM-dd",data.start_at)+'</span></p>'
-								+'<p>当前阶段：<span>'+globalData.dec_flow[status]+'</span></p>'
+								+'<p>当前阶段：<span>'+globalData.dec_flow[data.process[data.process.length-1].name]+'</span></p>'
 								+'<a href="detail.html?'+data._id+'" class="head">'
 									+'<span class="head-pic"><img src="'+head+'" alt="" /></span>'
 									+'<span class="head-name">'+info.username+'</span>'
@@ -71,7 +71,7 @@ $(function(){
 							+'<div class="state-box">'
 								+'<div class="list">'+sList+'</div>'
 								+'<div class="line">'
-									+'<div class="line-in line'+status+'"></div>'
+									+'<div class="line-in line'+data.process[data.process.length-1].name+'"></div>'
 								+'</div>'
 							+'</div>'
 						+'</div>'

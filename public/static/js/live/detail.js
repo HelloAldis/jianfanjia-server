@@ -20,7 +20,7 @@ $(function(){
 	function createList(data,info){
 		$liveBanner.html("");
 		$liveShow.html("");
-		var status = data.process.length-1;
+		var status = data.process[data.process.length-1].name;
 		var sList = '<div class="m-state"><div class="state-box"><div class="list f-cb">';
 		for (var i = 0; i < 7; i++){
 			if(i == status){
@@ -31,7 +31,7 @@ $(function(){
 				sList += '<div class="state"><div class="circle"></div><p>'+globalData.dec_flow[i]+'</p></div>'
 			}
 		};
-		sList += '<div class="line"><div class="line-in line'+status+'"></div></div></div></div>'
+		sList += '<div class="line"><div class="line-in line'+data.process[data.process.length-1].name+'"></div></div></div></div>'
 		var head = info.imageid ? RootUrl+'api/v1/image/'+info.imageid : '../../static/img/public/headpic.jpg';
 		var sBanner = '<div class="g-wp">'
 				+'<h2>'+data.cell+'</h2>'

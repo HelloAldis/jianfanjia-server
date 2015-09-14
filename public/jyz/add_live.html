@@ -47,200 +47,202 @@
 			</div>
 			<div class="m-ct">
 				<div class="w-form user-form">
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="decoration-phone">设计师查询：</label>
-										<div class="u-inp">
-											<div class="box">
-												<input type="text" class="input" name="decoration-phone" id="decoration-phone" />
-												<span class="unit">输入手机号码前三位</span>
-											</div>
-										</div>
-									</div>
-									<p class="tips-info hide"></p>
-								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="decoration-name">设计师列表：</label>
-										<div class="u-inp">
-											<div class="m-select" id="decoration-name">暂无查询数据</div>
-										</div>
-									</div>
-									<p class="tips-info hide"></p>
-								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="decoration-jobs">项目经理：</label>
-										<div class="u-inp">
-											<div class="box">
-												<input type="text" class="input" name="decoration-jobs" id="decoration-jobs" />
-											</div>
-										</div>
-									</div>
-									<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-									<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-									<p class="tips-info hide"></p>
-								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="decoration-start">开工时间：</label>
-										<div class="u-inp">
-											<div class="box">
-												<input type="text" class="input" name="decoration-start" id="decoration-start" />
-												<span class="unit">例如：2015-09-01</span>
-											</div>
-										</div>
-									</div>
-									<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-									<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-									<p class="tips-info hide"></p>
-								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="decoration-area">所在地区：</label>
-										<div class="u-inp">
-											<div class="m-cities" id="decoration-area"></div>
-										</div>
-									</div>
-									<p class="tips-info hide"></p>
-								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="decoration-cell">小区名称：</label>
-										<div class="u-inp">
-											<div class="box">
-												<input type="text" class="input" name="decoration-cell" id="decoration-cell" />
-											</div>
-										</div>
-									</div>
-									<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-									<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-									<p class="tips-info hide"></p>
-								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="decoration-house-type">装修户型：</label>
-										<div class="u-inp">
-											<div class="m-select" id="decoration-house-type"></div>
-										</div>
+					<form id="add-live">
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="decoration-phone">设计师查询：</label>
+								<div class="u-inp">
+									<div class="box">
+										<input type="text" class="input" name="decoration-phone" id="decoration-phone" />
+										<span class="unit">输入手机号码前三位</span>
 									</div>
 								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="decoration-dec-area">装修面积：</label>
-										<div class="u-inp">
-											<div class="box">
-												<input type="text" class="input" name="decoration-dec-area" id="decoration-dec-area" />
-												<span class="unit">m&sup2;</span>
-											</div>
-										</div>
-									</div>
-									<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-									<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-									<p class="tips-info hide"></p>
+							</div>
+							<p class="tips-info hide"></p>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="decoration-name">设计师列表：</label>
+								<div class="u-inp">
+									<div class="m-select" id="decoration-name">暂无查询数据</div>
 								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="decoration-dec-style">装修风格：</label>
-										<div class="u-inp">
-											<div class="m-select" id="decoration-dec-style"></div>
-										</div>
+							</div>
+							<p class="tips-info hide"></p>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="decoration-jobs">项目经理：</label>
+								<div class="u-inp">
+									<div class="box">
+										<input type="text" class="input" name="manager" id="decoration-jobs" />
 									</div>
 								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="decoration-dec-type">装修类型：</label>
-										<div class="u-inp">
-											<div class="m-select" id="decoration-dec-type"></div>
-										</div>
+							</div>
+							<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+							<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+							<p class="tips-info hide"></p>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="decoration-start">开工时间：</label>
+								<div class="u-inp">
+									<div class="box">
+										<input type="text" class="input" name="start_at" id="decoration-start" />
+										<span class="unit">例如：2015-09-01</span>
 									</div>
 								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="decoration-work-type">包工类型：</label>
-										<div class="u-inp">
-											<div class="m-select" id="decoration-work-type"></div>
-										</div>
+							</div>
+							<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+							<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+							<p class="tips-info hide"></p>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="where_area">所在地区：</label>
+								<div class="u-inp">
+									<div class="m-cities" id="where_area"></div>
+								</div>
+							</div>
+							<p class="tips-info hide"></p>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="decoration-cell">小区名称：</label>
+								<div class="u-inp">
+									<div class="box">
+										<input type="text" class="input" name="cell" id="decoration-cell" />
 									</div>
 								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="decoration-price">装修造价：</label>
-										<div class="u-inp">
-											<div class="box">
-												<input type="text" class="input" name="decoration-price" id="decoration-price" />
-												<span class="unit">万元</span>
-											</div>
-										</div>
-									</div>
-									<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-									<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-									<p class="tips-info hide"></p>
+							</div>
+							<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+							<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+							<p class="tips-info hide"></p>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="house_type">装修户型：</label>
+								<div class="u-inp">
+									<div class="m-select" id="house_type"></div>
 								</div>
-								<div class="m-item f-cb">
-									<div class="item">
-										<label class="u-lab" for="decoration-description">设计方案简介：</label>
-										<div class="u-inp">
-											<div class="textarea"><textarea name="decoration-description" id="decoration-description" cols="30" rows="10"></textarea></div>
-										</div>
-									</div>
-								</div>
-								<div class="m-item f-cb editor">
-									<div class="item">
-										<label class="u-lab" for="decoration-phase">当前阶段：</label>
-										<div class="u-inp">
-											<div class="m-select" id="decoration-phase"></div>
-										</div>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="house_area">装修面积：</label>
+								<div class="u-inp">
+									<div class="box">
+										<input type="text" class="input" name="house_area" id="house_area" />
+										<span class="unit">m&sup2;</span>
 									</div>
 								</div>
-								<div class="m-item f-cb editor">
-									<div class="item">
-										<label class="u-lab" for="decoration-time">当前开始时间：</label>
-										<div class="u-inp">
-											<div class="box">
-												<input type="text" class="input" name="decoration-time" id="decoration-time" />
-												<span class="unit">例如：2015-09-01</span>
-											</div>
-										</div>
-									</div>
-									<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-									<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-									<p class="tips-info hide"></p>
+							</div>
+							<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+							<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+							<p class="tips-info hide"></p>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="dec_style">装修风格：</label>
+								<div class="u-inp">
+									<div class="m-select" id="dec_style"></div>
 								</div>
-								<div class="m-item f-cb editor">
-									<div class="item">
-										<label class="u-lab" for="work_type">上传装修效果图：</label>
-										<div class="u-inp">
-											<div class="file">
-												<p class="tips">*作品上传每张大小为1M以内</p>
-												<div class="file-list f-cb" id="j-file-list">
-													<div class="create-item">
-														<div class="pic" id="upload">
-															<img src="../../static/img/user/uploadify.jpg" alt="" />
-														</div>
-													</div>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="dec_type">装修类型：</label>
+								<div class="u-inp">
+									<div class="m-select" id="dec_type"></div>
+								</div>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="work_type">包工类型：</label>
+								<div class="u-inp">
+									<div class="m-select" id="work_type"></div>
+								</div>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="total_price">装修造价：</label>
+								<div class="u-inp">
+									<div class="box">
+										<input type="text" class="input" name="total_price" id="total_price" />
+										<span class="unit">万元</span>
+									</div>
+								</div>
+							</div>
+							<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+							<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+							<p class="tips-info hide"></p>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="description">设计方案简介：</label>
+								<div class="u-inp">
+									<div class="textarea"><textarea name="description" id="description" cols="30" rows="10"></textarea></div>
+								</div>
+							</div>
+						</div>
+						<div class="m-item f-cb editor">
+							<div class="item">
+								<label class="u-lab" for="flow_name">当前阶段：</label>
+								<div class="u-inp">
+									<div class="m-select" id="flow_name"></div>
+								</div>
+							</div>
+						</div>
+						<div class="m-item f-cb editor">
+							<div class="item">
+								<label class="u-lab" for="flow_date">当前开始时间：</label>
+								<div class="u-inp">
+									<div class="box">
+										<input type="text" class="input" name="flow_date" id="flow_date" />
+										<span class="unit">例如：2015-09-01</span>
+									</div>
+								</div>
+							</div>
+							<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+							<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+							<p class="tips-info hide"></p>
+						</div>
+						<div class="m-item f-cb editor">
+							<div class="item">
+								<label class="u-lab">上传装修效果图：</label>
+								<div class="u-inp">
+									<div class="file">
+										<p class="tips">*作品上传每张大小为1M以内</p>
+										<div class="file-list f-cb" id="j-file-list">
+											<div class="create-item">
+												<div class="pic" id="upload">
+													<img src="../../static/img/user/uploadify.jpg" alt="" />
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="m-item f-cb editor">
-									<div class="item">
-										<label class="u-lab" for="phase-description">当前阶段描述：</label>
-										<div class="u-inp">
-											<div class="textarea"><textarea name="phase-description" id="phase-description" cols="30" rows="10"></textarea></div>
-										</div>
-									</div>
+							</div>
+						</div>
+						<div class="m-item f-cb editor">
+							<div class="item">
+								<label class="u-lab" for="phase-description">当前阶段描述：</label>
+								<div class="u-inp">
+									<div class="textarea"><textarea name="phase-description" id="phase-description" cols="30" rows="10"></textarea></div>
 								</div>
-								<div class="m-item m-error-info hide">
-								</div>
-								<div class="m-item">
-									<div class="u-btn">
-										<input type="submit" class="btn editor" id="add-submit" value="发布" />
-										<input type="submit" class="btn hide" id="editor-submit" value="编辑" />
-									</div>
-								</div>
-						</div>		
+							</div>
+						</div>
+						<div class="m-item m-error-info hide">
+						</div>
+						<div class="m-item">
+							<div class="u-btn">
+								<input type="button" class="btn editor" id="add-submit" value="发布" />
+								<input type="button" class="btn hide" id="editor-submit" value="编辑" />
+							</div>
+						</div>
+					</form>
+				</div>		
 			</div>
 		</div>
 	</div>
@@ -281,6 +283,10 @@
 </html>
 <script type="text/javascript">
 	var winHash = window.location.search.substring(1);
+	var dataMapped = ["manager","designerid","start_at","province","city","district","cell","house_type","house_area","dec_style","work_type","total_price","description","process"];
+	if(!!winHash){
+		loadList();
+	}
 	function loadList(){
 		var url = RootUrl+'api/v1/share/'+winHash;
 		$.ajax({
@@ -290,7 +296,7 @@
 			dataType: 'json',
 			success: function(res){
 				if(res['data']){
-					$('#decoration-phase').find('.value').html(globalData.dec_flow[res['data'].process.length-1]);
+					$('#dec_flow').find('.value').html(globalData.dec_flow[res['data'].process.length-1]);
 					$('.editor').hide();
 					$('#editor-submit').removeClass('hide');
 					upData(res['data'])
@@ -300,66 +306,147 @@
 		   	}
 		});
 	}
-	loadList()
+
+	var desArea = $('#where_area')
 	function upData(data){
+		console.log(data);
 		var process = [];
 		process = data.process;
-		//发布装修直播
-		$('#login-submit').on('click',function(){
-			var url = RootUrl+'api/v1/share';
-			var aPreviewsItem = $('#j-file-list').find('.previews-item');
-			var images = []
-			aPreviewsItem.each(function(i,el){
-				images.push($(el).data('imgid'))
+		$('#decoration-jobs').val(data.manager);
+		$('#decoration-start').val(format("yyyy-MM-dd",data.start_at));
+		$('#decoration-cell').val(data.cell);
+		$('#total_price').val(data.total_price);
+		$('#house_area').val(data.house_area);
+		$('#description').val(data.description);
+		//所在地区
+		desArea.empty()
+		if(!!data.province){
+			var designAreaQuery = data.province+" "+data.city+" "+data.district;
+			desArea.find('input[name=where_area]').val(designAreaQuery)
+			var designArea = new CitySelect({id :'where_area',"query":designAreaQuery});
+		}else{
+			desArea.find('input[name=where_area]').val("")
+			var designArea = new CitySelect({id :'where_area'});
+		}
+		//装修户型
+		$('#house_type').empty();
+		if(!!data.house_type){
+			var dec_house_type = new ComboBox({
+				id : 'house_type',
+				list : globalData.house_type,
+				index :true,
+				query : data.house_type
+			});
+		}else{
+			var dec_house_type = new ComboBox({
+				id : 'house_type',
+				list : globalData.house_type,
+				index :true,
+				query : 0
+			});
+		}
+		//装修风格
+		$('#dec_style').empty();
+		if(!!data.dec_style){
+			var dec_dec_style = new ComboBox({
+				id : 'dec_style',
+				list : globalData.dec_style,
+				index :true,
+				query : data.dec_style
+			});
+		}else{
+			var dec_dec_style = new ComboBox({
+				id : 'dec_style',
+				list : globalData.dec_style,
+				index :true,
+				query : 0
+			});
+		}
+		//装修类型
+		$('#dec_type').empty();
+		if(!!data.dec_type){
+			var dec_dec_type = new ComboBox({
+				id : 'dec_type',
+				list : globalData.dec_type,
+				index :true,
+				query : data.dec_type
+			});
+		}else{
+			var dec_dec_type = new ComboBox({
+				id : 'dec_type',
+				list : globalData.dec_type,
+				index :true,
+				query : 0
+			});
+		}
+		//包工类型
+		$('#work_type').empty();
+		if(!!data.work_type){
+			var dec_work_type = new ComboBox({
+				id : 'work_type',
+				list : globalData.work_type,
+				index :true,
+				query : data.work_type
+			});
+		}else{
+			var dec_work_type = new ComboBox({
+				id : 'work_type',
+				list : globalData.work_type,
+				index :true,
+				query : 0
+			});
+		}
+		//修改装修直播基本资料
+		$('#editor-submit').on('click',function(){
+			$.putJSON(RootUrl+'api/v1/share',formatData(data),function(res){
+				if(res["msg"] == "success"){
+					window.location.href = "live.html";
+				}else{
+					alert('更新失败')
+				}
 			})
-			time = getTimes($('#decoration-time').val())
-			process.push({
-				"images" : images,
-		  		"name" : $('#decoration-phase').find('input').val(),
-		  		"description" : $('#phase-description').val(),
-		  		"date" : time
-			});
-			data[process] = process;
-			$.ajax({
-				url:url,
-				type: 'PUT',
-				contentType : 'application/json; charset=utf-8',
-				dataType: 'json',
-				data : JSON.stringify(data),
-				processData : false,
-				success: function(res){
-					alert(res)
-					if(res["msg"] == "success"){
-						window.location.href = "live.html";
-					}else{
-						alert('更新失败')
-					}
-			   	}
-			});
 			return false;
 		})
 	}
+	function formatData(data,process){
+		var upData = getSerialize($('#add-live').serialize())
+		for (var i = 0; i < dataMapped.length; i++) {
+			if(dataMapped[i] == 'designerid'){
+				data[dataMapped[i]] = upData[dataMapped[i]] || data._id;
+			}else if(dataMapped[i] == 'start_at'){
+				data[dataMapped[i]] = getTimes(upData.start_at)
+			}else if(dataMapped[i] == 'process'){
+				data[dataMapped[i]] = process;
+			}else if(dataMapped[i] == 'cell'){
+				data[dataMapped[i]] = decodeURI(upData[dataMapped[i]])
+			}else if(dataMapped[i] == 'manager'){
+				data[dataMapped[i]] = decodeURI(upData[dataMapped[i]])
+			}else if(dataMapped[i] == 'description'){
+				data[dataMapped[i]] = decodeURI(upData[dataMapped[i]])
+			}else if(dataMapped[i] == 'province'){
+				data[dataMapped[i]] = decodeURI(upData[dataMapped[i]])
+			}else if(dataMapped[i] == 'city'){
+				data[dataMapped[i]] = decodeURI(upData[dataMapped[i]])
+			}else if(dataMapped[i] == 'district'){
+				data[dataMapped[i]] = decodeURI(upData[dataMapped[i]])
+			}else{
+				data[dataMapped[i]] = upData[dataMapped[i]]
+			}	
+		};
+		return data;
+	}
 	$("#decoration-phone").on('blur',function(){
 		var slef = $(this);
-		var url = RootUrl+'api/v1/admin/search_designer';
-		$.ajax({
-			url:url,
-			type: 'POST',
-			contentType : 'application/json; charset=utf-8',
-			dataType: 'json',
-			data : JSON.stringify({
-				"phone" : slef.val(),
-			}),
-			processData : false,
-			success: function(res){
-				if(res['data']){
-					designList(res['data'])
-				}else{
-					alert('你输入号码没有找到合适的设计师，减少号码输入')
-				}
-				
-		   	}
-		});
+		$.postJSON(
+			RootUrl+'api/v1/admin/search_designer',
+			{"phone" : slef.val()},
+			function(res){
+			if(res['data']){
+				designList(res['data'])
+			}else{
+				alert('你输入号码没有找到合适的设计师，减少号码输入')
+			}
+	   	})
 	})
 	function designList(data){
 		var $nameList = $('#decoration-name');
@@ -375,7 +462,7 @@
 		var sUl = '<ul class="select">';
 			for (var i = 0; i < data.length; i++) {
 				if(i == 0){
-					var $input = $('<input type="hidden" name="decoration-name" value="'+data[i]._id+'" />');
+					var $input = $('<input type="hidden" name="designerid" value="'+data[i]._id+'" />');
 					var $option = $('<div class="option"><span class="value">'+data[i].username+' '+data[i].phone+'</span><span class="arrow"><em></em><i></i></span></div>');
 				}
 				sUl+= '<li data-uid="'+data[i]._id+'"><a href="javascript:;">'+data[i].username+' '+data[i].phone+'</a></li>'
@@ -408,7 +495,6 @@
 				var value = $(this).find('a').text();
 				$input.val($(this).data('uid'));
 				$option.find('.value').html(value);
-
 				selectHide();
 			});
 	}
@@ -418,50 +504,27 @@
 	}
 	//发布装修直播
 	$('#add-submit').on('click',function(){
-		var url = RootUrl+'api/v1/share';
+		var newData = {};
 		var aPreviewsItem = $('#j-file-list').find('.previews-item');
 		var images = []
-		aPreviewsItem.each(function(i,el){
-			images.push($(el).data('imgid'))
+			aPreviewsItem.each(function(i,el){
+				images.push($(el).data('imgid'))
+			})
+		var process = {
+			"images" : images,
+	  		"name" : $('#flow_name').find('input').val(),
+	  		"description" : $('#phase-description').val(),
+	  		"date" : getTimes($('#flow_date').val())
+		}
+		console.log(formatData(newData,process))
+		$.postJSON(RootUrl+'api/v1/share',formatData(newData,process),function(res){
+			if(res["msg"] == "success"){
+				alert('发布成功')
+				window.location.href = "live.html";
+			}else{
+				alert('发布失败')
+			}
 		})
-		start_at = getTimes($('#decoration-start').val())
-		time = getTimes($('#decoration-time').val())
-		$.ajax({
-			url:url,
-			type: 'POST',
-			contentType : 'application/json; charset=utf-8',
-			dataType: 'json',
-			data : JSON.stringify({
-				"start_at" :  start_at,
-				"designerid" : $('#decoration-name').find('input').val(),
-				"manager" : $('#decoration-jobs').val(),
-				"city":$('#decoration-name').find('input[name=decoration-name0]').val(),
-				"district":$('#decoration-name').find('input[name=decoration-name1]').val(),
-				"province":$('#decoration-name').find('input[name=decoration-name2]').val(),
-			  	"cell": $('#decoration-cell').val(),
-			  	"house_type":$('#decoration-house-type').find('input').val(),
-			  	"house_area": parseInt($('#decoration-dec-area').val()),
-			  	"dec_style":$('#decoration-dec-type').find('input').val(),
-			  	"work_type":$('#decoration-work-type').find('input').val(),
-			  	"total_price":parseInt($('#decoration-price').val()),
-			  	"description" : $('#decoration-description').val(),
-			  	"process" : [{
-			  		"images" : images,
-			  		"name" : $('#decoration-phase').find('input').val(),
-			  		"description" : $('#phase-description').val(),
-			  		"date" : time
-			  	}]
-			}),
-			processData : false,
-			success: function(res){
-				if(res["msg"] == "success"){
-					alert('发布成功')
-					window.location.href = "live.html";
-				}else{
-					alert('发布失败')
-				}
-		   	}
-		});
 		return false;
 	})
 	//删除作品列表图片
@@ -476,53 +539,51 @@
 			oDl.remove();
 		}
 	})
+	function getSerialize(str){
+		var jsonData = {};
+		var str = str.split("&");
+		for (var i = 0; i < str.length; i++) {
+			var temp = str[i].split("=");
+			jsonData[temp[0]] = temp[1];
+		};
+		return jsonData;
+	}
 </script>
 <script type="text/javascript">
-	var designArea = new CitySelect({id :'decoration-area'});
+	var whereArea = new CitySelect({id :'where_area'});
 	var dec_house_type = new ComboBox({
-		id : 'decoration-house-type',
+		id : 'house_type',
 		list : globalData.house_type,
 		index :true
 	});
 	var dec_style = new ComboBox({
-		id : 'decoration-dec-style',
+		id : 'dec_style',
 		list : globalData.dec_style,
 		index :true
 	});
 	var dec_type = new ComboBox({
-		id : 'decoration-dec-type',
+		id : 'dec_type',
 		list : globalData.dec_type,
 		index :true
 	});
 	var work_type = new ComboBox({
-		id : 'decoration-work-type',
+		id : 'work_type',
 		list : globalData.work_type,
 		index :true
 	});
 	var decoration_phase = new ComboBox({
-		id : 'decoration-phase',
+		id : 'flow_name',
 		list : globalData.dec_flow,
 		index :true
 	});
 	var uploaderUrl = RootUrl+'api/v1/image/upload';
-	var iCounter = 0;
-	function callback(arr){
-		var data = $.parseJSON(arr);
-		iCounter++;
-		var str = '<div class="previews-item" data-imgid="'+data.data+'">'
-			+'<span class="close"></span>'
-			+'<div class="pic">'
-				+'<img class="img" src="'+RootUrl+'api/v1/image/'+data.data+'" alt="" />'
-			+'</div>'
-		$('#j-file-list').append(str)
-	}
 	$('#upload').Huploadify({
 		auto:true,
 		fileTypeExts:'*.jpg;*.png',
 		multi:true,
 		formData:{key:123456,key2:'vvvv'},
 		fileSizeLimit:1024,
-		showUploadedPercent:true,//是否实时显示上传的百分比，如20%
+		showUploadedPercent:false,
 		showUploadedSize:true,
 		removeTimeout:1,
 		fileObjName:'Filedata',
@@ -532,4 +593,13 @@
 			 callback(data)
 		}
 	});
+	function callback(arr){
+		var data = $.parseJSON(arr);
+		var str = '<div class="previews-item" data-imgid="'+data.data+'">'
+			+'<span class="close"></span>'
+			+'<div class="pic">'
+				+'<img class="img" src="'+RootUrl+'api/v1/image/'+data.data+'" alt="" />'
+			+'</div>'
+		$('#j-file-list').append(str)
+	}
 </script>

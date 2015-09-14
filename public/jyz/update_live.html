@@ -98,7 +98,8 @@
 								</div>
 								<div class="m-item">
 									<div class="u-btn">
-										<input type="submit" class="btn" id="login-submit" value="更新" />
+										<input type="button" class="btn" id="update-submit" value="更新" />
+										<input type="button" class="btn" id="delete-submit" value="删除" />
 									</div>
 								</div>
 						</div>		
@@ -143,21 +144,32 @@
 <script type="text/javascript">
 	var winHash = window.location.search.substring(1);
 	function loadList(){
-		var url = RootUrl+'api/v1/share/'+winHash;
-		$.ajax({
-			url:url,
-			type: 'GET',
-			contentType : 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function(res){
-				if(res['data']){
-					$('#decoration-phase').find('.value').html(globalData.dec_flow[res['data'].process.length-1])
-					upData(res['data'])
+		$.getJSON(RootUrl+'api/v1/share/'+winHash,function(res){
+			var data = res['data'];
+			if(data != null){
+				//阶段名称
+				$('#decoration-phase').empty();
+				if(data.process.length){
+					var dec_work_type = new ComboBox({
+						id : 'decoration-phase',
+						list : globalData.dec_flow,
+						index :true,
+						query : parseInt(data.process[data.process.length-1].name) + 1
+					});
 				}else{
-					alert('没有数据')
+					var dec_work_type = new ComboBox({
+						id : 'decoration-phase',
+						list : globalData.dec_flow,
+						index :true,
+						query : 0
+					});
 				}
-		   	}
-		});
+				$('#decoration-time').val(format("yyyy-MM-dd",new Date().getTime()));
+				upData(res['data'])
+			}else{
+				alert('没有数据')
+			}
+	   	})
 	}
 	loadList()
 	function getTimes(str){
@@ -167,16 +179,37 @@
 	function upData(data){
 		var process = [];
 		process = data.process;
+		//删除某一阶段
+		$('#delete-submit').on('click',function(){
+			var name = $('#decoration-phase').find('input').val();
+			if(process.length > 1){
+				for (var i = 0; i < process.length; i++) {
+					console.log(process[i].name == name)
+					if(process[i].name == name){
+						process.splice(i,1)
+					}
+				};
+				data[process] = process;
+				$.putJSON(RootUrl+'api/v1/share',data,function(res){
+					if(res["msg"] == "success"){
+						window.location.href = "live.html";
+					}else{
+						alert('更新失败')
+					}
+				})
+			}else{
+				alert('至少保留一个阶段')
+			}
+		});
 		//发布装修直播
-		$('#login-submit').on('click',function(){
-			var url = RootUrl+'api/v1/share';
+		$('#update-submit').on('click',function(){
 			var aPreviewsItem = $('#j-file-list').find('.previews-item');
 			var images = [];
-			var name = $('#decoration-phase').find('input').val();
-			var description = $('#phase-description').val();
 			aPreviewsItem.each(function(i,el){
 				images.push($(el).data('imgid'))
 			})
+			var name = $('#decoration-phase').find('input').val();
+			var description = $('#phase-description').val();
 			time = getTimes($('#decoration-time').val())
 			for (var i = 0; i < process.length; i++) {
 				if(process[i].name == name){
@@ -193,34 +226,23 @@
 					});
 				}
 			};
+			process.sort(function(n,m){
+				return n.name - m.name;
+			})
 			data[process] = process;
-			$.ajax({
-				url:url,
-				type: 'PUT',
-				contentType : 'application/json; charset=utf-8',
-				dataType: 'json',
-				data : JSON.stringify(data),
-				processData : false,
-				success: function(res){
-					alert(res)
-					if(res["msg"] == "success"){
-						window.location.href = "live.html";
-					}else{
-						alert('更新失败')
-					}
-			   	}
-			});
+			$.putJSON(RootUrl+'api/v1/share',data,function(res){
+				if(res["msg"] == "success"){
+					window.location.href = "live.html";
+				}else{
+					alert('更新失败')
+				}
+			})
 			return false;
 		})
 	}
-
 	//删除作品列表图片
 	$('#decoration-live').delegate('.close','click',function(ev){
 		ev.preventDefault();
-		if($('#j-file-list').find('.previews-item').size() < 2){
-			alert('至少保留一个作品效果图')
-			return false;
-		}
 		if(confirm("你确定要删除吗？删除不能恢复")){
 			var oDl = $(this).closest('.previews-item');
 			oDl.remove();
@@ -247,11 +269,11 @@
 	}
 	$('#upload').Huploadify({
 		auto:true,
-		fileTypeExts:'*.jpg;*.png',
+		fileTypeExts:'*.jpg;*.jpeg;*.png;',
 		multi:true,
 		formData:{key:123456,key2:'vvvv'},
 		fileSizeLimit:1024,
-		showUploadedPercent:true,//是否实时显示上传的百分比，如20%
+		showUploadedPercent:false,
 		showUploadedSize:true,
 		removeTimeout:1,
 		fileObjName:'Filedata',

@@ -411,8 +411,8 @@ $(function(){
 			processData : false,
 			success: function(res){
 				if(res['msg'] === "success"){
-					alert('保存成功')
-					loadList()
+					promptMessage('保存成功',"success");
+					loadList();
 					$('#auth-submit').removeClass('hide');
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');
@@ -431,8 +431,8 @@ $(function(){
 			dataType: 'json',
 			success: function(res){
 				if(res['msg'] === "success"){
-					loadList()
-					alert('认证成功！')
+					promptMessage('提交成功',"success");
+					loadList();
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');
 				}

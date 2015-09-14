@@ -131,13 +131,13 @@ function promptMessage(str,msg){
 				list : [],
 				btn : true,
 				editor : false,
-				index : 0,
+				index : false,
 				query : 0,
 				callback : function(){}
 			},options || {});
 			self.settings.callback(this.settings.index);
 			this.selectBox = $('#'+this.settings.id);
-			this.input = $('<input type="hidden" name="'+this.settings.id+'" value="'+(this.settings.index ? "0" : this.settings.list[this.settings.query])+'" />');
+			this.input = $('<input type="hidden" name="'+this.settings.id+'" value="'+(this.settings.index ? this.settings.query : this.settings.list[this.settings.query])+'" />');
 			this.option = $('<div class="option"><span class="value">'+this.settings.list[this.settings.query]+'</span>'+(this.settings.btn?'<span class="arrow"><em></em><i></i></span>':'')+'</div>');
 			this.editor = $('<div class="editor"><input class="value" name="'+this.settings.id+'" value="'+this.settings.list[this.settings.query]+'" />'+(this.settings.btn?'<span class="arrow"><em></em><i></i></span>':'')+'</div>');
 			this.createList(this.settings.list);
