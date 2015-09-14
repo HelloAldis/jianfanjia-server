@@ -32,6 +32,7 @@ $(function(){
 			success: function(res){
 				var data = res['data'];
 				if(data != null){
+					console.log(data)
 					$('#return-home').attr('href', '../tpl/design/homepage.html?'+winHash);
 					desName.html(data.username);
 					desAddr.html(data.address);
@@ -55,6 +56,8 @@ $(function(){
 					desDecPrice0.html(data.dec_fee_half || "")
 					desDecPrice1.html(data.dec_fee_all || "")
 					$('#product-count').html(data.product_count+'个');
+					$('#team-count').html(data.team_count+'个');
+					$('#team-more').attr('href', 'design_team.html?'+winHash);;
 					var decsty = '';
 					for (var i = 0,len = data.dec_styles.length; i < len; i++) {
 						decsty += ' '+globalData.dec_style[data.dec_styles[i]]+' '
