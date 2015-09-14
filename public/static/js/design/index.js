@@ -9,7 +9,6 @@ $(function(){
 		var winSearch = window.location.hash.replace(/^[^#]*#?(.*)$/,'$1');
 		oldData.from = winSearch.indexOf('page') != -1 ? (winSearch.match(/\d+(\.\d+)?/g)[0]-1)*5 : 0;
 		$.extend(oldData,data || {})
-		console.log(oldData)
 		var url = RootUrl+'api/v1/designer/search';
 		$.ajax({
 			url:url,
