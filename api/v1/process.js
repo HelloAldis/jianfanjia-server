@@ -588,7 +588,7 @@ exports.doneItem = function (req, res, next) {
       }
 
       if (process) {
-        if (procee.work_type === 0) {
+        if (type.work_type === 0) {
           var result = _.find(procee.sections, function (o) {
             return o.name === section;
           });
