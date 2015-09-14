@@ -2,6 +2,7 @@ var validator = require('validator');
 var eventproxy = require('eventproxy');
 var Designer = require('../../proxy').Designer;
 var Share = require('../../proxy').Share;
+var Team = require('../../proxy').Team;
 var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
@@ -145,5 +146,17 @@ exports.getDesigner = function (req, res, next) {
     } else {
       res.sendData(null);
     }
+  });
+}
+
+exports.listDesignerTeam = function (req, res, next) {
+  var designerid = req.params.designerid;
+
+  Team.getTeamsByDesignerid(designerid, function (err, teams) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendData(teams);
   });
 }
