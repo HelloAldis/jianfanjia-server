@@ -432,15 +432,15 @@ exports.okReschedule = function (req, res, next) {
 
         var json = buildMessage(usertype, user, designer,
           reschedule, '同意了您的改期, 验收将改期到');
-        // gt.pushMessageToSingle(json.id, {
-        //   content: json.content,
-        //   type: type.message_type_reschedule,
-        // });
-        console.log(json.content);
-        gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
+        gt.pushMessageToSingle(json.id, {
           content: json.content,
           type: type.message_type_reschedule,
         });
+        console.log(json.content);
+        // gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
+        //   content: json.content,
+        //   type: type.message_type_reschedule,
+        // });
       });
     });
   });
