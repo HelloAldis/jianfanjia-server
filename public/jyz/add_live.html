@@ -185,7 +185,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="m-item f-cb">
+								<div class="m-item f-cb editor">
 									<div class="item">
 										<label class="u-lab" for="decoration-phase">当前阶段：</label>
 										<div class="u-inp">
@@ -193,7 +193,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="m-item f-cb">
+								<div class="m-item f-cb editor">
 									<div class="item">
 										<label class="u-lab" for="decoration-time">当前开始时间：</label>
 										<div class="u-inp">
@@ -207,7 +207,7 @@
 									<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
 									<p class="tips-info hide"></p>
 								</div>
-								<div class="m-item f-cb">
+								<div class="m-item f-cb editor">
 									<div class="item">
 										<label class="u-lab" for="work_type">上传装修效果图：</label>
 										<div class="u-inp">
@@ -224,7 +224,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="m-item f-cb">
+								<div class="m-item f-cb editor">
 									<div class="item">
 										<label class="u-lab" for="phase-description">当前阶段描述：</label>
 										<div class="u-inp">
@@ -236,7 +236,8 @@
 								</div>
 								<div class="m-item">
 									<div class="u-btn">
-										<input type="submit" class="btn" id="login-submit" value="发布" />
+										<input type="submit" class="btn editor" id="add-submit" value="发布" />
+										<input type="submit" class="btn hide" id="editor-submit" value="编辑" />
 									</div>
 								</div>
 						</div>		
@@ -279,6 +280,65 @@
 </body>
 </html>
 <script type="text/javascript">
+	var winHash = window.location.search.substring(1);
+	function loadList(){
+		var url = RootUrl+'api/v1/share/'+winHash;
+		$.ajax({
+			url:url,
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function(res){
+				if(res['data']){
+					$('#decoration-phase').find('.value').html(globalData.dec_flow[res['data'].process.length-1]);
+					$('.editor').hide();
+					$('#editor-submit').removeClass('hide');
+					upData(res['data'])
+				}else{
+					alert('没有数据')
+				}
+		   	}
+		});
+	}
+	loadList()
+	function upData(data){
+		var process = [];
+		process = data.process;
+		//发布装修直播
+		$('#login-submit').on('click',function(){
+			var url = RootUrl+'api/v1/share';
+			var aPreviewsItem = $('#j-file-list').find('.previews-item');
+			var images = []
+			aPreviewsItem.each(function(i,el){
+				images.push($(el).data('imgid'))
+			})
+			time = getTimes($('#decoration-time').val())
+			process.push({
+				"images" : images,
+		  		"name" : $('#decoration-phase').find('input').val(),
+		  		"description" : $('#phase-description').val(),
+		  		"date" : time
+			});
+			data[process] = process;
+			$.ajax({
+				url:url,
+				type: 'PUT',
+				contentType : 'application/json; charset=utf-8',
+				dataType: 'json',
+				data : JSON.stringify(data),
+				processData : false,
+				success: function(res){
+					alert(res)
+					if(res["msg"] == "success"){
+						window.location.href = "live.html";
+					}else{
+						alert('更新失败')
+					}
+			   	}
+			});
+			return false;
+		})
+	}
 	$("#decoration-phone").on('blur',function(){
 		var slef = $(this);
 		var url = RootUrl+'api/v1/admin/search_designer';
@@ -357,7 +417,7 @@
 		return date.getTime();
 	}
 	//发布装修直播
-	$('#login-submit').on('click',function(){
+	$('#add-submit').on('click',function(){
 		var url = RootUrl+'api/v1/share';
 		var aPreviewsItem = $('#j-file-list').find('.previews-item');
 		var images = []
