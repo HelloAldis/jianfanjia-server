@@ -150,7 +150,7 @@ exports.getDesigner = function (req, res, next) {
 }
 
 exports.listDesignerTeam = function (req, res, next) {
-  var designerid = req.params.designerid;
+  var designerid = req.params._id;
 
   Team.getTeamsByDesignerid(designerid, function (err, teams) {
     if (err) {
