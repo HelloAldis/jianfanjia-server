@@ -132,7 +132,6 @@
 	}
 	loadInfo();
 	function createInfo(data){
-		console.log(data)
 		var ImgId = !!data.imageid ? RootUrl+'api/v1/image/'+data.imageid : '../../static/img/public/headpic.jpg';
 		var decTypes = "";
 		for (var i = 0; i < data.dec_types.length; i++) {
@@ -143,7 +142,8 @@
 			decHouseTypes += '<span>'+globalData.house_type[data.dec_house_types[i]]+'</span>'
 		};
 		var sStyle = '';
-		for (var i = 0; i < data.dec_styles.length; i++) {
+		var decStylesLen = data.dec_styles.length > 3 ? 3 : data.dec_styles.length;
+		for (var i = 0; i < decStylesLen; i++) {
 			sStyle += '<span>'+globalData.dec_style[data.dec_styles[i]]+'</span>'
 		};
 		var decDistricts = '';
@@ -154,13 +154,25 @@
 						+'<dl class="f-cb"><dt>接单户型：</dt><dd>'+decHouseTypes+'</dd></dl>'
 						+'<dl class="f-cb"><dt>接单区域：</dt><dd>'+decDistricts+'<i class="iconfont">&#xe615;</i></dd></dl>'
 						+'<dl class="f-cb"><dt>设计风格：</dt><dd>'+sStyle+'</dd></dl>'
-						+'<dl class="f-cb"><dt>设计收费：</dt><dd><strong>'+globalData.price_area[data.design_fee_range]+'</strong>元/m&sup2;</dd></dl>'
-						+'<dl class="f-cb"><dt>施工团队：</dt><dd>'+(!data.team_count ? "暂无施工团队" : data.team_count+"个施工队" )+'</dd></dl>'
-						+'<dl class="f-cb"><dt>曾就职装修公司：</dt><dd>'+(data.company || "未就职装修公司")+'</dd></dl>'
-						+'<dl class="f-cb"><dt>工作年限：</dt><dd>'+(data.work_year || "暂无工作年限")+'</dd></dl>'
-						+'<dl class="f-cb"><dt>毕业学校：</dt><dd>'+(data.university || "暂无毕业学校")+'</dd></dl>'
-						+'<dl class="f-cb"><dt>设计理念：</dt><dd>'+(data.philosophy || "暂无设计理念")+'</dd></dl>'
-						+'<dl class="f-cb"><dt>设计成就：</dt><dd>'+(data.achievement || "暂无设计成就")+'</dd></dl>';
+						+'<dl class="f-cb"><dt>设计收费：</dt><dd><strong>'+globalData.price_area[data.design_fee_range]+'</strong>元/m&sup2;</dd></dl>';
+			if(data.team_count){
+				sHomeDesc += '<dl class="f-cb"><dt>施工团队：</dt><dd>'+data.team_count+'个施工队</dd></dl>';
+			}
+			if(data.company){
+				sHomeDesc += '<dl class="f-cb"><dt>曾就职装修公司：</dt><dd>'+data.company+'</dd></dl>';
+			}
+			if(data.work_year){
+				sHomeDesc += '<dl class="f-cb"><dt>工作年限：</dt><dd>'+data.work_year+'</dd></dl>';
+			}
+			if(data.university){
+				sHomeDesc += '<dl class="f-cb"><dt>毕业学校：</dt><dd>'+data.university+'</dd></dl>';
+			}
+			if(data.philosophy){
+				sHomeDesc += '<dl class="f-cb"><dt>设计理念：</dt><dd>'+data.philosophy+'</dd></dl>';
+			}
+			if(data.achievement){
+				sHomeDesc += '<dl class="f-cb"><dt>设计成就：</dt><dd>'+data.achievement+'</dd></dl>';
+			}
 		var sInfo = '<div class="head"><img src="'+ImgId+'" alt="" /></div>'
 						+'<h4>'+data.username+'<span class="i-icon sex'+data.sex+'"></span></h4>'
 						+'<div class="auth auth'+(data.auth_type-1)+'">'
