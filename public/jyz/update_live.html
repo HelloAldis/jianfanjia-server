@@ -171,17 +171,28 @@
 		$('#login-submit').on('click',function(){
 			var url = RootUrl+'api/v1/share';
 			var aPreviewsItem = $('#j-file-list').find('.previews-item');
-			var images = []
+			var images = [];
+			var name = $('#decoration-phase').find('input').val();
+			var description = $('#phase-description').val();
 			aPreviewsItem.each(function(i,el){
 				images.push($(el).data('imgid'))
 			})
 			time = getTimes($('#decoration-time').val())
-			process.push({
-				"images" : images,
-		  		"name" : $('#decoration-phase').find('input').val(),
-		  		"description" : $('#phase-description').val(),
-		  		"date" : time
-			});
+			for (var i = 0; i < process.length; i++) {
+				if(process[i].name == name){
+					process[i].name = name;
+					process[i].description = description;
+					process[i].date = time;
+					process[i].images = images;
+				}else{
+					process.push({
+				  		"name" : name,
+						"images" : images,
+				  		"description" : description,
+				  		"date" : time
+					});
+				}
+			};
 			data[process] = process;
 			$.ajax({
 				url:url,

@@ -89,9 +89,6 @@ $(function(){
     desSex.find('label').on('click',function(){
         checkSex();
     });
-    desDecStyle.find('label').on('click',function(){
-        checkDecStyle();
-    });
     desDecArea.find('label').on('click',function(){
         checkDecArea();
     });
@@ -273,6 +270,19 @@ $(function(){
 					$.each(data.dec_styles,function(i,el){
 						desDecStyle.find('[value='+data.dec_styles[i]+']').attr('checked','checked')
 					});
+					var iCount = data.dec_styles.length;
+				    desDecStyle.find('input').on('click',function(){
+				    	checkDecStyle()
+				        if($(this).is(":checked")){
+				        	++iCount;
+				        }else{
+				        	iCount--;
+				        }
+				        if(iCount > 3){
+				        	iCount = 3
+				        	return showError(desDecStyle,"reg_decType3");
+				        }
+				    });
 					$.each(data.dec_types,function(i,el){
 						desDecType.find('[value='+data.dec_types[i]+']').attr('checked','checked')
 					});

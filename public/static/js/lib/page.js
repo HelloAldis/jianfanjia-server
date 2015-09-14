@@ -112,7 +112,7 @@
 				var lnk = $("<a>"+(appendopts.text)+"</a>")
 					.on("click", this.getClickHandler(pageId))
 					.addClass('btns')
-					.attr('href', this.settings.linkTo.replace(/__id__/,pageId));		
+					.attr('href', this.settings.linkTo.replace(/__id__/,pageId+1));		
 			}
 			if(appendopts.classes){lnk.addClass(appendopts.classes);}
 			this.pageBox.append(lnk);
