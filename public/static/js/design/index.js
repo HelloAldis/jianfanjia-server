@@ -5,6 +5,7 @@ $(function(){
 	var pageOFF = true;
 	//渲染生成列表
 	function loadList(data){
+		$list.html('<div class="loading" id="j-loading"></div>');
 		var oldData = {"query":{},"sort":{"product_count":-1},"from":0,"limit":5}
 		var winSearch = window.location.hash.replace(/^[^#]*#?(.*)$/,'$1');
 		oldData.from = winSearch.indexOf('page') != -1 ? (winSearch.match(/\d+(\.\d+)?/g)[0]-1)*5 : 0;
@@ -30,7 +31,7 @@ $(function(){
 	loadList()
 	//创建列表
 	function createList(data){
-		var ImgId = !!data.imageid && data.imageid != null  ? RootUrl+'api/v1/image/'+data.imageid : '../../static/img/public/headpic.jpg';
+		var ImgId = !!data.imageid && data.imageid != null  ? RootUrl+'api/v1/thumbnail/90/'+data.imageid : '../../static/img/public/headpic.jpg';
 		var decStyles = '';
 		var decStylesLen = data.dec_styles.length > 3 ? 3 : data.dec_styles.length
  			for (var i = 0; i < decStylesLen; i++) {
@@ -65,7 +66,7 @@ $(function(){
 	        if(len1){
 				for (var i = 0; i < len1; i++) {
 					if(!!imgData[i].images[0]){
-						works += '<a class="works" href="detail.html?'+imgData[i]._id+'" target="_blank"><img src="'+RootUrl+'api/v1/image/'+imgData[i].images[0].imageid+'" alt="'+imgData[i].cell+'"/></a>'
+						works += '<a class="works" href="detail.html?'+imgData[i]._id+'" target="_blank"><img src="'+RootUrl+'api/v1/thumbnail/383/'+imgData[i].images[0].imageid+'" alt="'+imgData[i].cell+'"/></a>'
 					}else{
 						works = '<a class="works" href="homepage.html?'+data._id+'"><img src="../../static/img/public/default_products.jpg" alt="'+data.username+'的作品"/></a>';
 					}
@@ -77,7 +78,7 @@ $(function(){
 	          		+'<div class="g-wp">'
 	          			+'<div class="m-tt f-cb">'
 	          				+'<div class="info f-fl">'
-	          					+'<a class="head" href="homepage.html?'+data._id+'"><img src="'+ImgId+'" alt="'+data.username+'"/></a>'
+	          					+'<a class="m-head" href="homepage.html?'+data._id+'"><img src="'+ImgId+'" alt="'+data.username+'"/></a>'
 	          					+'<div class="msg f-cb">'
 	          						+'<dl>'
 	          							+'<dt>'+data.product_count+'</dt>'
@@ -117,7 +118,6 @@ $(function(){
 			linkTo : '#page__id__',
 			callback : function(num,obj){
 				var maxElem =  Math.ceil(this.allNumPage/this.itemPage) -1 === num ? this.allNumPage%this.itemPage : this.itemPage;
-				$list.html('<div class="loading" id="j-loading"></div>');
 				var dataArr = [];
 				for(var i=0;i<arr.designers.length;i++){
 					dataArr.push(createList(arr.designers[i]));
@@ -132,7 +132,6 @@ $(function(){
 					pageOFF = false;
 					var index = $(this).attr("href").match(/\d+(\.\d+)?/g)[0]
 					var from = (index-1)*5;
-					$list.html('<div class="loading" id="j-loading"></div>');
 					setHash(index)
 					data.from = from;
 					data.limit = maxElem;
@@ -178,7 +177,6 @@ $(function(){
 					filter[oDl.data('type')] = $(this).data('query');
 				}
 			});
-		$list.html('<div class="loading" id="j-loading"></div>');
 		setHash(1)
 		loadList({
 			"query" : filter,
@@ -244,9 +242,9 @@ $(function(){
 		}
 	});
 	//手动输入地址分页自动刷新
-	// $(window).on('hashchange',function(){
-	// 	window.location.reload();
-	// })
+	$(window).on('hashchange',function(){
+		window.location.reload();
+	})
 	//改变hash值
 	function setHash(num){
 		window.location.hash = 'page'+num;

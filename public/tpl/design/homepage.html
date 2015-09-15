@@ -132,7 +132,7 @@
 	}
 	loadInfo();
 	function createInfo(data){
-		var ImgId = !!data.imageid ? RootUrl+'api/v1/image/'+data.imageid : '../../static/img/public/headpic.jpg';
+		var ImgId = !!data.imageid ? RootUrl+'api/v1/thumbnail/120/'+data.imageid : '../../static/img/public/headpic.jpg';
 		var decTypes = "";
 		for (var i = 0; i < data.dec_types.length; i++) {
 			decTypes += '<span>'+globalData.dec_type[data.dec_types[i]]+'</span>'
@@ -173,7 +173,7 @@
 			if(data.achievement){
 				sHomeDesc += '<dl class="f-cb"><dt>设计成就：</dt><dd>'+data.achievement+'</dd></dl>';
 			}
-		var sInfo = '<div class="head"><img src="'+ImgId+'" alt="" /></div>'
+		var sInfo = '<div class="m-head"><img src="'+ImgId+'" alt="" /></div>'
 						+'<h4>'+data.username+'<span class="i-icon sex'+data.sex+'"></span></h4>'
 						+'<div class="auth auth'+(data.auth_type-1)+'">'
 							+'<span class="i-icon"></span>认证设计师'
@@ -221,7 +221,7 @@
 	};
 	//创建列表
 	function createList(data){
-		var img = data.images.length ? RootUrl+'api/v1/image/'+ data.images[0].imageid : "../../img/index/index-live-01.jpg";
+		var img = data.images.length ? RootUrl+'api/v1/thumbnail/366/'+ data.images[0].imageid : "../../img/index/index-live-01.jpg";
 	return  '<li>'
 				+'<div class="pic"><a href="detail.html?'+data._id+'"><img alt="清江山水" src="'+img+'"></a></div>'
 				+'<div class="txt">'

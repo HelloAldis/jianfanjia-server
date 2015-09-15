@@ -212,18 +212,19 @@
 			var description = $('#phase-description').val();
 			time = getTimes($('#decoration-time').val())
 			for (var i = 0; i < process.length; i++) {
-				if(process[i].name == name){
-					process[i].name = name;
-					process[i].description = description;
-					process[i].date = time;
-					process[i].images = images;
-				}else{
+				if(process[i].name != name){
 					process.push({
 				  		"name" : name,
 						"images" : images,
 				  		"description" : description,
 				  		"date" : time
 					});
+					break;
+				}else{
+					process[i].name = name;
+					process[i].description = description;
+					process[i].date = time;
+					process[i].images = images;
 				}
 			};
 			process.sort(function(n,m){

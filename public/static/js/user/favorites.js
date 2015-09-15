@@ -52,7 +52,7 @@ $(function(){
 					+'</li>';
 		}else{
 			sLi += '<li>'
-						+'<div class="pic"><img alt="'+data.cell+'" src="'+RootUrl+'api/v1/image/'+data.images[0].imageid+'"></div>'
+						+'<div class="pic"><img alt="'+data.cell+'" src="'+RootUrl+'api/v1/thumbnail/290/'+data.images[0].imageid+'"></div>'
 						+'<div class="txt">'
 							+'<h4>'+data.cell+'</h4>'
 							+'<div class="desc">'

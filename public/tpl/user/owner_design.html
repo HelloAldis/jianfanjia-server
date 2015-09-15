@@ -194,7 +194,7 @@
 		}else{
 			datePhone = '响应后可见'
 		}
-		var img = data.imageid ? RootUrl+'api/v1/image/'+data.imageid : '../../static/img/public/headpic.jpg';
+		var img = data.imageid ? RootUrl+'api/v1/thumbnail/90/'+data.imageid : '../../static/img/public/headpic.jpg';
 		if(data.plans.length){
 			var index = 0;
 		  	var max = parseInt(data.plans[index].status);
@@ -224,7 +224,7 @@
 						+'<label><input type="checkbox" name="" id="" />选中</label>'
 					+'</div>'
 					+'<div class="info f-fl">'
-						+'<a href="../design/homepage.html?'+data._id+'" class="head">'
+						+'<a href="../design/homepage.html?'+data._id+'" class="m-head">'
 							+'<img src="'+img+'" alt="'+data.username+'" />'
 						+'</a>'
 						+'<h4>'+data.username+(data.is_rec ? '<span>(自动匹配)</span>' : '')+'</h4>'

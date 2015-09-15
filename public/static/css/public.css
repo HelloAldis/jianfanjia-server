@@ -98,6 +98,25 @@ table{border-collapse:collapse;border-spacing:0}
     line-height: 50px;
     border-radius: 50px;
 }
+/*圆形小头像*/
+.m-head{
+	display: block;
+    width: 90px;
+    height: 90px;
+    overflow: hidden;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
+a.m-head:hover{
+	border-color:#fe7004;
+}
+.m-head img{
+	width: 100%;	
+}
 /*组件  widget********************************************************/
 /*消息提示框*/
 .k-prompt{
@@ -728,28 +747,11 @@ table{border-collapse:collapse;border-spacing:0}
 	width: 100%;
 	min-height: 288px;
 }
-.g-index-live .head{
+.g-index-live .m-head{
 	position: absolute;
 	left:50%;
 	top:220px;
-	width: 90px;
-	height: 90px;
-	overflow: hidden;
 	margin-left: -48px;
-	border-radius: 50%;
-	background-color: #dcdcdc;
-	border: 3px solid #fff;
-	-webkit-transition:all 0.5s;
-	-moz-transition:all 0.5s;	
-	-o-transition:all 0.5s;
-	transition:all 0.5s;
-}
-.g-index-live .head img{
-	width: 100%;
-	height: 100%;
-}
-.g-index-live .head:hover{
-	border-color: #fe7004;
 }
 .g-index-live .txt{
 	padding: 48px 20px 0;
@@ -773,82 +775,6 @@ table{border-collapse:collapse;border-spacing:0}
 }
 .g-index-live .txt .desc span{
 	margin: 0 10px;
-}
-.m-infoplate{
-	width: 320px;
-	padding: 20px;
-	margin: 0 auto;
-	text-align: center;
-}
-.m-infoplate .head{
-	display: block;
-	width: 120px;
-	height: 120px;
-	overflow: hidden;
-	margin: 0 auto;
-	background-color: #fe7004;
-	border: 3px solid #fff;
-	border-radius: 50%;
-	-webkit-transition:all 0.5s;
-	-moz-transition:all 0.5s;	
-	-o-transition:all 0.5s;
-	transition:all 0.5s;
-}
-.m-infoplate a.head:hover{
-	border-color: #fe7004;
-}
-.m-infoplate .head img{
-	width: 100%;
-	height: 100%;
-}
-.m-infoplate h4{
-	padding-left: 30px;
-	padding-top: 15px;
-	font-size: 18px;
-	line-height: 38px;
-	font-weight: normal;
-	color: #fff;
-}
-.m-infoplate h4 .iconfont{
-	margin-left: 10px;
-	color: #1a9efb;
-}
-.m-infoplate .auth{
-	width: 118px;
-	height: 28px;
-	margin: 0 auto;
-	line-height: 28px;
-	font-size: 14px;
-	color: #fe7004;
-	border: 1px solid #fe7004;
-	border-radius: 28px;
-}
-.m-infoplate .notauth{
-	color: #ccc;
-	border-color: #ccc;
-}
-.m-infoplate .works{
-	width: 261px;
-	margin:12px auto 30px;
-}
-.m-infoplate .works dl{
-	float: left;
-	width: 130px;
-	font-size: 14px;
-	line-height: 22px;
-	color: #fff;
-}
-.m-infoplate .works dt{
-	font-size: 24px;
-	line-height: 35px;
-	color: #fe7004;
-}
-.m-infoplate .works span{
-	float: left;
-	width: 1px;
-	height: 30px;
-	overflow: hidden;
-	margin-top: 16px;
 }
 .home-info .works span{
 	background-color: #fff;
