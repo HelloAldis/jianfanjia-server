@@ -242,9 +242,9 @@ $(function(){
 		}
 	});
 	//手动输入地址分页自动刷新
-	// $(window).on('hashchange',function(){
-	// 	window.location.reload();
-	// })
+	$(window).on('hashchange',function(){
+		window.location.reload();
+	})
 	//改变hash值
 	function setHash(num){
 		window.location.hash = 'page'+num;
