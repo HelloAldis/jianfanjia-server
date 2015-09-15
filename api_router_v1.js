@@ -12,6 +12,7 @@ var designer = require('./api/v1/designer');
 var admin = require('./api/v1/admin');
 var process = require('./api/v1/process');
 var device = require('./api/v1/device');
+var feedback = require('./api/v1/feedback');
 var config = require('./config');
 var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
@@ -44,7 +45,8 @@ router.get('/designer/:_id/products', product.list); //获取设计师作品列�
 router.get('/designer/listtop', designer.listtop); //获取首页设计师
 router.post('/designer/search', designer.search); //搜索设计师
 router.get('/image/:_id', image.get); //获取图片
-router.get('/thumbnail/:width/:_id', image.thumbnail);
+router.get('/thumbnail/:width/:_id', image.thumbnail); //获取缩略图
+router.post('/feedback', feedback.add);
 //设备使用
 router.get('/device/android_build_version', device.android_build_version); //获取android信息
 
@@ -112,8 +114,11 @@ router.post('/share', auth.adminRequired, admin.add); //创建直播分享
 router.put('/share', auth.adminRequired, admin.update); //更新直播分享
 router.delete('/share', auth.adminRequired, admin.delete); //删除直播分享
 router.get('/admin/authing_designer', auth.adminRequired, admin.listAuthingDesigner); //获取申请认证的设计师
-router.post('/admin/search_designer', auth.adminRequired, admin.searchDesigner); //按照手机号申请设计师
+router.post('/admin/search_designer', auth.adminRequired, admin.searchDesigner); //搜索设计师
+router.post('/admin/search_user', auth.adminRequired, admin.searchUser); //搜索业主
 router.get('/admin/designer/:_id', auth.adminRequired, admin.getDesigner); //获取设计师信息
-router.get('/admin/designer/team/:_id', auth.adminRequired, admin.listDesignerTeam);
+router.get('/admin/designer/team/:_id', auth.adminRequired, admin.listDesignerTeam); //获取某个设计师的所有团队
+router.get('/admin/api_statistic', auth.adminRequired, admin.api_statistic); //获取Api调用数据统计
+router.post('/admin/feedback/search', auth.adminRequired, feedback.search); //获取用户反馈
 
 module.exports = router;

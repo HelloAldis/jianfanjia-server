@@ -86,3 +86,8 @@ agreee_license
 
 message_type
 0. 延期提醒
+1. 采购提醒
+
+platform
+0. Android
+1. iOS

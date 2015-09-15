@@ -15,14 +15,11 @@ exports.bindCid = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var cid = tools.trim(req.body.cid);
 
-  console.log('userid = ' + userid);
-  console.log('cid = ' + cid);
   gt.aliasBind(userid, cid);
   res.sendSuccessMsg();
 }
 
 exports.android_build_version = function (req, res, next) {
-  console.log(req.headers);
   res.sendData({
     version: '1.0.3',
     download_url: 'http://' + req.headers.host +
