@@ -1424,26 +1424,10 @@
 	position: relative;
 	padding-left: 105px;
 }
-.owner-design-lsit .info .head{
+.owner-design-lsit .info .m-head{
 	position: absolute;
 	left:0;
 	top:0;
-	width: 90px;
-	height: 90px;
-	border: 3px solid #fff;
-	overflow: hidden;
-	border-radius: 50%;
-	-webkit-transition:all 0.5s;
-	-moz-transition:all 0.5s;	
-	-o-transition:all 0.5s;
-	transition:all 0.5s;
-}
-.owner-design-lsit .info .head:hover{
-	border-color:#fe7004;
-}
-.owner-design-lsit .info .head img{
-	width: 100%;
-	height: 100%;
 }
 .owner-design-lsit .info h4{
 	font-size: 16px;

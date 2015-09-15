@@ -52,10 +52,10 @@ $(function(){
 			}
 		};
 		var imgId = data.process[data.process.length-1].images[0];
-		var head = info.imageid ? RootUrl+'api/v1/image/'+info.imageid : '../../static/img/public/headpic.jpg';
+		var head = info.imageid ? RootUrl+'api/v1/thumbnail/50/'+info.imageid : '../../static/img/public/headpic.jpg';
 		return '<li>'
 					+'<div class="g-wp f-cb">'
-						+'<a class="pic f-fl" href="detail.html?'+data._id+'"><img src="'+RootUrl+'api/v1/image/'+imgId+'" alt="'+data.cell+'" /></a>'
+						+'<a class="pic f-fl" href="detail.html?'+data._id+'"><img src="'+RootUrl+'api/v1/thumbnail/384/'+imgId+'" alt="'+data.cell+'" /></a>'
 						+'<div class="txt f-fl">'
 							+'<div class="info">'
 								+'<h4><a href="detail.html?'+data._id+'">'+data.cell+'</a><span><strong>'+data.house_area+'m&sup2;</strong><strong>'+globalData.house_type[data.house_type]+'</strong></span></h4>'

@@ -53,7 +53,7 @@
 				<div class="imgBox" id="imgBox">
 					<ul class="list" id="imgList"></ul>
 					<div class="design hide" id="j-scheme-design">
-						<a class="head" href="">
+						<a class="m-head" href="">
 							<img src="" alt="">
 						</a>
 						<h4></h4>
@@ -163,9 +163,9 @@
 			success: function(res){	
 				var designer = res['data'];
 				if(designer != null){
-					imgID = !!designer.imageid ? RootUrl+'api/v1/image/'+designer.imageid : '../../static/img/public/headpic.jpg';
+					imgID = !!designer.imageid ? RootUrl+'api/v1/thumbnail/90/'+designer.imageid : '../../static/img/public/headpic.jpg';
 					userNamer = !!designer.username ? !!designer.username : "";
-					$schemeDesign.find('.head').attr('href', '../design/homepage.html?'+designer._id);
+					$schemeDesign.find('.m-head').attr('href', '../design/homepage.html?'+designer._id);
 					$schemeDesign.find('img').attr('src', imgID);
 					$schemeDesign.find('h4').html(designer.username+'<span class="i-icon sex'+designer.sex+'"></span>');
 					$schemeDesign.find('.info1').html(designer.product_count);
@@ -182,7 +182,7 @@
 				}
 		   	}
 		});
-		var info = '<a href="homepage.html?'+data.designerid+'" class="head">'
+		var info = '<a href="homepage.html?'+data.designerid+'" class="m-head">'
 						+'<img src="'+imgID+'" alt="'+userNamer+'" />'
 					+'</a>'
 					+'<h2>'+data.cell+'</h2>'

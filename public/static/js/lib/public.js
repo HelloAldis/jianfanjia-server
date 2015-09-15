@@ -16,7 +16,6 @@ var globalData = {
 }
 var global_success_url = window.location;
 var RootUrl = 'http://www.jianfanjia.com/';
-//var RootUrl = 'http://101.200.191.159/';
 // 检测浏览器是否支持css3新属性，来给低版本浏览器做优雅降级；
 function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentElement.style,t=function(r){return r.replace(/-(\w)/g,function($0,$1){return $1.toUpperCase()})};for(i in p){a.push(t(p[i]+'-'+c));a.push(t(c))}for(i in a){if(a[i]in s){return true}}return false};
 //Cookie操作
@@ -135,7 +134,7 @@ function promptMessage(str,msg){
 				query : 0,
 				callback : function(){}
 			},options || {});
-			self.settings.callback(this.settings.index);
+			self.settings.callback(this.settings.query);
 			this.selectBox = $('#'+this.settings.id);
 			this.input = $('<input type="hidden" name="'+this.settings.id+'" value="'+(this.settings.index ? this.settings.query : this.settings.list[this.settings.query])+'" />');
 			this.option = $('<div class="option"><span class="value">'+this.settings.list[this.settings.query]+'</span>'+(this.settings.btn?'<span class="arrow"><em></em><i></i></span>':'')+'</div>');
