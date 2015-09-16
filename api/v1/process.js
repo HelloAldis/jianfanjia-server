@@ -590,7 +590,7 @@ exports.doneItem = function (req, res, next) {
       if (process) {
         //push notification
         if (type.work_type === 0) {
-          var result = _.find(procee.sections, function (o) {
+          var result = _.find(process.sections, function (o) {
             return o.name === section;
           });
           var doneCount = 0;
@@ -612,7 +612,7 @@ exports.doneItem = function (req, res, next) {
         }
 
         if (section === type.process_section_kai_gong || section === type.process_section_chai_gai) {
-          var result = _.find(procee.sections, function (o) {
+          var result = _.find(process.sections, function (o) {
             return o.name === section;
           });
           var doneCount = 0;
