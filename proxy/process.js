@@ -99,6 +99,7 @@ exports.updateStatus = function (id, section, item, status, callback) {
 
     var path = 'sections.' + index + '.status';
     update[path] = status;
+    update['going_on'] = section;
   }
 
   Process.findOneAndUpdate(query, {
