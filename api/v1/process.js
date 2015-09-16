@@ -595,12 +595,12 @@ exports.doneItem = function (req, res, next) {
           });
           var doneCount = 0;
           _.forEach(result.items, function (e) {
-            if (e.status === process_item_status_done) {
+            if (e.status === type.process_item_status_done) {
               doneCount += 1;
             }
           });
 
-          if (results.items.length - doneCount <= 2) {
+          if (result.items.length - doneCount <= 2) {
             var json = buildProcurement(section);
             console.log(json);
             gt.pushMessageToSingle(process.userid, {
@@ -617,13 +617,13 @@ exports.doneItem = function (req, res, next) {
           });
           var doneCount = 0;
           _.forEach(result.items, function (e) {
-            if (e.status === process_item_status_done) {
+            if (e.status === type.process_item_status_done) {
               doneCount += 1;
             }
           });
 
           //开工拆改 开启下个流程
-          if (results.items.length - doneCount == 1) {
+          if (result.items.length - doneCount == 1) {
             var index = _.indexOf(type.process_work_flow, section);
             var next = type.process_work_flow[index + 1];
             Process.updateStatus(_id, next, null, type.process_item_status_going,
