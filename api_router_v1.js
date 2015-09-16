@@ -12,6 +12,7 @@ var designer = require('./api/v1/designer');
 var admin = require('./api/v1/admin');
 var process = require('./api/v1/process');
 var device = require('./api/v1/device');
+var feedback = require('./api/v1/feedback');
 var config = require('./config');
 var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
@@ -21,7 +22,7 @@ var router = express.Router();
 var multer = require('multer')
 var storage = multer.memoryStorage();
 var upload = multer({
-  limits: '1mb',
+  limits: '3mb',
   storage: storage
 });
 
@@ -44,7 +45,8 @@ router.get('/designer/:_id/products', product.list); //获取设计师作品列�
 router.get('/designer/listtop', designer.listtop); //获取首页设计师
 router.post('/designer/search', designer.search); //搜索设计师
 router.get('/image/:_id', image.get); //获取图片
-router.get('/thumbnail/:width/:_id', image.thumbnail);
+router.get('/thumbnail/:width/:_id', image.thumbnail); //获取缩略图
+router.post('/feedback', feedback.add);
 //设备使用
 router.get('/device/android_build_version', device.android_build_version); //获取android信息
 
@@ -63,6 +65,7 @@ router.get('/process/list', auth.normalUserRequired, process.list); //获取装�
 router.get('/process/:_id', auth.normalUserRequired, process.getOne); //获取装修进度
 router.post('/process/comment', auth.normalUserRequired, process.addComment); //评论装修进度
 router.post('/process/done_item', auth.normalUserRequired, process.doneItem); //设置节点为已完成状态
+router.post('/process/done_section', auth.normalUserRequired, process.doneSection); //对比验收完成
 router.get('/process/reschedule/all', auth.normalUserRequired, process.listReschdule); //获取我的改期提醒
 router.post('/process/reschedule', auth.normalUserRequired, process.reschedule); //提交改期提醒
 router.post('/process/reschedule/ok', auth.normalUserRequired, process.okReschedule); //同意改期提醒
@@ -103,7 +106,6 @@ router.post('/designer/auth', auth.designerRequired, designer.auth); //提交认
 router.post('/designer/agree', auth.designerRequired, designer.agree); //提交认证申请
 router.post('/process/ysimage', auth.designerRequired, process.addYsImage); //提交验收照片
 router.delete('/process/ysimage', auth.designerRequired, process.deleteYsImage); //删除验收照片
-router.post('/process/done_section', auth.designerRequired, process.doneSection); //对比验收完成
 
 //管理员独有的功能
 router.post('/admin/login', admin.login); //审核设计师
@@ -112,8 +114,11 @@ router.post('/share', auth.adminRequired, admin.add); //创建直播分享
 router.put('/share', auth.adminRequired, admin.update); //更新直播分享
 router.delete('/share', auth.adminRequired, admin.delete); //删除直播分享
 router.get('/admin/authing_designer', auth.adminRequired, admin.listAuthingDesigner); //获取申请认证的设计师
-router.post('/admin/search_designer', auth.adminRequired, admin.searchDesigner); //按照手机号申请设计师
+router.post('/admin/search_designer', auth.adminRequired, admin.searchDesigner); //搜索设计师
+router.post('/admin/search_user', auth.adminRequired, admin.searchUser); //搜索业主
 router.get('/admin/designer/:_id', auth.adminRequired, admin.getDesigner); //获取设计师信息
-router.get('/admin/designer/team/:_id', auth.adminRequired, admin.listDesignerTeam);
+router.get('/admin/designer/team/:_id', auth.adminRequired, admin.listDesignerTeam); //获取某个设计师的所有团队
+router.get('/admin/api_statistic', auth.adminRequired, admin.api_statistic); //获取Api调用数据统计
+router.post('/admin/feedback/search', auth.adminRequired, feedback.search); //获取用户反馈
 
 module.exports = router;

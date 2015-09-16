@@ -11,3 +11,5 @@ exports.Favorite = require('./favorite');
 exports.Team = require('./team');
 exports.Process = require('./process');
 exports.Reschedule = require('./reschedule');
+exports.ApiStatistic = require('./api_statistic');
+exports.Feedback = require('./feedback');

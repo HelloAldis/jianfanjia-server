@@ -188,3 +188,11 @@ exports.buildReschedule = function (req) {
 
   return reschedule;
 }
+
+exports.buildFeedback = function (req) {
+  var feedback = {};
+
+  feedback.content = tools.trim(req.body.content);
+  feedback.platform = tools.trim(req.body.platform);
+  return feedback;
+}

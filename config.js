@@ -43,7 +43,7 @@ var config = {
 
   session_secret: 'jiayizhuang_jianfanjia_secret', // 务必修改
   auth_cookie_name: 'jianfanjia',
-  session_time: 1000 * 60 * 60 * 24 * 1,
+  session_time: 1000 * 60 * 60 * 24 * 2,
 
   // 程序运行的端口
   port: 80,
@@ -78,7 +78,7 @@ var config = {
   },
 
   visit_per_day: 1000, // 每个 ip 每天能访问的次数
-  send_verify_code_per_day: 2000, //每个 ip 每天能发的验证码次数
+  send_verify_code_per_day: 100, //每个 ip 每天能发的验证码次数
   recommend_designer_count: 3, //我的设计师页面 推荐的设计师个数
   index_top_designer_count: 7, //首页设计师个数
   index_top_share_count: 6,

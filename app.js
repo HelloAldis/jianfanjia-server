@@ -23,6 +23,7 @@ var logger = require('./common/logger');
 var helmet = require('helmet');
 //防治跨站请求伪造攻击
 var csurf = require('csurf');
+var api_statistic = require('./middlewares/api_statistic');
 
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');
@@ -51,7 +52,7 @@ app.use(bodyParser.urlencoded({
   limit: '1mb'
 }));
 app.use(bodyParser.raw({
-  limit: '1mb',
+  limit: '3mb',
   type: 'image/jpeg'
 }));
 
@@ -112,7 +113,7 @@ if (config.debug) {
   });
 }
 
-app.use('/api/v1', cors(), apiRouterV1);
+app.use('/api/v1', cors(), api_statistic.api_statistic, apiRouterV1);
 app.use('/', webRouter);
 
 // error handler

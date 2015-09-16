@@ -3,6 +3,8 @@ var eventproxy = require('eventproxy');
 var Designer = require('../../proxy').Designer;
 var Share = require('../../proxy').Share;
 var Team = require('../../proxy').Team;
+var User = require('../../proxy').User;
+var ApiStatistic = require('../../proxy').ApiStatistic;
 var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
@@ -108,11 +110,54 @@ exports.listAuthingDesigner = function (req, res, next) {
 };
 
 exports.searchDesigner = function (req, res, next) {
-  var phone = new RegExp('^' + tools.trim(req.body.phone));
+  var phone = tools.trim(req.body.phone);
+  var auth_type = tools.trim(req.body.auth_type);
+  var query = {};
+  var phoneReg = new RegExp('^' + tools.trim(req.body.phone));
 
-  Designer.find({
-    phone: phone
+  if (phone) {
+    query['$or'] = [{
+      phone: phoneReg
+    }, {
+      username: phoneReg
+    }];
+  }
+
+  if (auth_type) {
+    query.auth_type = auth_type;
+  }
+
+  Designer.find(query, {
+    pass: 0,
+    accessToken: 0
   }, {
+    sort: {
+      phone: 1
+    }
+  }, function (err, designers) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendData(designers);
+  });
+}
+
+exports.searchUser = function (req, res, next) {
+  var phone = tools.trim(req.body.phone);
+
+  var query = {};
+  var phoneReg = new RegExp('^' + tools.trim(req.body.phone));
+
+  if (phone) {
+    query['$or'] = [{
+      phone: phoneReg
+    }, {
+      username: phoneReg
+    }];
+  }
+
+  User.find(query, {
     pass: 0,
     accessToken: 0
   }, {
@@ -160,3 +205,17 @@ exports.listDesignerTeam = function (req, res, next) {
     res.sendData(teams);
   });
 }
+
+exports.api_statistic = function (req, res, next) {
+  ApiStatistic.find({}, {}, {
+    sort: {
+      count: -1
+    }
+  }, function (err, arr) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendData(arr);
+  });
+};

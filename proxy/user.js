@@ -43,3 +43,7 @@ exports.setOne = function (query, update, option, callback) {
     $set: update
   }, option, callback)
 }
+
+exports.find = function (query, project, option, callback) {
+  User.find(query, project, option, callback);
+}
