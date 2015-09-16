@@ -367,10 +367,10 @@ $(function(){
 		if(checkSupport() === "html5"){
 			$('#'+obj1).Huploadify({
 				auto:true,
-				fileTypeExts:'*.jpg;*.png',
+				fileTypeExts:'*.jpeg;*.jpg;*.png',
 				multi:false,
 				formData:{key:123456,key2:'vvvv'},
-				fileSizeLimit:1024,
+				fileSizeLimit:3072,
 				showUploadedPercent:true,
 				showUploadedSize:true,
 				removeTimeout:1,
@@ -394,8 +394,8 @@ $(function(){
 		        'width' : 250,
 		        'height' : 250,
 		        'fileTypeDesc' : 'Image Files',
-		        'fileTypeExts' : '*.gif; *.jpg; *.png',
-		        'fileSizeLimit' : '1024KB',
+		        'fileTypeExts' : '*.jpeg; *.jpg; *.png',
+		        'fileSizeLimit' : '3072KB',
 		        'onUploadSuccess' : function(file, data, response) {
 		               callback(data)
 		        }
