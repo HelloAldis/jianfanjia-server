@@ -588,6 +588,7 @@ exports.doneItem = function (req, res, next) {
       }
 
       if (process) {
+        //push notification
         if (type.work_type === 0) {
           var result = _.find(procee.sections, function (o) {
             return o.name === section;
@@ -609,9 +610,39 @@ exports.doneItem = function (req, res, next) {
             });
           }
         }
-      }
 
-      res.sendSuccessMsg();
+        if (section === type.process_section_kai_gong || section === type.process_section_chai_gai) {
+          var result = _.find(procee.sections, function (o) {
+            return o.name === section;
+          });
+          var doneCount = 0;
+          _.forEach(result.items, function (e) {
+            if (e.status === process_item_status_done) {
+              doneCount += 1;
+            }
+          });
+
+          //开工拆改 开启下个流程
+          if (results.items.length - doneCount == 1) {
+            var index = _.indexOf(type.process_work_flow, section);
+            var next = type.process_work_flow[index + 1];
+            Process.updateStatus(_id, next, null, type.process_item_status_going,
+              function (err) {
+                if (err) {
+                  return next(err);
+                }
+
+                res.sendSuccessMsg()
+              });
+          } else {
+            res.sendSuccessMsg();
+          }
+        } else {
+          res.sendSuccessMsg();
+        }
+      } else {
+        res.sendSuccessMsg();
+      }
     });
 };
 

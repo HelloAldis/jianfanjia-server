@@ -52,7 +52,7 @@ app.use(bodyParser.urlencoded({
   limit: '1mb'
 }));
 app.use(bodyParser.raw({
-  limit: '1mb',
+  limit: '3mb',
   type: 'image/jpeg'
 }));
 

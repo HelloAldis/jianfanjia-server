@@ -56,6 +56,8 @@ exports.adminRequired = function (req, res, next) {
 exports.gen_session = function (user, usertype, req, res) {
   req.session.userid = user._id;
   req.session.usertype = usertype;
+  req.session.touch();
+  req.session.save();
 
   var opts = {
     path: '/',
