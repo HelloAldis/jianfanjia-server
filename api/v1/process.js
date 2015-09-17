@@ -20,6 +20,14 @@ exports.start = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var process = ApiUtil.buildProcess(req);
 
+  if ([req.body.final_designerid, req.body.final_planid, req.body.requirementid]
+    .some(function (item) {
+      return !item ? true : false;
+    })) {
+    res.sendErrMsg('信息不完整。')
+    return;
+  }
+
   //删除老工地，每一个用户只能有一个工地
   Process.removeOneByQuery({
     userid: userid

@@ -124,6 +124,7 @@ exports.buildRequirement = function (req) {
   requirement.work_type = tools.trim(req.body.work_type);
   requirement.total_price = req.body.total_price;
   requirement.communication_type = tools.trim(req.body.communication_type);
+  requirement.family_description = tools.trim(req.body.family_description);
 
   return requirement;
 }
@@ -145,6 +146,7 @@ exports.buildShare = function (req) {
   share.house_type = tools.trim(req.body.house_type);
   share.house_area = req.body.house_area;
   share.dec_style = tools.trim(req.body.dec_style);
+  share.dec_type = tools.trim(req.body.dec_type);
   share.work_type = tools.trim(req.body.work_type);
   share.total_price = req.body.total_price;
   share.description = tools.trim(req.body.description);
@@ -163,6 +165,8 @@ exports.buildShare = function (req) {
 exports.buildProcess = function (req) {
   var process = {};
   process.final_designerid = new ObjectId(req.body.final_designerid);
+  process.final_planid = new ObjectId(req.body.final_planid);
+  process.requirementid = new ObjectId(req.body.requirementid);
   process.province = tools.trim(req.body.province);
   process.city = tools.trim(req.body.city);
   process.district = tools.trim(req.body.district);

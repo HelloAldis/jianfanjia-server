@@ -44,6 +44,12 @@ var RequirementSchema = new Schema({
   final_designerid: {
     type: ObjectId
   },
+  final_planid: {
+    type: ObjectId,
+  },
+  family_description: {
+    type: String,
+  },
   communication_type: {
     type: String,
     default: '0'

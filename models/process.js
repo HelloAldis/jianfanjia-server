@@ -9,6 +9,12 @@ var ProcessSchema = new Schema({
   final_designerid: {
     type: ObjectId
   },
+  final_planid: {
+    type: ObjectId
+  },
+  requirementid: {
+    type: ObjectId
+  },
   province: {
     type: String
   },

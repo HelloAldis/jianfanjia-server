@@ -76,3 +76,9 @@ exports.addComment = function (planid, json, callback) {
     }
   }, callback);
 }
+
+exports.setOne = function (query, update, option, callback) {
+  Plan.findOneAndUpdate(query, {
+    $set: update
+  }, option, callback);
+}

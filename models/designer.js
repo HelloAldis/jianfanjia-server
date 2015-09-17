@@ -132,6 +132,10 @@ var DesignerSchema = new Schema({
   university: {
     type: String,
   },
+  deal_done_count: {
+    type: Number,
+    default: 0,
+  }
 });
 
 DesignerSchema.index({
