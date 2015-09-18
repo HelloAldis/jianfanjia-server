@@ -347,5 +347,11 @@ exports.search_requirement = function (req, res, next) {
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
 
-  Requirement.paginate(query, null, {})
+  Requirement.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit
+  }, function () {
+    // body...
+  })
 }
