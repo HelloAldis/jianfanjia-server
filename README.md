@@ -73,18 +73,17 @@ house_type:
 auth_type
 uid_auth_type
 email_auth_type
-team_auth_type
+work_auth_type
 0. 未提交认证
 1. 提交认证还未审核过
 2. 审核通过
 3. 审核不通过
 4. 违规屏蔽
 
-uid_auth_type
-0. 未提交认证
-1. 提交认证还未审核过
-2. 审核通过
-3. 审核不通过
+作品auth_type
+0. 未审核
+1. 审核通过
+2. 审核不通过
 
 设计师类型
 0. 自由行

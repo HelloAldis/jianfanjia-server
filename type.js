@@ -6,6 +6,12 @@ var type = {
   designer_auth_type_new: '0',
   designer_auth_type_processing: '1',
   designer_auth_type_done: '2',
+  designer_auth_type_reject: '3',
+  designer_auth_type_illegal: '4',
+
+  product_auth_type_new: '0',
+  product_auth_type_done: '1',
+  product_auth_type_reject: '2',
 
   share_status_invisible: '0',
   share_status_visible: '1',

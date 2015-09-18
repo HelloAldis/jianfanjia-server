@@ -35,3 +35,19 @@ exports.updateByUserid = function (userid, obj, callback) {
 exports.updateByQuery = function (query, obj, callback) {
   Requirement.findOneAndUpdate(query, obj, callback);
 }
+
+exports.find = function (query, project, option, callback) {
+  Requirement.find(query, project, option, callback);
+}
+
+exports.paginate = function (query, project, option, callback) {
+  Requirement.count(query, function (err, count) {
+    if (err) {
+      return callback(err, null);
+    }
+
+    exports.find(query, project, option, function (err, requirements) {
+      callback(err, requirements, count);
+    });
+  });
+};

@@ -4,6 +4,7 @@ var Designer = require('../../proxy').Designer;
 var Share = require('../../proxy').Share;
 var Team = require('../../proxy').Team;
 var User = require('../../proxy').User;
+var Product = require('../../proxy').Product;
 var ApiStatistic = require('../../proxy').ApiStatistic;
 var tools = require('../../common/tools');
 var _ = require('lodash');
@@ -48,9 +49,90 @@ exports.authed = function (req, res, next) {
   }));
 }
 
+exports.update_basic_auth = function (req, res, next) {
+  var designerid = tools.trim(req.body._id);
+  var new_auth_type = tools.trim(req.body.new_auth_type);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Designer.setOne({
+    _id: designerid
+  }, {
+    auth_type: new_auth_type,
+    auth_date: new Date().getTime(),
+  }, {}, ep.done(function (designer) {
+    if (designer) {
+      if (new_auth_type === type.designer_auth_type_done) {
+        sms.sendYzxAuthSuccess(designer.phone, designer.username);
+        // sms.sendYzxAuthSuccess('18682109074', designer.username);
+      }
+    }
+
+    res.sendSuccessMsg();
+  }));
+}
+
 exports.update_uid_auth = function (req, res, next) {
   var designerid = tools.trim(req.body._id);
   var new_auth_type = tools.trim(req.body.new_auth_type);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Designer.setOne({
+    _id: designerid
+  }, {
+    uid_auth_type: new_auth_type,
+    uid_auth_date: new Date().getTime(),
+  }, {}, ep.done(function (designer) {
+    res.sendSuccessMsg();
+  }));
+}
+
+exports.update_work_auth = function (req, res, next) {
+  var designerid = tools.trim(req.body._id);
+  var new_auth_type = tools.trim(req.body.new_auth_type);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Designer.setOne({
+    _id: designerid
+  }, {
+    work_auth_type: new_auth_type,
+    work_auth_date: new Date().getTime(),
+  }, {}, ep.done(function (designer) {
+    res.sendSuccessMsg();
+  }));
+}
+
+exports.update_product_auth = function (req, res, next) {
+  var productid = tools.trim(req.body._id);
+  var designerid = tools.trim(req.body.designerid);
+  var new_auth_type = tools.trim(req.body.new_auth_type);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Product.setOne({
+    _id: productid
+  }, {
+    auth_type: new_auth_type,
+    auth_date: new Date().getTime(),
+  }, {}, ep.done(function (product) {
+    if (product) {
+      if (new_auth_type === type.product_auth_type_done) {
+        if (product.auth_type !== type.product_auth_type_done) {
+          Designer.incOne({
+            _id: designerid
+          }, {
+            authed_product_count: 1
+          }, {
+            upsert: true
+          });
+        }
+      }
+    }
+
+    res.sendSuccessMsg();
+  }));
 }
 
 exports.add = function (req, res, next) {
@@ -119,6 +201,8 @@ exports.searchDesigner = function (req, res, next) {
   var auth_type = tools.trim(req.body.auth_type);
   var query = {};
   var phoneReg = new RegExp('^' + tools.trim(req.body.phone));
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
 
   if (phone) {
     query['$or'] = [{
@@ -132,24 +216,29 @@ exports.searchDesigner = function (req, res, next) {
     query.auth_type = auth_type;
   }
 
-  Designer.find(query, {
+  Designer.paginate(query, {
     pass: 0,
     accessToken: 0
   }, {
     sort: {
       phone: 1
     }
-  }, function (err, designers) {
+  }, function (err, designers, total) {
     if (err) {
       return next(err);
     }
 
-    res.sendData(designers);
+    res.sendData({
+      designers: designers,
+      total: total
+    });
   });
 }
 
 exports.searchUser = function (req, res, next) {
   var phone = tools.trim(req.body.phone);
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
 
   var query = {};
   var phoneReg = new RegExp('^' + tools.trim(req.body.phone));
@@ -162,19 +251,46 @@ exports.searchUser = function (req, res, next) {
     }];
   }
 
-  User.find(query, {
+  User.paginate(query, {
     pass: 0,
     accessToken: 0
   }, {
     sort: {
       phone: 1
-    }
-  }, function (err, designers) {
+    },
+    skip: skip,
+    limit: limit
+  }, function (err, users, total) {
     if (err) {
       return next(err);
     }
 
-    res.sendData(designers);
+    res.sendData({
+      users: users,
+      total: total
+    });
+  });
+}
+
+exports.searchProduct = function (req, res, next) {
+  var query = req.body.query;
+  var sort = req.body.sort;
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
+
+  Product.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit
+  }, function (err, products, total) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendData({
+      products: products,
+      total: total
+    });
   });
 }
 
@@ -224,3 +340,12 @@ exports.api_statistic = function (req, res, next) {
     res.sendData(arr);
   });
 };
+
+exports.search_requirement = function (req, res, next) {
+  var query = req.body.query;
+  var sort = req.body.sort;
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
+
+  Requirement.paginate(query, null, {})
+}

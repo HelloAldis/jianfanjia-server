@@ -98,6 +98,10 @@ var DesignerSchema = new Schema({
     type: Number,
     default: 0
   },
+  authed_product_count: {
+    type: Number,
+    default: 0
+  },
   team_count: {
     type: Number,
     default: 0
@@ -123,11 +127,11 @@ var DesignerSchema = new Schema({
   email_auth_date: {
     type: Number,
   },
-  team_auth_type: {
+  work_auth_type: {
     type: String,
     default: '0'
   },
-  team_auth_date: {
+  work_auth_date: {
     type: Number,
   },
 

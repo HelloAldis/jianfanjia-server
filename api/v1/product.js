@@ -9,7 +9,8 @@ var async = require('async');
 var ApiUtil = require('../../common/api_util');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
-var limit = require('../../middlewares/limit')
+var limit = require('../../middlewares/limit');
+var type = require('../../type');
 
 exports.add = function (req, res, next) {
   var product = ApiUtil.buildProduct(req);
@@ -39,18 +40,29 @@ exports.update = function (req, res, next) {
   var product = ApiUtil.buildProduct(req);
   var oid = tools.trim(req.body._id);
   var designerid = ApiUtil.getUserid(req);
+  product.auth_type = type.product_auth_type_new;
 
   if (oid === '') {
     res.sendErrMsg('信息不完全');
     return;
   }
 
-  Product.updateByQuery({
+  Product.setOne({
     _id: oid,
     designerid: designerid
-  }, product, function (err) {
+  }, product, {}, function (err, product) {
     if (err) {
       return next(err);
+    }
+
+    if (product) {
+      if (product.auth_type === type.product_auth_type_done) {
+        Designer.incOne({
+          _id: designerid
+        }, {
+          authed_product_count: -1,
+        }, {});
+      }
     }
 
     res.sendSuccessMsg();
@@ -66,20 +78,26 @@ exports.delete = function (req, res, next) {
     return;
   }
 
-  Product.removeOneByQuery({
+  Product.removeOne({
     _id: new ObjectId(oid),
     designerid: designerid
-  }, function (err, product) {
+  }, {}, function (err, product) {
     if (err) {
       return next(err);
     }
 
     if (product) {
+      var inc = {
+        product_count: -1
+      };
+
+      if (product.auth_type === type.product_auth_type_done) {
+        inc.authed_product_count = -1;
+      }
+
       Designer.incOne({
         _id: designerid
-      }, {
-        product_count: -1
-      }, {});
+      }, inc, {});
     }
 
     res.sendSuccessMsg();

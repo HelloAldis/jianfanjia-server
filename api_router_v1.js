@@ -111,6 +111,9 @@ router.delete('/process/ysimage', auth.designerRequired, process.deleteYsImage);
 //管理员独有的功能
 router.post('/admin/login', admin.login); //审核设计师
 router.post('/admin/authed', auth.adminRequired, admin.authed); //审核设计师
+router.post('/admin/update_basic_auth', auth.adminRequired, admin.update_basic_auth); //更改设计师基本信息认证
+router.post('/admin/update_uid_auth', auth.adminRequired, admin.update_uid_auth); //更改设计师身份证信息认证
+router.post('/admin/update_work_auth', auth.adminRequired, admin.update_work_auth); //更改设计师工地信息认证
 router.post('/share', auth.adminRequired, admin.add); //创建直播分享
 router.put('/share', auth.adminRequired, admin.update); //更新直播分享
 router.delete('/share', auth.adminRequired, admin.delete); //删除直播分享
@@ -121,5 +124,7 @@ router.get('/admin/designer/:_id', auth.adminRequired, admin.getDesigner); //获
 router.get('/admin/designer/team/:_id', auth.adminRequired, admin.listDesignerTeam); //获取某个设计师的所有团队
 router.get('/admin/api_statistic', auth.adminRequired, admin.api_statistic); //获取Api调用数据统计
 router.post('/admin/feedback/search', auth.adminRequired, feedback.search); //获取用户反馈
+router.post('/admin/product/search', auth.adminRequired, admin.searchProduct); //搜素作品
+router.post('/admin/update_product_auth', auth.adminRequired, admin.update_product_auth); //搜素作品
 
 module.exports = router;
