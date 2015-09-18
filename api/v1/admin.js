@@ -349,7 +349,7 @@ exports.search_requirement = function (req, res, next) {
 
   Requirement.paginate(query, null, {
     sort: sort,
-    skip: skip,
+    skip: skis,
     limit: limit
   }, function () {
     // body...
