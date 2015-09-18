@@ -22,7 +22,7 @@ exports.bindCid = function (req, res, next) {
 exports.android_build_version = function (req, res, next) {
   res.sendData({
     version_name: '1.0.99',
-    version_code: '2',
+    version_code: '9999',
     download_url: 'http://' + req.headers.host +
       '/android_build/JianFanJia.apk',
   });

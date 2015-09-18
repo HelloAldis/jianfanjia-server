@@ -41,10 +41,6 @@ var DesignerSchema = new Schema({
     type: Number,
     default: 0
   },
-  is_block: {
-    type: Boolean,
-    default: false
-  },
   accessToken: {
     type: String
   },
@@ -113,6 +109,28 @@ var DesignerSchema = new Schema({
   auth_date: {
     type: Number,
   },
+  uid_auth_type: {
+    type: String,
+    default: '0'
+  },
+  uid_auth_date: {
+    type: Number,
+  },
+  email_auth_type: {
+    type: String,
+    default: '0'
+  },
+  email_auth_date: {
+    type: Number,
+  },
+  team_auth_type: {
+    type: String,
+    default: '0'
+  },
+  team_auth_date: {
+    type: Number,
+  },
+
   agreee_license: {
     type: String,
     default: '0'

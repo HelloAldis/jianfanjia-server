@@ -114,8 +114,7 @@ exports.watermark = function (req, res, next) {
     }
 
     if (image) {
-      imageUtil.resize2stream(image.data, width, function (err, stdout,
-        stderr) {
+      imageUtil.watermark(image.data, function (err, stdout, stderr) {
         if (err) {
           return next(err);
         }
@@ -126,7 +125,6 @@ exports.watermark = function (req, res, next) {
         });
         stdout.pipe(res);
       });
-
     } else {
       res.status(404).end();
     }
