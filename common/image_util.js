@@ -15,3 +15,22 @@ exports.crop2buffer = function (buffer, width, hight, x, y, callback) {
 exports.jpgbuffer = function (buffer, callback) {
   gm(buffer).toBuffer('jpg', callback);
 }
+
+exports.watermark = function (buffer, callback) {
+  gm(buffer).size(function (err, value) {
+    if (err) {
+      return callback(err);
+    }
+
+    if (value && value.width) {
+      var command = 'image Over ';
+      var x = value.width - 366;
+      command = command + x + ',10 0,0 mark.png'
+
+      console.log(command);
+      this.draw(command).stream(callback);
+    } else {
+      return callback('invalid image');
+    }
+  });
+}

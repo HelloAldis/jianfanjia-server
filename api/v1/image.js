@@ -104,3 +104,29 @@ exports.thumbnail = function (req, res, next) {
     }
   });
 }
+
+exports.watermark = function (req, res, next) {
+  var _id = tools.trim(req.params._id);
+
+  Image.getImageById(_id, function (err, image) {
+    if (err) {
+      return next(err);
+    }
+
+    if (image) {
+      imageUtil.watermark(image.data, function (err, stdout, stderr) {
+        if (err) {
+          return next(err);
+        }
+
+        res.writeHead(200, {
+          'Content-Type': 'image/jpeg',
+          'Cache-Control': 'max-age=315360000'
+        });
+        stdout.pipe(res);
+      });
+    } else {
+      res.status(404).end();
+    }
+  });
+}

@@ -162,22 +162,31 @@ exports.finalPlan = function (req, res, next) {
 
   Requirement.updateByUserid(userid, {
     $set: {
-      final_designerid: designerid
+      final_designerid: designerid,
+      final_planid: planid,
     }
   }, function (err) {
     if (err) {
       return next(err);
     }
 
-    Plan.updateByQuery({
+    Plan.setOne({
         _id: planid,
         userid: userid
       }, {
         status: type.plan_status_user_final
-      },
-      function (err) {
+      }, {},
+      function (err, plan) {
         if (err) {
           return next(err);
+        }
+
+        if (plan) {
+          Designer.incOne({
+            _id: designerid
+          }, {
+            deal_done_count: 1
+          }, {});
         }
 
         res.sendSuccessMsg();

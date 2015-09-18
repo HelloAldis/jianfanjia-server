@@ -48,6 +48,11 @@ exports.authed = function (req, res, next) {
   }));
 }
 
+exports.update_uid_auth = function (req, res, next) {
+  var designerid = tools.trim(req.body._id);
+  var new_auth_type = tools.trim(req.body.new_auth_type);
+}
+
 exports.add = function (req, res, next) {
   var share = ApiUtil.buildShare(req);
   var designerid = tools.trim(req.body.designerid);

@@ -20,6 +20,14 @@ exports.start = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var process = ApiUtil.buildProcess(req);
 
+  if ([req.body.final_designerid, req.body.final_planid, req.body.requirementid]
+    .some(function (item) {
+      return !item ? true : false;
+    })) {
+    res.sendErrMsg('信息不完整。')
+    return;
+  }
+
   //删除老工地，每一个用户只能有一个工地
   Process.removeOneByQuery({
     userid: userid
@@ -590,17 +598,17 @@ exports.doneItem = function (req, res, next) {
       if (process) {
         //push notification
         if (type.work_type === 0) {
-          var result = _.find(procee.sections, function (o) {
+          var result = _.find(process.sections, function (o) {
             return o.name === section;
           });
           var doneCount = 0;
           _.forEach(result.items, function (e) {
-            if (e.status === process_item_status_done) {
+            if (e.status === type.process_item_status_done) {
               doneCount += 1;
             }
           });
 
-          if (results.items.length - doneCount <= 2) {
+          if (result.items.length - doneCount <= 2) {
             var json = buildProcurement(section);
             console.log(json);
             gt.pushMessageToSingle(process.userid, {
@@ -612,18 +620,18 @@ exports.doneItem = function (req, res, next) {
         }
 
         if (section === type.process_section_kai_gong || section === type.process_section_chai_gai) {
-          var result = _.find(procee.sections, function (o) {
+          var result = _.find(process.sections, function (o) {
             return o.name === section;
           });
           var doneCount = 0;
           _.forEach(result.items, function (e) {
-            if (e.status === process_item_status_done) {
+            if (e.status === type.process_item_status_done) {
               doneCount += 1;
             }
           });
 
           //开工拆改 开启下个流程
-          if (results.items.length - doneCount == 1) {
+          if (result.items.length - doneCount == 1) {
             var index = _.indexOf(type.process_work_flow, section);
             var next = type.process_work_flow[index + 1];
             Process.updateStatus(_id, next, null, type.process_item_status_going,

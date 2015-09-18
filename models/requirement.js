@@ -15,8 +15,23 @@ var RequirementSchema = new Schema({
   district: {
     type: String
   },
+  street: {
+    type: String
+  },
   cell: {
     type: String
+  },
+  cell_phase: {
+    type: String,
+  },
+  cell_building: {
+    type: String,
+  },
+  cell_unit: {
+    type: String,
+  },
+  cell_detail_number: {
+    type: String,
   },
   house_type: {
     type: String
@@ -43,6 +58,12 @@ var RequirementSchema = new Schema({
   },
   final_designerid: {
     type: ObjectId
+  },
+  final_planid: {
+    type: ObjectId,
+  },
+  family_description: {
+    type: String,
   },
   communication_type: {
     type: String,

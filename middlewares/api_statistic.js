@@ -9,11 +9,14 @@ var _ = require('lodash');
  */
 exports.api_statistic = function (req, res, next) {
   next();
-  ApiStatistic.incOne({
-    api: req.route.path
-  }, {
-    count: 1
-  }, {
-    upsert: true
-  });
+
+  if (req.route && req.route.path) {
+    ApiStatistic.incOne({
+      api: req.route.path
+    }, {
+      count: 1
+    }, {
+      upsert: true
+    });
+  }
 };

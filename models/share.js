@@ -33,6 +33,9 @@ var ShareSchema = new Schema({
   dec_style: {
     type: String
   },
+  dec_type: {
+    type: String,
+  },
   work_type: {
     type: String
   },
