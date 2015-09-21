@@ -223,7 +223,9 @@ exports.searchDesigner = function (req, res, next) {
   }, {
     sort: {
       phone: 1
-    }
+    },
+    skip: skip,
+    limit: limit
   }, function (err, designers, total) {
     if (err) {
       return next(err);

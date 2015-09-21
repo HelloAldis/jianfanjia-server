@@ -69,6 +69,10 @@ var RequirementSchema = new Schema({
     type: String,
     default: '0'
   },
+  status: {
+    type: String,
+    default: '0',
+  }
 });
 
 RequirementSchema.index({
