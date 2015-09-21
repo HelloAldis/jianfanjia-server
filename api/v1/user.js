@@ -335,7 +335,11 @@ exports.addDesigner2HouseCheck = function (req, res, next) {
     });
   });
 
-  Requirement.getRequirementByUserid(userid, function (err, requirement) {
+  Requirement.setOne({
+    userid: userid
+  }, {
+    status: type.requirement_status_not_respond
+  }, null, function (err, requirement) {
     if (err) {
       return next(err);
     }

@@ -2,10 +2,6 @@ var models = require('../models');
 var Requirement = models.Requirement;
 var uuid = require('node-uuid');
 
-exports.getOneByQueryAndProject = function (query, project, callback) {
-  Requirement.findOne(query, project, callback);
-}
-
 exports.saveOrUpdateByUserid = function (userid, json, callback) {
   Requirement.findOneAndUpdate({
     'userid': userid
@@ -35,6 +31,12 @@ exports.updateByUserid = function (userid, obj, callback) {
 exports.updateByQuery = function (query, obj, callback) {
   Requirement.findOneAndUpdate(query, obj, callback);
 }
+
+exports.setOne = function (query, update, option, callback) {
+  Requirement.findOneAndUpdate(query, {
+    $set: update
+  }, option, callback)
+};
 
 exports.find = function (query, project, option, callback) {
   Requirement.find(query, project, option, callback);

@@ -98,7 +98,15 @@ agreee_license
 message_type
 0. 延期提醒
 1. 采购提醒
+2. 付款提醒
 
 platform
 0. Android
 1. iOS
+
+requirement status
+0. 未预约任何设计师
+1. 预约过设计师但是没有一个设计师响应过
+2. 有一个或多个设计师响应但没有人提交过方案
+3. 有一个或多个设计师提交了方案但是没有选定方案
+4. 选定了方案

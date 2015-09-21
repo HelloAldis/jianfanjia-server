@@ -20,6 +20,12 @@ var type = {
   designer_agree_type_new: '0',
   designer_agree_type_yes: '1',
 
+  requirement_status_new: '0',
+  requirement_status_not_respond: '1',
+  requirement_status_respond_no_plan: '2',
+  requirement_status_plan_not_final: '3',
+  requirement_status_final_plan: '4',
+
   plan_status_not_respond: '0',
   plan_status_designer_reject: '1',
   plan_status_designer_respond: '2',

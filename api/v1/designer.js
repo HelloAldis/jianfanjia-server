@@ -199,20 +199,29 @@ exports.okUser = function (req, res, next) {
   var userid = tools.trim(req.body.userid);
   var house_check_time = req.body.house_check_time;
 
-  Plan.updateByQuery({
-      userid: userid,
-      designerid: designerid
-    }, {
-      house_check_time: house_check_time,
-      status: type.plan_status_designer_respond
-    },
-    function (err) {
-      if (err) {
-        return next(err);
-      }
+  Plan.setOne({
+    userid: userid,
+    designerid: designerid
+  }, {
+    house_check_time: house_check_time,
+    status: type.plan_status_designer_respond
+  }, function (err, plan) {
+    if (err) {
+      return next(err);
+    }
 
-      res.sendSuccessMsg();
-    });
+    if (plan) {
+      Requirement.setOne({
+        _id: plan.requirementid
+      }, {
+        status: type.requirement_status_respond_no_plan
+      }, null, function (err) {
+
+      });
+    }
+
+    res.sendSuccessMsg();
+  });
 }
 
 exports.rejectUser = function (req, res, next) {

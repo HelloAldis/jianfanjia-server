@@ -63,7 +63,14 @@ exports.add = function (req, res, next) {
       });
   });
 
-  Requirement.getRequirementByUserid(userid, function (err, requirement) {
+  Requirement.setOne({
+    userid: userid,
+    status: {
+      $not: type.requirement_status_final_plan
+    }
+  }, {
+    status: type.requirement_status_plan_not_final
+  }, function (err, requirement) {
     if (err) {
       return next(err);
     }
@@ -164,6 +171,7 @@ exports.finalPlan = function (req, res, next) {
     $set: {
       final_designerid: designerid,
       final_planid: planid,
+      status: type.requirement_status_final_plan,
     }
   }, function (err) {
     if (err) {
