@@ -728,7 +728,7 @@ exports.list = function (req, res, next) {
   ep.fail(next);
   ep.on('processes', function (processes) {
     async.mapLimit(processes, 3, function (process, callback) {
-      User.getOneByQueryAndProject({
+      User.findOne({
         _id: process.userid
       }, {
         username: 1,

@@ -127,5 +127,6 @@ router.post('/admin/feedback/search', auth.adminRequired, feedback.search); //�
 router.post('/admin/product/search', auth.adminRequired, admin.searchProduct); //搜素作品
 router.post('/admin/update_product_auth', auth.adminRequired, admin.update_product_auth); //搜素作品
 router.post('/admin/requirement/search', auth.adminRequired, admin.search_requirement); //搜素需求
+router.post('/admin/update_team', auth.adminRequired, admin.update_team);
 
 module.exports = router;

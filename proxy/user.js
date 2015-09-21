@@ -2,10 +2,6 @@ var models = require('../models');
 var User = models.User;
 var uuid = require('node-uuid');
 
-exports.getOneByQueryAndProject = function (query, project, callback) {
-  User.findOne(query, project, callback);
-}
-
 exports.getUserByPhone = function (phone, callback) {
   User.findOne({
     'phone': phone

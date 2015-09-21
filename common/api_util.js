@@ -73,6 +73,10 @@ exports.buildTeam = function (req) {
   team.city = tools.trim(req.body.city);
   team.district = tools.trim(req.body.district);
 
+  if (req.body.uid_image) {
+    team.uid_image = new ObjectId(req.body.uid_image);
+  }
+
   return team;
 }
 

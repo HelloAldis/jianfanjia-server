@@ -133,7 +133,7 @@ exports.myUser = function (req, res, next) {
   ep.fail(next);
   ep.on('plans', function (plans) {
     async.mapLimit(plans, 3, function (plan, callback) {
-      User.getOneByQueryAndProject({
+      User.findOne({
         _id: plan.userid
       }, {
         username: 1,

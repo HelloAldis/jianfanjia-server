@@ -397,3 +397,23 @@ exports.search_requirement = function (req, res, next) {
     });
   });
 }
+
+exports.update_team = function (req, res, next) {
+  var team = ApiUtil.buildTeam(req);
+  var oid = tools.trim(req.body._id);
+
+  if (oid === '') {
+    res.sendErrMsg('信息不完全');
+    return;
+  }
+
+  Team.setOne({
+    _id: oid,
+  }, team, null, function (err) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendSuccessMsg();
+  });
+}
