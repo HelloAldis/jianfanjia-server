@@ -126,5 +126,6 @@ router.get('/admin/api_statistic', auth.adminRequired, admin.api_statistic); //�
 router.post('/admin/feedback/search', auth.adminRequired, feedback.search); //获取用户反馈
 router.post('/admin/product/search', auth.adminRequired, admin.searchProduct); //搜素作品
 router.post('/admin/update_product_auth', auth.adminRequired, admin.update_product_auth); //搜素作品
+router.post('/admin/requirement/search', auth.adminRequired, admin.search_requirement); //搜素需求
 
 module.exports = router;

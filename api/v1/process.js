@@ -242,19 +242,31 @@ exports.addImage = function (req, res, next) {
   var imageid = new ObjectId(req.body.imageid);
   var _id = req.body._id;
 
-  Process.addImage(_id, section, item, imageid, function (err) {
+  Process.addImage(_id, section, item, imageid, function (err, process) {
     if (err) {
       return next(err);
     }
 
-    Process.updateStatus(_id, section, item, type.process_item_status_going,
-      function (err) {
-        if (err) {
-          return next(err);
-        }
-
-        res.sendSuccessMsg();
+    if (process) {
+      var s = _.find(process.sections, function (o) {
+        return o.name === section;
       });
+      if (s) {
+        var i = _.find(s.items, function (o) {
+          return o.name === item;
+        });
+
+        if (i && i.status === type.process_item_status_new) {
+          Process.updateStatus(_id, section, item, type.process_item_status_going,
+            function (err) {
+              if (err) {
+                return next(err);
+              }
+            });
+        }
+      }
+    }
+    res.sendSuccessMsg();
   });
 };
 
@@ -329,6 +341,12 @@ function buildProcurement(section) {
   return {
     next: next,
     message: message,
+  };
+}
+
+function buildPay() {
+  return {
+    message: '尊敬的业主， 你即将进入下一轮付款环节， 请您及时与设计师联系'
   };
 }
 
@@ -663,6 +681,14 @@ exports.doneSection = function (req, res, next) {
       if (err) {
         return next(err);
       }
+
+      var json = buildPay();
+      console.log(json);
+      gt.pushMessageToSingle(process.userid, {
+        content: json.message,
+        section: section,
+        type: type.message_type_pay,
+      });
 
       //开启下个流程
       var index = _.indexOf(type.process_work_flow, section);

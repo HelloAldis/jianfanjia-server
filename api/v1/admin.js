@@ -6,6 +6,7 @@ var Team = require('../../proxy').Team;
 var User = require('../../proxy').User;
 var Product = require('../../proxy').Product;
 var ApiStatistic = require('../../proxy').ApiStatistic;
+var Requirement = require('../../proxy').Requirement;
 var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
@@ -342,16 +343,23 @@ exports.api_statistic = function (req, res, next) {
 };
 
 exports.search_requirement = function (req, res, next) {
-  var query = req.body.query;
+  var query = req.body.query || {};
   var sort = req.body.sort;
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
 
   Requirement.paginate(query, null, {
     sort: sort,
-    skip: skis,
+    skip: skip,
     limit: limit
-  }, function () {
-    // body...
-  })
+  }, function (err, requirements, total) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendData({
+      requirements: requirements,
+      total: total
+    });
+  });
 }

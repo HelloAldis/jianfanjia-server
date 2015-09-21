@@ -90,6 +90,7 @@ var type = {
 
   message_type_reschedule: '0',
   message_type_procurement: '1',
+  message_type_pay: '2',
 
   platform_android: '0',
   platform_ios: '1',
