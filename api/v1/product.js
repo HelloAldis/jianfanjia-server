@@ -105,9 +105,26 @@ exports.delete = function (req, res, next) {
 }
 
 exports.list = function (req, res, next) {
-  var designerid = tools.trim(req.params._id) || ApiUtil.getUserid(req);
+  var designerid = tools.trim(req.params._id);
 
-  Product.getProductsByDesignerid(designerid, function (err, products) {
+  Product.find({
+    designerid: designerid,
+    auth_type: type.product_auth_type_done,
+  }, function (err, products) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendData(products);
+  });
+}
+
+exports.listForDesigner = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
+
+  Product.find({
+    designerid: designerid
+  }, function (err, products) {
     if (err) {
       return next(err);
     }
