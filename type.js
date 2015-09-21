@@ -12,6 +12,7 @@ var type = {
   product_auth_type_new: '0',
   product_auth_type_done: '1',
   product_auth_type_reject: '2',
+  product_auth_type_illegal: '3',
 
   share_status_invisible: '0',
   share_status_visible: '1',

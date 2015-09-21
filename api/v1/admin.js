@@ -288,9 +288,26 @@ exports.searchProduct = function (req, res, next) {
       return next(err);
     }
 
-    res.sendData({
-      products: products,
-      total: total
+    async.mapLimit(products, 3, function (product, callback) {
+      Designer.findOne({
+        _id: product.designerid,
+      }, {
+        username: 1,
+        phone: 1
+      }, function (err, designer) {
+        product = product.toObject();
+        product.designer = designer;
+        callback(err, product);
+      });
+    }, function (err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      res.sendData({
+        products: results,
+        total: total
+      });
     });
   });
 }
@@ -357,9 +374,26 @@ exports.search_requirement = function (req, res, next) {
       return next(err);
     }
 
-    res.sendData({
-      requirements: requirements,
-      total: total
+    async.mapLimit(requirements, 3, function (requirement, callback) {
+      User.findOne({
+        _id: requirement.userid,
+      }, {
+        username: 1,
+        phone: 1
+      }, function (err, user) {
+        requirement = requirement.toObject();
+        requirement.user = user;
+        callback(err, requirement);
+      });
+    }, function (err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      res.sendData({
+        requirements: results,
+        total: total
+      });
     });
   });
 }

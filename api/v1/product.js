@@ -16,6 +16,7 @@ exports.add = function (req, res, next) {
   var product = ApiUtil.buildProduct(req);
   var designerid = ApiUtil.getUserid(req);
   product.designerid = designerid;
+  product.auth_date = new Date().getTime();
 
   Product.newAndSave(product, function (err, product) {
     if (err) {
@@ -41,6 +42,7 @@ exports.update = function (req, res, next) {
   var oid = tools.trim(req.body._id);
   var designerid = ApiUtil.getUserid(req);
   product.auth_type = type.product_auth_type_new;
+  product.auth_date = new Date().getTime();
 
   if (oid === '') {
     res.sendErrMsg('信息不完全');
@@ -110,7 +112,7 @@ exports.list = function (req, res, next) {
   Product.find({
     designerid: designerid,
     auth_type: type.product_auth_type_done,
-  }, function (err, products) {
+  }, null, null, function (err, products) {
     if (err) {
       return next(err);
     }
@@ -124,7 +126,7 @@ exports.listForDesigner = function (req, res, next) {
 
   Product.find({
     designerid: designerid
-  }, function (err, products) {
+  }, null, null, function (err, products) {
     if (err) {
       return next(err);
     }
