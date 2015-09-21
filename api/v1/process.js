@@ -379,6 +379,7 @@ exports.reschedule = function (req, res, next) {
         gt.pushMessageToSingle(json.id, {
           content: json.content,
           type: type.message_type_reschedule,
+          time: new Date().getTime(),
         });
         console.log(json.content);
         // gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
@@ -461,6 +462,7 @@ exports.okReschedule = function (req, res, next) {
         gt.pushMessageToSingle(json.id, {
           content: json.content,
           type: type.message_type_reschedule,
+          time: new Date().getTime(),
         });
         console.log(json.content);
         // gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
@@ -555,6 +557,7 @@ exports.rejectReschedule = function (req, res, next) {
         gt.pushMessageToSingle(json.id, {
           content: json.content,
           type: type.message_type_reschedule,
+          time: new Date().getTime(),
         });
         console.log(json.content);
         // gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
@@ -633,6 +636,7 @@ exports.doneItem = function (req, res, next) {
               content: json.message,
               section: json.next,
               type: type.message_type_procurement,
+              time: new Date().getTime(),
             });
           }
         }
@@ -688,6 +692,7 @@ exports.doneSection = function (req, res, next) {
         content: json.message,
         section: section,
         type: type.message_type_pay,
+        time: new Date().getTime(),
       });
 
       //开启下个流程
