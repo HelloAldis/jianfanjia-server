@@ -57,6 +57,18 @@ exports.buildDesinger = function (req) {
     designer.big_imageid = new ObjectId(req.body.big_imageid);
   }
 
+  if (req.body.uid_image1) {
+    designer.uid_image1 = new ObjectId(req.body.uid_image1);
+  }
+
+  if (req.body.uid_image2) {
+    designer.uid_image2 = new ObjectId(req.body.uid_image2);
+  }
+
+  if (req.body.bank_card_image1) {
+    designer.bank_card_image1 = new ObjectId(req.body.bank_card_image1);
+  }
+
   return designer;
 }
 
@@ -73,8 +85,12 @@ exports.buildTeam = function (req) {
   team.city = tools.trim(req.body.city);
   team.district = tools.trim(req.body.district);
 
-  if (req.body.uid_image) {
-    team.uid_image = new ObjectId(req.body.uid_image);
+  if (req.body.uid_image1) {
+    team.uid_image1 = new ObjectId(req.body.uid_image1);
+  }
+
+  if (req.body.uid_image2) {
+    team.uid_image2 = new ObjectId(req.body.uid_image2);
   }
 
   return team;

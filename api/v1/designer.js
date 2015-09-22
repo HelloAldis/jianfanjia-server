@@ -212,7 +212,8 @@ exports.okUser = function (req, res, next) {
 
     if (plan) {
       Requirement.setOne({
-        _id: plan.requirementid
+        _id: plan.requirementid,
+        status: type.requirement_status_not_respond,
       }, {
         status: type.requirement_status_respond_no_plan
       }, null, function (err) {

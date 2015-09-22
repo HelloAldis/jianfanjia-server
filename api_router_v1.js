@@ -110,7 +110,6 @@ router.delete('/process/ysimage', auth.designerRequired, process.deleteYsImage);
 
 //管理员独有的功能
 router.post('/admin/login', admin.login); //审核设计师
-router.post('/admin/authed', auth.adminRequired, admin.authed); //审核设计师
 router.post('/admin/update_basic_auth', auth.adminRequired, admin.update_basic_auth); //更改设计师基本信息认证
 router.post('/admin/update_uid_auth', auth.adminRequired, admin.update_uid_auth); //更改设计师身份证信息认证
 router.post('/admin/update_work_auth', auth.adminRequired, admin.update_work_auth); //更改设计师工地信息认证

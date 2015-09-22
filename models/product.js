@@ -66,6 +66,9 @@ var ProductSchema = new Schema({
     default: '0',
   },
   auth_date: {
+    type: Number,
+  },
+  auth_message: {
     type: String,
   },
 });

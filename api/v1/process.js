@@ -380,6 +380,8 @@ exports.reschedule = function (req, res, next) {
           content: json.content,
           type: type.message_type_reschedule,
           time: new Date().getTime(),
+          section: reschedule.section,
+          status: reschedule.status,
         });
         console.log(json.content);
         // gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
@@ -463,6 +465,8 @@ exports.okReschedule = function (req, res, next) {
           content: json.content,
           type: type.message_type_reschedule,
           time: new Date().getTime(),
+          section: reschedule.section,
+          status: type.process_item_status_reschedule_ok,
         });
         console.log(json.content);
         // gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
@@ -558,6 +562,8 @@ exports.rejectReschedule = function (req, res, next) {
           content: json.content,
           type: type.message_type_reschedule,
           time: new Date().getTime(),
+          section: reschedule.section,
+          status: type.process_item_status_reschedule_reject,
         });
         console.log(json.content);
         // gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {

@@ -12,7 +12,10 @@ var TeamSchema = new Schema({
   uid: {
     type: String
   },
-  uid_image: {
+  uid_image1: {
+    type: ObjectId
+  },
+  uid_image2: {
     type: ObjectId
   },
   company: {

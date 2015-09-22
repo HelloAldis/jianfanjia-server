@@ -54,6 +54,12 @@ var DesignerSchema = new Schema({
   uid: {
     type: String
   },
+  uid_image1: {
+    type: ObjectId
+  },
+  uid_image2: {
+    type: ObjectId
+  },
   company: {
     type: String
   },
@@ -113,12 +119,18 @@ var DesignerSchema = new Schema({
   auth_date: {
     type: Number,
   },
+  auth_message: {
+    type: String,
+  },
   uid_auth_type: {
     type: String,
     default: '0'
   },
   uid_auth_date: {
     type: Number,
+  },
+  uid_auth_message: {
+    type: String,
   },
   email_auth_type: {
     type: String,
@@ -127,6 +139,9 @@ var DesignerSchema = new Schema({
   email_auth_date: {
     type: Number,
   },
+  email_auth_message: {
+    type: String,
+  },
   work_auth_type: {
     type: String,
     default: '0'
@@ -134,7 +149,9 @@ var DesignerSchema = new Schema({
   work_auth_date: {
     type: Number,
   },
-
+  work_auth_message: {
+    type: String,
+  },
   agreee_license: {
     type: String,
     default: '0'
@@ -147,6 +164,9 @@ var DesignerSchema = new Schema({
   },
   bank_card: {
     type: String,
+  },
+  bank_card_image1: {
+    type: ObjectId
   },
   work_year: {
     type: Number

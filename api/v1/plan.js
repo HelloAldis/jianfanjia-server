@@ -65,12 +65,10 @@ exports.add = function (req, res, next) {
 
   Requirement.setOne({
     userid: userid,
-    status: {
-      $not: type.requirement_status_final_plan
-    }
+    status: type.requirement_status_respond_no_plan
   }, {
     status: type.requirement_status_plan_not_final
-  }, function (err, requirement) {
+  }, null, function (err, requirement) {
     if (err) {
       return next(err);
     }
@@ -167,13 +165,16 @@ exports.finalPlan = function (req, res, next) {
   var planid = tools.trim(req.body.planid);
   var designerid = new ObjectId(req.body.designerid);
 
-  Requirement.updateByUserid(userid, {
+  Requirement.setOne({
+    userid: userid,
+    status: type.requirement_status_plan_not_final,
+  }, {
     $set: {
       final_designerid: designerid,
       final_planid: planid,
       status: type.requirement_status_final_plan,
     }
-  }, function (err) {
+  }, null, function (err) {
     if (err) {
       return next(err);
     }

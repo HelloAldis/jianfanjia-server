@@ -336,7 +336,8 @@ exports.addDesigner2HouseCheck = function (req, res, next) {
   });
 
   Requirement.setOne({
-    userid: userid
+    userid: userid,
+    status: type.requirement_status_new,
   }, {
     status: type.requirement_status_not_respond
   }, null, function (err, requirement) {

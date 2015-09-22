@@ -30,29 +30,10 @@ exports.login = function (req, res, next) {
   }
 }
 
-exports.authed = function (req, res, next) {
-  var designerid = tools.trim(req.body._id);
-  var ep = eventproxy();
-  ep.fail(next);
-
-  Designer.setOne({
-    _id: designerid
-  }, {
-    auth_type: type.designer_auth_type_done,
-    auth_date: new Date().getTime(),
-  }, {}, ep.done(function (err, designer) {
-    if (designer) {
-      sms.sendYzxAuthSuccess(designer.phone, designer.username);
-      // sms.sendYzxAuthSuccess('18682109074', designer.username);
-    }
-
-    res.sendSuccessMsg();
-  }));
-}
-
 exports.update_basic_auth = function (req, res, next) {
   var designerid = tools.trim(req.body._id);
   var new_auth_type = tools.trim(req.body.new_auth_type);
+  var auth_message = tools.trim(req.body.auth_message);
   var ep = eventproxy();
   ep.fail(next);
 
@@ -61,6 +42,7 @@ exports.update_basic_auth = function (req, res, next) {
   }, {
     auth_type: new_auth_type,
     auth_date: new Date().getTime(),
+    auth_message: auth_message,
   }, {}, ep.done(function (designer) {
     if (designer) {
       if (new_auth_type === type.designer_auth_type_done) {
@@ -76,6 +58,7 @@ exports.update_basic_auth = function (req, res, next) {
 exports.update_uid_auth = function (req, res, next) {
   var designerid = tools.trim(req.body._id);
   var new_auth_type = tools.trim(req.body.new_auth_type);
+  var auth_message = tools.trim(req.body.auth_message);
   var ep = eventproxy();
   ep.fail(next);
 
@@ -84,6 +67,7 @@ exports.update_uid_auth = function (req, res, next) {
   }, {
     uid_auth_type: new_auth_type,
     uid_auth_date: new Date().getTime(),
+    uid_auth_message: auth_message,
   }, {}, ep.done(function (designer) {
     res.sendSuccessMsg();
   }));
@@ -92,6 +76,7 @@ exports.update_uid_auth = function (req, res, next) {
 exports.update_work_auth = function (req, res, next) {
   var designerid = tools.trim(req.body._id);
   var new_auth_type = tools.trim(req.body.new_auth_type);
+  var auth_message = tools.trim(req.body.auth_message);
   var ep = eventproxy();
   ep.fail(next);
 
@@ -100,6 +85,7 @@ exports.update_work_auth = function (req, res, next) {
   }, {
     work_auth_type: new_auth_type,
     work_auth_date: new Date().getTime(),
+    work_auth_message: auth_message,
   }, {}, ep.done(function (designer) {
     res.sendSuccessMsg();
   }));
@@ -109,6 +95,7 @@ exports.update_product_auth = function (req, res, next) {
   var productid = tools.trim(req.body._id);
   var designerid = tools.trim(req.body.designerid);
   var new_auth_type = tools.trim(req.body.new_auth_type);
+  var auth_message = tools.trim(req.body.auth_message);
   var ep = eventproxy();
   ep.fail(next);
 
@@ -117,6 +104,7 @@ exports.update_product_auth = function (req, res, next) {
   }, {
     auth_type: new_auth_type,
     auth_date: new Date().getTime(),
+    auth_message: auth_message,
   }, {}, ep.done(function (product) {
     if (product) {
       if (new_auth_type === type.product_auth_type_done) {
