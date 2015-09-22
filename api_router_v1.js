@@ -107,7 +107,7 @@ router.post('/designer/auth', auth.designerRequired, designer.auth); //提交认
 router.post('/designer/agree', auth.designerRequired, designer.agree); //提交认证申请
 router.post('/process/ysimage', auth.designerRequired, process.addYsImage); //提交验收照片
 router.delete('/process/ysimage', auth.designerRequired, process.deleteYsImage); //删除验收照片
-router.post('/process/ys', auth.designerRequired, process.ys); //提交验收照片
+router.post('/process/can_ys', auth.designerRequired, process.ys); //
 
 //管理员独有的功能
 router.post('/admin/login', admin.login); //审核设计师
