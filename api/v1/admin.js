@@ -256,9 +256,25 @@ exports.searchUser = function (req, res, next) {
       return next(err);
     }
 
-    res.sendData({
-      users: users,
-      total: total
+    async.mapLimit(users, 3, function (user, callback) {
+      Requirement.find({
+        userid: user._id,
+      }, {
+        status: 1,
+      }, null, function (err, requirement) {
+        user = user.toObject();
+        user.requirement = requirement;
+        callback(err, user);
+      });
+    }, function (err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      res.sendData({
+        users: results,
+        total: total
+      });
     });
   });
 }
