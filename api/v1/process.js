@@ -211,7 +211,21 @@ exports.start = function (req, res, next) {
       return next(err);
     }
 
-    res.sendData(process_indb);
+    if (process_indb) {
+      Requirement.setOne({
+        _id: process.requirementid
+      }, {
+        status: type.requirement_status_config_process
+      }, null, function (err) {
+        if (err) {
+          return next(err);
+        }
+
+        res.sendData(process_indb);
+      });
+    } else {
+      res.sendData(process_indb);
+    }
   });
 }
 
@@ -782,5 +796,30 @@ exports.list = function (req, res, next) {
     });
 
     ep.emit('processes', ps);
+  });
+}
+
+exports.ys = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
+  var section = tools.trim(req.body.section);
+  var _id = req.body._id;
+
+  Process.findOne({
+    _id: _id
+  }, null, function (err, process) {
+    if (err) {
+      return next(err);
+    }
+
+    if (process) {
+      gt.pushMessageToSingle(process.userid, {
+        content: '设计师已经上传所有验收图片，您可以前往对比验收',
+        type: type.message_type_user_ys,
+        time: new Date().getTime(),
+        section: section,
+      });
+    }
+
+    res.sendSuccessMsg();
   });
 }

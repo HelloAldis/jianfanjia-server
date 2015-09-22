@@ -35,7 +35,7 @@ exports.updateByQuery = function (query, obj, callback) {
 exports.setOne = function (query, update, option, callback) {
   Requirement.findOneAndUpdate(query, {
     $set: update
-  }, option, callback)
+  }, option, callback);
 };
 
 exports.find = function (query, project, option, callback) {

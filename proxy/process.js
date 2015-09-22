@@ -126,3 +126,7 @@ exports.getSByQueryAndProject = function (query, project, callback) {
 exports.removeOneByQuery = function (query, callback) {
   Process.findOneAndRemove(query, callback);
 }
+
+exports.findOne = function (query, project, callback) {
+  Process.findOne(query, project, callback);
+}
