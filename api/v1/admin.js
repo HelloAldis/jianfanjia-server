@@ -187,10 +187,9 @@ exports.listAuthingDesigner = function (req, res, next) {
 };
 
 exports.searchDesigner = function (req, res, next) {
-  var phone = tools.trim(req.body.phone);
-  var auth_type = tools.trim(req.body.auth_type);
-  var query = {};
-  var phoneReg = new RegExp('^' + tools.trim(req.body.phone));
+  var query = req.body.query;
+  var phone = tools.trim(query.phone);
+  var phoneReg = new RegExp('^' + tools.trim(phone));
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
 
@@ -201,10 +200,7 @@ exports.searchDesigner = function (req, res, next) {
       username: phoneReg
     }];
   }
-
-  if (auth_type) {
-    query.auth_type = auth_type;
-  }
+  delete query.phone;
 
   Designer.paginate(query, {
     pass: 0,
