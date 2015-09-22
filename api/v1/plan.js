@@ -169,12 +169,10 @@ exports.finalPlan = function (req, res, next) {
     userid: userid,
     status: type.requirement_status_plan_not_final,
   }, {
-    $set: {
-      final_designerid: designerid,
-      final_planid: planid,
-      status: type.requirement_status_final_plan,
-    }
-  }, null, function (err) {
+    final_designerid: designerid,
+    final_planid: planid,
+    status: type.requirement_status_final_plan,
+  }, null, function (err, requirement) {
     if (err) {
       return next(err);
     }
