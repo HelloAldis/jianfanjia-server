@@ -47,10 +47,52 @@ exports.getInfo = function (req, res, next) {
 exports.updateInfo = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var designer = ApiUtil.buildDesinger(req);
+  designer.auth_type = type.designer_auth_type_new;
+  designer.auth_date = new Date().getTime();
+  designer.auth_message = '';
 
   Designer.setOne({
     _id: userid
   }, designer, {}, function (err) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendSuccessMsg();
+  });
+};
+
+exports.uid_bank_info = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var uidbank = ApiUtil.buildUidBank(req);
+  uidbank.uid_auth_type = type.designer_auth_type_new;
+  uidbank.uid_auth_date = new Date().getTime();
+  uidbank.uid_auth_message = '';
+
+  Designer.setOne({
+    _id: userid
+  }, uidbank, {}, function (err) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendSuccessMsg();
+  });
+};
+
+exports.email_info = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var email = tools.trim(req.body.email);
+  designer.uid_auth_type = type.designer_auth_type_new;
+
+  Designer.setOne({
+    _id: userid
+  }, {
+    email: email,
+    email_auth_type: type.designer_auth_type_new,
+    email_auth_date: new Date().getTime(),
+    email_auth_message: '',
+  }, {}, function (err) {
     if (err) {
       return next(err);
     }
@@ -275,4 +317,21 @@ exports.agree = function (req, res, next) {
 
     res.sendSuccessMsg();
   });
+}
+
+exports.update_online_status = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
+  var new_oneline_status = tools.trim(req.body.new_oneline_status);
+
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Designer.setOne({
+    _id: designerid
+  }, {
+    online_status: new_oneline_status,
+    online_update_time: new Date().getTime(),
+  }, {}, ep.done(function (designer) {
+    res.sendSuccessMsg();
+  }));
 }

@@ -89,6 +89,8 @@ router.post('/user/process', auth.userRequired, process.start); //开启装修�
 //设计师独有功能
 router.put('/designer/info', auth.designerRequired, designer.updateInfo); //修改设计师个人资料
 router.get('/designer/info', auth.designerRequired, designer.getInfo); //获取设计师自己个人资料
+router.put('/designer/uid_bank_info', auth.designerRequired, designer.uid_bank_info);
+router.put('/designer/email_info', auth.designerRequired, designer.email_info);
 router.get('/designer/user', auth.designerRequired, designer.myUser); //我的业主
 router.post('/designer/user/ok', auth.designerRequired, designer.okUser); //响应业主
 router.post('/designer/user/reject', auth.designerRequired, designer.rejectUser); //拒绝业主
@@ -108,6 +110,7 @@ router.post('/designer/agree', auth.designerRequired, designer.agree); //提交�
 router.post('/process/ysimage', auth.designerRequired, process.addYsImage); //提交验收照片
 router.delete('/process/ysimage', auth.designerRequired, process.deleteYsImage); //删除验收照片
 router.post('/process/can_ys', auth.designerRequired, process.ys); //可以开始验收了
+router.post('/designer/update_online_status', auth.designerRequired, designer.update_online_status); //更改在线状态
 
 //管理员独有的功能
 router.post('/admin/login', admin.login); //审核设计师
@@ -121,12 +124,14 @@ router.get('/admin/authing_designer', auth.adminRequired, admin.listAuthingDesig
 router.post('/admin/search_designer', auth.adminRequired, admin.searchDesigner); //搜索设计师
 router.post('/admin/search_user', auth.adminRequired, admin.searchUser); //搜索业主
 router.get('/admin/designer/:_id', auth.adminRequired, admin.getDesigner); //获取设计师信息
-router.get('/admin/designer/team/:_id', auth.adminRequired, admin.listDesignerTeam); //获取某个设计师的所有团队
+router.post('/admin/search_team', auth.adminRequired, admin.search_team); //搜索设计师的团队
 router.get('/admin/api_statistic', auth.adminRequired, admin.api_statistic); //获取Api调用数据统计
 router.post('/admin/feedback/search', auth.adminRequired, feedback.search); //获取用户反馈
 router.post('/admin/product/search', auth.adminRequired, admin.searchProduct); //搜素作品
 router.post('/admin/update_product_auth', auth.adminRequired, admin.update_product_auth); //搜素作品
 router.post('/admin/requirement/search', auth.adminRequired, admin.search_requirement); //搜素需求
-router.post('/admin/update_team', auth.adminRequired, admin.update_team);
+router.post('/admin/update_team', auth.adminRequired, admin.update_team); //管理员更新装修团队信息
+router.post('/admin/update_designer_online_status', auth.adminRequired, admin.update_designer_online_status); //管理员更新设计师在线状态
+router.post('/admin/search_plan', auth.adminRequired, admin.search_plan);
 
 module.exports = router;

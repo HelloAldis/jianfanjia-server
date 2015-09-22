@@ -103,6 +103,9 @@ var type = {
 
   platform_android: '0',
   platform_ios: '1',
+
+  online_status_on: '0',
+  online_status_off: '1',
 }
 
 module.exports = type;

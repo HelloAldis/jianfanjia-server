@@ -177,7 +177,14 @@ var DesignerSchema = new Schema({
   deal_done_count: {
     type: Number,
     default: 0,
-  }
+  },
+  online_status: {
+    type: String,
+    default: '0'
+  },
+  online_update_time: {
+    type: Number
+  },
 });
 
 DesignerSchema.index({

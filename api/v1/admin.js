@@ -7,6 +7,7 @@ var User = require('../../proxy').User;
 var Product = require('../../proxy').Product;
 var ApiStatistic = require('../../proxy').ApiStatistic;
 var Requirement = require('../../proxy').Requirement;
+var Plan = require('../../proxy').Plan;
 var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
@@ -318,6 +319,46 @@ exports.searchProduct = function (req, res, next) {
   });
 }
 
+exports.search_plan = function (req, res, next) {
+  var query = req.body.query;
+  var sort = req.body.sort;
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
+
+  Plan.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit
+  }, function (err, plans, total) {
+    if (err) {
+      return next(err);
+    }
+
+    async.mapLimit(plans, 3, function (plan, callback) {
+      Designer.findOne({
+        _id: plan.designerid,
+      }, {
+        username: 1,
+        phone: 1
+      }, function (err, designer) {
+        plan = plan.toObject();
+        plan.designer = designer;
+        callback(err, plan);
+      });
+    }, function (err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      res.sendData({
+        plans: results,
+        total: total
+      });
+    });
+  });
+}
+
+
 exports.getDesigner = function (req, res, next) {
   var designerid = req.params._id;
 
@@ -339,15 +380,25 @@ exports.getDesigner = function (req, res, next) {
   });
 }
 
-exports.listDesignerTeam = function (req, res, next) {
-  var designerid = req.params._id;
+exports.search_team = function (req, res, next) {
+  var query = req.body.query || {};
+  var sort = req.body.sort;
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
 
-  Team.getTeamsByDesignerid(designerid, function (err, teams) {
+  Team.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit
+  }, function (err, teams, total) {
     if (err) {
       return next(err);
     }
 
-    res.sendData(teams);
+    res.sendData({
+      teams: teams,
+      total: total
+    });
   });
 }
 
@@ -422,4 +473,21 @@ exports.update_team = function (req, res, next) {
 
     res.sendSuccessMsg();
   });
+}
+
+exports.update_designer_online_status = function (req, res, next) {
+  var designerid = tools.trim(req.body.designerid);
+  var new_oneline_status = tools.trim(req.body.new_oneline_status);
+
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Designer.setOne({
+    _id: designerid
+  }, {
+    online_status: new_oneline_status,
+    online_update_time: new Date().getTime(),
+  }, {}, ep.done(function (designer) {
+    res.sendSuccessMsg();
+  }));
 }

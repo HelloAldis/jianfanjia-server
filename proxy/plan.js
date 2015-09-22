@@ -82,3 +82,19 @@ exports.setOne = function (query, update, option, callback) {
     $set: update
   }, option, callback);
 }
+
+exports.find = function (query, project, option, callback) {
+  Plan.find(query, project, option, callback);
+}
+
+exports.paginate = function (query, project, option, callback) {
+  Plan.count(query, function (err, count) {
+    if (err) {
+      return callback(err, null);
+    }
+
+    exports.find(query, project, option, function (err, designers) {
+      callback(err, designers, count);
+    });
+  });
+}
