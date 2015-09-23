@@ -56,7 +56,7 @@ exports.buildDesinger = function (req) {
   designer.university = tools.trim(req.body.university);
 
   if (req.body.imageid) {
-    user.imageid = new ObjectId(req.body.imageid);
+    designer.imageid = new ObjectId(req.body.imageid);
   }
 
   if (req.body.big_imageid) {
