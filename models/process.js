@@ -95,12 +95,14 @@ var ProcessSchema = new Schema({
           },
           date: {
             type: Number,
-
           },
         }]
       },
     }],
     ys: {
+      date: {
+        type: Number,
+      },
       images: {
         type: [{
           key: {

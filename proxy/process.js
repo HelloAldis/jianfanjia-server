@@ -17,9 +17,12 @@ exports.addImage = function (id, section, item, imageid, callback) {
   path = 'sections.' + index + '.items.$.images';
   var update = {};
   update[path] = imageid;
+  var set = {};
+  set['sections.' + index + '.items.$.date'] = new Date().getTime();
 
   Process.findOneAndUpdate(query, {
-    $push: update
+    $push: update,
+    $set: set,
   }, callback);
 };
 
@@ -29,6 +32,7 @@ exports.addYsImage = function (id, section, key, imageid, callback) {
     key: key,
     imageid: imageid
   };
+  update['sections.$.ys.date'] = new Date().getTime();
 
   Process.findOneAndUpdate({
     _id: id,
@@ -48,23 +52,15 @@ exports.updateYsImage = function (id, section, key, imageid, callback) {
   var update = {};
   path = 'sections.' + index + '.ys.images.$.imageid'
   update[path] = imageid;
+  update['sections.' + index + '.ys.date'] = new Date().getTime();
+
   Process.findOneAndUpdate(query, {
     $set: update
   }, callback);
 }
 
 exports.deleteYsImage = function (id, section, key, callback) {
-  var query = {};
-  var path = section + '.ys.images.key';
-  query._id = id;
-  query[path] = key;
-  var update = {};
-  path = section + '.ys.images.$.imageid'
-  update[path] = null;
-
-  Process.findOneAndUpdate(query, {
-    $set: update
-  }, callback);
+  exports.updateYsImage(id, section, key, null, callback);
 }
 
 exports.addComment = function (id, section, item, comment, callback) {
@@ -76,9 +72,12 @@ exports.addComment = function (id, section, item, comment, callback) {
   path = 'sections.' + index + '.items.$.comments';
   var update = {};
   update[path] = comment;
+  var set = {};
+  set['sections.' + index + '.items.$.date'] = new Date().getTime();
 
   Process.findOneAndUpdate(query, {
-    $push: update
+    $push: update,
+    $set: set,
   }, callback);
 };
 
@@ -94,6 +93,7 @@ exports.updateStatus = function (id, section, item, status, callback) {
 
     path = 'sections.' + index + '.items.$.status';
     update[path] = status;
+    update['sections.' + index + '.items.$.date'] = new Date().getTime();
   } else {
     query._id = id;
 
