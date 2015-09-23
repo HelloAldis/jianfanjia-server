@@ -83,7 +83,6 @@ exports.uid_bank_info = function (req, res, next) {
 exports.email_info = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var email = tools.trim(req.body.email);
-  designer.uid_auth_type = type.designer_auth_type_new;
 
   Designer.setOne({
     _id: userid

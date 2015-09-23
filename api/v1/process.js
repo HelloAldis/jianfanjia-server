@@ -638,7 +638,9 @@ exports.doneItem = function (req, res, next) {
 
       if (process) {
         //push notification
-        if (type.work_type === 0) {
+        if ((process.work_type === type.work_type_half) &&
+          (section !== type.process_section_kai_gong || section !== type.process_section_jun_gong)
+        ) {
           var result = _.find(process.sections, function (o) {
             return o.name === section;
           });
@@ -649,9 +651,11 @@ exports.doneItem = function (req, res, next) {
             }
           });
 
+          console.log('result=' + result);
+          console.log('doneCount' + doneCount);
           if (result.items.length - doneCount <= 2) {
             var json = buildProcurement(section);
-            console.log(json);
+            console.log('采购提醒 ' + json);
             gt.pushMessageToSingle(process.userid, {
               content: json.message,
               section: json.next,
