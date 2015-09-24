@@ -705,19 +705,21 @@ exports.doneSection = function (req, res, next) {
   var _id = req.body._id;
 
   Process.updateStatus(_id, section, null, type.process_item_status_done,
-    function (err) {
+    function (err, process) {
       if (err) {
         return next(err);
       }
 
-      var json = buildPay();
-      console.log(json);
-      gt.pushMessageToSingle(process.userid, {
-        content: json.message,
-        section: section,
-        type: type.message_type_pay,
-        time: new Date().getTime(),
-      });
+      if (process) {
+        var json = buildPay();
+        console.log(json);
+        gt.pushMessageToSingle(process.userid, {
+          content: json.message,
+          section: section,
+          type: type.message_type_pay,
+          time: new Date().getTime(),
+        });
+      }
 
       //开启下个流程
       var index = _.indexOf(type.process_work_flow, section);
