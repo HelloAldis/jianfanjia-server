@@ -32,13 +32,15 @@ exports.addYsImage = function (id, section, key, imageid, callback) {
     key: key,
     imageid: imageid
   };
-  update['sections.$.ys.date'] = new Date().getTime();
+  var set = {};
+  set['sections.$.ys.date'] = new Date().getTime();
 
   Process.findOneAndUpdate({
     _id: id,
     'sections.name': section
   }, {
-    $push: update
+    $push: update,
+    $set: set,
   }, callback);
 }
 

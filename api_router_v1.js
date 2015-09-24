@@ -132,6 +132,6 @@ router.post('/admin/update_product_auth', auth.adminRequired, admin.update_produ
 router.post('/admin/requirement/search', auth.adminRequired, admin.search_requirement); //搜素需求
 router.post('/admin/update_team', auth.adminRequired, admin.update_team); //管理员更新装修团队信息
 router.post('/admin/update_designer_online_status', auth.adminRequired, admin.update_designer_online_status); //管理员更新设计师在线状态
-router.post('/admin/search_plan', auth.adminRequired, admin.search_plan);
+router.post('/admin/search_plan', auth.adminRequired, admin.search_plan); //管理员搜索方案
 
 module.exports = router;
