@@ -439,8 +439,11 @@ exports.listReschdule = function (req, res, next) {
     query.designerid = userid;
   }
 
-  Reschedule.findByQueryAndProjectAndOption(query, {}, {}, function (err,
-    reschedules) {
+  Reschedule.findByQueryAndProjectAndOption(query, {}, {
+    sort: {
+      request_date: -1
+    }
+  }, function (err, reschedules) {
     if (err) {
       return next(err);
     }
