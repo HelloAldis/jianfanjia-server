@@ -5,6 +5,7 @@ var _ = require('lodash');
 
 exports.newAndSave = function (json, callback) {
   var process = new Process(json);
+  process.create_at = new Date().getTime();
   process.save(callback);
 };
 

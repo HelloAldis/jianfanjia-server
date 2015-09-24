@@ -26,9 +26,6 @@ var upload = multer({
   storage: storage
 });
 
-// router.get('/temp_user', tempUserApi.show); //
-// router.put('/temp_user', tempUserApi.add); //
-
 //未登录用户拥有的功能
 router.post('/send_verify_code', limit.peripperday('send_verify_code', config.send_verify_code_per_day),
   sign.sendVerifyCode); //发送验证码
@@ -48,6 +45,7 @@ router.get('/image/:_id', image.get); //获取图片
 router.get('/thumbnail/:width/:_id', image.thumbnail); //获取缩略图
 router.get('/watermark/v1/:_id', image.watermark); //获取有水印图
 router.post('/feedback', feedback.add);
+router.post('/add_angel_user', tempUserApi.add); //提交天使用户
 //设备使用
 router.get('/device/android_build_version', device.android_build_version); //获取android信息
 
@@ -133,5 +131,6 @@ router.post('/admin/requirement/search', auth.adminRequired, admin.search_requir
 router.post('/admin/update_team', auth.adminRequired, admin.update_team); //管理员更新装修团队信息
 router.post('/admin/update_designer_online_status', auth.adminRequired, admin.update_designer_online_status); //管理员更新设计师在线状态
 router.post('/admin/search_plan', auth.adminRequired, admin.search_plan); //管理员搜索方案
+router.post('/admin/search_angel_user', auth.adminRequired, tempUserApi.search_temp_user); //搜索天使用户
 
 module.exports = router;

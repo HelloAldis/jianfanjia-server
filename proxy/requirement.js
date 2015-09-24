@@ -3,6 +3,7 @@ var Requirement = models.Requirement;
 var uuid = require('node-uuid');
 
 exports.saveOrUpdateByUserid = function (userid, json, callback) {
+  json.create_at = new Date().getTime();
   Requirement.findOneAndUpdate({
     'userid': userid
   }, json, {

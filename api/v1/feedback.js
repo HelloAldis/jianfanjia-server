@@ -12,6 +12,7 @@ var ObjectId = mongoose.Types.ObjectId;
 exports.add = function (req, res, next) {
   var feedback = ApiUtil.buildFeedback(req);
   feedback.by = ApiUtil.getUserid(req);
+  feedback.usertype = ApiUtil.getUsertype(req);
 
   Feedback.newAndSave(feedback, function (err) {
     if (err) {

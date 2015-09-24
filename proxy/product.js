@@ -15,6 +15,7 @@ exports.getProductById = function (productid, callback) {
 
 exports.newAndSave = function (json, callback) {
   var product = new Product(json);
+  product.create_at = new Date().getTime();
   product.save(callback);
 };
 

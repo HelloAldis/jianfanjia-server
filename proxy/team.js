@@ -10,6 +10,7 @@ exports.getTeamsByDesignerid = function (designerid, callback) {
 
 exports.newAndSave = function (json, callback) {
   var team = new Team(json);
+  team.create_at = new Date().getTime();
   team.save(callback);
 };
 

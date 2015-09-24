@@ -240,3 +240,15 @@ exports.buildFeedback = function (req) {
   feedback.platform = tools.trim(req.body.platform);
   return feedback;
 }
+
+exports.buildTempUser = function (req) {
+  var tempUser = {};
+
+  tempUser.name = tools.trim(req.body.name);
+  tempUser.phone = tools.trim(req.body.phone);
+  tempUser.district = tools.trim(req.body.district);
+  tempUser.house_area = req.body.house_area;
+  tempUser.total_price = req.body.total_price;
+
+  return tempUser;
+}

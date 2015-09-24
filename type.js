@@ -31,7 +31,7 @@ var type = {
   plan_status_designer_reject: '1',
   plan_status_designer_respond: '2',
   plan_status_desinger_upload: '3',
-  plan_status_user_reject: '4',
+  plan_status_user_not_final: '4',
   plan_status_user_final: '5',
 
   role_admin: '0',

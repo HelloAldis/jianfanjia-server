@@ -250,7 +250,8 @@ exports.okUser = function (req, res, next) {
     designerid: designerid
   }, {
     house_check_time: house_check_time,
-    status: type.plan_status_designer_respond
+    status: type.plan_status_designer_respond,
+    last_status_update_time: new Date().getTime(),
   }, function (err, plan) {
     if (err) {
       return next(err);
@@ -279,7 +280,8 @@ exports.rejectUser = function (req, res, next) {
       userid: userid,
       designerid: designerid
     }, {
-      status: type.plan_status_designer_reject
+      status: type.plan_status_designer_reject,
+      last_status_update_time: new Date().getTime(),
     },
     function (err) {
       if (err) {

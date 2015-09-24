@@ -33,7 +33,7 @@ exports.getPlansByDesigneridAndUserid = function (designerid, userid, project,
 exports.newAndSave = function (json, callback) {
   var plan = new Plan(json);
   plan.request_date = new Date().getTime();
-
+  plan.last_status_update_time = new Date().getTime();
   plan.save(callback);
 };
 
@@ -79,6 +79,12 @@ exports.addComment = function (planid, json, callback) {
 
 exports.setOne = function (query, update, option, callback) {
   Plan.findOneAndUpdate(query, {
+    $set: update
+  }, option, callback);
+}
+
+exports.update = function (query, update, option, callback) {
+  Plan.update(query, {
     $set: update
   }, option, callback);
 }

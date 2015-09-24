@@ -42,6 +42,9 @@ var TeamSchema = new Schema({
   district: {
     type: String
   },
+  create_at: {
+    type: Number
+  },
 });
 
 TeamSchema.index({
