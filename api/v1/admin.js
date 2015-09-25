@@ -93,397 +93,406 @@ exports.update_work_auth = function (req, res, next) {
 }
 
 exports.update_product_auth = function (req, res, next) {
-  var productid = tools.trim(req.body._id);
-  var designerid = tools.trim(req.body.designerid);
-  var new_auth_type = tools.trim(req.body.new_auth_type);
-  var auth_message = tools.trim(req.body.auth_message);
-  var ep = eventproxy();
-  ep.fail(next);
+    var productid = tools.trim(req.body._id);
+    var designerid = tools.trim(req.body.designerid);
+    var new_auth_type = tools.trim(req.body.new_auth_type);
+    var auth_message = tools.trim(req.body.auth_message);
+    var ep = eventproxy();
+    ep.fail(next);
 
-  Product.setOne({
-    _id: productid
-  }, {
-    auth_type: new_auth_type,
-    auth_date: new Date().getTime(),
-    auth_message: auth_message,
-  }, {}, ep.done(function (product) {
-    if (product) {
-      if (new_auth_type === type.product_auth_type_done) {
-        if (product.auth_type !== type.product_auth_type_done) {
-          Designer.incOne({
-            _id: designerid
-          }, {
-            authed_product_count: 1
-          }, {
-            upsert: true
-          });
+    Product.setOne({
+        _id: productid
+      }, {
+        auth_type: new_auth_type,
+        auth_date: new Date().getTime(),
+        auth_message: auth_message,
+      }, {}, ep.done(function (product) {
+        if (product) {
+          if (new_auth_type === type.product_auth_type_done) {
+            if (product.auth_type !== type.product_auth_type_done) {
+              Designer.incOne({
+                _id: designerid
+              }, {
+                authed_product_count: 1
+              }, {
+                upsert: true
+              });
+            }
+          } else if (new_auth_type !== type type.product_auth_type_done) {
+            if (product.auth_type === type.product_auth_type_done) {
+              Designer.incOne({
+                _id: designerid
+              }, {
+                authed_product_count: -1
+              }, {
+                upsert: true
+              });
+            }
+          }
+
+          res.sendSuccessMsg();
+        }));
+    }
+
+    exports.add = function (req, res, next) {
+      var share = ApiUtil.buildShare(req);
+      var designerid = tools.trim(req.body.designerid);
+      var userid = tools.trim(req.body.userid);
+
+      if (userid) {
+        share.userid = new ObjectId(userid);
+      } else if (designerid) {
+        share.designerid = new ObjectId(designerid);
+      }
+
+      Share.newAndSave(share, function (err) {
+        if (err) {
+          return next(err);
         }
-      }
+
+        res.sendSuccessMsg();
+      });
+    };
+
+    exports.update = function (req, res, next) {
+      var share = ApiUtil.buildShare(req);
+      var shareid = tools.trim(req.body._id);
+
+      share.lastupdate = new Date().getTime();
+      Share.updateById(shareid, share, function (err) {
+        if (err) {
+          return next(err);
+        }
+
+        res.sendSuccessMsg();
+      });
+    };
+
+    exports.delete = function (req, res, next) {
+      var _id = tools.trim(req.body._id);
+
+      Share.removeOneById(_id, function (err) {
+        if (err) {
+          return next(err);
+        }
+
+        res.sendSuccessMsg();
+      });
     }
 
-    res.sendSuccessMsg();
-  }));
-}
-
-exports.add = function (req, res, next) {
-  var share = ApiUtil.buildShare(req);
-  var designerid = tools.trim(req.body.designerid);
-  var userid = tools.trim(req.body.userid);
-
-  if (userid) {
-    share.userid = new ObjectId(userid);
-  } else if (designerid) {
-    share.designerid = new ObjectId(designerid);
-  }
-
-  Share.newAndSave(share, function (err) {
-    if (err) {
-      return next(err);
-    }
-
-    res.sendSuccessMsg();
-  });
-};
-
-exports.update = function (req, res, next) {
-  var share = ApiUtil.buildShare(req);
-  var shareid = tools.trim(req.body._id);
-
-  share.lastupdate = new Date().getTime();
-  Share.updateById(shareid, share, function (err) {
-    if (err) {
-      return next(err);
-    }
-
-    res.sendSuccessMsg();
-  });
-};
-
-exports.delete = function (req, res, next) {
-  var _id = tools.trim(req.body._id);
-
-  Share.removeOneById(_id, function (err) {
-    if (err) {
-      return next(err);
-    }
-
-    res.sendSuccessMsg();
-  });
-}
-
-exports.listAuthingDesigner = function (req, res, next) {
-  Designer.find({
-    auth_type: type.designer_auth_type_processing
-  }, {
-    pass: 0,
-    accessToken: 0
-  }, {}, function (err, designers) {
-    if (err) {
-      return next(err);
-    }
-
-    res.sendData(designers);
-  });
-};
-
-exports.searchDesigner = function (req, res, next) {
-  var query = req.body.query;
-  var phone = tools.trim(query.phone);
-  var phoneReg = new RegExp('^' + tools.trim(phone));
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-
-  if (phone) {
-    query['$or'] = [{
-      phone: phoneReg
-    }, {
-      username: phoneReg
-    }];
-  }
-  delete query.phone;
-
-  Designer.paginate(query, {
-    pass: 0,
-    accessToken: 0
-  }, {
-    sort: {
-      phone: 1
-    },
-    skip: skip,
-    limit: limit
-  }, function (err, designers, total) {
-    if (err) {
-      return next(err);
-    }
-
-    res.sendData({
-      designers: designers,
-      total: total
-    });
-  });
-}
-
-exports.searchUser = function (req, res, next) {
-  var phone = tools.trim(req.body.phone);
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-
-  var query = {};
-  var phoneReg = new RegExp('^' + tools.trim(req.body.phone));
-
-  if (phone) {
-    query['$or'] = [{
-      phone: phoneReg
-    }, {
-      username: phoneReg
-    }];
-  }
-
-  User.paginate(query, {
-    pass: 0,
-    accessToken: 0
-  }, {
-    sort: {
-      phone: 1
-    },
-    skip: skip,
-    limit: limit
-  }, function (err, users, total) {
-    if (err) {
-      return next(err);
-    }
-
-    async.mapLimit(users, 3, function (user, callback) {
-      Requirement.find({
-        userid: user._id,
+    exports.listAuthingDesigner = function (req, res, next) {
+      Designer.find({
+        auth_type: type.designer_auth_type_processing
       }, {
-        status: 1,
-      }, null, function (err, requirement) {
-        user = user.toObject();
-        user.requirement = requirement;
-        callback(err, user);
+        pass: 0,
+        accessToken: 0
+      }, {}, function (err, designers) {
+        if (err) {
+          return next(err);
+        }
+
+        res.sendData(designers);
       });
-    }, function (err, results) {
-      if (err) {
-        return next(err);
+    };
+
+    exports.searchDesigner = function (req, res, next) {
+      var query = req.body.query;
+      var phone = tools.trim(query.phone);
+      var phoneReg = new RegExp('^' + tools.trim(phone));
+      var skip = req.body.from || 0;
+      var limit = req.body.limit || 10;
+
+      if (phone) {
+        query['$or'] = [{
+          phone: phoneReg
+        }, {
+          username: phoneReg
+        }];
       }
+      delete query.phone;
 
-      res.sendData({
-        users: results,
-        total: total
+      Designer.paginate(query, {
+        pass: 0,
+        accessToken: 0
+      }, {
+        sort: {
+          phone: 1
+        },
+        skip: skip,
+        limit: limit
+      }, function (err, designers, total) {
+        if (err) {
+          return next(err);
+        }
+
+        res.sendData({
+          designers: designers,
+          total: total
+        });
       });
-    });
-  });
-}
-
-exports.searchProduct = function (req, res, next) {
-  var query = req.body.query;
-  var sort = req.body.sort;
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-
-  Product.paginate(query, null, {
-    sort: sort,
-    skip: skip,
-    limit: limit
-  }, function (err, products, total) {
-    if (err) {
-      return next(err);
     }
 
-    async.mapLimit(products, 3, function (product, callback) {
+    exports.searchUser = function (req, res, next) {
+      var phone = tools.trim(req.body.phone);
+      var skip = req.body.from || 0;
+      var limit = req.body.limit || 10;
+
+      var query = {};
+      var phoneReg = new RegExp('^' + tools.trim(req.body.phone));
+
+      if (phone) {
+        query['$or'] = [{
+          phone: phoneReg
+        }, {
+          username: phoneReg
+        }];
+      }
+
+      User.paginate(query, {
+        pass: 0,
+        accessToken: 0
+      }, {
+        sort: {
+          phone: 1
+        },
+        skip: skip,
+        limit: limit
+      }, function (err, users, total) {
+        if (err) {
+          return next(err);
+        }
+
+        async.mapLimit(users, 3, function (user, callback) {
+          Requirement.find({
+            userid: user._id,
+          }, {
+            status: 1,
+          }, null, function (err, requirement) {
+            user = user.toObject();
+            user.requirement = requirement;
+            callback(err, user);
+          });
+        }, function (err, results) {
+          if (err) {
+            return next(err);
+          }
+
+          res.sendData({
+            users: results,
+            total: total
+          });
+        });
+      });
+    }
+
+    exports.searchProduct = function (req, res, next) {
+      var query = req.body.query;
+      var sort = req.body.sort;
+      var skip = req.body.from || 0;
+      var limit = req.body.limit || 10;
+
+      Product.paginate(query, null, {
+        sort: sort,
+        skip: skip,
+        limit: limit
+      }, function (err, products, total) {
+        if (err) {
+          return next(err);
+        }
+
+        async.mapLimit(products, 3, function (product, callback) {
+          Designer.findOne({
+            _id: product.designerid,
+          }, {
+            username: 1,
+            phone: 1
+          }, function (err, designer) {
+            product = product.toObject();
+            product.designer = designer;
+            callback(err, product);
+          });
+        }, function (err, results) {
+          if (err) {
+            return next(err);
+          }
+
+          res.sendData({
+            products: results,
+            total: total
+          });
+        });
+      });
+    }
+
+    exports.search_plan = function (req, res, next) {
+      var query = req.body.query;
+      var sort = req.body.sort;
+      var skip = req.body.from || 0;
+      var limit = req.body.limit || 10;
+
+      Plan.paginate(query, null, {
+        sort: sort,
+        skip: skip,
+        limit: limit
+      }, function (err, plans, total) {
+        if (err) {
+          return next(err);
+        }
+
+        async.mapLimit(plans, 3, function (plan, callback) {
+          Designer.findOne({
+            _id: plan.designerid,
+          }, {
+            username: 1,
+            phone: 1
+          }, function (err, designer) {
+            plan = plan.toObject();
+            plan.designer = designer;
+            callback(err, plan);
+          });
+        }, function (err, results) {
+          if (err) {
+            return next(err);
+          }
+
+          res.sendData({
+            plans: results,
+            total: total
+          });
+        });
+      });
+    }
+
+
+    exports.getDesigner = function (req, res, next) {
+      var designerid = req.params._id;
+
       Designer.findOne({
-        _id: product.designerid,
+        _id: designerid
       }, {
-        username: 1,
-        phone: 1
+        pass: 0,
+        accessToken: 0
       }, function (err, designer) {
-        product = product.toObject();
-        product.designer = designer;
-        callback(err, product);
+        if (err) {
+          return next(err);
+        }
+
+        if (designer) {
+          res.sendData(designer);
+        } else {
+          res.sendData(null);
+        }
       });
-    }, function (err, results) {
-      if (err) {
-        return next(err);
-      }
-
-      res.sendData({
-        products: results,
-        total: total
-      });
-    });
-  });
-}
-
-exports.search_plan = function (req, res, next) {
-  var query = req.body.query;
-  var sort = req.body.sort;
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-
-  Plan.paginate(query, null, {
-    sort: sort,
-    skip: skip,
-    limit: limit
-  }, function (err, plans, total) {
-    if (err) {
-      return next(err);
     }
 
-    async.mapLimit(plans, 3, function (plan, callback) {
-      Designer.findOne({
-        _id: plan.designerid,
+    exports.search_team = function (req, res, next) {
+      var query = req.body.query || {};
+      var sort = req.body.sort;
+      var skip = req.body.from || 0;
+      var limit = req.body.limit || 10;
+
+      Team.paginate(query, null, {
+        sort: sort,
+        skip: skip,
+        limit: limit
+      }, function (err, teams, total) {
+        if (err) {
+          return next(err);
+        }
+
+        res.sendData({
+          teams: teams,
+          total: total
+        });
+      });
+    }
+
+    exports.api_statistic = function (req, res, next) {
+      ApiStatistic.find({}, {}, {
+        sort: {
+          count: -1
+        }
+      }, function (err, arr) {
+        if (err) {
+          return next(err);
+        }
+
+        res.sendData(arr);
+      });
+    };
+
+    exports.search_requirement = function (req, res, next) {
+      var query = req.body.query || {};
+      var sort = req.body.sort;
+      var skip = req.body.from || 0;
+      var limit = req.body.limit || 10;
+
+      Requirement.paginate(query, null, {
+        sort: sort,
+        skip: skip,
+        limit: limit
+      }, function (err, requirements, total) {
+        if (err) {
+          return next(err);
+        }
+
+        async.mapLimit(requirements, 3, function (requirement, callback) {
+          User.findOne({
+            _id: requirement.userid,
+          }, {
+            username: 1,
+            phone: 1
+          }, function (err, user) {
+            requirement = requirement.toObject();
+            requirement.user = user;
+            callback(err, requirement);
+          });
+        }, function (err, results) {
+          if (err) {
+            return next(err);
+          }
+
+          res.sendData({
+            requirements: results,
+            total: total
+          });
+        });
+      });
+    }
+
+    exports.update_team = function (req, res, next) {
+      var team = ApiUtil.buildTeam(req);
+      var oid = tools.trim(req.body._id);
+
+      if (oid === '') {
+        res.sendErrMsg('信息不完全');
+        return;
+      }
+
+      Team.setOne({
+        _id: oid,
+      }, team, null, function (err) {
+        if (err) {
+          return next(err);
+        }
+
+        res.sendSuccessMsg();
+      });
+    }
+
+    exports.update_designer_online_status = function (req, res, next) {
+      var designerid = tools.trim(req.body.designerid);
+      var new_oneline_status = tools.trim(req.body.new_oneline_status);
+
+      var ep = eventproxy();
+      ep.fail(next);
+
+      Designer.setOne({
+        _id: designerid
       }, {
-        username: 1,
-        phone: 1
-      }, function (err, designer) {
-        plan = plan.toObject();
-        plan.designer = designer;
-        callback(err, plan);
-      });
-    }, function (err, results) {
-      if (err) {
-        return next(err);
-      }
-
-      res.sendData({
-        plans: results,
-        total: total
-      });
-    });
-  });
-}
-
-
-exports.getDesigner = function (req, res, next) {
-  var designerid = req.params._id;
-
-  Designer.findOne({
-    _id: designerid
-  }, {
-    pass: 0,
-    accessToken: 0
-  }, function (err, designer) {
-    if (err) {
-      return next(err);
+        online_status: new_oneline_status,
+        online_update_time: new Date().getTime(),
+      }, {}, ep.done(function (designer) {
+        res.sendSuccessMsg();
+      }));
     }
-
-    if (designer) {
-      res.sendData(designer);
-    } else {
-      res.sendData(null);
-    }
-  });
-}
-
-exports.search_team = function (req, res, next) {
-  var query = req.body.query || {};
-  var sort = req.body.sort;
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-
-  Team.paginate(query, null, {
-    sort: sort,
-    skip: skip,
-    limit: limit
-  }, function (err, teams, total) {
-    if (err) {
-      return next(err);
-    }
-
-    res.sendData({
-      teams: teams,
-      total: total
-    });
-  });
-}
-
-exports.api_statistic = function (req, res, next) {
-  ApiStatistic.find({}, {}, {
-    sort: {
-      count: -1
-    }
-  }, function (err, arr) {
-    if (err) {
-      return next(err);
-    }
-
-    res.sendData(arr);
-  });
-};
-
-exports.search_requirement = function (req, res, next) {
-  var query = req.body.query || {};
-  var sort = req.body.sort;
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-
-  Requirement.paginate(query, null, {
-    sort: sort,
-    skip: skip,
-    limit: limit
-  }, function (err, requirements, total) {
-    if (err) {
-      return next(err);
-    }
-
-    async.mapLimit(requirements, 3, function (requirement, callback) {
-      User.findOne({
-        _id: requirement.userid,
-      }, {
-        username: 1,
-        phone: 1
-      }, function (err, user) {
-        requirement = requirement.toObject();
-        requirement.user = user;
-        callback(err, requirement);
-      });
-    }, function (err, results) {
-      if (err) {
-        return next(err);
-      }
-
-      res.sendData({
-        requirements: results,
-        total: total
-      });
-    });
-  });
-}
-
-exports.update_team = function (req, res, next) {
-  var team = ApiUtil.buildTeam(req);
-  var oid = tools.trim(req.body._id);
-
-  if (oid === '') {
-    res.sendErrMsg('信息不完全');
-    return;
-  }
-
-  Team.setOne({
-    _id: oid,
-  }, team, null, function (err) {
-    if (err) {
-      return next(err);
-    }
-
-    res.sendSuccessMsg();
-  });
-}
-
-exports.update_designer_online_status = function (req, res, next) {
-  var designerid = tools.trim(req.body.designerid);
-  var new_oneline_status = tools.trim(req.body.new_oneline_status);
-
-  var ep = eventproxy();
-  ep.fail(next);
-
-  Designer.setOne({
-    _id: designerid
-  }, {
-    online_status: new_oneline_status,
-    online_update_time: new Date().getTime(),
-  }, {}, ep.done(function (designer) {
-    res.sendSuccessMsg();
-  }));
-}
