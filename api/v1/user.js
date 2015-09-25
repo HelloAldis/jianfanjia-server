@@ -62,6 +62,7 @@ exports.getRequirement = function (req, res, next) {
 exports.updateRequirement = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var requirement = ApiUtil.buildRequirement(req);
+  requirement.status = type.requirement_status_new;
   var ep = eventproxy();
 
   var price_perm = requirement.total_price * 10000 / requirement.house_area;

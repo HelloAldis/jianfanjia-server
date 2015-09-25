@@ -54,3 +54,7 @@ exports.paginate = function (query, project, option, callback) {
     });
   });
 };
+
+exports.removeOne = function (query, option, callback) {
+  Requirement.findOneAndRemove(query, option, callback)
+};
