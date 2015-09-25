@@ -50,6 +50,7 @@
 				<li><a href="design_need.html">我的收藏</a></li>
 				<li><a href="design_info.html">我的资料</a></li>
 				<li><a href="design_team.html">我的施工团队</a></li>
+				<li><a href="design_idAuth.html">身份证银行卡认证</a></li>
 			</ul>
 		</div>
 		<div class="user-mn f-fr">
@@ -280,6 +281,7 @@ function unique(arr,a,b) {
 
 	//渲染生成列表
 	function loadList(){
+		$designOwner.html('<div class="loading" id="j-loading"></div>')
 		var url = RootUrl+'api/v1/designer/user';
 		$.ajax({
 			url:url,
@@ -320,10 +322,21 @@ function unique(arr,a,b) {
 			sStatus = '<a href="scheme_create.html?userid='+data.userid+'&name='+encodeURI(data.user.username)+'&create" class="scheme">提交方案</a><span>(可提交多个方案)</span>';
 		}
 		var imgid = data.user.imageid ? RootUrl+'api/v1/image/'+data.user.imageid : '../../static/img/public/headpic.jpg';
+		if(!!data.requirement.province){
+			var area = data.requirement.province+' '+data.requirement.city+' '+data.requirement.district
+		}else{
+			var area = '湖北省 '+data.requirement.city+' '+data.requirement.district
+		}
+		/*if(!!data.requirement.cell_phase){
+			var detail = data.requirement.cell_phase+' 期 '+data.requirement.cell_building+' 栋 '+data.requirement.cell_unit+' 单元 '+data.requirement.cell_detail_number+' 室/号'
+		}else{
+			var detail = "暂无详细地址";
+		}*/
 		return '<div class="item f-cb" data-item="'+data.userid+'">'
 					+'<div class="head f-fl"><img src="'+imgid+'" alt="" /></div>'
 					+'<div class="info f-fl">'
 						+'<h4>业主：'+data.user.username+'</h4>'
+						+'<p>所在地区：'+area+'</p>'
 						+'<p>小区名称：'+data.requirement.cell+'</p>'
 						+'<p>物业描述：'+globalData.house_type[data.requirement.house_type]+'， '+data.requirement.house_area+'m&sup2;，装修预算 '+data.requirement.total_price+'万</p>'
 						+'<p>风格喜好：'+globalData.dec_style[data.requirement.dec_style]+'</p>'
@@ -337,6 +350,7 @@ function unique(arr,a,b) {
 	//decodeURI("url地址")//解码
 	//生成分页
 	function page(arr){
+		console.log(arr)
 		var page = new Pageing({
 			id : 'j-page',
 			allNumPage : arr.length,
