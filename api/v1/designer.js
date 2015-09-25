@@ -44,6 +44,27 @@ exports.getInfo = function (req, res, next) {
   });
 };
 
+exports.user_designer_info = function (req, res, next) {
+  var designerid = tools.trim(req.body.designerid);
+
+  Designer.findOne({
+    _id: designerid
+  }, {
+    pass: 0,
+    accessToken: 0,
+    uid: 0,
+    email: 0,
+    bank: 0,
+    bank_card: 0,
+  }, function (err, designer) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendData(designer);
+  });
+};
+
 exports.updateInfo = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var designer = ApiUtil.buildDesinger(req);
