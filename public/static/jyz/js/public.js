@@ -16,7 +16,6 @@ var globalData = {
 }
 var global_success_url = window.location;
 var RootUrl = 'http://www.jianfanjia.com/';
-var RootUrl = 'http://101.200.191.159/';
 //Cookie操作
 (function(factory){
 	if (typeof define === 'function' && define.amd) {
