@@ -1,0 +1,52 @@
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li><a ui-sref="designer">设计师列表</a></li><li class="active">设计师身份证认证</li></ol>
+<div class="userInfo">
+	<div class="form-group">
+		<label for="">用户Id</label>
+		<p class="lead">{{user._id}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">注册时间</label>
+		<p class="lead">{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">姓名</label>
+		<p class="lead">{{user.username}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">电话</label>
+		<p class="lead">{{user.phone}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">身份证号码</label>
+		<p class="lead">{{user.uid}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">身份证正面</label>
+		<img src="{{uid_img1}}" class="img-responsive" alt="暂无图片">
+	</div>
+	<div class="form-group">
+		<label for="">身份证反面</label>
+		<img src="{{uid_img2}}" class="img-responsive" alt="暂无图片">
+	</div>
+	<div class="form-group">
+		<label for="">银行</label>
+		<p class="lead">{{user.bank}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">卡号</label>
+		<p class="lead">{{user.bank_card}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">银行卡照片</label>
+		<img src="{{bank_img1}}" class="img-responsive" alt="暂无图片">
+	</div>
+	<div class="form-group">
+		<label for="">未认证通过原因(注：审核通过不需要填写)</label>
+		<textarea class="form-control" ng-model="errorMsg" rows="3"></textarea>
+	</div>
+	<div class="form-group">
+		<button type="button" class="btn btn-success" ng-click="success(2)">审核通过</button>
+		<button type="button" class="btn btn-warning" ng-click="success(3)">审核失败</button>
+		<button type="button" class="btn btn-danger" ng-click="success(4)">强制下线</button>
+	</div>
+</div>

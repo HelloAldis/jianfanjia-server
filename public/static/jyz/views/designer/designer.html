@@ -1,0 +1,61 @@
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">设计师列表</li></ol>
+<form class="form-inline">
+	<p>[注意时间格式：2015-10-01]如果搜索当前的信息，开始时间为当天日期，结束时间为第二天日期</p>
+	<div class="form-group">
+		<label for="inputPassword2">开始时间：</label>
+		<input type="text" class="form-control" id="inputPassword2" placeholder="例如：2015-10-01" ng-model="startTime" required>
+		<label for="inputPassword2">--截止时间：</label>
+		<input type="text" class="form-control" id="inputPassword2" placeholder="例如：2015-10-01" ng-model="endTime">
+	</div>
+	<button type="button" class="btn btn-info" ng-click="searchTimeBtn()">搜索</button>
+</form>
+<br />
+<ul id="authTab">
+	<li ng-repeat="auth in authStatusList" class="{{auth.cur ? 'active' : ''}}" ng-click="authStatusBtn(auth.id)">{{auth.name}}</li>
+</ul>
+<ul id="authTab">
+	<li ng-repeat="auth in authList" class="{{auth.cur ? 'active' : ''}}" ng-click="authBtn(auth.id)">{{auth.name}}</li>
+</ul>
+<form class="form-inline">
+	<div class="form-group">
+		<label for="inputPassword2" class="sr-only">搜索设计师</label>
+		<input type="text" class="form-control" id="inputPassword2" placeholder="手机号码/设计师名字" ng-model="searchDesigner">
+	</div>
+	<button type="button" class="btn btn-info" ng-click="searchBtn()">搜索设计师</button>
+</form>
+<br />
+<div class="panel panel-info ng-scope">
+	<table class="table table-bordered">
+		<tbody>
+			<tr class="info thead">
+				<th>设计师ID</th>
+				<th>注册时间</th>
+				<th>设计师姓名</th>
+				<th>设计师电话</th>
+				<th>认证申请时间</th>
+				<th>认证状态</th>
+				<th>已审核作品数</th>
+				<th>施工团队</th>
+				<th>管理员认证操作</th>
+			</tr>
+			<tr ng-repeat="user in userList">
+				<td>{{user._id}}</td>
+				<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td><a ui-sref="designerInfo({id:user._id})">{{user.username}}</a></td>
+				<td>{{user.phone}}</td>
+				<td>{{user.authDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.status | authTypeFilter}}</td>
+				<td><a ui-sref="designerProduct({id:user._id})">查看({{user.authed_product_count}})</td>
+				<td><a ui-sref="designerTeam({id:user._id})">查看({{user.team_count}})</td>
+				<td>
+					<a ui-sref="designerInfoAuth({id:user._id})">信息认证</a> | 
+					<a ui-sref="designerIdAuth({id:user._id})">身份认证</a> | 
+					<a ui-sref="designerFieldAuth({id:user._id})">实地认证</a> | 
+					<a href="javascript:;" ng-click="forcedOffline(user._id)">强制离线</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="loadData" ng-hide="loadData" id="j-loadData"></div>
+<div paging page-object="pageing" click-function="list" ></div>

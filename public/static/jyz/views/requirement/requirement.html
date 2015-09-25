@@ -1,0 +1,37 @@
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">业务需求列表</li></ol>
+<form class="form-inline">
+	<p>[注意时间格式：2015-10-01]如果搜索当前的信息，开始时间为当天日期，结束时间为第二天日期</p>
+	<div class="form-group">
+		<label for="inputPassword2">开始时间：</label>
+		<input type="text" class="form-control" id="inputPassword2" placeholder="例如：2015-10-01" ng-model="startTime" required>
+		<label for="inputPassword2">--截止时间：</label>
+		<input type="text" class="form-control" id="inputPassword2" placeholder="例如：2015-10-01" ng-model="endTime">
+	</div>
+	<button type="button" class="btn btn-info" ng-click="searchTimeBtn()">搜索</button>
+</form>
+<br />
+<ul id="authTab">
+	<li ng-repeat="auth in authList" class="{{auth.cur ? 'active' : ''}}" ng-click="authBtn(auth.id)">{{auth.name}}</li>
+</ul>
+<div class="panel panel-info ng-scope">
+	<table class="table table-bordered">
+		<tbody>
+			<tr class="info thead">
+				<th>装修需求ID</th>
+				<th>提交时间</th>
+				<th>当前状态</th>
+				<th>业主姓名</th>
+				<th>匹配设计师及方案列表</th>
+			</tr>
+			<tr ng-repeat="user in userList">
+				<td>{{user._id}}</td>
+				<td>{{user.time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.status | requirementFilter}}</td>
+				<td>{{user.user.username}}</td>
+				<td><a ui-sref="requirementDesigner({id:user.user._id})">点击查看</a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="loadData" ng-hide="loadData" id="j-loadData"></div>
+<div paging page-object="pageing" click-function="list" ></div>

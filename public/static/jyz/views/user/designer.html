@@ -1,0 +1,33 @@
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li><a ui-sref="user">业主列表</a></li><li><a ui-sref="userRequirement({id:userUid})">业主需求列表</a></li><li class="active">匹配设计师</li></ol>
+<div class="breadcrumb">
+	<h2>{{user.user.username}} <small>业主</small></h2>
+	<h4>{{user.cell}} <small>装修需求（需求编号{{user._id}}）</small></h4>
+	<p>{{user.province}} {{user.city}} {{user.district}}</p>
+	<p>{{user.street}} 街道 {{user.cell_phase}} 期 {{user.cell_building}} 栋 {{user.cell_unit}} 单元 {{user.cell_detail_number}} 室/号</p>
+</div>
+<div class="panel panel-info ng-scope">
+	<table class="table table-bordered">
+		<tbody>
+			<tr class="info thead">
+				<th>方案Id</th>
+				<th>量房时间</th>
+				<th>提交时间</th>
+				<th>设计师姓名</th>
+				<th>项目经理</th>
+				<th>当前状态</th>
+				<th>方案查看</th>
+				<th>业主评价</th>
+			</tr>
+			<tr ng-repeat="user in designerids">
+				<td>{{user._id}}</td>
+				<td>{{user.house_check_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.request_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.designer.username}}</td>
+				<td>{{user.manager}}</td>
+				<td>{{user.status | planFilter}}</td>
+				<td><a target="_blank" href="../tpl/user/scheme_detail.html?planid={{user._id}}&name={{user.designer.username}}" class="btns browse">预览方案</a></td>
+				<td>{{user.user.username}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

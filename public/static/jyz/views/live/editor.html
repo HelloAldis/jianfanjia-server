@@ -1,0 +1,56 @@
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li><a ui-sref="live">装修直播</a></li><li class="active">编辑装修直播</li></ol>
+<form>
+  <div class="form-group">
+    <label for="phone">设计师查询：</label>
+    <input type="text" class="form-control" placeholder="可以输入手机号码或者设计师姓名" ng-model="phone" ng-blur="phoneChange(phone)">
+  </div>
+  <div class="form-group">
+  	<label for="phone">设计师列表：</label>
+  	<select class="form-control" ng-model="dataMapped.designerid" ng-options="x.num as x.name for x in designer"></select>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">项目经理：</label>
+    <input type="text" class="form-control" ng-model="dataMapped.manager" placeholder="请输入项目经理">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">开工时间：[注意时间格式：2015-10-01]</label>
+    <input type="text" class="form-control" ng-model="dataMapped.start_at" placeholder="请输入时间例如：2015-10-01">
+  </div>
+  <div class="form-group">
+    <label for="">所在地区：</label>
+    <div class="m-cities" id="where_area"></div>
+  </div>
+  <div class="form-group">
+    <label for="">小区名称：</label>
+    <input type="text" class="form-control" ng-model="dataMapped.cell" placeholder="请输入小区名称">
+  </div>
+  <div class="form-group">
+    <label for="">装修户型：</label>
+    <div my-select my-list="house_type" my-query="dataMapped.house_type"></div>
+  </div>
+  <div class="form-group">
+    <label for="">装修面积：(m&sup2;)[注意：只能填数字]</label>
+    <input type="text" class="form-control" ng-model="dataMapped.house_area" placeholder="请输入装修面积例如：100">
+  </div>
+  <div class="form-group">
+    <label for="">装修风格：</label>
+    <div my-select my-list="dec_style" my-query="dataMapped.dec_style"></div>
+  </div>
+  <div class="form-group">
+    <label for="">装修类型：</label>
+    <div my-select my-list="dec_type" my-query="dataMapped.dec_type"></div>
+  </div>
+   <div class="form-group">
+    <label for="">包工类型：</label>
+    <div my-select my-list="work_type" my-query="dataMapped.work_type"></div>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">装修造价：(万元)[注意：只能填数字]</label>
+    <input type="text" class="form-control" ng-model="dataMapped.total_price" placeholder="请输入装修造价例如：100">
+  </div>
+   <div class="form-group">
+    <label for="exampleInputPassword1">设计方案简介：</label>
+    <textarea class="form-control" rows="3" ng-model="dataMapped.description" placeholder="请输入设计方案简介"></textarea>
+  </div>
+  <button type="button" class="btn btn-success" ng-click="editorLive()">编辑装修直播</button>
+</form>

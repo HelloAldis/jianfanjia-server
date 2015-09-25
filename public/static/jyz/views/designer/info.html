@@ -1,0 +1,219 @@
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li><a ui-sref="designer">设计师列表</a></li><li class="active">设计师个人信息总览</li></ol>
+<div class="userInfo">
+	<h2 class="breadcrumb">基本资料信息</h2>
+	<div class="form-group">
+		<label for="">用户ID</label>
+		<p class="lead">{{user._id}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">注册时间</label>
+		<p class="lead">{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">姓名</label>
+		<p class="lead">{{user.username}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">性别</label>
+		<p class="lead">{{user.sex | sexFilter}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">电话</label>
+		<p class="lead">{{user.phone}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">所在地区</label>
+		<p class="lead">{{user.province ? user.province : '未填写'}} {{user.city}} {{user.district}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">邮寄地址</label>
+		<p class="lead">{{user.address}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">电子邮箱</label>
+		<p class="lead">{{user.email}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">身份证号码</label>
+		<p class="lead">{{user.uid}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">毕业学校</label>
+		<p class="lead">{{user.university}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">工作年限</label>
+		<p class="lead">{{user.work_year}} 年</p>
+	</div>
+	<div class="form-group">
+		<label for="">曾就职装饰公司</label>
+		<p class="lead">{{user.company}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">设计理念：(显示在主页显著位置，迅速建立别人对你的第一映像！)</label>
+		<p class="lead">{{user.achievement}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">设计成就：(在这里介绍关与你的经历，你的荣誉，当然还有你的梦想，或许可以讲讲故事，多多利用这里给自己加分哦！)</label>
+		<p class="lead">{{user.philosophy}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">小头像</label>
+		<img src="{{head_img1}}" class="img-responsive" alt="暂无图片">
+	</div>
+	<div class="form-group">
+		<label for="">大头像</label>
+		<img src="{{head_img2}}" class="img-responsive" alt="暂无图片">
+	</div>
+	<div class="form-group">
+		<label for="">认证时间</label>
+		<p class="lead">{{user.auth_date | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">当前认证状态</label>
+		<p class="lead">{{user.auth_type | authTypeFilter}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">认证审核信息</label>
+		<p class="lead">{{user.auth_message}}</p>
+	</div>
+	<h2 class="breadcrumb">接单服务信息</h2>
+	<div class="form-group">
+		<label for="">接单状态</label>
+		<p class="lead">{{user.online_status == 0 ? '在线' : '离线'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">装修类别（最少1项）</label>
+		<p class="lead">
+			<span ng-repeat="k in user.dec_types"> {{ k | decTypeFilter}} </span>
+		</p>
+	</div>
+	<div class="form-group">
+		<label for="">擅长风格（最多3项）</label>
+		<p class="lead">
+			<span ng-repeat="k in user.dec_styles"> {{ k | decStyleFilter}} </span>
+		</p>
+	</div>
+	<div class="form-group">
+		<label for="">接单区域（最少1项）</label>
+		<p class="lead">
+			<span ng-repeat="k in user.dec_districts"> {{ k | decDistrictsFilter}} </span>
+		</p>
+	</div>
+	<div class="form-group">
+		<label for="">设计费报价（元/m²）:</label>
+		<p class="lead">{{user.design_fee_range | designFeeRangeFilter}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">施工费报价（元/m²）</label>
+		<p class="lead">半包 <u>{{user.dec_fee_half | currency:'￥'}} </u> 元以上 全包 <u>{{user.dec_fee_all | currency:'￥'}}</u> 元以上</p>
+	</div>
+	<div class="form-group">
+		<label for="">习惯沟通方式</label>
+		<p class="lead">{{user.communication_type | designTypeFilter}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">意向接单户型（最少1项）</label>
+		<p class="lead">
+			<span ng-repeat="k in user.dec_house_types"> {{ k | houseTypeFilter}} </span>
+		</p>
+	</div>
+	<h2 class="breadcrumb">身份认证和银行卡信息</h2>
+	<div class="form-group">
+		<label for="">身份证号码</label>
+		<p class="lead">{{user.uid}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">身份证正面</label>
+		<img src="{{uid_img1}}" class="img-responsive" alt="暂无图片">
+	</div>
+	<div class="form-group">
+		<label for="">身份证反面</label>
+		<img src="{{uid_img2}}" class="img-responsive" alt="暂无图片">
+	</div>
+	<div class="form-group">
+		<label for="">银行</label>
+		<p class="lead">{{user.bank}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">卡号</label>
+		<p class="lead">{{user.bank_card}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">银行卡照片</label>
+		<img src="{{bank_img1}}" class="img-responsive" alt="暂无图片">
+	</div>
+	<div class="form-group">
+		<label for="">认证时间</label>
+		<p class="lead">{{user.uid_auth_date | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">当前认证状态</label>
+		<p class="lead">{{user.uid_auth_type | authTypeFilter}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">认证审核信息</label>
+		<p class="lead">{{user.uid_auth_message}}</p>
+	</div>
+	<h2 class="breadcrumb">实体认证信息</h2>
+	<div class="form-group">
+		<label for="">认证时间</label>
+		<p class="lead">{{user.work_auth_date | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">当前认证状态</label>
+		<p class="lead">{{user.work_auth_type | authTypeFilter}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">认证审核信息</label>
+		<p class="lead">{{user.work_auth_message}}</p>
+	</div>
+	<h2 class="breadcrumb">邮箱认证信息</h2>
+	<div class="form-group">
+		<label for="">电子邮箱</label>
+		<p class="lead">{{user.email}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">认证时间</label>
+		<p class="lead">{{user.email_auth_date | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">当前认证状态</label>
+		<p class="lead">{{user.email_auth_type | authTypeFilter}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">认证审核信息</label>
+		<p class="lead">{{user.email_auth_message}}</p>
+	</div>
+	<h2 class="breadcrumb">其他信息</h2>
+	<div class="form-group">
+		<label for="">作品数</label>
+		<p class="lead">总作品数{{user.product_count ? user.product_count : '0'}}，通过审核作品数{{user.authed_product_count ? user.authed_product_count : '0'}}，未通过审核作品数{{user.product_count - user.authed_product_count}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">预约数</label>
+		<p class="lead">{{user.order_count ? user.order_count : '0'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">成交数</label>
+		<p class="lead">{{user.deal_done_count ? user.deal_done_count : '0'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">施工团队个数</label>
+		<p class="lead">{{user.team_count ? user.team_count : '0'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">个人主页预览数</label>
+		<p class="lead">{{user.view_count ? user.view_count : '0'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">入驻协议</label>
+		<p class="lead">{{user.agreee_license == '1' ? '同意' : '不同意'}}</p>
+	</div>
+	<div class="form-group">
+		<a ui-sref="designer" class="btn btn-success">返回设计师列表</a>
+		<a ui-sref="designerProduct({id:user._id})" class="btn btn-primary">前往设计师作品列表</a>
+		<a ui-sref="designerTeam({id:user._id})" class="btn btn-info">前往设计师施工团队列表</a>
+		<a  href="../tpl/design/homepage.html?{{user._id}}" target="_blank" class="btn btn-warning">前往设计师个人主页</a>
+	</div>
+</div>
