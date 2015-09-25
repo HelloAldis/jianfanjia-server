@@ -350,14 +350,30 @@ exports.search_plan = function (req, res, next) {
         plan.designer = designer;
         callback(err, plan);
       });
-    }, function (err, results) {
+    }, function (err, plans) {
       if (err) {
         return next(err);
       }
 
-      res.sendData({
-        plans: results,
-        total: total
+      async.mapLimit(plans, 3, function (plan, callback) {
+        User.findOne({
+          _id: plan.userid,
+        }, {
+          username: 1,
+          phone: 1
+        }, function (err, user) {
+          plan.user = user;
+          callback(err, plan);
+        });
+      }, function (err, results) {
+        if (err) {
+          return next(err);
+        }
+
+        res.sendData({
+          requirements: results,
+          total: total
+        });
       });
     });
   });
