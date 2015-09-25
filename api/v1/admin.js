@@ -4,7 +4,10 @@ var Designer = require('../../proxy').Designer;
 var Share = require('../../proxy').Share;
 var Team = require('../../proxy').Team;
 var User = require('../../proxy').User;
+var Product = require('../../proxy').Product;
 var ApiStatistic = require('../../proxy').ApiStatistic;
+var Requirement = require('../../proxy').Requirement;
+var Plan = require('../../proxy').Plan;
 var tools = require('../../common/tools');
 var _ = require('lodash');
 var config = require('../../config');
@@ -28,20 +31,25 @@ exports.login = function (req, res, next) {
   }
 }
 
-exports.authed = function (req, res, next) {
+exports.update_basic_auth = function (req, res, next) {
   var designerid = tools.trim(req.body._id);
+  var new_auth_type = tools.trim(req.body.new_auth_type);
+  var auth_message = tools.trim(req.body.auth_message);
   var ep = eventproxy();
   ep.fail(next);
 
   Designer.setOne({
     _id: designerid
   }, {
-    auth_type: type.designer_auth_type_done,
+    auth_type: new_auth_type,
     auth_date: new Date().getTime(),
-  }, {}, ep.done(function (err, designer) {
+    auth_message: auth_message,
+  }, {}, ep.done(function (designer) {
     if (designer) {
-      sms.sendYzxAuthSuccess(designer.phone, designer.username);
-      // sms.sendYzxAuthSuccess('18682109074', designer.username);
+      if (new_auth_type === type.designer_auth_type_done) {
+        sms.sendYzxAuthSuccess(designer.phone, designer.username);
+        // sms.sendYzxAuthSuccess('18682109074', designer.username);
+      }
     }
 
     res.sendSuccessMsg();
@@ -51,6 +59,79 @@ exports.authed = function (req, res, next) {
 exports.update_uid_auth = function (req, res, next) {
   var designerid = tools.trim(req.body._id);
   var new_auth_type = tools.trim(req.body.new_auth_type);
+  var auth_message = tools.trim(req.body.auth_message);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Designer.setOne({
+    _id: designerid
+  }, {
+    uid_auth_type: new_auth_type,
+    uid_auth_date: new Date().getTime(),
+    uid_auth_message: auth_message,
+  }, {}, ep.done(function (designer) {
+    res.sendSuccessMsg();
+  }));
+}
+
+exports.update_work_auth = function (req, res, next) {
+  var designerid = tools.trim(req.body._id);
+  var new_auth_type = tools.trim(req.body.new_auth_type);
+  var auth_message = tools.trim(req.body.auth_message);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Designer.setOne({
+    _id: designerid
+  }, {
+    work_auth_type: new_auth_type,
+    work_auth_date: new Date().getTime(),
+    work_auth_message: auth_message,
+  }, {}, ep.done(function (designer) {
+    res.sendSuccessMsg();
+  }));
+}
+
+exports.update_product_auth = function (req, res, next) {
+  var productid = tools.trim(req.body._id);
+  var designerid = tools.trim(req.body.designerid);
+  var new_auth_type = tools.trim(req.body.new_auth_type);
+  var auth_message = tools.trim(req.body.auth_message);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Product.setOne({
+    _id: productid
+  }, {
+    auth_type: new_auth_type,
+    auth_date: new Date().getTime(),
+    auth_message: auth_message,
+  }, {}, ep.done(function (product) {
+    if (product) {
+      if (new_auth_type === type.product_auth_type_done) {
+        if (product.auth_type !== type.product_auth_type_done) {
+          Designer.incOne({
+            _id: designerid
+          }, {
+            authed_product_count: 1
+          }, {
+            upsert: true
+          });
+        }
+      } else if (new_auth_type !== type.product_auth_type_done) {
+        if (product.auth_type === type.product_auth_type_done) {
+          Designer.incOne({
+            _id: designerid
+          }, {
+            authed_product_count: -1
+          }, {
+            upsert: true
+          });
+        }
+      }
+    }
+    res.sendSuccessMsg();
+  }));
 }
 
 exports.add = function (req, res, next) {
@@ -115,10 +196,11 @@ exports.listAuthingDesigner = function (req, res, next) {
 };
 
 exports.searchDesigner = function (req, res, next) {
-  var phone = tools.trim(req.body.phone);
-  var auth_type = tools.trim(req.body.auth_type);
-  var query = {};
-  var phoneReg = new RegExp('^' + tools.trim(req.body.phone));
+  var query = req.body.query;
+  var phone = tools.trim(query.phone);
+  var phoneReg = new RegExp('^' + tools.trim(phone));
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
 
   if (phone) {
     query['$or'] = [{
@@ -127,29 +209,33 @@ exports.searchDesigner = function (req, res, next) {
       username: phoneReg
     }];
   }
+  delete query.phone;
 
-  if (auth_type) {
-    query.auth_type = auth_type;
-  }
-
-  Designer.find(query, {
+  Designer.paginate(query, {
     pass: 0,
     accessToken: 0
   }, {
     sort: {
       phone: 1
-    }
-  }, function (err, designers) {
+    },
+    skip: skip,
+    limit: limit
+  }, function (err, designers, total) {
     if (err) {
       return next(err);
     }
 
-    res.sendData(designers);
+    res.sendData({
+      designers: designers,
+      total: total
+    });
   });
 }
 
 exports.searchUser = function (req, res, next) {
   var phone = tools.trim(req.body.phone);
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
 
   var query = {};
   var phoneReg = new RegExp('^' + tools.trim(req.body.phone));
@@ -162,21 +248,121 @@ exports.searchUser = function (req, res, next) {
     }];
   }
 
-  User.find(query, {
+  User.paginate(query, {
     pass: 0,
     accessToken: 0
   }, {
     sort: {
       phone: 1
-    }
-  }, function (err, designers) {
+    },
+    skip: skip,
+    limit: limit
+  }, function (err, users, total) {
     if (err) {
       return next(err);
     }
 
-    res.sendData(designers);
+    async.mapLimit(users, 3, function (user, callback) {
+      Requirement.find({
+        userid: user._id,
+      }, {
+        status: 1,
+      }, null, function (err, requirement) {
+        user = user.toObject();
+        user.requirement = requirement;
+        callback(err, user);
+      });
+    }, function (err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      res.sendData({
+        users: results,
+        total: total
+      });
+    });
   });
 }
+
+exports.searchProduct = function (req, res, next) {
+  var query = req.body.query;
+  var sort = req.body.sort;
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
+
+  Product.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit
+  }, function (err, products, total) {
+    if (err) {
+      return next(err);
+    }
+
+    async.mapLimit(products, 3, function (product, callback) {
+      Designer.findOne({
+        _id: product.designerid,
+      }, {
+        username: 1,
+        phone: 1
+      }, function (err, designer) {
+        product = product.toObject();
+        product.designer = designer;
+        callback(err, product);
+      });
+    }, function (err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      res.sendData({
+        products: results,
+        total: total
+      });
+    });
+  });
+}
+
+exports.search_plan = function (req, res, next) {
+  var query = req.body.query;
+  var sort = req.body.sort;
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
+
+  Plan.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit
+  }, function (err, plans, total) {
+    if (err) {
+      return next(err);
+    }
+
+    async.mapLimit(plans, 3, function (plan, callback) {
+      Designer.findOne({
+        _id: plan.designerid,
+      }, {
+        username: 1,
+        phone: 1
+      }, function (err, designer) {
+        plan = plan.toObject();
+        plan.designer = designer;
+        callback(err, plan);
+      });
+    }, function (err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      res.sendData({
+        plans: results,
+        total: total
+      });
+    });
+  });
+}
+
 
 exports.getDesigner = function (req, res, next) {
   var designerid = req.params._id;
@@ -199,15 +385,25 @@ exports.getDesigner = function (req, res, next) {
   });
 }
 
-exports.listDesignerTeam = function (req, res, next) {
-  var designerid = req.params._id;
+exports.search_team = function (req, res, next) {
+  var query = req.body.query || {};
+  var sort = req.body.sort;
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
 
-  Team.getTeamsByDesignerid(designerid, function (err, teams) {
+  Team.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit
+  }, function (err, teams, total) {
     if (err) {
       return next(err);
     }
 
-    res.sendData(teams);
+    res.sendData({
+      teams: teams,
+      total: total
+    });
   });
 }
 
@@ -224,3 +420,79 @@ exports.api_statistic = function (req, res, next) {
     res.sendData(arr);
   });
 };
+
+exports.search_requirement = function (req, res, next) {
+  var query = req.body.query || {};
+  var sort = req.body.sort;
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
+
+  Requirement.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit
+  }, function (err, requirements, total) {
+    if (err) {
+      return next(err);
+    }
+
+    async.mapLimit(requirements, 3, function (requirement, callback) {
+      User.findOne({
+        _id: requirement.userid,
+      }, {
+        username: 1,
+        phone: 1
+      }, function (err, user) {
+        requirement = requirement.toObject();
+        requirement.user = user;
+        callback(err, requirement);
+      });
+    }, function (err, results) {
+      if (err) {
+        return next(err);
+      }
+
+      res.sendData({
+        requirements: results,
+        total: total
+      });
+    });
+  });
+}
+
+exports.update_team = function (req, res, next) {
+  var team = ApiUtil.buildTeam(req);
+  var oid = tools.trim(req.body._id);
+
+  if (oid === '') {
+    res.sendErrMsg('信息不完全');
+    return;
+  }
+
+  Team.setOne({
+    _id: oid,
+  }, team, null, function (err) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendSuccessMsg();
+  });
+}
+
+exports.update_designer_online_status = function (req, res, next) {
+  var designerid = tools.trim(req.body.designerid);
+  var new_oneline_status = tools.trim(req.body.new_oneline_status);
+
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Designer.setOne({
+    _id: designerid
+  }, {
+    online_status: new_oneline_status,
+    online_update_time: new Date().getTime(),
+  }, {}, ep.done(function (designer) {
+    res.sendSuccessMsg();
+  }));
+}

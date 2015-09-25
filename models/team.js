@@ -12,6 +12,12 @@ var TeamSchema = new Schema({
   uid: {
     type: String
   },
+  uid_image1: {
+    type: ObjectId
+  },
+  uid_image2: {
+    type: ObjectId
+  },
   company: {
     type: String
   },
@@ -35,6 +41,9 @@ var TeamSchema = new Schema({
   },
   district: {
     type: String
+  },
+  create_at: {
+    type: Number
   },
 });
 

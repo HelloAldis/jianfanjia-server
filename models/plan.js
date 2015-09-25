@@ -45,9 +45,12 @@ var PlanSchema = new Schema({
     default: '0'
   },
   house_check_time: {
-    type: Number
+    type: Number,
   },
   request_date: {
+    type: Number,
+  },
+  last_status_update_time: {
     type: Number,
   },
   comments: {

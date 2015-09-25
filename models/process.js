@@ -53,6 +53,9 @@ var ProcessSchema = new Schema({
   going_on: {
     type: String
   },
+  create_at: {
+    type: Number
+  },
 
   sections: [{
     name: {
@@ -95,12 +98,14 @@ var ProcessSchema = new Schema({
           },
           date: {
             type: Number,
-
           },
         }]
       },
     }],
     ys: {
+      date: {
+        type: Number,
+      },
       images: {
         type: [{
           key: {

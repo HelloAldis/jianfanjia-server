@@ -32,6 +32,7 @@ exports.add = function (req, res, next) {
         if (plan_indb) {
           //有已响应但是没上传的方案，直接上传方案到这里
           plan.status = type.plan_status_desinger_upload; //修改status为已上传
+          plan.last_status_update_time = new Date().getTime();
           var query = {
             userid: userid,
             designerid: designerid,
@@ -63,7 +64,12 @@ exports.add = function (req, res, next) {
       });
   });
 
-  Requirement.getRequirementByUserid(userid, function (err, requirement) {
+  Requirement.setOne({
+    userid: userid,
+    status: type.requirement_status_respond_no_plan
+  }, {
+    status: type.requirement_status_plan_not_final
+  }, null, function (err, requirement) {
     if (err) {
       return next(err);
     }
@@ -126,7 +132,7 @@ exports.userMyPlan = function (req, res, next) {
   Plan.getPlansByQueryAndProject({
     userid: userid,
     status: {
-      $in: [type.plan_status_user_final, type.plan_status_user_reject,
+      $in: [type.plan_status_user_final, type.plan_status_user_not_final,
         type.plan_status_desinger_upload
       ]
     }
@@ -160,23 +166,27 @@ exports.finalPlan = function (req, res, next) {
   var planid = tools.trim(req.body.planid);
   var designerid = new ObjectId(req.body.designerid);
 
-  Requirement.updateByUserid(userid, {
-    $set: {
-      final_designerid: designerid,
-      final_planid: planid,
-    }
-  }, function (err) {
+  Requirement.setOne({
+    userid: userid,
+    // status: type.requirement_status_plan_not_final,
+  }, {
+    final_designerid: designerid,
+    final_planid: planid,
+    status: type.requirement_status_final_plan,
+  }, null, function (err, requirement) {
     if (err) {
       return next(err);
     }
 
-    Plan.setOne({
+    if (requirement) {
+      //标记方案为中标
+      Plan.setOne({
         _id: planid,
         userid: userid
       }, {
-        status: type.plan_status_user_final
-      }, {},
-      function (err, plan) {
+        status: type.plan_status_user_final,
+        last_status_update_time: new Date().getTime(),
+      }, {}, function (err, plan) {
         if (err) {
           return next(err);
         }
@@ -191,6 +201,21 @@ exports.finalPlan = function (req, res, next) {
 
         res.sendSuccessMsg();
       });
+
+      Plan.update({
+        requirementid: requirement._id,
+        _id: {
+          $ne: planid
+        },
+      }, {
+        status: type.plan_status_user_not_final,
+        last_status_update_time: new Date().getTime(),
+      }, {
+        multi: true
+      }, function (err, plan) {
+
+      });
+    }
   });
 }
 
@@ -200,7 +225,7 @@ exports.designerMyPlan = function (req, res, next) {
   Plan.getPlansByQueryAndProject({
     designerid: designerid,
     status: {
-      $in: [type.plan_status_user_final, type.plan_status_user_reject,
+      $in: [type.plan_status_user_final, type.plan_status_user_not_final,
         type.plan_status_desinger_upload
       ]
     }
@@ -210,7 +235,7 @@ exports.designerMyPlan = function (req, res, next) {
     }
 
     async.mapLimit(plans, 3, function (plan, callback) {
-      User.getOneByQueryAndProject({
+      User.findOne({
         _id: plan.userid
       }, {
         username: 1

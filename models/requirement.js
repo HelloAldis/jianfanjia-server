@@ -69,6 +69,13 @@ var RequirementSchema = new Schema({
     type: String,
     default: '0'
   },
+  status: {
+    type: String,
+    default: '0',
+  },
+  create_at: {
+    type: Number
+  },
 });
 
 RequirementSchema.index({

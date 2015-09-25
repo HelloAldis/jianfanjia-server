@@ -6,6 +6,13 @@ var type = {
   designer_auth_type_new: '0',
   designer_auth_type_processing: '1',
   designer_auth_type_done: '2',
+  designer_auth_type_reject: '3',
+  designer_auth_type_illegal: '4',
+
+  product_auth_type_new: '0',
+  product_auth_type_done: '1',
+  product_auth_type_reject: '2',
+  product_auth_type_illegal: '3',
 
   share_status_invisible: '0',
   share_status_visible: '1',
@@ -13,11 +20,18 @@ var type = {
   designer_agree_type_new: '0',
   designer_agree_type_yes: '1',
 
+  requirement_status_new: '0',
+  requirement_status_not_respond: '1',
+  requirement_status_respond_no_plan: '2',
+  requirement_status_plan_not_final: '3',
+  requirement_status_final_plan: '4',
+  requirement_status_config_process: '5',
+
   plan_status_not_respond: '0',
   plan_status_designer_reject: '1',
   plan_status_designer_respond: '2',
   plan_status_desinger_upload: '3',
-  plan_status_user_reject: '4',
+  plan_status_user_not_final: '4',
   plan_status_user_final: '5',
 
   role_admin: '0',
@@ -84,9 +98,14 @@ var type = {
 
   message_type_reschedule: '0',
   message_type_procurement: '1',
+  message_type_pay: '2',
+  message_type_user_ys: '3',
 
   platform_android: '0',
   platform_ios: '1',
+
+  online_status_on: '0',
+  online_status_off: '1',
 }
 
 module.exports = type;

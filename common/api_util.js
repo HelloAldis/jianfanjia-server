@@ -35,8 +35,12 @@ exports.buildUser = function (req) {
 
 exports.buildDesinger = function (req) {
   var designer = exports.buildUser(req);
-  //设计师独有的
-  designer.uid = tools.trim(req.body.uid);
+  designer.username = tools.trim(req.body.username);
+  designer.sex = tools.trim(req.body.sex);
+  designer.province = tools.trim(req.body.province);
+  designer.city = tools.trim(req.body.city);
+  designer.district = tools.trim(req.body.district);
+  designer.address = tools.trim(req.body.address);
   designer.company = tools.trim(req.body.company);
   designer.dec_types = req.body.dec_types;
   designer.dec_styles = req.body.dec_styles;
@@ -48,13 +52,36 @@ exports.buildDesinger = function (req) {
   designer.achievement = tools.trim(req.body.achievement);
   designer.philosophy = tools.trim(req.body.philosophy);
   designer.communication_type = tools.trim(req.body.communication_type);
-  designer.bank_card = tools.trim(req.body.bank_card);
-  designer.bank = tools.trim(req.body.bank);
   designer.work_year = req.body.work_year;
   designer.university = tools.trim(req.body.university);
 
+  if (req.body.imageid) {
+    designer.imageid = new ObjectId(req.body.imageid);
+  }
+
   if (req.body.big_imageid) {
     designer.big_imageid = new ObjectId(req.body.big_imageid);
+  }
+
+  return designer;
+}
+
+exports.buildUidBank = function (req) {
+  var designer = {};
+  designer.uid = tools.trim(req.body.uid);
+  designer.bank_card = tools.trim(req.body.bank_card);
+  designer.bank = tools.trim(req.body.bank);
+
+  if (req.body.uid_image1) {
+    designer.uid_image1 = new ObjectId(req.body.uid_image1);
+  }
+
+  if (req.body.uid_image2) {
+    designer.uid_image2 = new ObjectId(req.body.uid_image2);
+  }
+
+  if (req.body.bank_card_image1) {
+    designer.bank_card_image1 = new ObjectId(req.body.bank_card_image1);
   }
 
   return designer;
@@ -72,6 +99,14 @@ exports.buildTeam = function (req) {
   team.province = tools.trim(req.body.province);
   team.city = tools.trim(req.body.city);
   team.district = tools.trim(req.body.district);
+
+  if (req.body.uid_image1) {
+    team.uid_image1 = new ObjectId(req.body.uid_image1);
+  }
+
+  if (req.body.uid_image2) {
+    team.uid_image2 = new ObjectId(req.body.uid_image2);
+  }
 
   return team;
 }
@@ -204,4 +239,16 @@ exports.buildFeedback = function (req) {
   feedback.content = tools.trim(req.body.content);
   feedback.platform = tools.trim(req.body.platform);
   return feedback;
+}
+
+exports.buildTempUser = function (req) {
+  var tempUser = {};
+
+  tempUser.name = tools.trim(req.body.name);
+  tempUser.phone = tools.trim(req.body.phone);
+  tempUser.district = tools.trim(req.body.district);
+  tempUser.house_area = req.body.house_area;
+  tempUser.total_price = req.body.total_price;
+
+  return tempUser;
 }

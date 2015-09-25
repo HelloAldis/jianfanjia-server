@@ -2,56 +2,38 @@ var TempUser = require('../../proxy').TempUser;
 var eventproxy = require('eventproxy');
 var validator = require('validator');
 var _ = require('lodash');
+var ApiUtil = require('../../common/api_util');
 
 exports.add = function (req, res, next) {
-  // var name = validator.trim(req.body.name);
-  // var phone = validator.trim(req.body.phone);
-  var json = {};
-  json.name = validator.trim(req.body.name);
-  json.phone = validator.trim(req.body.phone);
+  var tempUser = ApiUtil.buildTempUser(req);
 
-  var ep = new eventproxy();
-  ep.fail(next);
-  ep.on('user_err', function (msg) {
-    res.sendErrMsg(msg);
-  });
-
-  if ([json.name, json.phone].some(function (item) { return item === ''; })) {
-    ep.emit('user_err', '信息不完整。');
-    return;
-  }
-
-  TempUser.getOneByNamePhone(json.name, json.phone, function (err, tempUsers) {
+  TempUser.newAndSave(tempUser, function (err) {
     if (err) {
       return next(err);
     }
 
-    if (tempUsers) {
-      res.sendSuccessMsg();
-      return;
-    }
-
-    TempUser.newAndSave(json, function (err) {
-      if (err) {
-        return next(err);
-      }
-
-      res.sendSuccessMsg();
-    });
+    res.sendSuccessMsg();
   });
 };
 
-exports.show = function (req, res, next) {
-  TempUser.getAll(function (err, tempUsers) {
-    var html = '<table border="1">';
-    console.log(tempUsers);
-    _.forEach(tempUsers, function (n) {
-      console.log(n);
-      html = html + '<tr><td>' + n.name + '</td><td>' + n.phone + '</td></tr>';
-    });
-    html = html + '<tr><td>' + JSON.stringify(tempUsers) + '</td></tr>'
-    html = html + '</table>';
+exports.search_temp_user = function (req, res, next) {
+  var query = req.body.query || {};
+  var sort = req.body.sort;
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
 
-    res.send(html);
+  TempUser.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit
+  }, function (err, users, total) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendData({
+      users: users,
+      total: total
+    });
   });
 };

@@ -61,6 +61,19 @@ var ProductSchema = new Schema({
     type: Number,
     default: 0
   },
+  auth_type: {
+    type: String,
+    default: '0',
+  },
+  auth_date: {
+    type: Number,
+  },
+  auth_message: {
+    type: String,
+  },
+  create_at: {
+    type: Number
+  },
 });
 
 ProductSchema.index({

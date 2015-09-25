@@ -4,9 +4,6 @@ var _ = require('lodash');
 var moment = require('moment');
 
 exports.add = function (date, num, f) {
-  console.log('date= ' + date);
-  console.log('num= ' + num);
-  console.log('f= ' + f);
   var ds = num * f;
   ds = _.round(ds);
   if (ds === 0) {

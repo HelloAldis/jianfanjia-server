@@ -54,6 +54,12 @@ var DesignerSchema = new Schema({
   uid: {
     type: String
   },
+  uid_image1: {
+    type: ObjectId
+  },
+  uid_image2: {
+    type: ObjectId
+  },
   company: {
     type: String
   },
@@ -98,6 +104,10 @@ var DesignerSchema = new Schema({
     type: Number,
     default: 0
   },
+  authed_product_count: {
+    type: Number,
+    default: 0
+  },
   team_count: {
     type: Number,
     default: 0
@@ -109,12 +119,18 @@ var DesignerSchema = new Schema({
   auth_date: {
     type: Number,
   },
+  auth_message: {
+    type: String,
+  },
   uid_auth_type: {
     type: String,
     default: '0'
   },
   uid_auth_date: {
     type: Number,
+  },
+  uid_auth_message: {
+    type: String,
   },
   email_auth_type: {
     type: String,
@@ -123,14 +139,19 @@ var DesignerSchema = new Schema({
   email_auth_date: {
     type: Number,
   },
-  team_auth_type: {
+  email_auth_message: {
+    type: String,
+  },
+  work_auth_type: {
     type: String,
     default: '0'
   },
-  team_auth_date: {
+  work_auth_date: {
     type: Number,
   },
-
+  work_auth_message: {
+    type: String,
+  },
   agreee_license: {
     type: String,
     default: '0'
@@ -144,6 +165,9 @@ var DesignerSchema = new Schema({
   bank_card: {
     type: String,
   },
+  bank_card_image1: {
+    type: ObjectId
+  },
   work_year: {
     type: Number
   },
@@ -153,7 +177,14 @@ var DesignerSchema = new Schema({
   deal_done_count: {
     type: Number,
     default: 0,
-  }
+  },
+  online_status: {
+    type: String,
+    default: '0'
+  },
+  online_update_time: {
+    type: Number
+  },
 });
 
 DesignerSchema.index({

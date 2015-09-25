@@ -33,7 +33,7 @@ exports.getPlansByDesigneridAndUserid = function (designerid, userid, project,
 exports.newAndSave = function (json, callback) {
   var plan = new Plan(json);
   plan.request_date = new Date().getTime();
-
+  plan.last_status_update_time = new Date().getTime();
   plan.save(callback);
 };
 
@@ -81,4 +81,26 @@ exports.setOne = function (query, update, option, callback) {
   Plan.findOneAndUpdate(query, {
     $set: update
   }, option, callback);
+}
+
+exports.update = function (query, update, option, callback) {
+  Plan.update(query, {
+    $set: update
+  }, option, callback);
+}
+
+exports.find = function (query, project, option, callback) {
+  Plan.find(query, project, option, callback);
+}
+
+exports.paginate = function (query, project, option, callback) {
+  Plan.count(query, function (err, count) {
+    if (err) {
+      return callback(err, null);
+    }
+
+    exports.find(query, project, option, function (err, designers) {
+      callback(err, designers, count);
+    });
+  });
 }

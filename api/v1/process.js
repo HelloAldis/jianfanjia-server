@@ -211,7 +211,21 @@ exports.start = function (req, res, next) {
       return next(err);
     }
 
-    res.sendData(process_indb);
+    if (process_indb) {
+      Requirement.setOne({
+        _id: process.requirementid
+      }, {
+        status: type.requirement_status_config_process
+      }, null, function (err) {
+        if (err) {
+          return next(err);
+        }
+
+        res.sendData(process_indb);
+      });
+    } else {
+      res.sendData(process_indb);
+    }
   });
 }
 
@@ -242,19 +256,31 @@ exports.addImage = function (req, res, next) {
   var imageid = new ObjectId(req.body.imageid);
   var _id = req.body._id;
 
-  Process.addImage(_id, section, item, imageid, function (err) {
+  Process.addImage(_id, section, item, imageid, function (err, process) {
     if (err) {
       return next(err);
     }
 
-    Process.updateStatus(_id, section, item, type.process_item_status_going,
-      function (err) {
-        if (err) {
-          return next(err);
-        }
-
-        res.sendSuccessMsg();
+    if (process) {
+      var s = _.find(process.sections, function (o) {
+        return o.name === section;
       });
+      if (s) {
+        var i = _.find(s.items, function (o) {
+          return o.name === item;
+        });
+
+        if (i && i.status === type.process_item_status_new) {
+          Process.updateStatus(_id, section, item, type.process_item_status_going,
+            function (err) {
+              if (err) {
+                return next(err);
+              }
+            });
+        }
+      }
+    }
+    res.sendSuccessMsg();
   });
 };
 
@@ -332,6 +358,12 @@ function buildProcurement(section) {
   };
 }
 
+function buildPay() {
+  return {
+    message: '尊敬的业主， 你即将进入下一轮付款环节， 请您及时与设计师联系'
+  };
+}
+
 exports.reschedule = function (req, res, next) {
   var reschedule = ApiUtil.buildReschedule(req);
   var usertype = ApiUtil.getUsertype(req);
@@ -361,6 +393,9 @@ exports.reschedule = function (req, res, next) {
         gt.pushMessageToSingle(json.id, {
           content: json.content,
           type: type.message_type_reschedule,
+          time: new Date().getTime(),
+          section: reschedule.section,
+          status: reschedule.status,
         });
         console.log(json.content);
         // gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
@@ -404,8 +439,11 @@ exports.listReschdule = function (req, res, next) {
     query.designerid = userid;
   }
 
-  Reschedule.findByQueryAndProjectAndOption(query, {}, {}, function (err,
-    reschedules) {
+  Reschedule.findByQueryAndProjectAndOption(query, {}, {
+    sort: {
+      request_date: -1
+    }
+  }, function (err, reschedules) {
     if (err) {
       return next(err);
     }
@@ -443,6 +481,9 @@ exports.okReschedule = function (req, res, next) {
         gt.pushMessageToSingle(json.id, {
           content: json.content,
           type: type.message_type_reschedule,
+          time: new Date().getTime(),
+          section: reschedule.section,
+          status: type.process_item_status_reschedule_ok,
         });
         console.log(json.content);
         // gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
@@ -537,6 +578,9 @@ exports.rejectReschedule = function (req, res, next) {
         gt.pushMessageToSingle(json.id, {
           content: json.content,
           type: type.message_type_reschedule,
+          time: new Date().getTime(),
+          section: reschedule.section,
+          status: type.process_item_status_reschedule_reject,
         });
         console.log(json.content);
         // gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
@@ -597,7 +641,9 @@ exports.doneItem = function (req, res, next) {
 
       if (process) {
         //push notification
-        if (type.work_type === 0) {
+        if ((process.work_type === type.work_type_half) &&
+          (section !== type.process_section_kai_gong && section !== type.process_section_jun_gong)
+        ) {
           var result = _.find(process.sections, function (o) {
             return o.name === section;
           });
@@ -608,13 +654,16 @@ exports.doneItem = function (req, res, next) {
             }
           });
 
+          console.log('result=' + result);
+          console.log('doneCount' + doneCount);
           if (result.items.length - doneCount <= 2) {
             var json = buildProcurement(section);
-            console.log(json);
+            console.log('采购提醒 ' + json);
             gt.pushMessageToSingle(process.userid, {
               content: json.message,
               section: json.next,
               type: type.message_type_procurement,
+              time: new Date().getTime(),
             });
           }
         }
@@ -659,9 +708,20 @@ exports.doneSection = function (req, res, next) {
   var _id = req.body._id;
 
   Process.updateStatus(_id, section, null, type.process_item_status_done,
-    function (err) {
+    function (err, process) {
       if (err) {
         return next(err);
+      }
+
+      if (process) {
+        var json = buildPay();
+        console.log(json);
+        gt.pushMessageToSingle(process.userid, {
+          content: json.message,
+          section: section,
+          type: type.message_type_pay,
+          time: new Date().getTime(),
+        });
       }
 
       //开启下个流程
@@ -702,7 +762,7 @@ exports.list = function (req, res, next) {
   ep.fail(next);
   ep.on('processes', function (processes) {
     async.mapLimit(processes, 3, function (process, callback) {
-      User.getOneByQueryAndProject({
+      User.findOne({
         _id: process.userid
       }, {
         username: 1,
@@ -745,5 +805,30 @@ exports.list = function (req, res, next) {
     });
 
     ep.emit('processes', ps);
+  });
+}
+
+exports.ys = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
+  var section = tools.trim(req.body.section);
+  var _id = req.body._id;
+
+  Process.findOne({
+    _id: _id
+  }, null, function (err, process) {
+    if (err) {
+      return next(err);
+    }
+
+    if (process) {
+      gt.pushMessageToSingle(process.userid, {
+        content: '设计师已经上传所有验收图片，您可以前往对比验收',
+        type: type.message_type_user_ys,
+        time: new Date().getTime(),
+        section: section,
+      });
+    }
+
+    res.sendSuccessMsg();
   });
 }

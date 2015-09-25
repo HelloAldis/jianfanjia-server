@@ -44,13 +44,75 @@ exports.getInfo = function (req, res, next) {
   });
 };
 
+exports.user_designer_info = function (req, res, next) {
+  var designerid = tools.trim(req.body.designerid);
+
+  Designer.findOne({
+    _id: designerid
+  }, {
+    pass: 0,
+    accessToken: 0,
+    uid: 0,
+    email: 0,
+    bank: 0,
+    bank_card: 0,
+  }, function (err, designer) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendData(designer);
+  });
+};
+
 exports.updateInfo = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var designer = ApiUtil.buildDesinger(req);
+  designer.auth_type = type.designer_auth_type_new;
+  designer.auth_date = new Date().getTime();
+  designer.auth_message = '';
 
   Designer.setOne({
     _id: userid
   }, designer, {}, function (err) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendSuccessMsg();
+  });
+};
+
+exports.uid_bank_info = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var uidbank = ApiUtil.buildUidBank(req);
+  uidbank.uid_auth_type = type.designer_auth_type_new;
+  uidbank.uid_auth_date = new Date().getTime();
+  uidbank.uid_auth_message = '';
+
+  Designer.setOne({
+    _id: userid
+  }, uidbank, {}, function (err) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendSuccessMsg();
+  });
+};
+
+exports.email_info = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var email = tools.trim(req.body.email);
+
+  Designer.setOne({
+    _id: userid
+  }, {
+    email: email,
+    email_auth_type: type.designer_auth_type_new,
+    email_auth_date: new Date().getTime(),
+    email_auth_message: '',
+  }, {}, function (err) {
     if (err) {
       return next(err);
     }
@@ -68,6 +130,11 @@ exports.getOne = function (req, res, next) {
     if (err) {
       return next(err);
     }
+
+    // console.log('time = ' + designer._id.getTimestamp().getTime()); //1439782910000
+    // var a = designer._id.toString().substring(0, 8);
+    // console.log('a = ' + a);
+    // console.log('int = ' + (parseInt(a, 16) * 1000));
 
     if (designer) {
       res.sendData(designer);
@@ -133,7 +200,7 @@ exports.myUser = function (req, res, next) {
   ep.fail(next);
   ep.on('plans', function (plans) {
     async.mapLimit(plans, 3, function (plan, callback) {
-      User.getOneByQueryAndProject({
+      User.findOne({
         _id: plan.userid
       }, {
         username: 1,
@@ -199,20 +266,31 @@ exports.okUser = function (req, res, next) {
   var userid = tools.trim(req.body.userid);
   var house_check_time = req.body.house_check_time;
 
-  Plan.updateByQuery({
-      userid: userid,
-      designerid: designerid
-    }, {
-      house_check_time: house_check_time,
-      status: type.plan_status_designer_respond
-    },
-    function (err) {
-      if (err) {
-        return next(err);
-      }
+  Plan.setOne({
+    userid: userid,
+    designerid: designerid
+  }, {
+    house_check_time: house_check_time,
+    status: type.plan_status_designer_respond,
+    last_status_update_time: new Date().getTime(),
+  }, function (err, plan) {
+    if (err) {
+      return next(err);
+    }
 
-      res.sendSuccessMsg();
-    });
+    if (plan) {
+      Requirement.setOne({
+        _id: plan.requirementid,
+        status: type.requirement_status_not_respond,
+      }, {
+        status: type.requirement_status_respond_no_plan
+      }, null, function (err) {
+
+      });
+    }
+
+    res.sendSuccessMsg();
+  });
 }
 
 exports.rejectUser = function (req, res, next) {
@@ -223,7 +301,8 @@ exports.rejectUser = function (req, res, next) {
       userid: userid,
       designerid: designerid
     }, {
-      status: type.plan_status_designer_reject
+      status: type.plan_status_designer_reject,
+      last_status_update_time: new Date().getTime(),
     },
     function (err) {
       if (err) {
@@ -265,4 +344,21 @@ exports.agree = function (req, res, next) {
 
     res.sendSuccessMsg();
   });
+}
+
+exports.update_online_status = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
+  var new_oneline_status = tools.trim(req.body.new_oneline_status);
+
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Designer.setOne({
+    _id: designerid
+  }, {
+    online_status: new_oneline_status,
+    online_update_time: new Date().getTime(),
+  }, {}, ep.done(function (designer) {
+    res.sendSuccessMsg();
+  }));
 }

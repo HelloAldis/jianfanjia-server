@@ -7,6 +7,7 @@ exports.getOneById = function (id, callback) {
 
 exports.newAndSave = function (json, callback) {
   var share = new Share(json);
+  share.create_at = new Date().getTime();
   share.save(callback);
 };
 
