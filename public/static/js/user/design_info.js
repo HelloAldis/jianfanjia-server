@@ -222,9 +222,8 @@ $(function(){
      	return showError(desWorkYear,id);
     }
 	function loadList(){
-		var url = RootUrl+'api/v1/designer/info';
 		$.ajax({
-			url:url,
+			url:RootUrl+'api/v1/designer/info',
 			type: 'GET',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
@@ -242,10 +241,10 @@ $(function(){
 					desUid.val(data.uid)
 					if(!!data.province){
 						var designAreaQuery = data.province+" "+data.city+" "+data.district;
-						desArea.find('input[name=design-area]').val(designAreaQuery)
+						desArea.find('.whereArea').val(designAreaQuery)
 						var designArea = new CitySelect({id :'design-area',"query":designAreaQuery});
 					}else{
-						desArea.find('input[name=design-area]').val("")
+						desArea.find('.whereArea').val("")
 						var designArea = new CitySelect({id :'design-area'});
 					}
 					desCom.val(data.company || "");
@@ -261,11 +260,16 @@ $(function(){
 					desDecPrice1.val(data.dec_fee_all || "")
 					$('#product-count').html(data.product_count+'个');
 					if(data.auth_type == 0){
-						$('#auth-box').append('<span>(验证通过的设计师才能在平台显示,请先填写资料)</span>');
+						$('.auth-box').append('<span>(验证通过的设计师才能在平台显示,请先填写资料)</span>');
 					}else if(data.auth_type == 1){
-						$('#auth-box').empty().html('正在认证中，请耐心等待！');
-					}else if(data.auth_type == 2){
-						$('#auth-box').empty().html('认证成功！');
+						$('.auth-box').empty().html('正在认证中，请耐心等待！');
+					}else if(data.auth_type > 1){
+						if(data.auth_type == 2){
+							$('.auth-box').empty().html(data.auth_message);
+						}else{
+							$('.auth-box').empty().html('认证失败，失败原因：'+data.auth_message);
+						}
+						
 					}
 					$.each(data.dec_styles,function(i,el){
 						desDecStyle.find('[value='+data.dec_styles[i]+']').attr('checked','checked')
@@ -313,6 +317,22 @@ $(function(){
 		   	}
 		});
 	}
+	$('#auth-email').on('click',function(){
+		if(checkEmail()){
+			$.ajax({
+				url:RootUrl+'api/v1/designer/email_info',
+				type: 'PUT',
+				contentType : 'application/json; charset=utf-8',
+				dataType: 'json',
+				data : JSON.stringify({
+					"email" : desEmail.val()
+				}),
+				success: function(res){
+					console.log(res)
+				}
+			})
+		}
+	})
 	loadList();
 	//表单提交
 	$('#design-info').on('submit',function(){
@@ -331,9 +351,17 @@ $(function(){
         checkWorkYear(); 
         var userProv = desArea.find('.province').find('.value').html();
 		var userCity = desArea.find('.city').find('.value').html();
-		var userDist = desArea.find('.area').find('.value').html();
+		var userDist = desArea.find('.district').find('.value').html();
         if(userProv == '请选择省'){
-        	$('#design-area-box').find('.tipsinfo').html('请选择所在地区').removeClass('hide');
+        	$('#design-area-box').find('.tipsinfo').html('请选择所在省').removeClass('hide');
+			return false;
+		}
+		if(userCity == '请选择市'){
+			$('#design-area-box').find('.tipsinfo').html('请选择所在市').removeClass('hide');
+			return false;
+		}
+		if(userDist == '请选择县/区'){
+			$('#design-area-box').find('.tipsinfo').html('请选择所在县/区').removeClass('hide');
 			return false;
 		}
 		if($('#userHead').data('img') == null){
