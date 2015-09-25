@@ -233,12 +233,11 @@ exports.searchDesigner = function (req, res, next) {
 }
 
 exports.searchUser = function (req, res, next) {
-  var phone = tools.trim(req.body.phone);
+  var query = req.body.query;
+  var phone = tools.trim(query.phone);
+  var phoneReg = new RegExp('^' + tools.trim(phone));
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
-
-  var query = {};
-  var phoneReg = new RegExp('^' + tools.trim(req.body.phone));
 
   if (phone) {
     query['$or'] = [{
@@ -247,6 +246,7 @@ exports.searchUser = function (req, res, next) {
       username: phoneReg
     }];
   }
+  delete query.phone;
 
   User.paginate(query, {
     pass: 0,
@@ -350,14 +350,30 @@ exports.search_plan = function (req, res, next) {
         plan.designer = designer;
         callback(err, plan);
       });
-    }, function (err, results) {
+    }, function (err, plans) {
       if (err) {
         return next(err);
       }
 
-      res.sendData({
-        plans: results,
-        total: total
+      async.mapLimit(plans, 3, function (plan, callback) {
+        User.findOne({
+          _id: plan.userid,
+        }, {
+          username: 1,
+          phone: 1
+        }, function (err, user) {
+          plan.user = user;
+          callback(err, plan);
+        });
+      }, function (err, results) {
+        if (err) {
+          return next(err);
+        }
+
+        res.sendData({
+          requirements: results,
+          total: total
+        });
       });
     });
   });
