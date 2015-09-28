@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
 	<link rel="stylesheet" type="text/css" href="../../static/css/design.css" />
 	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../static/js/lib/jquery.scrollLoading-min.js"></script>
 	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
 	<!--[if lt IE 9]>
       <script type="text/javascript" src="../../static/js/lib/json2-min.js"></script>
@@ -119,6 +120,7 @@
 			dataType: 'json',
 			success: function(res){
 				createInfo(res['data'])
+				$(".imgLoad").scrollLoading();
 		   	}
 		});
 	}
@@ -191,8 +193,9 @@
 		var imgList = '';
 		for (var i = 0,len = data.images.length; i < len; i++) {
 			var des = data.images[i].description ? '<p>'+data.images[i].description+'</p>' : ''
-			imgList += '<li><h4>'+data.images[i].section+'</h4><img src="'+RootUrl+'api/v1/image/'+data.images[i].imageid+'" alt="" />'+des+'</li>' 
+			imgList += '<li><h4>'+data.images[i].section+'</h4><img class="imgLoad" data-url="'+RootUrl+'api/v1/watermark/v1/'+data.images[i].imageid+'" src="../../static/img/public/load.gif" alt="">'+des+'</li>'
 		};
+
 		$('#detail-info').html(info);
 		$collect.removeClass('hide');
 		$('#desc-description').html(data.description);

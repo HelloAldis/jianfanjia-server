@@ -1,4 +1,4 @@
-$(function(){
+$(function(){ 
 	var winHash = window.location.search.substring(1);
     var $liveBanner = $('#j-live-banner');
     var $liveShow = $('#j-live-show');
@@ -11,6 +11,7 @@ $(function(){
 					var info = res['data'];
 					if(info != null){
 						createList(data,info)
+						$(".imgLoad").scrollLoading();
 					}
 				})
 			}
@@ -65,7 +66,7 @@ $(function(){
 					var time = '';
 					var sPic = '';
 					for (var n = 0; n < data.process[i].images.length; n++) {
-						sPic += '<img src="'+RootUrl+'api/v1/watermark/v1/'+data.process[i].images[n]+'" alt="">'
+						sPic += '<img class="imgLoad" data-url="'+RootUrl+'api/v1/watermark/v1/'+data.process[i].images[n]+'" src="../../static/img/public/load.gif" alt="">'
 					};
 					time += sPic;
 					if(!!data.process[i].description){
