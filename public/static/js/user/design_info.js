@@ -259,6 +259,7 @@ $(function(){
 					desDecPrice0.val(data.dec_fee_half || "")
 					desDecPrice1.val(data.dec_fee_all || "")
 					$('#product-count').html(data.product_count+'个');
+					$('.auth-box').empty();
 					if(data.auth_type == 0){
 						$('.auth-box').append('<span>(验证通过的设计师才能在平台显示,请先填写资料)</span>');
 					}else if(data.auth_type == 1){
@@ -439,9 +440,8 @@ $(function(){
 			processData : false,
 			success: function(res){
 				if(res['msg'] === "success"){
+					$('.auth-box').html('<input type="submit" class="btn" id="auth-submit" value="提交认证" />')
 					promptMessage('保存成功',"success");
-					loadList();
-					$('#auth-submit').removeClass('hide');
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');
 				}
@@ -450,10 +450,10 @@ $(function(){
 		return false;
 	});
 	//认证提交
-	$('#auth-submit').on('click',function(){
-        var url = RootUrl+'api/v1/designer/auth';
+	$(document).delegate('#auth-submit','click',function(ev){
+		ev.preventDefault();
 		$.ajax({
-			url:url,
+			url:RootUrl+'api/v1/designer/auth',
 			type: 'POST',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
@@ -518,6 +518,6 @@ $(function(){
 	function callbackImg(arr){
 		var data = $.parseJSON(arr)
 		$('#userHead').attr('src',RootUrl+'api/v1/image/'+data.data).data('img',data.data);
+		$('#error-info').addClass('hide')
 	}
-
 })
