@@ -84,7 +84,7 @@ var type = {
   process_ni_mu_item_ddsg: 'ddsg',
   process_ni_mu_item_gtsg: 'gtsg',
   process_you_qi_item_mqqsg: 'mqqsg',
-  process_you_qi_item_qmjccl: 'qmjccl',
+  process_you_qi_item_qmrjq: 'qmrjq',
   process_an_zhuang_item_scaz: 'scaz',
   process_an_zhuang_item_jjaz: 'jjaz',
   process_an_zhuang_item_cwddaz: 'cwddaz',

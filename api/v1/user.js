@@ -116,9 +116,10 @@ exports.updateRequirement = function (req, res, next) {
   });
 
   Designer.find({
-    auth_type: type.designer_auth_type_done,
-    // province: province,
     city: city,
+    auth_type: type.designer_auth_type_done,
+    uid_auth_type: type.designer_auth_type_done,
+    work_auth_type: type.designer_auth_type_done,
   }, {
     pass: 0,
     accessToken: 0
