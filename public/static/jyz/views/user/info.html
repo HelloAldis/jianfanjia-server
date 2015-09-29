@@ -1,0 +1,39 @@
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li><a ui-sref="user">业主列表</a></li><li class="active">业主详细资料</li></ol>
+<div class="userInfo">
+	<div class="form-group">
+		<label for="">用户Id</label>
+		<p class="lead">{{user._id}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">注册时间</label>
+		<p class="lead">{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">姓名</label>
+		<p class="lead">{{user.username ? user.username : '未填写'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">电话</label>
+		<p class="lead">{{user.phone}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">性别</label>
+		<p class="lead">{{user.sex ? (user.sex | sexFilter) : '未填写'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">所在地区</label>
+		<p class="lead">{{user.province ? user.province : '未填写'}} {{user.city}} {{user.district}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">邮寄地址</label>
+		<p class="lead">{{user.address ? user.address : '未填写'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">电子邮箱</label>
+		<p class="lead">{{user.email ? user.email : '未填写'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">头像</label>
+		<img src="{{head}}" class="img-responsive" alt="Responsive image">
+	</div>
+</div>

@@ -1,0 +1,29 @@
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">装修直播</li></ol>
+<div class="panel panel-info ng-scope">
+	<table class="table table-bordered">
+		<tbody>
+			<tr class="info thead">
+				<th>开始时间</th>
+				<th>项目名称</th>
+				<th>当前状态</th>
+				<th>设计师</th>
+				<th>项目经理</th>
+				<th>管理员操作</th>
+			</tr>
+			<tr ng-repeat="live in liveList">
+				<td>{{live.start_at | date:'yyyy-MM-dd'}}</td>
+				<td>{{live.cell}}</td>
+				<td>{{live.process[live.process.length-1].name | processFilter}}</td>
+				<td>{{live.designer.username}}</td>
+				<td>{{live.manager}}</td>
+				<td class="td-opt">
+					<a href="../tpl/live/detail.html?{{live._id}}" target="_blank">查看</a> |
+					<a ui-sref="liveEditor({id:live._id})">编辑</a> | 
+					<a ui-sref="liveUpdata({id:live._id})">更新</a> |
+					<a ng-click="deleteLive(live._id)">删除</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<a class="btn btn-primary btn-sm" ui-sref="liveAdd">创建装修直播</a>

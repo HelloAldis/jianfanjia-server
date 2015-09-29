@@ -148,11 +148,11 @@ $(function(){
 			var teamUid = $tameUid.val();
 			var teamCom = $tameCom.val();
 			var teamWork = parseInt($tameYear.val());
-			var teamGood = $tameGood.find('input').val();
+			var teamGood = $tameGood.find('.value').html();
 			var teamIng = $temeWorking.val();
 			var teamProv = $tameHometown.find('.province').find('.value').html();
 			var teamCity = $tameHometown.find('.city').find('.value').html();
-			var teamDist = $tameHometown.find('.area').find('.value').html();
+			var teamDist = $tameHometown.find('.district').find('.value').html();
 			if(submitOff){
 				submitOff = false;
 				$.ajax({
@@ -213,11 +213,11 @@ $(function(){
 			var teamUid = $tameUid.val();
 			var teamCom = $tameCom.val();
 			var teamWork = parseInt($tameYear.val());
-			var teamGood = $tameGood.find('input').val();
+			var teamGood = $tameGood.find('.value').html();
 			var teamIng = $temeWorking.val();
 			var teamProv = $tameHometown.find('.province').find('.value').html();
 			var teamCity = $tameHometown.find('.city').find('.value').html();
-			var teamDist = $tameHometown.find('.area').find('.value').html();
+			var teamDist = $tameHometown.find('.district').find('.value').html();
 			$.ajax({
 				url:RootUrl+'api/v1/designer/team',
 				type: "PUT",
@@ -300,7 +300,7 @@ $(function(){
 					+'<dt>施工团队'+(i+1)+'</dt>'
 					+'<dd>'
 						+'<p class="itme1"><span class="key">项目经理：</span><span class="value1">'+data[i].manager+'</span></p>'
-						+'<P class="itme2"><span class="key">性&nbsp;&nbsp;&nbsp;别：</span><span class="value2">'+globalData.sex[data[i].sex]+'</span></P>'
+						+'<P class="itme2"><span class="key">性&nbsp;&nbsp;&nbsp;别：</span><span class="value2">'+(data[i].sex == 0 ? "男" : "女")+'</span></P>'
 						+area+uid+'<p class="itme5"><span class="key">曾就职装饰公司：</span><span class="value5">'+data[i].company+'</span></p>'
 						+'<P class="itme6"><span class="key">从业年限：</span><span class="value6">'+data[i].work_year+'</span></P>'
 						+'<p class="itme7"><span class="key">擅长工种：</span><span class="value7">'+data[i].good_at+'</span></p>'
@@ -385,11 +385,13 @@ $(function(){
 		 $tameUid.val(oDl.find('.value4').text());
 		$tameCom.val(oDl.find('.value5').text());
 		$tameYear.val(oDl.find('.value6').text());
+		
 		$tameGood.empty();
 		var tameGood = new ComboBox({
 			id:'tame-good',
 			list:['水电','木工','油工','泥工'],
-			query : $.inArray(oDl.find('.value7').text() , ['水电','木工','油工','泥工'])
+			index : true,
+			query : {'水电':"0",'木工':"1",'油工':"2",'泥工':"3"}[oDl.find('.value7').text()]
 		});
 		$temeWorking.val(oDl.find('.value8').text());
 		$tameHometown.empty();

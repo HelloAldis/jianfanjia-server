@@ -288,17 +288,29 @@
 .m-state .state-box .line5{width: 925px;}
 .m-state .state-box .line6{width: 1096px;}
 .m-desc{
-	margin: 0 140px 50px 40px;
+	margin:48px 100px 82px 48px;
 	color: #7c8389;
 	font-size: 14px;
 	line-height: 36px;
 }
 .m-desc h3{
 	font-size: 18px;
+	line-height: 44px;
 	font-weight: normal;	
 }
+.m-step{
+	margin-left: 45px;
+}
 .m-step .item{
-	padding-bottom: 48px;
+	position: relative;
+	padding-bottom: 76px;
+	margin-left: -1px;
+	padding-left: 36px;
+	border-left: 1px solid #7c8389;
+	padding-top: 40px;
+}
+.m-step .item:last-child{
+	border: none;
 }
 .m-step .item img{
 	width: 1000px;
@@ -313,18 +325,43 @@
 	color: #333;
 }
 .m-step h4{
-	padding-left: 30px;
-	font-size: 14px;
-	line-height: 90px;
+	position: absolute;
+	left:-20px;
+	top:-40px;
+	height: 80px;
+	line-height: 80px;
+	font-size: 18px;
+	color: #7c8389;
 	font-weight: normal;
 }
-.m-step h4 i{
-	display: inline-block;
-	vertical-align: middle;
-	width: 18px;
-	height: 18px;
-	margin-right: 24px;
+.m-step h4 span{float: left;}
+.m-step h4 .time{margin-left: 15px;}
+.m-step h4 .state{
+	width: 30px;
+	height: 30px;
+	margin-top: 20px;
+	margin-right: 37px;
+	padding: 5px;
+}
+.m-step h4 .state i{
+	display: block;
+	width: 24px;
+	height: 24px;
 	border-radius: 50%;
+	background-color: #7c8389;
+	border: 3px solid #fff;
+}
+.m-step .current h4 .state{
+	padding: 0;
+	border: 5px solid #fe9444;
+	border-radius: 50%;
+}
+.m-step .current h4 .state i,.m-step .active h4 .state i{
 	background-color: #fe7004;
 }
-.m-step h4 .time{margin-right: 15px;}
+.m-step .current h4,.m-step .active h4{
+	color: #fe7004;
+}
+.m-step .active{
+	border-left-color: #fe7004;
+}

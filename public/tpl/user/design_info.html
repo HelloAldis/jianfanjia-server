@@ -52,11 +52,13 @@
 				<li><a href="design_need.html">我的收藏</a></li>
 				<li class="current"><a href="design_info.html">我的资料</a></li>
 				<li><a href="design_team.html">我的施工团队</a></li>
+				<li><a href="design_idAuth.html">身份证银行卡认证</a></li>
 			</ul>
 		</div>
 		<div class="user-mn f-fr">
-			<div class="m-tt">
-				<h3>我的资料</h3>
+			<div class="m-tt f-cb">
+				<h3 class="f-fl">我的资料</h3>
+				<span class="auth-box f-fr"></span>
 			</div>
 			<div class="m-ct">
 				<div class="w-form user-form design_info" id="j-design-info">
@@ -102,6 +104,7 @@
 										<input type="text" class="input" name="design-email" id="design-email" />
 									</div>
 								</div>
+								<a  class="f-fl btn hide" href="javascript:;" id="auth-email">邮箱验证</a>
 							</div>
 							<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
 							<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
@@ -326,7 +329,7 @@
 						<div class="m-item">
 							<div class="u-btn">
 								<input type="submit" class="btn" id="save-submit" value="保存" />
-								<span id="auth-box">
+								<span class="auth-box">
 								<input type="submit" class="btn hide" id="auth-submit" value="提交认证" /></span>
 							</div>
 						</div>
@@ -337,6 +340,7 @@
 	</div>
 	<style type="text/css">
 		.design_info .btn{margin-left: 0;}
+		#auth-email{margin-left: 50px;width: 110px;line-height: 30px;font-size: 14px;}
 	</style>
 	<div class="g-ft">
 		<div class="m-sitemap f-cb">

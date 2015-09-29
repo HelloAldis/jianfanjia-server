@@ -1,0 +1,72 @@
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li><a ui-sref="designer">设计师列表</a></li><li class="active">设计师信息认证</li></ol>
+<div class="userInfo">
+	<div class="form-group">
+		<label for="">用户Id</label>
+		<p class="lead">{{user._id}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">注册时间</label>
+		<p class="lead">{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">姓名</label>
+		<p class="lead">{{user.username}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">性别</label>
+		<p class="lead">{{user.sex | sexFilter}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">电话</label>
+		<p class="lead">{{user.phone}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">所在地区</label>
+		<p class="lead">{{user.province ? user.province : '未填写'}} {{user.city}} {{user.district}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">邮寄地址</label>
+		<p class="lead">{{user.address ? user.address : '未填写'}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">电子邮箱</label>
+		<p class="lead">{{user.email ? user.email : '未认证'}}</p>
+	</div>
+		<div class="form-group">
+		<label for="">毕业学校</label>
+		<p class="lead">{{user.university}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">工作年限</label>
+		<p class="lead">{{user.work_year}} 年</p>
+	</div>
+	<div class="form-group">
+		<label for="">曾就职装饰公司</label>
+		<p class="lead">{{user.company}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">设计理念：(显示在主页显著位置，迅速建立别人对你的第一映像！)</label>
+		<p class="lead">{{user.achievement}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">设计成就：(在这里介绍关与你的经历，你的荣誉，当然还有你的梦想，或许可以讲讲故事，多多利用这里给自己加分哦！)</label>
+		<p class="lead">{{user.philosophy}}</p>
+	</div>
+	<div class="form-group">
+		<label for="">小头像</label>
+		<img src="{{head_img1}}" class="img-responsive" alt="暂无图片">
+	</div>
+	<div class="form-group">
+		<label for="">大头像</label>
+		<img src="{{head_img2}}" class="img-responsive" alt="暂无图片">
+	</div>
+	<div class="form-group">
+		<label for="">未认证通过原因(注：审核通过不需要填写)</label>
+		<textarea class="form-control" ng-model="errorMsg" rows="3"></textarea>
+	</div>
+	<div class="form-group">
+		<button type="button" class="btn btn-success" ng-click="success(2)">审核通过</button>
+		<button type="button" class="btn btn-warning" ng-click="success(3)">审核失败</button>
+		<button type="button" class="btn btn-danger" ng-click="success(4)">强制下线</button>
+	</div>
+</div>

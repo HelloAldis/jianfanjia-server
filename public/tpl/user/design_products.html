@@ -50,6 +50,7 @@
 				<li><a href="design_need.html">我的收藏</a></li>
 				<li><a href="design_info.html">我的资料</a></li>
 				<li><a href="design_team.html">我的施工团队</a></li>
+				<li><a href="design_idAuth.html">身份证银行卡认证</a></li>
 			</ul>
 		</div>
 		<div class="user-mn f-fr" id="j-design">
@@ -70,6 +71,7 @@
 										<th class="td2">住宅空间</th>
 										<th class="td3">风格</th>
 										<th class="td4">包工类型</th>
+										<th class="td4">审核状态</th>
 										<th class="td5">预览</th>
 										<th class="td6">操作</th>	
 									</tr>
@@ -120,6 +122,13 @@
 			</div>
 		</div>
 	</div>
+	<div id="j-booking" class="m-booking product">
+		<h3>审核失败提示信息</h3>
+		<div class="times"></div>
+		<div class="btns">
+			<a href="javascript:;" class="btn define">取消</a>
+		</div>
+	</div>
 </body>
 </html>
 <script type="text/javascript">
@@ -147,13 +156,21 @@
 		$list.html('');
 		var sLi = '';
 		for (var i = 0,len = data.length; i < len; i++) {
+			var type = '';
+			if(data[i].auth_type == '1'){
+				type = '<td class="td4 ok">审核通过</td>'
+			}else if(data[i].auth_type == '2'){
+				type = '<td class="td4 err" data-msg="'+data[i].auth_message+'"><a href="javascript:;" class="tipsBtn">审核不通过</a></td>'
+			}else if(data[i].auth_type == '3'){
+				type = '<td class="td4 err" data-msg="'+data[i].auth_message+'"><a href="javascript:;" class="tipsBtn">违规下线</a></td>'
+			}
 			sLi += '<tr data-uid="'+data[i]._id+'">'
 						+'<td class="td1">'+data[i].cell+'</td>'
 						+'<td class="td2">'+globalData.house_type[data[i].house_type]+'</td>'
 						+'<td class="td3">'+globalData.dec_style[data[i].dec_style]+'</td>'
 						+'<td class="td4">'+globalData.work_type[data[i].work_type]+'</td>'
-						+'<td class="td5">'
-							+'<a href="../design/detail.html?'+data[i]._id+'"><i class="iconfont">&#xe60f;</i></a>'
+						+type+'<td class="td5">'
+						+'<a href="../design/detail.html?'+data[i]._id+'"><i class="iconfont">&#xe60f;</i></a>'
 						+'</td>'
 						+'<td class="td6">'
 							+'<a href="design.html?'+data[i]._id+'" class="editor"><i class="iconfont">&#xe607;</i>编辑</a>'
@@ -167,8 +184,8 @@
 	//删除
 	$design.delegate('.delete','click',function(ev){
 		ev.preventDefault();
-		if($list.find('tr').size() < 2){
-			alert('至少保留一个作品')
+		if($list.find('tr').size() < 3){
+			alert('至少保留三个作品')
 			return false;
 		}
 		if(confirm("你确定要删除吗？删除不能恢复")){
@@ -196,6 +213,18 @@
 		}
 	})
 	loadList()
+	var $booking = $('#j-booking');
+	//查看审核信息
+	$design.delegate('.tipsBtn','click',function(ev){
+		ev.preventDefault();
+		$booking.show();
+		$booking.find('.times').html($(this).parent().data('msg'))
+	})
+	$booking.find('.define').on('click',function(){
+		$booking.hide();
+		$booking.find('.times').html('')
+	})
+	
 </script>
 <script>
 	var _hmt = _hmt || [];

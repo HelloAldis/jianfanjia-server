@@ -164,9 +164,9 @@
 			type: 'GET',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
+			cache : false,
 			success: function(res){
 				if(res['data'].length){
-					console.log(res['data'])
 					page(res['data'])
 				}else{
 					$designLsit.html('<div class="loading nodata" id="j-loading"></div>')
@@ -219,6 +219,10 @@
 				sStatus = '<i class="iconfont">&#xe616;</i>已中标';
 			}
 		}
+		var area = "";
+		if(!!data.province){
+			area = data.province+" "+(data.city != '请选择市' ? data.city : "")+" "+(data.district != '请选择县/区' ? data.district : "");
+		}
 		var str = '<li class="f-cb" data-uid="'+data._id+'">'
 					+'<div class="operate f-fl">'
 						+'<label><input type="checkbox" name="" id="" />选中</label>'
@@ -228,7 +232,7 @@
 							+'<img src="'+img+'" alt="'+data.username+'" />'
 						+'</a>'
 						+'<h4>'+data.username+(data.is_rec ? '<span>(自动匹配)</span>' : '')+'</h4>'
-						+'<p>'+(!!data.province ? data.province+" "+data.city+" "+data.district : "&nbsp;")+'</p>'
+						+'<p>'+(!!data.province ? area : "&nbsp;")+'</p>'
 						+'<p>作品数：<span>'+data.product_count+'</span>预约数：<span>'+data.order_count+'</span></p>'
 						+'<p>电话：<span>'+datePhone+'</span></p>'
 						+'<p>量房时间：<span>'+dateStr+'</span></p>'

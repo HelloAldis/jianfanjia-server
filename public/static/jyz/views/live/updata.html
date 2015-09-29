@@ -1,0 +1,71 @@
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li><a ui-sref="live">装修直播</a></li><li class="active">更新装修直播</li></ol>
+<form>
+  <div class="form-group">
+    <label for="">当前阶段：</label>
+    <div my-select my-list="process" my-query="processName"></div>
+  </div>
+  <div class="form-group">
+    <label for="">当前开始时间：[注意时间格式：2015-10-01]</label>
+    <input type="text" class="form-control" ng-model="processDate" placeholder="请输入时间例如：2015-09-01">
+  </div>
+  <div class="form-group">
+    <label for="">上传装修效果图：</label>
+    <div class="file">
+      <p class="tips">*作品上传每张大小为3M以内jpeg/jpg/png格式图片,为了作品显示效果最佳，保证更张图宽度在900-1200之间。</p>
+      <div class="file-list f-cb" id="j-file-list">
+        <div class="create-item">
+          <div class="pic" id="upload">
+            <img src="jyz/img/uploadify.jpg" alt="上传图片" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="">当前阶段描述：</label>
+    <textarea class="form-control" rows="3" ng-model="processDescription" placeholder="请输入当前阶段描述"></textarea>
+  </div>
+  <div class="form-group">
+    <button type="button" class="btn btn-success" ng-click="upDataLive()">更新装修直播</button>
+    <button type="button" class="btn btn-danger" ng-click="deleteLive()">删除装修直播</button>
+  </div>
+</form>
+<script type="text/javascript">
+//删除作品列表图片
+$(function(){
+  $('#decoration-live').delegate('.close','click',function(ev){
+    ev.preventDefault();
+    if($('#j-file-list').find('.previews-item').size() < 2){
+      alert('至少保留一个作品效果图')
+      return false;
+    }
+    if(confirm("你确定要删除吗？删除不能恢复")){
+      var oDl = $(this).closest('.previews-item');
+      oDl.remove();
+    }
+  })
+  //图片上传
+  $('#upload').Huploadify({
+    auto:true,
+    fileTypeExts:'*.jpg;*.jpeg;*.png;',
+    multi:true,
+    formData:{key:123456,key2:'vvvv'},
+    fileSizeLimit:3072,
+    showUploadedPercent:false,
+    showUploadedSize:true,
+    removeTimeout:1,
+    fileObjName:'Filedata',
+    buttonText : "",
+    uploader:RootUrl+'api/v1/image/upload',
+    onUploadComplete:function(file, data, response){
+       var data = $.parseJSON(data);
+      var str = '<div class="previews-item" data-imgid="'+data.data+'">'
+        +'<span class="close"></span>'
+        +'<div class="pic">'
+          +'<img class="img" src="'+RootUrl+'api/v1/thumbnail/250/'+data.data+'" alt="" />'
+        +'</div>'
+      $('#j-file-list').append(str)
+    }
+  });
+})
+</script>

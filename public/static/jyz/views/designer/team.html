@@ -1,0 +1,32 @@
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li><a ui-sref="designer">设计师列表</a></li><li class="active">施工团队列表</li></ol>
+<div class="panel panel-info ng-scope">
+	<table class="table table-bordered">
+		<tbody>
+			<tr class="info thead">
+				<th>项目经理姓名</th>
+				<th>身份证号码</th>
+				<th>性别</th>
+				<th>所在地区</th>
+				<th>曾就职装饰公司</th>
+				<th>从业年限</th>
+				<th>擅长工种</th>
+				<th>正在施工工地</th>
+				<th>操作</th>
+			</tr>
+			<tr ng-repeat="user in userList">
+				<td>{{user.manager}}</td>
+				<td>{{user.uid}}</td>
+				<td>{{user.sex | sexFilter}}</td>
+				<td>{{user.area}}</td>
+				<td>{{user.company}}</td>
+				<td>{{user.work_year}}</td>
+				<td>{{user.good_at}}</td>
+				<td>{{user.working_on}}</td>
+				<td>
+					<a ui-sref="designerEditorTeam({id:user.teamid})">编辑</a> | 
+					<a href="javascript:;" ng-click="deleteTeam(user._id)">删除</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

@@ -1,3 +1,7 @@
+.g-hd{
+	background-color: #f8f9fb;
+	border-bottom: 1px solid #e4e4e4;
+}
 .g-sign{
 	padding: 130px 0 180px;
 	background-color: #fbfbfb;
@@ -201,6 +205,9 @@
 .user-form .m-item .u-lab{
 	height: 30px;
 	line-height: 30px;
+}
+.user-form .m-item .u-lab span{
+	color: #be0000;
 }
 .user-form .u-inp .box{
 	position: relative;
@@ -425,6 +432,8 @@
 .design .m-table .td4{width: 100px;}
 .design .m-table .td5{width: 60px;}
 .design .m-table .td6{width: 160px;}
+.design .m-table .ok{color: #1fb500;}
+.design .m-table .err a{color: #be0000;}
 .design .listBox{
 	padding-top: 40px;
 }
@@ -1118,7 +1127,7 @@
 	top:30px;
 	width: 250px;
 }
-#upload{
+#upload,.uploadPic{
 	position: relative;
 	width: 250px;
 	height: 250px;
@@ -1126,10 +1135,10 @@
 	background-color: #ccc;
 	text-align: center;
 }
-#upload .img{
+#upload .img,.uploadPic .img{
 	width: 100%;
 }
-#upload .fileBtn{
+#upload .fileBtn,.uploadPic .fileBtn{
 	position: absolute;
 	z-index: 1;
 	left:0;
@@ -1137,12 +1146,13 @@
 	width: 250px;
 	height: 250px;
 }
+
 #upload .fileBtn .uploadify-button-text{
 	width: 250px;
 	height: 250px;
 	display: block;
 }
-.uploadify-button{
+.uploadify-button,.uploadify-button{
 	position: absolute;
 	left:0;
 	top:0;
@@ -1150,10 +1160,17 @@
 	width: 250px;
 	height: 250px;
 }
-#upload .uploadify-queue{
+.uploadPic{
+	background-color: #eee;
+}
+.uploadPic,.uploadPic .fileBtn .uploadify-button-text,.uploadify-button,.id-pic{
+	width: 449px;
+	height: 284px;
+} 
+#upload .uploadify-queue,.uploadPic .uploadify-queue{
 	display: none;
 }
-#upload .fileBtn .swfupload{
+#upload .fileBtn .swfupload,.uploadPic .fileBtn .swfupload{
 	left:0;
 	top:0;
 }
@@ -1668,4 +1685,15 @@
 }
 .scheme_create .uploadify-queue{
 	display: none;
+}
+
+.product h3{
+	margin: 0 20px;
+	color: #be0000;
+	border-bottom: 1px solid #ccc;
+}
+.product  .times{
+	padding-top: 20px;
+	padding-right: 26px;
+	height: 80px;
 }
