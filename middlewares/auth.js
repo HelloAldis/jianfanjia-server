@@ -210,7 +210,7 @@ exports.authAdminWeb = function (req, res, next) {
 
   if (_.indexOf(adminLoginPages, url) >= 0) {
     if (userid && usertype === type.role_admin) {
-      res.redirect('live.html');
+      res.redirect('index.html');
     } else {
       next();
     }
