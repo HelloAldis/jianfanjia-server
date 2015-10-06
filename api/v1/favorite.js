@@ -35,7 +35,11 @@ exports.add = function (req, res, next) {
     }
 
     if (favorite) {
-      Favorite.addProduct2Favorite(userid, productid, function (err) {
+      Favorite.addToSet({
+        userid: userid
+      }, {
+        favorite_product: productid
+      }, null, function (err) {
         if (err) {
           return next(err);
         }
@@ -71,7 +75,11 @@ exports.delete = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var productid = tools.trim(req.body._id);
 
-  Favorite.deleteProductFavorite(userid, productid, function (err, favorite) {
+  Favorite.pull({
+    userid: userid
+  }, {
+    favorite_product: productid
+  }, null, function (err, favorite) {
     if (err) {
       return next(err);
     }
