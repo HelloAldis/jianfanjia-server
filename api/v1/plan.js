@@ -22,46 +22,49 @@ exports.add = function (req, res, next) {
   ep.fail(next);
   ep.on('requirement', function (requirement) {
     //如果已经对需求提交过
-    Plan.getStatus2PlanByUseridDesigneridRequirementid(userid, designerid,
-      requirement._id,
-      function (err, plan_indb) {
-        if (err) {
-          return next(err);
-        }
+    Plan.findOne({
+      userid: userid,
+      designerid: designerid,
+      requirementid: requirement._id,
+      status: type.plan_status_designer_respond,
+    }, null, null, function (err, plan_indb) {
+      if (err) {
+        return next(err);
+      }
 
-        if (plan_indb) {
-          //有已响应但是没上传的方案，直接上传方案到这里
-          plan.status = type.plan_status_desinger_upload; //修改status为已上传
-          plan.last_status_update_time = new Date().getTime();
-          var query = {
-            userid: userid,
-            designerid: designerid,
-            requirementid: requirement._id,
-            status: type.plan_status_designer_respond,
-          };
+      if (plan_indb) {
+        //有已响应但是没上传的方案，直接上传方案到这里
+        plan.status = type.plan_status_desinger_upload; //修改status为已上传
+        plan.last_status_update_time = new Date().getTime();
+        var query = {
+          userid: userid,
+          designerid: designerid,
+          requirementid: requirement._id,
+          status: type.plan_status_designer_respond,
+        };
 
-          Plan.updateByQuery(query, plan, function (err) {
-            if (err) {
-              return next(err);
-            }
+        Plan.setOne(query, plan, null, function (err) {
+          if (err) {
+            return next(err);
+          }
 
-            res.sendSuccessMsg();
-          });
-        } else {
-          //创建新的方案
-          plan.status = type.plan_status_desinger_upload;
-          plan.designerid = new ObjectId(designerid);
-          plan.userid = new ObjectId(userid);
-          plan.requirementid = requirement._id;
-          Plan.newAndSave(plan, function (err) {
-            if (err) {
-              return next(err);
-            }
+          res.sendSuccessMsg();
+        });
+      } else {
+        //创建新的方案
+        plan.status = type.plan_status_desinger_upload;
+        plan.designerid = new ObjectId(designerid);
+        plan.userid = new ObjectId(userid);
+        plan.requirementid = requirement._id;
+        Plan.newAndSave(plan, function (err) {
+          if (err) {
+            return next(err);
+          }
 
-            res.sendSuccessMsg();
-          });
-        }
-      });
+          res.sendSuccessMsg();
+        });
+      }
+    });
   });
 
   Requirement.setOne({
@@ -92,10 +95,10 @@ exports.update = function (req, res, next) {
     return;
   }
 
-  Plan.updateByQuery({
+  Plan.setOne({
     _id: oid,
     designerid: designerid
-  }, plan, function (err) {
+  }, plan, null, function (err) {
     if (err) {
       return next(err);
     }
@@ -114,10 +117,10 @@ exports.delete = function (req, res, next) {
     return;
   }
 
-  Plan.removeOneByQuery({
+  Plan.removeOne({
     _id: oid,
     designerid: designerid
-  }, function (err) {
+  }, null, function (err) {
     if (err) {
       return next(err);
     }
@@ -129,14 +132,14 @@ exports.delete = function (req, res, next) {
 exports.userMyPlan = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
 
-  Plan.getPlansByQueryAndProject({
+  Plan.find({
     userid: userid,
     status: {
       $in: [type.plan_status_user_final, type.plan_status_user_not_final,
         type.plan_status_desinger_upload
       ]
     }
-  }, function (err, plans) {
+  }, null, null, function (err, plans) {
     if (err) {
       return next(err);
     }
@@ -222,14 +225,14 @@ exports.finalPlan = function (req, res, next) {
 exports.designerMyPlan = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
 
-  Plan.getPlansByQueryAndProject({
+  Plan.find({
     designerid: designerid,
     status: {
       $in: [type.plan_status_user_final, type.plan_status_user_not_final,
         type.plan_status_desinger_upload
       ]
     }
-  }, function (err, plans) {
+  }, null, null, function (err, plans) {
     if (err) {
       return next(err);
     }
@@ -262,7 +265,9 @@ exports.addCommentForPlan = function (req, res, next) {
   comment.usertype = ApiUtil.getUsertype(req);
   comment.date = new Date().getTime();
 
-  Plan.addComment(planid, comment, function (err) {
+  Plan.push({
+    _id: planid
+  }, comment, null, function (err) {
     if (err) {
       return next(err);
     }
@@ -274,7 +279,9 @@ exports.addCommentForPlan = function (req, res, next) {
 exports.getOne = function (req, res, next) {
   var _id = req.params._id;
 
-  Plan.getOneById(_id, function (err, plan) {
+  Plan.findOne({
+    _id: _id
+  }, null, function (err, plan) {
     if (err) {
       return next(err);
     }

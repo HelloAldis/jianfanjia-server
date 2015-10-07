@@ -49,7 +49,11 @@ exports.add = function (req, res, next) {
         });
 
         if (!result) {
-          Product.addFavoriteCountForProduct(productid, 1);
+          Product.incOne({
+            _id: productid
+          }, {
+            favorite_count: 1
+          });
         }
 
         res.sendSuccessMsg();
@@ -63,7 +67,11 @@ exports.add = function (req, res, next) {
           return next(err);
         }
 
-        Product.addFavoriteCountForProduct(productid, 1);
+        Product.incOne({
+          _id: productid
+        }, {
+          favorite_count: 1
+        });
         res.sendSuccessMsg();
       });
     }
@@ -90,7 +98,11 @@ exports.delete = function (req, res, next) {
       });
 
       if (result) {
-        Product.addFavoriteCountForProduct(productid, -1);
+        Product.incOne({
+          _id: productid
+        }, {
+          favorite_count: -1
+        });
       }
     }
 

@@ -1,17 +1,9 @@
 var models = require('../models');
 var Product = models.Product;
 
-exports.getProductsByDesignerid = function (designerid, callback) {
-  Product.find({
-    'designerid': designerid
-  }, callback);
-};
-
-exports.getProductById = function (productid, callback) {
-  Product.findOne({
-    _id: productid
-  }, callback);
-};
+exports.find = function (query, project, option, callback) {
+  Product.find(query, project, option, callback);
+}
 
 exports.newAndSave = function (json, callback) {
   var product = new Product(json);
@@ -19,31 +11,11 @@ exports.newAndSave = function (json, callback) {
   product.save(callback);
 };
 
-exports.updateByQuery = function (query, json, callback) {
-  Product.update(query, {
-    $set: json
-  }, callback);
+exports.incOne = function (query, update, option, callback) {
+  Product.findOneAndUpdate(query, {
+    $inc: update
+  }, option, function (err) {});
 }
-
-exports.addViewCountForProduct = function (productid, num) {
-  Product.update({
-    _id: productid
-  }, {
-    '$inc': {
-      'view_count': num
-    }
-  }, function (err) {});
-};
-
-exports.addFavoriteCountForProduct = function (productid, num) {
-  Product.update({
-    _id: productid
-  }, {
-    '$inc': {
-      'favorite_count': num
-    }
-  }, function (err) {});
-};
 
 exports.setOne = function (query, update, option, callback) {
   Product.findOneAndUpdate(query, {

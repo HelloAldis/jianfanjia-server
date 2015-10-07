@@ -62,7 +62,9 @@ exports.updatePass = function (req, res, next) {
     }
   });
 
-  VerifyCode.getCodeByPhone(phone, function (err, verifyCode) {
+  VerifyCode.findOne({
+    phone: phone
+  }, null, function (err, verifyCode) {
     if (err) {
       return next(err);
     }
@@ -77,7 +79,9 @@ exports.updatePass = function (req, res, next) {
       }
     }
 
-    User.getUserByPhone(phone, function (err, user) {
+    User.findOne({
+      phone: phone
+    }, null, function (err, user) {
       if (err) {
         return next(err);
       }
@@ -146,7 +150,9 @@ exports.signup = function (req, res, next) {
 
   ep.on('phone_ok', function () {
     //用户名手机号验证通过
-    VerifyCode.getCodeByPhone(phone, function (err, verifyCode) {
+    VerifyCode.findOne({
+      phone: phone
+    }, function (err, verifyCode) {
       if (err) {
         return next(err);
       }
@@ -220,7 +226,9 @@ exports.signup = function (req, res, next) {
   });
 
 
-  User.getUserByPhone(phone, function (err, user) {
+  User.findOne({
+    phone: phone
+  }, null, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -300,7 +308,9 @@ exports.login = function (req, res, next) {
   });
 
 
-  User.getUserByPhone(phone, function (err, user) {
+  User.findOne({
+    phone: phone
+  }, null, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -339,7 +349,9 @@ exports.verifyPhone = function (req, res, next) {
     }
   });
 
-  User.getUserByPhone(phone, function (err, user) {
+  User.findOne({
+    phone: phone
+  }, null, function (err, user) {
     if (err) {
       return next(err);
     }

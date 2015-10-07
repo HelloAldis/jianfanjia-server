@@ -110,25 +110,13 @@ exports.updateStatus = function (id, section, item, status, callback) {
   }, callback);
 }
 
-exports.getProcessById = function (id, callback) {
-  Process.findOne({
-    _id: id
-  }, callback);
+exports.find = function (query, project, option, callback) {
+  Process.find(query, project, option, callback);
 }
 
-exports.getProcessByUserid = function (userid, callback) {
-  Process.findOne({
-    userid: userid
-  }, callback);
-}
-
-exports.getSByQueryAndProject = function (query, project, callback) {
-  Process.find(query, project, callback);
-}
-
-exports.removeOneByQuery = function (query, callback) {
-  Process.findOneAndRemove(query, callback);
-}
+exports.removeOne = function (query, option, callback) {
+  Process.findOneAndRemove(query, option, callback)
+};
 
 exports.findOne = function (query, project, callback) {
   Process.findOne(query, project, callback);

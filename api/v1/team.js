@@ -40,10 +40,10 @@ exports.update = function (req, res, next) {
     return;
   }
 
-  Team.updateByQuery({
+  Team.setOne({
     _id: new ObjectId(oid),
     designerid: designerid
-  }, team, function (err) {
+  }, team, null, function (err) {
     if (err) {
       return next(err);
     }
@@ -61,10 +61,10 @@ exports.delete = function (req, res, next) {
     return;
   }
 
-  Team.removeOneByQuery({
+  Team.removeOne({
     _id: new ObjectId(oid),
     designerid: designerid
-  }, function (err, team) {
+  }, null, function (err, team) {
     if (err) {
       return next(err);
     }
@@ -84,7 +84,9 @@ exports.delete = function (req, res, next) {
 exports.list = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
 
-  Team.getTeamsByDesignerid(designerid, function (err, teams) {
+  Team.find({
+    designerid: designerid
+  }, null, null, function (err, teams) {
     if (err) {
       return next(err);
     }
