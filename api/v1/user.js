@@ -17,7 +17,9 @@ var sms = require('../../common/sms');
 exports.getInfo = function (req, res, next) {
   var userid = req.params._id || ApiUtil.getUserid(req);
 
-  User.getUserById(userid, function (err, user) {
+  User.findOne({
+    _id: userid
+  }, null, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -36,9 +38,9 @@ exports.updateInfo = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var user = ApiUtil.buildUser(req);
 
-  User.updateByQuery({
+  User.setOne({
     _id: userid
-  }, user, function (err) {
+  }, user, null, function (err) {
     if (err) {
       return next(err);
     }
@@ -50,7 +52,9 @@ exports.updateInfo = function (req, res, next) {
 exports.getRequirement = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
 
-  Requirement.getRequirementByUserid(userid, function (err, requirement) {
+  Requirement.findOne({
+    userid: userid
+  }, null, function (err, requirement) {
     if (err) {
       return next(err);
     }
@@ -73,11 +77,11 @@ exports.updateRequirement = function (req, res, next) {
 
   var username = tools.trim(req.body.username);
   if (username) {
-    User.updateByQuery({
+    User.setOne({
       _id: userid
     }, {
       username: username
-    }, function (err) {
+    }, null, function (err) {
       if (err) {
         console.log(err);
       }
@@ -102,7 +106,9 @@ exports.updateRequirement = function (req, res, next) {
 
       res.sendSuccessMsg();
 
-      User.getUserById(userid, function (err, user) {
+      User.findOne({
+        _id: userid
+      }, null, function (err, user) {
         if (err) {
           return next(err);
         }
@@ -178,17 +184,22 @@ exports.myDesigner = function (req, res, next) {
     res.sendData(data);
   });
 
-  Requirement.getRequirementByUserid(userid, function (err, requirement) {
+  Requirement.findOne({
+    userid: userid
+  }, null, function (err, requirement) {
     if (err) {
       return next(err);
     }
 
     ep.on('hasDesigner', function (designers) {
       async.mapLimit(designers, 3, function (designer, callback) {
-        Plan.getPlansByDesigneridAndUserid(designer._id, userid, {
+        Plan.find({
+          'designerid': designer._id,
+          'userid': userid
+        }, {
           house_check_time: 1,
           status: 1
-        }, function (err, plans) {
+        }, null, function (err, plans) {
           designer.plans = plans;
           callback(err, designer);
         });
@@ -242,7 +253,9 @@ exports.addDesigner = function (req, res, next) {
   var designerid = new ObjectId(tools.trim(req.body._id));
   var userid = ApiUtil.getUserid(req);
 
-  Requirement.getRequirementByUserid(userid, function (err, requirement) {
+  Requirement.findOne({
+    userid: userid
+  }, null, function (err, requirement) {
     if (err) {
       return next(err);
     }
@@ -252,32 +265,31 @@ exports.addDesigner = function (req, res, next) {
       return;
     }
 
-    Requirement.getRequirementByQuery({
-        userid: userid,
-        'designerids': designerid
-      },
-      function (err, requirement) {
+    Requirement.findOne({
+      userid: userid,
+      'designerids': designerid
+    }, null, function (err, requirement) {
+      if (err) {
+        return next(err);
+      }
+
+      if (requirement) {
+        res.sendErrMsg('已经添加过了');
+        return;
+      }
+
+      Requirement.addToSet({
+        userid: userid
+      }, {
+        designerids: designerid
+      }, null, function (err) {
         if (err) {
           return next(err);
         }
 
-        if (requirement) {
-          res.sendErrMsg('已经添加过了');
-          return;
-        }
-
-        Requirement.updateByUserid(userid, {
-          $push: {
-            designerids: designerid
-          }
-        }, function (err) {
-          if (err) {
-            return next(err);
-          }
-
-          res.sendSuccessMsg();
-        });
+        res.sendSuccessMsg();
       });
+    });
   });
 };
 
@@ -301,7 +313,7 @@ exports.addDesigner2HouseCheck = function (req, res, next) {
       json.userid = userid;
       json.requirementid = requirement._id;
 
-      Plan.findOneByQuery(json, function (err, plan) {
+      Plan.findOne(json, null, function (err, plan) {
         if (err) {
           return next(err);
         }

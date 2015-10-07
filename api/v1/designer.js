@@ -221,8 +221,9 @@ exports.myUser = function (req, res, next) {
 
   ep.on('hasUser', function (plans) {
     async.mapLimit(plans, 3, function (plan, callback) {
-      Requirement.getRequirementByUserid(plan.userid, function (err,
-        requirement) {
+      Requirement.findOne({
+        userid: plan.userid
+      }, null, function (err, requirement) {
         plan.requirement = requirement;
         callback(err, plan);
       });
@@ -235,7 +236,7 @@ exports.myUser = function (req, res, next) {
     });
   });
 
-  Plan.getPlansByQueryAndProject({
+  Plan.find({
     designerid: designerid
   }, {
     designerid: 1,
@@ -243,7 +244,7 @@ exports.myUser = function (req, res, next) {
     requirementid: 1,
     house_check_time: 1,
     status: 1,
-  }, function (err, plans) {
+  }, null, function (err, plans) {
     if (err) {
       return next(err);
     }
@@ -273,7 +274,7 @@ exports.okUser = function (req, res, next) {
     house_check_time: house_check_time,
     status: type.plan_status_designer_respond,
     last_status_update_time: new Date().getTime(),
-  }, function (err, plan) {
+  }, null, function (err, plan) {
     if (err) {
       return next(err);
     }
@@ -297,20 +298,19 @@ exports.rejectUser = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
   var userid = tools.trim(req.body.userid);
 
-  Plan.updateByQuery({
-      userid: userid,
-      designerid: designerid
-    }, {
-      status: type.plan_status_designer_reject,
-      last_status_update_time: new Date().getTime(),
-    },
-    function (err) {
-      if (err) {
-        return next(err);
-      }
+  Plan.setOne({
+    userid: userid,
+    designerid: designerid
+  }, {
+    status: type.plan_status_designer_reject,
+    last_status_update_time: new Date().getTime(),
+  }, null, function (err) {
+    if (err) {
+      return next(err);
+    }
 
-      res.sendSuccessMsg();
-    });
+    res.sendSuccessMsg();
+  });
 }
 
 exports.auth = function (req, res, next) {

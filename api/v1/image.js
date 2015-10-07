@@ -19,7 +19,10 @@ exports.add = function (req, res, next) {
     var userid = ApiUtil.getUserid(req);
     var md5 = utility.md5(data);
 
-    Image.getImageByMd5AndUserid(md5, userid, function (err, image) {
+    Image.findOne({
+      'md5': md5,
+      'userid': userid
+    }, null, function (err, image) {
       if (err) {
         return next(err);
       }
@@ -58,7 +61,9 @@ exports.add = function (req, res, next) {
 exports.get = function (req, res, next) {
   var _id = tools.trim(req.params._id);
 
-  Image.getImageById(_id, function (err, image) {
+  Image.findOne({
+    _id: _id
+  }, null, function (err, image) {
     if (err) {
       return next(err);
     }
@@ -80,7 +85,9 @@ exports.thumbnail = function (req, res, next) {
   var _id = tools.trim(req.params._id);
   var width = tools.trim(req.params.width);
 
-  Image.getImageById(_id, function (err, image) {
+  Image.findOne({
+    _id: _id
+  }, null, function (err, image) {
     if (err) {
       return next(err);
     }
@@ -108,7 +115,9 @@ exports.thumbnail = function (req, res, next) {
 exports.watermark = function (req, res, next) {
   var _id = tools.trim(req.params._id);
 
-  Image.getImageById(_id, function (err, image) {
+  Image.findOne({
+    _id: _id
+  }, null, function (err, image) {
     if (err) {
       return next(err);
     }

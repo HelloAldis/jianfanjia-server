@@ -29,9 +29,9 @@ exports.start = function (req, res, next) {
   }
 
   //删除老工地，每一个用户只能有一个工地
-  Process.removeOneByQuery({
+  Process.removeOne({
     userid: userid
-  }, function (err) {
+  }, null, function (err) {
     if (err) {
       return next(err);
     }
@@ -373,7 +373,9 @@ exports.reschedule = function (req, res, next) {
 
   ep.fail(next);
   ep.on('sendMessage', function () {
-    User.getUserById(reschedule.userid, function (err, user) {
+    User.findOne({
+      _id: reschedule.userid
+    }, null, function (err, user) {
       if (err) {
         return next(err);
       }
@@ -439,7 +441,7 @@ exports.listReschdule = function (req, res, next) {
     query.designerid = userid;
   }
 
-  Reschedule.findByQueryAndProjectAndOption(query, {}, {
+  Reschedule.find(query, null, {
     sort: {
       request_date: -1
     }
@@ -461,7 +463,9 @@ exports.okReschedule = function (req, res, next) {
 
   ep.fail(next);
   ep.on('sendMessage', function (reschedule) {
-    User.getUserById(reschedule.userid, function (err, user) {
+    User.findOne({
+      _id: reschedule.userid
+    }, null, function (err, user) {
       if (err) {
         return next(err);
       }
@@ -500,7 +504,7 @@ exports.okReschedule = function (req, res, next) {
     query.designerid = userid;
   }
 
-  Reschedule.updateOneByQueryAndOption(query, {
+  Reschedule.setOne(query, {
     status: type.process_item_status_reschedule_ok
   }, {
     sort: {
@@ -517,7 +521,9 @@ exports.okReschedule = function (req, res, next) {
 
     var newDate = reschedule.new_date;
     var index = _.indexOf(type.process_work_flow, reschedule.section);
-    Process.getProcessById(reschedule.processid, function (err, process) {
+    Process.findOne({
+      _id: reschedule.processid
+    }, null, function (err, process) {
       if (err) {
         return next(err);
       }
@@ -558,7 +564,9 @@ exports.rejectReschedule = function (req, res, next) {
 
   ep.fail(next);
   ep.on('sendMessage', function (reschedule) {
-    User.getUserById(reschedule.userid, function (err, user) {
+    User.findOne({
+      _id: reschedule.userid
+    }, null, function (err, user) {
       if (err) {
         return next(err);
       }
@@ -597,7 +605,7 @@ exports.rejectReschedule = function (req, res, next) {
     query.designerid = userid;
   }
 
-  Reschedule.updateOneByQueryAndOption(query, {
+  Reschedule.setOne(query, {
     status: type.process_item_status_reschedule_reject
   }, {
     sort: {
@@ -745,7 +753,9 @@ exports.doneSection = function (req, res, next) {
 exports.getOne = function (req, res, next) {
   var _id = req.params._id;
 
-  Process.getProcessById(_id, function (err, process) {
+  Process.findOne({
+    _id: _id
+  }, null, function (err, process) {
     if (err) {
       return next(err);
     }
@@ -788,14 +798,14 @@ exports.list = function (req, res, next) {
     query.final_designerid = userid;
   }
 
-  Process.getSByQueryAndProject(query, {
+  Process.find(query, {
     final_designerid: 1,
     userid: 1,
     city: 1,
     district: 1,
     cell: 1,
     going_on: 1,
-  }, function (err, processes) {
+  }, null, function (err, processes) {
     if (err) {
       return next(err);
     }

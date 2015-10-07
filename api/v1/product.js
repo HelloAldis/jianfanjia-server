@@ -137,7 +137,9 @@ exports.listForDesigner = function (req, res, next) {
 
 exports.getOne = function (req, res, next) {
   var productid = tools.trim(req.params._id);
-  Product.getProductById(productid, function (err, product) {
+  Product.findOne({
+    _id: productid
+  }, function (err, product) {
     if (err) {
       return next(err);
     }
@@ -145,7 +147,11 @@ exports.getOne = function (req, res, next) {
     if (product) {
       limit.perwhatperdaydo('productgetone', req.ip + productid, 1,
         function () {
-          Product.addViewCountForProduct(productid, 1);
+          Product.incOne({
+            _id: productid
+          }, {
+            view_count: 1
+          });
         });
     }
 

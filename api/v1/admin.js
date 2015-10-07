@@ -159,7 +159,9 @@ exports.update = function (req, res, next) {
   var shareid = tools.trim(req.body._id);
 
   share.lastupdate = new Date().getTime();
-  Share.updateById(shareid, share, function (err) {
+  Share.setOne({
+    _id: shareid
+  }, share, null, function (err) {
     if (err) {
       return next(err);
     }
@@ -171,7 +173,9 @@ exports.update = function (req, res, next) {
 exports.delete = function (req, res, next) {
   var _id = tools.trim(req.body._id);
 
-  Share.removeOneById(_id, function (err) {
+  Share.removeOne({
+    _id: _id
+  }, null, function (err) {
     if (err) {
       return next(err);
     }

@@ -9,7 +9,11 @@ var ApiUtil = require('../../common/api_util');
 var async = require('async');
 
 exports.list = function (req, res, next) {
-  Share.getAll(function (err, shares) {
+  Share.find({}, null, {
+    sort: {
+      lastupdate: -1
+    }
+  }, function (err, shares) {
     if (err) {
       return next(err);
     }
@@ -37,7 +41,12 @@ exports.list = function (req, res, next) {
 }
 
 exports.listtop = function (req, res, next) {
-  Share.getByRange(config.index_top_share_count, function (err, shares) {
+  Share.find({}, null, {
+    limit: config.index_top_share_count,
+    sort: {
+      lastupdate: -1
+    }
+  }, function (err, shares) {
     if (err) {
       return next(err);
     }
@@ -67,7 +76,9 @@ exports.listtop = function (req, res, next) {
 exports.getOne = function (req, res, next) {
   var _id = req.params._id;
 
-  Share.getOneById(_id, function (err, share) {
+  Share.findOne({
+    _id: _id
+  }, null, function (err, share) {
     if (err) {
       return next(err);
     }

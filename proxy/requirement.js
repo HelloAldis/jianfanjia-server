@@ -11,26 +11,14 @@ exports.saveOrUpdateByUserid = function (userid, json, callback) {
   }, callback);
 }
 
-exports.getRequirementByQuery = function (query, json, callback) {
-  Requirement.findOne(query, json, {
-    upsert: true
-  }, callback);
+exports.findOne = function (query, project, callback) {
+  Requirement.findOne(query, project, callback);
 }
 
-exports.getRequirementByUserid = function (userid, callback) {
-  Requirement.findOne({
-    userid: userid
-  }, callback);
-}
-
-exports.updateByUserid = function (userid, obj, callback) {
-  Requirement.findOneAndUpdate({
-    'userid': userid
-  }, obj, callback);
-}
-
-exports.updateByQuery = function (query, obj, callback) {
-  Requirement.findOneAndUpdate(query, obj, callback);
+exports.addToSet = function (query, addToSet, option, callback) {
+  Requirement.findOneAndUpdate(query, {
+    '$addToSet': addToSet
+  }, option, callback);
 }
 
 exports.setOne = function (query, update, option, callback) {
