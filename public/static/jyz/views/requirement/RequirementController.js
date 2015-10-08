@@ -158,8 +158,8 @@
                             "limit":100
                         }
                     }).then(function(resp){
-                         console.log(resp.data.data.plans)
-                         $scope.designerids = resp.data.data.plans;
+                         console.log(resp.data.data.requirements)
+                         $scope.designerids = resp.data.data.requirements;
                     },function(resp){
                         //返回错误信息
                         console.log(resp);
