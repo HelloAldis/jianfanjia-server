@@ -43,6 +43,10 @@ exports.find = function (query, project, option, callback) {
   Requirement.find(query, project, option, callback);
 }
 
+exports.findOne = function (query, project, callback) {
+  Requirement.findOne(query, project, callback);
+}
+
 exports.paginate = function (query, project, option, callback) {
   Requirement.count(query, function (err, count) {
     if (err) {
