@@ -158,9 +158,9 @@
                             "limit":100
                         }
                     }).then(function(resp){
-                         console.log(resp.data.data.requirements)
-                         var rec_designerids = $scope.user.rec_designerids;
-                         $scope.designerids = resp.data.data.requirements;
+                        console.log(resp.data.data.requirements)
+                        var rec_designerids = $scope.user.rec_designerids;
+                        $scope.designerids = resp.data.data.requirements;
                         angular.forEach($scope.designerids, function(value, key){
                             if(value.requirement.rec_designerids.indexOf(value.designerid) != -1){
                                 value.biaoshi = "匹配"
@@ -168,6 +168,45 @@
                                 value.biaoshi = "自选"
                             }
                         });
+                    },function(resp){
+                        //返回错误信息
+                        console.log(resp);
+                        promptMessage('获取数据失败',"error")
+                    })
+                    console.log()
+                    $http({   //获取匹配设计师数据
+                        method : "POST",
+                        url : RootUrl+'api/v1/admin/search_designer',
+                        data : {
+                            "query":{
+                                "_id":{"$in":$scope.user.rec_designerids}
+                            },
+                            "sort":{"_id": 1},
+                            "from": 0,
+                            "limit":100
+                        }
+                    }).then(function(resp){
+                        console.log(resp.data.data.designers)
+                        $scope.recDesignerList = resp.data.data.designers;
+                    },function(resp){
+                        //返回错误信息
+                        console.log(resp);
+                        promptMessage('获取数据失败',"error")
+                    })
+                    $http({   //获取所有设计师数据
+                        method : "POST",
+                        url : RootUrl+'api/v1/admin/search_designer',
+                        data : {
+                            "query":{
+                                "_id":{"$in":$scope.user.designerids}
+                            },
+                            "sort":{"_id": 1},
+                            "from": 0,
+                            "limit":100
+                        }
+                    }).then(function(resp){
+                        console.log(resp.data.data.designers)
+                        $scope.designerList = resp.data.data.designers;
                     },function(resp){
                         //返回错误信息
                         console.log(resp);

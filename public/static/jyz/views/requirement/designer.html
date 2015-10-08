@@ -10,6 +10,8 @@
 	<p>包工类型：{{user.work_type | workTypeFilter}}</p>
 	<p>装修预算：{{user.total_price}} 万元</p>
 	<p>偏好设计师类型：{{user.communication_type | designTypeFilter}}</p>
+	<p>匹配设计师：<span ng-repeat="user in recDesignerList"> <a ui-sref="designerInfo({id:user._id})">{{user.username}}({{user.phone}})</a> </span></p>
+	<p>所有设计师：<span ng-repeat="user in designerList"> <a ui-sref="designerInfo({id:user._id})">{{user.username}}({{user.phone}})</a> </span></p>
 </div>
 <div class="panel panel-info ng-scope">
 	<table class="table table-bordered">
