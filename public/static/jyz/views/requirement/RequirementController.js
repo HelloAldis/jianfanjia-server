@@ -158,8 +158,18 @@
                             "limit":100
                         }
                     }).then(function(resp){
-                         console.log(resp.data.data.plans)
-                         $scope.designerids = resp.data.data.plans;
+                         console.log(resp.data.data.requirements)
+                         var rec_designerids = $scope.user.rec_designerids;
+                         $scope.designerids = resp.data.data.requirements;
+                        angular.forEach($scope.designerids, function(value1, key1){
+                            angular.forEach($scope.user.rec_designerids, function(value2, key2){
+                                if($scope.user.rec_designerids == value1.designerid){
+                                    value1.biaoshi = "匹配"
+                                }else{
+                                    value1.biaoshi = "自选"
+                                }
+                            });
+                        });
                     },function(resp){
                         //返回错误信息
                         console.log(resp);
