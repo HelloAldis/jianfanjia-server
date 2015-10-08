@@ -369,14 +369,29 @@ exports.search_plan = function (req, res, next) {
           plan.user = user;
           callback(err, plan);
         });
-      }, function (err, results) {
+      }, function (err, plans) {
         if (err) {
           return next(err);
         }
 
-        res.sendData({
-          requirements: results,
-          total: total
+        async.mapLimit(plans, 3, function (plan, callback) {
+          Requirement.findOne({
+            _id: plan.requirementid,
+          }, {
+            rec_designerids: 1,
+          }, function (err, requirement) {
+            plan.requirement = requirement;
+            callback(err, plan);
+          });
+        }, function (err, results) {
+          if (err) {
+            return next(err);
+          }
+
+          res.sendData({
+            requirements: results,
+            total: total
+          });
         });
       });
     });
