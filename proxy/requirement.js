@@ -11,10 +11,6 @@ exports.saveOrUpdateByUserid = function (userid, json, callback) {
   }, callback);
 }
 
-exports.findOne = function (query, project, callback) {
-  Requirement.findOne(query, project, callback);
-}
-
 exports.addToSet = function (query, addToSet, option, callback) {
   Requirement.findOneAndUpdate(query, {
     '$addToSet': addToSet
