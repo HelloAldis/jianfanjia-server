@@ -50,6 +50,13 @@
                         $scope.userList = resp.data.data.requirements;
                         angular.forEach($scope.userList, function(value, key){
                             value.time = parseInt(value._id.substring(0, 8), 16) * 1000;
+                            angular.forEach($scope.designerids, function(value1, key1){
+                            if(value1.requirement.rec_designerids.indexOf(value1.designerid) != -1){
+                                value1.biaoshi = "匹配"
+                            }else{
+                                value1.biaoshi = "自选"
+                            }
+                        });
                         });
                         console.log($scope.userList);
                         $scope.loadData = true;

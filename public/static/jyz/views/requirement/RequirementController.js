@@ -161,14 +161,12 @@
                          console.log(resp.data.data.requirements)
                          var rec_designerids = $scope.user.rec_designerids;
                          $scope.designerids = resp.data.data.requirements;
-                        angular.forEach($scope.designerids, function(value1, key1){
-                            angular.forEach($scope.user.rec_designerids, function(value2, key2){
-                                if($scope.user.rec_designerids == value1.designerid){
-                                    value1.biaoshi = "匹配"
-                                }else{
-                                    value1.biaoshi = "自选"
-                                }
-                            });
+                        angular.forEach($scope.designerids, function(value, key){
+                            if(value.requirement.rec_designerids.indexOf(value.designerid) != -1){
+                                value.biaoshi = "匹配"
+                            }else{
+                                value.biaoshi = "自选"
+                            }
                         });
                     },function(resp){
                         //返回错误信息
