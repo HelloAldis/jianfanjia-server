@@ -1,9 +1,15 @@
 <ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li><a ui-sref="requirement">业务需求列表</a></li><li class="active">匹配设计师</li></ol>
 <div class="breadcrumb">
-	<h2>{{user.user.username}} <small>业主</small></h2>
+	<h2>{{user.user.username}} <small>业主 (手机号码：{{user.user.phone}})</small></h2>
 	<h4>{{user.cell}} <small> 装修需求（需求编号{{user._id}}）</small></h4>
 	<p>{{user.province}} {{user.city}} {{user.district}}</p>
 	<p>{{user.street}} 街道 {{user.cell_phase}} 期 {{user.cell_building}} 栋 {{user.cell_unit}} 单元 {{user.cell_detail_number}} 室/号</p>
+	<p>风格喜好：{{user.dec_style | decStyleFilter}}</p>
+	<p>装修户型：{{user.house_type | houseTypeFilter}}</p>
+	<p>装修面积：{{user.house_area}} m&sup2;</p>
+	<p>包工类型：{{user.work_type | workTypeFilter}}</p>
+	<p>装修预算：{{user.total_price}} 万元</p>
+	<p>偏好设计师类型：{{user.communication_type | designTypeFilter}}</p>
 </div>
 <div class="panel panel-info ng-scope">
 	<table class="table table-bordered">
@@ -13,16 +19,18 @@
 				<th>量房时间</th>
 				<th>提交时间</th>
 				<th>设计师姓名</th>
+				<th>设计师电话</th>
 				<th>项目经理</th>
 				<th>当前状态</th>
 				<th>方案查看</th>
 				<th>业主评价</th>
 			</tr>
-			<tr ng-repeat="user in designerids">
+			<tr ng-repeat="user in userList">
 				<td>{{user._id}}</td>
 				<td>{{user.house_check_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 				<td>{{user.request_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 				<td>{{user.designer.username}}</td>
+				<td>{{user.designer.phone}}</td>
 				<td>{{user.manager}}</td>
 				<td>{{user.status | planFilter}}</td>
 				<td><a target="_blank" href="../tpl/user/scheme_detail.html?planid={{user._id}}&name={{user.designer.username}}" class="btns browse">预览方案</a></td>
