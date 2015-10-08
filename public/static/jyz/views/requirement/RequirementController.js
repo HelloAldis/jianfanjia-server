@@ -164,9 +164,9 @@
                         angular.forEach($scope.designerids, function(value1, key1){
                             angular.forEach($scope.user.rec_designerids, function(value2, key2){
                                 if($scope.user.rec_designerids == value1.designerid){
-                                    $scope.designerids.biaoshi = "匹配"
+                                    value1.biaoshi = "匹配"
                                 }else{
-                                    $scope.designerids.biaoshi = "自选"
+                                    value1.biaoshi = "自选"
                                 }
                             });
                         });
