@@ -159,7 +159,17 @@
                         }
                     }).then(function(resp){
                          console.log(resp.data.data.requirements)
+                         var rec_designerids = $scope.user.rec_designerids;
                          $scope.designerids = resp.data.data.requirements;
+                        angular.forEach($scope.designerids, function(value1, key1){
+                            angular.forEach($scope.user.rec_designerids, function(value2, key2){
+                                if($scope.user.rec_designerids == value1.designerid){
+                                    $scope.designerids.biaoshi = "匹配"
+                                }else{
+                                    $scope.designerids.biaoshi = "自选"
+                                }
+                            });
+                        });
                     },function(resp){
                         //返回错误信息
                         console.log(resp);
