@@ -28,7 +28,7 @@
 				<td>{{user.time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 				<td>{{user.status | requirementFilter}}</td>
 				<td>{{user.user.username}}</td>
-				<td><a ui-sref="requirementDesigner({id:user._id})">点击查看</a></td>
+				<td><a ui-sref="requirementDesigner({id:user.user._id})">点击查看</a></td>
 			</tr>
 		</tbody>
 	</table>
