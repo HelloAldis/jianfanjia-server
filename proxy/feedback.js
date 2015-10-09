@@ -11,3 +11,15 @@ exports.newAndSave = function (json, callback) {
 exports.find = function (query, project, option, callback) {
   Feedback.find(query, project, option, callback);
 }
+
+exports.paginate = function (query, project, option, callback) {
+  Feedback.count(query, function (err, count) {
+    if (err) {
+      return callback(err, null);
+    }
+
+    exports.find(query, project, option, function (err, products) {
+      callback(err, products, count);
+    });
+  });
+};
