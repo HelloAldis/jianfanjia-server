@@ -185,6 +185,10 @@ var DesignerSchema = new Schema({
   online_update_time: {
     type: Number
   },
+  favorite_count: {
+    type: Number,
+    default: 0
+  },
 });
 
 DesignerSchema.index({

@@ -2,6 +2,12 @@ var models = require('../models');
 var Requirement = models.Requirement;
 var uuid = require('node-uuid');
 
+exports.newAndSave = function (json, callback) {
+  var requirement = new Requirement(json);
+  requirement.create_at = new Date().getTime();
+  requirement.save(callback);
+};
+
 exports.saveOrUpdateByUserid = function (userid, json, callback) {
   json.create_at = new Date().getTime();
   Requirement.findOneAndUpdate({
