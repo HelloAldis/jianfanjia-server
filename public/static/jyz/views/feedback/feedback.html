@@ -1,0 +1,38 @@
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">app用户反馈</li></ol>
+<form class="form-inline">
+	<p>[注意时间格式：2015-10-01]如果搜索当前的信息，开始时间为当天日期，结束时间为第二天日期</p>
+	<div class="form-group">
+		<label for="inputPassword2">开始时间：</label>
+		<input type="text" class="form-control" id="inputPassword2" placeholder="例如：2015-10-01" ng-model="startTime" required>
+		<label for="inputPassword2">--截止时间：</label>
+		<input type="text" class="form-control" id="inputPassword2" placeholder="例如：2015-10-01" ng-model="endTime">
+	</div>
+	<button type="button" class="btn btn-info" ng-click="searchTimeBtn()">搜索</button>
+</form>
+<br />
+<div class="panel panel-info ng-scope">
+	<table class="table table-bordered">
+		<tbody>
+			<tr class="info thead">
+				<th>提交ID</th>
+				<th>提交时间</th>
+				<th>提交者身份</th>
+				<th>提交者姓名</th>
+				<th>提交者手机</th>
+				<th>手机类型</th>
+				<th>留言内容</th>
+			</tr>
+			<tr ng-repeat="user in userList">
+				<td>{{user._id}}</td>
+				<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.usertype | userFilter}}</td>
+				<td>{{user.user.name ? user.user.name : '未填写'}}</td>
+				<td>{{user.user.phone}}</td>
+				<td>{{user.platform | platformFilter}}</td>
+				<td>{{user.content}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="loadData" ng-hide="loadData" id="j-loadData"></div>
+<div paging page-object="pageing" click-function="list" ></div>
