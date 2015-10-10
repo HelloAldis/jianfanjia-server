@@ -5,14 +5,17 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>互联网首个设计师专单平台|装修效果图|装修流程|施工监理_简繁家</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
-	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
-	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
-	<link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
-	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+    <link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
+    <script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<script type="text/javascript" src="../../static/js/ng/angular.js"></script>
+	<script type="text/javascript" src="../../static/js/ng/angular-ui-router.js"></script>
+	<script type="text/javascript" src="../../static/js/ng/bindonce.js"></script>
 	<!--[if lt IE 9]>
-      <script type="text/javascript" src="../../static/js/lib/json2-min.js"></script>
+      <script type="text/javascript" src="../../static/js/ng/html5shiv-printshiv.js"></script>
     <![endif]-->
      <!--[if lt IE 8]>
       <script type="text/javascript">
@@ -21,201 +24,85 @@
     <![endif]-->
 </head>
 <body>
-	<div class="g-hd">
-		<div class="g-wp f-cb">
-			<div class="m-logo f-fl">
-				<h1><a href="../index/index.html">简繁家</a></h1>
-			</div>
-			<div class="f-fr">
-				<div class="user" id="j-userLogin">
-					<a href="../user/login.html">登录</a>/<a href="../user/reg.html">注册</a>
-				</div>
-				<ul class="m-nav f-fl">
-					<li><a href="../index/index.html">首页</a></li>
-					<li><a href="../design/index.html">设计师</a></li>
-					<li><a href="../live/index.html">装修直播</a></li>
-					<li><a href="../merit/index.html">为什么选简繁家</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div class="g-wp g-user f-cb">
-		<div class="user-sd f-fl">
-			<h2>个人中心</h2>
+	<header class="g-hd">
+        <div class="g-wp f-cb">
+            <div class="m-logo f-fl">
+                <h1><a href="../index/index.html">简繁家</a></h1>
+            </div>
+            <div class="f-fr">
+                <div class="user" id="j-userLogin">
+                    <a href="../user/login.html">登录</a>/<a href="../user/reg.html">注册</a>
+                </div>
+                <ul class="m-nav f-fl">
+                    <li><a href="../index/index.html">首页</a></li>
+                    <li><a href="../design/index.html">设计师</a></li>
+                    <li><a href="../live/index.html">装修直播</a></li>
+                    <li><a href="../merit/index.html">为什么选简繁家</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+	<main class="g-wp g-user f-cb">
+		<aside class="user-sd f-fl" ng-controller="SubController">
+			<h3>我的中心</h3>
 			<ul>
-				<li class="current"><a href="owner.html">我的需求</a></li>
-				<li><a href="owner_design.html">我的设计师</a></li>
-				<li><a href="owner_scheme.html">我的方案</a></li>
-				<li><a href="owner_need.html">我的收藏</a></li>
-				<li><a href="owner_info.html">我的资料</a></li>
+				<li ng-class="{active: nav==&quot;index&quot;}"><a ui-sref="index">个人主页</a></li>
+				<li ng-class="{active: nav==&quot;infor&quot;}"><a ui-sref="infor">个人资料</a></li>
 			</ul>
-		</div>
-		<div class="user-mn f-fr">
-			<div class="m-tt">
-				<h3>我的需求</h3>
-			</div>
-			<div class="m-ct">
-				<p class="tips">
-					*半包是指装修工程中，施工方提供人员施工及辅材供应的承包形式。
-					<br />
-					*全包是指装修工程中，施工方提供装修所涉所有项目的承包形式。
-				</p>
-				<div class="w-form user-form">
-					<form action="http://www.jianfanjia.com" id="form-owner" method="post">
-						<div class="m-item f-cb">
-							<div class="item">
-								<label class="u-lab" for="user-name">业主姓名：</label>
-								<div class="u-inp">
-									<div class="box">
-										<input type="text" class="input" name="user-name" id="user-name" />
-									</div>
-								</div>
-							</div>
-							<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-							<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-							<p class="tips-info hide"></p>
-						</div>
-						<div class="m-item f-cb">
-							<div class="item">
-								<label class="u-lab" for="owner-area">所在区域：</label>
-								<div class="u-inp">
-									<div class="m-select" id="owner-area"></div>
-								</div>
-							</div>
-						</div>
-						<div class="m-item f-cb">
-							<div class="item">
-								<label class="u-lab" for="com-name">小区名称：</label>
-								<div class="u-inp">
-									<div class="box">
-										<input type="text" class="input" name="com-name" id="com-name" />
-									</div>
-								</div>
-							</div>
-							<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-							<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-							<p class="tips-info hide"></p>
-						</div>
-						<div class="m-item f-cb">
-							<div class="item">
-								<label class="u-lab" for="house_type">户型：</label>
-								<div class="u-inp">
-									<div class="m-select" id="house_type"></div>
-								</div>
-							</div>
-						</div>
-						<div class="m-item f-cb">
-							<div class="item">
-								<label class="u-lab" for="dec_area">装修面积：</label>
-								<div class="u-inp">
-									<div class="box">
-										<input type="text" class="input" name="dec_area" id="dec_area" />
-										<span class="unit">m&sup2;</span>
-									</div>
-								</div>
-							</div>
-							<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-							<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-							<p class="tips-info hide"></p>
-						</div>
-						<div class="m-item f-cb">
-							<div class="item">
-								<label class="u-lab" for="dec_style">风格喜好：</label>
-								<div class="u-inp">
-									<div class="m-select" id="dec_style"></div>
-								</div>
-							</div>
-						</div>
-						<div class="m-item f-cb">
-							<div class="item">
-								<label class="u-lab" for="work_type">包工类型：</label>
-								<div class="u-inp">
-									<div class="m-select" id="work_type"></div>
-								</div>
-							</div>
-						</div>
-						<div class="m-item f-cb">
-							<div class="item">
-								<label class="u-lab" for="dec-budget">装修预算：</label>
-								<div class="u-inp">
-									<div class="box">
-										<input type="text" class="input" name="dec-budget" id="dec-budget" />
-										<span class="unit">万元</span>
-									</div>
-								</div>
-							</div>
-							<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-							<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-							<p class="tips-info hide"></p>
-						</div>
-						<div class="m-item f-cb">
-							<div class="item">
-								<label class="u-lab" for="design_type">偏好设计师类型：</label>
-								<div class="u-inp">
-									<div class="m-select" id="design_type"></div>
-								</div>
-							</div>
-						</div>
-						<div class="m-item m-error-info hide">
-							
-						</div>
-						<div class="m-item">
-							<div class="u-btn">
-								<input type="submit" class="btn" id="owner-submit" value="发布" />
-							</div>
-						</div>
-					</form>
-					<div class="stylePic" id="j-stylePic">
-						<h4>风格喜好参考效果图</h4>
-						<img src="../../static/img/user/stylePic0.jpg" alt="" />
-						<p>正在加载中...</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="g-ft">
-		<div class="m-sitemap f-cb">
-			<div class="g-wp">
-				<div class="sitemap f-fl">
-					<dl>
-						<dt>业主指南</dt>
-						<dd><a href="../guide/index.html?0">业务流程</a></dd>
-						<dd><a href="../guide/index.html?1">三方保障合同</a></dd>
-					</dl>
-					<dl>
-						<dt>设计师指南</dt>
-						<dd><a href="../guide/design.html?0">设计师认证</a></dd>
-						<dd><a href="../guide/design.html?1">作品上传</a></dd>
-						<dd><a href="../guide/design.html?2">上门沟通及量房</a></dd>
-						<dd><a href="../guide/design.html?3">设计师入驻协议</a></dd>
-					</dl>
-					<dl>
-						<dt>关于我们</dt>
-						<dd><a href="../about/index.html#about">关于我们</a></dd>
-						<dd><a href="../about/index.html#contact">联系我们</a></dd>
-					</dl>
-				</div>
-				<div class="erweima f-fr">
-					<img src="../../img/public/erweima.jpg" alt="" />
-				</div>
-			</div>
-		</div>
-		<div class="m-copy">
-			<div class="g-wp">
-			Copyright © 2015-2025 jianfanjia.com All Rights Reserved 武汉家易装科技有限公司 隐私权政策 鄂ICP备15014103号
-			</div>
-		</div>
-	</div>
-	<script type="text/javascript" src="../../static/js/user/owner.js"></script>
+			<h3>我的装修</h3>
+			<ul>
+				<li ng-class="{active: nav==&quot;release&quot;}"><a ui-sref="release">发布需求</a></li>
+				<li ng-class="{active: nav==&quot;requirementList&quot;}"><a ui-sref="requirementList">需求列表</a></li>
+			</ul>
+			<h3>我的收藏</h3>
+			<ul>
+				<li ng-class="{active: nav==&quot;favorite&quot;}"><a ui-sref="favorite">收藏作品</a></li>
+				<li ng-class="{active: nav==&quot;designer&quot;}"><a ui-sref="designer">关注设计师</a></li>
+			</ul>
+		</aside>
+		<article class="user-mn f-fr">
+			<!--视图模板容器 start-->
+			<div ui-view></div>
+		    <!--视图模板容器 end-->
+		</article>
+	</main>
+	<footer class="g-ft">
+        <div class="m-sitemap f-cb">
+            <div class="g-wp">
+                <div class="sitemap f-fl">
+                    <dl>
+                        <dt>业主指南</dt>
+                        <dd><a href="../guide/index.html?0">业务流程</a></dd>
+                        <dd><a href="../guide/index.html?1">三方保障合同</a></dd>
+                    </dl>
+                    <dl>
+                        <dt>设计师指南</dt>
+                        <dd><a href="../guide/design.html?0">设计师认证</a></dd>
+                        <dd><a href="../guide/design.html?1">作品上传</a></dd>
+                        <dd><a href="../guide/design.html?2">上门沟通及量房</a></dd>
+                        <dd><a href="../guide/design.html?3">设计师入驻协议</a></dd>
+                    </dl>
+                    <dl>
+                        <dt>关于我们</dt>
+                        <dd><a href="../about/index.html#about">关于我们</a></dd>
+                        <dd><a href="../about/index.html#contact">联系我们</a></dd>
+                    </dl>
+                </div>
+                <div class="erweima f-fr">
+                    <img src="../../img/public/erweima.jpg" alt="" />
+                </div>
+            </div>
+        </div>
+        <div class="m-copy">
+            <div class="g-wp">
+            Copyright © 2015-2025 jianfanjia.com All Rights Reserved 武汉家易装科技有限公司 隐私权政策 鄂ICP备15014103号
+            </div>
+        </div>
+    </footer>
+    <script type="text/javascript" src="../../static/js/user/filters.js"></script>
+    <script type="text/javascript" src="../../static/js/user/directives.js"></script>
+    <script type="text/javascript" src="../../static/js/user/ownerService.js"></script>
+    <script type="text/javascript" src="../../static/js/user/ownerController.js"></script>
+    <script type="text/javascript" src="../../static/js/user/ownerApp.js"></script>
 </body>
 </html>
-<script>
-	var _hmt = _hmt || [];
-	(function() {
-	  var hm = document.createElement("script");
-	  hm.src = "//hm.baidu.com/hm.js?66d38d3af612ed7c0979211372aa9682";
-	  var s = document.getElementsByTagName("script")[0]; 
-	  s.parentNode.insertBefore(hm, s);
-	})();
-</script>

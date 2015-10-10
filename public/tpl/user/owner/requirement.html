@@ -1,0 +1,15 @@
+<ol class="breadCrumbs">
+	<li><a ui-sref="index">我的中心</a></li>
+	<li><a ui-sref="requirementList">需求列表</a></li>
+	<li>{{abcd}}</li>
+</ol>
+<div class="main">
+	<ul>
+		<li bindonce ng-repeat="a in data"><a ui-sref="{{a.url}}" ng-click="b(a.name)" bo-text="a.name"></a></li>
+	</ul>
+	<div class="view">
+		<!--视图模板容器 start-->
+		<div ui-view></div>
+		<!--视图模板容器 end-->
+	</div>
+</div>
