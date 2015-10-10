@@ -56,6 +56,9 @@ var RequirementSchema = new Schema({
   rec_designerids: {
     type: [ObjectId]
   },
+  order_designerids: {
+    type: [ObjectId]
+  },
   final_designerid: {
     type: ObjectId
   },

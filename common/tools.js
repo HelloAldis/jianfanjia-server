@@ -1,7 +1,7 @@
 var bcrypt = require('bcrypt');
 var moment = require('moment');
 var validator = require('validator');
-
+var _ = require('lodash');
 
 moment.locale('zh-cn'); // 使用中文
 
@@ -31,4 +31,10 @@ exports.bcompare = function (str, hash, callback) {
 
 exports.trim = function (str) {
   return validator.trim(str) || '';
+}
+
+exports.findObjectId = function (array, oid) {
+  return _.find(array, function (o) {
+    return o.toString() === oid.toString();
+  });
 }

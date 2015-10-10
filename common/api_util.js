@@ -18,13 +18,13 @@ exports.getUsertype = function (req) {
 
 exports.buildUser = function (req) {
   var user = {};
-  user.username = tools.trim(req.body.username);
-  user.sex = tools.trim(req.body.sex);
-  user.province = tools.trim(req.body.province);
-  user.city = tools.trim(req.body.city);
-  user.district = tools.trim(req.body.district);
-  user.address = tools.trim(req.body.address);
-  user.email = tools.trim(req.body.email);
+  user.username = req.body.username;
+  user.sex = req.body.sex;
+  user.province = req.body.province;
+  user.city = req.body.city;
+  user.district = req.body.district;
+  user.address = req.body.address;
+  user.email = req.body.email;
 
   if (req.body.imageid) {
     user.imageid = new ObjectId(req.body.imageid);
@@ -35,25 +35,25 @@ exports.buildUser = function (req) {
 
 exports.buildDesinger = function (req) {
   var designer = exports.buildUser(req);
-  designer.username = tools.trim(req.body.username);
-  designer.sex = tools.trim(req.body.sex);
-  designer.province = tools.trim(req.body.province);
-  designer.city = tools.trim(req.body.city);
-  designer.district = tools.trim(req.body.district);
-  designer.address = tools.trim(req.body.address);
-  designer.company = tools.trim(req.body.company);
+  designer.username = req.body.username;
+  designer.sex = req.body.sex;
+  designer.province = req.body.province;
+  designer.city = req.body.city;
+  designer.district = req.body.district;
+  designer.address = req.body.address;
+  designer.company = req.body.company;
   designer.dec_types = req.body.dec_types;
   designer.dec_styles = req.body.dec_styles;
   designer.dec_districts = req.body.dec_districts;
   designer.dec_house_types = req.body.dec_house_types;
-  designer.design_fee_range = tools.trim(req.body.design_fee_range);
+  designer.design_fee_range = req.body.design_fee_range;
   designer.dec_fee_half = req.body.dec_fee_half;
   designer.dec_fee_all = req.body.dec_fee_all;
-  designer.achievement = tools.trim(req.body.achievement);
-  designer.philosophy = tools.trim(req.body.philosophy);
-  designer.communication_type = tools.trim(req.body.communication_type);
+  designer.achievement = req.body.achievement;
+  designer.philosophy = req.body.philosophy;
+  designer.communication_type = req.body.communication_type;
   designer.work_year = req.body.work_year;
-  designer.university = tools.trim(req.body.university);
+  designer.university = req.body.university;
 
   if (req.body.imageid) {
     designer.imageid = new ObjectId(req.body.imageid);
@@ -68,9 +68,9 @@ exports.buildDesinger = function (req) {
 
 exports.buildUidBank = function (req) {
   var designer = {};
-  designer.uid = tools.trim(req.body.uid);
-  designer.bank_card = tools.trim(req.body.bank_card);
-  designer.bank = tools.trim(req.body.bank);
+  designer.uid = req.body.uid;
+  designer.bank_card = req.body.bank_card;
+  designer.bank = req.body.bank;
 
   if (req.body.uid_image1) {
     designer.uid_image1 = new ObjectId(req.body.uid_image1);
@@ -89,16 +89,16 @@ exports.buildUidBank = function (req) {
 
 exports.buildTeam = function (req) {
   var team = {};
-  team.manager = tools.trim(req.body.manager);
-  team.uid = tools.trim(req.body.uid);
-  team.company = tools.trim(req.body.company);
-  team.work_year = tools.trim(req.body.work_year);
-  team.good_at = tools.trim(req.body.good_at);
-  team.working_on = tools.trim(req.body.working_on);
-  team.sex = tools.trim(req.body.sex);
-  team.province = tools.trim(req.body.province);
-  team.city = tools.trim(req.body.city);
-  team.district = tools.trim(req.body.district);
+  team.manager = req.body.manager;
+  team.uid = req.body.uid;
+  team.company = req.body.company;
+  team.work_year = req.body.work_year;
+  team.good_at = req.body.good_at;
+  team.working_on = req.body.working_on;
+  team.sex = req.body.sex;
+  team.province = req.body.province;
+  team.city = req.body.city;
+  team.district = req.body.district;
 
   if (req.body.uid_image1) {
     team.uid_image1 = new ObjectId(req.body.uid_image1);
@@ -113,17 +113,17 @@ exports.buildTeam = function (req) {
 
 exports.buildProduct = function (req) {
   var product = {};
-  product.province = tools.trim(req.body.province);
-  product.city = tools.trim(req.body.city);
-  product.district = tools.trim(req.body.district);
-  product.cell = tools.trim(req.body.cell);
-  product.house_type = tools.trim(req.body.house_type);
-  product.house_area = tools.trim(req.body.house_area);
-  product.dec_style = tools.trim(req.body.dec_style);
-  product.dec_type = tools.trim(req.body.dec_type);
-  product.work_type = tools.trim(req.body.work_type);
-  product.total_price = tools.trim(req.body.total_price);
-  product.description = tools.trim(req.body.description);
+  product.province = req.body.province;
+  product.city = req.body.city;
+  product.district = req.body.district;
+  product.cell = req.body.cell;
+  product.house_type = req.body.house_type;
+  product.house_area = req.body.house_area;
+  product.dec_style = req.body.dec_style;
+  product.dec_type = req.body.dec_type;
+  product.work_type = req.body.work_type;
+  product.total_price = req.body.total_price;
+  product.description = req.body.description;
   product.images = _.map(req.body.images, function (i) {
     i.imageid = new ObjectId(i.imageid);
     return i;
@@ -135,9 +135,9 @@ exports.buildProduct = function (req) {
 exports.buildPlan = function (req) {
   var plan = {};
   plan.duration = req.body.duration;
-  plan.total_price = tools.trim(req.body.total_price);
-  plan.description = tools.trim(req.body.description);
-  plan.manager = tools.trim(req.body.manager);
+  plan.total_price = req.body.total_price;
+  plan.description = req.body.description;
+  plan.manager = req.body.manager;
   plan.price_detail = req.body.price_detail;
 
   plan.images = _.map(req.body.images, function (i) {
@@ -149,47 +149,47 @@ exports.buildPlan = function (req) {
 
 exports.buildRequirement = function (req) {
   var requirement = {};
-  requirement.province = tools.trim(req.body.province);
-  requirement.city = tools.trim(req.body.city);
-  requirement.district = tools.trim(req.body.district);
-  requirement.cell = tools.trim(req.body.cell);
-  requirement.street = tools.trim(req.body.street);
-  requirement.cell_phase = tools.trim(req.body.cell_phase);
-  requirement.cell_building = tools.trim(req.body.cell_building);
-  requirement.cell_unit = tools.trim(req.body.cell_unit);
-  requirement.cell_detail_number = tools.trim(req.body.cell_detail_number);
-  requirement.house_type = tools.trim(req.body.house_type);
+  requirement.province = req.body.province;
+  requirement.city = req.body.city;
+  requirement.district = req.body.district;
+  requirement.cell = req.body.cell;
+  requirement.street = req.body.street;
+  requirement.cell_phase = req.body.cell_phase;
+  requirement.cell_building = req.body.cell_building;
+  requirement.cell_unit = req.body.cell_unit;
+  requirement.cell_detail_number = req.body.cell_detail_number;
+  requirement.house_type = req.body.house_type;
   requirement.house_area = req.body.house_area;
-  requirement.dec_style = tools.trim(req.body.dec_style);
-  requirement.work_type = tools.trim(req.body.work_type);
+  requirement.dec_style = req.body.dec_style;
+  requirement.work_type = req.body.work_type;
   requirement.total_price = req.body.total_price;
-  requirement.communication_type = tools.trim(req.body.communication_type);
-  requirement.family_description = tools.trim(req.body.family_description);
+  requirement.communication_type = req.body.communication_type;
+  requirement.family_description = req.body.family_description;
 
   return requirement;
 }
 
 exports.buildComment = function (req) {
   var comment = {};
-  comment.content = tools.trim(req.body.content);
+  comment.content = req.body.content;
 
   return comment;
 }
 
 exports.buildShare = function (req) {
   var share = {};
-  share.manager = tools.trim(req.body.manager);
-  share.province = tools.trim(req.body.province);
-  share.city = tools.trim(req.body.city);
-  share.district = tools.trim(req.body.district);
-  share.cell = tools.trim(req.body.cell);
-  share.house_type = tools.trim(req.body.house_type);
+  share.manager = req.body.manager;
+  share.province = req.body.province;
+  share.city = req.body.city;
+  share.district = req.body.district;
+  share.cell = req.body.cell;
+  share.house_type = req.body.house_type;
   share.house_area = req.body.house_area;
-  share.dec_style = tools.trim(req.body.dec_style);
-  share.dec_type = tools.trim(req.body.dec_type);
-  share.work_type = tools.trim(req.body.work_type);
+  share.dec_style = req.body.dec_style;
+  share.dec_type = req.body.dec_type;
+  share.work_type = req.body.work_type;
   share.total_price = req.body.total_price;
-  share.description = tools.trim(req.body.description);
+  share.description = req.body.description;
   share.process = req.body.process;
   share.start_at = req.body.start_at;
 
@@ -207,15 +207,15 @@ exports.buildProcess = function (req) {
   process.final_designerid = new ObjectId(req.body.final_designerid);
   process.final_planid = new ObjectId(req.body.final_planid);
   process.requirementid = new ObjectId(req.body.requirementid);
-  process.province = tools.trim(req.body.province);
-  process.city = tools.trim(req.body.city);
-  process.district = tools.trim(req.body.district);
-  process.cell = tools.trim(req.body.cell);
-  process.house_type = tools.trim(req.body.house_type);
-  process.house_area = tools.trim(req.body.house_area);
-  process.dec_style = tools.trim(req.body.dec_style);
-  process.work_type = tools.trim(req.body.work_type);
-  process.total_price = tools.trim(req.body.total_price);
+  process.province = req.body.province;
+  process.city = req.body.city;
+  process.district = req.body.district;
+  process.cell = req.body.cell;
+  process.house_type = req.body.house_type;
+  process.house_area = req.body.house_area;
+  process.dec_style = req.body.dec_style;
+  process.work_type = req.body.work_type;
+  process.total_price = req.body.total_price;
   process.start_at = req.body.start_at;
   process.duration = req.body.duration;
 
@@ -227,7 +227,7 @@ exports.buildReschedule = function (req) {
   reschedule.processid = new ObjectId(tools.trim(req.body.processid));
   reschedule.userid = new ObjectId(tools.trim(req.body.userid));
   reschedule.designerid = new ObjectId(tools.trim(req.body.designerid));
-  reschedule.section = tools.trim(req.body.section);
+  reschedule.section = req.body.section;
   reschedule.new_date = req.body.new_date;
 
   return reschedule;
@@ -236,17 +236,17 @@ exports.buildReschedule = function (req) {
 exports.buildFeedback = function (req) {
   var feedback = {};
 
-  feedback.content = tools.trim(req.body.content);
-  feedback.platform = tools.trim(req.body.platform);
+  feedback.content = req.body.content;
+  feedback.platform = req.body.platform;
   return feedback;
 }
 
 exports.buildTempUser = function (req) {
   var tempUser = {};
 
-  tempUser.name = tools.trim(req.body.name);
-  tempUser.phone = tools.trim(req.body.phone);
-  tempUser.district = tools.trim(req.body.district);
+  tempUser.name = req.body.name;
+  tempUser.phone = req.body.phone;
+  tempUser.district = req.body.district;
   tempUser.house_area = req.body.house_area;
   tempUser.total_price = req.body.total_price;
 
