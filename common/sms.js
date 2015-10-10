@@ -5,8 +5,9 @@ var DateUtil = require('./date_util');
 var utility = require('utility');
 var logger = require('./logger')
 
-exports.send = function (phone, con) {
+exports.sendWeiMi = function (phone, cid, p1) {
   if (config.debug) {
+    console.log('weimi send to phone = ' + phone);
     return;
   }
 
@@ -14,8 +15,9 @@ exports.send = function (phone, con) {
     uid: config.sms_uid,
     pas: config.sms_pas,
     mob: phone,
-    con: con,
-    type: 'json'
+    cid: cid,
+    type: 'json',
+    p1: p1,
   };
   var content = querystring.stringify(postData);
 
@@ -45,86 +47,16 @@ exports.send = function (phone, con) {
 }
 
 exports.sendVerifyCode = function (phone, code) {
-  if (config.debug) {
-    return;
-  }
-
-  var postData = {
-    uid: config.sms_uid,
-    pas: config.sms_pas,
-    mob: phone,
-    cid: 'd4OXVcW1Py8A',
-    type: 'json',
-    p1: code
-  };
-  var content = querystring.stringify(postData);
-
-  var options = {
-    host: 'api.weimi.cc',
-    path: '/2/sms/send.html',
-    method: 'POST',
-    agent: false,
-    rejectUnauthorized: false,
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Content-Length': content.length
-    }
-  };
-
-  var req = http.request(options, function (res) {
-    res.setEncoding('utf8');
-    res.on('data', function (chunk) {
-      console.log(JSON.parse(chunk));
-    });
-    res.on('end', function () {
-      console.log('over');
-    });
-  });
-  req.write(content);
-  req.end();
+  exports.sendWeiMi(phone, 'd4OXVcW1Py8A', code);
 }
 
 exports.sendYuyue = function (phone) {
-  if (config.debug) {
-    return;
-  }
-
-  var postData = {
-    uid: config.sms_uid,
-    pas: config.sms_pas,
-    mob: phone,
-    cid: 'FIgUFcBhel9I',
-    type: 'json'
-  };
-  var content = querystring.stringify(postData);
-
-  var options = {
-    host: 'api.weimi.cc',
-    path: '/2/sms/send.html',
-    method: 'POST',
-    agent: false,
-    rejectUnauthorized: false,
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Content-Length': content.length
-    }
-  };
-
-  var req = http.request(options, function (res) {
-    res.setEncoding('utf8');
-    res.on('data', function (chunk) {
-      console.log(JSON.parse(chunk));
-    });
-    res.on('end', function () {
-      console.log('over');
-    });
-  });
-  req.write(content);
-  req.end();
+  exports.sendWeiMi(phone, 'FIgUFcBhel9I');
 }
 
 function yzx(phone, templateId, param) {
   if (config.debug) {
+    console.log('yzx send to phone = ' + phone);
     return;
   }
 

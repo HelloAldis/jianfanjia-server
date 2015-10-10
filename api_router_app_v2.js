@@ -28,5 +28,6 @@ var upload = multer({
 
 //未登录用户拥有的功能
 router.post('/login', sign.login); //手机端登录
+router.get('/device/android_build_version', device.android_build_version); //获取android信息
 
 module.exports = router;

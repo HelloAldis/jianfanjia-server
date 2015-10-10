@@ -24,3 +24,15 @@ exports.newAndSave = function (json, callback) {
 exports.removeOne = function (query, option, callback) {
   Share.findOneAndRemove(query, option, callback)
 };
+
+exports.paginate = function (query, project, option, callback) {
+  Share.count(query, function (err, count) {
+    if (err) {
+      return callback(err, null);
+    }
+
+    exports.find(query, project, option, function (err, array) {
+      callback(err, array, count);
+    });
+  });
+};
