@@ -15,16 +15,22 @@
 .tabNav{
 	width: 100%;
 	height: 64px;
-	background:url(../img/merit/tabnav-bg.png) center top no-repeat;
+	background:#ebf1f6;
+}
+.tabNav ul{
+	height: 100%;
+	background-color: #fff;
 }
 .tabNav li{
 	float: left;
-	width: 33.33%;
+	width: 33.13%;
+	margin: 0 0.1%;
 	height: 100%;
 	font-size: 18px;
 	line-height: 64px;
 	text-align: center;
 	color: #1ca76f;
+	background:#ebf1f6;
 }
 .tabNav li a{
 	display: inline-block;
@@ -32,16 +38,13 @@
 	height: 100%;
 	color: #34495e;
 }
-.tabnav2{
-	background-position: 0 -64px;
+.tabNav1 .active,.tabnav2 .active,.tabnav3 .active{
+	background-color: #fff;
 }
-.tabnav2 li{
+.tabnav2 .active{
 	color: #fc6b3b;
 }
-.tabnav3{
-	background-position: 0 -128px;
-}
-.tabnav3 li{
+.tabnav3 .active{
 	color: #669ace;
 }
 /*首页*/

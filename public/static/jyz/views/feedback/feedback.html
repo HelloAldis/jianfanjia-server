@@ -1,4 +1,4 @@
-<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">业务需求列表</li></ol>
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">app用户反馈</li></ol>
 <form class="form-inline">
 	<p>[注意时间格式：2015-10-01]如果搜索当前的信息，开始时间为当天日期，结束时间为第二天日期</p>
 	<div class="form-group">
@@ -10,35 +10,26 @@
 	<button type="button" class="btn btn-info" ng-click="searchTimeBtn()">搜索</button>
 </form>
 <br />
-<ul id="authTab">
-	<li ng-repeat="auth in authList" class="{{auth.cur ? 'active' : ''}}" ng-click="authBtn(auth.id)">{{auth.name}}</li>
-</ul>
 <div class="panel panel-info ng-scope">
 	<table class="table table-bordered">
 		<tbody>
 			<tr class="info thead">
-				<th>方案ID</th>
+				<th>提交ID</th>
 				<th>提交时间</th>
-				<th>量房时间</th>
-				<th>当前状态</th>
-				<th>状态更新时间</th>
-				<th>设计师姓名</th>
-				<th>设计师电话</th>
-				<th>业主项目</th>
-				<th>业主电话</th>
-				<th>查看方案</th>
+				<th>提交者身份</th>
+				<th>提交者姓名</th>
+				<th>提交者手机</th>
+				<th>手机类型</th>
+				<th>留言内容</th>
 			</tr>
 			<tr ng-repeat="user in userList">
 				<td>{{user._id}}</td>
-				<td>{{user.request_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-				<td>{{user.last_status_update_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-				<td>{{user.status | planFilter}}</td>
-				<td>{{user.house_check_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-				<td>{{user.designer.username}}({{user.biaoshi}})</td>
-				<td>{{user.designer.phone}}</td>
-				<td>{{user.user.username}}</td>
+				<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.usertype | userFilter}}</td>
+				<td>{{user.user.name ? user.user.name : '未填写'}}</td>
 				<td>{{user.user.phone}}</td>
-				<td><a target="_blank" href="../tpl/user/scheme_detail.html?planid={{user._id}}&name={{user.designer.username}}" class="btns browse">预览方案</a></td>
+				<td>{{user.platform | platformFilter}}</td>
+				<td>{{user.content}}</td>
 			</tr>
 		</tbody>
 	</table>

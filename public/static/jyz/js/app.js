@@ -116,6 +116,11 @@
                     templateUrl: RootURl+'views/field/field.html',
                     controller: 'FieldController'
                 })
+                .state('feedback', {
+                    url: '/feedback',
+                    templateUrl: RootURl+'views/feedback/feedback.html',
+                    controller: 'FeedbackController'
+                })
                 .state('recruit', {
                     url: '/recruit',
                     templateUrl: RootURl+'views/recruit/recruit.html',
