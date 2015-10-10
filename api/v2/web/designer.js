@@ -1,19 +1,19 @@
 var validator = require('validator');
 var eventproxy = require('eventproxy');
-var Designer = require('../../proxy').Designer;
-var Product = require('../../proxy').Product;
-var Plan = require('../../proxy').Plan;
-var User = require('../../proxy').User;
-var Requirement = require('../../proxy').Requirement;
-var tools = require('../../common/tools');
+var Designer = require('../../../proxy').Designer;
+var Product = require('../../../proxy').Product;
+var Plan = require('../../../proxy').Plan;
+var User = require('../../../proxy').User;
+var Requirement = require('../../../proxy').Requirement;
+var tools = require('../../../common/tools');
 var _ = require('lodash');
-var config = require('../../config');
+var config = require('../../../config');
 var async = require('async');
-var ApiUtil = require('../../common/api_util');
+var ApiUtil = require('../../../common/api_util');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
-var type = require('../../type');
-var limit = require('../../middlewares/limit')
+var type = require('../../../type');
+var limit = require('../../../middlewares/limit')
 
 var noPassAndToken = {
   pass: 0,
@@ -93,7 +93,7 @@ exports.email_info = function (req, res, next) {
 };
 
 exports.designer_home_page = function (req, res, next) {
-  var designerid = req.params._id;
+  var designerid = req.body._id;
   var ep = new eventproxy();
   ep.fail(next);
 
@@ -122,7 +122,9 @@ exports.search = function (req, res, next) {
   var sort = req.body.sort;
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
-  query.auth_type = type.designer_auth_type_done;
+  // query.auth_type = type.designer_auth_type_done;
+  var ep = new eventproxy();
+  ep.fail(next);
 
   Designer.paginate(query, noPrivateInfo, {
     sort: sort,
