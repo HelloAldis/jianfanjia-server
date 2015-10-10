@@ -73,6 +73,14 @@
                 }[input];
             }
         })
+        .filter('workTypeFilter', function () {     //习惯沟通方式
+            return function (input) {
+                return {
+                    "0":"半包",
+                    "1":"全包"
+                }[input];
+            }
+        })
         .filter('houseTypeFilter', function () {     //意向接单户型
             return function (input) {
                 return {
