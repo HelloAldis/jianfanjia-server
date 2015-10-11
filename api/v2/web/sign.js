@@ -15,7 +15,6 @@ var async = require('async');
 exports.login = function (req, res, next) {
   var phone = validator.trim(req.body.phone);
   var pass = validator.trim(req.body.pass);
-
   var ep = new eventproxy();
   ep.fail(next);
 
@@ -36,11 +35,7 @@ exports.login = function (req, res, next) {
       },
     },
 
-    function (err, result) {
-      if (err) {
-        return next(err);
-      }
-
+    ep.done(function (result) {
       if (result.user && !result.designer) {
         //业主登录
         var passhash = result.user.pass;
@@ -81,7 +76,7 @@ exports.login = function (req, res, next) {
       } else {
         return res.sendErrMsg('用户名或密码错误');
       }
-    });
+    }));
 }
 
 exports.sendVerifyCode = function (req, res, next) {
@@ -275,13 +270,13 @@ exports.verifyPhone = function (req, res, next) {
 
   User.findOne({
     phone: phone
-  }, null, ep.done(function (err, user) {
+  }, null, ep.done(function (user) {
     ep.emit('user', user);
   }));
 
   Designer.findOne({
     phone: phone
-  }, {}, ep.done(function (err, designer) {
+  }, {}, ep.done(function (designer) {
     ep.emit('designer', designer);
   }));
 }

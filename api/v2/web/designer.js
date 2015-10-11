@@ -209,57 +209,53 @@ exports.myUser = function (req, res, next) {
 
 exports.okUser = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
-  var userid = tools.trim(req.body.userid);
+  var requirementid = tools.trim(req.body.requirementid);
   var house_check_time = req.body.house_check_time;
+  var ep = eventproxy();
+  ep.fail(next);
 
   Plan.setOne({
-    userid: userid,
-    designerid: designerid
+    designerid: designerid,
+    requirementid: requirementid
   }, {
     house_check_time: house_check_time,
     status: type.plan_status_designer_respond,
     last_status_update_time: new Date().getTime(),
-  }, null, function (err, plan) {
-    if (err) {
-      return next(err);
-    }
-
+  }, null, function ep.done((plan) {
     if (plan) {
       Requirement.setOne({
         _id: plan.requirementid,
         status: type.requirement_status_not_respond,
       }, {
         status: type.requirement_status_respond_no_plan
-      }, null, function (err) {
-
-      });
+      }, null, function (err) {});
     }
 
     res.sendSuccessMsg();
-  });
+  }));
 }
 
 exports.rejectUser = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
-  var userid = tools.trim(req.body.userid);
+  var requirementid = tools.trim(req.body.requirementid);
+  var ep = eventproxy();
+  ep.fail(next);
 
   Plan.setOne({
-    userid: userid,
+    requirementid: requirementid,
     designerid: designerid
   }, {
     status: type.plan_status_designer_reject,
     last_status_update_time: new Date().getTime(),
-  }, null, function (err) {
-    if (err) {
-      return next(err);
-    }
-
+  }, null, ep.done(function () {
     res.sendSuccessMsg();
-  });
+  }));
 }
 
 exports.auth = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
+  var ep = eventproxy();
+  ep.fail(next);
 
   Designer.setOne({
     _id: designerid
@@ -267,35 +263,28 @@ exports.auth = function (req, res, next) {
     auth_type: type.designer_auth_type_processing,
     uid_auth_type: type.designer_auth_type_processing,
     auth_date: new Date().getTime(),
-  }, {}, function (err) {
-    if (err) {
-      return next(err);
-    }
-
+  }, {}, ep.done(function () {
     res.sendSuccessMsg();
-  });
+  }));
 }
 
 exports.agree = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
+  var ep = eventproxy();
+  ep.fail(next);
 
   Designer.setOne({
     _id: designerid
   }, {
     'agreee_license': type.designer_agree_type_yes
-  }, {}, function (err) {
-    if (err) {
-      return next(err);
-    }
-
+  }, {}, ep.done(function () {
     res.sendSuccessMsg();
-  });
+  }));
 }
 
 exports.update_online_status = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
   var new_oneline_status = tools.trim(req.body.new_oneline_status);
-
   var ep = eventproxy();
   ep.fail(next);
 
