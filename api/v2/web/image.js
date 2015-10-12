@@ -102,6 +102,7 @@ exports.watermark = function (req, res, next) {
     _id: _id
   }, null, ep.done(function (image) {
     if (image) {
+      console.log('a=' + image);
       imageUtil.watermark(image.data, ep.done(function (stdout, stderr) {
         res.writeHead(200, {
           'Content-Type': 'image/jpeg',
@@ -124,8 +125,7 @@ exports.crop = function (req, res, next) {
   Image.findOne({
     _id: req.body._id
   }, null, ep.done(function (image) {
-    console.log('a=' + image.data);
-    imageUtil.crop2buffer(image.data, req.body.width, req.body.hight,
+    imageUtil.crop2buffer(image.data, req.body.width, req.body.height,
       req.body.x, req.body.y, ep.done(function (buffer) {
         ep.emit('data', buffer);
       }));
@@ -139,7 +139,6 @@ exports.crop = function (req, res, next) {
       'md5': md5,
       'userid': userid
     }, null, ep.done(function (image) {
-      console.log('b=' + image);
       if (image) {
         res.sendData(image._id);
       } else {
