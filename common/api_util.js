@@ -139,6 +139,7 @@ exports.buildPlan = function (req) {
   plan.description = req.body.description;
   plan.manager = req.body.manager;
   plan.price_detail = req.body.price_detail;
+  plan.project_price_after_discount = req.body.project_price_after_discount;
 
   plan.images = _.map(req.body.images, function (i) {
     return new ObjectId(i);

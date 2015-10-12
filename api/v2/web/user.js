@@ -109,30 +109,6 @@ exports.designers_can_order = function (req, res, next) {
     }));
 }
 
-exports.my_order_designer = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var requirementid = req.body.requirementid;
-  var ep = eventproxy();
-  ep.fail(next);
-
-  async.waterfall([function (callback) {
-    Requirement.findOne({
-      _id: requirementid
-    }, null, callback);
-  }], ep.done(function (requirement) {
-    Designer.find({
-      _id: {
-        $in: requirement.order_designerids
-      }
-    }, {
-      username: 1,
-      imageid: 1,
-      phone: 1,
-    }, null, ep.done(function (designers) {
-      res.sendData(designers);
-    }));
-  }));
-}
 
 exports.order_designer = function (req, res, next) {
   var designerids = _.map(req.body.designerids, function (e) {
@@ -195,7 +171,6 @@ exports.order_designer = function (req, res, next) {
         }));
       });
 
-      console.log('what what what');
       Requirement.addToSet({
         _id: requirementid,
       }, {
@@ -203,8 +178,36 @@ exports.order_designer = function (req, res, next) {
           $each: designerids
         }
       }, null, ep.done(function () {
-        res.sendSuccessMsg;
+        res.sendSuccessMsg();
       }));
     }
   }));
 };
+
+exports.designer_house_checked = function (req, res, next) {
+  var designerid = req.body.designerid
+  var requirementid = req.body.requirementid;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Plan.setOne({
+    designerid: designerid,
+    requirementid: requirementid,
+    status: type.plan_status_designer_respond_no_housecheck,
+  }, {
+    status: type.plan_status_designer_housecheck_no_plan,
+    last_status_update_time: new Date().getTime(),
+  }, null, ep.done(function (plan) {
+    console.log(plan);
+    if (plan) {
+      Requirement.setOne({
+        _id: plan.requirementid,
+        status: type.requirement_status_respond_no_housecheck,
+      }, {
+        status: type.requirement_status_housecheck_no_plan
+      }, null, function (err) {});
+    }
+
+    res.sendSuccessMsg();
+  }));
+}

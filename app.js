@@ -113,6 +113,10 @@ if (config.debug) {
     console.log(req.body);
     next();
   });
+  app.use('/api/v2', function (req, res, next) {
+    console.log(req.body);
+    next();
+  });
 }
 
 app.use('/api/v1', cors(), api_statistic.api_statistic, apiRouterV1);

@@ -58,8 +58,12 @@ router.post('/designers_user_can_order', auth.userRequired, designer.designers_u
 router.post('/favorite/designer/list', auth.userRequired, favorite.list_designer); //获取业主的意向设计师列表
 router.post('/favorite/designer/add', auth.userRequired, favorite.add_designer); //添加设计师到意向列表
 router.post('/favorite/designer/delete', auth.userRequired, favorite.delete_designer); //把设计师从意向列表删除
-router.post('/user/order_designer', auth.userRequired, user.order_designer); //预约量房
+router.post('/user_order_designer', auth.userRequired, user.order_designer); //预约量房
+router.post('/user_ordered_designers', auth.userRequired, designer.user_ordered_designers); //获取预约了的设计师
 router.post('/user_requirement_plans', auth.userRequired, plan.user_requirement_plans); //业主某个需求的方案
+router.post('/designer_house_checked', auth.userRequired, user.designer_house_checked); //确认设计师量完房
+router.post('/user/plan/final', auth.userRequired, plan.finalPlan); //选定方案
+
 //设计师独有功能
 router.post('/designer/agree', auth.designerRequired, designer.agree); //同意条款
 router.post('/designer/info', auth.designerRequired, designer.updateInfo); //修改设计师个人资料
@@ -74,6 +78,15 @@ router.get('/designer/team', auth.designerRequired, team.list); //获取施工�
 router.post('/designer/team/add', auth.designerRequired, team.add); //添加施工队伍
 router.post('/designer/team/update', auth.designerRequired, team.update); //更新施工队伍
 router.post('/designer/team/delete', auth.designerRequired, team.delete); //删除施工队伍
+router.post('/designer/auth', auth.designerRequired, designer.auth); //提交认证申请
 router.post('/designer/update_online_status', auth.designerRequired, designer.update_online_status); //更改在线状态
+router.get('/designer_my_requiremtne_list', auth.designerRequired, requirement
+  .designer_my_requiremtne_list); //设计获取和自己相关的需求列表
+router.post('/designer/user/ok', auth.designerRequired, designer.okUser); //响应业主
+router.post('/designer/user/reject', auth.designerRequired, designer.rejectUser); //拒绝业主
+router.post('/designer/plan/add', auth.designerRequired, plan.add); //提交方案
+router.post('/designer/plan/update', auth.designerRequired, plan.update); //更新方案
+router.post('/designer_requirement_plans', auth.designerRequired, plan.designer_requirement_plans); //更新方案
+
 
 module.exports = router;

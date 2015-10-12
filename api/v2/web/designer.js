@@ -139,75 +139,6 @@ exports.search = function (req, res, next) {
   }));
 }
 
-exports.myUser = function (req, res, next) {
-  var designerid = ApiUtil.getUserid(req);
-  var ep = eventproxy();
-
-  ep.fail(next);
-  ep.on('plans', function (plans) {
-    async.mapLimit(plans, 3, function (plan, callback) {
-      User.findOne({
-        _id: plan.userid
-      }, {
-        username: 1,
-        phone: 1,
-        imageid: 1,
-      }, function (err, user) {
-        plan.user = user;
-        callback(err, plan);
-      });
-    }, function (err, results) {
-      if (err) {
-        return next(err);
-      }
-
-      ep.emit('hasUser', results);
-    });
-  });
-
-  ep.on('hasUser', function (plans) {
-    async.mapLimit(plans, 3, function (plan, callback) {
-      Requirement.findOne({
-        userid: plan.userid
-      }, null, function (err, requirement) {
-        plan.requirement = requirement;
-        callback(err, plan);
-      });
-    }, function (err, results) {
-      if (err) {
-        return next(err);
-      }
-
-      res.sendData(results);
-    });
-  });
-
-  Plan.find({
-    designerid: designerid
-  }, {
-    designerid: 1,
-    userid: 1,
-    requirementid: 1,
-    house_check_time: 1,
-    status: 1,
-  }, null, function (err, plans) {
-    if (err) {
-      return next(err);
-    }
-    var ps = _.map(plans, function (plan) {
-      var p = {};
-      p.designerid = plan.designerid;
-      p.userid = plan.userid;
-      p.requirementid = plan.requirementid;
-      p.house_check_time = plan.house_check_time;
-      p.status = plan.status;
-      p._id = plan._id;
-      return p;
-    });
-    ep.emit('plans', ps);
-  });
-}
-
 exports.okUser = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
   var requirementid = tools.trim(req.body.requirementid);
@@ -217,10 +148,11 @@ exports.okUser = function (req, res, next) {
 
   Plan.setOne({
     designerid: designerid,
-    requirementid: requirementid
+    requirementid: requirementid,
+    status: type.plan_status_not_respond,
   }, {
     house_check_time: house_check_time,
-    status: type.plan_status_designer_respond,
+    status: type.plan_status_designer_respond_no_housecheck,
     last_status_update_time: new Date().getTime(),
   }, null, ep.done(function (plan) {
     if (plan) {
@@ -228,7 +160,7 @@ exports.okUser = function (req, res, next) {
         _id: plan.requirementid,
         status: type.requirement_status_not_respond,
       }, {
-        status: type.requirement_status_respond_no_plan
+        status: type.requirement_status_respond_no_housecheck
       }, null, function (err) {});
     }
 
@@ -244,7 +176,8 @@ exports.rejectUser = function (req, res, next) {
 
   Plan.setOne({
     requirementid: requirementid,
-    designerid: designerid
+    designerid: designerid,
+    status: type.plan_status_not_respond,
   }, {
     status: type.plan_status_designer_reject,
     last_status_update_time: new Date().getTime(),
@@ -365,4 +298,46 @@ exports.designers_user_can_order = function (req, res, next) {
         res.sendData(result);
       }));
     }));
+}
+
+exports.user_ordered_designers = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var requirementid = req.body.requirementid;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  async.waterfall([function (callback) {
+    Requirement.findOne({
+      _id: requirementid
+    }, null, callback);
+  }], ep.done(function (requirement) {
+    Designer.find({
+      _id: {
+        $in: requirement.order_designerids
+      }
+    }, {
+      username: 1,
+      imageid: 1,
+      phone: 1,
+    }, null, ep.done(function (designers) {
+      async.mapLimit(designers, 3, function (designer, callback) {
+        Plan.find({
+          designerid: designer._id,
+          requirementid: requirementid,
+        }, null, {
+          skip: 0,
+          limit: 1,
+          sort: {
+            last_status_update_time: -1
+          },
+        }, function (err, plans) {
+          designer = designer.toObject();
+          designer.status = plans[0].status;
+          callback(err, designer);
+        });
+      }, ep.done(function (results) {
+        res.sendData(results);
+      }));
+    }));
+  }));
 }

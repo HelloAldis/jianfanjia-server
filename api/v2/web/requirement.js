@@ -26,6 +26,18 @@ exports.user_my_requiremtne_list = function (req, res, next) {
   }));
 }
 
+exports.designer_my_requiremtne_list = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Requirement.find({
+    order_designerids: designerid
+  }, null, ep.done(function (requirements) {
+    res.sendData(requirements);
+  }));
+}
+
 exports.user_add_requirement = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var requirement = ApiUtil.buildRequirement(req);
