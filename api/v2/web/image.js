@@ -125,7 +125,7 @@ exports.crop = function (req, res, next) {
     _id: req.body._id
   }, null, ep.done(function (image) {
     console.log('a=' + image);
-    imageUtil.crop2buffer(image.data, req.body.width, req.body.hight,
+    imageUtil.crop2buffer(image.data.buffer, req.body.width, req.body.hight,
       req.body.x, req.body.y, ep.done(function (buffer) {
         ep.emit('data', buffer);
       }));
