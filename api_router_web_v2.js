@@ -52,7 +52,12 @@ router.post('/image/crop', auth.normalUserRequired, upload.single('Filedata'),
 router.post('/user/info', auth.userRequired, user.user_update_info); //修改业主个人资料
 router.get('/user/info', auth.userRequired, user.user_my_info); //获取业主个人资料
 router.post('/user_add_requirement', auth.userRequired, requirement.user_add_requirement); //提交我的装修需求
-router.get('/user_my_requiremtne_list', auth.userRequired, requirement.user_my_requiremtne_list); //更新我的装
+router.post('/user_update_requirement', auth.userRequired, requirement.user_update_requirement); //更新我的装修需求
+router.get('/user_my_requiremtne_list', auth.userRequired, requirement.user_my_requiremtne_list); //更新我的装修需求
+router.post('/designers_user_can_order', auth.userRequired, designer.designers_user_can_order); //获取用户可以预约的设计师
+router.post('/favorite/designer/list', auth.userRequired, favorite.list_designer); //获取业主的意向设计师列表
+router.post('/favorite/designer/add', auth.userRequired, favorite.add_designer); //添加设计师到意向列表
+router.post('/favorite/designer/delete', auth.userRequired, favorite.delete_designer); //把设计师从意向列表删除
 
 //设计师独有功能
 router.post('/designer/agree', auth.designerRequired, designer.agree); //同意条款

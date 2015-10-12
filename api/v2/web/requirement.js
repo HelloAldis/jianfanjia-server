@@ -140,9 +140,9 @@ exports.user_update_requirement = function (req, res, next) {
 
   Designer.find({
     city: city,
-    auth_type: type.designer_auth_type_done,
-    agreee_license: type.designer_agree_type_yes,
-    online_status: type.online_status_on,
+    // auth_type: type.designer_auth_type_done,
+    // agreee_license: type.designer_agree_type_yes,
+    // online_status: type.online_status_on,
     // uid_auth_type: type.designer_auth_type_done,
     // work_auth_type: type.designer_auth_type_done,
   }, {

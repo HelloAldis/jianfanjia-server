@@ -33,8 +33,8 @@ exports.trim = function (str) {
   return validator.trim(str) || '';
 }
 
-exports.findObjectId = function (array, oid) {
-  return _.find(array, function (o) {
+exports.findIndexObjectId = function (array, oid) {
+  return _.findIndex(array, function (o) {
     return o.toString() === oid.toString();
   });
 }

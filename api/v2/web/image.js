@@ -121,11 +121,14 @@ exports.crop = function (req, res, next) {
   ep.fail(next);
 
   console.log(req.body);
-  console.log(req.file.buffer);
-  imageUtil.crop2buffer(req.file.buffer, req.body.width, req.body.hight, req.body
-    .x, req.body.y, ep.done(function (buffer) {
-      ep.emit('data', buffer);
-    }));
+  Image.findOne({
+    _id: req.body._id
+  }, null, ep.done(function (image) {
+    imageUtil.crop2buffer(image.data, req.body.width, req.body.hight,
+      req.body.x, req.body.y, ep.done(function (buffer) {
+        ep.emit('data', buffer);
+      }));
+  }));
 
   ep.on('data', function (data) {
     var userid = ApiUtil.getUserid(req);

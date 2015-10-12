@@ -9,18 +9,72 @@ var config = require('../../../config');
 var ApiUtil = require('../../../common/api_util');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
+var async = require('async');
 
-exports.list = function (req, res, next) {
+exports.list_product = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
   var ep = eventproxy();
   ep.fail(next);
 
   Favorite.findOne({
     userid: userid
   }, null, ep.done(function (favorite) {
-    res.sendData(favorite);
+    if (favorite && favorite.favorite_product) {
+      var productids = favorite.favorite_product.slice(skip, skip +
+        limit);
+      async.mapLimit(productids, 3, function (productid, callback) {
+        Product.findOne({
+          _id: productid
+        }, null, function (err, product) {
+          callback(err, product);
+        });
+      }, ep.done(function (results) {
+        res.send({
+          products: results,
+          total: favorite.favorite_product.length,
+        });
+      }));
+    } else {
+      return res.sendData([]);
+    }
   }));
-};
+}
+
+exports.list_designer = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Favorite.findOne({
+    userid: userid
+  }, null, ep.done(function (favorite) {
+    if (favorite && favorite.favorite_designer) {
+      var designerids = favorite.favorite_designer.slice(skip, skip +
+        limit);
+      async.mapLimit(designerids, 3, function (designerid, callback) {
+        Designer.findOne({
+          _id: designerid
+        }, {
+          username: 1,
+          imageid: 1,
+        }, function (err, designer) {
+          callback(err, designer);
+        });
+      }, ep.done(function (results) {
+        res.send({
+          designers: results,
+          total: favorite.favorite_designer.length,
+        })
+      }));
+    } else {
+      return res.sendData([]);
+    }
+  }));
+}
 
 exports.add_product = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);

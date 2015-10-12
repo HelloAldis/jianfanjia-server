@@ -5,6 +5,7 @@ var Product = require('../../../proxy').Product;
 var Plan = require('../../../proxy').Plan;
 var User = require('../../../proxy').User;
 var Requirement = require('../../../proxy').Requirement;
+var Favorite = require('../../../proxy').Favorite;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../config');
@@ -221,7 +222,7 @@ exports.okUser = function (req, res, next) {
     house_check_time: house_check_time,
     status: type.plan_status_designer_respond,
     last_status_update_time: new Date().getTime(),
-  }, null, function ep.done((plan) {
+  }, null, ep.done(function (plan) {
     if (plan) {
       Requirement.setOne({
         _id: plan.requirementid,
@@ -296,4 +297,72 @@ exports.update_online_status = function (req, res, next) {
   }, {}, ep.done(function (designer) {
     res.sendSuccessMsg();
   }));
+}
+
+exports.designers_user_can_order = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var requirementid = req.body.requirementid;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  async.parallel({
+      requirement: function (callback) {
+        Requirement.findOne({
+          _id: requirementid
+        }, null, callback);
+      },
+      favorite: function (callback) {
+        Favorite.findOne({
+          userid: userid
+        }, null, callback);
+      },
+    },
+
+    ep.done(function (result) {
+      var can_order_rec = [];
+      if (result.requirement.rec_designerids) {
+        can_order_rec = _.filter(result.requirement.rec_designerids,
+          function (oid) {
+            console.log(tools.findIndexObjectId(result.requirement.order_designerids,
+              oid) < 0);
+            return tools.findIndexObjectId(result.requirement.order_designerids,
+              oid) < 0;
+          });
+      }
+
+      var can_order_fav = [];
+      if (result.favorite.favorite_designer) {
+        can_order_fav = _.filter(result.favorite.favorite_designer,
+          function (oid) {
+            return tools.findIndexObjectId(result.requirement.order_designerids,
+              oid) < 0 && tools.findIndexObjectId(result.requirement.rec_designerids,
+              oid) < 0;
+          });
+      }
+
+      async.parallel({
+        rec_designer: function (callback) {
+          Designer.find({
+            _id: {
+              $in: can_order_rec
+            }
+          }, {
+            username: 1,
+            imageid: 1,
+          }, null, callback);
+        },
+        favorite_designer: function (callback) {
+          Designer.find({
+            _id: {
+              $in: can_order_fav
+            }
+          }, {
+            username: 1,
+            imageid: 1,
+          }, null, callback);
+        },
+      }, ep.done(function (result) {
+        res.sendData(result);
+      }));
+    }));
 }
