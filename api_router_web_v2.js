@@ -4,7 +4,7 @@ var sign = require('./api/v2/web/sign');
 var image = require('./api/v2/web/image');
 var user = require('./api/v2/web/user');
 var requirement = require('./api/v2/web/requirement');
-// var plan = require('./api/v2/web/plan');
+var plan = require('./api/v2/web/plan');
 var product = require('./api/v2/web/product');
 var favorite = require('./api/v2/web/favorite');
 var team = require('./api/v2/web/team');
@@ -58,7 +58,8 @@ router.post('/designers_user_can_order', auth.userRequired, designer.designers_u
 router.post('/favorite/designer/list', auth.userRequired, favorite.list_designer); //获取业主的意向设计师列表
 router.post('/favorite/designer/add', auth.userRequired, favorite.add_designer); //添加设计师到意向列表
 router.post('/favorite/designer/delete', auth.userRequired, favorite.delete_designer); //把设计师从意向列表删除
-
+router.post('/user/order_designer', auth.userRequired, user.order_designer); //预约量房
+router.post('/user_requirement_plans', auth.userRequired, plan.user_requirement_plans); //业主某个需求的方案
 //设计师独有功能
 router.post('/designer/agree', auth.designerRequired, designer.agree); //同意条款
 router.post('/designer/info', auth.designerRequired, designer.updateInfo); //修改设计师个人资料

@@ -64,7 +64,7 @@ exports.designers_can_order = function (req, res, next) {
     ep.done(function (result) {
       var can_order_rec = [];
 
-      if (result.requirement.rec_designerids) {
+      if (result.requirement && result.requirement.rec_designerids) {
         can_order_rec = _.filter(result.requirement.rec_designerids,
           function (oid) {
             return tools.findObjectId(result.requirement.order_designerids,
@@ -73,7 +73,7 @@ exports.designers_can_order = function (req, res, next) {
       }
 
       var can_order_fav = [];
-      if (result.favorite.favorite_designers) {
+      if (result.favorite && result.favorite.favorite_designers) {
         can_order_fav = _.filter(result.favorite.favorite_designers,
           function (oid) {
             return tools.findObjectId(result.requirement.order_designerids,
@@ -113,8 +113,8 @@ exports.my_order_designer = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var requirementid = req.body.requirementid;
   var ep = eventproxy();
-
   ep.fail(next);
+
   async.waterfall([function (callback) {
     Requirement.findOne({
       _id: requirementid
@@ -139,10 +139,9 @@ exports.order_designer = function (req, res, next) {
     return new ObjectId(e);
   });
   var requirementid = req.body.requirementid;
-
   var userid = ApiUtil.getUserid(req);
-  ep.fail(next);
   var ep = eventproxy();
+  ep.fail(next);
 
   async.waterfall([function (callback) {
     Requirement.findOne({
@@ -196,6 +195,7 @@ exports.order_designer = function (req, res, next) {
         }));
       });
 
+      console.log('what what what');
       Requirement.addToSet({
         _id: requirementid,
       }, {

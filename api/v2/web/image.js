@@ -141,11 +141,9 @@ exports.crop = function (req, res, next) {
       if (image) {
         res.sendData(image._id);
       } else {
-        imageUtil.jpgbuffer(data, ep.done(function (buf) {
-          Image.newAndSave(md5, buf, userid, ep.done(function (
-            savedImage) {
-            res.sendData(savedImage._id);
-          }));
+        Image.newAndSave(md5, data, userid, ep.done(function (
+          savedImage) {
+          res.sendData(savedImage._id);
         }));
       }
     }));
