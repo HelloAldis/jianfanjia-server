@@ -8,11 +8,13 @@
             $stateProvider
                 .state('index', {
                     url: '/index',
-                    templateUrl: RootURl+'index.html'
+                    templateUrl: RootURl+'index.html',
+                    controller : 'indexCtrl'
                 })
                 .state('infor', {
                     url: '/infor',
                     templateUrl: RootURl+'infor.html',
+                    controller : 'inforCtrl'
                 })
                 .state('release', {
                     url: '/release',

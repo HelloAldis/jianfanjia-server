@@ -96,4 +96,65 @@ angular.module('filters', [])
             }[input];
         }
     })
-	
+	.filter('cityFilter', function () {
+        return function (data, parent) {
+            var filterData = [];
+            angular.forEach(data, function (obj) {
+                if (obj.parent == parent) {
+                    filterData.push(obj);
+                }
+            })
+
+            return filterData;
+        }
+    })
+    .filter('processFilter', function () {
+        return function (input) {
+             return {0:'开工',
+                     1:'拆改',
+                     2:'水电',
+                     3:'泥木',
+                     4:'油漆',
+                     5:'安装',
+                     6:'竣工'}[input];
+        }
+    })
+    .filter('getTimesFilter',function(){
+        return function (input) {
+             return (new Date(input.replace(/-/g,'/'))).getTime();
+        }
+    })
+    .filter('authFilter', function () {   //设计师审核状态
+        return function (input) {
+            return {
+                "0":"未通过",
+                "1":"审核通过",
+                "2":"审核不通过",
+                "3":"违规下线"
+            }[input];
+        }
+    })
+    .filter('requirementFilter', function () {
+        return function (input) {
+            return {
+                "0":"未预约",
+                "1":"已预约但无人响应",
+                "2":"有响应但无人提交方案",
+                "3":"提交方案但无选定方案",
+                "4":"选定方案无配置工地",
+                "5":"配置工地"
+            }[input];
+        }
+    })
+    .filter('planFilter', function () {
+        return function (input) {
+            return {
+                "0":"已预约无响应",
+                "1":"已拒绝业主",
+                "2":"有响应无方案",
+                "3":"已提交方案",
+                "4":"方案被拒绝",
+                "5":"方案被选中"
+            }[input];
+        }
+    })

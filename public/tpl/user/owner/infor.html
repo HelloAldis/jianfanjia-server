@@ -3,5 +3,197 @@
 	<li>个人资料</li>
 </ol>
 <div class="main">
-	这是个人资料
+	<div class="m-item f-cb">
+		<div class="item">
+			<label class="u-lab" for="owner-name">姓&nbsp;&nbsp;&nbsp;名：</label>
+			<div class="u-inp">
+				<div class="box">
+					<input type="text" class="input" ng-model="user.username" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="m-item f-cb">
+		<div class="item">
+			<label class="u-lab" for="owner-sex">性&nbsp;&nbsp;&nbsp;别：</label>
+			<div class="u-inp">
+				<div class="sex" id="owner-sex">
+				<label><input type="radio" name="owner-sex" ng-model="user.sex" value="0" />男</label>
+				<label><input type="radio" name="owner-sex" ng-model="user.sex" value="1" />女</label>
+			</div>
+			</div>
+		</div>
+	</div>
+	<div class="m-item f-cb">
+		<div class="item">
+			<label class="u-lab">手机号码：</label>
+			<div class="u-inp">
+				<div class="phone" ng-bind="user.phone"></div>
+			</div>
+		</div>
+	</div>
+	<div class="m-item f-cb">
+		<div class="item">
+			<label class="u-lab" for="owner-email">电子邮箱：</label>
+			<div class="u-inp">
+				<div class="box">
+					<input type="text" class="input" ng-model="user.email" />
+				</div>
+			</div>
+		</div>
+		<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+		<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+		<p class="tips-info hide"></p>
+	</div>
+	<div class="m-item f-cb">
+		<div class="item">
+			<label class="u-lab" for="dec_area">所在地区：</label>
+			<div class="u-inp">
+				<div class="m-cities" id="where_area"></div>				
+			</div>
+		</div>
+	</div>
+	<div class="m-item f-cb">
+		<div class="item">
+			<label class="u-lab" for="owner-addr">邮寄详细地址：</label>
+			<div class="u-inp">
+				<div class="box">
+					<input type="text" class="input" ng-model="user.address" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="fileBox">
+		<div class="pic" id="upload">
+			<div class="fileBtn">
+				<input class="hide" id="fileToUpload" type="file" name="upfile">
+				<p class="hide"><a href="javascript:$('#fileToUpload').uploadify('settings', 'formData', {'typeCode':document.getElementById('id_file').value});$('#fileToUpload').uploadify('upload','*')">上传</a>
+				<a href="javascript:$('#fileToUpload').uploadify('cancel','*')">重置上传队列</a>
+				</p>
+				<input type="hidden" id="sessionId" value="${pageContext.session.id}" />
+				<input type="hidden" value="1215154" name="tmpdir" id="id_file">
+			</div>
+			<img class="img" id="userHead" src="{{user.imageSrc}}" alt="{{user.username}}的头像" />
+		</div>
+		<p>请上传500*500头像照片1M以内jpg格式</p>
+	</div>
+	<div class="m-item m-error-info hide" id="error-info"></div>
+	<div class="m-item">
+		<div class="u-btn">
+			<input type="submit" class="btn" id="owner-submit" ng-click="submitBtn()" value="保存" />
+		</div>
+	</div>
 </div>
+<div class="jc-demo-box">
+	<img src="{{user.imageSrc}}" id="cropbox" />
+	<input type="hidden" id="cropx" name="x" />
+	<input type="hidden" id="cropy" name="y" />
+	<input type="hidden" id="cropw" name="width" />
+	<input type="hidden" id="croph" name="height" />
+	<div id="cropBtn"><input type="button"  value="Crop Image" class="btn btn-large btn-inverse" /></div>
+	
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		var checkSupport = function(){
+			var input = document.createElement('input');
+			var fileSupport = !!(window.File && window.FileList);
+			var xhr = new XMLHttpRequest();
+			var fd = !!window.FormData;
+			return 'multiple' in input && fileSupport && 'onprogress' in xhr && 'upload' in xhr && fd ? 'html5' : 'flash';
+		};
+		$('#cropbox').Jcrop({
+	      aspectRatio: 1,
+	      onSelect: updateCoords,
+	      maxSize : [300,300],
+	      minSize : [300,300]
+	    });
+		function updateCoords(c){
+		    $('#cropx').val(c.x);
+		    $('#cropy').val(c.y);
+		 };
+		var uploaderUrl = RootUrl+'api/v2/web/image/upload';
+		var croploaderUrl = RootUrl+'api/v2/web/image/crop';
+		if(checkSupport() === "html5"){
+			$('#upload').Huploadify({
+				auto:true,
+				fileTypeExts:'*.jpg;*.png',
+				multi:true,
+				formData:{},
+				fileSizeLimit:1024,
+				showUploadedPercent:true,//是否实时显示上传的百分比，如20%
+				showUploadedSize:true,
+				removeTimeout:1,
+				fileObjName:'Filedata',
+				buttonText : "",
+				uploader:uploaderUrl,
+				onUploadComplete:function(file, data, response){
+					callbackImg(data)
+				}
+			});
+		}else{
+			$('#fileToUpload').uploadify({
+		    	'auto'     : true,
+		    	'removeTimeout' : 1,
+		        'swf'      : 'uploadify.swf',
+		        'uploader' : uploaderUrl,
+		        'method'   : 'post',
+				'buttonText' : '',
+		        'multi'    : true,
+		        'uploadLimit' : 10,
+		        'width' : 250,
+		        'height' : 250,
+		        'fileTypeDesc' : 'Image Files',
+		        'fileTypeExts' : '*.gif; *.jpg; *.png',
+		        'fileSizeLimit' : '1024KB',
+		        'onUploadSuccess' : function(file, data, response) {
+		            callbackImg(data)  
+		        }
+		    });
+		}
+		if(checkSupport() === "html5"){
+			$('#cropBtn').Huploadify({
+				auto:true,
+				fileTypeExts:'*.jpg;*.png',
+				multi:true,
+				formData:{'x' : $('#cropx').val(),'y':$('#cropy').val(),'width':300,'hight':300},
+				fileSizeLimit:1024,
+				showUploadedPercent:true,//是否实时显示上传的百分比，如20%
+				showUploadedSize:true,
+				removeTimeout:1,
+				fileObjName:'Filedata',
+				buttonText : "",
+				uploader:croploaderUrl,
+				onUploadComplete:function(file, data, response){
+					callbackImg(data)
+					alert(1)
+				}
+			});
+		}else{
+			$('#cropBtn').uploadify({
+		    	'auto'     : true,
+		    	'removeTimeout' : 1,
+		        'swf'      : 'uploadify.swf',
+		        'uploader' : croploaderUrl,
+		        'method'   : 'post',
+				'buttonText' : '',
+		        'multi'    : true,
+		        'uploadLimit' : 10,
+		        'width' : 250,
+		        'height' : 250,
+		        'fileTypeDesc' : 'Image Files',
+		        'fileTypeExts' : '*.gif; *.jpg; *.png',
+		        'fileSizeLimit' : '1024KB',
+		        'onUploadSuccess' : function(file, data, response) {
+		            callbackImg(data)  
+		        }
+		    });
+		}
+		function callbackImg(arr){
+			var data = $.parseJSON(arr)
+			$scope.user.imageid = data.data;
+			$('#userHead').attr('src',RootUrl+'api/v1/image/'+data.data).data('img',data.data);
+		}
+	})
+</script>
