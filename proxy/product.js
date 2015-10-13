@@ -1,10 +1,6 @@
 var models = require('../models');
 var Product = models.Product;
 
-exports.find = function (query, project, option, callback) {
-  Product.find(query, project, option, callback);
-}
-
 exports.newAndSave = function (json, callback) {
   var product = new Product(json);
   product.create_at = new Date().getTime();
@@ -22,6 +18,10 @@ exports.setOne = function (query, update, option, callback) {
     $set: update
   }, option, callback)
 };
+
+exports.findOne = function (query, project, callback) {
+  Product.findOne(query, project, callback);
+}
 
 exports.find = function (query, project, option, callback) {
   Product.find(query, project, option, callback);

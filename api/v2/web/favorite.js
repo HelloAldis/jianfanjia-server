@@ -28,6 +28,12 @@ exports.list_product = function (req, res, next) {
         Product.findOne({
           _id: productid
         }, null, function (err, product) {
+          if (!product) {
+            product = {
+              _id: productid
+            };
+          }
+
           callback(err, product);
         });
       }, ep.done(function (results) {
@@ -78,7 +84,7 @@ exports.list_designer = function (req, res, next) {
 
 exports.add_product = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
-  var productid = new ObjectId(tools.trim(req.body._id));
+  var productid = new ObjectId(req.body._id);
   var ep = eventproxy();
   ep.fail(next);
 
@@ -125,7 +131,7 @@ exports.add_product = function (req, res, next) {
 
 exports.add_designer = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
-  var designerid = new ObjectId(tools.trim(req.body._id));
+  var designerid = new ObjectId(req.body._id);
   var ep = eventproxy();
   ep.fail(next);
 
@@ -171,10 +177,11 @@ exports.add_designer = function (req, res, next) {
 
 exports.delete_product = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
-  var productid = tools.trim(req.body._id);
+  var productid = new ObjectId(req.body._id);
   var ep = eventproxy();
   ep.fail(next);
 
+  console.log(productid);
   Favorite.pull({
     userid: userid
   }, {

@@ -10,6 +10,7 @@ var favorite = require('./api/v2/web/favorite');
 var team = require('./api/v2/web/team');
 var share = require('./api/v2/web/share');
 var designer = require('./api/v2/web/designer');
+var comment = require('./api/v2/web/comment');
 // var admin = require('./api/v2/web/admin');
 // var process = require('./api/v2/web/process');
 // var device = require('./api/v2/web/device');
@@ -43,10 +44,18 @@ router.post('/designer/search', designer.search); //搜索设计师
 router.post('/designer_home_page', designer.designer_home_page); //游客获取设计师
 
 //通用用户功能
+router.get('/signout', auth.normalUserRequired, sign.signout); //登出
 router.post('/image/upload', auth.normalUserRequired, upload.single('Filedata'),
   image.add); //上传图片
 router.post('/image/crop', auth.normalUserRequired, upload.single('Filedata'),
   image.crop); //上传图片
+router.get('/favorite/product/list', auth.normalUserRequired, favorite.list_product); //收藏列表
+router.post('/favorite/product/add', auth.normalUserRequired, favorite.add_product); //收藏作品
+router.post('/favorite/product/delete', auth.normalUserRequired, favorite.delete_product); //删除收藏作品
+router.post('/add_comment', auth.normalUserRequired, comment.add_comment); //添加评论
+router.get('/unread_comment', auth.normalUserRequired, comment.unread_comment); //获取未读评论
+router.post('/topic_comments', auth.normalUserRequired, comment.topic_comments); //获取评论并标记为已读
+router.post('/one_plan', auth.normalUserRequired, plan.getOne); //获取某个方案信息
 
 //业主独有功能
 router.post('/user/info', auth.userRequired, user.user_update_info); //修改业主个人资料
