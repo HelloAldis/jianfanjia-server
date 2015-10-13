@@ -66,7 +66,9 @@ exports.add = function (req, res, next) {
 
   Requirement.setOne({
     userid: userid,
-    status: type.requirement_status_respond_no_plan
+    status: {
+      $in: [type.requirement_status_respond_no_plan, type.requirement_status_plan_not_final]
+    },
   }, {
     status: type.requirement_status_plan_not_final
   }, null, function (err, requirement) {
