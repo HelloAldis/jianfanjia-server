@@ -34,11 +34,6 @@ var app = express();
 // configuration in all env
 app.enable('trust proxy');
 
-// Request logger。请求时间
-app.use(morgan(
-  ':remote-addr :remote-user :method :req[Content-Type] :url HTTP/:http-version :status :res[content-length] - :response-time ms'
-));
-
 app.use(compression());
 // 通用的中间件
 app.use(require('response-time')());
@@ -118,6 +113,12 @@ if (config.debug) {
     next();
   });
 }
+
+//API Request logger
+app.use('/api', morgan(
+  ':remote-addr :remote-user :method :req[Content-Type] :url HTTP/:http-version :status :res[content-length] - :response-time ms'
+));
+
 
 app.use('/api/v1', cors(), api_statistic.api_statistic, apiRouterV1);
 app.use('/api/v2/app', cors(), api_statistic.api_statistic, api_router_app_v2);

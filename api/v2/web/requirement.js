@@ -63,9 +63,9 @@ exports.user_add_requirement = function (req, res, next) {
 
   Designer.find({
     city: city,
-    // auth_type: type.designer_auth_type_done,
-    // agreee_license: type.designer_agree_type_yes,
-    // online_status: type.online_status_on,
+    auth_type: type.designer_auth_type_done,
+    agreee_license: type.designer_agree_type_yes,
+    online_status: type.online_status_on,
     // uid_auth_type: type.designer_auth_type_done,
     // work_auth_type: type.designer_auth_type_done,
   }, {
@@ -120,8 +120,11 @@ exports.user_add_requirement = function (req, res, next) {
     var designerids = _.pluck(designers, '_id');
     requirement.rec_designerids = designerids;
 
-    Requirement.newAndSave(requirement, ep.done(function () {
-      res.sendSuccessMsg();
+    Requirement.newAndSave(requirement, ep.done(function (
+      requirement_indb) {
+      res.sendData({
+        requirementid: requirement_indb._id,
+      });
 
       User.findOne({
         _id: userid
@@ -152,9 +155,9 @@ exports.user_update_requirement = function (req, res, next) {
 
   Designer.find({
     city: city,
-    // auth_type: type.designer_auth_type_done,
-    // agreee_license: type.designer_agree_type_yes,
-    // online_status: type.online_status_on,
+    auth_type: type.designer_auth_type_done,
+    agreee_license: type.designer_agree_type_yes,
+    online_status: type.online_status_on,
     // uid_auth_type: type.designer_auth_type_done,
     // work_auth_type: type.designer_auth_type_done,
   }, {
@@ -217,3 +220,13 @@ exports.user_update_requirement = function (req, res, next) {
       }));
   });
 };
+
+exports.user_one_requirement = function (req, res, next) {
+  var query = req.body;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Requirement.findOne(query, null, ep.done(function (plan) {
+    res.sendData(plan);
+  }));
+}
