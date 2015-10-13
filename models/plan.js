@@ -18,6 +18,9 @@ var PlanSchema = new Schema({
   total_price: {
     type: Number
   },
+  project_price_after_discount: {
+    type: Number
+  },
   price_detail: {
     type: [{
       item: {

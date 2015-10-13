@@ -102,6 +102,7 @@ exports.watermark = function (req, res, next) {
     _id: _id
   }, null, ep.done(function (image) {
     if (image) {
+      console.log('a=' + image);
       imageUtil.watermark(image.data, ep.done(function (stdout, stderr) {
         res.writeHead(200, {
           'Content-Type': 'image/jpeg',
@@ -121,11 +122,14 @@ exports.crop = function (req, res, next) {
   ep.fail(next);
 
   console.log(req.body);
-  console.log(req.file.buffer);
-  imageUtil.crop2buffer(req.file.buffer, req.body.width, req.body.hight, req.body
-    .x, req.body.y, ep.done(function (buffer) {
-      ep.emit('data', buffer);
-    }));
+  Image.findOne({
+    _id: req.body._id
+  }, null, ep.done(function (image) {
+    imageUtil.crop2buffer(image.data, req.body.width, req.body.height,
+      req.body.x, req.body.y, ep.done(function (buffer) {
+        ep.emit('data', buffer);
+      }));
+  }));
 
   ep.on('data', function (data) {
     var userid = ApiUtil.getUserid(req);
@@ -138,11 +142,9 @@ exports.crop = function (req, res, next) {
       if (image) {
         res.sendData(image._id);
       } else {
-        imageUtil.jpgbuffer(data, ep.done(function (buf) {
-          Image.newAndSave(md5, buf, userid, ep.done(function (
-            savedImage) {
-            res.sendData(savedImage._id);
-          }));
+        Image.newAndSave(md5, data, userid, ep.done(function (
+          savedImage) {
+          res.sendData(savedImage._id);
         }));
       }
     }));

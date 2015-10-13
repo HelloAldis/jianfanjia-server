@@ -9,7 +9,7 @@ exports.resize2buffer = function (buffer, width, callback) {
 }
 
 exports.crop2buffer = function (buffer, width, hight, x, y, callback) {
-  gm(buffer).crop(width, hight, x, y).toBuffer('jpg', callback);
+  gm(buffer).crop(width, hight, x, y).toBuffer(callback);
 }
 
 exports.jpgbuffer = function (buffer, callback) {

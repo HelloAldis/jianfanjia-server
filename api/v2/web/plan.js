@@ -1,17 +1,17 @@
 var validator = require('validator');
 var eventproxy = require('eventproxy');
-var User = require('../../proxy').User;
-var Plan = require('../../proxy').Plan;
-var Requirement = require('../../proxy').Requirement;
-var Designer = require('../../proxy').Designer;
-var tools = require('../../common/tools');
+var User = require('../../../proxy').User;
+var Plan = require('../../../proxy').Plan;
+var Requirement = require('../../../proxy').Requirement;
+var Designer = require('../../../proxy').Designer;
+var tools = require('../../../common/tools');
 var _ = require('lodash');
-var config = require('../../config');
+var config = require('../../../config');
 var async = require('async');
-var ApiUtil = require('../../common/api_util');
+var ApiUtil = require('../../../common/api_util');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
-var type = require('../../type');
+var type = require('../../../type');
 
 exports.add = function (req, res, next) {
   var plan = ApiUtil.buildPlan(req);
@@ -21,45 +21,46 @@ exports.add = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-    //如果已经对需求提交过
-    Plan.findOne({
-      userid: userid,
-      designerid: designerid,
-      requirementid: requirementid,
-      status: type.plan_status_designer_respond,
-    }, null, null, ep.done(function (plan_indb) {
-      if (plan_indb) {
-        //有已响应但是没上传的方案，直接上传方案到这里
-        plan.status = type.plan_status_desinger_upload; //修改status为已上传
-        plan.last_status_update_time = new Date().getTime();
-        var query = {
-          userid: userid,
-          designerid: designerid,
-          requirementid: requirementid,
-          status: type.plan_status_designer_respond,
-        };
+  //查找是否有位上传的方案
+  Plan.findOne({
+    userid: userid,
+    designerid: designerid,
+    requirementid: requirementid,
+    status: type.plan_status_designer_housecheck_no_plan,
+  }, null, ep.done(function (plan_indb) {
+    console.log(plan_indb);
+    if (plan_indb) {
+      //有已响应但是没上传的方案，直接上传方案到这里
+      plan.status = type.plan_status_desinger_upload; //修改status为已上传
+      plan.last_status_update_time = new Date().getTime();
+      var query = {
+        userid: userid,
+        designerid: designerid,
+        requirementid: requirementid,
+        status: type.plan_status_designer_housecheck_no_plan,
+      };
 
-        Plan.setOne(query, plan, null, ep.done(function () {
-          Requirement.setOne({
-            _id: requirementid,
-            status: type.requirement_status_respond_no_plan
-          }, {
-            status: type.requirement_status_plan_not_final
-          }, null, ep.done(function () {
-            res.sendSuccessMsg();
-          }));
-        }));
-      } else {
-        //创建新的方案
-        plan.status = type.plan_status_desinger_upload;
-        plan.designerid = designerid;
-        plan.userid = new ObjectId(userid);
-        plan.requirementid = new ObjectId(requirementid);
-        Plan.newAndSave(plan, ep.done(function () {
+      Plan.setOne(query, plan, null, ep.done(function () {
+        Requirement.setOne({
+          _id: requirementid,
+          status: type.requirement_status_housecheck_no_plan
+        }, {
+          status: type.requirement_status_plan_not_final
+        }, null, ep.done(function () {
           res.sendSuccessMsg();
         }));
-      }
-    }));
+      }));
+    } else {
+      //创建新的方案
+      plan.status = type.plan_status_desinger_upload;
+      plan.designerid = designerid;
+      plan.userid = new ObjectId(userid);
+      plan.requirementid = new ObjectId(requirementid);
+      Plan.newAndSave(plan, ep.done(function () {
+        res.sendSuccessMsg();
+      }));
+    }
+  }));
 };
 
 exports.update = function (req, res, next) {
@@ -133,9 +134,9 @@ exports.user_requirement_plans = function (req, res, next) {
 
 exports.finalPlan = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
-  var planid = tools.trim(req.body.planid);
+  var planid = new ObjectId(req.body.planid);
   var designerid = new ObjectId(req.body.designerid);
-  var requirementid = new ObjectId(req.body.requirementid);
+  var requirementid = req.body.requirementid;
   var ep = eventproxy();
   ep.fail(next);
 
@@ -148,43 +149,46 @@ exports.finalPlan = function (req, res, next) {
     status: type.requirement_status_final_plan,
   }, null, ep.done(function (requirement) {
     if (requirement) {
-      //标记方案为中标
-      Plan.setOne({
-        _id: planid,
-        userid: userid
-      }, {
-        status: type.plan_status_user_final,
-        last_status_update_time: new Date().getTime(),
-      }, {}, ep.done(function (plan) {
-        if (plan) {
-          Designer.incOne({
-            _id: designerid
-          }, {
-            deal_done_count: 1
-          }, {});
-        }
-
-        res.sendSuccessMsg();
-      }));
-
+      //标记其他方案为未中标
       Plan.update({
         requirementid: requirement._id,
         _id: {
           $ne: planid
         },
+        status: type.plan_status_desinger_upload,
       }, {
         status: type.plan_status_user_not_final,
         last_status_update_time: new Date().getTime(),
       }, {
         multi: true
-      }, function (err, plan) {});
+      }, ep.done(function (count) {
+        //标记方案为中标
+        Plan.setOne({
+          _id: planid,
+          userid: userid,
+          status: type.plan_status_desinger_upload,
+        }, {
+          status: type.plan_status_user_final,
+          last_status_update_time: new Date().getTime(),
+        }, {}, ep.done(function (plan) {
+          if (plan) {
+            Designer.incOne({
+              _id: designerid
+            }, {
+              deal_done_count: 1
+            }, {});
+          }
+
+          res.sendSuccessMsg();
+        }));
+      }));
     }
   }));
 }
 
 exports.designer_requirement_plans = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
-  var requirementid = new ObjectId(req.body.requirementid);
+  var requirementid = req.body.requirementid;
   var ep = eventproxy();
   ep.fail(next);
 

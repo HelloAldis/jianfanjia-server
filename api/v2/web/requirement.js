@@ -26,6 +26,18 @@ exports.user_my_requiremtne_list = function (req, res, next) {
   }));
 }
 
+exports.designer_my_requiremtne_list = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Requirement.find({
+    order_designerids: designerid
+  }, null, ep.done(function (requirements) {
+    res.sendData(requirements);
+  }));
+}
+
 exports.user_add_requirement = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var requirement = ApiUtil.buildRequirement(req);
@@ -140,9 +152,9 @@ exports.user_update_requirement = function (req, res, next) {
 
   Designer.find({
     city: city,
-    auth_type: type.designer_auth_type_done,
-    agreee_license: type.designer_agree_type_yes,
-    online_status: type.online_status_on,
+    // auth_type: type.designer_auth_type_done,
+    // agreee_license: type.designer_agree_type_yes,
+    // online_status: type.online_status_on,
     // uid_auth_type: type.designer_auth_type_done,
     // work_auth_type: type.designer_auth_type_done,
   }, {
