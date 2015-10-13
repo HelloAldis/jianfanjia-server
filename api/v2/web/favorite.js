@@ -43,7 +43,10 @@ exports.list_product = function (req, res, next) {
         });
       }));
     } else {
-      return res.sendData([]);
+      return res.sendData({
+        products: [],
+        total: 0,
+      });
     }
   }));
 }

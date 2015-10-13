@@ -100,28 +100,50 @@ exports.delete = function (req, res, next) {
   }));
 }
 
-exports.list = function (req, res, next) {
-  var designerid = tools.trim(req.params._id);
+exports.search_designer_product = function (req, res, next) {
+  var query = req.body.query;
+  var sort = req.body.sort || {
+    create_at: 1
+  };
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
+  query.auth_type = type.product_auth_type_done;
   var ep = new eventproxy();
   ep.fail(next);
 
-  Product.find({
-    designerid: designerid,
-    auth_type: type.product_auth_type_done,
-  }, null, null, ep.done(function () {
-    res.sendData(products);
+  Product.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit,
+  }, ep.done(function (products, total) {
+    res.sendData({
+      products: products,
+      total: total,
+    });
   }));
 }
 
-exports.listForDesigner = function (req, res, next) {
+exports.designer_my_products = function (req, res, next) {
+  var sort = req.body.sort || {
+    create_at: 1
+  };
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
   var designerid = ApiUtil.getUserid(req);
   var ep = new eventproxy();
   ep.fail(next);
 
-  Product.find({
+  Product.paginate({
     designerid: designerid
-  }, null, null, ep.done(function (products) {
-    res.sendData(products);
+  }, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit,
+  }, ep.done(function (products, total) {
+    res.sendData({
+      products: products,
+      total: total,
+    });
   }));
 }
 

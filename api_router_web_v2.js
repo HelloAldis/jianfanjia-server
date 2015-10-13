@@ -41,7 +41,8 @@ router.get('/image/:_id', image.get); //获取图片
 router.get('/thumbnail/:width/:_id', image.thumbnail); //获取缩略图
 router.get('/watermark/v1/:_id', image.watermark); //获取有水印图
 router.post('/designer/search', designer.search); //搜索设计师
-router.post('/designer_home_page', designer.designer_home_page); //游客获取设计师
+router.post('/designer_home_page', designer.designer_home_page); //游客获取设计师的主页
+router.post('/search_designer_product', product.search_designer_product);
 
 //通用用户功能
 router.get('/signout', auth.normalUserRequired, sign.signout); //登出
@@ -79,7 +80,7 @@ router.post('/designer/info', auth.designerRequired, designer.updateInfo); //修
 router.get('/designer/info', auth.designerRequired, designer.getInfo); //获取设计师自己个人资料
 router.post('/designer/uid_bank_info', auth.designerRequired, designer.uid_bank_info); //更新银行卡信息
 router.post('/designer/email_info', auth.designerRequired, designer.email_info); //更新邮箱信息
-router.get('/designer/product', auth.designerRequired, product.listForDesigner); //设计师获取自己的作品列表
+router.post('/designer/product', auth.designerRequired, product.designer_my_products); //设计师获取自己的作品列表
 router.post('/designer/product/add', auth.designerRequired, product.add); //上传作品
 router.post('/designer/product/update', auth.designerRequired, product.update); //更新作品
 router.post('/designer/product/delete', auth.designerRequired, product.delete); //删除作品
