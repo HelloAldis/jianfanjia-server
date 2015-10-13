@@ -8,6 +8,7 @@ var session = require('express-session');
 // var passport = require('passport');
 require('./middlewares/mongoose_log'); // 打印 mongodb 查询日志
 require('./models');
+var req_res_log = require('./middlewares/req_res_log');
 var webRouter = require('./web_router');
 var apiRouterV1 = require('./api_router_v1');
 var api_router_app_v2 = require('./api_router_app_v2');
@@ -115,9 +116,7 @@ if (config.debug) {
 }
 
 //API Request logger
-app.use('/api', morgan(
-  ':remote-addr :remote-user :method :req[Content-Type] :url HTTP/:http-version :status :res[content-length] - :response-time ms'
-));
+app.use('/api', req_res_log);
 
 
 app.use('/api/v1', cors(), api_statistic.api_statistic, apiRouterV1);
