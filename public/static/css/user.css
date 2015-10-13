@@ -875,6 +875,7 @@
 .scheme-show .casepic img{
 	display: block;
 	margin-bottom: 40px;
+	max-width: 100%;
 }
 .scheme-show .fixed{
 	position: fixed;
