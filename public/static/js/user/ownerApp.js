@@ -8,19 +8,38 @@
             $stateProvider
                 .state('index', {
                     url: '/index',
+<<<<<<< HEAD
                     templateUrl: RootURl+'index.html'
+=======
+                    templateUrl: RootURl+'index.html',
+                    controller : 'indexCtrl'
+>>>>>>> d4aa26a3f267cb3169f6a57749440d26a4564c3d
                 })
                 .state('infor', {
                     url: '/infor',
                     templateUrl: RootURl+'infor.html',
+<<<<<<< HEAD
+=======
+                    controller : 'inforCtrl'
+>>>>>>> d4aa26a3f267cb3169f6a57749440d26a4564c3d
                 })
                 .state('release', {
                     url: '/release',
                     templateUrl: RootURl+'release.html',
+<<<<<<< HEAD
+=======
+                    controller : 'releaseCtrl'
+                })
+                .state('revise', {
+                    url: '/revise/:id',
+                    templateUrl: RootURl+'revise.html',
+                    controller : 'releaseCtrl'
+>>>>>>> d4aa26a3f267cb3169f6a57749440d26a4564c3d
                 })
                 .state('requirementList', {
                     url: '/requirementList',
                     templateUrl: RootURl+'requirementList.html',
+<<<<<<< HEAD
                 })
                 .state('requirement', {
                     url: '/requirement',
@@ -30,6 +49,18 @@
                             {
                                 url : "requirement.detail",
                                 name : "需求详情"
+=======
+                    controller : 'requirementListCtrl'
+                })
+                .state('requirement', {
+                    url: '/requirement/:id',
+                    templateUrl: RootURl+'requirement.html',
+                    controller: function($scope,$location){
+                        $scope.data = [
+                            {
+                                url : "requirement.detail",
+                                name : "需求描述"
+>>>>>>> d4aa26a3f267cb3169f6a57749440d26a4564c3d
                             },
                             {
                                 url : "requirement.booking",
@@ -60,6 +91,7 @@
                         $scope.abcd = abc($location.$$url.split("/")[2])
                         $scope.b = function(c){
                             $scope.abcd = c
+<<<<<<< HEAD
                         }  
                     }
                 })
@@ -90,6 +122,45 @@
                 .state('designer', {
                     url: '/designer',
                     templateUrl: RootURl+'designer.html'
+=======
+                        } 
+                    }
+                })
+                .state('requirement.detail', {
+                    url: '/detail',
+                    templateUrl: RootURl+'detail.html',
+                    controller : 'requirementDetailCtrl'
+                })
+                .state('requirement.booking', {
+                    url: '/booking',
+                    templateUrl: RootURl+'booking.html',
+                    controller : 'requirementDetailCtrl'
+                })
+                .state('requirement.plan', {
+                    url: '/plan',
+                    templateUrl: RootURl+'plan.html',
+                    controller : 'requirementDetailCtrl'
+                })
+                .state('requirement.contract', {
+                    url: '/contract',
+                    templateUrl: RootURl+'contract.html',
+                    controller : 'requirementDetailCtrl'
+                })
+                .state('requirement.score', {
+                    url: '/score',
+                    templateUrl: RootURl+'score.html',
+                    controller : 'requirementDetailCtrl'
+                })
+                .state('favorite', {
+                    url: '/favorite',
+                    templateUrl: RootURl+'favorite.html',
+                    controller : 'favoriteProductCtrl'
+                })
+                .state('designer', {
+                    url: '/designer',
+                    templateUrl: RootURl+'designer.html',
+                    controller : 'favoriteDesignerCtrl'
+>>>>>>> d4aa26a3f267cb3169f6a57749440d26a4564c3d
                 })
         });
     // angular bootstrap

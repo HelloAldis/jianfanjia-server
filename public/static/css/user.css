@@ -1164,10 +1164,17 @@
 .uploadPic{
 	background-color: #eee;
 }
-.uploadPic,.uploadPic .fileBtn .uploadify-button-text,.uploadify-button,.id-pic{
-	width: 449px;
-	height: 284px;
-} 
+.uploadPic,.uploadPic .fileBtn .uploadify-button-text,.uploadify-button{
+	width: 450px;
+	height: 360px;
+}
+.id-pic{
+	width: 450px;
+	text-align: left;
+}
+.id-pic img{
+	max-width: 100%;
+}
 #upload .uploadify-queue,.uploadPic .uploadify-queue{
 	display: none;
 }
