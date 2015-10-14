@@ -11,7 +11,8 @@
 						<label class="u-lab" for="owner-name">装修城市</label>
 						<div class="u-inp">
 							<div class="u-inp">
-								<div class="m-cities" id="release_area"></div>				
+								<div class="m-cities" id="release_area"></div>
+								<div my-cities my-list="cities_list" my-province="requiremtne.province" my-city="requiremtne.city" my-district="requiremtne.district" ng-if="requiremtne.province"></div>	
 							</div>
 						</div>
 					</div>
@@ -30,11 +31,6 @@
 					<div class="item">
 						<label class="u-lab" for="owner-email">位置</label>
 						<div class="u-inp">
-<<<<<<< HEAD
-							<div class="inp">
-								<input type="text" class="input" ng-model="requiremtne.email" />
-							</div>
-=======
 							<ul>
 								<li>
 									<div class="inp">
@@ -67,7 +63,6 @@
 									<span>室</span>
 								</li>
 							</ul>
->>>>>>> 10bb1567a9c920511a1dfe40d1671f1315119a32
 						</div>
 					</div>
 				</div>
@@ -138,7 +133,7 @@
 				<div class="m-item m-error-info hide" id="error-info"></div>
 			</div>
 			<div class="m-btns">
-				<input type="button" class="u-btns" id="owner-submit" ng-click="submitBtn()" value="提交" />
+				<input type="button" class="u-btns" id="owner-submit" ng-click="submitBtn()" value="修改" />
 			</div>
 		</div>
 	</div>
