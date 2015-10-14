@@ -55,6 +55,10 @@ exports.buildDesinger = function (req) {
   designer.work_year = req.body.work_year;
   designer.university = req.body.university;
 
+  if (req.body.diploma_imageid) {
+    designer.diploma_imageid = new ObjectId(req.body.diploma_imageid);
+  }
+
   if (req.body.imageid) {
     designer.imageid = new ObjectId(req.body.imageid);
   }
@@ -62,6 +66,12 @@ exports.buildDesinger = function (req) {
   if (req.body.big_imageid) {
     designer.big_imageid = new ObjectId(req.body.big_imageid);
   }
+
+  designer.award_details = _.map(req.body.award_details, function (i) {
+    i.award_imageid = new ObjectId(i.award_imageid);
+    return i;
+  });
+
 
   return designer;
 }

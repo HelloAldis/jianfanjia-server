@@ -1,22 +1,22 @@
 var validator = require('validator');
 var eventproxy = require('eventproxy');
-var Designer = require('../../proxy').Designer;
-var Share = require('../../proxy').Share;
-var Team = require('../../proxy').Team;
-var User = require('../../proxy').User;
-var Product = require('../../proxy').Product;
-var ApiStatistic = require('../../proxy').ApiStatistic;
-var Requirement = require('../../proxy').Requirement;
-var Plan = require('../../proxy').Plan;
-var tools = require('../../common/tools');
+var Designer = require('../../../proxy').Designer;
+var Share = require('../../../proxy').Share;
+var Team = require('../../../proxy').Team;
+var User = require('../../../proxy').User;
+var Product = require('../../../proxy').Product;
+var ApiStatistic = require('../../../proxy').ApiStatistic;
+var Requirement = require('../../../proxy').Requirement;
+var Plan = require('../../../proxy').Plan;
+var tools = require('../../../common/tools');
 var _ = require('lodash');
-var config = require('../../config');
+var config = require('../../../config');
 var async = require('async');
-var ApiUtil = require('../../common/api_util');
-var type = require('../../type');
+var ApiUtil = require('../../../common/api_util');
+var type = require('../../../type');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
-var sms = require('../../common/sms');
+var sms = require('../../../common/sms');
 
 exports.login = function (req, res, next) {
   if (req.body.username === 'sunny' && req.body.pass === '!@Jyz20150608#$') {

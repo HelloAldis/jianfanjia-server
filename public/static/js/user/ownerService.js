@@ -1,5 +1,31 @@
 'use strict';
 angular.module('services', [])
+<<<<<<< HEAD
+<<<<<<< HEAD
+	.factory('userInfo', ['$http', function($http){
+		return function name(){
+			
+=======
+	.factory('userInfo', ['$http', function($http){   //业主 get获取资料 post修改资料
+		var doRequest = function(type,data){
+			return $http({
+                method : type,
+                url : RootUrl+'api/v2/web/user/info',
+                headers: {
+					'Content-Type': 'application/json; charset=utf-8'
+			    },
+                data: data
+            })
+>>>>>>> 10bb1567a9c920511a1dfe40d1671f1315119a32
+		};
+		return {
+			get : function(){return doRequest('GET')},
+			update : function(data){return doRequest('POST' , data)}
+		}
+	}])
+<<<<<<< HEAD
+	
+=======
 	.factory('userInfo', ['$http', function($http){   //业主 get获取资料 post修改资料
 		var doRequest = function(type,data){
 			return $http({
@@ -16,6 +42,8 @@ angular.module('services', [])
 			update : function(data){return doRequest('POST' , data)}
 		}
 	}])
+=======
+>>>>>>> 10bb1567a9c920511a1dfe40d1671f1315119a32
 	.factory('userRequiremtne', ['$http', function($http){      //业主 add 提交需求 update更新需求 list需求列表 order预约量房 checked确认设计师量完房 plans获取方案列表 define选定方案  plan获取某个方案信息
 		var doRequest = function(url,type,data){
 			return $http({
@@ -89,4 +117,9 @@ angular.module('services', [])
 			add : function(data){return doRequest('add_comment','POST', data)},
 			read : function(data){return doRequest('topic_comments','POST' , data)}
 		}
+<<<<<<< HEAD
 	}])
+>>>>>>> d4aa26a3f267cb3169f6a57749440d26a4564c3d
+=======
+	}])
+>>>>>>> 10bb1567a9c920511a1dfe40d1671f1315119a32

@@ -96,6 +96,12 @@ angular.module('filters', [])
             }[input];
         }
     })
+<<<<<<< HEAD
+<<<<<<< HEAD
+	
+=======
+=======
+>>>>>>> 10bb1567a9c920511a1dfe40d1671f1315119a32
 	.filter('cityFilter', function () {
         return function (data, parent) {
             var filterData = [];
@@ -193,4 +199,9 @@ angular.module('filters', [])
                 "3":"前往生成三方合同"
             }[input];
         }
+<<<<<<< HEAD
     })
+>>>>>>> d4aa26a3f267cb3169f6a57749440d26a4564c3d
+=======
+    })
+>>>>>>> 10bb1567a9c920511a1dfe40d1671f1315119a32

@@ -187,9 +187,15 @@
 	<style type="text/css">
 		.uploadPic{overflow: visible;}
 		.design_info .btn{margin-left: 0;}
+<<<<<<< HEAD
+		.create-item{width: 100%;}
+		#auth-box{margin-left: 5px;}
+		.uploadPic{background: none;}
+=======
 		#auth-box{margin-left: 5px;}
 		.file{margin-bottom: 15px;}
 		#save-submit{margin-top: 15px;}
+>>>>>>> 10bb1567a9c920511a1dfe40d1671f1315119a32
 	</style>
 	<div class="g-ft">
 		<div class="m-sitemap f-cb">
@@ -241,6 +247,27 @@
 	};
 	var uploaderUrl = RootUrl+'api/v1/image/upload';
 	uoLoadFile($('#upload1'),$('#fileToUpload1'),function(arr){
+<<<<<<< HEAD
+		var data = $.parseJSON(arr)
+		var img = new Image();
+		img.onload=function(){
+			if(img.width < 600 || img.width > 2000){
+				alert('请上传宽度在600-2000之间图片');
+				return false;
+			}else if(img.height > 1600){
+				alert('请上传高度小于1600图片');
+				return false;
+			}else{
+				$('#uid-img1').attr('src',RootUrl+'api/v1/image/'+data.data).data('img',data.data);
+				$('#error-info').addClass('hide').html('')
+			}
+		};  
+	    img.onerror=function(){alert("error!")};  
+	    img.src=RootUrl+'api/v1/image/'+data.data; 
+	})
+	uoLoadFile($('#upload2'),$('#fileToUpload2'),function(arr){
+		var data = $.parseJSON(arr)
+=======
 		var data = $.parseJSON(arr);
 		var img = new Image();
 			img.onload=function(){
@@ -261,6 +288,7 @@
 	})
 	uoLoadFile($('#upload2'),$('#fileToUpload2'),function(arr){
 		var data = $.parseJSON(arr);
+>>>>>>> 10bb1567a9c920511a1dfe40d1671f1315119a32
 		var img = new Image();
 			img.onload=function(){
 				if(img.width < 600 || img.width > 2000){
@@ -278,7 +306,11 @@
 		    img.src=RootUrl+'api/v1/image/'+data.data; 
 	})
 	uoLoadFile($('#upload3'),$('#fileToUpload3'),function(arr){
+<<<<<<< HEAD
+		var data = $.parseJSON(arr)
+=======
 		var data = $.parseJSON(arr);
+>>>>>>> 10bb1567a9c920511a1dfe40d1671f1315119a32
 		var img = new Image();
 			img.onload=function(){
 				if(img.width < 600 || img.width > 2000){
@@ -324,8 +356,8 @@
 				'buttonText' : '',
 		        'multi'    : true,
 		        'uploadLimit' : 10,
-		        'width' : 250,
-		        'height' : 250,
+		        'width' : 450,
+		        'height' : 360,
 		        'fileTypeDesc' : 'Image Files',
 		        'fileTypeExts' : '*.gif; *.jpg; *.png',
 		        'fileSizeLimit' : '1024KB',

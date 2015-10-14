@@ -1,4 +1,23 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+<ol class="breadCrumbs">
+	<li><a ui-sref="index">我的中心</a></li>
+	<li><a ui-sref="requirementList">需求列表</a></li>
+	<li>{{abcd}}</li>
+</ol>
 <div class="main">
+	<ul>
+		<li bindonce ng-repeat="a in data"><a ui-sref="{{a.url}}" ng-click="b(a.name)" bo-text="a.name"></a></li>
+	</ul>
+	<div class="view">
+		<!--视图模板容器 start-->
+		<div ui-view></div>
+		<!--视图模板容器 end-->
+=======
+<div class="main">
+=======
+<div class="main">
+>>>>>>> 10bb1567a9c920511a1dfe40d1671f1315119a32
 	<div class="m-tt">
 		<h2>装修需求详情</h2>
 	</div>
@@ -11,5 +30,9 @@
 			<div ui-view></div>
 			<!--视图模板容器 end-->
 		</div>
+<<<<<<< HEAD
+>>>>>>> d4aa26a3f267cb3169f6a57749440d26a4564c3d
+=======
+>>>>>>> 10bb1567a9c920511a1dfe40d1671f1315119a32
 	</div>
 </div>

@@ -147,8 +147,8 @@ exports.designer_my_products = function (req, res, next) {
   }));
 }
 
-exports.getOne = function (req, res, next) {
-  var productid = tools.trim(req.params._id);
+exports.one_product = function (req, res, next) {
+  var productid = req.body._id;
   var ep = new eventproxy();
   ep.fail(next);
 

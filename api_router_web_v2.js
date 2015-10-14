@@ -11,10 +11,8 @@ var team = require('./api/v2/web/team');
 var share = require('./api/v2/web/share');
 var designer = require('./api/v2/web/designer');
 var comment = require('./api/v2/web/comment');
-// var admin = require('./api/v2/web/admin');
-// var process = require('./api/v2/web/process');
-// var device = require('./api/v2/web/device');
-// var feedback = require('./api/v2/web/feedback');
+var admin = require('./api/v2/web/admin');
+var feedback = require('./api/v2/web/feedback');
 var config = require('./config');
 var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
@@ -43,6 +41,7 @@ router.get('/watermark/v1/:_id', image.watermark); //获取有水印图
 router.post('/designer/search', designer.search); //搜索设计师
 router.post('/designer_home_page', designer.designer_home_page); //游客获取设计师的主页
 router.post('/search_designer_product', product.search_designer_product); //游客获取设计师作品
+router.post('/one_product', product.one_product); //游客获取设计师作品
 
 //通用用户功能
 router.get('/signout', auth.normalUserRequired, sign.signout); //登出
@@ -56,6 +55,7 @@ router.post('/add_comment', auth.normalUserRequired, comment.add_comment); //添
 router.get('/unread_comment', auth.normalUserRequired, comment.unread_comment); //获取未读评论
 router.post('/topic_comments', auth.normalUserRequired, comment.topic_comments); //获取评论并标记为已读
 router.post('/one_plan', auth.normalUserRequired, plan.getOne); //获取某个方案信息
+router.post('/one_contract', auth.normalUserRequired, requirement.one_contract); //获取某个方案信息
 
 //业主独有功能
 router.post('/user/info', auth.userRequired, user.user_update_info); //修改业主个人资料
@@ -97,6 +97,29 @@ router.post('/designer/user/reject', auth.designerRequired, designer.rejectUser)
 router.post('/designer/plan/add', auth.designerRequired, plan.add); //提交方案
 router.post('/designer/plan/update', auth.designerRequired, plan.update); //更新方案
 router.post('/designer_requirement_plans', auth.designerRequired, plan.designer_requirement_plans); //更新方案
+router.post('/config_contract', auth.designerRequired, requirement.config_contract); //更新方案
 
+//管理员独有的功能
+router.post('/admin/login', admin.login); //审核设计师
+router.post('/admin/update_basic_auth', auth.adminRequired, admin.update_basic_auth); //更改设计师基本信息认证
+router.post('/admin/update_uid_auth', auth.adminRequired, admin.update_uid_auth); //更改设计师身份证信息认证
+router.post('/admin/update_work_auth', auth.adminRequired, admin.update_work_auth); //更改设计师工地信息认证
+router.post('/share/add', auth.adminRequired, admin.add); //创建直播分享
+router.post('/share/update', auth.adminRequired, admin.update); //更新直播分享
+router.post('/share/delete', auth.adminRequired, admin.delete); //删除直播分享
+router.get('/admin/authing_designer', auth.adminRequired, admin.listAuthingDesigner); //获取申请认证的设计师
+router.post('/admin/search_designer', auth.adminRequired, admin.searchDesigner); //搜索设计师
+router.post('/admin/search_user', auth.adminRequired, admin.searchUser); //搜索业主
+router.get('/admin/designer/:_id', auth.adminRequired, admin.getDesigner); //获取设计师信息
+router.post('/admin/search_team', auth.adminRequired, admin.search_team); //搜索设计师的团队
+router.get('/admin/api_statistic', auth.adminRequired, admin.api_statistic); //获取Api调用数据统计
+router.post('/admin/feedback/search', auth.adminRequired, feedback.search); //获取用户反馈
+router.post('/admin/product/search', auth.adminRequired, admin.searchProduct); //搜素作品
+router.post('/admin/update_product_auth', auth.adminRequired, admin.update_product_auth); //搜素作品
+router.post('/admin/requirement/search', auth.adminRequired, admin.search_requirement); //搜素需求
+router.post('/admin/update_team', auth.adminRequired, admin.update_team); //管理员更新装修团队信息
+router.post('/admin/update_designer_online_status', auth.adminRequired, admin.update_designer_online_status); //管理员更新设计师在线状态
+router.post('/admin/search_plan', auth.adminRequired, admin.search_plan); //管理员搜索方案
+router.post('/admin/search_angel_user', auth.adminRequired, tempUserApi.search_temp_user); //搜索天使用户
 
 module.exports = router;
