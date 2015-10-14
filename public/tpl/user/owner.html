@@ -8,12 +8,16 @@
 	<meta name="description" content="">
 	<meta name="keywords" content="">
     <link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/css/user.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/owner.css" />
     <script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../../static/js/lib/tdist.js"></script>
     <script type="text/javascript" src="../../static/js/lib/public.js"></script>
 	<script type="text/javascript" src="../../static/js/ng/angular.js"></script>
 	<script type="text/javascript" src="../../static/js/ng/angular-ui-router.js"></script>
 	<script type="text/javascript" src="../../static/js/ng/bindonce.js"></script>
+    <script type="text/javascript" src="../../static/js/lib/jquery.uploadify-3.1.js"></script>
+    <script type="text/javascript" src="../../static/js/lib/jquery.Huploadify.js"></script>
+    <script type="text/javascript" src="../../static/js/lib/jquery.Jcrop.min.js"></script>
 	<!--[if lt IE 9]>
       <script type="text/javascript" src="../../static/js/ng/html5shiv-printshiv.js"></script>
     <![endif]-->
@@ -42,25 +46,25 @@
             </div>
         </div>
     </header>
+    <div class="breadCrumbs g-wp">
+        <a href="../index/index.html">首页</a> &gt; <span>个人中心</span>
+    </div>
 	<main class="g-wp g-user f-cb">
-		<aside class="user-sd f-fl" ng-controller="SubController">
-			<h3>我的中心</h3>
-			<ul>
-				<li ng-class="{active: nav==&quot;index&quot;}"><a ui-sref="index">个人主页</a></li>
-				<li ng-class="{active: nav==&quot;infor&quot;}"><a ui-sref="infor">个人资料</a></li>
-			</ul>
-			<h3>我的装修</h3>
-			<ul>
-				<li ng-class="{active: nav==&quot;release&quot;}"><a ui-sref="release">发布需求</a></li>
-				<li ng-class="{active: nav==&quot;requirementList&quot;}"><a ui-sref="requirementList">需求列表</a></li>
-			</ul>
-			<h3>我的收藏</h3>
-			<ul>
-				<li ng-class="{active: nav==&quot;favorite&quot;}"><a ui-sref="favorite">收藏作品</a></li>
-				<li ng-class="{active: nav==&quot;designer&quot;}"><a ui-sref="designer">关注设计师</a></li>
-			</ul>
+		<aside class="g-sd f-fl" ng-controller="SubController">
+			<h2 ng-class="{active: nav==&quot;index&quot;}"><a ui-sref="index">个人中心</a></h2>
+            <dl>
+                <dt>我的装修</dt>
+                <dd ng-class="{active: nav==&quot;requirementList&quot;}"><a ui-sref="requirementList">装修需求列表</a></dd>
+                <dd ng-class="{active: nav==&quot;release&quot;}"><a ui-sref="release({id:''})">填写装修需求</a></dd>
+            </dl>
+            <div class="line"></div>
+            <dl>
+                <dt>我的收藏</dt>
+                <dd ng-class="{active: nav==&quot;favorite&quot;}"><a ui-sref="favorite">作品收藏</a></dd>
+                <dd ng-class="{active: nav==&quot;designer&quot;}"><a ui-sref="designer">意向设计师列表</a></dd>
+            </dl>
 		</aside>
-		<article class="user-mn f-fr">
+		<article class="g-mn f-fr">
 			<!--视图模板容器 start-->
 			<div ui-view></div>
 		    <!--视图模板容器 end-->

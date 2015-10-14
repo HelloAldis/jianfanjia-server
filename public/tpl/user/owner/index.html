@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <ol class="breadCrumbs">
 	<li><a ui-sref="index">我的中心</a></li>
 	<li>个人主页</li>
@@ -15,6 +16,17 @@
 	<a class="upper f-fr" href="javascript:;" ng-click="messageToggle(false)">更多</a>
 </div>
 <div class="main">
+=======
+<div class="message f-cb {{messageClass ? 'message-more' : ''}}" ng-if="notMessages">
+	<span class="num f-fl">{{messages.length}}</span>
+	<ul class="list f-fl">
+		<li bindonce ng-repeat="data in messages"><a ui-sref="plan({id:data.topicid})"><time bo-text="data.date"></time>设计师<mark bo-text="data.byUser.username">milk</mark>给您方案留了言，点击查看留言</a></li>
+	</ul>
+	<a class="more f-fr" href="javascript:;" ng-show="{{messages.length > 1}}" ng-click="messageToggle(true)">更多</a>
+	<a class="upper f-fr" href="javascript:;" ng-click="messageToggle(false)">更多</a>
+</div>
+<div class="main">
+>>>>>>> 10bb1567a9c920511a1dfe40d1671f1315119a32
 	<div class="m-index">
 		<div class="info f-cb">
 			<dl class="f-fl">
@@ -97,5 +109,8 @@
 			</li>
 		</ul>
 	</div>
+<<<<<<< HEAD
 >>>>>>> d4aa26a3f267cb3169f6a57749440d26a4564c3d
+=======
+>>>>>>> 10bb1567a9c920511a1dfe40d1671f1315119a32
 </div>
