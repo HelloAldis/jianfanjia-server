@@ -1,0 +1,38 @@
+<div class="main">
+	<div class="m-tt">
+		<h2 class="f-fl">我的装修需求列表</h2>
+		<a ui-sref="release" class="u-btns u-requirement f-fr">提交新装修需求</a>
+	</div>
+	<div class="m-ct">
+		<div class="m-index m-requirementList">
+			<ul class="list">
+				<li ng-if="notRequiremtnes">
+					<div class="ct">你还没有发布装修需求哟~</div>
+					<div class="btns">
+						<a ui-sref="release" class="u-btns">发布装修需求</a>
+					</div>
+				</li>
+				<li bindonce ng-repeat="data in requiremtnes" ng-click="goTo(data._id,data.status)">
+					<div class="boxs">
+						<div class="tt f-cb">
+						<h4 class="f-fl"><span>物业地址</span><i bo-text="data.property"></i></h4>
+							<div class="progress f-fr">
+								<div class="bar">
+									<div class="in in{{data.status}}"></div>
+								</div>
+								<p bo-text="">{{data.status | userStatusTipsFilter}}</p>
+							</div>
+						</div>
+						<div class="tag">
+							<span bo-text="data.dec_style"></span>
+							<span bo-text="data.work_type"></span>
+							<span bo-text="data.house_type"></span>
+							<span><i bo-text="data.house_area"></i>m&sup2;</span>
+							<span><i bo-text="data.total_price"></i>万元</span>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

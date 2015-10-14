@@ -1,0 +1,109 @@
+<div class="main">
+	<div class="m-tt">
+		<h2>填写装修需求</h2>
+	</div>
+	<div class="m-ct">
+		<div class="k-form">
+			<div class="m-boxs">
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-name">装修城市</label>
+						<div class="u-inp">
+							<div class="u-inp">
+								<div class="m-cities" id="release_area"></div>				
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-sex">邮寄地址</label>
+						<div class="u-inp">
+							<div class="inp address">
+								<input type="text" class="input" ng-model="requiremtne.address" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-email">位置</label>
+						<div class="u-inp">
+							<div class="inp">
+								<input type="text" class="input" ng-model="requiremtne.email" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-email">户型</label>
+						<div class="u-inp">
+							<div my-select my-list="house_type" my-query="requiremtne.house_type"></div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab">计划常住成员</label>
+						<div class="u-inp">
+							<div my-selecte my-list="family_description" my-query="requiremtne.family_description"></div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-addr">装修面积</label>
+						<div class="u-inp">
+							<div class="inp">
+								<input type="text" class="input" ng-model="requiremtne.house_area" />
+								<span class="unit">m&sup2;</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-addr">风格喜好</label>
+						<div class="u-inp">
+							<div mg-stylepic my-list="dec_style" my-query="requiremtne.dec_style"></div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-addr">包工类型</label>
+						<div class="u-inp">
+							<div my-select my-list="work_type" my-query="requiremtne.work_type"></div>
+							<p>半包 是指装修工程中，施工方提供人员施工及辅材供应的承包形式；</p>
+							<p>全包 是指装修工程中，施工方提供装修所涉所有项目的承包形式。</p>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-addr">装修预算：</label>
+						<div class="u-inp">
+							<div class="inp">
+								<input type="text" class="input" ng-model="requiremtne.total_price" />
+								<span class="unit">万元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-addr">偏好设计师类型：</label>
+						<div class="u-inp">
+							<div my-select my-list="communication_type" my-query="requiremtne.communication_type"></div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item m-error-info hide" id="error-info"></div>
+			</div>
+			<div class="m-btns">
+				<input type="button" class="u-btns" id="owner-submit" ng-click="submitBtn()" value="提交" />
+			</div>
+		</div>
+	</div>
+</div>
