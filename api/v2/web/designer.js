@@ -123,7 +123,7 @@ exports.search = function (req, res, next) {
   var sort = req.body.sort;
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
-  // query.auth_type = type.designer_auth_type_done;
+  query.auth_type = type.designer_auth_type_done;
   var ep = new eventproxy();
   ep.fail(next);
 

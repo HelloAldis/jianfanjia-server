@@ -11,18 +11,6 @@ var type = require('../../../type');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 
-exports.add = function (req, res, next) {
-  var feedback = ApiUtil.buildFeedback(req);
-  feedback.by = ApiUtil.getUserid(req);
-  feedback.usertype = ApiUtil.getUsertype(req);
-  var ep = eventproxy();
-  ep.fail(next);
-
-  Feedback.newAndSave(feedback, ep.done(function () {
-    res.sendSuccessMsg();
-  }));
-}
-
 exports.search = function (req, res, next) {
   var query = req.body.query || {};
   var sort = req.body.sort || {

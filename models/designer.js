@@ -89,6 +89,16 @@ var DesignerSchema = new Schema({
   achievement: {
     type: String
   },
+  award_details: {
+    type: [{
+      award_imageid: {
+        type: ObjectId
+      },
+      description: {
+        type: String
+      },
+    }]
+  },
   philosophy: {
     type: String
   },
@@ -173,6 +183,9 @@ var DesignerSchema = new Schema({
   },
   university: {
     type: String,
+  },
+  diploma_imageid: {
+    type: ObjectId
   },
   deal_done_count: {
     type: Number,

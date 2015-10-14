@@ -230,3 +230,63 @@ exports.user_one_requirement = function (req, res, next) {
     res.sendData(plan);
   }));
 }
+
+exports.one_contract = function (req, res, next) {
+  var requirementid = req.body.requirementid;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Requirement.findOne({
+    _id: requirementid
+  }, null, ep.done(function (requirement) {
+    async.parallel({
+      plan: function (callback) {
+        Plan.findOne({
+          _id: requirement.final_planid
+        }, {
+          duration: 1
+        }, callback);
+      },
+      designer: function (callback) {
+        Designer.findOne({
+          _id: requirement.final_designerid
+        }, {
+          username: 1
+        }, callback);
+      },
+      user: function (callback) {
+        User.findOne({
+          _id: requirement.userid
+        }, {
+          username: 1
+        }, callback);
+      },
+    }, ep.done(function (result) {
+      requirement = requirement.toObject();
+      requirement.plan = result.plan;
+      requirement.designer = result.designer;
+      requirement.user = result.user;
+
+      res.sendData(requirement);
+    }));
+  }));
+}
+
+exports.config_contract = function (req, res, next) {
+  var requirementid = req.body.requirementid;
+  var start_at = req.body.start_at;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Requirement.setOne({
+    _id: requirementid,
+    status: {
+      $in: [type.requirement_status_config_contract, type.requirement_status_final_plan]
+    }
+  }, {
+    start_at: start_at,
+    status: type.requirement_status_config_contract,
+  }, null, ep.done(function () {
+    res.sendSuccessMsg();
+  }));
+}

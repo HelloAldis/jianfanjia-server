@@ -26,6 +26,7 @@ var type = {
   requirement_status_housecheck_no_plan: '6',
   requirement_status_plan_not_final: '3',
   requirement_status_final_plan: '4',
+  requirement_status_config_contract: '7',
   requirement_status_config_process: '5',
 
   plan_status_not_respond: '0',
