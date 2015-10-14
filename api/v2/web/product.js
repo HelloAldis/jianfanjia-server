@@ -147,7 +147,7 @@ exports.designer_my_products = function (req, res, next) {
   }));
 }
 
-exports.one_product = function (req, res, next) {
+exports.product_home_page = function (req, res, next) {
   var productid = req.body._id;
   var ep = new eventproxy();
   ep.fail(next);

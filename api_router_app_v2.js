@@ -35,7 +35,8 @@ router.post('/user_signup', sign.user_signup); //业主手机端注册
 router.post('/designer_signup', sign.designer_signup); //设计师手机端注册
 router.get('/device/android_build_version', device.android_build_version); //获取android信息
 router.post('/designer_home_page', designerWeb.designer_home_page); //游客获取设计师的主页
-
+router.post('/product_home_page', product.product_home_page); //游客获取设计师作品
+router.post('/search_designer_product', product.search_designer_product); //游客获取设计师作品
 //业主独有功能
 router.post('/user/process', auth.userRequired, process.start); //开启装修流程
 router.post('/process/done_section', auth.userRequired, process.doneSection); //对比验收完成
