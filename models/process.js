@@ -85,22 +85,22 @@ var ProcessSchema = new Schema({
       images: {
         type: [ObjectId]
       },
-      comments: {
-        type: [{
-          by: {
-            type: ObjectId
-          },
-          usertype: {
-            type: String,
-          },
-          content: {
-            type: String
-          },
-          date: {
-            type: Number,
-          },
-        }]
-      },
+      // comments: {
+      //   type: [{
+      //     by: {
+      //       type: ObjectId
+      //     },
+      //     usertype: {
+      //       type: String,
+      //     },
+      //     content: {
+      //       type: String
+      //     },
+      //     date: {
+      //       type: Number,
+      //     },
+      //   }]
+      // }, 
     }],
     ys: {
       date: {

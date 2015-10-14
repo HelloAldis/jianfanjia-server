@@ -10,6 +10,7 @@ var favorite = require('./api/v2/web/favorite');
 var team = require('./api/v2/web/team');
 var share = require('./api/v2/web/share');
 var designer = require('./api/v2/web/designer');
+var comment = require('./api/v2/web/comment');
 // var admin = require('./api/v2/web/admin');
 // var process = require('./api/v2/web/process');
 // var device = require('./api/v2/web/device');
@@ -40,20 +41,29 @@ router.get('/image/:_id', image.get); //获取图片
 router.get('/thumbnail/:width/:_id', image.thumbnail); //获取缩略图
 router.get('/watermark/v1/:_id', image.watermark); //获取有水印图
 router.post('/designer/search', designer.search); //搜索设计师
-router.post('/designer_home_page', designer.designer_home_page); //游客获取设计师
+router.post('/designer_home_page', designer.designer_home_page); //游客获取设计师的主页
+router.post('/search_designer_product', product.search_designer_product); //游客获取设计师作品
 
 //通用用户功能
+router.get('/signout', auth.normalUserRequired, sign.signout); //登出
 router.post('/image/upload', auth.normalUserRequired, upload.single('Filedata'),
   image.add); //上传图片
-router.post('/image/crop', auth.normalUserRequired, upload.single('Filedata'),
-  image.crop); //上传图片
+router.post('/image/crop', auth.normalUserRequired, image.crop); //上传图片
+router.get('/favorite/product/list', auth.normalUserRequired, favorite.list_product); //收藏列表
+router.post('/favorite/product/add', auth.normalUserRequired, favorite.add_product); //收藏作品
+router.post('/favorite/product/delete', auth.normalUserRequired, favorite.delete_product); //删除收藏作品
+router.post('/add_comment', auth.normalUserRequired, comment.add_comment); //添加评论
+router.get('/unread_comment', auth.normalUserRequired, comment.unread_comment); //获取未读评论
+router.post('/topic_comments', auth.normalUserRequired, comment.topic_comments); //获取评论并标记为已读
+router.post('/one_plan', auth.normalUserRequired, plan.getOne); //获取某个方案信息
 
 //业主独有功能
 router.post('/user/info', auth.userRequired, user.user_update_info); //修改业主个人资料
 router.get('/user/info', auth.userRequired, user.user_my_info); //获取业主个人资料
 router.post('/user_add_requirement', auth.userRequired, requirement.user_add_requirement); //提交我的装修需求
 router.post('/user_update_requirement', auth.userRequired, requirement.user_update_requirement); //更新我的装修需求
-router.get('/user_my_requiremtne_list', auth.userRequired, requirement.user_my_requiremtne_list); //更新我的装修需求
+router.get('/user_my_requiremtne_list', auth.userRequired, requirement.user_my_requiremtne_list); //获取我的装修需求列表
+router.post('/user_one_requirement', auth.userRequired, requirement.user_one_requirement); //业主获取我的某个需求
 router.post('/designers_user_can_order', auth.userRequired, designer.designers_user_can_order); //获取用户可以预约的设计师
 router.post('/favorite/designer/list', auth.userRequired, favorite.list_designer); //获取业主的意向设计师列表
 router.post('/favorite/designer/add', auth.userRequired, favorite.add_designer); //添加设计师到意向列表
@@ -70,7 +80,7 @@ router.post('/designer/info', auth.designerRequired, designer.updateInfo); //修
 router.get('/designer/info', auth.designerRequired, designer.getInfo); //获取设计师自己个人资料
 router.post('/designer/uid_bank_info', auth.designerRequired, designer.uid_bank_info); //更新银行卡信息
 router.post('/designer/email_info', auth.designerRequired, designer.email_info); //更新邮箱信息
-router.get('/designer/product', auth.designerRequired, product.listForDesigner); //设计师获取自己的作品列表
+router.post('/designer/product', auth.designerRequired, product.designer_my_products); //设计师获取自己的作品列表
 router.post('/designer/product/add', auth.designerRequired, product.add); //上传作品
 router.post('/designer/product/update', auth.designerRequired, product.update); //更新作品
 router.post('/designer/product/delete', auth.designerRequired, product.delete); //删除作品

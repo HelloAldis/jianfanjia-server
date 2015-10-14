@@ -170,13 +170,6 @@ exports.buildRequirement = function (req) {
   return requirement;
 }
 
-exports.buildComment = function (req) {
-  var comment = {};
-  comment.content = req.body.content;
-
-  return comment;
-}
-
 exports.buildShare = function (req) {
   var share = {};
   share.manager = req.body.manager;
@@ -252,4 +245,16 @@ exports.buildTempUser = function (req) {
   tempUser.total_price = req.body.total_price;
 
   return tempUser;
+}
+
+exports.buildComment = function (req) {
+  var comment = {};
+  comment.topicid = req.body.topicid;
+  comment.section = req.body.section;
+  comment.item = req.body.item;
+  comment.topictype = req.body.topictype;
+  comment.content = req.body.content;
+  comment.to = req.body.to ? new ObjectId(req.body.to) : undefined;
+
+  return comment;
 }

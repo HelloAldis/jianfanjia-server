@@ -22,7 +22,6 @@ var type = {
 
   requirement_status_new: '0',
   requirement_status_not_respond: '1',
-  // requirement_status_respond_no_plan: '2',
   requirement_status_respond_no_housecheck: '2',
   requirement_status_housecheck_no_plan: '6',
   requirement_status_plan_not_final: '3',
@@ -109,6 +108,13 @@ var type = {
 
   online_status_on: '0',
   online_status_off: '1',
+
+  comment_status_all_read: '0',
+  comment_status_need_user_read: '1',
+  comment_status_need_designer_read: '2',
+
+  topic_type_plan: '0',
+  topic_type_process_item: '1',
 }
 
 module.exports = type;

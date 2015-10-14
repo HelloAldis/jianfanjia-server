@@ -217,31 +217,12 @@ exports.designer_requirement_plans = function (req, res, next) {
   }));
 }
 
-exports.addCommentForPlan = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var planid = tools.trim(req.body.planid);
-  var comment = ApiUtil.buildComment(req);
-  comment.by = userid;
-  comment.usertype = ApiUtil.getUsertype(req);
-  comment.date = new Date().getTime();
-  var ep = eventproxy();
-  ep.fail(next);
-
-  Plan.push({
-    _id: planid
-  }, comment, null, ep.done(function () {
-    res.sendSuccessMsg();
-  }));
-}
-
 exports.getOne = function (req, res, next) {
-  var _id = req.params._id;
+  var query = req.body;
   var ep = eventproxy();
   ep.fail(next);
 
-  Plan.findOne({
-    _id: _id
-  }, null, ep.done(function (plan) {
+  Plan.findOne(query, null, ep.done(function (plan) {
     res.sendData(plan);
   }));
 }

@@ -45,7 +45,8 @@ exports.login = function (req, res, next) {
           }
 
           // store session cookie
-          authMiddleWare.gen_session(result.user, type.role_user, req,
+          authMiddleWare.gen_session(result.user, type.role_user,
+            req,
             res);
 
           var data = {};
@@ -280,3 +281,9 @@ exports.verifyPhone = function (req, res, next) {
     ep.emit('designer', designer);
   }));
 }
+
+// sign out
+exports.signout = function (req, res, next) {
+  authMiddleWare.clear_session(req, res);
+  res.sendSuccessMsg();
+};

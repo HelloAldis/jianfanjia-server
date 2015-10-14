@@ -7,17 +7,17 @@
 			<div class="m-boxs">
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab" for="owner-name">装修城市</label>
+						<label class="u-lab">装修城市</label>
 						<div class="u-inp">
 							<div class="u-inp">
-								<div class="m-cities" id="release_area"></div>				
+								<div class="k-cities" id="release_area"></div>				
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab" for="owner-sex">邮寄地址</label>
+						<label class="u-lab">邮寄地址</label>
 						<div class="u-inp">
 							<div class="inp address">
 								<input type="text" class="input" ng-model="requiremtne.address" />
@@ -27,11 +27,40 @@
 				</div>
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab" for="owner-email">位置</label>
+						<label class="u-lab">位置</label>
 						<div class="u-inp">
-							<div class="inp">
-								<input type="text" class="input" ng-model="requiremtne.email" />
-							</div>
+							<ul class="">
+								<li>
+									<div class="inp">
+										<input type="text" class="input" ng-model="requiremtne.cell" />
+									</div>
+									<span>小区</span>
+								</li>
+								<li>
+									<div class="inp">
+										<input type="text" class="input" ng-model="requiremtne.cell_phase" />
+									</div>
+									<span>期</span>
+								</li>
+								<li>
+									<div class="inp">
+										<input type="text" class="input" ng-model="requiremtne.cell_building" />
+									</div>
+									<span>栋</span>
+								</li>
+								<li>
+									<div class="inp">
+										<input type="text" class="input" ng-model="requiremtne.cell_unit" />
+									</div>
+									<span>单元</span>
+								</li>
+								<li>
+									<div class="inp">
+										<input type="text" class="input" ng-model="requiremtne.cell_detail_number" />
+									</div>
+									<span>室</span>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
@@ -39,7 +68,7 @@
 					<div class="item">
 						<label class="u-lab" for="owner-email">户型</label>
 						<div class="u-inp">
-							<div my-select my-list="house_type" my-query="requiremtne.house_type"></div>
+							<div my-select my-list="house_type" my-query="requiremtne.house_type" ng-if="requiremtne.house_type"></div>
 						</div>
 					</div>
 				</div>
@@ -47,7 +76,7 @@
 					<div class="item">
 						<label class="u-lab">计划常住成员</label>
 						<div class="u-inp">
-							<div my-selecte my-list="family_description" my-query="requiremtne.family_description"></div>
+							<div my-selecte my-list="family_description" my-query="requiremtne.family_description" ng-if="requiremtne.family_description"></div>
 						</div>
 					</div>
 				</div>
@@ -66,7 +95,7 @@
 					<div class="item">
 						<label class="u-lab" for="owner-addr">风格喜好</label>
 						<div class="u-inp">
-							<div mg-stylepic my-list="dec_style" my-query="requiremtne.dec_style"></div>
+							<div mg-stylepic my-list="dec_style" my-query="requiremtne.work_type" ng-if="requiremtne.work_type"></div>
 						</div>
 					</div>
 				</div>
@@ -95,7 +124,7 @@
 					<div class="item">
 						<label class="u-lab" for="owner-addr">偏好设计师类型：</label>
 						<div class="u-inp">
-							<div my-select my-list="communication_type" my-query="requiremtne.communication_type"></div>
+							<div my-select my-list="communication_type" my-query="requiremtne.communication_type" ng-if="requiremtne.communication_type"></div>
 						</div>
 					</div>
 				</div>

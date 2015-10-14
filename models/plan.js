@@ -56,22 +56,9 @@ var PlanSchema = new Schema({
   last_status_update_time: {
     type: Number,
   },
-  comments: {
-    type: [{
-      by: {
-        type: ObjectId
-      },
-      usertype: {
-        type: String,
-      },
-      content: {
-        type: String
-      },
-      date: {
-        type: Number,
-      },
-    }]
-  },
+  // comments: {
+  //   type:
+  // },
 });
 
 PlanSchema.index({

@@ -119,3 +119,12 @@ requirement status
 online_status
 0. 在线
 1. 离线
+
+commnet_status
+0. 都已看过了
+1. 需要业主看
+2. 需要设计师看
+
+topictype
+0. 评论
+1. 装修流程的小点

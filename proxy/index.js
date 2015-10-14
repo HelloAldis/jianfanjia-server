@@ -13,3 +13,4 @@ exports.Process = require('./process');
 exports.Reschedule = require('./reschedule');
 exports.ApiStatistic = require('./api_statistic');
 exports.Feedback = require('./feedback');
+exports.Comment = require('./comment');
