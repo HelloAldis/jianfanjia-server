@@ -1,9 +1,10 @@
 <div class="main">
 	<div class="m-tt">
-		<h2 class="f-fl">提交装修需求</h2>
+		<h2 class="f-fl">修改装修需求</h2>
+		<a ng-click="goTo()" class="u-btns u-requirement f-fr">返回装修需求详情</a>
 	</div>
 	<div class="m-ct">
-		<div class="k-form">
+		<div class="k-form release">
 			<div class="m-boxs">
 				<div class="m-item f-cb">
 					<div class="item">
@@ -30,7 +31,7 @@
 					<div class="item">
 						<label class="u-lab" for="owner-email">位置</label>
 						<div class="u-inp">
-							<ul>
+							<ul class="mark">
 								<li>
 									<div class="inp">
 										<input type="text" class="input" ng-model="requiremtne.cell" />
@@ -96,7 +97,9 @@
 					<div class="item">
 						<label class="u-lab" for="owner-addr">风格喜好</label>
 						<div class="u-inp">
-							<div mg-stylepic my-list="dec_style" my-query="requiremtne.dec_style" ng-if="requiremtne.dec_style"></div>
+							<div class="k-stylePic">
+								<div mg-stylepic my-list="dec_style" my-query="requiremtne.dec_style" ng-if="requiremtne.dec_style"></div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -105,8 +108,10 @@
 						<label class="u-lab" for="owner-addr">包工类型</label>
 						<div class="u-inp">
 							<div my-select my-list="work_type" my-query="requiremtne.work_type"></div>
-							<p>半包 是指装修工程中，施工方提供人员施工及辅材供应的承包形式；</p>
-							<p>全包 是指装修工程中，施工方提供装修所涉所有项目的承包形式。</p>
+							<div class="work-tips">
+								<p>半包 是指装修工程中，施工方提供人员施工及辅材供应的承包形式；</p>
+								<p>全包 是指装修工程中，施工方提供装修所涉所有项目的承包形式。</p>
+							</div>
 						</div>
 					</div>
 				</div>

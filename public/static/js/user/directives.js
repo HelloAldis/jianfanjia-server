@@ -5,7 +5,7 @@ angular.module('directives', [])
         return {
             replace : true,
             scope: {
-                    myList : "&",
+                    myList : "=",
                     myQuery : "="
             },
             controller: function($scope, $element, $attrs, $transclude) {
@@ -42,11 +42,11 @@ angular.module('directives', [])
             template: '<div class="k-select" ng-click="openSelect($event)" ng-mouseout="closeSelect()"><ul class="select" ng-mouseover="closeTimer()"><li ng-repeat="d in myList"><a href="javascript:;" val="{{d.id}}" ng-click="select(d.id,$event)">{{d.name}}</a></li></ul><div class="option"><span class="value" ng-repeat="d in myList | filter:myQuery">{{d.name}}</span><span class="arrow"><em></em><i></i></span></div></div>'
         };
     }])
-    .directive('mySelecte',['$timeout',function($timeout){     //自定义下拉框
+    .directive('mySelecte',['$timeout',function($timeout){     //自定义下拉框带编写功能
         return {
             replace : true,
             scope: {
-                    myList : "&",
+                    myList : "=",
                     myQuery : "="
             },
             controller: function($scope, $element, $attrs, $transclude) {
@@ -80,18 +80,18 @@ angular.module('directives', [])
                    }
                 },
             restrict: 'A',
-            template: '<div class="m-select" ng-click="openSelect($event)" ng-mouseout="closeSelect()"><ul class="select" ng-mouseover="closeTimer()"><li ng-repeat="d in myList"><a href="javascript:;" val="{{d.id}}" ng-click="select(d.id,$event)">{{d.name}}</a></li></ul><div class="option"><span class="value" ng-repeat="d in myList | filter:myQuery">{{d.name}}</span><span class="arrow"><em></em><i></i></span></div></div>'
+            template: '<div class="k-select" ng-click="openSelect($event)" ng-mouseout="closeSelect()"><ul class="select" ng-mouseover="closeTimer()"><li ng-repeat="d in myList"><a href="javascript:;" ng-click="select(d.name,$event)">{{d.name}}</a></li></ul><div class="editor"><input class="value" ng-model="myQuery"><span class="arrow"><em></em><i></i></span></div></div>'
         };
     }])
     .directive('mgStylepic',['$timeout',function($timeout){     //装修风格
         return {
             replace : true,
             scope: {
-                    myList : "&",
+                    myList : "=",
                     myQuery : "="
             },
             restrict: 'A',
-            template: '<div class="k-stylePic"><div class="pic"><ul></ul></div><div class="toggle"><a href="javascript:;" class="btns prev"><i>左</i><span></span></a><a href="javascript:;" class="btns next"><i>右</i><span></span></a></div><p class="text">正在加载中。。。</p></div>',
+            template: '<div class="stylePic"><div class="pic"><ul></ul></div><div class="toggle"><a href="javascript:;" class="btns prev"><i>左</i><span></span></a><a href="javascript:;" class="btns next"><i>右</i><span></span></a></div><p class="text">正在加载中。。。</p></div>',
             link: function($scope, iElm, iAttrs, controller) {
                 var obj = angular.element(iElm),
                    oUl = obj.find('ul'),
@@ -103,7 +103,6 @@ angular.module('directives', [])
                    picWidth = obj.width(),
                    str = '',
                    iNum = parseInt($scope.myQuery);
-                   console.log(iNum)
               angular.forEach(arr,function(value, key){
                   str += '<li><img src="'+value.url+'" alt="'+value.txt+'" /></li>'
               })
@@ -143,7 +142,7 @@ angular.module('directives', [])
         return {
             replace : true,
             scope: {
-                    myList : "&",
+                    myList : "=",
                     myProvince : "=",
                     myCity : "=",
                     myDistrict : "="
@@ -179,7 +178,8 @@ angular.module('directives', [])
                         oUl.css('display','none');
                         obj.css('zIndex',100);
                    }
-                },
+                }
+            },
             restrict: 'A',
             template: '<div class="m-select" ng-click="openSelect($event)" ng-mouseout="closeSelect()"><ul class="select" ng-mouseover="closeTimer()"><li ng-repeat="d in myList"><a href="javascript:;" ng-click="select(d.name,$event)">{{d.name}}</a></li></ul><div class="editor"><input class="value" ng-model="myQuery" /><span class="arrow"><em></em><i></i></span></div></div>'
         };
