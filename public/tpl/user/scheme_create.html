@@ -110,7 +110,7 @@
 								<label class="u-lab" for="work_type">上传平面图：</label>
 								<div class="u-inp">
 									<div class="file">
-										<p class="tips">*作品上传每张大小为1M以内</p>
+										<p class="tips">*作品上传每张大小为3M以内</p>
 										<div class="file-list f-cb">
 											<div class="create-item">
 												<div class="pic" id="upload">
@@ -737,10 +737,13 @@
 		}
 	}
 
-
-
-
-
+	//删除当前方案图片
+	$('#j-file-list').delegate('.close','click',function(ev){
+		ev.preventDefault();
+		if(confirm("你确定要删除吗？删除不能恢复")){
+			$(this).closest('.previews-item').remove();
+		}
+	})
 	    /*
 	    * 参数说明：
 	    * number：要格式化的数字

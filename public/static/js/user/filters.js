@@ -146,7 +146,7 @@ angular.module('filters', [])
             }[input];
         }
     })
-    .filter('planFilter', function () {
+    .filter('planFilter', function () {      //方案状态
         return function (input) {
             return {
                 "0":"已预约无响应",
@@ -155,6 +155,42 @@ angular.module('filters', [])
                 "3":"已提交方案",
                 "4":"方案被拒绝",
                 "5":"方案被选中"
+            }[input];
+        }
+    })
+    .filter('userStatusTipsFilter', function () {     //业主需求状态进度当前提示文字    
+        return function (input) {
+            return {
+                "0":"需要预约设计师",
+                "1":"设计师正在响应中",
+                "2":"设计师正在响应中",
+                "3":"设计师提交方案中",
+                "4":"选择装修方案",
+                "5":"生成三方合同",
+                "6":"设计师提交方案中",
+                "7":"生成三方合同"
+            }[input];
+        }
+    })
+    .filter('userRequiremtnesTipsFilter', function () {   //业主需求状态当前提示文字   
+        return function (input) {
+            return {
+                "0":"已预约无响应",
+                "1":"已拒绝业主",
+                "2":"有响应无方案",
+                "3":"已提交方案",
+                "4":"方案被拒绝",
+                "5":"方案被选中"
+            }[input];
+        }
+    })
+    .filter('userRequiremtnesBtnFilter', function () {    //业主需求状态当前提示按钮
+        return function (input) {
+            return {
+                "0":"前往预约量房",
+                "1":"前往确认设计师上门量房",
+                "2":"查看并选择装修方案",
+                "3":"前往生成三方合同"
             }[input];
         }
     })

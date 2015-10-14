@@ -1,101 +1,122 @@
-<ol class="breadCrumbs">
-	<li><a ui-sref="index">我的中心</a></li>
-	<li>个人资料</li>
-</ol>
 <div class="main">
-	<div class="m-item f-cb">
-		<div class="item">
-			<label class="u-lab" for="owner-name">姓&nbsp;&nbsp;&nbsp;名：</label>
-			<div class="u-inp">
-				<div class="box">
-					<input type="text" class="input" ng-model="user.username" />
+	<div class="m-tt">
+		<h2>个人信息</h2>
+	</div>
+	<div class="m-ct">
+		<div class="k-form">
+			<div class="m-boxs">
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-name">姓&nbsp;&nbsp;&nbsp;名：</label>
+						<div class="u-inp">
+							<div class="inp">
+								<input type="text" class="input" ng-model="user.username" />
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-	</div>
-	<div class="m-item f-cb">
-		<div class="item">
-			<label class="u-lab" for="owner-sex">性&nbsp;&nbsp;&nbsp;别：</label>
-			<div class="u-inp">
-				<div class="sex" id="owner-sex">
-				<label><input type="radio" name="owner-sex" ng-model="user.sex" value="0" />男</label>
-				<label><input type="radio" name="owner-sex" ng-model="user.sex" value="1" />女</label>
-			</div>
-			</div>
-		</div>
-	</div>
-	<div class="m-item f-cb">
-		<div class="item">
-			<label class="u-lab">手机号码：</label>
-			<div class="u-inp">
-				<div class="phone" ng-bind="user.phone"></div>
-			</div>
-		</div>
-	</div>
-	<div class="m-item f-cb">
-		<div class="item">
-			<label class="u-lab" for="owner-email">电子邮箱：</label>
-			<div class="u-inp">
-				<div class="box">
-					<input type="text" class="input" ng-model="user.email" />
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-sex">性&nbsp;&nbsp;&nbsp;别：</label>
+						<div class="u-inp">
+							<div class="radio">
+								<label ng-click="radiosex(sex.id)" ng-repeat="sex in usersex"><span class="{{sex.cur}}"></span>{{sex.name}}</label>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-		<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-		<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-		<p class="tips-info hide"></p>
-	</div>
-	<div class="m-item f-cb">
-		<div class="item">
-			<label class="u-lab" for="dec_area">所在地区：</label>
-			<div class="u-inp">
-				<div class="m-cities" id="where_area"></div>				
-			</div>
-		</div>
-	</div>
-	<div class="m-item f-cb">
-		<div class="item">
-			<label class="u-lab" for="owner-addr">邮寄详细地址：</label>
-			<div class="u-inp">
-				<div class="box">
-					<input type="text" class="input" ng-model="user.address" />
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-email">电子邮箱：</label>
+						<div class="u-inp">
+							<div class="inp">
+								<input type="text" class="input" ng-model="user.email" />
+							</div>
+						</div>
+					</div>
+					<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+					<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+					<p class="tips-info hide"></p>
 				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab">手机号码：</label>
+						<div class="u-inp">
+							<div class="inp phone" ng-bind="user.phone"></div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="dec_area">所在地区：</label>
+						<div class="u-inp">
+							<div class="m-cities" id="where_area"></div>				
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-addr">邮寄详细地址：</label>
+						<div class="u-inp">
+							<div class="inp address">
+								<input type="text" class="input" ng-model="user.address" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="k-uppicbox">
+					<div class="pic" id="upload">
+						<div class="fileBtn">
+							<input class="hide" id="fileToUpload" type="file" name="upfile">
+							<p class="hide"><a href="javascript:$('#fileToUpload').uploadify('settings', 'formData', {'typeCode':document.getElementById('id_file').value});$('#fileToUpload').uploadify('upload','*')">上传</a>
+							<a href="javascript:$('#fileToUpload').uploadify('cancel','*')">重置上传队列</a>
+							</p>
+							<input type="hidden" id="sessionId" value="${pageContext.session.id}" />
+							<input type="hidden" value="1215154" name="tmpdir" id="id_file">
+						</div>
+						<img class="img" id="userHead" src="../../../static/img/user/headPic.png" alt="{{user.username}}的头像" />
+					</div>
+					<p>请上传大于300*300头像照片<br />1M以内jpg/png格式</p>
+				</div>
+				<div class="m-item m-error-info hide" id="error-info"></div>
 			</div>
-		</div>
-	</div>
-	<div class="fileBox">
-		<div class="pic" id="upload">
-			<div class="fileBtn">
-				<input class="hide" id="fileToUpload" type="file" name="upfile">
-				<p class="hide"><a href="javascript:$('#fileToUpload').uploadify('settings', 'formData', {'typeCode':document.getElementById('id_file').value});$('#fileToUpload').uploadify('upload','*')">上传</a>
-				<a href="javascript:$('#fileToUpload').uploadify('cancel','*')">重置上传队列</a>
-				</p>
-				<input type="hidden" id="sessionId" value="${pageContext.session.id}" />
-				<input type="hidden" value="1215154" name="tmpdir" id="id_file">
+			<div class="m-btns">
+				<input type="button" class="u-btns" id="owner-submit" ng-click="submitBtn()" value="保存" />
 			</div>
-			<img class="img" id="userHead" src="{{user.imageSrc}}" alt="{{user.username}}的头像" />
-		</div>
-		<p>请上传500*500头像照片1M以内jpg格式</p>
-	</div>
-	<div class="m-item m-error-info hide" id="error-info"></div>
-	<div class="m-item">
-		<div class="u-btn">
-			<input type="submit" class="btn" id="owner-submit" ng-click="submitBtn()" value="保存" />
 		</div>
 	</div>
 </div>
-<div class="jc-demo-box">
-	<img src="{{user.imageSrc}}" id="cropbox" />
-	<input type="hidden" id="cropx" name="x" />
-	<input type="hidden" id="cropy" name="y" />
-	<input type="hidden" id="cropw" name="width" />
-	<input type="hidden" id="croph" name="height" />
-	<div id="cropBtn"><input type="button"  value="Crop Image" class="btn btn-large btn-inverse" /></div>
-	
+<div class="k-cropMask" id="j-cropMask"></div>
+<div class="k-cropBox" id="j-cropBox">
+	<div class="cropBox">
+		<img src="" id="cropPic" />
+		<input type="hidden" id="cropx" name="x" />
+		<input type="hidden" id="cropy" name="y" />
+		<input type="hidden" id="cropw" name="width" />
+		<input type="hidden" id="croph" name="height" />
+		
+		<div class="cropBorder">
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</div>
+	<div class="btns">
+		<input type="button" class="u-btns" id="crop-submit" value="确定" />
+	</div>
 </div>
-
 <script type="text/javascript">
 	$(function(){
+		var $cropMask = $('#j-cropMask');
+		var $cropBox = $('#j-cropBox');
+		var $cropbox = $cropBox.find('.cropBox');
+		var $winW = $(window).width();
+		var $winH = $(window).height();
 		var checkSupport = function(){
 			var input = document.createElement('input');
 			var fileSupport = !!(window.File && window.FileList);
@@ -103,16 +124,6 @@
 			var fd = !!window.FormData;
 			return 'multiple' in input && fileSupport && 'onprogress' in xhr && 'upload' in xhr && fd ? 'html5' : 'flash';
 		};
-		$('#cropbox').Jcrop({
-	      aspectRatio: 1,
-	      onSelect: updateCoords,
-	      maxSize : [300,300],
-	      minSize : [300,300]
-	    });
-		function updateCoords(c){
-		    $('#cropx').val(c.x);
-		    $('#cropy').val(c.y);
-		 };
 		var uploaderUrl = RootUrl+'api/v2/web/image/upload';
 		var croploaderUrl = RootUrl+'api/v2/web/image/crop';
 		if(checkSupport() === "html5"){
@@ -142,48 +153,10 @@
 				'buttonText' : '',
 		        'multi'    : true,
 		        'uploadLimit' : 10,
-		        'width' : 250,
-		        'height' : 250,
+		        'width' : 120,
+		        'height' : 120,
 		        'fileTypeDesc' : 'Image Files',
-		        'fileTypeExts' : '*.gif; *.jpg; *.png',
-		        'fileSizeLimit' : '1024KB',
-		        'onUploadSuccess' : function(file, data, response) {
-		            callbackImg(data)  
-		        }
-		    });
-		}
-		if(checkSupport() === "html5"){
-			$('#cropBtn').Huploadify({
-				auto:true,
-				fileTypeExts:'*.jpg;*.png',
-				multi:true,
-				formData:{'x' : $('#cropx').val(),'y':$('#cropy').val(),'width':300,'hight':300},
-				fileSizeLimit:1024,
-				showUploadedPercent:true,//是否实时显示上传的百分比，如20%
-				showUploadedSize:true,
-				removeTimeout:1,
-				fileObjName:'Filedata',
-				buttonText : "",
-				uploader:croploaderUrl,
-				onUploadComplete:function(file, data, response){
-					callbackImg(data)
-					alert(1)
-				}
-			});
-		}else{
-			$('#cropBtn').uploadify({
-		    	'auto'     : true,
-		    	'removeTimeout' : 1,
-		        'swf'      : 'uploadify.swf',
-		        'uploader' : croploaderUrl,
-		        'method'   : 'post',
-				'buttonText' : '',
-		        'multi'    : true,
-		        'uploadLimit' : 10,
-		        'width' : 250,
-		        'height' : 250,
-		        'fileTypeDesc' : 'Image Files',
-		        'fileTypeExts' : '*.gif; *.jpg; *.png',
+		        'fileTypeExts' : '*.jpg; *.png',
 		        'fileSizeLimit' : '1024KB',
 		        'onUploadSuccess' : function(file, data, response) {
 		            callbackImg(data)  
@@ -192,8 +165,61 @@
 		}
 		function callbackImg(arr){
 			var data = $.parseJSON(arr)
-			$scope.user.imageid = data.data;
-			$('#userHead').attr('src',RootUrl+'api/v1/image/'+data.data).data('img',data.data);
+			///$scope.user.imageid = data.data;
+			var img = new Image();
+			img.onload=function(){
+				console.log(img.width,img.height)
+				if(img.width < 300){
+					alert('图片宽度小于300，请从新上传');
+					return false;
+				}else if(img.height < 300){
+					alert('图片高度小于300，请从新上传');
+					return false;
+				}
+				var w = img.width > 800 ? 800 : img.width;
+				$cropMask.css({
+					width:$winW,
+					height:$winH
+				}).fadeTo("slow", 0.3);
+				$cropBox.css({
+					width:w,
+					marginLeft:-(w/2)
+				}).show().animate({
+					top: 100,
+					opacity:1
+				});
+				$('#cropPic').attr('src',img.src);
+			};  
+		    img.onerror=function(){alert("error!")};  
+		    img.src=RootUrl+'api/v1/image/'+data.data; 
+			$('#crop-submit').on('click',function(){
+				$.ajax({
+					url: RootUrl+'api/v2/web/image/crop',
+					type: "post",
+					contentType : 'application/json; charset=utf-8',
+					dataType: 'json',
+					data : JSON.stringify({
+					  "_id":data.data,
+					  "x":10,
+					  "y":10,
+					  "width":300,
+					  "height":300
+					}),
+					processData : false
+				})
+				.done(function(res) {
+					$('#userHead').attr('src',RootUrl+'api/v2/web/thumbnail/120/'+res.data).data('img',res.data);
+					$cropMask.hide();
+					$cropBox.hide();
+				})
+				.fail(function() {
+					console.log("error");
+				})
+				.always(function() {
+					console.log("complete");
+				});
+				
+			})
 		}
 	})
 </script>

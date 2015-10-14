@@ -19,19 +19,26 @@
                 .state('release', {
                     url: '/release',
                     templateUrl: RootURl+'release.html',
+                    controller : 'releaseCtrl'
+                })
+                .state('revise', {
+                    url: '/revise/:id',
+                    templateUrl: RootURl+'revise.html',
+                    controller : 'releaseCtrl'
                 })
                 .state('requirementList', {
                     url: '/requirementList',
                     templateUrl: RootURl+'requirementList.html',
+                    controller : 'requirementListCtrl'
                 })
                 .state('requirement', {
-                    url: '/requirement',
+                    url: '/requirement/:id',
                     templateUrl: RootURl+'requirement.html',
-                    controller: function($scope,$filter,$interval,$location){
+                    controller: function($scope,$location){
                         $scope.data = [
                             {
                                 url : "requirement.detail",
-                                name : "需求详情"
+                                name : "需求描述"
                             },
                             {
                                 url : "requirement.booking",
@@ -62,36 +69,43 @@
                         $scope.abcd = abc($location.$$url.split("/")[2])
                         $scope.b = function(c){
                             $scope.abcd = c
-                        }  
+                        } 
                     }
                 })
                 .state('requirement.detail', {
-                    url: '/detail/:id',
-                    templateUrl: RootURl+'detail.html'
+                    url: '/detail',
+                    templateUrl: RootURl+'detail.html',
+                    controller : 'requirementDetailCtrl'
                 })
                 .state('requirement.booking', {
                     url: '/booking',
-                    templateUrl: RootURl+'booking.html'
+                    templateUrl: RootURl+'booking.html',
+                    controller : 'requirementDetailCtrl'
                 })
                 .state('requirement.plan', {
                     url: '/plan',
-                    templateUrl: RootURl+'plan.html'
+                    templateUrl: RootURl+'plan.html',
+                    controller : 'requirementDetailCtrl'
                 })
                 .state('requirement.contract', {
                     url: '/contract',
-                    templateUrl: RootURl+'contract.html'
+                    templateUrl: RootURl+'contract.html',
+                    controller : 'requirementDetailCtrl'
                 })
                 .state('requirement.score', {
                     url: '/score',
-                    templateUrl: RootURl+'score.html'
+                    templateUrl: RootURl+'score.html',
+                    controller : 'requirementDetailCtrl'
                 })
                 .state('favorite', {
                     url: '/favorite',
-                    templateUrl: RootURl+'favorite.html'
+                    templateUrl: RootURl+'favorite.html',
+                    controller : 'favoriteProductCtrl'
                 })
                 .state('designer', {
                     url: '/designer',
-                    templateUrl: RootURl+'designer.html'
+                    templateUrl: RootURl+'designer.html',
+                    controller : 'favoriteDesignerCtrl'
                 })
         });
     // angular bootstrap

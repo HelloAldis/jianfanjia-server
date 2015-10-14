@@ -62,7 +62,7 @@
 			<div class="m-ct">
 				<div class="w-form user-form design-info" id="j-design-auth">
 					<form action="http://www.jianfanjia.com" id="design-auth" method="post">
-						<p class="tips">*图片上传每张大小为3M以内jpeg/jpg/png格式图片,为了认证显示效果最佳，保证更张图宽度在600-1000之间。<br />注意：为了保证资金安全，请认真填写和上传图片，认证通过以后才能打款。</p>
+						<p class="tips">*图片上传每张大小为3M以内jpeg/jpg/png格式图片,为了认证显示效果最佳，保证每张图片宽度在600-2000PX之间，高度小于1600PX。<br />注意：为了保证资金安全，请认真填写和上传图片，认证通过以后才能打款。</p>
 						<div class="m-item f-cb">
 							<div class="item">
 								<label class="u-lab" for="design-uid">*身份证号码：</label>
@@ -185,9 +185,11 @@
 		</div>	
 	</div>
 	<style type="text/css">
+		.uploadPic{overflow: visible;}
 		.design_info .btn{margin-left: 0;}
-		.create-item{height: 310px;}
 		#auth-box{margin-left: 5px;}
+		.file{margin-bottom: 15px;}
+		#save-submit{margin-top: 15px;}
 	</style>
 	<div class="g-ft">
 		<div class="m-sitemap f-cb">
@@ -239,19 +241,59 @@
 	};
 	var uploaderUrl = RootUrl+'api/v1/image/upload';
 	uoLoadFile($('#upload1'),$('#fileToUpload1'),function(arr){
-		var data = $.parseJSON(arr)
-		$('#uid-img1').attr('src',RootUrl+'api/v1/thumbnail/499/'+data.data).data('img',data.data);
-		$('#error-info').addClass('hide').html('')
+		var data = $.parseJSON(arr);
+		var img = new Image();
+			img.onload=function(){
+				if(img.width < 600 || img.width > 2000){
+					alert('请上传宽度在600-2000之间图片');
+					return false;
+				}else if(img.height > 1600){
+					alert('请上传高度小于1600图片');
+					return false;
+				}else{
+					$('#uid-img1').attr('src',RootUrl+'api/v1/image/'+data.data).data('img',data.data);
+					$('#error-info').addClass('hide').html('')
+				}
+			};  
+		    img.onerror=function(){alert("error!")};  
+		    img.src=RootUrl+'api/v1/image/'+data.data; 
+		
 	})
 	uoLoadFile($('#upload2'),$('#fileToUpload2'),function(arr){
-		var data = $.parseJSON(arr)
-		$('#uid-img2').attr('src',RootUrl+'api/v1/thumbnail/499/'+data.data).data('img',data.data);
-		$('#error-info').addClass('hide').html('')
+		var data = $.parseJSON(arr);
+		var img = new Image();
+			img.onload=function(){
+				if(img.width < 600 || img.width > 2000){
+					alert('请上传宽度在600-2000之间图片');
+					return false;
+				}else if(img.height > 1600){
+					alert('请上传高度小于1600图片');
+					return false;
+				}else{
+					$('#uid-img2').attr('src',RootUrl+'api/v1/image/'+data.data).data('img',data.data);
+					$('#error-info').addClass('hide').html('')
+				}
+			};  
+		    img.onerror=function(){alert("error!")};  
+		    img.src=RootUrl+'api/v1/image/'+data.data; 
 	})
 	uoLoadFile($('#upload3'),$('#fileToUpload3'),function(arr){
-		var data = $.parseJSON(arr)
-		$('#bank-img1').attr('src',RootUrl+'api/v1/thumbnail/499/'+data.data).data('img',data.data);
-		$('#error-info').addClass('hide').html('')
+		var data = $.parseJSON(arr);
+		var img = new Image();
+			img.onload=function(){
+				if(img.width < 600 || img.width > 2000){
+					alert('请上传宽度在600-2000之间图片');
+					return false;
+				}else if(img.height > 1600){
+					alert('请上传高度小于1600图片');
+					return false;
+				}else{
+					$('#bank-img1').attr('src',RootUrl+'api/v1/image/'+data.data).data('img',data.data);
+					$('#error-info').addClass('hide').html('')
+				}
+			};  
+		    img.onerror=function(){alert("error!")};  
+		    img.src=RootUrl+'api/v1/image/'+data.data; 
 	})
 
 	function uoLoadFile(obj1,obj2,callback){
@@ -426,11 +468,11 @@
 					}
 					desUid.val(data.uid);
 					desBankCard.val(data.bank_card);
-					var img1 = data.uid_image1 != null && !!data.uid_image1 ?  RootUrl+'api/v1/thumbnail/499/'+data.uid_image1 : '../../static/img/user/uploadify.jpg';
+					var img1 = data.uid_image1 != null && !!data.uid_image1 ?  RootUrl+'api/v1/image/'+data.uid_image1 : '../../static/img/user/uploadify.jpg';
 					uidImg1.attr('src',img1).data('img',data.uid_image1 != null ? data.uid_image1 : null);
-					var img2 = data.uid_image2 != null && !!data.uid_image2 ?  RootUrl+'api/v1/thumbnail/499/'+data.uid_image2 : '../../static/img/user/uploadify.jpg';
+					var img2 = data.uid_image2 != null && !!data.uid_image2 ?  RootUrl+'api/v1/image/'+data.uid_image2 : '../../static/img/user/uploadify.jpg';
 					uidImg2.attr('src',img2).data('img',data.uid_image2 != null ? data.uid_image2 : null);
-					var img3 = data.bank_card_image1 != null && !!data.bank_card_image1 ?  RootUrl+'api/v1/thumbnail/499/'+data.bank_card_image1 : '../../static/img/user/uploadify.jpg';
+					var img3 = data.bank_card_image1 != null && !!data.bank_card_image1 ?  RootUrl+'api/v1/image/'+data.bank_card_image1 : '../../static/img/user/uploadify.jpg';
 					bankImg1.attr('src',img3).data('img',data.bank_card_image1 != null ? data.bank_card_image1 : null);
 				}
 		   	}
