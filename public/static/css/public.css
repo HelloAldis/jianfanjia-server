@@ -563,8 +563,9 @@ a.m-head:hover{
 	padding-top: 59px;
 }
 .g-hd .user{
+	position: relative;
 	height: 34px;
-	padding-right: 20px;
+	padding-right: 160px;
 	line-height: 34px;
 	text-align: right;
 }
@@ -805,4 +806,65 @@ a.m-head:hover{
 }
 .goto:hover{
 	background-position: 0 -40px;
+}
+/*app下载*/
+.m-app{
+	position: absolute;
+	top:0;
+	right: 0;
+	z-index: 10;
+}
+.g-hd .user .m-app a{
+	display: block;
+	padding: 0 40px;
+	margin: 0 8px;
+	font-size: 14px;
+	color: #fe7004;
+}
+.m-app .ewm{
+	position: absolute;
+	left:15px;
+	top:-160px;
+	width: 130px;
+	height: 158px;
+	text-align: center;
+	background-color: #fff;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	display: none;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.m-app .ewm i{
+	position: absolute;
+	left: 50%;
+    top: -18px;
+	width: 0;
+	height: 0;
+    margin-left: -9px;
+	border-width: 9px;
+	border-color: transparent;
+	border-style: dashed;
+	border-bottom-style: solid;
+	border-bottom-color: #e5e5e5;
+}
+.m-app .ewm i em{
+	position: absolute;
+	left: -9px;
+    top: -8px;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	border-width: 9px;
+	border-color: transparent;
+	border-style: dashed;
+	border-bottom-style: solid;
+	border-bottom-color: #fff;
+}
+.m-app .ewm span{
+	display: inline-block;
+	width: 100%;
+	font-size: 14px;
+	line-height: 30px;
+	color: #999;
 }
