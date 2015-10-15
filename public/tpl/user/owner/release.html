@@ -3,14 +3,13 @@
 		<h2 class="f-fl">提交装修需求</h2>
 	</div>
 	<div class="m-ct">
-		<div class="k-form">
+		<div class="k-form release">
 			<div class="m-boxs">
 				<div class="m-item f-cb">
 					<div class="item">
 						<label class="u-lab" for="owner-name">装修城市</label>
 						<div class="u-inp">
 							<div class="u-inp">
-								<div class="m-cities" id="release_area"></div>
 								<div my-cities my-list="cities_list" my-province="requiremtne.province" my-city="requiremtne.city" my-district="requiremtne.district" ng-if="requiremtne.province"></div>	
 							</div>
 						</div>
@@ -21,7 +20,7 @@
 						<label class="u-lab" for="owner-sex">邮寄地址</label>
 						<div class="u-inp">
 							<div class="inp address">
-								<input type="text" class="input" ng-model="requiremtne.address" />
+								<input type="text" class="input" ng-model="requiremtne.street" />
 							</div>
 						</div>
 					</div>
@@ -30,7 +29,7 @@
 					<div class="item">
 						<label class="u-lab" for="owner-email">位置</label>
 						<div class="u-inp">
-							<ul>
+							<ul class="mark">
 								<li>
 									<div class="inp">
 										<input type="text" class="input" ng-model="requiremtne.cell" />
@@ -96,7 +95,9 @@
 					<div class="item">
 						<label class="u-lab" for="owner-addr">风格喜好</label>
 						<div class="u-inp">
-							<div mg-stylepic my-list="dec_style" my-query="requiremtne.dec_style" ng-if="requiremtne.dec_style"></div>
+							<div class="k-stylePic">
+								<div mg-stylepic my-list="dec_style" my-query="requiremtne.dec_style"></div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -105,8 +106,10 @@
 						<label class="u-lab" for="owner-addr">包工类型</label>
 						<div class="u-inp">
 							<div my-select my-list="work_type" my-query="requiremtne.work_type"></div>
-							<p>半包 是指装修工程中，施工方提供人员施工及辅材供应的承包形式；</p>
-							<p>全包 是指装修工程中，施工方提供装修所涉所有项目的承包形式。</p>
+							<div class="work-tips">
+								<p>半包 是指装修工程中，施工方提供人员施工及辅材供应的承包形式；</p>
+								<p>全包 是指装修工程中，施工方提供装修所涉所有项目的承包形式。</p>
+							</div>
 						</div>
 					</div>
 				</div>

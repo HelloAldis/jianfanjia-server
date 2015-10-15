@@ -6,6 +6,8 @@ angular.module('controllers', [])
                 $scope.$watch( 'location.url()', function( url ){
                     if(url.split('/')[1] == 'requirement'){
                         $scope.nav = 'requirementList'
+                    }else if(url.split('/')[1] == 'revise'){
+                        $scope.nav = 'requirementList'
                     }else{
                        $scope.nav = url.split('/')[1];  
                     }
@@ -158,6 +160,7 @@ angular.module('controllers', [])
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne','userInfo',
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,userInfo){
             var desArea = $('#release_area');
+            $scope.cities_list = tdist;
             $scope.dec_style = [
                 {"id" :0,"name":'欧式'},
                 {"id" :1,"name":'中式'},
@@ -232,60 +235,57 @@ angular.module('controllers', [])
                 }
             ]
             console.log('需求id:'+$stateParams.id)
-            if($stateParams.id == ''){        //发布新需求
-                userInfo.get().then(function(res){  //获取个人资料
-                    console.log(res.data.data);
-                    $scope.user = res.data.data;
-                    desArea.empty();
-                    if(!!$scope.user.province){
-                        var designAreaQuery = $scope.user.province+" "+$scope.user.city+" "+$scope.user.district;
-                        desArea.find('input[name=where_area]').val(designAreaQuery)
-                        var designArea = new CitySelect({id :'where_area',"query":designAreaQuery});
-                    }else{
-                        desArea.find('input[name=where_area]').val("")
-                        var designArea = new CitySelect({id :'where_area'});
-                    }
-                },function(res){
-                    console.log(res)
-                });
+            if($stateParams.id == undefined){        //发布新需求
                 $scope.requiremtne = {};
                 $scope.requiremtne.dec_style = '0';
                 $scope.requiremtne.house_type = '0';
                 $scope.requiremtne.work_type = '0';
                 $scope.requiremtne.communication_type = '0';
+                $scope.requiremtne.family_description = $scope.family_description[0].name;
+                userInfo.get().then(function(res){  //获取个人资料
+                    console.log(res.data.data);
+                    $scope.user = res.data.data;
+                    desArea.empty();
+                    if(!!$scope.user.province){
+                        $scope.requiremtne.province = $scope.user.province;
+                        $scope.requiremtne.city = $scope.user.city;
+                        $scope.requiremtne.district = $scope.user.district;
+                    }else{
+                        $scope.requiremtne.province = '请选择省份';
+                        $scope.requiremtne.city = '请选择市';
+                        $scope.requiremtne.district = '请选择县/区';
+                    }
+                },function(res){
+                    console.log(res)
+                });
+                console.log($scope.requiremtne)
                 $scope.submitBtn = function(){
-                    console.log(stylePic())
-                    userRequiremtne.add($scope.requiremtne).then(function(res){  //提交新需求
-                        if(res.data.data.requirementid){
-                            alert('提交需求成功前往预约设计师量房');
-                            $location.path('requirement/'+res.data.data.requirementid+"/booking");
-                        }
-                    },function(res){
-                        console.log(res)
-                    });
+                    console.log($scope.requiremtne)
+                    if(confirm("你确定修改了吗")){
+                        userRequiremtne.add($scope.requiremtne).then(function(res){  //提交新需求
+                            if(res.data.data.requirementid){
+                                alert('提交需求成功前往预约设计师量房');
+                                $location.path('requirement/'+res.data.data.requirementid+"/booking");
+                            }
+                        },function(res){
+                            console.log(res)
+                        });
+                    }
                 }
             }else{   //修改某条需求
                 userRequiremtne.get({'_id':$stateParams.id}).then(function(res){  //获取个人资料
-                    console.log(res.data.data);
                     $scope.requiremtne = res.data.data;
-                    desArea.empty();
-                    console.log($scope.requiremtne)
-                    if(!!$scope.requiremtne.province){
-                        var designAreaQuery = $scope.requiremtne.province+" "+$scope.requiremtne.city+" "+$scope.requiremtne.district;
-                        desArea.find('input[name=where_area]').val(designAreaQuery)
-                        var designArea = new CitySelect({id :'where_area',"query":designAreaQuery});
-                    }else{
-                        desArea.find('input[name=where_area]').val("")
-                        var designArea = new CitySelect({id :'where_area'});
-                    }
                     console.log($scope.requiremtne.dec_style)
+                    $scope.requiremtne.dec_style = $scope.requiremtne.dec_style ? $scope.requiremtne.dec_style : "0";
+                    console.log($scope.requiremtne)
                 },function(res){
                     console.log(res)
                 });
                 $scope.submitBtn = function(){
-                    $scope.requiremtne.province = desArea.find('input[name=province]').val() || $scope.requiremtne.province;
-                    $scope.requiremtne.city = desArea.find('input[name=city]').val() || $scope.requiremtne.city;
-                    $scope.requiremtne.district = desArea.find('input[name=district]').val() || $scope.requiremtne.district;
+                    if($scope.requiremtne.province != "湖北省" && $scope.requiremtne.city != "武汉市"){
+                        alert('您选择装修城市不是湖北省武汉市，请重新选择')
+                        return ;
+                    }
                     console.log($scope.requiremtne)
                     if(confirm("你确定修改了吗")){
                         userRequiremtne.update($scope.requiremtne).then(function(res){  //修改需求
@@ -414,7 +414,8 @@ angular.module('controllers', [])
         '$scope','$rootScope','$http','$filter','$location','userFavoriteProduct',
         function($scope, $rootScope,$http,$filter,$location,userFavoriteProduct){
             userFavoriteProduct.list().then(function(res){  //获取作品收藏列表
-                console.log(res.data);
+                console.log(res.data.products);
+                console.log(res.data.total);
             },function(res){
                 console.log(res)
             });
@@ -423,7 +424,8 @@ angular.module('controllers', [])
         '$scope','$rootScope','$http','$filter','$location','userFavoriteDesigner',
         function($scope, $rootScope,$http,$filter,$location,userFavoriteDesigner){
             userFavoriteDesigner.list().then(function(res){  //获取意向设计师列表
-                console.log(res.data);
+                console.log(res.data.designers);
+                console.log(res.data.total);
             },function(res){
                 console.log(res)
             });
