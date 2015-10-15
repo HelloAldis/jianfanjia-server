@@ -159,7 +159,6 @@ angular.module('controllers', [])
 	.controller('releaseCtrl', [     //业主提交需求
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne','userInfo',
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,userInfo){
-            var desArea = $('#release_area');
             $scope.cities_list = tdist;
             $scope.dec_style = [
                 {"id" :0,"name":'欧式'},
@@ -245,7 +244,6 @@ angular.module('controllers', [])
                 userInfo.get().then(function(res){  //获取个人资料
                     console.log(res.data.data);
                     $scope.user = res.data.data;
-                    desArea.empty();
                     if(!!$scope.user.province){
                         $scope.requiremtne.province = $scope.user.province;
                         $scope.requiremtne.city = $scope.user.city;
@@ -260,6 +258,10 @@ angular.module('controllers', [])
                 });
                 console.log($scope.requiremtne)
                 $scope.submitBtn = function(){
+                    if($scope.requiremtne.province != "湖北省" && $scope.requiremtne.city != "武汉市"){
+                        alert('您选择装修城市不是湖北省武汉市，请重新选择')
+                        return ;
+                    }
                     console.log($scope.requiremtne)
                     if(confirm("你确定修改了吗")){
                         userRequiremtne.add($scope.requiremtne).then(function(res){  //提交新需求
@@ -368,10 +370,15 @@ angular.module('controllers', [])
             console.log($stateParams.id)
             userRequiremtne.get({"_id":$stateParams.id}).then(function(res){
                     console.log(res.data.data)
+                    detail(res.data.data) //需求描述
                     $scope.requirement = res.data.data;
+                    detail($scope.requirement)
                 },function(res){
                     console.log(res)
             });
+            function detail(data){   //需求描述
+                $scope.requirementDetail = data;
+            }
             userRequiremtne.list().then(function(res){
                 $scope.requiremtnes = res.data.data;
                  $scope.notRequiremtnes = !$scope.requiremtnes.length ? true : false;

@@ -2,11 +2,11 @@
 	<div class="m-tt">
 		<h2>装修需求详情</h2>
 	</div>
-	<div class="m-ct">
+	<div class="m-ct m-requirement">
 		<ul>
 			<li bindonce ng-repeat="a in data"><a ui-sref="{{a.url}}" ng-click="b(a.name)" bo-text="a.name"></a></li>
 		</ul>
-		<div class="view">
+		<div class="requirement">
 			<!--视图模板容器 start-->
 			<div ui-view></div>
 			<!--视图模板容器 end-->
