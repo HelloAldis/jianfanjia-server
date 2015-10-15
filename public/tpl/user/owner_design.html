@@ -108,7 +108,23 @@
 </html>
 <script type="text/javascript">
 	$(function(){
-		$.ajax({
+		var $ownerDesignLsit = $('#owner-design-lsit');
+		var $designLsit = $ownerDesignLsit.find('.design-lsit');
+		var counter = 0;
+		var matching = 3;
+		$ownerDesignLsit.delegate('input','click',function(ev){
+			console.log(counter)
+			if($(this).is(':checked')){
+				counter++;
+			}else{
+				counter--;
+			}
+			if(counter > matching){
+				alert('最多只能预约三名设计师')
+				return false;
+			}
+		})
+		/*$.ajax({
 			url: RootUrl+'api/v1/user/requirement',
 			type: 'GET',
 			contentType : 'application/json; charset=utf-8',
@@ -116,32 +132,14 @@
 			cache : true
 		})
 		.done(function(res) {
-			var counter = res.data.designerids.length;
-			var matching = 3;
-			if(counter > matching){
-				alert('最多只能预约三名设计师');
-				return false;
-			}
-			var $ownerDesignLsit = $('#owner-design-lsit');
-			var $designLsit = $ownerDesignLsit.find('.design-lsit');
-			$ownerDesignLsit.delegate('input','click',function(ev){
-				if($(this).is(':checked')){
-					counter++;
-				}else{
-					counter--;
-				}
-				if(counter > matching){
-					alert('最多只能预约三名设计师')
-					return false;
-				}
-			})
+			
 		})
 		.fail(function() {
-			console.log("error");
+			//console.log("error");
 		})
 		.always(function() {
-			console.log("complete");
-		});
+			//console.log("complete");
+		});*/
 	$('#owner-booking').on('click',function(){
 			var url = RootUrl+'api/v1/user/designer/house_check';
 			var aLi = $designLsit.find('li');
@@ -187,22 +185,6 @@
 			success: function(res){
 				if(res['data'].length){
 					page(res['data'])
-					console.log(res['data'])
-					var counter = 0;
-					var matching = 3;
-					var $ownerDesignLsit = $('#owner-design-lsit');
-					var $designLsit = $ownerDesignLsit.find('.design-lsit');
-					$ownerDesignLsit.delegate('input','click',function(ev){
-						if($(this).is(':checked')){
-							counter++;
-						}else{
-							counter--;
-						}
-						if(counter > matching){
-							alert('最多只能预约三名设计师')
-							return false;
-						}
-					})
 				}else{
 					$designLsit.html('<div class="loading nodata" id="j-loading"></div>')
 				}
