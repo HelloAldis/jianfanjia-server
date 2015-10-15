@@ -369,7 +369,7 @@ body{
 	line-height: 28px;
 	position: relative;
 	cursor: pointer;
-	padding:0 25px 0 10px;
+	padding:0 20px 0 10px;
 	background-color: #f9f9f9;
 	border: 1px solid #d2d2d2;
 	border-radius: 2px;
@@ -377,17 +377,18 @@ body{
 .k-select .option .value{
 	display: block;
 	font-size: 14px;
-	color: #7b818f;
+	color: #61687a;
 }
 .k-select .editor .value{
 	width: 100%;
+	font-size: 14px;
 	border: none;
 	background: none;
 }
 .k-select .arrow{
 	position: absolute;
-	top:6px;
-	right:20px;
+	top:9px;
+	right:15px;
 	background-color: #f9f9f9;
 }
 .k-select .arrow em,.k-select .arrow i{
@@ -397,7 +398,7 @@ body{
 	width: 0;
 	height: 0;
 	overflow: hidden;
-	border-width: 8px;
+	border-width: 5px;
 	border-color: transparent;
 	border-style: dashed;
 	border-top-style: solid;
@@ -405,8 +406,9 @@ body{
 }
 .k-select .arrow em{
 	top:3px;
-	border-top-color: #ccc;
+	border-top-color: #aaa;
 }
+.k-select .arrow i{display: none;}
 .k-select .select{
 	position: absolute;
 	left:-1px;
@@ -426,6 +428,85 @@ body{
 	color: #333;
 }
 .k-select .select a:hover{
+	color: #fff;
+	text-decoration: none;
+	background-color: #ccc;
+}
+/*城市插件*/
+.k-cities{
+	position: relative;
+	z-index: 2;
+}
+.k-cities .tipsinfo{
+	line-height: 24px;
+    color: #d92222;
+}
+.k-cities .list{
+	position: relative;
+    z-index: 2;
+	float: left;
+	width: 156px;
+	margin-right: 15px;
+	text-align: left;
+}
+.k-cities .option{
+	overflow: hidden;
+	height: 28px;
+	line-height: 28px;
+	position: relative;
+	cursor: pointer;
+	padding:0 20px 0 10px;
+	background-color: #f9f9f9;
+	border: 1px solid #d2d2d2;
+	border-radius: 2px;
+}
+.k-cities .option .value{
+	font-size: 12px;
+	color: #61687a;
+}
+.k-cities .arrow{
+	position: absolute;
+	top:9px;
+	right:15px;
+	background-color: #fff;
+}
+.k-cities .arrow em,.k-cities .arrow i{
+	position: absolute;
+	left:0;
+	top:0;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	border-width: 5px;
+	border-color: transparent;
+	border-style: dashed;
+	border-top-style: solid;
+	border-top-color: #fff;
+}
+.k-cities .arrow em{
+	top:3px;
+	border-top-color: #aaa;
+}
+.k-cities .arrow i{display: none;}
+.k-cities .select{
+	position: absolute;
+	left:-1px;
+	top:26px;
+	width: 100%;
+	height: 210px;
+	overflow-y: auto;
+	background-color: #fff;
+	border: 1px solid #dcdcdc;
+	border-top: none;
+	display: none;
+}
+.k-cities .select a{
+	display: block;	
+	line-height: 30px;
+	text-align: center;
+	color: #333;
+}
+.k-cities .select a:hover{
 	color: #fff;
 	text-decoration: none;
 	background-color: #ccc;

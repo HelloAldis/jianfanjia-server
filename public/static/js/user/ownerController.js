@@ -426,7 +426,8 @@ angular.module('controllers', [])
         '$scope','$rootScope','$http','$filter','$location','userFavoriteProduct',
         function($scope, $rootScope,$http,$filter,$location,userFavoriteProduct){
             userFavoriteProduct.list().then(function(res){  //获取作品收藏列表
-                console.log(res.data);
+                console.log(res.data.products);
+                console.log(res.data.total);
             },function(res){
                 console.log(res)
             });
@@ -435,7 +436,8 @@ angular.module('controllers', [])
         '$scope','$rootScope','$http','$filter','$location','userFavoriteDesigner',
         function($scope, $rootScope,$http,$filter,$location,userFavoriteDesigner){
             userFavoriteDesigner.list().then(function(res){  //获取意向设计师列表
-                console.log(res.data);
+                console.log(res.data.designers);
+                console.log(res.data.total);
             },function(res){
                 console.log(res)
             });
