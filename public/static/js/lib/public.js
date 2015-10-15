@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // 全局数据
 var globalData = {
 	role : ['管理员','业主','设计师'],
@@ -712,19 +711,4 @@ $(function(){
 		ev.preventDefault();
 		userLogin.find('.ewm').animate({top:-160,opacity:0}).hide()
 	});
->>>>>>> 711b9dc5abf80940c61058de0f4e544ba35fa0fa
-=======
-	//手机app 
-	var appStr = '<div class="m-app"><a href="javascript:;">下载App</a><div class="ewm"><i><em></em></i><span>简繁家App</span><img width="121" src="../../static/img/public/emw.png" alt="简繁家App" /></div></div>'
-	userLogin.append(appStr);
-	var iBff = true;
-	$(document.body).delegate('.m-app','mouseenter',function(ev){
-		ev.preventDefault();
-		userLogin.find('.ewm').show().animate({top:40,opacity:1})
-	});
-	$(document.body).delegate('.m-app','mouseleave',function(ev){
-		ev.preventDefault();
-		userLogin.find('.ewm').animate({top:-160,opacity:0}).hide()
-	});
->>>>>>> 2675f7223f4eb50d06892e8435eafdc878658832
 })

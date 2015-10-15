@@ -1,4 +1,64 @@
 <div class="detail">
-	<a ui-sref="revise({id:requirement._id})">修改装修需求</a>
-	<a ui-sref="release({id:requirement._id})">预约量房</a>
+	<div class="detail-drid" bindonce>
+		<ul>
+			<li>
+				<div class="span">
+					<strong>装修城市</strong>
+					<span bo-text="aera"></span>
+				</div>
+			</li>
+			<li>
+				<div class="span">
+					<strong>所属街道/路</strong>
+					<span bo-text="requirement.street"></span>
+				</div>
+			</li>
+			<li>
+				<div class="span">
+					<strong>位置</strong>
+					<span bo-text="aera"></span>
+				</div>
+			</li>
+			<li>
+				<div class="span f-fl">
+					<strong>户型</strong>
+					<span bo-text="aera"></span>
+				</div>
+				<div class="span f-fl">
+					<strong>计划常住成员</strong>
+					<span bo-text="aera"></span>
+				</div>
+			</li>
+			<li>
+				<div class="span f-fl">
+					<strong>装修面积</strong>
+					<span><i bo-text="aera"></i>m&sup2;</span>
+				</div>
+				<div class="span f-fl">
+					<strong>风格喜好</strong>
+					<span bo-text="aera"></span>
+				</div>
+			</li>
+			<li>
+				<div class="span f-fl">
+					<strong>风格喜好</strong>
+					<span bo-text="aera"></span>
+				</div>
+				<div class="span f-fl">
+					<strong>装修预算</strong>
+					<span><i bo-text="aera"></i>万元</span>
+				</div>
+			</li>
+			<li>
+				<div class="span">
+					<strong>偏好设计师类型</strong>
+					<span bo-text="requirement.communication_type"></span>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="detail-btns">
+		<a ui-sref="revise({id:requirement._id})">修改装修需求</a>
+		<a ui-sref="release({id:requirement._id})">预约量房</a>
+	</div>
 </div>
