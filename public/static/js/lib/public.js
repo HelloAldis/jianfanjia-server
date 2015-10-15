@@ -346,5 +346,17 @@ $(function(){
 		}else{
 			$goto.fadeOut(500)
 		}
-	})
+	});
+		//手机app 
+	var appStr = '<div class="m-app"><a href="javascript:;">下载App</a><div class="ewm"><i><em></em></i><span>简繁家App</span><img width="121" src="../../static/img/public/emw.png" alt="简繁家App" /></div></div>'
+	userLogin.append(appStr);
+	var iBff = true;
+	$(document.body).delegate('.m-app','mouseenter',function(ev){
+		ev.preventDefault();
+		userLogin.find('.ewm').show().animate({top:40,opacity:1})
+	});
+	$(document.body).delegate('.m-app','mouseleave',function(ev){
+		ev.preventDefault();
+		userLogin.find('.ewm').animate({top:-160,opacity:0}).hide()
+	});
 })
