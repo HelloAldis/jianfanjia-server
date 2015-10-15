@@ -108,11 +108,12 @@
 </html>
 <script type="text/javascript">
 	$(function(){
-		var counter = 0;
-		var matching = 3;
 		var $ownerDesignLsit = $('#owner-design-lsit');
 		var $designLsit = $ownerDesignLsit.find('.design-lsit');
+		var counter = 0;
+		var matching = 3;
 		$ownerDesignLsit.delegate('input','click',function(ev){
+			console.log(counter)
 			if($(this).is(':checked')){
 				counter++;
 			}else{
@@ -123,6 +124,22 @@
 				return false;
 			}
 		})
+		/*$.ajax({
+			url: RootUrl+'api/v1/user/requirement',
+			type: 'GET',
+			contentType : 'application/json; charset=utf-8',
+			dataType: 'json',
+			cache : true
+		})
+		.done(function(res) {
+			
+		})
+		.fail(function() {
+			//console.log("error");
+		})
+		.always(function() {
+			//console.log("complete");
+		});*/
 	$('#owner-booking').on('click',function(){
 			var url = RootUrl+'api/v1/user/designer/house_check';
 			var aLi = $designLsit.find('li');
