@@ -171,6 +171,8 @@ exports.okUser = function (req, res, next) {
 exports.rejectUser = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
   var requirementid = tools.trim(req.body.requirementid);
+  var reject_respond_msg = req.body.reject_respond_msg;
+
   var ep = eventproxy();
   ep.fail(next);
 
@@ -181,6 +183,7 @@ exports.rejectUser = function (req, res, next) {
   }, {
     status: type.plan_status_designer_reject,
     last_status_update_time: new Date().getTime(),
+    reject_respond_msg: reject_respond_msg,
   }, null, ep.done(function () {
     res.sendSuccessMsg();
   }));

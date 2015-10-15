@@ -31,6 +31,8 @@
     "mongoose": "^4.1.1",
     "morgan": "^1.6.1",
     "multer": "^1.0.3",
+    "node-schedule": "^0.2.9",
+    "nodemailer": "^1.8.0",
     "protobufjs": "^4.0.0",
     "response-time": "^2.3.1",
     "utility": "^1.4.0",

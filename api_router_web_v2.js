@@ -41,7 +41,7 @@ router.get('/watermark/v1/:_id', image.watermark); //获取有水印图
 router.post('/designer/search', designer.search); //搜索设计师
 router.post('/designer_home_page', designer.designer_home_page); //游客获取设计师的主页
 router.post('/search_designer_product', product.search_designer_product); //游客获取设计师作品
-router.post('/one_product', product.one_product); //游客获取设计师作品
+router.post('/product_home_page', product.product_home_page); //游客获取设计师作品
 
 //通用用户功能
 router.get('/signout', auth.normalUserRequired, sign.signout); //登出
@@ -56,7 +56,7 @@ router.get('/unread_comment', auth.normalUserRequired, comment.unread_comment); 
 router.post('/topic_comments', auth.normalUserRequired, comment.topic_comments); //获取评论并标记为已读
 router.post('/one_plan', auth.normalUserRequired, plan.getOne); //获取某个方案信息
 router.post('/one_contract', auth.normalUserRequired, requirement.one_contract); //获取某个方案信息
-
+router.post('/send_verify_email', auth.normalUserRequired, sign.send_verify_email); //获取某个方案信息
 //业主独有功能
 router.post('/user/info', auth.userRequired, user.user_update_info); //修改业主个人资料
 router.get('/user/info', auth.userRequired, user.user_my_info); //获取业主个人资料

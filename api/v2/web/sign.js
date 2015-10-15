@@ -11,6 +11,7 @@ var ApiUtil = require('../../../common/api_util');
 var type = require('../../../type');
 var config = require('../../../config');
 var async = require('async');
+var mail = require('../../../common/mail');
 
 exports.login = function (req, res, next) {
   var phone = validator.trim(req.body.phone);
@@ -287,3 +288,10 @@ exports.signout = function (req, res, next) {
   authMiddleWare.clear_session(req, res);
   res.sendSuccessMsg();
 };
+
+exports.send_verify_email = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var usertype = ApiUtil.getUsertype(req);
+
+
+}

@@ -8,22 +8,6 @@ var config = {
   // debug 为 true 时，用于本地调试
   debug: true,
 
-  // name: '简繁家', // 社区名字
-  // description: '简繁家：首个设计师专单平台', // 社区的描述
-  // keywords: '简繁家，装修，设计师，业主',
-
-  // 添加到 html head 中的信息
-  // site_headers: [
-  //   '<meta name="author" content="EDP@TAOBAO" />'
-  // ],
-  // site_logo: '/public/images/cnodejs_light.svg', // default is `name`
-  // site_icon: '/public/images/cnode_icon_32.png', // 默认没有 favicon, 这里填写网址
-  // 右上角的导航区
-  // site_navs: [
-  //   // 格式 [ path, title, [target=''] ]
-  //   [ '/about', '关于' ]
-  // ],
-  // cdn host，如 http://cnodejs.qiniudn.com
   site_static_host: '', // 静态文件存储域名
   // 社区的域名
   host: 'localhost',
@@ -41,7 +25,7 @@ var config = {
   redis_db: 0,
   redis_pass: 'Jyz20150608',
 
-  session_secret: 'jiayizhuang_jianfanjia_secret', // 务必修改
+  session_secret: 'jiayizhuang_jianfanjia_secret', // 务必保密
   auth_cookie_name: 'jianfanjia',
   session_time: 1000 * 60 * 60 * 24 * 2,
 
@@ -58,35 +42,26 @@ var config = {
     }
   },
 
-  //weibo app key
-  // weibo_key: 10000000,
-  // weibo_id: 'your_weibo_id',
+  //微米短信配置
+  sms_uid: 'S9w4LEmiYSgR',
+  sms_pas: 's5pf823y',
 
-  // admin
-  admins: {
-    user_login_name: true
-  },
+  //云之讯配置
+  yzx_sid: '03713bdddee6ff2c763393e316094eb6',
+  yzx_token: '26d602336aa881dbf272873e31b8b723',
+  yzx_appid: '5484c9c5af984884ab8942616de7e5b7',
 
-  // newrelic 是个用来监控网站性能的服务
-  newrelic_key: 'yourkey',
-
-  // 极光推送
-  jpush: {
-    appKey: 'YourAccessKeyyyyyyyyyyyy',
-    masterSecret: 'YourSecretKeyyyyyyyyyyyyy',
-    isDebug: false,
-  },
+  //一些业务配置
+  send_email: true,
+  send_sms: true,
 
   visit_per_day: 1000, // 每个 ip 每天能访问的次数
   send_verify_code_per_day: 100, //每个 ip 每天能发的验证码次数
   recommend_designer_count: 3, //我的设计师页面 推荐的设计师个数
   index_top_designer_count: 7, //首页设计师个数
   index_top_share_count: 6,
-  sms_uid: 'S9w4LEmiYSgR',
-  sms_pas: 's5pf823y',
-  yzx_sid: '03713bdddee6ff2c763393e316094eb6',
-  yzx_token: '26d602336aa881dbf272873e31b8b723',
-  yzx_appid: '5484c9c5af984884ab8942616de7e5b7',
+  designer_respond_user_order_expired: 60 * 24, //分钟，设计师多久内必须相应业主
+  designer_upload_plan_expired: 60 * 24 * 5, //分钟，设计师多久内必须上传方案
 
   duration_60: 60,
   duration_60_kai_gong: 1,

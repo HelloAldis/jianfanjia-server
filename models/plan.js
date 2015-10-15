@@ -59,6 +59,9 @@ var PlanSchema = new Schema({
   // comments: {
   //   type:
   // },
+  reject_respond_msg: {
+    type: String,
+  },
 });
 
 PlanSchema.index({

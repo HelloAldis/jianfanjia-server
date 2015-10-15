@@ -31,8 +31,10 @@ var type = {
 
   plan_status_not_respond: '0',
   plan_status_designer_reject: '1',
+  plan_status_designer_no_respond_expired: '7',
   plan_status_designer_respond_no_housecheck: '2',
   plan_status_designer_housecheck_no_plan: '6',
+  plan_status_designer_no_plan_expired: '8',
   plan_status_desinger_upload: '3',
   plan_status_user_not_final: '4',
   plan_status_user_final: '5',
