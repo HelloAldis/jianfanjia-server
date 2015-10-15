@@ -259,8 +259,8 @@ exports.signup = function (req, res, next) {
 exports.verifyPhone = function (req, res, next) {
   var phone = tools.trim(req.body.phone);
   var ep = new eventproxy();
-
   ep.fail(next);
+
   //检查phone是不是被用了
   ep.all('user', 'designer', function (user, designer) {
     if (user || designer) {
@@ -292,6 +292,71 @@ exports.signout = function (req, res, next) {
 exports.send_verify_email = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var usertype = ApiUtil.getUsertype(req);
+  var url = req.headers.host;
+  var ep = new eventproxy();
+  ep.fail(next);
 
+  if (usertype === type.role_user) {
+    User.findOne({
+      _id: userid
+    }, null, ep.done(function (user) {
+      mail.send_verify_email(user.email, utility.md5(user.email +
+          user.pass + config.session_secret), user.username, user.phone,
+        type.role_user, url);
 
+      res.sendSuccessMsg();
+    }));
+  } else if (usertype === type.role_designer) {
+    Designer.findOne({
+      _id: userid
+    }, null, ep.done(function (designer) {
+      mail.send_verify_email(designer.email, utility.md5(user.email +
+          designer.pass + config.session_secret), designer.username,
+        designer.phone,
+        type.role_designer, url);
+
+      res.sendSuccessMsg();
+    }));
+  }
+}
+
+exports.verify_email = function (req, res, next) {
+  var key = req.params.key;
+  var phone = req.params.phone;
+  var usertype = req.params.type;
+  var ep = new eventproxy();
+  ep.fail(next);
+
+  if (usertype === type.role_user) {
+    User.findOne({
+      phone: phone
+    }, null, ep.done(function (user) {
+      var md5 = utility.md5(user.email + user.pass + config.session_secret);
+
+      if (md5 === key) {
+        user.email_auth_type = type.designer_auth_type_done;
+        user.email_auth_date = new Date().getTime();
+        user.save();
+        res.redirect('http://www.jianfanjia.com');
+      } else {
+        res.sendErrMsg('邮箱验证失败');
+      }
+    }));
+  } else if (usertype === type.role_designer) {
+    Designer.findOne({
+      phone: phone
+    }, null, ep.done(function (designer) {
+      var md5 = utility.md5(designer.email + designer.pass + config.session_secret);
+      if (md5 === key) {
+        designer.email_auth_type = type.designer_auth_type_done;
+        designer.email_auth_date = new Date().getTime();
+        designer.save();
+        res.redirect('http://www.jianfanjia.com');
+      } else {
+        res.sendErrMsg('邮箱验证失败');
+      }
+    }));
+  } else {
+    res.sendErrMsg('邮箱验证失败');
+  }
 }

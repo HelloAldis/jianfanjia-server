@@ -1,8 +1,7 @@
 var mailer = require('nodemailer');
 var config = require('../config');
 var util = require('util');
-var transport = mailer.createTransport('SMTP', config.mail_opts);
-var SITE_ROOT_URL = 'http://' + config.host;
+var transport = mailer.createTransport(config.mail_opts);
 
 /**
  * Send an email
@@ -28,18 +27,18 @@ exports.sendMail = sendMail;
  * @param {String} token 重置用的token字符串
  * @param {String} name 接收人的用户名
  */
-exports.sendActiveMail = function (who, token, name) {
-  var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
+exports.send_verify_email = function (who, token, name, phone, type, url) {
+  var from = util.format('%s <%s>', '简繁家', config.mail_opts.auth.user);
   var to = who;
-  var subject = config.name + '社区帐号激活';
+  var subject = '简繁家邮箱认证';
   var html = '<p>您好：' + name + '</p>' +
-    '<p>我们收到您在' + config.name + '社区的注册信息，请点击下面的链接来激活帐户：</p>' +
-    '<a href  = "' + SITE_ROOT_URL + '/active_account?key=' + token +
-    '&name=' + name + '">激活链接</a>' +
-    '<p>若您没有在' + config.name +
-    '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p>' +
-    '<p>' + config.name + '社区 谨上。</p>';
+    '<p>我们收到您在简繁家的邮箱认证请求，请点击下面的链接来确认你的邮箱</p>' +
+    '<a href  = "http://' + url + '/api/v2/web/verify_email/' + token +
+    '/' + phone + '/' + type + '">激活链接</a>' +
+    '<p>若您没有在简繁家申请邮箱认证，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p>' +
+    '<p>简繁家 欢迎你。</p>';
 
+  console.log(html);
   exports.sendMail({
     from: from,
     to: to,

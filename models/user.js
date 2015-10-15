@@ -47,6 +47,13 @@ var UserSchema = new Schema({
   email: {
     type: String,
   },
+  email_auth_type: {
+    type: String,
+    default: '0'
+  },
+  email_auth_date: {
+    type: Number,
+  },
 });
 
 UserSchema.index({

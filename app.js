@@ -5,6 +5,7 @@ var express = require('express');
 var path = require('path');
 var compression = require('compression');
 var session = require('express-session');
+var timeout = require('connect-timeout');
 // var passport = require('passport');
 require('./middlewares/mongoose_log'); // 打印 mongodb 查询日志
 require('./models');
@@ -38,6 +39,7 @@ app.enable('trust proxy');
 app.use(compression());
 // 通用的中间件
 app.use(require('response-time')());
+app.use(timeout('5s'));
 app.use(helmet.frameguard('deny')); // 防止 clickjacking attacks
 app.use(helmet.hidePoweredBy({
   setTo: 'PHP 4.2.0'
