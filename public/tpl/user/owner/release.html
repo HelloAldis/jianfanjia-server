@@ -1,7 +1,6 @@
 <div class="main">
 	<div class="m-tt">
-		<h2 class="f-fl">修改装修需求</h2>
-		<a ng-click="goTo()" class="u-btns u-requirement f-fr">返回装修需求详情</a>
+		<h2 class="f-fl">提交装修需求</h2>
 	</div>
 	<div class="m-ct">
 		<div class="k-form release">
@@ -11,7 +10,6 @@
 						<label class="u-lab" for="owner-name">装修城市</label>
 						<div class="u-inp">
 							<div class="u-inp">
-								<div class="m-cities" id="release_area"></div>
 								<div my-cities my-list="cities_list" my-province="requiremtne.province" my-city="requiremtne.city" my-district="requiremtne.district" ng-if="requiremtne.province"></div>	
 							</div>
 						</div>
@@ -22,7 +20,7 @@
 						<label class="u-lab" for="owner-sex">邮寄地址</label>
 						<div class="u-inp">
 							<div class="inp address">
-								<input type="text" class="input" ng-model="requiremtne.address" />
+								<input type="text" class="input" ng-model="requiremtne.street" />
 							</div>
 						</div>
 					</div>

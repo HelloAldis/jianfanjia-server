@@ -250,15 +250,10 @@ angular.module('controllers', [])
                         $scope.requiremtne.province = $scope.user.province;
                         $scope.requiremtne.city = $scope.user.city;
                         $scope.requiremtne.district = $scope.user.district;
-                        var designAreaQuery = $scope.user.province+" "+$scope.user.city+" "+$scope.user.district;
-                        desArea.find('input[name=where_area]').val(designAreaQuery)
-                        var designArea = new CitySelect({id :'where_area',"query":designAreaQuery});
                     }else{
                         $scope.requiremtne.province = '请选择省份';
                         $scope.requiremtne.city = '请选择市';
                         $scope.requiremtne.district = '请选择县/区';
-                        desArea.find('input[name=where_area]').val("")
-                        var designArea = new CitySelect({id :'where_area'});
                     }
                 },function(res){
                     console.log(res)
@@ -279,25 +274,18 @@ angular.module('controllers', [])
                 }
             }else{   //修改某条需求
                 userRequiremtne.get({'_id':$stateParams.id}).then(function(res){  //获取个人资料
-                    console.log(res.data.data);
                     $scope.requiremtne = res.data.data;
-                    desArea.empty();
+                    console.log($scope.requiremtne.dec_style)
+                    $scope.requiremtne.dec_style = $scope.requiremtne.dec_style ? $scope.requiremtne.dec_style : "0";
                     console.log($scope.requiremtne)
-                    if(!!$scope.requiremtne.province){
-                        var designAreaQuery = $scope.requiremtne.province+" "+$scope.requiremtne.city+" "+$scope.requiremtne.district;
-                        desArea.find('input[name=where_area]').val(designAreaQuery)
-                        var designArea = new CitySelect({id :'where_area',"query":designAreaQuery});
-                    }else{
-                        desArea.find('input[name=where_area]').val("")
-                        var designArea = new CitySelect({id :'where_area'});
-                    }
                 },function(res){
                     console.log(res)
                 });
                 $scope.submitBtn = function(){
-                    $scope.requiremtne.province = desArea.find('input[name=province]').val() || $scope.requiremtne.province;
-                    $scope.requiremtne.city = desArea.find('input[name=city]').val() || $scope.requiremtne.city;
-                    $scope.requiremtne.district = desArea.find('input[name=district]').val() || $scope.requiremtne.district;
+                    if($scope.requiremtne.province != "湖北省" && $scope.requiremtne.city != "武汉市"){
+                        alert('您选择装修城市不是湖北省武汉市，请重新选择')
+                        return ;
+                    }
                     console.log($scope.requiremtne)
                     if(confirm("你确定修改了吗")){
                         userRequiremtne.update($scope.requiremtne).then(function(res){  //修改需求

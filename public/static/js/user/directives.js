@@ -174,10 +174,6 @@ angular.module('directives', [])
                       num : '110100'
                     }
                   ];
-               console.log($scope.myList)
-               console.log($scope.myProvince)
-               console.log($scope.myCity)
-               console.log($scope.myDistrict)
                // 渲染dom
                 Default[0].cn = oProvince;
                 Default[1].cn = oCity;
@@ -201,11 +197,11 @@ angular.module('directives', [])
                     
                 };
                 oBox.html(selectData)
-                       //oUl = obj.find('ul');
+                //oUl = obj.find('ul');
                 var province = oBox.find('.province'),
                     city = oBox.find('.city'),
                     district = oBox.find('.district'),
-                    body = angular.element(body),
+                    body = angular.element(document),
                     listArr = [province,city,district];
                 for (var i = 0; i < 3; i++) {
                   createList(Default[i].num,listArr[i]);
@@ -215,14 +211,14 @@ angular.module('directives', [])
                 // 渲染城市数据
                 function createList(id,obj){
                     obj.find('select').remove();
-                      var sHtml = '<ul class="select">';
-                        for (var i in areaJson) {
-                          if (areaJson[i][1] == id) {
-                              sHtml += '<li data-val="'+i+'"><a>'+areaJson[i][0]+'</a></li>';
-                          }
-                        }
-                        sHtml += '</ul>';
-                       obj.append(sHtml)
+                    var sHtml = '<ul class="select">';
+                    for (var i in areaJson) {
+                      if (areaJson[i][1] == id) {
+                          sHtml += '<li data-val="'+i+'"><a>'+areaJson[i][0]+'</a></li>';
+                      }
+                    }
+                    sHtml += '</ul>';
+                    obj.append(sHtml)
                 }
                 function optionEvevt(obj){
                     var self = this;
@@ -257,9 +253,7 @@ angular.module('directives', [])
                    function selectEvent(obj){
                     var  oInput = obj.find('input'),
                        oOption = obj.find('.option').find('.value');
-                    body.on('click', function(ev){
-                      selectHide(); 
-                    });
+                    body.click();
                     obj.delegate('li', 'click' , function(ev){
                       ev.stopPropagation();
                       var dataVal = $(this).data('val'),
@@ -290,6 +284,9 @@ angular.module('directives', [])
                         }
                     });
                   }
+                  body.on('click', function(ev){
+                      selectHide(); 
+                  });
                   function clearValue(obj){
                     var oInput = obj.find('input'),
                       oOption = obj.find('.option').find('.value');
