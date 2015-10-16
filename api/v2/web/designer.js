@@ -314,33 +314,37 @@ exports.user_ordered_designers = function (req, res, next) {
       _id: requirementid
     }, null, callback);
   }], ep.done(function (requirement) {
-    Designer.find({
-      _id: {
-        $in: requirement.order_designerids
-      }
-    }, {
-      username: 1,
-      imageid: 1,
-      phone: 1,
-    }, null, ep.done(function (designers) {
-      async.mapLimit(designers, 3, function (designer, callback) {
-        Plan.find({
-          designerid: designer._id,
-          requirementid: requirementid,
-        }, null, {
-          skip: 0,
-          limit: 1,
-          sort: {
-            last_status_update_time: -1
-          },
-        }, function (err, plans) {
-          designer = designer.toObject();
-          designer.status = plans[0].status;
-          callback(err, designer);
-        });
-      }, ep.done(function (results) {
-        res.sendData(results);
+    if (requirement) {
+      Designer.find({
+        _id: {
+          $in: requirement.order_designerids
+        }
+      }, {
+        username: 1,
+        imageid: 1,
+        phone: 1,
+      }, null, ep.done(function (designers) {
+        async.mapLimit(designers, 3, function (designer, callback) {
+          Plan.find({
+            designerid: designer._id,
+            requirementid: requirementid,
+          }, null, {
+            skip: 0,
+            limit: 1,
+            sort: {
+              last_status_update_time: -1
+            },
+          }, function (err, plans) {
+            designer = designer.toObject();
+            designer.status = plans[0].status;
+            callback(err, designer);
+          });
+        }, ep.done(function (results) {
+          res.sendData(results);
+        }));
       }));
-    }));
+    } else {
+      res.sendErrMsg('需求不存在');
+    }
   }));
 }

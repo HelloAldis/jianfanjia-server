@@ -34,11 +34,10 @@ var config = {
 
   // 邮箱配置
   mail_opts: {
-    host: 'smtp.exmail.qq.com',
-    port: 25,
+    service: 'QQex',
     auth: {
-      user: 'nichole.wang@myjfy.com',
-      pass: '?'
+      user: 'noreply@myjyz.com',
+      pass: 'Jyz20150608welcome'
     }
   },
 
