@@ -25,6 +25,7 @@ require('./reschedule');
 require('./api_statistic');
 require('./feedback');
 require('./comment');
+require('./evaluation');
 
 exports.User = mongoose.model('User');
 exports.Designer = mongoose.model('Designer');
@@ -42,3 +43,4 @@ exports.Reschedule = mongoose.model('Reschedule');
 exports.ApiStatistic = mongoose.model('ApiStatistic');
 exports.Feedback = mongoose.model('Feedback');
 exports.Comment = mongoose.model('Comment');
+exports.Evaluation = mongoose.model('Evaluation');

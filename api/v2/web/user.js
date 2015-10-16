@@ -4,6 +4,7 @@ var User = require('../../../proxy').User;
 var Plan = require('../../../proxy').Plan;
 var Requirement = require('../../../proxy').Requirement;
 var Designer = require('../../../proxy').Designer;
+var Evaluation = require('../../../proxy').Evaluation;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../config');
@@ -239,5 +240,40 @@ exports.designer_house_checked = function (req, res, next) {
 }
 
 exports.user_evaluate_designer = function (req, res, next) {
+  var evaluation = ApiUtil.buildEvaluation(req);
+  evaluation.userid = ApiUtil.getUserid(req);
 
+  Evaluation.newAndSave(evaluation, ep.done(function (evaluation_indb) {
+    if (evaluation_indb) {
+      Evaluation.count({
+        designerid: evaluation_indb.designerid,
+      }, ep.done(function (count) {
+        Designer.findOne({
+          _id: evaluation_indb.designerid
+        }, {
+          service_attitude: 1,
+          respond_speed: 1,
+        }, ep.done(function (designer) {
+          if (!designer.service_attitude) {
+            designer.service_attitude = 0;
+          }
+
+          if (!designer.respond_speed) {
+            designer.respond_speed = 0;
+          }
+          designer.service_attitude = ((designer.service_attitude *
+              (count - 1)) + evaluation_indb.service_attitude) /
+            count;
+          designer.respond_speed = ((designer.respond_speed *
+              (count - 1)) + evaluation_indb.respond_speed) /
+            count;
+          designer.save(ep.done(function () {
+            res.sendSuccessMsg();
+          }));
+        }));
+      }));
+    } else {
+      res.sendErrMsg('评价失败');
+    }
+  }));
 }

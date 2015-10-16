@@ -36,4 +36,4 @@ EvaluationSchema.index({
   designerid: 1
 });
 
-mongoose.model('Comment', EvaluationSchema);
+mongoose.model('Evaluation', EvaluationSchema);

@@ -177,6 +177,10 @@ exports.designer_one_requirement = function (req, res, next) {
   ep.fail(next);
 
   Requirement.findOne(query, null, ep.done(function (requirement) {
+    if (!requirement) {
+      return res.sendErrMsg('需求不存在');
+    }
+
     User.findOne({
       _id: requirement.userid
     }, {

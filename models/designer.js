@@ -198,6 +198,12 @@ var DesignerSchema = new Schema({
     type: Number,
     default: 0
   },
+  service_attitude: {
+    type: Number,
+  },
+  respond_speed: {
+    type: Number,
+  },
 });
 
 DesignerSchema.index({
