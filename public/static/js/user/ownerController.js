@@ -277,7 +277,6 @@ angular.module('controllers', [])
             }else{   //修改某条需求
                 userRequiremtne.get({'_id':$stateParams.id}).then(function(res){  //获取个人资料
                     $scope.requiremtne = res.data.data;
-                    console.log($scope.requiremtne.dec_style)
                     $scope.requiremtne.dec_style = $scope.requiremtne.dec_style ? $scope.requiremtne.dec_style : "0";
                     console.log($scope.requiremtne)
                 },function(res){
@@ -364,58 +363,126 @@ angular.module('controllers', [])
                 $location.path('requirement/'+id+"/"+statusUrl[status]);
             }
     }])
+    .controller('requirementCtrl', [     //装修需求详情配置
+        '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne',
+        function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne){
+                        $scope.tabsData = [
+                            {
+                                url : "requirement.detail",
+                                name : "需求描述",
+                                cur : ''
+                            },
+                            {
+                                url : "requirement.booking",
+                                name : "预约量房",
+                                cur : ''
+                            },
+                            {
+                                url : "requirement.score",
+                                name : "确认量房",
+                                cur : ''
+                            },
+                            {
+                                url : "requirement.plan",
+                                name : "选择方案",
+                                cur : ''
+                            },
+                            {
+                                url : "requirement.contract",
+                                name : "生成合同",
+                                cur : ''
+                            }
+                        ]
+                        function abc(str){
+                            return {
+                                "detail" : "需求详情",
+                                "booking" : "预约量房",
+                                "score" : "确认量房",
+                                "plan" : "选择方案",
+                                "contract" : "生成合同"
+                            }[str]
+                        }
+                        $scope.location = $location;
+                        $scope.$watch( 'location.url()', function( url ){
+                            angular.forEach($scope.tabsData, function(value, key){
+                                if(value.url.split('.')[1] == url.split('/')[3]){
+                                    value.cur = "active"
+                                }else{
+                                    value.cur = ""
+                                }
+                            });
+                        });
+                        $scope.tabBtn = function(name){
+                            angular.forEach($scope.tabsData, function(value, key){
+                                if(value.name == name){
+                                    value.cur = "active"
+                                }else{
+                                    value.cur = ""
+                                }
+                            });
+                        } 
+    }])
     .controller('requirementDetailCtrl', [     //装修需求详情
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne',
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne){
             console.log($stateParams.id)
+            var statusUrl = {
+                "0":"booking",
+                "1":"booking",
+                "2":"booking",
+                "3":"score",
+                "4":"plan",
+                "5":"contract",
+                "6":"score",
+                "7":"contract"               
+            }
+            $scope.goTo = function(id,status){
+                $location.path('requirement/'+id+"/"+statusUrl[status]);
+            }
             userRequiremtne.get({"_id":$stateParams.id}).then(function(res){
+                    $scope.requirement = res.data.data;
                     console.log(res.data.data)
                     detail(res.data.data) //需求描述
-                    $scope.requirement = res.data.data;
-                    detail($scope.requirement)
+                    booking(res.data.data)
                 },function(res){
                     console.log(res)
             });
             function detail(data){   //需求描述
-                $scope.requirementDetail = data;
+                $scope.detail = data;
+                $scope.detail.area = '';
+                if(!!$scope.detail.province){
+                    $scope.detail.area += $scope.detail.province + " "
+                }
+                if(!!$scope.detail.city){
+                   $scope.detail.area += $scope.detail.city + " "
+                }
+                if(!!$scope.detail.district){
+                    $scope.detail.area += $scope.detail.district + " "
+                }
+                $scope.detail.property = '';
+                if(!!$scope.detail.cell){
+                    $scope.detail.property += $scope.detail.cell + " "
+                }
+                if(!!$scope.detail.cell_phase){
+                    $scope.detail.property += $scope.detail.cell_phase + "期 "
+                }
+                if(!!$scope.detail.cell_building){
+                    $scope.detail.property += $scope.detail.cell_building + "栋 "
+                }
+                if(!!$scope.detail.cell_unit){
+                    $scope.detail.property += $scope.detail.cell_unit + "单元 "
+                }
+                if(!!$scope.detail.cell_detail_number){
+                    $scope.detail.property += $scope.detail.cell_detail_number + "室 "
+                }
+                $scope.detail.house_type = $filter('houseTypeFilter')($scope.detail.house_type);
+                $scope.detail.dec_style = $filter('decStyleFilter')($scope.detail.dec_style);
+                $scope.detail.work_type = $filter('workTypeFilter')($scope.detail.work_type);
+                $scope.detail.communication_type = $filter('designTypeFilter')($scope.detail.communication_type);
             }
-            userRequiremtne.list().then(function(res){
-                $scope.requiremtnes = res.data.data;
-                 $scope.notRequiremtnes = !$scope.requiremtnes.length ? true : false;
-                 angular.forEach($scope.requiremtnes, function(value, key){
-                    var str = '';
-                    if(!!value.province){
-                        str += value.province + " "
-                    }
-                    if(!!value.city){
-                        str += value.city + " "
-                    }
-                    if(!!value.district){
-                        str += value.district + " "
-                    }
-                    if(!!value.street){
-                        str += value.street + " "
-                    }
-                    if(!!value.cell){
-                        str += value.cell + " "
-                    }
-                    if(!!value.cell_phase){
-                        str += value.cell_phase + "期 "
-                    }
-                    if(!!value.cell_building){
-                        str += value.cell_building + "栋 "
-                    }
-                    if(!!value.cell_unit){
-                        str += value.cell_unit + "单元 "
-                    }
-                    if(!!value.cell_detail_number){
-                        str += value.cell_detail_number + "室 "
-                    }
-                    value.property = str;
-                })
-            },function(res){
-                console.log(res)
-            });
+            function booking(data){  //预约量房 
+                console.log(data)
+            }
     }])
     .controller('favoriteProductCtrl', [     //作品收藏列表
         '$scope','$rootScope','$http','$filter','$location','userFavoriteProduct',
