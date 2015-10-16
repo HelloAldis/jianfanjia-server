@@ -153,10 +153,11 @@ exports.order_designer = function (req, res, next) {
 
           if (!plan) {
             Plan.newAndSave(json, function (plan_indb) {
+              var planid = plan_indb._id;
               schedule.scheduleJob(moment().add(config.designer_respond_user_order_expired,
                 'm').toDate(), function () {
                 Plan.setOne({
-                  _id: plan_indb._id,
+                  _id: planid,
                   status: type.plan_status_not_respond,
                 }, {
                   status: type.plan_status_designer_no_respond_expired,
@@ -220,10 +221,11 @@ exports.designer_house_checked = function (req, res, next) {
         status: type.requirement_status_housecheck_no_plan
       }, null, function (err) {});
 
+      var planid = plan._id;
       schedule.scheduleJob(moment().add(config.designer_upload_plan_expired,
         'm').toDate(), function () {
         Plan.setOne({
-          _id: plan_indb._id,
+          _id: planid,
           status: type.plan_status_designer_housecheck_no_plan,
         }, {
           status: type.plan_status_designer_no_plan_expired,
