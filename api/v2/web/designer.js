@@ -370,7 +370,6 @@ exports.user_ordered_designers = function (req, res, next) {
         username: 1,
         imageid: 1,
         phone: 1,
-        house_check_time: 1,
         province: 1,
         city: 1,
         authed_product_count: 1,
@@ -387,6 +386,7 @@ exports.user_ordered_designers = function (req, res, next) {
             requirementid: requirementid,
           }, {
             status: 1,
+            house_check_time: 1,
           }, {
             skip: 0,
             limit: 1,
