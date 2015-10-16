@@ -85,25 +85,7 @@ app.use('/jyz', auth.authAdminWeb);
 // 静态资源
 app.use('/', express.static(staticDir));
 
-// custom middleware
-// app.use(auth.authUser);
-
-// if (!config.debug) {
-//   app.use(function (req, res, next) {
-//     if (req.path === '/api' || req.path.indexOf('/api') === -1) {
-//       csurf()(req, res, next);
-//       return;
-//     }
-//     next();
-//   });
-//   app.set('view cache', true);
-// }
-
 app.use(responseUtil);
-// app.use(function (req, res, next) {
-//   res.locals.csrf = req.csrfToken ? req.csrfToken() : '';
-//   next();
-// });
 
 // routes
 if (config.debug) {
@@ -119,7 +101,6 @@ if (config.debug) {
 
 //API Request logger
 app.use('/api', req_res_log);
-
 
 app.use('/api/v1', cors(), api_statistic.api_statistic, apiRouterV1);
 app.use('/api/v2/app', cors(), api_statistic.api_statistic, api_router_app_v2);

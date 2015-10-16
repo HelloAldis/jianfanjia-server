@@ -127,7 +127,7 @@ exports.user_signup = function (req, res, next) {
       VerifyCode.findOne({
         phone: phone
       }, ep.done(function (verifyCode) {
-        if (!config.debug) {
+        if (config.need_verify_code) {
           if (!verifyCode) {
             return res.sendErrMsg('验证码不对或已过期');
           }
@@ -184,7 +184,7 @@ exports.designer_signup = function (req, res, next) {
       VerifyCode.findOne({
         phone: phone
       }, ep.done(function (verifyCode) {
-        if (!config.debug) {
+        if (config.need_verify_code) {
           if (!verifyCode) {
             return res.sendErrMsg('验证码不对或已过期');
           }
