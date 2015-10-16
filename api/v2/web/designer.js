@@ -393,6 +393,8 @@ exports.user_ordered_designers = function (req, res, next) {
             if (tools.findIndexObjectId(requirement.rec_designerids,
                 designer._id) > -1) {
               designer.is_rec = true;
+            } else {
+              designer.is_rec = false;
             }
 
             callback(err, designer);
