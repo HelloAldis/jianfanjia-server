@@ -118,6 +118,9 @@ var type = {
 
   topic_type_plan: '0',
   topic_type_process_item: '1',
+
+  evaluation_is_anonymous_no: '0',
+  evaluation_is_anonymous_yes: '1',
 }
 
 module.exports = type;

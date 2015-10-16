@@ -35,7 +35,21 @@ exports.designer_my_requiremtne_list = function (req, res, next) {
   Requirement.find({
     order_designerids: designerid
   }, null, ep.done(function (requirements) {
-    res.sendData(requirements);
+    async.mapLimit(requirements, 3, function (requirement, callback) {
+      requirement = requirement.toObject();
+      User.findOne({
+        _id: requirement.userid
+      }, {
+        username: 1,
+        phone: 1,
+        imageid: 1
+      }, function (err, user) {
+        requirement.user = user;
+        callback(err, requirement);
+      });
+    }, ep.done(function (requirements) {
+      res.sendData(requirements);
+    }));
   }));
 }
 
@@ -153,6 +167,26 @@ exports.user_one_requirement = function (req, res, next) {
 
   Requirement.findOne(query, null, ep.done(function (plan) {
     res.sendData(plan);
+  }));
+}
+
+exports.designer_one_requirement = function (req, res, next) {
+  var query = req.body;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Requirement.findOne(query, null, ep.done(function (requirement) {
+    User.findOne({
+      _id: requirement.userid
+    }, {
+      username: 1,
+      phone: 1,
+      imageid: 1
+    }, ep.done(function (user) {
+      requirement = requirement.toObject();
+      requirement.user = user;
+      res.sendData(requirement);
+    }));
   }));
 }
 

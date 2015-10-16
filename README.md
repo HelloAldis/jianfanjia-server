@@ -130,3 +130,7 @@ commnet_status
 topictype
 0. 评论
 1. 装修流程的小点
+
+is_anonymous
+0. 不匿名
+1. 匿名

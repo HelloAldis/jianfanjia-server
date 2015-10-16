@@ -3,6 +3,7 @@ var express = require('express');
 var sign = require('./api/v2/app/sign');
 // var image = require('./api/v2/app/image');
 // var user = require('./api/v2/app/user');
+var requirement = require('./api/v2/app/requirement');
 // var plan = require('./api/v2/app/plan');
 var productWeb = require('./api/v2/web/product');
 // var favorite = require('./api/v2/app/favorite');
@@ -42,6 +43,7 @@ router.post('/search_designer_product', productWeb.search_designer_product); //�
 router.post('/user/process', auth.userRequired, process.start); //开启装修流程
 router.post('/process/done_section', auth.userRequired, process.doneSection); //对比验收完成
 router.get('/home_page_designers', auth.userRequired, designer.home_page_designers); //获取业主移动端首页数据
+router.get('/user_my_requiremtne_list', auth.userRequired, requirement.user_my_requiremtne_list); //获取我的装修需求列表
 
 //通用用户功能
 router.get('/process/list', auth.normalUserRequired, process.list); //获取装修工地列表
