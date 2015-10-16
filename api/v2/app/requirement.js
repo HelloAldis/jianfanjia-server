@@ -41,7 +41,9 @@ exports.user_my_requiremtne_list = function (req, res, next) {
               Plan.find({
                 designerid: designer._id,
                 requirementid: requirement._id,
-              }, null, {
+              }, {
+                status: 1
+              }, {
                 skip: 0,
                 limit: 1,
                 sort: {
@@ -49,7 +51,7 @@ exports.user_my_requiremtne_list = function (req, res, next) {
                 },
               }, function (err, plans) {
                 designer = designer.toObject();
-                designer.status = plans[0].status;
+                designer.plan = plans[0];
                 callback(err, designer);
               });
             }, ep.done(function (designers) {

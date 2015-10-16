@@ -33,10 +33,6 @@ var DesignerSchema = new Schema({
   big_imageid: {
     type: ObjectId
   },
-  score: {
-    type: Number,
-    default: 0
-  },
   match: {
     type: Number,
     default: 0

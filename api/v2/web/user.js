@@ -237,3 +237,7 @@ exports.designer_house_checked = function (req, res, next) {
     res.sendSuccessMsg();
   }));
 }
+
+exports.user_evaluate_designer = function (req, res, next) {
+
+}

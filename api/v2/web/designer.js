@@ -385,7 +385,9 @@ exports.user_ordered_designers = function (req, res, next) {
           Plan.find({
             designerid: designer._id,
             requirementid: requirementid,
-          }, null, {
+          }, {
+            status: 1,
+          }, {
             skip: 0,
             limit: 1,
             sort: {
@@ -393,7 +395,7 @@ exports.user_ordered_designers = function (req, res, next) {
             },
           }, function (err, plans) {
             designer = designer.toObject();
-            designer.status = plans[0].status;
+            designer.plan = plans[0];
             if (tools.findIndexObjectId(requirement.rec_designerids,
                 designer._id) > -1) {
               designer.is_rec = true;

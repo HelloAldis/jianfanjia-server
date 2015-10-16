@@ -172,6 +172,7 @@ exports.user_one_requirement = function (req, res, next) {
 
 exports.designer_one_requirement = function (req, res, next) {
   var query = req.body;
+  var designerid = ApiUtil.getUserid(req);
   var ep = eventproxy();
   ep.fail(next);
 
@@ -185,7 +186,26 @@ exports.designer_one_requirement = function (req, res, next) {
     }, ep.done(function (user) {
       requirement = requirement.toObject();
       requirement.user = user;
-      res.sendData(requirement);
+
+      Plan.find({
+        designerid: designerid,
+        requirementid: requirement._id,
+      }, {
+        status: 1,
+        house_check_time: 1,
+      }, {
+        skip: 0,
+        limit: 1,
+        sort: {
+          last_status_update_time: -1
+        },
+      }, ep.done(function (plans) {
+        if (plans && plans.length > 0) {
+          requirement.plan = plans[0];
+        }
+
+        res.sendData(requirement);
+      }));
     }));
   }));
 }
