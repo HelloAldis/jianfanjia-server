@@ -368,6 +368,14 @@ exports.user_ordered_designers = function (req, res, next) {
         username: 1,
         imageid: 1,
         phone: 1,
+        city: 1,
+        authed_product_count: 1,
+        order_count: 1,
+        deal_done_count: 1,
+        auth_type: 1,
+        uid_auth_type: 1,
+        work_auth_type: 1,
+        email_auth_type: 1,
       }, null, ep.done(function (designers) {
         async.mapLimit(designers, 3, function (designer, callback) {
           Plan.find({
@@ -382,6 +390,11 @@ exports.user_ordered_designers = function (req, res, next) {
           }, function (err, plans) {
             designer = designer.toObject();
             designer.status = plans[0].status;
+            if (tools.findIndexObjectId(requirement.rec_designerids,
+                designer._id) > -1) {
+              designer.is_rec = true;
+            }
+
             callback(err, designer);
           });
         }, ep.done(function (results) {
