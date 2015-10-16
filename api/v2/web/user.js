@@ -136,7 +136,7 @@ exports.order_designer = function (req, res, next) {
       }, null, function (err) {});
     }
 
-    if (requirement.order_designerids.length + designerids.length >= 3) {
+    if (requirement.order_designerids.length + designerids.length > 3) {
       res.sendErrMsg('最多预约3个设计师');
     } else {
       _.forEach(designerids, function (designerid) {

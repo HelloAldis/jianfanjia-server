@@ -5,8 +5,6 @@ exports.designer_match = function (designer, requirement) {
   var price_perm = requirement.total_price * 10000 / requirement.house_area;
   designer.match = 0;
 
-  console.log(designer);
-  console.log(requirement);
   //匹配区域
   if (_.indexOf(designer.dec_districts, requirement.district) >= 0) {
     designer.match++;
