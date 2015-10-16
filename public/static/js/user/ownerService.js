@@ -32,7 +32,7 @@ angular.module('services', [])
 			update : function(data){return doRequest('POST' , data)}
 		}
 	}])
-	.factory('userRequiremtne', ['$http', function($http){      //业主 add 提交需求 update更新需求 list需求列表 order预约量房 checked确认设计师量完房 plans获取方案列表 define选定方案  plan获取某个方案信息
+	.factory('userRequiremtne', ['$http', function($http){      //业主 add 提交需求 update更新需求 list需求列表 booking预约量房 designers可以预约的设计师 order已经预约设计师列表 checked确认设计师量完房 plans获取方案列表 define选定方案  plan获取某个方案信息
 		var doRequest = function(url,type,data){
 			return $http({
                 method : type,
@@ -48,7 +48,9 @@ angular.module('services', [])
 			add : function(data){return doRequest('user_add_requirement','POST', data)},
 			get : function(data){return doRequest('user_one_requirement','POST', data)},
 			update : function(data){return doRequest('user_update_requirement','POST' , data)},
-			order : function(data){return doRequest('user_order_designer','POST' , data)},
+			designers : function(data){return doRequest('designers_user_can_order','POST' , data)},
+			order : function(data){return doRequest('user_ordered_designers','POST' , data)},
+			booking : function(data){return doRequest('user_order_designer','POST' , data)},
 			checked : function(data){return doRequest('user_order_designer','POST' , data)},
 			plans : function(data){return doRequest('user_requirement_plans','POST' , data)},
 			define : function(data){return doRequest('user/plan/final','POST' , data)},
