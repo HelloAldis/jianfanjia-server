@@ -104,12 +104,14 @@ exports.delete = function (req, res, next) {
 }
 
 exports.user_requirement_plans = function (req, res, next) {
-  var requirementid = tools.trim(req.body.requirementid);
+  var requirementid = req.body.requirementid;
+  var designerid = req.body.designerid;
   var ep = eventproxy();
   ep.fail(next);
 
   Plan.find({
     requirementid: requirementid,
+    designerid: designerid,
     status: {
       $in: [type.plan_status_user_final, type.plan_status_user_not_final,
         type.plan_status_desinger_upload

@@ -156,6 +156,17 @@ exports.product_home_page = function (req, res, next) {
     _id: productid
   }, ep.done(function (product) {
     if (product) {
+      Designer.findOne({
+        _id: product.designerid
+      }, {
+        username: 1,
+        imageid: 1,
+      }, ep.done(function (designer) {
+        product = product.toObject();
+        product.designer = designer;
+        res.sendData(product);
+      }));
+
       limit.perwhatperdaydo('productgetone', req.ip + productid, 1,
         function () {
           Product.incOne({
@@ -164,8 +175,10 @@ exports.product_home_page = function (req, res, next) {
             view_count: 1
           });
         });
+    } else {
+      res.sendData({});
     }
 
-    res.sendData(product);
+
   }));
 }

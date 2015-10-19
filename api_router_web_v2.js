@@ -99,8 +99,8 @@ router.post('/designer/user/ok', auth.designerRequired, designer.okUser); //响�
 router.post('/designer/user/reject', auth.designerRequired, designer.rejectUser); //拒绝业主
 router.post('/designer/plan/add', auth.designerRequired, plan.add); //提交方案
 router.post('/designer/plan/update', auth.designerRequired, plan.update); //更新方案
-router.post('/designer_requirement_plans', auth.designerRequired, plan.designer_requirement_plans); //更新方案
-router.post('/config_contract', auth.designerRequired, requirement.config_contract); //更新方案
+router.post('/designer_requirement_plans', auth.designerRequired, plan.designer_requirement_plans); //设计师获取某个需求下的方案
+router.post('/config_contract', auth.designerRequired, requirement.config_contract); //配置合同
 
 //管理员独有的功能
 router.post('/admin/login', admin.login); //审核设计师
