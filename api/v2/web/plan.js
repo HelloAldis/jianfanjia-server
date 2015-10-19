@@ -28,7 +28,6 @@ exports.add = function (req, res, next) {
     requirementid: requirementid,
     status: type.plan_status_designer_housecheck_no_plan,
   }, null, ep.done(function (plan_indb) {
-    console.log(plan_indb);
     if (plan_indb) {
       //有已响应但是没上传的方案，直接上传方案到这里
       plan.status = type.plan_status_desinger_upload; //修改status为已上传
@@ -122,7 +121,9 @@ exports.user_requirement_plans = function (req, res, next) {
       Designer.findOne({
         _id: plan.designerid
       }, {
-        username: 1
+        username: 1,
+        imageid: 1,
+        phone: 1,
       }, function (err, designer) {
         plan = plan.toObject();
         plan.designer = designer;

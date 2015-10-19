@@ -273,3 +273,9 @@ exports.config_contract = function (req, res, next) {
     res.sendSuccessMsg();
   }));
 }
+
+exports.download_contract = function (req, res, next) {
+  var requirementid = req.body.requirementid;
+  var ep = eventproxy();
+  ep.fail(next);
+}
