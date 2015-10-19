@@ -69,7 +69,7 @@ exports.home_page_designers = function (req, res, next) {
       auth_type: type.designer_auth_type_done,
       // uid_auth_type: type.designer_auth_type_done,
       authed_product_count: {
-        $gte: 3
+        $gte: 1
       },
     }, {
       username: 1,
