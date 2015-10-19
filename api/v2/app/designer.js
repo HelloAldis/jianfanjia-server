@@ -67,7 +67,7 @@ exports.home_page_designers = function (req, res, next) {
   tasks.designers = function (callback) {
     Designer.find({
       auth_type: type.designer_auth_type_done,
-      uid_auth_type: type.designer_auth_type_done,
+      // uid_auth_type: type.designer_auth_type_done,
       authed_product_count: {
         $gte: 3
       },
