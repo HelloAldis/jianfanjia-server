@@ -14,6 +14,7 @@ var type = require('../../../type');
 var async = require('async');
 var sms = require('../../../common/sms');
 var designer_match_util = require('../../../common/designer_match');
+var wkhtmltopdf = require('wkhtmltopdf');
 
 exports.user_my_requiremtne_list = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -75,6 +76,9 @@ exports.user_add_requirement = function (req, res, next) {
     auth_type: type.designer_auth_type_done,
     agreee_license: type.designer_agree_type_yes,
     online_status: type.online_status_on,
+    authed_product_count: {
+      $gte: 3
+    },
     // uid_auth_type: type.designer_auth_type_done,
     // work_auth_type: type.designer_auth_type_done,
   }, {
@@ -129,6 +133,9 @@ exports.user_update_requirement = function (req, res, next) {
     auth_type: type.designer_auth_type_done,
     agreee_license: type.designer_agree_type_yes,
     online_status: type.online_status_on,
+    authed_product_count: {
+      $gte: 3
+    },
     // uid_auth_type: type.designer_auth_type_done,
     // work_auth_type: type.designer_auth_type_done,
   }, {
@@ -272,4 +279,11 @@ exports.config_contract = function (req, res, next) {
   }, null, ep.done(function () {
     res.sendSuccessMsg();
   }));
+}
+
+exports.download_contract = function (req, res, next) {
+  var requirementid = req.body.requirementid;
+  var ep = eventproxy();
+  ep.fail(next);
+
 }

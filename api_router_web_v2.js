@@ -49,7 +49,7 @@ router.get('/signout', auth.normalUserRequired, sign.signout); //登出
 router.post('/image/upload', auth.normalUserRequired, upload.single('Filedata'),
   image.add); //上传图片
 router.post('/image/crop', auth.normalUserRequired, image.crop); //上传图片
-router.get('/favorite/product/list', auth.normalUserRequired, favorite.list_product); //收藏列表
+router.post('/favorite/product/list', auth.normalUserRequired, favorite.list_product); //收藏列表
 router.post('/favorite/product/add', auth.normalUserRequired, favorite.add_product); //收藏作品
 router.post('/favorite/product/delete', auth.normalUserRequired, favorite.delete_product); //删除收藏作品
 router.post('/add_comment', auth.normalUserRequired, comment.add_comment); //添加评论
@@ -75,6 +75,7 @@ router.post('/user_ordered_designers', auth.userRequired, designer.user_ordered_
 router.post('/user_requirement_plans', auth.userRequired, plan.user_requirement_plans); //业主某个需求的方案
 router.post('/designer_house_checked', auth.userRequired, user.designer_house_checked); //确认设计师量完房
 router.post('/user/plan/final', auth.userRequired, plan.finalPlan); //选定方案
+router.post('/user_evaluate_designer', auth.userRequired, user.user_evaluate_designer); //业主评价设计师
 
 //设计师独有功能
 router.post('/designer/agree', auth.designerRequired, designer.agree); //同意条款
@@ -99,8 +100,8 @@ router.post('/designer/user/ok', auth.designerRequired, designer.okUser); //响�
 router.post('/designer/user/reject', auth.designerRequired, designer.rejectUser); //拒绝业主
 router.post('/designer/plan/add', auth.designerRequired, plan.add); //提交方案
 router.post('/designer/plan/update', auth.designerRequired, plan.update); //更新方案
-router.post('/designer_requirement_plans', auth.designerRequired, plan.designer_requirement_plans); //更新方案
-router.post('/config_contract', auth.designerRequired, requirement.config_contract); //更新方案
+router.post('/designer_requirement_plans', auth.designerRequired, plan.designer_requirement_plans); //设计师获取某个需求下的方案
+router.post('/config_contract', auth.designerRequired, requirement.config_contract); //配置合同
 
 //管理员独有的功能
 router.post('/admin/login', admin.login); //审核设计师

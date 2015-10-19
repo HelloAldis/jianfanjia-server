@@ -4,6 +4,7 @@ var User = require('../../../proxy').User;
 var Plan = require('../../../proxy').Plan;
 var Requirement = require('../../../proxy').Requirement;
 var Designer = require('../../../proxy').Designer;
+var Comment = require('../../../proxy').Comment;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../config');
@@ -28,7 +29,6 @@ exports.add = function (req, res, next) {
     requirementid: requirementid,
     status: type.plan_status_designer_housecheck_no_plan,
   }, null, ep.done(function (plan_indb) {
-    console.log(plan_indb);
     if (plan_indb) {
       //有已响应但是没上传的方案，直接上传方案到这里
       plan.status = type.plan_status_desinger_upload; //修改status为已上传
@@ -104,12 +104,14 @@ exports.delete = function (req, res, next) {
 }
 
 exports.user_requirement_plans = function (req, res, next) {
-  var requirementid = tools.trim(req.body.requirementid);
+  var requirementid = req.body.requirementid;
+  var designerid = req.body.designerid;
   var ep = eventproxy();
   ep.fail(next);
 
   Plan.find({
     requirementid: requirementid,
+    designerid: designerid,
     status: {
       $in: [type.plan_status_user_final, type.plan_status_user_not_final,
         type.plan_status_desinger_upload
@@ -120,11 +122,20 @@ exports.user_requirement_plans = function (req, res, next) {
       Designer.findOne({
         _id: plan.designerid
       }, {
-        username: 1
+        username: 1,
+        imageid: 1,
+        phone: 1,
       }, function (err, designer) {
         plan = plan.toObject();
         plan.designer = designer;
-        callback(err, plan);
+
+        Comment.count({
+          topicid: plan._id,
+          topictype: type.topic_type_plan,
+        }, function (err, count) {
+          plan.comment_count = count;
+          callback(err, plan);
+        });
       });
     }, ep.done(function (results) {
       res.sendData(results);
@@ -209,7 +220,14 @@ exports.designer_requirement_plans = function (req, res, next) {
       }, function (err, user) {
         plan = plan.toObject();
         plan.user = user;
-        callback(err, plan);
+
+        Comment.count({
+          topicid: plan._id,
+          topictype: type.topic_type_plan,
+        }, function (err, count) {
+          plan.comment_count = count;
+          callback(err, plan);
+        });
       });
     }, ep.done(function (results) {
       res.sendData(results);

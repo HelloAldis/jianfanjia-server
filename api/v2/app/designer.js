@@ -29,8 +29,6 @@ exports.home_page_designers = function (req, res, next) {
       Requirement.find({
         userid: userid,
       }, {
-        cell: 1,
-        order_designerids: 1,
         rec_designerids: 1,
       }, {
         sort: {
@@ -42,23 +40,19 @@ exports.home_page_designers = function (req, res, next) {
       }, ep.done(function (requirements) {
         if (requirements.length > 0) {
           var requirement = requirements[0];
-          console.log(requirement);
-          var designerids = requirement.order_designerids ||
-            requirement.rec_designerids;
-          async.mapLimit(designerids, 3, function (designerid,
-            callback) {
-            Designer.findOne({
-              _id: designerid,
-            }, {
-              username: 1,
-              imageid: 1,
-            }, callback);
-          }, ep.done(function (designers) {
+          Designer.findOne({
+            _id: {
+              $in: requirement.rec_designerids
+            },
+          }, {
+            username: 1,
+            imageid: 1,
+          }, function (err, designers) {
             requirement.designers = designers;
-            callback(null, requirement);
-          }));
+            callback(err, requirement);
+          });
         } else {
-          callback(null, {});
+          callback(null, undefined);
         }
       }));
     }
@@ -67,9 +61,9 @@ exports.home_page_designers = function (req, res, next) {
   tasks.designers = function (callback) {
     Designer.find({
       auth_type: type.designer_auth_type_done,
-      uid_auth_type: type.designer_auth_type_done,
+      // uid_auth_type: type.designer_auth_type_done,
       authed_product_count: {
-        $gte: 3
+        $gte: 1
       },
     }, {
       username: 1,

@@ -275,8 +275,8 @@ exports.buildEvaluation = function (req) {
     undefined;
   evaluation.requirementid = req.body.requirementid ? new ObjectId(req.body.requirementid) :
     undefined;
-  evaluation.service_attitude = req.body.service_attitude;
-  evaluation.respond_speed = req.body.respond_speed;
+  evaluation.service_attitude = req.body.service_attitude > 5 ? 0 : req.body.service_attitude;
+  evaluation.respond_speed = req.body.respond_speed > 5 ? 0 : req.body.respond_speed;
   evaluation.comment = req.body.comment;
   evaluation.is_anonymous = req.body.is_anonymous;
 
