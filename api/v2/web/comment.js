@@ -87,15 +87,19 @@ exports.topic_comments = function (req, res, next) {
   ep.fail(next);
   var topicid = req.body.topicid;
   var userid = ApiUtil.getUserid(req);
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
 
-  Comment.find({
+  Comment.paginate({
     topicid: topicid
   }, null, {
+    skip: skip,
+    limit: limit,
     sort: {
       date: -1
     },
     lean: true,
-  }, ep.done(function (comments) {
+  }, ep.done(function (comments, total) {
     async.mapLimit(comments, 3, function (comment, callback) {
       if (comment.usertype === type.role_user) {
         User.findOne({
@@ -118,17 +122,17 @@ exports.topic_comments = function (req, res, next) {
           callback(err, comment);
         });
       }
-    }, ep.done(function (results) {
-      res.sendData(results);
 
-      Comment.update({
-        topicid: topicid,
-        to: userid,
+      Comment.setOne({
+        _id: comment._id,
       }, {
         status: type.comment_status_all_read,
-      }, {
-        multi: true
-      }, function () {});
+      }, null, function () {});
+    }, ep.done(function (results) {
+      res.sendData({
+        comments: results,
+        total: total,
+      });
     }));
   }))
 }

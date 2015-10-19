@@ -4,6 +4,7 @@ var User = require('../../../proxy').User;
 var Plan = require('../../../proxy').Plan;
 var Requirement = require('../../../proxy').Requirement;
 var Designer = require('../../../proxy').Designer;
+var Comment = require('../../../proxy').Comment;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../config');
@@ -127,7 +128,14 @@ exports.user_requirement_plans = function (req, res, next) {
       }, function (err, designer) {
         plan = plan.toObject();
         plan.designer = designer;
-        callback(err, plan);
+
+        Comment.count({
+          topicid: plan._id,
+          topictype: type.topic_type_plan,
+        }, function (err, count) {
+          plan.comment_count = count;
+          callback(err, plan);
+        });
       });
     }, ep.done(function (results) {
       res.sendData(results);
@@ -212,7 +220,14 @@ exports.designer_requirement_plans = function (req, res, next) {
       }, function (err, user) {
         plan = plan.toObject();
         plan.user = user;
-        callback(err, plan);
+
+        Comment.count({
+          topicid: plan._id,
+          topictype: type.topic_type_plan,
+        }, function (err, count) {
+          plan.comment_count = count;
+          callback(err, plan);
+        });
       });
     }, ep.done(function (results) {
       res.sendData(results);

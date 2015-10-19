@@ -49,7 +49,7 @@ router.get('/signout', auth.normalUserRequired, sign.signout); //登出
 router.post('/image/upload', auth.normalUserRequired, upload.single('Filedata'),
   image.add); //上传图片
 router.post('/image/crop', auth.normalUserRequired, image.crop); //上传图片
-router.get('/favorite/product/list', auth.normalUserRequired, favorite.list_product); //收藏列表
+router.post('/favorite/product/list', auth.normalUserRequired, favorite.list_product); //收藏列表
 router.post('/favorite/product/add', auth.normalUserRequired, favorite.add_product); //收藏作品
 router.post('/favorite/product/delete', auth.normalUserRequired, favorite.delete_product); //删除收藏作品
 router.post('/add_comment', auth.normalUserRequired, comment.add_comment); //添加评论
