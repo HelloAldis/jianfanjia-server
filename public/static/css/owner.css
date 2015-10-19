@@ -1015,7 +1015,7 @@ body{
 	height: 38px;
 	background:url(../img/user/booking-status-icon.png) 0 0 no-repeat;
 } 
-.m-designerList .active{
+.booking .m-designerList .active{
 	background-color: #f0f8fb;
 	border-left: 5px solid #fc7207;
 	padding-left: 14px;
@@ -1032,3 +1032,84 @@ body{
 .score .select .btns{
 	text-align: right;
 } 
+
+/*模态窗口*/
+.k-motai{
+	position: fixed;
+	left:0;
+	top:0;
+	z-index: 1000;
+	width: 100%;
+	height: 100%;
+}
+.k-motai{
+
+}
+/*方案列表*/
+.plans-tips{
+	height: 38px;
+	line-height: 38px;
+	padding: 31px 19px 32px;
+}
+.plans-tips p{
+	font-size: 16px;
+	color: #999;
+}
+.m-plans li{
+	border-top: 1px solid #e6e6e6;
+}
+.m-plans .boxs{
+	padding:20px 19px 30px;
+}
+.m-plans li:hover .boxs{
+	padding: 18px 17px 28px;
+	border: 2px solid #e5e5e5;
+}
+.m-plans .boxs .head{
+	width: 70px;
+	height: 70px;
+	overflow: hidden;
+	border-radius: 70%;
+}
+.m-plans .boxs .head img{
+	width: 100%;
+}
+.m-plans .boxs dl{
+	padding-left: 20px;
+}
+.m-plans .profile{
+	padding: 18px 0;
+	font-size: 14px;
+	line-height: 20px;
+	color: #61687a;
+}
+.m-plans .profile p{
+	width: 800px;
+}
+.m-plans .images{
+	height: 210px;
+}
+.m-plans .images img{
+	margin-left: 20px;
+	width: 280px;
+	height: 180px;
+	border-radius: 2px;
+}
+.m-plans .images img:first-child{
+	margin-left: 0;
+}
+.m-plans .select{
+	height: 38px;
+	line-height: 38px;
+}
+.m-plans .select .msg{
+	font-size: 14px;
+	color: #61687a;
+}
+.m-plans .select .msg:hover{
+	text-decoration: underline;
+	color: #fe7004;
+}
+.m-plans .select .u-btns{
+	margin-left: 15px;
+}

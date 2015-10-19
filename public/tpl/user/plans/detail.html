@@ -1,0 +1,87 @@
+<div class="m-plans">
+	<div class="plans-tt f-cb">
+		<h3 class="f-fl" ng-bind="requiremtne.property"></h3>
+		<div class="btns f-fr">
+			<a ng-href="owner.html#/requirement/{{requiremtne._id}}/plan" class="u-btns u-btns-revise">查看其它方案</a>
+			<a href="javascript:;" class="u-btns" ng-click="definePlan(data._id,data.designer._id)" ng-show="{{requiremtne.status == '3'}}">选定方案</a>
+		</div>
+	</div>
+	<div class="plans-ct">
+		<ul class="tabs">
+			<li ng-class="{true: 'active', false: ''}[!plansTabs]" ng-click="planstabBtn(falase)"><a href="javascript:;">方案详情</a></li>
+			<li ng-class="{true: 'active', false: ''}[plansTabs]" ng-click="planstabBtn(true)"><a href="javascript:;">方案报价</a></li>
+		</ul>
+		<div class="boxs detail" ng-if="!plansTabs" bindonce="plan">
+			<ul class="info">
+				<li>报价：<i ng-bind="plan.total_price/10000 | number"></i>万</li>
+				<li>工期：<i bo-text="plan.duration">60</i>天</li>
+				<li>空间：<i ng-bind="requiremtne.house_type | houseTypeFilter"></i></li>
+				<li>面积：<i ng-bind="requiremtne.house_area">60</i>m&sup2;</li>
+				<li>风格：<i ng-bind="requiremtne.dec_style | decStyleFilter"></i></li>
+			</ul>
+			<div class="description f-cb" ng-if="designer">
+				<a href="" class="head f-fl">
+					<img ng-src="/api/v2/web/image/{{designer.imageid}}" ng-if="designer.imageid" />
+				</a>
+				<dl class="f-fl">
+					<dt><a href="" ng-bind="designer.username"></a><span><i>v</i>认证设计师</span></dt>
+					<dd>
+						<span class="sub"></span>
+						<span class="sup"></span>
+						<p bo-text="plan.description"></p>
+					</dd>
+				</dl>
+			</div>
+			<div class="images">
+				<img bo-src-i="/api/v2/web/image/{{img}}" alt="" ng-repeat="img in plan.images" />
+			</div>
+		</div>
+		<div class="boxs quote f-cb" ng-if="plansTabs" bindonce="plan">
+			<div class="table f-fl">
+				<table>
+					<tr class="title">
+						<th class="td1"><span>项目</span></th>
+						<th class="td2"><span>备注说明</span></th>
+						<th class="td3"><span>项目总价</span></th>
+					</tr>
+					<tr ng-repeat="list in plan.itme_detail" ng-class="{true : 'even'}[$odd]">
+						<td class="td1"><span bo-text="list.item"></span></td>
+						<td class="td2"><span bo-text="list.description"></span></td>
+						<td class="td3"><span bo-text="list.price"></span></td>
+					</tr>
+				</table>
+			</div>
+			<div class="price f-fl">
+				<ul>
+					<li>工程总造价<span>&yen;<s ng-bind="plan.total_price | number" ng-show="!project_price_after_discount"></s><i ng-bind="plan.total_price | number" ng-hide="!project_price_after_discount"></i></span></li>
+					<li>工程折后价<span>&yen;<i ng-bind="plan.project_price_after_discount | number"></span></i></li>
+					<li>设计费<span>&yen;<i ng-bind="plan.design_fee | number"></i></span></li>
+				</ul>
+				<dl>
+					<dt>折后总价</dt>
+					<dd>&yen;<i ng-bind="plan.discount_price | number"></i></dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="m-plansMsg" ng-if="!plansTabs">
+	<div class="review">
+		<img ng-src="/api/v2/web/image/{{designer.imageid}}" ng-if="designer.imageid" />
+		<div class="textarea"><textarea rows="10" ng-model="plansMsg"></textarea></div>
+		<div class="btns"><input type="button" ng-click="addPlansMsg(designer._id,requiremtne.userid)" class="u-btns" value="发表评论" /></div>
+	</div>
+	<div class="list">
+		<ul>
+			<li bindonce="comments" ng-repeat="list in comments">
+				<img src="" alt="" />
+				<a href=""></a>
+				<time></time>
+				<p><span class="find">@ <i bo-text="list.byUser.username"></i></span><span class="text" bo-text="list.content"></span><i>图标</i></p>
+			</li>
+		</ul>
+	</div>
+	<div class="more">
+		<a href="javascript:;" ng-click="moreBtn(comments.length)">加载更多</a>
+	</div>
+</div>

@@ -1,0 +1,306 @@
+/*2015-0-10-12 用户中心公共样式*/
+body{
+	background-color: #ebeced;
+}
+.g-plans{
+	padding-bottom: 50px;
+}
+/*面包屑导航*/
+.breadCrumbs{
+	height: 40px;
+	font-size: 14px;
+	line-height: 40px;
+	color: #61687a;
+}
+.breadCrumbs a{
+	color: #888;
+}
+.breadCrumbs a:hover{
+	color: #fe7004;
+	text-decoration: underline;
+}
+/*按钮*/
+.u-btns{
+	display: inline-block;
+	padding: 0 17px;
+	line-height: 36px;
+	font-size: 14px;
+	text-align: center;
+	color: #fff;
+	cursor: pointer;
+	background-color: #fe7004;
+	border: 1px solid #e75812;
+	border-radius: 3px;
+	-webkit-transition:background 0.5s;
+	-ms-transition:background 0.5s;
+	-moz-transition:background 0.5s;	
+	-o-transition:background 0.5s;
+	transition:background 0.5s;
+}
+.u-btns:hover{
+	color: #fff;
+	background-color: #ff801f;
+}
+.u-btns-revise{
+	color: #60636a;
+	background-color: #f6f6f6;
+	border-color: #ccc;
+}
+.u-btns-revise:hover{
+	color: #333;
+	background-color: #e8e8e8;
+	color: #cbcbcb;
+}
+/*方案详情*/
+.m-plans{
+	background-color: #fff;
+	border: 1px solid #e6e6e6;
+	border-radius: 4px;
+}
+.plans-tt{
+	height: 65px;
+	padding: 0 19px;
+	line-height: 65px;
+	border-bottom: 1px solid #eee;
+}
+.plans-tt h3{
+	font-size: 16px;
+	color: #383d48;
+}
+.plans-tt .u-btns{margin-left: 15px;}
+.plans-ct .tabs{
+	height: 46px;
+	padding-left: 19px;
+	line-height: 46px;
+	background-color: #f1f1f1;	
+}
+.plans-ct .tabs li{
+	float: left;
+	font-size: 14px;
+}
+.plans-ct .tabs li a{
+	display: block;
+	padding: 0 22px;
+	color: #383d48;
+}
+.plans-ct .tabs li a:hover{
+	color: #fe7004;
+}
+.plans-ct .tabs .active{
+	position: relative;
+	margin-top: -1px;
+	z-index: 1;
+	border-top: 3px solid #fe7004;
+	line-height: 44px;
+	height: 44px;
+	overflow: hidden;
+	background-color: #fff;
+}
+.plans-ct .tabs .active a{
+	color: #fe7004;
+}
+.plans-ct .info{
+	height: 58px;
+	line-height: 58px;
+	color: #83868f;
+	background-color: #f9f9f9;
+	border: 1px solid #eee;
+}
+.plans-ct .info li{
+	float: left;
+	padding: 0 15px 0 21px;
+}
+.plans-ct .boxs{
+	padding: 20px 19px;
+}
+.plans-ct .images img{
+	display: block;
+	max-width: 100%;
+	margin-top: 30px;
+}
+.plans-ct .detail{
+	padding-bottom: 50px;
+}
+.plans-ct .table{
+	width: 900px;
+}
+.plans-ct .table table{
+	width: 100%;
+	font-size: 14px;
+	line-height: 40px;
+	text-align: left;
+	color: #5e6474;
+}
+.plans-ct .table th{
+	color: #343740;
+	font-weight: normal;
+}
+.plans-ct .table .title{
+	background-color: #e8ebf0;
+}
+.plans-ct .table .td1{
+	width: 32%;
+}
+.plans-ct .table .td2{
+	width: 50%;
+	line-height: 20px;
+}
+.plans-ct .table .td3{
+	width: 18%;
+}
+.plans-ct .table span{
+	padding-left: 20px;
+}
+.plans-ct .table .even{
+	background-color: #f0f8fb;
+}
+.plans-ct .price{
+	width: 220px;
+	padding-top: 25px;
+	padding-left: 30px;
+}
+.plans-ct .price li{
+	height: 24px;
+	padding: 0 10px;
+	line-height: 24px;
+	color: #61636f;
+}
+.plans-ct .price li span{float: right;}
+.plans-ct .price ul{
+	padding-bottom: 30px;
+}
+.plans-ct .price dl{
+	padding: 15px 10px;
+	border-top: 1px dashed #e3e3e3;
+}
+.plans-ct .price dt{
+	line-height: 24px;
+	color: #414246;
+}
+.plans-ct .price dd{
+	font-size: 30px;
+	line-height: 60px;
+	font-weight: bold;
+	color: #fe7004;
+}
+.plans-ct .head{
+	width: 60px;
+	height: 60px;
+	overflow: hidden;
+	border-radius: 60px;
+}
+.plans-ct .head img{
+	width: 100%;
+}
+.plans-ct .description{
+	padding-top: 20px;
+}
+.plans-ct .description dl{
+	width: 1080px;
+	padding-left: 18px;	
+}
+.plans-ct .description dt{
+	line-height: 28px;
+}
+.plans-ct .description dt a{
+	margin-right: 15px;
+	font-size: 20px;
+	color: #383d48;	
+}
+.plans-ct .description dt span{
+	display: inline-block;
+	line-height: 18px;
+	padding-right: 5px;
+	border: 1px solid #fe7004;
+	border-radius: 2px;
+}
+.plans-ct .description dt i{
+	display: inline-block;
+	width: 20px;
+	height: 18px;
+	line-height: 18px;
+	background-color: #fe7004;
+	margin-right: 4px;
+	text-align: center;
+	color: #fff;
+}
+.plans-ct .description dd{
+	position: relative;
+	padding: 0 35px;
+	line-height: 25px;
+	color: #999;
+}
+.plans-ct .description dd span{
+	position: absolute;
+	width: 20px;
+	height: 16px;
+	overflow: hidden;
+	background:url(../img/user/decorative.png) 0 0 no-repeat;
+}
+.plans-ct .description dd .sub{
+	left:0;
+	top:8px;
+}
+.plans-ct .description dd .sup{
+	right:0;
+	bottom:8px;
+	background:url(../img/user/decorative.png) 0 bottom no-repeat;
+}
+.m-plansMsg{
+	margin-top: 20px;
+	background-color: #fff;
+	border: 1px solid #e6e6e6;
+	border-radius: 4px;
+}
+.m-plansMsg .review{
+	position: relative;
+	padding: 19px 19px 15px 89px;	
+}
+.m-plansMsg .review img{
+	position: absolute;
+	left:19px;
+	top:19px;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+}
+.m-plansMsg .review .textarea{
+	height: 80px;
+  overflow: hidden;
+  padding-left: 20px;
+	border: 1px solid #e6e6e6;
+	background-color: #f9f9f9;
+}
+.m-plansMsg .review .textarea textarea{
+  float: left;
+	width: 100%;
+   height: 60px;
+  margin-left: -20px;
+  padding: 10px;
+  font-size: 14px;
+  border: 0;
+  resize: none;
+  background: none;
+}
+.m-plansMsg .review .btns{
+	height: 38px;
+	padding-top: 15px;
+	text-align: right;
+}
+.m-plansMsg .list{
+	padding: 19px;
+	border-top: 1px solid #e6e6e6;
+	border-bottom: 1px solid #efefef;
+}
+.m-plansMsg .more{
+	
+	line-height: 38px;
+	text-align: center;
+}
+.m-plansMsg .more a{
+	color: #949494;
+}
+.m-plansMsg .more a:hover{
+	color: #fe7004;
+}
+/*方案创建和更新*/
