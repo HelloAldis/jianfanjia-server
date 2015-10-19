@@ -94,6 +94,7 @@ router.post('/designer/auth', auth.designerRequired, designer.auth); //提交认
 router.post('/designer/update_online_status', auth.designerRequired, designer.update_online_status); //更改在线状态
 router.get('/designer_my_requiremtne_list', auth.designerRequired, requirement
   .designer_my_requiremtne_list); //设计获取和自己相关的需求列表
+router.post('/designer_one_requirement', auth.designerRequired, requirement.designer_one_requirement); //设计获取某个需求
 router.post('/designer/user/ok', auth.designerRequired, designer.okUser); //响应业主
 router.post('/designer/user/reject', auth.designerRequired, designer.rejectUser); //拒绝业主
 router.post('/designer/plan/add', auth.designerRequired, plan.add); //提交方案

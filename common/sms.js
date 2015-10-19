@@ -6,7 +6,7 @@ var utility = require('utility');
 var logger = require('./logger')
 
 exports.sendWeiMi = function (phone, cid, p1) {
-  if (config.debug) {
+  if (!config.send_sms) {
     console.log('weimi send to phone = ' + phone);
     return;
   }
@@ -55,7 +55,7 @@ exports.sendYuyue = function (phone) {
 }
 
 function yzx(phone, templateId, param) {
-  if (config.debug) {
+  if (!config.send_sms) {
     console.log('yzx send to phone = ' + phone);
     return;
   }

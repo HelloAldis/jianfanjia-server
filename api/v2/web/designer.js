@@ -15,6 +15,7 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../../type');
 var limit = require('../../../middlewares/limit')
+var designer_match_util = require('../../../common/designer_match');
 
 var noPassAndToken = {
   pass: 0,
@@ -285,7 +286,30 @@ exports.designers_user_can_order = function (req, res, next) {
           }, {
             username: 1,
             imageid: 1,
-          }, null, callback);
+            dec_districts: 1,
+            dec_fee_all: 1,
+            dec_fee_half: 1,
+            dec_styles: 1,
+            communication_type: 1,
+            dec_house_types: 1,
+            province: 1,
+            city: 1,
+            authed_product_count: 1,
+            order_count: 1,
+            deal_done_count: 1,
+            auth_type: 1,
+            uid_auth_type: 1,
+            work_auth_type: 1,
+            email_auth_type: 1,
+          }, {
+            lean: true
+          }, function (err, designers) {
+            _.forEach(designers, function (designer) {
+              designer_match_util.designer_match(designer,
+                result.requirement);
+            });
+            callback(err, designers)
+          });
         },
         favorite_designer: function (callback) {
           Designer.find({
@@ -295,7 +319,30 @@ exports.designers_user_can_order = function (req, res, next) {
           }, {
             username: 1,
             imageid: 1,
-          }, null, callback);
+            dec_districts: 1,
+            dec_fee_all: 1,
+            dec_fee_half: 1,
+            dec_styles: 1,
+            communication_type: 1,
+            dec_house_types: 1,
+            province: 1,
+            city: 1,
+            authed_product_count: 1,
+            order_count: 1,
+            deal_done_count: 1,
+            auth_type: 1,
+            uid_auth_type: 1,
+            work_auth_type: 1,
+            email_auth_type: 1,
+          }, {
+            lean: true
+          }, function (err, designers) {
+            _.forEach(designers, function (designer) {
+              designer_match_util.designer_match(designer,
+                result.requirement);
+            });
+            callback(err, designers)
+          });
         },
       }, ep.done(function (result) {
         res.sendData(result);
@@ -323,12 +370,24 @@ exports.user_ordered_designers = function (req, res, next) {
         username: 1,
         imageid: 1,
         phone: 1,
+        province: 1,
+        city: 1,
+        authed_product_count: 1,
+        order_count: 1,
+        deal_done_count: 1,
+        auth_type: 1,
+        uid_auth_type: 1,
+        work_auth_type: 1,
+        email_auth_type: 1,
       }, null, ep.done(function (designers) {
         async.mapLimit(designers, 3, function (designer, callback) {
           Plan.find({
             designerid: designer._id,
             requirementid: requirementid,
-          }, null, {
+          }, {
+            status: 1,
+            house_check_time: 1,
+          }, {
             skip: 0,
             limit: 1,
             sort: {
@@ -336,7 +395,14 @@ exports.user_ordered_designers = function (req, res, next) {
             },
           }, function (err, plans) {
             designer = designer.toObject();
-            designer.status = plans[0].status;
+            designer.plan = plans[0];
+            if (tools.findIndexObjectId(requirement.rec_designerids,
+                designer._id) > -1) {
+              designer.is_rec = true;
+            } else {
+              designer.is_rec = false;
+            }
+
             callback(err, designer);
           });
         }, ep.done(function (results) {

@@ -6,7 +6,7 @@ var path = require('path');
 
 var config = {
   // debug 为 true 时，用于本地调试
-  debug: true,
+  debug: false,
 
   // 程序运行的端口
   port: 80,
@@ -45,10 +45,10 @@ var config = {
 
   //一些业务配置
   send_email: true, //发不发送邮件
-  send_sms: false, //发不发短信
-  need_verify_code: false, //需不需要验证码
+  send_sms: true, //发不发短信
+  need_verify_code: true, //需不需要验证码
   visit_per_day: 1000, // 每个 ip 每天能访问的次数
-  send_verify_code_per_day: 100, //每个 ip 每天能发的验证码次数
+  send_verify_code_per_day: 50, //每个 ip 每天能发的验证码次数
   recommend_designer_count: 3, //我的设计师页面 推荐的设计师个数
   index_top_designer_count: 7, //首页设计师个数
   index_top_share_count: 6, //首页的直播个数

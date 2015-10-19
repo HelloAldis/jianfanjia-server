@@ -268,3 +268,17 @@ exports.buildComment = function (req) {
 
   return comment;
 }
+
+exports.buildEvaluation = function (req) {
+  var evaluation = {};
+  evaluation.designerid = req.body.designerid ? new ObjectId(req.body.designerid) :
+    undefined;
+  evaluation.requirementid = req.body.requirementid ? new ObjectId(req.body.requirementid) :
+    undefined;
+  evaluation.service_attitude = req.body.service_attitude;
+  evaluation.respond_speed = req.body.respond_speed;
+  evaluation.comment = req.body.comment;
+  evaluation.is_anonymous = req.body.is_anonymous;
+
+  return evaluation;
+}

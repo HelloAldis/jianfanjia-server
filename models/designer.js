@@ -33,10 +33,6 @@ var DesignerSchema = new Schema({
   big_imageid: {
     type: ObjectId
   },
-  score: {
-    type: Number,
-    default: 0
-  },
   match: {
     type: Number,
     default: 0
@@ -201,6 +197,12 @@ var DesignerSchema = new Schema({
   favorite_count: {
     type: Number,
     default: 0
+  },
+  service_attitude: {
+    type: Number,
+  },
+  respond_speed: {
+    type: Number,
   },
 });
 
