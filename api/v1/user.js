@@ -118,6 +118,9 @@ exports.updateRequirement = function (req, res, next) {
   Designer.find({
     city: city,
     auth_type: type.designer_auth_type_done,
+    authed_product_count: {
+      $gte: 3
+    },
     // uid_auth_type: type.designer_auth_type_done,
     // work_auth_type: type.designer_auth_type_done,
   }, {
