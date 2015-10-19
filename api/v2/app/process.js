@@ -340,7 +340,7 @@ function buildProcurement(section) {
 
 function buildPay() {
   return {
-    message: '尊敬的业主， 你即将进入下一轮付款环节， 请您及时与设计师联系'
+    message: '您即将进入下一轮付款环节，简繁家工作人员将会和您联系'
   };
 }
 

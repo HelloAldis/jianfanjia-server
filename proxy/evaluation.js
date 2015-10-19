@@ -31,3 +31,9 @@ exports.paginate = function (query, project, option, callback) {
     });
   });
 }
+
+exports.setOne = function (query, update, option, callback) {
+  Evaluation.findOneAndUpdate(query, {
+    $set: update
+  }, option, callback)
+}

@@ -71,7 +71,7 @@ router.get('/user/info', auth.userRequired, userWeb.user_my_info); //获取业�
 router.get('/home_page_designers', auth.userRequired, designer.home_page_designers); //获取业主移动端首页数据
 router.post('/user_add_requirement', auth.userRequired, requirementWeb.user_add_requirement); //提交我的装修需求
 router.post('/user_update_requirement', auth.userRequired, requirementWeb.user_update_requirement); //更新我的装修需求
-router.get('/user_my_requirement_list', auth.userRequired, requirement.user_my_requiremtne_list); //获取我的装修需求列表
+router.get('/user_my_requirement_list', auth.userRequired, requirement.user_my_requirement_list); //获取我的装修需求列表
 router.post('/designers_user_can_order', auth.userRequired, designerWeb.designers_user_can_order); //获取用户可以预约的设计师
 router.post('/favorite/designer/list', auth.userRequired, favoriteWeb.list_designer); //获取业主的意向设计师列表
 router.post('/favorite/designer/add', auth.userRequired, favoriteWeb.add_designer); //添加设计师到意向列表

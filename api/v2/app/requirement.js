@@ -15,7 +15,7 @@ var async = require('async');
 var sms = require('../../../common/sms');
 var designer_match_util = require('../../../common/designer_match');
 
-exports.user_my_requiremtne_list = function (req, res, next) {
+exports.user_my_requirement_list = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var ep = eventproxy();
   ep.fail(next);
@@ -72,6 +72,8 @@ exports.user_my_requiremtne_list = function (req, res, next) {
             requirement.rec_designers = designers;
             callback(null, requirement);
           }));
+        } else {
+          callback(null, requirement);
         }
       }, ep.done(function (requirements) {
         res.sendData(requirements);

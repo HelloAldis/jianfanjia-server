@@ -14,6 +14,7 @@ var type = require('../../../type');
 var async = require('async');
 var sms = require('../../../common/sms');
 var designer_match_util = require('../../../common/designer_match');
+var wkhtmltopdf = require('wkhtmltopdf');
 
 exports.user_my_requiremtne_list = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -278,4 +279,5 @@ exports.download_contract = function (req, res, next) {
   var requirementid = req.body.requirementid;
   var ep = eventproxy();
   ep.fail(next);
+
 }
