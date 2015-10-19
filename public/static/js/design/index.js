@@ -302,7 +302,7 @@ $(function(){
 			if(window.usertype == 1){
 				ev.preventDefault();
 				var uidname = $(this).data('uid');
-				var url = RootUrl+'api/v1/user/designer';
+				var url = RootUrl+'api/v2/web/favorite/designer/add';
 				$.ajax({
 					url:url,
 					type: 'POST',

@@ -51,7 +51,7 @@ angular.module('services', [])
 			designers : function(data){return doRequest('designers_user_can_order','POST' , data)},
 			order : function(data){return doRequest('user_ordered_designers','POST' , data)},
 			booking : function(data){return doRequest('user_order_designer','POST' , data)},
-			checked : function(data){return doRequest('user_order_designer','POST' , data)},
+			checked : function(data){return doRequest('designer_house_checked','POST' , data)},
 			plans : function(data){return doRequest('user_requirement_plans','POST' , data)},
 			define : function(data){return doRequest('user/plan/final','POST' , data)},
 			plan : function(data){return doRequest('one_plan','POST' , data)}
