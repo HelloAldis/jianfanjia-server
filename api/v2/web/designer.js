@@ -6,6 +6,7 @@ var Plan = require('../../../proxy').Plan;
 var User = require('../../../proxy').User;
 var Requirement = require('../../../proxy').Requirement;
 var Favorite = require('../../../proxy').Favorite;
+var Evaluation = require('../../../proxy').Evaluation;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../config');
@@ -403,7 +404,14 @@ exports.user_ordered_designers = function (req, res, next) {
               designer.is_rec = false;
             }
 
-            callback(err, designer);
+            Evaluation.findOne({
+              userid: userid,
+              designerid: designer._id,
+              requirementid: requirementid,
+            }, null, function (err, evaluation) {
+              designer.evaluation = evaluation;
+              callback(err, designer);
+            });
           });
         }, ep.done(function (results) {
           res.sendData(results);
