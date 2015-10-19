@@ -257,7 +257,7 @@ exports.designers_user_can_order = function (req, res, next) {
 
     ep.done(function (result) {
       var can_order_rec = [];
-      if (result.requirement.rec_designerids) {
+      if (result.requirement && result.requirement.rec_designerids) {
         can_order_rec = _.filter(result.requirement.rec_designerids,
           function (oid) {
             console.log(tools.findIndexObjectId(result.requirement.order_designerids,
@@ -268,7 +268,7 @@ exports.designers_user_can_order = function (req, res, next) {
       }
 
       var can_order_fav = [];
-      if (result.favorite.favorite_designer) {
+      if (result.favorite && result.favorite.favorite_designer) {
         can_order_fav = _.filter(result.favorite.favorite_designer,
           function (oid) {
             return tools.findIndexObjectId(result.requirement.order_designerids,
