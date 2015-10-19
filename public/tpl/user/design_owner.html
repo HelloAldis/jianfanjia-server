@@ -123,7 +123,7 @@
 		sBtns = '<a href="design_scheme.html" class="scheme">提交方案</a><span>(可提交多个方案)</span>';
 		$designOwner.delegate('.refuse','click',function(ev){
 			ev.stopPropagation();
-			var url = RootUrl+'api/v1/designer/user/reject';
+			var url = RootUrl+'api/v2/web/designer/user/reject';
 			var item = $(this).closest('.item'),
 				uid = item.data('item');		
 			if(confirm("你确定拒绝吗？")){
@@ -215,7 +215,7 @@
 			$define.on('click',function(){
 				var timer = year+"-"+ parseInt($('#booking-month').find('.value').html()) +"-"+ parseInt($('#booking-day').find('.value').html())+" "+ ( parseInt($('#booking-hour').find('.value').html()) > 10 ? parseInt($('#booking-hour').find('.value').html()) == 24 ? "00" : parseInt($('#booking-hour').find('.value').html())  : "0"+parseInt($('#booking-hour').find('.value').html()) ) + ':00:00';
 			var dateTime = new Date(Date.parse(timer.replace(/-/g, "/")));
-				var url = RootUrl+'api/v1/designer/user/ok';
+				var url = RootUrl+'api/v2/web/designer/user/ok';
 				$booking.hide();
 				$.ajax({
 					url:url,
@@ -223,7 +223,7 @@
 					contentType : 'application/json; charset=utf-8',
 					dataType: 'json',
 					data : JSON.stringify({
-						"userid": uid,
+						"requirementid": uid,
 						"house_check_time": dateTime.getTime()
 					}),
 					processData : false,
@@ -277,20 +277,18 @@ function unique(arr,a,b) {
   }
   return ayy
 }
-
-
 	//渲染生成列表
 	function loadList(){
 		$designOwner.html('<div class="loading" id="j-loading"></div>')
-		var url = RootUrl+'api/v1/designer/user';
+		var url = RootUrl+'api/v2/web/designer_my_requiremtne_list';
 		$.ajax({
 			url:url,
 			type: 'GET',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){
-				if(res['data'].length){
-					page(unique(res['data'],'requirementid','status'))
+				if(res.data.length){
+					page(res.data)
 				}else{
 					$designOwner.html('<div class="loading nodata" id="j-loading"></div>')
 				}
@@ -298,8 +296,29 @@ function unique(arr,a,b) {
 		});
 	}
 	loadList();
+	$.ajax({
+		url: RootUrl+'api/v2/web/designer_one_requirement',
+		type: 'POST',
+		contentType : 'application/json; charset=utf-8',
+		dataType: 'json',
+		data : JSON.stringify({
+			"_id": "5620c083f4dc0edc4be44df7"
+		}),
+		processData : false
+	})
+	.done(function(res) {
+		console.log(res);
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
+	});
+	
 	//创建列表
 	function createList(data){
+		console.log(data)
 		var dateStr;
 		if(!!data.house_check_time){
 			var date = new Date(data.house_check_time),
@@ -314,7 +333,7 @@ function unique(arr,a,b) {
 			dateStr = '响应后可见'
 		}
 		var sStatus = '';
-		if(data.status == 0){
+		if(data.status == 1){
 			sStatus = '<a href="javascript:;" class="respond">响应</a><a href="javascript:;" class="refuse">拒绝</a></div>';
 		}else if(data.status == 1){
 			sStatus = '你已经拒绝该业主';
@@ -322,24 +341,26 @@ function unique(arr,a,b) {
 			sStatus = '<a href="scheme_create.html?userid='+data.userid+'&name='+encodeURI(data.user.username)+'&create" class="scheme">提交方案</a><span>(可提交多个方案)</span>';
 		}
 		var imgid = data.user.imageid ? RootUrl+'api/v1/image/'+data.user.imageid : '../../static/img/public/headpic.jpg';
-		if(!!data.requirement.province){
-			var area = data.requirement.province+' '+data.requirement.city+' '+data.requirement.district
+		if(!!data.province){
+			var area = data.province+' '+data.city+' '+data.district
 		}else{
-			var area = '湖北省 '+data.requirement.city+' '+data.requirement.district
+			var area = '湖北省 '+data.city+' '+data.district
 		}
-		/*if(!!data.requirement.cell_phase){
-			var detail = data.requirement.cell_phase+' 期 '+data.requirement.cell_building+' 栋 '+data.requirement.cell_unit+' 单元 '+data.requirement.cell_detail_number+' 室/号'
+		if(!!data.cell_phase){
+			var detail = data.cell_phase+' 期 '+data.cell_building+' 栋 '+data.cell_unit+' 单元 '+data.cell_detail_number+' 室/号'
 		}else{
 			var detail = "暂无详细地址";
-		}*/
-		return '<div class="item f-cb" data-item="'+data.userid+'">'
+		}
+		return '<div class="item f-cb" data-item="'+data._id+'">'
 					+'<div class="head f-fl"><img src="'+imgid+'" alt="" /></div>'
 					+'<div class="info f-fl">'
 						+'<h4>业主：'+data.user.username+'</h4>'
 						+'<p>所在地区：'+area+'</p>'
-						+'<p>小区名称：'+data.requirement.cell+'</p>'
-						+'<p>物业描述：'+globalData.house_type[data.requirement.house_type]+'， '+data.requirement.house_area+'m&sup2;，装修预算 '+data.requirement.total_price+'万</p>'
-						+'<p>风格喜好：'+globalData.dec_style[data.requirement.dec_style]+'</p>'
+						+'<p>所属街道：'+data.street+'</p>'
+						+'<p>小区名称：'+data.cell+'</p>'
+						+'<p>详细地址：'+detail+'</p>'
+						+'<p>物业描述：'+globalData.house_type[data.house_type]+'， '+data.house_area+'m&sup2;，装修预算 '+data.total_price+'万</p>'
+						+'<p>风格喜好：'+globalData.dec_style[data.dec_style]+'</p>'
 						+'<p>电话：<span class="phone" data-phone="'+data.user.phone+'">'+(data.status >= 2 ? data.user.phone : "响应后可见")+'</span></p>'
 						+'<p>量房时间：<span class="time">'+dateStr+'</span></p>'
 						+'<div class="btns">'+sStatus+'</div>'
@@ -370,7 +391,6 @@ function unique(arr,a,b) {
 					ev.stopPropagation();
 					$('body,html').animate({scrollTop:$designOwner.offset().top},1000);
 				});
-				
 				return false;
 			}
 		});

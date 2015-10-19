@@ -1,3 +1,34 @@
-<div class="detail">
-	这是评价设计师
+<div class="booking score">
+	<div class="booking-tips">
+		<p class="f-fl">评价参与本案的设计师</p>
+	</div>
+	<ul class="m-designerList">
+		<li bindonce="orders" ng-repeat="data in orders" ng-click="selectDesign(data)" class="{{data.active ? 'active' : ''}}">
+			<div class="designer f-cb">
+				<div class="info f-fl">
+					<a bo-href-i="../design/homepage.html?{{data._id}}" class="head f-fl">
+						<img bo-src="data.imageSrc" bo-alt="data.username" />
+					</a>
+					<dl class="f-fl">
+						<dt>
+							<a bo-href-i="../design/homepage.html?{{data._id}}" bo-text="data.username"></a>
+							<span><i>V</i>认证设计师</span>
+						</dt>
+						<dd><i bo-text="data.city"></i><i bo-text="data.district"></i></dd>
+						<dd><i>手机</i><span bo-text="data.phone"></span></dd>
+					</dl>
+				</div>
+				<div class="select f-fr">
+					<div class="btns" ng-if="data.confirmSuccess">
+						<a href="javascript:;" class="u-btns" ng-click="confirmBtn(data)">已上门量房</a>
+					</div>
+					<div class="btns" ng-if="data.scoreSuccess">
+						<span>已确认</span>
+						<a href="javascript:;" class="u-btns u-btns-revise" ng-click="scoreBtn(data)"> 评价 </a>
+					</div>
+					<p>量房时间：<i bo-text="data.house_check_time"></i></p>
+				</div>
+			</div>
+		</li>
+	</ul>
 </div>

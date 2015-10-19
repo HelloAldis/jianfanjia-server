@@ -862,7 +862,7 @@ body{
 }
 .m-requirement .tabs .active{
 	position: relative;
-	top:-1px;
+	margin-top: -1px;
 	z-index: 1;
 	border-top: 3px solid #fe7004;
 	line-height: 44px;
@@ -914,11 +914,121 @@ body{
 .detail-btns .u-btns{
 	margin: 0 15px;
 }
-.m-designerList li{
+/*预约量房*/
+.booking-tips{
+	height: 38px;
+	line-height: 38px;
+	padding: 31px 19px 32px;
+}
+.booking-tips p{
+	font-size: 16px;
+	color: #999;
+}
+.booking h3{
+	padding-left: 19px;
+	font-size: 16px;
+	line-height: 49px;
+	color: #383d48;
+	border-top: 1px solid #e5e5e5;
+}
+.booking .m-designerList li{
 	padding: 20px 19px;
 	border-top: 1px solid #e6e6e6;
+	cursor: pointer;
 }
+.booking.disabled .m-designerList li,.score .m-designerList li{
+	cursor:default
+}
+.m-designerList .info .head{
+	width: 70px;
+	height: 70px;
+	overflow: hidden;
+	border-radius: 70px;
+}
+.m-designerList .info .head img{
+	width: 100%;
+}
+.m-designerList .info dl{
+	padding-left: 20px;
+}
+.m-designerList .info dt{
+	height: 26px;
+	padding-bottom: 4px;
+	line-height: 26px;
+}
+.m-designerList .info dt a{
+	margin-right: 20px;
+	font-size: 20px;
+	font-weight: bold;
+	color: #383d48;
+}
+.m-designerList .info dt a:hover{
+	color: #fe7004;
+}
+.m-designerList .info dt span{
+	display: inline-block;
+	line-height: 18px;
+	padding-right: 5px;
+	border: 1px solid #fe7004;
+	border-radius: 2px;
+}
+.m-designerList .info dt i{
+	display: inline-block;
+	width: 20px;
+	height: 18px;
+	line-height: 18px;
+	background-color: #fe7004;
+	margin-right: 4px;
+	text-align: center;
+	color: #fff;
+}
+.m-designerList .info dd{
+	font-size: 14px;
+	line-height: 22px;
+	color: #999;
+}
+.m-designerList .info dd em{
+	margin: 0 17px 0 5px;
+}
+.m-designerList .info dd strong{
+	margin: 0 12px;
+	font-weight: normal;
+	color: #383d48;
+}
+.booking .m-designerList .select{
+	padding-top: 16px;
+}
+.booking .m-designerList .select span{
+	display: inline-block;
+	vertical-align: middle;
+}
+.booking .m-designerList .match{
+	padding: 0 14px;
+	margin-right: 52px;
+	line-height: 36px;
+	color: #61687a;
+	border: 1px solid #61687a;
+	border-radius: 2px;
+}
+.booking .m-designerList .status{
+	width: 38px;
+	height: 38px;
+	background:url(../img/user/booking-status-icon.png) 0 0 no-repeat;
+} 
 .m-designerList .active{
 	background-color: #f0f8fb;
 	border-left: 5px solid #fc7207;
+	padding-left: 14px;
 }
+.booking .m-designerList .active .status{
+	background-position: 0 -38px;
+} 
+.booking-btns{
+	padding: 30px 0;
+	text-align: center;
+	border-top: 1px solid #e5e5e5;
+}
+/*确认量房*/
+.score .select .btns{
+	text-align: right;
+} 
