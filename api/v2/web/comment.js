@@ -134,7 +134,7 @@ exports.topic_comments = function (req, res, next) {
         total: total,
       });
     }));
-  }))
+  }));
 }
 
 exports.getOne = function (req, res, next) {
