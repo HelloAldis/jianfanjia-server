@@ -157,7 +157,7 @@ exports.user_update_requirement = function (req, res, next) {
 
     var designerids = _.pluck(designers, '_id');
     requirement.rec_designerids = designerids;
-
+    requirement.last_status_update_time = new Date().getTime();
     Requirement.setOne({
         _id: _id
       },

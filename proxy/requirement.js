@@ -5,11 +5,13 @@ var uuid = require('node-uuid');
 exports.newAndSave = function (json, callback) {
   var requirement = new Requirement(json);
   requirement.create_at = new Date().getTime();
+  requirement.last_status_update_time = new Date().getTime();
   requirement.save(callback);
 };
 
 exports.saveOrUpdateByUserid = function (userid, json, callback) {
   json.create_at = new Date().getTime();
+  json.last_status_update_time = new Date().getTime();
   Requirement.findOneAndUpdate({
     'userid': userid
   }, json, {
@@ -19,11 +21,15 @@ exports.saveOrUpdateByUserid = function (userid, json, callback) {
 
 exports.addToSet = function (query, addToSet, option, callback) {
   Requirement.findOneAndUpdate(query, {
-    '$addToSet': addToSet
+    '$addToSet': addToSet,
+    $set: {
+      last_status_update_time: new Date().getTime(),
+    },
   }, option, callback);
 }
 
 exports.setOne = function (query, update, option, callback) {
+  update.last_status_update_time = new Date().getTime();
   Requirement.findOneAndUpdate(query, {
     $set: update
   }, option, callback);

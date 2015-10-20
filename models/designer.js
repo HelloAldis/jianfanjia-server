@@ -204,6 +204,9 @@ var DesignerSchema = new Schema({
   respond_speed: {
     type: Number,
   },
+  last_rec_time: {
+    type: Number,
+  },
 });
 
 DesignerSchema.index({

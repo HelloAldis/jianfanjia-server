@@ -82,6 +82,9 @@ var RequirementSchema = new Schema({
   start_at: {
     type: Number
   },
+  last_status_update_time: {
+    type: Number,
+  },
 });
 
 RequirementSchema.index({

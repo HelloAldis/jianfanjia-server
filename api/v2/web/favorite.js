@@ -70,6 +70,16 @@ exports.list_designer = function (req, res, next) {
         }, {
           username: 1,
           imageid: 1,
+          province: 1,
+          city: 1,
+          district: 1,
+          authed_product_count: 1,
+          order_count: 1,
+          deal_done_count: 1,
+          auth_type: 1,
+          uid_auth_type: 1,
+          work_auth_type: 1,
+          email_auth_type: 1,
         }, function (err, designer) {
           callback(err, designer);
         });

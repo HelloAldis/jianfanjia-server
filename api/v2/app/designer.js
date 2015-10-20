@@ -40,7 +40,7 @@ exports.home_page_designers = function (req, res, next) {
       }, ep.done(function (requirements) {
         if (requirements.length > 0) {
           var requirement = requirements[0];
-          Designer.findOne({
+          Designer.find({
             _id: {
               $in: requirement.rec_designerids
             },
@@ -87,6 +87,9 @@ exports.home_page_designers = function (req, res, next) {
         }, {
           cell: 1,
           images: 1,
+          house_area: 1,
+          house_type: 1,
+          dec_style: 1,
         }, {
           sort: {
             view_count: -1
