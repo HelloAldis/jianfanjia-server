@@ -48,7 +48,12 @@ exports.home_page_designers = function (req, res, next) {
             username: 1,
             imageid: 1,
           }, function (err, designers) {
-            requirement.designers = designers;
+            if (designers) {
+              requirement.designers = designers;
+            } else {
+              requirement.designers = [];
+            }
+
             callback(err, requirement);
           });
         } else {
