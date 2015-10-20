@@ -55,7 +55,8 @@ angular.module('services', [])
 			checked : function(data){return doRequest('designer_house_checked','POST' , data)},
 			plans : function(data){return doRequest('user_requirement_plans','POST' , data)},
 			define : function(data){return doRequest('user/plan/final','POST' , data)},
-			plan : function(data){return doRequest('one_plan','POST' , data)}
+			plan : function(data){return doRequest('one_plan','POST' , data)},
+			score : function(data){return doRequest('user_evaluate_designer','POST' , data)}
 		}
 	}])
 	.factory('userFavoriteDesigner', ['$http', function($http){     //业主 list获取意向设计师列表 add添加 remove删除
@@ -87,7 +88,7 @@ angular.module('services', [])
             })
 		};
 		return {
-			list : function(){return doRequest('list','GET')},
+			list : function(){return doRequest('list','POST')},
 			add : function(data){return doRequest('add','POST', data)},
 			remove : function(data){return doRequest('delete','POST' , data)}
 		}
