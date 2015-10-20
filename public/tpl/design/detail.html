@@ -188,7 +188,7 @@
 						+'<img src="'+imgID+'" alt="'+userNamer+'" />'
 					+'</a>'
 					+'<h2>'+data.cell+'</h2>'
-					+'<p>参考造价：<strong>'+data.total_price+'</strong>万元<span>|</span>户型：'+globalData.house_type[data.house_type]+'<span>|</span>面积：'+data.house_area+'m&sup2;</p>'
+					+'<p>参考造价('+globalData.work_type[data.work_type]+')：<strong>'+data.total_price+'</strong>万元<span>|</span>户型：'+globalData.house_type[data.house_type]+'<span>|</span>面积：'+data.house_area+'m&sup2;</p>'
 					+'<p>浏览数：'+data.view_count+'<span>|</span>收藏数：'+data.favorite_count+'</p>'
 		var imgList = '';
 		for (var i = 0,len = data.images.length; i < len; i++) {
