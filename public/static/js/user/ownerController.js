@@ -17,10 +17,12 @@ angular.module('controllers', [])
 	.controller('indexCtrl', [     //业主首页
         '$scope','$rootScope','$http','$filter','$location','userInfo','userRequiremtne','userComment',
         function($scope, $rootScope,$http,$filter,$location,userInfo,userRequiremtne,userComment) {
+            $scope.userAreaOff = false;
         	userInfo.get().then(function(res){
         		console.log(res.data.data)
         		$scope.user = res.data.data;
-                $scope.user.imgPic = RootUrl+'api/v2/web/thumbnail/120/'+$scope.user.imageid;
+                $scope.userAreaOff = $scope.user.province == '请选择省份' ? false : true;
+                $scope.user.imgPic = !$scope.user.imageid ? '../../../static/img/user/headPic.png' : RootUrl+'api/v2/web/thumbnail/120/'+$scope.user.imageid;
         	},function(res){
         		console.log(res)
         	});
@@ -108,17 +110,17 @@ angular.module('controllers', [])
             userInfo.get().then(function(res){  //获取个人资料
                 console.log(res.data.data);
                 $scope.user = res.data.data;
-                desArea.empty();
+                $scope.cities_list = tdist;
                 if(!!$scope.user.province){
-                    var designAreaQuery = $scope.user.province+" "+$scope.user.city+" "+$scope.user.district;
-                    desArea.find('input[name=where_area]').val(designAreaQuery)
-                    var designArea = new CitySelect({id :'where_area',"query":designAreaQuery});
+                    $scope.user.province = $scope.user.province;
+                    $scope.user.city = $scope.user.city;
+                    $scope.user.district = $scope.user.district;
                 }else{
-                    desArea.find('input[name=where_area]').val("")
-                    var designArea = new CitySelect({id :'where_area'});
+                    $scope.user.province = '请选择省份';
+                    $scope.user.city = '请选择市';
+                    $scope.user.district = '请选择县/区';
                 }
                 setSex(false,$scope.user.sex)
-                $scope.user.imageSrc = RootUrl+'api/v1/image/'+$scope.user.imageid;
             },function(res){
                 console.log(res)
             });
@@ -143,12 +145,12 @@ angular.module('controllers', [])
                 return str;
             }
             $scope.submitBtn = function(){     //修改个人资料
-                $scope.user.province = desArea.find('input[name=province]').val() || $scope.user.province;
-                $scope.user.city = desArea.find('input[name=city]').val() || $scope.user.city;
-                $scope.user.district = desArea.find('input[name=district]').val() || $scope.user.district;
                 $scope.user.sex = setSex(true)
+                $scope.user.imgPic = undefined;
+                console.log($scope.user.imageid)
                 userInfo.update($scope.user).then(function(res){     
                     if(res.data.msg == "success"){
+                        userInfo.get()
                         $location.path('index');
                     }
                 },function(res){
@@ -160,6 +162,7 @@ angular.module('controllers', [])
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne','userInfo',
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,userInfo){
             $scope.cities_list = tdist;
+            $scope.loadData = false;
             $scope.dec_style = [
                 {"id" :0,"name":'欧式'},
                 {"id" :1,"name":'中式'},
@@ -279,6 +282,8 @@ angular.module('controllers', [])
                     $scope.requiremtne = res.data.data;
                     $scope.requiremtne.dec_style = $scope.requiremtne.dec_style ? $scope.requiremtne.dec_style : "0";
                     console.log($scope.requiremtne)
+                    $scope.requiremtne.province = !$scope.requiremtne.province ? '湖北省' : $scope.requiremtne.province;
+                    $scope.loadData = true;
                 },function(res){
                     console.log(res)
                 });

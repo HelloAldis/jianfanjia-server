@@ -83,7 +83,7 @@ angular.module('directives', [])
             }
         };
     }])
-    .directive('mgStylepic',['$timeout',function($timeout){     //装修风格
+    .directive('myStylepic',['$timeout',function($timeout){     //装修风格
         return {
             replace : true,
             scope: {
@@ -340,4 +340,137 @@ angular.module('directives', [])
             }
         };
     }])
-
+    .directive('myUpload',['$timeout',function($timeout){     //头像上传裁切
+        return {
+            replace : true,
+            scope: {
+                myQuery : "="
+            },
+            restrict: 'A',
+            template: '<div class="pic" id="upload"><div class="fileBtn"><input class="hide" id="fileToUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_file"></div><img class="img" id="userHead" alt="头像" /></div>',
+            link: function($scope, iElm, iAttrs, controller){
+                var $userHead = $('#userHead');
+                var $cropMask = $('#j-cropMask');
+                var $cropBox = $('#j-cropBox');
+                var $cropbox = $cropBox.find('.cropBox');
+                var $winW = $(window).width();
+                var $winH = $(window).height();
+                var uploaderUrl = RootUrl+'api/v2/web/image/upload';
+                var croploaderUrl = RootUrl+'api/v2/web/image/crop';
+                var fileTypeExts = '*.jpg;*.png';
+                var fileSizeLimit = 1024;
+                console.log($scope.myQuery) 
+                if(!$scope.myQuery){
+                   $userHead.attr('src','../../../static/img/user/headPic.png')
+                }else{
+                    $userHead.attr('src',RootUrl+'api/v2/web/thumbnail/120/'+$scope.myQuery)
+                }
+                var checkSupport = function(){
+                  var input = document.createElement('input');
+                  var fileSupport = !!(window.File && window.FileList);
+                  var xhr = new XMLHttpRequest();
+                  var fd = !!window.FormData;
+                  return 'multiple' in input && fileSupport && 'onprogress' in xhr && 'upload' in xhr && fd ? 'html5' : 'flash';
+                }; 
+                if(checkSupport() === "html5"){
+                  $('#upload').Huploadify({
+                    auto:true,
+                    fileTypeExts:fileTypeExts,
+                    multi:true,
+                    formData:{},
+                    fileSizeLimit:fileSizeLimit,
+                    showUploadedPercent:true,//是否实时显示上传的百分比，如20%
+                    showUploadedSize:true,
+                    removeTimeout:1,
+                    fileObjName:'Filedata',
+                    buttonText : "",
+                    uploader:uploaderUrl,
+                    onUploadComplete:function(file, data, response){
+                      callbackImg(data)
+                    }
+                  });
+                }else{
+                  if($('#fileToUpload').length > 0) { //注意jquery下检查一个元素是否存在必须使用 .length >0 来判断
+                    $('#fileToUpload').uploadify('destroy');
+                  }
+                  $('#fileToUpload').uploadify({
+                      'auto'     : true,
+                      'removeTimeout' : 1,
+                        'swf'      : 'uploadify.swf',
+                        'uploader' : uploaderUrl,
+                        'method'   : 'post',
+                        'buttonText' : '',
+                        'multi'    : true,
+                        'uploadLimit' : 10,
+                        'width' : 120,
+                        'height' : 120,
+                        'fileTypeDesc' : 'Image Files',
+                        'fileTypeExts' : fileTypeExts,
+                        'fileSizeLimit' : fileSizeLimit+'KB',
+                        'onUploadSuccess' : function(file, data, response) {
+                            callbackImg(data)  
+                        }
+                    });
+                }
+                function callbackImg(arr){
+                  var data = $.parseJSON(arr)
+                  ///$scope.user.imageid = data.data;
+                  var img = new Image();
+                  img.onload=function(){
+                    console.log(img.width,img.height)
+                    if(img.width < 300){
+                      alert('图片宽度小于300，请从新上传');
+                      return false;
+                    }else if(img.height < 300){
+                      alert('图片高度小于300，请从新上传');
+                      return false;
+                    }
+                    var w = img.width > 800 ? 800 : img.width;
+                    $cropMask.css({
+                      width:$winW,
+                      height:$winH
+                    }).fadeTo("slow", 0.3);
+                    $cropBox.css({
+                      width:w,
+                      marginLeft:-(w/2)
+                    }).show().animate({
+                      top: 100,
+                      opacity:1
+                    });
+                    $('#cropPic').attr('src',img.src);
+                  };  
+                    img.onerror=function(){alert("error!")};  
+                    img.src=RootUrl+'api/v1/image/'+data.data; 
+                  $('#crop-submit').on('click',function(){
+                    $.ajax({
+                      url: RootUrl+'api/v2/web/image/crop',
+                      type: "post",
+                      contentType : 'application/json; charset=utf-8',
+                      dataType: 'json',
+                      data : JSON.stringify({
+                        "_id":data.data,
+                        "x":10,
+                        "y":10,
+                        "width":300,
+                        "height":300
+                      }),
+                      processData : false
+                    })
+                    .done(function(res){
+                      $scope.myQuery = res.data;
+                      $('#userHead').attr('src',RootUrl+'api/v2/web/thumbnail/120/'+res.data).data('img',res.data);
+                      $cropMask.hide();
+                      $cropBox.hide();
+                    })
+                    .fail(function() {
+                      console.log("error");
+                    })
+                    .always(function() {
+                      console.log("complete");
+                    });
+                    
+                  })
+                }
+            }
+        };
+    }])

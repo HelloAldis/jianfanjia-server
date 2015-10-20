@@ -170,6 +170,7 @@ angular.module('controllers', [])
                 }).then(function(res){  //获取个人资料
                     console.log(res.data.data)
                     $scope.comments = res.data.data.comments;
+                    $scope.commentOff = !$scope.comments.length ? false : true;
                 },function(res){
                     console.log(res)
                 });

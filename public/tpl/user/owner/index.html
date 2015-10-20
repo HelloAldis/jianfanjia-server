@@ -1,20 +1,20 @@
 <div class="message f-cb {{messageClass ? 'message-more' : ''}}" ng-if="notMessages">
 	<span class="num f-fl">{{messages.length}}</span>
 	<ul class="list f-fl">
-		<li bindonce ng-repeat="data in messages"><a ui-sref="plan({id:data.topicid})"><time bo-text="data.date"></time>设计师<mark bo-text="data.byUser.username">milk</mark>给您方案留了言，点击查看留言</a></li>
+		<li bindonce="messages" ng-repeat="data in messages"><a ui-sref="plan({id:data.topicid})"><time bo-text="data.date"></time>设计师<mark bo-text="data.byUser.username">milk</mark>给您方案留了言，点击查看留言</a></li>
 	</ul>
 	<a class="more f-fr" href="javascript:;" ng-show="{{messages.length > 1}}" ng-click="messageToggle(true)">更多</a>
 	<a class="upper f-fr" href="javascript:;" ng-click="messageToggle(false)">更多</a>
 </div>
 <div class="main">
 	<div class="m-index">
-		<div class="info f-cb">
+		<div class="info f-cb" bindonce="user">
 			<dl class="f-fl">
 				<dt class="f-fl"><a ui-sref="infor"><img src="{{user.imgPic}}" alt="" /></a></dt>
 				<dd class="f-fl">
-					<h3><a ui-sref="infor">{{user.username}}</a></h3>
-					<p><i>手机</i>{{user.phone}}</p>
-					<p><i>地址</i>{{user.province}} {{user.city}} {{user.district}} {{user.address}}</p>
+					<h3><a ui-sref="infor" bo-text="user.username"></a></h3>
+					<p><i>手机</i><span bo-text="user.phone"></span></p>
+					<p><i>地址</i><span ng-if="userAreaOff"><i bo-text="user.province"></i> <i bo-text="user.city"></i> <i bo-text="user.district"></i> <i bo-text="user.address"></i></span></p>
 				</dd>
 			</dl>
 			<a ui-sref="infor" class="editor f-fr"><i>编辑</i>编辑资料</a>			

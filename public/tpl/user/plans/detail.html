@@ -71,7 +71,7 @@
 		<div class="textarea"><textarea rows="10" ng-model="plansMsg"></textarea></div>
 		<div class="btns"><input type="button" ng-click="addPlansMsg(designer._id,requiremtne.userid)" class="u-btns" value="发表评论" /></div>
 	</div>
-	<div class="list">
+	<div class="list" ng-if="commentOff">
 		<ul>
 			<li bindonce="comments" ng-repeat="list in comments">
 				<img src="" alt="" />
@@ -81,7 +81,7 @@
 			</li>
 		</ul>
 	</div>
-	<div class="more">
+	<div class="more" ng-if="commentOff">
 		<a href="javascript:;" ng-click="moreBtn(comments.length)">加载更多</a>
 	</div>
 </div>
