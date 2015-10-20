@@ -241,6 +241,23 @@ exports.getOne = function (req, res, next) {
   ep.fail(next);
 
   Plan.findOne(query, null, ep.done(function (plan) {
-    res.sendData(plan);
+    Designer.findOne({
+      _id: plan.designerid
+    }, {
+      username: 1,
+      imageid: 1,
+    }, ep.done(function (designer) {
+      plan = plan.toObject();
+      plan.designer = designer;
+      User.findOne({
+        _id: plan.userid
+      }, {
+        username: 1,
+        imageid: 1,
+      }, ep.done(function (user) {
+        plan.user = user;
+        res.sendData(plan);
+      }));
+    }));
   }));
 }
