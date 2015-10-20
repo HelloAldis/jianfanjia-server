@@ -25,6 +25,7 @@ dec_style:
 3. 地中海
 4. 美式
 5. 东南亚
+6. 田园
 
 dec_districts
 0. 汉口
