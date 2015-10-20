@@ -8,6 +8,7 @@ angular.module('services', [])
                 headers: {
 					'Content-Type': 'application/json; charset=utf-8'
 			    },
+			    cache : false,
                 data: data
             })
 		};
