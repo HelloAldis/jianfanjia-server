@@ -439,6 +439,7 @@ angular.module('controllers', [])
             $scope.goTo = function(id,status){
                 $location.path('requirement/'+id+"/"+statusUrl[status]);
             }
+            console.log(userRequiremtne.get({"_id":requiremtneId}))
             userRequiremtne.get({"_id":requiremtneId}).then(function(res){
                     $scope.requirement = res.data.data;
                     console.log(res.data.data)
@@ -483,13 +484,13 @@ angular.module('controllers', [])
                     // 匹配的设计师
                     $scope.matchs = res.data.data.rec_designer;
                     angular.forEach($scope.matchs, function(value, key){
-                        value.imageSrc = value.imageid ? RootUrl+'api/v2/web/image/'+value.imageid : '../../img/user/headPic.png';
+                        value.imageSrc = value.imageid ? RootUrl+'api/v2/web/image/'+value.imageid : '../../static/img/user/headPic.png';
                         value.active = false;
                     })
                     // 自选的设计师
                     $scope.favorites = res.data.data.favorite_designer;
                     angular.forEach($scope.favorites, function(value, key){
-                        value.imageSrc = value.imageid ? RootUrl+'api/v2/web/image/'+value.imageid : '../../img/user/headPic.png';
+                        value.imageSrc = value.imageid ? RootUrl+'api/v2/web/image/'+value.imageid : '../../static/img/user/headPic.png';
                         value.active = false;
                     })
                     $scope.orderDesigns = [];
@@ -497,7 +498,7 @@ angular.module('controllers', [])
                     userRequiremtne.order({"requirementid":requiremtneId}).then(function(res){    //已经预约设计师列表
                             $scope.orders = res.data.data;
                             angular.forEach($scope.orders, function(value, key){
-                                value.imageSrc = value.imageid ? RootUrl+'api/v2/web/image/'+value.imageid : '../../img/user/headPic.png';
+                                value.imageSrc = value.imageid ? RootUrl+'api/v2/web/image/'+value.imageid : '../../static/img/user/headPic.png';
                                 value.confirmSuccess = value.plan.status === "2" ? true : false;
                                 value.scoreSuccess = value.plan.status === "6" ? true : false;
                                 if(value.plan.house_check_time){
@@ -508,7 +509,6 @@ angular.module('controllers', [])
                                     value.house_check_time = dates + days + times + ' ( '+ weeks + ' )';
                                 }
                             })
-                            console.log($scope.orders)
                             angular.forEach($scope.matchs, function(value1, key1){
                                 angular.forEach($scope.orders, function(value2, key2){
                                     if(value1._id == value2._id){
@@ -602,6 +602,34 @@ angular.module('controllers', [])
                     console.log(res)
                 });
             }
+        userRequiremtne.plans({"requirementid":requiremtneId}).then(function(res){    //获取我的方案列表
+            $scope.plans = res.data.data;
+            angular.forEach($scope.plans, function(value, key){
+                value.imageSrc = value.designer.imageid ? RootUrl+'api/v2/web/image/'+value.designer.imageid : '../../static/img/user/headPic.png';
+                value.planImages = [];
+                angular.forEach(value.images, function(value2, key2){
+                    if(key2 < 3){
+                        this.push(RootUrl+'api/v2/web/image/'+value2)
+                    }
+                },value.planImages)
+            })
+            console.log($scope.plans)
+        },function(res){
+            console.log(res)
+        });
+        $scope.definePlan = function(pid,uid){   //确定方案
+            userRequiremtne.define({
+              "planid": pid,
+              "designerid": uid,
+              "requirementid": requiremtneId
+            }).then(function(res){    
+                if(res.data.msg == "success"){
+                    alert('您已经选定方案，等候设计师生成合同')
+                }
+            },function(res){
+                console.log(res)
+            });
+        }
     }])
     .controller('favoriteProductCtrl', [     //作品收藏列表
         '$scope','$rootScope','$http','$filter','$location','userFavoriteProduct',

@@ -104,12 +104,16 @@
 	var $ownerScheme = $('#j-owner_scheme');
 	//渲染生成列表
 	function loadList(){
-		var url = RootUrl+'api/v1/designer/plan';
+		var url = RootUrl+'api/v2/web/designer_requirement_plans';
 		$.ajax({
+			method: 'POST',
 			url:url,
-			type: 'GET',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
+			data : JSON.stringify({
+			  "requirementid":"56246d30b1938c672211a428"
+			}),
+			processData : false,
 			success: function(res){
 				if(res['data'].length){
 					page(res['data'])
@@ -156,7 +160,7 @@
 							+'<div class="pic f-cb">'+images+'</div>'
 						+'</div>'
 						+'<div class="handle">'
-							+'<a href="scheme_detail.html?planid='+data._id+'&name='+encodeURI(data.user.username)+'#comment" class="msg">留言<span>('+data.comments.length+')</span></a>'
+							+'<a href="scheme_detail.html?planid='+data._id+'&name='+encodeURI(data.user.username)+'#comment" class="msg">留言</a>'
 							+(data.status == 5 ? "" : '<a href="scheme_create.html?userid='+data._id+'&name='+encodeURI(data.user.username)+'" class="btns confirm">修改方案</a>')+'<a href="scheme_detail.html?planid='+data._id+'&name='+encodeURI(data.user.username)+'" class="btns browse">预览方案</a>'
 						+'</div>'
 					+'</div>'

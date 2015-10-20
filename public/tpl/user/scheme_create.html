@@ -557,11 +557,13 @@
 			})
 			$.ajax({
 				method: 'POST',
-				url:RootUrl+'api/v1/designer/plan',
+				url:RootUrl+'api/v2/web/designer/plan/add',
 				contentType : 'application/json; charset=utf-8',
 				dataType: 'json',
 				data : JSON.stringify({
 				  "userid": userid,
+				  "requirementid":"562451e5adb37d54705cb055",
+				  "project_price_after_discount":10,
 				  "duration":parseInt($schemeCycle.val()),
 				  "total_price":parseInt($schemePrice.html()),
 				  "price_detail":$schemePrice.data('detail'),
@@ -744,12 +746,6 @@
 			$(this).closest('.previews-item').remove();
 		}
 	})
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 62d5dc83d3d9678acca57d9655f30e2943ca5f72
 	    /*
 	    * 参数说明：
 	    * number：要格式化的数字
