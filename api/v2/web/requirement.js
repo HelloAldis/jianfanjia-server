@@ -14,9 +14,9 @@ var type = require('../../../type');
 var async = require('async');
 var sms = require('../../../common/sms');
 var designer_match_util = require('../../../common/designer_match');
-var wkhtmltopdf = require('wkhtmltopdf');
+// var wkhtmltopdf = require('wkhtmltopdf');
 
-exports.user_my_requiremtne_list = function (req, res, next) {
+exports.user_my_requirement_list = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var ep = eventproxy();
   ep.fail(next);
@@ -28,29 +28,96 @@ exports.user_my_requiremtne_list = function (req, res, next) {
   }));
 }
 
-exports.designer_my_requiremtne_list = function (req, res, next) {
+exports.designer_my_requirement_list = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
   var ep = eventproxy();
   ep.fail(next);
 
-  Requirement.find({
-    order_designerids: designerid
-  }, null, ep.done(function (requirements) {
-    async.mapLimit(requirements, 3, function (requirement, callback) {
-      requirement = requirement.toObject();
-      User.findOne({
-        _id: requirement.userid
-      }, {
-        username: 1,
-        phone: 1,
-        imageid: 1
-      }, function (err, user) {
-        requirement.user = user;
-        callback(err, requirement);
-      });
-    }, ep.done(function (requirements) {
-      res.sendData(requirements);
-    }));
+  Plan.find({
+    designerid: designerid,
+    status: {
+      $in: [type.plan_status_not_respond, type.plan_status_designer_respond_no_housecheck,
+        type.plan_status_designer_housecheck_no_plan, type.plan_status_designer_upload,
+        type.plan_status_user_final
+      ],
+    },
+  }, null, ep.done(function (plans) {
+    plans = _.uniq(plans, function (plan) {
+      return plan._id.toString();
+    });
+    var requirementids = _.pluck(plans, 'requirementid');
+    if (requirementids && requirementids.length > 0) {
+      Requirement.find({
+        _id: {
+          $in: requirementids,
+        }
+      }, null, null, ep.done(function (requirements) {
+        async.mapLimit(requirements, 3, function (requirement,
+          callback) {
+          requirement = requirement.toObject();
+          User.findOne({
+            _id: requirement.userid
+          }, {
+            username: 1,
+            phone: 1,
+            imageid: 1
+          }, function (err, user) {
+            requirement.user = user;
+            callback(err, requirement);
+          });
+        }, ep.done(function (requirements) {
+          res.sendData(requirements);
+        }));
+      }));
+    } else {
+      res.sendData([]);
+    }
+  }));
+}
+
+exports.designer_my_requirement_history_list = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Plan.find({
+    designerid: designerid,
+    status: {
+      $in: [type.plan_status_designer_no_respond_expired, type.plan_status_designer_no_plan_expired,
+        type.plan_status_user_not_final, type.plan_status_designer_reject
+      ],
+    },
+  }, null, ep.done(function (plans) {
+    plans = _.uniq(plans, function (plan) {
+      return plan._id.toString();
+    });
+    var requirementids = _.pluck(plans, 'requirementid');
+    if (requirementids && requirementids.length > 0) {
+      Requirement.find({
+        _id: {
+          $in: requirementids,
+        }
+      }, null, null, ep.done(function (requirements) {
+        async.mapLimit(requirements, 3, function (requirement,
+          callback) {
+          requirement = requirement.toObject();
+          User.findOne({
+            _id: requirement.userid
+          }, {
+            username: 1,
+            phone: 1,
+            imageid: 1
+          }, function (err, user) {
+            requirement.user = user;
+            callback(err, requirement);
+          });
+        }, ep.done(function (requirements) {
+          res.sendData(requirements);
+        }));
+      }));
+    } else {
+      res.sendData([]);
+    }
   }));
 }
 
@@ -84,20 +151,19 @@ exports.user_add_requirement = function (req, res, next) {
   }, {
     pass: 0,
     accessToken: 0
-  }, {}, ep.done(function (designers) {
-    _.forEach(designers, function (designer) {
-      designer_match_util.designer_match(designer, requirement);
-    });
-    var designersSort = _.sortByOrder(designers, ['match'], ['desc']);
-    ep.emit('final', designersSort);
+  }, {
+    sort: {
+      authed_product_count: -1,
+      order_count: 1,
+      login_count: -1,
+    }
+  }, ep.done(function (designers) {;
+    ep.emit('final', designer_match_util.top_designers(designers,
+      requirement));
   }));
 
   ep.on('final', function (designers) {
     //设计确定了
-    if (designers.length > config.recommend_designer_count) {
-      designers = designers.slice(0, config.recommend_designer_count);
-    }
-
     var designerids = _.pluck(designers, '_id');
     requirement.rec_designerids = designerids;
 
@@ -111,8 +177,6 @@ exports.user_add_requirement = function (req, res, next) {
         _id: userid
       }, null, function (err, user) {
         if (user) {
-          var count = designerids.length >= 3 ? 3 : designerids
-            .length;
           sms.sendYzxRequirementSuccess(user.phone, [user.username]);
         }
       });
@@ -141,20 +205,19 @@ exports.user_update_requirement = function (req, res, next) {
   }, {
     pass: 0,
     accessToken: 0
-  }, {}, ep.done(function (designers) {
-    _.forEach(designers, function (designer) {
-      designer_match_util.designer_match(designer, requirement);
-    });
-    var designersSort = _.sortByOrder(designers, ['match'], ['desc']);
-    ep.emit('final', designersSort);
+  }, {
+    sort: {
+      authed_product_count: -1,
+      order_count: 1,
+      login_count: -1,
+    }
+  }, ep.done(function (designers) {
+    ep.emit('final', designer_match_util.top_designers(designers,
+      requirement));
   }));
 
   ep.on('final', function (designers) {
     //设计确定了
-    if (designers.length > config.recommend_designer_count) {
-      designers = designers.slice(0, config.recommend_designer_count);
-    }
-
     var designerids = _.pluck(designers, '_id');
     requirement.rec_designerids = designerids;
     requirement.last_status_update_time = new Date().getTime();
