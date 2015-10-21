@@ -1249,6 +1249,66 @@ body{
 .m-plans .boxs dl{
 	padding-left: 20px;
 }
+.m-plans .boxs dt{
+	line-height: 34px;
+}
+.m-plans .boxs dt a{
+	font-size: 20px;
+	font-weight: bold;
+	color: #383d48;
+}
+.m-plans .boxs dt a:hover{
+	color: #fe7004;
+}
+.m-plans .boxs dt span{
+	display: inline-block;
+	line-height: 18px;
+	padding-right: 5px;
+	margin:0 20px;
+	border: 1px solid #fe7004;
+	border-radius: 2px;
+}
+.m-plans .boxs .status{
+	width: 78px;
+	font-size: 14px;
+	line-height: 36px;
+	text-align: center;
+	border-radius: 2px;
+}
+.m-plans .boxs .status3{
+	border: 1px solid #61687a;
+	color: #61687a;
+}
+.m-plans .boxs .status4{
+	border: 1px solid #999;
+	color: #999;
+}
+.m-plans .boxs .status5{
+	border: 1px solid #fe7004;
+	color: #fe7004;
+}
+.m-plans .boxs dt i{
+	display: inline-block;
+	width: 20px;
+	height: 18px;
+	line-height: 18px;
+	background-color: #fe7004;
+	margin-right: 4px;
+	text-align: center;
+	color: #fff;
+}
+.m-plans .boxs dd{
+	line-height: 30px;
+}
+.m-plans .boxs dd span{
+	margin-right: 18px;
+	font-size: 16px;
+	color: #999;
+}
+.m-plans .boxs dd span strong{
+	margin-left: 17px;
+	color: #fe7004;
+}
 .m-plans .profile{
 	padding: 18px 0;
 	font-size: 14px;

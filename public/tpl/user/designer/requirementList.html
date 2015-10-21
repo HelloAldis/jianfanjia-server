@@ -7,7 +7,7 @@
 			<ul class="list">
 				<li ng-if="notRequiremtnes">
 					<div class="ct">你还没有发布装修需求哟~</div>
-					<div class="btns">
+					<div class="btns" ng-if="requiremtnes.length > 3">
 						<a ui-sref="release" class="u-btns">发布装修需求</a>
 					</div>
 				</li>

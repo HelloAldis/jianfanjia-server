@@ -28,7 +28,7 @@ angular.module('services', [])
             })
 		};
 		return {
-			list : function(){return doRequest('designer_my_requiremtne_list')},
+			list : function(){return doRequest('designer_my_requirement_list')},
 			get : function(data){return doRequest('designer_one_requirement',data)},
 			answer : function(data){return doRequest('designer/user/ok',data)},
 			reject : function(data){return doRequest('designer/user/reject',data)},

@@ -374,8 +374,9 @@
 		window["OnlinePrice"] = OnlinePrice;
 	})(jQuery);
 		var winHash = window.location.search.substring(1).split("&");
-		var userid = winHash[0].split("=")[1];
-		var userName = decodeURI(winHash[1].split("=")[1]);
+		console.log(winHash)
+		var requirementid = winHash[0];
+		var userId = winHash[1];
 		if(!!winHash[2]){
 			submitScheme()
 		}else{
@@ -561,8 +562,8 @@
 				contentType : 'application/json; charset=utf-8',
 				dataType: 'json',
 				data : JSON.stringify({
-				  "userid": userid,
-				  "requirementid":"562451e5adb37d54705cb055",
+				  "userid": userId,
+				  "requirementid":requirementid,
 				  "project_price_after_discount":10,
 				  "duration":parseInt($schemeCycle.val()),
 				  "total_price":parseInt($schemePrice.html()),

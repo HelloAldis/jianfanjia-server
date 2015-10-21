@@ -75,6 +75,15 @@ angular.module('filters', [])
             }[input];
         }
     })
+    .filter('designSexFilter', function () {     //习惯沟通方式
+        return function (input) {
+            return {
+                "0":"男",
+                "1":"女",
+                "2":"不限"
+            }[input];
+        }
+    })
     .filter('workTypeFilter', function () {     //习惯沟通方式
         return function (input) {
             return {
@@ -193,5 +202,38 @@ angular.module('filters', [])
                 "2":"查看并选择装修方案",
                 "3":"前往生成三方合同"
             }[input];
+        }
+    })
+    .filter('timeFormat', function () {    //格式化个性时间
+        return function (input) {
+            var date = new Date(input),
+                curDate = new Date(),
+                year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours(),
+                minute = date.getMinutes(),
+                curYear = curDate.getFullYear(),
+                curHour = curDate.getHours(),
+                timeStr;
+            if(year < curYear){
+                timeStr = year +'年'+ month +'月'+ day +'日 '+ hour +':'+ minute;
+            }else{
+                var pastTime = curDate - date,
+                    pastH = pastTime/3600000;
+                if(pastH > curHour){
+                      timeStr = month +'月'+ day +'日 '+ hour +':'+ minute;
+                }else if(pastH >= 1){
+                      timeStr = '今天 ' + hour +':'+ minute +'分';
+                }else{
+                    var pastM = curDate.getMinutes() - minute;
+                    if(pastM > 1){
+                        timeStr = pastM +'分钟前';
+                    }else{
+                        timeStr = '刚刚';
+                    }
+                }
+            }
+            return timeStr;
         }
     })
