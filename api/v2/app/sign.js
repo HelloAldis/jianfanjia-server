@@ -96,6 +96,12 @@ exports.designer_login = function (req, res, next) {
           data._id = result.designer._id;
           data.imageid = result.designer.imageid;
           res.sendData(data);
+
+          Designer.incOne({
+            _id: result.designer._id
+          }, {
+            login_count: 1
+          }, {});
         }));
       } else {
         return res.sendErrMsg('用户名或密码错误');

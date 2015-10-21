@@ -34,7 +34,7 @@ exports.add = function (req, res, next) {
 
       if (plan_indb) {
         //有已响应但是没上传的方案，直接上传方案到这里
-        plan.status = type.plan_status_desinger_upload; //修改status为已上传
+        plan.status = type.plan_status_designer_upload; //修改status为已上传
         plan.last_status_update_time = new Date().getTime();
         var query = {
           userid: userid,
@@ -52,7 +52,7 @@ exports.add = function (req, res, next) {
         });
       } else {
         //创建新的方案
-        plan.status = type.plan_status_desinger_upload;
+        plan.status = type.plan_status_designer_upload;
         plan.designerid = new ObjectId(designerid);
         plan.userid = new ObjectId(userid);
         plan.requirementid = requirement._id;
@@ -138,7 +138,7 @@ exports.userMyPlan = function (req, res, next) {
     userid: userid,
     status: {
       $in: [type.plan_status_user_final, type.plan_status_user_not_final,
-        type.plan_status_desinger_upload
+        type.plan_status_designer_upload
       ]
     }
   }, null, null, function (err, plans) {
@@ -231,7 +231,7 @@ exports.designerMyPlan = function (req, res, next) {
     designerid: designerid,
     status: {
       $in: [type.plan_status_user_final, type.plan_status_user_not_final,
-        type.plan_status_desinger_upload
+        type.plan_status_designer_upload
       ]
     }
   }, null, null, function (err, plans) {

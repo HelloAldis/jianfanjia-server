@@ -71,6 +71,12 @@ exports.login = function (req, res, next) {
             data.url = 'agree license url';
           } else {
             data.url = 'designer url';
+
+            Designer.incOne({
+              _id: result.designer._id
+            }, {
+              login_count: 1
+            }, {});
           }
 
           res.sendData(data);

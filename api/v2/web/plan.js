@@ -32,7 +32,7 @@ exports.add = function (req, res, next) {
   }, null, ep.done(function (plan_indb) {
     if (plan_indb) {
       //有已响应但是没上传的方案，直接上传方案到这里
-      plan.status = type.plan_status_desinger_upload; //修改status为已上传
+      plan.status = type.plan_status_designer_upload; //修改status为已上传
       plan.last_status_update_time = new Date().getTime();
       var query = {
         userid: userid,
@@ -70,7 +70,7 @@ exports.add = function (req, res, next) {
       }));
     } else {
       //创建新的方案
-      plan.status = type.plan_status_desinger_upload;
+      plan.status = type.plan_status_designer_upload;
       plan.designerid = designerid;
       plan.userid = new ObjectId(userid);
       plan.requirementid = new ObjectId(requirementid);
@@ -132,7 +132,7 @@ exports.user_requirement_plans = function (req, res, next) {
     designerid: designerid,
     status: {
       $in: [type.plan_status_user_final, type.plan_status_user_not_final,
-        type.plan_status_desinger_upload
+        type.plan_status_designer_upload
       ]
     }
   }, null, null, ep.done(function (plans) {
@@ -184,7 +184,7 @@ exports.finalPlan = function (req, res, next) {
         _id: {
           $ne: planid
         },
-        status: type.plan_status_desinger_upload,
+        status: type.plan_status_designer_upload,
       }, {
         status: type.plan_status_user_not_final,
         last_status_update_time: new Date().getTime(),
@@ -195,7 +195,7 @@ exports.finalPlan = function (req, res, next) {
         Plan.setOne({
           _id: planid,
           userid: userid,
-          status: type.plan_status_desinger_upload,
+          status: type.plan_status_designer_upload,
         }, {
           status: type.plan_status_user_final,
           last_status_update_time: new Date().getTime(),
@@ -278,7 +278,7 @@ exports.designer_requirement_plans = function (req, res, next) {
     requirementid: requirementid,
     status: {
       $in: [type.plan_status_user_final, type.plan_status_user_not_final,
-        type.plan_status_desinger_upload
+        type.plan_status_designer_upload
       ]
     }
   }, null, null, ep.done(function (plans) {
