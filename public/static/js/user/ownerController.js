@@ -704,22 +704,37 @@ angular.module('controllers', [])
     .controller('favoriteProductCtrl', [     //作品收藏列表
         '$scope','$rootScope','$http','$filter','$location','userFavoriteProduct',
         function($scope, $rootScope,$http,$filter,$location,userFavoriteProduct){
-            userFavoriteProduct.list().then(function(res){  //获取作品收藏列表
-                console.log(res.data.products);
-                $scope.products = res.data.products;
-                console.log(res.data.total);
-            },function(res){
-                console.log(res)
-            });
+            function laod(){
+                userFavoriteProduct.list().then(function(res){  //获取作品收藏列表
+                    $scope.products = res.data.products;
+                    angular.forEach($scope.products, function(value, key){
+                        value.house_type = $filter('houseTypeFilter')(value.house_type);
+                        value.dec_style = $filter('decStyleFilter')(value.dec_style);
+                        value.description = $filter('limitTo')(value.description,100);
+                    })
+                    //console.log(res.data.total);
+                },function(res){
+                    console.log(res)
+                });
+            }
+            $scope.deleteFavorite = function(id){
+                userFavoriteProduct.remove({'_id':id}).then(function(res){  //获取意向设计师列表
+                    if(res.data.msg === "success"){
+                       laod(); 
+                    }
+                },function(res){
+                    console.log(res)
+                });
+            }
+            laod()
     }])
     .controller('favoriteDesignerCtrl', [     //意向设计师列表
         '$scope','$rootScope','$http','$filter','$location','userFavoriteDesigner',
         function($scope, $rootScope,$http,$filter,$location,userFavoriteDesigner){
             function laod(){
                 userFavoriteDesigner.list().then(function(res){  //获取意向设计师列表
-                    //console.log(res.data.designers);
-                    $scope.designers = res.data.designers;
-                    //console.log(res.data.total);
+                    $scope.designers = res.data.data.designers;
+                    //console.log(res.data.data.total)
                 },function(res){
                     console.log(res)
                 });

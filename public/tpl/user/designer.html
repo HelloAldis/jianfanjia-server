@@ -3,12 +3,12 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>业主个人中心</title>
+	<title>设计师个人中心</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="">
 	<meta name="keywords" content="">
     <link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/css/owner.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/designer.css" />
     <script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../../static/js/lib/tdist.js"></script>
     <script type="text/javascript" src="../../static/js/lib/public.js"></script>
@@ -51,20 +51,31 @@
     </div>
 	<main class="g-wp g-user f-cb">
 		<aside class="g-sd f-fl" ng-controller="SubController">
-            <div class="m-sdc">
-    			<h2 ng-class="{active: nav==&quot;index&quot;}"><a ui-sref="index">个人中心</a></h2>
-                <dl>
-                    <dt>我的装修</dt>
-                    <dd ng-class="{active: nav==&quot;requirementList&quot;}"><a ui-sref="requirementList">装修需求列表</a></dd>
-                    <dd ng-class="{active: nav==&quot;release&quot;}" ng-if="requiremtnes"><a ui-sref="release({id:''})">填写装修需求</a></dd>
-                </dl>
-                <div class="line"></div>
-                <dl>
-                    <dt>我的收藏</dt>
-                    <dd ng-class="{active: nav==&quot;favorite&quot;}"><a ui-sref="favorite">作品收藏</a></dd>
-                    <dd ng-class="{active: nav==&quot;designer&quot;}"><a ui-sref="designer">意向设计师列表</a></dd>
-                </dl>
+			<div class="m-sdc">
+				<h2 ng-class="{active: nav==&quot;index&quot;}"><a ui-sref="index">个人中心</a></h2>
+	            <dl>
+	                <dt>业主装修需求</dt>
+	                <dd ng-class="{active: nav==&quot;requirementList&quot;}"><a ui-sref="requirementList">装修需求列表</a></dd>
+	                <dd ng-class="{active: nav==&quot;release&quot;}"><a ui-sref="release({id:''})">历史装修需求</a></dd>
+	            </dl>
+	            <div class="line"></div>
+	            <dl>
+	                <dt>我的作品</dt>
+	                <dd ng-class="{active: nav==&quot;favorite&quot;}"><a ui-sref="favorite">作品列表</a></dd>
+	                <dd ng-class="{active: nav==&quot;designer&quot;}"><a ui-sref="designer">发布作品</a></dd>
+	            </dl>
             </div>
+            <div class="m-sdc">
+	            <h2 ng-class="{active: nav==&quot;index&quot;}"><a ui-sref="index">认证中心</a></h2>
+	            <dl>
+	                <dd ng-class="{active: nav==&quot;requirementList&quot;}"><a ui-sref="requirementList">基本资料认证</a></dd>
+	                <dd ng-class="{active: nav==&quot;release&quot;}" ng-if="requiremtnes"><a ui-sref="release({id:''})">身份认证</a></dd>
+	                <dd ng-class="{active: nav==&quot;requirementList&quot;}"><a ui-sref="requirementList">作品认证</a></dd>
+	                <dd ng-class="{active: nav==&quot;release&quot;}" ng-if="requiremtnes"><a ui-sref="release({id:''})">施工团队</a></dd>
+	                <dd ng-class="{active: nav==&quot;requirementList&quot;}"><a ui-sref="requirementList">手机认证</a></dd>
+	                <dd ng-class="{active: nav==&quot;release&quot;}" ng-if="requiremtnes"><a ui-sref="release({id:''})">邮箱认证</a></dd>
+	            </dl>
+	        </div>
 		</aside>
 		<article class="g-mn f-fr">
 			<!--视图模板容器 start-->
@@ -107,8 +118,8 @@
     </footer>
     <script type="text/javascript" src="../../static/js/user/filters.js"></script>
     <script type="text/javascript" src="../../static/js/user/directives.js"></script>
-    <script type="text/javascript" src="../../static/js/user/ownerService.js"></script>
-    <script type="text/javascript" src="../../static/js/user/ownerController.js"></script>
-    <script type="text/javascript" src="../../static/js/user/ownerApp.js"></script>
+    <script type="text/javascript" src="../../static/js/user/designerService.js"></script>
+    <script type="text/javascript" src="../../static/js/user/designerController.js"></script>
+    <script type="text/javascript" src="../../static/js/user/designerApp.js"></script>
 </body>
 </html>

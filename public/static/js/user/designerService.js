@@ -16,7 +16,7 @@ angular.module('services', [])
 			update : function(data){return doRequest('user/info',data)}
 		}
 	}])
-	.factory('userRequiremtne', ['$http', function($http){      //业主 add 提交需求 get获取单条信息 update更新需求 list需求列表 booking预约量房 designers可以预约的设计师 order已经预约设计师列表 checked确认设计师量完房 plans获取方案列表 define选定方案  plan获取某个方案信息
+	.factory('userRequiremtne', ['$http', function($http){      //设计师 list需求列表 get获取单条信息 answer响应业主 reject拒绝业主 config配置合同 plans获取方案列表
 		var doRequest = function(url,data){
 			return $http({
                 method : 'POST',
@@ -28,25 +28,19 @@ angular.module('services', [])
             })
 		};
 		return {
-			list : function(){return doRequest('user_my_requiremtne_list')},
-			add : function(data){return doRequest('user_add_requirement',data)},
-			get : function(data){return doRequest('user_one_requirement',data)},
-			update : function(data){return doRequest('user_update_requirement',data)},
-			designers : function(data){return doRequest('designers_user_can_order',data)},
-			order : function(data){return doRequest('user_ordered_designers',data)},
-			booking : function(data){return doRequest('user_order_designer',data)},
-			checked : function(data){return doRequest('designer_house_checked',data)},
-			plans : function(data){return doRequest('user_requirement_plans',data)},
-			define : function(data){return doRequest('user/plan/final',data)},
-			plan : function(data){return doRequest('one_plan',data)},
-			score : function(data){return doRequest('user_evaluate_designer',data)}
+			list : function(){return doRequest('designer_my_requiremtne_list')},
+			get : function(data){return doRequest('designer_one_requirement',data)},
+			answer : function(data){return doRequest('designer/user/ok',data)},
+			reject : function(data){return doRequest('designer/user/reject',data)},
+			config : function(data){return doRequest('config_contract',data)},
+			plans : function(data){return doRequest('designer_requirement_plans',data)} 
 		}
 	}])
-	.factory('userFavoriteDesigner', ['$http', function($http){     //业主 list获取意向设计师列表 add添加 remove删除
+	.factory('userTeam', ['$http', function($http){     //获取设计师施工团队 list列表 add添加 remove删除 update更新
 		var doRequest = function(url,data){
 			return $http({
                 method : 'POST',
-                url : RootUrl+'api/v2/web/favorite/designer/'+url,
+                url : RootUrl+'api/v2/web/designer/team/'+url,
                 headers: {
 					'Content-Type': 'application/json; charset=utf-8'
 			    },
@@ -54,12 +48,13 @@ angular.module('services', [])
             })
 		};
 		return {
-			list : function(){return doRequest('list')},
+			list : function(){return doRequest('get')},
 			add : function(data){return doRequest('add',data)},
+			update : function(data){return doRequest('update',data)},
 			remove : function(data){return doRequest('delete',data)}
 		}
 	}])
-	.factory('userFavoriteProduct', ['$http', function($http){     //业主 list收藏作品列表 add添加收藏 remove删除收藏
+	.factory('userFavoriteProduct', ['$http', function($http){     //设计师 list收藏作品列表 add添加收藏 remove删除收藏
 		var doRequest = function(url,data){
 			return $http({
                 method : 'POST',
@@ -76,7 +71,7 @@ angular.module('services', [])
 			remove : function(data){return doRequest('delete',data)}
 		}
 	}])
-	.factory('userComment', ['$http', function($http){     //业主 unread获取未读评论 add添加评论 delete评论并标记为已读
+	.factory('userComment', ['$http', function($http){     //设计师 unread获取未读评论 add添加评论 delete评论并标记为已读
 		var doRequest = function(url,data){
 			return $http({
                 method : 'POST',

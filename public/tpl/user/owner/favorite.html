@@ -1,11 +1,29 @@
-<div class="main">
+<div class="main favorite">
 	<div class="m-tt">
 		<h2>收藏作品</h2>
 	</div>
 	<div class="m-ct">
-		<ul>
+		<ul class="list f-cb">
 			<li ng-repeat="list in products" bindonce="products">
-				
+				<div class="deleted" bo-if="list.is_deleted">
+					<span><i class="iconfont">哭脸</i></span>
+					<p>原内容已被作者删除</p>
+					<a href="javascript:;" class="u-btns" ng-click="deleteFavorite(list._id)"><i>删除</i>删除</a>
+				</div>
+				<div class="boxs" bo-if="!list.is_deleted">
+					<a target="_blank" bo-href-i="../design/detail.html?{{list._id}}" class="img">
+						<img bo-src-i="/api/v2/web/thumbnail/448/{{list.images[0].imageid}}" bo-alt="list.cell">
+					</a>
+					<h4><a bo-href-i="../design/detail.html?{{list._id}}"  target="_blank" bo-text="list.cell"></a><span bo-if="list.province">(<i bo-text="list.province"></i> <i bo-text="list.city"></i>
+						<i bo-text="list.district"></i>)</span></h4>
+					<div class="tag">
+						<span><i bo-text="list.house_area"></i>m&sup2;</span>
+						<span><i bo-text="list.house_type"></i></span>
+						<span><i bo-text="list.dec_style"></i></span>
+					</div>
+					<p bo-text="list.description"></p>
+					<a href="javascript:;" class="u-btns" ng-click="deleteFavorite(list._id)"><i>删除</i>删除</a>
+				</div>
 			</li>
 		</ul>
 		<div class="m-page"></div>
