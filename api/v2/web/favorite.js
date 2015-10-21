@@ -30,7 +30,8 @@ exports.list_product = function (req, res, next) {
         }, null, function (err, product) {
           if (!product) {
             product = {
-              _id: productid
+              _id: productid,
+              is_deleted: true,
             };
           }
 
