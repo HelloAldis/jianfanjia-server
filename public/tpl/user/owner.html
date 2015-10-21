@@ -55,7 +55,7 @@
             <dl>
                 <dt>我的装修</dt>
                 <dd ng-class="{active: nav==&quot;requirementList&quot;}"><a ui-sref="requirementList">装修需求列表</a></dd>
-                <dd ng-class="{active: nav==&quot;release&quot;}"><a ui-sref="release({id:''})">填写装修需求</a></dd>
+                <dd ng-class="{active: nav==&quot;release&quot;}" ng-if="requiremtnes"><a ui-sref="release({id:''})">填写装修需求</a></dd>
             </dl>
             <div class="line"></div>
             <dl>

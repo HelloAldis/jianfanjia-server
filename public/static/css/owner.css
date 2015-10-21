@@ -359,6 +359,66 @@ body{
 .k-cropBox img{
 	width: 100%;
 }
+.k-cropBox .img1{
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+}
+.k-cropBox .img2{
+	position: absolute;
+	left:0;
+	top:0;
+	clip:rect(0px 300px 300px 0px);
+}
+.k-cropBox .cropBorder{
+	position: absolute;
+	left:-1px;
+	top:-1px;
+	z-index: 2;
+	width: 300px;
+	height: 300px;
+	border: 1px solid #fff;	
+}
+.k-cropBox .cropBorder span{
+	position: absolute;
+	left:0;
+	top:0;
+	width: 4px;
+	height:4px;
+	background-color: #fff;
+	margin-left: -2px;
+	margin-top: -2px;
+}
+.k-cropBox .cropBorder div{
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.k-cropBox .cropBorder .dot2{
+	left:50%;
+}
+.k-cropBox .cropBorder .dot3{
+	left:100%;
+}
+.k-cropBox .cropBorder .dot4{
+	top:50%;
+	left:100%;
+}
+.k-cropBox .cropBorder .dot5{
+	top:100%;
+	left:100%;
+}
+.k-cropBox .cropBorder .dot6{
+	top:100%;
+	left:50%;
+}
+.k-cropBox .cropBorder .dot7{
+	top:100%;
+}
+.k-cropBox .cropBorder .dot8{
+	top:50%;
+}
 .k-cropBox .btns{
 	padding: 34px 0 12px;
 	text-align: center;
@@ -1042,8 +1102,119 @@ body{
 	width: 100%;
 	height: 100%;
 }
-.k-motai{
-
+.k-motai .mask{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+	opacity: 0.3;
+	filter: alpha(opacity=30);
+}
+.k-motai .motai{
+	position: absolute;
+	left:50%;
+	top:100px;
+	z-index: 2;
+	margin-left: -264px;
+	width: 528px;
+	background-color: #fff;
+	border: 1px solid #e5e5e5;
+	border-radius: 5px;
+	-moz-box-shadow: 0px 0px 15px rgba(0,0,0,0.12);
+	-webkit-box-shadow: 0px 0px 15px rgba(0,0,0,0.12);
+	box-shadow: 0px 0px 15px rgba(0,0,0,0.12);
+}
+.k-motai .score{
+	top:50%;
+	height: 508px;
+	margin-top: -254px;
+}
+.k-motai .score h3{
+	padding: 0 19px;
+	margin-bottom: 20px;
+	font-size: 16px;
+	line-height: 65px;
+	color: #383d48;
+	border-bottom: 1px solid #eee;
+}
+.k-motai .score .textarea{
+	height: 160px;
+	margin:16px 19px 0;
+  	overflow: hidden;
+  	padding-left: 20px;
+	border: 1px solid #e5e5e5;
+	background-color: #f9f9f9;
+	border-radius: 2px;
+}
+.k-motai .score dl{
+	height: 44px;
+	padding:0 19px;
+	line-height: 44px;
+}
+.k-motai .score dt{
+	float: left;
+	width: 100px;
+	font-size: 16px;
+	color: #61687a;
+}
+.k-motai .score dd{
+	font-size: 0;
+	padding-top: 10px;
+}
+.k-motai .score dd span{
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	margin-right: 6px;
+	background:url(../img/user/star-icon.png) 0 bottom no-repeat;
+}
+.k-motai .score dd .active{
+	background-position: 0 0;
+}
+.k-motai .score .textarea textarea{
+  float: left;
+  width: 100%;
+  height: 140px;
+  line-height: 20px;
+  margin-left: -20px;
+  padding: 10px;
+  font-size: 14px;
+  border: 0;
+  resize: none;
+  background: none;
+}
+.k-motai .score .anonymity{
+	padding: 0 19px 20px;
+}
+.k-motai .score .anonymity span{
+	display: block;
+	width: 100px;
+	height: 34px;
+	line-height: 34px;
+	cursor: pointer;
+}
+.k-motai .score .anonymity span i{
+	display: inline-block;
+    vertical-align: middle;
+    width: 14px;
+    height: 14px;
+    overflow: hidden;
+    margin-right: 15px;
+    background: url(../img/user/user-radio-bg.png) no-repeat;
+}
+.k-motai .score .anonymity span .active{
+	background-position: 0 -14px;
+}
+.k-motai .score .btns{
+	padding: 30px 0;
+	text-align: center;
+	border-top: 1px dashed #e5e5e5;
+}
+.k-motai .score .btns .u-btns{
+	margin: 0 10px;
 }
 /*方案列表*/
 .plans-tips{
@@ -1112,4 +1283,17 @@ body{
 }
 .m-plans .select .u-btns{
 	margin-left: 15px;
+}
+/*意向设计师列表*/
+.designer .m-designerList .select{
+	display: none;
+}
+.designer .booking .m-designerList li{
+	cursor: default;
+}
+.designer .booking .m-designerList li:first-child{
+	border-top: none;
+}
+.designer .m-designerList li:hover .select{
+	display: block;
 }

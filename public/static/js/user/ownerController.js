@@ -1,8 +1,9 @@
 'use strict';
 angular.module('controllers', [])
 	.controller('SubController', [    //左侧高亮按钮
-            '$scope','$location',function($scope, $location) {
+            '$scope','$location','userRequiremtne',function($scope, $location,userRequiremtne) {
                 $scope.location = $location;
+                $scope.requiremtnes = false;
                 $scope.$watch( 'location.url()', function( url ){
                     if(url.split('/')[1] == 'requirement'){
                         $scope.nav = 'requirementList'
@@ -11,7 +12,13 @@ angular.module('controllers', [])
                     }else{
                        $scope.nav = url.split('/')[1];  
                     }
+                    userRequiremtne.list().then(function(res){
+                        $scope.requiremtnes = res.data.data.length < 3 ? true : false;
+                    },function(res){
+                        console.log(res)
+                    });
                 });
+                
             }
     ])
 	.controller('indexCtrl', [     //业主首页
@@ -27,7 +34,6 @@ angular.module('controllers', [])
         		console.log(res)
         	});
             userComment.unread().then(function(res){
-                console.log(res.data.data)
                 $scope.messages = res.data.data;
                 $scope.notMessages = $scope.messages.length ? true : false;
                 angular.forEach($scope.messages, function(value, key){
@@ -94,7 +100,6 @@ angular.module('controllers', [])
     .controller('inforCtrl', [     //业主资料
         '$scope','$rootScope','$http','$filter','$location','userInfo',
         function($scope, $rootScope,$http,$filter,$location,userInfo){
-            var desArea = $('#where_area');
             $scope.usersex = [ 
                 {
                     id : '0',
@@ -106,7 +111,7 @@ angular.module('controllers', [])
                     name : '女',
                     cur : '' 
                 }
-            ]
+            ];
             userInfo.get().then(function(res){  //获取个人资料
                 console.log(res.data.data);
                 $scope.user = res.data.data;
@@ -120,7 +125,7 @@ angular.module('controllers', [])
                     $scope.user.city = '请选择市';
                     $scope.user.district = '请选择县/区';
                 }
-                setSex(false,$scope.user.sex)
+                setSex(false,$scope.user.sex);
             },function(res){
                 console.log(res)
             });
@@ -145,12 +150,15 @@ angular.module('controllers', [])
                 return str;
             }
             $scope.submitBtn = function(){     //修改个人资料
+                if(checkSupport() !== "html5"){
+                    $('#fileToUpload').uploadify('destroy');
+                }
                 $scope.user.sex = setSex(true)
                 $scope.user.imgPic = undefined;
                 console.log($scope.user.imageid)
                 userInfo.update($scope.user).then(function(res){     
                     if(res.data.msg == "success"){
-                        userInfo.get()
+                        userInfo.get();
                         $location.path('index');
                     }
                 },function(res){
@@ -236,7 +244,6 @@ angular.module('controllers', [])
                     url : '../../../static/img/user/stylePic7.jpg'
                 }
             ]
-            console.log('需求id:'+$stateParams.id)
             if($stateParams.id == undefined){        //发布新需求
                 $scope.requiremtne = {};
                 $scope.requiremtne.dec_style = '0';
@@ -245,7 +252,6 @@ angular.module('controllers', [])
                 $scope.requiremtne.communication_type = '0';
                 $scope.requiremtne.family_description = $scope.family_description[0].name;
                 userInfo.get().then(function(res){  //获取个人资料
-                    console.log(res.data.data);
                     $scope.user = res.data.data;
                     if(!!$scope.user.province){
                         $scope.requiremtne.province = $scope.user.province;
@@ -259,13 +265,11 @@ angular.module('controllers', [])
                 },function(res){
                     console.log(res)
                 });
-                console.log($scope.requiremtne)
                 $scope.submitBtn = function(){
                     if($scope.requiremtne.province != "湖北省" && $scope.requiremtne.city != "武汉市"){
                         alert('您选择装修城市不是湖北省武汉市，请重新选择')
                         return ;
                     }
-                    console.log($scope.requiremtne)
                     if(confirm("你确定修改了吗")){
                         userRequiremtne.add($scope.requiremtne).then(function(res){  //提交新需求
                             if(res.data.data.requirementid){
@@ -281,7 +285,6 @@ angular.module('controllers', [])
                 userRequiremtne.get({'_id':$stateParams.id}).then(function(res){  //获取个人资料
                     $scope.requiremtne = res.data.data;
                     $scope.requiremtne.dec_style = $scope.requiremtne.dec_style ? $scope.requiremtne.dec_style : "0";
-                    console.log($scope.requiremtne)
                     $scope.requiremtne.province = !$scope.requiremtne.province ? '湖北省' : $scope.requiremtne.province;
                     $scope.loadData = true;
                 },function(res){
@@ -292,7 +295,6 @@ angular.module('controllers', [])
                         alert('您选择装修城市不是湖北省武汉市，请重新选择')
                         return ;
                     }
-                    console.log($scope.requiremtne)
                     if(confirm("你确定修改了吗")){
                         userRequiremtne.update($scope.requiremtne).then(function(res){  //修改需求
                             if(res.data.msg == "success"){
@@ -444,7 +446,6 @@ angular.module('controllers', [])
             $scope.goTo = function(id,status){
                 $location.path('requirement/'+id+"/"+statusUrl[status]);
             }
-            console.log(userRequiremtne.get({"_id":requiremtneId}))
             userRequiremtne.get({"_id":requiremtneId}).then(function(res){
                     $scope.requirement = res.data.data;
                     console.log(res.data.data)
@@ -592,20 +593,85 @@ angular.module('controllers', [])
                     console.log(res)
                 });
             }
+            //匿名评价
+            var scoreEvent = {
+                over : function(arr,i){
+
+                },
+                out : function(arr,i){
+
+                },
+                click : function(arr,i){
+                    angular.forEach(arr, function(value, key){
+                        if(key+1 <= i){
+                            value.cur = 'active'
+                        }else{
+                            value.cur = '';
+                        }
+                    })
+                }
+            }
+            $scope.score = {
+                scoreComment : '',
+                scoreRespond : '0',
+                scoreService : '0',
+                scoreResponds : [{'id':"1",'cur':''},{'id':"2",'cur':''},{'id':"3",'cur':''},{'id':"4",'cur':''},{'id':"5",'cur':''}],
+                scoreServices : [{'id':"1",'cur':''},{'id':"2",'cur':''},{'id':"3",'cur':''},{'id':"4",'cur':''},{'id':"5",'cur':''}],
+                respondBtn : function(i){
+                    $scope.score.scoreRespond = i;
+                    scoreEvent.click($scope.score.scoreResponds,i)
+                },
+                serviceBtn : function(i){
+                    $scope.score.scoreService = i;
+                    scoreEvent.click($scope.score.scoreServices,i)
+                },
+                motaiScore : false,
+                anonymity : false,
+                anonymityBtn : function(){
+                    $scope.score.anonymity = !$scope.score.anonymity
+                },
+                scoreCancelBtn : function(){
+                    $scope.score.motaiScore = false;
+                },
+                scoreSubmitBtn : function(){
+                    userRequiremtne.score({
+                      "requirementid": requiremtneId,
+                      "designerid" :$scope.score.designerScore._id,
+                      "service_attitude":$scope.score.scoreService,
+                      "respond_speed":$scope.score.scoreRespond,
+                      "comment":$scope.score.scoreComment,
+                      "is_anonymous": $scope.score.anonymity ? "1" : "0"
+                    }).then(function(res){
+                        console.log(res.data)
+                        if(res.data.msg == "success"){
+                            $scope.score.motaiScore = false;
+                            
+                        }
+                    },function(res){
+                        console.log(res)
+                    });
+                }
+            }
             //确认量房
-            $scope.confirmBtn = function(uid){
+            $scope.confirmBtn = function(data){
                 userRequiremtne.checked({
                   "requirementid":requiremtneId,
-                  "designerid":uid
+                  "designerid":data._id
                 }).then(function(res){
                     console.log(res.data)
                     if(res.data.msg == "success"){
                         alert('确认成功，给本次服务评价设计师');
                         $scope.confirmSuccess = true;
+                        $scope.score.motaiScore = true;
+                        $scope.score.designerScore = data;
                     }
                 },function(res){
                     console.log(res)
                 });
+            }
+            $scope.scoreBtn = function(data){
+                $scope.score.motaiScore = true;
+                $scope.score.designerScore = data;
             }
         userRequiremtne.plans({"requirementid":requiremtneId}).then(function(res){    //获取我的方案列表
             $scope.plans = res.data.data;
@@ -618,7 +684,6 @@ angular.module('controllers', [])
                     }
                 },value.planImages)
             })
-            console.log($scope.plans)
         },function(res){
             console.log(res)
         });
@@ -641,6 +706,7 @@ angular.module('controllers', [])
         function($scope, $rootScope,$http,$filter,$location,userFavoriteProduct){
             userFavoriteProduct.list().then(function(res){  //获取作品收藏列表
                 console.log(res.data.products);
+                $scope.products = res.data.products;
                 console.log(res.data.total);
             },function(res){
                 console.log(res)
@@ -649,10 +715,23 @@ angular.module('controllers', [])
     .controller('favoriteDesignerCtrl', [     //意向设计师列表
         '$scope','$rootScope','$http','$filter','$location','userFavoriteDesigner',
         function($scope, $rootScope,$http,$filter,$location,userFavoriteDesigner){
-            userFavoriteDesigner.list().then(function(res){  //获取意向设计师列表
-                console.log(res.data.designers);
-                console.log(res.data.total);
-            },function(res){
-                console.log(res)
-            });
+            function laod(){
+                userFavoriteDesigner.list().then(function(res){  //获取意向设计师列表
+                    //console.log(res.data.designers);
+                    $scope.designers = res.data.designers;
+                    //console.log(res.data.total);
+                },function(res){
+                    console.log(res)
+                });
+            }
+            $scope.cancelBtn = function(id){
+                userFavoriteDesigner.remove({'_id':id}).then(function(res){  //获取意向设计师列表
+                    if(res.data.msg === "success"){
+                       laod(); 
+                    }
+                },function(res){
+                    console.log(res)
+                });
+            }
+            laod()
     }])

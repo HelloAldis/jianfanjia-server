@@ -296,25 +296,6 @@ function unique(arr,a,b) {
 		});
 	}
 	loadList();
-	$.ajax({
-		url: RootUrl+'api/v2/web/designer_one_requirement',
-		type: 'POST',
-		contentType : 'application/json; charset=utf-8',
-		dataType: 'json',
-		data : JSON.stringify({
-			"_id": "5620c083f4dc0edc4be44df7"
-		}),
-		processData : false
-	})
-	.done(function(res) {
-		console.log(res);
-	})
-	.fail(function() {
-		console.log("error");
-	})
-	.always(function() {
-		console.log("complete");
-	});
 	
 	//创建列表
 	function createList(data){

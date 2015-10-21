@@ -340,38 +340,68 @@ angular.module('directives', [])
             }
         };
     }])
-    .directive('myUpload',['$timeout',function($timeout){     //头像上传裁切
+    .directive('myUpload',['$timeout',function($timeout){     //头像裁切上传
         return {
             replace : true,
             scope: {
-                myQuery : "="
+                    myQuery : "="
             },
             restrict: 'A',
             template: '<div class="pic" id="upload"><div class="fileBtn"><input class="hide" id="fileToUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_file"></div><img class="img" id="userHead" alt="头像" /></div>',
             link: function($scope, iElm, iAttrs, controller){
-                var $userHead = $('#userHead');
-                var $cropMask = $('#j-cropMask');
-                var $cropBox = $('#j-cropBox');
-                var $cropbox = $cropBox.find('.cropBox');
-                var $winW = $(window).width();
-                var $winH = $(window).height();
-                var uploaderUrl = RootUrl+'api/v2/web/image/upload';
-                var croploaderUrl = RootUrl+'api/v2/web/image/crop';
-                var fileTypeExts = '*.jpg;*.png';
-                var fileSizeLimit = 1024;
-                console.log($scope.myQuery) 
+                var $userHead = $('#userHead'),
+                    $cropMask = $('#j-cropMask'),
+                    $cropBox = $('#j-cropBox'),
+                    $cropbox = $cropBox.find('.cropBox'),
+                    $cropBorder = $('#cropBorder'),
+                    $winW = $(window).width(),
+                    $winH = $(window).height(),
+                    uploaderUrl = RootUrl+'api/v2/web/image/upload',
+                    croploaderUrl = RootUrl+'api/v2/web/image/crop',
+                    fileTypeExts = '*.jpg;*.png',
+                    fileSizeLimit = 1024,
+                    destroy = true,
+                    moveout = false,
+                    disX,
+                    disY;
                 if(!$scope.myQuery){
-                   $userHead.attr('src','../../../static/img/user/headPic.png')
+                  $userHead.attr('src','../../../static/img/user/headPic.png')
                 }else{
-                    $userHead.attr('src',RootUrl+'api/v2/web/thumbnail/120/'+$scope.myQuery)
+                  $userHead.attr('src',RootUrl+'api/v2/web/thumbnail/120/'+$scope.myQuery)
                 }
-                var checkSupport = function(){
-                  var input = document.createElement('input');
-                  var fileSupport = !!(window.File && window.FileList);
-                  var xhr = new XMLHttpRequest();
-                  var fd = !!window.FormData;
-                  return 'multiple' in input && fileSupport && 'onprogress' in xhr && 'upload' in xhr && fd ? 'html5' : 'flash';
-                }; 
+                $cropBorder.on('mousedown',function(e){
+                    disX = e.clientX - parseInt($(this).css("left"));
+                    disY = e.clientY - parseInt($(this).css("top"));
+                    $cropBox.on('mousemove',function(e){
+                        var l = e.clientX - disX,
+                            t = e.clientY - disY,
+                            w = $cropBox.width() - $cropBorder.width(),
+                            h = $cropBox.height() - $cropBorder.height();
+                        if(t<0){
+                          t=0;
+                        }else if(t>h){
+                          t=h;
+                        } 
+                              if(l<0){
+                           l=0;
+                        }else if(l>w){
+                              l=w;     
+                        }
+                        $cropBorder.css({
+                            left: l,
+                            top: t
+                        });
+                        var r = 300 +l,
+                            b = 300 + t;
+                        $('#cropPic2').css('clip','rect('+t+'px '+r+'px '+b+'px '+l+'px)')
+                        moveout = false;
+                    }).on('mouseout',function(e){
+                        $cropBox.off() 
+                    }).on('mouseup',function(e){
+                        $cropBox.off()
+                    });
+                    return false;
+                })
                 if(checkSupport() === "html5"){
                   $('#upload').Huploadify({
                     auto:true,
@@ -390,9 +420,6 @@ angular.module('directives', [])
                     }
                   });
                 }else{
-                  if($('#fileToUpload').length > 0) { //注意jquery下检查一个元素是否存在必须使用 .length >0 来判断
-                    $('#fileToUpload').uploadify('destroy');
-                  }
                   $('#fileToUpload').uploadify({
                       'auto'     : true,
                       'removeTimeout' : 1,
@@ -413,11 +440,9 @@ angular.module('directives', [])
                     });
                 }
                 function callbackImg(arr){
-                  var data = $.parseJSON(arr)
-                  ///$scope.user.imageid = data.data;
+                  var data = $.parseJSON(arr);
                   var img = new Image();
                   img.onload=function(){
-                    console.log(img.width,img.height)
                     if(img.width < 300){
                       alert('图片宽度小于300，请从新上传');
                       return false;
@@ -437,10 +462,11 @@ angular.module('directives', [])
                       top: 100,
                       opacity:1
                     });
-                    $('#cropPic').attr('src',img.src);
+                    $('#cropPic1').attr('src',img.src);
+                    $('#cropPic2').attr('src',img.src);
                   };  
-                    img.onerror=function(){alert("error!")};  
-                    img.src=RootUrl+'api/v1/image/'+data.data; 
+                  img.onerror=function(){alert("error!")};  
+                  img.src=RootUrl+'api/v1/image/'+data.data; 
                   $('#crop-submit').on('click',function(){
                     $.ajax({
                       url: RootUrl+'api/v2/web/image/crop',
@@ -449,28 +475,67 @@ angular.module('directives', [])
                       dataType: 'json',
                       data : JSON.stringify({
                         "_id":data.data,
-                        "x":10,
-                        "y":10,
+                        "x":parseInt($cropBorder.css('left')),
+                        "y":parseInt($cropBorder.css('top')),
                         "width":300,
                         "height":300
                       }),
                       processData : false
                     })
                     .done(function(res){
-                      $scope.myQuery = res.data;
-                      $('#userHead').attr('src',RootUrl+'api/v2/web/thumbnail/120/'+res.data).data('img',res.data);
+                      $scope.$apply(function(){
+                          $scope.myQuery = res.data;
+                          $userHead.attr('src',RootUrl+'api/v2/web/thumbnail/120/'+$scope.myQuery)
+                      });
                       $cropMask.hide();
                       $cropBox.hide();
+                      $cropBorder.css({
+                          left: 0,
+                          top: 0
+                      });
+                      $('#cropPic2').css('clip','rect(0px 300px 300px 0px)')
                     })
                     .fail(function() {
                       console.log("error");
                     })
-                    .always(function() {
-                      console.log("complete");
-                    });
-                    
                   })
                 }
+            }
+        };
+    }])
+    .directive('myMotai',['$timeout',function($timeout){     //头像裁切上传
+        return {
+            replace : true,
+            scope: {
+                    myQuery : "="
+            },
+            restrict: 'A',
+            template: '<div class="k-motai"><div class="mask"></div><div class="motai"></div></div>',
+            link: function($scope, iElm, iAttrs, controller){
+            }
+        };
+    }])
+    .directive('myMotaiTips',['$timeout',function($timeout){     //头像裁切上传
+        return {
+            replace : true,
+            scope: {
+                    myQuery : "="
+            },
+            restrict: 'A',
+            template: '<div class="k-motai"><div class="mask"></div><div class="motai"></div></div>',
+            link: function($scope, iElm, iAttrs, controller){
+            }
+        };
+    }])
+    .directive('myMotaiScore',['$timeout',function($timeout){     //头像裁切上传
+        return {
+            replace : true,
+            scope: {
+                    myQuery : "="
+            },
+            restrict: 'A',
+            template: '<div class="k-motai"><div class="mask"></div><div class="motai"></div></div>',
+            link: function($scope, iElm, iAttrs, controller){
             }
         };
     }])
