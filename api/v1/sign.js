@@ -9,7 +9,7 @@ var utility = require('utility');
 var sms = require('../../common/sms');
 var ApiUtil = require('../../common/api_util');
 var type = require('../../type');
-var config = require('../../config');
+var config = require('../../apiconfig');
 
 exports.updatePass = function (req, res, next) {
   var phone = tools.trim(req.body.phone);

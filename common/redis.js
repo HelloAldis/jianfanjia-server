@@ -1,4 +1,4 @@
-var config = require('../config');
+var config = require('../apiconfig');
 var Redis = require('ioredis');
 
 var client = new Redis({

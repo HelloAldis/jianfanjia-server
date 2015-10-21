@@ -9,7 +9,7 @@ var utility = require('utility');
 var sms = require('../../../common/sms');
 var ApiUtil = require('../../../common/api_util');
 var type = require('../../../type');
-var config = require('../../../config');
+var config = require('../../../apiconfig');
 var async = require('async');
 
 exports.user_login = function (req, res, next) {

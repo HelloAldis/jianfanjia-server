@@ -1,6 +1,6 @@
 var http = require('http');
 var querystring = require('querystring');
-var config = require('../config');
+var config = require('../apiconfig');
 var DateUtil = require('./date_util');
 var utility = require('utility');
 var logger = require('./logger')

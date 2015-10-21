@@ -13,7 +13,7 @@ var admin = require('./api/v1/admin');
 var process = require('./api/v1/process');
 var device = require('./api/v1/device');
 var feedback = require('./api/v1/feedback');
-var config = require('./config');
+var config = require('./apiconfig');
 var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
 

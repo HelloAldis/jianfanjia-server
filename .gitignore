@@ -28,3 +28,4 @@ build/Release
 
 # Mac files
 .DS_Store
+apiconfig.js

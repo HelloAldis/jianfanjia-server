@@ -1,5 +1,5 @@
 //load configuration
-var config = require('./config');
+var config = require('./apiconfig');
 
 var express = require('express');
 var path = require('path');

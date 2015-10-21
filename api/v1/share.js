@@ -4,7 +4,7 @@ var Designer = require('../../proxy').Designer;
 var Share = require('../../proxy').Share;
 var tools = require('../../common/tools');
 var _ = require('lodash');
-var config = require('../../config');
+var config = require('../../apiconfig');
 var ApiUtil = require('../../common/api_util');
 var async = require('async');
 

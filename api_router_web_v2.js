@@ -13,7 +13,7 @@ var designer = require('./api/v2/web/designer');
 var comment = require('./api/v2/web/comment');
 var admin = require('./api/v2/web/admin');
 var feedback = require('./api/v2/web/feedback');
-var config = require('./config');
+var config = require('./apiconfig');
 var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
 

@@ -22,7 +22,7 @@ var designerWeb = require('./api/v2/web/designer');
 var favoriteWeb = require('./api/v2/web/favorite');
 var productWeb = require('./api/v2/web/product');
 
-var config = require('./config');
+var config = require('./apiconfig');
 var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
 

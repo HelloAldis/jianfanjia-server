@@ -1,5 +1,5 @@
 var express = require('express');
-var config = require('./config');
+var config = require('./apiconfig');
 var sign = require('./controllers/sign');
 var site = require('./controllers/site');
 

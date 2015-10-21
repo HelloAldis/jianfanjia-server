@@ -1,5 +1,5 @@
 var mailer = require('nodemailer');
-var config = require('../config');
+var config = require('../apiconfig');
 var util = require('util');
 var transport = mailer.createTransport(config.mail_opts);
 

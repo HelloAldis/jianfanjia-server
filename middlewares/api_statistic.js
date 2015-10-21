@@ -1,5 +1,5 @@
 var ApiStatistic = require('../proxy').ApiStatistic;
-var config = require('../config');
+var config = require('../apiconfig');
 var type = require('../type');
 var ApiUtil = require('../common/api_util');
 var _ = require('lodash');

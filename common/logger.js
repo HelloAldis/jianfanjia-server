@@ -1,5 +1,5 @@
 var fs     = require('fs');
-var config = require('../config');
+var config = require('../apiconfig');
 
 if (!fs.existsSync("./log")) {
   fs.mkdirSync("./log");

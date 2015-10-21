@@ -1,7 +1,7 @@
 var FileStreamRotator = require('file-stream-rotator');
 var fs = require('fs');
 var morgan = require('morgan');
-var config = require('../config');
+var config = require('../apiconfig');
 var path = require('path')
 
 var logDirectory = path.normalize(__dirname + '/../log');
