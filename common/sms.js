@@ -118,5 +118,5 @@ exports.sendDesignerPlanFinaled = function (phone, paramArray) {
 }
 
 exports.sendDesignerPlanNotFinaled = function (phone, paramArray) {
-  yzx(phone, '12840', paramArray);
+  yzx(phone, '12842', paramArray);
 }
