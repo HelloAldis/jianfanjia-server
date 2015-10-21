@@ -85,7 +85,7 @@ exports.list_designer = function (req, res, next) {
           callback(err, designer);
         });
       }, ep.done(function (results) {
-        res.send({
+        res.sendData({
           designers: results,
           total: favorite.favorite_designer.length,
         })
