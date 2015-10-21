@@ -54,12 +54,13 @@ exports.sendYuyue = function (phone) {
   exports.sendWeiMi(phone, 'FIgUFcBhel9I');
 }
 
-function yzx(phone, templateId, param) {
+function yzx(phone, templateId, paramArray) {
   if (!config.send_sms) {
     console.log('yzx send to phone = ' + phone);
     return;
   }
 
+  var param = paramArray.join(',');
   var time = DateUtil.YYYYMMDDHHmmssSSS();
   var sign = utility.md5(config.yzx_sid + time + config.yzx_token);
   var postData = {
@@ -88,10 +89,34 @@ function yzx(phone, templateId, param) {
   req.end();
 }
 
-exports.sendYzxAuthSuccess = function (phone, param) {
-  yzx(phone, '12836', param);
+exports.sendYzxAuthSuccess = function (phone, paramArray) {
+  yzx(phone, '12836', paramArray);
 }
 
-exports.sendYzxRequirementSuccess = function (phone, count) {
-  yzx(phone, '12837', count);
+exports.sendYzxRequirementSuccess = function (phone, paramArray) {
+  yzx(phone, '12837', paramArray);
+}
+
+exports.sendUserOrderDesigner = function (phone, paramArray) {
+  yzx(phone, '14448', paramArray);
+}
+
+exports.sendDesignerRespondUser = function (phone, paramArray) {
+  yzx(phone, '12838', paramArray);
+}
+
+exports.sendRemimdDesignerPlan = function (phone, paramArray) {
+  yzx(phone, '14444', paramArray);
+}
+
+exports.sendDesignerPlanUploaded = function (phone, paramArray) {
+  yzx(phone, '12840', paramArray);
+}
+
+exports.sendDesignerPlanFinaled = function (phone, paramArray) {
+  yzx(phone, '12841', paramArray);
+}
+
+exports.sendDesignerPlanNotFinaled = function (phone, paramArray) {
+  yzx(phone, '12840', paramArray);
 }

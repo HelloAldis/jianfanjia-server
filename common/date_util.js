@@ -21,6 +21,11 @@ exports.YYYY_MM_DD = function (time) {
   return date.format('YYYY-MM-DD');
 };
 
+exports.YYYY_MM_DD_HH_mm = function (time) {
+  var date = moment(new Date(time));
+  return date.format('YYYY-MM-DD HH:mm');
+};
+
 exports.YYYYMMDDHHmmssSSS = function () {
   var date = moment(new Date());
   return date.format('YYYYMMDDHHmmssSSS');

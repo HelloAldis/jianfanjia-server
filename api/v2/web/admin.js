@@ -47,8 +47,7 @@ exports.update_basic_auth = function (req, res, next) {
   }, {}, ep.done(function (designer) {
     if (designer) {
       if (new_auth_type === type.designer_auth_type_done) {
-        sms.sendYzxAuthSuccess(designer.phone, designer.username);
-        // sms.sendYzxAuthSuccess('18682109074', designer.username);
+        sms.sendYzxAuthSuccess(designer.phone, [designer.username]);
       }
     }
 

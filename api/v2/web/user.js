@@ -9,6 +9,7 @@ var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../config');
 var ApiUtil = require('../../../common/api_util');
+var DateUtil = require('../../../common/date_util');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../../type');
@@ -180,7 +181,17 @@ exports.order_designer = function (req, res, next) {
               phone: 1
             }, ep.done(function (designer) {
               if (designer) {
-                sms.sendYuyue(designer.phone);
+                User.findOne({
+                  _id: userid
+                }, {
+                  username: 1,
+                  phone: 1
+                }, ep.done(function (user) {
+                  sms.sendUserOrderDesigner(
+                    designer.phone, [user.username,
+                      user.phone
+                    ]);
+                }));
               }
             }));
           }
@@ -233,6 +244,15 @@ exports.designer_house_checked = function (req, res, next) {
           last_status_update_time: new Date().getTime(),
         }, null, function () {});
       });
+
+      Desinger.findOne({
+        _id: designerid
+      }, {
+        username: 1,
+        phone: 1,
+      }, function (err, designer) {
+        sms.sendRemimdDesignerPlan(designer.phone, designer.username);
+      });
     }
 
     res.sendSuccessMsg();
@@ -262,22 +282,26 @@ exports.user_evaluate_designer = function (req, res, next) {
         service_attitude: 1,
         respond_speed: 1,
       }, ep.done(function (designer) {
-        if (!designer.service_attitude) {
-          designer.service_attitude = 0;
-        }
+        if (designer) {
+          if (!designer.service_attitude) {
+            designer.service_attitude = 0;
+          }
 
-        if (!designer.respond_speed) {
-          designer.respond_speed = 0;
+          if (!designer.respond_speed) {
+            designer.respond_speed = 0;
+          }
+          designer.service_attitude = ((designer.service_attitude *
+              (count - 1)) + evaluation.service_attitude) /
+            count;
+          designer.respond_speed = ((designer.respond_speed *
+              (count - 1)) + evaluation.respond_speed) /
+            count;
+          designer.save(ep.done(function () {
+            res.sendSuccessMsg();
+          }));
+        } else {
+          res.sendErrMsg('评价失败');
         }
-        designer.service_attitude = ((designer.service_attitude *
-            (count - 1)) + evaluation.service_attitude) /
-          count;
-        designer.respond_speed = ((designer.respond_speed *
-            (count - 1)) + evaluation.respond_speed) /
-          count;
-        designer.save(ep.done(function () {
-          res.sendSuccessMsg();
-        }));
       }));
     }));
   }));

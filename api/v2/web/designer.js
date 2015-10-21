@@ -17,6 +17,8 @@ var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../../type');
 var limit = require('../../../middlewares/limit')
 var designer_match_util = require('../../../common/designer_match');
+var DateUtil = require('../../../common/date_util');
+var sms = require('../../../common/sms');
 
 var noPassAndToken = {
   pass: 0,
@@ -164,6 +166,26 @@ exports.okUser = function (req, res, next) {
       }, {
         status: type.requirement_status_respond_no_housecheck
       }, null, function (err) {});
+
+      Designer.findOne({
+        _id: designer,
+      }, {
+        username: 1,
+        phone: 1
+      }, function (err, designer) {
+        User.findOne({
+          _id: plan.userid
+        }, {
+          phone: 1
+        }, function (err, user) {
+          if (user) {
+            sms.sendDesignerRespondUser(user.phone, [designer.username,
+              designer.phone, DateUtil.YYYY_MM_DD_HH_mm(
+                house_check_time)
+            ]);
+          }
+        });
+      });
     }
 
     res.sendSuccessMsg();

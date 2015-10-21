@@ -113,7 +113,7 @@ exports.user_add_requirement = function (req, res, next) {
         if (user) {
           var count = designerids.length >= 3 ? 3 : designerids
             .length;
-          sms.sendYzxRequirementSuccess(user.phone, count);
+          sms.sendYzxRequirementSuccess(user.phone, [user.username]);
         }
       });
     }));
