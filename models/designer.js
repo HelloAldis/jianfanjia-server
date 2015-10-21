@@ -204,8 +204,9 @@ var DesignerSchema = new Schema({
   respond_speed: {
     type: Number,
   },
-  last_rec_time: {
+  login_count: {
     type: Number,
+    default: 1,
   },
 });
 

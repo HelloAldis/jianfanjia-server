@@ -16,7 +16,7 @@ var sms = require('../../../common/sms');
 var designer_match_util = require('../../../common/designer_match');
 var wkhtmltopdf = require('wkhtmltopdf');
 
-exports.user_my_requiremtne_list = function (req, res, next) {
+exports.user_my_requirement_list = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var ep = eventproxy();
   ep.fail(next);
@@ -28,7 +28,7 @@ exports.user_my_requiremtne_list = function (req, res, next) {
   }));
 }
 
-exports.designer_my_requiremtne_list = function (req, res, next) {
+exports.designer_my_requirement_list = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
   var ep = eventproxy();
   ep.fail(next);
@@ -53,6 +53,53 @@ exports.designer_my_requiremtne_list = function (req, res, next) {
     }));
   }));
 }
+
+exports.designer_my_requirement_history_list = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Plan.find({
+    disginerid: designerid,
+    status: {
+      $in: [type.plan_status_designer_no_respond_expired, type.plan_status_designer_no_plan_expired,
+        type.plan_status_user_not_final, type.plan_status_designer_reject
+      ],
+    },
+  }, null, ep.done(function (plans) {
+    plans = _.uniq(plans, function (plan) {
+      return plan._id.toString();
+    });
+    var requirementids = _.pluck(plans, 'requirementid');
+    if (requirementids && requirementids.length > 0) {
+      Requirement.find({
+        _id: {
+          $in: requirementids,
+        }
+      }, null, null, ep.done(function (requirements) {
+        async.mapLimit(requirements, 3, function (requirement,
+          callback) {
+          requirement = requirement.toObject();
+          User.findOne({
+            _id: requirement.userid
+          }, {
+            username: 1,
+            phone: 1,
+            imageid: 1
+          }, function (err, user) {
+            requirement.user = user;
+            callback(err, requirement);
+          });
+        }, ep.done(function (requirements) {
+          res.sendData(requirements);
+        }));
+      }));
+    } else {
+      res.sendData([]);
+    }
+  }));
+}
+
 
 exports.user_add_requirement = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -111,7 +158,8 @@ exports.user_add_requirement = function (req, res, next) {
         _id: userid
       }, null, function (err, user) {
         if (user) {
-          var count = designerids.length >= 3 ? 3 : designerids
+          var count = designerids.length >= 3 ? 3 :
+            designerids
             .length;
           sms.sendYzxRequirementSuccess(user.phone, [user.username]);
         }

@@ -8,6 +8,7 @@ role:
 sex:
 0. 男
 1. 女
+2. 不限
 
 dec_type:
 0. 家装

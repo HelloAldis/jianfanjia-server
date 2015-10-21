@@ -64,7 +64,7 @@ router.post('/user/info', auth.userRequired, user.user_update_info); //修改业
 router.post('/user/info/get', auth.userRequired, user.user_my_info); //获取业主个人资料
 router.post('/user_add_requirement', auth.userRequired, requirement.user_add_requirement); //提交我的装修需求
 router.post('/user_update_requirement', auth.userRequired, requirement.user_update_requirement); //更新我的装修需求
-router.post('/user_my_requiremtne_list', auth.userRequired, requirement.user_my_requiremtne_list); //获取我的装修需求列表
+router.post('/user_my_requirement_list', auth.userRequired, requirement.user_my_requirement_list); //获取我的装修需求列表
 router.post('/user_one_requirement', auth.userRequired, requirement.user_one_requirement); //业主获取我的某个需求
 router.post('/designers_user_can_order', auth.userRequired, designer.designers_user_can_order); //获取用户可以预约的设计师
 router.post('/favorite/designer/list', auth.userRequired, favorite.list_designer); //获取业主的意向设计师列表
@@ -93,8 +93,8 @@ router.post('/designer/team/update', auth.designerRequired, team.update); //更�
 router.post('/designer/team/delete', auth.designerRequired, team.delete); //删除施工队伍
 router.post('/designer/auth', auth.designerRequired, designer.auth); //提交认证申请
 router.post('/designer/update_online_status', auth.designerRequired, designer.update_online_status); //更改在线状态
-router.post('/designer_my_requiremtne_list', auth.designerRequired, requirement
-  .designer_my_requiremtne_list); //设计获取和自己相关的需求列表
+router.post('/designer_my_requirement_list', auth.designerRequired, requirement
+  .designer_my_requirement_list); //设计获取和自己相关的需求列表
 router.post('/designer_one_requirement', auth.designerRequired, requirement.designer_one_requirement); //设计获取某个需求
 router.post('/designer/user/ok', auth.designerRequired, designer.okUser); //响应业主
 router.post('/designer/user/reject', auth.designerRequired, designer.rejectUser); //拒绝业主

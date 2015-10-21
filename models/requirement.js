@@ -43,6 +43,12 @@ var RequirementSchema = new Schema({
   dec_style: {
     type: String
   },
+  dec_type: {
+    type: String
+  },
+  prefer_sex: {
+    type: String
+  },
   work_type: {
     type: String
   },
