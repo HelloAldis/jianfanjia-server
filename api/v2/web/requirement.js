@@ -298,7 +298,7 @@ exports.one_contract = function (req, res, next) {
     }
   }, null, ep.done(function (requirement) {
     if (!requirement) {
-      res.sendData({});
+      return res.sendData({});
     }
 
     async.parallel({
