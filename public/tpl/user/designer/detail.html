@@ -3,6 +3,12 @@
 		<ul>
 			<li>
 				<div class="span">
+					<strong>业主姓名</strong>
+					<span bo-text="detail.user.username"></span>
+				</div>
+			</li>
+			<li>
+				<div class="span">
 					<strong>装修城市</strong>
 					<span bo-text="detail.area"></span>
 				</div>
@@ -17,6 +23,12 @@
 				<div class="span">
 					<strong>位置</strong>
 					<span bo-text="detail.property"></span>
+				</div>
+			</li>
+			<li>
+				<div class="span">
+					<strong>装修类别</strong>
+					<span bo-text="detail.dec_type"></span>
 				</div>
 			</li>
 			<li>
@@ -49,12 +61,10 @@
 					<span><i bo-text="detail.total_price"></i>万元</span>
 				</div>
 			</li>
-			<li>
-				<div class="span">
-					<strong>偏好设计师类型</strong>
-					<span bo-text="detail.communication_type"></span>
-				</div>
-			</li>
 		</ul>
+	</div>
+	<div class="detail-btns" ng-if="detail.status == '0'">
+		<a ui-sref="revise({id:detail._id})" class="u-btns u-btns-revise">修改装修需求</a>
+		<a ng-click="goTo(detail._id,'0')" class="u-btns">前往预约量房</a>
 	</div>
 </div>

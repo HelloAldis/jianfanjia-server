@@ -96,7 +96,73 @@ angular.module('controllers', [])
             var userType = $cookieStore.get('usertype');
             var planId = $stateParams.id.split('&')[0];
             var requiremtneId = $stateParams.id.split('&')[1];
-            userRequiremtne.get({'_id':requiremtneId}).then(function(res){  //获取个人资料
+            $scope.tab = 1;
+            $scope.tabBtn = function(i){
+                $scope.tab = i
+            }
+            $scope.comment = {
+                imageid : '',
+                plansTabs : false,
+                plansMsg : '',
+                addPlansOff : true,
+                moreOff : true,
+                planstabBtn : function(off){
+                    $scope.comment.plansTabs = off;
+                },
+                addPlansMsg : function(designer,user){
+                    if(!$scope.comment.addPlansOff){
+                        $scope.comment.addPlansOff = false;
+                        alert('你留言太快了，请稍候再提交！')
+                        return ;
+                    }
+                    if(!_.trim($scope.comment.plansMsg)){
+                        alert('留言不能为空！')
+                        return ;
+                    }
+                    userComment.add({
+                      "topicid":planId,
+                      "topictype" : '0',
+                      "content": $scope.comment.plansMsg,
+                      "to":(userType == '1') ? user : designer
+                    }).then(function(res){  //提交留言
+                        load(true)
+                        $scope.comment.moreOff = true;
+                        $scope.comment.plansMsg = '';
+                        $scope.comment.from = 0;
+                    },function(res){
+                        console.log(res)
+                    });
+                },
+                moreBtn : function(total){
+                    console.log($scope.comment.from)
+                    console.log(total)
+                    if($scope.comments.length >= total){
+                        $scope.comment.moreOff = false;
+                        return ;
+                    }else{
+                        $scope.comment.moreOff = true;
+                    }
+                    var cur = $scope.comment.count*$scope.comment.limit;
+                    if(total - cur > 0){
+                        $scope.comment.from = cur;
+                    }                 
+                    console.log($scope.comment.limit)
+                    console.log($scope.comments.length)
+                    load()
+                    $scope.comment.count++;
+                },
+                from : 0,
+                limit : 10,
+                count : 1,
+                parentFocus : false,
+                focus : function(){
+                    $scope.comment.parentFocus = true;
+                },
+                blur : function(){
+                   $scope.comment.parentFocus = false; 
+                }
+            }
+            userRequiremtne.get({'_id':requiremtneId}).then(function(res){  //获取当前需求信息
                 console.log(res.data.data)
                 $scope.requiremtne = res.data.data;
                 var str = '';
@@ -131,7 +197,33 @@ angular.module('controllers', [])
             },function(res){
                 console.log(res)
             });
-            userRequiremtne.plan({'_id':planId}).then(function(res){  //获取个人资料
+            $scope.comments = [];
+            function load(off){          //获取留言列表
+                userComment.read({
+                  "topicid":planId,
+                  "from": $scope.comment.from,
+                  "limit":$scope.comment.limit
+                }).then(function(res){
+                    console.log(res.data.data)
+                    if(off){
+                        $scope.comments = [];
+                    }
+                    angular.forEach(res.data.data.comments, function(value, key){
+                        if(value.usertype != userType){
+                            value.usertypeOff = true;
+                        }
+                        value.date = $filter('timeFormat')(value.date)
+                        this.push(value)
+                    },$scope.comments);
+                    $scope.comments.total = res.data.data.total;
+                    $scope.commentOff = !$scope.comments.length ? false : true;
+                    $scope.comment.addPlansOff = true;
+                },function(res){
+                    console.log(res)
+                });
+            }
+            load()
+            userRequiremtne.plan({'_id':planId}).then(function(res){  //获取当前方案信息
                 console.log(res.data.data)
                 $scope.plan = res.data.data;
                 $scope.plan.itme_detail = [];
@@ -143,62 +235,18 @@ angular.module('controllers', [])
                     }
                 },$scope.plan.itme_detail)
                 $scope.plan.discount_price = $scope.plan.design_fee + $scope.plan.project_price_after_discount;
+                $scope.comment.imageid = (userType == '1') ? $scope.plan.user.imageid : $scope.plan.designer.imageid
                 userRequiremtne.designer({
                   "query":{
                      "_id" : $scope.plan.designerid
                   }
-                }).then(function(res){  //获取个人资料
-                    
+                }).then(function(res){
                     $scope.designer = res.data.data.designers[0];
-                    console.log($scope.designer)
                 },function(res){
                     console.log(res)
                 });
-                $scope.plansTabs = false;
-                $scope.planstabBtn = function(off){
-                    $scope.plansTabs = off;
-                }
             },function(res){
                 console.log(res)
             });
-            $scope.from = 0;
-            function load(){
-                userComment.read({
-                  "topicid":planId,
-                  "from": $scope.from,
-                  "limit":10
-                }).then(function(res){  //获取个人资料
-                    console.log(res.data.data)
-                    $scope.comments = res.data.data.comments;
-                    $scope.commentOff = !$scope.comments.length ? false : true;
-                },function(res){
-                    console.log(res)
-                });
-            }
-            load()
-            $scope.plansTabs = false;
-            $scope.plansMsg = '12345';
-            $scope.planstabBtn = function(off){
-                $scope.plansTabs = off;
-            }
-            $scope.addPlansMsg = function(designer,user){
-                console.log($scope.plansMsg)
-                if($scope.plansMsg){
-                    alert(1)
-                }
-                userComment.add({
-                  "topicid":planId,
-                  "topictype" : '0',
-                  "content": $scope.plansMsg,
-                  "to":(userType == '1') ? user : designer
-                }).then(function(res){  //获取个人资料
-                    console.log(res.data.data)
-                    load()
-                },function(res){
-                    console.log(res)
-                });
-            }
-            $scope.moreBtn = function(len){
-                alert(len)
-            }
+           
     }])

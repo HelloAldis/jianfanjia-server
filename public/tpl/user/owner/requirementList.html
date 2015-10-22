@@ -1,7 +1,7 @@
 <div class="main">
 	<div class="m-tt">
 		<h2 class="f-fl">我的装修需求列表</h2>
-		<a ui-sref="release" class="u-btns u-requirement f-fr">提交新装修需求</a>
+		<a ui-sref="release" class="u-btns u-requirement f-fr" ng-if="requiremtnes.length > 3">提交新装修需求</a>
 	</div>
 	<div class="m-ct">
 		<div class="m-index m-requirementList">

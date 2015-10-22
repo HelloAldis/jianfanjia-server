@@ -8,10 +8,10 @@
 	</div>
 	<div class="plans-ct">
 		<ul class="tabs">
-			<li ng-class="{true: 'active', false: ''}[!plansTabs]" ng-click="planstabBtn(falase)"><a href="javascript:;">方案详情</a></li>
-			<li ng-class="{true: 'active', false: ''}[plansTabs]" ng-click="planstabBtn(true)"><a href="javascript:;">方案报价</a></li>
+			<li ng-class="{'active':tab == 1}" ng-click="tabBtn(1)"><a href="javascript:;">方案详情</a></li>
+			<li ng-class="{'active':tab == 2}" ng-click="tabBtn(2)"><a href="javascript:;">方案报价</a></li>
 		</ul>
-		<div class="boxs detail" ng-if="!plansTabs" bindonce="plan">
+		<div class="boxs detail" ng-if="tab == 1" bindonce="plan">
 			<ul class="info">
 				<li>报价：<i ng-bind="plan.total_price/10000 | number"></i>万</li>
 				<li>工期：<i bo-text="plan.duration">60</i>天</li>
@@ -36,7 +36,7 @@
 				<img bo-src-i="/api/v2/web/image/{{img}}" alt="" ng-repeat="img in plan.images" />
 			</div>
 		</div>
-		<div class="boxs quote f-cb" ng-if="plansTabs" bindonce="plan">
+		<div class="boxs quote f-cb" ng-if="tab == 2" bindonce="plan">
 			<div class="table f-fl">
 				<table>
 					<tr class="title">
@@ -65,23 +65,22 @@
 		</div>
 	</div>
 </div>
-<div class="m-plansMsg" ng-if="!plansTabs">
+<div class="m-plansMsg" id="plansMsg" ng-if="tab == 1">
 	<div class="review">
-		<img ng-src="/api/v2/web/image/{{designer.imageid}}" ng-if="designer.imageid" />
-		<div class="textarea"><textarea rows="10" ng-model="plansMsg"></textarea></div>
-		<div class="btns"><input type="button" ng-click="addPlansMsg(designer._id,requiremtne.userid)" class="u-btns" value="发表评论" /></div>
+		<img ng-src="/api/v2/web/image/{{comment.imageid}}" ng-if="comment.imageid" />
+		<div ng-class="{'focus textarea':comment.parentFocus,'textarea':!comment.parentFocus}"><textarea rows="10" ng-model="comment.plansMsg" ng-focus="comment.focus()" ng-blur="comment.blur()"></textarea></div>
+		<div class="btns"><input type="button" ng-click="comment.addPlansMsg(designer._id,requiremtne.userid)" class="u-btns" value="发表评论" /></div>
 	</div>
-	<div class="list" ng-if="commentOff">
+	<div class="list" ng-if="comments.length != 0">
 		<ul>
 			<li bindonce="comments" ng-repeat="list in comments">
-				<img src="" alt="" />
-				<a href=""></a>
-				<time></time>
-				<p><span class="find">@ <i bo-text="list.byUser.username"></i></span><span class="text" bo-text="list.content"></span><i>图标</i></p>
+				<img bo-src-i="/api/v2/web/thumbnail/50/{{list.byUser.imageid}}" alt="" />
+				<h4><span bo-text="list.byUser.username"></span><time bo-text="list.date"></time></h4>
+				<p><span class="find" bo-if="list.usertypeOff">@ <i bo-text="list.byUser.username"></i></span><span class="text" bo-text="list.content"></span><i ng-click="commentsBtn()" bo-if="list.usertypeOff">图标</i></p>
 			</li>
 		</ul>
 	</div>
-	<div class="more" ng-if="commentOff">
-		<a href="javascript:;" ng-click="moreBtn(comments.length)">加载更多</a>
+	<div class="more" ng-if="comments.length > 9 && comment.moreOff">
+		<a href="javascript:;" ng-click="comment.moreBtn(comments.total)">加载更多</a>
 	</div>
 </div>

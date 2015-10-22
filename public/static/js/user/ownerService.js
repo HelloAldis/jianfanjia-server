@@ -28,7 +28,7 @@ angular.module('services', [])
             })
 		};
 		return {
-			list : function(){return doRequest('user_my_requiremtne_list')},
+			list : function(){return doRequest('user_my_requirement_list')},
 			add : function(data){return doRequest('user_add_requirement',data)},
 			get : function(data){return doRequest('user_one_requirement',data)},
 			update : function(data){return doRequest('user_update_requirement',data)},

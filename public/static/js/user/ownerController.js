@@ -195,13 +195,23 @@ angular.module('controllers', [])
                 {"id" :0,"name":'不限'},
                 {"id" :1,"name":'表达型'},
                 {"id" :2,"name":'倾听型'}
-            ]
+            ];
+            $scope.dec_type = [
+                {"id" :0,"name":'家装'},
+                {"id" :1,"name":'商装'},
+                {"id" :2,"name":'软装'}
+            ];
+            $scope.prefer_sex = [
+                {"id" :0,"name":'男'},
+                {"id" :1,"name":'女'},
+                {"id" :2,"name":'不限'}
+            ];
             $scope.family_description = [
                 {"name":'单身'},
                 {"name":'两个人'},
                 {"name":'三个人'},
                 {"name":'四个人'}
-            ]
+            ];
            $scope.dec_style = [
                 {
                     num : '0',
@@ -237,11 +247,6 @@ angular.module('controllers', [])
                     num : '6',
                     txt : '田园',
                     url : '../../../static/img/user/stylePic6.jpg'
-                },
-                {
-                    num : '7',
-                    txt : '混搭',
-                    url : '../../../static/img/user/stylePic7.jpg'
                 }
             ]
             if($stateParams.id == undefined){        //发布新需求
@@ -485,6 +490,8 @@ angular.module('controllers', [])
                 $scope.detail.dec_style = $filter('decStyleFilter')($scope.detail.dec_style);
                 $scope.detail.work_type = $filter('workTypeFilter')($scope.detail.work_type);
                 $scope.detail.communication_type = $filter('designTypeFilter')($scope.detail.communication_type);
+                $scope.detail.prefer_sex = $filter('designSexFilter')($scope.detail.prefer_sex);
+                $scope.detail.dec_type = $filter('decTypeFilter')($scope.detail.dec_type);
             }
             userRequiremtne.designers({"_id":requiremtneId}).then(function(res){    //可以预约设计师列表
                     // 匹配的设计师
@@ -673,20 +680,24 @@ angular.module('controllers', [])
                 $scope.score.motaiScore = true;
                 $scope.score.designerScore = data;
             }
-        userRequiremtne.plans({"requirementid":requiremtneId}).then(function(res){    //获取我的方案列表
-            $scope.plans = res.data.data;
-            angular.forEach($scope.plans, function(value, key){
-                value.imageSrc = value.designer.imageid ? RootUrl+'api/v2/web/image/'+value.designer.imageid : '../../static/img/user/headPic.png';
-                value.planImages = [];
-                angular.forEach(value.images, function(value2, key2){
-                    if(key2 < 3){
-                        this.push(RootUrl+'api/v2/web/image/'+value2)
-                    }
-                },value.planImages)
-            })
-        },function(res){
-            console.log(res)
-        });
+        load()
+        function load(){
+            userRequiremtne.plans({"requirementid":requiremtneId}).then(function(res){    //获取我的方案列表
+                $scope.plans = res.data.data;
+                console.log($scope.plans)
+                angular.forEach($scope.plans, function(value, key){
+                    value.imageSrc = value.designer.imageid ? RootUrl+'api/v2/web/image/'+value.designer.imageid : '../../static/img/user/headPic.png';
+                    value.planImages = [];
+                    angular.forEach(value.images, function(value2, key2){
+                        if(key2 < 3){
+                            this.push(RootUrl+'api/v2/web/image/'+value2)
+                        }
+                    },value.planImages)
+                })
+            },function(res){
+                console.log(res)
+            });
+        }
         $scope.definePlan = function(pid,uid){   //确定方案
             userRequiremtne.define({
               "planid": pid,
@@ -695,6 +706,7 @@ angular.module('controllers', [])
             }).then(function(res){    
                 if(res.data.msg == "success"){
                     alert('您已经选定方案，等候设计师生成合同')
+                    load()
                 }
             },function(res){
                 console.log(res)

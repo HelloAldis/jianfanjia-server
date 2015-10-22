@@ -251,6 +251,7 @@ angular.module('controllers', [])
                 $scope.detail.dec_style = $filter('decStyleFilter')($scope.detail.dec_style);
                 $scope.detail.work_type = $filter('workTypeFilter')($scope.detail.work_type);
                 $scope.detail.communication_type = $filter('designTypeFilter')($scope.detail.communication_type);
+                $scope.detail.dec_type = $filter('decTypeFilter')($scope.detail.dec_type);
             }
         userRequiremtne.plans({"requirementid":requiremtneId}).then(function(res){    //获取我的方案列表
             $scope.plans = res.data.data;

@@ -282,6 +282,9 @@ body{
   resize: none;
   background: none;
 }
+.m-plansMsg .review .textarea.focus{
+	border-color: #04bafe;
+}
 .m-plansMsg .review .btns{
 	height: 38px;
 	padding-top: 15px;
@@ -291,6 +294,33 @@ body{
 	padding: 19px;
 	border-top: 1px solid #e6e6e6;
 	border-bottom: 1px solid #efefef;
+}
+.m-plansMsg .list li{
+	position: relative;
+	min-height: 50px;
+	padding-left: 65px;
+	padding-bottom: 15px;
+}
+.m-plansMsg .list img{
+	position: absolute;
+	left:0;
+	top:0;
+	width: 50px;
+	height: 50px;
+	border-radius: 50px;
+}
+.m-plansMsg .list h4{
+	line-height: 24px;
+	color: #999;
+}
+.m-plansMsg .list h4 span{
+	padding-right: 20px;
+	font-size: 14px;
+	color: #39383d;
+}
+.m-plansMsg .list p{
+	line-height: 20px;
+	color: #5f636f;
 }
 .m-plansMsg .more{
 	
