@@ -215,6 +215,83 @@ exports.order_designer = function (req, res, next) {
   }));
 };
 
+exports.designer_change_ordered_designer = function (req, res, next) {
+  var requirementid = req.body.requirementid;
+  var userid = ApiUtil.getUserid(req);
+  var old_designerid = new ObjectId(req.body.old_designerid);
+  var new_designerid = new ObjectId(req.body.new_designerid);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  async.waterfall([function (callback) {
+    Requirement.findOne({
+      _id: requirementid
+    }, null, function (err, requirement) {
+      callback(err, requirement);
+    });
+  }], ep.done(function (requirement) {
+    var json = {};
+    json.designerid = new_designerid;
+    json.userid = userid;
+    json.requirementid = requirement._id;
+
+    Plan.findOne(json, null, ep.done(function (plan) {
+      if (!plan) {
+        Plan.newAndSave(json, function (plan_indb) {
+          var planid = plan_indb._id;
+          schedule.scheduleJob(moment().add(config.designer_respond_user_order_expired,
+            'm').toDate(), function () {
+            Plan.setOne({
+              _id: planid,
+              status: type.plan_status_not_respond,
+            }, {
+              status: type.plan_status_designer_no_respond_expired,
+              last_status_update_time: new Date()
+                .getTime(),
+            }, null, function () {});
+          });
+        });
+
+        Designer.incOne({
+          _id: designerid
+        }, {
+          order_count: 1
+        }, {});
+
+        Designer.findOne({
+          _id: designerid
+        }, {
+          phone: 1
+        }, ep.done(function (designer) {
+          if (designer) {
+            User.findOne({
+              _id: userid
+            }, {
+              username: 1,
+              phone: 1
+            }, ep.done(function (user) {
+              sms.sendUserOrderDesigner(
+                designer.phone, [user.username,
+                  user.phone
+                ]);
+            }));
+          }
+        }));
+      }
+    }));
+
+    Requirement.addToSet({
+      _id: requirementid,
+    }, {
+      order_designerids: {
+        $each: designerids
+      }
+    }, null, ep.done(function () {
+      res.sendSuccessMsg();
+    }));
+  }));
+}
+
 exports.designer_house_checked = function (req, res, next) {
   var designerid = req.body.designerid
   var requirementid = req.body.requirementid;
