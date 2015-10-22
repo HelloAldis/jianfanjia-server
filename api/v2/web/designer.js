@@ -435,7 +435,9 @@ exports.user_ordered_designers = function (req, res, next) {
               designerid: designer._id,
               requirementid: requirementid,
             }, null, function (err, evaluation) {
-              designer.evaluation = evaluation;
+              if (evaluation) {
+                designer.evaluation = evaluation;
+              }
               callback(err, designer);
             });
           });
