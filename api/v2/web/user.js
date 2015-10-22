@@ -42,7 +42,9 @@ exports.user_update_info = function (req, res, next) {
 
   User.setOne({
     _id: userid
-  }, user, null, ep.done(function (user) {
+  }, user, {
+    new: true
+  }, ep.done(function (user) {
     authMiddleWare.gen_session(user, type.role_user, req, res);
     res.sendSuccessMsg();
   }));
@@ -247,7 +249,7 @@ exports.designer_house_checked = function (req, res, next) {
         }, null, function () {});
       });
 
-      Desinger.findOne({
+      Designer.findOne({
         _id: designerid
       }, {
         username: 1,
