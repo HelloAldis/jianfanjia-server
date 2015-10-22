@@ -6,18 +6,25 @@
 		<li bindonce="plans" ng-repeat="data in plans">
 			<div class="boxs">
 				<div class="info f-cb">
-					<a bo-href-i="../design/homepage.html?{{data.designer._id}}" class="head f-fl">
-						<img bo-src="data.imageSrc" bo-alt="data.designer.username" />
-					</a>
+					<span class="head f-fl" target="_blank">
+						<img bo-src="data.imageSrc" bo-alt="data.user.username" />
+					</span>
 					<dl class="f-fl">
 						<dt>
-							<a bo-href-i="../design/homepage.html?{{data.designer._id}}" bo-text="data.designer.username"></a>
-							<span><i>V</i>认证设计师</span>
+							<em bo-text="data.user.username"></em>
 							的方案
 						</dt>
-						<dd>报价   ￥<i bo-text="data.total_price"></i>    工期   <i bo-text="data.duration"></i>天<i>手机</i><span bo-text="data.designer.phone"></span></dd>
+						<dd>
+							<span>报价<strong>￥<i bo-text="data.total_price"></i></strong></span>
+							<span>工期<strong><i bo-text="data.duration"></i>天</strong></span>
+							<span><i>手机</i><em bo-text="data.user.phone"></em></span>
+						</dd>
 					</dl>
-					<span class="status f-fr"></span>
+					<span ng-class="{'status status4 f-fr':data.status == 4,'status status5 f-fr':data.status == 5,'status status3 f-fr':data.status == 3}">
+						<i bo-if="data.status == 4">未中标</i>
+						<i bo-if="data.status == 5">已中标</i>
+						<i bo-if="data.status == 3">沟通中</i>
+					</span>
 				</div>
 				<div class="profile f-cb">
 					<h4 class="f-fl">设计说明：</h4>
@@ -27,10 +34,10 @@
 					<img bo-src="img" alt="" ng-repeat="img in data.planImages track by $index" />
 				</div>
 				<div class="select">
-					<a href="" class="msg f-fl">留言 (<i>6</i>)</a>
+					<a bo-href-i="plans.html#/detail/{{data._id+'&'+data.requirementid}}#plansMsg" class="msg f-fl" target="_blank">留言 (<i bo-text="data.comment_count"></i>)</a>
 					<div class="btns f-fr">
 						<a bo-href-i="plans.html#/detail/{{data._id+'&'+data.requirementid}}" class="u-btns u-btns-revise" target="_blank">预览方案</a>
-						<a href="javascript:;" class="u-btns" ng-hide="{{requirement.status == 4}}" ng-click="definePlan(data._id,data.designer._id)">选定方案</a>
+						<a bo-href-i="scheme_create.html?{{data._id+'&'+data.requirementid}}" class="u-btns" target="_blank">修改方案</a>
 					</div>
 				</div>
 			</div>

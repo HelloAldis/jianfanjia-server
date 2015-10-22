@@ -212,13 +212,16 @@ angular.module('controllers', [])
             $scope.goTo = function(id,status){
                 $location.path('requirement/'+id+"/"+statusUrl[status]);
             }
-            userRequiremtne.get({"_id":requiremtneId}).then(function(res){
-                    $scope.requirement = res.data.data;
-                    console.log(res.data.data)
-                    detail(res.data.data) //需求描述
-                },function(res){
-                    console.log(res)
-            });
+            function load(){
+                userRequiremtne.get({"_id":requiremtneId}).then(function(res){
+                        $scope.requirement = res.data.data;
+                        console.log(res.data.data)
+                        detail(res.data.data) //需求描述
+                    },function(res){
+                        console.log(res)
+                });
+            }
+            load()
             function detail(data){   //需求描述
                 $scope.detail = data;
                 $scope.detail.area = '';
@@ -255,8 +258,9 @@ angular.module('controllers', [])
             }
         userRequiremtne.plans({"requirementid":requiremtneId}).then(function(res){    //获取我的方案列表
             $scope.plans = res.data.data;
+            console.log($scope.plans)
             angular.forEach($scope.plans, function(value, key){
-                value.imageSrc = value.designer.imageid ? RootUrl+'api/v2/web/image/'+value.designer.imageid : '../../static/img/user/headPic.png';
+                value.imageSrc = value.user.imageid ? RootUrl+'api/v2/web/image/'+value.user.imageid : '../../static/img/user/headPic.png';
                 value.planImages = [];
                 angular.forEach(value.images, function(value2, key2){
                     if(key2 < 3){
@@ -267,6 +271,42 @@ angular.module('controllers', [])
         },function(res){
             console.log(res)
         });
+        $scope.answerOwenr = function(){    //响应业主
+            userRequiremtne.answer({
+              "requirementid": requiremtneId,
+              "house_check_time": (new Date).getTime()+100000
+            }).then(function(res){    //获取我的方案列表
+                load()
+            },function(res){
+                console.log(res)
+            });
+        }
+        $scope.rejectOwenr = function(){    //拒绝业主
+            userRequiremtne.reject({
+              "requirementid": requiremtneId,
+              "reject_respond_msg": "这是测试拒接"
+            }).then(function(res){    //获取我的方案列表
+                load()
+            },function(res){
+                console.log(res)
+            });
+        }
+        userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){    //获取我的方案列表
+            $scope.contract = res.data.data;
+            console.log(res.data.data)
+        },function(res){
+            console.log(res)
+        });
+        $scope.setStartDate = function(){
+            userRequiremtne.config({
+              "requirementid":requiremtneId,
+              "start_at":(new Date).getTime()+100000
+            }).then(function(res){    //获取我的方案列表
+                console.log(res)
+            },function(res){
+                console.log(res)
+            });
+        }
     }])
     .controller('favoriteProductCtrl', [     //作品收藏列表
         '$scope','$rootScope','$http','$filter','$location','userFavoriteProduct',

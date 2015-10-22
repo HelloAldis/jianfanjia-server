@@ -583,11 +583,14 @@ body{
 }
 /*业主用户中心*/
 .m-index .info{
-	padding: 19px;
-	padding-bottom: 29px;
+	position: relative;
+	padding-top: 19px;
 	border-bottom: 1px solid #eee;
 }
 .m-index .info .editor{
+	position: absolute;
+	right:19px;
+	top:19px;
 	width: 106px;
 	line-height: 32px;
 	font-size: 14px;
@@ -602,38 +605,39 @@ body{
 	background-color: #f6f6f6;
 	border-color: #ccc;
 }
-.m-index .info dt a{
+.m-index .info dt .head{
 	display: block;
 	width: 120px;
 	height: 120px;
+	margin: 0 auto;
 	overflow: hidden;
 	background-color: #d5d7db;
 	border-radius: 120px;
 }
-.m-index .info dt a:hover{
+.m-index .info dt .head:hover{
 	opacity: 0.8;
 	filter: alpha(opacity=80);
 }
-.m-index .info dd{
-	padding-top: 5px;
-	padding-left: 30px;
-}
-.m-index .info dd h3{
+.m-index .info dt h3{
+	height: 52px;
+	padding-bottom: 16px;
 	font-size: 28px;
-	line-height: 44px;
+	line-height: 52px;
+	text-align: center;
 }
-.m-index .info dd h3 a{
+.m-index .info dt h3 a{
 	color: #4b4f5d;
 }
-.m-index .info dd h3 a:hover{
+.m-index .info dt h3 a:hover{
 	color: #fe7004;
 }
-.m-index .info dd p{
-	font-size: 14px;
-	line-height: 34px;
-	color: #999;
+.m-index .info dd{
+	width: 100%;
+	line-height: 74px;
+	text-align: center;
+	border-top: 1px solid #efefef;
 }
-.m-index .info dd p i{
+.m-index .info dd i{
 	padding-right: 10px;
 }
 .m-index .flow{
@@ -660,11 +664,23 @@ body{
 	width: 50px;
 	height: 56px;
 	line-height: 56px;
-	margin: 0 auto;
+	margin: 0 auto 16px;
 	font-size: 20px;
 	font-weight: bold;
 	color: #fe7004;
-	background:url(../img/user/index-flow-list-bg.png) no-repeat;
+	background:url(../img/user/owner-flow-list-bg.png) no-repeat 0 0;
+}
+.m-index .flow .num2{
+	background-position: 0 -56px;
+}
+.m-index .flow .num3{
+	background-position: 0 -112px;
+}
+.m-index .flow .num4{
+	background-position: 0 -168px;
+}
+.m-index .flow .num5{
+	background-position: 0 -224px;
 }
 .m-index .flow .txt p{
 	line-height: 18px;
@@ -676,6 +692,14 @@ body{
 .m-index .list li{
 	padding: 20px 19px 30px;
 	border-top: 1px solid #eee;
+	-webkit-transition:background 0.5s;
+	-ms-transition:background 0.5s;
+	-moz-transition:background 0.5s;	
+	-o-transition:background 0.5s;
+	transition:background 0.5s;
+}
+.m-index .list li:hover{
+	background-color: #f9f9f9;
 }
 .m-index .list h4{
 	padding-right: 10px;
@@ -878,6 +902,7 @@ body{
 	background-color: #f9f9f9;
 }
 .m-requirementList .list .boxs{
+	display: block;
 	padding: 20px 0;
 	margin: 0 19px;
 	border-top: 1px solid #eee;
@@ -903,6 +928,13 @@ body{
 	line-height: 36px;
 }
 /*需求详情*/
+.m-requirement .returnList{
+	margin-right: 19px;
+	margin-top: 14px;
+}
+.m-requirement h2 span{
+	margin-right: 5px;
+}
 .m-requirement .tabs{
 	height: 46px;
 	padding-left: 19px;
@@ -1230,6 +1262,11 @@ body{
 .m-plans li{
 	border-top: 1px solid #e6e6e6;
 }
+.m-plans .notData{
+	font-size: 30px;
+	line-height: 200px;
+	text-align: center;
+}
 .m-plans .boxs{
 	padding:20px 19px 30px;
 }
@@ -1450,4 +1487,102 @@ body{
 }
 .favorite .list .boxs:hover .u-btns{
 	display: block;
+}
+/*合同概况*/
+.contract-tips{
+	height: 101px;
+	padding: 0 19px;
+	font-size: 16px;
+	line-height: 101px;
+	color: #999;
+	border-bottom: 1px solid #e5e5e5;
+}
+.contract-main .info{
+	padding: 30px 19px 20px;
+}
+.contract-main .info .head{
+	width: 70px;
+	height: 70px;
+	overflow: hidden;
+	border-radius: 70px;
+}
+.contract-main .info .head img{
+	width: 100%;
+}
+.contract-main .info dl{
+	padding-left: 20px;
+}
+.contract-main .info dt{
+	height: 26px;
+	padding-bottom: 4px;
+	line-height: 26px;
+}
+.contract-main .info dt a{
+	margin-right: 20px;
+	font-size: 20px;
+	font-weight: bold;
+	color: #383d48;
+}
+.contract-main .info dt a:hover{
+	color: #fe7004;
+}
+.contract-main .info dt span{
+	display: inline-block;
+	line-height: 18px;
+	padding-right: 5px;
+	border: 1px solid #fe7004;
+	border-radius: 2px;
+}
+.contract-main .info dt i{
+	display: inline-block;
+	width: 20px;
+	height: 18px;
+	line-height: 18px;
+	background-color: #fe7004;
+	margin-right: 4px;
+	text-align: center;
+	color: #fff;
+}
+.contract-main .info dd{
+	font-size: 14px;
+	line-height: 22px;
+	color: #999;
+}
+.contract-main .info dd em{
+	margin: 0 17px 0 5px;
+}
+.contract-main .info dd strong{
+	margin: 0 12px;
+	font-weight: normal;
+	color: #383d48;
+}
+.contract-main .list{
+	padding: 4px 19px 30px;
+	background-color: #f0f8fb;
+}
+.contract-main .list dt{
+	padding-top: 6px;
+	font-size: 14px;
+	line-height: 40px;
+	color: #61687a;
+}
+.contract-main .list dd{
+	height: 58px;
+	padding-left: 18px;
+	font-size: 14px;
+	line-height: 58px;
+	color: #383d48;
+	background-color: #fff;
+	border: 1px dashed #d2d2d2;
+}
+.contract-main .list dd strong{
+	margin: 0 10px;
+	color: #fe7004;
+}
+.contract-btns{
+	padding: 30px 0;
+	text-align: center;
+}
+.contract-btns .u-btns{
+	margin: 0 17px;
 }

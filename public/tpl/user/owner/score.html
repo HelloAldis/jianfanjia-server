@@ -19,6 +19,7 @@
 					</dl>
 				</div>
 				<div class="select f-fr">
+					<p ng-if="!data.confirmSuccess && !data.scoreSuccess">设计师正在响应中，请耐心等候！</p>
 					<div class="btns" ng-if="data.confirmSuccess">
 						<a href="javascript:;" class="u-btns" ng-click="confirmBtn(data)">已上门量房</a>
 					</div>
@@ -27,7 +28,7 @@
 						<span  ng-if="data.evaluation">已评价</span>
 						<a href="javascript:;" class="u-btns u-btns-revise" ng-click="scoreBtn(data)" ng-if="!data.evaluation"> 评价 </a>
 					</div>
-					<p>量房时间：<i bo-text="data.house_check_time"></i></p>
+					<p ng-if="data.confirmSuccess">量房时间：<i bo-text="data.house_check_time"></i></p>
 				</div>
 			</div>
 		</li>

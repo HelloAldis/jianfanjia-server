@@ -1,5 +1,5 @@
-<div class="detail">
-	<div class="detail-drid" bindonce="detail">
+<div class="detail" bindonce="detail">
+	<div class="detail-drid">
 		<ul>
 			<li>
 				<div class="span">
@@ -67,8 +67,8 @@
 			</li>
 		</ul>
 	</div>
-	<div class="detail-btns" ng-if="detail.status == '0'">
+	<div class="detail-btns" bo-if="detail.status == '0'">
 		<a ui-sref="revise({id:detail._id})" class="u-btns u-btns-revise">修改装修需求</a>
-		<a ng-click="goTo(detail._id,'0')" class="u-btns">前往预约量房</a>
+		<a bo-href-i="owner.html#/requirement/{{detail._id}}/booking" class="u-btns">前往预约量房</a>
 	</div>
 </div>
