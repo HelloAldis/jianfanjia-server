@@ -58,7 +58,10 @@ exports.updateInfo = function (req, res, next) {
 
   Designer.setOne({
     _id: userid
-  }, designer, {}, ep.done(function () {
+  }, designer, {
+    new: true,
+  }, ep.done(function (designer) {
+    authMiddleWare.gen_session(designer, type.role_designer, req, res);
     res.sendSuccessMsg();
   }));
 };
@@ -168,7 +171,7 @@ exports.okUser = function (req, res, next) {
       }, null, function (err) {});
 
       Designer.findOne({
-        _id: designer,
+        _id: designerid,
       }, {
         username: 1,
         phone: 1

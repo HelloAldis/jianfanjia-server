@@ -17,6 +17,7 @@ var async = require('async');
 var sms = require('../../../common/sms');
 var schedule = require('node-schedule');
 var moment = require('moment');
+var authMiddleWare = require('../../../middlewares/auth');
 
 exports.user_my_info = function (req, res, next) {
   var userid = req.params._id || ApiUtil.getUserid(req);
@@ -41,7 +42,8 @@ exports.user_update_info = function (req, res, next) {
 
   User.setOne({
     _id: userid
-  }, user, null, ep.done(function () {
+  }, user, null, ep.done(function (user) {
+    authMiddleWare.gen_session(user, type.role_user, req, res);
     res.sendSuccessMsg();
   }));
 };

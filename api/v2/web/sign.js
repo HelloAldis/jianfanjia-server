@@ -47,8 +47,7 @@ exports.login = function (req, res, next) {
 
           // store session cookie
           authMiddleWare.gen_session(result.user, type.role_user,
-            req,
-            res);
+            req, res);
 
           var data = {};
           data.url = 'user url';
