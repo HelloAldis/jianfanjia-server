@@ -307,7 +307,14 @@ exports.one_contract = function (req, res, next) {
           username: 1,
           phone: 1,
           uuid: 1,
-          image: 1,
+          imageid: 1,
+          province: 1,
+          city: 1,
+          district: 1,
+          auth_type: 1,
+          uid_auth_type: 1,
+          work_auth_type: 1,
+          email_auth_type: 1,
         }, callback);
       },
       user: function (callback) {
@@ -317,6 +324,9 @@ exports.one_contract = function (req, res, next) {
           username: 1,
           phone: 1,
           imageid: 1,
+          province: 1,
+          city: 1,
+          district: 1,
         }, callback);
       },
     }, ep.done(function (result) {

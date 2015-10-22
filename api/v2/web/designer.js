@@ -354,6 +354,7 @@ exports.designers_user_can_order = function (req, res, next) {
             dec_house_types: 1,
             province: 1,
             city: 1,
+            district: 1,
             authed_product_count: 1,
             order_count: 1,
             deal_done_count: 1,
