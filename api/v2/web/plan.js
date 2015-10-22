@@ -286,7 +286,9 @@ exports.designer_requirement_plans = function (req, res, next) {
       User.findOne({
         _id: plan.userid
       }, {
-        username: 1
+        username: 1,
+        phone: 1,
+        imageid: 1,
       }, function (err, user) {
         plan = plan.toObject();
         plan.user = user;
