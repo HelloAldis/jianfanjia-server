@@ -290,8 +290,17 @@ exports.one_contract = function (req, res, next) {
   ep.fail(next);
 
   Requirement.findOne({
-    _id: requirementid
+    _id: requirementid,
+    status: {
+      $in: [type.requirement_status_final_plan, type.requirement_status_config_contract,
+        type.requirement_status_config_process
+      ]
+    }
   }, null, ep.done(function (requirement) {
+    if (!requirement) {
+      res.sendData({});
+    }
+
     async.parallel({
       plan: function (callback) {
         Plan.findOne({
