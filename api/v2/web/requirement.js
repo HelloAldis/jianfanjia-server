@@ -304,7 +304,7 @@ exports.one_contract = function (req, res, next) {
         Designer.findOne({
           _id: requirement.final_designerid
         }, {
-          username: 1
+          username: 1,
           phone: 1,
           uuid: 1,
           image: 1,
@@ -314,7 +314,7 @@ exports.one_contract = function (req, res, next) {
         User.findOne({
           _id: requirement.userid
         }, {
-          username: 1
+          username: 1,
           phone: 1,
           imageid: 1,
         }, callback);
