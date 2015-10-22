@@ -215,7 +215,7 @@ exports.order_designer = function (req, res, next) {
   }));
 };
 
-exports.designer_change_ordered_designer = function (req, res, next) {
+exports.user_change_ordered_designer = function (req, res, next) {
   var requirementid = req.body.requirementid;
   var userid = ApiUtil.getUserid(req);
   var old_designerid = new ObjectId(req.body.old_designerid);
@@ -253,13 +253,13 @@ exports.designer_change_ordered_designer = function (req, res, next) {
         });
 
         Designer.incOne({
-          _id: designerid
+          _id: new_designerid
         }, {
           order_count: 1
         }, {});
 
         Designer.findOne({
-          _id: designerid
+          _id: new_designerid
         }, {
           phone: 1
         }, ep.done(function (designer) {
@@ -280,12 +280,12 @@ exports.designer_change_ordered_designer = function (req, res, next) {
       }
     }));
 
-    Requirement.addToSet({
+    Requirement.addToSetAndPull({
       _id: requirementid,
     }, {
-      order_designerids: {
-        $each: designerids
-      }
+      order_designerids: new_designerid,
+    }, {
+      order_designerids: old_designerid
     }, null, ep.done(function () {
       res.sendSuccessMsg();
     }));
