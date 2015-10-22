@@ -200,9 +200,11 @@ var DesignerSchema = new Schema({
   },
   service_attitude: {
     type: Number,
+    default: 0
   },
   respond_speed: {
     type: Number,
+    default: 0
   },
   login_count: {
     type: Number,

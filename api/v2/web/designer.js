@@ -286,15 +286,13 @@ exports.designers_user_can_order = function (req, res, next) {
       if (result.requirement && result.requirement.rec_designerids) {
         can_order_rec = _.filter(result.requirement.rec_designerids,
           function (oid) {
-            console.log(tools.findIndexObjectId(result.requirement.order_designerids,
-              oid) < 0);
             return tools.findIndexObjectId(result.requirement.order_designerids,
               oid) < 0;
           });
       }
 
       var can_order_fav = [];
-      if (result.favorite && result.favorite.favorite_designer) {
+      if (result.requirement && result.favorite && result.favorite.favorite_designer) {
         can_order_fav = _.filter(result.favorite.favorite_designer,
           function (oid) {
             return tools.findIndexObjectId(result.requirement.order_designerids,
@@ -328,6 +326,8 @@ exports.designers_user_can_order = function (req, res, next) {
             uid_auth_type: 1,
             work_auth_type: 1,
             email_auth_type: 1,
+            service_attitude: 1,
+            respond_speed: 1,
           }, {
             lean: true
           }, function (err, designers) {
@@ -361,6 +361,8 @@ exports.designers_user_can_order = function (req, res, next) {
             uid_auth_type: 1,
             work_auth_type: 1,
             email_auth_type: 1,
+            service_attitude: 1,
+            respond_speed: 1,
           }, {
             lean: true
           }, function (err, designers) {
