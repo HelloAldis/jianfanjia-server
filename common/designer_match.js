@@ -76,5 +76,5 @@ exports.top_designers = function (designers, requirement) {
     }
   }
 
-  return tops;
+  return tops.reverse();
 }

@@ -58,7 +58,10 @@ exports.updateInfo = function (req, res, next) {
 
   Designer.setOne({
     _id: userid
-  }, designer, {}, ep.done(function () {
+  }, designer, {
+    new: true,
+  }, ep.done(function (designer) {
+    authMiddleWare.gen_session(designer, type.role_designer, req, res);
     res.sendSuccessMsg();
   }));
 };
@@ -168,7 +171,7 @@ exports.okUser = function (req, res, next) {
       }, null, function (err) {});
 
       Designer.findOne({
-        _id: designer,
+        _id: designerid,
       }, {
         username: 1,
         phone: 1
@@ -283,15 +286,13 @@ exports.designers_user_can_order = function (req, res, next) {
       if (result.requirement && result.requirement.rec_designerids) {
         can_order_rec = _.filter(result.requirement.rec_designerids,
           function (oid) {
-            console.log(tools.findIndexObjectId(result.requirement.order_designerids,
-              oid) < 0);
             return tools.findIndexObjectId(result.requirement.order_designerids,
               oid) < 0;
           });
       }
 
       var can_order_fav = [];
-      if (result.favorite && result.favorite.favorite_designer) {
+      if (result.requirement && result.favorite && result.favorite.favorite_designer) {
         can_order_fav = _.filter(result.favorite.favorite_designer,
           function (oid) {
             return tools.findIndexObjectId(result.requirement.order_designerids,
@@ -325,6 +326,8 @@ exports.designers_user_can_order = function (req, res, next) {
             uid_auth_type: 1,
             work_auth_type: 1,
             email_auth_type: 1,
+            service_attitude: 1,
+            respond_speed: 1,
           }, {
             lean: true
           }, function (err, designers) {
@@ -351,6 +354,7 @@ exports.designers_user_can_order = function (req, res, next) {
             dec_house_types: 1,
             province: 1,
             city: 1,
+            district: 1,
             authed_product_count: 1,
             order_count: 1,
             deal_done_count: 1,
@@ -358,6 +362,8 @@ exports.designers_user_can_order = function (req, res, next) {
             uid_auth_type: 1,
             work_auth_type: 1,
             email_auth_type: 1,
+            service_attitude: 1,
+            respond_speed: 1,
           }, {
             lean: true
           }, function (err, designers) {
@@ -432,7 +438,9 @@ exports.user_ordered_designers = function (req, res, next) {
               designerid: designer._id,
               requirementid: requirementid,
             }, null, function (err, evaluation) {
-              designer.evaluation = evaluation;
+              if (evaluation) {
+                designer.evaluation = evaluation;
+              }
               callback(err, designer);
             });
           });

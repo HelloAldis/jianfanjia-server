@@ -77,6 +77,9 @@ router.post('/favorite/designer/list', auth.userRequired, favoriteWeb.list_desig
 router.post('/favorite/designer/add', auth.userRequired, favoriteWeb.add_designer); //添加设计师到意向列表
 router.post('/favorite/designer/delete', auth.userRequired, favoriteWeb.delete_designer); //把设计师从意向列表删除
 router.post('/user_order_designer', auth.userRequired, userWeb.order_designer); //预约量房
+router.post('/user_change_ordered_designer', auth.userRequired, userWeb.user_change_ordered_designer); //业主更换预约了的设计师
+router.post('/user_evaluate_designer', auth.userRequired, userWeb.user_evaluate_designer); //业主评价设计师
+
 router.post('/user_ordered_designers', auth.userRequired, designerWeb.user_ordered_designers); //获取预约了的设计师
 router.post('/designer_house_checked', auth.userRequired, userWeb.designer_house_checked); //确认设计师量完房
 router.post('/user_requirement_plans', auth.userRequired, planWeb.user_requirement_plans); //业主某个需求的方案

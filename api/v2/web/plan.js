@@ -286,7 +286,9 @@ exports.designer_requirement_plans = function (req, res, next) {
       User.findOne({
         _id: plan.userid
       }, {
-        username: 1
+        username: 1,
+        phone: 1,
+        imageid: 1,
       }, function (err, user) {
         plan = plan.toObject();
         plan.user = user;
@@ -311,23 +313,34 @@ exports.getOne = function (req, res, next) {
   ep.fail(next);
 
   Plan.findOne(query, null, ep.done(function (plan) {
-    Designer.findOne({
-      _id: plan.designerid
-    }, {
-      username: 1,
-      imageid: 1,
-    }, ep.done(function (designer) {
+    async.parallel([
+      function (callback) {
+        Designer.findOne({
+          _id: plan.designerid
+        }, {
+          username: 1,
+          imageid: 1,
+        }, callback);
+      },
+      function (callback) {
+        User.findOne({
+          _id: plan.userid
+        }, {
+          username: 1,
+          imageid: 1,
+        }, callback);
+      },
+      function (callback) {
+        Requirement.findOne({
+          _id: plan.requirementid,
+        }, null, callback);
+      }
+    ], ep.done(function (result) {
       plan = plan.toObject();
-      plan.designer = designer;
-      User.findOne({
-        _id: plan.userid
-      }, {
-        username: 1,
-        imageid: 1,
-      }, ep.done(function (user) {
-        plan.user = user;
-        res.sendData(plan);
-      }));
+      plan.designer = result[0];
+      plan.user = result[1];
+      plan.requirement = result[2];
+      res.sendData(plan);
     }));
   }));
 }

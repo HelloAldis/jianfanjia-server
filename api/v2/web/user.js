@@ -17,6 +17,7 @@ var async = require('async');
 var sms = require('../../../common/sms');
 var schedule = require('node-schedule');
 var moment = require('moment');
+var authMiddleWare = require('../../../middlewares/auth');
 
 exports.user_my_info = function (req, res, next) {
   var userid = req.params._id || ApiUtil.getUserid(req);
@@ -41,7 +42,10 @@ exports.user_update_info = function (req, res, next) {
 
   User.setOne({
     _id: userid
-  }, user, null, ep.done(function () {
+  }, user, {
+    new: true
+  }, ep.done(function (user) {
+    authMiddleWare.gen_session(user, type.role_user, req, res);
     res.sendSuccessMsg();
   }));
 };
@@ -211,6 +215,83 @@ exports.order_designer = function (req, res, next) {
   }));
 };
 
+exports.user_change_ordered_designer = function (req, res, next) {
+  var requirementid = req.body.requirementid;
+  var userid = ApiUtil.getUserid(req);
+  var old_designerid = new ObjectId(req.body.old_designerid);
+  var new_designerid = new ObjectId(req.body.new_designerid);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  async.waterfall([function (callback) {
+    Requirement.findOne({
+      _id: requirementid
+    }, null, function (err, requirement) {
+      callback(err, requirement);
+    });
+  }], ep.done(function (requirement) {
+    var json = {};
+    json.designerid = new_designerid;
+    json.userid = userid;
+    json.requirementid = requirement._id;
+
+    Plan.findOne(json, null, ep.done(function (plan) {
+      if (!plan) {
+        Plan.newAndSave(json, function (plan_indb) {
+          var planid = plan_indb._id;
+          schedule.scheduleJob(moment().add(config.designer_respond_user_order_expired,
+            'm').toDate(), function () {
+            Plan.setOne({
+              _id: planid,
+              status: type.plan_status_not_respond,
+            }, {
+              status: type.plan_status_designer_no_respond_expired,
+              last_status_update_time: new Date()
+                .getTime(),
+            }, null, function () {});
+          });
+        });
+
+        Designer.incOne({
+          _id: new_designerid
+        }, {
+          order_count: 1
+        }, {});
+
+        Designer.findOne({
+          _id: new_designerid
+        }, {
+          phone: 1
+        }, ep.done(function (designer) {
+          if (designer) {
+            User.findOne({
+              _id: userid
+            }, {
+              username: 1,
+              phone: 1
+            }, ep.done(function (user) {
+              sms.sendUserOrderDesigner(
+                designer.phone, [user.username,
+                  user.phone
+                ]);
+            }));
+          }
+        }));
+      }
+    }));
+
+    Requirement.addToSetAndPull({
+      _id: requirementid,
+    }, {
+      order_designerids: new_designerid,
+    }, {
+      order_designerids: old_designerid
+    }, null, ep.done(function () {
+      res.sendSuccessMsg();
+    }));
+  }));
+}
+
 exports.designer_house_checked = function (req, res, next) {
   var designerid = req.body.designerid
   var requirementid = req.body.requirementid;
@@ -245,7 +326,7 @@ exports.designer_house_checked = function (req, res, next) {
         }, null, function () {});
       });
 
-      Desinger.findOne({
+      Designer.findOne({
         _id: designerid
       }, {
         username: 1,

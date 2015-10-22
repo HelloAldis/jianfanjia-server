@@ -14,7 +14,7 @@ var type = require('../../../type');
 var async = require('async');
 var sms = require('../../../common/sms');
 var designer_match_util = require('../../../common/designer_match');
-// var wkhtmltopdf = require('wkhtmltopdf');
+var wkhtmltopdf = require('wkhtmltopdf');
 
 exports.user_my_requirement_list = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -290,8 +290,17 @@ exports.one_contract = function (req, res, next) {
   ep.fail(next);
 
   Requirement.findOne({
-    _id: requirementid
+    _id: requirementid,
+    status: {
+      $in: [type.requirement_status_final_plan, type.requirement_status_config_contract,
+        type.requirement_status_config_process
+      ]
+    }
   }, null, ep.done(function (requirement) {
+    if (!requirement) {
+      return res.sendData({});
+    }
+
     async.parallel({
       plan: function (callback) {
         Plan.findOne({
@@ -304,14 +313,29 @@ exports.one_contract = function (req, res, next) {
         Designer.findOne({
           _id: requirement.final_designerid
         }, {
-          username: 1
+          username: 1,
+          phone: 1,
+          uuid: 1,
+          imageid: 1,
+          province: 1,
+          city: 1,
+          district: 1,
+          auth_type: 1,
+          uid_auth_type: 1,
+          work_auth_type: 1,
+          email_auth_type: 1,
         }, callback);
       },
       user: function (callback) {
         User.findOne({
           _id: requirement.userid
         }, {
-          username: 1
+          username: 1,
+          phone: 1,
+          imageid: 1,
+          province: 1,
+          city: 1,
+          district: 1,
         }, callback);
       },
     }, ep.done(function (result) {
@@ -345,8 +369,11 @@ exports.config_contract = function (req, res, next) {
 }
 
 exports.download_contract = function (req, res, next) {
-  var requirementid = req.body.requirementid;
+  var requirementid = req.params._id;
   var ep = eventproxy();
   ep.fail(next);
 
+  wkhtmltopdf('http://www.jianfanjia.com/tpl/guide/index.html?1', {
+    javascriptDelay: 500
+  }).pipe(res);
 }
