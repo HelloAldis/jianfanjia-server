@@ -14,7 +14,7 @@ var type = require('../../../type');
 var async = require('async');
 var sms = require('../../../common/sms');
 var designer_match_util = require('../../../common/designer_match');
-// var wkhtmltopdf = require('wkhtmltopdf');
+var wkhtmltopdf = require('wkhtmltopdf');
 
 exports.user_my_requirement_list = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -345,8 +345,11 @@ exports.config_contract = function (req, res, next) {
 }
 
 exports.download_contract = function (req, res, next) {
-  var requirementid = req.body.requirementid;
+  var requirementid = req.params._id;
   var ep = eventproxy();
   ep.fail(next);
 
+  wkhtmltopdf('http://www.jianfanjia.com/tpl/guide/index.html?1', {
+    javascriptDelay: 500
+  }).pipe(res);
 }
