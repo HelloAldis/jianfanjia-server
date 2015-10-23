@@ -703,18 +703,24 @@ body{
 }
 .m-index .list h4{
 	padding-right: 10px;
+	height: 30px;
 	font-size: 14px;
 	line-height: 30px;
 	color: #61687a;
 	background-color: #f5f5f5;
 }
-.m-index .list h4 span{
+.m-index .list h4 strong{
 	float: left;
+	font-size: 14px;
 	width: 70px;
 	margin-right: 10px;
 	text-align: center;
 	color: #fff;
 	background-color: #04bafe;
+}
+.m-index .list h4 span{
+	float: left;
+	margin-right: 3px;
 }
 .m-index .list .progress{
 	width: 150px;
@@ -993,8 +999,16 @@ body{
 }
 .detail-drid li .span span{
 	display: inline-block;
+	font-size: 0;
 	padding-left: 25px;
 	color: #383d48;
+	vertical-align: top;
+}
+.detail-drid li .span span span{
+	vertical-align: top;
+	padding-left: 0;
+	margin-right: 5px;
+	font-size: 14px;
 }
 .detail-drid li .f-fl{
 	width: 50%;
@@ -1248,6 +1262,11 @@ body{
 }
 .k-motai .score .btns .u-btns{
 	margin: 0 10px;
+}
+.k-motai .done{
+	top:50%;
+	height: 348px;
+	margin-top: -175px;
 }
 /*方案列表*/
 .plans-tips{

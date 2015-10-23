@@ -1,4 +1,4 @@
-<div class="main m-requirement" bindonce="requirement">
+<div class="main m-requirement" bindonce="requirement" ng-controller="requirementCtrl">
 	<div class="m-tt">
 		<h2 class="f-fl">
 			<span bo-text="requirement.street" bo-if="requirement.street"></span>
@@ -18,7 +18,7 @@
 			<li ng-class="{active: tab==&quot;plan&quot;}" ng-if="requirement.status == 6 || requirement.status == 3 || requirement.status == 7 || requirement.status == 4 || requirement.status == 5"><a bo-href-i="owner.html#/requirement/{{requiremtneId}}/plan">选择方案</a></li>
 			<li ng-class="{active: tab==&quot;contract&quot;}" ng-if="requirement.status == 7 || requirement.status == 4 || requirement.status == 5"><a bo-href-i="owner.html#/requirement/{{requiremtneId}}/contract">生成合同</a></li>
 		</ul>
-		<div class="requirement">
+		<div class="requirement" ng-controller="requirementDetailCtrl">
 			<!--视图模板容器 start-->
 			<div ui-view></div>
 			<!--视图模板容器 end-->

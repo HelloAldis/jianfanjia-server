@@ -1,9 +1,20 @@
 'use strict';
 angular.module('controllers', [])
 	.controller('SubController', [    //左侧高亮按钮
-            '$scope','$location','userRequiremtne',function($scope, $location,userRequiremtne) {
+            '$scope','$rootScope','$location','$filter','userRequiremtne',
+            function($scope, $rootScope ,$location,$filter,userRequiremtne) {
+                //全局需求列表
+                userRequiremtne.list().then(function(res){
+                    $rootScope.requirementList = res.data.data;
+                    angular.forEach($rootScope.requirementList, function(value, key){
+                        value.dec_style = $filter('decStyleFilter')(value.dec_style);
+                        value.work_type = $filter('workTypeFilter')(value.work_type);
+                        value.house_type = $filter('houseTypeFilter')(value.house_type);
+                    })
+                },function(res){
+                    console.log(res)
+                });
                 $scope.location = $location;
-                $scope.requiremtnes = false;
                 $scope.$watch( 'location.url()', function( url ){
                     if(url.split('/')[1] == 'requirement'){
                         $scope.nav = 'requirementList'
@@ -12,30 +23,20 @@ angular.module('controllers', [])
                     }else{
                        $scope.nav = url.split('/')[1];  
                     }
-                    userRequiremtne.list().then(function(res){
-                        $scope.requiremtnes = res.data.data.length < 3 ? true : false;
-                    },function(res){
-                        console.log(res)
-                    });
+                    
                 });
-                
             }
     ])
 	.controller('indexCtrl', [     //业主首页
         '$scope','$rootScope','$http','$filter','$location','userInfo','userRequiremtne','userComment',
         function($scope, $rootScope,$http,$filter,$location,userInfo,userRequiremtne,userComment) {
-            $scope.userAreaOff = false;
         	userInfo.get().then(function(res){
-        		console.log(res.data.data)
         		$scope.user = res.data.data;
-                $scope.userAreaOff = $scope.user.province == '请选择省份' ? false : true;
-                $scope.user.imgPic = !$scope.user.imageid ? '../../../static/img/user/headPic.png' : RootUrl+'api/v2/web/thumbnail/120/'+$scope.user.imageid;
         	},function(res){
         		console.log(res)
         	});
             userComment.unread().then(function(res){
                 $scope.messages = res.data.data;
-                $scope.notMessages = $scope.messages.length ? true : false;
                 angular.forEach($scope.messages, function(value, key){
                     value.date = $filter('date')(value.date,'yyyy-MM-dd HH:mm:ss');
                 })
@@ -45,56 +46,6 @@ angular.module('controllers', [])
             $scope.messageClass = false;
             $scope.messageToggle = function(b){
                 $scope.messageClass = b;
-            }
-            $scope.requiremtnes = [];
-            userRequiremtne.list().then(function(res){
-                angular.forEach(res.data.data, function(value, key){
-                    var str = '';
-                    if(!!value.province){
-                        str += value.province + " "
-                    }
-                    if(!!value.city){
-                        str += value.city + " "
-                    }
-                    if(!!value.district){
-                        str += value.district + " "
-                    }
-                    if(!!value.street){
-                        str += value.street + " "
-                    }
-                    if(!!value.cell){
-                        str += value.cell + " "
-                    }
-                    if(!!value.cell_phase){
-                        str += value.cell_phase + "期 "
-                    }
-                    if(!!value.cell_building){
-                        str += value.cell_building + "栋 "
-                    }
-                    if(!!value.cell_unit){
-                        str += value.cell_unit + "单元 "
-                    }
-                    if(!!value.cell_detail_number){
-                        str += value.cell_detail_number + "室 "
-                    }
-                    value.property = str;
-                    this.push(value)
-                },$scope.requiremtnes)
-            },function(res){
-                console.log(res)
-            });
-            var statusUrl = {
-                "0":"booking",
-                "1":"booking",
-                "2":"booking",
-                "3":"score",
-                "4":"plan",
-                "5":"contract",
-                "6":"score",
-                "7":"contract"               
-            }
-            $scope.goTo = function(id,status){
-                $location.path('requirement/'+id+"/"+statusUrl[status]);
             }
     }])
     .controller('inforCtrl', [     //业主资料
@@ -318,49 +269,8 @@ angular.module('controllers', [])
             }
     }])
     .controller('requirementListCtrl', [     //装修需求列表
-        '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne',
-        function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne){
-            userRequiremtne.list().then(function(res){
-                $scope.requiremtnes = res.data.data;
-                console.log($scope.requiremtnes)
-                 $scope.notRequiremtnes = !$scope.requiremtnes.length ? true : false;
-                 angular.forEach($scope.requiremtnes, function(value, key){
-                    var str = '';
-                    if(!!value.province){
-                        str += value.province + " "
-                    }
-                    if(!!value.city){
-                        str += value.city + " "
-                    }
-                    if(!!value.district){
-                        str += value.district + " "
-                    }
-                    if(!!value.street){
-                        str += value.street + " "
-                    }
-                    if(!!value.cell){
-                        str += value.cell + " "
-                    }
-                    if(!!value.cell_phase){
-                        str += value.cell_phase + "期 "
-                    }
-                    if(!!value.cell_building){
-                        str += value.cell_building + "栋 "
-                    }
-                    if(!!value.cell_unit){
-                        str += value.cell_unit + "单元 "
-                    }
-                    if(!!value.cell_detail_number){
-                        str += value.cell_detail_number + "室 "
-                    }
-                    value.property = str;
-                    value.dec_style = $filter('decStyleFilter')(value.dec_style);
-                    value.work_type = $filter('workTypeFilter')(value.work_type);
-                    value.house_type = $filter('houseTypeFilter')(value.house_type);
-                })
-            },function(res){
-                console.log(res)
-            });
+        '$scope','$rootScope','$filter','$location','$stateParams',
+        function($scope, $rootScope,$filter,$location,$stateParams){
             var statusUrl = {
                 "0":"booking",
                 "1":"booking",
@@ -378,22 +288,50 @@ angular.module('controllers', [])
     .controller('requirementCtrl', [     //装修需求详情配置
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne',
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne){
-            $scope.requiremtneId = $stateParams.id;
+            //需求id
+            $rootScope.requiremtneId = $stateParams.id;
+            //tab栏按钮高亮
             $scope.location = $location;
             $scope.$watch( 'location.url()', function( url ){
                 $scope.tab = url.split('/')[3];
-                console.log($scope.tab)
             });
             userRequiremtne.get({"_id":$stateParams.id}).then(function(res){
-                    $scope.requirement = res.data.data;
-                },function(res){
+                $scope.requirement = res.data.data;
+                $scope.$broadcast('requirementParent', res.data.data);   //父级传递
+            },function(res){
                     console.log(res)
             });
+            $scope.$on('requirementChildren', function(event, data) {   //父级接收 如果业主操作就需要改变状态
+                $scope.requirement = data;  
+            });  
     }])
     .controller('requirementDetailCtrl', [     //装修需求详情
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne',
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne){
             var requiremtneId = $stateParams.id;
+            $scope.$on('requirementParent',function(event, data){    //子级接收 
+                console.log(data.status)
+                if(data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 4 || data.status == 5 || data.status == 6 || data.status == 7){  //预约量房、确认量房
+                    myBooking()
+                    console.log('预约量房、确认量房')
+                }
+                if(data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5){  //选择方案
+                    myPlan()
+                    console.log('选择方案')
+                }
+                if(data.status == 7 || data.status == 4 || data.status == 5){   //生成合同
+                    myContract()
+                    console.log('生成合同')
+                }
+            })
+            function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+                userRequiremtne.get({"_id":$stateParams.id}).then(function(res){
+                    $scope.requirement = res.data.data;
+                    $scope.$emit('requirementChildren', type);
+                },function(res){
+                        console.log(res)
+                });
+            }
             var statusUrl = {
                 "0":"booking",
                 "1":"booking",
@@ -407,136 +345,93 @@ angular.module('controllers', [])
             $scope.goTo = function(id,status){
                 $location.path('requirement/'+id+"/"+statusUrl[status]);
             }
-            userRequiremtne.get({"_id":requiremtneId}).then(function(res){
-                    $scope.requirement = res.data.data;
-                    console.log(res.data.data)
-                    detail(res.data.data) //需求描述
-                },function(res){
-                    console.log(res)
-            });
-            function detail(data){   //需求描述
-                $scope.detail = data;
-                $scope.detail.area = '';
-                if(!!$scope.detail.province){
-                    $scope.detail.area += $scope.detail.province + " "
-                }
-                if(!!$scope.detail.city){
-                   $scope.detail.area += $scope.detail.city + " "
-                }
-                if(!!$scope.detail.district){
-                    $scope.detail.area += $scope.detail.district + " "
-                }
-                $scope.detail.property = '';
-                if(!!$scope.detail.cell){
-                    $scope.detail.property += $scope.detail.cell + " "
-                }
-                if(!!$scope.detail.cell_phase){
-                    $scope.detail.property += $scope.detail.cell_phase + "期 "
-                }
-                if(!!$scope.detail.cell_building){
-                    $scope.detail.property += $scope.detail.cell_building + "栋 "
-                }
-                if(!!$scope.detail.cell_unit){
-                    $scope.detail.property += $scope.detail.cell_unit + "单元 "
-                }
-                if(!!$scope.detail.cell_detail_number){
-                    $scope.detail.property += $scope.detail.cell_detail_number + "室 "
-                }
-                $scope.detail.house_type = $filter('houseTypeFilter')($scope.detail.house_type);
-                $scope.detail.dec_style = $filter('decStyleFilter')($scope.detail.dec_style);
-                $scope.detail.work_type = $filter('workTypeFilter')($scope.detail.work_type);
-                $scope.detail.communication_type = $filter('designTypeFilter')($scope.detail.communication_type);
-                $scope.detail.prefer_sex = $filter('designSexFilter')($scope.detail.prefer_sex);
-                $scope.detail.dec_type = $filter('decTypeFilter')($scope.detail.dec_type);
-            }
-            userRequiremtne.designers({"requirementid":requiremtneId}).then(function(res){    //可以预约设计师列表
-                    // 匹配的设计师
-                    $scope.matchs = res.data.data.rec_designer;
-                    angular.forEach($scope.matchs, function(value, key){
-                        value.imageSrc = value.imageid ? RootUrl+'api/v2/web/image/'+value.imageid : '../../static/img/user/headPic.png';
-                        value.active = false;
-                    })
-                    // 自选的设计师
-                    $scope.favorites = res.data.data.favorite_designer;
-                    angular.forEach($scope.favorites, function(value, key){
-                        value.imageSrc = value.imageid ? RootUrl+'api/v2/web/image/'+value.imageid : '../../static/img/user/headPic.png';
-                        value.active = false;
-                    })
-                    $scope.orderDesigns = [];
-                    var weeksData = {"Monday":"星期一","Tuesday":"星期二","Wednesday":"星期三","Thursday":"星期四","Friday":"星期五","Saturday":"星期六","Sunday":"星期日"};
-                    userRequiremtne.order({"requirementid":requiremtneId}).then(function(res){    //已经预约设计师列表
-                            $scope.orders = res.data.data;
-                            angular.forEach($scope.orders, function(value, key){
-                                value.imageSrc = value.imageid ? RootUrl+'api/v2/web/image/'+value.imageid : '../../static/img/user/headPic.png';
-                                value.confirmSuccess = value.plan.status === "2" ? true : false;
-                                value.scoreSuccess = value.plan.status === "6" ? true : false;
-                                if(value.plan.house_check_time){
-                                    var dates = $filter('date')(value.plan.house_check_time , 'yyyy年MM月dd日'),
-                                    days = $filter('date')(value.plan.house_check_time , 'a') == 'AM' ? '上午' : '下午',
-                                    weeks = weeksData[$filter('date')(value.plan.house_check_time , 'EEEE')],
-                                    times = $filter('date')(value.plan.house_check_time , 'hh:mm');
-                                    value.house_check_time = dates + days + times + ' ( '+ weeks + ' )';
-                                }
-                            })
-                            angular.forEach($scope.matchs, function(value1, key1){
-                                angular.forEach($scope.orders, function(value2, key2){
-                                    if(value1._id == value2._id){
-                                        value1.active = true;
-                                    }else{
-                                        value1.active = false;
-                                    }
-                                })
-                            })
-                            angular.forEach($scope.orders, function(value2, key2){
-                                angular.forEach($scope.matchs, function(value1, key1){
-                                    if(value1._id == value2._id){
-                                        value1.active = true;
-                                    }
-                                })
-                                angular.forEach($scope.favorites, function(value1, key1){
-                                    if(value1._id == value2._id){
-                                        value1.active = true;
-                                    }
-                                })
-                            })
-                            $scope.bookingSuccess = $scope.orders.length < 3 ? true : false; 
-                            // 点击设计师
-                            $scope.selectDesignOff = false;
-                            $scope.selectDesign = function(data){
-                                if($scope.orders.length > 2){
-                                    return ;
-                                }
+            function myBooking(){
+                userRequiremtne.designers({"requirementid":requiremtneId}).then(function(res){    //可以预约设计师列表
+                        // 匹配的设计师
+                        $scope.matchs = res.data.data.rec_designer;
+                        angular.forEach($scope.matchs, function(value, key){
+                            value.active = false;
+                        })
+                        // 自选的设计师
+                        $scope.favorites = res.data.data.favorite_designer;
+                        angular.forEach($scope.favorites, function(value, key){
+                            value.active = false;
+                        })
+                        $scope.orderDesigns = [];
+                        var weeksData = {"Monday":"星期一","Tuesday":"星期二","Wednesday":"星期三","Thursday":"星期四","Friday":"星期五","Saturday":"星期六","Sunday":"星期日"};
+                        userRequiremtne.order({"requirementid":requiremtneId}).then(function(res){    //已经预约设计师列表
+                                $scope.orders = res.data.data;
                                 angular.forEach($scope.orders, function(value, key){
-                                    if(value._id == data._id){
-                                        $scope.selectDesignOff = true;
-                                        return false;
+                                    value.confirmSuccess = value.plan.status === "2" ? true : false;
+                                    value.scoreSuccess = value.plan.status === "6" ? true : false;
+                                    if(value.plan.house_check_time){
+                                        var dates = $filter('date')(value.plan.house_check_time , 'yyyy年MM月dd日'),
+                                        days = $filter('date')(value.plan.house_check_time , 'a') == 'AM' ? '上午' : '下午',
+                                        weeks = weeksData[$filter('date')(value.plan.house_check_time , 'EEEE')],
+                                        times = $filter('date')(value.plan.house_check_time , 'hh:mm');
+                                        value.house_check_time = dates + days + times + ' ( '+ weeks + ' )';
                                     }
                                 })
-                                if($scope.selectDesignOff){
-                                    return ;
-                                }
-                                if(!data.active){
-                                    if($scope.orderDesigns.length > 2){
-                                        alert('您已经预约了3名设计师');
+                                angular.forEach($scope.matchs, function(value1, key1){
+                                    angular.forEach($scope.orders, function(value2, key2){
+                                        if(value1._id == value2._id){
+                                            value1.active = true;
+                                        }else{
+                                            value1.active = false;
+                                        }
+                                    })
+                                })
+                                angular.forEach($scope.orders, function(value2, key2){
+                                    angular.forEach($scope.matchs, function(value1, key1){
+                                        if(value1._id == value2._id){
+                                            value1.active = true;
+                                        }
+                                    })
+                                    angular.forEach($scope.favorites, function(value1, key1){
+                                        if(value1._id == value2._id){
+                                            value1.active = true;
+                                        }
+                                    })
+                                })
+                                $scope.bookingSuccess = $scope.orders.length < 3 ? true : false; 
+                                // 点击设计师
+                                $scope.selectDesignOff = false;
+                                $scope.selectDesign = function(data){
+                                    if($scope.orders.length > 2){
                                         return ;
                                     }
-                                    data.active = true;
-                                    console.log(data._id)
-                                    $scope.orderDesigns.push(data._id)
-                                    console.log($scope.orderDesigns)
-                                }else{
-                                    data.active = false;
-                                    var index = _.indexOf($scope.orderDesigns,data._id);
-                                    $scope.orderDesigns.splice(index, 1);
-                                    console.log($scope.orderDesigns)
+                                    angular.forEach($scope.orders, function(value, key){
+                                        if(value._id == data._id){
+                                            $scope.selectDesignOff = true;
+                                            return false;
+                                        }
+                                    })
+                                    if($scope.selectDesignOff){
+                                        return ;
+                                    }
+                                    if(!data.active){
+                                        if($scope.orderDesigns.length > 2){
+                                            alert('您已经预约了3名设计师');
+                                            return ;
+                                        }
+                                        data.active = true;
+                                        console.log(data._id)
+                                        $scope.orderDesigns.push(data._id)
+                                        console.log($scope.orderDesigns)
+                                    }else{
+                                        data.active = false;
+                                        var index = _.indexOf($scope.orderDesigns,data._id);
+                                        $scope.orderDesigns.splice(index, 1);
+                                        console.log($scope.orderDesigns)
+                                    }
                                 }
-                            }
-                        },function(res){
-                            console.log(res)
-                    });
-                },function(res){
-                    console.log(res)
-            });
+                            },function(res){
+                                console.log(res)
+                        });
+                    },function(res){
+                        console.log(res)
+                });
+            }
             //预约量房
             $scope.bookingBtn = function(){
                 if(!$scope.orderDesigns.length){
@@ -636,20 +531,10 @@ angular.module('controllers', [])
                 $scope.score.motaiScore = true;
                 $scope.score.designerScore = data;
             }
-        load()
-        function load(){
+        // 方案列表
+        function myPlan(){
             userRequiremtne.plans({"requirementid":requiremtneId}).then(function(res){    //获取我的方案列表
                 $scope.plans = res.data.data;
-                console.log($scope.plans)
-                angular.forEach($scope.plans, function(value, key){
-                    value.imageSrc = value.designer.imageid ? RootUrl+'api/v2/web/image/'+value.designer.imageid : '../../static/img/user/headPic.png';
-                    value.planImages = [];
-                    angular.forEach(value.images, function(value2, key2){
-                        if(key2 < 3){
-                            this.push(RootUrl+'api/v2/web/image/'+value2)
-                        }
-                    },value.planImages)
-                })
             },function(res){
                 console.log(res)
             });
@@ -662,20 +547,23 @@ angular.module('controllers', [])
             }).then(function(res){    
                 if(res.data.msg == "success"){
                     alert('您已经选定方案，等候设计师生成合同')
-                    load()
+                    myPlan()   //更新方案列表
+                    uploadParent()   //更新需求状态
                 }
             },function(res){
                 console.log(res)
             });
         }
-        userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){    //获取我的方案列表
-            $scope.contract = res.data.data;
-            console.log(res.data.data)
-        },function(res){
-            console.log(res)
-        });
+        // 三方合同
+        function myContract(){   //获取我的第三方合同
+            userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){    
+                $scope.contract = res.data.data;
+            },function(res){
+                console.log(res)
+            });
+        }
     }])
-    .controller('favoriteProductCtrl', [     //作品收藏列表
+   .controller('favoriteProductCtrl', [     //作品收藏列表
         '$scope','$rootScope','$http','$filter','$location','userFavoriteProduct',
         function($scope, $rootScope,$http,$filter,$location,userFavoriteProduct){
             function laod(){

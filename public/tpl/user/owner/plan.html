@@ -2,7 +2,7 @@
 	<div class="plans-tips">
 		<p class="f-fl">装修方案摘要</p>
 	</div>
-	<ul class="m-plans">
+	<ul class="m-plans" ng-if="plans.length == 0 || plans">
 		<li ng-if="plans.length == 0">
 			<div class="notData">
 				设计师正在提交方案中，请耐心等候！
@@ -12,7 +12,8 @@
 			<div class="boxs">
 				<div class="info f-cb">
 					<a bo-href-i="../design/homepage.html?{{data.designer._id}}" class="head f-fl" target="_blank">
-						<img bo-src="data.imageSrc" bo-alt="data.designer.username" />
+						<img bo-src-i="/api/v2/web/thumbnail/70/{{data.designer.imageid}}" bo-alt="data.designer.username" bo-if="data.designer.imageid" />
+						<img bo-src="../../static/img/user/headPic.png" bo-alt="data.designer.username" bo-if="!data.designer.imageid" />
 					</a>
 					<dl class="f-fl">
 						<dt>
@@ -37,7 +38,7 @@
 					<p class="f-fl" bo-text="data.description"></p>
 				</div>
 				<div class="images">
-					<img bo-src="img" alt="" ng-repeat="img in data.planImages track by $index" />
+					<img bo-src-i="/api/v2/web/thumbnail/280/{{img}}" alt="" ng-repeat="img in data.images | limitTo : 3" />
 				</div>
 				<div class="select">
 					<a bo-href-i="plans.html#/detail/{{data._id+'&'+data.requirementid}}#plansMsg" class="msg f-fl" target="_blank">留言 (<i bo-text="data.comment_count"></i>)</a>
@@ -49,4 +50,7 @@
 			</div>
 		</li>
 	</ul>
+	<div class="loading" ng-if="!plans">
+		正在加载数据。。。
+	</div>
 </div>

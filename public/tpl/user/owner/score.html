@@ -2,12 +2,13 @@
 	<div class="booking-tips">
 		<p class="f-fl">评价参与本案的设计师</p>
 	</div>
-	<ul class="m-designerList">
+	<ul class="m-designerList"  ng-if="orders">
 		<li bindonce="orders" ng-repeat="data in orders" ng-click="selectDesign(data)" class="{{data.active ? 'active' : ''}}">
 			<div class="designer f-cb">
 				<div class="info f-fl">
 					<a bo-href-i="../design/homepage.html?{{data._id}}" class="head f-fl">
-						<img bo-src="data.imageSrc" bo-alt="data.username" />
+						<img bo-src-i="/api/v2/web/thumbnail/70/{{data.imageid}}" bo-alt="data.username" bo-if="data.imageid" />
+						<img bo-src="../../static/img/user/headPic.png" bo-alt="data.username" bo-if="!data.imageid" />
 					</a>
 					<dl class="f-fl">
 						<dt>
@@ -19,24 +20,54 @@
 					</dl>
 				</div>
 				<div class="select f-fr">
-					<p ng-if="!data.confirmSuccess && !data.scoreSuccess">设计师正在响应中，请耐心等候！</p>
+					<p ng-if="!data.confirmSuccess && !data.scoreSuccess && data.plan.status == 0">设计师正在响应中，请耐心等候！</p>
+					<p ng-if="data.plan.status == 1">设计师正在忙，暂时无法为您服务。<br />你可以从新在选择一位设计师预约量房<br />
+						<a bo-href-i="owner.html#/requirement/{{requiremtneId}}/booking?{{data._id}}" class="u-btns u-btns-revise">重新预约设计师</a></p>
+					<p ng-if="data.plan.status == 1">设计师正在忙，暂时无法为您服务。<br />你可以从新在选择一位设计师预约量房<br />
+						<a bo-href-i="owner.html#/requirement/{{requiremtneId}}/booking?{{data._id}}" class="u-btns u-btns-revise">重新预约设计师</a></p>
 					<div class="btns" ng-if="data.confirmSuccess">
 						<a href="javascript:;" class="u-btns" ng-click="confirmBtn(data)">已上门量房</a>
 					</div>
-					<div class="btns" ng-if="data.scoreSuccess">
-						<span>已确认</span>
-						<span  ng-if="data.evaluation">已评价</span>
+					<div class="btns" ng-if="data.confirmSuccess || data.scoreSuccess || data.evaluation">
+						<span>已确认<i ng-if="data.evaluation">并已评价</i></span>
 						<a href="javascript:;" class="u-btns u-btns-revise" ng-click="scoreBtn(data)" ng-if="!data.evaluation"> 评价 </a>
 					</div>
-					<p ng-if="data.confirmSuccess">量房时间：<i bo-text="data.house_check_time"></i></p>
+					<p ng-if="data.confirmSuccess || data.scoreSuccess || data.evaluation">量房时间：<i bo-text="data.house_check_time"></i></p>
 				</div>
 			</div>
 		</li>
 	</ul>
+	<div class="loading" ng-if="!orders">
+		正在加载数据。。。
+	</div>
 </div>
 <div class="k-motai" ng-if="score.motaiScore">
-	<div class="mask"></div>
 	<div class="motai score">
+		<h3>评价设计师</h3>
+		<dl>
+			<dt>响应速度</dt>
+			<dd>
+				<span ng-repeat="list in score.scoreResponds" ng-click="score.respondBtn(list.id)" class="{{list.cur}}"></span>
+			</dd>
+		</dl>
+		<dl>
+			<dt>服务态度</dt>
+			<dd>
+				<span ng-repeat="list in score.scoreServices" ng-click="score.serviceBtn(list.id)" class="{{list.cur}}"></span>
+			</dd>
+		</dl>
+		<div class="textarea"><textarea rows="10" ng-model="score.scoreComment"></textarea></div>
+		<div class="anonymity">
+			<span ng-click="score.anonymityBtn()"><i ng-class="{true:'active',false:''}[score.anonymity]"></i>匿名评价</span>
+		</div>
+		<div class="btns">
+			<a href="javascript:;" class="u-btns u-btns-revise" ng-click="score.scoreCancelBtn()">取消</a>
+			<a href="javascript:;" class="u-btns" ng-click="score.scoreSubmitBtn()">提交</a>
+		</div>
+	</div>
+</div>
+<div class="k-motai" ng-if="score.motaiDone">
+	<div class="motai done">
 		<h3>评价设计师</h3>
 		<dl>
 			<dt>响应速度</dt>
