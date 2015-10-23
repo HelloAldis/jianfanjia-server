@@ -237,7 +237,8 @@ exports.finalPlan = function (req, res, next) {
                           _id: designerid
                         }, {
                           phone: 1
-                        }, function (designer) {
+                        }, function (err,
+                          designer) {
                           if (plans[0].status ===
                             type.plan_status_user_final
                           ) {
