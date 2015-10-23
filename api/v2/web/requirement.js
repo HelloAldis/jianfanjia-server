@@ -138,50 +138,61 @@ exports.user_add_requirement = function (req, res, next) {
   //   }, null, function (err) {});
   // }
 
-  Designer.find({
-    city: requirement.city,
-    auth_type: type.designer_auth_type_done,
-    agreee_license: type.designer_agree_type_yes,
-    online_status: type.online_status_on,
-    authed_product_count: {
-      $gte: 3
-    },
-    // uid_auth_type: type.designer_auth_type_done,
-    // work_auth_type: type.designer_auth_type_done,
-  }, {
-    pass: 0,
-    accessToken: 0
-  }, {
-    sort: {
-      authed_product_count: -1,
-      order_count: 1,
-      login_count: -1,
+  Requirement.count({
+    userid: userid,
+  }, ep.done(function (count) {
+    if (count >= 3) {
+      return res.sendErrMsg('目前最多支持3个需求');
     }
-  }, ep.done(function (designers) {;
-    ep.emit('final', designer_match_util.top_designers(designers,
-      requirement));
-  }));
 
-  ep.on('final', function (designers) {
-    //设计确定了
-    var designerids = _.pluck(designers, '_id');
-    requirement.rec_designerids = designerids;
-
-    Requirement.newAndSave(requirement, ep.done(function (
-      requirement_indb) {
-      res.sendData({
-        requirementid: requirement_indb._id,
-      });
-
-      User.findOne({
-        _id: userid
-      }, null, function (err, user) {
-        if (user) {
-          sms.sendYzxRequirementSuccess(user.phone, [user.username]);
-        }
-      });
+    Designer.find({
+      city: requirement.city,
+      auth_type: type.designer_auth_type_done,
+      agreee_license: type.designer_agree_type_yes,
+      online_status: type.online_status_on,
+      authed_product_count: {
+        $gte: 3
+      },
+      // uid_auth_type: type.designer_auth_type_done,
+      // work_auth_type: type.designer_auth_type_done,
+    }, {
+      pass: 0,
+      accessToken: 0
+    }, {
+      sort: {
+        authed_product_count: -1,
+        order_count: 1,
+        login_count: -1,
+      }
+    }, ep.done(function (designers) {;
+      ep.emit('final', designer_match_util.top_designers(
+        designers,
+        requirement));
     }));
-  });
+
+    ep.on('final', function (designers) {
+      //设计确定了
+      var designerids = _.pluck(designers, '_id');
+      requirement.rec_designerids = designerids;
+
+      Requirement.newAndSave(requirement, ep.done(function (
+        requirement_indb) {
+        res.sendData({
+          requirementid: requirement_indb._id,
+        });
+
+        User.findOne({
+          _id: userid
+        }, null, function (err, user) {
+          if (user) {
+            sms.sendYzxRequirementSuccess(user.phone, [
+              user.username
+            ]);
+          }
+        });
+      }));
+    });
+  }));
 }
 
 exports.user_update_requirement = function (req, res, next) {

@@ -68,3 +68,7 @@ exports.paginate = function (query, project, option, callback) {
 exports.removeOne = function (query, option, callback) {
   Requirement.findOneAndRemove(query, option, callback)
 };
+
+exports.count = function (query, callback) {
+  Requirement.count(query, callback);
+}

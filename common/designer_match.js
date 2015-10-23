@@ -20,7 +20,7 @@ exports.designer_match = function (designer, requirement) {
     if (Math.abs(designer.dec_fee_all <= price_perm) < 100) {
       designer.match++;
     }
-  } else if (reqirement.work_type === type.work_type_design_only) {
+  } else if (requirement.work_type === type.work_type_design_only) {
 
   }
 
