@@ -222,7 +222,8 @@ exports.user_update_requirement = function (req, res, next) {
     requirement.rec_designerids = designerids;
     requirement.last_status_update_time = new Date().getTime();
     Requirement.setOne({
-        _id: _id
+        _id: _id,
+        status: type.requirement_status_new,
       },
       requirement, null, ep.done(function () {
         res.sendSuccessMsg();

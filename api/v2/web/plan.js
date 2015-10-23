@@ -246,7 +246,7 @@ exports.finalPlan = function (req, res, next) {
                                 user.username,
                                 user.phone
                               ]);
-                          } else if (plan[0].status ===
+                          } else if (plans[0].status ===
                             type.plan_status_user_not_final
                           ) {
                             sms.sendDesignerPlanNotFinaled(

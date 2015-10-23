@@ -28,11 +28,6 @@ dec_style:
 5. 东南亚
 6. 田园
 
-dec_districts
-0. 汉口
-1. 汉阳
-2. 武昌
-
 design_fee_range
 0. 50－100
 1. 100-200
