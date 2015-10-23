@@ -84,7 +84,7 @@ exports.list_designer = function (req, res, next) {
         }, function (err, designer) {
           if (!designer) {
             designer = {
-              _id: designer,
+              _id: designerid,
               is_deleted: true,
             };
           }
