@@ -192,9 +192,8 @@ exports.order_designer = function (req, res, next) {
                   phone: 1
                 }, ep.done(function (user) {
                   sms.sendUserOrderDesigner(
-                    designer.phone, [user.username,
-                      user.phone
-                    ]);
+                    designer.phone, [user.username]
+                  );
                 }));
               }
             }));
@@ -271,9 +270,7 @@ exports.user_change_ordered_designer = function (req, res, next) {
               phone: 1
             }, ep.done(function (user) {
               sms.sendUserOrderDesigner(
-                designer.phone, [user.username,
-                  user.phone
-                ]);
+                designer.phone, [user.username]);
             }));
           }
         }));

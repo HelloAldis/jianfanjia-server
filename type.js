@@ -45,6 +45,7 @@ var type = {
 
   work_type_half: '0',
   work_type_all: '1',
+  work_type_design_only: '2',
 
   process_item_status_new: '0',
   process_item_status_going: '1',
