@@ -73,17 +73,17 @@ router.post('/process/reschedule/reject', auth.normalUserRequired, process.rejec
 router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定cid
 
 //业主独有功能
-router.put('/user/info', auth.userRequired, user.updateInfo); //修改业主个人资料
-router.get('/user/info', auth.userRequired, user.getInfo); //获取业主个人资料
-router.put('/user/requirement', auth.userRequired, user.updateRequirement); //更新我的装修需求
-router.get('/user/requirement', auth.userRequired, user.getRequirement); //获取我的装修需求
-router.get('/user/designer', auth.userRequired, user.myDesigner); //我的设计师
-router.post('/user/designer', auth.userRequired, user.addDesigner); //添加设计师到我的设计师列表
-router.post('/user/designer/house_check', auth.userRequired, user.addDesigner2HouseCheck); //预约量房
-router.get('/user/plan', auth.userRequired, plan.userMyPlan); //我的方案
-router.post('/user/plan/final', auth.userRequired, plan.finalPlan); //选定方案
-router.post('/user/process', auth.userRequired, process.start); //开启装修流程
-router.post('/user/designer/info', auth.userRequired, designer.user_designer_info);
+// router.put('/user/info', auth.userRequired, user.updateInfo); //修改业主个人资料
+// router.get('/user/info', auth.userRequired, user.getInfo); //获取业主个人资料
+// router.put('/user/requirement', auth.userRequired, user.updateRequirement); //更新我的装修需求
+// router.get('/user/requirement', auth.userRequired, user.getRequirement); //获取我的装修需求
+// router.get('/user/designer', auth.userRequired, user.myDesigner); //我的设计师
+// router.post('/user/designer', auth.userRequired, user.addDesigner); //添加设计师到我的设计师列表
+// router.post('/user/designer/house_check', auth.userRequired, user.addDesigner2HouseCheck); //预约量房
+// router.get('/user/plan', auth.userRequired, plan.userMyPlan); //我的方案
+// router.post('/user/plan/final', auth.userRequired, plan.finalPlan); //选定方案
+// router.post('/user/process', auth.userRequired, process.start); //开启装修流程
+// router.post('/user/designer/info', auth.userRequired, designer.user_designer_info);
 
 //设计师独有功能
 router.put('/designer/info', auth.designerRequired, designer.updateInfo); //修改设计师个人资料
