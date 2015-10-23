@@ -151,8 +151,16 @@
 				<div class="m-item m-error-info hide" id="error-info"></div>
 			</div>
 			<div class="m-btns">
-				<input type="button" class="u-btns" id="owner-submit" ng-click="submitBtn()" value="提交" />
+				<input type="button" class="u-btns" id="owner-submit" ng-click="release.submitBtn()" value="提交" />
 			</div>
 		</div>
+	</div>
+</div>
+<div class="k-motai" ng-if="release.motaiDone">
+	<div class="motai done">
+		<span class="done-icon"></span>
+		<h3>提交成功！</h3>
+		<p>前往预约设计师量房。</p>
+		<a href="javascript:;" class="u-btns" ng-click="release.submitDefineBtn()">&nbsp;&nbsp;确定&nbsp;&nbsp;</a>
 	</div>
 </div>

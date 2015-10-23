@@ -1139,7 +1139,16 @@ body{
 .score .select .btns{
 	text-align: right;
 } 
-
+.score .select p{
+	padding-top: 15px;
+	line-height: 18px;
+}
+.score .select p.cur{
+	color: #fe7004;
+}
+.score .m-designerList .select{
+	padding-top: 0;
+}
 /*模态窗口*/
 .k-motai{
 	position: fixed;
@@ -1267,6 +1276,26 @@ body{
 	top:50%;
 	height: 348px;
 	margin-top: -175px;
+	text-align: center;
+}
+.k-motai .done .done-icon{
+	display: block;
+	width: 88px;
+	height: 88px;
+	margin: 42px auto 20px;
+	background:url(../img/user/motaiDone-icon.png) 0 0 no-repeat;
+}
+.k-motai .done h3{
+	line-height: 46px;
+	font-size: 24px;
+	font-weight: bold;
+	color: #1cb235;
+}
+.k-motai .done p{
+	height: 52px;
+	padding-bottom: 13px;
+	line-height: 26px;
+	color: #999;
 }
 /*方案列表*/
 .plans-tips{
