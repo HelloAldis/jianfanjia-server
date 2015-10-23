@@ -130,6 +130,12 @@ var type = {
   communication_type_free: '0',
   communication_type_expressive: '1',
   communication_type_listener: '2',
+
+  design_fee_range_50_100: '0',
+  design_fee_range_100_200: '1',
+  design_fee_range_200_300: '2',
+  design_fee_range_300: '3',
+
 }
 
 module.exports = type;
