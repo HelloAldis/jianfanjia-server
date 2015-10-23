@@ -3,7 +3,7 @@ var globalData = {
 	role : ['管理员','业主','设计师'],
 	sex  : ['男','女'],
 	dec_type : ['家装','商装','软装'],
-	work_type : ['半包','全包'],
+	work_type : ['设计＋施工(半包)','设计＋施工(全包)','纯设计'],
 	dec_style : ['欧式','中式','现代','地中海','美式','东南亚','田园'],
 	scheme_state : ['沟通中','已中标','未中标'],
 	orders_area : ['江岸区','江汉区','硚口区','汉阳区','武昌区','洪山区','青山区'],
@@ -16,17 +16,8 @@ var globalData = {
 }
 var global_success_url = window.location;
 var RootUrl = 'http://www.jianfanjia.com/';
-var RootUrl = 'http://101.200.191.159/';
 // 检测浏览器是否支持css3新属性，来给低版本浏览器做优雅降级；
 function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentElement.style,t=function(r){return r.replace(/-(\w)/g,function($0,$1){return $1.toUpperCase()})};for(i in p){a.push(t(p[i]+'-'+c));a.push(t(c))}for(i in a){if(a[i]in s){return true}}return false};
-//检测是否支持html5文件上传
-function checkSupport(){
-	  var input = document.createElement('input');
-	  var fileSupport = !!(window.File && window.FileList);
-	  var xhr = new XMLHttpRequest();
-	  var fd = !!window.FormData;
-	  return 'multiple' in input && fileSupport && 'onprogress' in xhr && 'upload' in xhr && fd ? 'html5' : 'flash';
-}
 //Cookie操作
 (function(factory){
 	if (typeof define === 'function' && define.amd) {

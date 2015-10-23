@@ -132,7 +132,12 @@ exports.updateRequirement = function (req, res, next) {
   }, {
     pass: 0,
     accessToken: 0
-  }, {}, function (err, designers) {
+  }, {
+    sort: {
+      authed_product_count: -1,
+      order_count: 1,
+    }
+  }, function (err, designers) {
     if (err) {
       return next(err);
     }
