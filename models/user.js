@@ -7,7 +7,8 @@ var UserSchema = new Schema({
     type: String
   },
   username: {
-    type: String
+    type: String,
+    default: '业主',
   },
   sex: {
     type: String

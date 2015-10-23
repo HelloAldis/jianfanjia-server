@@ -264,6 +264,8 @@ exports.finalPlan = function (req, res, next) {
             });
         }));
       }));
+    } else {
+      res.sendErrMsg('选定失败');
     }
   }));
 }
