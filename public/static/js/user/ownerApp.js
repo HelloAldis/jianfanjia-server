@@ -33,33 +33,27 @@
                 })
                 .state('requirement', {
                     url: '/requirement/:id',
-                    templateUrl: RootURl+'requirement.html',
-                    controller : 'requirementCtrl'
+                    templateUrl: RootURl+'requirement.html'
                 })
                 .state('requirement.detail', {
                     url: '/detail',
-                    templateUrl: RootURl+'detail.html',
-                    controller : 'requirementDetailCtrl'
+                    templateUrl: RootURl+'detail.html'
                 })
                 .state('requirement.booking', {
                     url: '/booking',
-                    templateUrl: RootURl+'booking.html',
-                    controller : 'requirementDetailCtrl'
+                    templateUrl: RootURl+'booking.html'
                 })
                 .state('requirement.plan', {
                     url: '/plan',
-                    templateUrl: RootURl+'plan.html',
-                    controller : 'requirementDetailCtrl'
+                    templateUrl: RootURl+'plan.html'
                 })
                 .state('requirement.contract', {
                     url: '/contract',
-                    templateUrl: RootURl+'contract.html',
-                    controller : 'requirementDetailCtrl'
+                    templateUrl: RootURl+'contract.html'
                 })
                 .state('requirement.score', {
                     url: '/score',
-                    templateUrl: RootURl+'score.html',
-                    controller : 'requirementDetailCtrl'
+                    templateUrl: RootURl+'score.html'
                 })
                 .state('favorite', {
                     url: '/favorite',

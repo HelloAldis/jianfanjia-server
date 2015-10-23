@@ -1,9 +1,9 @@
-<div class="message f-cb {{messageClass ? 'message-more' : ''}}" ng-if="notMessages">
+<div class="message f-cb {{messageClass ? 'message-more' : ''}}" ng-if="messages.length != 0">
 	<span class="num f-fl">{{messages.length}}</span>
 	<ul class="list f-fl">
 		<li bindonce="messages" ng-repeat="data in messages"><a ui-sref="plan({id:data.topicid})"><time bo-text="data.date"></time>设计师<mark bo-text="data.byUser.username">milk</mark>给您方案留了言，点击查看留言</a></li>
 	</ul>
-	<a class="more f-fr" href="javascript:;" ng-show="{{messages.length > 1}}" ng-click="messageToggle(true)">更多</a>
+	<a class="more f-fr" href="javascript:;" ng-if="messages.length > 1" ng-click="messageToggle(true)">更多</a>
 	<a class="upper f-fr" href="javascript:;" ng-click="messageToggle(false)">更多</a>
 </div>
 <div class="main">
@@ -11,8 +11,8 @@
 		<div class="info f-cb" bindonce="user">
 			<dl>
 				<dt>
-					<a ui-sref="infor" class="head"><img src="{{user.imgPic}}" alt="" /></a>
-					<h3><a ui-sref="infor" bo-text="user.username" bo-if="!user.username"></a><p bo-if="!user.username">只有填写姓名才能提交需求</p></h3>
+					<a ui-sref="infor" class="head"><img bo-src-i="/api/v2/web/thumbnail/120/{{user.imageid}}" bo-alt="user.username" bo-if="user.imageid" /><img src="../../../static/img/user/headPic.png" bo-alt="user.username" bo-if="!user.imageid" /></a>
+					<h3><a ui-sref="infor" bo-text="user.username" bo-if="user.username"></a><p bo-if="!user.username">只有填写姓名才能提交需求</p></h3>
 				</dt>
 				<dd bo-if="user.province && user.province != '请选择省份'">
 					<i>地址</i><span ng-if="userAreaOff">
@@ -72,15 +72,26 @@
 			</ul>
 		</div>
 		<ul class="list">
-			<li ng-if="requiremtne.length == 0">
+			<li ng-if="requirementList.length == 0">
 				<div class="ct">你还没有发布装修需求哟~</div>
 				<div class="btns">
 					<a ui-sref="release" class="u-btns">发布装修需求</a>
 				</div>
 			</li>
-			<li bindonce="requiremtnes" ng-repeat="data in requiremtnes">
+			<li bindonce="requirementList" ng-repeat="data in requirementList | limitTo : 3">
 				<div class="tt f-cb">
-					<h4 class="f-fl"><span>物业地址</span>{{data.property}}</h4>
+					<h4 class="f-fl">
+						<strong>物业地址</strong>
+						<span bo-if="data.province"><i bo-text="data.province"></i></span>
+						<span bo-if="data.city"><i bo-text="data.city"></i></span>
+						<span bo-if="data.district"><i bo-text="data.district"></i></span>
+						<span bo-if="data.street"><i bo-text="data.street"></i></span>
+						<span bo-if="data.cell"><i bo-text="data.cell"></i>小区</span>
+						<span bo-if="data.cell_phase"><i bo-text="data.cell_phase"></i>期</span>
+						<span bo-if="data.cell_building"><i bo-text="data.cell_building"></i>栋</span>
+						<span bo-if="data.cell_unit"><i bo-text="data.cell_unit"></i>单元</span>
+						<span bo-if="data.cell_detail_number"><i bo-text="data.cell_detail_number"></i>室</span>
+					</h4>
 					<div class="progress f-fr">
 						<div class="bar">
 							<div class="in in{{data.status}}"></div>
