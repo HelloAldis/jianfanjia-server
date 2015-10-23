@@ -1249,6 +1249,45 @@ body{
 .m-plans .boxs dl{
 	padding-left: 20px;
 }
+.m-plans .boxs dt{
+	line-height: 34px;
+}
+.m-plans .boxs dt em{
+	font-size: 20px;
+	font-weight: bold;
+	color: #383d48;
+}
+.m-plans .boxs .status{
+	width: 78px;
+	font-size: 14px;
+	line-height: 36px;
+	text-align: center;
+	border-radius: 2px;
+}
+.m-plans .boxs .status3{
+	border: 1px solid #61687a;
+	color: #61687a;
+}
+.m-plans .boxs .status4{
+	border: 1px solid #999;
+	color: #999;
+}
+.m-plans .boxs .status5{
+	border: 1px solid #fe7004;
+	color: #fe7004;
+}
+.m-plans .boxs dd{
+	line-height: 30px;
+}
+.m-plans .boxs dd span{
+	margin-right: 18px;
+	font-size: 16px;
+	color: #999;
+}
+.m-plans .boxs dd span strong{
+	margin-left: 17px;
+	color: #fe7004;
+}
 .m-plans .profile{
 	padding: 18px 0;
 	font-size: 14px;
@@ -1390,4 +1429,98 @@ body{
 }
 .favorite .list .boxs:hover .u-btns{
 	display: block;
+}
+/*合同概况*/
+.contract-tips{
+	height: 101px;
+	padding: 0 19px;
+	font-size: 16px;
+	line-height: 101px;
+	color: #999;
+	border-bottom: 1px solid #e5e5e5;
+}
+.contract-main .info{
+	padding: 30px 19px 20px;
+}
+.contract-main .info .head{
+	width: 70px;
+	height: 70px;
+	overflow: hidden;
+	border-radius: 70px;
+}
+.contract-main .info .head img{
+	width: 100%;
+}
+.contract-main .info dl{
+	padding-left: 20px;
+}
+.contract-main .info dt{
+	height: 26px;
+	padding-bottom: 4px;
+	line-height: 26px;
+}
+.contract-main .info dt strong{
+	margin-right: 20px;
+	font-size: 20px;
+	color: #383d48;
+}
+.contract-main .info dt span{
+	display: inline-block;
+	line-height: 18px;
+	padding-right: 5px;
+	border: 1px solid #fe7004;
+	border-radius: 2px;
+}
+.contract-main .info dt i{
+	display: inline-block;
+	width: 20px;
+	height: 18px;
+	line-height: 18px;
+	background-color: #fe7004;
+	margin-right: 4px;
+	text-align: center;
+	color: #fff;
+}
+.contract-main .info dd{
+	font-size: 14px;
+	line-height: 22px;
+	color: #999;
+}
+.contract-main .info dd em{
+	margin: 0 17px 0 5px;
+}
+.contract-main .info dd strong{
+	margin: 0 12px;
+	font-weight: normal;
+	color: #383d48;
+}
+.contract-main .list{
+	padding: 4px 19px 30px;
+	background-color: #f0f8fb;
+}
+.contract-main .list dt{
+	padding-top: 6px;
+	font-size: 14px;
+	line-height: 40px;
+	color: #61687a;
+}
+.contract-main .list dd{
+	height: 58px;
+	padding-left: 18px;
+	font-size: 14px;
+	line-height: 58px;
+	color: #383d48;
+	background-color: #fff;
+	border: 1px dashed #d2d2d2;
+}
+.contract-main .list dd strong{
+	margin: 0 10px;
+	color: #fe7004;
+}
+.contract-btns{
+	padding: 30px 0;
+	text-align: center;
+}
+.contract-btns .u-btns{
+	margin: 0 17px;
 }

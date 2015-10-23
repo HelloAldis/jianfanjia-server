@@ -76,7 +76,7 @@
 			<li bindonce="comments" ng-repeat="list in comments">
 				<img bo-src-i="/api/v2/web/thumbnail/50/{{list.byUser.imageid}}" alt="" />
 				<h4><span bo-text="list.byUser.username"></span><time bo-text="list.date"></time></h4>
-				<p><span class="find" bo-if="list.usertypeOff">@ <i bo-text="list.byUser.username"></i></span><span class="text" bo-text="list.content"></span><i ng-click="commentsBtn()" bo-if="list.usertypeOff">图标</i></p>
+				<p><span class="find" bo-if="list.usertypeOff">@ <i ng-bind="plan.designer.username" bo-if="list.usertype == 1"></i><i ng-bind="plan.user.username"  bo-if="list.usertype == 2"></i></span><span class="text" bo-text="list.content"></span><i ng-click="commentsBtn()" bo-if="list.usertypeOff">图标</i></p>
 			</li>
 		</ul>
 	</div>

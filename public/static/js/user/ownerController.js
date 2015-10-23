@@ -46,10 +46,9 @@ angular.module('controllers', [])
             $scope.messageToggle = function(b){
                 $scope.messageClass = b;
             }
+            $scope.requiremtnes = [];
             userRequiremtne.list().then(function(res){
-                $scope.requiremtnes = res.data.data;
-                 $scope.notRequiremtnes = !$scope.requiremtnes.length ? true : false;
-                 angular.forEach($scope.requiremtnes, function(value, key){
+                angular.forEach(res.data.data, function(value, key){
                     var str = '';
                     if(!!value.province){
                         str += value.province + " "
@@ -79,7 +78,8 @@ angular.module('controllers', [])
                         str += value.cell_detail_number + "室 "
                     }
                     value.property = str;
-                })
+                    this.push(value)
+                },$scope.requiremtnes)
             },function(res){
                 console.log(res)
             });
@@ -364,11 +364,11 @@ angular.module('controllers', [])
             var statusUrl = {
                 "0":"booking",
                 "1":"booking",
-                "2":"booking",
-                "3":"score",
-                "4":"plan",
+                "2":"score",
+                "3":"plan",
+                "4":"contract",
                 "5":"contract",
-                "6":"score",
+                "6":"plan",
                 "7":"contract"               
             }
             $scope.goTo = function(id,status){
@@ -378,61 +378,17 @@ angular.module('controllers', [])
     .controller('requirementCtrl', [     //装修需求详情配置
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne',
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne){
-                        $scope.tabsData = [
-                            {
-                                url : "requirement.detail",
-                                name : "需求描述",
-                                cur : ''
-                            },
-                            {
-                                url : "requirement.booking",
-                                name : "预约量房",
-                                cur : ''
-                            },
-                            {
-                                url : "requirement.score",
-                                name : "确认量房",
-                                cur : ''
-                            },
-                            {
-                                url : "requirement.plan",
-                                name : "选择方案",
-                                cur : ''
-                            },
-                            {
-                                url : "requirement.contract",
-                                name : "生成合同",
-                                cur : ''
-                            }
-                        ]
-                        function abc(str){
-                            return {
-                                "detail" : "需求详情",
-                                "booking" : "预约量房",
-                                "score" : "确认量房",
-                                "plan" : "选择方案",
-                                "contract" : "生成合同"
-                            }[str]
-                        }
-                        $scope.location = $location;
-                        $scope.$watch( 'location.url()', function( url ){
-                            angular.forEach($scope.tabsData, function(value, key){
-                                if(value.url.split('.')[1] == url.split('/')[3]){
-                                    value.cur = "active"
-                                }else{
-                                    value.cur = ""
-                                }
-                            });
-                        });
-                        $scope.tabBtn = function(name){
-                            angular.forEach($scope.tabsData, function(value, key){
-                                if(value.name == name){
-                                    value.cur = "active"
-                                }else{
-                                    value.cur = ""
-                                }
-                            });
-                        } 
+            $scope.requiremtneId = $stateParams.id;
+            $scope.location = $location;
+            $scope.$watch( 'location.url()', function( url ){
+                $scope.tab = url.split('/')[3];
+                console.log($scope.tab)
+            });
+            userRequiremtne.get({"_id":$stateParams.id}).then(function(res){
+                    $scope.requirement = res.data.data;
+                },function(res){
+                    console.log(res)
+            });
     }])
     .controller('requirementDetailCtrl', [     //装修需求详情
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne',
@@ -441,11 +397,11 @@ angular.module('controllers', [])
             var statusUrl = {
                 "0":"booking",
                 "1":"booking",
-                "2":"booking",
-                "3":"score",
-                "4":"plan",
+                "2":"score",
+                "3":"plan",
+                "4":"contract",
                 "5":"contract",
-                "6":"score",
+                "6":"plan",
                 "7":"contract"               
             }
             $scope.goTo = function(id,status){
@@ -493,7 +449,7 @@ angular.module('controllers', [])
                 $scope.detail.prefer_sex = $filter('designSexFilter')($scope.detail.prefer_sex);
                 $scope.detail.dec_type = $filter('decTypeFilter')($scope.detail.dec_type);
             }
-            userRequiremtne.designers({"_id":requiremtneId}).then(function(res){    //可以预约设计师列表
+            userRequiremtne.designers({"requirementid":requiremtneId}).then(function(res){    //可以预约设计师列表
                     // 匹配的设计师
                     $scope.matchs = res.data.data.rec_designer;
                     angular.forEach($scope.matchs, function(value, key){
@@ -712,12 +668,21 @@ angular.module('controllers', [])
                 console.log(res)
             });
         }
+        userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){    //获取我的方案列表
+            $scope.contract = res.data.data;
+            console.log(res.data.data)
+        },function(res){
+            console.log(res)
+        });
     }])
     .controller('favoriteProductCtrl', [     //作品收藏列表
         '$scope','$rootScope','$http','$filter','$location','userFavoriteProduct',
         function($scope, $rootScope,$http,$filter,$location,userFavoriteProduct){
             function laod(){
-                userFavoriteProduct.list().then(function(res){  //获取作品收藏列表
+                userFavoriteProduct.list({
+                    "from": 0,
+                    "limit":10000
+                }).then(function(res){  //获取作品收藏列表
                     $scope.products = res.data.products;
                     angular.forEach($scope.products, function(value, key){
                         value.house_type = $filter('houseTypeFilter')(value.house_type);
@@ -744,7 +709,10 @@ angular.module('controllers', [])
         '$scope','$rootScope','$http','$filter','$location','userFavoriteDesigner',
         function($scope, $rootScope,$http,$filter,$location,userFavoriteDesigner){
             function laod(){
-                userFavoriteDesigner.list().then(function(res){  //获取意向设计师列表
+                userFavoriteDesigner.list({
+                    "from": 0,
+                    "limit":10000
+                }).then(function(res){  //获取意向设计师列表
                     $scope.designers = res.data.data.designers;
                     //console.log(res.data.data.total)
                 },function(res){

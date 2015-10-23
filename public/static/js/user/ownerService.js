@@ -16,7 +16,7 @@ angular.module('services', [])
 			update : function(data){return doRequest('user/info',data)}
 		}
 	}])
-	.factory('userRequiremtne', ['$http', function($http){      //业主 add 提交需求 get获取单条信息 update更新需求 list需求列表 booking预约量房 designers可以预约的设计师 order已经预约设计师列表 checked确认设计师量完房 plans获取方案列表 define选定方案  plan获取某个方案信息
+	.factory('userRequiremtne', ['$http', function($http){      //业主 add 提交需求 get获取单条信息 update更新需求 list需求列表 booking预约量房 designers可以预约的设计师 order已经预约设计师列表 checked确认设计师量完房 plans获取方案列表 define选定方案  plan获取某个方案信息  contract获取合同信息
 		var doRequest = function(url,data){
 			return $http({
                 method : 'POST',
@@ -39,7 +39,8 @@ angular.module('services', [])
 			plans : function(data){return doRequest('user_requirement_plans',data)},
 			define : function(data){return doRequest('user/plan/final',data)},
 			plan : function(data){return doRequest('one_plan',data)},
-			score : function(data){return doRequest('user_evaluate_designer',data)}
+			score : function(data){return doRequest('user_evaluate_designer',data)},
+			contract : function(data){return doRequest('one_contract',data)}
 		}
 	}])
 	.factory('userFavoriteDesigner', ['$http', function($http){     //业主 list获取意向设计师列表 add添加 remove删除
