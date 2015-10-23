@@ -82,6 +82,13 @@ exports.list_designer = function (req, res, next) {
           work_auth_type: 1,
           email_auth_type: 1,
         }, function (err, designer) {
+          if (!designer) {
+            designer = {
+              _id: designer,
+              is_deleted: true,
+            };
+          }
+
           callback(err, designer);
         });
       }, ep.done(function (results) {
