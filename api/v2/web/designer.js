@@ -367,10 +367,10 @@ exports.designers_user_can_order = function (req, res, next) {
           }, {
             lean: true
           }, function (err, designers) {
-            _.forEach(designers, function (designer) {
-              designer_match_util.designer_match(designer,
-                result.requirement);
-            });
+            // _.forEach(designers, function (designer) {
+            //   designer_match_util.designer_match(designer,
+            //     result.requirement);
+            // }); 
             callback(err, designers)
           });
         },
