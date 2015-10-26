@@ -152,8 +152,16 @@
 				<div class="m-item m-error-info hide" id="error-info"></div>
 			</div>
 			<div class="m-btns">
-				<input type="button" class="u-btns" id="owner-submit" ng-click="submitBtn()" value="修改" />
+				<input type="button" class="u-btns" ng-click="revise.changeBtn()" value="修改" />
 			</div>
 		</div>
+	</div>
+</div>
+<div class="k-motai" ng-if="revise.motaiDone">
+	<div class="motai done">
+		<span class="done-icon"></span>
+		<h3>修改成功！</h3>
+		<p>前往预约设计师量房。</p>
+		<a href="javascript:;" class="u-btns" ng-click="revise.changeDefineBtn()">&nbsp;&nbsp;确定&nbsp;&nbsp;</a>
 	</div>
 </div>

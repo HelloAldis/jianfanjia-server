@@ -55,7 +55,7 @@
 			</li>
 		</ul>
 		<div class="booking-btns" ng-if="bookingSuccess">
-			<a href="javascript:;" class="u-btns" ng-click="bookingBtn()">预约量房</a>
+			<a href="javascript:;" class="u-btns" ng-click="booking.bookingBtn()">预约量房</a>
 		</div>
 	</div>
 	<div class="loading" ng-if="!matchs || !favorites">
@@ -64,26 +64,9 @@
 </div>
 <div class="k-motai" ng-if="booking.motaiDone">
 	<div class="motai done">
-		<h3>评价设计师</h3>
-		<dl>
-			<dt>响应速度</dt>
-			<dd>
-				<span ng-repeat="list in score.scoreResponds" ng-click="score.respondBtn(list.id)" class="{{list.cur}}"></span>
-			</dd>
-		</dl>
-		<dl>
-			<dt>服务态度</dt>
-			<dd>
-				<span ng-repeat="list in score.scoreServices" ng-click="score.serviceBtn(list.id)" class="{{list.cur}}"></span>
-			</dd>
-		</dl>
-		<div class="textarea"><textarea rows="10" ng-model="score.scoreComment"></textarea></div>
-		<div class="anonymity">
-			<span ng-click="score.anonymityBtn()"><i ng-class="{true:'active',false:''}[score.anonymity]"></i>匿名评价</span>
-		</div>
-		<div class="btns">
-			<a href="javascript:;" class="u-btns u-btns-revise" ng-click="score.scoreCancelBtn()">取消</a>
-			<a href="javascript:;" class="u-btns" ng-click="score.scoreSubmitBtn()">提交</a>
-		</div>
+		<span class="done-icon"></span>
+		<h3>预约成功！</h3>
+		<p>请耐心等待设计师响应并提交量房时间。</p>
+		<a href="javascript:;" class="u-btns" ng-click="booking.bookingCancelBtn()">&nbsp;&nbsp;确定&nbsp;&nbsp;</a>
 	</div>
 </div>
