@@ -56,24 +56,29 @@
 	            <dl>
 	                <dt>业主装修需求</dt>
 	                <dd ng-class="{active: nav==&quot;requirementList&quot;}"><a ui-sref="requirementList">装修需求列表</a></dd>
-	                <dd ng-class="{active: nav==&quot;release&quot;}"><a ui-sref="release({id:''})">历史装修需求</a></dd>
+	                <dd ng-class="{active: nav==&quot;history&quot;}"><a ui-sref="history">历史装修需求</a></dd>
 	            </dl>
 	            <div class="line"></div>
 	            <dl>
 	                <dt>我的作品</dt>
-	                <dd ng-class="{active: nav==&quot;favorite&quot;}"><a ui-sref="favorite">作品列表</a></dd>
-	                <dd ng-class="{active: nav==&quot;designer&quot;}"><a ui-sref="designer">发布作品</a></dd>
+	                <dd ng-class="{active: nav==&quot;products&quot;}"><a ui-sref="products">作品列表</a></dd>
+	                <dd ng-class="{active: nav==&quot;release&quot;}"><a ui-sref="release">发布作品</a></dd>
 	            </dl>
+                <div class="line"></div>
+                <dl>
+                    <dt>我的收藏</dt>
+                    <dd ng-class="{active: nav==&quot;favorite&quot;}"><a ui-sref="favorite">作品收藏列表</a></dd>
+                </dl>
             </div>
             <div class="m-sdc">
-	            <h2 ng-class="{active: nav==&quot;index&quot;}"><a ui-sref="index">认证中心</a></h2>
+	            <h2 ng-class="{active: nav==&quot;auth&quot;}"><a ui-sref="auth">认证中心</a></h2>
 	            <dl>
-	                <dd ng-class="{active: nav==&quot;requirementList&quot;}"><a ui-sref="requirementList">基本资料认证</a></dd>
-	                <dd ng-class="{active: nav==&quot;release&quot;}" ng-if="requiremtnes"><a ui-sref="release({id:''})">身份认证</a></dd>
-	                <dd ng-class="{active: nav==&quot;requirementList&quot;}"><a ui-sref="requirementList">作品认证</a></dd>
-	                <dd ng-class="{active: nav==&quot;release&quot;}" ng-if="requiremtnes"><a ui-sref="release({id:''})">施工团队</a></dd>
-	                <dd ng-class="{active: nav==&quot;requirementList&quot;}"><a ui-sref="requirementList">手机认证</a></dd>
-	                <dd ng-class="{active: nav==&quot;release&quot;}" ng-if="requiremtnes"><a ui-sref="release({id:''})">邮箱认证</a></dd>
+	                <dd ng-class="{active: nav==&quot;1&quot;}"><a ui-sref="1">基本资料认证</a></dd>
+	                <dd ng-class="{active: nav==&quot;2&quot;}"><a ui-sref="2">身份认证</a></dd>
+	                <dd ng-class="{active: nav==&quot;3&quot;}"><a ui-sref="3">作品认证</a></dd>
+	                <dd ng-class="{active: nav==&quot;3&quot;}"><a ui-sref="3">施工团队</a></dd>
+	                <dd ng-class="{active: nav==&quot;4&quot;}"><a ui-sref="4">手机认证</a></dd>
+	                <dd ng-class="{active: nav==&quot;5&quot;}"><a ui-sref="5">邮箱认证</a></dd>
 	            </dl>
 	        </div>
 		</aside>

@@ -2,7 +2,7 @@
 	<div class="contract-tips">
 		<h3>合同概况</h3>
 	</div>
-	<div class="contract-main">
+	<div class="contract-main" ng-if="contract._id">
 		<div class="info f-cb">
 			<span bo-href-i="../design/homepage.html?{{contract.user._id}}" class="head f-fl" target="_blank" bo-if="contract.user._id">
 				<img bo-src-i="/api/v2/web/thumbnail/70/{{contract.user.imageid}}" bo-alt="contract.user.username">
@@ -22,18 +22,30 @@
 		<div class="list">
 			<dl>
 				<dt>工程期限</dt>
-				<dd bo-if="contract.status == 4">总工期：<strong bo-text="contract.plan.duration">60</strong>天，开工日期 <strong></strong> 年 <strong></strong> 月 <strong></strong> 日，竣工日期 <strong></strong> 年 <strong></strong> 月 <strong></strong> 日。</dd>
-				<dd bo-if="contract.status == 7">总工期：<strong bo-text="contract.plan.duration">60</strong>天，开工日期<strong bo-text="contract.start_at | date : 'yyyy'">2015</strong>年<strong bo-text="contract.start_at | date : 'MM'">10</strong>月<strong bo-text="contract.start_at | date : 'dd'">19</strong>日，竣工日期<strong bo-text="contract.start_at | contractEndTime : contract.plan.duration | date : 'yyyy'">2015</strong>年<strong bo-text="contract.start_at | contractEndTime : contract.plan.duration | date : 'MM'">12</strong>月<strong bo-text="contract.start_at | contractEndTime : contract.plan.duration | date : 'dd'">19</strong>日。</dd>
+				<dd bo-if="contract.status == 4">总工期：<strong bo-text="contract.plan.duration"></strong>天，开工日期 <strong></strong> 年 <strong></strong> 月 <strong></strong> 日，竣工日期 <strong></strong> 年 <strong></strong> 月 <strong></strong> 日。</dd>
+				<dd bo-if="contract.status == 7">总工期：<strong bo-text="contract.plan.duration"></strong>天，开工日期<strong bo-text="contract.start_at | date : 'yyyy'"></strong>年<strong bo-text="contract.start_at | date : 'MM'"></strong>月<strong bo-text="contract.start_at | date : 'dd'">19</strong>日，竣工日期<strong bo-text="contract.start_at | contractEndTime : contract.plan.duration | date : 'yyyy'"></strong>年<strong bo-text="contract.start_at | contractEndTime : contract.plan.duration | date : 'MM'"></strong>月<strong bo-text="contract.start_at | contractEndTime : contract.plan.duration | date : 'dd'"></strong>日。</dd>
 			</dl>
 			<dl>
 				<dt>工程价款</dt>
-				<dd>本工程装修合同总价为人民币（大写）<strong bo-text="contract.total_price*10000 | chineseNumber"></strong>元（&yen;<strong bo-text="contract.total_price*10000">5690</strong>元 ）; 承包方式:   <strong bo-text="contract.work_type | workTypeFilter"></strong>（半包、全包）。</dd>
+				<dd>本工程装修合同总价为人民币（大写）<strong bo-text="contract.total_price*10000 | chineseNumber"></strong>元（&yen;<strong bo-text="contract.total_price*10000"></strong>元 ）; 承包方式:   <strong bo-text="contract.work_type | workTypeFilter"></strong>（半包、全包）。</dd>
 			</dl>
 		</div>
 	</div>
-	<div class="contract-btns">
+	<div class="contract-btns" ng-if="contracts.btnsBox">
 		<a href="javascript:;" onclick="window.open('../other/agreement.html','maxwindow','toolbar=no,width=1000,location=no,directories=no,menubar=no,scrollbars=yes,resizable=no,status=no');" class="u-btns u-btns-revise">查看第三方合同</a>
-		<a href="javascript:;" class="u-btns" ng-click="setStartDate()" bo-if="contract.status == 4">设置开工日期</a>
+		<a href="javascript:;" class="u-btns" ng-click="contracts.setStartDate()" bo-if="contract.status == 4">设置开工日期</a>
 		<a ng-click="goTo(detail._id,'0')" class="u-btns hide">下载第三方合同</a>
+	</div>
+	<div class="contract-startDate" ng-if="contracts.motaiStartDate">
+		<dl>
+			<dt>请设置开工日期</dt>
+			<dd>
+				<div my-date my-query="contracts.startDate" my-set="year-month-days"></div>
+			</dd>
+		</dl>
+		<div class="btns">
+			<a href="javascript:;" class="u-btns u-btns-revise" ng-click="contracts.setCancelBtn()">&nbsp;&nbsp;取消&nbsp;&nbsp;</a>
+			<a href="javascript:;" class="u-btns" ng-click="contracts.setDefineBtn()">&nbsp;&nbsp;确定&nbsp;&nbsp;</a>
+		</div>
 	</div>
 </div>

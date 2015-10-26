@@ -4,22 +4,28 @@ angular.module('controllers', [])
             '$scope','$rootScope','$location','$filter','userRequiremtne',
             function($scope, $rootScope ,$location,$filter,userRequiremtne) {
                 //全局需求列表
-                userRequiremtne.list().then(function(res){
-                    $rootScope.requirementList = res.data.data;
-                    angular.forEach($rootScope.requirementList, function(value, key){
-                        value.dec_style = $filter('decStyleFilter')(value.dec_style);
-                        value.work_type = $filter('workTypeFilter')(value.work_type);
-                        value.house_type = $filter('houseTypeFilter')(value.house_type);
-                    })
-                },function(res){
-                    console.log(res)
-                });
+                requiremtne()
+                function requiremtne(){
+                   userRequiremtne.list().then(function(res){
+                        $rootScope.requirementList = res.data.data;
+                        angular.forEach($rootScope.requirementList, function(value, key){
+                            value.dec_style = $filter('decStyleFilter')(value.dec_style);
+                            value.work_type = $filter('workTypeFilter')(value.work_type);
+                            value.house_type = $filter('houseTypeFilter')(value.house_type);
+                        })
+                    },function(res){
+                        console.log(res)
+                    }); 
+                }
                 $scope.location = $location;
                 $scope.$watch( 'location.url()', function( url ){
                     if(url.split('/')[1] == 'requirement'){
                         $scope.nav = 'requirementList'
                     }else if(url.split('/')[1] == 'revise'){
                         $scope.nav = 'requirementList'
+                    }else if(url.split('/')[1] == 'requirementList' || url.split('/')[1] == 'index'){
+                        requiremtne();
+                        $scope.nav = url.split('/')[1];
                     }else{
                        $scope.nav = url.split('/')[1];  
                     }

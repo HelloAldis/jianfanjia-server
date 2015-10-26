@@ -16,7 +16,7 @@ angular.module('services', [])
 			update : function(data){return doRequest('user/info',data)}
 		}
 	}])
-	.factory('userRequiremtne', ['$http', function($http){      //设计师 list需求列表 get获取单条信息 answer响应业主 reject拒绝业主 config配置合同 plans获取方案列表  contract获取合同信息
+	.factory('userRequiremtne', ['$http', function($http){      //设计师 list需求列表 get获取单条信息 answer响应业主 reject拒绝业主 config配置合同 plans获取方案列表  contract获取合同信息   history 历史订单
 		var doRequest = function(url,data){
 			return $http({
                 method : 'POST',
@@ -34,7 +34,8 @@ angular.module('services', [])
 			reject : function(data){return doRequest('designer/user/reject',data)},
 			config : function(data){return doRequest('config_contract',data)},
 			plans : function(data){return doRequest('designer_requirement_plans',data)},
-			contract : function(data){return doRequest('one_contract',data)} 
+			contract : function(data){return doRequest('one_contract',data)},
+			history : function(data){return doRequest('designer_my_requirement_history_list',data)}
 		}
 	}])
 	.factory('userTeam', ['$http', function($http){     //获取设计师施工团队 list列表 add添加 remove删除 update更新

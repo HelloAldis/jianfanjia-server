@@ -676,21 +676,35 @@ body{
 .m-index .list li{
 	padding: 20px 19px 30px;
 	border-top: 1px solid #eee;
+	-webkit-transition:background 0.5s;
+	-ms-transition:background 0.5s;
+	-moz-transition:background 0.5s;	
+	-o-transition:background 0.5s;
+	transition:background 0.5s;
+}
+.m-index .list li:hover{
+	background-color: #f9f9f9;
 }
 .m-index .list h4{
 	padding-right: 10px;
+	height: 30px;
 	font-size: 14px;
 	line-height: 30px;
 	color: #61687a;
 	background-color: #f5f5f5;
 }
-.m-index .list h4 span{
+.m-index .list h4 strong{
 	float: left;
+	font-size: 14px;
 	width: 70px;
 	margin-right: 10px;
 	text-align: center;
 	color: #fff;
 	background-color: #04bafe;
+}
+.m-index .list h4 span{
+	float: left;
+	margin-right: 3px;
 }
 .m-index .list .progress{
 	width: 150px;
@@ -903,6 +917,13 @@ body{
 	line-height: 36px;
 }
 /*需求详情*/
+.m-requirement .returnList{
+	margin-right: 19px;
+	margin-top: 14px;
+}
+.m-requirement h2 span{
+	margin-right: 5px;
+}
 .m-requirement .tabs{
 	height: 46px;
 	padding-left: 19px;
@@ -961,138 +982,79 @@ body{
 }
 .detail-drid li .span span{
 	display: inline-block;
+	font-size: 0;
 	padding-left: 25px;
 	color: #383d48;
+	vertical-align: top;
+}
+.detail-drid li .span span span{
+	vertical-align: top;
+	padding-left: 0;
+	margin-right: 5px;
+	font-size: 14px;
 }
 .detail-drid li .f-fl{
 	width: 50%;
 }
-.detail-btns{
-	padding: 30px 0;
-	text-align: center;
-	border-top: 1px dashed #e5e5e5;
-}
-.detail-btns .u-btns{
-	margin: 0 15px;
-}
-/*预约量房*/
-.booking-tips{
+/*响应需求*/
+.owenr-tips{
 	height: 38px;
 	line-height: 38px;
 	padding: 31px 19px 32px;
 }
-.booking-tips p{
+.owenr-tips p{
 	font-size: 16px;
 	color: #999;
 }
-.booking h3{
-	padding-left: 19px;
-	font-size: 16px;
-	line-height: 49px;
-	color: #383d48;
+.owenr-boxs{
+	position: relative;
 	border-top: 1px solid #e5e5e5;
 }
-.booking .m-designerList li{
-	padding: 20px 19px;
-	border-top: 1px solid #e6e6e6;
-	cursor: pointer;
+.owenr-boxs h3{
+	padding-left: 110px;
+	padding-top: 20px;
+	line-height: 36px;
 }
-.booking.disabled .m-designerList li,.score .m-designerList li{
-	cursor:default
-}
-.m-designerList .info .head{
+.owenr-boxs .head{
+	position: absolute;
+	left:19px;
+	top:21px;
 	width: 70px;
 	height: 70px;
 	overflow: hidden;
 	border-radius: 70px;
 }
-.m-designerList .info .head img{
-	width: 100%;
-}
-.m-designerList .info dl{
-	padding-left: 20px;
-}
-.m-designerList .info dt{
-	height: 26px;
-	padding-bottom: 4px;
-	line-height: 26px;
-}
-.m-designerList .info dt a{
-	margin-right: 20px;
+.owenr-boxs h3 strong{
+	margin-right: 10px;
 	font-size: 20px;
 	font-weight: bold;
 	color: #383d48;
 }
-.m-designerList .info dt a:hover{
-	color: #fe7004;
-}
-.m-designerList .info dt span{
-	display: inline-block;
-	line-height: 18px;
-	padding-right: 5px;
-	border: 1px solid #fe7004;
-	border-radius: 2px;
-}
-.m-designerList .info dt i{
-	display: inline-block;
-	width: 20px;
-	height: 18px;
-	line-height: 18px;
-	background-color: #fe7004;
-	margin-right: 4px;
-	text-align: center;
-	color: #fff;
-}
-.m-designerList .info dd{
-	font-size: 14px;
-	line-height: 22px;
-	color: #999;
-}
-.m-designerList .info dd em{
-	margin: 0 17px 0 5px;
-}
-.m-designerList .info dd strong{
-	margin: 0 12px;
-	font-weight: normal;
-	color: #383d48;
-}
-.booking .m-designerList .select{
-	padding-top: 16px;
-}
-.booking .m-designerList .select span{
-	display: inline-block;
-	vertical-align: middle;
-}
-.booking .m-designerList .match{
-	padding: 0 14px;
-	margin-right: 52px;
-	line-height: 36px;
-	color: #61687a;
-	border: 1px solid #61687a;
-	border-radius: 2px;
-}
-.booking .m-designerList .status{
-	width: 38px;
-	height: 38px;
-	background:url(../img/user/booking-status-icon.png) 0 0 no-repeat;
-} 
-.booking .m-designerList .active{
+.owenr-boxs .detail{
+	padding:10px 19px 30px 110px;
 	background-color: #f0f8fb;
-	border-left: 5px solid #fc7207;
-	padding-left: 14px;
 }
-.booking .m-designerList .active .status{
-	background-position: 0 -38px;
-} 
-.booking-btns{
-	padding: 30px 0;
+.owenr-boxs .detail dl{
+	padding-right: 30px;
+	font-size: 14px;
+}
+.owenr-boxs .detail dt{
+	line-height: 42px;
+	color: #61687a;
+}
+.owenr-boxs .detail dd{
+	padding: 0 29px;
+	line-height: 48px;
+	color: #383d48;
+	background-color: #fff;
+	border: 1px dashed #d2d2d2;
+}
+.owenr-boxs .tips{
+
+}
+.owenr-boxs .select{
 	text-align: center;
-	border-top: 1px solid #e5e5e5;
 }
-/*确认量房*/
-.score .select .btns{
-	text-align: right;
-} 
 
 /*模态窗口*/
 .k-motai{
@@ -1251,9 +1213,11 @@ body{
 }
 .m-plans .boxs dt{
 	line-height: 34px;
+	color: #626473;
 }
-.m-plans .boxs dt em{
+.m-plans .boxs dt strong{
 	font-size: 20px;
+	margin: 0 15px;
 	font-weight: bold;
 	color: #383d48;
 }
@@ -1323,19 +1287,6 @@ body{
 }
 .m-plans .select .u-btns{
 	margin-left: 15px;
-}
-/*意向设计师列表*/
-.designer .m-designerList .select{
-	display: none;
-}
-.designer .booking .m-designerList li{
-	cursor: default;
-}
-.designer .booking .m-designerList li:first-child{
-	border-top: none;
-}
-.designer .m-designerList li:hover .select{
-	display: block;
 }
 /*作品收藏*/
 .g-mn .favorite{
@@ -1523,4 +1474,96 @@ body{
 }
 .contract-btns .u-btns{
 	margin: 0 17px;
+}
+.contract-startDate{
+	text-align: center;
+}
+.contract-startDate dl{
+	padding: 30px 0 40px;
+	border-top: 1px solid #e2e6e7;
+	border-bottom: 1px dashed #e5e5e5;
+}
+.contract-startDate dt{
+	font-size: 16px;
+	line-height: 36px;
+	color: #999;
+}
+.contract-startDate .btns{
+	padding: 30px 0;
+}
+.contract-startDate .btns .u-btns{
+	margin: 0 13px;
+}
+.contract-startDate .m-date{
+	width: 360px;
+	padding-top: 30px;
+	margin: 0 auto;
+}
+/*日历控件*/
+.m-date{
+	position: relative;
+	z-index: 2;
+	height: 30px;
+}
+.m-date .list{
+	float: left;
+	position: relative;
+	z-index: 2;
+	width: 100px;
+	margin: 0 10px;
+}
+.m-date .list .option{
+	padding: 0 10px;
+	line-height: 28px;
+	background-color: #f9f9f9;
+	border: 1px solid #d2d2d2;
+	text-align: left;
+	cursor: pointer;
+}
+.m-date .arrow{
+	position: absolute;
+	top:10px;
+	right:16px;
+	background-color: #fff;
+}
+.m-date .arrow em,.m-date .arrow i{
+	position: absolute;
+	left:0;
+	top:0;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	border-width: 5px;
+	border-color: transparent;
+	border-style: dashed;
+	border-top-style: solid;
+	border-top-color: #fff;
+}
+.m-date .arrow i{display: none;}
+.m-date .arrow em{
+	top:3px;
+	border-top-color: #ccc;
+}
+.m-date .select{
+	position: absolute;
+	left:-1px;
+	top:31px;
+	width: 100%;
+	background-color: #fff;
+	border: 1px solid #dcdcdc;
+	border-top: none;
+	display: none;
+	max-height: 240px;
+	overflow-y: auto;
+}
+.m-date .select a{
+	display: block;	
+	line-height: 30px;
+	text-align: center;
+	color: #333;
+}
+.m-date .select a:hover{
+	color: #fff;
+	text-decoration: none;
+	background-color: #ccc;
 }

@@ -13,7 +13,7 @@ $(function(){
 	   return (/^[\d]{6}$/.test(str));
 	}
 	var formUrl = window.location.search.substring(1);
-    var login_success_url = ["/","owner.html","design.html"];
+    var login_success_url = ["/","owner.html","designer.html"];
 	var emptyMsg = {
         "login_mobile" : "请输入手机号",
         "login_password": "请输入密码",

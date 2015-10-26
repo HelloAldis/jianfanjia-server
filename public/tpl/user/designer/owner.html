@@ -1,0 +1,81 @@
+<div class="owenr">
+	<div class="owenr-tips">
+		<p class="f-fl">装修需求摘要</p>
+	</div>
+	<div class="owenr-boxs" bindonce="requirement">
+		<div class="info">
+			<span class="head">
+				<img bo-if="requirement.user.imageid" bo-src-i="/api/v2/web/thumbnail/70/{{requirement.user.imageid}}" bo-alt="requirement.user.username" />
+			</span>
+			<h3><strong bo-text="requirement.user.username"></strong><span ng-if="requirement.plan != 0 || requirement.plan != 1">(手机<i bo-text="requirement.user.phone"></i>)</span></h3>
+			<div class="detail f-cb">
+				<dl class="f-fl">
+					<dt>物业描述</dt>
+					<dd>
+						<span><i bo-text="requirement.house_type | houseTypeFilter"></i>，</span>
+						<span><i bo-text="requirement.house_area"></i>m&sup2;，</span>
+						<span>装修预算<i bo-text="requirement.total_price"></i>万</span>
+					</dd>
+				</dl>
+				<dl class="f-fl">
+					<dt>风格喜好</dt>
+					<dd><span><i bo-text="requirement.dec_style | decStyleFilter"></i></span></dd>
+				</dl>
+			</div>
+		</div>
+		<div class="tips">
+			<p ng-if="requirement.plan.status == 0">请24小时内与业主沟通量房时间，并响应业主预约，过期视为放弃。</p>
+		</div>
+		<div class="answer" ng-if="owenr.motaiAnswer">
+			<dl>
+				<dt>业主电话</dt>
+				<dd>
+					<div class="phone">
+						<span><i></i><strong bo-text="requirement.user.phone"></strong></span>
+					</div>
+				</dd>
+			</dl>
+			<dl>
+				<dt>量房时间</dt>
+				<dd>
+					<div class="phone">
+						<span><i></i><strong bo-text="requirement.user.phone"></strong></span>
+					</div>
+				</dd>
+			</dl>
+			<div class="btns">
+				<a href="javascript:;" class="u-btns" ng-click="owenr.answerCancelBtn()">取消</a>
+				<a href="javascript:;" class="u-btns u-btns-revise" ng-click="owenr.answerOwenr()">确定</a>
+			</div>
+		</div>
+		<div class="select">
+			<div class="btns" ng-if="requirement.plan.status == 0 && (requirement.status == 1 || requirement.status == 0)">
+				<a href="javascript:;" class="u-btns u-btns-revise" ng-click="owenr.rejectBtn()">拒绝</a>
+				<a href="javascript:;" class="u-btns" ng-click="owenr.answerBtn()">响应</a>
+			</div>
+			<div class="btns" ng-if="requirement.plan.status == 6 || requirement.plan.status == 3">
+				<p>您可以提交多套方案</p>
+				<a bo-href-i="scheme_create.html?{{requirement._id+'&'+requirement.user._id}}&create" class="u-btns" target="_blank">提交方案</a>
+				<!-- <a bo-href-i="plans.html#/create/{{data._id+'&'+data.requirementid}}" class="u-btns u-btns-revise" target="_blank">提交方案</a> -->
+			</div>
+		</div>
+	</div>
+</div>
+<div class="k-motai" ng-if="owenr.motaiReject">
+	<div class="motai reject">
+		<h3>拒绝接单原因</h3>
+		<ul>
+			<li ng-repeat="list in owenr.messages" bindonce="owenr.messages" ng-click="owenr.messageBtn(list.id)"><i ng-class="{true:'active',false:''}[list.cur]"></i><span bo-text="list.msg"></span></li>
+		</ul>
+		<div class="other" ng-if="">
+			<label>其他</label>
+			<div class="inp">
+				<input type="text" ng-model="owenr.message">
+			</div>
+		</div>
+		<div class="btns">
+			<a href="javascript:;" class="u-btns u-btns-revise" ng-click="owenr.rejectCancelBtn()">&nbsp;&nbsp;取消&nbsp;&nbsp;</a>
+			<a href="javascript:;" class="u-btns" ng-click="owenr.rejectOwenr()">&nbsp;&nbsp;提交&nbsp;&nbsp;</a>
+		</div>
+	</div>
+</div>

@@ -503,39 +503,249 @@ angular.module('directives', [])
             }
         };
     }])
-    .directive('myMotai',['$timeout',function($timeout){     //头像裁切上传
+    .directive('myDate',['$timeout',function($timeout){     //自定义地区选择控件
         return {
             replace : true,
             scope: {
-                    myQuery : "="
+                myQuery : "=",
+                mySet : "@"
             },
             restrict: 'A',
-            template: '<div class="k-motai"><div class="mask"></div><div class="motai"></div></div>',
-            link: function($scope, iElm, iAttrs, controller){
-            }
-        };
-    }])
-    .directive('myMotaiTips',['$timeout',function($timeout){     //头像裁切上传
-        return {
-            replace : true,
-            scope: {
-                    myQuery : "="
-            },
-            restrict: 'A',
-            template: '<div class="k-motai"><div class="mask"></div><div class="motai"></div></div>',
-            link: function($scope, iElm, iAttrs, controller){
-            }
-        };
-    }])
-    .directive('myMotaiScore',['$timeout',function($timeout){     //头像裁切上传
-        return {
-            replace : true,
-            scope: {
-                    myQuery : "="
-            },
-            restrict: 'A',
-            template: '<div class="k-motai"><div class="mask"></div><div class="motai"></div></div>',
-            link: function($scope, iElm, iAttrs, controller){
+            template: '<div class="m-date"></div>',
+            link: function($scope, iElm, iAttrs, controller) {
+               var query = $scope.myQuery,
+                   select = $scope.mySet.split('-'),
+                   oBox = angular.element(iElm),
+                   yearData = [],
+                   monthData = [],
+                   daysData = [],
+                   hourData = [],
+                   minuteData = [],
+                   secondData = [],
+                   newDate = new Date(),
+                   sYear = newDate.getFullYear(),
+                   sMonth = newDate.getMonth(),
+                   sDays = newDate.getDate(),
+                   sHour = newDate.getHours(),
+                   sMinute = newDate.getMinutes(),
+                   sSecond = newDate.getSeconds();
+                  for (var i = 0; i < 12; i++) {
+                    monthData[i] = i+1+'月'
+                  };
+                  fnDays()
+                  function fnDays(){
+                    for (var i = 0; i < 12; i++) {
+                      if(i== 1){
+                        if((sYear%4==0 && sYear%100!=0)||(sYear%400==0)){
+                          daysData[i] = 29
+                        }else{
+                          daysData[i] = 28
+                        }
+                      }else if(i == 3 || i == 5 || i == 8 || i == 10){
+                         daysData[i] = 30
+                      }else{
+                        daysData[i] = 31
+                      }
+                    };
+                  }
+                  for (var i = 0; i < 20; i++) {
+                    yearData[i] = newDate.getFullYear()+i+'年'
+                  };
+                  for (var i = 0; i < 24; i++) {
+                    hourData[i] = i + '时'
+                  };
+                  for (var i = 0; i < 6; i++) {
+                    minuteData[i] = i*10 + '分'
+                  };
+                var selectData = '';
+                for (var i = 0; i < select.length; i++) {
+                    selectData += '<div class="list '+select[i]+'"><div class="option"><span class="value"></span><span class="arrow"><em></em><i></i></span></div></div>';
+                };
+                oBox.html(selectData);
+                var oYear = oBox.find('.year'),
+                    oMonth = oBox.find('.month'),
+                    oDays = oBox.find('.days'),
+                    oHour = oBox.find('.hour'),
+                    oMinute = oBox.find('.minute'),
+                    oSecond = oBox.find('.second'),
+                    body = angular.element(document);
+                for (var i = 0; i < select.length; i++) {
+                    switch (select[i]){ 
+                      case 'year' : 
+                        createList(yearData,oYear);
+                        setDate(oYear,newDate.getFullYear());
+                        optionEvevt(oYear)
+                      break; 
+                      case 'month' : 
+                        createList(monthData,oMonth);
+                        setDate(oMonth,newDate.getMonth()+1);
+                        optionEvevt(oMonth)
+                      break;
+                      case 'days' : 
+                        createList(daysData,oDays);
+                        setDate(oDays,newDate.getDate());
+                        optionEvevt(oDays)
+                      break; 
+                      case 'hour' : 
+                        createList(hourData,oHour);
+                        setDate(oHour,newDate.getHours());
+                        optionEvevt(oHour)
+                      break;
+                      case 'minute' : 
+                        createList(minuteData,oMinute);
+                        setDate(oMinute,newDate.getMinutes());
+                        optionEvevt(oMinute)
+                      break; 
+                      case 'second' : 
+                        setDate(oSecond,newDate.getSeconds());
+                        optionEvevt(oSecond)
+                      break;   
+                      default : 
+                        alert('你书写有错！')
+                      break; 
+                    } 
+                }; 
+                // 渲染城市数据
+                function createList(arr,obj){
+                    obj.find('select').remove();
+                    var sHtml = '<ul class="select">',
+                        len = obj == oDays ? arr[sMonth] : arr.length;
+                    for (var i = 0; i < len; i++) {
+                      if(obj == oDays){
+                        sHtml += '<li data-val="'+(i+1)+'"><a>'+(i+1)+'日</a></li>';
+                      }else{
+                        sHtml += '<li data-val="'+parseInt(arr[i])+'"><a>'+arr[i]+'</a></li>';
+                      }
+                        
+                    };
+                    sHtml += '</ul>';
+                    obj.append(sHtml)
+                }
+                function setDate(obj,str){
+                  var str2 = ''
+                  if(obj == oYear){
+                    str2 = '年';
+                  }
+                  if(obj == oMonth){
+                    str2 = '月';
+                  }
+                  if(obj == oDays){
+                    str2 = '日';
+                  }
+                  if(obj == oHour){
+                    str2 = '时';
+                  }
+                  if(obj == oMinute){
+                    str = str+'';
+                    if(str.length == 2){
+                        if(parseInt(str.charAt(1)) > 5){
+                          if(parseInt(str.charAt(0))+1 == 6){
+                            str = '0'
+                          }else{
+                            str = parseInt(str.charAt(0))+1 + '0'
+                          }
+                        }else{
+                          str = parseInt(str.charAt(0)) + '0'
+                        }
+                    }else{
+                        if(parseInt(str.charAt(0)) > 5){
+                           str = "10"
+                        }else{
+                           str = "0"
+                        }
+                    }
+                    str2 = '分';
+                  }
+                  if(obj == oSecond){
+                    str2 = '秒';
+                  }
+                  obj.find('.value').html(str+str2);
+                }
+                function optionEvevt(obj){
+                    var self = this;
+                    var option = obj.find('.option');
+                    var value = option.find('.value').html();
+                    option.on('click' , function(ev){
+                      body.click();
+                      if(obj == oDays){
+                        sMonth = parseInt(oMonth.find('.value').html()) - 1;
+                        createList(daysData,oDays);
+                      }
+                      selectShow(obj);
+                      return false;
+                    });
+                    selectEvent(obj)
+                }
+                function selectEvent(obj){
+                  var oOption = obj.find('.option').find('.value');
+                  body.click();
+                  obj.delegate('li', 'click' , function(ev){
+                    ev.stopPropagation();
+                    var dataVal = $(this).data('val'),
+                      value = $(this).find('a').text();
+                      oOption.html(value);
+                      if(obj == oYear){
+                        sYear = dataVal;
+                        fnDays()
+                      }
+                      if(obj == oMonth){
+                        sMonth = dataVal-1;
+                        createList(daysData,oDays);
+                      }
+                      if(obj == oDays){
+                        createList(daysData,oDays);
+                        sDays = dataVal;
+                      }
+                      if(obj == oHour){
+                        sHour = dataVal;
+                      }
+                      if(obj == oMinute){
+                        sMinute = dataVal;
+                      }
+                      selectHide(obj)
+                      getDate()
+                  });
+                }
+                body.on('click', function(ev){
+                    selectHide(); 
+                });
+                function clearValue(obj){
+                  var oInput = obj.find('input'),
+                    oOption = obj.find('.option').find('.value');
+                    if(obj == city){
+                      oInput.val('市');
+                      oOption.html('请选择市');
+                    }
+                    if(obj == district){
+                      oInput.val('县/区');
+                      oOption.html('请选择县/区');
+                    }
+                }
+                function selectHide(obj){
+                  oBox.each(function(index, el) {
+                    if(obj){
+                      $(el).find(obj).find('.select').hide();
+                    }else{
+                      $(el).css('zIndex',5).find('.select').hide();
+                    }
+                  });
+                }
+                function selectShow(obj){
+                  obj.find('.select').show(); 
+                  oBox.css('zIndex',20)
+                }
+                function getDate(){
+                  $scope.$apply(function(){
+                    if(_.indexOf(select,'hour') == -1){
+                      var s = sYear +"/"+ (sMonth+1) +"/"+ sDays +" "+ "00:00:00";
+                    }else if(_.indexOf(select,'minute') == -1){
+                      var s = sYear +"/"+ (sMonth+1) +"/"+ sDays +" "+ sHour +":"+ "00:00";
+                    }else{
+                      var s = sYear +"/"+ (sMonth+1) +"/"+ sDays +" "+ sHour +":"+ sMinute +":"+ sSecond;
+                    }
+                    $scope.myQuery = (new Date(s)).getTime();
+                  });
+                }            
             }
         };
     }])
