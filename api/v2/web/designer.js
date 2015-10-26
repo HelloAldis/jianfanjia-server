@@ -7,6 +7,7 @@ var User = require('../../../proxy').User;
 var Requirement = require('../../../proxy').Requirement;
 var Favorite = require('../../../proxy').Favorite;
 var Evaluation = require('../../../proxy').Evaluation;
+var Favorite = require('../../../proxy').Favorite;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../apiconfig');
@@ -102,6 +103,7 @@ exports.email_info = function (req, res, next) {
 
 exports.designer_home_page = function (req, res, next) {
   var designerid = req.body._id;
+  var userid = ApiUtil.getUserid(req);
   var ep = new eventproxy();
   ep.fail(next);
 
@@ -109,7 +111,22 @@ exports.designer_home_page = function (req, res, next) {
     _id: designerid
   }, noPrivateInfo, ep.done(function (designer) {
     if (designer) {
-      res.sendData(designer);
+      if (userid) {
+        Favorite.findOne({
+          userid: userid,
+          favorite_designer: designerid,
+        }, null, ep.done(function (favorite) {
+          designer = designer.toObject();
+          if (favorite) {
+            designer.is_my_favorite = true;
+          } else {
+            designer.is_my_favorite = false;
+          }
+          res.sendData(designer);
+        }));
+      } else {
+        res.sendData(designer);
+      }
 
       limit.perwhatperdaydo('designergetone', req.ip + designerid, 1,
         function () {
@@ -367,10 +384,10 @@ exports.designers_user_can_order = function (req, res, next) {
           }, {
             lean: true
           }, function (err, designers) {
-            _.forEach(designers, function (designer) {
-              designer_match_util.designer_match(designer,
-                result.requirement);
-            });
+            // _.forEach(designers, function (designer) {
+            //   designer_match_util.designer_match(designer,
+            //     result.requirement);
+            // });
             callback(err, designers)
           });
         },

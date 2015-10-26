@@ -2,6 +2,7 @@ var validator = require('validator');
 var eventproxy = require('eventproxy');
 var Product = require('../../../proxy').Product;
 var Designer = require('../../../proxy').Designer;
+var Favorite = require('../../../proxy').Favorite;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../apiconfig');
@@ -149,6 +150,7 @@ exports.designer_my_products = function (req, res, next) {
 
 exports.product_home_page = function (req, res, next) {
   var productid = req.body._id;
+  var userid = ApiUtil.getUserid(req);
   var ep = new eventproxy();
   ep.fail(next);
 
@@ -164,7 +166,22 @@ exports.product_home_page = function (req, res, next) {
       }, ep.done(function (designer) {
         product = product.toObject();
         product.designer = designer;
-        res.sendData(product);
+
+        if (userid) {
+          Favorite.findOne({
+            userid: userid,
+            favorite_product: productid,
+          }, null, ep.done(function (favorite) {
+            if (favorite) {
+              product.is_my_favorite = true;
+            } else {
+              product.is_my_favorite = false;
+            }
+            res.sendData(product);
+          }));
+        } else {
+          res.sendData(product);
+        }
       }));
 
       limit.perwhatperdaydo('productgetone', req.ip + productid, 1,

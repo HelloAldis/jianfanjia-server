@@ -158,10 +158,11 @@ exports.order_designer = function (req, res, next) {
         }, null, ep.done(function (plan) {
 
           if (!plan) {
-            Plan.newAndSave(json, function (plan_indb) {
+            Plan.newAndSave(json, ep.done(function (plan_indb) {
               var planid = plan_indb._id;
-              schedule.scheduleJob(moment().add(config.designer_respond_user_order_expired,
-                'm').toDate(), function () {
+              var date = moment().add(config.designer_respond_user_order_expired,
+                'm').toDate();
+              schedule.scheduleJob(date, function () {
                 Plan.setOne({
                   _id: planid,
                   status: type.plan_status_not_respond,
@@ -171,7 +172,7 @@ exports.order_designer = function (req, res, next) {
                     .getTime(),
                 }, null, function () {});
               });
-            });
+            }));
 
             Designer.incOne({
               _id: designerid
@@ -236,7 +237,7 @@ exports.user_change_ordered_designer = function (req, res, next) {
 
     Plan.findOne(json, null, ep.done(function (plan) {
       if (!plan) {
-        Plan.newAndSave(json, function (plan_indb) {
+        Plan.newAndSave(json, ep.done(function (plan_indb) {
           var planid = plan_indb._id;
           schedule.scheduleJob(moment().add(config.designer_respond_user_order_expired,
             'm').toDate(), function () {
@@ -249,7 +250,7 @@ exports.user_change_ordered_designer = function (req, res, next) {
                 .getTime(),
             }, null, function () {});
           });
-        });
+        }));
 
         Designer.incOne({
           _id: new_designerid
