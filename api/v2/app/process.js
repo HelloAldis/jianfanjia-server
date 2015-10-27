@@ -576,6 +576,7 @@ exports.doneItem = function (req, res, next) {
             gt.pushMessageToSingle(process.userid, {
               content: json.message,
               section: json.next,
+              cell: process.cell,
               type: type.message_type_procurement,
               time: new Date().getTime(),
             });
