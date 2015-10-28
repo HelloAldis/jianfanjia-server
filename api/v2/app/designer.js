@@ -60,7 +60,7 @@ exports.home_page_designers = function (req, res, next) {
               callback(err, requirement);
             });
           } else {
-            callback(err, requirement);
+            callback(null, requirement);
           }
         } else {
           callback(null, undefined);
