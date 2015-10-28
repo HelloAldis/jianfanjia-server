@@ -230,6 +230,10 @@ exports.user_change_ordered_designer = function (req, res, next) {
       callback(err, requirement);
     });
   }], ep.done(function (requirement) {
+    if (!requirement) {
+      return res.sendErrMsg('需求不存在');
+    }
+
     var json = {};
     json.designerid = new_designerid;
     json.userid = userid;
