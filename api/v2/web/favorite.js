@@ -81,6 +81,8 @@ exports.list_designer = function (req, res, next) {
           uid_auth_type: 1,
           work_auth_type: 1,
           email_auth_type: 1,
+          service_attitude: 1,
+          respond_speed: 1,
         }, function (err, designer) {
           if (!designer) {
             designer = {

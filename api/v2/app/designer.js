@@ -40,22 +40,28 @@ exports.home_page_designers = function (req, res, next) {
       }, ep.done(function (requirements) {
         if (requirements.length > 0) {
           var requirement = requirements[0];
-          Designer.find({
-            _id: {
-              $in: requirement.rec_designerids
-            },
-          }, {
-            username: 1,
-            imageid: 1,
-          }, function (err, designers) {
-            if (designers) {
-              requirement.designers = designers;
-            } else {
-              requirement.designers = [];
-            }
+          if (requirement.status === type.requirement_status_new) {
+            Designer.find({
+              _id: {
+                $in: requirement.rec_designerids
+              },
+            }, {
+              username: 1,
+              imageid: 1,
+              service_attitude: 1,
+              respond_speed: 1,
+            }, function (err, designers) {
+              if (designers) {
+                requirement.designers = designers;
+              } else {
+                requirement.designers = [];
+              }
 
-            callback(err, requirement);
-          });
+              callback(err, requirement);
+            });
+          } else {
+            callback(null, requirement);
+          }
         } else {
           callback(null, undefined);
         }

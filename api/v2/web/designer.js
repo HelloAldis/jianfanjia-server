@@ -143,7 +143,7 @@ exports.designer_home_page = function (req, res, next) {
 }
 
 exports.search = function (req, res, next) {
-  var query = req.body.query;
+  var query = req.body.query || {};
   var sort = req.body.sort;
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;

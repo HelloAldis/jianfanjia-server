@@ -121,14 +121,17 @@ exports.crop = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  console.log(req.body);
   Image.findOne({
     _id: req.body._id
   }, null, ep.done(function (image) {
-    imageUtil.crop2buffer(image.data, req.body.width, req.body.height,
-      req.body.x, req.body.y, ep.done(function (buffer) {
-        ep.emit('data', buffer);
-      }));
+    if (image) {
+      imageUtil.crop2buffer(image.data, req.body.width, req.body.height,
+        req.body.x, req.body.y, ep.done(function (buffer) {
+          ep.emit('data', buffer);
+        }));
+    } else {
+      res.status(404).end();
+    }
   }));
 
   ep.on('data', function (data) {

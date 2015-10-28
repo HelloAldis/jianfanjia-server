@@ -42,6 +42,7 @@ router.post('/user_login', sign.user_login); //业主手机端登录
 router.post('/designer_login', sign.designer_login); //设计师手机端登录
 router.post('/user_signup', sign.user_signup); //业主手机端注册
 router.post('/designer_signup', sign.designer_signup); //设计师手机端注册
+router.post('/update_pass', signWeb.updatePass); //修改密码
 router.post('/designer_home_page', designerWeb.designer_home_page); //游客获取设计师的主页
 router.post('/product_home_page', productWeb.product_home_page); //游客获取设计师作品
 router.post('/search_designer_product', productWeb.search_designer_product); //游客获取设计师作品
