@@ -8,12 +8,13 @@
 			<span bo-if="requirement.street"><i bo-text="requirement.cell_unit"></i>单元</span>
 			<span bo-if="requirement.street"><i bo-text="requirement.cell_detail_number"></i>室</span>
 		</h2>
-		<a ui-sref="requirementList" class="f-fr u-btns u-btns-revise returnList">返回需求列表</a>
+		<a ui-sref="history" bo-if="requirement.plan.status == 1 || requirement.plan.status == 7 || requirement.plan.status == 8 || requirement.plan.status == 4" class="f-fr u-btns u-btns-revise returnList">返回历史装修列表</a>
+		<a ui-sref="requirementList" bo-if="requirement.plan.status == 0 || requirement.plan.status == 2 || requirement.plan.status == 2 || requirement.plan.status == 5 || requirement.plan.status == 6"  class="f-fr u-btns u-btns-revise returnList">返回装修需求列表</a>
 	</div>
 	<div class="m-ct">
 		<ul class="tabs">
 			<li ng-class="{active: tab==&quot;detail&quot;}"><a bo-href-i="designer.html#/requirement/{{requiremtneId}}/detail">需求描述</a></li>
-			<li ng-class="{active: tab==&quot;owner&quot;}" ng-if="requirement.status == 0 || requirement.status == 1 || requirement.status == 2 || requirement.status == 3 || requirement.status == 4 || requirement.status == 5 || requirement.status == 6 || requirement.status == 7"><a bo-href-i="designer.html#/requirement/{{requiremtneId}}/owner">响应需求</a></li>
+			<li ng-class="{active: tab==&quot;owner&quot;}"><a bo-href-i="designer.html#/requirement/{{requiremtneId}}/owner">响应需求</a></li>
 			<li ng-class="{active: tab==&quot;plan&quot;}" ng-if="requirement.status == 6 || requirement.status == 3 || requirement.status == 7 || requirement.status == 4 || requirement.status == 5"><a bo-href-i="designer.html#/requirement/{{requiremtneId}}/plan">提交方案</a></li>
 			<li ng-class="{active: tab==&quot;contract&quot;}" ng-if="requirement.status == 7 || requirement.status == 4 || requirement.status == 5"><a bo-href-i="designer.html#/requirement/{{requiremtneId}}/contract">生成合同</a></li>
 		</ul>

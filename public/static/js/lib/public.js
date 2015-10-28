@@ -18,6 +18,14 @@ var global_success_url = window.location;
 var RootUrl = 'http://101.200.191.159/';
 // 检测浏览器是否支持css3新属性，来给低版本浏览器做优雅降级；
 function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentElement.style,t=function(r){return r.replace(/-(\w)/g,function($0,$1){return $1.toUpperCase()})};for(i in p){a.push(t(p[i]+'-'+c));a.push(t(c))}for(i in a){if(a[i]in s){return true}}return false};
+// 检测浏览器是否支持html5上传，来给低版本浏览器做优雅降级；
+var checkSupport = function(){
+	var input = document.createElement('input');
+	var fileSupport = !!(window.File && window.FileList);
+	var xhr = new XMLHttpRequest();
+	var fd = !!window.FormData;
+	return 'multiple' in input && fileSupport && 'onprogress' in xhr && 'upload' in xhr && fd ? 'html5' : 'flash';
+};
 //Cookie操作
 (function(factory){
 	if (typeof define === 'function' && define.amd) {
@@ -300,15 +308,18 @@ function ellipsisStr(str, len){
 } 
 $(function(){
 	var userLogin = $('#j-userLogin');
-	if(window.username && window.usertype){
-		if(window.usertype == 0){
-			userLogin.html('<a href="../jyz/live.html">管理员 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
-		}else if(window.usertype == 1){
-			userLogin.html('<a href="../user/owner.html">业主 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
-		}else if(window.usertype == 2){
-			userLogin.html('<a href="../user/design.html">设计师 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
+	var cookiesUserName = function(){
+		if(window.username && window.usertype){
+			if(window.usertype == 0){
+				userLogin.html('<a href="../jyz/live.html">管理员 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
+			}else if(window.usertype == 1){
+				userLogin.html('<a href="../user/owner.html">业主 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
+			}else if(window.usertype == 2){
+				userLogin.html('<a href="../user/design.html">设计师 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
+			}
 		}
 	}
+	cookiesUserName()
 	//退出操作
 	$(document.body).delegate('#signout','click',function(ev){
 		ev.preventDefault();

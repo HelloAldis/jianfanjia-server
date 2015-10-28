@@ -82,15 +82,21 @@ angular.module('controllers', [])
             }
     }])
     .controller('requirementListCtrl', [     //装修需求列表
-        '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne',
-        function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne){
+        '$scope','$rootScope','$http','$filter','$location','$stateParams','$interval','userRequiremtne',
+        function($scope, $rootScope,$http,$filter,$location,$stateParams,$interval,userRequiremtne){
             userRequiremtne.list().then(function(res){
                 $scope.requiremtnes = res.data.data;
                 console.log($scope.requiremtnes)
-                 angular.forEach($scope.requiremtnes, function(value, key){
+                angular.forEach($scope.requiremtnes, function(value, key){
                     value.dec_style = $filter('decStyleFilter')(value.dec_style);
                     value.work_type = $filter('workTypeFilter')(value.work_type);
                     value.house_type = $filter('houseTypeFilter')(value.house_type);
+                    if(value.status == 1){
+                       countDate(value,1,value.last_status_update_time)
+                    }
+                    if(value.status == 6){
+                       countDate(value,5,value.last_status_update_time)
+                    }
                 })
             },function(res){
                 console.log(res)
@@ -99,8 +105,8 @@ angular.module('controllers', [])
                 "0":"detail",
                 "1":"owner",
                 "2":"owner",
-                "3":"owner",
-                "4":"plan",
+                "3":"plan",
+                "4":"contract",
                 "5":"contract",
                 "6":"owner",
                 "7":"contract"               
@@ -108,6 +114,34 @@ angular.module('controllers', [])
             $scope.goTo = function(id,status){
                 $location.path('requirement/'+id+"/"+statusUrl[status]);
             }
+            function countDate(value,num,time){
+                var days = num*60*60*24*1000,
+                    endDate = time+days,
+                    timer = null;
+                $interval.cancel(timer)
+                timer = $interval(function() {
+                    var nowDate = new Date(),
+                        intervalDate = endDate - nowDate.getTime(),
+                        t = parseInt(intervalDate/1000),
+                        day=checkTime(Math.floor(t/(60*60*24))),
+                        hour=checkTime(Math.floor((t-day*24*60*60)/3600)),
+                        minute=checkTime(Math.floor((t-day*24*60*60-hour*3600)/60)),
+                        second=checkTime(Math.floor(t-day*24*60*60-hour*3600-minute*60));
+                        //console.log(intervalDate)
+                    if(intervalDate < 0){
+                        console.log('已经过期')
+                        $interval.cancel(timer)
+                    }
+                    if(day == 0){
+                        value.countdown = hour+"小时"+minute+"分"+ second + "秒";
+                    }else{
+                        value.countdown = day+"天"+hour+"小时"+minute+"分"+ second + "秒";
+                    }
+                }, 1000);
+            }
+            function checkTime(i){
+                return  i < 10 ?  "0" + i : "" + i  
+            }    
     }])
     .controller('requirementCtrl', [     //装修需求详情配置
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne',
@@ -135,10 +169,6 @@ angular.module('controllers', [])
             var requiremtneId = $stateParams.id;
             $scope.$on('requirementParent',function(event, data){    //子级接收 
                 console.log(data.status)
-                if(data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 4 || data.status == 5 || data.status == 6 || data.status == 7){  //预约量房、确认量房
-                    myOwner()
-                    console.log('响应业主')
-                }
                 if(data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5){  //选择方案
                     myPlan()
                     console.log('提交方案')
@@ -155,9 +185,6 @@ angular.module('controllers', [])
                     console.log(res)
                 });
             }
-        function myOwner(){
-
-        }
         // 方案列表
         function myPlan(){
             userRequiremtne.plans({"requirementid":requiremtneId}).then(function(res){    //获取我的方案列表
@@ -167,8 +194,10 @@ angular.module('controllers', [])
             });
         }
         $scope.owenr = {
+            startDate : '',
             motaiReject : false,
             motaiAnswer : false,
+            response : true,
             rejectMessage : '',
             message : '',
             messages : [
@@ -194,31 +223,52 @@ angular.module('controllers', [])
                 });
             },
             rejectBtn : function(){   //拒绝业主
+                $scope.owenr.response = false;
                 $scope.owenr.motaiReject = true;
             },
             answerBtn : function(){   //响应业主
+                $scope.owenr.response = false;
                 $scope.owenr.motaiAnswer = true;
             },
+            answerCancelBtn : function(){   //取消响应业主
+                $scope.owenr.response = true;
+                $scope.owenr.motaiAnswer = false;
+            },
             answerOwenr : function(){    //响应业主提交
-                userRequiremtne.answer({
-                  "requirementid": requiremtneId,
-                  "house_check_time": (new Date).getTime()+100000
-                }).then(function(res){    //获取我的方案列表
-                    $scope.owenr.motaiAnswer = false;
-                },function(res){
-                    console.log(res)
-                });
+                console.log($scope.owenr.startDate)
+                if(!$scope.owenr.startDate){
+                    alert('请设置量房时间')
+                }else{
+                    console.log($filter('date')($scope.owenr.startDate,'yyyy年MM月dd日 HH:mm:ss'))
+                    userRequiremtne.answer({
+                      "requirementid": requiremtneId,
+                      "house_check_time": (new Date).getTime()+100000
+                    }).then(function(res){    //获取我的方案列表
+                        $scope.owenr.motaiAnswer = false;
+                        uploadParent();
+                    },function(res){
+                        console.log(res)
+                    });
+                }
             },
             rejectOwenr : function(){    //拒绝业主提交
-                userRequiremtne.reject({
-                  "requirementid": requiremtneId,
-                  "reject_respond_msg": $scope.owenr.rejectMessage +" "+ $scope.owenr.message
-                }).then(function(res){    //获取我的方案列表
-                    $scope.owenr.motaiReject = false;
-                },function(res){
-                    console.log(res)
-                });
+                if(!$scope.owenr.rejectMessage || !$scope.owenr.message){
+                    alert('请填写拒绝接单原因')
+                }else{
+                     userRequiremtne.reject({
+                      "requirementid": requiremtneId,
+                      "reject_respond_msg": $scope.owenr.rejectMessage +" "+ $scope.owenr.message
+                    }).then(function(res){    //获取我的方案列表
+                        $scope.owenr.motaiReject = false;
+                    },function(res){
+                        console.log(res)
+                    });
+                }
             },
+            rejectCancelBtn : function(){  //取消拒绝业主
+                $scope.owenr.response = true;
+                $scope.owenr.motaiReject = false;
+            }
         }
         // 三方合同
         function myContract(){   //获取我的第三方合同
@@ -241,16 +291,20 @@ angular.module('controllers', [])
                 $scope.contracts.motaiStartDate = false; 
             },
             setDefineBtn : function(){
-                userRequiremtne.config({
-                  "requirementid":requiremtneId,
-                  "start_at":$scope.contracts.startDate
-                }).then(function(res){
-                    uploadParent();
-                    $scope.contracts.btnsBox = true;
-                    $scope.contracts.motaiStartDate = false;
-                },function(res){
-                    console.log(res)
-                });
+                if(!$scope.contracts.startDate){
+                    alert('请设置开工时间')
+                }else{
+                    userRequiremtne.config({
+                      "requirementid":requiremtneId,
+                      "start_at":$scope.contracts.startDate
+                    }).then(function(res){
+                        uploadParent();
+                        $scope.contracts.btnsBox = true;
+                        $scope.contracts.motaiStartDate = false;
+                    },function(res){
+                        console.log(res)
+                    });
+                }
             }
         }
     }])
@@ -260,7 +314,7 @@ angular.module('controllers', [])
             userRequiremtne.history().then(function(res){
                 $scope.historys = res.data.data;
                 console.log($scope.historys)
-                 angular.forEach($scope.requiremtnes, function(value, key){
+                angular.forEach($scope.historys, function(value, key){
                     value.dec_style = $filter('decStyleFilter')(value.dec_style);
                     value.work_type = $filter('workTypeFilter')(value.work_type);
                     value.house_type = $filter('houseTypeFilter')(value.house_type);
@@ -272,8 +326,8 @@ angular.module('controllers', [])
                 "0":"owenr",
                 "1":"owenr",
                 "2":"owenr",
-                "3":"owenr",
-                "4":"plan",
+                "3":"plan",
+                "4":"contract",
                 "5":"contract",
                 "6":"owenr",
                 "7":"contract"               

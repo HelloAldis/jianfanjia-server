@@ -34,7 +34,8 @@ angular.module('controllers', [])
     ])
 	.controller('indexCtrl', [     //业主首页
         '$scope','$rootScope','$http','$filter','$location','userInfo','userRequiremtne','userComment',
-        function($scope, $rootScope,$http,$filter,$location,userInfo,userRequiremtne,userComment) {
+        function($scope, $rootScope,$http,$filter,$location,userInfo,userRequiremtne,userComment){
+            $scope.commentShow = false;
         	userInfo.get().then(function(res){
         		$scope.user = res.data.data;
         	},function(res){
@@ -42,6 +43,7 @@ angular.module('controllers', [])
         	});
             userComment.unread().then(function(res){
                 $scope.messages = res.data.data;
+                $scope.commentShow = $scope.messages.length != 0 ? true : false; 
                 angular.forEach($scope.messages, function(value, key){
                     value.date = $filter('date')(value.date,'yyyy-MM-dd HH:mm:ss');
                 })
@@ -111,10 +113,10 @@ angular.module('controllers', [])
                 }
                 $scope.user.sex = setSex(true)
                 $scope.user.imgPic = undefined;
-                console.log($scope.user.imageid)
                 userInfo.update($scope.user).then(function(res){     
                     if(res.data.msg == "success"){
                         userInfo.get();
+                        $('#j-userLogin').find('a').eq(0).html('业主 '+$scope.user.username);
                         $location.path('index');
                     }
                 },function(res){

@@ -4,8 +4,8 @@
 	</div>
 	<div class="contract-main" ng-if="contract._id">
 		<div class="info f-cb">
-			<span bo-href-i="../design/homepage.html?{{contract.user._id}}" class="head f-fl" target="_blank" bo-if="contract.user._id">
-				<img bo-src-i="/api/v2/web/thumbnail/70/{{contract.user.imageid}}" bo-alt="contract.user.username">
+			<span class="head f-fl" bo-if="contract.user._id">
+				<img bo-src-i="/api/v2/web/thumbnail/70/{{contract.user.imageid}}" bo-if="contract.user.imageid" bo-alt="contract.user.username">
 			</span>
 			<dl class="f-fl">
 				<dt>

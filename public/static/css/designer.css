@@ -85,6 +85,21 @@ body{
 	color: #383d48;
 	border-bottom: 1px solid #eee;
 }
+.g-mn .head{
+	display: inline-block;
+	width: 70px;
+    height: 70px;
+    overflow: hidden;
+    background: #d5d7db url(../img/user/userHead.png) no-repeat 0 -120px;
+    border-radius: 70px;
+}
+.g-mn .head img{
+	width: 100%;
+}
+.g-mn a.head:hover{
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+}
 /*留言*/
 .message{
 	margin-bottom: 10px;
@@ -581,6 +596,75 @@ body{
 	text-decoration: none;
 	background-color: #ccc;
 }
+/*日历控件*/
+.m-date{
+	position: relative;
+	z-index: 2;
+	height: 30px;
+}
+.m-date .list{
+	float: left;
+	position: relative;
+	z-index: 2;
+	width: 100px;
+	margin: 0 10px;
+}
+.m-date .list .option{
+	padding: 0 10px;
+	line-height: 28px;
+	background-color: #f9f9f9;
+	border: 1px solid #d2d2d2;
+	text-align: left;
+	cursor: pointer;
+}
+.m-date .arrow{
+	position: absolute;
+	top:10px;
+	right:16px;
+	background-color: #fff;
+}
+.m-date .arrow em,.m-date .arrow i{
+	position: absolute;
+	left:0;
+	top:0;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	border-width: 5px;
+	border-color: transparent;
+	border-style: dashed;
+	border-top-style: solid;
+	border-top-color: #fff;
+}
+.m-date .arrow i{display: none;}
+.m-date .arrow em{
+	top:3px;
+	border-top-color: #ccc;
+}
+.m-date ul.select{
+	position: absolute;
+	left:-1px;
+	top:31px;
+	width: 100%;
+	background-color: #fff;
+	border: 1px solid #dcdcdc;
+	border-top: none;
+	display: none;
+	max-height: 240px;
+	overflow-y: auto;
+	padding: 0 !important;
+}
+.m-date ul.select a{
+	display: block;	
+	line-height: 30px;
+	text-align: center;
+	color: #333;
+}
+.m-date ul.select a:hover{
+	color: #fff;
+	text-decoration: none;
+	background-color: #ccc;
+}
 /*业主用户中心*/
 .m-index .info{
 	padding: 19px;
@@ -1019,10 +1103,6 @@ body{
 	position: absolute;
 	left:19px;
 	top:21px;
-	width: 70px;
-	height: 70px;
-	overflow: hidden;
-	border-radius: 70px;
 }
 .owenr-boxs h3 strong{
 	margin-right: 10px;
@@ -1049,13 +1129,149 @@ body{
 	background-color: #fff;
 	border: 1px dashed #d2d2d2;
 }
-.owenr-boxs .tips{
-
+.owenr-boxs .response{
+	padding-top: 17px;
+	text-align: center;
+	border-top: 1px solid #e3e4e6;
+}
+.owenr-boxs .tips p{
+	font-size: 16px;
+	line-height: 65px;
+	color: #888;
 }
 .owenr-boxs .select{
+	padding: 30px 0;
+	text-align: center;
+	border-top: 1px dashed #e6e6e6;
+}
+.owenr-boxs .select p{
+	font-size: 12px;
+	line-height: 36px;
+	color: #999;
+}
+.owenr-boxs .select h4{
+	padding-bottom: 30px;
+	font-size: 16px;
+	line-height: 36px;
+	color: #888;
+}
+.owenr-boxs .select .btns .u-btns{
+	margin: 0 13px;
+}
+.owenr-boxs .answer{
 	text-align: center;
 }
-
+.owenr-boxs .answer .m-date{
+	width: 600px;
+	margin: 0 auto;
+}
+.owenr-boxs .answer .phone{
+	width: 308px;
+	height: 58px;
+	margin: 0 auto;
+	line-height: 58px;
+	border: 1px solid #fe7004;
+}
+.owenr-boxs .answer .phone i{
+	display: inline-block;
+	vertical-align: top;
+	width: 58px;
+	height: 58px;
+	background-color: #fe7004;
+	color: #fff;
+}
+.owenr-boxs .answer .phone strong{
+	display: inline-block;
+	vertical-align: top;
+	width: 250px;
+	font:bold 36px/58px Arial, "Helvetica Neue", Helvetica, sans-serif;
+	color: #363d47;
+}
+.owenr-boxs .answer dl{
+	padding-bottom: 6px;
+}
+.owenr-boxs .answer dt{
+	line-height: 42px;
+	color: #5a5c69;
+}
+.owenr-boxs .response .btns{
+	padding: 30px 0;
+	margin-top: 34px;
+	border-top: 1px dashed #e6e6e6;
+}
+.owenr-boxs .response .btns .u-btns{
+	margin: 0 13px;
+}
+.owenr-boxs .reject .content{
+	width: 190px;
+	padding-top: 18px;
+	margin: 0 auto;
+	text-align: left;
+}
+.owenr-boxs .reject .content li{
+	height: 38px;
+	line-height: 38px;
+	color: #646770;
+	cursor: pointer;
+}
+.owenr-boxs .reject .content li i{
+	display: inline-block;
+	vertical-align: middle;
+	width: 14px;
+	height: 14px;
+	margin-right: 14px;
+	background:url(../img/user/user-radio-bg.png) 0 0 no-repeat;
+}
+.owenr-boxs .reject .content li i.active{
+	background-position: 0 bottom;
+}
+.owenr-boxs .reject .content .other label{
+	display: block;
+	padding-bottom: 2px;
+	line-height: 38px;
+	color: #5b5d74;
+}
+.owenr-boxs .reject .content .other .inp{
+	height: 22px;
+	padding: 3px 5px;
+	border: 1px solid #d1d1d1;
+	background-color: #f9f9f9;
+}
+.owenr-boxs .reject .content .other .inp input{
+	width: 100%;
+	height: 22px;
+	line-height: 22px;
+	color: #333;
+	border: none;
+	background: none;
+}
+.owenr-boxs .reject h4{
+	padding-bottom: 14px;
+	font-size: 16px;
+	line-height: 35px;
+	color: #333439;
+	border-bottom: 1px solid #eee;
+}
+.owenr-boxs .answerOk .content{
+	width: 100%;
+	padding: 26px 0;
+	text-align: center;
+}
+.owenr-boxs .answerOk .content p{
+	font-size: 16px;
+	line-height: 43px;
+	color: #999;
+}
+.owenr-boxs .answerOk .content .tips{
+	color: #636478;
+}
+.owenr-boxs .answerOk .content .tips span{
+	color: #fe7004;
+}
+.owenr-boxs .answerOk .content .tips span i{
+	margin: 0 2px;
+	font-weight: bold;
+}
 /*模态窗口*/
 .k-motai{
 	position: fixed;
@@ -1199,15 +1415,6 @@ body{
 	padding: 18px 17px 28px;
 	border: 2px solid #e5e5e5;
 }
-.m-plans .boxs .head{
-	width: 70px;
-	height: 70px;
-	overflow: hidden;
-	border-radius: 70%;
-}
-.m-plans .boxs .head img{
-	width: 100%;
-}
 .m-plans .boxs dl{
 	padding-left: 20px;
 }
@@ -1277,16 +1484,17 @@ body{
 	height: 38px;
 	line-height: 38px;
 }
+.m-plans .select .u-btns{
+	margin-left: 15px;
+}
 .m-plans .select .msg{
+	margin-left: 0;
 	font-size: 14px;
 	color: #61687a;
 }
 .m-plans .select .msg:hover{
 	text-decoration: underline;
 	color: #fe7004;
-}
-.m-plans .select .u-btns{
-	margin-left: 15px;
 }
 /*作品收藏*/
 .g-mn .favorite{
@@ -1393,15 +1601,6 @@ body{
 .contract-main .info{
 	padding: 30px 19px 20px;
 }
-.contract-main .info .head{
-	width: 70px;
-	height: 70px;
-	overflow: hidden;
-	border-radius: 70px;
-}
-.contract-main .info .head img{
-	width: 100%;
-}
 .contract-main .info dl{
 	padding-left: 20px;
 }
@@ -1498,72 +1697,4 @@ body{
 	width: 360px;
 	padding-top: 30px;
 	margin: 0 auto;
-}
-/*日历控件*/
-.m-date{
-	position: relative;
-	z-index: 2;
-	height: 30px;
-}
-.m-date .list{
-	float: left;
-	position: relative;
-	z-index: 2;
-	width: 100px;
-	margin: 0 10px;
-}
-.m-date .list .option{
-	padding: 0 10px;
-	line-height: 28px;
-	background-color: #f9f9f9;
-	border: 1px solid #d2d2d2;
-	text-align: left;
-	cursor: pointer;
-}
-.m-date .arrow{
-	position: absolute;
-	top:10px;
-	right:16px;
-	background-color: #fff;
-}
-.m-date .arrow em,.m-date .arrow i{
-	position: absolute;
-	left:0;
-	top:0;
-	width: 0;
-	height: 0;
-	overflow: hidden;
-	border-width: 5px;
-	border-color: transparent;
-	border-style: dashed;
-	border-top-style: solid;
-	border-top-color: #fff;
-}
-.m-date .arrow i{display: none;}
-.m-date .arrow em{
-	top:3px;
-	border-top-color: #ccc;
-}
-.m-date .select{
-	position: absolute;
-	left:-1px;
-	top:31px;
-	width: 100%;
-	background-color: #fff;
-	border: 1px solid #dcdcdc;
-	border-top: none;
-	display: none;
-	max-height: 240px;
-	overflow-y: auto;
-}
-.m-date .select a{
-	display: block;	
-	line-height: 30px;
-	text-align: center;
-	color: #333;
-}
-.m-date .select a:hover{
-	color: #fff;
-	text-decoration: none;
-	background-color: #ccc;
 }

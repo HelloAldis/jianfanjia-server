@@ -354,6 +354,7 @@ angular.module('directives', [])
                     $cropBox = $('#j-cropBox'),
                     $cropbox = $cropBox.find('.cropBox'),
                     $cropBorder = $('#cropBorder'),
+                    $cropCancel = $('#crop-cancel'),
                     $winW = $(window).width(),
                     $winH = $(window).height(),
                     uploaderUrl = RootUrl+'api/v2/web/image/upload',
@@ -376,7 +377,7 @@ angular.module('directives', [])
                         var l = e.clientX - disX,
                             t = e.clientY - disY,
                             w = $cropBox.width() - $cropBorder.width(),
-                            h = $cropBox.height() - $cropBorder.height();
+                            h = $cropBox.find('.cropBox').height() - $cropBorder.height();
                         if(t<0){
                           t=0;
                         }else if(t>h){
@@ -444,13 +445,19 @@ angular.module('directives', [])
                   var img = new Image();
                   img.onload=function(){
                     if(img.width < 300){
-                      alert('图片宽度小于300，请从新上传');
+                      alert('图片宽度小于300，请重新上传');
                       return false;
                     }else if(img.height < 300){
-                      alert('图片高度小于300，请从新上传');
+                      alert('图片高度小于300，请重新上传');
                       return false;
                     }
-                    var w = img.width > 800 ? 800 : img.width;
+                    var ratio = ($winH - 286)/img.height;
+                    var w = img.height > $winH - 286 ? img.width*ratio : img.width;
+                    if(w < 300){
+                      alert('图片裁切宽度小于300，请重新上传宽高一样图片');
+                      data.data = null;
+                      return false;
+                    }
                     $cropMask.css({
                       width:$winW,
                       height:$winH
@@ -466,39 +473,123 @@ angular.module('directives', [])
                     $('#cropPic2').attr('src',img.src);
                   };  
                   img.onerror=function(){alert("error!")};  
-                  img.src=RootUrl+'api/v1/image/'+data.data; 
-                  $('#crop-submit').on('click',function(){
-                    $.ajax({
-                      url: RootUrl+'api/v2/web/image/crop',
-                      type: "post",
-                      contentType : 'application/json; charset=utf-8',
-                      dataType: 'json',
-                      data : JSON.stringify({
-                        "_id":data.data,
-                        "x":parseInt($cropBorder.css('left')),
-                        "y":parseInt($cropBorder.css('top')),
-                        "width":300,
-                        "height":300
-                      }),
-                      processData : false
-                    })
-                    .done(function(res){
-                      $scope.$apply(function(){
-                          $scope.myQuery = res.data;
-                          $userHead.attr('src',RootUrl+'api/v2/web/thumbnail/120/'+$scope.myQuery)
-                      });
-                      $cropMask.hide();
-                      $cropBox.hide();
-                      $cropBorder.css({
-                          left: 0,
-                          top: 0
-                      });
-                      $('#cropPic2').css('clip','rect(0px 300px 300px 0px)')
-                    })
-                    .fail(function() {
-                      console.log("error");
-                    })
+                  img.src=RootUrl+'api/v1/image/'+data.data;
+                  $cropCancel.on('click',function(){
+                     clearData();
+                     data.data = null;
                   })
+                  $('#crop-submit').on('click',function(){
+                    if(data.data != null){
+                      $.ajax({
+                        url: RootUrl+'api/v2/web/image/crop',
+                        type: "post",
+                        contentType : 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        data : JSON.stringify({
+                          "_id":data.data,
+                          "x":parseInt($cropBorder.css('left')),
+                          "y":parseInt($cropBorder.css('top')),
+                          "width":300,
+                          "height":300
+                        }),
+                        processData : false
+                      })
+                      .done(function(res){
+                        $scope.$apply(function(){
+                            $scope.myQuery = res.data;
+                            $userHead.attr('src',RootUrl+'api/v2/web/thumbnail/120/'+res.data)
+                        });
+                        clearData();
+                        data.data = null;
+                      })
+                      .fail(function() {
+                        console.log("error");
+                      })
+                    }
+                  })
+                }
+                function clearData(){
+                  $cropMask.hide();
+                  $cropBox.hide();
+                  $cropBorder.css({
+                      left: 0,
+                      top: 0
+                  });
+                  $('#cropPic2').css('clip','rect(0px 300px 300px 0px)')
+                }
+            }
+        };
+    }])
+    .directive('myUploade',['$timeout',function($timeout){     //图片上传
+        return {
+            replace : true,
+            scope: {
+              myQuery : "="
+            },
+            restrict: 'A',
+            template: '<div class="k-uploadbox f-cb"><div class="pic" id="create"><div class="fileBtn"><input class="hide" id="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_create"></div><div class="tips"><span><em></em><i></i></span><p>作品上传每张3M以内jpg</p></div></div><div class="item" ng-repeat="img in myQuery"><img ng-src="/api/v2/web/thumbnail/168/{{img}}" /></div></div>',
+            link: function($scope, iElm, iAttrs, controller){
+                  var uploaderUrl = RootUrl+'api/v2/web/image/upload',
+                    fileTypeExts = '*.jpg;*.png',
+                    fileSizeLimit = 3072;
+                if(checkSupport() === "html5"){
+                  $('#create').Huploadify({
+                    auto:true,
+                    fileTypeExts:fileTypeExts,
+                    multi:true,
+                    formData:{},
+                    fileSizeLimit:fileSizeLimit,
+                    showUploadedPercent:true,//是否实时显示上传的百分比，如20%
+                    showUploadedSize:true,
+                    removeTimeout:1,
+                    fileObjName:'Filedata',
+                    buttonText : "",
+                    uploader:uploaderUrl,
+                    onUploadComplete:function(file, data, response){
+                      callbackImg(data)
+                    }
+                  });
+                }else{
+                  $('#createUpload').uploadify({
+                      'auto'     : true,
+                      'removeTimeout' : 1,
+                        'swf'      : 'uploadify.swf',
+                        'uploader' : uploaderUrl,
+                        'method'   : 'post',
+                        'buttonText' : '',
+                        'multi'    : true,
+                        'uploadLimit' : 10,
+                        'width' : 168,
+                        'height' : 168,
+                        'fileTypeDesc' : 'Image Files',
+                        'fileTypeExts' : fileTypeExts,
+                        'fileSizeLimit' : fileSizeLimit+'KB',
+                        'onUploadSuccess' : function(file, data, response) {
+                            callbackImg(data)  
+                        }
+                    });
+                }
+                function callbackImg(arr){
+                  var data = $.parseJSON(arr);
+                  var img = new Image();
+                  img.onload=function(){
+                    // if(img.width < 300){
+                    //   alert('图片宽度小于300，请重新上传');
+                    //   return false;
+                    // }else if(img.height < 300){
+                    //   alert('图片高度小于300，请重新上传');
+                    //   return false;
+                    // }
+                    if(_.indexOf($scope.myQuery,data.data) == -1){
+                      $scope.$apply(function(){
+                        $scope.myQuery.push(data.data)
+                      });
+                    }else{
+                      alert('已经上传过了')
+                    }
+                  };  
+                  img.onerror=function(){alert("error!")};  
+                  img.src=RootUrl+'api/v1/image/'+data.data;
                 }
             }
         };
@@ -523,16 +614,20 @@ angular.module('directives', [])
                    minuteData = [],
                    secondData = [],
                    newDate = new Date(),
-                   sYear = newDate.getFullYear(),
-                   sMonth = newDate.getMonth(),
-                   sDays = newDate.getDate(),
-                   sHour = newDate.getHours(),
-                   sMinute = newDate.getMinutes(),
-                   sSecond = newDate.getSeconds();
+                   sYear = '',
+                   sMonth = '',
+                   sDays = '',
+                   sHour = '',
+                   sMinute = '',
+                   sSecond = '';
+                  var selectData = '';
+                  for (var i = 0; i < select.length; i++) {
+                      selectData += '<div class="list '+select[i]+'"><div class="option"><span class="value"></span><span class="arrow"><em></em><i></i></span></div></div>';
+                  };
+                  oBox.html(selectData);
                   for (var i = 0; i < 12; i++) {
                     monthData[i] = i+1+'月'
                   };
-                  fnDays()
                   function fnDays(){
                     for (var i = 0; i < 12; i++) {
                       if(i== 1){
@@ -557,54 +652,50 @@ angular.module('directives', [])
                   for (var i = 0; i < 6; i++) {
                     minuteData[i] = i*10 + '分'
                   };
-                var selectData = '';
-                for (var i = 0; i < select.length; i++) {
-                    selectData += '<div class="list '+select[i]+'"><div class="option"><span class="value"></span><span class="arrow"><em></em><i></i></span></div></div>';
-                };
-                oBox.html(selectData);
-                var oYear = oBox.find('.year'),
-                    oMonth = oBox.find('.month'),
-                    oDays = oBox.find('.days'),
-                    oHour = oBox.find('.hour'),
-                    oMinute = oBox.find('.minute'),
-                    oSecond = oBox.find('.second'),
-                    body = angular.element(document);
-                for (var i = 0; i < select.length; i++) {
+                  var oYear = oBox.find('.year'),
+                      oMonth = oBox.find('.month'),
+                      oDays = oBox.find('.days'),
+                      oHour = oBox.find('.hour'),
+                      oMinute = oBox.find('.minute'),
+                      oSecond = oBox.find('.second'),
+                      body = angular.element(document);
+                  for (var i = 0; i < select.length; i++) {
                     switch (select[i]){ 
                       case 'year' : 
                         createList(yearData,oYear);
-                        setDate(oYear,newDate.getFullYear());
+                        sYear = setDate(oYear,newDate.getFullYear());
                         optionEvevt(oYear)
+                        fnDays();
                       break; 
                       case 'month' : 
                         createList(monthData,oMonth);
-                        setDate(oMonth,newDate.getMonth()+1);
+                        sMonth = setDate(oMonth,newDate.getMonth()+1);
                         optionEvevt(oMonth)
                       break;
                       case 'days' : 
                         createList(daysData,oDays);
-                        setDate(oDays,newDate.getDate());
+                        sDays = setDate(oDays,newDate.getDate());
                         optionEvevt(oDays)
                       break; 
                       case 'hour' : 
                         createList(hourData,oHour);
-                        setDate(oHour,newDate.getHours());
+                        sHour = setDate(oHour,newDate.getHours());
                         optionEvevt(oHour)
                       break;
                       case 'minute' : 
                         createList(minuteData,oMinute);
-                        setDate(oMinute,newDate.getMinutes());
+                        sMinute = setDate(oMinute,newDate.getMinutes());
                         optionEvevt(oMinute)
                       break; 
                       case 'second' : 
-                        setDate(oSecond,newDate.getSeconds());
+                        sSecond = setDate(oSecond,newDate.getSeconds());
                         optionEvevt(oSecond)
                       break;   
                       default : 
                         alert('你书写有错！')
                       break; 
                     } 
-                }; 
+                  }; 
                 // 渲染城市数据
                 function createList(arr,obj){
                     obj.find('select').remove();
@@ -660,6 +751,7 @@ angular.module('directives', [])
                     str2 = '秒';
                   }
                   obj.find('.value').html(str+str2);
+                  return str;
                 }
                 function optionEvevt(obj){
                     var self = this;
@@ -709,18 +801,6 @@ angular.module('directives', [])
                 body.on('click', function(ev){
                     selectHide(); 
                 });
-                function clearValue(obj){
-                  var oInput = obj.find('input'),
-                    oOption = obj.find('.option').find('.value');
-                    if(obj == city){
-                      oInput.val('市');
-                      oOption.html('请选择市');
-                    }
-                    if(obj == district){
-                      oInput.val('县/区');
-                      oOption.html('请选择县/区');
-                    }
-                }
                 function selectHide(obj){
                   oBox.each(function(index, el) {
                     if(obj){
@@ -746,6 +826,25 @@ angular.module('directives', [])
                     $scope.myQuery = (new Date(s)).getTime();
                   });
                 }            
+            }
+        };
+    }])
+   .directive('checkNumber',['$timeout',function($timeout){     //自定义下拉框
+        return {
+            replace : true,
+            require : 'ngModel',
+            restrict: 'A',
+            link: function($scope, iElm, iAttrs, controller) {
+              var res = /^[1-9]*[1-9][0-9]*$/;
+                $scope.$watch(iAttrs.ngModel, function(newValue, oldValue, scope){
+                  if(!!newValue){
+                    if(res.test(newValue)){
+                      controller.$setValidity('number', true)
+                    }else{
+                      controller.$setValidity('number', false)
+                    }
+                  }
+                });
             }
         };
     }])
