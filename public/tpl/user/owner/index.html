@@ -1,4 +1,4 @@
-<div class="message f-cb {{messageClass ? 'message-more' : ''}}" ng-if="messages.length != 0">
+<div class="message f-cb {{messageClass ? 'message-more' : ''}}" ng-if="commentShow">
 	<span class="num f-fl">{{messages.length}}</span>
 	<ul class="list f-fl">
 		<li bindonce="messages" ng-repeat="data in messages"><a ui-sref="plan({id:data.topicid})"><time bo-text="data.date"></time>设计师<mark bo-text="data.byUser.username">milk</mark>给您方案留了言，点击查看留言</a></li>

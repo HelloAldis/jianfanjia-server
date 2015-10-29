@@ -85,6 +85,21 @@ body{
 	color: #383d48;
 	border-bottom: 1px solid #eee;
 }
+.g-mn .head{
+	display: inline-block;
+	width: 70px;
+    height: 70px;
+    overflow: hidden;
+    background: #d5d7db url(../img/user/userHead.png) no-repeat 0 -120px;
+    border-radius: 70px;
+}
+.g-mn .head img{
+	width: 100%;
+}
+.g-mn a.head:hover{
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+}
 /*留言*/
 .message{
 	margin-bottom: 10px;
@@ -334,6 +349,7 @@ body{
 	display: none;
 }
 .k-uppicbox #upload .img{
+	display: block;
 	width: 120px;
 	height: 120px;
 	margin: 0 auto;
@@ -610,13 +626,8 @@ body{
 	width: 120px;
 	height: 120px;
 	margin: 0 auto;
-	overflow: hidden;
-	background-color: #d5d7db;
+	background-position: 0 0;
 	border-radius: 120px;
-}
-.m-index .info dt .head:hover{
-	opacity: 0.8;
-	filter: alpha(opacity=80);
 }
 .m-index .info dt h3{
 	height: 52px;

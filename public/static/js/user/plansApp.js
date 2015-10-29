@@ -7,7 +7,7 @@
             $urlRouterProvider.otherwise('/detail');
             $stateProvider
                 .state('create', {
-                    url: '/create',
+                    url: '/create/:id',
                     templateUrl: RootURl+'create.html',
                     controller : 'createCtrl'
                 })

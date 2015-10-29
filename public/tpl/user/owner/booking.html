@@ -1,6 +1,6 @@
 <div class="booking {{bookingSuccess ? '' : 'disabled'}}">
 	<div class="booking-tips">
-		<p class="f-fl">系统自动匹配三名设计师，如果不满足您的需求可更多选择</p>
+		<p class="f-fl">系统自动匹配<span ng-if="matchs.length != 0"><i ng-bind="matchs.length"></i>名</span>设计师，如果不满足您的需求可更多选择</p>
 		<a href="../design/index.html" class="f-fr u-btns u-btns-revise" ng-if="bookingSuccess" target="_blank">更多选择</a>
 	</div>
 	<div ng-if="matchs.length == 0 || favorites.length == 0 || matchs || favorites">
@@ -48,7 +48,6 @@
 						</dl>
 					</div>
 					<div class="select f-fr">
-						<span class="match">匹配度 <i bo-text="data.match"></i>%</span>
 						<span class="status"></span>
 					</div>
 				</div>
