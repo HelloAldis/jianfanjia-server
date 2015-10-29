@@ -86,10 +86,12 @@ router.post('/designer/info/get', auth.designerRequired, designer.getInfo); //�
 router.post('/designer/uid_bank_info', auth.designerRequired, designer.uid_bank_info); //更新银行卡信息
 router.post('/designer/email_info', auth.designerRequired, designer.email_info); //更新邮箱信息
 router.post('/designer/product', auth.designerRequired, product.designer_my_products); //设计师获取自己的作品列表
+router.post('/designer/product/one', auth.designerRequired, product.designer_one_product); //设计师获取自己的某个作品
 router.post('/designer/product/add', auth.designerRequired, product.add); //上传作品
 router.post('/designer/product/update', auth.designerRequired, product.update); //更新作品
 router.post('/designer/product/delete', auth.designerRequired, product.delete); //删除作品
 router.post('/designer/team/get', auth.designerRequired, team.list); //获取施工队伍
+router.post('/designer/team/one', auth.designerRequired, team.designer_one_team); //设计师获取自己的某个施工队伍
 router.post('/designer/team/add', auth.designerRequired, team.add); //添加施工队伍
 router.post('/designer/team/update', auth.designerRequired, team.update); //更新施工队伍
 router.post('/designer/team/delete', auth.designerRequired, team.delete); //删除施工队伍
