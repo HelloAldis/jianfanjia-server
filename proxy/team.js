@@ -8,6 +8,10 @@ exports.newAndSave = function (json, callback) {
   team.save(callback);
 };
 
+exports.findOne = function (query, project, callback) {
+  Team.findOne(query, project, callback);
+}
+
 exports.removeOne = function (query, option, callback) {
   Team.findOneAndRemove(query, option, callback)
 };

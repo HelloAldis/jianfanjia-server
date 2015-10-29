@@ -4,6 +4,7 @@ var User = require('../../../proxy').User;
 var Plan = require('../../../proxy').Plan;
 var Requirement = require('../../../proxy').Requirement;
 var Designer = require('../../../proxy').Designer;
+var Process = require('../../../proxy').Process;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../apiconfig');
@@ -81,7 +82,23 @@ exports.user_my_requirement_list = function (req, res, next) {
           callback(null, requirement);
         }
       }, ep.done(function (requirements) {
-        res.sendData(requirements);
+        async.mapLimit(requirements, 3, function (requirement,
+          callback) {
+          if (requirement.status === type.requirement_status_config_process) {
+            Process.findOne({
+              requirementid: requirement._id,
+            }, {
+              _id: 1
+            }, function (err, process) {
+              requirement.process = process;
+              callback(err, requirement);
+            });
+          } else {
+            callback(null, requirement);
+          }
+        }, ep.done(function (requirements) {
+          res.sendData(requirements);
+        }));
       }));
     } else {
       res.sendData([]);

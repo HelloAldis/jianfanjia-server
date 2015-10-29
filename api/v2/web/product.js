@@ -195,7 +195,17 @@ exports.product_home_page = function (req, res, next) {
     } else {
       res.sendData({});
     }
+  }));
+}
 
+exports.designer_one_product = function (req, res, next) {
+  var _id = req.body._id;
+  var ep = new eventproxy();
+  ep.fail(next);
 
+  Product.findOne({
+    _id: _id
+  }, null, ep.done(function (product) {
+    res.sendData(product);
   }));
 }

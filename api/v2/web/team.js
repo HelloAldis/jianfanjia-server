@@ -86,3 +86,15 @@ exports.list = function (req, res, next) {
     res.sendData(teams);
   }));
 }
+
+exports.designer_one_team = function (req, res, next) {
+  var _id = req.body._id;
+  var ep = new eventproxy();
+  ep.fail(next);
+
+  Team.findOne({
+    _id: _id
+  }, null, ep.done(function (team) {
+    res.sendData(team);
+  }));
+}

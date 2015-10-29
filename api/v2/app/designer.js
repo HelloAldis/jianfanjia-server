@@ -30,6 +30,7 @@ exports.home_page_designers = function (req, res, next) {
         userid: userid,
       }, {
         rec_designerids: 1,
+        status: 1,
       }, {
         sort: {
           create_at: -1
@@ -89,6 +90,7 @@ exports.home_page_designers = function (req, res, next) {
     }, ep.done(function (designers) {
       async.mapLimit(designers, 3, function (designer, callback) {
         Product.find({
+          designerid: designer._id,
           auth_type: type.product_auth_type_done,
         }, {
           cell: 1,
