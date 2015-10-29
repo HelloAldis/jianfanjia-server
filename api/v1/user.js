@@ -128,8 +128,8 @@ exports.updateRequirement = function (req, res, next) {
     accessToken: 0
   }, {
     sort: {
-      authed_product_count: -1,
       order_count: 1,
+      authed_product_count: -1,
     }
   }, function (err, designers) {
     if (err) {
