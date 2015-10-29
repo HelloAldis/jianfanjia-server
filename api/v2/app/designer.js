@@ -30,6 +30,7 @@ exports.home_page_designers = function (req, res, next) {
         userid: userid,
       }, {
         rec_designerids: 1,
+        status: 1,
       }, {
         sort: {
           create_at: -1
