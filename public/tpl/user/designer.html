@@ -49,7 +49,7 @@
     <div class="breadCrumbs g-wp">
         <a href="../index/index.html">首页</a> &gt; <span>个人中心</span>
     </div>
-	<main class="g-wp g-user f-cb">
+	<main class="g-wp g-user f-cb" ng-controller="designerController">
 		<aside class="g-sd f-fl" ng-controller="SubController">
 			<div class="m-sdc">
 				<h2 ng-class="{active: nav==&quot;index&quot;}"><a ui-sref="index">个人中心</a></h2>
@@ -70,15 +70,56 @@
                     <dd ng-class="{active: nav==&quot;favorite&quot;}"><a ui-sref="favorite">作品收藏列表</a></dd>
                 </dl>
             </div>
-            <div class="m-sdc">
-	            <h2 ng-class="{active: nav==&quot;auth&quot;}"><a ui-sref="auth">认证中心</a></h2>
+            <div class="m-sdc authHeart">
+	            <h2 ng-class="{active: nav==&quot;authHeart&quot;}"><a ui-sref="authHeart">认证中心</a></h2>
 	            <dl>
-	                <dd ng-class="{active: nav==&quot;1&quot;}"><a ui-sref="1">基本资料认证</a></dd>
-	                <dd ng-class="{active: nav==&quot;2&quot;}"><a ui-sref="2">身份认证</a></dd>
-	                <dd ng-class="{active: nav==&quot;3&quot;}"><a ui-sref="3">作品认证</a></dd>
-	                <dd ng-class="{active: nav==&quot;3&quot;}"><a ui-sref="3">施工团队</a></dd>
-	                <dd ng-class="{active: nav==&quot;4&quot;}"><a ui-sref="4">手机认证</a></dd>
-	                <dd ng-class="{active: nav==&quot;5&quot;}"><a ui-sref="5">邮箱认证</a></dd>
+	                <dd ng-class="{active: nav==&quot;infor&quot;}">
+                        <a ui-sref="infor">基本资料认证</a>
+                        <span ng-class="{show:designer}" ng-switch="designer.auth_type">
+                            <i ng-switch-when="1" class="authStatus0">zhong</i>
+                            <i ng-switch-when="2" class="authStatus2">yes</i>
+                            <i ng-switch-when="3" class="authStatus3">no</i>
+                            <i ng-switch-when="4" class="authStatus4">ping</i>
+                        </span>
+                    </dd>
+	                <dd ng-class="{active: nav==&quot;idcard&quot;}">
+                        <a ui-sref="idcard">身份认证</a>
+                        <span ng-class="{show:designer}" ng-switch="designer.uid_auth_type">
+                            <i ng-switch-when="1" class="authStatus0">zhong</i>
+                            <i ng-switch-when="2" class="authStatus2">yes</i>
+                            <i ng-switch-when="3" class="authStatus3">no</i>
+                            <i ng-switch-when="4" class="authStatus4">ping</i>
+                        </span>
+                    </dd>
+	                <dd ng-class="{active: nav==&quot;products&quot;}">
+                        <a ui-sref="products">作品认证</a>
+                        <span ng-class="{show:designer}">
+                            <i ng-if="designer.authed_product_count < 3" class="authStatus0">zhong</i>
+                            <i ng-if="designer.authed_product_count > 2" class="authStatus2">yes</i>
+                        </span>
+                    </dd>
+	                <dd ng-class="{active: nav==&quot;team&quot;}">
+                        <a ui-sref="team">施工团队</a>
+                        <span ng-class="{show:designer}" ng-switch="designer.work_auth_type">
+                            <i ng-switch-when="1" class="authStatus0">zhong</i>
+                            <i ng-switch-when="2" class="authStatus2">yes</i>
+                            <i ng-switch-when="3" class="authStatus3">no</i>
+                            <i ng-switch-when="4" class="authStatus4">ping</i>
+                        </span>
+                    </dd>
+	                <dd ng-class="{active: nav==&quot;phone&quot;}">
+                        <a ui-sref="phone">手机认证</a>
+                        <span ng-class="{show:designer}"><i class="authStatus2">yes</i></span>
+                    </dd>
+	                <dd ng-class="{active: nav==&quot;email&quot;}">
+                        <a ui-sref="email">邮箱认证</a>
+                        <span ng-class="{show:designer}" ng-switch="designer.email_auth_type">
+                            <i ng-switch-when="1" class="authStatus0">zhong</i>
+                            <i ng-switch-when="2" class="authStatus2">yes</i>
+                            <i ng-switch-when="3" class="authStatus3">no</i>
+                            <i ng-switch-when="4" class="authStatus4">ping</i>
+                        </span>
+                    </dd>
 	            </dl>
 	        </div>
 		</aside>

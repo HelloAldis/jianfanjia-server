@@ -7,24 +7,43 @@
 	<a class="upper f-fr" href="javascript:;" ng-click="messageToggle(false)">更多</a>
 </div>
 <div class="main">
-	<div class="m-index">
-		<div class="info f-cb" bindonce="user">
-			<dl class="f-fl">
-				<dt class="f-fl"><a ui-sref="infor"><img src="{{user.imgPic}}" alt="" /></a></dt>
-				<dd class="f-fl">
-					<h3><a ui-sref="infor" bo-text="user.username"></a></h3>
-					<p><i>手机</i><span bo-text="user.phone"></span></p>
-					<p><i>地址</i><span ng-if="userAreaOff"><i bo-text="user.province"></i> <i bo-text="user.city"></i> <i bo-text="user.district"></i> <i bo-text="user.address"></i></span></p>
+	<div class="m-index" bindonce="designer">
+		<div class="info f-cb">
+			<div classs="onlineSetting" bo-if="designer.online_status == 0">
+				<h4><i></i>在线<span></span></h4>
+				<ul>
+					<li ng-click="onlineSetting(0)">在线</li>
+					<li ng-click="onlineSetting(1)">离线</li>
+				</ul>
+			</div>
+			<dl>
+				<dt>
+					<a ui-sref="infor" class="head"><img bo-src-i="/api/v2/web/thumbnail/120/{{designer.imageid}}" bo-alt="designer.username" bo-if="designer.imageid" /></a>
+					<h3><a ui-sref="infor" bo-text="designer.username" bo-if="designer.username"></a></h3>
+				</dt>
+				<dd class="f-cb">
+					<span>
+						<strong bo-text="designer.deal_done_count"></strong>
+						已接单
+					</span>
+					<span>
+						<strong bo-text="designer.authed_product_count"></strong>
+						认证作品
+					</span>
+					<span>
+						<strong bo-text="designer.order_count"></strong>
+						预约
+					</span>
 				</dd>
 			</dl>
-			<a ui-sref="infor" class="editor f-fr"><i>编辑</i>编辑资料</a>			
+			<a ui-sref="service" class="editor" bo-if="designer.online_status == 0"><i>编辑</i>接单服务</a>			
 		</div>
 		<div class="flow">
 			<ul>
 				<li>
 					<div class="txt">
-						<div class="num">1</div>
-						<p>发布装修<br />需求</p>
+						<div class="num"></div>
+						<p>提交资料完成<br />设计师认证</p>
 					</div>
 				</li>
 				<li>
@@ -32,8 +51,8 @@
 				</li>
 				<li>
 					<div class="txt">
-						<div class="num">2</div>
-						<p>预约设计师<br />上门量房</p>
+						<div class="num num2"></div>
+						<p>响应并预约<br />量房时间</p>
 					</div>
 				</li>
 				<li>
@@ -41,8 +60,8 @@
 				</li>
 				<li>
 					<div class="txt">
-						<div class="num">3</div>
-						<p>确认设计师<br />上门量房</p>
+						<div class="num num3"></div>
+						<p>上门量房并<br />提交方案</p>
 					</div>
 				</li>
 				<li>
@@ -50,20 +69,22 @@
 				</li>
 				<li>
 					<div class="txt">
-						<div class="num">4</div>
-						<p>选择装修<br />方案</p>
-					</div>
-				</li>
-				<li>
-					<div class="line"></div>
-				</li>
-				<li>
-					<div class="txt">
-						<div class="num">5</div>
-						<p>生成三方<br />合同</p>
+						<div class="num num4"></div>
+						<p>提交方案<br />合同</p>
 					</div>
 				</li>
 			</ul>
+		</div>
+		<div class="authen" bo-if="(designer.auth_type == 0 || designer.auth_type == 0 ) && designer.authed_product_count < 3">
+			<div class="inofTips"><i></i>完成基本资料认证及作品认证（至少3套）的设计师才可以接单</div>
+			<p>
+				<span bo-if="designer.auth_type == 0">欢迎来到简繁家，请完善您的基本资料</span>
+				<span bo-if="designer.auth_type == 2 && designer.authed_product_count == 0">您有<i bo-text="designer.authed_product_count"></i>套作品通过认证，请继续发布作品</span>
+			</p>
+			<div class="btns">
+				<a class="u-btns" ui-sref="infor">提交资料</a>
+				<a class="u-btns" ui-sref="release">发布作品</a>
+			</div>
 		</div>
 		<ul class="list">
 			<li ng-if="notRequiremtnes">
@@ -72,19 +93,69 @@
 					<a ui-sref="release" class="u-btns">发布装修需求</a>
 				</div>
 			</li>
-			<li bindonce ng-repeat="data in requiremtnes">
+			<li bindonce="requirementList" ng-repeat="data in requirementList | limitTo : 3">
 				<div class="tt f-cb">
-					<h4 class="f-fl"><span>物业地址</span>{{data.property}}</h4>
+					<h4 class="f-fl">
+						<strong>物业地址</strong>
+						<span bo-if="data.province"><i bo-text="data.province"></i></span>
+						<span bo-if="data.city"><i bo-text="data.city"></i></span>
+						<span bo-if="data.district"><i bo-text="data.district"></i></span>
+						<span bo-if="data.street"><i bo-text="data.street"></i></span>
+						<span bo-if="data.cell"><i bo-text="data.cell"></i>小区</span>
+						<span bo-if="data.cell_phase"><i bo-text="data.cell_phase"></i>期</span>
+						<span bo-if="data.cell_building"><i bo-text="data.cell_building"></i>栋</span>
+						<span bo-if="data.cell_unit"><i bo-text="data.cell_unit"></i>单元</span>
+						<span bo-if="data.cell_detail_number"><i bo-text="data.cell_detail_number"></i>室</span>
+					</h4>
 					<div class="progress f-fr">
 						<div class="bar">
 							<div class="in in{{data.status}}"></div>
 						</div>
-						<p>{{data.status | userStatusTipsFilter}}</p>
+						<p ng-switch="data.status">
+							<i ng-switch-when="0">等待响应预约</i>
+							<i ng-switch-when="1">等待响应预约</i>
+							<i ng-switch-when="2">确认设计师上门量房</i>
+							<i ng-switch-when="3">选择设计师方案</i>
+							<i ng-switch-when="4">生成并签订三方合同</i>
+							<i ng-switch-when="6">设计师提交方案中</i>
+							<i ng-switch-when="7">APP管控装修工地</i>
+						</p>
 					</div>
 				</div>
-				<div class="ct">{{data.status | userRequiremtnesTipsFilter}}</div>
-				<div class="btns">
-					<a class="u-btns" ng-click="goTo(data._id,data.status)">{{data.status | userRequiremtnesBtnFilter}}</a>
+				<div class="ct" ng-switch="data.status">
+					<p ng-switch-when="0">
+						请24小时内与业主沟通量房时间，并响应业主预约，过期视为放弃。
+					</p>
+					<p ng-switch-when="1">
+						您已经预约了3名设计师，请等待设计师响应。<br />
+						设计师将在24小时内响应您的需求。如果超过时间未响应，您可以从新预约设计师。
+					</p>
+					<p ng-switch-when="2">
+						设计师的量房时间已过，请确认设计师是否上门量房。<br />
+						确认量房后，设计师才可以提交装修方案。
+					</p>
+					<p ng-switch-when="3">
+						设计师已上传装修方案，请查看并选择装修方案
+					</p>
+					<p ng-switch-when="4">
+						您已选择设计师的装修方案，生成并签订三方合同
+					</p>
+					<p ng-switch-when="6">
+						您已经确认设计师量房，请等待设计师上传方案。<br />
+						设计师将在5天内响应给你方案，供您选择，请留意短信通知。
+					</p>
+					<p ng-switch-when="7">
+						您已选定设计师装修方案，请下载 <br />简繁家APP（下载页面链接及二维码），掌上管控装修工地。
+					</p>
+				</div>
+				<div class="btns" ng-switch="data.status">
+					<a class="u-btns" ng-switch-when="0" bo-href-i="designer.html#/requirement/{{data._id}}/owner">前往响应预约</a>
+					<a class="u-btns" ng-switch-when="1" bo-href-i="designer.html#/requirement/{{data._id}}/owner">前往响应预约</a>
+					<a class="u-btns" ng-switch-when="2" bo-href-i="designer.html#/requirement/{{data._id}}/owner">给业主提交方案</a>
+					<a class="u-btns" ng-switch-when="3" bo-href-i="designer.html#/requirement/{{data._id}}/plan">装修方案</a>
+					<a class="u-btns" ng-switch-when="4" bo-href-i="designer.html#/requirement/{{data._id}}/contract">前往生成三方合同</a>
+					<a class="u-btns" ng-switch-when="6" bo-href-i="designer.html#/requirement/{{data._id}}/owner">给业主提交方案</a>
+					<a class="u-btns" ng-switch-when="7" bo-href-i="designer.html#/requirement/{{data._id}}/contract">下载简繁家APP</a>
 				</div>
 			</li>
 		</ul>

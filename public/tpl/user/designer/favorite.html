@@ -4,7 +4,7 @@
 	</div>
 	<div class="m-ct">
 		<ul class="list f-cb">
-			<li ng-repeat="list in products" bindonce="products">
+			<li ng-repeat="list in favoriteProduct" bindonce="favoriteProduct">
 				<div class="deleted" bo-if="list.is_deleted">
 					<span><i class="iconfont">哭脸</i></span>
 					<p>原内容已被作者删除</p>
@@ -26,6 +26,6 @@
 				</div>
 			</li>
 		</ul>
-		<div class="m-page"></div>
+		<div my-pageing page-object="pageing" ng-if="favoriteProduct"></div>
 	</div>
 </div>

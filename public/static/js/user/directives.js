@@ -848,3 +848,148 @@ angular.module('directives', [])
             }
         };
     }])
+    .directive('myPageing',['$timeout',function($timeout){     //分页
+        return {
+            replace : true,
+            scope:{
+              pageObject : '=pageObject'
+          },
+            restrict: 'A',
+            template: '<div class="k-pageing"><ul class="pagination"></ul></div>',
+            link: function($scope, iElm, iAttrs, controller){
+                var obj = angular.element(iElm),
+                    pageObj = $scope.pageObject,
+                    allNumPage = (!pageObj.allNumPage || pageObj.allNumPage < 0) ? 1 : pageObj.allNumPage,
+                    itemPage = (!pageObj.itemPage || pageObj.itemPage < 0) ? 1 : pageObj.itemPage;
+                //生成分页显示
+        //createLinks();
+        //回调函数
+        pageObj.callback(pageObj.currentPage,obj);
+                $scope.page = {
+                  createLinks : function(){
+                    obj.html('');
+                    var self = this,
+                        interval = this.getInterval(),
+                      np = this.numPages();
+                    // 这个辅助函数返回一个处理函数调用有着正确pageId的pageSelected。
+                    this.getClickHandler()
+                    if(pageObj.pageInfo){
+                      angular.element("<span>共<em>"+pageObj.allNumPage+"</em>条项目</span>").addClass('text').appendTo(obj);
+                    }
+                    // 产生首页按钮
+                    if(pageObj.showUbwz && pageObj.currentPage > 0 ){
+                      this.appendItem(0,{text:'首页', classes:"first"},np)
+                    }
+                    // 产生上一个按钮
+                    if(pageObj.prevText && (pageObj.currentPage > 0)){
+                      this.appendItem(pageObj.currentPage-1,{text:pageObj.prevText, classes:"prev"},np)
+                    }
+                    // 产生起始点
+                    if (interval[0] > 0 && pageObj.ellipseText > 0){
+                      var end = Math.min(pageObj.endPageNum, interval[0]);
+                      for(var i=0; i<end; i++){
+                        this.appendItem(i,{},np);
+                      }
+                      if(pageObj.endPageNum < interval[0] && pageObj.ellipseText){
+                        angular.element("<span>"+pageObj.ellipseText+"</span>").addClass('btns').appendTo(obj);
+                      }
+                    }
+                    // 产生内部的些链接
+                    for(var i=interval[0]; i<interval[1]; i++) {
+                      this.appendItem(i,{},np);
+                    }
+                    // 产生结束点
+                    if (interval[1] < np && pageObj.endPageNum > 0){
+                      if(np-pageObj.endPageNum > interval[1] && pageObj.ellipseText)
+                      {
+                        angular.element("<span>"+pageObj.ellipseText+"</span>").addClass('btns').appendTo(obj);
+                      }
+                      var begin = Math.max(np-pageObj.endPageNum, interval[1]);
+                      for(var i=begin; i<np; i++) {
+                        this.appendItem(i,{},np);
+                      }
+                    }
+                    //  产生下一页按钮
+                    if(pageObj.nextText && (pageObj.currentPage < np-1)){
+                      this.appendItem(pageObj.currentPage+1,{text:pageObj.nextText, classes:"next"},np);
+                    }
+                    // 产生尾页按钮
+                    if(pageObj.showUbwz && pageObj.currentPage < np-1 ){
+                      this.appendItem(np,{text:'尾页', classes:"last"},np)
+                    }
+                    if(pageObj.pageInfo){
+                      angular.element("<span>当前第<em>"+(pageObj.currentPage+1)+"</em>页/共<em>"+this.numPages()+"</em>页</span>").addClass('text').appendTo(obj);
+                    }
+                          },
+                  getClickHandler : function(pageId){
+                    var self = this;
+                    return function(ev){ return self.pageSelected(pageId,ev); }
+                  },
+                  appendItem : function(pageId, appendopts,np){  //生成按钮  
+                    pageId = pageId<0?0:(pageId<np?pageId:np-1); // 规范page id值
+                    appendopts = angular.extend({text:pageId+1, classes:""}, appendopts||{});
+                    if(pageId == pageObj.currentPage){
+                      var lnk = angular.element("<span class='current'>"+(appendopts.text)+"</span>").addClass('btns');
+                    }else{
+                      var lnk = angular.element("<a>"+(appendopts.text)+"</a>")
+                        .on("click", this.getClickHandler(pageId))
+                        .addClass('btns')
+                        .attr('href', pageObj.linkTo.replace(/__id__/,pageId+1));   
+                    }
+                    if(appendopts.classes){lnk.addClass(appendopts.classes);}
+                    obj.append(lnk);
+                  },
+                  numPages : function(){   //计算最大分页显示数目
+                    var self = this;
+                    return Math.ceil(pageObj.allNumPage/pageObj.itemPage);
+                  },
+                  getInterval : function(){ //极端分页的起始和结束点，这取决于currentPage 和 showPgaeNum返回数组
+                    var self = this,
+                      ne_half = Math.ceil(pageObj.showPageNum/2),
+                        np = this.numPages(),
+                        upper_limit = np-pageObj.showPageNum,
+                        start = pageObj.currentPage>ne_half?Math.max(Math.min(pageObj.currentPage-ne_half, upper_limit), 0):0,
+                        end = pageObj.currentPage>ne_half?Math.min(pageObj.currentPage+ne_half, np):Math.min(pageObj.showPageNum, np);
+                    return [start,end]
+                  },
+                  pageSelected : function(pageId,ev){  //分页链接事件处理函数  pageId 为新页码
+                    var self = this;
+                            pageObj.currentPage = pageId;
+                    this.createLinks();
+                    var continuePropagation = pageObj.callback(pageObj.currentPage,obj);
+                    if (!continuePropagation) {
+                      if (ev.stopPropagation) {
+                        ev.stopPropagation();
+                      }
+                      else {
+                        ev.cancelBubble = true;
+                      }
+                    }
+                    return continuePropagation;
+                  },
+                  selectPage : function(pageId){ // 获得附加功能的元素
+                    this.pageSelected(pageId);
+                  },
+                  prevPage : function(){  // 上一个按钮
+                    var self = this;
+                    if (pageObj.currentPage > 0) {
+                      this.pageSelected(pageObj.currentPage - 1);
+                      return true;
+                    }else {
+                      return false;
+                    }
+                  },
+                  nextPage : function(){  // 下一个按钮
+                    var self = this;
+                    if(pageObj.currentPage < this.numPages()-1) {
+                      this.pageSelected(pageObj.currentPage+1);
+                      return true;
+                    }else {
+                      return false;
+                    }
+                  }
+                }
+                $scope.page.createLinks();
+            }
+        };
+    }])

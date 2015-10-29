@@ -41,6 +41,16 @@
                     url: '/contract',
                     templateUrl: RootURl+'contract.html'
                 })
+                .state('createPlan', {     //需求详情--提交方案
+                    url: '/create/:id',
+                    templateUrl: RootURl+'create.html',
+                    controller : 'createCtrl'
+                })
+                .state('uploadPlan', {     //需求详情--修改方案
+                    url: '/upload/:id',
+                    templateUrl: RootURl+'upload.html',
+                    controller : 'createCtrl'
+                })
                 .state('history', {      //历史订单列表
                     url: '/history',
                     templateUrl: RootURl+'history.html',
@@ -65,6 +75,30 @@
                     url: '/favorite',
                     templateUrl: RootURl+'favorite.html',
                     controller : 'favoriteProductCtrl'
+                })
+                .state('authHeart', {      //认证中心
+                    url: '/authHeart',
+                    templateUrl: RootURl+'authHeart.html'
+                })
+                .state('idcard', {      //基本资料认证
+                    url: '/idcard',
+                    templateUrl: RootURl+'idcard.html',
+                    controller : 'idcardCtrl'
+                })
+                .state('team', {      //施工团队认证
+                    url: '/team',
+                    templateUrl: RootURl+'team.html',
+                    controller : 'teamCtrl'
+                })
+                .state('phone', {      //手机修改
+                    url: '/phone',
+                    templateUrl: RootURl+'phone.html',
+                    controller : 'phoneCtrl'
+                })
+                .state('email', {      //邮箱认证
+                    url: '/email',
+                    templateUrl: RootURl+'email.html',
+                    controller : 'emailCtrl'
                 })
         });
     // angular bootstrap

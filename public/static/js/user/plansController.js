@@ -218,12 +218,13 @@ angular.module('controllers', [])
                 return off;
             }
             $scope.createPlan = function(){
-                if($scope.managers.length){
-                    $scope.plan.manager = $scope.managers[$scope.plan.manager].name;
-                }
+                // if($scope.managers.length){
+                //     $scope.plan.manager = $scope.managers[$scope.plan.manager].name;
+                // }
+                $scope.plan.manager = "测试项目经理"
                 console.log($scope.plan)
                 userRequiremtne.addPlan($scope.plan).then(function(res){  //提交方案到业主的需求
-                    console.log(res.data.data)
+                    $location.path('designer.html#/requirement/'+requiremtneId+"/plan")
                 },function(res){
                     console.log(res)
                 });  
@@ -231,9 +232,10 @@ angular.module('controllers', [])
             //$location.path('requirement/'+iasd+"/"+statusUrl[status]);
     }])
     .controller('detailCtrl', [     //方案详情
-        '$scope','$rootScope','$http','$filter','$location','$stateParams','$cookieStore','userRequiremtne','userComment',
-        function($scope, $rootScope,$http,$filter,$location,$stateParams,$cookieStore,userRequiremtne,userComment){
-            console.log($stateParams.id)
+        '$scope','$rootScope','$http','$filter','$location','$cookieStore','userRequiremtne','userComment',
+        function($scope, $rootScope,$http,$filter,$location,$cookieStore,userRequiremtne,userComment){
+            console.log(window.location.search.split('=')[1])
+            var planId = window.location.search.split('=')[1];
             var userType = $cookieStore.get('usertype');
             $scope.tab = 1;
             $scope.tabBtn = function(i){
@@ -259,7 +261,7 @@ angular.module('controllers', [])
                         return ;
                     }
                     userComment.add({
-                      "topicid":$stateParams.id,
+                      "topicid":planId,
                       "topictype" : '0',
                       "content": $scope.comment.plansMsg,
                       "to":(userType == '1') ? user : designer
@@ -304,7 +306,7 @@ angular.module('controllers', [])
             $scope.comments = [];
             function load(off){          //获取留言列表
                 userComment.read({
-                  "topicid":$stateParams.id,
+                  "topicid":planId,
                   "from": $scope.comment.from,
                   "limit":$scope.comment.limit
                 }).then(function(res){
@@ -326,7 +328,7 @@ angular.module('controllers', [])
                 });
             }
             load()
-            userRequiremtne.plan({'_id':$stateParams.id}).then(function(res){  //获取当前方案信息
+            userRequiremtne.plan({'_id':planId}).then(function(res){  //获取当前方案信息
                 console.log(res.data.data)
                 $scope.plan = res.data.data;
                 $scope.plan.itme_detail = [];

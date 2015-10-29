@@ -1,0 +1,135 @@
+<div class="m-plans">
+	<div class="plans-tt f-cb">
+		<h3 class="f-fl">提交装修方案</h3>
+	</div>
+	<div class="plans-ct" bindonce="plan">
+		<ul class="tabs">
+			<li ng-class="{'active':tab}" ng-click="tabBtn(true)"><a href="javascript:;">方案详情</a></li>
+			<li ng-class="{'active':!tab}" ng-click="tabBtn(false)"><a href="javascript:;">方案报价</a></li>
+		</ul>
+		<div class="boxs detail" ng-class="{'show':tab,'hide':!tab}">
+			<div class="k-form release">
+				<div class="m-boxs">
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab" for="owner-name">业主姓名</label>
+							<div class="u-inp">
+								<div class="inp phone" ng-bind="requiremtne.user.username"></div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab" for="owner-sex">工期</label>
+							<div class="u-inp">
+								<input type="text" class="inp" ng-model="plan.duration" check-number required />
+								<span class="unit">天</span>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab" for="owner-email">报价</label>
+							<div class="u-inp">
+								<div class="inp quote" ng-click="quoteBtn()">
+									<div ng-if="total_project_price(plan.project_price_after_discount,plan.total_design_fee)  != 0" ng-bind="total_project_price(plan.project_price_after_discount,plan.total_design_fee)  | number : 0"></div>
+									<span class="unit">元</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab" for="owner-email">方案说明</label>
+							<div class="u-inp">
+								<div ng-class="{'focus textarea':comment.parentFocus,'textarea':!comment.parentFocus}"><textarea rows="10" ng-model="plan.description" ng-focus="comment.focus()" ng-blur="comment.blur()" ></textarea></div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab">项目经理</label>
+							<div class="u-inp">
+								<div my-select my-list="managers" my-query="plan.manager" ng-if="managers.length"></div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab" for="owner-addr">上传平面图</label>
+							<div class="u-inp">
+								<div my-uploade my-id="create" my-query="plan.images"></div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item m-error-info" ng-if="error_info" ng-bind="error_info"></div>
+				</div>
+				<div class="m-btns">
+					<a href="javascript:;" class="u-btns" ng-click="createPlan()">&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;</a>
+				</div>
+			</div>
+		</div>
+		<div class="boxs quotes" class="hide" ng-class="{'hide':tab,'show':!tab}">
+			<div class="table">
+				<table>
+					<thead>
+						<tr class="title">
+							<th class="td1"><span>项目</span></th>
+							<th class="td2"><span>项目总价(元)</span></th>
+							<th class="td3"><span>备注说明</span></th>
+							<th class="td4">&nbsp;&nbsp;&nbsp;</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tbody">
+							<td>&nbsp;&nbsp;&nbsp;</td>
+						</tr>
+						<tr ng-repeat="list in plan.price_detail">
+							<td class="td1"><span bo-text="list.item"></span></td>
+							<td class="td2"><input type="text" name="" id="" ng-model="list.price" ng-keyup="computePrice()" check-number /></td>
+							<td class="td3"><input type="text" name="" id="" ng-model="list.description" /></td>
+							<td class="td4"><a href="javascript:;" ng-click="remove_price_detail($index)">删除</a></td>
+						</tr>
+						<tr class="tbody">
+							<td>&nbsp;&nbsp;&nbsp;</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr class="create">
+							<td>&nbsp;&nbsp;&nbsp;</td>
+							<td colspan="2"><input type="text" ng-model="add_price_detail_name" /><a href="javascript:;" ng-click="add_price_detail()">添加</a></td>
+							<td>&nbsp;&nbsp;&nbsp;</td>
+						</tr>
+						<tr class="footer">
+							<td class="td1"><span>工程折后价</span></td>
+							<td class="td2"><input type="text" ng-model="plan.project_price_after_discount" check-number /></td>
+							<td class="td3"><span>设计费</span><input type="text" ng-model="plan.total_design_fee" check-number class="designFee" /></td>
+							<td class="td4">&nbsp;&nbsp;&nbsp;</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+			<div class="price f-cb">
+				<dl class="f-fl">
+					<dt>工程总造价</dt>
+					<dd><span ng-if="plan.total_price"><s ng-bind="plan.total_price | number : 0"></s>元</span></dd>
+				</dl>
+				<dl class="f-fl">
+					<dt>工程折后价</dt>
+					<dd><span ng-if="plan.project_price_after_discount"><em ng-bind="plan.project_price_after_discount | number : 0"></em>元</span></dd>
+				</dl>
+				<dl class="f-fl">
+					<dt>设计费</dt>
+					<dd><span ng-if="plan.total_design_fee"><em ng-bind="plan.total_design_fee | number : 0"></em>元</span></dd>
+				</dl>
+				<dl class="f-fr">
+					<dt>折后总价</dt>
+					<dd><span ng-if="plan.project_price_after_discount || plan.total_design_fee"><strong ng-bind="total_project_price(plan.project_price_after_discount,plan.total_design_fee)  | number : 0"></strong>元</span></dd>
+				</dl>
+			</div>
+			<div class="btns">
+				<a href="javascript:;" ng-click="createQuote()" class="u-btns">&nbsp;&nbsp;创建报价&nbsp;&nbsp;</a>
+			</div>
+		</div>
+	</div>
+</div>

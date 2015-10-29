@@ -15,7 +15,7 @@ var globalData = {
 	scheme_status : ['已预约但没有响应','已拒绝业主','已响应但是没有方案','提交了方案','方案被拒绝','方案被选中']
 }
 var global_success_url = window.location;
-var RootUrl = 'http://www.jianfanjia.com/';
+var RootUrl = 'http://101.200.191.159/';
 //Cookie操作
 (function(factory){
 	if (typeof define === 'function' && define.amd) {
