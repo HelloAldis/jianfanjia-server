@@ -15,15 +15,10 @@
 					<h3><a ui-sref="infor" bo-text="user.username" bo-if="user.username"></a><p bo-if="!user.username">只有填写姓名才能提交需求</p></h3>
 				</dt>
 				<dd bo-if="user.province && user.province != '请选择省份'">
-					<i>地址</i><span>
-						<i bo-text="user.province"></i>
-						<i bo-text="user.city" bo-if="user.city && user.city != '请选择市'"></i>
-						<i bo-text="user.district" bo-if="user.district && user.district != '请选择县/区'"></i>
-						<i bo-text="user.address" bo-if="user.address"></i>
-					</span>
+					<i class="iconfont2">&#xe61f;</i><span><i bo-text="user.province"></i><i bo-text="user.city" bo-if="user.city && user.city != '请选择市'"></i><i bo-text="user.district" bo-if="user.district && user.district != '请选择县/区'"></i><i bo-text="user.address" bo-if="user.address"></i></span>
 				</dd>
 			</dl>
-			<a ui-sref="infor" class="editor"><i>编辑</i>编辑资料</a>			
+			<a ui-sref="infor" class="editor"><i class="iconfont2">&#xe627;</i>&nbsp;&nbsp;编辑资料</a>			
 		</div>
 		<div class="flow">
 			<ul>
@@ -144,5 +139,6 @@
 				</div>
 			</li>
 		</ul>
+		<div class="pageLoading" ng-hide="!!requirementList"></div>
 	</div>
 </div>

@@ -4,7 +4,7 @@
 		<a ng-click="goTo()" class="u-btns u-requirement f-fr">返回装修需求详情</a>
 	</div>
 	<div class="m-ct">
-		<div class="k-form release">
+		<div class="k-form release" ng-if="requiremtne.province">
 			<div class="m-boxs">
 				<div class="m-item f-cb">
 					<div class="item">
@@ -155,6 +155,7 @@
 				<input type="button" class="u-btns" ng-click="revise.changeBtn()" value="修改" />
 			</div>
 		</div>
+		<div class="pageLoading" ng-hide="!!requiremtne.province"></div>
 	</div>
 </div>
 <div class="k-motai" ng-if="revise.motaiDone">

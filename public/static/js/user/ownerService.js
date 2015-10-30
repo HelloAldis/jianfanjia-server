@@ -40,7 +40,8 @@ angular.module('services', [])
 			define : function(data){return doRequest('user/plan/final',data)},
 			plan : function(data){return doRequest('one_plan',data)},
 			score : function(data){return doRequest('user_evaluate_designer',data)},
-			contract : function(data){return doRequest('one_contract',data)}
+			contract : function(data){return doRequest('one_contract',data)},
+			change : function(data){return doRequest('user_change_ordered_designer',data)} 
 		}
 	}])
 	.factory('userFavoriteDesigner', ['$http', function($http){     //业主 list获取意向设计师列表 add添加 remove删除
@@ -55,7 +56,7 @@ angular.module('services', [])
             })
 		};
 		return {
-			list : function(){return doRequest('list')},
+			list : function(data){return doRequest('list',data)},
 			add : function(data){return doRequest('add',data)},
 			remove : function(data){return doRequest('delete',data)}
 		}
@@ -72,7 +73,7 @@ angular.module('services', [])
             })
 		};
 		return {
-			list : function(){return doRequest('list')},
+			list : function(data){return doRequest('list',data)},
 			add : function(data){return doRequest('add',data)},
 			remove : function(data){return doRequest('delete',data)}
 		}

@@ -40,7 +40,8 @@ angular.module('services', [])
 			contract : function(data){return doRequest('one_contract',data)},
 			history : function(data){return doRequest('designer_my_requirement_history_list',data)},
 			addPlan : function(data){return doRequest('designer/plan/add',data)},
-			update : function(data){return doRequest('designer/plan/update',data)}
+			update : function(data){return doRequest('designer/plan/update',data)},
+			getPlan : function(data){return doRequest('one_plan',data)}
 		}
 	}])
 	.factory('userTeam', ['$http', function($http){     //获取设计师施工团队 list列表 get获取单个 add添加 remove删除 update更新

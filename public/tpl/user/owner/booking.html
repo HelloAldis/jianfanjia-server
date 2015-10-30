@@ -1,21 +1,20 @@
 <div class="booking {{bookingSuccess ? '' : 'disabled'}}">
-	<div class="booking-tips">
-		<p class="f-fl">系统自动匹配<span ng-if="matchs.length != 0"><i ng-bind="matchs.length"></i>名</span>设计师，如果不满足您的需求可更多选择</p>
-		<a href="../design/index.html" class="f-fr u-btns u-btns-revise" ng-if="bookingSuccess" target="_blank">更多选择</a>
-	</div>
 	<div ng-if="matchs.length == 0 || favorites.length == 0 || matchs || favorites">
+		<div class="booking-tips">
+			<p class="f-fl">系统自动匹配<span ng-if="matchs.length != 0"><i ng-bind="matchs.length"></i>名</span>设计师，如果不满足您的需求可更多选择</p>
+			<a href="../design/index.html" class="f-fr u-btns u-btns-revise" ng-if="bookingSuccess" target="_blank">更多选择</a>
+		</div>
 		<h3>匹配的设计师</h3>
 		<ul class="m-designerList">
 			<li bindonce="matchs" ng-repeat="data in matchs" ng-click="selectDesign(data)" class="{{data.active ? 'active' : ''}}">
 				<div class="designer f-cb">
 					<div class="info f-fl">
-						<a bo-href-i="../design/homepage.html?{{data._id}}" class="head f-fl">
-							<img bo-src-i="/api/v2/web/thumbnail/70/{{data.imageid}}" bo-alt="data.username" bo-if="data.imageid" />
-							<img bo-src="../../static/img/user/headPic.png" bo-alt="data.username" bo-if="!data.imageid" />
+						<a bo-href-i="../design/homepage.html?{{data._id}}" class="head f-fl" target="_blank">
+							<img bo-src-i="/api/v2/web/thumbnail/70/{{data.imageid}}" bo-if="data.imageid" />
 						</a>
 						<dl class="f-fl">
 							<dt>
-								<a bo-href-i="../design/homepage.html?{{data._id}}" bo-text="data.username"></a>
+								<a bo-href-i="../design/homepage.html?{{data._id}}" bo-text="data.username" target="_blank"></a>
 								<span><i>V</i>认证设计师</span>
 							</dt>
 							<dd><i bo-text="data.city" bo-if="data.district != '请选择市'"></i><i bo-text="data.district" bo-if="data.district != '请选择县/区'"></i></dd>
@@ -34,13 +33,12 @@
 			<li bindonce="favorites" ng-repeat="data in favorites" ng-click="selectDesign(data)" class="{{data.active ? 'active' : ''}}">
 				<div class="designer f-cb">
 					<div class="info f-fl">
-						<a bo-href-i="../design/homepage.html?{{data._id}}" class="head f-fl">
-							<img bo-src-i="/api/v2/web/thumbnail/70/{{data.imageid}}" bo-alt="data.username" bo-if="data.imageid" />
-							<img bo-src="../../static/img/user/headPic.png" bo-alt="data.username" bo-if="!data.imageid" />
+						<a bo-href-i="../design/homepage.html?{{data._id}}" class="head f-fl" target="_blank">
+							<img bo-src-i="/api/v2/web/thumbnail/70/{{data.imageid}}" bo-if="data.imageid" />
 						</a>
 						<dl class="f-fl">
 							<dt>
-								<a bo-href-i="../design/homepage.html?{{data._id}}" bo-text="data.username"></a>
+								<a bo-href-i="../design/homepage.html?{{data._id}}" bo-text="data.username" target="_blank"></a>
 								<span><i>V</i>认证设计师</span>
 							</dt>
 							<dd><i bo-text="data.city" bo-if="data.district != '请选择市'"></i><i bo-text="data.district" bo-if="data.district != '请选择县/区'"></i></dd>
@@ -52,14 +50,20 @@
 					</div>
 				</div>
 			</li>
+			<li ng-show="favorites.length == 0">
+				<div class="notdesigner f-cb">
+					<p>您还没有添加意向设计师</p>
+					<div class="btns">
+						<a href="../design/index.html" class="u-btns" target="_blank">前往添加意向设计师</a>
+					</div>
+				</div>
+			</li>
 		</ul>
 		<div class="booking-btns" ng-if="bookingSuccess">
 			<a href="javascript:;" class="u-btns" ng-click="booking.bookingBtn()">预约量房</a>
 		</div>
 	</div>
-	<div class="loading" ng-if="!matchs || !favorites">
-		正在加载数据。。。
-	</div>
+	<div class="pageLoading" ng-hide="!!matchs || !!favorites"></div>
 </div>
 <div class="k-motai" ng-if="booking.motaiDone">
 	<div class="motai done">

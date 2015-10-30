@@ -16,9 +16,15 @@ angular.module('controllers', [])
 	.controller('SubController', [    //左侧高亮按钮
             '$scope','$location','userRequiremtne',function($scope, $location,userRequiremtne) {
                 $scope.location = $location;
+                var productsReg = /products\?p=/;
+                var favoriteReg = /favorite\?p=/;
                 $scope.$watch( 'location.url()', function( url ){
-                    if(url.split('/')[1] == 'requirement' || url.split('/')[1] == 'revise'){
+                    if(url.split('/')[1] == 'requirement'){
                         $scope.nav = 'requirementList'
+                    }else if(url.split('/')[1] == 'revise' || productsReg.test(url.split('/')[1])){
+                        $scope.nav = 'products'
+                    }else if(favoriteReg.test(url.split('/')[1])){
+                        $scope.nav = 'favorite'
                     }else{
                        $scope.nav = url.split('/')[1];  
                     }
@@ -40,7 +46,7 @@ angular.module('controllers', [])
                 console.log(res)
             });
             function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
-                userRequiremtne.get().then(function(res){
+                userInfo.get().then(function(res){
                     $scope.$emit('designerChildren', res.data.data);
                 },function(res){
                     console.log(res)
@@ -57,16 +63,23 @@ angular.module('controllers', [])
                 console.log(res)
             });
             $scope.onlineSetting = function(i){   //在线设置
+                var b = true;
                 if(i == 1){
                     if(confirm('您确实要设置离线，离线不能接单')){
-                        userInfo.get().then(function(res){
-                            console.log(res.data.data)
-                            $scope.designer = res.data.data;
-                        },function(res){
-                            console.log(res)
-                        });
+                        onelineStatus(i) 
                     }
+                }else if(i == 0){
+                    onelineStatus(i)
                 }
+            }
+            function onelineStatus(i){
+                userInfo.online({"new_oneline_status":i}).then(function(res){
+                    if(res.data.msg == "success"){
+                        uploadDesignerInfo();
+                    }
+                },function(res){
+                    console.log(res)
+                });
             }
     }])
     .controller('requirementListCtrl', [     //装修需求列表
@@ -231,7 +244,7 @@ angular.module('controllers', [])
                     console.log($filter('date')($scope.owenr.startDate,'yyyy年MM月dd日 HH:mm:ss'))
                     userRequiremtne.answer({
                       "requirementid": requiremtneId,
-                      "house_check_time": (new Date).getTime()+100000
+                      "house_check_time": $scope.owenr.startDate
                     }).then(function(res){    //获取我的方案列表
                         $scope.owenr.motaiAnswer = false;
                         uploadParent();
@@ -241,7 +254,7 @@ angular.module('controllers', [])
                 }
             },
             rejectOwenr : function(){    //拒绝业主提交
-                if(!$scope.owenr.rejectMessage || !$scope.owenr.message){
+                if(!$scope.owenr.rejectMessage && !$scope.owenr.message){
                     alert('请填写拒绝接单原因')
                 }else{
                      userRequiremtne.reject({
@@ -301,92 +314,116 @@ angular.module('controllers', [])
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne','userTeam',
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,userTeam) {
             console.log($stateParams.id)
-            var requiremtneId = $stateParams.id;
+            if($stateParams.id.split("&").length){
+                //更新方案
+                userRequiremtne.getPlan({'_id':$stateParams.id}).then(function(res){  //获取当前需求信息
+                    console.log(res.data.data)
+                    $scope.plan = res.data.data;
+                },function(res){
+                    console.log(res)
+                });
+            }else{
+                //创建方案
+                $scope.plan = {
+                    "userid": $stateParams.id.split("&")[1],
+                    "requirementid":$stateParams.id.split("&")[0],
+                    "duration":undefined,
+                    "total_price":undefined,
+                    "total_design_fee":undefined,
+                    "project_price_after_discount":undefined,
+                    "price_detail":[
+                        {
+                            "description": "",
+                            "price": "",
+                            "item": "基础工程"
+                        },
+                        {
+                            "description": "",
+                            "price": "",
+                            "item": "水电工程"
+                        },
+                        {
+                            "description": "",
+                            "price": "",
+                            "item": "客餐厅及走道"
+                        },
+                        {
+                            "description": "",
+                            "price": "",
+                            "item": "主卧"
+                        },
+                        {
+                            "description": "",
+                            "price": "",
+                            "item": "次卧"
+                        },
+                        {
+                            "description": "",
+                            "price": "",
+                            "item": "客卧"
+                        },
+                        {
+                            "description": "",
+                            "price": "",
+                            "item": "衣帽间"
+                        },
+                        {
+                            "description": "",
+                            "price": "",
+                            "item": "书房"
+                        },
+                        {
+                            "description": "",
+                            "price": "",
+                            "item": "厨房"
+                        },{
+                            "description": "",
+                            "price": "",
+                            "item": "主卫"
+                        },
+                        {
+                            "description": "",
+                            "price": "",
+                            "item": "客卫"
+                        },
+                        {
+                            "description": "",
+                            "price": "",
+                            "item": "阳台一"
+                        },{
+                            "description": "",
+                            "price": "",
+                            "item": "阳台二"
+                        },
+                        {
+                            "description": "",
+                            "price": "",
+                            "item": "安装工程"
+                        }
+                    ],
+                    "description":"",
+                    "manager": "",
+                    "images" : []
+                }
+                $scope.plan.user.username = $stateParams.id.split("&")[2];
+                $scope.managers = [];
+                userTeam.list().then(function(res){  //获取该设计师施工团队
+                    console.log(res.data.data)
+                    angular.forEach(res.data.data, function(value, key){
+                        this.push({
+                            id : key,
+                            name : value.manager
+                        })
+                    },$scope.managers);
+                    $scope.plan.manager = $scope.managers[0].id;
+                },function(res){
+                    console.log(res)
+                });
+            }
             var res = /^[1-9]*[1-9][0-9]*$/;
             $scope.tab = true;
             $scope.tabBtn = function(i){
                 $scope.tab = i
-            }
-            $scope.plan = {
-                "userid": '',
-                "requirementid":requiremtneId,
-                "duration":undefined,
-                "total_price":undefined,
-                "total_design_fee":undefined,
-                "project_price_after_discount":undefined,
-                "price_detail":[
-                    {
-                        "description": "",
-                        "price": "",
-                        "item": "基础工程"
-                    },
-                    {
-                        "description": "",
-                        "price": "",
-                        "item": "水电工程"
-                    },
-                    {
-                        "description": "",
-                        "price": "",
-                        "item": "客餐厅及走道"
-                    },
-                    {
-                        "description": "",
-                        "price": "",
-                        "item": "主卧"
-                    },
-                    {
-                        "description": "",
-                        "price": "",
-                        "item": "次卧"
-                    },
-                    {
-                        "description": "",
-                        "price": "",
-                        "item": "客卧"
-                    },
-                    {
-                        "description": "",
-                        "price": "",
-                        "item": "衣帽间"
-                    },
-                    {
-                        "description": "",
-                        "price": "",
-                        "item": "书房"
-                    },
-                    {
-                        "description": "",
-                        "price": "",
-                        "item": "厨房"
-                    },{
-                        "description": "",
-                        "price": "",
-                        "item": "主卫"
-                    },
-                    {
-                        "description": "",
-                        "price": "",
-                        "item": "客卫"
-                    },
-                    {
-                        "description": "",
-                        "price": "",
-                        "item": "阳台一"
-                    },{
-                        "description": "",
-                        "price": "",
-                        "item": "阳台二"
-                    },
-                    {
-                        "description": "",
-                        "price": "",
-                        "item": "安装工程"
-                    }
-                ],
-                "description":"",
-                "manager": "",
-                "images" : []
             }
             $scope.remove_price_detail = function(id){
                 $scope.plan.price_detail.splice(id,1)
@@ -428,13 +465,6 @@ angular.module('controllers', [])
                 }
                 return parseInt(num1)+parseInt(num2);
             }
-            userRequiremtne.get({"_id":requiremtneId}).then(function(res){  //获取当前需求信息
-                console.log(res)
-                $scope.requiremtne = res.data.data;
-                $scope.plan.userid = $scope.requiremtne.userid
-            },function(res){
-                console.log(res)
-            });
             $scope.$watch('plan.total_design_fee', function(newValue, oldValue, scope){
                 if(!!newValue){
                     if(res.test(newValue)){
@@ -459,19 +489,6 @@ angular.module('controllers', [])
             $scope.createQuote = function(){
                 $scope.tab = true;
             }
-            $scope.managers = [];
-            userTeam.list().then(function(res){  //获取该设计师施工团队
-                console.log(res.data.data)
-                angular.forEach(res.data.data, function(value, key){
-                    this.push({
-                        id : key,
-                        name : value.manager
-                    })
-                },$scope.managers);
-                $scope.plan.manager = $scope.managers[0].id;
-            },function(res){
-                console.log(res)
-            });
             function duration(){
                 var off = false;
                 $scope.$watch('plan.duration', function(newValue, oldValue, scope){
@@ -526,6 +543,13 @@ angular.module('controllers', [])
                     console.log(res)
                 });  
             }
+            $scope.uploadPlan = function(){
+                userRequiremtne.update($scope.plan).then(function(res){  //提交方案到业主的需求
+                    $location.path('requirement/'+$scope.plan.requirementid+"/plan")
+                },function(res){
+                    console.log(res)
+                }); 
+            }
             //$location.path('requirement/'+iasd+"/"+statusUrl[status]);
     }])
     .controller('historyListCtrl', [     //历史装修需求列表
@@ -559,6 +583,19 @@ angular.module('controllers', [])
     .controller('productsListCtrl', [     //我的作品列表
         '$scope','$rootScope','$http','$filter','$location','userProduct',
         function($scope, $rootScope,$http,$filter,$location,userProduct){
+            var dataPage = {
+                  "from": 0,
+                  "limit":10
+                },
+                current = 0;
+            window.onhashchange = function(){
+                var url = parseInt($location.url().split('=')[1]);
+                current = !isNaN(url) ? url - 1 : 0; 
+                dataPage.from = current*dataPage.limit;
+                $location.url('/products?p='+(current+1));
+                $scope.productList = undefined;
+                laod();
+            }
             function laod(){
                 userProduct.list().then(function(res){  //获取作品收藏列表
                     console.log(res.data)
@@ -568,6 +605,13 @@ angular.module('controllers', [])
                         value.dec_style = $filter('decStyleFilter')(value.dec_style);
                         value.work_type = $filter('workTypeFilter')(value.work_type);
                     })
+                    if($scope.productList.length == 0 && res.data.data.total != 0){
+                        $scope.productList = undefined;
+                        dataPage.from = current*dataPage.limit;
+                        current = 0;
+                        laod();
+                        $location.url('/products?p=1')
+                    }
                     $scope.pageing = {
                         allNumPage : res.data.data.total,
                         itemPage : 10,
@@ -581,13 +625,13 @@ angular.module('controllers', [])
                         showUbwz : false,
                         pageInfo : false,
                         callback : function (i,obj) {
-                            console.log(i)
-                            console.log(obj)
-                            //console.log($location.search())
+                            dataPage.from = i*this.itemPage;
+                            laod();
+                            current = i;
+                            $location.url('/products?p='+(parseInt(i)+1))
                             return false;
                         } 
                     }; 
-                    //console.log(res.data.total);
                 },function(res){
                     console.log(res)
                 });
@@ -629,7 +673,7 @@ angular.module('controllers', [])
                         value.dec_style = $filter('decStyleFilter')(value.dec_style);
                         value.description = $filter('limitTo')(value.description,100);
                     })
-                    if($scope.favoriteProduct.length == 0){
+                    if($scope.favoriteProduct.length == 0 && res.data.total != 0){
                         $scope.favoriteProduct = undefined;
                         dataPage.from = current*dataPage.limit;
                         current = 0;

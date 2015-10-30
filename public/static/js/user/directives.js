@@ -91,7 +91,7 @@ angular.module('directives', [])
                     myQuery : "="
             },
             restrict: 'A',
-            template: '<div class="stylePic"><div class="pic"><ul></ul></div><div class="toggle"><a href="javascript:;" class="btns prev"><i>左</i><span></span></a><a href="javascript:;" class="btns next"><i>右</i><span></span></a></div><p class="text">正在加载中。。。</p></div>',
+            template: '<div class="stylePic"><div class="pic"><ul></ul></div><div class="toggle"><a href="javascript:;" class="btns prev"><i class="iconfont2">&#xe611;</i><span></span></a><a href="javascript:;" class="btns next"><i class="iconfont2">&#xe617;</i><span></span></a></div><p class="text">正在加载中。。。</p></div>',
             link: function($scope, iElm, iAttrs, controller) {
                 var obj = angular.element(iElm),
                    oUl = obj.find('ul'),
@@ -529,6 +529,7 @@ angular.module('directives', [])
             restrict: 'A',
             template: '<div class="k-uploadbox f-cb"><div class="pic" id="create"><div class="fileBtn"><input class="hide" id="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_create"></div><div class="tips"><span><em></em><i></i></span><p>作品上传每张3M以内jpg</p></div></div><div class="item" ng-repeat="img in myQuery"><img ng-src="/api/v2/web/thumbnail/168/{{img}}" /></div></div>',
             link: function($scope, iElm, iAttrs, controller){
+              console.log($scope.myQuery)
                   var uploaderUrl = RootUrl+'api/v2/web/image/upload',
                     fileTypeExts = '*.jpg;*.png',
                     fileSizeLimit = 3072;

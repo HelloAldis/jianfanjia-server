@@ -3,30 +3,41 @@
 		<h2>意向设计师列表</h2>
 	</div>
 	<div class="m-ct booking">
-		<ul class="m-designerList">
-			<li bindonce="designers" ng-repeat="data in designers">
-				<div class="designer f-cb">
-					<div class="info f-fl">
-						<a bo-href-i="../design/homepage.html?{{data._id}}" class="head f-fl">
-							<img bo-src-i="/api/v2/web/thumbnail/70/{{data.imageid}}" bo-alt="data.username" bo-if="data.imageid" />
-							<img bo-src="../../static/img/user/headPic.png" bo-alt="data.username" bo-if="!data.imageid" />
-						</a>
-						<dl class="f-fl">
-							<dt>
-								<a bo-href-i="../design/homepage.html?{{data._id}}" bo-text="data.username"></a>
-								<span><i>V</i>认证设计师</span>
-							</dt>
-							<dd><i bo-text="data.city"></i><i bo-text="data.district"></i></dd>
-							<dd>作品数<strong bo-text="data.authed_product_count"></strong><em>|</em>预约数<strong bo-text="data.order_count"></strong><span bo-if="data.deal_done_count"><em>|</em>成交数<strong bo-text="data.deal_done_count"></strong></span></dd>
-						</dl>
-					</div>
-					<div class="select f-fr">
-						<div class="btns">
-							<a href="javascript:;" class="u-btns u-btns-revise" ng-click="cancelBtn(data._id)">取消意向</a>
+		<div ng-if="designers && designers.length != 0">
+			<ul class="m-designerList">
+				<li bindonce="designers" ng-repeat="data in designers">
+					<div class="designer f-cb">
+						<div class="info f-fl">
+							<a bo-href-i="../design/homepage.html?{{data._id}}" class="head f-fl">
+								<img bo-src-i="/api/v2/web/thumbnail/70/{{data.imageid}}" bo-if="data.imageid" />
+								<img bo-src="../../static/img/user/headPic.png" bo-alt="data.username" bo-if="!data.imageid" />
+							</a>
+							<dl class="f-fl">
+								<dt>
+									<a bo-href-i="../design/homepage.html?{{data._id}}" bo-text="data.username"></a>
+									<span><i>V</i>认证设计师</span>
+								</dt>
+								<dd><i bo-text="data.city"></i><i bo-text="data.district"></i></dd>
+								<dd>作品数<strong bo-text="data.authed_product_count"></strong><em>|</em>预约数<strong bo-text="data.order_count"></strong><span bo-if="data.deal_done_count"><em>|</em>成交数<strong bo-text="data.deal_done_count"></strong></span></dd>
+							</dl>
+						</div>
+						<div class="select f-fr">
+							<div class="btns">
+								<a href="javascript:;" class="u-btns u-btns-revise" ng-click="cancelBtn(data._id)">取消意向</a>
+							</div>
 						</div>
 					</div>
-				</div>
-			</li>
-		</ul>
+				</li>
+			</ul>
+			<div my-pageing page-object="pageing" ng-if="designers"></div>
+		</div>
+		<div class="pageLoading" ng-hide="!!designers"></div>
+	</div>
+</div>
+<div class="pageNotdate designer-pageNotdate" ng-show="designers.length == 0">
+	<h3><i class="iconfont2">&#xe614;</i></h3>
+	<p>您还没有添加意向设计师</p>
+	<div class="btns">
+		<a href="../design/index.html" class="u-btns" target="_blank">前往添加意向设计师</a>
 	</div>
 </div>

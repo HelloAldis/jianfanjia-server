@@ -3,7 +3,7 @@
 		<h2 class="f-fl">我的历史装修需求列表</h2>
 	</div>
 	<div class="m-ct">
-		<div class="m-index m-requirementList">
+		<div class="m-index m-requirementList m-historys">
 			<ul class="list">
 				<li ng-if="historys.length == 0">
 					<div class="ct">你还没有完结装修需求哟~</div>
@@ -26,21 +26,6 @@
 								<span bo-if="data.cell_unit"><i bo-text="data.cell_unit"></i>单元</span>
 								<span bo-if="data.cell_detail_number"><i bo-text="data.cell_detail_number"></i>室</span>
 							</h4>
-							<div class="progress f-fr">
-								<div class="bar">
-									<div class="in in{{data.status}}"></div>
-								</div>
-								<p ng-switch="data.status">
-									<i ng-switch-when="0">需要预约设计师</i>
-									<i ng-switch-when="1">您已经拒绝该业主</i>
-									<i ng-switch-when="2">确认设计师上门量房</i>
-									<i ng-switch-when="3">选择设计师方案</i>
-									<i ng-switch-when="4">生成并签订三方合同</i>
-									<i ng-switch-when="5">生成并签订三方合同</i>
-									<i ng-switch-when="6">设计师提交方案中</i>
-									<i ng-switch-when="7">APP管控装修工地</i>
-								</p>
-							</div>
 						</div>
 						<div class="tag">
 							<span bo-text="data.dec_style"></span>
@@ -49,9 +34,16 @@
 							<span><i bo-text="data.house_area"></i>m&sup2;</span>
 							<span><i bo-text="data.total_price"></i>万元</span>
 						</div>
+						<div class="status" ng-switch="data.plan.status">
+							<i ng-switch-when="1">已拒绝</i>
+							<i ng-switch-when="4">未中标</i>
+							<i ng-switch-when="7">未响应</i>
+							<i ng-switch-when="8">未出方案</i>
+						</div>
 					</div>
 				</li>
 			</ul>
+			<div class="pageLoading" ng-hide="!!historys"></div>
 		</div>
 	</div>
 </div>

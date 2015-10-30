@@ -3,7 +3,7 @@
 		<h2>个人信息</h2>
 	</div>
 	<div class="m-ct">
-		<div class="k-form">
+		<div class="k-form" ng-if="user">
 			<div class="m-boxs">
 				<div class="m-item f-cb">
 					<div class="item">
@@ -74,6 +74,7 @@
 				<input type="button" class="u-btns" id="owner-submit" ng-click="submitBtn()" value="保存" />
 			</div>
 		</div>
+		<div class="pageLoading" ng-hide="!!user"></div>
 	</div>
 </div>
 <div class="k-cropMask" id="j-cropMask"></div>

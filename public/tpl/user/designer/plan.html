@@ -1,7 +1,7 @@
 <div class="plans">
 	<div class="plans-tips">
 		<p class="f-fl">装修方案摘要</p>
-		<a bo-if="requirement._id && data.status == 3" bo-href-i="plans.html#/create/{{requirement._id+'&'+requirement.user._id}}" class="u-btns f-fr" target="_blank">提交新方案</a>
+		<a bo-if="requirement.plan.status == 6 || requirement.plan.status == 3" ui-sref="createPlan({id:requirement._id+'&'+requirement.user._id+'&'+requirement.user.username})" class="u-btns f-fr" target="_blank">提交新方案</a>
 	</div>
 	<ul class="m-plans" ng-if="plans.length == 0 || plans">
 		<li bindonce="plans" ng-repeat="data in plans">
@@ -37,13 +37,11 @@
 					<a bo-href-i="plans.html?pid={{data._id}}#plansMsg" class="u-btns u-btns-revise msg f-fl" target="_blank">留言 (<i bo-text="data.comment_count"></i>)</a>
 					<div class="btns f-fr">
 						<a bo-href-i="plans.html?pid={{data._id}}" class="u-btns u-btns-revise" target="_blank">预览方案</a>
-						<a bo-href-i="plans.html#/upload/{{data._id+'&'+data.requirementid}}" class="u-btns" bo-if="data.status == 3">修改方案</a>
+						<a ui-sref="uploadPlan({id:data._id})" class="u-btns" bo-if="data.status == 3">修改方案</a>
 					</div>
 				</div>
 			</div>
 		</li>
 	</ul>
-	<div class="loading" ng-if="!plans">
-		正在加载数据。。。
-	</div>
+	<div class="pageLoading" ng-hide="!!plans"></div>
 </div>

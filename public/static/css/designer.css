@@ -19,6 +19,29 @@ body{
 	color: #fe7004;
 	text-decoration: underline;
 }
+.pageLoading{
+	width: 100%;
+	height: 350px;
+	background:url(../img/user/loading.gif) center center no-repeat;
+}
+.pageNotdate{
+	width: 100%;
+	height: 350px;
+	text-align: center;
+}
+.designer-pageNotdate h3{
+	padding: 50px 0 36px;
+}
+.designer-pageNotdate h3 .iconfont2{
+	font-size: 64px;
+	color: #c0c1c3;
+}
+.designer-pageNotdate p{
+	padding-bottom: 30px;
+	font-size: 16px;
+	line-height: 30px;
+	color: #999;
+}
 /*侧边栏导航*/
 .g-sd .m-sdc{
 	width: 258px;
@@ -38,6 +61,11 @@ body{
 	line-height: 64px;
 	font-weight: bold;
 	color: #383d48;
+}
+.g-sd h2 a .iconfont2{
+	margin-right: 10px;
+	font-size: 20px;
+	font-weight: normal;
 }
 .g-sd .active a{
 	color: #fe7004;
@@ -690,6 +718,41 @@ body{
 	background-color: #f6f6f6;
 	border-color: #ccc;
 }
+.m-index .onlineSetting{
+	position: absolute;
+	left:19px;
+	top:19px;
+}
+.m-index .onlineSetting h4{
+	width: 114px;
+	height: 34px;
+	line-height: 34px;
+	cursor: pointer;
+	text-align: center;
+	color: #fff;
+	border-radius: 4px;
+	display: none;
+}
+.m-index .onlineSetting h4 .iconfont2{
+	display: inline-block;
+	margin-right: 10px;
+	font-size: 30px;
+}
+.m-index .onlineSetting h4 span{
+	display: inline-block;
+	vertical-align: top;
+}
+.m-index .onlineHide .busy,.m-index .onlineShow .online{
+	display: block;
+}
+.m-index .onlineSetting h4.online{
+	border: 1px solid #30bf30;
+	color: #30bf30;
+}
+.m-index .onlineSetting h4.busy{
+	border: 1px solid #b4b8be;
+	color: #b4b8be;
+}
 .m-index .info dt .head{
 	display: block;
 	width: 120px;
@@ -864,6 +927,22 @@ body{
 .m-index .list .btns{
 	text-align: center;
 }
+.m-index .authen p{
+	height: 120px;
+	padding-top: 8px;
+	font-size: 20px;
+	line-height: 120px;
+	text-align: center;
+	color: #999;
+}
+.m-index .authen p strong{
+	margin: 0 2px;
+	color: #383d48;
+}
+.m-index .authen .btns{
+	padding-bottom: 50px;
+	text-align: center;
+}
 /*发布需求*/
 .release .work-tips{
 	padding-top: 5px;
@@ -985,7 +1064,11 @@ body{
 .m-requirementList .list{
 
 }
+.m-requirementList .btns{
+	padding-bottom: 30px;
+}
 .m-requirementList .list li{
+	position: relative;
 	padding: 0;
 	cursor: pointer;
 	border-top: none;
@@ -1006,6 +1089,20 @@ body{
 .m-requirementList .list li:first-child .boxs{
 	border-top: none;
 }
+.m-requirementList li .status{
+	position: absolute;
+	right:19px;
+	top:33px;
+}
+.m-requirementList li .status i{
+	display: inline-block;
+	padding: 0 19px;
+	font-size: 14px;
+	line-height: 36px;
+	color: #999;
+	border: 1px solid #999;
+	border-radius: 2px;
+}
 .m-requirementList .list .tag span{
 	display: inline-block;
 	vertical-align: middle;
@@ -1015,6 +1112,9 @@ body{
 	color: #fe7004;
 	border: 1px solid #fe7004;
 }
+.m-historys .list .tag{
+	padding-top: 10px;
+}  
 .u-requirement{
 	min-width: 126px;
 	padding: 0;
@@ -1818,12 +1918,21 @@ body{
 	background: none;
 	border-bottom: 1px solid #e5e5e5;
 }
-.plans-ct .quotes .table .td1{
-	width: 240px;
-	padding-left: 39px;
+.plans-ct .quotes .table .title th{
+	text-align: left;
 }
-.plans-ct .quotes .table .td2,.plans-ct .quotes .table .td3{
-	width: 425px;
+.plans-ct .quotes .table .td1{
+	width: 150px;
+	padding-left: 19px;
+}
+.plans-ct .quotes .table .td2{
+	width: 320px;
+}
+.plans-ct .quotes .table .td3{
+	width: 380px;
+}
+.plans-ct .quotes .table .td4{
+	width: 49px;
 }
 .plans-ct .quotes .table span{
 	padding-left: 0;
@@ -1899,18 +2008,21 @@ body{
 }
 .plans-ct .quotes .price{
 	width: auto;
-	padding: 18px 39px 20px;
+	padding: 19px;
 	background-color: #f0f8fb;
 	border-top: 1px dashed #e3e3e3;
 	border-bottom: 1px dashed #e3e3e3;
 }
 .plans-ct .quotes .price dl{
-	width: 280px;
+	width: 190px;
 	padding: 0;
 	font-size: 14px;
 	line-height: 32px;
 	color: #999;
 	border-top: none;
+}
+.plans-ct .quotes .price dl.f-fr{
+	width: auto;
 }
 .plans-ct .quotes .price dd{
 	height: 32px;
@@ -1925,6 +2037,7 @@ body{
 	color: #999;
 }
 .plans-ct .quotes .price dd span strong{
+	margin-left: 0;
 	font-size: 30px;
 	color: #fe7004;
 }
@@ -2130,6 +2243,9 @@ body{
 	color: #75757f;
 	background-color: #f9f9f9;
 }
+.authBox li span.icon .iconfont2{
+	font-size: 20px;
+}
 .authBox li span.name{
 	width: 165px;
 	padding-left: 40px;
@@ -2199,25 +2315,4 @@ body{
 }
 .m-productList li h4 a:hover,.m-productList li:hover h4 a{
 	color: #fe7004;
-}
-
-/*分页*/
-.k-pageing{
-	height: 40px;
-	padding: 40px 0;
-	text-align: center;
-}
-.k-pageing .btns{
-	display: inline-block;
-	padding: 0 22px;
-	line-height: 38px;
-	margin-left: -1px;
-	font-size: 14px;
-	color: #999;
-	border: 1px solid #e5e5e5;
-	background-color: #fff;
-}
-.k-pageing .btns.current,.k-pageing .btns:hover{
-	color: #61687a;
-	background-color: #f9f9f9;
 }

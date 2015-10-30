@@ -23,9 +23,6 @@
 				</dl>
 			</div>
 		</div>
-		<div class="tips" ng-if="owenr.motaiAnswer">
-			
-		</div>
 		<div class="response answer" ng-if="owenr.motaiAnswer">
 			<div class="tips">
 				<p>请24小时内与业主沟通量房时间，并响应业主预约，过期视为放弃。</p>
@@ -85,7 +82,7 @@
 		<div class="select" ng-if="owenr.response && !(requirement.plan.status == 5 || requirement.plan.status == 1 || requirement.plan.status == 2 )">
 			<div ng-if="requirement.plan.status == 0">
 				<p>请24小时内与业主沟通量房时间，并响应业主预约，过期视为放弃。</p>
-				<div class="btns" ng-if="requirement.status == 1 || requirement.status == 0">
+				<div class="btns">
 					<a href="javascript:;" class="u-btns u-btns-revise" ng-click="owenr.rejectBtn()">&nbsp;&nbsp;拒绝&nbsp;&nbsp;</a>
 					<a href="javascript:;" class="u-btns" ng-click="owenr.answerBtn()">&nbsp;&nbsp;响应&nbsp;&nbsp;</a>
 				</div>
@@ -93,7 +90,7 @@
 			<div>
 				<div class="btns" ng-if="requirement.plan.status == 6 || requirement.plan.status == 3">
 					<h4>业主已确认量房，请提交装修方案</h4>
-					<a ui-sref="createPlan({id:requirement._id})" class="u-btns" target="_blank">提交方案</a>
+					<a ui-sref="createPlan({id:requirement._id+'&'+requirement.user._id+'&'+requirement.user.username})" class="u-btns" target="_blank">提交方案</a>
 					<p>您可以提交多套方案</p>
 				</div>
 			</div>

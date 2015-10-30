@@ -17,6 +17,8 @@ angular.module('controllers', [])
                         console.log(res)
                     }); 
                 }
+                var designerReg = /designer\?p=/;
+                var favoriteReg = /favorite\?p=/;
                 $scope.location = $location;
                 $scope.$watch( 'location.url()', function( url ){
                     if(url.split('/')[1] == 'requirement'){
@@ -26,6 +28,10 @@ angular.module('controllers', [])
                     }else if(url.split('/')[1] == 'requirementList' || url.split('/')[1] == 'index'){
                         requiremtne();
                         $scope.nav = url.split('/')[1];
+                    }else if(favoriteReg.test(url.split('/')[1])){
+                        $scope.nav = 'favorite'
+                    }else if(designerReg.test(url.split('/')[1])){
+                        $scope.nav = 'designer'
                     }else{
                        $scope.nav = url.split('/')[1];  
                     }
@@ -308,8 +314,13 @@ angular.module('controllers', [])
             $rootScope.requiremtneId = $stateParams.id;
             //tab栏按钮高亮
             $scope.location = $location;
+            var bookingReg = /booking/;
             $scope.$watch( 'location.url()', function( url ){
-                $scope.tab = url.split('/')[3];
+                if(bookingReg.test(url.split('/')[3])){
+                    $scope.tab = 'booking';
+                }else{
+                    $scope.tab = url.split('/')[3]
+                }
             });
             userRequiremtne.get({"_id":$stateParams.id}).then(function(res){
                 $scope.requirement = res.data.data;
@@ -326,18 +337,14 @@ angular.module('controllers', [])
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne){
             var requiremtneId = $stateParams.id;
             $scope.$on('requirementParent',function(event, data){    //子级接收 
-                console.log(data.status)
                 if(data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 4 || data.status == 5 || data.status == 6 || data.status == 7){  //预约量房、确认量房
                     myBooking()
-                    console.log('预约量房')
                 }
                 if(data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5){  //选择方案
                     myPlan()
-                    console.log('选择方案')
                 }
                 if(data.status == 7 || data.status == 4 || data.status == 5){   //生成合同
                     myContract()
-                    console.log('生成合同')
                 }
             })
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
@@ -406,10 +413,26 @@ angular.module('controllers', [])
                                         }
                                     })
                                 })
+                                //检测是否可以点击
                                 $scope.bookingSuccess = $scope.ordersData.length < 3 ? true : false; 
                                 // 点击设计师
                                 $scope.selectDesignOff = false;
                                 $scope.selectDesign = function(data){
+                                    if($location.url().split('/')[3].split("?")[1]){
+                                        data.active = true;
+                                        userRequiremtne.change({
+                                          "requirementid":requiremtneId,
+                                          "old_designerid":$location.url().split('/')[3].split("?")[1],
+                                          "new_designerid":data._id
+                                        }).then(function(res){    //更换设计师
+                                            if(res.data.msg == "success"){
+                                                myBooking()
+                                                $location.url('requirement/'+requiremtneId+"/score");
+                                            }
+                                        },function(res){
+                                            console.log(res)
+                                        });
+                                    }
                                     if($scope.ordersData.length > 2){
                                         return ;
                                     }
@@ -592,55 +615,133 @@ angular.module('controllers', [])
    .controller('favoriteProductCtrl', [     //作品收藏列表
         '$scope','$rootScope','$http','$filter','$location','userFavoriteProduct',
         function($scope, $rootScope,$http,$filter,$location,userFavoriteProduct){
+            var dataPage = {
+                  "from": 0,
+                  "limit":4
+                },
+                current = 0;
+            window.onhashchange = function(){
+                var url = parseInt($location.url().split('=')[1]);
+                current = !isNaN(url) ? url - 1 : 0; 
+                dataPage.from = current*dataPage.limit;
+                $location.url('/favorite?p='+(current+1));
+                $scope.favoriteProduct = undefined;
+                laod();
+            }
             function laod(){
-                userFavoriteProduct.list({
-                    "from": 0,
-                    "limit":10000
-                }).then(function(res){  //获取作品收藏列表
-                    $scope.products = res.data.products;
-                    angular.forEach($scope.products, function(value, key){
+                userFavoriteProduct.list(dataPage).then(function(res){  //获取作品收藏列表
+                    $scope.favoriteProduct = res.data.products;
+                    angular.forEach($scope.favoriteProduct, function(value, key){
                         value.house_type = $filter('houseTypeFilter')(value.house_type);
                         value.dec_style = $filter('decStyleFilter')(value.dec_style);
                         value.description = $filter('limitTo')(value.description,100);
                     })
-                    //console.log(res.data.total);
+                    if($scope.favoriteProduct.length == 0 && res.data.total != 0){
+                        $scope.favoriteProduct = undefined;
+                        dataPage.from = current*dataPage.limit;
+                        current = 0;
+                        laod();
+                        $location.url('/favorite?p=1')
+                    }
+                    $scope.pageing = {
+                        allNumPage : res.data.total,
+                        itemPage : dataPage.limit,
+                        showPageNum : 5,
+                        endPageNum : 3,
+                        currentPage : current,
+                        linkTo:"#/favorite?p=__id__",
+                        prevText:"上一页",
+                        nextText:"下一页",
+                        ellipseText:"...",
+                        showUbwz : false,
+                        pageInfo : false,
+                        callback : function (i,obj) {
+                            dataPage.from = i*this.itemPage;
+                            laod();
+                            current = i;
+                            $location.url('/favorite?p='+(parseInt(i)+1))
+                            return false;
+                        }
+                    }
                 },function(res){
                     console.log(res)
                 });
             }
             $scope.deleteFavorite = function(id){
-                userFavoriteProduct.remove({'_id':id}).then(function(res){  //获取意向设计师列表
-                    if(res.data.msg === "success"){
-                       laod(); 
-                    }
-                },function(res){
-                    console.log(res)
-                });
+                if(confirm('您确定要删除吗？')){
+                    userFavoriteProduct.remove({'_id':id}).then(function(res){ 
+                        if(res.data.msg === "success"){
+                            $scope.favoriteProduct = undefined;
+                            laod(); 
+                        }
+                    },function(res){
+                        console.log(res)
+                    });
+                }
             }
             laod()
     }])
     .controller('favoriteDesignerCtrl', [     //意向设计师列表
         '$scope','$rootScope','$http','$filter','$location','userFavoriteDesigner',
         function($scope, $rootScope,$http,$filter,$location,userFavoriteDesigner){
+            var dataPage = {
+                  "from": 0,
+                  "limit":10
+                },
+                current = 0;
+            window.onhashchange = function(){
+                var url = parseInt($location.url().split('=')[1]);
+                current = !isNaN(url) ? url - 1 : 0; 
+                dataPage.from = current*dataPage.limit;
+                $location.url('/designer?p='+(current+1));
+                $scope.designers = undefined;
+                laod();
+            }
             function laod(){
-                userFavoriteDesigner.list({
-                    "from": 0,
-                    "limit":10000
-                }).then(function(res){  //获取意向设计师列表
+                userFavoriteDesigner.list(dataPage).then(function(res){  //获取意向设计师列表
                     $scope.designers = res.data.data.designers;
-                    //console.log(res.data.data.total)
+                    if($scope.designers.length == 0 && res.data.data.total != 0){
+                        $scope.designers = undefined;
+                        dataPage.from = current*dataPage.limit;
+                        current = 0;
+                        laod();
+                        $location.url('/designer?p=1')
+                    }
+                    $scope.pageing = {
+                        allNumPage : res.data.data.total,
+                        itemPage : dataPage.limit,
+                        showPageNum : 5,
+                        endPageNum : 3,
+                        currentPage : current,
+                        linkTo:"#/designer?p=__id__",
+                        prevText:"上一页",
+                        nextText:"下一页",
+                        ellipseText:"...",
+                        showUbwz : false,
+                        pageInfo : false,
+                        callback : function (i,obj) {
+                            dataPage.from = i*this.itemPage;
+                            laod();
+                            current = i;
+                            $location.url('/designer?p='+(parseInt(i)+1))
+                            return false;
+                        }
+                    }
                 },function(res){
                     console.log(res)
                 });
             }
             $scope.cancelBtn = function(id){
-                userFavoriteDesigner.remove({'_id':id}).then(function(res){  //获取意向设计师列表
-                    if(res.data.msg === "success"){
-                       laod(); 
-                    }
-                },function(res){
-                    console.log(res)
-                });
+                if(confirm('您确定要删除吗？')){
+                    userFavoriteDesigner.remove({'_id':id}).then(function(res){  //获取意向设计师列表
+                        if(res.data.msg === "success"){
+                            $scope.designers = undefined;
+                            laod(); 
+                        }
+                    },function(res){
+                        console.log(res)
+                    });
+                }
             }
             laod()
     }])

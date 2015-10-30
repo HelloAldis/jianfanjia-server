@@ -19,6 +19,29 @@ body{
 	color: #fe7004;
 	text-decoration: underline;
 }
+.pageLoading{
+	width: 100%;
+	height: 350px;
+	background:url(../img/user/loading.gif) center center no-repeat;
+}
+.pageNotdate{
+	width: 100%;
+	height: 350px;
+	text-align: center;
+}
+.designer-pageNotdate h3{
+	padding: 50px 0 36px;
+}
+.designer-pageNotdate h3 .iconfont2{
+	font-size: 64px;
+	color: #c0c1c3;
+}
+.designer-pageNotdate p{
+	padding-bottom: 30px;
+	font-size: 16px;
+	line-height: 30px;
+	color: #999;
+}
 /*侧边栏导航*/
 .g-sd .m-sdc{
 	width: 258px;
@@ -38,6 +61,11 @@ body{
 	line-height: 64px;
 	font-weight: bold;
 	color: #383d48;
+}
+.g-sd h2 a .iconfont2{
+	margin-right: 10px;
+	font-size: 20px;
+	font-weight: normal;
 }
 .g-sd .active a{
 	color: #fe7004;
@@ -71,6 +99,7 @@ body{
 }
 .g-mn{
 	width: 920px;
+	min-height: 420px;
 }
 .g-mn .main{
 	background-color: #fff;
@@ -898,12 +927,21 @@ body{
 }
 .k-stylePic .toggle .btns i{
 	position: absolute;
+	left:0;
+	top:0;
+	z-index: 1;
 	width: 100%;
 	height: 100%;
+	line-height: 35px;
+	text-align: center;
+	color: #fff;
 }
 /*需求列表*/
 .m-requirementList .list{
 
+}
+.m-requirementList .btns{
+	padding-bottom: 30px;
 }
 .m-requirementList .list li{
 	padding: 0;
@@ -1056,6 +1094,15 @@ body{
 }
 .booking.disabled .m-designerList li,.score .m-designerList li{
 	cursor:default
+}
+.booking .m-designerList .notdesigner{
+	text-align: center;
+	cursor:default
+}
+.booking .m-designerList .notdesigner p{
+	padding-bottom: 20px;
+	font-size: 16px;
+	line-height: 40px;
 }
 .m-designerList .info .head{
 	width: 70px;
@@ -1447,9 +1494,8 @@ body{
 }
 .designer .booking .m-designerList li{
 	cursor: default;
-}
-.designer .booking .m-designerList li:first-child{
 	border-top: none;
+	border-bottom: 1px solid #e6e6e6;
 }
 .designer .m-designerList li:hover .select{
 	display: block;

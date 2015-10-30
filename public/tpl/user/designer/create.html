@@ -14,7 +14,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-name">业主姓名</label>
 							<div class="u-inp">
-								<div class="inp phone" ng-bind="requiremtne.user.username"></div>
+								<div class="inp phone" ng-bind="plan.user.username"></div>
 							</div>
 						</div>
 					</div>
@@ -88,7 +88,7 @@
 							<td class="td1"><span bo-text="list.item"></span></td>
 							<td class="td2"><input type="text" name="" id="" ng-model="list.price" ng-keyup="computePrice()" check-number /></td>
 							<td class="td3"><input type="text" name="" id="" ng-model="list.description" /></td>
-							<td class="td4"><a href="javascript:;" ng-click="remove_price_detail($index)">删除</a></td>
+							<td class="td4"><a href="javascript:;" ng-click="remove_price_detail($index)"><i class="iconfont2">&#xe619;</i></a></td>
 						</tr>
 						<tr class="tbody">
 							<td>&nbsp;&nbsp;&nbsp;</td>
@@ -97,7 +97,7 @@
 					<tfoot>
 						<tr class="create">
 							<td>&nbsp;&nbsp;&nbsp;</td>
-							<td colspan="2"><input type="text" ng-model="add_price_detail_name" /><a href="javascript:;" ng-click="add_price_detail()">添加</a></td>
+							<td colspan="2"><input type="text" ng-model="add_price_detail_name" /><a href="javascript:;" ng-click="add_price_detail()"><i class="iconfont2">&#xe603;</i></a></td>
 							<td>&nbsp;&nbsp;&nbsp;</td>
 						</tr>
 						<tr class="footer">

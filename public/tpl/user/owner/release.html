@@ -3,7 +3,7 @@
 		<h2 class="f-fl">提交装修需求</h2>
 	</div>
 	<div class="m-ct">
-		<div class="k-form release">
+		<div class="k-form release" ng-if="requiremtne.province">
 			<div class="m-boxs">
 				<div class="m-item f-cb">
 					<div class="item">
@@ -154,6 +154,7 @@
 				<input type="button" class="u-btns" id="owner-submit" ng-click="release.submitBtn()" value="提交" />
 			</div>
 		</div>
+		<div class="pageLoading" ng-hide="!!requiremtne.province"></div>
 	</div>
 </div>
 <div class="k-motai" ng-if="release.motaiDone">

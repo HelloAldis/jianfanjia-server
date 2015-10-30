@@ -9,12 +9,9 @@
 <div class="main">
 	<div class="m-index" bindonce="designer">
 		<div class="info f-cb">
-			<div classs="onlineSetting" bo-if="designer.online_status == 0">
-				<h4><i></i>在线<span></span></h4>
-				<ul>
-					<li ng-click="onlineSetting(0)">在线</li>
-					<li ng-click="onlineSetting(1)">离线</li>
-				</ul>
+			<div class="onlineSetting" ng-class="{onlineShow : designer.online_status == 0,onlineHide : designer.online_status == 1}">
+				<h4 class="online" ng-click="onlineSetting(1)"><i class="iconfont2">&#xe62d;</i><span>在线</span></h4>
+				<h4 class="busy" ng-click="onlineSetting(0)"><i class="iconfont2">&#xe62e;</i><span>离线</span></h4>
 			</div>
 			<dl>
 				<dt>
@@ -36,7 +33,7 @@
 					</span>
 				</dd>
 			</dl>
-			<a ui-sref="service" class="editor" bo-if="designer.online_status == 0"><i>编辑</i>接单服务</a>			
+			<a ui-sref="service" class="editor" ng-if="designer.online_status == 0"><i class="iconfont2">&#xe627;</i>&nbsp;&nbsp;接单服务</a>			
 		</div>
 		<div class="flow">
 			<ul>
@@ -75,22 +72,23 @@
 				</li>
 			</ul>
 		</div>
-		<div class="authen" bo-if="(designer.auth_type == 0 || designer.auth_type == 0 ) && designer.authed_product_count < 3">
-			<div class="inofTips"><i></i>完成基本资料认证及作品认证（至少3套）的设计师才可以接单</div>
+		<div class="authen" ng-if="(designer.auth_type == 0 || designer.auth_type == 0 ) && designer.authed_product_count < 3">
+			<div class="inofTips"><i class="iconfont2">&#xe612;</i>完成基本资料认证及作品认证（至少3套）的设计师才可以接单</div>
 			<p>
-				<span bo-if="designer.auth_type == 0">欢迎来到简繁家，请完善您的基本资料</span>
-				<span bo-if="designer.auth_type == 2 && designer.authed_product_count == 0">您有<i bo-text="designer.authed_product_count"></i>套作品通过认证，请继续发布作品</span>
+				<span ng-if="designer.auth_type == 0">欢迎来到简繁家，请完善您的基本资料</span>
+				<span ng-if="designer.auth_type == 2 && designer.authed_product_count == 0">您有<strong bo-text="designer.authed_product_count"></strong>套作品通过认证，请继续发布作品</span>
 			</p>
 			<div class="btns">
-				<a class="u-btns" ui-sref="infor">提交资料</a>
-				<a class="u-btns" ui-sref="release">发布作品</a>
+				<a class="u-btns" ng-if="designer.auth_type == 0" ui-sref="infor">提交资料</a>
+				<a class="u-btns" ng-if="designer.auth_type == 2 && designer.authed_product_count == 0" ui-sref="release">发布作品</a>
 			</div>
 		</div>
 		<ul class="list">
-			<li ng-if="notRequiremtnes">
-				<div class="ct">你还没有发布装修需求哟~</div>
+			<li ng-if="requirementList.length == 0 && ((designer.auth_type == 2 || designer.auth_type == 2 ) && designer.authed_product_count > 3)">
+				<div class="ct">您还没有装修需求哟，修改接单资料和上传作品，更容易获得业主预约</div>
 				<div class="btns">
-					<a ui-sref="release" class="u-btns">发布装修需求</a>
+					<a ui-sref="release" class="u-btns">前往修改</a>
+					<a ui-sref="release" class="u-btns">上传作品</a>
 				</div>
 			</li>
 			<li bindonce="requirementList" ng-repeat="data in requirementList | limitTo : 3">
@@ -116,6 +114,7 @@
 							<i ng-switch-when="1">等待响应预约</i>
 							<i ng-switch-when="2">确认设计师上门量房</i>
 							<i ng-switch-when="3">选择设计师方案</i>
+							<i ng-switch-when="5">已经APP配置工地</i>
 							<i ng-switch-when="4">生成并签订三方合同</i>
 							<i ng-switch-when="6">设计师提交方案中</i>
 							<i ng-switch-when="7">APP管控装修工地</i>
@@ -127,8 +126,8 @@
 						请24小时内与业主沟通量房时间，并响应业主预约，过期视为放弃。
 					</p>
 					<p ng-switch-when="1">
-						您已经预约了3名设计师，请等待设计师响应。<br />
-						设计师将在24小时内响应您的需求。如果超过时间未响应，您可以从新预约设计师。
+						业主向您发起一个量房预约，请等待您响应。<br />
+						请在24小时内响应业主需求，过期视为放弃。
 					</p>
 					<p ng-switch-when="2">
 						设计师的量房时间已过，请确认设计师是否上门量房。<br />
