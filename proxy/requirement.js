@@ -28,13 +28,12 @@ exports.addToSet = function (query, addToSet, option, callback) {
   }, option, callback);
 }
 
-exports.addToSetAndPull = function (query, addToSet, pull, option, callback) {
+exports.pull = function (query, pull, option, callback) {
   Requirement.findOneAndUpdate(query, {
-    '$addToSet': addToSet,
+    $pull: pull,
     $set: {
       last_status_update_time: new Date().getTime(),
     },
-    $pull: pull,
   }, option, callback);
 }
 

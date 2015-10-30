@@ -53,7 +53,9 @@ var config = {
   index_top_designer_count: 7, //首页设计师个数
   index_top_share_count: 6, //首页的直播个数
   designer_respond_user_order_expired: 60 * 24, //分钟，设计师多久内必须相应业主
+  interval_scan_expired_respond: 1, //分钟，扫描过期响应间隔
   designer_upload_plan_expired: 60 * 24 * 5, //分钟，设计师多久内必须上传方案
+  interval_scan_expired_upload_plan: 1, //分钟, 扫描过期上传方案间隔
 
   duration_60: 60, //装修流程60天模版
   duration_60_kai_gong: 1, //开工
