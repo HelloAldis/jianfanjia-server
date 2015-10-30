@@ -226,20 +226,7 @@ exports.user_change_ordered_designer = function (req, res, next) {
 
     Plan.findOne(json, null, ep.done(function (plan) {
       if (!plan) {
-        Plan.newAndSave(json, ep.done(function (plan_indb) {
-          var planid = plan_indb._id;
-          schedule.scheduleJob(moment().add(config.designer_respond_user_order_expired,
-            'm').toDate(), function () {
-            Plan.setOne({
-              _id: planid,
-              status: type.plan_status_not_respond,
-            }, {
-              status: type.plan_status_designer_no_respond_expired,
-              last_status_update_time: new Date()
-                .getTime(),
-            }, null, function () {});
-          });
-        }));
+        Plan.newAndSave(json, ep.done(function (plan_indb) {}));
 
         Designer.incOne({
           _id: new_designerid
@@ -267,14 +254,18 @@ exports.user_change_ordered_designer = function (req, res, next) {
       }
     }));
 
-    Requirement.addToSetAndPull({
+    Requirement.pull({
       _id: requirementid,
-    }, {
-      order_designerids: new_designerid,
     }, {
       order_designerids: old_designerid
     }, null, ep.done(function () {
-      res.sendSuccessMsg();
+      Requirement.addToSet({
+        _id: requirementid,
+      }, {
+        order_designerids: new_designerid,
+      }, null, ep.done(function () {
+        res.sendSuccessMsg();
+      }));
     }));
   }));
 }
