@@ -28,6 +28,7 @@ var helmet = require('helmet');
 //防治跨站请求伪造攻击
 var csurf = require('csurf');
 var api_statistic = require('./middlewares/api_statistic');
+require('./common/job');
 
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');

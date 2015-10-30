@@ -15,7 +15,6 @@ var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../../type');
 var async = require('async');
 var sms = require('../../../common/sms');
-var schedule = require('node-schedule');
 var moment = require('moment');
 var authMiddleWare = require('../../../middlewares/auth');
 
@@ -158,21 +157,7 @@ exports.order_designer = function (req, res, next) {
         }, null, ep.done(function (plan) {
 
           if (!plan) {
-            Plan.newAndSave(json, ep.done(function (plan_indb) {
-              var planid = plan_indb._id;
-              var date = moment().add(config.designer_respond_user_order_expired,
-                'm').toDate();
-              schedule.scheduleJob(date, function () {
-                Plan.setOne({
-                  _id: planid,
-                  status: type.plan_status_not_respond,
-                }, {
-                  status: type.plan_status_designer_no_respond_expired,
-                  last_status_update_time: new Date()
-                    .getTime(),
-                }, null, function () {});
-              });
-            }));
+            Plan.newAndSave(json, ep.done(function (plan_indb) {}));
 
             Designer.incOne({
               _id: designerid
@@ -315,18 +300,6 @@ exports.designer_house_checked = function (req, res, next) {
       }, {
         status: type.requirement_status_housecheck_no_plan
       }, null, function (err) {});
-
-      var planid = plan._id;
-      schedule.scheduleJob(moment().add(config.designer_upload_plan_expired,
-        'm').toDate(), function () {
-        Plan.setOne({
-          _id: planid,
-          status: type.plan_status_designer_housecheck_no_plan,
-        }, {
-          status: type.plan_status_designer_no_plan_expired,
-          last_status_update_time: new Date().getTime(),
-        }, null, function () {});
-      });
 
       Designer.findOne({
         _id: designerid
