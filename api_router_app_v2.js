@@ -36,6 +36,8 @@ var upload = multer({
 });
 
 //未登录用户拥有的功能
+router.post('/send_verify_code', limit.peripperday('send_verify_code', config.send_verify_code_per_day),
+  signWeb.sendVerifyCode); //发送验证码
 router.post('/feedback', feedback.add); //游客反馈
 router.get('/device/android_build_version', device.android_build_version); //获取android信息
 router.post('/user_login', sign.user_login); //业主手机端登录
