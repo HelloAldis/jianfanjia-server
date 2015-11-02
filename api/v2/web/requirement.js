@@ -42,37 +42,38 @@ exports.designer_my_requirement_list = function (req, res, next) {
       ],
     },
   }, null, ep.done(function (plans) {
-    plans = _.uniq(plans, function (plan) {
-      return plan._id.toString();
-    });
-    var requirementids = _.pluck(plans, 'requirementid');
-    if (requirementids && requirementids.length > 0) {
-      Requirement.find({
-        _id: {
-          $in: requirementids,
-        }
-      }, null, null, ep.done(function (requirements) {
-        async.mapLimit(requirements, 3, function (requirement,
-          callback) {
-          requirement = requirement.toObject();
-          User.findOne({
-            _id: requirement.userid
-          }, {
-            username: 1,
-            phone: 1,
-            imageid: 1
-          }, function (err, user) {
-            requirement.user = user;
-            callback(err, requirement);
-          });
-        }, ep.done(function (requirements) {
-          res.sendData(requirements);
+    if (plans && plans.length > 0) {
+      async.mapLimit(plans, 3, function (plan, callback) {
+        async.parallel({
+          requirement: function (callback) {
+            Requirement.findOne({
+              _id: plan.requirementid,
+            }, null, callback);
+          },
+          user: function (callback) {
+            User.findOne({
+              _id: plan.userid
+            }, {
+              username: 1,
+              phone: 1,
+              imageid: 1
+            }, callback);
+          }
+        }, ep.done(function (result) {
+          var requirement = result.requirement.toObject();
+          requirement.user = result.user;
+          requirement.plan = plan;
+          callback(null, requirement);
         }));
+
+      }, ep.done(function (requirements) {
+        res.sendData(requirements);
       }));
     } else {
-      res.sendData([]);
+      return res.sendData([]);
     }
   }));
+
 }
 
 exports.designer_my_requirement_history_list = function (req, res, next) {
