@@ -1,100 +1,49 @@
 <div class="main">
 	<div class="m-tt">
-		<h2>个人信息</h2>
+		<h2>邮箱认证</h2>
 	</div>
 	<div class="m-ct">
-		<div class="k-form">
-			<div class="m-boxs">
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab" for="owner-name">姓&nbsp;&nbsp;&nbsp;名：</label>
-						<div class="u-inp">
-							<div class="inp">
-								<input type="text" class="input" ng-model="user.username" />
-							</div>
-						</div>
+		<div class="m-phone" ng-if="designer">
+			<div class="todo hide" ng-if="designer.email_auth_type == 0 || designerEmail.status">
+				<form name="email" ng-submit="designerEmail.send(email.$valid)" novalidate>
+					<div class="email">
+						<span><i class="iconfont2">&#xe615;</i><input type="text" ng-model="designer.email" required ng-pattern="/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/" /></span>
 					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab" for="owner-sex">性&nbsp;&nbsp;&nbsp;别：</label>
-						<div class="u-inp">
-							<div class="radio">
-								<label ng-click="radiosex(sex.id)" ng-repeat="sex in usersex"><span class="{{sex.cur}}"></span>{{sex.name}}</label>
-							</div>
-						</div>
+					<div class="btns">
+						<input type="submit" class="u-btns" ng-class="{invalid : email.$invalid}" ng-disabled="email.$invalid" value="发送验证邮件" />
 					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab" for="owner-email">电子邮箱：</label>
-						<div class="u-inp">
-							<div class="inp">
-								<input type="text" class="input" ng-model="user.email" />
-							</div>
-						</div>
-					</div>
-					<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-					<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-					<p class="tips-info hide"></p>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab">手机号码：</label>
-						<div class="u-inp">
-							<div class="inp phone" ng-bind="user.phone"></div>
-						</div>
-					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab" for="dec_area">所在地区：</label>
-						<div class="u-inp">
-							<div my-cities my-list="cities_list" my-province="user.province" my-city="user.city" my-district="user.district" ng-if="user.province"></div>				
-						</div>
-					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab" for="owner-addr">邮寄详细地址：</label>
-						<div class="u-inp">
-							<div class="inp address">
-								<input type="text" class="input" ng-model="user.address" />
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="k-uppicbox">
-					<div my-upload my-query="user.imageid" ng-if="user.province"></div>
-					<p>请上传大于300*300头像照片<br />1M以内jpg/png格式</p>
-				</div>
-				<div class="m-item m-error-info hide" id="error-info"></div>
+					<p>请点击验证邮件中的链接，以验证邮箱。</p>
+				</form>
 			</div>
-			<div class="m-btns">
-				<input type="button" class="u-btns" id="owner-submit" ng-click="submitBtn()" value="保存" />
+			<div class="pending" ng-if="designer.email_auth_type == 1">
+				<div>
+					<p class="success"><i class="iconfont2">&#xe60d;</i></p>
+					<h3>我们已向您的邮箱发送了一封验证邮件，请前往收信，完成验证。</h3>
+					<div class="num">
+						<span>
+							<i class="iconfont2">&#xe615;</i><em ng-bind="designer.email"></em>
+						</span>
+					</div>
+				</div>
+				<div class="tips">
+					<h4>没收到邮件？</h4>
+					<p>查看邮箱的垃圾箱或广告箱，邮件有可能被误认为垃圾邮件</p>
+					<p>如果超过10分钟仍未收到验证邮件，请点击<a href="javascript:;" ng-click="designerEmail.send(true)">重新发送</a></p>
+				</div>
+			</div>
+			<div class="done" ng-if="designer.email_auth_type == 2">
+				<p class="success"><i class="iconfont2">&#xe60d;</i></p>
+				<h3>您的邮箱已通过认证</h3>
+				<div class="num">
+					<span>
+						<i class="iconfont2">&#xe615;</i><em ng-bind="designer.email"></em>
+					</span>
+				</div>
+				<div class="btns">
+					<a href="javascript:;" class="u-btns u-btns-revise" ng-click="designerEmail.change()">修改邮箱</a>
+				</div>
 			</div>
 		</div>
-	</div>
-</div>
-<div class="k-cropMask" id="j-cropMask"></div>
-<div class="k-cropBox" id="j-cropBox">
-	<div class="cropBox">
-		<img src="" class="img1" id="cropPic1" />
-		<img src="" class="img2" id="cropPic2" />	
-		<div class="cropBorder" id="cropBorder">
-			<span class="dot1"></span>
-			<span class="dot2"></span>
-			<span class="dot3"></span>
-			<span class="dot4"></span>
-			<span class="dot5"></span>
-			<span class="dot6"></span>
-			<span class="dot7"></span>
-			<span class="dot8"></span>
-			<div></div>
-		</div>
-	</div>
-	<div class="btns">
-		<input type="button" class="u-btns u-btns-revise" id="crop-cancel" value="取消" />
-		<input type="button" class="u-btns" id="crop-submit" value="确定" />
+		<div class="pageLoading" ng-hide="!!designer"></div>
 	</div>
 </div>

@@ -249,29 +249,69 @@ body{
 	position: relative;
 	float: left;
 }
-.k-form .u-inp .inp{
-	position: relative;
+.k-form .u-inp .input{
 	width: 230px;
 	height: 20px;
 	padding:4px 9px;
-	border: 1px solid #d2d2d2;
-	background-color: #f9f9f9;
-	border-radius: 2px;
-}
-.k-form .u-inp .address{
-	width: 478px;
-}
-.k-form .u-inp .phone{
-	color: #888;
-	background-color: #fff;
-}
-.k-form .u-inp .input{
-	width: 100%;
 	height:20px;
 	line-height: 20px;
 	border: none;
 	background: none;
 	color: #61687a;
+	border: 1px solid #d2d2d2;
+	background-color: #f9f9f9;
+	border-radius: 2px;
+}
+.k-form .u-inp .input:focus{
+	border-color: #00a0e9;
+}
+.k-form .u-inp .ng-invalid-required{
+
+}
+.k-form .address .input{
+	width: 478px;
+}
+.k-form .u-inp .textarea{
+	width: 478px;
+	height: 88px;
+  	overflow: hidden;
+  	padding-left: 20px;
+	border: 1px solid #d2d2d2;
+	background-color: #f9f9f9;
+}
+.k-form .u-inp .textarea textarea{
+  float: left;
+	width: 100%;
+   height: 60px;
+  margin-left: -20px;
+  padding: 10px;
+  font-size: 14px;
+  border: 0;
+  resize: none;
+  background: none;
+}
+.k-form .u-inp .textarea.focus{
+	border-color: #04bafe;
+}
+.k-form .u-inp .phone{
+	width: 230px;
+	height: 20px;
+	padding:4px 9px;
+	height:20px;
+	line-height: 20px;
+	color: #888;
+	border: 1px solid #d2d2d2;
+	border-radius: 2px;
+	background-color: #fff;
+}
+.k-form .u-inp .products span{
+	display: inline-block;
+	padding: 0 12px;
+	margin-right: 10px;
+	line-height: 28px;
+	color: #61687a;
+	border: 1px solid #eee;
+	border-radius: 2px;
 }
 .k-form .u-inp .radio{
 	height: 30px;
@@ -2259,8 +2299,6 @@ body{
 	float: right;
 	padding-right: 19px;
 }
-
-
 /*作品列表*/
 .m-productList{
 
@@ -2315,4 +2353,234 @@ body{
 }
 .m-productList li h4 a:hover,.m-productList li:hover h4 a{
 	color: #fe7004;
+}
+/*手机邮箱认证*/
+.m-phone{
+	padding-top: 60px;
+	text-align: center;
+}
+.m-phone .done,.m-phone .todo{
+	padding-bottom: 80px;
+}
+.m-phone .success{
+	height: 90px;
+	line-height: 90px;
+}
+.m-phone .success .iconfont2{
+	font-size: 54px;
+	color: #1cb235;
+}
+.m-phone h3{
+	padding-bottom: 18px;
+	font-size: 16px;
+	line-height: 44px;
+	color: #61687a;
+}
+.m-phone .num span{
+	display: inline-block;
+	height: 32px;
+	line-height: 32px;
+	border: 1px solid #d2d2d2;
+	border-radius: 2px;
+}
+.m-phone .num .iconfont2{
+	display: inline-block;
+	vertical-align: top;
+	width: 32px;
+}
+.m-phone .num em{
+	display: inline-block;
+	vertical-align: top;
+	min-width: 100px;
+	height: 32px;
+	padding: 0 20px;
+	font-size: 16px;
+	color: #383d48;
+	border-left: 1px solid #d2d2d2;
+}
+.m-phone .btns{
+	padding-top: 32px;
+}
+.m-phone .email{
+	height: 34px;
+}
+.m-phone .email span{
+	position: relative;
+	display: inline-block;
+}
+.m-phone .todo p{
+	font-size: 14px;
+	line-height: 52px;
+}
+.m-phone .email .iconfont2{
+	position: absolute;
+	left:1px;
+	top:1px;
+	width: 33px;
+	line-height: 32px;
+	color: #464553;
+	background-color: #fff;
+	border-right: 1px solid #d2d2d2;
+}
+.m-phone .email input{
+	min-width: 200px;
+	height: 20px;
+	padding: 6px 12px 6px 44px;
+	color: #b2b2b2;
+	background-color: #f9f9f9;
+	border: 1px solid #d2d2d2;
+	border-radius: 2px;
+}
+.m-phone .email input:focus{
+	border-color: #00a0e9;
+}
+.m-phone .email input.ng-invalid-pattern{
+	border-color: #ff4a4a;
+}
+.m-phone .todo .u-btns.invalid{
+	background-color: #f6f6f6;
+    border-color: #ccc;
+    color: #60636a;
+    cursor: default;
+}
+.m-phone .pending .tips{
+	padding: 20px 19px;
+	margin-top: 80px;
+	font-size: 14px;
+	line-height: 18px;
+	text-align: left;
+	color: #999;
+	border-top: 1px dashed #d2d2d2;
+}
+.m-phone .pending .tips h4{
+	color: #61687a;
+}
+.m-phone .pending .tips a{
+	margin-left: 10px;
+	color: #fe7004;
+}
+.m-phone .pending .tips a:hover{
+	text-decoration: underline;
+}
+
+/*其他图片上传*/
+.k-otheruploade{
+	position: relative;
+	width: 250px;
+	height: 120px;
+	overflow: hidden;
+}
+.k-otheruploade .create{
+	position: absolute;
+	width: 250px;
+	height: 120px;
+	overflow: visible;
+	background:none;
+	text-align: center;
+}
+.k-otheruploade .create .fileBtn,.k-otheruploade .create .uploadify-button{
+	position: absolute;
+    z-index: 15;
+    left:0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.k-otheruploade .create .uploadify-queue,.k-otheruploade .uploadify-queue{
+	display: block;
+}
+.k-otheruploade p{
+	padding-top: 10px;
+	text-align: center;
+}
+.k-cropMask{
+	position:fixed;
+	z-index: 1000;
+	left:0;
+	top:0;
+	background-color: #000;
+	display: none;
+}
+.k-otheruploade .uploadify-queue-item {
+    background-color: #F5F5F5;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font: 11px Verdana,Geneva,sans-serif;
+    margin-top: 5px;
+    max-width: 350px;
+    padding: 10px
+}
+
+.k-otheruploade .uploadify-error {
+    background-color: #FDE5DD!important
+}
+
+.k-otheruploade .uploadify-queue-item.completed{
+    background-color: #E5E5E5
+}
+
+.k-otheruploade .uploadify-progress {
+    background-color: #E5E5E5;
+    margin-top: 10px;
+    width: 100%
+}
+
+.k-otheruploade .uploadify-progress-bar {
+    background-color: #09F;
+    height: 3px;
+    width: 1px
+}
+.k-otheruploade .up_filename,.k-otheruploade .delfilebtn,.k-otheruploade .progressnum{
+	display: none;
+}
+.k-otheruploade .create img{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 6;
+	min-width: 100%;
+	min-height: 100%;
+}
+.k-otheruploade .tips{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 5;
+	width: 248px;
+    height: 118px;
+	background-color: #f9f9f9;
+    border: 1px solid #d2d2d2;
+    border-radius: 2px;
+	text-align: center;
+}
+.k-otheruploade .tips p{
+	padding-top: 70px;
+	line-height: 50px;
+	color: #999;
+}
+.k-otheruploade .tips span{
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	left:50%;
+	top:50%;
+	margin-top: -16px;
+	margin-left: -16px;
+}
+.k-otheruploade .tips span em{
+	position: absolute;
+	left:15px;
+	top:0;
+	width: 2px;
+	height: 32px;
+	background-color: #c3c3c3;
+}
+.k-otheruploade .tips span i{
+	position: absolute;
+	left:0;
+	top:15px;
+	width: 32px;
+	height: 2px;
+	background-color: #c3c3c3;
 }
