@@ -201,8 +201,10 @@ exports.designer_signup = function (req, res, next) {
         }
 
         tools.bhash(pass, ep.done(function (passhash) {
-          Designer.newAndSave(user, ep.done(function (
-            user_indb) {
+          Designer.newAndSave({
+            phone: phone,
+            pass: passhash,
+          }, ep.done(function (user_indb) {
             // store session cookie
             authMiddleWare.gen_session(user_indb,
               usertype, req, res);
@@ -210,7 +212,6 @@ exports.designer_signup = function (req, res, next) {
             var data = {};
             data.usertype = type.role_designer;
             data.phone = user_indb.phone;
-            data.username = user_indb.username;
             data._id = user_indb._id;
             data.imageid = user_indb.imageid;
             res.sendData(data);

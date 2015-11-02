@@ -86,12 +86,17 @@ exports.topic_comments = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
   var topicid = req.body.topicid;
+  var section = req.body.section;
+  var item = req.body.item;
   var userid = ApiUtil.getUserid(req);
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
 
+
   Comment.paginate({
-    topicid: topicid
+    topicid: topicid,
+    section: section,
+    item: item,
   }, null, {
     skip: skip,
     limit: limit,
