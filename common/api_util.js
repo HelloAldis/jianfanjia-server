@@ -54,6 +54,7 @@ exports.buildDesinger = function (req) {
   designer.communication_type = req.body.communication_type;
   designer.work_year = req.body.work_year;
   designer.university = req.body.university;
+  designer.work_types = req.body.work_types;
 
   if (req.body.diploma_imageid) {
     designer.diploma_imageid = new ObjectId(req.body.diploma_imageid);
