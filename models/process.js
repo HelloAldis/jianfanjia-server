@@ -85,6 +85,10 @@ var ProcessSchema = new Schema({
       images: {
         type: [ObjectId]
       },
+      comment_count: {
+        type: Number,
+        default: 0,
+      },
       // comments: {
       //   type: [{
       //     by: {
@@ -100,7 +104,7 @@ var ProcessSchema = new Schema({
       //       type: Number,
       //     },
       //   }]
-      // }, 
+      // },
     }],
     ys: {
       date: {
