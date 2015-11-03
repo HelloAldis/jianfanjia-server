@@ -667,13 +667,13 @@ angular.module('controllers', [])
             }
             function laod(){
                 userFavoriteProduct.list(dataPage).then(function(res){  //获取作品收藏列表
-                    $scope.favoriteProduct = res.data.products;
+                    $scope.favoriteProduct = res.data.data.products;
                     angular.forEach($scope.favoriteProduct, function(value, key){
                         value.house_type = $filter('houseTypeFilter')(value.house_type);
                         value.dec_style = $filter('decStyleFilter')(value.dec_style);
                         value.description = $filter('limitTo')(value.description,100);
                     })
-                    if($scope.favoriteProduct.length == 0 && res.data.total != 0){
+                    if($scope.favoriteProduct.length == 0 && res.data.data.total != 0){
                         $scope.favoriteProduct = undefined;
                         dataPage.from = current*dataPage.limit;
                         current = 0;
@@ -681,7 +681,7 @@ angular.module('controllers', [])
                         $location.url('/favorite?p=1')
                     }
                     $scope.pageing = {
-                        allNumPage : res.data.total,
+                        allNumPage : res.data.data.total,
                         itemPage : dataPage.limit,
                         showPageNum : 5,
                         endPageNum : 3,
@@ -708,6 +708,7 @@ angular.module('controllers', [])
                 if(confirm('您确定要删除吗？')){
                   userFavoriteProduct.remove({'_id':id}).then(function(res){ 
                         if(res.data.msg === "success"){
+                           $scope.favoriteProduct = undefined;
                            laod(); 
                         }
                     },function(res){
@@ -793,7 +794,7 @@ angular.module('controllers', [])
 
             }
     }])
-    .controller('inforCtrl', [     //手机认证修改
+    .controller('serviceCtrl', [     //接单服务设置
         '$scope','$rootScope','$http','$filter','$location','userInfo',
         function($scope, $rootScope,$http,$filter,$location,userInfo){
             $scope.cities_list = tdist;
@@ -902,13 +903,9 @@ angular.module('controllers', [])
         '$scope','$rootScope','$http','$filter','$location','userInfo',
         function($scope, $rootScope,$http,$filter,$location,userInfo){
         $scope.bankList = ['中国工商银行','招商银行','中国农业银行','中国建设银行','中国银行','中国民生银行','中国光大银行','中信银行','交通银行','兴业银行','上海浦东发展银行','中国人民银行','华夏银行','国家开发银行','中国进出口银行','中国农业发展银行','北京银行','上海银行','中国邮政储蓄银行'];
-        function uploadDesignerInfo(data){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
-            userInfo.update(data).then(function(res){
-                userInfo.get().then(function(res){
-                    $scope.$emit('designerChildren', res.data.data);
-                },function(res){
-                    console.log(res)
-                });
+        function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+            userInfo.get().then(function(res){
+                $scope.$emit('designerChildren', res.data.data);
             },function(res){
                 console.log(res)
             });
@@ -928,6 +925,7 @@ angular.module('controllers', [])
             send : function(verify){
                 console.log(verify)
                 userInfo.bank({
+                  "username":$scope.designer.username,
                   "uid":$scope.designer.uid,
                   "bank": $scope.designer.bank,
                   "bank_card": $scope.designer.bank_card,
@@ -936,10 +934,124 @@ angular.module('controllers', [])
                   "bank_card_image1":$scope.designer.bank_card_image1
                 }).then(function(res){
                     console.log(res)
-                    uploadDesignerInfo($scope.designer)
+                    uploadDesignerInfo();
                 },function(res){
                     console.log(res)
                 });
             }
+        }
+    }])
+    .controller('teamCtrl', [     //施工团队认证修改
+        '$scope','$rootScope','$http','$filter','$location','$stateParams','userTeam',
+        function($scope, $rootScope,$http,$filter,$location,$stateParams,userTeam){
+        console.log($stateParams.id)
+        function load(){
+            userTeam.list().then(function(res){
+                console.log(res.data.data);
+                $scope.teamList = res.data.data
+            },function(res){
+                console.log(res)
+            });
+        }
+        load()
+        if($stateParams.id){
+            userTeam.get({"_id": $stateParams.id}).then(function(res){
+                console.log(res);
+                $scope.team = res.data.data;
+                if(!$scope.team.province){
+                    $scope.team.province = '请选择省份';
+                    $scope.team.city = '请选择市';
+                    $scope.team.district = '请选择县/区';
+                }
+                if($scope.team.sex){
+                    setSex(false,$scope.team.sex)  
+                }
+            },function(res){
+                console.log(res)
+            });
+        }else{
+            $scope.team = {
+                province : '请选择省份',
+                city : '请选择市',
+                district : '请选择县/区',
+                manager : '',
+                uid : '',
+                company : '',
+                work_year : '',
+                good_at : '',
+                working_on : '',
+                sex : '',
+                uid_image1 : '',
+                uid_image2 : ''
+            }
+        }
+        $scope.designerTeam = {
+            remove : function(id){
+                if(confirm('您确定要删除吗？')){
+                    userTeam.remove({"_id": id}).then(function(res){
+                        if(res.data.msg === "success"){
+                            $scope.teamList = undefined;
+                            load(); 
+                        }
+                    },function(res){
+                        console.log(res)
+                    });
+                }
+            },
+            submit : function(verify){
+                $scope.team.sex = setSex(true)
+                if($stateParams.id){
+                    userTeam.update($scope.team).then(function(res){
+                        if(res.data.msg === "success"){
+                            $location.path('teamList')
+                        }
+                    },function(res){
+                        console.log(res)
+                    })
+                }else{
+                    userTeam.add($scope.team).then(function(res){
+                        if(res.data.msg === "success"){
+                            $location.path('teamList')
+                        }
+                    },function(res){
+                        console.log(res)
+                    });
+                }
+            },
+            usersex : [ 
+                    {
+                        id : '0',
+                        name : '男',
+                        cur : '' 
+                    },
+                    {
+                        id : '1',
+                        name : '女',
+                        cur : '' 
+                    }
+                ],
+            cities_list : tdist,
+            radiosex : function(id){
+                console.log(setSex(false,id))
+                $scope.team.sex = setSex(false,id)
+            },
+            goodAtList : ['水电','木工','油工','泥工']
+        }
+        function setSex(b,id){
+            var str = ''
+            angular.forEach($scope.designerTeam.usersex, function(value, key){
+                if(b){
+                   if(value.cur == 'active'){
+                     str = value.id
+                   } 
+                }else{
+                   if(value.id == id){
+                        value.cur = 'active'
+                    }else{
+                        value.cur = ''
+                    } 
+                }
+            })
+            return str;
         }
     }])

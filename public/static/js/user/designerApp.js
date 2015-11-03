@@ -11,6 +11,11 @@
                     templateUrl: RootURl+'index.html',
                     controller : 'indexCtrl'
                 })
+                .state('service', {     //设计师接单服务设置
+                    url: '/service',
+                    templateUrl: RootURl+'service.html',
+                    controller : 'serviceCtrl'
+                })
                 .state('infor', {     //设计师编辑资料和提交认证
                     url: '/infor',
                     templateUrl: RootURl+'infor.html',
@@ -85,9 +90,19 @@
                     templateUrl: RootURl+'idcard.html',
                     controller : 'idcardCtrl'
                 })
-                .state('team', {      //施工团队认证
+                .state('addteam', {      //编辑施工团队
                     url: '/team',
                     templateUrl: RootURl+'team.html',
+                    controller : 'teamCtrl'
+                })
+                .state('updateteam', {      //编辑施工团队
+                    url: '/team/:id',
+                    templateUrl: RootURl+'team.html',
+                    controller : 'teamCtrl'
+                })
+                .state('teamList', {      //施工团队认证
+                    url: '/teamList',
+                    templateUrl: RootURl+'teamList.html',
                     controller : 'teamCtrl'
                 })
                 .state('phone', {      //手机修改

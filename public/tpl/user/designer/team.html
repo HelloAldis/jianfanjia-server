@@ -1,79 +1,104 @@
-<div class="main">
+<div class="main m-team">
 	<div class="m-tt">
-		<h2>个人信息</h2>
+		<h2 class="f-fl">添加施工团队</h2>
+		<a ui-sref="teamList" class="u-btns u-btns-revise f-fr">返回施工团队列表</a>
 	</div>
 	<div class="m-ct">
-		<div class="k-form">
+		<div class="k-form" ng-if="team">
 			<div class="m-boxs">
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab" for="owner-name">姓&nbsp;&nbsp;&nbsp;名：</label>
+						<label class="u-lab" for="owner-name">项目经理</label>
 						<div class="u-inp">
-							<div class="inp">
-								<input type="text" class="input" ng-model="user.username" />
-							</div>
+							<input type="text" class="input" ng-model="team.manager" />
 						</div>
 					</div>
 				</div>
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab" for="owner-sex">性&nbsp;&nbsp;&nbsp;别：</label>
+						<label class="u-lab" for="owner-sex">性别</label>
 						<div class="u-inp">
 							<div class="radio">
-								<label ng-click="radiosex(sex.id)" ng-repeat="sex in usersex"><span class="{{sex.cur}}"></span>{{sex.name}}</label>
+								<label ng-click="designerTeam.radiosex(sex.id)" ng-repeat="sex in designerTeam.usersex"><span class="{{sex.cur}}"></span>{{sex.name}}</label>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab" for="owner-email">电子邮箱：</label>
+						<label class="u-lab" for="dec_area">所在地区</label>
 						<div class="u-inp">
-							<div class="inp">
-								<input type="text" class="input" ng-model="user.email" />
-							</div>
-						</div>
-					</div>
-					<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-					<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-					<p class="tips-info hide"></p>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab">手机号码：</label>
-						<div class="u-inp">
-							<div class="inp phone" ng-bind="user.phone"></div>
+							<div my-cities my-list="designerTeam.cities_list" my-province="team.province" my-city="team.city" my-district="team.district" ng-if="team.province"></div>				
 						</div>
 					</div>
 				</div>
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab" for="dec_area">所在地区：</label>
+						<label class="u-lab" for="owner-email">身份证号</label>
 						<div class="u-inp">
-							<div my-cities my-list="cities_list" my-province="user.province" my-city="user.city" my-district="user.district" ng-if="user.province"></div>				
+							<input type="text" class="input" ng-model="team.uid" />
 						</div>
 					</div>
 				</div>
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab" for="owner-addr">邮寄详细地址：</label>
+						<label class="u-lab">曾就职装饰公司</label>
 						<div class="u-inp">
-							<div class="inp address">
-								<input type="text" class="input" ng-model="user.address" />
-							</div>
+							<input type="text" class="input" ng-model="team.company" />
 						</div>
 					</div>
 				</div>
-				<div class="k-uppicbox">
-					<div my-upload my-query="user.imageid" ng-if="user.province"></div>
-					<p>请上传大于300*300头像照片<br />1M以内jpg/png格式</p>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-addr">从业年限</label>
+						<div class="u-inp">
+							<input type="text" class="input" ng-model="team.work_year" />
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-addr">擅长工种</label>
+						<div class="u-inp">
+							<div my-selectn my-list="designerTeam.goodAtList" my-query="team.good_at"></div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-addr">正在施工工地</label>
+						<div class="u-inp">
+							<input type="text" class="input" ng-model="team.working_on" />
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="dec_area">上传身份证正面照</label>
+						<div class="u-inp">
+							<div class="" data-boxData="{'width':'250px','height':'120px'}">
+								<div my-otheruploade my-query="team.uid_image1"></div>
+							</div>				
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-addr">上传身份证反面照</label>
+						<div class="u-inp">
+							<div class="" data-boxData="{'width':'250px','height':'120px'}">
+								<div my-otheruploade my-query="team.uid_image2"></div>
+							</div>	
+						</div>
+					</div>
 				</div>
 				<div class="m-item m-error-info hide" id="error-info"></div>
 			</div>
 			<div class="m-btns">
-				<input type="button" class="u-btns" id="owner-submit" ng-click="submitBtn()" value="保存" />
+				<input type="button" class="u-btns" ng-click="designerTeam.submit()" value="确定" />
 			</div>
 		</div>
+		<div class="pageLoading" ng-hide="!!team"></div>
 	</div>
 </div>
 <div class="k-cropMask" id="j-cropMask"></div>
