@@ -74,7 +74,7 @@
 					</span>
 				</span>
 				<span class="select">
-					<a ui-sref="phone" class="u-btns u-btns-revise">修改</a>
+					<a ui-sref="phone" class="u-btns u-btns-revise">查看</a>
 				</span>
 			</li>
 			<li>
@@ -89,6 +89,7 @@
 				<span class="select">
 					<a ui-sref="email" class="u-btns u-btns-revise" bo-if="designer.email_auth_type == 0 || designer.email_auth_type == 3 || designer.email_auth_type == 4">填写并认证</a>
 					<a ui-sref="email" class="u-btns u-btns-revise" bo-if="designer.email_auth_type == 2">修改</a>
+					<a ui-sref="email" class="u-btns u-btns-revise" bo-if="designer.email_auth_type == 1">前往邮箱认证</a>
 				</span>
 			</li>
 		</ul>

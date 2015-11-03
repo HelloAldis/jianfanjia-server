@@ -717,4 +717,229 @@ angular.module('controllers', [])
             }
             laod()
     }])
+    .controller('inforCtrl', [     //基本资料认证
+        '$scope','$rootScope','$http','$filter','$location','userInfo',
+        function($scope, $rootScope,$http,$filter,$location,userInfo){
+            $scope.cities_list = tdist;
+            $scope.usersex = [ 
+                {
+                    id : '0',
+                    name : '男',
+                    cur : '' 
+                },
+                {
+                    id : '1',
+                    name : '女',
+                    cur : '' 
+                }
+            ];
+            $scope.radiosex = function(id){
+                setSex(false,id)
+            }
+            function setSex(b,id){
+                var str = ''
+                angular.forEach($scope.usersex, function(value, key){
+                    if(b){
+                       if(value.cur == 'active'){
+                         str = value.id
+                       } 
+                    }else{
+                       if(value.id == id){
+                            value.cur = 'active'
+                        }else{
+                            value.cur = ''
+                        } 
+                    }
+                })
+                return str;
+            }
+            $scope.$on('designerParent', function(event, data) {   //父级接收 如果业主操作就需要改变状态
+                $scope.designer = data
+                setSex(false,$scope.designer);
+                console.log(data.province)
+                if(!data.province){
+                    $scope.designer.province = '请选择省份';
+                    $scope.designer.city = '请选择市';
+                    $scope.designer.district = '请选择县/区';
+                }
+            });
+            uploadDesignerInfo()
+            function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+                userInfo.get().then(function(res){
+                    $scope.$emit('designerChildren', res.data.data);
+                },function(res){
+                    console.log(res)
+                });
+            }
+            $scope.designerInfo = {
+                philosophy : {
+                    parentFocus : false,
+                    focus : function(){
+                        this.parentFocus = true;
+                    },
+                    blur : function(){
+                        this.parentFocus = false;
+                    }
+                },
+                achievement : {
+                    parentFocus : false,
+                    focus : function(){
+                        this.parentFocus = true;
+                    },
+                    blur : function(){
+                        this.parentFocus = false;
+                    }
+                }
 
+            }
+    }])
+    .controller('inforCtrl', [     //手机认证修改
+        '$scope','$rootScope','$http','$filter','$location','userInfo',
+        function($scope, $rootScope,$http,$filter,$location,userInfo){
+            $scope.cities_list = tdist;
+            $scope.usersex = [ 
+                {
+                    id : '0',
+                    name : '男',
+                    cur : '' 
+                },
+                {
+                    id : '1',
+                    name : '女',
+                    cur : '' 
+                }
+            ];
+            $scope.radiosex = function(id){
+                setSex(false,id)
+            }
+            function setSex(b,id){
+                var str = ''
+                angular.forEach($scope.usersex, function(value, key){
+                    if(b){
+                       if(value.cur == 'active'){
+                         str = value.id
+                       } 
+                    }else{
+                       if(value.id == id){
+                            value.cur = 'active'
+                        }else{
+                            value.cur = ''
+                        } 
+                    }
+                })
+                return str;
+            }
+            $scope.$on('designerParent', function(event, data) {   //父级接收 如果业主操作就需要改变状态
+                $scope.designer = data
+                setSex(false,$scope.designer);
+                console.log(data.province)
+                if(!data.province){
+                    $scope.designer.province = '请选择省份';
+                    $scope.designer.city = '请选择市';
+                    $scope.designer.district = '请选择县/区';
+                }
+            });
+            uploadDesignerInfo()
+            function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+                userInfo.get().then(function(res){
+                    $scope.$emit('designerChildren', res.data.data);
+                },function(res){
+                    console.log(res)
+                });
+            }
+            $scope.designerInfo = {
+                philosophy : {
+                    parentFocus : false,
+                    focus : function(){
+                        this.parentFocus = true;
+                    },
+                    blur : function(){
+                        this.parentFocus = false;
+                    }
+                },
+                achievement : {
+                    parentFocus : false,
+                    focus : function(){
+                        this.parentFocus = true;
+                    },
+                    blur : function(){
+                        this.parentFocus = false;
+                    }
+                } 
+            }
+    }])
+    .controller('phoneCtrl', [     //手机认证修改
+        '$scope','$rootScope','$http','$filter','$location','userInfo',
+        function($scope, $rootScope,$http,$filter,$location,userInfo){ 
+    }])
+    .controller('emailCtrl', [     //邮箱认证修改
+        '$scope','$rootScope','$http','$filter','$location','userInfo',
+        function($scope, $rootScope,$http,$filter,$location,userInfo){
+        function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+            userInfo.get().then(function(res){
+                $scope.$emit('designerChildren', res.data.data);
+            },function(res){
+                console.log(res)
+            });
+        }
+        $scope.designerEmail = {
+            status : false,
+            waiting : false,
+            change : function(){
+                this.status = true;
+            },
+            send : function(verify){
+                userInfo.email({"email": $scope.designer.email}).then(function(res){
+                    console.log(res);
+                    uploadDesignerInfo()
+                },function(res){
+                    console.log(res)
+                });
+            }
+        }
+    }])
+    .controller('idcardCtrl', [     //身份证认证修改
+        '$scope','$rootScope','$http','$filter','$location','userInfo',
+        function($scope, $rootScope,$http,$filter,$location,userInfo){
+        $scope.bankList = ['中国工商银行','招商银行','中国农业银行','中国建设银行','中国银行','中国民生银行','中国光大银行','中信银行','交通银行','兴业银行','上海浦东发展银行','中国人民银行','华夏银行','国家开发银行','中国进出口银行','中国农业发展银行','北京银行','上海银行','中国邮政储蓄银行'];
+        function uploadDesignerInfo(data){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+            userInfo.update(data).then(function(res){
+                userInfo.get().then(function(res){
+                    $scope.$emit('designerChildren', res.data.data);
+                },function(res){
+                    console.log(res)
+                });
+            },function(res){
+                console.log(res)
+            });
+        }
+        $scope.$on('designerParent', function(event, data) {   //父级接收 如果业主操作就需要改变状态
+            $scope.designer = data;
+            if(!$scope.designer.bank){
+                $scope.designer.bank = $scope.bankList[0];
+            }
+        });
+        $scope.designerIdcard = {
+            status : false,
+            waiting : false,
+            change : function(){
+                this.status = true;
+            },
+            send : function(verify){
+                console.log(verify)
+                userInfo.bank({
+                  "uid":$scope.designer.uid,
+                  "bank": $scope.designer.bank,
+                  "bank_card": $scope.designer.bank_card,
+                  "uid_image1":$scope.designer.uid_image1,
+                  "uid_image2":$scope.designer.uid_image2,
+                  "bank_card_image1":$scope.designer.bank_card_image1
+                }).then(function(res){
+                    console.log(res)
+                    uploadDesignerInfo($scope.designer)
+                },function(res){
+                    console.log(res)
+                });
+            }
+        }
+    }])

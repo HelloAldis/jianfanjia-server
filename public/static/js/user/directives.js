@@ -42,6 +42,47 @@ angular.module('directives', [])
             }
         };
     }])
+    .directive('mySelectn',['$timeout',function($timeout){     //自定义下拉框
+        return {
+            replace : true,
+            scope: {
+                    myList : "=",
+                    myQuery : "="
+            },
+            restrict: 'A',
+            template: '<div class="k-select" ng-click="openSelect($event)" ng-mouseout="closeSelect()"><ul class="select" ng-mouseover="closeTimer()"><li ng-repeat="d in myList"><a href="javascript:;" ng-click="select(d,$event)">{{d}}</a></li></ul><div class="option"><span class="value">{{myQuery}}</span><span class="arrow"><em></em><i></i></span></div></div>',
+            link: function($scope, iElm, iAttrs, controller) {
+                var obj = angular.element(iElm),
+                    oUl = obj.find('ul');
+                   angular.element(document).on('click',function(){
+                        oUl.css('display','none');
+                   })
+                   var timer = null;
+                   $scope.openSelect = function($event){
+                        $event.stopPropagation()
+                        oUl.css('display','block');
+                        obj.css('zIndex',20);
+                        clearTimeout(timer)
+                   }
+                   $scope.closeSelect = function(){
+                        clearTimeout(timer)
+                        timer = setTimeout(function(){
+                          oUl.css('display','none');
+                          obj.css('zIndex',10);
+                        },500)
+                   }
+                   $scope.closeTimer = function(){
+                      clearTimeout(timer)
+                   }
+                   $scope.select = function(name,$event){
+                        $scope.myQuery = name;
+                        $event.stopPropagation()
+                        oUl.css('display','none');
+                        obj.css('zIndex',10);
+                   }
+            }
+        };
+    }])
     .directive('mySelecte',['$timeout',function($timeout){     //自定义下拉框带编写功能
         return {
             replace : true,
@@ -520,7 +561,7 @@ angular.module('directives', [])
             }
         };
     }])
-    .directive('myUploade',['$timeout',function($timeout){     //图片上传
+    .directive('myUploade',['$timeout',function($timeout){     //方案图片上传
         return {
             replace : true,
             scope: {
@@ -595,6 +636,80 @@ angular.module('directives', [])
             }
         };
     }])
+  .directive('myOtheruploade',['$timeout',function($timeout){     //其他图片上传
+      return {
+          replace : true,
+          scope: {
+            myQuery : "="
+          },
+          restrict: 'A',
+          template: '<div class="k-otheruploade"><div class="create"><div class="fileBtn"><input class="hide" class="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" class="id_create"></div><img ng-src="/api/v2/web/thumbnail/250/{{myQuery}}" ng-if="myQuery" /><div class="tips"><span><em></em><i></i></span><p>作品上传每张3M以内jpg</p></div></div></div>',
+          link: function($scope, iElm, iAttrs, controller){
+              var uploaderUrl = RootUrl+'api/v2/web/image/upload',
+                  fileTypeExts = '*.jpg;*.png',
+                  fileSizeLimit = 3072,
+                  obj = $(iElm).parent(),
+                  create = obj.find('.create'),
+                  createUpload = obj.find('.createUpload'),
+                  boxData = obj.data('boxData');
+              if(checkSupport() === "html5"){
+                create.Huploadify({
+                  auto:true,
+                  fileTypeExts:fileTypeExts,
+                  multi:true,
+                  formData:{},
+                  fileSizeLimit:fileSizeLimit,
+                  showUploadedPercent:true,//是否实时显示上传的百分比，如20%
+                  showUploadedSize:true,
+                  removeTimeout:1,
+                  fileObjName:'Filedata',
+                  buttonText : "",
+                  uploader:uploaderUrl,
+                  onUploadComplete:function(file, data, response){
+                    callbackImg(data)
+                  }
+                });
+              }else{
+                createUpload.uploadify({
+                    'auto'     : true,
+                    'removeTimeout' : 1,
+                      'swf'      : 'uploadify.swf',
+                      'uploader' : uploaderUrl,
+                      'method'   : 'post',
+                      'buttonText' : '',
+                      'multi'    : true,
+                      'uploadLimit' : 10,
+                      'width' : boxData.width,
+                      'height' : boxData.height,
+                      'fileTypeDesc' : 'Image Files',
+                      'fileTypeExts' : fileTypeExts,
+                      'fileSizeLimit' : fileSizeLimit+'KB',
+                      'onUploadSuccess' : function(file, data, response) {
+                          callbackImg(data)  
+                      }
+                  });
+              }
+              function callbackImg(arr){
+                var data = $.parseJSON(arr);
+                var img = new Image();
+                img.onload=function(){
+                  // if(img.width < 300){
+                  //   alert('图片宽度小于300，请重新上传');
+                  //   return false;
+                  // }else if(img.height < 300){
+                  //   alert('图片高度小于300，请重新上传');
+                  //   return false;
+                  // }
+                  $scope.$apply(function(){
+                    $scope.myQuery = data.data
+                  });
+                };  
+                img.onerror=function(){alert("error!")};  
+                img.src=RootUrl+'api/v1/image/'+data.data;
+              }
+          }
+      };
+  }])
     .directive('myDate',['$timeout',function($timeout){     //自定义地区选择控件
         return {
             replace : true,
