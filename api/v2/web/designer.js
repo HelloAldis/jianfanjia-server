@@ -20,6 +20,7 @@ var limit = require('../../../middlewares/limit')
 var designer_match_util = require('../../../common/designer_match');
 var DateUtil = require('../../../common/date_util');
 var sms = require('../../../common/sms');
+var authMiddleWare = require('../../../middlewares/auth');
 
 var noPassAndToken = {
   pass: 0,

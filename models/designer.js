@@ -62,6 +62,9 @@ var DesignerSchema = new Schema({
   dec_types: {
     type: [String]
   },
+  work_types: {
+    type: [String]
+  },
   dec_styles: {
     type: [String]
   },
