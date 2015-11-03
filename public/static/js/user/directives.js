@@ -148,6 +148,8 @@ angular.module('directives', [])
                   str += '<li><img src="'+value.url+'" alt="'+value.txt+'" /></li>'
               })
               oUl.html(str)
+              oUl.css({left:-$scope.myQuery*picWidth})
+              oText.html(arr[$scope.myQuery].txt)
               var aLi = oUl.find('li');
                 oUl.width(len*picWidth)
                 oPrev.on('click',function(){
@@ -155,27 +157,22 @@ angular.module('directives', [])
                         iNum = len
                     }
                     iNum--;
-                    $scope.myQuery = iNum;
-                    fnMove()
+                    fnMove(iNum)
                 })
                 oNext.on('click',function(){
                     if(iNum == len-1){
                         iNum = -1
                     }
                     iNum++;
-                    $scope.myQuery = iNum;
-                    fnMove()
+                    fnMove(iNum)
                 })
-                function fnMove(){
+                function fnMove(iNum){
                     oUl.stop().animate({left:-iNum*picWidth})
                     oText.html(arr[iNum].txt)
+                    $scope.$apply(function(){
+                        $scope.myQuery = iNum;
+                    });
                 } 
-                function fnMove2(){
-                  oUl.css({left:-iNum*picWidth});
-                  oText.html(arr[iNum].txt);
-                  $scope.myQuery = iNum;
-                }
-                fnMove2()
             }
         };
     }])
@@ -404,6 +401,7 @@ angular.module('directives', [])
                     fileSizeLimit = 1024,
                     destroy = true,
                     moveout = false,
+                    scale = 0,
                     disX,
                     disY;
                 if(!$scope.myQuery){
@@ -433,8 +431,8 @@ angular.module('directives', [])
                             left: l,
                             top: t
                         });
-                        var r = 300 +l,
-                            b = 300 + t;
+                        var r = 300*scale +l,
+                            b = 300*scale + t;
                         $('#cropPic2').css('clip','rect('+t+'px '+r+'px '+b+'px '+l+'px)')
                         moveout = false;
                     }).on('mouseout',function(e){
@@ -485,20 +483,28 @@ angular.module('directives', [])
                   var data = $.parseJSON(arr);
                   var img = new Image();
                   img.onload=function(){
-                    if(img.width < 300){
+                    var imgW = img.width,
+                        imgH = img.height;
+                    if(imgW < 300){
                       alert('图片宽度小于300，请重新上传');
                       return false;
-                    }else if(img.height < 300){
+                    }else if(imgH < 300){
                       alert('图片高度小于300，请重新上传');
                       return false;
                     }
-                    var ratio = ($winH - 286)/img.height;
-                    var w = img.height > $winH - 286 ? img.width*ratio : img.width;
+                    var ratio = ($winH - 286)/imgH;
+                    var w = imgH > $winH - 286 ? imgW*ratio : imgW;
+                    scale = w/imgW;
                     if(w < 300){
                       alert('图片裁切宽度小于300，请重新上传宽高一样图片');
                       data.data = null;
                       return false;
                     }
+                    $cropBorder.css({
+                      width: scale*300,
+                      height: scale*300
+                    });
+                    $('#cropPic2').css('clip','rect('+'0px '+scale*300+'px '+scale*300+'px '+'0px)')
                     $cropMask.css({
                       width:$winW,
                       height:$winH

@@ -238,17 +238,21 @@ angular.module('controllers', [])
                     console.log(res)
                 });
                 $scope.release = {
+                    disabled : false,
                     motaiDone : false,
                     requirementid : '',
                     submitBtn : function(){
+                        var This = this;
                         if($scope.requiremtne.province != "湖北省" && $scope.requiremtne.city != "武汉市"){
                             alert('您选择装修城市不是湖北省武汉市，请重新选择')
                             return ;
                         }
+                        This.disabled = false;
                         userRequiremtne.add($scope.requiremtne).then(function(res){  //提交新需求
                             if(res.data.data.requirementid){
-                                $scope.release.requirementid = res.data.data.requirementid;
-                                $scope.release.motaiDone = true;
+                                This.requirementid = res.data.data.requirementid;
+                                This.motaiDone = true;
+                                This.disabled = true;
                             }
                         },function(res){
                             console.log(res)
@@ -482,7 +486,6 @@ angular.module('controllers', [])
                       "requirementid":requiremtneId,
                       "designerids":$scope.orderDesigns
                     }).then(function(res){
-                        console.log(res.data)
                         if(res.data.msg == "success"){
                             $scope.booking.motaiDone = true;
                             uploadParent()
@@ -630,13 +633,13 @@ angular.module('controllers', [])
             }
             function laod(){
                 userFavoriteProduct.list(dataPage).then(function(res){  //获取作品收藏列表
-                    $scope.favoriteProduct = res.data.products;
+                    $scope.favoriteProduct = res.data.data.products;
                     angular.forEach($scope.favoriteProduct, function(value, key){
                         value.house_type = $filter('houseTypeFilter')(value.house_type);
                         value.dec_style = $filter('decStyleFilter')(value.dec_style);
                         value.description = $filter('limitTo')(value.description,100);
                     })
-                    if($scope.favoriteProduct.length == 0 && res.data.total != 0){
+                    if($scope.favoriteProduct.length == 0 && res.data.data.total != 0){
                         $scope.favoriteProduct = undefined;
                         dataPage.from = current*dataPage.limit;
                         current = 0;
@@ -644,7 +647,7 @@ angular.module('controllers', [])
                         $location.url('/favorite?p=1')
                     }
                     $scope.pageing = {
-                        allNumPage : res.data.total,
+                        allNumPage : res.data.data.total,
                         itemPage : dataPage.limit,
                         showPageNum : 5,
                         endPageNum : 3,

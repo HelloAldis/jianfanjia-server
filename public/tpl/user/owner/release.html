@@ -151,7 +151,7 @@
 				<div class="m-item m-error-info hide" id="error-info"></div>
 			</div>
 			<div class="m-btns">
-				<input type="button" class="u-btns" id="owner-submit" ng-click="release.submitBtn()" value="提交" />
+				<input type="button" class="u-btns" ng-class="{'u-btns-revise':release.disabled}" ng-disabled="release.disabled" id="owner-submit" ng-click="release.submitBtn()" value="提交" />
 			</div>
 		</div>
 		<div class="pageLoading" ng-hide="!!requiremtne.province"></div>
