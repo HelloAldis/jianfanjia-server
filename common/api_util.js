@@ -78,6 +78,7 @@ exports.buildDesinger = function (req) {
 
 exports.buildUidBank = function (req) {
   var designer = {};
+  designer.username = req.body.username;
   designer.uid = req.body.uid;
   designer.bank_card = req.body.bank_card;
   designer.bank = req.body.bank;

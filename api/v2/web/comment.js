@@ -3,6 +3,7 @@ var eventproxy = require('eventproxy');
 var User = require('../../../proxy').User;
 var Comment = require('../../../proxy').Comment;
 var Designer = require('../../../proxy').Designer;
+var Process = require('../../../proxy').Process;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../apiconfig');
@@ -27,8 +28,16 @@ exports.add_comment = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  Comment.newAndSave(comment, ep.done(function () {
+  Comment.newAndSave(comment, ep.done(function (comment_indb) {
     res.sendSuccessMsg();
+    if (comment_indb && comment_indb.section && comment_indb.item &&
+      comment_indb.topictype === type.topic_type_process_item) {
+      Process.addCommentCount(comment_indb.topicid, comment_indb.section,
+        comment_indb.item,
+        function (err) {
+          console.log(err);
+        });
+    }
   }));
 }
 

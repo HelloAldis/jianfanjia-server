@@ -13,6 +13,7 @@ var designer = require('./api/v2/web/designer');
 var comment = require('./api/v2/web/comment');
 var admin = require('./api/v2/web/admin');
 var feedback = require('./api/v2/web/feedback');
+var wechat = require('./api/v2/web/wechat');
 var config = require('./apiconfig');
 var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
@@ -43,6 +44,9 @@ router.post('/designer_home_page', designer.designer_home_page); //游客获取�
 router.post('/search_designer_product', product.search_designer_product); //游客获取设计师作品
 router.post('/product_home_page', product.product_home_page); //游客获取设计师作品
 router.get('/verify_email/:key/:phone/:type', sign.verify_email); //游客验证邮箱
+
+//wechat api
+router.post('/wechat/receive', wechat.receive); //搜索设计师
 
 //通用用户功能
 router.post('/signout', auth.normalUserRequired, sign.signout); //登出

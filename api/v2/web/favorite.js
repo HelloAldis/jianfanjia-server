@@ -38,7 +38,7 @@ exports.list_product = function (req, res, next) {
           callback(err, product);
         });
       }, ep.done(function (results) {
-        res.send({
+        res.sendData({
           products: results,
           total: favorite.favorite_product.length,
         });
@@ -100,7 +100,10 @@ exports.list_designer = function (req, res, next) {
         })
       }));
     } else {
-      return res.sendData([]);
+      return res.sendData({
+        designers: [],
+        total: 0,
+      });
     }
   }));
 }
