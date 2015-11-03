@@ -38,7 +38,7 @@ exports.list_product = function (req, res, next) {
           callback(err, product);
         });
       }, ep.done(function (results) {
-        res.send({
+        res.sendData({
           products: results,
           total: favorite.favorite_product.length,
         });
