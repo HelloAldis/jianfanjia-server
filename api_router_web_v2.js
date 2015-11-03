@@ -46,7 +46,8 @@ router.post('/product_home_page', product.product_home_page); //游客获取设�
 router.get('/verify_email/:key/:phone/:type', sign.verify_email); //游客验证邮箱
 
 //wechat api
-router.post('/wechat/receive', wechat.receive); //搜索设计师
+router.post('/wechat/receive', wechat.receive); //接收微信平台消息
+router.get('/wechat/receive', wechat.signature); //认证微信平台
 
 //通用用户功能
 router.post('/signout', auth.normalUserRequired, sign.signout); //登出
