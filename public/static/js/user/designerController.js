@@ -45,13 +45,12 @@ angular.module('controllers', [])
             },function(res){
                 console.log(res)
             });
-            function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
-                userInfo.get().then(function(res){
-                    $scope.$emit('designerChildren', res.data.data);
-                },function(res){
-                    console.log(res)
-                });
-            }
+            userInfo.get().then(function(res){
+                $scope.designer = res.data.data;
+                $scope.$emit('designerChildren', res.data.data);
+            },function(res){
+                console.log(res)
+            });
             $scope.messageClass = false;
             $scope.messageToggle = function(b){
                 $scope.messageClass = b;
@@ -797,76 +796,211 @@ angular.module('controllers', [])
     .controller('serviceCtrl', [     //接单服务设置
         '$scope','$rootScope','$http','$filter','$location','userInfo',
         function($scope, $rootScope,$http,$filter,$location,userInfo){
-            $scope.cities_list = tdist;
-            $scope.usersex = [ 
-                {
-                    id : '0',
-                    name : '男',
-                    cur : '' 
-                },
-                {
-                    id : '1',
-                    name : '女',
-                    cur : '' 
-                }
-            ];
-            $scope.radiosex = function(id){
-                setSex(false,id)
-            }
-            function setSex(b,id){
-                var str = ''
-                angular.forEach($scope.usersex, function(value, key){
-                    if(b){
-                       if(value.cur == 'active'){
-                         str = value.id
-                       } 
-                    }else{
-                       if(value.id == id){
-                            value.cur = 'active'
-                        }else{
-                            value.cur = ''
-                        } 
+            $scope.service = {
+                address : tdist,
+                decType : [
+                    {
+                        id : '0',
+                        name : '家装',
+                        cur : ''
+                    },
+                    {
+                        id : '1',
+                        name : '商装',
+                        cur : ''
+                    },
+                    {
+                        id : '2',
+                        name : '软装',
+                        cur : ''
                     }
-                })
-                return str;
-            }
-            $scope.$on('designerParent', function(event, data) {   //父级接收 如果业主操作就需要改变状态
-                $scope.designer = data
-                setSex(false,$scope.designer);
-                console.log(data.province)
-                if(!data.province){
-                    $scope.designer.province = '请选择省份';
-                    $scope.designer.city = '请选择市';
-                    $scope.designer.district = '请选择县/区';
+                ],
+                workType : [
+                    {
+                        id : '0',
+                        name : '设计＋施工(半包)',
+                        cur : ''
+                    },
+                    {
+                        id : '1',
+                        name : '设计＋施工(全包)',
+                        cur : ''
+                    },
+                    {
+                        id : '2',
+                        name : '纯设计',
+                        cur : ''
+                    }
+                ],
+                decStype : [
+                    {
+                        id : '0',
+                        name : '欧式',
+                        cur : ''
+                    },
+                    {
+                        id : '1',
+                        name : '中式',
+                        cur : ''
+                    },
+                    {
+                        id : '2',
+                        name : '现代',
+                        cur : ''
+                    },
+                    {
+                        id : '3',
+                        name : '地中海',
+                        cur : ''
+                    },
+                    {
+                        id : '4',
+                        name : '美式',
+                        cur : ''
+                    },
+                    {
+                        id : '5',
+                        name : '东南亚',
+                        cur : ''
+                    },
+                    {
+                        id : '6',
+                        name : '田园',
+                        cur : ''
+                    }
+                ],
+                houseType : [
+                    {
+                        id : '0',
+                        name : '一居',
+                        cur : ''
+                    },
+                    {
+                        id : '1',
+                        name : '二居',
+                        cur : ''
+                    },
+                    {
+                        id : '2',
+                        name : '三居',
+                        cur : ''
+                    },
+                    {
+                        id : '3',
+                        name : '四居',
+                        cur : ''
+                    },
+                    {
+                        id : '4',
+                        name : '复式',
+                        cur : ''
+                    },
+                    {
+                        id : '5',
+                        name : '别墅',
+                        cur : ''
+                    },
+                    {
+                        id : '6',
+                        name : 'LOFT',
+                        cur : ''
+                    },
+                    {
+                        id : '6',
+                        name : '其他',
+                        cur : ''
+                    }
+                ],
+                designFee : [
+                    {
+                        id : '0',
+                        name : '50-100',
+                        cur : ''
+                    },
+                    {
+                        id : '1',
+                        name : '100-200',
+                        cur : ''
+                    },
+                    {
+                        id : '2',
+                        name : '200-300',
+                        cur : ''
+                    },
+                    {
+                        id : '3',
+                        name : '300以上',
+                        cur : ''
+                    }
+                ],
+                designType : [
+                    {
+                        id : '0',
+                        name : '不限',
+                        cur : ''
+                    },
+                    {
+                        id : '1',
+                        name : '表达型',
+                        cur : ''
+                    },
+                    {
+                        id : '2',
+                        name : '倾听型',
+                        cur : ''
+                    }
+                ],
+                motaiDone : false,
+                scoreDefineBtn : function(){
+                    this.motaiDone = false;
+                    $location.path('release')
                 }
+            }
+            userInfo.get().then(function(res){
+                $scope.designerService = res.data.data;
+                //设置默认值
+                if($scope.designerService.dec_types.length == 0){
+                    $scope.designerService.dec_types.push(0);
+                }
+                if($scope.designerService.work_types.length == 0){
+                    $scope.designerService.work_types.push(0);
+                }
+                if($scope.designerService.dec_styles.length == 0){
+                    $scope.designerService.dec_styles.push(0);
+                }
+                if($scope.designerService.dec_house_types.length == 0){
+                    $scope.designerService.dec_house_types.push(0);
+                }
+                if($scope.designerService.design_fee_range == undefined){
+                    $scope.designerService.design_fee_range = 0;
+                }
+                if($scope.designerService.communication_type == undefined){
+                    $scope.designerService.communication_type = 0;
+                }
+                if($scope.designerService.dec_fee_half == 0){
+                    $scope.designerService.dec_fee_half = ''
+                }
+                if($scope.designerService.dec_fee_all == 0){
+                    $scope.designerService.dec_fee_all = ''
+                }
+                console.log($scope.designerService.dec_types)
+                if(!$scope.designerService.province){
+                    $scope.designerService.province = '请选择省份';
+                    $scope.designerService.city = '请选择市';
+                    $scope.designerService.district = '请选择县/区';
+                }
+            },function(res){
+                console.log(res)
             });
-            uploadDesignerInfo()
-            function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
-                userInfo.get().then(function(res){
-                    $scope.$emit('designerChildren', res.data.data);
+            $scope.service.submit = function(){
+                userInfo.update($scope.designerService).then(function(res){
+                    if(res.data.msg === "success"){
+                        $scope.service.motaiDone = true;
+                        $scope.$emit('designerChildren', res.data.data);
+                    }
                 },function(res){
                     console.log(res)
                 });
-            }
-            $scope.designerInfo = {
-                philosophy : {
-                    parentFocus : false,
-                    focus : function(){
-                        this.parentFocus = true;
-                    },
-                    blur : function(){
-                        this.parentFocus = false;
-                    }
-                },
-                achievement : {
-                    parentFocus : false,
-                    focus : function(){
-                        this.parentFocus = true;
-                    },
-                    blur : function(){
-                        this.parentFocus = false;
-                    }
-                } 
             }
     }])
     .controller('phoneCtrl', [     //手机认证修改
@@ -963,9 +1097,6 @@ angular.module('controllers', [])
                     $scope.team.city = '请选择市';
                     $scope.team.district = '请选择县/区';
                 }
-                if($scope.team.sex){
-                    setSex(false,$scope.team.sex)  
-                }
             },function(res){
                 console.log(res)
             });
@@ -978,7 +1109,7 @@ angular.module('controllers', [])
                 uid : '',
                 company : '',
                 work_year : '',
-                good_at : '',
+                good_at : '水电',
                 working_on : '',
                 sex : '',
                 uid_image1 : '',
@@ -999,7 +1130,6 @@ angular.module('controllers', [])
                 }
             },
             submit : function(verify){
-                $scope.team.sex = setSex(true)
                 if($stateParams.id){
                     userTeam.update($scope.team).then(function(res){
                         if(res.data.msg === "success"){
@@ -1031,27 +1161,6 @@ angular.module('controllers', [])
                     }
                 ],
             cities_list : tdist,
-            radiosex : function(id){
-                console.log(setSex(false,id))
-                $scope.team.sex = setSex(false,id)
-            },
             goodAtList : ['水电','木工','油工','泥工']
-        }
-        function setSex(b,id){
-            var str = ''
-            angular.forEach($scope.designerTeam.usersex, function(value, key){
-                if(b){
-                   if(value.cur == 'active'){
-                     str = value.id
-                   } 
-                }else{
-                   if(value.id == id){
-                        value.cur = 'active'
-                    }else{
-                        value.cur = ''
-                    } 
-                }
-            })
-            return str;
         }
     }])

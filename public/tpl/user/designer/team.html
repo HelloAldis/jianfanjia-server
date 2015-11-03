@@ -19,7 +19,7 @@
 						<label class="u-lab" for="owner-sex">性别</label>
 						<div class="u-inp">
 							<div class="radio">
-								<label ng-click="designerTeam.radiosex(sex.id)" ng-repeat="sex in designerTeam.usersex"><span class="{{sex.cur}}"></span>{{sex.name}}</label>
+								<div my-radio my-list="designerTeam.usersex" my-query="team.sex" my-selects="1"></div>
 							</div>
 						</div>
 					</div>
