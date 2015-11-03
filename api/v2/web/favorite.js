@@ -100,7 +100,10 @@ exports.list_designer = function (req, res, next) {
         })
       }));
     } else {
-      return res.sendData([]);
+      return res.sendData({
+        designers: [],
+        total: 0,
+      });
     }
   }));
 }
