@@ -20,7 +20,7 @@ function handleText(msg, req, res, next) {
 
   if (msg.Content.search(/我是推广员/) > -1) {
     var username = msg.Content.slice(5).trim();
-    var sceneid = new Date().getTime();
+    var sceneid = new Date().getTime() % (1000 * 60 * 60 * 24 * 10);
     Kpi.setOne({
       openid: msg.FromUserName
     }, {
@@ -49,14 +49,14 @@ function handleText(msg, req, res, next) {
               wei_res.body.ticket;
             res.send(send_image_text(msg.FromUserName, msg.ToUserName,
               '简繁家感谢你为我们推广',
-              '推广员' + username + '请保管好你的二维码', url, url));
+              '请点击链接保管好你的二维码', url, url));
           } else {
             console.log(wei_res.text);
           }
         }));
       }));
     }));
-  } else if (msg.Content === 'kpi') {
+  } else if (msg.Content.toLowerCase() === 'kpi') {
     Kpi.findOne({
       openid: msg.FromUserName
     }, null, ep.done(function (kpi) {
@@ -67,7 +67,7 @@ function handleText(msg, req, res, next) {
         res.send('success');
       }
     }));
-  } else if (msg.Content === 'adminkpi') {
+  } else if (msg.Content.toLowerCase() === 'adminkpi') {
     Kpi.findOne({}, {
       _id: 0,
       username: 1,
@@ -90,9 +90,10 @@ function handleEvent(msg, req, res, next) {
   ep.fail(next);
 
 
-  if (msg.Event === type.wechat_Event_subscribe && msg.EventKey) {
+  if (msg.Event === type.wechat_Event_subscribe && msg.EventKey && msg.EventKey
+    .length > 8) {
     //关注了带参数二维码
-    var sceneid = msg.EventKey;
+    var sceneid = msg.EventKey.slice(8);
     // limit.perwhatperdaydo('wechat_Event_subscribe', msg.FromUserName, 1,
     // function () {
     Kpi.incOne({
@@ -103,7 +104,12 @@ function handleEvent(msg, req, res, next) {
     // });
   } else if (msg.Event === type.wechat_Event_SCAN && msg.EventKey) {
     //已关注了带参数二维码
-
+    var sceneid = msg.EventKey;
+    Kpi.incOne({
+      sceneid: sceneid,
+    }, {
+      scan_count: 1
+    });
   } else {
 
   }
