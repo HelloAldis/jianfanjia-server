@@ -50,8 +50,7 @@ function handleText(msg, req, res, next) {
               wei_res.body.ticket;
             res.send(send_image_text(msg.FromUserName, msg.ToUserName,
               '简繁家感谢你为我们推广',
-              msg.FromUserName + ', 请点击链接保管好你的二维码', url,
-              url));
+              '请点击链接保管好你的二维码', url, url));
           } else {
             console.log(wei_res.text);
           }
@@ -64,7 +63,7 @@ function handleText(msg, req, res, next) {
     }, null, ep.done(function (kpi) {
       if (kpi) {
         res.send(send_text(msg.FromUserName, msg.ToUserName,
-          msg.FromUserName + '你的kpi数为' + kpi.subscribe_count +
+          '你的kpi为' + kpi.subscribe_count +
           ', 请爆发你的小宇宙吧！'));
       } else {
         res.send('success');
@@ -77,9 +76,13 @@ function handleText(msg, req, res, next) {
       subscribe_count: 1,
       scan_count: 1,
     }, null, ep.done(function (kpis) {
-      if (kpis) {
+      if (kpis.length > 0) {
+        var arr = kpis.map(function (kpi) {
+          return kpi.username + ' ' + kpi.subscribe_count + '+' + kpi
+            .scan_count;
+        });
         res.send(send_text(msg.FromUserName, msg.ToUserName,
-          JSON.stringify(kpis)));
+          arr.join('\n')));
       } else {
         res.send('success');
       }
