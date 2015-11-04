@@ -7,6 +7,7 @@ var Kpi = require('../../../proxy').Kpi;
 var eventproxy = require('eventproxy');
 var cache = require('../../../common/cache');
 var request = require('superagent');
+var limit = require('../../../middlewares/limit');
 
 function toJson(xml) {
   return xml2json.toJson(xml.toString(), {
@@ -62,7 +63,7 @@ function handleText(msg, req, res, next) {
     }, null, ep.done(function (kpi) {
       if (kpi) {
         res.send(send_text(msg.FromUserName, msg.ToUserName,
-          'kpi数为' + kpi.subscribe_count + ', 请继续努力'));
+          '你的kpi数为' + kpi.subscribe_count + ', 请爆发你的小宇宙吧！'));
       } else {
         res.send('success');
       }
@@ -94,14 +95,14 @@ function handleEvent(msg, req, res, next) {
     .length > 8) {
     //关注了带参数二维码
     var sceneid = msg.EventKey.slice(8);
-    // limit.perwhatperdaydo('wechat_Event_subscribe', msg.FromUserName, 1,
-    // function () {
-    Kpi.incOne({
-      sceneid: sceneid,
-    }, {
-      subscribe_count: 1
-    });
-    // });
+    limit.perwhatperdaydo('wechat_Event_subscribe', msg.FromUserName, 1,
+      function () {
+        Kpi.incOne({
+          sceneid: sceneid,
+        }, {
+          subscribe_count: 1
+        });
+      });
   } else if (msg.Event === type.wechat_Event_SCAN && msg.EventKey) {
     //已关注了带参数二维码
     var sceneid = msg.EventKey;
