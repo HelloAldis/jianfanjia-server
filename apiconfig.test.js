@@ -37,6 +37,7 @@ var config = {
   //微信公众平台设置
   wechat_app_Secret: '1b9bfbd4f8d9610858bacaf3e313e665',
   wechat_appid: 'wxdf8d720164933e01',
+  open_weixin_token: false,
   interval_get_wechat_token: 90,
 
   //微米短信配置

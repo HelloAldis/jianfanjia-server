@@ -50,7 +50,8 @@ function handleText(msg, req, res, next) {
               wei_res.body.ticket;
             res.send(send_image_text(msg.FromUserName, msg.ToUserName,
               '简繁家感谢你为我们推广',
-              '请点击链接保管好你的二维码', url, url));
+              msg.FromUserName + ', 请点击链接保管好你的二维码', url,
+              url));
           } else {
             console.log(wei_res.text);
           }
@@ -63,7 +64,8 @@ function handleText(msg, req, res, next) {
     }, null, ep.done(function (kpi) {
       if (kpi) {
         res.send(send_text(msg.FromUserName, msg.ToUserName,
-          '你的kpi数为' + kpi.subscribe_count + ', 请爆发你的小宇宙吧！'));
+          msg.FromUserName + '你的kpi数为' + kpi.subscribe_count +
+          ', 请爆发你的小宇宙吧！'));
       } else {
         res.send('success');
       }

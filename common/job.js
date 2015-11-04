@@ -74,8 +74,12 @@ agenda.on('ready', function () {
     'expire_designer_respond');
   agenda.every(config.interval_scan_expired_upload_plan + ' minutes',
     'expire_designer_upload_plan');
-  agenda.every(config.interval_get_wechat_token + ' minutes',
-    'get_wechat_token');
+
+  if (config.open_weixin_token) {
+    agenda.every(config.interval_get_wechat_token + ' minutes',
+      'get_wechat_token');
+  }
+
 
   agenda.start();
 });
