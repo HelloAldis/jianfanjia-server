@@ -136,6 +136,8 @@ var type = {
   design_fee_range_200_300: '2',
   design_fee_range_300: '3',
 
+  wechat_MsgType_text: 'text',
+
 }
 
 module.exports = type;
