@@ -26,6 +26,7 @@ require('./api_statistic');
 require('./feedback');
 require('./comment');
 require('./evaluation');
+require('./wechat_event');
 
 exports.User = mongoose.model('User');
 exports.Designer = mongoose.model('Designer');
@@ -44,3 +45,4 @@ exports.ApiStatistic = mongoose.model('ApiStatistic');
 exports.Feedback = mongoose.model('Feedback');
 exports.Comment = mongoose.model('Comment');
 exports.Evaluation = mongoose.model('Evaluation');
+exports.WechatEvent = mongoose.model('WechatEvent');
