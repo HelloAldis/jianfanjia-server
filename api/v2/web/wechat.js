@@ -71,11 +71,12 @@ function handleText(msg, req, res, next) {
       }
     }));
   } else if (msg.Content.toLowerCase() === 'adminkpi') {
-    Kpi.findOne({}, {
+    Kpi.find({}, {
       _id: 0,
       username: 1,
-      subscribe_count: 1
-    }, ep.done(function (kpis) {
+      subscribe_count: 1,
+      scan_count: 1,
+    }, null, ep.done(function (kpis) {
       if (kpis) {
         res.send(send_text(msg.FromUserName, msg.ToUserName,
           JSON.stringify(kpis)));
