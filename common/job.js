@@ -60,7 +60,7 @@ agenda.define('get_wechat_token', function (job, done) {
   }).end(function (err, res) {
     if (res.ok) {
       console.log(res.body);
-      cache.set(wechat_token, res.body.access_token, 60 * 60 * 2)
+      cache.set(type.wechat_token, res.body.access_token, 60 * 60 * 2)
       done();
     } else {
       console.log('err = ' + res.text);
