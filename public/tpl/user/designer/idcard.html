@@ -74,7 +74,7 @@
 					<div class="m-item m-error-info hide" id="error-info"></div>
 				</div>
 				<div class="m-btns">
-					<input type="button" class="u-btns" ng-click="designerIdcard.send(idcard.$valid)" value="提交认证" />
+					<input type="button" class="u-btns" ng-disabled="myForm.$invalid" ng-click="designerIdcard.send(idcard.$valid)" value="提交认证" />
 				</div>
 			</div>
 		</form>

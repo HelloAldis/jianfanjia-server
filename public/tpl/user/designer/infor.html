@@ -65,7 +65,7 @@
 					<div class="item">
 						<label class="u-lab" for="owner-name">毕业院校</label>
 						<div class="u-inp">
-							<input type="text" class="input" ng-model="designer.username" required />
+							<input type="text" class="input" ng-model="designer.university" required />
 						</div>
 					</div>
 				</div>
@@ -73,7 +73,7 @@
 					<div class="item">
 						<label class="u-lab" for="owner-name">工作年限</label>
 						<div class="u-inp">
-							<input type="text" class="input" ng-model="designer.username" required />
+							<input type="text" class="input" ng-model="designer.work_year" required />
 						</div>
 					</div>
 				</div>
@@ -98,6 +98,26 @@
 						<label class="u-lab" for="owner-name">设计理念</label>
 						<div class="u-inp">
 							<div ng-class="{'focus textarea':designerInfo.philosophy.parentFocus,'textarea':!designerInfo.philosophy.parentFocus}"><textarea rows="10" ng-model="designer.philosophy" ng-focus="designerInfo.philosophy.focus()" ng-blur="designerInfo.philosophy.blur()"></textarea></div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-name">添加学历</label>
+						<div class="u-inp">
+							<div class="products">
+								<span ng-bind="designer.product_count"></span>至少有三套作品，才能提交认证
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="m-item f-cb">
+					<div class="item">
+						<label class="u-lab" for="owner-name">获奖照片及描述</label>
+						<div class="u-inp">
+							<div class="products">
+								<span ng-bind="designer.product_count"></span>至少有三套作品，才能提交认证
+							</div>
 						</div>
 					</div>
 				</div>

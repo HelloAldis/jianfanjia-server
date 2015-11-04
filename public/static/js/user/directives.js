@@ -1,6 +1,78 @@
 'use strict';
 // 公用指令
 angular.module('directives', [])
+      .directive('myRadio',['$timeout',function($timeout){     //自定义下拉框
+        return {
+           replace : true,
+           scope: {
+                   myList : "=",
+                   myQuery : "=",
+                   mySelects : "@"
+           },
+           restrict: 'A',
+           template: '<div class="radio"></div>',
+           link: function($scope, iElm, iAttrs, controller) {
+               var obj = angular.element(iElm),
+                   oUl = obj.find('ul'),
+                   list = $scope.myList,
+                   query = $scope.myQuery,
+                   select = $scope.mySelects,
+                   str = '';
+                   if((typeof query != Object) && (typeof query == String || typeof query == Number)){
+                      for (var i = 0,len = list.length; i < len; i++) {
+                          if(list[i].id == query){
+                              list[i].cur = 'active';
+                          }
+                      };
+                   }else{
+                      for (var i = 0,len = list.length; i < len; i++) {
+                        for (var j = 0; j < query.length; j++) {
+                          if(list[i].id == query[j]){
+                              list[i].cur = 'active';
+                          }
+                        };
+                      };  
+                   }
+                  for (var i = 0,len = list.length; i < len; i++) {
+                     str += '<label class="'+list[i].cur+'" data-id="'+list[i].id+'"><span></span>'+list[i].name+'</label>'
+                  };
+                  obj.html(str);
+                  obj.on('click', 'label' ,function(){
+                      var id = $(this).data('id'),
+                          This = $(this);
+                      $scope.$apply(function(){
+                        var len = $scope.myQuery.length;
+                        if(select == 1){
+                          This.attr('class', 'active').siblings('label').attr('class', '');
+                            $scope.myQuery = id;
+                        }else if(select == 3 || select == 0){
+                            if(This.attr('class') === 'active'){
+                              if(len == 1){
+                                alert('最少1项');
+                                return ;
+                              }
+                              This.attr('class', '');
+                              var index = $.inArray($scope.myQuery,id)
+                              $scope.myQuery.splice(index,1)
+                            }else{
+                              This.attr('class', 'active');
+                              $scope.myQuery.push(id);
+                              if(select == 3){
+                                if($scope.myQuery.length > 3){
+                                  This.attr('class', '');
+                                  $scope.myQuery.pop();
+                                  alert('只能选择3个擅长风格');
+                                  return ;
+                                }
+                              } 
+                            }
+                        }
+                    });
+                  })
+                  
+           }
+       };
+    }])
    .directive('mySelect',['$timeout',function($timeout){     //自定义下拉框
         return {
             replace : true,
@@ -195,6 +267,7 @@ angular.module('directives', [])
                    oBox = angular.element(iElm),
                    bOFF = false,
                    bOff = false,
+                   DefaultLen = 3,
                    Default = [
                     {
                       en : 'province',
@@ -215,9 +288,12 @@ angular.module('directives', [])
                // 渲染dom
                 Default[0].cn = oProvince;
                 Default[1].cn = oCity;
-                Default[2].cn = oDistrict;
+                if(!oDistrict){
+                  DefaultLen = 2;
+                  Default[2].cn = oDistrict;
+                }
                 var selectData = '';
-                for (var i = 0; i < Default.length; i++) {
+                for (var i = 0; i < DefaultLen; i++) {
                     var selectDataInput = '';
                     var selectDataOption = '';
                     for (var j = 0; j < 1; j++) {
@@ -235,13 +311,18 @@ angular.module('directives', [])
                     
                 };
                 oBox.html(selectData)
-                //oUl = obj.find('ul');
                 var province = oBox.find('.province'),
                     city = oBox.find('.city'),
                     district = oBox.find('.district'),
                     body = angular.element(document),
-                    listArr = [province,city,district];
-                for (var i = 0; i < 3; i++) {
+                    listArr;
+                    if(oDistrict){
+                      listArr = [province,city,district];
+                    }else{
+                      listArr = [province,city];
+                    }
+                for(var i = 0; i < DefaultLen; i++) {
+                  console.log(i)
                   createList(Default[i].num,listArr[i]);
                   selectEvent(listArr[i]);
                   optionEvevt(listArr[i]);
@@ -272,7 +353,7 @@ angular.module('directives', [])
                         bOff = true;
                       }
                       if(!bOFF && obj == city){
-                        if(self.list1.find('.value').html() == "请选择省"){
+                        if(province.find('.value').html() == "请选择省"){
                           alert('请先选择省');
                           return false;
                         }
