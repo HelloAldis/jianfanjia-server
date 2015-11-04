@@ -15,4 +15,4 @@ exports.ApiStatistic = require('./api_statistic');
 exports.Feedback = require('./feedback');
 exports.Comment = require('./comment');
 exports.Evaluation = require('./evaluation');
-exports.WechatEvent = require('./wechat_event');
+exports.Kpi = require('./kpi');

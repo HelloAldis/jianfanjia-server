@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var WechatEventSchema = new Schema({
+var KpiSchema = new Schema({
+  username: {
+    type: String,
+  },
   openid: {
     type: String,
   },
@@ -21,10 +24,10 @@ var WechatEventSchema = new Schema({
   }
 });
 
-WechatEventSchema.index({
+KpiSchema.index({
   openid: 1
 }, {
   unique: true
 });
 
-mongoose.model('WechatEvent', WechatEventSchema);
+mongoose.model('Kpi', KpiSchema);

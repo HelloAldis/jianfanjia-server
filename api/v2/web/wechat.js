@@ -3,8 +3,10 @@ var _ = require('lodash');
 var utility = require('utility');
 var type = require('../../../type');
 var util = require('util');
-var WechatEvent = require('../../../proxy').WechatEvent;
+var Kpi = require('../../../proxy').Kpi;
 var eventproxy = require('eventproxy');
+var cache = require('../../../common/cache');
+var request = require('superagent');
 
 function toJson(xml) {
   return xml2json.toJson(xml.toString(), {
@@ -17,27 +19,108 @@ function handleText(msg, req, res, next) {
   ep.fail(next);
 
   if (msg.Content.search(/我是推广员/) > -1) {
-    var sceneid = msg.Content.slice(5);
-    WechatEvent.newAndSave({
-      openid: msg.FromUserName,
+    var username = msg.Content.slice(5).trim();
+    var sceneid = new Date().getTime();
+    Kpi.setOne({
+      openid: msg.FromUserName
+    }, {
+      username: username,
       sceneid: sceneid,
-    }, ep.done(function () {
-      var url =
-        'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHM8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL1lEOC1IeGJsOU9LTm4xZTJfQkdqAAIE0mQ5VgMEgDoJAA==';
-      res.send(send_image_text(msg.FromUserName, msg.ToUserName, '简繁家',
-        '欢迎你', url, url));
+    }, {
+      upsert: true
+    }, ep.done(function (kpi) {
+      cache.get(type.wechat_token, ep.done(function (token) {
+        var url =
+          'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=' +
+          token;
+        console.log(url);
+        request.post(url).send({
+          expire_seconds: 604800,
+          action_name: 'QR_SCENE',
+          action_info: {
+            scene: {
+              scene_id: sceneid
+            }
+          }
+        }).end(ep.done(function (wei_res) {
+          if (wei_res.ok && !wei_res.body.errcode) {
+            var url =
+              'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=' +
+              wei_res.body.ticket;
+            res.send(send_image_text(msg.FromUserName, msg.ToUserName,
+              '简繁家感谢你为我们推广',
+              '推广员' + username + '请保管好你的二维码', url, url));
+          } else {
+            console.log(wei_res.text);
+          }
+        }));
+      }));
     }));
+  } else if (msg.Content === 'kpi') {
+    Kpi.findOne({
+      openid: msg.FromUserName
+    }, null, ep.done(function (kpi) {
+      if (kpi) {
+        res.send(send_text(msg.FromUserName, msg.ToUserName,
+          'kpi数为' + kpi.subscribe_count + ', 请继续努力'));
+      } else {
+        res.send('success');
+      }
+    }));
+  } else if (msg.Content === 'adminkpi') {
+    Kpi.findOne({}, {
+      _id: 0,
+      username: 1,
+      subscribe_count: 1
+    }, ep.done(function (kpis) {
+      if (kpis) {
+        res.send(send_text(msg.FromUserName, msg.ToUserName,
+          JSON.stringify(kpis)));
+      } else {
+        res.send('success');
+      }
+    }));
+  } else {
+    res.send('success');
   }
 }
 
-//https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHM8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL1lEOC1IeGJsOU9LTm4xZTJfQkdqAAIE0mQ5VgMEgDoJAA==
+function handleEvent(msg, req, res, next) {
+  var ep = eventproxy();
+  ep.fail(next);
+
+
+  if (msg.Event === type.wechat_Event_subscribe && msg.EventKey) {
+    //关注了带参数二维码
+    var sceneid = msg.EventKey;
+    // limit.perwhatperdaydo('wechat_Event_subscribe', msg.FromUserName, 1,
+    // function () {
+    Kpi.incOne({
+      sceneid: sceneid,
+    }, {
+      subscribe_count: 1
+    });
+    // });
+  } else if (msg.Event === type.wechat_Event_SCAN && msg.EventKey) {
+    //已关注了带参数二维码
+
+  } else {
+
+  }
+
+  res.send('success');
+}
+
 exports.receive = function (req, res, next) {
   req.on('data', function (data) {
     var msg = toJson(data);
+    console.log(msg);
     if (msg.MsgType === type.wechat_MsgType_text) {
       handleText(msg, req, res, next);
+    } else if (msg.MsgType === type.wechat_MsgType_event) {
+      handleEvent(msg, req, res, next);
     } else {
-      res.sendSuccessMsg();
+      res.send('success');
     }
   });
 };
@@ -79,4 +162,16 @@ function send_image_text(to_user, from_user, title, description, pic_url, url) {
   var time = parseInt(new Date().getTime() / 1000);
   return util.format(image_text_template, to_user, from_user, time, title,
     description, pic_url, url);
+}
+
+var text_template =
+  '<xml><ToUserName><![CDATA[%s]]></ToUserName>\
+<FromUserName><![CDATA[%s]]></FromUserName>\
+<CreateTime>12345678</CreateTime>\
+<MsgType><![CDATA[text]]></MsgType>\
+<Content><![CDATA[%s]]></Content></xml>'
+
+function send_text(to_user, from_user, content) {
+  var time = parseInt(new Date().getTime() / 1000);
+  return util.format(text_template, to_user, from_user, content);
 }

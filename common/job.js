@@ -2,6 +2,8 @@ var config = require('../apiconfig');
 var Agenda = require('agenda');
 var Plan = require('../proxy').Plan;
 var type = require('../type');
+var request = require('superagent');
+var cache = require('../common/cache');
 
 var agenda = new Agenda({
   db: {
@@ -50,11 +52,30 @@ agenda.define('expire_designer_upload_plan', function (job, done) {
   });
 });
 
+agenda.define('get_wechat_token', function (job, done) {
+  request.get('https://api.weixin.qq.com/cgi-bin/token').query({
+    grant_type: 'client_credential',
+    appid: config.wechat_appid,
+    secret: config.wechat_app_Secret,
+  }).end(function (err, res) {
+    if (res.ok) {
+      console.log(res.body);
+      cache.set(wechat_token, res.body.access_token, 60 * 60 * 2)
+      done();
+    } else {
+      console.log('err = ' + res.text);
+      done();
+    }
+  });
+});
+
 agenda.on('ready', function () {
   agenda.every(config.interval_scan_expired_respond + ' minutes',
     'expire_designer_respond');
   agenda.every(config.interval_scan_expired_upload_plan + ' minutes',
     'expire_designer_upload_plan');
+  agenda.every(config.interval_scan_expired_upload_plan + ' minutes',
+    'get_wechat_token');
 
   agenda.start();
 });

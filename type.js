@@ -137,7 +137,10 @@ var type = {
   design_fee_range_300: '3',
 
   wechat_MsgType_text: 'text',
-
+  wechat_MsgType_event: 'event',
+  wechat_Event_subscribe: 'subscribe',
+  wechat_Event_SCAN: 'SCAN',
+  wechat_token: 'wechat_token',
 }
 
 module.exports = type;
