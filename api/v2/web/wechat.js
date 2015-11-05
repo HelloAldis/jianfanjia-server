@@ -50,7 +50,7 @@ function handleText(msg, req, res, next) {
               wei_res.body.ticket;
             res.send(send_image_text(msg.FromUserName, msg.ToUserName,
               '简繁家感谢你为我们推广',
-              '请点击链接保管好你的二维码', url, url));
+              '请点击链接并保管好你的二维码', url, url));
           } else {
             console.log(wei_res.text);
           }

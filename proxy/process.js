@@ -27,6 +27,29 @@ exports.addImage = function (id, section, item, imageid, callback) {
   }, callback);
 };
 
+exports.deleteImage = function (id, section, item, i, callback) {
+  var index = _.indexOf(type.process_work_flow, section);
+  var path = 'sections.' + index + '.items.name';
+  var query = {};
+  query._id = id;
+  query[path] = item;
+  var unset = {};
+  unset['sections.' + index + '.items.$.images.' + i] = 1;
+  var pull = {};
+  pull['sections.' + index + '.items.$.images'] = null;
+  var set = {};
+  set['sections.' + index + '.items.$.date'] = new Date().getTime();
+
+  Process.findOneAndUpdate(query, {
+    $unset: unset,
+  }, function (err, process) {
+    Process.findOneAndUpdate(query, {
+      $pull: pull,
+      $set: set,
+    }, callback);
+  });
+}
+
 exports.addCommentCount = function (id, section, item, callback) {
   var index = _.indexOf(type.process_work_flow, section);
   var path = 'sections.' + index + '.items.name';
@@ -99,7 +122,18 @@ exports.updateYsImage = function (id, section, key, imageid, callback) {
 }
 
 exports.deleteYsImage = function (id, section, key, callback) {
-  exports.updateYsImage(id, section, key, null, callback);
+  var index = _.indexOf(type.process_work_flow, section);
+
+  var pull = {};
+  pull['sections.' + index + '.ys.images'] = {
+    key: key
+  };
+
+  Process.findOneAndUpdate({
+    _id: id
+  }, {
+    $pull: pull,
+  }, callback);
 }
 
 

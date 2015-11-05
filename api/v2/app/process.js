@@ -273,6 +273,19 @@ exports.addImage = function (req, res, next) {
   }));
 };
 
+exports.delete_image = function (req, res, next) {
+  var section = tools.trim(req.body.section);
+  var item = tools.trim(req.body.item);
+  var index = req.body.index;
+  var _id = req.body._id;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Process.deleteImage(_id, section, item, index, ep.done(function (process) {
+    res.sendSuccessMsg();
+  }));
+};
+
 exports.addYsImage = function (req, res, next) {
   var section = tools.trim(req.body.section);
   var key = tools.trim(req.body.key);
@@ -300,7 +313,7 @@ exports.deleteYsImage = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  Process.updateYsImage(_id, section, key, null, ep.done(function (process) {
+  Process.deleteYsImage(_id, section, key, ep.done(function (process) {
     res.sendSuccessMsg();
   }));
 };
