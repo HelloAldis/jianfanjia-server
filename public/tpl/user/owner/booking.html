@@ -54,12 +54,12 @@
 				<div class="notdesigner f-cb">
 					<p>您还没有添加意向设计师</p>
 					<div class="btns">
-						<a href="../design/index.html" class="u-btns" target="_blank">前往添加意向设计师</a>
+						<a href="../design/index.html" class="u-btns u-btns-revise" target="_blank">前往添加意向设计师</a>
 					</div>
 				</div>
 			</li>
 		</ul>
-		<div class="booking-btns" ng-if="bookingSuccess">
+		<div class="booking-btns" ng-if="bookingSuccess && ordersData.length < 3">
 			<a href="javascript:;" class="u-btns" ng-click="booking.bookingBtn()">预约量房</a>
 		</div>
 	</div>

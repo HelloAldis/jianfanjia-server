@@ -30,7 +30,9 @@ template{display:none}
 .f-fl,.f-fr{display:inline}
 .f-cb:after,.f-cb:before,.item:after,.item:before{content: "";display:table;clear:both;}
 .f-cb,.item{*zoom:1}
+.f-tal{text-align: left;}
 .f-tac{text-align: center;}
+.f-tar{text-align: right;}
 .f-st{font-family:\5b8b\4f53,"SimSun", "宋体";}
 .f-fz16{font-size: 16px;}
 .f-fz16{font-size: 18px;}

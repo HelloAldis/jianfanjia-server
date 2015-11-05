@@ -3,11 +3,6 @@
 		<p class="f-fl">装修方案摘要</p>
 	</div>
 	<ul class="m-plans" ng-if="plans.length == 0 || plans">
-		<li ng-if="plans.length == 0">
-			<div class="notData">
-				设计师正在提交方案中，请耐心等候！
-			</div>
-		</li>
 		<li bindonce="plans" ng-repeat="data in plans">
 			<div class="boxs">
 				<div class="info f-cb">
@@ -50,15 +45,17 @@
 			</div>
 		</li>
 	</ul>
-	<div class="loading" ng-if="!plans">
-		正在加载数据。。。
+	<div class="pageNotdate designer-pageNotdate" ng-show="plans.length == 0">
+		<h3><i class="iconfont2">&#xe605;</i></h3>
+		<p>设计师正在提交方案中</p>
 	</div>
+	<div class="pageLoading" ng-hide="!!plans"></div>
 </div>
 <div class="k-motai" ng-if="score.motaiDone">
 	<div class="motai done">
 		<span class="done-icon"></span>
-		<h3>提交成功！</h3>
-		<p>设计师将在5天内提交装修方案，请保持紧密沟通。</p>
-		<a href="javascript:;" class="u-btns" ng-click="score.scoreDefineBtn()">&nbsp;立即评价&nbsp;</a>
+		<h3>选定成功！</h3>
+		<p>设计师将在近期内生成第三方合同，请保持紧密沟通。</p>
+		<input type="button" class="u-btns" value="&nbsp;&nbsp;确定&nbsp;&nbsp;">
 	</div>
 </div>

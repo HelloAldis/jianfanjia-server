@@ -64,7 +64,7 @@ angular.module('controllers', [])
             $scope.onlineSetting = function(i){   //在线设置
                 var b = true;
                 if(i == 1){
-                    if(confirm('您确实要设置离线，离线不能接单')){
+                    if(confirm('您确定要设置离线，离线以后不能接单')){
                         onelineStatus(i) 
                     }
                 }else if(i == 0){
@@ -82,8 +82,8 @@ angular.module('controllers', [])
             }
     }])
     .controller('requirementListCtrl', [     //装修需求列表
-        '$scope','$rootScope','$http','$filter','$location','$stateParams','$interval','userRequiremtne',
-        function($scope, $rootScope,$http,$filter,$location,$stateParams,$interval,userRequiremtne){
+        '$scope','$rootScope','$http','$filter','$location','$stateParams','$interval','userRequiremtne','initData',
+        function($scope, $rootScope,$http,$filter,$location,$stateParams,$interval,userRequiremtne,initData){
             userRequiremtne.list().then(function(res){
                 $scope.requiremtnes = res.data.data;
                 console.log($scope.requiremtnes)
@@ -101,16 +101,7 @@ angular.module('controllers', [])
             },function(res){
                 console.log(res)
             });
-            var statusUrl = {
-                "0":"detail",
-                "1":"owner",
-                "2":"owner",
-                "3":"plan",
-                "4":"contract",
-                "5":"contract",
-                "6":"owner",
-                "7":"contract"               
-            }
+            var statusUrl = initData.statusUrl;
             $scope.goTo = function(id,status){
                 $location.path('requirement/'+id+"/"+statusUrl[status]);
             }
@@ -165,8 +156,8 @@ angular.module('controllers', [])
             });  
     }])
     .controller('requirementDetailCtrl', [     //装修需求详情
-        '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne',
-        function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne){
+        '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne','initData',
+        function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,initData){
             var requiremtneId = $stateParams.id;
             $scope.$on('requirementParent',function(event, data){    //子级接收 
                 console.log(data.status)
@@ -201,18 +192,7 @@ angular.module('controllers', [])
             response : true,
             rejectMessage : '',
             message : '',
-            messages : [
-                {
-                    'id' : 0,
-                    'msg' : '预算偏低，不符合预期',
-                    'cur' : false
-                },
-                {
-                    'id' : 1,
-                    'msg' : '时间忙，接不过来',
-                    'cur' : false
-                },
-            ],
+            messages : initData.rejectMsg,
             messageBtn : function(id){
                 angular.forEach($scope.owenr.messages, function(value, key){
                     if(value.id == id){
@@ -310,14 +290,43 @@ angular.module('controllers', [])
         }
     }])
     .controller('createCtrl', [     //方案创建和更新
-        '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne','userTeam',
-        function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,userTeam) {
-            console.log($stateParams.id)
-            if($stateParams.id.split("&").length){
+        '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne','userTeam','initData',
+        function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,userTeam,initData) {
+            $scope.designerPlan = {
+                tab : true,
+                tabBtn : function(i){
+                    this.tab = i
+                },
+                isCreate : $stateParams.id.split("&").length == 1 ? true : false,
+                disabled : false,
+                managers : [],
+                planId : this.isCreate ? $stateParams.id : $stateParams.id.split("&")[0],
+                requiremtneId : this.isCreate ? "" : $stateParams.id.split("&")[1],
+                add_price_detail_name : "",
+                add_price_detail_ok : false,
+                total_price_discount : undefined,
+                total_price_discount_ok : false,
+                username : this.isCreate ? "" : $stateParams.id.split("&")[2],
+            }
+            $scope.$watch('designerPlan.add_price_detail_name', function(newValue, oldValue, scope){
+                if(!!newValue){
+                    $scope.designerPlan.add_price_detail_ok = true;
+                }else{
+                    $scope.designerPlan.add_price_detail_ok = false;
+                }
+            });
+            if($scope.designerPlan.isCreate){
                 //更新方案
-                userRequiremtne.getPlan({'_id':$stateParams.id}).then(function(res){  //获取当前需求信息
+                userRequiremtne.getPlan({'_id':$scope.designerPlan.planId}).then(function(res){  //获取当前需求信息
                     console.log(res.data.data)
                     $scope.plan = res.data.data;
+                    if(_.indexOf($scope.designerPlan.managers,$scope.plan.manager) == -1){
+                        $scope.plan.manager = '请选择项目经理'
+                    }
+                    $scope.designerPlan.requiremtneId = $scope.plan.requirementid;
+                    $scope.designerPlan.total_price_discount = parseInt($scope.plan.total_design_fee)+parseInt($scope.plan.project_price_after_discount);
+                    $scope.designerPlan.total_price_discount_ok = true;
+                    $scope.designerPlan.username = $scope.plan.user.username;
                 },function(res){
                     console.log(res)
                 });
@@ -325,229 +334,125 @@ angular.module('controllers', [])
                 //创建方案
                 $scope.plan = {
                     "userid": $stateParams.id.split("&")[1],
-                    "requirementid":$stateParams.id.split("&")[0],
+                    "requirementid":$scope.designerPlan.requiremtneId,
                     "duration":undefined,
                     "total_price":undefined,
                     "total_design_fee":undefined,
                     "project_price_after_discount":undefined,
-                    "price_detail":[
-                        {
-                            "description": "",
-                            "price": "",
-                            "item": "基础工程"
-                        },
-                        {
-                            "description": "",
-                            "price": "",
-                            "item": "水电工程"
-                        },
-                        {
-                            "description": "",
-                            "price": "",
-                            "item": "客餐厅及走道"
-                        },
-                        {
-                            "description": "",
-                            "price": "",
-                            "item": "主卧"
-                        },
-                        {
-                            "description": "",
-                            "price": "",
-                            "item": "次卧"
-                        },
-                        {
-                            "description": "",
-                            "price": "",
-                            "item": "客卧"
-                        },
-                        {
-                            "description": "",
-                            "price": "",
-                            "item": "衣帽间"
-                        },
-                        {
-                            "description": "",
-                            "price": "",
-                            "item": "书房"
-                        },
-                        {
-                            "description": "",
-                            "price": "",
-                            "item": "厨房"
-                        },{
-                            "description": "",
-                            "price": "",
-                            "item": "主卫"
-                        },
-                        {
-                            "description": "",
-                            "price": "",
-                            "item": "客卫"
-                        },
-                        {
-                            "description": "",
-                            "price": "",
-                            "item": "阳台一"
-                        },{
-                            "description": "",
-                            "price": "",
-                            "item": "阳台二"
-                        },
-                        {
-                            "description": "",
-                            "price": "",
-                            "item": "安装工程"
-                        }
-                    ],
+                    "price_detail":initData.priceDetail,
                     "description":"",
                     "manager": "",
                     "images" : []
                 }
-                $scope.plan.user.username = $stateParams.id.split("&")[2];
-                $scope.managers = [];
-                userTeam.list().then(function(res){  //获取该设计师施工团队
-                    console.log(res.data.data)
-                    angular.forEach(res.data.data, function(value, key){
-                        this.push({
-                            id : key,
-                            name : value.manager
-                        })
-                    },$scope.managers);
-                    $scope.plan.manager = $scope.managers[0].id;
-                },function(res){
-                    console.log(res)
+            }
+            userTeam.list().then(function(res){  //获取该设计师施工团队
+                console.log(res.data.data)
+                angular.forEach(res.data.data, function(value, key){
+                    $scope.designerPlan.managers.push(value.manager)
                 });
-            }
+                if(!$scope.designerPlan.isCreate){
+                    $scope.plan.manager = $scope.designerPlan.managers[0];
+                }
+            },function(res){
+                console.log(res)
+            });
             var res = /^[1-9]*[1-9][0-9]*$/;
-            $scope.tab = true;
-            $scope.tabBtn = function(i){
-                $scope.tab = i
+            $scope.designerPlan.remove_price_detail = function(id){
+                if(confirm('您确定要删除吗？')){
+                    $scope.plan.price_detail.splice(id,1)
+                }
             }
-            $scope.remove_price_detail = function(id){
-                $scope.plan.price_detail.splice(id,1)
-            }
-            $scope.add_price_detail = function(){
-                if($scope.add_price_detail_name != ''){
+            $scope.designerPlan.add_price_detail = function(){
+                var This = this;
+                if(this.add_price_detail_ok){
                     $scope.plan.price_detail.push({
                         "description": "",
                         "price": "",
-                        "item": $scope.add_price_detail_name
+                        "item": This.add_price_detail_name
                     })
-                    $scope.add_price_detail_name = '';
+                    This.add_price_detail_name = '';
+                    this.add_price_detail_ok = false;
                 }else{
                     alert('您输入新增项目名称为空');
                     return ;
                 }
-            }
-            $scope.computePrice = function(){
+            }           
+            $scope.designerPlan.computePrice = function(){
                 var price = 0;
                 angular.forEach($scope.plan.price_detail, function(value, key){
                     if(!isNaN(parseInt(value.price))){
-                        price += parseInt(value.price)
+                        if(value.price.length > 12){
+                            price += 0
+                        }else{
+                            price += parseInt(value.price) 
+                        }
                     }
                 });
                 $scope.plan.total_price = price;
             }
-            $scope.total_project_price = function(num1,num2){
-                if(!num1){
-                    num1 = 0;
-                }
-                if(!isNaN(parseInt(num1))){
-                    num1 = parseInt(num1)
-                }
-                if(!isNaN(parseInt(num2))){
-                    num2 = parseInt(num2)
-                }
-                if(!num2){
-                    num2 = 0;
-                }
-                return parseInt(num1)+parseInt(num2);
-            }
             $scope.$watch('plan.total_design_fee', function(newValue, oldValue, scope){
+
                 if(!!newValue){
-                    if(res.test(newValue)){
+                    if(res.test(newValue) && newValue.length < 13){
+                        console.log(1)
                       scope.plan.total_design_fee = newValue;
+                      $scope.designerPlan.total_price_discount = parseInt(scope.plan.total_design_fee)+parseInt($scope.plan.project_price_after_discount);
                     }else{
-                      scope.plan.total_design_fee = oldValue;
+                        if(oldValue == undefined){
+                            scope.plan.total_design_fee = newValue
+                        }else{
+                            scope.plan.total_design_fee = oldValue;
+                        }
                     }
                 }
             });
             $scope.$watch('plan.project_price_after_discount', function(newValue, oldValue, scope){
                 if(!!newValue){
-                    if(res.test(newValue)){
+                    if(res.test(newValue) && newValue.length < 13){
                       scope.plan.project_price_after_discount = newValue;
+                      $scope.designerPlan.total_price_discount = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_after_discount);
                     }else{
-                      scope.plan.project_price_after_discount = oldValue;
+                        if(oldValue == undefined){
+                             scope.plan.project_price_after_discount = newValue;
+                        }else{
+                            scope.plan.project_price_after_discount = oldValue;
+                        }
+                      
                     }
                 }
             });
-            $scope.quoteBtn = function(){
-                $scope.tab = false;
+            $scope.designerPlan.createQuote = function(){
+                this.tabBtn(true);
+                this.total_price_discount_ok = true;
             }
-            $scope.createQuote = function(){
-                $scope.tab = true;
-            }
-            function duration(){
-                var off = false;
-                $scope.$watch('plan.duration', function(newValue, oldValue, scope){
-                    console.log('plan.duration'+newValue)
-                    if(!!newValue && res.test(newValue)){
-                        scope.error_info = '';
-                        off = true;
-                    }else{
-                        scope.error_info = '请填写工期';
-                        off = false;
-                    }
-                });
-                return off;
-            }
-            function images(){
-                var off = false;
-                $scope.$watch('plan.images', function(newValue, oldValue, scope){
-                    console.log('plan.images'+newValue)
-                    if(!newValue.length){
-                        scope.error_info = '';
-                        off = true;
-                    }else{
-                        scope.error_info = '请上传平面图';
-                        off = false;
-                    }
-                });
-                return off;
-            }
-            function description(){
-                var off = false;
-                $scope.$watch('plan.description', function(newValue, oldValue, scope){
-                    console.log('plan.description'+newValue)
-                    if(!!newValue){
-                        scope.error_info = '';
-                        off = true;
-                    }else{
-                        scope.error_info = '请填写方案说明';
-                        off = false;
-                    }
-                });
-                return off;
-            }
-            $scope.createPlan = function(){
-                // if($scope.managers.length){
-                //     $scope.plan.manager = $scope.managers[$scope.plan.manager].name;
-                // }
-                $scope.plan.manager = "测试项目经理"
-                console.log($scope.plan)
-                userRequiremtne.addPlan($scope.plan).then(function(res){  //提交方案到业主的需求
-                    $location.path('requirement/'+requiremtneId+"/plan")
-                },function(res){
-                    console.log(res)
-                });  
-            }
-            $scope.uploadPlan = function(){
-                userRequiremtne.update($scope.plan).then(function(res){  //提交方案到业主的需求
-                    $location.path('requirement/'+$scope.plan.requirementid+"/plan")
-                },function(res){
-                    console.log(res)
-                }); 
+            $scope.designerPlan.submit = function(){
+                var This = this;
+                if(this.total_price_discount == 0){
+                    alert('您没有方案报价');
+                    return ;
+                }
+                if($scope.plan.images.length == 0){
+                    alert('请至少上传一张平面图');
+                    return ;
+                }
+                if($scope.plan.manager == ''){
+                    alert('您没有选择项目经理');
+                    return ;
+                }
+                this.disabled = true;
+                if($scope.designerPlan.isCreate){
+                    userRequiremtne.update($scope.plan).then(function(res){  //修改方案到业主的需求
+                        $location.path('requirement/'+This.requiremtneId+"/plan")
+                    },function(res){
+                        console.log(res)
+                    }); 
+                }else{
+                    userRequiremtne.addPlan($scope.plan).then(function(res){  //提交方案到业主的需求
+                        $location.path('requirement/'+This.requiremtneId+"/plan")
+                    },function(res){
+                        console.log(res)
+                    }); 
+                }
             }
             //$location.path('requirement/'+iasd+"/"+statusUrl[status]);
     }])
@@ -565,16 +470,6 @@ angular.module('controllers', [])
             },function(res){
                 console.log(res)
             });
-            var statusUrl = {
-                "0":"owenr",
-                "1":"owenr",
-                "2":"owenr",
-                "3":"plan",
-                "4":"contract",
-                "5":"contract",
-                "6":"owenr",
-                "7":"contract"               
-            }
             $scope.goTo = function(id,status){
                 $location.path('requirement/'+id+"/detail");
             }
@@ -597,7 +492,6 @@ angular.module('controllers', [])
             }
             function laod(){
                 userProduct.list().then(function(res){  //获取作品收藏列表
-                    console.log(res.data)
                     $scope.productList = res.data.data.products;
                     angular.forEach($scope.productList, function(value, key){
                         value.house_type = $filter('houseTypeFilter')(value.house_type);
@@ -718,21 +612,10 @@ angular.module('controllers', [])
             laod()
     }])
     .controller('inforCtrl', [     //基本资料认证
-        '$scope','$rootScope','$http','$filter','$location','userInfo',
-        function($scope, $rootScope,$http,$filter,$location,userInfo){
-            $scope.cities_list = tdist;
-            $scope.usersex = [ 
-                {
-                    id : '0',
-                    name : '男',
-                    cur : '' 
-                },
-                {
-                    id : '1',
-                    name : '女',
-                    cur : '' 
-                }
-            ];
+        '$scope','$rootScope','$http','$filter','$location','userInfo','initData',
+        function($scope, $rootScope,$http,$filter,$location,userInfo,initData){
+            $scope.cities_list = initData.tdist;
+            $scope.usersex = initData.userSex;
             $scope.radiosex = function(id){
                 setSex(false,id)
             }
@@ -794,205 +677,71 @@ angular.module('controllers', [])
             }
     }])
     .controller('serviceCtrl', [     //接单服务设置
-        '$scope','$rootScope','$http','$filter','$location','userInfo',
-        function($scope, $rootScope,$http,$filter,$location,userInfo){
+        '$scope','$rootScope','$http','$filter','$location','userInfo','initData',
+        function($scope, $rootScope,$http,$filter,$location,userInfo,initData){
             $scope.service = {
-                address : tdist,
-                decType : [
-                    {
-                        id : '0',
-                        name : '家装',
-                        cur : ''
-                    },
-                    {
-                        id : '1',
-                        name : '商装',
-                        cur : ''
-                    },
-                    {
-                        id : '2',
-                        name : '软装',
-                        cur : ''
-                    }
-                ],
-                workType : [
-                    {
-                        id : '0',
-                        name : '设计＋施工(半包)',
-                        cur : ''
-                    },
-                    {
-                        id : '1',
-                        name : '设计＋施工(全包)',
-                        cur : ''
-                    },
-                    {
-                        id : '2',
-                        name : '纯设计',
-                        cur : ''
-                    }
-                ],
-                decStype : [
-                    {
-                        id : '0',
-                        name : '欧式',
-                        cur : ''
-                    },
-                    {
-                        id : '1',
-                        name : '中式',
-                        cur : ''
-                    },
-                    {
-                        id : '2',
-                        name : '现代',
-                        cur : ''
-                    },
-                    {
-                        id : '3',
-                        name : '地中海',
-                        cur : ''
-                    },
-                    {
-                        id : '4',
-                        name : '美式',
-                        cur : ''
-                    },
-                    {
-                        id : '5',
-                        name : '东南亚',
-                        cur : ''
-                    },
-                    {
-                        id : '6',
-                        name : '田园',
-                        cur : ''
-                    }
-                ],
-                houseType : [
-                    {
-                        id : '0',
-                        name : '一居',
-                        cur : ''
-                    },
-                    {
-                        id : '1',
-                        name : '二居',
-                        cur : ''
-                    },
-                    {
-                        id : '2',
-                        name : '三居',
-                        cur : ''
-                    },
-                    {
-                        id : '3',
-                        name : '四居',
-                        cur : ''
-                    },
-                    {
-                        id : '4',
-                        name : '复式',
-                        cur : ''
-                    },
-                    {
-                        id : '5',
-                        name : '别墅',
-                        cur : ''
-                    },
-                    {
-                        id : '6',
-                        name : 'LOFT',
-                        cur : ''
-                    },
-                    {
-                        id : '6',
-                        name : '其他',
-                        cur : ''
-                    }
-                ],
-                designFee : [
-                    {
-                        id : '0',
-                        name : '50-100',
-                        cur : ''
-                    },
-                    {
-                        id : '1',
-                        name : '100-200',
-                        cur : ''
-                    },
-                    {
-                        id : '2',
-                        name : '200-300',
-                        cur : ''
-                    },
-                    {
-                        id : '3',
-                        name : '300以上',
-                        cur : ''
-                    }
-                ],
-                designType : [
-                    {
-                        id : '0',
-                        name : '不限',
-                        cur : ''
-                    },
-                    {
-                        id : '1',
-                        name : '表达型',
-                        cur : ''
-                    },
-                    {
-                        id : '2',
-                        name : '倾听型',
-                        cur : ''
-                    }
-                ],
                 motaiDone : false,
                 scoreDefineBtn : function(){
                     this.motaiDone = false;
+                    this.disabled = false;
                     $location.path('release')
-                }
+                },
+                disabled : false
             }
             userInfo.get().then(function(res){
                 $scope.designerService = res.data.data;
                 //设置默认值
-                if($scope.designerService.dec_types.length == 0){
-                    $scope.designerService.dec_types.push(0);
-                }
-                if($scope.designerService.work_types.length == 0){
-                    $scope.designerService.work_types.push(0);
-                }
-                if($scope.designerService.dec_styles.length == 0){
-                    $scope.designerService.dec_styles.push(0);
-                }
-                if($scope.designerService.dec_house_types.length == 0){
-                    $scope.designerService.dec_house_types.push(0);
-                }
-                if($scope.designerService.design_fee_range == undefined){
-                    $scope.designerService.design_fee_range = 0;
-                }
-                if($scope.designerService.communication_type == undefined){
-                    $scope.designerService.communication_type = 0;
-                }
                 if($scope.designerService.dec_fee_half == 0){
                     $scope.designerService.dec_fee_half = ''
                 }
                 if($scope.designerService.dec_fee_all == 0){
                     $scope.designerService.dec_fee_all = ''
                 }
-                console.log($scope.designerService.dec_types)
                 if(!$scope.designerService.province){
                     $scope.designerService.province = '请选择省份';
                     $scope.designerService.city = '请选择市';
-                    $scope.designerService.district = '请选择县/区';
+                }
+                $scope.service.address = {
+                    list : initData.tdist,
+                    province : $scope.designerService.province,
+                    city : $scope.designerService.city 
+                }
+                $scope.service.decTypeObj = {
+                    list : initData.decType,
+                    query : $scope.designerService.dec_types,
+                    select : 0 
+                }
+                $scope.service.workTypeObj = {
+                    list : initData.workType,
+                    query : $scope.designerService.work_types,
+                    select : 0 
+                }
+                $scope.service.decStyleObj = {
+                    list : initData.decStyle,
+                    query : $scope.designerService.dec_styles,
+                    select : 3 
+                }
+                $scope.service.houseTypeObj = {
+                    list : initData.houseType,
+                    query : $scope.designerService.dec_house_types,
+                    select : 0 
+                }
+                $scope.service.designFeeObj = {
+                    list : initData.designFee,
+                    query : $scope.designerService.design_fee_range,
+                    select : 1 
+                }
+                $scope.service.designTypeObj = {
+                    list : initData.designType,
+                    query : $scope.designerService.communication_type,
+                    select : 1 
                 }
             },function(res){
                 console.log(res)
             });
             $scope.service.submit = function(){
+                $scope.service.disabled = true;
+                $scope.designerService.dec_districts = $scope.service.address.city;
                 userInfo.update($scope.designerService).then(function(res){
                     if(res.data.msg === "success"){
                         $scope.service.motaiDone = true;
@@ -1012,19 +761,27 @@ angular.module('controllers', [])
         function($scope, $rootScope,$http,$filter,$location,userInfo){
         function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
             userInfo.get().then(function(res){
+                $scope.email = res.data.data;
                 $scope.$emit('designerChildren', res.data.data);
             },function(res){
                 console.log(res)
             });
         }
+        uploadDesignerInfo()
         $scope.designerEmail = {
             status : false,
             waiting : false,
+            disabled : false,
             change : function(){
                 this.status = true;
             },
             send : function(verify){
-                userInfo.email({"email": $scope.designer.email}).then(function(res){
+                var date = new Date();
+                if($scope.email.email_auth_date - date.getTime() < 36000000){
+                    alert('您点的太快了，稍候再试');
+                    return ;
+                }
+                userInfo.email({"email": $scope.email.email}).then(function(res){
                     console.log(res);
                     uploadDesignerInfo()
                 },function(res){
@@ -1034,51 +791,65 @@ angular.module('controllers', [])
         }
     }])
     .controller('idcardCtrl', [     //身份证认证修改
-        '$scope','$rootScope','$http','$filter','$location','userInfo',
-        function($scope, $rootScope,$http,$filter,$location,userInfo){
-        $scope.bankList = ['中国工商银行','招商银行','中国农业银行','中国建设银行','中国银行','中国民生银行','中国光大银行','中信银行','交通银行','兴业银行','上海浦东发展银行','中国人民银行','华夏银行','国家开发银行','中国进出口银行','中国农业发展银行','北京银行','上海银行','中国邮政储蓄银行'];
+        '$scope','$rootScope','$http','$filter','$location','userInfo','initData',
+        function($scope, $rootScope,$http,$filter,$location,userInfo,initData){
+        $scope.designerIdcard = {
+            status : false,
+            waiting : true,
+            change : function(){
+                this.status = true;
+                this.waiting = false;
+            },
+            bankList : initData.bankList,
+            disabled : false,
+        }
         function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
             userInfo.get().then(function(res){
+                $scope.designerUId = res.data.data;
+                if(!$scope.designerUId.bank){
+                    $scope.designerUId.bank = $scope.designerIdcard.bankList[0];
+                }
                 $scope.$emit('designerChildren', res.data.data);
             },function(res){
                 console.log(res)
             });
         }
-        $scope.$on('designerParent', function(event, data) {   //父级接收 如果业主操作就需要改变状态
-            $scope.designer = data;
-            if(!$scope.designer.bank){
-                $scope.designer.bank = $scope.bankList[0];
+        uploadDesignerInfo();
+        $scope.designerIdcard.send = function(){
+            if(!$scope.designerUId.uid_image1){
+                alert('您没有上传身份证正面照片');
+                return ;
             }
-        });
-        $scope.designerIdcard = {
-            status : false,
-            waiting : false,
-            change : function(){
-                this.status = true;
-            },
-            send : function(verify){
-                console.log(verify)
-                userInfo.bank({
-                  "username":$scope.designer.username,
-                  "uid":$scope.designer.uid,
-                  "bank": $scope.designer.bank,
-                  "bank_card": $scope.designer.bank_card,
-                  "uid_image1":$scope.designer.uid_image1,
-                  "uid_image2":$scope.designer.uid_image2,
-                  "bank_card_image1":$scope.designer.bank_card_image1
-                }).then(function(res){
-                    console.log(res)
-                    uploadDesignerInfo();
-                },function(res){
-                    console.log(res)
-                });
+            if(!$scope.designerUId.uid_image2){
+                alert('您没有上传身份证反面照片');
+                return ;
             }
+            if(!$scope.designerUId.bank_card_image1){
+                alert('您没有上传银行卡正面照片');
+                return ;
+            }
+            userInfo.bank({
+              "username":$scope.designerUId.username,
+              "uid":$scope.designerUId.uid,
+              "bank": $scope.designerUId.bank,
+              "bank_card": $scope.designerUId.bank_card,
+              "uid_image1":$scope.designerUId.uid_image1,
+              "uid_image2":$scope.designerUId.uid_image2,
+              "bank_card_image1":$scope.designerUId.bank_card_image1
+            }).then(function(res){
+                console.log(res)
+                $scope.designerIdcard.change = false;
+                $scope.designerIdcard.status = false;
+                $scope.designerUId = undefined;
+                uploadDesignerInfo();
+            },function(res){
+                console.log(res)
+            });
         }
     }])
     .controller('teamCtrl', [     //施工团队认证修改
-        '$scope','$rootScope','$http','$filter','$location','$stateParams','userTeam',
-        function($scope, $rootScope,$http,$filter,$location,$stateParams,userTeam){
-        console.log($stateParams.id)
+        '$scope','$rootScope','$http','$filter','$location','$stateParams','userTeam','initData',
+        function($scope, $rootScope,$http,$filter,$location,$stateParams,userTeam,initData){
         function load(){
             userTeam.list().then(function(res){
                 console.log(res.data.data);
@@ -1088,6 +859,23 @@ angular.module('controllers', [])
             });
         }
         load()
+        $scope.designerTeam = {
+            disabled : false,
+            remove : function(id){
+                if(confirm('您确定要删除吗？')){
+                    userTeam.remove({"_id": id}).then(function(res){
+                        if(res.data.msg === "success"){
+                            $scope.teamList = undefined;
+                            load(); 
+                        }
+                    },function(res){
+                        console.log(res)
+                    });
+                }
+            },
+            cities_list : initData.tdist,
+            goodAtList : initData.goodAtList
+        }
         if($stateParams.id){
             userTeam.get({"_id": $stateParams.id}).then(function(res){
                 console.log(res);
@@ -1096,6 +884,11 @@ angular.module('controllers', [])
                     $scope.team.province = '请选择省份';
                     $scope.team.city = '请选择市';
                     $scope.team.district = '请选择县/区';
+                }
+                $scope.designerTeam.userSex = {
+                    list : initData.userSex,
+                    query : $scope.team.sex,
+                    select : 1 
                 }
             },function(res){
                 console.log(res)
@@ -1115,52 +908,102 @@ angular.module('controllers', [])
                 uid_image1 : '',
                 uid_image2 : ''
             }
+            $scope.designerTeam.userSex = {
+                list : initData.userSex,
+                query : $scope.team.sex,
+                select : 1 
+            }
         }
-        $scope.designerTeam = {
-            remove : function(id){
-                if(confirm('您确定要删除吗？')){
-                    userTeam.remove({"_id": id}).then(function(res){
-                        if(res.data.msg === "success"){
-                            $scope.teamList = undefined;
-                            load(); 
-                        }
-                    },function(res){
-                        console.log(res)
-                    });
-                }
-            },
-            submit : function(verify){
-                if($stateParams.id){
-                    userTeam.update($scope.team).then(function(res){
-                        if(res.data.msg === "success"){
-                            $location.path('teamList')
-                        }
-                    },function(res){
-                        console.log(res)
-                    })
-                }else{
-                    userTeam.add($scope.team).then(function(res){
-                        if(res.data.msg === "success"){
-                            $location.path('teamList')
-                        }
-                    },function(res){
-                        console.log(res)
-                    });
-                }
-            },
-            usersex : [ 
-                    {
-                        id : '0',
-                        name : '男',
-                        cur : '' 
-                    },
-                    {
-                        id : '1',
-                        name : '女',
-                        cur : '' 
+        $scope.designerTeam.submit = function(verify){
+            this.disabled = true;
+            if($stateParams.id){
+                userTeam.update($scope.team).then(function(res){
+                    if(res.data.msg === "success"){
+                        $location.path('teamList')
                     }
-                ],
-            cities_list : tdist,
-            goodAtList : ['水电','木工','油工','泥工']
+                },function(res){
+                    console.log(res)
+                })
+            }else{
+                userTeam.add($scope.team).then(function(res){
+                    if(res.data.msg === "success"){
+                        $location.path('teamList')
+                    }
+                },function(res){
+                    console.log(res)
+                });
+            }
         }
+    }])
+    .controller('releaseCtrl', [     //作品上传
+        '$scope','$rootScope','$http','$filter','$location','$stateParams','userInfo','userProduct','initData',
+        function($scope, $rootScope,$http,$filter,$location,$stateParams,userInfo,userProduct,initData){ 
+            $scope.product = {
+              "province":"请选择省份",
+              "city":"请选择市",
+              "district":"请选择县/区",
+              "cell": "",
+              "house_type":"0",
+              "house_area": undefined,
+              "dec_style":"0",
+              "dec_type": "0",
+              "work_type":"0",
+              "total_price":undefined,
+              "description":"",
+              "images":[]
+            }
+            // {"section":"客厅","imageid":"55d2d3ff62021a3ad58c646f","description":"描述"}
+            $scope.designerProduct = {
+                isRelease : $stateParams.id == undefined ? true : false,
+                address : initData.tdist,
+                decType : initData.decType,
+                workType : initData.workType,
+                decStyle : initData.decStyle,
+                houseType : initData.houseType,
+                disabled : false,
+                motaiDone : false
+            }
+            $scope.designerProduct.submit = function(){
+                var This = this;
+                if($scope.product.province == "请选择省份"){
+                    alert('请选择省份');
+                    return ;
+                }
+                if($scope.product.city == "请选择市"){
+                    alert('请选择市');
+                    return ;
+                }
+                if($scope.product.district == "请选择县/区"){
+                    alert('请选择县/区');
+                    return ;
+                }
+                if($scope.product.images.length == 0){
+                    alert('请至少上传一张作品图片');
+                    return ;
+                }
+                this.disabled = true;
+                this.motaiDone = true;
+                console.log($scope.product)
+                if(this.isRelease){
+                    userProduct.add().then(function(res){
+                        if(res.data.msg === "success"){
+                            This.motaiDone = true;
+                            $location.path('products');
+                        }
+                    },function(res){
+                        console.log(res)
+                    });
+                }else{
+                    userProduct.update().then(function(res){
+                        if(res.data.msg === "success"){
+                            This.motaiDone = true;
+                            $location.path('products');
+                        }
+                    },function(res){
+                        console.log(res)
+                    });
+                }
+                
+                /**/
+            }
     }])

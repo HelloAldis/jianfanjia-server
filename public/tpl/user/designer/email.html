@@ -3,25 +3,25 @@
 		<h2>邮箱认证</h2>
 	</div>
 	<div class="m-ct">
-		<div class="m-phone" ng-if="designer">
-			<div class="todo hide" ng-if="designer.email_auth_type == 0 || designerEmail.status">
+		<div class="m-phone" ng-if="email">
+			<div class="todo" ng-if="email.email_auth_type == 0 || designerEmail.status">
 				<form name="email" ng-submit="designerEmail.send(email.$valid)" novalidate>
 					<div class="email">
-						<span><i class="iconfont2">&#xe615;</i><input type="text" ng-model="designer.email" required ng-pattern="/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/" /></span>
+						<span><i class="iconfont2">&#xe615;</i><input type="text" ng-model="email.email" required ng-pattern="/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/" /></span>
 					</div>
 					<div class="btns">
-						<input type="submit" class="u-btns" ng-class="{invalid : email.$invalid}" ng-disabled="email.$invalid" value="发送验证邮件" />
+						<input type="submit" class="u-btns"  ng-class="{'u-btns-disabled':email.$invalid || designerIdcard.disabled}" ng-disabled="email.$invalid || designerIdcard.disabled" value="发送验证邮件" />
 					</div>
 					<p>请点击验证邮件中的链接，以验证邮箱。</p>
 				</form>
 			</div>
-			<div class="pending" ng-if="designer.email_auth_type == 1">
+			<div class="pending" ng-if="email.email_auth_type == 1">
 				<div>
 					<p class="success"><i class="iconfont2">&#xe60d;</i></p>
 					<h3>我们已向您的邮箱发送了一封验证邮件，请前往收信，完成验证。</h3>
 					<div class="num">
 						<span>
-							<i class="iconfont2">&#xe615;</i><em ng-bind="designer.email"></em>
+							<i class="iconfont2">&#xe615;</i><em ng-bind="email.email"></em>
 						</span>
 					</div>
 				</div>
@@ -31,12 +31,12 @@
 					<p>如果超过10分钟仍未收到验证邮件，请点击<a href="javascript:;" ng-click="designerEmail.send(true)">重新发送</a></p>
 				</div>
 			</div>
-			<div class="done" ng-if="designer.email_auth_type == 2">
+			<div class="done" ng-if="email.email_auth_type == 2">
 				<p class="success"><i class="iconfont2">&#xe60d;</i></p>
 				<h3>您的邮箱已通过认证</h3>
 				<div class="num">
 					<span>
-						<i class="iconfont2">&#xe615;</i><em ng-bind="designer.email"></em>
+						<i class="iconfont2">&#xe615;</i><em ng-bind="email.email"></em>
 					</span>
 				</div>
 				<div class="btns">
@@ -44,6 +44,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="pageLoading" ng-hide="!!designer"></div>
+		<div class="pageLoading" ng-hide="!!email"></div>
 	</div>
 </div>

@@ -12,7 +12,7 @@
 			<dl>
 				<dt>
 					<a ui-sref="infor" class="head"><img bo-src-i="/api/v2/web/thumbnail/120/{{user.imageid}}" bo-alt="user.username" bo-if="user.imageid" /></a>
-					<h3><a ui-sref="infor" bo-text="user.username" bo-if="user.username"></a><p bo-if="!user.username">只有填写姓名才能提交需求</p></h3>
+					<h3><a ui-sref="infor" bo-text="user.username" bo-if="user.username"></a></h3>
 				</dt>
 				<dd bo-if="user.province && user.province != '请选择省份'">
 					<i class="iconfont2">&#xe61f;</i><span><i bo-text="user.province"></i><i bo-text="user.city" bo-if="user.city && user.city != '请选择市'"></i><i bo-text="user.district" bo-if="user.district && user.district != '请选择县/区'"></i><i bo-text="user.address" bo-if="user.address"></i></span>
@@ -70,7 +70,7 @@
 			<li ng-if="requirementList.length == 0">
 				<div class="ct">你还没有发布装修需求哟~</div>
 				<div class="btns">
-					<a ui-sref="release" class="u-btns">发布装修需求</a>
+					<a ui-sref="addRequirement" class="u-btns">发布装修需求</a>
 				</div>
 			</li>
 			<li bindonce="requirementList" ng-repeat="data in requirementList | limitTo : 3">

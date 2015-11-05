@@ -80,7 +80,7 @@
 			</p>
 			<div class="btns">
 				<a class="u-btns" ng-if="designer.auth_type == 0" ui-sref="infor">提交资料</a>
-				<a class="u-btns" ng-if="designer.auth_type == 2 && designer.authed_product_count == 0" ui-sref="release">发布作品</a>
+				<a class="u-btns" ng-if="designer.auth_type == 2 && designer.authed_product_count == 0" ui-sref="addProduct">发布作品</a>
 			</div>
 		</div>
 		<ul class="list">
@@ -88,7 +88,7 @@
 				<div class="ct">您还没有装修需求哟，修改接单资料和上传作品，更容易获得业主预约</div>
 				<div class="btns">
 					<a ui-sref="service" class="u-btns">前往修改</a>
-					<a ui-sref="release" class="u-btns">上传作品</a>
+					<a ui-sref="addProduct" class="u-btns">上传作品</a>
 				</div>
 			</li>
 			<li bindonce="requirementList" ng-repeat="data in requirementList | limitTo : 3">

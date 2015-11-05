@@ -5,18 +5,16 @@ angular.module('directives', [])
         return {
            replace : true,
            scope: {
-                   myList : "=",
-                   myQuery : "=",
-                   mySelects : "@"
+              myRadioobj : "="
            },
            restrict: 'A',
            template: '<div class="radio"></div>',
            link: function($scope, iElm, iAttrs, controller) {
                var obj = angular.element(iElm),
                    oUl = obj.find('ul'),
-                   list = $scope.myList,
-                   query = $scope.myQuery,
-                   select = $scope.mySelects,
+                   list = $scope.myRadioobj.list,
+                   query = $scope.myRadioobj.query,
+                   select = $scope.myRadioobj.select,
                    str = '';
                    if((typeof query != Object) && (typeof query == String || typeof query == Number)){
                       for (var i = 0,len = list.length; i < len; i++) {
@@ -38,13 +36,13 @@ angular.module('directives', [])
                   };
                   obj.html(str);
                   obj.on('click', 'label' ,function(){
-                      var id = $(this).data('id'),
+                      var id = $(this).data('id')+'',
                           This = $(this);
                       $scope.$apply(function(){
-                        var len = $scope.myQuery.length;
+                        var len = $scope.myRadioobj.query.length;
                         if(select == 1){
                           This.attr('class', 'active').siblings('label').attr('class', '');
-                            $scope.myQuery = id;
+                            $scope.myRadioobj.query = id;
                         }else if(select == 3 || select == 0){
                             if(This.attr('class') === 'active'){
                               if(len == 1){
@@ -52,15 +50,15 @@ angular.module('directives', [])
                                 return ;
                               }
                               This.attr('class', '');
-                              var index = $.inArray($scope.myQuery,id)
-                              $scope.myQuery.splice(index,1)
+                              var index = $.inArray($scope.myRadioobj.query,id)
+                              $scope.myRadioobj.query.splice(index,1)
                             }else{
                               This.attr('class', 'active');
-                              $scope.myQuery.push(id);
+                              $scope.myRadioobj.query.push(id);
                               if(select == 3){
-                                if($scope.myQuery.length > 3){
+                                if($scope.myRadioobj.query.length > 3){
                                   This.attr('class', '');
-                                  $scope.myQuery.pop();
+                                  $scope.myRadioobj.query.pop();
                                   alert('只能选择3个擅长风格');
                                   return ;
                                 }
@@ -288,9 +286,9 @@ angular.module('directives', [])
                // 渲染dom
                 Default[0].cn = oProvince;
                 Default[1].cn = oCity;
+                Default[2].cn = oDistrict;
                 if(!oDistrict){
                   DefaultLen = 2;
-                  Default[2].cn = oDistrict;
                 }
                 var selectData = '';
                 for (var i = 0; i < DefaultLen; i++) {
@@ -322,7 +320,6 @@ angular.module('directives', [])
                       listArr = [province,city];
                     }
                 for(var i = 0; i < DefaultLen; i++) {
-                  console.log(i)
                   createList(Default[i].num,listArr[i]);
                   selectEvent(listArr[i]);
                   optionEvevt(listArr[i]);
@@ -459,6 +456,188 @@ angular.module('directives', [])
             }
         };
     }])
+    .directive('myCityselect',['$timeout',function($timeout){     //自定义地区选择控件
+        return {
+            replace : true,
+            scope: {
+                myCityobj : "="
+            },
+            restrict: 'A',
+            template: '<div class="k-cities"></div>',
+            link: function($scope, iElm, iAttrs, controller) {
+               var areaJson = $scope.myCityobj.list,
+                   oProvince = $scope.myCityobj.province,
+                   oCity = $scope.myCityobj.city,
+                   oDistrict = $scope.myCityobj.district,
+                   oBox = angular.element(iElm),
+                   bOFF = false,
+                   bOff = false,
+                   DefaultLen = 3,
+                   Default = [
+                    {
+                      en : 'province',
+                      cn : '请选择省',
+                      num : '1'
+                    },
+                    {
+                      en : 'city',
+                      cn : '请选择市',
+                      num : '110000'
+                    },
+                    {
+                      en : 'district',
+                      cn : '请选择县/区',
+                      num : '110100'
+                    }
+                  ];
+               // 渲染dom
+                Default[0].cn = oProvince;
+                Default[1].cn = oCity;
+                if(!oDistrict){
+                  DefaultLen = 2;
+                  Default[2].cn = oDistrict;
+                }
+                var selectData = '';
+                for (var i = 0; i < DefaultLen; i++) {
+                    var selectDataInput = '';
+                    var selectDataOption = '';
+                    for (var j = 0; j < 1; j++) {
+                      selectDataInput += '<input type="hidden" name="'+Default[i].en+'" value="" />';
+                      selectDataOption += '<div class="option"><span class="value">'+Default[i].cn+'</span><span class="arrow"><em></em><i></i></span></div>'
+                    };
+                    selectData += '<div class="list '+Default[i].en+'">'+selectDataInput+selectDataOption+'</div>';
+                    if(Default[0].cn != '请选择省'){
+                      for(var attr in areaJson){
+                        if(Default[i].cn == areaJson[attr][0]){
+                          Default[i].num = areaJson[attr][1];
+                        }
+                      }
+                    }
+                    
+                };
+                oBox.html(selectData)
+                var province = oBox.find('.province'),
+                    city = oBox.find('.city'),
+                    district = oBox.find('.district'),
+                    body = angular.element(document),
+                    listArr;
+                    if(oDistrict){
+                      listArr = [province,city,district];
+                    }else{
+                      listArr = [province,city];
+                    }
+                for(var i = 0; i < DefaultLen; i++) {
+                  createList(Default[i].num,listArr[i]);
+                  selectEvent(listArr[i]);
+                  optionEvevt(listArr[i]);
+                }; 
+                // 渲染城市数据
+                function createList(id,obj){
+                    obj.find('select').remove();
+                    var sHtml = '<ul class="select">';
+                    for (var i in areaJson) {
+                      if (areaJson[i][1] == id) {
+                          sHtml += '<li data-val="'+i+'"><a>'+areaJson[i][0]+'</a></li>';
+                      }
+                    }
+                    sHtml += '</ul>';
+                    obj.append(sHtml)
+                }
+                function optionEvevt(obj){
+                    var self = this;
+                    var option = obj.find('.option');
+                    var value = option.find('.value').html();
+                    option.on('click' , function(ev){
+                      body.click();
+                      if(value != "请选择省" && obj == province){
+                        bOFF = true;
+                        bOff = false;
+                      }
+                      if(obj == city && value != "请选择市"){
+                        bOff = true;
+                      }
+                      if(!bOFF && obj == city){
+                        if(province.find('.value').html() == "请选择省"){
+                          alert('请先选择省');
+                          return false;
+                        }
+                      }
+                      if(!bOFF && !bOff){
+                        if(obj == district && city.find('.value').html() == "请选择市"){
+                          alert('请先选择市');
+                          return false;
+                        }
+                      }
+                      //self.tips.addClass('hide');
+                      selectShow(obj);
+                      return false;
+                    });
+                  }
+                   function selectEvent(obj){
+                    var  oInput = obj.find('input'),
+                       oOption = obj.find('.option').find('.value');
+                    body.click();
+                    obj.delegate('li', 'click' , function(ev){
+                      ev.stopPropagation();
+                      var dataVal = $(this).data('val'),
+                        value = $(this).find('a').text();
+                        oInput.val(value).data("val",dataVal);
+                        oOption.html(value);
+                          if(obj == province){
+                            $scope.myCityobj.province = value;
+                            city.find('.select').remove();
+                            createList(dataVal,city)
+                            selectShow(city)
+                            selectHide(district)
+                            selectHide(province)
+                            clearValue(city);
+                            clearValue(district);
+                          }
+                          if(obj == city){
+                            $scope.myCityobj.city = value;
+                            district.find('.select').remove();
+                            createList(dataVal,district)
+                            selectShow(district)
+                            selectHide(city)
+                            clearValue(district);
+                          }
+                          if(obj == district){
+                            $scope.myCityobj.district = value;
+                            selectHide(district)
+                          }
+                    });
+                  }
+                  body.on('click', function(ev){
+                      selectHide(); 
+                  });
+                  function clearValue(obj){
+                    var oInput = obj.find('input'),
+                      oOption = obj.find('.option').find('.value');
+                      if(obj == city){
+                        oInput.val('市');
+                        oOption.html('请选择市');
+                      }
+                      if(obj == district){
+                        oInput.val('县/区');
+                        oOption.html('请选择县/区');
+                      }
+                  }
+                  function selectHide(obj){
+                    oBox.each(function(index, el) {
+                      if(obj){
+                        $(el).find(obj).find('.select').hide();
+                      }else{
+                        $(el).css('zIndex',5).find('.select').hide();
+                      }
+                    });
+                  }
+                  function selectShow(obj){
+                    obj.find('.select').show(); 
+                    oBox.css('zIndex',20)
+                  }
+            }
+        };
+    }])
     .directive('myUpload',['$timeout',function($timeout){     //头像裁切上传
         return {
             replace : true,
@@ -484,7 +663,8 @@ angular.module('directives', [])
                     moveout = false,
                     scale = 0,
                     disX,
-                    disY;
+                    disY,
+                    imgW,imgH,w,h;
                 if(!$scope.myQuery){
                   $userHead.attr('src','../../../static/img/user/headPic.png')
                 }else{
@@ -564,7 +744,7 @@ angular.module('directives', [])
                   var data = $.parseJSON(arr);
                   var img = new Image();
                   img.onload=function(){
-                    var imgW = img.width,
+                        imgW = img.width,
                         imgH = img.height;
                     if(imgW < 300){
                       alert('图片宽度小于300，请重新上传');
@@ -573,9 +753,9 @@ angular.module('directives', [])
                       alert('图片高度小于300，请重新上传');
                       return false;
                     }
-                    var ratio = ($winH - 286)/imgH;
-                    var w = imgH > $winH - 286 ? imgW*ratio : imgW;
-                    scale = w/imgW;
+                    scale = ($winH - 286)/imgH;
+                    w = imgH > $winH - 286 ? imgW*scale : imgW;
+                    h = imgH > $winH - 286 ? imgH*scale : imgH;
                     if(w < 300){
                       alert('图片裁切宽度小于300，请重新上传宽高一样图片');
                       data.data = null;
@@ -615,8 +795,8 @@ angular.module('directives', [])
                         dataType: 'json',
                         data : JSON.stringify({
                           "_id":data.data,
-                          "x":parseInt($cropBorder.css('left')),
-                          "y":parseInt($cropBorder.css('top')),
+                          "x":parseInt($cropBorder.css('left'))/scale,
+                          "y":parseInt($cropBorder.css('top'))/scale,
                           "width":300,
                           "height":300
                         }),
@@ -630,7 +810,7 @@ angular.module('directives', [])
                         clearData();
                         data.data = null;
                       })
-                      .fail(function() {
+                      .fail(function(){
                         console.log("error");
                       })
                     }
@@ -657,7 +837,6 @@ angular.module('directives', [])
             restrict: 'A',
             template: '<div class="k-uploadbox f-cb"><div class="pic" id="create"><div class="fileBtn"><input class="hide" id="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_create"></div><div class="tips"><span><em></em><i></i></span><p>作品上传每张3M以内jpg</p></div></div><div class="item" ng-repeat="img in myQuery"><img ng-src="/api/v2/web/thumbnail/168/{{img}}" /></div></div>',
             link: function($scope, iElm, iAttrs, controller){
-              console.log($scope.myQuery)
                   var uploaderUrl = RootUrl+'api/v2/web/image/upload',
                     fileTypeExts = '*.jpg;*.png',
                     fileSizeLimit = 3072;
@@ -1032,7 +1211,7 @@ angular.module('directives', [])
             }
         };
     }])
-   .directive('checkNumber',['$timeout',function($timeout){     //自定义下拉框
+   .directive('checkNumber',['$timeout',function($timeout){     //检测是不是数字
         return {
             replace : true,
             require : 'ngModel',

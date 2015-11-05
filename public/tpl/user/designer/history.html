@@ -28,11 +28,11 @@
 							</h4>
 						</div>
 						<div class="tag">
-							<span bo-text="data.dec_style"></span>
-							<span bo-text="data.work_type"></span>
-							<span bo-text="data.house_type"></span>
-							<span><i bo-text="data.house_area"></i>m&sup2;</span>
-							<span><i bo-text="data.total_price"></i>万元</span>
+							<span bo-if="data.dec_style"><i bo-text="data.dec_style"></i></span>
+							<span bo-if="data.work_type"><i bo-text="data.work_type"></i></span>
+							<span bo-if="data.house_type"><i bo-text="data.house_type"></i></span>
+							<span bo-if="data.house_area"><i bo-text="data.house_area"></i>m&sup2;</span>
+							<span bo-if="data.total_price"><i bo-text="data.total_price"></i>万元</span>
 						</div>
 						<div class="status" ng-switch="data.plan.status">
 							<i ng-switch-when="1">已拒绝</i>

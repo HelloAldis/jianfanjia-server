@@ -3,77 +3,70 @@
 		<h2>个人信息</h2>
 	</div>
 	<div class="m-ct">
-		<div class="k-form" ng-if="user">
-			<div class="m-boxs">
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab" for="owner-name">姓&nbsp;&nbsp;&nbsp;名：</label>
-						<div class="u-inp">
-							<div class="inp">
-								<input type="text" class="input" ng-model="user.username" />
+		<form name="userinfo" ng-submit="userInfo.submit()" novalidate>
+			<div class="k-form" ng-if="user">
+				<div class="m-boxs">
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab" for="owner-name">姓名</label>
+							<div class="u-inp">
+								<input type="text" class="input" ng-model="user.username" required />
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab" for="owner-sex">性&nbsp;&nbsp;&nbsp;别：</label>
-						<div class="u-inp">
-							<div class="radio">
-								<label ng-click="radiosex(sex.id)" ng-repeat="sex in usersex"><span class="{{sex.cur}}"></span>{{sex.name}}</label>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab" for="owner-sex">性别</label>
+							<div class="u-inp">
+								<div my-radio my-radioobj="userInfo.userSex"></div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab" for="owner-email">电子邮箱：</label>
-						<div class="u-inp">
-							<div class="inp">
-								<input type="text" class="input" ng-model="user.email" />
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab" for="owner-email">电子邮箱</label>
+							<div class="u-inp">
+								<div class="inp">
+									<input type="text" class="input" ng-model="user.email" ng-pattern="/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/" />
+								</div>
 							</div>
 						</div>
 					</div>
-					<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-					<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-					<p class="tips-info hide"></p>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab">手机号码：</label>
-						<div class="u-inp">
-							<div class="inp phone" ng-bind="user.phone"></div>
-						</div>
-					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab" for="dec_area">所在地区：</label>
-						<div class="u-inp">
-							<div my-cities my-list="cities_list" my-province="user.province" my-city="user.city" my-district="user.district" ng-if="user.province"></div>				
-						</div>
-					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab" for="owner-addr">邮寄详细地址：</label>
-						<div class="u-inp">
-							<div class="inp address">
-								<input type="text" class="input" ng-model="user.address" />
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab">手机号码</label>
+							<div class="u-inp">
+								<div class="input disabled" ng-bind="user.phone"></div>
 							</div>
 						</div>
 					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab" for="dec_area">所在地区</label>
+							<div class="u-inp">
+								<div my-cities my-list="userInfo.citiesList" my-province="user.province" my-city="user.city" my-district="user.district"></div>				
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab" for="owner-addr">邮寄详细地址</label>
+							<div class="u-inp">
+								<input type="text" class="input long" ng-model="user.address" />
+							</div>
+						</div>
+					</div>
+					<div class="k-uppicbox">
+						<div my-upload my-query="user.imageid" ng-if="user.province"></div>
+						<p>请上传大于300*300头像照片<br />1M以内jpg/png格式</p>
+					</div>
+					<div class="m-item m-error-info hide" id="error-info"></div>
 				</div>
-				<div class="k-uppicbox">
-					<div my-upload my-query="user.imageid" ng-if="user.province"></div>
-					<p>请上传大于300*300头像照片<br />1M以内jpg/png格式</p>
+				<div class="m-btns">
+					<input type="submit" class="u-btns" ng-class="{'u-btns-disabled':userinfo.$invalid || userInfo.disabled}" ng-disabled="userinfo.$invalid || userInfo.disabled" value="&nbsp;&nbsp;保存&nbsp;&nbsp;" />
 				</div>
-				<div class="m-item m-error-info hide" id="error-info"></div>
 			</div>
-			<div class="m-btns">
-				<input type="button" class="u-btns" id="owner-submit" ng-click="submitBtn()" value="保存" />
-			</div>
-		</div>
+		</form>
 		<div class="pageLoading" ng-hide="!!user"></div>
 	</div>
 </div>

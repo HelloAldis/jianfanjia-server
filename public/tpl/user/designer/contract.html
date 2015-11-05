@@ -22,8 +22,8 @@
 		<div class="list">
 			<dl>
 				<dt>工程期限</dt>
-				<dd bo-if="contract.status == 4">总工期：<strong bo-text="contract.plan.duration"></strong>天，开工日期 <strong></strong> 年 <strong></strong> 月 <strong></strong> 日，竣工日期 <strong></strong> 年 <strong></strong> 月 <strong></strong> 日。</dd>
-				<dd bo-if="contract.status == 7">总工期：<strong bo-text="contract.plan.duration"></strong>天，开工日期<strong bo-text="contract.start_at | date : 'yyyy'"></strong>年<strong bo-text="contract.start_at | date : 'MM'"></strong>月<strong bo-text="contract.start_at | date : 'dd'">19</strong>日，竣工日期<strong bo-text="contract.start_at | contractEndTime : contract.plan.duration | date : 'yyyy'"></strong>年<strong bo-text="contract.start_at | contractEndTime : contract.plan.duration | date : 'MM'"></strong>月<strong bo-text="contract.start_at | contractEndTime : contract.plan.duration | date : 'dd'"></strong>日。</dd>
+				<dd ng-if="contract.status == 4">总工期：<strong bo-text="contract.plan.duration"></strong>天，开工日期 <strong></strong> 年 <strong></strong> 月 <strong></strong> 日，竣工日期 <strong></strong> 年 <strong></strong> 月 <strong></strong> 日。</dd>
+				<dd ng-if="contract.status == 7 || contract.status == 5">总工期：<strong bo-text="contract.plan.duration"></strong>天，开工日期<strong bo-text="contract.start_at | date : 'yyyy'"></strong>年<strong bo-text="contract.start_at | date : 'MM'"></strong>月<strong bo-text="contract.start_at | date : 'dd'">19</strong>日，竣工日期<strong bo-text="contract.start_at | contractEndTime : contract.plan.duration | date : 'yyyy'"></strong>年<strong bo-text="contract.start_at | contractEndTime : contract.plan.duration | date : 'MM'"></strong>月<strong bo-text="contract.start_at | contractEndTime : contract.plan.duration | date : 'dd'"></strong>日。</dd>
 			</dl>
 			<dl>
 				<dt>工程价款</dt>

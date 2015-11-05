@@ -46,14 +46,9 @@
                     url: '/contract',
                     templateUrl: RootURl+'contract.html'
                 })
-                .state('createPlan', {     //需求详情--提交方案
+                .state('createPlan', {     //需求详情--提交方案/修改方案
                     url: '/create/:id',
                     templateUrl: RootURl+'create.html',
-                    controller : 'createCtrl'
-                })
-                .state('uploadPlan', {     //需求详情--修改方案
-                    url: '/upload/:id',
-                    templateUrl: RootURl+'upload.html',
                     controller : 'createCtrl'
                 })
                 .state('history', {      //历史订单列表
@@ -66,14 +61,14 @@
                     templateUrl: RootURl+'products.html',
                     controller : 'productsListCtrl'
                 })
-                .state('release', {    //发布作品
+                .state('addProduct', {    //发布作品
                     url: '/release',
                     templateUrl: RootURl+'release.html',
                     controller : 'releaseCtrl'
                 })
-                .state('revise', {     //修改作品
-                    url: '/revise/:id',
-                    templateUrl: RootURl+'revise.html',
+                .state('updateProduct', {     //修改作品
+                    url: '/release/:id',
+                    templateUrl: RootURl+'release.html',
                     controller : 'releaseCtrl'
                 })
                 .state('favorite', {      //收藏作品

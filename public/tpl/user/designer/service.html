@@ -11,7 +11,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-name">装修类型</label>
 							<div class="u-inp">
-								<div my-radio my-list="service.decType" my-query="designerService.dec_types" my-selects="0"></div>
+								<div my-radio my-radioobj="service.decTypeObj"></div>
 							</div>
 						</div>
 					</div>
@@ -19,7 +19,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-name">包工类型</label>
 							<div class="u-inp">
-								<div my-radio my-list="service.workType" my-query="designerService.work_types" my-selects="0"></div>
+								<div my-radio my-radioobj="service.workTypeObj"></div>
 							</div>
 						</div>
 					</div>
@@ -27,7 +27,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-name">擅长风格<span>最多三个</span></label>
 							<div class="u-inp">
-								<div my-radio my-list="service.decStype" my-query="designerService.dec_styles" my-selects="3"></div>
+								<div my-radio my-radioobj="service.decStyleObj"></div>
 							</div>
 						</div>
 					</div>
@@ -35,7 +35,7 @@
 						<div class="item">
 							<label class="u-lab" for="dec_area">接单区域</label>
 							<div class="u-inp">
-								<div my-cities my-list="service.address" my-province="designerService.province" my-city="designerService.city"></div>
+								<div my-cityselect my-cityobj="service.address"></div>
 							</div>
 						</div>
 					</div>
@@ -43,7 +43,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-name">意向接单户型<span>最少1项</span></label>
 							<div class="u-inp">
-								<div my-radio my-list="service.houseType" my-query="designerService.dec_house_types" my-selects="0"></div>
+								<div my-radio my-radioobj="service.houseTypeObj"></div>
 							</div>
 						</div>
 					</div>
@@ -51,7 +51,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-name">设计费报价<span>元/m&sup2;</span></label>
 							<div class="u-inp">
-								<div my-radio my-list="service.designFee" my-query="designerService.design_fee_range" my-selects="1"></div>
+								<div my-radio my-radioobj="service.designFeeObj"></div>
 							</div>
 						</div>
 					</div>
@@ -70,14 +70,14 @@
 						<div class="item">
 							<label class="u-lab" for="owner-name">习惯沟通方式</label>
 							<div class="u-inp">
-								<div my-radio my-list="service.designType" my-query="designerService.communication_type" my-selects="1"></div>
+								<div my-radio my-radioobj="service.designTypeObj"></div>
 							</div>
 						</div>
 					</div>
 					<div class="m-item m-error-info hide" id="error-info"></div>
 				</div>
 				<div class="m-btns">
-					<input type="button" class="u-btns" ng-class="{'u-btns-disabled':myService.$invalid}" ng-disabled="myService.$invalid" id="owner-submit" ng-click="service.submit()" value="&nbsp;&nbsp;保存&nbsp;&nbsp;" />
+					<input type="button" class="u-btns" ng-class="{'u-btns-disabled':myService.$invalid || service.disabled}" ng-disabled="myService.$invalid || service.disabled" ng-click="service.submit()" value="&nbsp;&nbsp;保存&nbsp;&nbsp;" />
 				</div>
 			</div>
 		</form>

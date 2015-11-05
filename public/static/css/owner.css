@@ -215,13 +215,19 @@ body{
 }
 .u-btns-revise{
 	color: #60636a;
-	background-color: #f6f6f6;
+	background-color: #f4f4f4;
 	border-color: #ccc;
 }
 .u-btns-revise:hover{
-	color: #333;
+	color: #383d48;
+	background-color: #f2f2f2;
+	border-color: #bbb;
+}
+.u-btns-disabled,.u-btns-disabled:hover{
+	color: #999;
 	background-color: #e8e8e8;
-	color: #cbcbcb;
+	border-color: #ccc;
+	cursor: default;
 }
 /*表单*/
 .k-form{
@@ -246,32 +252,78 @@ body{
 	font-size: 14px;
 	color: #61687a;
 }
+.k-form .u-lab span{
+	font-size: 12px;
+	color: #999;
+	margin-left: 10px;
+}
 .k-form .u-inp{
+	position: relative;
 	float: left;
 }
-.k-form .u-inp .inp{
-	position: relative;
+.k-form .u-inp .input{
 	width: 230px;
 	height: 20px;
 	padding:4px 9px;
-	border: 1px solid #d2d2d2;
-	background-color: #f9f9f9;
-	border-radius: 2px;
-}
-.k-form .u-inp .address{
-	width: 478px;
-}
-.k-form .u-inp .phone{
-	color: #888;
-	background-color: #fff;
-}
-.k-form .u-inp .input{
-	width: 100%;
 	height:20px;
 	line-height: 20px;
 	border: none;
 	background: none;
 	color: #61687a;
+	border: 1px solid #d2d2d2;
+	background-color: #f9f9f9;
+	border-radius: 2px;
+}
+.k-form .u-inp .input.disabled{
+	color: #888;
+	border: 1px solid #d2d2d2;
+	background-color: #fff;
+}
+.k-form .u-inp .input.long{
+	width: 478px;
+}
+.k-form .u-inp .input.short{
+	width: 130px;
+}
+.k-form .u-inp .input.mini{
+	width: 60px;
+}
+.k-form .u-inp .input.ng-dirty.ng-invalid-number,.k-form .u-inp .input.ng-dirty.ng-invalid-pattern,.k-form .u-inp .input.ng-dirty.ng-invalid-required{
+	border-color: #ff6a6a;
+}
+.k-form .u-inp .input:focus{
+	border-color: #00a0e9;
+}
+.k-form .u-inp .textarea{
+	width: 478px;
+	height: 88px;
+  	overflow: hidden;
+  	padding-left: 20px;
+	border: 1px solid #d2d2d2;
+	background-color: #f9f9f9;
+}
+.k-form .u-inp .textarea:focus{
+	border-color: #04bafe;
+}
+.k-form .u-inp .textarea textarea{
+  	float: left;
+	width: 100%;
+   	height: 60px;
+  	margin-left: -20px;
+  	padding: 10px;
+  	font-size: 14px;
+  	border: 0;
+  	resize: none;
+  	background: none;
+}
+.k-form .u-inp .products span{
+	display: inline-block;
+	padding: 0 12px;
+	margin-right: 10px;
+	line-height: 28px;
+	color: #61687a;
+	border: 1px solid #eee;
+	border-radius: 2px;
 }
 .k-form .u-inp .radio{
 	height: 30px;
@@ -300,8 +352,14 @@ body{
 	margin-right: 10px;
 	background:url(../img/user/user-radio-bg.png) no-repeat;
 }
-.k-form .u-inp .radio .active{
+.k-form .u-inp .radio .active span{
 	background-position: 0 -14px;
+}
+.k-form .u-inp .alert{
+	padding-top: 10px;
+	font-size: 12px;
+	line-height: 12px;
+	color: #999;
 }
 /*头像上传裁切*/
 .k-uppicbox{
@@ -551,6 +609,7 @@ body{
 .k-cities{
 	position: relative;
 	z-index: 2;
+	height: 30px;
 }
 .k-cities .tipsinfo{
 	line-height: 24px;
@@ -823,13 +882,6 @@ body{
 }
 .release .mark li{
 	float: left;
-}
-.release .u-inp .mark .inp{
-	float: left;
-	width: 60px;
-}
-.release .u-inp .mark li:first-child .inp{
-	width: 130px;
 }
 .release .u-inp .mark span{
 	float: left;
@@ -1360,6 +1412,7 @@ body{
 	height: 38px;
 	line-height: 38px;
 	padding: 31px 19px 32px;
+	border-bottom: 1px solid #e6e6e6;
 }
 .plans-tips p{
 	font-size: 16px;
@@ -1367,6 +1420,9 @@ body{
 }
 .m-plans li{
 	border-top: 1px solid #e6e6e6;
+}
+.m-plans li:first-child{
+	border-top: none;
 }
 .m-plans .notData{
 	font-size: 30px;

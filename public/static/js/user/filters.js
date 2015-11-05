@@ -5,7 +5,8 @@ angular.module('filters', [])
         return function (input) {
             return {
                 "0":"男",
-                "1":"女"
+                "1":"女",
+                "2":"不限"
             }[input];
         }
     })
@@ -114,7 +115,6 @@ angular.module('filters', [])
                     filterData.push(obj);
                 }
             })
-
             return filterData;
         }
     })

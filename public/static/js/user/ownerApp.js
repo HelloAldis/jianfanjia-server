@@ -16,14 +16,14 @@
                     templateUrl: RootURl+'infor.html',
                     controller : 'inforCtrl'
                 })
-                .state('release', {
+                .state('addRequirement', {
                     url: '/release',
                     templateUrl: RootURl+'release.html',
                     controller : 'releaseCtrl'
                 })
-                .state('revise', {
-                    url: '/revise/:id',
-                    templateUrl: RootURl+'revise.html',
+                .state('updateRequirement', {
+                    url: '/release/:id',
+                    templateUrl: RootURl+'release.html',
                     controller : 'releaseCtrl'
                 })
                 .state('requirementList', {

@@ -1,4 +1,4 @@
-<div class="detail" bindonce="requirement">
+<div class="detail" bindonce="requirement" ng-if="requirement">
 	<div class="detail-drid">
 		<ul>
 			<li>
@@ -91,14 +91,15 @@
 				<div class="span f-fl">
 					<strong>偏好设计师性别</strong>
 					<span>
-						<span><i bo-text="requirement.prefer_sex | designSexFilter"></i></span>
+						<span><i bo-text="requirement.prefer_sex | sexFilter"></i></span>
 					</span>
 				</div>
 			</li>
 		</ul>
 	</div>
-	<div class="detail-btns" bo-if="requirement.status == '0'">
-		<a ui-sref="revise({id:requiremtneId})" class="u-btns u-btns-revise">修改装修需求</a>
+	<div class="detail-btns" bo-if="requirement.status == 0">
+		<a ui-sref="updateRequirement({id:requiremtneId})" class="u-btns u-btns-revise">修改装修需求</a>
 		<a bo-href-i="owner.html#/requirement/{{requiremtneId}}/booking" class="u-btns">前往预约量房</a>
 	</div>
 </div>
+<div class="pageLoading" ng-hide="!!requirement"></div>
