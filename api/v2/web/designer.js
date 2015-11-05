@@ -407,7 +407,11 @@ exports.user_ordered_designers = function (req, res, next) {
   async.waterfall([function (callback) {
     Requirement.findOne({
       _id: requirementid
-    }, null, callback);
+    }, {
+      order_designerids: 1,
+      rec_designerids: 1,
+      status: 1,
+    }, callback);
   }], ep.done(function (requirement) {
     if (requirement) {
       Designer.find({
@@ -444,6 +448,7 @@ exports.user_ordered_designers = function (req, res, next) {
           }, function (err, plans) {
             designer = designer.toObject();
             designer.plan = plans[0];
+            designer.requirement = requirement;
             if (tools.findIndexObjectId(requirement.rec_designerids,
                 designer._id) > -1) {
               designer.is_rec = true;

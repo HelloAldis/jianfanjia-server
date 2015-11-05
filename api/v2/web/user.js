@@ -298,7 +298,7 @@ exports.designer_house_checked = function (req, res, next) {
         username: 1,
         phone: 1,
       }, function (err, designer) {
-        sms.sendRemimdDesignerPlan(designer.phone, designer.username);
+        sms.sendRemimdDesignerPlan(designer.phone, [designer.username]);
       });
     }
 
