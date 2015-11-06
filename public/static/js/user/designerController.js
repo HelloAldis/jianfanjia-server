@@ -940,6 +940,7 @@ angular.module('controllers', [])
             cities_list : initData.tdist,
             goodAtList : initData.goodAtList,
             userSex : initData.userSex,
+            isLoading : true
         }
         $scope.team = {
             province : '',
