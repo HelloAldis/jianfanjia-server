@@ -7,7 +7,7 @@ var transport = mailer.createTransport(config.mail_opts);
  * Send an email
  * @param {Object} data 邮件对象
  */
-var sendMail = function (data) {
+var sendMail = function (data, callback) {
   if (!config.send_email) {
     return;
   }
@@ -17,6 +17,7 @@ var sendMail = function (data) {
       // 写为日志
       console.log(err);
     }
+    callback(err);
   });
 };
 exports.sendMail = sendMail;
@@ -27,7 +28,13 @@ exports.sendMail = sendMail;
  * @param {String} token 重置用的token字符串
  * @param {String} name 接收人的用户名
  */
-exports.send_verify_email = function (who, token, name, phone, type, url) {
+exports.send_verify_email = function (who, token, name, phone, type, url,
+  callback) {
+
+  if (!name) {
+    name = '简繁家用户';
+  }
+
   var from = util.format('%s <%s>', '简繁家', config.mail_opts.auth.user);
   var to = who;
   var subject = '简繁家邮箱认证';
@@ -44,7 +51,7 @@ exports.send_verify_email = function (who, token, name, phone, type, url) {
     to: to,
     subject: subject,
     html: html
-  });
+  }, callback);
 };
 
 /**

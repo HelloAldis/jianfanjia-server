@@ -307,9 +307,14 @@ exports.send_verify_email = function (req, res, next) {
     }, null, ep.done(function (user) {
       mail.send_verify_email(user.email, utility.md5(user.email +
           user.pass + config.session_secret), user.username, user.phone,
-        type.role_user, url);
-
-      res.sendSuccessMsg();
+        type.role_user, url,
+        function (err) {
+          if (err) {
+            res.sendErrMsg('邮件发送失败');
+          } else {
+            res.sendSuccessMsg();
+          }
+        });
     }));
   } else if (usertype === type.role_designer) {
     Designer.findOne({
@@ -318,7 +323,14 @@ exports.send_verify_email = function (req, res, next) {
       mail.send_verify_email(designer.email, utility.md5(designer.email +
           designer.pass + config.session_secret), designer.username,
         designer.phone,
-        type.role_designer, url);
+        type.role_designer, url,
+        function (err) {
+          if (err) {
+            res.sendErrMsg('邮件发送失败');
+          } else {
+            res.sendSuccessMsg();
+          }
+        });
 
       res.sendSuccessMsg();
     }));
