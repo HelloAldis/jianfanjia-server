@@ -315,7 +315,7 @@ exports.send_verify_email = function (req, res, next) {
     Designer.findOne({
       _id: userid
     }, null, ep.done(function (designer) {
-      mail.send_verify_email(designer.email, utility.md5(user.email +
+      mail.send_verify_email(designer.email, utility.md5(designer.email +
           designer.pass + config.session_secret), designer.username,
         designer.phone,
         type.role_designer, url);
