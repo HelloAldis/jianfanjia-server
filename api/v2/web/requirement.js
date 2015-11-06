@@ -60,10 +60,14 @@ exports.designer_my_requirement_list = function (req, res, next) {
             }, callback);
           }
         }, ep.done(function (result) {
-          var requirement = result.requirement.toObject();
-          requirement.user = result.user;
-          requirement.plan = plan;
-          callback(null, requirement);
+          if (result.requirement) {
+            var requirement = result.requirement.toObject();
+            requirement.user = result.user;
+            requirement.plan = plan;
+            callback(null, requirement);
+          } else {
+            callback(null, null);
+          }
         }));
 
       }, ep.done(function (requirements) {
