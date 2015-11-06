@@ -15,8 +15,10 @@ angular.module('services', [])
 			get : function(){return doRequest('designer/info/get')},
 			update : function(data){return doRequest('designer/info',data)},
 			bank : function(data){return doRequest('designer/uid_bank_info',data)},
-			email : function(data){return doRequest('designer/email_info',data)},
-			online : function(data){return doRequest('designer/update_online_status',data)}
+			email : function(){return doRequest('send_verify_email')},
+			emailInfo : function(data){return doRequest('designer/email_info',data)},
+			online : function(data){return doRequest('designer/update_online_status',data)},
+			auth : function(){return doRequest('designer/auth')}
 		}
 	}])
 	.factory('userRequiremtne', ['$http', function($http){      //设计师 list需求列表 get获取单条信息 answer响应业主 reject拒绝业主 config配置合同 plans获取方案列表  contract获取合同信息   history 历史订单  addPlan添加方案  update更新方案
@@ -374,6 +376,7 @@ angular.module('services', [])
                 }
             ],
             goodAtList : ['水电','木工','油工','泥工'],
-            bankList : ['中国工商银行','招商银行','中国农业银行','中国建设银行','中国银行','中国民生银行','中国光大银行','中信银行','交通银行','兴业银行','上海浦东发展银行','中国人民银行','华夏银行','国家开发银行','中国进出口银行','中国农业发展银行','北京银行','上海银行','中国邮政储蓄银行']
+            bankList : ['中国工商银行','招商银行','中国农业银行','中国建设银行','中国银行','中国民生银行','中国光大银行','中信银行','交通银行','兴业银行','上海浦东发展银行','中国人民银行','华夏银行','国家开发银行','中国进出口银行','中国农业发展银行','北京银行','上海银行','中国邮政储蓄银行'],
+            section : [{"name":"客厅"},{"name":"卧室"},{"name":"卫生间"},{"name":"餐厅"},{"name":"书房"},{"name":"厨房"},{"name":"儿童房"},{"name":"阳台"},{"name":"衣帽间"},{"name":"玄关"},{"name":"过道"},{"name":"休闲区"},{"name":"花园"},{"name":"地下室"},{"name":"窗台"},{"name":"楼梯"},{"name":"阁楼"},{"name":"商装"},{"name":"平面图"}]
 		}
 	})

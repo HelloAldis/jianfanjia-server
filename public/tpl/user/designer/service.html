@@ -11,7 +11,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-name">装修类型</label>
 							<div class="u-inp">
-								<div my-radio my-radioobj="service.decTypeObj"></div>
+								<div my-radio my-list="service.decType" my-query="designerService.dec_types" my-selects="0"></div>
 							</div>
 						</div>
 					</div>
@@ -19,7 +19,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-name">包工类型</label>
 							<div class="u-inp">
-								<div my-radio my-radioobj="service.workTypeObj"></div>
+								<div my-radio my-list="service.workType" my-query="designerService.work_types" my-selects="0"></div>
 							</div>
 						</div>
 					</div>
@@ -27,7 +27,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-name">擅长风格<span>最多三个</span></label>
 							<div class="u-inp">
-								<div my-radio my-radioobj="service.decStyleObj"></div>
+								<div my-radio my-list="service.decStyle" my-query="designerService.dec_styles" my-selects="3"></div>
 							</div>
 						</div>
 					</div>
@@ -35,7 +35,16 @@
 						<div class="item">
 							<label class="u-lab" for="dec_area">接单区域</label>
 							<div class="u-inp">
-								<div my-cityselect my-cityobj="service.address"></div>
+								<div my-citiesdec my-list="service.address" my-province="designerService.province" my-city="designerService.city" my-district="designerService.district" my-decDistricts="service.dec_districts"></div>
+								<p class="alert">目前装修城市仅支持湖北省武汉市</p>
+								<div style="width:670px" ng-if="service.dec_districts">
+									<div class="radio">
+										<label ng-repeat="list in service.dec_districtsArr" bindonce="service.dec_districtsArr" class="{{list.cur}}" ng-click="service.dec_districtsBtn($index,list.name)"><span></span><i bo-text="list.name"></i></label>
+									</div>
+									<p ng-if="service.dec_districtsArr.length == 0">
+										该市下面没有县或区
+									</p>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -43,7 +52,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-name">意向接单户型<span>最少1项</span></label>
 							<div class="u-inp">
-								<div my-radio my-radioobj="service.houseTypeObj"></div>
+								<div my-radio my-list="service.houseType" my-query="designerService.dec_house_types" my-selects="0"></div>
 							</div>
 						</div>
 					</div>
@@ -51,7 +60,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-name">设计费报价<span>元/m&sup2;</span></label>
 							<div class="u-inp">
-								<div my-radio my-radioobj="service.designFeeObj"></div>
+								<div my-radio my-list="service.designFee" my-query="designerService.design_fee_range" my-selects="1"></div>
 							</div>
 						</div>
 					</div>
@@ -70,7 +79,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-name">习惯沟通方式</label>
 							<div class="u-inp">
-								<div my-radio my-radioobj="service.designTypeObj"></div>
+								<div my-radio my-list="service.communicationType" my-query="designerService.communication_type" my-selects="1"></div>
 							</div>
 						</div>
 					</div>
@@ -88,7 +97,7 @@
 	<div class="motai done">
 		<span class="done-icon"></span>
 		<h3>设置成功！</h3>
-		<p>提交成功文案，您已经提交成功您可以做很多事情，敬请期待。</p>
-		<a href="javascript:;" class="u-btns" ng-click="service.scoreDefineBtn()">&nbsp;发布作品&nbsp;</a>
+		<p>等候业主预约</p>
+		<a href="javascript:;" class="u-btns" ng-click="service.scoreDefineBtn()">&nbsp;确定&nbsp;</a>
 	</div>
 </div>

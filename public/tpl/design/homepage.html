@@ -148,7 +148,7 @@
 		};
 		var decDistricts = '';
 		for (var i = 0,len = data.dec_districts.length; i < len; i++) {
-			decDistricts += '<span>'+globalData.orders_area[data.dec_districts[i]]+'</span>'
+			decDistricts += '<span>'+data.dec_districts[i]+'</span>'
 		};
 		var sHomeDesc = '<dl class="f-cb"><dt>接单类型：</dt><dd>'+decTypes+'</dd></dl>'
 						+'<dl class="f-cb"><dt>接单户型：</dt><dd>'+decHouseTypes+'</dd></dl>'

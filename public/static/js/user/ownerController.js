@@ -64,21 +64,24 @@ angular.module('controllers', [])
     .controller('inforCtrl', [     //业主资料
         '$scope','$rootScope','$location','userInfo','initData',
         function($scope, $rootScope,$location,userInfo,initData){
+            $scope.user = {
+                province : '请选择省份',
+                city : '请选择市',
+                district : '请选择县/区',
+                sex : "",
+                email : "",
+                address : "",
+            };
             $scope.userInfo = {
                 disabled : false,
-                citiesList : initData.tdist
+                citiesList : initData.tdist,
+                userSex : initData.userSex,
+                isLoading : false
             };
             userInfo.get().then(function(res){  //获取个人资料
-                $scope.user = res.data.data;
-                $scope.userInfo.userSex = {
-                    list : initData.userSex,
-                    query : $scope.user.sex,
-                    select : 1 
-                }
-                if(!$scope.user.province){
-                    $scope.user.province = '请选择省份';
-                    $scope.user.city = '请选择市';
-                    $scope.user.district = '请选择县/区';
+                if(res.data.data != null){
+                    $scope.user = _.assign($scope.user, res.data.data);
+                    $scope.userInfo.isLoading = true; 
                 }
             },function(res){
                 console.log(res)
@@ -97,7 +100,6 @@ angular.module('controllers', [])
                     console.log(res)
                 })
             };
-            console.log($scope.userinfo)
     }])
 	.controller('releaseCtrl', [     //业主提交需求
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne','userInfo','initData',
@@ -122,15 +124,15 @@ angular.module('controllers', [])
                     $location.path('requirement/'+This.requirementid+"/booking");
                 }
             }
+            $scope.requiremtne = {
+                dec_type : '0',
+                dec_style : '0',
+                house_type : '0',
+                communication_type :'0',
+                prefer_sex : '2',
+                family_description : $scope.userRelease.familyDescription[0].name
+            }     
             if($scope.userRelease.isRelease){        //发布新需求
-                $scope.requiremtne = {};
-                $scope.requiremtne.dec_type = '0';
-                $scope.requiremtne.dec_style = '0';
-                $scope.requiremtne.house_type = '0';
-                $scope.requiremtne.work_type = '0';
-                $scope.requiremtne.communication_type = '0';
-                $scope.requiremtne.prefer_sex = '2';
-                $scope.requiremtne.family_description = $scope.userRelease.familyDescription[0].name;
                 userInfo.get().then(function(res){  //获取个人资料
                     $scope.user = res.data.data;
                     if(!!$scope.user.province){
@@ -147,8 +149,10 @@ angular.module('controllers', [])
                 });
             }else{   //修改某条需求
                 userRequiremtne.get({'_id':$stateParams.id}).then(function(res){  //获取个人资料
-                    $scope.requiremtne = res.data.data;
-                    $scope.requiremtne.province = !$scope.requiremtne.province ? '湖北省' : $scope.requiremtne.province;
+                    if(res.data.data != null){
+                        $scope.requiremtne = _.assign($scope.requiremtne, res.data.data);
+                        $scope.userInfo.isLoading = true; 
+                    }
                     $scope.loadData = true;
                 },function(res){
                     console.log(res)
@@ -156,33 +160,34 @@ angular.module('controllers', [])
             }
             $scope.userRelease.submit = function(){
                 var This = this;
-                if($scope.requiremtne.province != "湖北省" && $scope.requiremtne.city != "武汉市"){
-                    alert('您选择装修城市不是湖北省武汉市，请重新选择')
-                    return ;
-                }
                 if(!$scope.requiremtne.family_description){
                     alert('您的计划常住成员不能为空')
                     return ;
                 }
-                This.disabled = false;
-                if($scope.userRelease.isRelease){
-                    userRequiremtne.add($scope.requiremtne).then(function(res){  //提交新需求
-                        if(res.data.data.requirementid){
-                            This.requirementid = res.data.data.requirementid;
-                            This.motaiDone = true;
-                            This.disabled = true;
-                        }
-                    },function(res){
-                        console.log(res)
-                    }); 
+                if($scope.requiremtne.province === "湖北省" && $scope.requiremtne.city === "武汉市"){
+                    This.disabled = false;
+                    if($scope.userRelease.isRelease){
+                        userRequiremtne.add($scope.requiremtne).then(function(res){  //提交新需求
+                            if(res.data.data.requirementid){
+                                This.requirementid = res.data.data.requirementid;
+                                This.motaiDone = true;
+                                This.disabled = true;
+                            }
+                        },function(res){
+                            console.log(res)
+                        }); 
+                    }else{
+                        userRequiremtne.update($scope.requiremtne).then(function(res){  //修改需求
+                            if(res.data.msg == "success"){
+                                This.motaiDone = true;
+                            }
+                        },function(res){
+                            console.log(res)
+                        });
+                    }
                 }else{
-                    userRequiremtne.update($scope.requiremtne).then(function(res){  //修改需求
-                        if(res.data.msg == "success"){
-                            This.motaiDone = true;
-                        }
-                    },function(res){
-                        console.log(res)
-                    });
+                    alert('您选择装修城市不是湖北省武汉市，请重新选择')
+                    return ;
                 }
             }
     }])

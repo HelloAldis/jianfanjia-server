@@ -579,6 +579,7 @@ body{
 .k-cities{
 	position: relative;
 	z-index: 2;
+	height: 30px;
 }
 .k-cities .tipsinfo{
 	line-height: 24px;
@@ -1923,7 +1924,7 @@ body{
 .plans-ct .tabs .active a{
 	color: #fe7004;
 }
-.release .textarea{
+.plans-ct .release .textarea{
 	width: 545px;
 	height: 146px;
   overflow: hidden;
@@ -1931,7 +1932,7 @@ body{
 	border: 1px solid #e6e6e6;
 	background-color: #f9f9f9;
 }
-.release .textarea textarea{
+.plans-ct .release .textarea textarea{
   float: left;
 	width: 100%;
    height: 146px;
@@ -1942,7 +1943,7 @@ body{
   resize: none;
   background: none;
 }
-.release .textarea.focus{
+.plans-ct .release .textarea.focus{
 	border-color: #04bafe;
 }
 .k-form .u-inp .quote{
@@ -2717,3 +2718,42 @@ body{
 	border-color: #ff6a6a;
 }
 
+/*作品上传*/
+.product .previews-item{
+	position: relative;
+	float: left;
+	width: 168px;
+	padding-right: 20px;
+}
+.product .previews-item .img{
+	width: 100%;
+	height: 168px;
+	margin-bottom: 10px;
+}
+.product .previews-item .k-select{
+	width: 100%;
+	margin-bottom: 10px;
+}
+.k-form .product .previews-item .input{
+ 	width: 148px;
+ }
+.product .previews-item .close{
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 20px;
+	height: 20px;
+	background: url(../img/user/uploadify-cancel.png) center center no-repeat;
+	cursor: pointer;
+	display: none;
+}
+.product .previews-item:hover .close{
+	display: block;
+}
+.product .k-uploadbox .pic .tips p strong{
+	display: block;
+    line-height: 18px;
+    font-weight: normal;
+    text-align: left;
+    padding-top: 5px;
+}

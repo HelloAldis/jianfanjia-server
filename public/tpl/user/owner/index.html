@@ -104,11 +104,11 @@
 				</div>
 				<div class="ct" ng-switch="data.status">
 					<p ng-switch-when="0">
-						系统已为您匹配<i bo-text="data.rec_designerids.length"></i>名设计师，请预约设计师上门量房
+						系统已为您匹配<span bo-if="data.rec_designerids.length != 0"><i bo-text="data.rec_designerids.length"></i>名</span>设计师，请预约设计师上门量房
 					</p>
 					<p ng-switch-when="1">
 						您已经预约了<i bo-text="data.order_designerids.length"></i>名设计师，请等待设计师响应。<br />
-						设计师将在24小时内响应您的需求。如果超过时间未响应，您可以从新预约设计师。
+						设计师将在24小时内响应您的需求。如果超过时间未响应，您可以重新预约设计师。
 					</p>
 					<p ng-switch-when="2">
 						设计师的量房时间已过，请确认设计师是否上门量房。<br />

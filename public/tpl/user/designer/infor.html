@@ -3,161 +3,158 @@
 		<h2>基本资料认证</h2>
 	</div>
 	<div class="m-ct m-phone m-info">
-		<div class="done" ng-if="designer.auth_type == 2">
-			<p class="success"><i class="iconfont2">&#xe60d;</i></p>
-			<h3>您的身份已通过认证</h3>
-			<div class="btns">
-				<a href="javascript:;" class="u-btns u-btns-revise" ng-click="designerEmail.change()">修改</a>
-			</div>
-		</div>
-		<div class="pending" ng-if="designer.auth_type == 1">
-			<p class="success"><i class="iconfont2">&#xe60b;</i></p>
-			<h3>您的身份认证已提交，请耐心等待审核</h3>
-			<div class="btns">
-				<a ui-sref="authHeart" class="u-btns u-btns-revise">返回认证中心</a>
-			</div>
-		</div>
-		<div class="todo" ng-if="(designer.auth_type == 0 || designer.auth_type == 3 || designer.auth_type == 4) || designerIdcard.status">
-			<div class="inofTips"><i class="iconfont2">&#xe612;</i>修改个人资料需重新认证，才能生效</div>
-			<div class="k-form" ng-if="designer">
-				<div class="m-boxs">
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-name">姓&nbsp;&nbsp;&nbsp;名</label>
-							<div class="u-inp">
-								<input type="text" class="input" ng-model="designer.username" required />
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-sex">性&nbsp;&nbsp;&nbsp;别</label>
-							<div class="u-inp">
-								<div class="radio">
-									<label ng-click="radiosex(sex.id)" ng-repeat="sex in usersex"><span class="{{sex.cur}}"></span>{{sex.name}}</label>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-email">电子邮箱</label>
-							<div class="u-inp">
-								<div class="inp">
-									<input type="text" class="input" ng-model="designer.email" />
-								</div>
-							</div>
-						</div>
-						<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-						<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-						<p class="tips-info hide"></p>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab">手机号码</label>
-							<div class="u-inp">
-								<div class="phone" ng-bind="designer.phone"></div>
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="dec_area">所在地区</label>
-							<div class="u-inp">
-								<div my-cities my-list="cities_list" my-province="designer.province" my-city="designer.city" my-district="designer.district" ng-if="designer.province"></div>				
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-addr">邮寄详细地址</label>
-							<div class="u-inp address">
-								<input type="text" class="input" ng-model="designer.address" />
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-name">毕业院校</label>
-							<div class="u-inp">
-								<input type="text" class="input" ng-model="designer.university" required />
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-name">工作年限</label>
-							<div class="u-inp">
-								<input type="text" class="input" ng-model="designer.work_year" required />
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-name">曾就职装饰公司</label>
-							<div class="u-inp">
-								<input type="text" class="input" ng-model="designer.company" required />
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-name">设计成就</label>
-							<div class="u-inp">
-								<div ng-class="{'focus textarea':designerInfo.achievement.parentFocus,'textarea':!designerInfo.achievement.parentFocus}"><textarea rows="10" ng-model="designer.achievement" ng-focus="designerInfo.achievement.focus()" ng-blur="designerInfo.achievement.blur()"></textarea></div>
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-name">设计理念</label>
-							<div class="u-inp">
-								<div ng-class="{'focus textarea':designerInfo.philosophy.parentFocus,'textarea':!designerInfo.philosophy.parentFocus}"><textarea rows="10" ng-model="designer.philosophy" ng-focus="designerInfo.philosophy.focus()" ng-blur="designerInfo.philosophy.blur()"></textarea></div>
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-name">添加学历</label>
-							<div class="u-inp">
-								<div class="products">
-									<span ng-bind="designer.product_count"></span>至少有三套作品，才能提交认证
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-name">获奖照片及描述</label>
-							<div class="u-inp">
-								<div class="products">
-									<span ng-bind="designer.product_count"></span>至少有三套作品，才能提交认证
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-name">作品数</label>
-							<div class="u-inp">
-								<div class="products">
-									<span ng-bind="designer.product_count"></span>至少有三套作品，才能提交认证
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="k-uppicbox">
-						<div my-upload my-query="designer.imageid" ng-if="designer.province"></div>
-						<p>请上传大于300*300头像照片<br />1M以内jpg/png格式</p>
-					</div>
-					<div class="m-item m-error-info hide" id="error-info"></div>
-				</div>
-				<div class="m-btns">
-					<input type="button" class="u-btns" id="owner-submit" ng-click="submitBtn()" value="保存" />
+		<div ng-if="designerInfo.isLoading">
+			<div class="done" ng-if="designer.auth_type == 2">
+				<p class="success"><i class="iconfont2">&#xe60d;</i></p>
+				<h3>您的基本资料已通过认证</h3>
+				<div class="btns">
+					<a href="javascript:;" class="u-btns u-btns-revise" ng-click="designerEmail.change()">修改</a>
 				</div>
 			</div>
+			<div class="pending" ng-if="designer.auth_type == 1">
+				<p class="success"><i class="iconfont2">&#xe60b;</i></p>
+				<h3>您的基本资料认证已提交，请耐心等待审核</h3>
+				<div class="btns">
+					<a ui-sref="authHeart" class="u-btns u-btns-revise">返回认证中心</a>
+				</div>
+			</div>
+			<div class="todo" ng-if="(designer.auth_type == 0 || designer.auth_type == 3 || designer.auth_type == 4) || designerIdcard.status">
+				<div class="inofTips"><i class="iconfont2">&#xe612;</i>修改个人资料需重新认证，才能生效</div>
+				<form name="designerinfo" ng-submit="designerInfo.submit()" novalidate>
+					<div class="k-form">
+						<div class="m-boxs">
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-name">姓名</label>
+									<div class="u-inp">
+										<input type="text" class="input" ng-model="designer.username" required />
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-sex">性别</label>
+									<div class="u-inp">
+										<div my-radio my-list="designerInfo.userSex" my-query="designer.sex" my-selects="1"></div>
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-email">电子邮箱</label>
+									<div class="u-inp">
+										<div class="inp">
+											<input type="text" class="input" ng-model="designer.email" ng-pattern="/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab">手机号码</label>
+									<div class="u-inp">
+										<div class="input disabled" ng-bind="designer.phone"></div>
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="dec_area">所在地区</label>
+									<div class="u-inp">
+										<div my-cities my-list="designerInfo.cities_list" my-province="designer.province" my-city="designer.city" my-district="designer.district" ng-if="designer.province"></div>				
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-addr">邮寄详细地址</label>
+									<div class="u-inp">
+										<input type="text" class="input long" ng-model="designer.address" required />
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-name">毕业院校</label>
+									<div class="u-inp">
+										<input type="text" class="input" ng-model="designer.university" required />
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-name">工作年限</label>
+									<div class="u-inp">
+										<input type="text" class="input" ng-model="designer.work_year" check-number required />
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-name">曾就职装饰公司</label>
+									<div class="u-inp">
+										<input type="text" class="input" ng-model="designer.company" required />
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-name">设计成就</label>
+									<div class="u-inp">
+										<textarea class="input long textarea" rows="10" ng-model="designer.achievement" required></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-name">设计理念</label>
+									<div class="u-inp">
+										<textarea class="input long textarea" rows="10" ng-model="designer.philosophy" required></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-name">上传学历图片</label>
+									<div class="u-inp">
+										<div class="" data-boxData="{'width':'250px','height':'120px'}">
+											<div my-otheruploade my-query="designer.diploma_imageid"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-name">获奖照片及描述</label>
+									<div class="u-inp product">
+										<div my-productuploade my-id="product" my-query="designer.award_details" my-section="[]"></div>	
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-name">作品数</label>
+									<div class="u-inp">
+										<div class="products">
+											<span ng-bind="designer.product_count"></span>至少有三套作品，才能提交认证
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="k-uppicbox">
+								<div my-upload my-query="designer.imageid" ng-if="designer.province"></div>
+								<p>请上传大于300*300头像照片<br />1M以内jpg/png格式</p>
+							</div>
+							<div class="m-item m-error-info hide" id="error-info"></div>
+						</div>
+						<div class="m-btns">
+							<input type="submit" class="u-btns" ng-class="{'u-btns-disabled':designerinfo.$invalid || designerInfo.disabled}" ng-disabled="designerinfo.$invalid || designerInfo.disabled" value="&nbsp;&nbsp;保存&nbsp;&nbsp;" />
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
-		<div class="pageLoading" ng-hide="!!designer"></div>
+		<div class="pageLoading" ng-hide="designerInfo.isLoading"></div>
 	</div>
 </div>
 <div class="k-cropMask" id="j-cropMask"></div>
@@ -180,5 +177,13 @@
 	<div class="btns">
 		<input type="button" class="u-btns u-btns-revise" id="crop-cancel" value="取消" />
 		<input type="button" class="u-btns" id="crop-submit" value="确定" />
+	</div>
+</div>
+<div class="k-motai" ng-if="designerInfo.motaiDone">
+	<div class="motai done">
+		<span class="done-icon"></span>
+		<h3>保存成功！</h3>
+		<p>等待管理员审核，才能在网站页面上面显示。</p>
+		<input class="u-btns" type="button" value="&nbsp;&nbsp;提交认证&nbsp;&nbsp;" ng-click="designerInfo.defineBtn()" />
 	</div>
 </div>

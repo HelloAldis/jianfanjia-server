@@ -115,7 +115,7 @@ $(function(){
 				};
 				var decDistricts = '';
 				for (var i = 0,len = data.dec_districts.length; i < len; i++) {
-					decDistricts += '<span>'+globalData.orders_area[data.dec_districts[i]]+'</span>'
+					decDistricts += '<span>'+data.dec_districts[i]+'</span>'
 				};
 				var gohome = "";			
 				if(window.usertype == 2){
@@ -198,6 +198,8 @@ $(function(){
 				showPageNum : 9,
 				endPageNum : 1,
 				currentPage : current,
+				prevText:"上一页",
+				nextText:"下一页",
 				linkTo : '__id__',
 				callback : function(num,obj){
 					var dataArr = [];

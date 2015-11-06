@@ -315,7 +315,7 @@ $(function(){
 			}else if(window.usertype == 1){
 				userLogin.html('<a href="../user/owner.html">业主 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
 			}else if(window.usertype == 2){
-				userLogin.html('<a href="../user/design.html">设计师 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
+				userLogin.html('<a href="../user/designer.html">设计师 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
 			}
 		}
 	}

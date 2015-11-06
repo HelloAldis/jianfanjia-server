@@ -4,7 +4,7 @@
 		<a ui-sref="teamList" class="u-btns u-btns-revise f-fr">返回施工团队列表</a>
 	</div>
 	<div class="m-ct">
-		<form name="myTeam" ng-if="team" ng-submit="designerTeam.submit()" novalidate>
+		<form name="myTeam" ng-if="designerTeam.isLoading" ng-submit="designerTeam.submit()" novalidate>
 			<div class="k-form">
 				<div class="m-boxs">
 					<div class="m-item f-cb">
@@ -20,7 +20,7 @@
 							<label class="u-lab" for="owner-sex">性别</label>
 							<div class="u-inp">
 								<div class="radio">
-									<div my-radio my-radioobj="designerTeam.userSex"></div>
+									<div my-radio my-list="designerTeam.userSex" my-query="team.sex" my-selects="1"></div>
 								</div>
 							</div>
 						</div>
@@ -100,6 +100,6 @@
 				</div>
 			</div>
 		</form>
-		<div class="pageLoading" ng-hide="!!team"></div>
+		<div class="pageLoading" ng-hide="designerTeam.isLoading"></div>
 	</div>
 </div>

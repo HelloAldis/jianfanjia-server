@@ -1,10 +1,10 @@
 <div class="main">
 	<div class="m-tt">
 		<h2 class="f-fl">发布作品</h2>
-		<a ui-sref="products" class="u-btns u-requirement f-fr">返回作品列表</a>
+		<a ui-sref="products" class="u-btns u-btns-revise u-requirement f-fr">返回作品列表</a>
 	</div>
 	<div class="m-ct">
-		<form name="myRelease" ng-submit="designerProduct.submit()" novalidate>
+		<form name="myRelease" ng-submit="designerProduct.submit()" novalidate ng-if="designerProduct.isLoading">
 			<div class="k-form release">
 				<div class="m-boxs">
 					<div class="m-item f-cb">
@@ -90,8 +90,8 @@
 					<div class="m-item f-cb">
 						<div class="item">
 							<label class="u-lab" for="owner-addr">上传作品图片</label>
-							<div class="u-inp">
-								
+							<div class="u-inp product">
+								<div my-productuploade my-id="product" my-query="product.images" my-section="designerProduct.section" ng-if="product"></div>
 							</div>
 						</div>
 					</div>
@@ -102,6 +102,7 @@
 				</div>
 			</div>
 		</form>
+		<div class="pageLoading" ng-hide="designerProduct.isLoading"></div>
 	</div>
 </div>
 <div class="k-motai" ng-if="service.motaiDone">
