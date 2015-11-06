@@ -331,8 +331,6 @@ exports.send_verify_email = function (req, res, next) {
             res.sendSuccessMsg();
           }
         });
-
-      res.sendSuccessMsg();
     }));
   }
 }
