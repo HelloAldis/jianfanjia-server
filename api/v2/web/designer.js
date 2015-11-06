@@ -324,7 +324,10 @@ exports.designers_user_can_order = function (req, res, next) {
           Designer.find({
             _id: {
               $in: can_order_rec
-            }
+            },
+            auth_type: type.designer_auth_type_done,
+            agreee_license: type.designer_agree_type_yes,
+            online_status: type.online_status_on,
           }, {
             username: 1,
             imageid: 1,
@@ -360,7 +363,10 @@ exports.designers_user_can_order = function (req, res, next) {
           Designer.find({
             _id: {
               $in: can_order_fav
-            }
+            },
+            auth_type: type.designer_auth_type_done,
+            agreee_license: type.designer_agree_type_yes,
+            online_status: type.online_status_on,
           }, {
             username: 1,
             imageid: 1,
@@ -385,10 +391,6 @@ exports.designers_user_can_order = function (req, res, next) {
           }, {
             lean: true
           }, function (err, designers) {
-            // _.forEach(designers, function (designer) {
-            //   designer_match_util.designer_match(designer,
-            //     result.requirement);
-            // });
             callback(err, designers)
           });
         },
