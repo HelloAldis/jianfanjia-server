@@ -91,14 +91,22 @@ angular.module('controllers', [])
                 $scope.requiremtnes = res.data.data;
                 console.log($scope.requiremtnes)
                 angular.forEach($scope.requiremtnes, function(value, key){
-                    value.dec_style = $filter('decStyleFilter')(value.dec_style);
-                    value.work_type = $filter('workTypeFilter')(value.work_type);
-                    value.house_type = $filter('houseTypeFilter')(value.house_type);
-                    if(value.status == 1){
-                       countDate(value,1,value.last_status_update_time)
-                    }
-                    if(value.status == 6){
-                       countDate(value,5,value.last_status_update_time)
+                    if(value){
+                        if(value.dec_style){
+                            value.dec_style = $filter('decStyleFilter')(value.dec_style);
+                        }
+                        if(value.work_type){
+                            value.work_type = $filter('workTypeFilter')(value.work_type);
+                        }
+                        if(value.house_type){
+                           value.house_type = $filter('houseTypeFilter')(value.house_type); 
+                        }
+                        if(value.status == 1){
+                           countDate(value,1,value.last_status_update_time)
+                        }
+                        if(value.status == 6){
+                           countDate(value,5,value.last_status_update_time)
+                        }
                     }
                 })
             },function(res){
@@ -116,12 +124,12 @@ angular.module('controllers', [])
                 timer = $interval(function() {
                     var nowDate = new Date(),
                         intervalDate = endDate - nowDate.getTime(),
+                        intervalDate = intervalDate > days ? days : intervalDate,
                         t = parseInt(intervalDate/1000),
                         day=checkTime(Math.floor(t/(60*60*24))),
                         hour=checkTime(Math.floor((t-day*24*60*60)/3600)),
                         minute=checkTime(Math.floor((t-day*24*60*60-hour*3600)/60)),
                         second=checkTime(Math.floor(t-day*24*60*60-hour*3600-minute*60));
-                        //console.log(intervalDate)
                     if(intervalDate < 0){
                         console.log('已经过期')
                         $interval.cancel(timer)
@@ -164,7 +172,7 @@ angular.module('controllers', [])
             var requiremtneId = $stateParams.id;
             $scope.$on('requirementParent',function(event, data){    //子级接收 
                 console.log(data.status)
-                if(data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5){  //选择方案
+                if((data.plan.status == 3 || data.plan.status == 6 || data.plan.status == 4 || data.plan.status == 5) && (data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5)){  //选择方案
                     myPlan()
                     console.log('提交方案')
                 }
@@ -391,7 +399,7 @@ angular.module('controllers', [])
                         }
                     }
                 });
-                $scope.plan.total_price = price;
+                $scope.plan.project_price_before_discount = price;
             }
             $scope.$watch('plan.total_design_fee', function(newValue, oldValue, scope){
 
@@ -399,7 +407,11 @@ angular.module('controllers', [])
                     if(res.test(newValue) && newValue.length < 13){
                         console.log(1)
                       scope.plan.total_design_fee = newValue;
-                      $scope.designerPlan.total_price_discount = parseInt(scope.plan.total_design_fee)+parseInt($scope.plan.project_price_after_discount);
+                        if(parseInt(scope.plan.project_price_after_discount) == 0){
+                          $scope.designerPlan.total_price_discount = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_before_discount);
+                        }else{
+                          $scope.designerPlan.total_price_discount = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_after_discount);
+                        }
                     }else{
                         if(oldValue == undefined){
                             scope.plan.total_design_fee = newValue
@@ -413,7 +425,11 @@ angular.module('controllers', [])
                 if(!!newValue){
                     if(res.test(newValue) && newValue.length < 13){
                       scope.plan.project_price_after_discount = newValue;
-                      $scope.designerPlan.total_price_discount = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_after_discount);
+                        if(parseInt(scope.plan.project_price_after_discount) == 0){
+                            $scope.designerPlan.total_price_discount = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_before_discount);
+                        }else{
+                            $scope.designerPlan.total_price_discount = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_after_discount);
+                        }
                     }else{
                         if(oldValue == undefined){
                              scope.plan.project_price_after_discount = newValue;
@@ -617,6 +633,10 @@ angular.module('controllers', [])
         '$scope','$rootScope','$http','$filter','$location','userInfo','initData',
         function($scope, $rootScope,$http,$filter,$location,userInfo,initData){
             $scope.designerInfo = {
+                status : false,
+                change : function(){
+                    this.status = true;
+                },
                 cities_list : initData.tdist,
                 disabled : false,
                 userSex : initData.userSex,
@@ -730,6 +750,12 @@ angular.module('controllers', [])
             userInfo.get().then(function(res){
                 $scope.designerService = res.data.data;
                 //设置默认值
+                if($scope.designerService.dec_house_types.length == 0){
+                    $scope.designerService.dec_house_types = ['0']
+                }
+                if($scope.designerService.design_fee_range == undefined){
+                    $scope.designerService.design_fee_range = '0'
+                }
                 if($scope.designerService.dec_fee_half == 0){
                     $scope.designerService.dec_fee_half = ''
                 }
@@ -757,36 +783,6 @@ angular.module('controllers', [])
                         };
                      }
                 });
-                $scope.service.decTypeObj = {
-                    list : initData.decType,
-                    query : $scope.designerService.dec_types,
-                    select : 0 
-                }
-                $scope.service.workTypeObj = {
-                    list : initData.workType,
-                    query : $scope.designerService.work_types,
-                    select : 0 
-                }
-                $scope.service.decStyleObj = {
-                    list : initData.decStyle,
-                    query : $scope.designerService.dec_styles,
-                    select : 3 
-                }
-                $scope.service.houseTypeObj = {
-                    list : initData.houseType,
-                    query : $scope.designerService.dec_house_types,
-                    select : 0 
-                }
-                $scope.service.designFeeObj = {
-                    list : initData.designFee,
-                    query : $scope.designerService.design_fee_range,
-                    select : 1 
-                }
-                $scope.service.designTypeObj = {
-                    list : initData.designType,
-                    query : $scope.designerService.communication_type,
-                    select : 1 
-                }
             },function(res){
                 console.log(res)
             });
@@ -805,7 +801,7 @@ angular.module('controllers', [])
                         console.log(res)
                     });
                 }else{
-                    alert('您选择装修城市不是湖北省武汉市，请重新选择')
+                    alert('您选择接单区域城市不是湖北省武汉市，请重新选择')
                     return ;
                 }
                 

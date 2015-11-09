@@ -39,7 +39,7 @@
 					<a bo-href-i="plans.html?pid={{data._id}}#plansMsg" class="u-btns u-btns-revise msg f-fl" target="_blank">留言 (<i bo-text="data.comment_count"></i>)</a>
 					<div class="btns f-fr">
 						<a bo-href-i="plans.html?pid={{data._id}}" class="u-btns u-btns-revise" target="_blank">预览方案</a>
-						<a href="javascript:;" class="u-btns" ng-hide="{{requirement.status == 4}}" ng-click="definePlan(data._id,data.designer._id)">选定方案</a>
+						<a href="javascript:;" class="u-btns" ng-hide="{{requirement.status == 4 || requirement.status == 5 || requirement.status == 7}}" ng-click="definePlan(data._id,data.designer._id)">选定方案</a>
 					</div>
 				</div>
 			</div>

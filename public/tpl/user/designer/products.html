@@ -17,13 +17,12 @@
 								<span bo-if="list.cell"><i bo-text="list.cell"></i></span>
 							</a>
 							<span class="status" ng-switch="list.auth_type">
-								<i ng-switch-when="0" class="authStatus1">未提交</i>
-								<i ng-switch-when="1" class="authStatus0">认证中</i>
-								<i ng-switch-when="2" class="authStatus2">认证成功</i>
-								<i ng-switch-when="3" class="authStatus3">认证失败</i>
-								<i ng-switch-when="4" class="authStatus4">违规屏蔽</i>
+								<i ng-switch-when="0" class="authStatus0 iconfont2">&#xe60b;</i>
+								<i ng-switch-when="1" class="authStatus2 iconfont2">&#xe608;</i>
+								<i ng-switch-when="2" class="authStatus3 iconfont2">&#xe61d;</i>
+								<i ng-switch-when="3" class="authStatus4 iconfont2">&#xe612;</i>
 							</span>
-							</h4>
+						</h4>
 						<div class="tag">
 							<span bo-if="list.dec_style"><i bo-text="list.dec_style"></i></span><em>|</em><span bo-if="list.house_type"><i bo-text="list.house_type"></i></span><em>|</em><span bo-if="list.work_type"><i bo-text="list.work_type"></i></span>
 						</div>

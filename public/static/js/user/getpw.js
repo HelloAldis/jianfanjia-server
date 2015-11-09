@@ -94,7 +94,7 @@ $(function(){
 		if(check_step > 0){
 			return false;
 		}
-        var url = RootUrl+'api/v1/update_pass';
+        var url = RootUrl+'api/v2/web/update_pass';
 		var userName = mobile.val();
 		var verifyCode = captcha.val();
 		var passWord = pass.val();
@@ -118,7 +118,7 @@ $(function(){
                     setTimeout(function(){
                         window.location.href = reg_success_url;
                         $('#error-info').html('').addClass('hide');
-                    }, 5000)
+                    }, 3000)
                 }else{
                     $('#error-info').html(res['err_msg']).removeClass('hide');
                 }
@@ -138,7 +138,7 @@ $(function(){
             countdown($(this),60)
 			var userName = mobile.val();
 			$.ajax({
-				url:RootUrl+'api/v1/send_verify_code',
+				url:RootUrl+'api/v2/web/send_verify_code',
 				type: 'post',
 				contentType : 'application/json; charset=utf-8',
 				dataType: 'json',

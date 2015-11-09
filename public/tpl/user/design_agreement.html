@@ -102,7 +102,7 @@
 <script type="text/javascript">
 	function loadList(url){
 		$.ajax({
-            url:RootUrl+'api/v1/designer/agree',
+            url:RootUrl+'api/v2/web/designer/agree',
             type: 'POST',
             contentType : 'application/json; charset=utf-8',
             dataType: 'json',
@@ -116,7 +116,7 @@
 	}
 	$('#upLoad').on('click',function(){
 		if($('#agree').is(":checked")){
-			loadList('design.html#new');
+			loadList('designer.html#/release');
 		}else{
 			alert('请先同意入驻协议协议')
 			return false;
@@ -124,7 +124,7 @@
 	})
 	$('#apply').on('click',function(){
 		if($('#agree').is(":checked")){
-			loadList('design_info.html');
+			loadList('designer.html#/infor');
 		}else{
 			alert('请先同意入驻协议协议')
 			return false;
