@@ -50,6 +50,8 @@ router.post('/product_home_page', productWeb.product_home_page); //游客获取�
 router.post('/search_designer_product', productWeb.search_designer_product); //游客获取设计师作品
 router.get('/image/:_id', imageWeb.get); //获取图片
 router.get('/thumbnail/:width/:_id', imageWeb.thumbnail); //获取缩略图
+//设备使用
+router.get('/device/android_build_version', device.android_build_version); //获取android信息
 
 //通用用户功能
 router.get('/signout', auth.normalUserRequired, signWeb.signout); //登出
@@ -68,6 +70,8 @@ router.get('/process/reschedule/all', auth.normalUserRequired, process.listResch
 router.post('/process/reschedule', auth.normalUserRequired, process.reschedule); //提交改期提醒
 router.post('/process/reschedule/ok', auth.normalUserRequired, process.okReschedule); //同意改期提醒
 router.post('/process/reschedule/reject', auth.normalUserRequired, process.rejectReschedule); //拒绝改期提醒
+//设备使用
+router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定cid
 
 //业主独有功能
 router.post('/user/info', auth.userRequired, userWeb.user_update_info); //修改业主个人资料
