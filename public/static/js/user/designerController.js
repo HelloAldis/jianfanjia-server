@@ -402,15 +402,13 @@ angular.module('controllers', [])
                 $scope.plan.project_price_before_discount = price;
             }
             $scope.$watch('plan.total_design_fee', function(newValue, oldValue, scope){
-
                 if(!!newValue){
                     if(res.test(newValue) && newValue.length < 13){
-                        console.log(1)
-                      scope.plan.total_design_fee = newValue;
+                        scope.plan.total_design_fee = newValue;
                         if(parseInt(scope.plan.project_price_after_discount) == 0){
-                          $scope.designerPlan.total_price_discount = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_before_discount);
+                          $scope.plan.total_price = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_before_discount);
                         }else{
-                          $scope.designerPlan.total_price_discount = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_after_discount);
+                          $scope.plan.total_price = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_after_discount);
                         }
                     }else{
                         if(oldValue == undefined){
@@ -424,11 +422,11 @@ angular.module('controllers', [])
             $scope.$watch('plan.project_price_after_discount', function(newValue, oldValue, scope){
                 if(!!newValue){
                     if(res.test(newValue) && newValue.length < 13){
-                      scope.plan.project_price_after_discount = newValue;
+                        scope.plan.project_price_after_discount = newValue;
                         if(parseInt(scope.plan.project_price_after_discount) == 0){
-                            $scope.designerPlan.total_price_discount = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_before_discount);
+                            $scope.plan.total_price = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_before_discount);
                         }else{
-                            $scope.designerPlan.total_price_discount = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_after_discount);
+                            $scope.plan.total_price = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_after_discount);
                         }
                     }else{
                         if(oldValue == undefined){

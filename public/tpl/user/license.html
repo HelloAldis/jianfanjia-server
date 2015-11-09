@@ -21,8 +21,21 @@
     <![endif]-->
 </head>
 <body>
-	<div class="agreement">
-		<h1>住宅室内装饰工程施工、咨询合同</h1>
+	<div class="g-hd">
+		<div class="g-wp f-cb">
+			<div class="m-logo f-fl">
+				<h1><a href="../index/index.html">简繁家</a></h1>
+			</div>
+			<div class="f-fr">
+				<div class="user"></div>
+				<ul class="m-nav f-fl">
+					<li class="active"><a href="../index/index.html">首页</a></li>
+					<li><a href="../design/index.html">设计师</a></li>
+					<li><a href="../live/index.html">装修直播</a></li>
+					<li><a href="../merit/index.html">为什么选简繁家</a></li>
+				</ul>
+			</div>
+		</div>
 	</div>
 	<div class="g-wp g-user f-cb">
 		<div class="agreement">
@@ -86,3 +99,35 @@
 	</div>
 </body>
 </html>
+<script type="text/javascript">
+	function loadList(url){
+		$.ajax({
+            url:RootUrl+'api/v2/web/designer/agree',
+            type: 'POST',
+            contentType : 'application/json; charset=utf-8',
+            dataType: 'json',
+            cache : false,
+            success: function(res){
+				if(res["msg"] == 'success'){
+					window.location.href = url;
+				}
+		   	}
+        });
+	}
+	$('#upLoad').on('click',function(){
+		if($('#agree').is(":checked")){
+			loadList('designer.html#/release');
+		}else{
+			alert('请先同意入驻协议协议')
+			return false;
+		}
+	})
+	$('#apply').on('click',function(){
+		if($('#agree').is(":checked")){
+			loadList('designer.html#/infor');
+		}else{
+			alert('请先同意入驻协议协议')
+			return false;
+		}
+	})
+</script>

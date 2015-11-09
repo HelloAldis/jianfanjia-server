@@ -50,12 +50,12 @@
 		<div class="m-plans" bindonce="plan" ng-if="plan">
             <div class="plans-tt f-cb">
                 <h3 class="f-fl">
-                    <span bo-if="plan.requirement.cell"><i bo-text="plan.requirement.cell"></i></span>
+                    <span bo-if="plan.requirement.cell"><i bo-text="plan.requirement.cell"></i>小区</span>
                     <span bo-if="plan.requirement.cell_phase"><i bo-text="plan.requirement.cell_phase"></i>期</span>
                 </h3>
                 <div class="btns f-fr">
                     <a bo-href-i="{{returnUrl}}" class="u-btns u-btns-revise">查看其它方案</a>
-                    <a href="javascript:;" class="u-btns" ng-click="definePlan(data._id,data.designer._id)" bo-if="statusShow">选定方案</a>
+                    <a href="javascript:;" class="u-btns" ng-click="comment.definePlan(plan.requirementid,plan.designerid)" bo-if="statusShow">选定方案</a>
                 </div>
             </div>
             <div class="plans-ct">
@@ -109,13 +109,13 @@
                     </div>
                     <div class="price f-fl">
                         <ul>
-                            <li>工程总造价<span>&yen;<s ng-bind="plan.total_price | number" ng-show="!project_price_after_discount"></s><i ng-bind="plan.total_price | number" ng-hide="!project_price_after_discount"></i></span></li>
+                            <li>工程总造价<span>&yen;<s ng-bind="plan.project_price_before_discount | number" ng-show="!project_price_after_discount"></s><i ng-bind="plan.total_price | number" ng-hide="!project_price_after_discount"></i></span></li>
                             <li>工程折后价<span>&yen;<i ng-bind="plan.project_price_after_discount | number"></span></i></li>
                             <li>设计费<span ng-if="plan.total_design_fee">&yen;<i ng-bind="plan.total_design_fee | number"></i></span><span ng-if="!plan.total_design_fee">&yen;<i ng-bind="plan.design_fee | number"></i></span></li>
                         </ul>
                         <dl>
                             <dt>折后总价</dt>
-                            <dd>&yen;<i ng-bind="plan.discount_price | number"></i></dd>
+                            <dd>&yen;<i ng-bind="plan.total_price | number"></i></dd>
                         </dl>
                     </div>
                 </div>
@@ -123,16 +123,20 @@
         </div>
         <div class="m-plansMsg" id="plansMsg" ng-if="tab == 1">
             <div class="review">
-                <img ng-src="/api/v2/web/image/{{comment.imageid}}" ng-if="comment.imageid" />
+                <div class="head">
+                    <img ng-src="/api/v2/web/thumbnail/50/{{comment.imageid}}" ng-if="comment.imageid" />
+                </div>
                 <div ng-class="{'focus textarea':comment.parentFocus,'textarea':!comment.parentFocus}"><textarea rows="10" ng-model="comment.plansMsg" ng-focus="comment.focus()" ng-blur="comment.blur()"></textarea></div>
                 <div class="btns"><input type="button" ng-click="comment.addPlansMsg(designer._id,requiremtne.userid)" class="u-btns" value="发表评论" /></div>
             </div>
             <div class="list" ng-if="comments.length != 0">
                 <ul>
                     <li bindonce="comments" ng-repeat="list in comments">
-                        <img bo-src-i="/api/v2/web/thumbnail/50/{{list.byUser.imageid}}" alt="" />
+                        <div class="head">
+                            <img bo-src-i="/api/v2/web/thumbnail/50/{{list.byUser.imageid}}" bo-if="list.byUser.imageid" alt="" />
+                        </div>
                         <h4><span bo-text="list.byUser.username"></span><time bo-text="list.date"></time></h4>
-                        <p><span class="find" bo-if="list.usertypeOff">@ <i ng-bind="plan.designer.username" bo-if="list.usertype == 1"></i><i ng-bind="plan.user.username"  bo-if="list.usertype == 2"></i></span><span class="text" bo-text="list.content"></span><i ng-click="commentsBtn()" bo-if="list.usertypeOff">图标</i></p>
+                        <p><span class="find" bo-if="list.usertypeOff">@<i ng-bind="plan.designer.username" bo-if="list.usertype == 1"></i><i ng-bind="plan.user.username"  bo-if="list.usertype == 2"></i></span><span class="text" bo-text="list.content"></span><i ng-click="commentsBtn()" bo-if="list.usertypeOff" class="iconfont2">&#xe616;</i></p>
                     </li>
                 </ul>
             </div>
@@ -176,8 +180,6 @@
     </footer>
     <script type="text/javascript" src="../../static/js/user/filters.js"></script>
     <script type="text/javascript" src="../../static/js/user/directives.js"></script>
-    <script type="text/javascript" src="../../static/js/user/plansService.js"></script>
-    <script type="text/javascript" src="../../static/js/user/plansController.js"></script>
     <script type="text/javascript" src="../../static/js/user/plansApp.js"></script>
 </body>
 </html>

@@ -122,13 +122,7 @@ $(function(){
 			processData : false,
 			success: function(res){
 				if(res["data"] != null){
-                    if(res["data"].url === "agree license url"){
-                    	window.location.href = 'design_agreement.html'
-                    }else if(res["data"].url === "designer url"){
-                    	window.location.href = 'designer.html'
-                    }else if(res["data"].url === "user url"){
-                    	window.location.href = 'owner.html'
-                    }
+                    window.location.href = res["data"].url;
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');	
 				}

@@ -302,6 +302,9 @@ angular.module('controllers', [])
                 blur : function(){
                    $scope.comment.parentFocus = false; 
                 }
+                definePlan : function(){
+                    
+                }
             }
             $scope.comments = [];
             function load(off){          //获取留言列表

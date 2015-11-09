@@ -184,10 +184,11 @@ body{
 	color: #fe7004;
 }
 .plans-ct .head{
-	width: 60px;
-	height: 60px;
-	overflow: hidden;
-	border-radius: 60px;
+	width: 50px;
+    height: 50px;
+    overflow: hidden;
+    background: #d5d7db url(../img/user/userHead.png) no-repeat 0 -120px;
+    border-radius: 50px;
 }
 .plans-ct .head img{
 	width: 100%;
@@ -256,13 +257,18 @@ body{
 	position: relative;
 	padding: 19px 19px 15px 89px;	
 }
-.m-plansMsg .review img{
+.m-plansMsg .head{
 	position: absolute;
 	left:19px;
 	top:19px;
 	width: 50px;
 	height: 50px;
-	border-radius: 50%;
+	overflow: hidden;
+	background: #d5d7db url(../img/user/userHead.png) no-repeat 0 -195px;
+	border-radius: 50px;
+}
+.m-plansMsg .head img{
+	width: 100%;		
 }
 .m-plansMsg .review .textarea{
 	height: 80px;
@@ -301,13 +307,9 @@ body{
 	padding-left: 65px;
 	padding-bottom: 15px;
 }
-.m-plansMsg .list img{
-	position: absolute;
-	left:0;
+.m-plansMsg .list li .head{
 	top:0;
-	width: 50px;
-	height: 50px;
-	border-radius: 50px;
+	left:0;
 }
 .m-plansMsg .list h4{
 	line-height: 24px;
@@ -318,9 +320,16 @@ body{
 	font-size: 14px;
 	color: #39383d;
 }
+.m-plansMsg .list .find{
+	margin-right: 10px;
+}
 .m-plansMsg .list p{
 	line-height: 20px;
 	color: #5f636f;
+}
+.m-plansMsg .list .iconfont2{
+	margin-left: 10px;
+	color: #999;
 }
 .m-plansMsg .more{
 	
