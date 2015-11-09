@@ -264,7 +264,7 @@ exports.auth = function (req, res, next) {
   Designer.setOne({
     _id: designerid
   }, {
-    auth_type: type.designer_auth_type_processing
+    auth_type: type.designer_auth_type_processing,
     auth_date: new Date().getTime(),
   }, {}, ep.done(function () {
     res.sendSuccessMsg();
