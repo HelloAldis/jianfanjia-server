@@ -25,6 +25,10 @@ var config = {
   auth_cookie_name: 'jianfanjia',
   session_time: 1000 * 60 * 60 * 24 * 2,
 
+  user_home_url: '/tpl/user/owner.html',
+  designer_license_url: '/tpl/user/license.html',
+  designer_home_url: '/tpl/user/designer.html',
+
   // 邮箱配置
   mail_opts: {
     service: 'QQex',
