@@ -16,6 +16,12 @@ exports.getUsertype = function (req) {
   }
 }
 
+exports.getAgreeeLicense = function (req) {
+  if (req.session) {
+    return req.session.agreee_license;
+  }
+}
+
 exports.buildUser = function (req) {
   var user = {};
   user.username = req.body.username;

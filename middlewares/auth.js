@@ -56,6 +56,10 @@ exports.adminRequired = function (req, res, next) {
 exports.gen_session = function (user, usertype, req, res) {
   req.session.userid = user._id;
   req.session.usertype = usertype;
+  if (usertype === type.role_designer) {
+    req.session.agreee_license = user.agreee_license;
+  }
+
   req.session.touch();
   req.session.save();
 
@@ -134,16 +138,8 @@ exports.authUser = function (req, res, next) {
 
 
 var loginPages = ['/login.html'];
-var designerPages = ['/design.html', '/design_agreement.html',
-  '/design_info.html', '/design_need.html',
-  '/design_offer.html', '/design_owner.html',
-  '/design_scheme.html', '/design_team.html',
-  '/design_upload.html', '/design_products.html'
-];
-var userPages = ['/owner.html', '/owner_design.html',
-  '/owner_info.html', '/owner_need.html',
-  '/owner_scheme.html'
-];
+var designerPages = ['/designer.html', 'license.html'];
+var userPages = ['/owner.html'];
 
 exports.checkCookie = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -166,12 +162,13 @@ exports.authWeb = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var usertype = ApiUtil.getUsertype(req);
 
+
   if (_.indexOf(loginPages, url) >= 0) {
     if (userid) {
       if (usertype === type.role_user) {
         res.redirect('owner.html');
       } else if (usertype === type.role_designer) {
-        res.redirect('design.html');
+        res.redirect('designer.html');
       }
     } else {
       next();
@@ -181,7 +178,12 @@ exports.authWeb = function (req, res, next) {
       if (usertype === type.role_user) {
         res.status(403).send('forbidden!');
       } else if (usertype === type.role_designer) {
-        next();
+        var agreee_license = ApiUtil.getAgreeeLicense(req);
+        if (agreee_license === type.designer_agree_type_yes) {
+          next();
+        } else {
+          res.redirect('license.html');
+        }
       }
     } else {
       res.redirect('login.html');

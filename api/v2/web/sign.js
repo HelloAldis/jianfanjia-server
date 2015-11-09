@@ -50,7 +50,7 @@ exports.login = function (req, res, next) {
             req, res);
 
           var data = {};
-          data.url = 'user url';
+          data.url = config.user_home_url;
           res.sendData(data);
         }));
       } else if (!result.user && result.designer) {
@@ -67,9 +67,9 @@ exports.login = function (req, res, next) {
 
           var data = {};
           if (result.designer.agreee_license === type.designer_agree_type_new) {
-            data.url = 'agree license url';
+            data.url = config.designer_license_url;;
           } else {
-            data.url = 'designer url';
+            data.url = config.designer_home_url;
 
             Designer.incOne({
               _id: result.designer._id
@@ -223,7 +223,7 @@ exports.signup = function (req, res, next) {
         authMiddleWare.gen_session(user_indb, usertype, req, res);
 
         var data = {};
-        data.url = 'user url';
+        data.url = config.user_home_url;
         res.sendData(data);
       }));
     } else if (usertype === type.role_designer) {
@@ -232,7 +232,7 @@ exports.signup = function (req, res, next) {
         authMiddleWare.gen_session(user_indb, usertype, req, res);
 
         var data = {};
-        data.url = 'agree license url';
+        data.url = config.designer_license_url;
         res.sendData(data);
       }));
     }
