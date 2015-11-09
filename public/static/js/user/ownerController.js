@@ -151,7 +151,6 @@ angular.module('controllers', [])
                 userRequiremtne.get({'_id':$stateParams.id}).then(function(res){  //获取个人资料
                     if(res.data.data != null){
                         $scope.requiremtne = _.assign($scope.requiremtne, res.data.data);
-                        $scope.userInfo.isLoading = true; 
                     }
                     $scope.loadData = true;
                 },function(res){
@@ -165,13 +164,12 @@ angular.module('controllers', [])
                     return ;
                 }
                 if($scope.requiremtne.province === "湖北省" && $scope.requiremtne.city === "武汉市"){
-                    This.disabled = false;
+                    This.disabled = true;
                     if($scope.userRelease.isRelease){
                         userRequiremtne.add($scope.requiremtne).then(function(res){  //提交新需求
                             if(res.data.data.requirementid){
                                 This.requirementid = res.data.data.requirementid;
                                 This.motaiDone = true;
-                                This.disabled = true;
                             }
                         },function(res){
                             console.log(res)
@@ -230,7 +228,7 @@ angular.module('controllers', [])
             var requiremtneId = $stateParams.id;
             $scope.$on('requirementParent',function(event, data){    //子级接收 
                 if(data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 4 || data.status == 5 || data.status == 6 || data.status == 7){  //预约量房、确认量房
-                    myBooking()
+                    myBooking(data.status)
                 }
                 if(data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5){  //选择方案
                     myPlan()
@@ -251,7 +249,7 @@ angular.module('controllers', [])
                 $location.path('requirement/'+id+"/"+statusUrl[status]);
             }
             var weeksData = initData.weeksData;
-            function myBooking(){
+            function myBooking(status){
                 userRequiremtne.designers({"requirementid":requiremtneId}).then(function(res){    //可以预约设计师列表
                         // 匹配的设计师
                         $scope.matchs = res.data.data.rec_designer;
@@ -275,79 +273,82 @@ angular.module('controllers', [])
                                         value.house_check_time = dates + days + times + ' ( '+ weeks + ' )';
                                     }
                                 })
-                                angular.forEach($scope.matchs, function(value1, key1){
-                                    angular.forEach($scope.ordersData, function(value2, key2){
-                                        if(value1._id == value2._id){
-                                            value1.active = true;
-                                        }else{
-                                            value1.active = false;
-                                        }
-                                    })
-                                })
-                                angular.forEach($scope.ordersData, function(value2, key2){
+                                $scope.bookingSuccess = true;
+                                if(status == 0 || status == 1 || status == 2 || status == 6 || status == 3){
                                     angular.forEach($scope.matchs, function(value1, key1){
-                                        if(value1._id == value2._id){
-                                            value1.active = true;
-                                        }
-                                    })
-                                    angular.forEach($scope.favorites, function(value1, key1){
-                                        if(value1._id == value2._id){
-                                            value1.active = true;
-                                        }
-                                    })
-                                })
-                                //检测是否可以点击
-                                $scope.bookingSuccess = $scope.ordersData.length < 3 ? true : false; 
-                                // 点击设计师
-                                $scope.selectDesignOff = false;
-                                $scope.location = $location;
-                                $scope.$watch( 'location.url()', function( url ){
-                                    if(url.split('/')[3].split("?")[1]){
-                                        $scope.bookingSuccess = true;
-                                    }
-                                });
-                                $scope.selectDesign = function(data){
-                                    var len = $scope.ordersData.length;
-                                    if($location.url().split('/')[3].split("?")[1]){
-                                        data.active = true;
-                                        $scope.booking.motaiDone = true;
-                                        $scope.booking.isReplace = true;
-                                        userRequiremtne.change({
-                                          "requirementid":requiremtneId,
-                                          "old_designerid":$location.url().split('/')[3].split("?")[1],
-                                          "new_designerid":data._id
-                                        }).then(function(res){    //更换设计师
-                                            if(res.data.msg == "success"){
-                                                $scope.booking.isReplace = false;
-                                                $scope.ordersData = undefined;
+                                        angular.forEach($scope.ordersData, function(value2, key2){
+                                            if(value1._id == value2._id){
+                                                value1.active = true;
+                                            }else{
+                                                value1.active = false;
                                             }
-                                        },function(res){
-                                            console.log(res)
-                                        });
-                                    }
-                                    if(len > 2){
-                                        return ;
-                                    }
-                                    angular.forEach($scope.ordersData, function(value, key){
-                                        if(value._id == data._id){
-                                            $scope.selectDesignOff = true;
-                                            return false;
-                                        }
+                                        })
                                     })
-                                    if($scope.selectDesignOff){
-                                        return ;
-                                    }
-                                    if(!data.active){
-                                        if(($scope.orderDesigns.length+len) > 2){
-                                            alert('您已经预约了3名设计师');
+                                    angular.forEach($scope.ordersData, function(value2, key2){
+                                        angular.forEach($scope.matchs, function(value1, key1){
+                                            if(value1._id == value2._id){
+                                                value1.active = true;
+                                            }
+                                        })
+                                        angular.forEach($scope.favorites, function(value1, key1){
+                                            if(value1._id == value2._id){
+                                                value1.active = true;
+                                            }
+                                        })
+                                    })
+                                    //检测是否可以点击
+                                    $scope.bookingSuccess = $scope.ordersData.length < 3 ? true : false; 
+                                    // 点击设计师
+                                    $scope.selectDesignOff = false;
+                                    $scope.location = $location;
+                                    $scope.$watch( 'location.url()', function( url ){
+                                        if(url.split('/')[3].split("?")[1]){
+                                            $scope.bookingSuccess = true;
+                                        }
+                                    });
+                                    $scope.selectDesign = function(data){
+                                        var len = $scope.ordersData.length;
+                                        if($location.url().split('/')[3].split("?")[1]){
+                                            data.active = true;
+                                            $scope.booking.motaiDone = true;
+                                            $scope.booking.isReplace = true;
+                                            userRequiremtne.change({
+                                              "requirementid":requiremtneId,
+                                              "old_designerid":$location.url().split('/')[3].split("?")[1],
+                                              "new_designerid":data._id
+                                            }).then(function(res){    //更换设计师
+                                                if(res.data.msg == "success"){
+                                                    $scope.booking.isReplace = false;
+                                                    $scope.ordersData = undefined;
+                                                }
+                                            },function(res){
+                                                console.log(res)
+                                            });
+                                        }
+                                        if(len > 2){
                                             return ;
                                         }
-                                        data.active = true;
-                                        $scope.orderDesigns.push(data._id)
-                                    }else{
-                                        data.active = false;
-                                        var index = _.indexOf($scope.orderDesigns,data._id);
-                                        $scope.orderDesigns.splice(index, 1);
+                                        angular.forEach($scope.ordersData, function(value, key){
+                                            if(value._id == data._id){
+                                                $scope.selectDesignOff = true;
+                                                return false;
+                                            }
+                                        })
+                                        if($scope.selectDesignOff){
+                                            return ;
+                                        }
+                                        if(!data.active){
+                                            if(($scope.orderDesigns.length+len) > 2){
+                                                alert('您已经预约了3名设计师');
+                                                return ;
+                                            }
+                                            data.active = true;
+                                            $scope.orderDesigns.push(data._id)
+                                        }else{
+                                            data.active = false;
+                                            var index = _.indexOf($scope.orderDesigns,data._id);
+                                            $scope.orderDesigns.splice(index, 1);
+                                        }
                                     }
                                 }
                             },function(res){

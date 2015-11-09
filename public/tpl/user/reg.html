@@ -44,32 +44,16 @@
 				<div class="sign-mn f-fl">
 					<h2>注册您的免费帐号</h2>
 					<div class="w-form">
-						<form action="#" id="form-reg" method="post">
+						<form id="form-reg" method="post">
 							<div class="m-item f-cb">
 								<div class="item">
 									<label class="u-lab" for="reg-account"><i class="icon icon03"></i></label>
 									<div class="u-inp">
 										<div class="box">
-											<input type="text" class="input" name="reg-account" id="reg-account" placeholder="请输入手机号码" />
+											<input type="text" class="input" name="user" id="reg-account" placeholder="请输入手机号码" />
 										</div>
 									</div>
 								</div>
-								<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-								<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-								<p class="tips-info hide"></p>
-							</div>
-							<div class="m-item verifyCode f-cb">
-								<div class="item f-fl">
-									<label class="u-lab" for="reg-VerifyCode">
-										<i class="icon icon04"></i>
-									</label>
-									<div class="u-inp">
-										<div class="box">
-											<input type="text" class="input" name="reg-VerifyCode" id="reg-VerifyCode" placeholder="请输入验证码" />
-										</div>
-									</div>
-								</div>
-								<span class="f-fr vcode" id="getVerifyCode">获取验证码</span>
 								<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
 								<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
 								<p class="tips-info hide"></p>
@@ -92,10 +76,26 @@
 									<label class="u-lab" for="reg-password2"><i class="icon icon05"></i></label>
 									<div class="u-inp">
 										<div class="box">
-											<input type="password" class="input" name="reg-password2" id="reg-password2" placeholder="请确定密码" />
+											<input type="password" class="input" id="reg-password2" placeholder="请确定密码" />
 										</div>
 									</div>
 								</div>
+								<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
+								<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
+								<p class="tips-info hide"></p>
+							</div>
+							<div class="m-item verifyCode f-cb">
+								<div class="item f-fl">
+									<label class="u-lab" for="reg-VerifyCode">
+										<i class="icon icon04"></i>
+									</label>
+									<div class="u-inp">
+										<div class="box">
+											<input type="text" class="input" id="reg-VerifyCode" placeholder="请输入验证码" />
+										</div>
+									</div>
+								</div>
+								<span class="f-fr vcode" id="getVerifyCode">获取验证码</span>
 								<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
 								<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
 								<p class="tips-info hide"></p>

@@ -9,7 +9,6 @@ $(function(){
 	function isVerifyCode(str){
 	   return (/^[\d]{6}$/.test(str));
 	}
-	var reg_success_url =["/","owner.html","design_agreement.html"];
     var errMsg = {
         "reg_mobile": "手机号不正确",
         "reg_erren" : "手机号码已被使用",
@@ -104,7 +103,7 @@ $(function(){
         var userName = $.trim(mobile.val());
         if(isMobile(userName)){
             $.ajax({
-                url:RootUrl+'api/v1/verify_phone',
+                url:RootUrl+'api/v2/web/verify_phone',
                 type: 'post',
                 contentType : 'application/json; charset=utf-8',
                 dataType : 'json',
@@ -156,7 +155,7 @@ $(function(){
 		if(check_step > 0){
 			return false;
 		}
-        var url = RootUrl+'api/v1/signup';
+        var url = RootUrl+'api/v2/web/signup';
 		var userName = mobile.val();
 		var verifyCode = captcha.val();
 		var passWord = pass.val();
@@ -178,7 +177,13 @@ $(function(){
             cache : false,
 			success: function(res){
 				if(res["data"] != null){
-					window.location.href = reg_success_url[res.data.usertype];
+                    if(res["data"].url === "agree license url"){
+                        window.location.href = 'design_agreement.html'
+                    }else if(res["data"].url === "designer url"){
+                        window.location.href = 'designer.html'
+                    }else if(res["data"].url === "user url"){
+                        window.location.href = 'owner.html'
+                    }
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');
 				}
@@ -198,7 +203,7 @@ $(function(){
             countdown($(this),60)
             var userName = mobile.val();
             $.ajax({
-                url:RootUrl+'api/v1/send_verify_code',
+                url:RootUrl+'api/v2/web/send_verify_code',
                 type: 'post',
                 contentType : 'application/json; charset=utf-8',
                 dataType: 'json',

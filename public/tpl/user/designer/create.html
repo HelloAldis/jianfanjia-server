@@ -33,7 +33,7 @@
 								<label class="u-lab" for="owner-email">报价</label>
 								<div class="u-inp">
 									<div class="input quote" ng-click="designerPlan.tabBtn(false)">
-										<div ng-if="designerPlan.total_price_discount != 0 && designerPlan.total_price_discount_ok" ng-bind="designerPlan.total_price_discount | number"></div>
+										<div ng-if="total_price != 0 && total_price" ng-bind="total_price | number"></div>
 										<span class="unit">元</span>
 									</div>
 								</div>
@@ -116,7 +116,7 @@
 				<div class="price f-cb">
 					<dl class="f-fl">
 						<dt>工程总造价</dt>
-						<dd><span ng-if="plan.total_price"><s ng-bind="plan.total_price | number"></s>元</span></dd>
+						<dd><span ng-if="plan.project_price_before_discount"><s ng-bind="plan.project_price_before_discount | number"></s>元</span></dd>
 					</dl>
 					<dl class="f-fl">
 						<dt>工程折后价</dt>
@@ -128,7 +128,7 @@
 					</dl>
 					<dl class="f-fr">
 						<dt>折后总价</dt>
-						<dd><span ng-if="designerPlan.total_price_discount != 0"><strong ng-bind="designerPlan.total_price_discount | number"></strong>元</span></dd>
+						<dd><span ng-if="plan.total_price != 0"><strong ng-bind="plan.total_price | number"></strong>元</span></dd>
 					</dl>
 				</div>
 				<div class="btns">

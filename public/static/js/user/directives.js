@@ -18,7 +18,8 @@ angular.module('directives', [])
                    query = $scope.myQuery,
                    select = $scope.mySelects,
                    str = '';
-                   if((typeof query != Object) && (typeof query == String || typeof query == Number)){
+                   //query 值有三中字符串，数字，数组
+                   if(typeof query != "string" || typeof query != String || typeof query != "number" || typeof query != Number){
                       for (var i = 0,len = list.length; i < len; i++) {
                         for (var j = 0; j < query.length; j++) {
                           if(list[i].id == query[j]){
@@ -491,7 +492,7 @@ angular.module('directives', [])
                     district = oBox.find('.district'),
                     body = angular.element(document),
                     listArr = [province,city,district];
-                    createList(Default[2].num,listArr[2])
+                    
                 for(var i = 0; i < DefaultLen; i++) {
                   createList(Default[i].num,listArr[i]);
                   selectEvent(listArr[i]);
@@ -635,7 +636,8 @@ angular.module('directives', [])
                     scale = 0,
                     disX,
                     disY,
-                    imgW,imgH,w,h;
+                    imgW,imgH,w,h,
+                    num = 300;
                 if(!$scope.myQuery){
                   $userHead.attr('src','../../../static/img/user/headPic.png')
                 }else{
@@ -663,8 +665,8 @@ angular.module('directives', [])
                             left: l,
                             top: t
                         });
-                        var r = 300*scale +l,
-                            b = 300*scale + t;
+                        var r = num +l+1,
+                            b = num + t+1;
                         $('#cropPic2').css('clip','rect('+t+'px '+r+'px '+b+'px '+l+'px)')
                         moveout = false;
                     }).on('mouseout',function(e){
@@ -732,11 +734,12 @@ angular.module('directives', [])
                       data.data = null;
                       return false;
                     }
+                    num = scale*300 > 300 ? 300 : scale*300
                     $cropBorder.css({
-                      width: scale*300,
-                      height: scale*300
+                      width: num,
+                      height: num
                     });
-                    $('#cropPic2').css('clip','rect('+'0px '+scale*300+'px '+scale*300+'px '+'0px)')
+                    $('#cropPic2').css('clip','rect('+'0px '+num+'px '+num+'px '+'0px)')
                     $cropMask.css({
                       width:$winW,
                       height:$winH

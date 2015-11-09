@@ -1,4 +1,4 @@
-<div class="booking {{bookingSuccess ? '' : 'disabled'}}">
+<div class="booking" ng-class="{disabled : bookingSuccess}">
 	<div ng-if="matchs.length == 0 || favorites.length == 0 || matchs || favorites">
 		<div class="booking-tips">
 			<p class="f-fl">系统自动匹配<span ng-if="matchs.length != 0"><i ng-bind="matchs.length"></i>名</span>设计师，如果不满足您的需求可更多选择</p>
@@ -50,7 +50,7 @@
 					</div>
 				</div>
 			</li>
-			<li ng-show="favorites.length == 0">
+			<li ng-show="favorites.length == 0 && (requirement.status == 0 || requirement.status == 1 || requirement.status == 2 || requirement.status == 6 || requirement.status == 3)">
 				<div class="notdesigner f-cb">
 					<p>您还没有自选的设计师</p>
 					<div class="btns">
@@ -59,7 +59,7 @@
 				</div>
 			</li>
 		</ul>
-		<div class="booking-btns" ng-if="bookingSuccess && ordersData.length < 3">
+		<div class="booking-btns" ng-if="bookingSuccess && ordersData.length < 3 && (requirement.status == 0 || requirement.status == 1 || requirement.status == 2 || requirement.status == 6 || requirement.status == 3)">
 			<a href="javascript:;" class="u-btns" ng-click="booking.bookingBtn()">预约量房</a>
 		</div>
 	</div>

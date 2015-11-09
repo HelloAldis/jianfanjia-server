@@ -107,7 +107,7 @@ $(function(){
 		if(check_step > 0){
 			return false;
 		}
-		var url = RootUrl+'api/v1/login';
+		var url = RootUrl+'api/v2/web/login';
 		var userName = mobile.val();
 		var passWord = pass.val();
 		$.ajax({
@@ -122,8 +122,13 @@ $(function(){
 			processData : false,
 			success: function(res){
 				if(res["data"] != null){
-
-                    window.location.href = formUrl || login_success_url[res.data.usertype]
+                    if(res["data"].url === "agree license url"){
+                    	window.location.href = 'design_agreement.html'
+                    }else if(res["data"].url === "designer url"){
+                    	window.location.href = 'designer.html'
+                    }else if(res["data"].url === "user url"){
+                    	window.location.href = 'owner.html'
+                    }
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');	
 				}

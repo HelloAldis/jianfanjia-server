@@ -9,7 +9,7 @@
 <div class="main">
 	<div class="m-index" bindonce="designer">
 		<div class="info f-cb">
-			<div class="onlineSetting" ng-class="{onlineShow : designer.online_status == 0,onlineHide : designer.online_status == 1}">
+			<div class="onlineSetting" ng-class="{onlineShow : designer.online_status == 0 && designer.auth_type == 2 && designer.authed_product_count > 3,onlineHide : designer.online_status == 1}">
 				<h4 class="online" ng-click="onlineSetting(1)"><i class="iconfont2">&#xe62d;</i><span>在线</span></h4>
 				<h4 class="busy" ng-click="onlineSetting(0)"><i class="iconfont2">&#xe62e;</i><span>离线</span></h4>
 			</div>
@@ -33,7 +33,7 @@
 					</span>
 				</dd>
 			</dl>
-			<a ui-sref="service" class="editor" ng-if="designer.online_status == 0"><i class="iconfont2">&#xe627;</i>&nbsp;&nbsp;接单服务</a>			
+			<a ui-sref="service" class="editor" ng-if="designer.online_status == 0 && designer.auth_type == 2 && designer.authed_product_count > 3"><i class="iconfont2">&#xe627;</i>&nbsp;&nbsp;接单服务</a>			
 		</div>
 		<div class="flow">
 			<ul>
