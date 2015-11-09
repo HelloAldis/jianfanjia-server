@@ -153,6 +153,7 @@ exports.buildPlan = function (req) {
   plan.price_detail = req.body.price_detail;
   plan.project_price_after_discount = req.body.project_price_after_discount;
   plan.total_design_fee = req.body.total_design_fee;
+  plan.project_price_before_discount = req.body.project_price_before_discount;
 
   plan.images = _.map(req.body.images, function (i) {
     return new ObjectId(i);

@@ -149,6 +149,9 @@ exports.search = function (req, res, next) {
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
   query.auth_type = type.designer_auth_type_done;
+  query.authed_product_count = {
+    $gte: 3
+  };
   var ep = new eventproxy();
   ep.fail(next);
 
