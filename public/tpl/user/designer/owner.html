@@ -7,7 +7,7 @@
 			<span class="head">
 				<img bo-if="requirement.user.imageid" bo-src-i="/api/v2/web/thumbnail/70/{{requirement.user.imageid}}" bo-alt="requirement.user.username" />
 			</span>
-			<h3><strong bo-text="requirement.user.username"></strong><span ng-if="requirement.plan.status == 2 || requirement.plan.status == 6 || requirement.plan.status == 3 || requirement.plan.status == 4 || requirement.plan.status == 5 || requirement.plan.status == 8">(手机<i bo-text="requirement.user.phone"></i>)</span></h3>
+			<h3><strong bo-text="requirement.user.username"></strong><span ng-if="requirement.plan.status == 2 || requirement.plan.status == 6 || requirement.plan.status == 3 || requirement.plan.status == 4 || requirement.plan.status == 5 || requirement.plan.status == 8">(<i class="iconfont2">&#xe625;</i><i bo-text="requirement.user.phone"></i>)</span></h3>
 			<div class="detail f-cb">
 				<dl class="f-fl">
 					<dt>物业描述</dt>

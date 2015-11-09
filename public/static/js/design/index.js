@@ -89,7 +89,7 @@ $(function(){
 			$list.html('<div class="loading" id="j-loading"></div>');
 			var oldData = {"query":toQuery,"sort":toSort,"from":toFrom,"limit":5}
 			$.ajax({
-				url:RootUrl+'api/v1/designer/search',
+				url:RootUrl+'api/v2/web/designer/search',
 				type: 'POST',
 				contentType : 'application/json; charset=utf-8',
 				dataType: 'json',
@@ -125,7 +125,7 @@ $(function(){
 				}else if(window.usertype == 1 && window.usertype != 2 ){
 					gohome = '<a href="../user/owner_design.html" data-uid="'+data._id+'" class="btn addIntent">添加意向</a>'
 				}
-				var url = RootUrl+'api/v1/designer/'+data._id+'/products';
+				var url = RootUrl+'api/v2/web/designer/'+data._id+'/products';
 				var images  = $.ajax({
 					url:url,
 					type: 'GET',

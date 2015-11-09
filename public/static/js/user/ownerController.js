@@ -126,6 +126,7 @@ angular.module('controllers', [])
             }
             $scope.requiremtne = {
                 dec_type : '0',
+                work_type : '0',
                 dec_style : '0',
                 house_type : '0',
                 communication_type :'0',
@@ -411,8 +412,8 @@ angular.module('controllers', [])
                 scoreComment : '',
                 scoreRespond : '0',
                 scoreService : '0',
-                scoreResponds : initData.score,
-                scoreServices : initData.score,
+                scoreResponds : initData.scorea,
+                scoreServices : initData.scoreb,
                 respondBtn : function(i){
                     var This = this; 
                     this.scoreRespond = i;

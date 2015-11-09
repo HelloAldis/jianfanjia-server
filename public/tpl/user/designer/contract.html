@@ -16,7 +16,7 @@
 					<i bo-text="contract.designer.city" bo-if="contract.designer.city || contract.designer.city != '请选择市'"></i>
 					<i bo-text="contract.designer.district" bo-if="contract.designer.district || contract.designer.district != '请选择县/区'"></i>
 				</dd>
-				<dd><i>手机</i><span bo-text="contract.user.phone"></span></dd>
+				<dd><i class="iconfont2">&#xe625;</i><span bo-text="contract.user.phone"></span></dd>
 			</dl>
 		</div>
 		<div class="list">
@@ -27,13 +27,13 @@
 			</dl>
 			<dl>
 				<dt>工程价款</dt>
-				<dd>本工程装修合同总价为人民币（大写）<strong bo-text="contract.total_price*10000 | chineseNumber"></strong>元（&yen;<strong bo-text="contract.total_price*10000"></strong>元 ）; 承包方式:   <strong bo-text="contract.work_type | workTypeFilter"></strong>（半包、全包）。</dd>
+				<dd>本工程装修合同总价为人民币（大写）<strong bo-text="contract.total_price*10000 | chineseNumber"></strong>元（&yen;<strong bo-text="contract.total_price*10000"></strong>元 ）; 承包方式:   <strong bo-text="contract.work_type | workTypeFilter"></strong>。</dd>
 			</dl>
 		</div>
 	</div>
 	<div class="contract-btns" ng-if="contracts.btnsBox">
-		<a href="javascript:;" onclick="window.open('../other/agreement.html','maxwindow','toolbar=no,width=1000,location=no,directories=no,menubar=no,scrollbars=yes,resizable=no,status=no');" class="u-btns u-btns-revise">查看第三方合同</a>
-		<a href="javascript:;" class="u-btns" ng-click="contracts.setStartDate()" bo-if="contract.status == 4">设置开工日期</a>
+		<a href="agreement.html" target="_blank" class="u-btns u-btns-revise">查看第三方合同</a>
+		<a href="javascript:;" class="u-btns" ng-click="contracts.setStartDate()" ng-if="contract.status == 4">设置开工日期</a>
 		<a ng-click="goTo(detail._id,'0')" class="u-btns hide">下载第三方合同</a>
 	</div>
 	<div class="contract-startDate" ng-if="contracts.motaiStartDate">

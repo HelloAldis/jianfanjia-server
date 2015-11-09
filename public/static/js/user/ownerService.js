@@ -157,7 +157,8 @@ angular.module('services', [])
                     url : '../../../static/img/user/stylePic6.jpg'
                 }
             ],
-            score : [{'id':"1",'cur':''},{'id':"2",'cur':''},{'id':"3",'cur':''},{'id':"4",'cur':''},{'id':"5",'cur':''}],
+            scorea : [{'id':"1",'cur':''},{'id':"2",'cur':''},{'id':"3",'cur':''},{'id':"4",'cur':''},{'id':"5",'cur':''}],
+            scoreb : [{'id':"1",'cur':''},{'id':"2",'cur':''},{'id':"3",'cur':''},{'id':"4",'cur':''},{'id':"5",'cur':''}],
             weeksData : {"Monday":"星期一","Tuesday":"星期二","Wednesday":"星期三","Thursday":"星期四","Friday":"星期五","Saturday":"星期六","Sunday":"星期日"},
             houseType : [
                 {"id" :0,"name":'一室'},

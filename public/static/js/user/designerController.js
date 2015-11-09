@@ -160,7 +160,7 @@ angular.module('controllers', [])
                 $scope.requirement = res.data.data;
                 $scope.$broadcast('requirementParent', res.data.data);   //父级传递
             },function(res){
-                    console.log(res)
+                console.log(res)
             });
             $scope.$on('requirementChildren', function(event, data) {   //父级接收 如果业主操作就需要改变状态
                 $scope.requirement = data;  
@@ -347,9 +347,10 @@ angular.module('controllers', [])
                     "userid": $stateParams.id.split("&")[1],
                     "requirementid":$scope.designerPlan.requiremtneId,
                     "duration":undefined,
-                    "total_price":undefined,
+                    "total_price":0,
                     "total_design_fee":undefined,
                     "project_price_after_discount":undefined,
+                    "project_price_before_discount":undefined,
                     "price_detail":initData.priceDetail,
                     "description":"",
                     "manager": "",
@@ -371,6 +372,7 @@ angular.module('controllers', [])
             $scope.designerPlan.remove_price_detail = function(id){
                 if(confirm('您确定要删除吗？')){
                     $scope.plan.price_detail.splice(id,1)
+                    this.computePrice()
                 }
             }
             $scope.designerPlan.add_price_detail = function(){
@@ -400,22 +402,50 @@ angular.module('controllers', [])
                     }
                 });
                 $scope.plan.project_price_before_discount = price;
+
+                if($scope.plan.project_price_after_discount == undefined){
+                    if($scope.plan.total_design_fee != undefined){
+                        $scope.plan.total_price = $scope.plan.project_price_before_discount + parseInt($scope.plan.total_design_fee);
+                    }else{
+                        $scope.plan.total_price = $scope.plan.project_price_before_discount;
+                    }
+                }else{
+                    if($scope.plan.total_design_fee != undefined){
+                        $scope.plan.total_price = parseInt($scope.plan.project_price_after_discount) + parseInt($scope.plan.total_design_fee);
+                    }else{
+                        $scope.plan.total_price = parseInt($scope.plan.project_price_after_discount);
+                    }
+                }
+                
             }
             $scope.$watch('plan.total_design_fee', function(newValue, oldValue, scope){
+                console.log(newValue)
+                console.log(oldValue)
                 if(!!newValue){
                     if(res.test(newValue) && newValue.length < 13){
                         scope.plan.total_design_fee = newValue;
-                        if(parseInt(scope.plan.project_price_after_discount) == 0){
-                          $scope.plan.total_price = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_before_discount);
+                        if($scope.plan.project_price_after_discount == undefined){
+                            if($scope.plan.project_price_before_discount == undefined){
+                                $scope.plan.total_price = parseInt(scope.plan.total_design_fee)
+                            }else{
+                                $scope.plan.total_price = parseInt(scope.plan.total_design_fee) + $scope.plan.project_price_before_discount;
+                            }
                         }else{
-                          $scope.plan.total_price = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_after_discount);
+                            $scope.plan.total_price = parseInt($scope.plan.total_design_fee) + parseInt(scope.plan.project_price_after_discount);
                         }
                     }else{
                         if(oldValue == undefined){
                             scope.plan.total_design_fee = newValue
                         }else{
                             scope.plan.total_design_fee = oldValue;
+                            $scope.plan.total_price = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_after_discount);
                         }
+                    }
+                }else if(!newValue){
+                    if(isNaN(parseInt($scope.plan.project_price_after_discount))){
+                        $scope.plan.total_price = $scope.plan.project_price_before_discount
+                    }else{
+                        $scope.plan.total_price = $scope.plan.project_price_after_discount;
                     }
                 }
             });
@@ -423,21 +453,29 @@ angular.module('controllers', [])
                 if(!!newValue){
                     if(res.test(newValue) && newValue.length < 13){
                         scope.plan.project_price_after_discount = newValue;
-                        if(parseInt(scope.plan.project_price_after_discount) == 0){
-                            $scope.plan.total_price = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_before_discount);
+                        if($scope.plan.total_design_fee == undefined){
+                            $scope.plan.total_price = parseInt(scope.plan.project_price_after_discount);
                         }else{
                             $scope.plan.total_price = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_after_discount);
                         }
                     }else{
                         if(oldValue == undefined){
-                             scope.plan.project_price_after_discount = newValue;
+                            scope.plan.project_price_after_discount = newValue;
                         }else{
                             scope.plan.project_price_after_discount = oldValue;
+                            $scope.plan.total_price = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_after_discount);
                         }
-                      
+                    }
+                    
+                }else if(!newValue){
+                    if(isNaN(parseInt($scope.plan.total_design_fee))){
+                        $scope.plan.total_price = $scope.plan.project_price_before_discount
+                    }else{
+                        $scope.plan.total_price = $scope.plan.project_price_before_discount + parseInt($scope.plan.total_design_fee);
                     }
                 }
             });
+            console.log($scope.plan.total_price)
             $scope.designerPlan.createQuote = function(){
                 this.tabBtn(true);
                 this.total_price_discount_ok = true;
@@ -447,6 +485,15 @@ angular.module('controllers', [])
                 if(this.total_price_discount == 0){
                     alert('您没有方案报价');
                     return ;
+                }
+                if($scope.plan.total_design_fee == undefined){
+                    $scope.plan.total_design_fee = 0;
+                }
+                if($scope.plan.project_price_after_discount == undefined){
+                    $scope.plan.project_price_after_discount = $scope.plan.project_price_before_discount;
+                }
+                if($scope.plan.project_price_after_discount == undefined || $scope.plan.total_design_fee == undefined){
+                    $scope.plan.total_price = $scope.plan.project_price_before_discount　+　$scope.plan.total_design_fee;
                 }
                 if($scope.plan.images.length == 0){
                     alert('请至少上传一张平面图');

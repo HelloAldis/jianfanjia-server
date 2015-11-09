@@ -17,7 +17,7 @@
 					<i bo-text="contract.designer.city" bo-if="contract.designer.city || contract.designer.city != '请选择市'"></i>
 					<i bo-text="contract.designer.district" bo-if="contract.designer.district || contract.designer.district != '请选择县/区'"></i>
 				</dd>
-				<dd><i>手机</i><span bo-text="contract.designer.phone"></span></dd>
+				<dd><i class="iconfont2">&#xe625;</i><span bo-text="contract.designer.phone"></span></dd>
 			</dl>
 		</div>
 		<div class="list">
@@ -27,7 +27,7 @@
 			</dl>
 			<dl>
 				<dt>工程价款</dt>
-				<dd>本工程装修合同总价为人民币（大写）<strong bo-text="contract.total_price*10000 | chineseNumber"></strong>元（&yen;<strong bo-text="contract.total_price*10000">5690</strong>元 ）; 承包方式:   <strong bo-text="contract.work_type | workTypeFilter"></strong>（半包、全包）。</dd>
+				<dd>本工程装修合同总价为人民币（大写）<strong bo-text="contract.total_price*10000 | chineseNumber"></strong>元（&yen;<strong bo-text="contract.total_price*10000">5690</strong>元 ）; 承包方式:   <strong bo-text="contract.work_type | workTypeFilter"></strong>。</dd>
 			</dl>
 		</div>
 	</div>

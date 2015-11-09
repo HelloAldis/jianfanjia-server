@@ -15,9 +15,9 @@
 							给业主<strong bo-text="data.user.username"></strong>的方案
 						</dt>
 						<dd>
-							<span>报价<strong>￥<i bo-text="data.total_price"></i></strong></span>
+							<span>报价<strong>&yen;<i bo-text="data.total_price"></i></strong></span>
 							<span>工期<strong><i bo-text="data.duration"></i>天</strong></span>
-							<span><i>手机</i><em bo-text="data.user.phone"></em></span>
+							<span><i class="iconfont2">&#xe625;</i><em bo-text="data.user.phone"></em></span>
 						</dd>
 					</dl>
 					<span ng-class="{'status status4 f-fr':data.status == 4,'status status5 f-fr':data.status == 5,'status status3 f-fr':data.status == 3}" ng-switch="data.status">

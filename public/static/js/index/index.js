@@ -29,7 +29,7 @@
 		createList : function(data,list){
 			var sHtml = '<ul class="f-cb">';
 			for (var i = 0; i < data.length; i++) {
-				var imgid = list[i].imageid ? RootUrl+'api/v1/thumbnail/460/'+list[i].imageid : '../../../static/img/public/indexhead.jpg'
+				var imgid = list[i].imageid ? RootUrl+'api/v2/web/thumbnail/460/'+list[i].imageid : '../../../static/img/public/indexhead.jpg'
 				sHtml += '<li class="'+(data[i].zIndex == 2 ? 'hover' : '')+'" style="width:'+data[i].width+'px;height:'+data[i].height+'px;left:'+data[i].left+'px;top:'+data[i].top+'px;z-index:'+data[i].zIndex+';">'+
 					     '<div class="name" style="height:'+data[i].picH+'px"><a href="../design/homepage.html?'+list[i]._id+'" target="_blank"><img src="'+imgid+'" alt="" /></a></div>'+
 					     '<div class="txt">'+
@@ -256,7 +256,7 @@ $(function(){
 			}
 		];
 		function loadList(){
-			var url = RootUrl+'api/v1/designer/listtop';
+			var url = RootUrl+'api/v2/web/designer/listtop';
 			$.ajax({
 				url:url,
 				type: 'GET',
@@ -281,7 +281,7 @@ $(function(){
 		$liveList = $('#j-index-live');
 		//渲染装修直播数据
 		function loadList(){
-			var url = RootUrl+'api/v1/share/listtop';
+			var url = RootUrl+'api/v2/web/share/listtop';
 			$.ajax({
 				url:url,
 				type: 'GET',
@@ -301,9 +301,9 @@ $(function(){
 			var sHtml = '<ul class="f-cb">';
 			for (var i = 0; i < data.length; i++) {
 				var imgId = data[i].process[data[i].process.length-1].images[0];
-				var head = data[i].designer.imageid ? RootUrl+'api/v1/thumbnail/90/'+data[i].designer.imageid  : '../../static/img/public/headpic.jpg';
+				var head = data[i].designer.imageid ? RootUrl+'api/v2/web/thumbnail/90/'+data[i].designer.imageid  : '../../static/img/public/headpic.jpg';
 				sHtml += '<li>'+
-					     '<div class="pic"><a href="../live/detail.html?'+data[i]._id+'" target="_blank"><img src="'+RootUrl+'api/v1/thumbnail/366/'+imgId+'" alt="'+data[i].cell+'" /></a></div>'+
+					     '<div class="pic"><a href="../live/detail.html?'+data[i]._id+'" target="_blank"><img src="'+RootUrl+'api/v2/web/thumbnail/366/'+imgId+'" alt="'+data[i].cell+'" /></a></div>'+
 					     '<div class="txt">'+
 					      '<h4><a href="../live/detail.html?'+data[i]._id+'" target="_blank">'+data[i].cell+'</a></h4>'+
 							'<div class="desc">'+
