@@ -17,13 +17,13 @@
                 unread : function(){return doRequest('unread_comment')},
                 add : function(data){return doRequest('add_comment', data)},
                 read : function(data){return doRequest('topic_comments', data)},
-                plan : function(data){return doRequest('one_plan' , data)}
+                plan : function(data){return doRequest('one_plan' , data)},
+                final : function(data){return doRequest('user/plan/final' , data)}
             }
         }])
         .controller('detailCtrl', [     //方案详情
             '$scope','$rootScope','$http','$filter','$location','$cookieStore','userPlan',
             function($scope, $rootScope,$http,$filter,$location,$cookieStore,userPlan){
-                console.log(window.location.search.split('=')[1])
                 var planId = window.location.search.split('=')[1];
                 var userType = $cookieStore.get('usertype');
                 $scope.tab = 1;
@@ -90,6 +90,21 @@
                     },
                     blur : function(){
                        $scope.comment.parentFocus = false; 
+                    },
+                    definePlan : function(rid,did){
+                        if(confirm('您确定选定方案吗？')){
+                            userPlan.final({
+                              "planid": planId,
+                              "designerid": did,
+                              "requirementid": rid
+                            }).then(function(res){  //提交留言
+                                if(res.data.msg === "success"){
+                                    window.location.href = 'owner.html#/requirement/'+rid+'/plan';
+                                }
+                            },function(res){
+                                console.log(res)
+                            });
+                        }
                     }
                 }
                 $scope.comments = [];
@@ -118,24 +133,24 @@
                 }
                 load()
                 userPlan.plan({'_id':planId}).then(function(res){  //获取当前方案信息
-                    console.log(res.data.data)
                     $scope.plan = res.data.data;
-                    $scope.plan.itme_detail = [];
-                    angular.forEach($scope.plan.price_detail, function(value, key){
-                        if(value.item == "设计费"){
-                            $scope.plan.design_fee = value.price;
-                        }else{
-                            this.push(value)
-                        }
-                    },$scope.plan.itme_detail)
-                    if($scope.plan.total_design_fee){
-                        $scope.plan.discount_price = $scope.plan.total_design_fee + $scope.plan.project_price_after_discount;
-                    }else{
-                        $scope.plan.discount_price = $scope.plan.design_fee + $scope.plan.project_price_after_discount;
+                    if($scope.plan.total_design_fee == undefined){
+                       angular.forEach($scope.plan.price_detail, function(value, key){
+                            if(value.item == "设计费"){
+                                $scope.plan.total_design_fee = value.price;
+                                $scope.plan.price_detail.splice(key,1)
+                            }
+                       }) 
+                    }
+                    if($scope.plan.project_price_before_discount == undefined){
+                        $scope.plan.project_price_before_discount = $scope.plan.total_price - $scope.plan.design_fee;
+                    }
+                    if($scope.plan.project_price_after_discount == undefined){
+                        $scope.plan.project_price_after_discount = 0;
                     }
                     $scope.comment.imageid = (userType == '1') ? $scope.plan.user.imageid : $scope.plan.designer.imageid;
                     $scope.returnUrl = (userType == '1') ? 'owner.html#/requirement/'+$scope.plan.requirementid+'/plan' : 'designer.html#/requirement/'+$scope.plan.requirementid+'/plan'
-                    $scope.statusShow = (userType == '1') ? true : false;
+                    $scope.statusShow = (userType == '1') && ($scope.plan.status == 3 || $scope.plan.status == 6)  ? true : false;
                 },function(res){
                     console.log(res)
                 });
