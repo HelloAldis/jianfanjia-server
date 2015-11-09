@@ -282,7 +282,7 @@ exports.agree = function (req, res, next) {
   }, {
     'agreee_license': type.designer_agree_type_yes
   }, {}, ep.done(function () {
-    req.session.agreee_license = designer_agree_type_yes;
+    req.session.agreee_license = type.designer_agree_type_yes;
     res.sendSuccessMsg();
   }));
 }
