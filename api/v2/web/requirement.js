@@ -323,7 +323,8 @@ exports.one_contract = function (req, res, next) {
         Plan.findOne({
           _id: requirement.final_planid
         }, {
-          duration: 1
+          duration: 1,
+          total_price: 1,
         }, callback);
       },
       designer: function (callback) {
