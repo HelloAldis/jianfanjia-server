@@ -68,6 +68,19 @@ exports.updateInfo = function (req, res, next) {
   }));
 };
 
+exports.update_business_info = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var designer = ApiUtil.buildDesignerBusinessInfo(req);
+  var ep = new eventproxy();
+  ep.fail(next);
+
+  Designer.setOne({
+    _id: userid
+  }, designer, ep.done(function () {
+    res.sendSuccessMsg();
+  }));
+};
+
 exports.uid_bank_info = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var uidbank = ApiUtil.buildUidBank(req);

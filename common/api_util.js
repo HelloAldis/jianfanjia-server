@@ -40,7 +40,7 @@ exports.buildUser = function (req) {
 }
 
 exports.buildDesinger = function (req) {
-  var designer = exports.buildUser(req);
+  var designer = {};
   designer.username = req.body.username;
   designer.sex = req.body.sex;
   designer.province = req.body.province;
@@ -48,19 +48,10 @@ exports.buildDesinger = function (req) {
   designer.district = req.body.district;
   designer.address = req.body.address;
   designer.company = req.body.company;
-  designer.dec_types = req.body.dec_types;
-  designer.dec_styles = req.body.dec_styles;
-  designer.dec_districts = req.body.dec_districts;
-  designer.dec_house_types = req.body.dec_house_types;
-  designer.design_fee_range = req.body.design_fee_range;
-  designer.dec_fee_half = req.body.dec_fee_half;
-  designer.dec_fee_all = req.body.dec_fee_all;
   designer.achievement = req.body.achievement;
   designer.philosophy = req.body.philosophy;
-  designer.communication_type = req.body.communication_type;
   designer.work_year = req.body.work_year;
   designer.university = req.body.university;
-  designer.work_types = req.body.work_types;
 
   if (req.body.diploma_imageid) {
     designer.diploma_imageid = new ObjectId(req.body.diploma_imageid);
@@ -79,6 +70,21 @@ exports.buildDesinger = function (req) {
     return i;
   });
 
+
+  return designer;
+}
+
+exports.buildDesignerBusinessInfo = function (req) {
+  var designer = {};
+  designer.dec_types = req.body.dec_types;
+  designer.work_types = req.body.work_types;
+  designer.dec_styles = req.body.dec_styles;
+  designer.dec_districts = req.body.dec_districts;
+  designer.dec_house_types = req.body.dec_house_types;
+  designer.design_fee_range = req.body.design_fee_range;
+  designer.dec_fee_half = req.body.dec_fee_half;
+  designer.dec_fee_all = req.body.dec_fee_all;
+  designer.communication_type = req.body.communication_type;
 
   return designer;
 }
