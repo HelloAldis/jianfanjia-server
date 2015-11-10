@@ -352,7 +352,8 @@ exports.verify_email = function (req, res, next) {
         user.email_auth_type = type.designer_auth_type_done;
         user.email_auth_date = new Date().getTime();
         user.save();
-        res.redirect('http://www.jianfanjia.com');
+        var url = 'http://' + req.headers.host + config.user_home_url;
+        res.redirect(url);
       } else {
         res.sendErrMsg('邮箱验证失败');
       }
@@ -366,7 +367,8 @@ exports.verify_email = function (req, res, next) {
         designer.email_auth_type = type.designer_auth_type_done;
         designer.email_auth_date = new Date().getTime();
         designer.save();
-        res.redirect('http://www.jianfanjia.com');
+        var url = 'http://' + req.headers.host + config.designer_home_url;
+        res.redirect(url);
       } else {
         res.sendErrMsg('邮箱验证失败');
       }

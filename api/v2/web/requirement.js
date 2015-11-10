@@ -99,6 +99,9 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
           requirement: function (callback) {
             Requirement.findOne({
               _id: plan.requirementid,
+              final_designerid: {
+                $ne: designerid,
+              },
             }, null, callback);
           },
           user: function (callback) {
@@ -111,13 +114,24 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
             }, callback);
           }
         }, ep.done(function (result) {
-          var requirement = result.requirement.toObject();
-          requirement.user = result.user;
-          requirement.plan = plan;
-          callback(null, requirement);
+          if (result.requirement) {
+            var requirement = result.requirement.toObject();
+            requirement.user = result.user;
+            requirement.plan = plan;
+            callback(null, requirement);
+          } else {
+            callback(null, null);
+          }
         }));
 
       }, ep.done(function (requirements) {
+        _.remove(requirements, function (requirement) {
+          if (requirement) {
+            return false;
+          } else {
+            return true;
+          }
+        });
         res.sendData(requirements);
       }));
     } else {

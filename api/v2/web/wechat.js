@@ -21,7 +21,7 @@ function handleText(msg, req, res, next) {
 
   if (msg.Content.search(/我是推广员/) > -1) {
     var username = msg.Content.slice(5).trim();
-    var sceneid = new Date().getTime() % (1000 * 60 * 60 * 24 * 10);
+    var sceneid = new Date().getTime() % (1000 * 60 * 60 * 24 * 6);
     Kpi.setOne({
       openid: msg.FromUserName
     }, {
