@@ -325,9 +325,6 @@
 		.m-motai .close:hover{
 			color: #be0000;
 		}
-		.m-motai .error{
-			border-color: #be0000;
-		}
 		.m-motai .box{
 			float: left;
 			width: 175px;
@@ -398,6 +395,9 @@
 			margin-bottom: 20px;
 			background-color: #22211f;
 			border: 1px solid #ebed80;
+		}
+		.m-motai .error{
+			border-color: #be0000;
 		}
 		.m-motai .u-lab,.m-motai .u-inp{float: left;}
 		.m-motai .u-lab{
@@ -556,9 +556,6 @@
 						</div>
 					</div>
 				</div>
-				<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-				<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-				<p class="tips-info hide"></p>
 			</div>
 			<div class="m-item f-cb">
 				<div class="item">
@@ -569,9 +566,6 @@
 						</div>
 					</div>
 				</div>
-				<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-				<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-				<p class="tips-info hide"></p>
 			</div>
 			<div class="m-item f-cb">
 				<div class="item">
@@ -591,9 +585,6 @@
 						<span class="unit">m&sup2;</span>
 					</div>
 				</div>
-				<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-				<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-				<p class="tips-info hide"></p>
 			</div>
 			<div class="m-item f-cb">
 				<div class="item">
@@ -605,9 +596,6 @@
 						<span class="unit">万元</span>
 					</div>
 				</div>
-				<p class="tips-icon tips-icon-ok hide"><i class="iconfont">&#xe616;</i></p>
-				<p class="tips-icon tips-icon-err hide"><i class="iconfont">&#xe611;</i></p>
-				<p class="tips-info hide"></p>
 			</div>
 			<div class="m-item m-error-info hide">
 			</div>
@@ -624,12 +612,6 @@
 			var $motai = $('#j-motai');
 			var $mask = $('#j-mask');
 			var $close = $('#j-close');
-			var errMsg = {
-				"name": "请输入您的姓名",
-		        "phone": "手机号不正确",
-		        "house_area": "请输入正确的装修面积",
-		        "total_price": "请输入正确的装修预算",
-		    };
 			var ownerArea = new ComboBox({
 				id:'district',
 				list:globalData.orders_area,
@@ -647,27 +629,7 @@
 			$close.on('click',function(){
 				$mask.click();	
 			})
-			    //显示验证信息
-		   	function showError(obj,id, msg) {
-		        var msg = msg || errMsg[id];
-		        var parent = obj.closest('.m-item');
-		        parent.find('.tips-icon-ok').addClass('hide');
-		        parent.find('.tips-icon-err').removeClass('hide');
-		        parent.find('.tips-info').html(msg).removeClass('hide')
-		        return false;
-		    }
-		    function showOk(obj) {
-		    	var parent = obj.closest('.m-item');
-		        parent.find('.tips-icon-err').addClass('hide');
-		        parent.find('.tips-info').html('').addClass('hide')
-		        if ($.trim(obj.val()) != ""){
-		        	parent.find('.tips-icon-ok').removeClass('hide');
-		        	parent.find('.tips-info').html('').addClass('hide')
-		        }
-		        check_step--;
-		        return true;
-		    }
-		    var check_step = 0;
+		    var check_step = 4;
 		    //获取对象
 			var name = $("#name");
 			var phone = $("#phone");
@@ -676,85 +638,84 @@
 			var total_price = $("#total_price");
 		    //事件操作
 		    name.on('blur',function(){
-		        checkName();
+		    	var parent = $(this).closest('.m-item');
+		        if(!!$.trim($(this).val()) && $.trim($(this).val()).length > 1 && $.trim($(this).val()).length < 21){
+		        	parent.removeClass('error')
+					check_step--;
+		        }else{
+		        	parent.addClass('error');
+		        }
+		        isCheck()
 		    });
 		    phone.on('blur',function(){
-		        checkMobile();
+		        var parent = $(this).closest('.m-item');
+		        if (isMobile($(this).val())) {
+		            parent.removeClass('error')
+					check_step--;
+		        }else{
+		        	parent.addClass('error');
+		        }
+		        isCheck()
 		    });
 		    house_area.on('blur',function(){
-		        checkHouseArea();
+            	var parent = $(this).closest('.m-item');
+                var reg = /^[1-9]*[1-9][0-9]*$/
+        		if(!!$.trim($(this).val()) && $(this).val() != 0 && reg.test($(this).val())){
+        			parent.removeClass('error')
+        			check_step--;
+        		}else{
+        			parent.addClass('error');
+        		}
+		        isCheck()
 		    });
 		    total_price.on('blur',function(){
-		        checkTotalPrice();
+            	var parent = $(this).closest('.m-item');
+                var reg = /^[1-9]*[1-9][0-9]*$/
+        		if(!!$.trim($(this).val()) && $(this).val() != 0 && reg.test($(this).val())){
+        			parent.removeClass('error')
+        			check_step--;
+        		}else{
+        			parent.addClass('error');
+        		}
+		        isCheck()
 		    });
 		    // 检测函数
 			function isMobile(mobile){
 				return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile);
 			}
-		    //验证函数
-		    function checkMobile(){    //手机验证
-		     	var id = "phone";
-		        if (!!$.trim(phone.val()) || isMobile(phone.val())) {
-		            return showOk(phone,id);
-		        }
-		        return showError(phone,id);
-		    }
-		    function checkName() {    //姓名验证
-		        var id = "name";
-		        if (!!$.trim(name.val()) && $.trim(name.val()).length > 1 && $.trim(name.val()).length < 21) {
-		            return showOk(name);
-		        }
-		        return showError(name,id); 
-		    }
-		    function checkHouseArea() {    //面积验证
-		        var id = "house_area";
-		        var reg = /^[1-9]*[1-9][0-9]*$/
-				if(!!$.trim(house_area.val()) && house_area.val() != 0 && reg.test(house_area.val())){
-					return showOk(house_area);
-				}
-		     	return showError(house_area,id);
-		    }
-		    function checkTotalPrice() {    //预算验证
-		        var id = "total_price";
-		        var reg = /^[1-9]*[1-9][0-9]*$/
-				if(!!$.trim(total_price.val()) && total_price.val() != 0 && reg.test(total_price.val())){
-					return showOk(total_price);
-				}
-		     	return showError(total_price,id);
+		    function isCheck(){
+		    	if(check_step > 0){
+		    		return false;
+		    	}else{
+		    		$('#info-submit').attr('class','')
+		    	}
 		    }
 			$('#info-submit').on('click',function(){
-				check_step = 4;
-				checkHouseArea()
-				checkMobile();
-				checkName()
-				checkTotalPrice()
-				if(check_step > 0){
-					return false;
+				if(!$(this).hasClass('disabled')){
+					$.ajax({
+						url : RootUrl+'api/v1/add_angel_user',
+						type: 'post',
+						contentType : 'application/json; charset=utf-8',
+						dataType: 'json',
+						data : JSON.stringify({
+						  "phone":phone.val(),
+						  "name":name.val(),
+						  "district":district.find('input').val(),
+						  "house_area":parseInt(house_area.val()) || 0,
+						  "total_price":parseInt(total_price.val()) || 0
+						}),
+						processData : false
+					})
+					.done(function(res) {
+						if(res.msg == "success"){
+							$mask.click();
+							promptMessage('感谢您的参与，稍后客服与您联系',"success")
+						}
+					})
+					.fail(function(res) {
+						console.log(res);
+					});
 				}
-				$.ajax({
-					url : RootUrl+'api/v1/add_angel_user',
-					type: 'post',
-					contentType : 'application/json; charset=utf-8',
-					dataType: 'json',
-					data : JSON.stringify({
-					  "phone":phone.val(),
-					  "name":name.val(),
-					  "district":district.find('input').val(),
-					  "house_area":parseInt(house_area.val()) || 0,
-					  "total_price":parseInt(total_price.val()) || 0
-					}),
-					processData : false
-				})
-				.done(function(res) {
-					console.log(res);
-					if(res.msg == "success"){
-						$mask.click();
-						promptMessage('感谢您的参与，稍后客服与您联系',"success")
-					}
-				})
-				.fail(function(res) {
-					console.log(res);
-				});
 			})
 		})
 	</script>
