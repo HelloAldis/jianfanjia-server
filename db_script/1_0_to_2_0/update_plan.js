@@ -1,14 +1,14 @@
 var validator = require('validator');
 var eventproxy = require('eventproxy');
-var Plan = require('../proxy').Plan;
-var tools = require('../common/tools');
+var Plan = require('../../proxy').Plan;
+var tools = require('../../common/tools');
 var _ = require('lodash');
-var config = require('../apiconfig');
+var config = require('../../apiconfig');
 var async = require('async');
-var ApiUtil = require('../common/api_util');
+var ApiUtil = require('../../common/api_util');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
-var type = require('../type');
+var type = require('../../type');
 
 Plan.find({
   project_price_after_discount: {
