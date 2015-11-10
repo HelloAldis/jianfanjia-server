@@ -31,16 +31,22 @@
 								<div class="bar">
 									<div class="in in{{data.plan.status}}"></div>
 								</div>
-								<p ng-switch="data.plan.status">
+
+								<p ng-switch="data.plan.status" ng-if="data.plan.status && (data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 6)">
 									<i ng-switch-when="0">等待响应预约</i>
 									<i ng-switch-when="1">等待响应预约</i>
 									<i ng-switch-when="2">等待业主确认量房</i>
 									<i ng-switch-when="3">等待业主选择方案</i>
 									<i ng-switch-when="4">方案未选中</i>
-									<i ng-switch-when="5">方案被选中</i>
+									<i ng-switch-when="5">生成第三方合同</i>
 									<i ng-switch-when="6">提交方案中</i>
 									<i ng-switch-when="7">未响应业主</i>
 									<i ng-switch-when="8">未上传方案</i>
+								</p>
+								<p ng-switch="data.status" ng-if="data.plan.status == 5 && (data.status == 4 || data.status == 5 || data.status == 7)">
+									<i ng-switch-when="4">前往配置合同</i>
+									<i ng-switch-when="5">APP管理工地</i>
+									<i ng-switch-when="7">查看合同</i>
 								</p>
 							</div>
 						</div>

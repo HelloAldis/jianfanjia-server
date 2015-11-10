@@ -150,6 +150,12 @@ $(function(){
 				}else{
 					works = '<a class="works" href="homepage.html?'+data._id+'"><img src="../../static/img/public/default_products.jpg" alt="'+data.username+'的作品"/></a>';
 				}
+				var order = '';
+				if(data.design_fee_range != undefined){
+					order = '<div class="order f-fr"><h5>设计费</h5><p><strong>'+globalData.price_area[data.design_fee_range]+'</strong>元/m&sup2;</p>'+gohome+'</div></div>'
+				}else{
+					order = '<div class="order f-fr"><h5>&nbsp;</h5><p>&nbsp;</p>'+gohome+'</div></div>'
+				}
 				return '<li>'
 		          		+'<div class="g-wp">'
 		          			+'<div class="m-tt f-cb">'
@@ -171,13 +177,7 @@ $(function(){
 		          					+'<div class="atte atte'+(data.auth_type-1)+'"><span class="i-icon"></span>认证设计师</div>'
 		          					+'<div class="addr"><strong>接单区域：</strong>'+decDistricts+'<span class="i-icon"></span></div>'
 		          					+'<div class="style"><strong>擅长风格：</strong>'+decStyles+'</div>'
-		          				+'</div>'
-		          				+'<div class="order f-fr">'
-		          					+'<h5>设计费</h5>'
-		          					+'<p><strong>'+globalData.price_area[data.design_fee_range]+'</strong>元/m&sup2;</p>'
-		          					+gohome+'</div>'
-		          			+'</div>'
-		          			+'<div class="m-ct f-cb">'+works+'</div>'
+		          				+'</div>'+order+'<div class="m-ct f-cb">'+works+'</div>'
 		          		+'</div>'
 		           +'</li>'
 		};

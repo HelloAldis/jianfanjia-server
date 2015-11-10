@@ -25,7 +25,7 @@
     	}
 		body{
 			min-width: 1200px;
-			background: #fff url(img/bg.png);
+			background:url(img/bg.jpg);
 		}
 		.header{
 			position: relative;
@@ -54,6 +54,10 @@
 			padding: 0 15px;
 			color: #333;
 		}
+		.header .user{
+			position: relative;
+			padding-right: 160px;
+		}
 		.header .user a{
 			padding: 0 10px;
 		}
@@ -61,104 +65,213 @@
 			color: #fe7004;
 			text-decoration: underline;
 		}
+		.header .user .m-app a {
+		    display: block;
+		    padding: 0 40px;
+		    margin: 0 8px;
+		    font-size: 14px;
+		    color: #fe7004;
+		}
 		.banner,.banner img{
 			width: 100%;
 		}
-		.recruit{
-			height: 126px;
-			margin: 36px 0;	
-			padding-top: 34px;
-			background-color: #ff9506;
+		.section{
+			padding-bottom: 150px;
+		}
+		.section h2{
 			text-align: center;
 		}
-		.recruit p{
-		 	font-size: 18px;
-		 	line-height: 48px;
-		 	font-weight: bold;
-		 	color: #fff;	
-		}
-		#btn{
-			display: block;
-			width: 430px;
+		.section h2 span{
+			display: inline-block;
+			padding: 0 28px;
+			font-size: 40px;
 			line-height: 76px;
-			margin: 0 auto;
-			font-size: 46px;
-			font-weight: bold;
-			color: #f85d43;
-			background-color: #ffd322;
-			border-radius: 8px;
-			-moz-box-shadow: 0px 1px 0px #e3b601,inset 0px 1px 0px #fcdd63;
-			-webkit-box-shadow: 0px 1px 0px #e3b601,inset 0px 1px 0px #fcdd63;
-			box-shadow: 0px 1px 0px #e3b601,inset 0px 1px 0px #fcdd63;
+			color: #f2eb72;
+			border: 2px solid #f2eb72;
 		}
-		#btn:hover{
-			text-shadow:1px 0px 2px #fff;
-			background-color: #ffbe22;
-			-moz-box-shadow: 0px 2px 0px #e3b601,inset 0px 2px 0px #fcdd63;
-			-webkit-box-shadow: 0px 2px 0px #e3b601,inset 0px 2px 0px #fcdd63;
-			box-shadow: 0px 2px 0px #e3b601,inset 0px 2px 0px #fcdd63;
+		.select h2{
+			position: relative;
+			margin-top: -80px;
+			padding-bottom: 100px;
 		}
-		.footer{
-			padding-top: 30px;
-			height: 220px;
-			background-color: #508c06;
+		.select li{
+			float: left;
+			width: 25%;
+			text-align: center;
 		}
-		.footer .erweima{
-			padding-left: 44px;
+		.select li span{
+			display: inline-block;
+			width: 132px;
+			height: 132px;
+			line-height: 132px;
+			background:url(img/sprite.png) -1px -2px no-repeat;
 		}
-		.footer .erweima .pic{
-			width: 136px;
-			height: 136px;
-			background-color: #fff;
-			padding: 10px;
-			margin-top: 14px;
-			margin-right: 34px;
-			border: 1px solid #f7f7f7;
+		.select li span i{
+			display: inline-block;
+			vertical-align: middle;
+			background:url(img/sprite.png) no-repeat;
 		}
-		.footer .erweima .txt{
-			font-size: 18px;
-			line-height: 30px;
-			color: #ebffd3;
+		.select li span .icon1{
+			width: 61px;
+			height: 61px;
+			background-position: -6px -141px;
 		}
-		.footer .erweima h3{
-			font-size: 30px;
-			line-height: 60px;
+		.select li span .icon2{
+			width: 61px;
+			height: 60px;
+			background-position: -9px -218px;
+		}
+		.select li span .icon3{
+			width: 61px;
+			height: 51px;
+			background-position: -11px -293px;
+		}
+		.select li span .icon4{
+			width: 58px;
+			height: 58px;
+			background-position: -12px -362px;
+		}
+		.select li p{
+			font-size: 22px;
+			line-height: 106px;
 			color: #fff;
 		}
-		.share{padding-right: 220px;}
-		.share .line{
-			position: relative;
-			width: 204px;
-			height: 50px;
-			padding-top: 23px;
+		.service p{
+			text-align: center;
+			font-size: 18px;
+			line-height: 66px;
+			color: #ece8a8;
 		}
-		.share .line h3{
+		.service ul{
+			margin-top: 143px;
+			text-align: center;
+		}
+		.service li{
+			float: left;
+			position: relative;
+			width: 285px;
+			height: 460px;
+			padding-top: 130px;
+			margin-left: 20px;
+			background-color: #22201f;
+		}
+		.service li:first-child{
+			margin-left: 0;
+		}
+		.service li h3{
+			font-size: 24px;
+			line-height: 48px;
+			color: #ebe78a;
+		}
+		.service li div{
+			width: 200px;
+			height: 1px;
+			overflow: hidden;
+			margin: 62px auto 50px;
+			background:url(img/sprite.png) -160px -138px no-repeat;
+		}
+		.service li p{
+			width: 200px;
+			margin: 0 auto;
+			text-align: left;
+			color: #fff;
+			line-height: 26px;
+		}
+		.service li span{
 			position: absolute;
 			left:50%;
 			top:0;
-			width: 120px;
-			margin-left: -60px;
+			width: 134px;
+			height: 134px;
+			line-height: 134px;
+			margin-left: -72px;
+			margin-top: -72px;
+			background:url(img/sprite.png) -137px -1px no-repeat;
+		}
+		.service li i{
+			display: inline-block;
+			vertical-align: middle;
+			width: 134px;
+			height: 46px;
+			background:url(img/sprite.png) no-repeat;
+		}
+		.service li .icon1{
+			width: 37px;
+			background-position: -293px 0;
+		}
+		.service li .icon2{
+			width: 51px;
+			background-position: -359px 0;
+		}
+		.service li .icon3{
+			width: 51px;
+			background-position: -293px -68px;
+		}
+		.service li .icon4{
+			width: 52px;
+			background-position: -362px -68px;
+		}
+		.btns{
+			position: relative;
+			padding-top: 100px;
+		}
+		.btns .line{
+			overflow: hidden;
+			height: 4px;
+		}
+		.btns a{
+			position: absolute;
+			left:50%;
+			top:0;
+			width: 330px;
+			height: 124px;
+			margin-left: -165px;
+			margin-top: 39px;
+			background:url(img/sprite.png) no-repeat -93px -146px;
+		}
+		.btns a:hover{
+			height: 167px;
+			margin-top: 7px;
+			background:url(img/sprite.png) no-repeat -99px -272px;
+		}
+		.line{
+			background: #2e2b25; 
+			background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzJlMmIyNSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2VkZTc3MCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijk5JSIgc3RvcC1jb2xvcj0iIzJlMmIyNSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+			background: -moz-linear-gradient(left,  #2e2b25 0%, #ede770 50%, #2e2b25 99%); 
+			background: -webkit-gradient(linear, left top, right top, color-stop(0%,#2e2b25), color-stop(50%,#ede770), color-stop(99%,#2e2b25)); 
+			background: -webkit-linear-gradient(left,  #2e2b25 0%,#ede770 50%,#2e2b25 99%);
+			background: -o-linear-gradient(left,  #2e2b25 0%,#ede770 50%,#2e2b25 99%); 
+			background: -ms-linear-gradient(left,  #2e2b25 0%,#ede770 50%,#2e2b25 99%); 
+			background: linear-gradient(to right,  #2e2b25 0%,#ede770 50%,#2e2b25 99%); 
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e2b25', endColorstr='#2e2b25',GradientType=1 );
+		}
+		.share{
+			position: relative;
+			padding-top: 125px;
+		}
+		.share h3{
+			position: absolute;
+			left:74px;
+			top:104px;
+			height: 40px;
+			padding: 0 20px;
+			line-height: 40px;
+			font-size: 40px;
+			color: #f2eb72;
+			background-color: #302f29;
+		}
+		.share .box{
+			margin: 0 30px;
+			padding: 47px 73px 30px;
+			border: 2px solid #f2eb72;
+		}
+		.share p{
+			width: 780px;
+			padding-top: 10px;
+			padding-left: 68px;
 			font-size: 30px;
 			line-height: 50px;
-			text-align: center;
-			color: #fff;
-			background-color: #508c06;
-		}
-		.share .line span{
-			display: block;
-			width: 204px;
-			height: 1px;
-			border: 1px solid #6ba325;
-			background-color: #89bd48;
-		}
-		.share li{
-			width: 86px;
-			text-align: center;
-		}
-		.share li p{
-			font-size: 18px;
-			line-height: 45px;
-			color: #ebf0e5;
+			color: #ece8a8;
 		}
 		.mask{
 			position: fixed;
@@ -174,21 +287,20 @@
 			left:50%;
 			top:-50%;
 			z-index: 1;
-			width: 580px;
-			height: 360px;
-			padding-top: 40px;
-			margin-left: -290px;
-			margin-top: -200px;
-			background:url(img/modai-bg.png) 0 0 no-repeat;
+			width: 666px;
+			height: 578px;
+			margin-left: -334px;
+			margin-top: -290px;
+			background-color: #2f2c27;
+			border: 1px solid #ebec86;
 			display: none;
 		}
 		.m-motai h3{
-			margin-left: 80px;
-			width: 401px;
-			height: 0;
-			padding-top: 38px;
-			overflow: hidden;
-			background:url(img/title.jpg) 0 0 no-repeat;
+			padding-top: 10px;
+			text-align: center;
+			font-size: 36px;
+			line-height: 115px;
+			color: #efed66;
 		}
 		.k-prompt{
 			position: fixed;
@@ -213,14 +325,16 @@
 		.m-motai .close:hover{
 			color: #be0000;
 		}
+		.m-motai .error{
+			border-color: #be0000;
+		}
 		.m-motai .box{
 			float: left;
-			width: 170px;
+			width: 175px;
 			height: 28px;
+			line-height: 28px;
 			padding-left: 10px;
-			background-color: #fffc55;
-			border-top: 1px solid #eef451;
-			border-radius: 2px;
+			padding-top: 4px;
 		}
 		.m-motai .box input{
 			width: 100%;
@@ -228,7 +342,7 @@
 			line-height: 28px;
 			border: none;
 			background: none;
-			color: #333;
+			color: #fff;
 		}
 		.m-motai .box input::-webkit-input-placeholder { color:#999; }
 		.m-motai .box input::-moz-input-placeholder { color:#999; }
@@ -236,55 +350,72 @@
 		.m-motai .box input::-ms-input-placeholder { color:#999; }
 		.m-motai .box input::input-placeholder { color:#999; }
 		.m-motai .unit{
-			float: left;
-			padding-left: 10px;
-			line-height: 30px;
-			color: #fffed8;
+			float: right;
+			padding-right: 15px;
+			color: #fff;
 		}
-		.m-motai .m-select{width: 180px;}
+		.m-motai .m-select{
+			width: 215px;
+			padding-top: 4px;
+		}
 		.m-motai .m-select .option{
-			padding-left: 10px;
-			height: 28px;
-			line-height: 28px;
-			background-color: #fffc55;
-			border-top: 1px solid #eef451;
-			border-radius: 2px;
-			color: #333;
+		    padding-left: 10px;
+		    height: 28px;
+		    line-height: 28px;
+		    color: #FFF;
 		}
 		.m-motai .m-select .arrow{
-			background-color: #fffc55;
+			background-color: #22211f;
 		}
 		.m-motai .m-select .arrow em{
-			border-top-color: #fba915;
+			border-top-color: #fff;
+			border-width: 6px;
+			left:7px;
+			top:5px;
 		}
 		.m-motai .m-select .arrow i{
-			border-top-color: #fffc55;
+			display: none;
 		}
 		.m-motai .m-select .select{
-			top:29px;
+			width: 100%;
+			top:39px;
 			background-color:#fffc55;
-			border-color: #eef451;
+			border: none;
+		}
+		.m-motai .m-select .select li{
+			float: none;
+			width: 100%;
+		}
+		.m-motai .m-select .select a{
+			text-align: left;
+			padding-left: 20px;
 		}
 		.m-motai .m-select .select a:hover{
 			background-color: #ffa400;
 		}
-		.m-motai .m-item{margin-bottom: 8px;position: relative;}
+		.m-motai .m-item{
+			line-height: 38px;
+			margin-bottom: 20px;
+			background-color: #22211f;
+			border: 1px solid #ebed80;
+		}
 		.m-motai .u-lab,.m-motai .u-inp{float: left;}
 		.m-motai .u-lab{
-			position: relative;
 			width: 100px;
-			font-size: 18px;
-			line-height: 30px;
 			color: #fff;
+			text-align: center;
 		}
 		.m-motai .u-lab i{
 			position: absolute;
 			left:-10px;
 			color: #be0000;
 		}
+		.m-motai .u-inp{
+			width: 228px;
+		}
 		.m-form{
-			padding-top: 20px;
-			padding-left: 80px;
+			width: 330px;
+			margin: 0 auto;
 		}
 		.m-motai .u-btn{
 			padding-top: 10px;
@@ -293,12 +424,6 @@
 		.m-motai .btn{
 			width: 180px;
 			line-height: 36px;
-		}
-		.m-motai p{
-			padding-left: 80px;
-			font-size: 14px;
-			line-height: 20px;
-			color: #fff;
 		}
 		.m-motai .m-item .tips-icon{
 			position: absolute;
@@ -320,6 +445,34 @@
 		.m-motai .m-item .tips-icon-err{
 			color: #be0000;
 		}
+		.m-motai p.info{
+			font-size: 12px;
+			color: #f0e5e3;
+			line-height: 14px;
+			text-align: center;
+		}
+		.m-motai .m-btn{
+			padding: 20px 0;
+		}
+		.m-motai .m-btn input{
+			display: block;
+			width: 100%;
+			font-size: 20px;
+			font-weight: bold;
+			line-height: 50px;
+			color: #28201d;
+			background-color: #f6f372;
+			border: none;
+			cursor: pointer;
+			border-radius: 6px;
+		}
+		.m-motai .m-btn input:hover{
+			background-color: #e0dd5e;
+		}
+		.m-motai .m-btn .disabled,.m-motai .m-btn .disabled:hover{
+			cursor: default;
+			background-color: #999;
+		}
     </style>
 </head>
 <body>
@@ -338,57 +491,65 @@
 		</div>
 	</div>
 	<div class="banner"><img src="img/banner.jpg" alt="" /></div>
-	<ul class="g-wp">
-		<li><img src="img/a1.jpg" height="380" width="1200" alt="" /></li>
-		<li><img src="img/a2.jpg" height="380" width="1200" alt="" /></li>
-		<li><img src="img/a3.jpg" height="380" width="1200" alt="" /></li>
-		<li><img src="img/a4.jpg" height="380" width="1200" alt="" /></li>
-	</ul>
-	<div class="recruit">
-		<div class="g-wp">
-			<a href="javascript:;" id="btn">立即参与</a>
-			<p>招募条件：武汉7大城区内，装修开工时间在10月31日以前</p>
-		</div>
+	<div class="g-wp section select">
+		<h2><span>装修为什么要选择简繁家</span></h2>
+		<ul class="f-cb">
+			<li><span><i class="icon1"></i></span><p>足不出户三套方案送到手</p></li>
+			<li><span><i class="icon2"></i></span><p>去除层级质优价更低</p></li>
+			<li><span><i class="icon3"></i></span><p>第三方监理+APP全程监管</p></li>
+			<li><span><i class="icon4"></i></span><p>专项质保基金后顾无忧</p></li>
+		</ul>
 	</div>
-	<div class="footer">
-		<div class="g-wp">
-			<div class="f-fl erweima">
-				<div class="pic f-fl">
-					<img src="img/erweima.jpg" height="136" width="136" alt="" />
-				</div>
-				<div class="txt f-fl">
-					<h3>转发有奖</h3>
-					<p>每转发一次可以获得1元的简繁家装修基金；</p>
-					<p>邀请好友转发达到10次，可获得吸甲醛绿色植物；</p>
-					<p>邀请好友转发达到50次，可获得空气检测服务一次。</p>
-					<p>可私信微信号：Alva970凭截图领取奖品。</p>
-				</div>
+	<div class="g-wp section service">
+		<h2><span>四重专享服务</span></h2>
+		<p>征集对象：武汉7大城区内需要装修的业主（第一期仅限100个名额，报完即止）</p>
+		<ul class="f-cb">
+			<li>
+				<span><i class="icon1"></i></span>
+				<h3>贴心验房服务</h3>
+				<div></div>
+				<p>简繁家专业验房师上门陪您验房，按照有关行业标准对房屋进行全程跟踪监测并提供参考意见，让您对整套房子有全面准确的了解。</p>
+			</li>
+			<li>
+				<span><i class="icon2"></i></span>
+				<h3>管家监理服务</h3>
+				<div></div>
+				<p>让您出门在外也能通过手机APP随时掌控一切现场施工状况，保证装修按时、按质完成。管家型监理服务让监理人员上门次数从标准型的装修各个细节，7次提升到15次，完整深入到装修各个细节，检验标准更加严格。</p>
+			</li>
+			<li>
+				<span><i class="icon3"></i></span>
+				<h3>个性配饰服务</h3>
+				<div></div>
+				<p>赠送一个房间的时尚精美墙纸（最多10卷）或一幅窗帘，让你的家不再枯燥乏味、缺乏生机，为您的生活空间增添个性。</p>
+			</li>
+			<li>
+				<span><i class="icon4"></i></span>
+				<h3>安心除醛服务</h3>
+				<div></div>
+				<p>为您提供室内空气质量检测以及后期治理服务，让清新的空气时刻环绕在您的周围，时刻保护您和家人的健康，远离因装修产生的污染。</p>
+			</li>
+		</ul>
+	</div>
+	<div class="g-wp section btns">
+		<a href="javascript:;" id="btn"></a>
+		<div class="line"></div>
+	</div>
+	<div class="g-wp section share">
+		<h3>转发有奖</h3>
+		<div class="box f-cb">
+			<div class="pic f-fl">
+				<img src="img/erweima.jpg" height="136" width="136" alt="" />
 			</div>
-			<div class="f-fr share">
-				<div class="line">
-					<h3>分享到</h3>
-					<span></span>
-				</div>
-				<ul>
-					<li class="f-fl">
-						<img src="img/b1.png" height="86" width="86" alt="" />
-						<p>新浪微博</p>
-					</li>
-					<li class="f-fr">
-						<img src="img/b2.png" height="86" width="86" alt="" />
-						<p>朋友圈</p>
-					</li>
-				</ul>
-			</div>
+			<p class="txt f-fl">转发本活动页面到微信朋友圈或微博，并将截图回复给公众号“简繁家”，可以获得红包一个（1到5元随机派送）</p>
 		</div>
 	</div>
 	<div class="m-motai" id="j-motai">
 		<span class="close" id="j-close"><i class="iconfont">&#xe611;</i></span>
-		<h3>提交资料就可获得4重豪礼</h3>
+		<h3>提交资料就可获得四重豪礼</h3>
 		<div class="m-form">
 			<div class="m-item f-cb">
 				<div class="item">
-					<label class="u-lab" for="name"><i>*</i>您的姓名：</label>
+					<label class="u-lab" for="name">您的姓名</label>
 					<div class="u-inp">
 						<div class="box">
 							<input type="text" class="input" name="name" id="name" placeholder="请输入您的姓名" />
@@ -401,7 +562,7 @@
 			</div>
 			<div class="m-item f-cb">
 				<div class="item">
-					<label class="u-lab" for="phone"><i>*</i>手机号码：</label>
+					<label class="u-lab" for="phone">手机号码</label>
 					<div class="u-inp">
 						<div class="box">
 							<input type="text" class="input" name="phone" id="phone" placeholder="请输入手机号码" />
@@ -414,7 +575,7 @@
 			</div>
 			<div class="m-item f-cb">
 				<div class="item">
-					<label class="u-lab" for="district">装修区域：</label>
+					<label class="u-lab" for="district">装修区域</label>
 					<div class="u-inp">
 						<div class="m-select" id="district"></div>
 					</div>
@@ -422,9 +583,9 @@
 			</div>
 			<div class="m-item f-cb">
 				<div class="item">
-					<label class="u-lab" for="house_area"><i>*</i>装修面积：</label>
+					<label class="u-lab" for="house_area">装修面积</label>
 					<div class="u-inp">
-						<div class="box" style="width: 140px;">
+						<div class="box">
 							<input type="text" class="input" name="house_area" id="house_area" placeholder="请输入装修面积" />
 						</div>
 						<span class="unit">m&sup2;</span>
@@ -436,9 +597,9 @@
 			</div>
 			<div class="m-item f-cb">
 				<div class="item">
-					<label class="u-lab" for="total_price"><i>*</i>装修预算：</label>
+					<label class="u-lab" for="total_price">装修预算</label>
 					<div class="u-inp">
-						<div class="box" style="width: 140px;">
+						<div class="box">
 							<input type="text" class="input" name="total_price" id="total_price" placeholder="请输入装修预算" />
 						</div>
 						<span class="unit">万元</span>
@@ -450,13 +611,11 @@
 			</div>
 			<div class="m-item m-error-info hide">
 			</div>
-			<div class="m-item">
-				<div class="u-btn">
-					<a class="btn" id="info-submit"  href="javascript:;">提交资料</a>
-				</div>
+			<div class="m-btn">
+				<input type="button" class="disabled" id="info-submit" value="提交资料">
 			</div>
 		</div>
-		<p>(*我们会根据提交后台第一时间以电话通知领奖事宜，请保持手机畅通。)</p>
+		<p class="info">我们会根据提交后台第一时间以电话通知领奖事宜，请保持手机畅通。</p>
 	</div>
 	<div class="mask" id="j-mask"></div>
 	<script type="text/javascript">
@@ -557,7 +716,7 @@
 		    }
 		    function checkTotalPrice() {    //预算验证
 		        var id = "total_price";
-		         var reg = /^[1-9]*[1-9][0-9]*$/
+		        var reg = /^[1-9]*[1-9][0-9]*$/
 				if(!!$.trim(total_price.val()) && total_price.val() != 0 && reg.test(total_price.val())){
 					return showOk(total_price);
 				}

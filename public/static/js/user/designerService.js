@@ -18,7 +18,8 @@ angular.module('services', [])
 			email : function(){return doRequest('send_verify_email')},
 			emailInfo : function(data){return doRequest('designer/email_info',data)},
 			online : function(data){return doRequest('designer/update_online_status',data)},
-			auth : function(){return doRequest('designer/auth')}
+			auth : function(){return doRequest('designer/auth')},
+			service : function(data){return doRequest('designer/update_business_info',data)}
 		}
 	}])
 	.factory('userRequiremtne', ['$http', function($http){      //设计师 list需求列表 get获取单条信息 answer响应业主 reject拒绝业主 config配置合同 plans获取方案列表  contract获取合同信息   history 历史订单  addPlan添加方案  update更新方案
