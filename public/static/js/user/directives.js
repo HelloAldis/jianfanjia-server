@@ -19,7 +19,8 @@ angular.module('directives', [])
                    select = $scope.mySelects,
                    str = '';
                    //query 值有三中字符串，数字，数组
-                   if(typeof query != "string" || typeof query != String || typeof query != "number" || typeof query != Number){
+                   console.log(query)
+                  if(typeof query == "object" || typeof query == Object){
                       for (var i = 0,len = list.length; i < len; i++) {
                         for (var j = 0; j < query.length; j++) {
                           if(list[i].id == query[j]){
@@ -29,7 +30,6 @@ angular.module('directives', [])
                       };  
                    }else{
                     for (var i = 0,len = list.length; i < len; i++) {
-                      list[i].cur = "";
                       if(list[i].id == query){
                         list[i].cur = 'active';
                       }
