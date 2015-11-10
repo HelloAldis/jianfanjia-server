@@ -19,9 +19,11 @@ angular.module('directives', [])
                    select = $scope.mySelects,
                    str = '';
                    //query 值有三中字符串，数字，数组
-                   console.log(query)
+                   for(var i = 0,len = list.length; i < len; i++){
+                     list[i].cur = '';
+                   };
                   if(typeof query == "object" || typeof query == Object){
-                      for (var i = 0,len = list.length; i < len; i++) {
+                      for (var i = 0,len = list.length; i < len; i++){
                         for (var j = 0; j < query.length; j++) {
                           if(list[i].id == query[j]){
                               list[i].cur = 'active';
@@ -55,11 +57,14 @@ angular.module('directives', [])
                                 return ;
                               }
                               This.attr('class', '');
-                              var index = $.inArray($scope.myQuery,id)
+                              var index = $.inArray(id,$scope.myQuery);
                               $scope.myQuery.splice(index,1)
                             }else{
                               This.attr('class', 'active');
                               $scope.myQuery.push(id);
+                              $scope.myQuery.sort(function(n1,n2){
+                                return n1 - n2    //小到大，否则反正
+                              })
                               if(select == 3){
                                 if($scope.myQuery.length > 3){
                                   This.attr('class', '');

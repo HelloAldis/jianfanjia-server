@@ -153,8 +153,10 @@
 		var sHomeDesc = '<dl class="f-cb"><dt>接单类型：</dt><dd>'+decTypes+'</dd></dl>'
 						+'<dl class="f-cb"><dt>接单户型：</dt><dd>'+decHouseTypes+'</dd></dl>'
 						+'<dl class="f-cb"><dt>接单区域：</dt><dd>'+decDistricts+'<i class="iconfont">&#xe615;</i></dd></dl>'
-						+'<dl class="f-cb"><dt>设计风格：</dt><dd>'+sStyle+'</dd></dl>'
-						+'<dl class="f-cb"><dt>设计收费：</dt><dd><strong>'+globalData.price_area[data.design_fee_range]+'</strong>元/m&sup2;</dd></dl>';
+						+'<dl class="f-cb"><dt>设计风格：</dt><dd>'+sStyle+'</dd></dl>';
+			if(data.design_fee_range){
+				sHomeDesc += '<dl class="f-cb"><dt>设计收费：</dt><dd><strong>'+globalData.price_area[data.design_fee_range]+'</strong>元/m&sup2;</dd></dl>'
+			}
 			if(data.team_count){
 				sHomeDesc += '<dl class="f-cb"><dt>施工团队：</dt><dd>'+data.team_count+'个施工队</dd></dl>';
 			}

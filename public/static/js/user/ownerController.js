@@ -464,7 +464,6 @@ angular.module('controllers', [])
                       "requirementid":requiremtneId,
                       "designerid":data._id
                     }).then(function(res){
-                        console.log(res.data)
                         if(res.data.msg == "success"){
                             uploadParent();
                             myBooking();

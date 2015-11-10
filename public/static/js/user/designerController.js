@@ -861,7 +861,6 @@ angular.module('controllers', [])
         function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
             userInfo.get().then(function(res){
                 $scope.designeremail = res.data.data;
-                console.log($scope.designeremail)
                 $scope.$emit('designerChildren', res.data.data);
             },function(res){
                 console.log(res)
@@ -877,7 +876,6 @@ angular.module('controllers', [])
             },
             send : function(){
                 this.status = false;
-                console.log($scope.designeremail.email)
                 var date = new Date();
                 if(date.getTime() - $scope.designeremail.email_auth_date < 600000){
                     alert('您点的太快了，稍后再试');
@@ -889,7 +887,6 @@ angular.module('controllers', [])
                     console.log(res)
                 });
                 userInfo.email().then(function(res){
-                    console.log(res);
                 },function(res){
                     console.log(res)
                 });
@@ -943,7 +940,6 @@ angular.module('controllers', [])
               "uid_image2":$scope.designerUId.uid_image2,
               "bank_card_image1":$scope.designerUId.bank_card_image1
             }).then(function(res){
-                console.log(res)
                 $scope.designerIdcard.change = false;
                 $scope.designerIdcard.status = false;
                 $scope.designerUId = undefined;
@@ -958,7 +954,6 @@ angular.module('controllers', [])
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userTeam,initData){
         function load(){
             userTeam.list().then(function(res){
-                console.log(res.data.data);
                 $scope.teamList = res.data.data
             },function(res){
                 console.log(res)
@@ -1001,7 +996,6 @@ angular.module('controllers', [])
         if($stateParams.id){
             $scope.designerTeam.isLoading = false;
             userTeam.get({"_id": $stateParams.id}).then(function(res){
-                console.log(res);
                 if(res.data.data != null){
                     $scope.team = _.assign($scope.team,res.data.data);
                     $scope.designerTeam.isLoading = true;
@@ -1067,7 +1061,6 @@ angular.module('controllers', [])
             }else{
                 $scope.designerProduct.isLoading = false;
                 userProduct.get({"_id": $stateParams.id}).then(function(res){
-                    console.log(res);
                     if(res.data.data != null){
                         $scope.product = _.assign($scope.product,res.data.data);
                         $scope.designerProduct.isLoading = true;
@@ -1095,7 +1088,6 @@ angular.module('controllers', [])
                     return ;
                 }
                 this.disabled = true;
-                console.log($scope.product)
                 if(this.isRelease){
                     userProduct.add($scope.product).then(function(res){
                         if(res.data.msg === "success"){
