@@ -259,7 +259,7 @@ $(function(){
 			var url = RootUrl+'api/v2/web/designer/listtop';
 			$.ajax({
 				url:url,
-				type: 'GET',
+				type: 'POST',
 				contentType : 'application/json; charset=utf-8',
 				dataType: 'json',
 				success: function(res){
@@ -281,7 +281,7 @@ $(function(){
 		$liveList = $('#j-index-live');
 		//渲染装修直播数据
 		function loadList(){
-			var url = RootUrl+'api/v2/web/share/listtop';
+			var url = RootUrl+'api/v1/share/listtop';
 			$.ajax({
 				url:url,
 				type: 'GET',

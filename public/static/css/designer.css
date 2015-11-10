@@ -190,44 +190,6 @@ body{
 	display: block;
 	padding-right: 10px;
 }
-/*按钮*/
-.u-btns{
-	display: inline-block;
-	padding: 0 17px;
-	line-height: 36px;
-	font-size: 14px;
-	text-align: center;
-	color: #fff;
-	cursor: pointer;
-	background-color: #fe7004;
-	border: 1px solid #e75812;
-	border-radius: 3px;
-	-webkit-transition:background 0.5s;
-	-ms-transition:background 0.5s;
-	-moz-transition:background 0.5s;	
-	-o-transition:background 0.5s;
-	transition:background 0.5s;
-}
-.u-btns:hover{
-	color: #fff;
-	background-color: #ff801f;
-}
-.u-btns-revise{
-	color: #60636a;
-	background-color: #f4f4f4;
-	border-color: #ccc;
-}
-.u-btns-revise:hover{
-	color: #383d48;
-	background-color: #f2f2f2;
-	border-color: #bbb;
-}
-.u-btns-disabled,.u-btns-disabled:hover{
-	color: #999;
-	background-color: #e8e8e8;
-	border-color: #ccc;
-	cursor: default;
-}
 /*表单*/
 .k-form{
 
