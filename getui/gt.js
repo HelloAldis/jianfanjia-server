@@ -9,7 +9,7 @@ var gt = new GeTui(config.HOST, config.APPKEY, config.MASTERSECRET);
 exports.aliasBind = function (userid, cid) {
   gt.bindAlias(config.APPID, userid, cid, function (err, res) {
     console.log('err = ' + err);
-    console.log('res = ' + res);
+    console.log(res);
   });
 }
 
@@ -36,7 +36,7 @@ exports.pushMessageToSingle = function (userid, playload) {
 
   gt.pushMessageToSingle(message, target, function (err, res) {
     console.log('push err = ' + err);
-    console.log('push res = ' + res);
+    console.log(res);
     if (err != null && err.exception != null && err.exception instanceof RequestError) {
       var requestId = err.exception.requestId;
       console.log(err.exception.requestId);
