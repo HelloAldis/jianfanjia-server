@@ -31,6 +31,9 @@ exports.pushMessageToSingle = function (userid, playload) {
     alias: userid,
   });
 
+  console.log('userid = ' + userid);
+  console.log(playload);
+
   gt.pushMessageToSingle(message, target, function (err, res) {
     if (err != null && err.exception != null && err.exception instanceof RequestError) {
       var requestId = err.exception.requestId;
