@@ -7,6 +7,7 @@ var Target = require('./Target');
 var gt = new GeTui(config.HOST, config.APPKEY, config.MASTERSECRET);
 
 exports.aliasBind = function (userid, cid) {
+  userid = userid.toString();
   gt.bindAlias(config.APPID, userid, cid, function (err, res) {
     console.log('err = ' + err);
     console.log(res);

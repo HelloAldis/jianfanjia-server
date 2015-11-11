@@ -422,7 +422,7 @@ exports.listReschdule = function (req, res, next) {
   }, ep.done(function (reschedules) {
     async.mapLimit(reschedules, 3, function (reschedule, callback) {
       Process.findOne({
-        _id: processid,
+        _id: reschedule.processid,
       }, {
         cell: 1
       }, function (err, process) {
