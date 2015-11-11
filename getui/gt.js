@@ -35,6 +35,8 @@ exports.pushMessageToSingle = function (userid, playload) {
   console.log(playload);
 
   gt.pushMessageToSingle(message, target, function (err, res) {
+    console.log('push err = ' + err);
+    console.log('push res = ' + res);
     if (err != null && err.exception != null && err.exception instanceof RequestError) {
       var requestId = err.exception.requestId;
       console.log(err.exception.requestId);
