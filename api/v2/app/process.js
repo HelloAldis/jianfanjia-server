@@ -557,7 +557,7 @@ exports.rejectReschedule = function (req, res, next) {
     sort: {
       request_date: -1,
     },
-  }, ep.done(function (eschedule) {
+  }, ep.done(function (reschedule) {
     if (!reschedule) {
       return res.sendErrMsg('改期不存在');
     }
