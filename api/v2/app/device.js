@@ -15,6 +15,7 @@ exports.bindCid = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var cid = tools.trim(req.body.cid);
 
+  userid = userid.toString();
   gt.aliasBind(userid, cid);
   res.sendSuccessMsg();
 }

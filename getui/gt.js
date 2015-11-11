@@ -14,6 +14,8 @@ exports.aliasBind = function (userid, cid) {
 }
 
 exports.pushMessageToSingle = function (userid, playload) {
+  userid = userid.toString();
+
   var message = new SingleMessage({
     isOffline: true, //是否离线
     offlineExpireTime: 3600 * 12 * 1000, //离线时间
