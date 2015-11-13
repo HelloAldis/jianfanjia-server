@@ -17,6 +17,7 @@
 .live-list .pic{
 	width: 384px;
 	height: 285px;
+	overflow: hidden;
 	border-radius: 8px;
 	-webkit-box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
 	-moz-box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
@@ -29,7 +30,7 @@
 }
 .live-list .pic img{
 	width: 384px;
-	height: 285px;
+	min-height: 285px;
 	border-radius: 8px;
 }
 .live-list .txt{
