@@ -124,7 +124,6 @@ router.post('/admin/update_work_auth', auth.adminRequired, admin.update_work_aut
 router.post('/share/add', auth.adminRequired, admin.add); //创建直播分享
 router.post('/share/update', auth.adminRequired, admin.update); //更新直播分享
 router.post('/share/delete', auth.adminRequired, admin.delete); //删除直播分享
-router.post('/admin/authing_designer', auth.adminRequired, admin.listAuthingDesigner); //获取申请认证的设计师
 router.post('/admin/search_designer', auth.adminRequired, admin.searchDesigner); //搜索设计师
 router.post('/admin/search_user', auth.adminRequired, admin.searchUser); //搜索业主
 router.post('/admin/designer/:_id', auth.adminRequired, admin.getDesigner); //获取设计师信息

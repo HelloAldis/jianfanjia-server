@@ -365,7 +365,7 @@ exports.reschedule = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  ep.on('sendMessage', function () {
+  ep.on('sendMessage', function (process) {
     User.findOne({
       _id: reschedule.userid
     }, null, ep.done(function (user) {
@@ -383,6 +383,7 @@ exports.reschedule = function (req, res, next) {
           time: new Date().getTime(),
           section: reschedule.section,
           status: reschedule.status,
+          cell: process.cell,
         });
       }));
     }));
@@ -391,9 +392,9 @@ exports.reschedule = function (req, res, next) {
   Reschedule.newAndSave(reschedule, ep.done(function (reschedule) {
     if (reschedule) {
       Process.updateStatus(reschedule.processid, reschedule.section,
-        null, reschedule.status, ep.done(function () {
+        null, reschedule.status, ep.done(function (process) {
           res.sendSuccessMsg();
-          ep.emit('sendMessage');
+          ep.emit('sendMessage', process);
         }));
     } else {
       res.sendErrMsg('无法保存成功');
@@ -419,7 +420,19 @@ exports.listReschdule = function (req, res, next) {
       request_date: -1
     }
   }, ep.done(function (reschedules) {
-    res.sendData(reschedules);
+    async.mapLimit(reschedules, 3, function (reschedule, callback) {
+      Process.findOne({
+        _id: reschedule.processid,
+      }, {
+        cell: 1
+      }, function (err, process) {
+        reschedule = reschedule.toObject();
+        reschedule.process = process;
+        callback(err, reschedule);
+      });
+    }, ep.done(function (reschedules) {
+      res.sendData(reschedules);
+    }));
   }));
 }
 
@@ -431,7 +444,7 @@ exports.okReschedule = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  ep.on('sendMessage', function (reschedule) {
+  ep.on('sendMessage', function (reschedule, process) {
     User.findOne({
       _id: reschedule.userid
     }, null, ep.done(function (user) {
@@ -449,6 +462,7 @@ exports.okReschedule = function (req, res, next) {
           time: new Date().getTime(),
           section: reschedule.section,
           status: type.process_item_status_reschedule_ok,
+          cell: process.cell,
         });
       }));
     }));
@@ -489,7 +503,7 @@ exports.okReschedule = function (req, res, next) {
 
           process.save(ep.done(function () {
             res.sendSuccessMsg();
-            ep.emit('sendMessage', reschedule)
+            ep.emit('sendMessage', reschedule, process);
           }));
         }
       } else {
@@ -507,7 +521,7 @@ exports.rejectReschedule = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  ep.on('sendMessage', function (reschedule) {
+  ep.on('sendMessage', function (reschedule, process) {
     User.findOne({
       _id: reschedule.userid
     }, null, ep.done(function (user) {
@@ -525,6 +539,7 @@ exports.rejectReschedule = function (req, res, next) {
           time: new Date().getTime(),
           section: reschedule.section,
           status: type.process_item_status_reschedule_reject,
+          cell: process.cell,
         });
       }));
     }));
@@ -542,16 +557,16 @@ exports.rejectReschedule = function (req, res, next) {
     sort: {
       request_date: -1,
     },
-  }, ep.done(function (eschedule) {
+  }, ep.done(function (reschedule) {
     if (!reschedule) {
       return res.sendErrMsg('改期不存在');
     }
 
     Process.updateStatus(query.processid, reschedule.section, null,
       type.process_item_status_reschedule_reject,
-      ep.done(function () {
+      ep.done(function (process) {
         res.sendSuccessMsg();
-        ep.emit('sendMessage', reschedule);
+        ep.emit('sendMessage', reschedule, process);
       }));
   }));
 }
@@ -643,6 +658,7 @@ exports.doneSection = function (req, res, next) {
           section: section,
           type: type.message_type_pay,
           time: new Date().getTime(),
+          cell: process.cell,
         });
       }
 
@@ -732,6 +748,7 @@ exports.ys = function (req, res, next) {
         type: type.message_type_user_ys,
         time: new Date().getTime(),
         section: section,
+        cell: process.cell,
       });
     }
 

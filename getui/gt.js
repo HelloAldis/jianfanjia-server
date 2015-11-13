@@ -7,6 +7,7 @@ var Target = require('./Target');
 var gt = new GeTui(config.HOST, config.APPKEY, config.MASTERSECRET);
 
 exports.aliasBind = function (userid, cid) {
+  userid = userid.toString();
   gt.bindAlias(config.APPID, userid, cid, function (err, res) {
     console.log('err = ' + err);
     console.log(res);
@@ -14,6 +15,8 @@ exports.aliasBind = function (userid, cid) {
 }
 
 exports.pushMessageToSingle = function (userid, playload) {
+  userid = userid.toString();
+
   var message = new SingleMessage({
     isOffline: true, //是否离线
     offlineExpireTime: 3600 * 12 * 1000, //离线时间
