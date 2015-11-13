@@ -377,7 +377,7 @@ exports.getDesigner = function (req, res, next) {
     if (designer) {
       res.sendData(designer);
     } else {
-      res.sendData(null);
+      res.sendData({});
     }
   }));
 }
