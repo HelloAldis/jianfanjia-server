@@ -13,7 +13,7 @@ exports.crop2buffer = function (buffer, width, hight, x, y, callback) {
 }
 
 exports.jpgbuffer = function (buffer, callback) {
-  gm(buffer).toBuffer('jpg', callback);
+  gm(buffer).quality(90).toBuffer('jpg', callback);
 }
 
 exports.watermark = function (buffer, callback) {
@@ -34,3 +34,7 @@ exports.watermark = function (buffer, callback) {
     }
   });
 }
+
+// gm('test.jpg').quality(90).write('output5.jpg', function (err) {
+//   console.log(err);
+// });

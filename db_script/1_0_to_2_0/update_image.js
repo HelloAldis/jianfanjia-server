@@ -10,6 +10,7 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../type');
 var gm = require('gm');
+var imageUtil = require('../../common/image_util')
 
 var hasRemain = true;
 var skip = 0;
@@ -29,22 +30,26 @@ async.whilst(
           return;
         }
         var image = images[0];
-        async.parallel({
-          size: function (callback) {
-            gm(image.data).size(callback);
-          },
-          filesize: function (callback) {
-            gm(image.data).filesize(callback);
-          }
-        }, function (err, result) {
-          var s1 = JSON.stringify(result.size);
-          var s2 = image._id;
-          var s3 = result.filesize;
-          console.log('id =' + s2 + ' size=' + s1 + ' filesize=' +
-            s3 + ' buffersize=' + image.data.length);
+        if (image.data.length > 500000) {
+          gm(image.data).size(function (err, value) {
+            if (!err) {
+              imageUtil.jpgbuffer(image.data, function (err, newBuf) {
+                var s1 = JSON.stringify(value);
+                var dx = newBuf.length - image.data.length;
+                console.log('id =' + image._id + ' size=' + s1 +
+                  ' buffersize=' + image.data.length +
+                  ' newBuffersize=' + newBuf.length + ' dx=' + dx
+                );
+              });
+            }
+
+            skip++;
+            callback();
+          });
+        } else {
           skip++;
           callback();
-        });
+        }
       });
   },
   function (err) {
