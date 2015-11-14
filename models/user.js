@@ -8,7 +8,6 @@ var UserSchema = new Schema({
   },
   username: {
     type: String,
-    default: '业主',
   },
   sex: {
     type: String

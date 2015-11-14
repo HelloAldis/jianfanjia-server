@@ -216,6 +216,7 @@ exports.signup = function (req, res, next) {
     var user = {};
     user.pass = passhash;
     user.phone = phone;
+    user.username = '尾号' + phone.slice(-4);
 
     if (usertype === type.role_user) {
       User.newAndSave(user, ep.done(function (user_indb) {
