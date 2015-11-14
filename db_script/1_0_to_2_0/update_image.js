@@ -38,10 +38,10 @@ async.whilst(
           }
         }, function (err, result) {
           var s1 = JSON.stringify(result.size);
-          var s2 = image._id.toString();
-          var s3 = result.filesize.toString();
+          var s2 = image._id;
+          var s3 = result.filesize;
           console.log('id =' + s2 + ' size=' + s1 + ' filesize=' +
-            s3);
+            s3 + ' buffersize=' + image.data.length);
           skip++;
           callback();
         });
