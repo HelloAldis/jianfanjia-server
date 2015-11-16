@@ -70,8 +70,8 @@
 		    };
 		}])
         .controller('LiveController', [    //装修直播列表
-            '$scope','$rootScope','$http',
-            function($scope, $rootScope,$http) {
+            '$scope','$rootScope','$http','$filter',
+            function($scope, $rootScope,$http,$filter) {
             	function loadList(){
 	            	$http({
 	            		method : "GET",
@@ -110,8 +110,8 @@
             }
         ])
 		.controller('AddController', [    //创建装修直播
-            '$scope','$rootScope','$http','$location',
-            function($scope, $rootScope,$http,$location){
+            '$scope','$rootScope','$http','$location','$filter',
+            function($scope, $rootScope,$http,$location,$filter){
             	var that = this;
             	$scope.dataMapped = {};
 				$scope.dec_type = [

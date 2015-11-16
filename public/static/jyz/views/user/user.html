@@ -1,21 +1,37 @@
 <ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">业主列表</li></ol>
-<form class="form-inline">
-	<p>[注意时间格式：2015-10-01]如果搜索当前的信息，开始时间为当天日期，结束时间为第二天日期</p>
-	<div class="form-group">
-		<label for="inputPassword2">开始时间：</label>
-		<input type="text" class="form-control" id="inputPassword2" placeholder="例如：2015-10-01" ng-model="startTime" required>
-		<label for="inputPassword2">--截止时间：</label>
-		<input type="text" class="form-control" id="inputPassword2" placeholder="例如：2015-10-01" ng-model="endTime">
+<form name="recruit" ng-submit="searchTimeBtn()" novalidate>
+	<p>[注意] 如果搜索当前的信息，开始时间为当天日期，结束时间为第二天日期</p>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-1">开始时间</div>
+			<div class="col-md-3">
+				<p class="input-group">
+				  	<input type="text" class="form-control" uib-datepicker-popup ng-model="startTime.time" is-open="startTime.status.opened" datepicker-options="startTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
+				  	<span class="input-group-btn">
+				  		<button type="button" class="btn btn-default" ng-click="startTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				  	</span>
+			  	</p>
+			</div>
+			<div class="col-md-1">--结束时间</div>
+			<div class="col-md-3">
+				<p class="input-group">
+				  	<input type="text" class="form-control" uib-datepicker-popup ng-model="endTime.time" is-open="endTime.status.opened" datepicker-options="endTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
+				  	<span class="input-group-btn">
+				  		<button type="button" class="btn btn-default" ng-click="endTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				  	</span>
+				</p>
+			</div>
+			<div class="col-md-2"><button type="submit" class="btn btn-info" ng-disabled="recruit.$invalid">搜索</button></div>
+		</div>
 	</div>
-	<button type="button" class="btn btn-info" ng-click="searchTimeBtn()">搜索</button>
 </form>
 <br />
-<form class="form-inline">
+<form name="search" class="form-inline" ng-submit="searchBtn()" novalidate>
 	<div class="form-group">
-		<label for="inputPassword2" class="sr-only">搜索业主</label>
-		<input type="text" class="form-control" placeholder="手机号码/用户业主" ng-model="searchDesigner">
+		<label class="sr-only">搜索业主</label>
+		<input type="text" class="form-control" placeholder="手机号码/用户业主" ng-model="searchUser" required />
 	</div>
-	<button type="button" class="btn btn-info" ng-click="searchBtn()">搜索业主</button>
+	<button type="submit" class="btn btn-info" ng-disabled="search.$invalid">搜索业主</button>
 </form>
 <br />
 <div class="panel panel-info ng-scope">
@@ -42,5 +58,9 @@
 		</tbody>
 	</table>
 </div>
-<div class="loadData" ng-hide="loadData" id="j-loadData"></div>
-<div paging page-object="pageing" click-function="list" ></div>
+<div class="loadData" ng-hide="loading.loadData"></div>
+<div class="loadData notData" ng-show="loading.notData"></div>
+<div class="text-center" ng-if="loading.loadData && !loading.notData">
+	<uib-pagination total-items="pagination.totalItems" first-text="首页" next-text="下一页" previous-text="上一页" last-text="尾页" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-links="true" num-pages="numPages" rotate="false" ng-change="pagination.pageChanged()"></uib-pagination>
+	<span class="pagecode">当前：{{pagination.currentPage}} / {{numPages}} 页 总共 {{pagination.totalItems}} 条数据</span>
+</div>
