@@ -42,6 +42,7 @@ router.post('/feedback', feedback.add); //游客反馈
 router.get('/device/android_build_version', device.android_build_version); //获取android信息
 router.post('/user_login', sign.user_login); //业主手机端登录
 router.post('/designer_login', sign.designer_login); //设计师手机端登录
+router.post('/verify_phone', signWeb.verifyPhone); //验证手机
 router.post('/user_signup', sign.user_signup); //业主手机端注册
 router.post('/designer_signup', sign.designer_signup); //设计师手机端注册
 router.post('/update_pass', signWeb.updatePass); //修改密码

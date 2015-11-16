@@ -146,7 +146,8 @@ exports.user_signup = function (req, res, next) {
         tools.bhash(pass, ep.done(function (passhash) {
           User.newAndSave({
             pass: passhash,
-            phone: phone
+            phone: phone,
+            username: '尾号' + phone.slice(-4),
           }, ep.done(function (user_indb) {
             // store session cookie
             authMiddleWare.gen_session(user_indb,

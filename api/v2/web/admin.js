@@ -7,6 +7,7 @@ var User = require('../../../proxy').User;
 var Product = require('../../../proxy').Product;
 var ApiStatistic = require('../../../proxy').ApiStatistic;
 var Requirement = require('../../../proxy').Requirement;
+var Evaluation = require('../../../proxy').Evaluation;
 var Plan = require('../../../proxy').Plan;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
@@ -377,7 +378,7 @@ exports.getDesigner = function (req, res, next) {
     if (designer) {
       res.sendData(designer);
     } else {
-      res.sendData(null);
+      res.sendData({});
     }
   }));
 }
@@ -426,17 +427,42 @@ exports.search_requirement = function (req, res, next) {
   Requirement.paginate(query, null, {
     sort: sort,
     skip: skip,
-    limit: limit
+    limit: limit,
+    lean: true,
   }, ep.done(function (requirements, total) {
     async.mapLimit(requirements, 3, function (requirement, callback) {
-      User.findOne({
-        _id: requirement.userid,
-      }, {
-        username: 1,
-        phone: 1
-      }, function (err, user) {
-        requirement = requirement.toObject();
-        requirement.user = user;
+      async.parallel({
+        user: function (callback) {
+          User.findOne({
+            _id: requirement.userid,
+          }, {
+            username: 1,
+            phone: 1
+          }, callback);
+        },
+        evaluations: function (callback) {
+          Evaluation.find({
+            requirementid: requirement._id,
+          }, null, {
+            lean: true,
+          }, function (err, evaluations) {
+            async.mapLimit(evaluations, 3, function (
+              evaluation, callback) {
+              Designer.findOne({
+                _id: evaluation.designerid
+              }, {
+                username: 1,
+                phone: 1,
+              }, function (err, designer) {
+                evaluation.designer = designer;
+                callback(err, evaluation);
+              });
+            }, callback);
+          });
+        },
+      }, function (err, result) {
+        requirement.user = result.user;
+        requirement.evaluations = result.evaluations;
         callback(err, requirement);
       });
     }, ep.done(function (results) {
