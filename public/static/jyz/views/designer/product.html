@@ -1,6 +1,6 @@
 <ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li><a ui-sref="designer">设计师列表</a></li><li class="active">作品列表</li></ol>
-<ul id="authTab">
-	<li ng-repeat="auth in authList" class="{{auth.cur ? 'active' : ''}}" ng-click="authBtn(auth.id)">{{auth.name}}</li>
+<ul class="list-inline">
+	<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id)">{{auth.name}}</button></li>
 </ul>
 <div class="panel panel-info ng-scope">
 	<table class="table table-bordered">

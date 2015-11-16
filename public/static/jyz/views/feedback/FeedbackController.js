@@ -1,87 +1,108 @@
 (function() {
+    'use strict';
     angular.module('controllers')
-        .filter('userFilter', function () {   //用户类型
-            return function (input) {
-                return {
-                    "0":"管理员",
-                    "1":"业主",
-                    "2":"设计师"
-                }[input];
-            }
-        })
-        .filter('platformFilter', function () {   //手机类型
-            return function (input) {
-                return {
-                    "0":"Android",
-                    "1":"iOS"
-                }[input];
-            }
-        })
         .controller('FeedbackController', [
-            '$scope','$rootScope','$http','$filter',
-            function($scope, $rootScope,$http,$filter) {
-                  /*
-                参数：
-                 pageNo为页码
-                 itemsCount为记录的数量
-                 pageSize为每页显示数量
-                 */
-                function setPage(p,i,s){
-                   $scope.pageing={
-                        pageNo : p,
-                        itemsCount : i,
-                        pageSize : s
-                    }; 
+            '$scope','$rootScope','adminApp',
+            function($scope, $rootScope,adminApp) {
+                //数据加载显示状态
+                $scope.loading = {
+                    loadData : false,
+                    notData : false
                 }
-                setPage(1,0,10);
-                $scope.list = function () {
-                    $scope.userList = [];
-                    $scope.loadData = false;
-                    loadList({
-                      "from": (this.page.pageNo-1)*10,
-                    })
+                //分页控件
+                $scope.pagination = {      
+                    currentPage : 1,
+                    totalItems : 0,
+                    maxSize : 5,
+                    pageChanged : function(){
+                        loadList(this.currentPage,10);
+                    }
                 };
-                $scope.loadData = false;
-                function loadList(data){
+                //时间筛选控件
+                $scope.startTime = {
+                    clear : function(){
+                        this.dt = null;
+                    },
+                    dateOptions : {
+                       formatYear: 'yy',
+                       startingDay: 1
+                    },
+                    status : {
+                        opened: false
+                    },
+                    open : function($event) {
+                        this.status.opened = true;
+                    },
+                    today : function(){
+                        this.dt = new Date();
+                    }
+                };
+                $scope.startTime.today();
+                $scope.endTime = {
+                    clear : function(){
+                        this.dt = null;
+                    },
+                    dateOptions : {
+                       formatYear: 'yy',
+                       startingDay: 1
+                    },
+                    status : {
+                        opened: false
+                    },
+                    open : function($event) {
+                        this.status.opened = true;
+                    },
+                    today : function(){
+                        this.dt = new Date();
+                    }
+                };
+                $scope.endTime.today();
+                $scope.searchTimeBtn = function(){
+                    var start = new Date($scope.startTime.time).getTime();
+                    var end = new Date($scope.endTime.time).getTime()
+                    if(start > end){
+                        alert('开始时间比结束时间大，请从新选择');
+                        return ;
+                    }if(end-start < 86400000){
+                        alert('结束时间必须必比开始时间大一天，请从新选择');
+                        return ;
+                    }
+                    $scope.loading.loadData = false;
+                    $scope.userList = undefined;
+                    $scope.pagination.currentPage = 1;
+                    loadList(1,undefined,{start:start,end:end})
+                }
+                //加载数据
+                function loadList(from,limit,date){
                     var data = {
                           "query":{},
-                          "sort":{"phone": 1},
-                          "from": 0,
-                          "limit":10
+                          "from": (limit == undefined ? 0 : limit)*(from-1),
+                          "limit":(limit == undefined ? undefined : limit)
                         }
-                    if(!!$scope.startTime && !!$scope.endTime){
+                    if(date){
                         data.query.create_at = {
-                            "$gte":$filter('getTimesFilter')($scope.startTime),
-                            "$lte":$filter('getTimesFilter')($scope.endTime)
+                            "$gte":date.start,
+                            "$lte":date.end
                         }
                     }
-                    $http({
-                		method : "POST",
-                		url : RootUrl+'api/v1/admin/feedback/search',
-                        data: data
-                	}).then(function(resp){
-                		//返回信息
-                        console.log(resp)
-                		$scope.userList = resp.data.data.requirements;
-                        $scope.loadData = true;
-                        setPage(1,resp.data.data.total,data.limit);
-                	},function(resp){
-                		//返回错误信息
+                    adminApp.feedback(data).then(function(resp){
+                        if(resp.data.data.total == 0){
+                            $scope.loading.loadData = true;
+                            $scope.loading.notData = true;
+                        }else{
+                            $scope.userList = resp.data.data.requirements;
+                            $scope.pagination.totalItems = resp.data.data.total;
+                            $scope.loading.loadData = true;
+                            $scope.loading.notData = false;
+                        }
+                    },function(resp){
+                        //返回错误信息
                         $scope.loadData = false;
-                		console.log(resp);
-                	})
-                };
-                loadList()
-                $scope.searchTimeBtn = function(){
-                    console.log(!!!$scope.startTime)
-                    if(!!!$scope.startTime){
-                        alert('请输入开始时间');
-                    }
-                    if(!!!$scope.endTime){
-                        alert('请输入结束时间');
-                    }
-                    loadList()
+                        console.log(resp);
+                    });
                 }
+                //初始化
+                loadList(1,10);
             }
         ]);
 })();

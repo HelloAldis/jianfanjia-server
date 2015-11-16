@@ -1,4 +1,5 @@
 (function() {
+	'use strict';
     angular.module('controllers')
     	.filter('authFilter', function () {
 	        return function (input) {
@@ -8,95 +9,152 @@
 	            	"2":"审核不通过",
 	            	"3":"违规下线"
 	            }[input];
-	        }
+	        };
 	    })
         .controller('ProductController', [
-            '$scope','$rootScope','$http','$modal','$filter',
-            function($scope, $rootScope,$http,$modal,$filter) {
-            	$scope.authType = undefined;  //全局标识，解决筛选和分页问题
-            	$scope.form = 0;
-                   /*
-			    参数
-			     pageNo为页码
-			     itemsCount为记录的数量
-			     pageSize为每页显示数量
-			     */
-			    function setPage(p,i,s){
-			       $scope.pageing={
-			            pageNo : p,
-			            itemsCount : i,
-			            pageSize : s
-			        }; 
+            '$scope','$rootScope','$http','$uibModal','$filter','adminProduct',
+            function($scope, $rootScope,$http,$uibModal,$filter,adminProduct) {
+            	//全局标识，解决筛选和分页问题
+            	$scope.authType = undefined; 
+            	$scope.createAt = undefined;
+			    //数据加载显示状态
+			    $scope.loading = {
+			        loadData : false,
+			        notData : false
+			    };
+			    //分页控件
+			    $scope.pagination = {      
+			        currentPage : 1,
+			        totalItems : 0,
+			        maxSize : 5,
+			        pageChanged : function(){
+			            loadList(this.currentPage,10);
+			        }
+			    };
+			    //时间筛选控件
+			    $scope.startTime = {
+			        clear : function(){
+			            this.dt = null;
+			        },
+			        dateOptions : {
+			           formatYear: 'yy',
+			           startingDay: 1
+			        },
+			        status : {
+			            opened: false
+			        },
+			        open : function($event) {
+			            this.status.opened = true;
+			        },
+			        today : function(){
+			            this.dt = new Date();
+			        }
+			    };
+			    $scope.startTime.today();
+			    $scope.endTime = {
+			        clear : function(){
+			            this.dt = null;
+			        },
+			        dateOptions : {
+			           formatYear: 'yy',
+			           startingDay: 1
+			        },
+			        status : {
+			            opened: false
+			        },
+			        open : function($event) {
+			            this.status.opened = true;
+			        },
+			        today : function(){
+			            this.dt = new Date();
+			        }
+			    };
+			    $scope.endTime.today();
+			    $scope.searchTimeBtn = function(){
+			        var start = new Date($scope.startTime.time).getTime();
+			        var end = new Date($scope.endTime.time).getTime();
+			        if(start > end){
+			            alert('开始时间比结束时间大，请从新选择');
+			            return ;
+			        }if(end-start < 86400000){
+			            alert('结束时间必须必比开始时间大一天，请从新选择');
+			            return ;
+			        }
+			        $scope.loading.notData = false;
+			        $scope.loading.loadData = false;
+			        $scope.userList = undefined;
+			        $scope.pagination.currentPage = 1;
+			        $scope.createAt = {
+			        	"$gte":start,
+			            "$lte":end
+			        };
+			        loadList(1);
+			    };
+			    //提示消息
+	            function tipsMsg(msg,time){
+	            	time = time || 2000;
+    	            $uibModal.open({  
+    	            	size : 'sm',
+    	                template: '<div class="modal-header"><h3 class="modal-title">消息提醒</h3></div><div class="modal-body"><p class="text-center">'+msg+'</p></div>',  
+    	                controller: function($scope,$timeout,$modalInstance){ 
+    				        $scope.ok = function () {   
+    				         	$modalInstance.close();
+    				        };  
+    						$timeout(function(){
+								$scope.ok();
+							},time);
+    	                } 
+    	            });  
+	            }
+			    //加载数据
+			    function loadList(from,limit,date){
+			        var data = {
+			              	"query":{
+			              		auth_type : $scope.authType,
+			              		create_at : $scope.createAt
+			              	},
+			              	"from": (limit === undefined ? 0 : limit)*(from-1),
+			              	"limit":(limit === undefined ? undefined : limit)
+			            };
+			        adminProduct.search(data).then(function(resp){
+			            if(resp.data.data.total === 0){
+			                $scope.loading.loadData = true;
+			                $scope.loading.notData = true;
+			            }else{
+			                $scope.userList = resp.data.data.products;
+			                $scope.pagination.totalItems = resp.data.data.total;
+			                $scope.loading.loadData = true;
+			                $scope.loading.notData = false;
+			            }
+			        },function(resp){
+			            //返回错误信息
+			            $scope.loadData = false;
+			            console.log(resp);
+
+			        });
 			    }
-			    setPage(1,0,10)
-			    $scope.list = function () {
-			    	$scope.userList = [];
-			    	$scope.loadData = false;
-			    	$scope.form = (this.page.pageNo-1)*10;
-			        loadList()
-				};
-				$scope.loadData = false;
-                function loadList(data){
-                	var data = {
-						  "query":{
-							"auth_type": $scope.authType
-						  },
-						  "sort":{"_id": 1},
-						  "from": $scope.form,
-						  "limit":10
-						}
-					if(!!$scope.startTime && !!$scope.endTime){
-                        data.query.create_at = {
-                            "$gte":$filter('getTimesFilter')($scope.startTime),
-                            "$lte":$filter('getTimesFilter')($scope.endTime)
-                        }
-                    }
-	            	$http({
-	            		method : "POST",
-	            		url : RootUrl+'api/v1/admin/product/search',
-	            		data: data
-	            	}).then(function(resp){
-	            		//返回信息
-	            		$scope.userList = resp.data.data.products;
-	            		$scope.loadData = true;
-	            		setPage(1,resp.data.data.total,data.limit);
-	            		$scope.pagination = {
-	            			pageSize : 1,
-	            			pageSize : data.limit,
-	            			articleList : resp.data.data.total
-	            		}
-	            	},function(resp){
-	            		//返回错误信息
-	            		$scope.loadData = false;
-	            		console.log(resp);
-	            	})
-	            };
-	            loadList()
+			    //初始化
+			    loadList(1,10);
 	            $scope.productAuth = function(pid,uid){
 	            	if(confirm("你确定该作品合格")){
-	            		$http({
-		            		method : "POST",
-		            		url : RootUrl+'api/v1/admin/update_product_auth',
-		            		data: {
+	            		adminProduct.auth({
 								"_id": pid,
 							    "new_auth_type":'1',
 							    "designerid":uid,
 							    "auth_message": '审核通过，作品合格'
-							}
-		            	}).then(function(resp){
-		            		//返回信息
-		            		console.log(resp);
-		            		promptMessage('审核成功',"success");
-		            		loadList()
-		            	},function(resp){
-		            		//返回错误信息
-		            		console.log(resp);
-		            	})
+								}).then(function(resp){
+						            if(resp.data.msg === "success"){
+						            	tipsMsg('审核成功');
+		            					loadList(1,10);
+						            }
+				        },function(resp){
+				            //返回错误信息
+				            $scope.loadData = false;
+				            console.log(resp);
+				        });
 	            	}
-	            }
-	            function checking(pid,type,uid,msg){
-	            	
-	            }
+	            };
+	            //认证筛选
 	            $scope.authList = [
 	            	{
 	            		id : "0",
@@ -118,38 +176,37 @@
 	            		name : '违规下线',
 	            		cur : false 
 	            	},
-	            ]
+	            ];
 	            $scope.authBtn = function(id){
-					$scope.userList = [];
-					$scope.loadData = false;
+					$scope.userList = undefined;
+					$scope.loading.loadData = false;
+					$scope.loading.notData = false;
+					$scope.pagination.currentPage = 1;
 	            	angular.forEach($scope.authList, function(value, key) {
 					  	if(value.id == id){
                             if(value.cur){
                                 value.cur = false;
+                                $scope.authType = undefined;
+                                loadList(1,10);
                             }else{
                                 value.cur = true;
+                                $scope.authType = id;
+                                loadList(1);
                             }
                         }else{
                             value.cur = false;
                         }
 					});
-	            	$scope.authType = id;
-	            	loadList();
-	            }
-	            $scope.searchTimeBtn = function(){
-                    if(!!!$scope.startTime){
-                        alert('请输入开始时间');
-                    }
-                    if(!!!$scope.endTime){
-                        alert('请输入结束时间');
-                    }
-                    loadList()
-                }
+	            };
 	            $scope.open = function (tips,pid,type,uid) {  
-		            var modalInstance = $modal.open({  
+		            var modalInstance = $uibModal.open({  
 		                template: '<div class="modal-header"><h3>'+tips+'</h3></div><div class="modal-body"><div class="form-group"><label for="">填写'+tips+'原因</label><textarea class="form-control" ng-model="errorMsg" rows="3"></textarea></div></div><div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">'+tips+'</button><button class="btn btn-warning" ng-click="cancel()">取消操作</button></div>',  
 		                controller: function($scope, $modalInstance){ 
 					         $scope.ok = function () {   
+					         	if(!$scope.errorMsg){
+					         		alert('请填写内容');
+					         		return ;
+					         	}
 					         	$http({
 				            		method : "POST",
 				            		url : RootUrl+'api/v1/admin/update_product_auth',
@@ -162,12 +219,13 @@
 				            	}).then(function(resp){
 				            		//返回信息
 				            		console.log(resp);
-				            		$modalInstance.dismiss(tips); 
-				            		loadList()
+				            		$modalInstance.close();
+				            		tipsMsg('操作成功'); 
+				            		loadList(1,10);
 				            	},function(resp){
 				            		//返回错误信息
 				            		console.log(resp);
-				            	})
+				            	});
 					         };  
 					         $scope.cancel = function () {  
 					             $modalInstance.dismiss('取消操作');  
@@ -184,106 +242,5 @@
 		             });  
 		         };  
             }
-        ])
-		.directive('paging', function ($timeout) {
-	    	return {
-		        replace:true,
-		        scope:{
-		            page : '=pageObject',
-		            query : '=clickFunction'
-		        },
-		        controller : function ($scope,$element) {
-		            $scope.createHtml = function () {
-		                var maxPage =  Math.ceil($scope.page.itemsCount/ $scope.page.pageSize) ;
-		                var pageNo = $scope.page.pageNo;
-		                var str = '<div class="sabrosus"><span class="page">' ;
-		                if(maxPage > 10){
-		                    if(pageNo > 3){//minPage + 2
-		                        //str += '<a href="javascript:;">《</a>' ;
-		                        str += '<a href="javascript:;">1</a>' ;
-		                        str += '<i>…<i>';
-		                    }
-		                    for(var i= pageNo <=2?1:pageNo -2;i<= (pageNo >= maxPage-2?maxPage:pageNo + 2) ;i++ ){
-		                        if(i == 1){
-		                            if(pageNo == 1){
-		                                //str += '<span class="disabled">《</span>';
-		                                str += '<span class="current">'+i+'</span>' ;
-		                            }else{
-		                                //str += '<a href="javascript:;">《</a>' ;
-		                                str += '<a href="javascript:;">'+i+'</a>' ;
-		                            }
-		                        }else if(i == maxPage){
-		                            if(pageNo == maxPage){
-		                                str += '<span class="current">'+i+'</span>' ;
-		                                //str += '<span class="disabled">》</span>';
-		                            }else{
-		                                str += '<a href="javascript:;">'+i+'</a>' ;
-		                                //str += '<a href="javascript:;">》</a>' ;
-		                            }
-		                        }else{
-		                            if(pageNo == i){
-		                                str += '<span class="current">'+i+'</span>' ;
-		                            }else{
-		                                str += '<a href="javascript:;">'+i+'</a>' ;
-		                            }
-		                        }
-		                    }
-		                    if(pageNo < maxPage - 2){
-		                        str += '<i>…<i>';
-		                        str += '<a href="javascript:;" >'+maxPage+'</a>';
-		                        //str += '<a href="javascript:;">》</a>' ;
-		                    }
-		                }else{
-		                    for(var i=1 ; i<=maxPage ; i++){
-		                        if(i == 1){
-		                            if(pageNo == 1){
-		                                //str += '<span class="disabled">《</span>';
-		                                str += '<span class="current">'+i+'</span>' ;
-		                            }else{
-		                                //str += '<a href="javascript:;">《</a>' ;
-		                                str += '<a href="javascript:;">'+i+'</a>' ;
-		                            }
-		                        }else if(i == maxPage){
-		                            if(pageNo == maxPage){
-		                                str += '<span class="current">'+i+'</span>' ;
-		                                //str += '<span class="disabled">》</span>';
-		                            }else{
-		                                str += '<a href="javascript:;">'+i+'</a>' ;
-		                                //str += '<a href="javascript:;">》</a>' ;
-		                            }
-		                        }else{
-		                            if(pageNo == i){
-		                                str += '<span class="current">'+i+'</span>' ;
-		                            }else{
-		                                str += '<a href="javascript:;">'+i+'</a>' ;
-		                            }
-		                        }
-		                    }
-		                }
-		                str += '</span><span class="info">当前 '+pageNo+' / '+maxPage+' 页 总共 '+$scope.page.itemsCount+' 条数据<span></div>';
-		                $element.html(str);
-		                $scope.bindEvent();
-		            };
-		            $scope.bindEvent = function () {
-		                angular.element($element).find('a').on('click', function () {
-		                    var text = angular.element(this).html();
-		                    var page = $scope.page.pageNo;
-		                    if(text.trim() == '《'){
-		                        $scope.page.pageNo = page - 1 ;
-		                    }else if(text.trim() == '》'){
-		                        $scope.page.pageNo = page + 1 ;
-		                    }else{
-		                        $scope.page.pageNo = parseInt(text);
-		                    }
-		                    $scope.query();
-		                    $scope.createHtml();
-		                });
-		            }
-		            $scope.createHtml();
-		            $scope.$watch('page.itemsCount', function () {
-		                $scope.createHtml();
-		            })
-		        }
-		    }
-    	});
+        ]);
 })();

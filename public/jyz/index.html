@@ -6,7 +6,6 @@
 	<title>简繁家--管理后台</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <base href="../../static/" />
-	<link rel="stylesheet" type="text/css" href="css/public.css" />
     <link rel="stylesheet" type="text/css" href="jyz/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="jyz/lib/fontawesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="jyz/css/jyz.css" />
@@ -16,11 +15,11 @@
     <script type="text/javascript" src="js/lib/tdist.js"></script>
 </head>
 <body>
-	<header class="g-hd f-cb"> 
-		<div class="m-logo f-fl">
+	<header class="g-hd clearfix"> 
+		<div class="m-logo pull-left">
 			<h1><a href="../tpl/index/index.html">简繁家</a></h1>
 		</div>
-		<ul class="m-info f-fr" id="j-info">
+		<ul class="list-inline m-info pull-right" id="j-info">
 			<!-- <li>
 				<div class="menu-hd">提示信息</div>
 				<div class="menu-bd"></div>
@@ -41,10 +40,10 @@
 			</li>
 		</ul>
 	</header>
-	<main class="g-bd f-cb"> 
-		<aside class="g-sd f-fl">
+	<main class="g-bd clearfix"> 
+		<aside class="g-sd pull-left">
 			<nav ng-controller="SubController">
-                <ul>
+                <ul class="list-unstyled">
                     <li ng-class="{active: nav==&quot;index&quot;}"><a ui-sref="index">统计总览</a></li>
                     <li ng-class="{active: nav==&quot;requirement&quot;}"><a ui-sref="requirement">业务需求列表</a></li>
                     <li ng-class="{active: nav==&quot;plans&quot;}"><a ui-sref="plans">方案列表</a></li>
@@ -58,7 +57,7 @@
                 </ul>
 			</nav>
 		</aside>
-		<article class="g-mn f-fr">
+		<article class="g-mn pull-right">
 			<div id="contentView" class="g-mnc">
 				<!--视图模板容器 start-->
 				<div ui-view>
@@ -71,10 +70,12 @@
 			</div>
 		</article>
 	</main>
-    <script src="jyz/lib/angular/angular.min.js"></script>
+    <script src="jyz/lib/angular/angular.js"></script>
     <script src="jyz/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="jyz/lib/ui-bootstrap-tpls-0.13.4.min.js"></script>
+    <script src="jyz/lib/ui-bootstrap-tpls-0.14.3.min.js"></script>
     <script src="jyz/js/modules-init.js"></script>
+    <script src="jyz/js/filter.js"></script>
+    <script src="jyz/js/service.js"></script>
     <!-- controllers-->
     <script src="jyz/js/controllers/NavController.js"></script>
     <script src="jyz/views/index/IndexController.js"></script>
