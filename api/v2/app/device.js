@@ -7,9 +7,10 @@ var config = require('../../../apiconfig');
 var async = require('async');
 var ApiUtil = require('../../../common/api_util');
 var type = require('../../../type');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
-var gt = require('../../../getui/gt.js');
+var fs = require('fs');
+var path = require('path');
+
+var apkDir = path.normalize(__dirname + '/../../../public/user_build');
 
 exports.bindCid = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -20,10 +21,31 @@ exports.bindCid = function (req, res, next) {
 }
 
 exports.android_build_version = function (req, res, next) {
-  res.sendData({
-    version_name: '1.0.99',
-    version_code: '9999',
-    download_url: 'http://' + req.headers.host +
-      '/android_build/JianFanJia.apk',
-  });
+  var ep = eventproxy();
+  ep.fail(next);
+  console.log(apkDir);
+  fs.readdir(apkDir, ep.done(function (apks) {
+    console.log(apks);
+    apks.sort();
+    console.log(apks)
+    var apk = apks.pop();
+    if (apk) {
+      var arr = apk.split('_');
+      if (arr.length != 4) {
+        res.sendErrMsg('bad apk');
+      } else {
+        version_name = arr[3].split('.')[0].replace(/-/g, '.');
+        res.sendData({
+          version_name: version_name,
+          version_code: arr[2],
+          download_url: 'http://' + req.headers.host +
+            '/user_build/' + apk,
+        });
+      }
+    } else {
+      res.sendErrMsg('no apk');
+    }
+  }));
 }
+
+//jianfanjia_20151117_9999_1 - 0 - 99. apk
