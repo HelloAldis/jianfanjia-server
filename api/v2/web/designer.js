@@ -118,6 +118,7 @@ exports.email_info = function (req, res, next) {
 exports.designer_home_page = function (req, res, next) {
   var designerid = req.body._id;
   var userid = ApiUtil.getUserid(req);
+  var usertype = ApiUtil.getUsertype(req);
   var ep = new eventproxy();
   ep.fail(next);
 
@@ -125,7 +126,7 @@ exports.designer_home_page = function (req, res, next) {
     _id: designerid
   }, noPrivateInfo, ep.done(function (designer) {
     if (designer) {
-      if (userid) {
+      if (userid && usertype === type.role_user) {
         Favorite.findOne({
           userid: userid,
           favorite_designer: designerid,
