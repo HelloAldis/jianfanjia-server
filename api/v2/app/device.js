@@ -9,6 +9,7 @@ var ApiUtil = require('../../../common/api_util');
 var type = require('../../../type');
 var fs = require('fs');
 var path = require('path');
+var gt = require('../../../getui/gt.js');
 
 var apkDir = path.normalize(__dirname + '/../../../public/user_build');
 
