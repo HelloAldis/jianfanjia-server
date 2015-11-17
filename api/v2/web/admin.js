@@ -134,6 +134,27 @@ exports.update_product_auth = function (req, res, next) {
   }));
 }
 
+exports.search_share = function (req, res, next) {
+  var query = req.body.query;
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Share.paginate(query, null, {
+    sort: {
+      create_at: -1,
+    },
+    skip: skip,
+    limit: limit,
+  }, ep.done(function (shares, total) {
+    res.sendData({
+      shares: shares,
+      total: total
+    });
+  }));
+}
+
 exports.add = function (req, res, next) {
   var share = ApiUtil.buildShare(req);
   var designerid = tools.trim(req.body.designerid);

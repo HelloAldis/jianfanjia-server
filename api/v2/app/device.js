@@ -35,7 +35,7 @@ exports.android_build_version = function (req, res, next) {
       if (arr.length != 4) {
         res.sendErrMsg('bad apk');
       } else {
-        version_name = arr[3].split('.')[0].replace(/-/g, '.');
+        version_name = arr[3].replace(/.apk/g, '');
         res.sendData({
           version_name: version_name,
           version_code: arr[2],
