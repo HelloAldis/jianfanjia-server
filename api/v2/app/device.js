@@ -32,13 +32,14 @@ exports.android_build_version = function (req, res, next) {
     var apk = apks.pop();
     if (apk) {
       var arr = apk.split('_');
-      if (arr.length != 4) {
+      if (arr.length != 5) {
         res.sendErrMsg('bad apk');
       } else {
-        version_name = arr[3].replace(/.apk/g, '');
+        version_name = arr[4].replace(/.apk/g, '');
         res.sendData({
           version_name: version_name,
-          version_code: arr[2],
+          version_code: arr[3],
+          updatetype: arr[2],
           download_url: 'http://' + req.headers.host +
             '/user_build/' + apk,
         });
@@ -49,4 +50,4 @@ exports.android_build_version = function (req, res, next) {
   }));
 }
 
-//jianfanjia_20151117_9999_1 - 0 - 99. apk
+//jianfanjia_20151117_0_9999_1.0.99.apk
