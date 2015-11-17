@@ -280,7 +280,14 @@ body{
     height: 20px;
     background: url(../img/uploadify-cancel.png) center center no-repeat;
 }
-
+.previews-item .pic{
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+}
+.previews-item .pic img{
+    width: 100%;
+}
 .m-select{
     position: relative;
     z-index: 100;
@@ -422,6 +429,9 @@ body{
     border: 1px solid #dcdcdc;
     border-top: none;
     display: none;
+}
+.m-cities .select li{
+    list-style: none;
 }
 .m-cities .select a{
     display: block; 

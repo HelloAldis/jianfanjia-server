@@ -3,8 +3,12 @@
         .controller('IndexController', [
             '$scope',
             '$rootScope',
-            function($scope, $rootScope) {
+            '$state',
+            function($scope, $rootScope,$state) {
                 console.log('这是首页');
+                $scope.btn = function(){
+                	$state.go('^')
+                }
             }
         ]);
 })();

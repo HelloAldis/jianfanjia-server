@@ -6,15 +6,22 @@
   </div>
   <div class="form-group">
   	<label for="phone">设计师列表：</label>
-  	<select class="form-control" ng-model="dataMapped.designerid" ng-options="x.num as x.name for x in designer"></select>
+  	<select class="form-control" ng-model="dataMapped.designerid">
+       <option ng-repeat="v in designer" ng-selected="dataMapped.designerid == v.num" value="{{v.num}}">{{ v.name }}</option>
+    </select>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">项目经理：</label>
     <input type="text" class="form-control" ng-model="dataMapped.manager" placeholder="请输入项目经理">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">开工时间：[注意时间格式：2015-10-01]</label>
-    <input type="text" class="form-control" ng-model="dataMapped.start_at" placeholder="请输入时间例如：2015-09-01">
+    <label for="exampleInputPassword1">开工时间：</label>
+      <p class="input-group" style="width:50%">
+        <input type="text" class="form-control" uib-datepicker-popup ng-model="dataMapped.start_at" is-open="startTime.status.opened" datepicker-options="startTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="startTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">所在地区：</label>
@@ -37,7 +44,7 @@
   <div class="form-group">
     <label for="exampleInputPassword1">装修户型：</label>
     <select class="form-control" ng-model="dataMapped.house_type">
-      <option ng-repeat="d in house_type" ng-value="{{d.num}}">{{d.name}}</option>
+      <option ng-repeat="v in house_type" ng-selected="dataMapped.house_type == v.num" value="{{v.num}}">{{ v.name }}</option>
     </select>
   </div>
   <div class="form-group">
@@ -47,19 +54,19 @@
   <div class="form-group">
     <label for="exampleInputPassword1">装修风格：</label>
     <select class="form-control" ng-model="dataMapped.dec_style">
-      <option ng-repeat="d in dec_style" ng-value="{{d.num}}">{{d.name}}</option>
+      <option ng-repeat="v in dec_style" ng-selected="dataMapped.dec_style == v.num" value="{{v.num}}">{{ v.name }}</option>
     </select>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">装修类型：</label>
     <select class="form-control" ng-model="dataMapped.dec_type">
-      <option ng-repeat="d in dec_type" ng-value="{{d.num}}">{{d.name}}</option>
+      <option ng-repeat="v in dec_type" ng-selected="dataMapped.dec_type == v.num" value="{{v.num}}">{{ v.name }}</option>
     </select>
   </div>
    <div class="form-group">
     <label for="exampleInputPassword1">包工类型：</label>
     <select class="form-control" ng-model="dataMapped.work_type">
-      <option ng-repeat="d in work_type" ng-value="{{d.num}}">{{d.name}}</option>
+      <option ng-repeat="v in work_type" ng-selected="dataMapped.work_type == v.num" value="{{v.num}}">{{ v.name }}</option>
     </select>
   </div>
   <div class="form-group">
@@ -73,23 +80,30 @@
   <div class="form-group">
     <label for="exampleInputPassword1">当前阶段：</label>
     <select class="form-control" ng-model="dataMapped.processName">
-        <option ng-repeat="d in dec_flow" ng-value="{{d.num}}">{{d.name}}</option>
+      <option ng-repeat="v in dec_flow" ng-selected="dataMapped.processName == v.num" value="{{v.num}}">{{ v.name }}</option>
     </select>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">当前开始时间：[注意时间格式：2015-10-01]</label>
-    <input type="text" class="form-control" ng-model="dataMapped.processDate" placeholder="请输入时间例如：2015-09-01">
+    <p class="input-group" style="width:50%">
+      <input type="text" class="form-control" uib-datepicker-popup ng-model="dataMapped.processDate" is-open="processTime.status.opened" datepicker-options="processTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="processTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+      </span>
+    </p>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">上传装修效果图：</label>
     <div class="file">
       <p class="tips">*作品上传每张大小为3M以内jpeg/jpg/png格式图片,为了作品显示效果最佳，保证更张图宽度在900-1200之间。</p>
-      <div class="file-list f-cb" id="j-file-list">
+      <div>
+        <div class="file-list clearfix" id="j-file-list">
         <div class="create-item">
           <div class="pic" id="upload">
             <img src="jyz/img/uploadify.jpg" alt="上传图片" />
           </div>
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -102,7 +116,7 @@
 <script type="text/javascript">
 $(function(){    
   //删除作品列表图片
-  $('#decoration-live').delegate('.close','click',function(ev){
+  $('#j-file-list').delegate('.close','click',function(ev){
     ev.preventDefault();
     if($('#j-file-list').find('.previews-item').size() < 2){
       alert('至少保留一个作品效果图')

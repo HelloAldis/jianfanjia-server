@@ -2,17 +2,24 @@
 <form>
   <div class="form-group">
     <label for="">当前阶段：</label>
-    <div my-select my-list="process" my-query="processName"></div>
+    <select class="form-control" ng-model="process.processName">
+      <option ng-repeat="v in dec_flow" ng-selected="process.processName == v.id" value="{{v.id}}">{{ v.name }}</option>
+    </select>
   </div>
   <div class="form-group">
-    <label for="">当前开始时间：[注意时间格式：2015-10-01]</label>
-    <input type="text" class="form-control" ng-model="processDate" placeholder="请输入时间例如：2015-09-01">
+    <label for="">当前开始时间：</label>
+    <p class="input-group" style="width:50%">
+      <input type="text" class="form-control" uib-datepicker-popup ng-model="process.processDate" is-open="processTime.status.opened" datepicker-options="processTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="processTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+      </span>
+    </p>
   </div>
   <div class="form-group">
     <label for="">上传装修效果图：</label>
     <div class="file">
       <p class="tips">*作品上传每张大小为3M以内jpeg/jpg/png格式图片,为了作品显示效果最佳，保证更张图宽度在900-1200之间。</p>
-      <div class="file-list f-cb" id="j-file-list">
+      <div class="file-list clearfix" id="j-file-list">
         <div class="create-item">
           <div class="pic" id="upload">
             <img src="jyz/img/uploadify.jpg" alt="上传图片" />
@@ -23,17 +30,17 @@
   </div>
    <div class="form-group">
     <label for="">当前阶段描述：</label>
-    <textarea class="form-control" rows="3" ng-model="processDescription" placeholder="请输入当前阶段描述"></textarea>
+    <textarea class="form-control" rows="3" ng-model="process.processDescription" placeholder="请输入当前阶段描述"></textarea>
   </div>
   <div class="form-group">
     <button type="button" class="btn btn-success" ng-click="upDataLive()">更新装修直播</button>
-    <button type="button" class="btn btn-danger" ng-click="deleteLive()">删除装修直播</button>
+    <button type="button" class="btn btn-danger" ng-click="deleteLive()">删除当前阶段</button>
   </div>
 </form>
 <script type="text/javascript">
 //删除作品列表图片
 $(function(){
-  $('#decoration-live').delegate('.close','click',function(ev){
+  $('#j-file-list').delegate('.close','click',function(ev){
     ev.preventDefault();
     if($('#j-file-list').find('.previews-item').size() < 2){
       alert('至少保留一个作品效果图')

@@ -21,8 +21,7 @@
 	            });
 			};
 			return {
-				list : function(){return doRequest('designer/info/get');},
-				get : function(){return doRequest('designer/info/get');},
+				search : function(data){return doRequest('search',data);},
 				update : function(data){return doRequest('update',data);},
 				add : function(data){return doRequest('add',data);},
 				remove : function(data){return doRequest('delete',data);}

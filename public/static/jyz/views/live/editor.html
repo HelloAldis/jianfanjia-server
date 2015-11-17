@@ -13,8 +13,13 @@
     <input type="text" class="form-control" ng-model="dataMapped.manager" placeholder="请输入项目经理">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">开工时间：[注意时间格式：2015-10-01]</label>
-    <input type="text" class="form-control" ng-model="dataMapped.start_at" placeholder="请输入时间例如：2015-10-01">
+    <label for="exampleInputPassword1">开工时间：</label>
+    <p class="input-group" style="width:50%">
+        <input type="text" class="form-control" uib-datepicker-popup ng-model="dataMapped.start_at" is-open="startTime.status.opened" datepicker-options="startTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="startTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
   </div>
   <div class="form-group">
     <label for="">所在地区：</label>
@@ -25,28 +30,36 @@
     <input type="text" class="form-control" ng-model="dataMapped.cell" placeholder="请输入小区名称">
   </div>
   <div class="form-group">
-    <label for="">装修户型：</label>
-    <div my-select my-list="house_type" my-query="dataMapped.house_type"></div>
+    <label for="exampleInputPassword1">装修户型：</label>
+    <select class="form-control" ng-model="dataMapped.house_type">
+      <option ng-repeat="v in house_type" ng-selected="dataMapped.house_type == v.num" value="{{v.num}}">{{ v.name }}</option>
+    </select>
   </div>
   <div class="form-group">
-    <label for="">装修面积：(m&sup2;)[注意：只能填数字]</label>
+    <label for="exampleInputPassword1">装修面积：(m&sup2;)[注意：只能填数字]</label>
     <input type="text" class="form-control" ng-model="dataMapped.house_area" placeholder="请输入装修面积例如：100">
   </div>
   <div class="form-group">
-    <label for="">装修风格：</label>
-    <div my-select my-list="dec_style" my-query="dataMapped.dec_style"></div>
+    <label for="exampleInputPassword1">装修风格：</label>
+    <select class="form-control" ng-model="dataMapped.dec_style">
+      <option ng-repeat="v in dec_style" ng-selected="dataMapped.dec_style == v.num" value="{{v.num}}">{{ v.name }}</option>
+    </select>
   </div>
   <div class="form-group">
-    <label for="">装修类型：</label>
-    <div my-select my-list="dec_type" my-query="dataMapped.dec_type"></div>
+    <label for="exampleInputPassword1">装修类型：</label>
+    <select class="form-control" ng-model="dataMapped.dec_type">
+      <option ng-repeat="v in dec_type" ng-selected="dataMapped.dec_type == v.num" value="{{v.num}}">{{ v.name }}</option>
+    </select>
   </div>
    <div class="form-group">
-    <label for="">包工类型：</label>
-    <div my-select my-list="work_type" my-query="dataMapped.work_type"></div>
+    <label for="exampleInputPassword1">包工类型：</label>
+    <select class="form-control" ng-model="dataMapped.work_type">
+      <option ng-repeat="v in work_type" ng-selected="dataMapped.work_type == v.num" value="{{v.num}}">{{ v.name }}</option>
+    </select>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">装修造价：(万元)[注意：只能填数字]</label>
-    <input type="text" class="form-control" ng-model="dataMapped.total_price" placeholder="请输入装修造价例如：100">
+    <input type="text" class="form-control" ng-model="dataMapped.total_price" placeholder="请输入装修造价">
   </div>
    <div class="form-group">
     <label for="exampleInputPassword1">设计方案简介：</label>

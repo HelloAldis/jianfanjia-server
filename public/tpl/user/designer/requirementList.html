@@ -12,7 +12,7 @@
 						<a ui-sref="addProduct" class="u-btns">上传作品</a>
 					</div>
 				</li>
-				<li bindonce ng-repeat="data in requiremtnes" ng-click="goTo(data._id,data.status)">
+				<li bindonce ng-repeat="data in requiremtnes" ng-click="goTo(data._id,data.plan.status)">
 					<div class="boxs">
 						<div class="tt f-cb">
 							<h4 class="f-fl">

@@ -1,7 +1,12 @@
 'use strict';
+var globalUrl = 'http://101.200.191.159/';
 (function() {
     // load modules
     angular.module('myJyzApp', ['ui.router','ui.bootstrap', 'controllers', 'services', 'filters'])
+        .run(function($rootScope, $state, $stateParams) {
+            $rootScope.$state = $state;
+            $rootScope.$stateParams = $stateParams;
+        })
         .config(function($stateProvider, $urlRouterProvider) {
             var RootURl = '../../../static/jyz/';
             $urlRouterProvider.otherwise('/index');

@@ -65,9 +65,9 @@
         .filter('workTypeFilter', function () {     //习惯沟通方式
             return function (input) {
                 return {
-                    "0":"半包",
-                    "1":"全包",
-                    "2":"全包"
+                    "0":"设计＋施工(半包)",
+                    "1":"设计＋施工(全包)",
+                    "2":"纯设计"
                 }[input];
             };
         })

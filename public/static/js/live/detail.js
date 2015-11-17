@@ -4,32 +4,41 @@ $(function(){
     var $liveShow = $('#j-live-show');
 	//渲染生成列表
 	function loadList(){
-		$.getJSON(RootUrl+'api/v1/share/'+winHash,function(res){
-			var data = res['data'];
-			if(data != null){
-				$.getJSON(RootUrl+'api/v1/designer/'+data.designerid+'/basicinfo',function(res){
-					var info = res['data'];
-					if(info != null){
-						createList(data,info)
-						$(".imgLoad").scrollLoading();
-					}
-				})
+		$.ajax({
+			url: RootUrl+'api/v2/web/search_share',
+			type: 'POST',
+			dataType: 'json',
+			contentType : 'application/json; charset=utf-8',
+			data: JSON.stringify({
+			  "query":{
+			  	"_id": winHash
+			  },
+			  "from":0,
+			  "limit":1
+			}),
+			processData : false,
+		})
+		.done(function(res) {
+			if(res['data']['total'] === 1){
+				var data = res['data']['shares'][0];
+				createList(data)
+				$(".imgLoad").scrollLoading();
 			}
 		})
 	}
 	//渲染数据
-	function createList(data,info){
+	function createList(data){
 		$liveBanner.html("");
 		$liveShow.html("");
-		var head = info.imageid ? RootUrl+'api/v1/image/'+info.imageid : '../../static/img/public/headpic.jpg';
+		var head = data.designer.imageid ? RootUrl+'api/v1/image/'+data.designer.imageid : '../../static/img/public/headpic.jpg';
 		var sBanner = '<div class="g-wp">'
 				+'<h2>'+data.cell+'</h2>'
 			+'<p>参考造价：<strong>'+data.total_price+'</strong>万元<span>|</span>户型：'+globalData.house_type[data.house_type]+'<span>|</span>面积：'+data.house_area+'m&sup2;</p>'
 			+'<ul>'
 				+'<li>'
-					+'<a href="../design/homepage.html?'+info._id+'" class="head">'
-						+'<span class="head-pic"><img src="'+head+'" alt="'+info.username+'" /></span>'
-						+'<span class="head-name">'+info.username+'</span>'
+					+'<a href="../design/homepage.html?'+data.designer._id+'" class="head">'
+						+'<span class="head-pic"><img src="'+head+'" alt="'+data.designer.username+'" /></span>'
+						+'<span class="head-name">'+data.designer.username+'</span>'
 						+'<span class="head-name">设计师</span>'
 					+'</a>'
 				+'</li>'

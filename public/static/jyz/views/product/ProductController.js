@@ -158,7 +158,7 @@
 	            $scope.authList = [
 	            	{
 	            		id : "0",
-	            		name : '未通过',
+	            		name : '未审核',
 	            		cur : false 
 	            	},
 	            	{
