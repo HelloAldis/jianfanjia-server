@@ -24,11 +24,9 @@ exports.bindCid = function (req, res, next) {
 exports.android_build_version = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
-  console.log(apkDir);
+
   fs.readdir(apkDir, ep.done(function (apks) {
-    console.log(apks);
     apks.sort();
-    console.log(apks)
     var apk = apks.pop();
     if (apk) {
       var arr = apk.split('_');
