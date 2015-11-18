@@ -29,6 +29,7 @@
 					</dl>
 				</div>
 				<div class="select f-fr">
+					<!-- 正常需求情况 -->
 					<div ng-if="requirement.status == 0 || requirement.status == 1 || requirement.status == 2 || requirement.status == 6 || requirement.status == 3">
 						<p class="f-tar" ng-if="data.plan.status != 2 && data.plan.status != 6 && data.plan.status == 0">设计师正在响应中，请耐心等候！</p>
 						<p class="f-tar" ng-if="data.plan.status == 7">设计师无响应导致响应过期!<br /><br />
@@ -46,6 +47,7 @@
 						</div>
 						<p ng-class="{cur:data.plan.status == 2}" ng-if="(data.plan.status == 2 || data.plan.status == 6 || data.evaluation) && data.plan.status != 8">量房时间：<i bo-text="data.house_check_time"></i></p>
 					</div>
+					<!-- 需求完结状态 -->
 					<div ng-if="requirement.status == 4 || requirement.status == 5 || requirement.status == 7">
 						<p class="f-tar" ng-if="data.plan.status == 5">已中标</p>
 						<p class="f-tar" ng-if="data.plan.status == 4">未中标</p>

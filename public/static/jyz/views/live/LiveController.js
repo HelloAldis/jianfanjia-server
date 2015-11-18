@@ -294,13 +294,13 @@
             		process.push({
 					  	"name" : $scope.dataMapped.processName,
 					  	"description" : $scope.dataMapped.processDescription,
-					  	"date" : (new Date($scope.dataMapped.processDate)).getTime(),
+					  	"date" : (new Date($scope.dataMapped.processDate+"00:00:00")).getTime(),
 					  	"images" : images
 					});
             		var data = {
             			"designerid" : $scope.dataMapped.designerid,
             			"manager" : $scope.dataMapped.manager,
-            			"start_at" : (new Date($scope.dataMapped.start_at)).getTime(),
+            			"start_at" : (new Date($scope.dataMapped.start_at+"00:00:00")).getTime(),
             			"province" : findCityName($scope.dataMapped.province),
             			"city" : findCityName($scope.dataMapped.city),
             			"district" : findCityName($scope.dataMapped.district),
@@ -454,7 +454,7 @@
 	            	$scope.dataMapped.province = desArea.find('input[name=province]').val() || $scope.dataMapped.province;
 	            	$scope.dataMapped.city = desArea.find('input[name=city]').val() || $scope.dataMapped.city;
 	            	$scope.dataMapped.district = desArea.find('input[name=district]').val() || $scope.dataMapped.district;
-	            	$scope.dataMapped.start_at = (new Date($scope.dataMapped.start_at)).getTime();
+	            	$scope.dataMapped.start_at = (new Date($scope.dataMapped.start_at+"00:00:00")).getTime();
         			adminShare.update($scope.dataMapped).then(function(resp){
 	            		//返回信息
 	            		if(resp.data.msg === "success"){
@@ -528,7 +528,7 @@
 							$scope.shares.process.push({
 						  		"name" : $scope.process.processName,
 							  	"description" : $scope.process.processDescription,
-							  	"date" : (new Date($scope.process.processDate)).getTime(),
+							  	"date" : (new Date($scope.process.processDate+"00:00:00")).getTime(),
 							  	"images" : images
 							});
 							break;

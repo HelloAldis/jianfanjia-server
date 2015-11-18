@@ -89,7 +89,6 @@ angular.module('controllers', [])
         function($scope, $rootScope,$http,$filter,$location,$stateParams,$interval,userRequiremtne,initData){
             userRequiremtne.list().then(function(res){
                 $scope.requiremtnes = res.data.data;
-                console.log($scope.requiremtnes)
                 angular.forEach($scope.requiremtnes, function(value, key){
                     if(value){
                         if(value.dec_style){
@@ -101,11 +100,11 @@ angular.module('controllers', [])
                         if(value.house_type){
                            value.house_type = $filter('houseTypeFilter')(value.house_type); 
                         }
-                        if(value.status == 1){
-                           countDate(value,1,value.last_status_update_time)
+                        if(value.plan.status == 0){
+                           countDate(value,1,value.plan.last_status_update_time)
                         }
-                        if(value.status == 6){
-                           countDate(value,5,value.last_status_update_time)
+                        if(value.plan.status == 6){
+                           countDate(value,5,value.plan.last_status_update_time)
                         }
                     }
                 })
@@ -171,14 +170,11 @@ angular.module('controllers', [])
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,initData){
             var requiremtneId = $stateParams.id;
             $scope.$on('requirementParent',function(event, data){    //子级接收 
-                console.log(data.status)
                 if((data.plan.status == 3 || data.plan.status == 6 || data.plan.status == 4 || data.plan.status == 5) && (data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5)){  //选择方案
                     myPlan()
-                    console.log('提交方案')
                 }
                 if(data.status == 7 || data.status == 4 || data.status == 5){   //生成合同
                     myContract()
-                    console.log('生成合同')
                 }
             })
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
@@ -227,15 +223,15 @@ angular.module('controllers', [])
                 $scope.owenr.motaiAnswer = false;
             },
             answerOwenr : function(){    //响应业主提交
-                console.log($scope.owenr.startDate)
                 if(!$scope.owenr.startDate){
                     alert('请设置量房时间')
+                }else if($scope.owenr.startDate < (new Date()).getTime()){
+                    alert('设置量房不能小于当前时间')
                 }else{
-                    console.log($filter('date')($scope.owenr.startDate,'yyyy年MM月dd日 HH:mm:ss'))
                     userRequiremtne.answer({
                       "requirementid": requiremtneId,
                       "house_check_time": $scope.owenr.startDate
-                    }).then(function(res){    //获取我的方案列表
+                    }).then(function(res){ 
                         $scope.owenr.motaiAnswer = false;
                         uploadParent();
                     },function(res){
@@ -285,6 +281,8 @@ angular.module('controllers', [])
             setDefineBtn : function(){
                 if(!$scope.contracts.startDate){
                     alert('请设置开工时间')
+                }else if($scope.contracts.startDate < (new Date()).getTime()){
+                    alert('设置开工时间不能小于当前时间')
                 }else{
                     userRequiremtne.config({
                       "requirementid":requiremtneId,
@@ -525,7 +523,6 @@ angular.module('controllers', [])
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne){
             userRequiremtne.history().then(function(res){
                 $scope.historys = res.data.data;
-                console.log($scope.historys)
                 angular.forEach($scope.historys, function(value, key){
                     value.dec_style = $filter('decStyleFilter')(value.dec_style);
                     value.work_type = $filter('workTypeFilter')(value.work_type);

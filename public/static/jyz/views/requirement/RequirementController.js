@@ -60,13 +60,13 @@
                 };
                 $scope.endTime.today();
                 $scope.searchTimeBtn = function(){
-                    var start = new Date($scope.startTime.time).getTime();
-                    var end = new Date($scope.endTime.time).getTime();
+                    var start = new Date($scope.startTime.time+"00:00:00").getTime();
+                    var end = new Date($scope.endTime.time+"00:00:00").getTime();
                     if(start > end){
-                        alert('开始时间比结束时间大，请从新选择');
+                        alert('开始时间比结束时间大，请重新选择');
                         return ;
                     }if(end-start < 86400000){
-                        alert('结束时间必须必比开始时间大一天，请从新选择');
+                        alert('结束时间必须必比开始时间大一天，请重新选择');
                         return ;
                     }
                     $scope.loading.notData = false;
@@ -170,6 +170,20 @@
                         }
                     });
                 };
+                //重置清空状态
+                $scope.clearStatus = function(){
+                    $scope.userList = [];
+                    $scope.loadData = false;
+                    $scope.createAt = undefined;
+                    $scope.authType = undefined;
+                    $scope.pagination.currentPage = 1;
+                    $scope.startTime.time = '';
+                    $scope.endTime.time = '';
+                    angular.forEach($scope.authList, function(value, key) {
+                        value.cur = false;
+                    });
+                    loadList(1,10);
+                }
         	}
         ])
         .controller('RequirementDesignerController', [

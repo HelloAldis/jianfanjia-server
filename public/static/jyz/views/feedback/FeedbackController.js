@@ -4,6 +4,7 @@
         .controller('FeedbackController', [
             '$scope','$rootScope','adminApp',
             function($scope, $rootScope,adminApp) {
+                $scope.createAt = undefined;
                 //数据加载显示状态
                 $scope.loading = {
                     loadData : false,
@@ -58,33 +59,33 @@
                 };
                 $scope.endTime.today();
                 $scope.searchTimeBtn = function(){
-                    var start = new Date($scope.startTime.time).getTime();
-                    var end = new Date($scope.endTime.time).getTime()
+                    var start = new Date($scope.startTime.time+"00:00:00").getTime();
+                    var end = new Date($scope.endTime.time+"00:00:00").getTime()
                     if(start > end){
-                        alert('开始时间比结束时间大，请从新选择');
+                        alert('开始时间比结束时间大，请重新选择');
                         return ;
                     }if(end-start < 86400000){
-                        alert('结束时间必须必比开始时间大一天，请从新选择');
+                        alert('结束时间必须必比开始时间大一天，请重新选择');
                         return ;
+                    }
+                    $scope.createAt = {
+                        "$gte":start,
+                        "$lte":end
                     }
                     $scope.loading.loadData = false;
                     $scope.userList = undefined;
                     $scope.pagination.currentPage = 1;
-                    loadList(1,undefined,{start:start,end:end})
+                    loadList(1)
                 }
                 //加载数据
-                function loadList(from,limit,date){
+                function loadList(from,limit){
                     var data = {
-                          "query":{},
+                          "query":{
+                                create_at : $scope.createAt
+                          },
                           "from": (limit == undefined ? 0 : limit)*(from-1),
                           "limit":(limit == undefined ? undefined : limit)
                         }
-                    if(date){
-                        data.query.create_at = {
-                            "$gte":date.start,
-                            "$lte":date.end
-                        }
-                    }
                     adminApp.feedback(data).then(function(resp){
                         if(resp.data.data.total == 0){
                             $scope.loading.loadData = true;
@@ -103,6 +104,16 @@
                 }
                 //初始化
                 loadList(1,10);
+                //重置清空状态
+                $scope.clearStatus = function(){
+                    $scope.userList = [];
+                    $scope.loadData = false;
+                    $scope.createAt = undefined;
+                    $scope.pagination.currentPage = 1;
+                    $scope.startTime.time = '';
+                    $scope.endTime.time = '';
+                    loadList(1,10);
+                }
             }
         ]);
 })();

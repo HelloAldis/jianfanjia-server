@@ -432,6 +432,7 @@ angular.module('controllers', [])
                 },
                 scoreCancelBtn : function(){   //取消评价
                     $scope.score.motaiScore = false;
+                    this.clear();
                 },
                 scoreSubmitBtn : function(){    //提交评价
                     var This = this; 
@@ -446,8 +447,9 @@ angular.module('controllers', [])
                         if(res.data.msg == "success"){
                             uploadParent();
                             myBooking();
-                            myPlan()
+                            myPlan();
                             This.motaiScore = false;
+                            This.clear();
                             $location.path('requirement/'+requiremtneId+"/plan");
                         }
                     },function(res){
@@ -455,6 +457,7 @@ angular.module('controllers', [])
                     });
                 },
                 scoreDefineBtn : function(data){    //开启评价
+                    this.clear();
                     this.motaiDone = false;
                     this.motaiScore = true;
                 },
@@ -474,9 +477,23 @@ angular.module('controllers', [])
                         console.log(res)
                     });
                 },
-                scoreBtn : function(data){  
+                scoreBtn : function(data){
+                    this.clear();
                     this.motaiScore = true;
                     this.designerScore = data;
+                },
+                clear : function(){
+                    var This = this;
+                    This.scoreComment = '';
+                    This.anonymity = false;
+                    This.scoreRespond = "0";
+                    This.scoreService = "0";
+                    angular.forEach(initData.scorea, function(value, key){
+                        value.cur = '';
+                    });
+                    angular.forEach(initData.scoreb, function(value, key){
+                        value.cur = '';
+                    });
                 }
             }
         // 方案列表

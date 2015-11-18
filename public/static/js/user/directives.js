@@ -814,7 +814,7 @@ angular.module('directives', [])
               myQuery : "="
             },
             restrict: 'A',
-            template: '<div class="k-uploadbox f-cb"><div class="pic" id="create"><div class="fileBtn"><input class="hide" id="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_create"></div><div class="tips"><span><em></em><i></i></span><p>作品上传每张3M以内jpg</p></div></div><div class="item" ng-repeat="img in myQuery"><img ng-src="/api/v2/web/thumbnail/168/{{img}}" /></div></div>',
+            template: '<div class="k-uploadbox f-cb"><div class="pic" id="create"><div class="fileBtn"><input class="hide" id="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_create"></div><div class="tips"><span><em></em><i></i></span><p>作品上传每张3M以内jpg</p></div></div><div class="item" ng-repeat="img in myQuery"><span class="close" ng-click="removeImg($index,myQuery)"></span><div class="img"><img ng-src="/api/v2/web/thumbnail/168/{{img}}" /></div></div></div>',
             link: function($scope, iElm, iAttrs, controller){
                   var uploaderUrl = RootUrl+'api/v2/web/image/upload',
                     fileTypeExts = '*.jpg;*.png',
@@ -877,6 +877,18 @@ angular.module('directives', [])
                   };  
                   img.onerror=function(){alert("error!")};  
                   img.src=RootUrl+'api/v1/image/'+data.data;
+                }
+                $scope.removeImg = function(i,arr){
+                  if(arr.length < 2){
+                    alert('至少保留一张图片');
+                    return ;
+                  }
+                  if(confirm("你确定要删除吗？删除不能恢复")){
+                    arr.splice(i,1)
+                    $timeout(function () {
+                      $scope.myQuery = arr
+                    }, 0, false);
+                  }
                 }
             }
         };
@@ -1035,10 +1047,16 @@ angular.module('directives', [])
                   img.src=RootUrl+'api/v1/image/'+data.data;
                 }
                 $scope.removeImg = function(i,arr){
-                  arr.splice(i,1)
-                  $scope.$apply(function(){
-                    $scope.myQuery = arr
-                  });
+                  if(arr.length < 2){
+                    alert('至少保留一张图片');
+                    return ;
+                  }
+                  if(confirm("你确定要删除吗？删除不能恢复")){
+                    arr.splice(i,1)
+                    $timeout(function () {
+                      $scope.myQuery = arr
+                    }, 0, false);
+                  }
                 }
             }
         };
@@ -1212,6 +1230,14 @@ angular.module('directives', [])
                         sMonth = parseInt(oMonth.find('.value').html()) - 1;
                         createList(daysData,oDays);
                       }
+                      if(obj == oHour){
+                         sMonth = parseInt(oMonth.find('.value').html()) - 1;
+                         createList(daysData,oDays);
+                      }
+                      if(obj == oMinute){
+                         sMonth = parseInt(oMonth.find('.value').html()) - 1;
+                         createList(daysData,oDays);
+                      }
                       selectShow(obj);
                       return false;
                     });
@@ -1238,9 +1264,11 @@ angular.module('directives', [])
                         sDays = dataVal;
                       }
                       if(obj == oHour){
+                        createList(daysData,oDays);
                         sHour = dataVal;
                       }
                       if(obj == oMinute){
+                        createList(daysData,oDays);
                         sMinute = dataVal;
                       }
                       selectHide(obj)
@@ -1266,9 +1294,13 @@ angular.module('directives', [])
                 function getDate(){
                   $scope.$apply(function(){
                     if(_.indexOf(select,'hour') == -1){
+                      console.log(1)
                       var s = sYear +"/"+ (sMonth+1) +"/"+ sDays +" "+ "00:00:00";
                     }else if(_.indexOf(select,'minute') == -1){
-                      var s = sYear +"/"+ (sMonth+1) +"/"+ sDays +" "+ sHour +":"+ "00:00";
+                      console.log(2)
+                      var s = sYear +"/"+ (sMonth+1) +"/"+ sDays +" "+ sHour +":00:00";
+                    }else if(_.indexOf(select,'second') == -1){
+                      var s = sYear +"/"+ (sMonth+1) +"/"+ sDays +" "+ sHour +":"+ sMinute+ ":00";
                     }else{
                       var s = sYear +"/"+ (sMonth+1) +"/"+ sDays +" "+ sHour +":"+ sMinute +":"+ sSecond;
                     }
