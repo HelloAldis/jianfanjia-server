@@ -6,7 +6,7 @@
                 //全局标识，解决筛选和分页问题
                 $scope.phone = undefined; 
                 $scope.createAt = undefined;
-                $scope.searchDesigner = undefined;
+                $scope.searchUser = undefined;
                 //数据加载显示状态
                 $scope.loading = {
                     loadData : false,
@@ -61,13 +61,13 @@
                 };
                 $scope.endTime.today();
                 $scope.searchTimeBtn = function(){
-                    var start = new Date($scope.startTime.time).getTime();
-                    var end = new Date($scope.endTime.time).getTime();
+                    var start = new Date($scope.startTime.time+"00:00:00").getTime();
+                    var end = new Date($scope.endTime.time+"00:00:00").getTime();
                     if(start > end){
-                        alert('开始时间比结束时间大，请从新选择');
+                        alert('开始时间比结束时间大，请重新选择');
                         return ;
                     }if(end-start < 86400000){
-                        alert('结束时间必须必比开始时间大一天，请从新选择');
+                        alert('结束时间必须必比开始时间大一天，请重新选择');
                         return ;
                     }
                     $scope.phone = $scope.searchUser;
@@ -119,6 +119,18 @@
                     $scope.pagination.currentPage = 1;
                     loadList(1);
                 }
+                //重置清空状态
+                $scope.clearStatus = function(){
+                    $scope.userList = [];
+                    $scope.loadData = false;
+                    $scope.phone = undefined;
+                    $scope.createAt = undefined;
+                    $scope.searchUser = undefined;
+                    $scope.pagination.currentPage = 1;
+                    $scope.startTime.time = '';
+                    $scope.endTime.time = '';
+                    loadList(1);
+                }  
             }
         ])
         .controller('UserInfoController', [

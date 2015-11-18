@@ -29,6 +29,11 @@
 <ul class="list-inline">
 	<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id)">{{auth.name}}</button></li>
 </ul>
+<br />
+<div>
+	<button type="button" class="btn btn-danger" ng-click="clearStatus()">重置清空还原</button>
+</div>
+<br />
 <div class="panel panel-info ng-scope">
 	<table class="table table-bordered">
 		<tbody>
