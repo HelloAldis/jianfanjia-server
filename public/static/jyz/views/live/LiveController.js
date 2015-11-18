@@ -523,7 +523,7 @@
 					aPreviewsItem.each(function(i,el){
 						images.push($(el).data('imgid'))
 					});
-					for (var i = 0,len = $scope.shares.process.length-1; i < len; i++) {
+					for (var i = 0,len = $scope.shares.process.length; i < len; i++) {
 						if(i != $scope.process.processName){
 							$scope.shares.process.push({
 						  		"name" : $scope.process.processName,
