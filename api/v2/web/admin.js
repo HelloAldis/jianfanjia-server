@@ -147,11 +147,25 @@ exports.search_share = function (req, res, next) {
     },
     skip: skip,
     limit: limit,
-  }, ep.done(function (shares, total) {
-    res.sendData({
-      shares: shares,
-      total: total
-    });
+  }, ep.done(function (shares, totals) {
+    async.mapLimit(shares, 3, function (share, callback) {
+      Designer.findOne({
+        _id: share.designerid
+      }, {
+        _id: 1,
+        username: 1,
+        imageid: 1
+      }, function (err, designer_indb) {
+        var s = share.toObject();
+        s.designer = designer_indb;
+        callback(err, s);
+      });
+    }, ep.done(function (results) {
+      res.sendData({
+        shares: results,
+        total: totals
+      });
+    }));
   }));
 }
 
