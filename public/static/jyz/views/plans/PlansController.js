@@ -72,6 +72,7 @@
                     $scope.loading.notData = false;
                     $scope.loading.loadData = false;
                     $scope.userList = undefined;
+                    $scope.pagination.currentPage = 1;
                     $scope.createAt = {
                         "$gte":start,
                         "$lte":end
