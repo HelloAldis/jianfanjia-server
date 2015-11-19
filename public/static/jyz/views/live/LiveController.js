@@ -294,13 +294,13 @@
             		process.push({
 					  	"name" : $scope.dataMapped.processName,
 					  	"description" : $scope.dataMapped.processDescription,
-					  	"date" : (new Date($scope.dataMapped.processDate+"00:00:00")).getTime(),
+					  	"date" : (new Date($scope.dataMapped.processDate)).getTime(),
 					  	"images" : images
 					});
             		var data = {
             			"designerid" : $scope.dataMapped.designerid,
             			"manager" : $scope.dataMapped.manager,
-            			"start_at" : (new Date($scope.dataMapped.start_at+"00:00:00")).getTime(),
+            			"start_at" : (new Date($scope.dataMapped.start_at)).getTime(),
             			"province" : findCityName($scope.dataMapped.province),
             			"city" : findCityName($scope.dataMapped.city),
             			"district" : findCityName($scope.dataMapped.district),
@@ -528,7 +528,7 @@
 							$scope.shares.process.push({
 						  		"name" : $scope.process.processName,
 							  	"description" : $scope.process.processDescription,
-							  	"date" : (new Date($scope.process.processDate+"00:00:00")).getTime(),
+							  	"date" : (new Date($scope.process.processDate)).getTime(),
 							  	"images" : images
 							});
 							break;

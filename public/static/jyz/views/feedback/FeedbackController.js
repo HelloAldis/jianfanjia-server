@@ -59,8 +59,8 @@
                 };
                 $scope.endTime.today();
                 $scope.searchTimeBtn = function(){
-                    var start = new Date($scope.startTime.time+"00:00:00").getTime();
-                    var end = new Date($scope.endTime.time+"00:00:00").getTime()
+                    var start = new Date($scope.startTime.time).getTime();
+                    var end = new Date($scope.endTime.time).getTime()
                     if(start > end){
                         alert('开始时间比结束时间大，请重新选择');
                         return ;
