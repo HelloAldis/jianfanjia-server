@@ -469,6 +469,8 @@ exports.user_ordered_designers = function (req, res, next) {
         uid_auth_type: 1,
         work_auth_type: 1,
         email_auth_type: 1,
+        service_attitude: 1,
+        respond_speed: 1,
       }, null, ep.done(function (designers) {
         async.mapLimit(designers, 3, function (designer, callback) {
           Plan.find({
