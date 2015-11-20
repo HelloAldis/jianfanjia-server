@@ -23,10 +23,12 @@ Plan.find({}, null, function (err, plans) {
         project_price_before_discount += plan.price_detail[i].price;
       }
 
-      if (plan.project_price_before_discount && plan.project_price_before_discount !=
-        project_price_before_discount) {
-        plan.project_price_before_discount =
-          project_price_before_discount;
+      if (plan.project_price_before_discount) {
+        if (plan.project_price_before_discount !=
+          project_price_before_discount) {
+          plan.project_price_before_discount =
+            project_price_before_discount;
+        }
       } else {
         plan.project_price_before_discount =
           project_price_before_discount;
