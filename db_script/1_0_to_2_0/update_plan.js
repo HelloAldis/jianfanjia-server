@@ -10,35 +10,48 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../type');
 
-Plan.find({
-  project_price_after_discount: {
-    $exists: false
-  }
-}, null, function (err, plans) {
+Plan.find({}, null, function (err, plans) {
   plans.forEach(function (plan) {
     if (plan.price_detail && plan.price_detail.length > 0) {
-      console.log(plan);
-      var design_fee_index = -1;
+      var bt = plan.total_price;
+      var bpa = plan.project_price_after_discount;
+      var bpb = plan.project_price_before_discount;
+      var bte = plan.total_design_fee;
+
+      var project_price_before_discount = 0;
       for (var i = 0; i < plan.price_detail.length; i++) {
-        if (plan.price_detail[i].item === '设计费') {
-          design_fee_index = i;
-          break;
-        }
+        project_price_before_discount += plan.price_detail[i].price;
       }
 
-      if (design_fee_index > -1) {
-        plan.total_design_fee = plan.price_detail[design_fee_index].price
-        plan.project_price_after_discount = plan.total_price - plan.total_design_fee;
-        plan.project_price_before_discount = plan.project_price_after_discount;
-        plan.price_detail.splice(design_fee_index, 1);
-
-        plan.save(function () {
-          console.log("total :" + plan.total_price +
-            " project_price_after_discount:" + plan.project_price_after_discount +
-            " project_price_before_discount:" + plan.project_price_before_discount +
-            " total_design_fee:" + plan.total_design_fee);
-        });
+      if (plan.project_price_before_discount && plan.project_price_before_discount !=
+        project_price_before_discount) {
+        plan.project_price_before_discount =
+          project_price_before_discount;
+      } else {
+        plan.project_price_before_discount =
+          project_price_before_discount;
       }
+
+      if (!plan.project_price_after_discount) {
+        plan.project_price_after_discount =
+          project_price_before_discount;
+      }
+
+      if (!plan.total_design_fee) {
+        plan.total_design_fee = 0;
+      }
+
+      plan.total_price = plan.project_price_after_discount + plan.total_design_fee;
+      plan.save(function () {
+        console.log("before change total :" + bt +
+          " project_price_after_discount:" + bpa +
+          " project_price_before_discount:" + bpb +
+          " total_design_fee:" + bte);
+        console.log("after change total :" + plan.total_price +
+          " project_price_after_discount:" + plan.project_price_after_discount +
+          " project_price_before_discount:" + plan.project_price_before_discount +
+          " total_design_fee:" + plan.total_design_fee);
+      });
     }
   });
 });
