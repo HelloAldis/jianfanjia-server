@@ -543,24 +543,61 @@ exports.update_designer_online_status = function (req, res, next) {
   }));
 }
 
-exports.ueditor = function (req, res, next) {
+exports.ueditor_get = function (req, res, next) {
   var action = req.query.action;
 
   switch (action) {
     case 'config':
       res.json(ue_config);
       break;
+    default:
+      res.sendErrMsg('请求地址有误');
+      break;
+  }
+}
+
+exports.ueditor_post = function (req, res, next) {
+  var action = req.query.action;
+
+  switch (action) {
     case 'uploadimage':
-      res.json({
-        'url': '/test/url',
-        'title': 'test title',
-        'original': 'test original',
-        'state': 'SUCCESS',
-      });
+      var data = req.file.buffer;
+      var userid = ApiUtil.getUserid(req);
+      var md5 = utility.md5(data);
+
+      Image.findOne({
+        'md5': md5,
+        'userid': userid
+      }, null, ep.done(function (image) {
+        if (image) {
+          res.json({
+            url: image._id,
+            title: req.file.originalname,
+            original: req.file.originalname,
+            state: 'SUCCESS',
+          });
+        } else {
+          imageUtil.jpgbuffer(data, ep.done(function (buf) {
+            Image.newAndSave(md5, buf, userid, ep.done(function (
+              savedImage) {
+              res.json({
+                url: savedImage._id,
+                title: req.file.originalname,
+                original: req.file.originalname,
+                state: 'SUCCESS',
+              });
+            }));
+          }));
+        }
+      }));
       break;
     default:
       res.sendErrMsg('请求地址有误');
       break;
   }
-
 }
+
+/*
+23/Nov/2015:03:54:44 +0000 59.173.226.250 - POST multipart/form-data; boundary=----WebKitFormBoundaryPqxOft0UM8AyRZp5
+/api/v2/web/admin/ueditor?action=uploadimage HTTP/1.1/Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36 200 85 - 0.588 ms
+*/
