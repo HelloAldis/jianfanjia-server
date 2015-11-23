@@ -560,6 +560,8 @@ exports.ueditor_get = function (req, res, next) {
 }
 
 exports.ueditor_post = function (req, res, next) {
+  var ep = eventproxy();
+  ep.fail(next);
   var action = req.query.action;
 
   switch (action) {
