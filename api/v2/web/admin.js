@@ -8,6 +8,7 @@ var Product = require('../../../proxy').Product;
 var ApiStatistic = require('../../../proxy').ApiStatistic;
 var Requirement = require('../../../proxy').Requirement;
 var Evaluation = require('../../../proxy').Evaluation;
+var Image = require('../../../proxy').Image;
 var Plan = require('../../../proxy').Plan;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
