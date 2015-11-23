@@ -598,6 +598,7 @@ exports.ueditor_post = function (req, res, next) {
 }
 
 /*
+/api/v2/web/admin/ueditor?action=uploadimage
 23/Nov/2015:03:54:44 +0000 59.173.226.250 - POST multipart/form-data; boundary=----WebKitFormBoundaryPqxOft0UM8AyRZp5
 /api/v2/web/admin/ueditor?action=uploadimage HTTP/1.1/Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36 200 85 - 0.588 ms
 */

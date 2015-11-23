@@ -141,6 +141,6 @@ router.post('/admin/search_angel_user', auth.adminRequired, tempUserApi.search_t
 //ueditor
 router.get('/admin/ueditor', auth.adminRequired, admin.ueditor_get); //ueditor
 router.post('/admin/ueditor', auth.adminRequired, upload.single('Filedata'),
-  admin.ueditor_get); //ueditor
+  admin.ueditor_post); //ueditor
 
 module.exports = router;
