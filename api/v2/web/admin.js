@@ -19,6 +19,8 @@ var type = require('../../../type');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var sms = require('../../../common/sms');
+var utility = require('utility');
+var imageUtil = require('../../../common/image_util');
 
 exports.login = function (req, res, next) {
   if (req.body.username === 'sunny' && req.body.pass === '!@Jyz20150608#$') {
