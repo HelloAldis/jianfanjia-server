@@ -300,3 +300,15 @@ exports.buildEvaluation = function (req) {
 
   return evaluation;
 }
+
+exports.buildArticle = function (req) {
+  var article = {};
+  article.title = req.body.title;
+  article.keywords = req.body.keywords;
+  article.cover_imageid = req.body.cover_imageid ? new ObjectId(req.body.cover_imageid) :
+    undefined;
+  article.description = req.body.description;
+  article.content = req.body.content;
+
+  return article;
+}

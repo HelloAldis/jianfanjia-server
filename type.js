@@ -141,6 +141,11 @@ var type = {
   wechat_Event_subscribe: 'subscribe',
   wechat_Event_SCAN: 'SCAN',
   wechat_token: 'wechat_token',
+
+  articletype_dec_strategy: '0',
+
+  article_status_private: '0',
+  article_status_public: '1',
 }
 
 module.exports = type;

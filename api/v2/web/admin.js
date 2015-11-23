@@ -8,6 +8,7 @@ var Product = require('../../../proxy').Product;
 var ApiStatistic = require('../../../proxy').ApiStatistic;
 var Requirement = require('../../../proxy').Requirement;
 var Evaluation = require('../../../proxy').Evaluation;
+var DecStrategy = require('../../../proxy').DecStrategy;
 var Image = require('../../../proxy').Image;
 var Plan = require('../../../proxy').Plan;
 var tools = require('../../../common/tools');
@@ -602,8 +603,59 @@ exports.ueditor_post = function (req, res, next) {
   }
 }
 
+
 /*
-/api/v2/web/admin/ueditor?action=uploadimage
-23/Nov/2015:03:54:44 +0000 59.173.226.250 - POST multipart/form-data; boundary=----WebKitFormBoundaryPqxOft0UM8AyRZp5
-/api/v2/web/admin/ueditor?action=uploadimage HTTP/1.1/Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36 200 85 - 0.588 ms
+23/Nov/2015:07:52:27 +0000 59.173.226.250 - GET - /api/v2/web/admin/ueditor?action=listimage&start=0&size=20&noCache=1448265381556
+HTTP/1.1/Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36 200 32 - 0.604 ms
 */
+
+exports.add_article = function (req, res, next) {
+  var article = ApiUtil.buildArticle(req);
+  var articletype = req.body.articletype;
+  article.status = type.article_status_private;
+  article.authorid = ApiUtil.getUserid(req);
+  article.usertype = ApiUtil.getUsertype(req);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  switch (articletype) {
+    case type.articletype_dec_strategy:
+      DecStrategy.newAndSave(article, ep.done(function (dec_strategy) {
+        res.sendSuccessMsg();
+      }));
+      break;
+    default:
+      res.sendErrMsg('请求articletype类型错误');
+  }
+}
+
+exports.search_article = function (req, res, next) {
+  var query = req.body.query || {};
+  var sort = req.body.sort || {
+    create_at: -1
+  };
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
+  var articletype = req.body.articletype;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  switch (articletype) {
+    case type.articletype_dec_strategy:
+      DecStrategy.paginate(query, {
+        title: 1
+      }, {
+        sort: sort,
+        skip: skip,
+        limit: limit
+      }, ep.done(function (articles, total) {
+        res.sendData({
+          articles: articles,
+          total: total
+        });
+      }));
+      break;
+    default:
+      res.sendErrMsg('请求articletype类型错误');
+  }
+}

@@ -37,6 +37,16 @@ var app = express();
 // configuration in all env
 app.enable('trust proxy');
 
+//config view engine
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'html');
+app.engine('html', require('ejs').__express);
+if (config.debug) {
+  app.set('view cache', false);
+} else {
+  app.set('view cache', true);
+}
+
 app.use(compression());
 // 通用的中间件
 app.use(require('response-time')());

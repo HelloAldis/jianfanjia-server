@@ -9,7 +9,7 @@ var ApiUtil = require('../../../common/api_util');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var utility = require('utility');
-var imageUtil = require('../../../common/image_util')
+var imageUtil = require('../../../common/image_util');
 
 exports.add = function (req, res, next) {
   var ep = eventproxy();
