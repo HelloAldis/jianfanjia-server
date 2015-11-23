@@ -12,6 +12,7 @@ var Plan = require('../../../proxy').Plan;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../apiconfig');
+var ue_config = require('../../../ueditor/ue_config');
 var async = require('async');
 var ApiUtil = require('../../../common/api_util');
 var type = require('../../../type');
@@ -540,4 +541,26 @@ exports.update_designer_online_status = function (req, res, next) {
   }, {}, ep.done(function (designer) {
     res.sendSuccessMsg();
   }));
+}
+
+exports.ueditor = function (req, res, next) {
+  var action = req.query.action;
+
+  switch (action) {
+    case 'config':
+      res.json(ue_config);
+      break;
+    case 'uploadimage':
+      res.json({
+        'url': '/test/url',
+        'title': 'test title',
+        'original': 'test original',
+        'state': 'SUCCESS',
+      });
+      break;
+    default:
+      res.sendErrMsg('请求地址有误');
+      break;
+  }
+
 }
