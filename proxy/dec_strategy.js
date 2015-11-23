@@ -5,7 +5,6 @@ var uuid = require('node-uuid');
 exports.newAndSave = function (json, callback) {
   var decStrategy = new DecStrategy(json);
   decStrategy.lastupdate = new Date().getTime();
-  decStrategy.create_at = decStrategy.lastupdate;
   decStrategy.save(callback);
 };
 

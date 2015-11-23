@@ -309,6 +309,7 @@ exports.buildArticle = function (req) {
     undefined;
   article.description = req.body.description;
   article.content = req.body.content;
+  article.create_at = req.body.create_at || new Date().getTime();
 
   return article;
 }
