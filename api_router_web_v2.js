@@ -139,6 +139,6 @@ router.post('/admin/update_designer_online_status', auth.adminRequired, admin.up
 router.post('/admin/search_plan', auth.adminRequired, admin.search_plan); //管理员搜索方案
 router.post('/admin/search_angel_user', auth.adminRequired, tempUserApi.search_temp_user); //搜索天使用户
 //ueditor
-router.post('/admin/ueditor', auth.adminRequired, admin.ueditor); //ueditor
+router.all('/admin/ueditor', auth.adminRequired, admin.ueditor); //ueditor
 
 module.exports = router;
