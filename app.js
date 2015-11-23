@@ -41,7 +41,7 @@ app.use(compression());
 // 通用的中间件
 app.use(require('response-time')());
 app.use(timeout('20s'));
-app.use(helmet.frameguard('deny')); // 防止 clickjacking attacks
+app.use(helmet.frameguard('sameorigin')); // 防止 clickjacking attacks
 app.use(helmet.hidePoweredBy({
   setTo: 'PHP 4.2.0'
 })); //伪造poweredby
