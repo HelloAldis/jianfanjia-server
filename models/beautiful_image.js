@@ -2,20 +2,33 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
-var DecStrategySchema = new Schema({
+var BeautifulImageSchema = new Schema({
   title: {
     type: String,
-  },
-  keywords: {
-    type: String,
-  },
-  cover_imageid: {
-    type: ObjectId,
   },
   description: {
     type: String,
   },
-  content: {
+  images: {
+    type: {
+      imageid: {
+        type: ObjectId,
+      },
+      width: {
+        type: Number,
+      },
+      height: {
+        type: Number,
+      },
+    }
+  },
+  dec_type: {
+    type: String,
+  },
+  house_type: {
+    type: String,
+  },
+  dec_style: {
     type: String,
   },
   authorid: {
@@ -36,10 +49,11 @@ var DecStrategySchema = new Schema({
   view_count: {
     type: Number,
     default: 0,
-  }
+  },
 });
 
-// DecStrategySchema.index({
-// });
+BeautifulImageSchema.index({
+  topicid: 1
+});
 
-mongoose.model('DecStrategy', DecStrategySchema);
+mongoose.model('BeautifulImage', BeautifulImageSchema);

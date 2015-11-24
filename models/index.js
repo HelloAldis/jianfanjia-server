@@ -28,6 +28,7 @@ require('./comment');
 require('./evaluation');
 require('./kpi');
 require('./dec_strategy');
+require('./beautiful_image');
 
 exports.User = mongoose.model('User');
 exports.Designer = mongoose.model('Designer');
@@ -48,3 +49,4 @@ exports.Comment = mongoose.model('Comment');
 exports.Evaluation = mongoose.model('Evaluation');
 exports.Kpi = mongoose.model('Kpi');
 exports.DecStrategy = mongoose.model('DecStrategy');
+exports.BeautifulImage = mongoose.model('BeautifulImage');

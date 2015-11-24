@@ -1,40 +1,41 @@
 var models = require('../models');
-var DecStrategy = models.DecStrategy;
+var BeautifulImage = models.BeautifulImage;
 var uuid = require('node-uuid');
 
 exports.newAndSave = function (json, callback) {
-  var decStrategy = new DecStrategy(json);
-  decStrategy.lastupdate = new Date().getTime();
-  decStrategy.save(callback);
+  var beautifulImage = new BeautifulImage(json);
+  beautifulImage.create_at = new Date().getTime();
+  beautifulImage.lastupdate = beautifulImage.create_at;
+  beautifulImage.save(callback);
 };
 
 exports.removeOne = function (query, option, callback) {
-  DecStrategy.findOneAndRemove(query, option, callback)
+  BeautifulImage.findOneAndRemove(query, option, callback)
 };
 
 exports.setOne = function (query, update, option, callback) {
   update.lastupdate = new Date().getTime();
-  DecStrategy.findOneAndUpdate(query, {
+  BeautifulImage.findOneAndUpdate(query, {
     $set: update
   }, option, callback);
 }
 
 exports.incOne = function (query, update, option, callback) {
-  DecStrategy.findOneAndUpdate(query, {
+  BeautifulImage.findOneAndUpdate(query, {
     $inc: update
   }, option, function (err) {});
 }
 
 exports.find = function (query, project, option, callback) {
-  DecStrategy.find(query, project, option, callback);
+  BeautifulImage.find(query, project, option, callback);
 }
 
 exports.findOne = function (query, project, callback) {
-  DecStrategy.findOne(query, project, callback);
+  BeautifulImage.findOne(query, project, callback);
 }
 
 exports.paginate = function (query, project, option, callback) {
-  DecStrategy.count(query, function (err, count) {
+  BeautifulImage.count(query, function (err, count) {
     if (err) {
       return callback(err, null);
     }

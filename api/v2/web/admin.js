@@ -9,6 +9,7 @@ var ApiStatistic = require('../../../proxy').ApiStatistic;
 var Requirement = require('../../../proxy').Requirement;
 var Evaluation = require('../../../proxy').Evaluation;
 var DecStrategy = require('../../../proxy').DecStrategy;
+var BeautifulImage = require('../../../proxy').BeautifulImage;
 var Image = require('../../../proxy').Image;
 var Plan = require('../../../proxy').Plan;
 var tools = require('../../../common/tools');
@@ -629,6 +630,28 @@ exports.add_article = function (req, res, next) {
   }
 }
 
+exports.update_article = function (req, res, next) {
+  var article = ApiUtil.buildArticle(req);
+  var articletype = req.body.articletype;
+  var _id = req.body._id;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  switch (articletype) {
+    case type.articletype_dec_strategy:
+      DecStrategy.setOne({
+          _id: _id
+        },
+        article, null, ep.done(function (dec_strategy) {
+          res.sendSuccessMsg();
+        }));
+      break;
+    default:
+      res.sendErrMsg('请求articletype类型错误');
+  }
+}
+
+
 exports.search_article = function (req, res, next) {
   var query = req.body.query || {};
   var sort = req.body.sort || {
@@ -643,7 +666,10 @@ exports.search_article = function (req, res, next) {
   switch (articletype) {
     case type.articletype_dec_strategy:
       DecStrategy.paginate(query, {
-        title: 1
+        title: 1,
+        create_at: 1,
+        lastupdate: 1,
+        status: 1,
       }, {
         sort: sort,
         skip: skip,
@@ -658,4 +684,58 @@ exports.search_article = function (req, res, next) {
     default:
       res.sendErrMsg('请求articletype类型错误');
   }
+}
+
+exports.add_beautiful_image = function (req, res, next) {
+  var beautifulImage = ApiUtil.buildBeautifulImage(req);
+  beautifulImage.status = type.beautiful_image_status_private;
+  beautifulImage.authorid = ApiUtil.getUserid(req);
+  beautifulImage.usertype = ApiUtil.getUsertype(req);
+
+  var ep = eventproxy();
+  ep.fail(next);
+
+  BeautifulImage.newAndSave(beautifulImage, ep.done(function (beautifulImage) {
+    res.sendSuccessMsg();
+  }));
+}
+
+exports.update_beautiful_image = function (req, res, next) {
+  var beautifulImage = ApiUtil.buildBeautifulImage(req);
+  var _id = req.body._id;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  BeautifulImage.setOne({
+    _id: _id
+  }, beautifulImage, null, ep.done(function (beautifulImage) {
+    res.sendSuccessMsg();
+  }));
+}
+
+exports.search_beautiful_image = function (req, res, next) {
+  var query = req.body.query || {};
+  var sort = req.body.sort || {
+    create_at: -1
+  };
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  BeautifulImage.paginate(query, {
+    title: 1,
+    create_at: 1,
+    lastupdate: 1,
+    status: 1,
+  }, {
+    sort: sort,
+    skip: skip,
+    limit: limit
+  }, ep.done(function (beautifulImages, total) {
+    res.sendData({
+      beautifulImages: beautifulImages,
+      total: total
+    });
+  }));
 }

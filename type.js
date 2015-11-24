@@ -146,6 +146,9 @@ var type = {
 
   article_status_private: '0',
   article_status_public: '1',
+
+  beautiful_image_status_private: '0',
+  beautiful_image_status_public: '1',
 }
 
 module.exports = type;
