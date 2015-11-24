@@ -651,7 +651,6 @@ exports.update_article = function (req, res, next) {
   }
 }
 
-
 exports.search_article = function (req, res, next) {
   var query = req.body.query || {};
   var sort = req.body.sort || {
@@ -663,14 +662,19 @@ exports.search_article = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
+  var project = null;
+  if (limit > 1) {
+    project = {
+      title: 1,
+      create_at: 1,
+      lastupdate: 1,
+      status: 1,
+    };
+  }
+
   switch (articletype) {
     case type.articletype_dec_strategy:
-      DecStrategy.paginate(query, {
-        title: 1,
-        create_at: 1,
-        lastupdate: 1,
-        status: 1,
-      }, {
+      DecStrategy.paginate(query, project, {
         sort: sort,
         skip: skip,
         limit: limit
@@ -723,12 +727,17 @@ exports.search_beautiful_image = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  BeautifulImage.paginate(query, {
-    title: 1,
-    create_at: 1,
-    lastupdate: 1,
-    status: 1,
-  }, {
+  var project = null;
+  if (limit > 1) {
+    project = {
+      title: 1,
+      create_at: 1,
+      lastupdate: 1,
+      status: 1,
+    };
+  }
+
+  BeautifulImage.paginate(query, project, {
     sort: sort,
     skip: skip,
     limit: limit
