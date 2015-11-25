@@ -123,47 +123,62 @@ exports.user_signup = function (req, res, next) {
     return res.sendErrMsg('信息不完整。');
   }
 
+  ep.on('phone_ok', function () {
+    //用户名手机号验证通过
+    VerifyCode.findOne({
+      phone: phone
+    }, ep.done(function (verifyCode) {
+      if (config.need_verify_code) {
+        if (!verifyCode) {
+          return res.sendErrMsg('验证码不对或已过期');
+        }
+
+        if (verifyCode.code !== code) {
+          return res.sendErrMsg('验证码不对或已过期');
+        }
+      }
+
+      tools.bhash(pass, ep.done(function (passhash) {
+        User.newAndSave({
+          pass: passhash,
+          phone: phone,
+          username: '用户' + phone.slice(-4),
+        }, ep.done(function (user_indb) {
+          // store session cookie
+          authMiddleWare.gen_session(user_indb,
+            usertype, req, res);
+
+          var data = {};
+          data.usertype = type.role_user;
+          data.phone = user_indb.phone;
+          data.username = user_indb.username;
+          data._id = user_indb._id;
+          data.imageid = user_indb.imageid;
+          res.sendData(data);
+        }));
+      }));
+    }));
+  });
+
+  //检查phone是不是被用了
+  ep.all('user', 'designer', function (user, designer) {
+    if (user || designer) {
+      return res.sendErrMsg('手机号码已被使用');
+    } else {
+      ep.emit('phone_ok');
+    }
+  });
+
   User.findOne({
     phone: phone
   }, null, ep.done(function (user) {
-    if (user) {
-      return res.sendErrMsg('手机号码已被使用');
-    } else {
-      //用户名手机号验证通过
-      VerifyCode.findOne({
-        phone: phone
-      }, ep.done(function (verifyCode) {
-        if (config.need_verify_code) {
-          if (!verifyCode) {
-            return res.sendErrMsg('验证码不对或已过期');
-          }
+    ep.emit('user', user);
+  }));
 
-          if (verifyCode.code !== code) {
-            return res.sendErrMsg('验证码不对或已过期');
-          }
-        }
-
-        tools.bhash(pass, ep.done(function (passhash) {
-          User.newAndSave({
-            pass: passhash,
-            phone: phone,
-            username: '用户' + phone.slice(-4),
-          }, ep.done(function (user_indb) {
-            // store session cookie
-            authMiddleWare.gen_session(user_indb,
-              usertype, req, res);
-
-            var data = {};
-            data.usertype = type.role_user;
-            data.phone = user_indb.phone;
-            data.username = user_indb.username;
-            data._id = user_indb._id;
-            data.imageid = user_indb.imageid;
-            res.sendData(data);
-          }));
-        }));
-      }));
-    }
+  Designer.findOne({
+    phone: phone
+  }, {}, ep.done(function (designer) {
+    ep.emit('designer', designer);
   }));
 }
 
@@ -181,44 +196,59 @@ exports.designer_signup = function (req, res, next) {
     return res.sendErrMsg('信息不完整。');
   }
 
-  Designer.findOne({
-    phone: phone
-  }, null, ep.done(function (designer) {
-    if (designer) {
-      return res.sendErrMsg('手机号码已被使用');
-    } else {
-      //用户名手机号验证通过
-      VerifyCode.findOne({
-        phone: phone
-      }, ep.done(function (verifyCode) {
-        if (config.need_verify_code) {
-          if (!verifyCode) {
-            return res.sendErrMsg('验证码不对或已过期');
-          }
-
-          if (verifyCode.code !== code) {
-            return res.sendErrMsg('验证码不对或已过期');
-          }
+  ep.on('phone_ok', function () {
+    //用户名手机号验证通过
+    VerifyCode.findOne({
+      phone: phone
+    }, ep.done(function (verifyCode) {
+      if (config.need_verify_code) {
+        if (!verifyCode) {
+          return res.sendErrMsg('验证码不对或已过期');
         }
 
-        tools.bhash(pass, ep.done(function (passhash) {
-          Designer.newAndSave({
-            phone: phone,
-            pass: passhash,
-          }, ep.done(function (user_indb) {
-            // store session cookie
-            authMiddleWare.gen_session(user_indb,
-              usertype, req, res);
+        if (verifyCode.code !== code) {
+          return res.sendErrMsg('验证码不对或已过期');
+        }
+      }
 
-            var data = {};
-            data.usertype = type.role_designer;
-            data.phone = user_indb.phone;
-            data._id = user_indb._id;
-            data.imageid = user_indb.imageid;
-            res.sendData(data);
-          }));
+      tools.bhash(pass, ep.done(function (passhash) {
+        Designer.newAndSave({
+          phone: phone,
+          pass: passhash,
+        }, ep.done(function (user_indb) {
+          // store session cookie
+          authMiddleWare.gen_session(user_indb,
+            usertype, req, res);
+
+          var data = {};
+          data.usertype = type.role_designer;
+          data.phone = user_indb.phone;
+          data._id = user_indb._id;
+          data.imageid = user_indb.imageid;
+          res.sendData(data);
         }));
       }));
+    }));
+  });
+
+  //检查phone是不是被用了
+  ep.all('user', 'designer', function (user, designer) {
+    if (user || designer) {
+      return res.sendErrMsg('手机号码已被使用');
+    } else {
+      ep.emit('phone_ok');
     }
+  });
+
+  User.findOne({
+    phone: phone
+  }, null, ep.done(function (user) {
+    ep.emit('user', user);
+  }));
+
+  Designer.findOne({
+    phone: phone
+  }, {}, ep.done(function (designer) {
+    ep.emit('designer', designer);
   }));
 }
