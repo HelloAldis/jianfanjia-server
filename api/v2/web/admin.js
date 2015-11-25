@@ -256,7 +256,7 @@ exports.searchDesigner = function (req, res, next) {
     accessToken: 0
   }, {
     sort: {
-      phone: 1
+      create_at: 1
     },
     skip: skip,
     limit: limit
@@ -291,7 +291,7 @@ exports.searchUser = function (req, res, next) {
     accessToken: 0
   }, {
     sort: {
-      phone: 1
+      create_at: 1
     },
     skip: skip,
     limit: limit
@@ -317,7 +317,9 @@ exports.searchUser = function (req, res, next) {
 
 exports.searchProduct = function (req, res, next) {
   var query = req.body.query;
-  var sort = req.body.sort;
+  var sort = req.body.sort || {
+    create_at: 1
+  };
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
   var ep = eventproxy();
@@ -350,7 +352,9 @@ exports.searchProduct = function (req, res, next) {
 
 exports.search_plan = function (req, res, next) {
   var query = req.body.query;
-  var sort = req.body.sort;
+  var sort = req.body.sort || {
+    request_date: 1
+  };
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
   var ep = eventproxy();
@@ -459,7 +463,9 @@ exports.api_statistic = function (req, res, next) {
 
 exports.search_requirement = function (req, res, next) {
   var query = req.body.query || {};
-  var sort = req.body.sort;
+  var sort = req.body.sort || {
+    create_at: 1
+  };
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
   var ep = eventproxy();

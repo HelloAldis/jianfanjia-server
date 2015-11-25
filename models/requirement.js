@@ -65,6 +65,9 @@ var RequirementSchema = new Schema({
   order_designerids: {
     type: [ObjectId]
   },
+  obsolete_designerids: {
+    type: [ObjectId]
+  },
   final_designerid: {
     type: ObjectId
   },

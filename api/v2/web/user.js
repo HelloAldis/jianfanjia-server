@@ -75,6 +75,7 @@ exports.designers_can_order = function (req, res, next) {
         can_order_rec = _.filter(result.requirement.rec_designerids,
           function (oid) {
             return tools.findObjectId(result.requirement.order_designerids,
+              oid) < 0 && tools.findObjectId(result.requirement.obsolete_designerids,
               oid) < 0;
           });
       }
@@ -85,6 +86,7 @@ exports.designers_can_order = function (req, res, next) {
           function (oid) {
             return tools.findObjectId(result.requirement.order_designerids,
               oid) < 0 && tools.findObjectId(result.requirement.rec_designerids,
+              oid) < 0 && tools.findObjectId(result.requirement.obsolete_designerids,
               oid) < 0;
           });
       }
@@ -263,6 +265,7 @@ exports.user_change_ordered_designer = function (req, res, next) {
         _id: requirementid,
       }, {
         order_designerids: new_designerid,
+        obsolete_designerids: old_designerid,
       }, null, ep.done(function () {
         res.sendSuccessMsg();
       }));
