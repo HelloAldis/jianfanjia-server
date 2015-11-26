@@ -102,7 +102,7 @@ exports.delete = function (req, res, next) {
 }
 
 exports.search_designer_product = function (req, res, next) {
-  var query = req.body.query;
+  var query = req.body.query || {};
   var sort = req.body.sort || {
     create_at: 1
   };
