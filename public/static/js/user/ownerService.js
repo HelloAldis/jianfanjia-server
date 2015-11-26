@@ -41,7 +41,8 @@ angular.module('services', [])
 			plan : function(data){return doRequest('one_plan',data)},
 			score : function(data){return doRequest('user_evaluate_designer',data)},
 			contract : function(data){return doRequest('one_contract',data)},
-			change : function(data){return doRequest('user_change_ordered_designer',data)} 
+			change : function(data){return doRequest('user_change_ordered_designer',data)},
+			changeUId : "" 
 		}
 	}])
 	.factory('userFavoriteDesigner', ['$http', function($http){     //业主 list获取意向设计师列表 add添加 remove删除

@@ -63,7 +63,7 @@
 							<dl class="f-fl"><dt class="info1"></dt><dd>作品</dd></dl><span class="f-fl"></span>
 							<dl class="f-fl"><dt class="info2"></dt><dd>预约</dd></dl>
 						</div>
-						<a href="javascript:;" class="btn"></a>
+						<a href="javascript:;" class="btn" id="addIntent"></a>
 					</div>
 				</div>
 			</div>
@@ -109,7 +109,7 @@
 	var $collect = $('#j-collect');
 	var winHash = window.location.search.substring(1);
 	var $schemeDesign = $('#j-scheme-design');
-	var $collect1 = $schemeDesign.find('.btn');
+	var $addIntent = $('#addIntent');
 	var arr = [];
 	function loadList(){
 		var url = RootUrl+'api/v1/product/'+winHash;
@@ -153,16 +153,18 @@
 		});
 	}
 	function createInfo(data){
-		var url = RootUrl+'api/v1/designer/'+data.designerid+'/basicinfo';
-		var imgID = '';
-		var userNamer = ''
 		$.ajax({
-			url:url,
-			type: 'GET',
+			url:RootUrl+'api/v2/web/designer_home_page',
+			type: 'POST',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
-			async : false,
+			data : JSON.stringify({
+				"_id" : data.designerid
+			}),
+			processData : false,
 			success: function(res){	
+				var imgID = '';
+				var userNamer = '';
 				var designer = res['data'];
 				if(designer != null){
 					imgID = !!designer.imageid ? RootUrl+'api/v1/thumbnail/90/'+designer.imageid : '../../static/img/public/headpic.jpg';
@@ -174,31 +176,34 @@
 					$schemeDesign.find('.info2').html(designer.order_count);
 					$schemeDesign.find('.auth').addClass('auth'+(designer.auth_type-1));
 					if(window.usertype != 2 && window.usertype == 1){
-						$schemeDesign.find('.btn').data('uid',designer._id).html('添加意向')
+						if(!designer.is_my_favorite){
+							$schemeDesign.find('.btn').data('uid',designer._id).html('添加意向');
+						}else{
+							$schemeDesign.find('.btn').addClass('btn-disabled').html('已添加');
+						}
 					}else if(window.usertype != 2 && window.usertype != 1 && window.usertype != 0){
 						$schemeDesign.find('.btn').attr('href', '../user/login.html?'+window.location.href).html('添加意向')
-					}else if(window.usertype == 2){
-						$schemeDesign.find('.btn').attr('href', 'javascript:;')
 					}
 					$schemeDesign.removeClass('hide');
 				}
+				var info = '<a href="homepage.html?'+data.designerid+'" class="m-head">'
+								+'<img src="'+imgID+'" alt="'+userNamer+'" />'
+							+'</a>'
+							+'<h2>'+data.cell+'</h2>'
+							+'<p>参考造价('+globalData.work_type[data.work_type]+')：<strong>'+data.total_price+'</strong>万元<span>|</span>户型：'+globalData.house_type[data.house_type]+'<span>|</span>面积：'+data.house_area+'m&sup2;</p>'
+							+'<p>浏览数：'+data.view_count+'<span>|</span>收藏数：'+data.favorite_count+'</p>'
+				
+
+				$('#detail-info').html(info);
+				$collect.removeClass('hide');
 		   	}
 		});
-		var info = '<a href="homepage.html?'+data.designerid+'" class="m-head">'
-						+'<img src="'+imgID+'" alt="'+userNamer+'" />'
-					+'</a>'
-					+'<h2>'+data.cell+'</h2>'
-					+'<p>参考造价('+globalData.work_type[data.work_type]+')：<strong>'+data.total_price+'</strong>万元<span>|</span>户型：'+globalData.house_type[data.house_type]+'<span>|</span>面积：'+data.house_area+'m&sup2;</p>'
-					+'<p>浏览数：'+data.view_count+'<span>|</span>收藏数：'+data.favorite_count+'</p>'
+		$('#desc-description').html(data.description);
 		var imgList = '';
 		for (var i = 0,len = data.images.length; i < len; i++) {
 			var des = data.images[i].description ? '<p>'+data.images[i].description+'</p>' : ''
 			imgList += '<li><h4>'+data.images[i].section+'</h4><img class="imgLoad" data-url="'+RootUrl+'api/v1/watermark/v1/'+data.images[i].imageid+'" src="../../static/img/public/load.gif" alt="">'+des+'</li>'
 		};
-
-		$('#detail-info').html(info);
-		$collect.removeClass('hide');
-		$('#desc-description').html(data.description);
 		$('#imgList').html(imgList);
 	}
 	$collect.on('click',function(){
@@ -228,30 +233,6 @@
 		}
 	})
 	getFavorite();
-	$collect1.on('click',function(){
-		var slef = $(this);
-		if(!$(this).hasClass('cancel')){
-			favorite('POST',function(res){
-				if(res['msg'] === "success"){
-					$collect.addClass('cancel').html('取消收藏');
-					if(window.usertype == 2){
-						$collect1.addClass('cancel').html('取消收藏');
-					}
-				}
-			})
-		}else{
-			if(confirm("你确定要取消收藏吗？")){
-				favorite('DELETE',function(res){
-					if(res['msg'] === "success"){
-						$collect.removeClass('cancel').html('收藏作品');
-						if(window.usertype == 2){
-							$collect1.removeClass('cancel').html('收藏作品');
-						}
-					}
-				})
-			}
-		}
-	})
 	function favorite(type,fn){
 		var url = RootUrl+'api/v1/favorite/product';
 		$.ajax({
@@ -280,9 +261,12 @@
 	//添加意向
 	$(document.body).delegate('#addIntent','click',function(ev){
 		ev.preventDefault();
-		var slth = $(this);
+		var slef = $(this);
 		var uidName = $(this).data('uid');
-		var url = RootUrl+'api/v1/user/designer';
+		if(slef.hasClass('btn-disabled')){
+			return ;
+		}
+		var url = RootUrl+'api/v2/web/favorite/designer/add';
 		$.ajax({
 			url:url,
 			type: 'POST',
@@ -295,10 +279,11 @@
 			processData : false,
 			success: function(res){
 				if(res["msg"] == "success"){
-					alert('添加成功');
-					slef.html('查看详情').attr('href','homepage.html?'+uidname).removeClass('addIntent');
-				}else if(res["err_msg"] != null){
-					window.location.href = "../user/owner_design.html";
+					if(confirm('添加成功，是否继续浏览')){
+						slef.html('已添加').addClass('btn-disabled').removeData('uid');
+					}else{
+						window.location.href = '../user/owner.html#/designer';
+					}
 				}else{
 					alert("添加失败")
 				}

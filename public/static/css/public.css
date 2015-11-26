@@ -23,7 +23,7 @@ article,aside,dialog,figcaption,figure,footer,header,hgroup,main,nav,section{dis
 mark{background:#FF0;color:#000}
 template{display:none}
 /*布局  grid***********************************************************/
-.g-wp{width:1200px;margin-left:auto;margin-right:auto}
+.g-wp{width:1200px;min-width: 1200px;margin-left:auto;margin-right:auto}
 /*功能  function*******************************************************/
 .f-fl{float:left}
 .f-fr{float:right}
@@ -96,6 +96,11 @@ template{display:none}
 .btn:hover{
 	color: #fff;
 	background-color: #fe4504;
+}
+.btn-disabled,.btn-disabled:hover{
+	background-color: #ccc;
+	cursor: default;
+	color: #333;
 }
 .btn-add{ 
 

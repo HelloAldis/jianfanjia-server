@@ -1051,7 +1051,7 @@ angular.module('directives', [])
                     alert('至少保留一张图片');
                     return ;
                   }
-                  if(confirm("你确定要删除吗？删除不能恢复")){
+                  if(confirm("您确定要删除吗？删除不能恢复")){
                     arr.splice(i,1)
                     $timeout(function () {
                       $scope.myQuery = arr
@@ -1159,7 +1159,7 @@ angular.module('directives', [])
                         optionEvevt(oSecond)
                       break;   
                       default : 
-                        alert('你书写有错！')
+                        alert('您书写有错！')
                       break; 
                     } 
                   }; 
@@ -1471,6 +1471,43 @@ angular.module('directives', [])
                   }
                 }
                 $scope.page.createLinks();
+            }
+        };
+    }])
+    .directive('myConfirm',['$timeout',function($timeout){     //模态
+        return {
+            replace : true,
+            scope:{
+              confirmObject : '=confirmObject'
+          },
+            restrict: 'A',
+            template: '<div class="k-confirm"></div>',
+            link: function($scope, iElm, iAttrs, controller){
+                var obj = angular.element(iElm),
+                    pageObj = $scope.confirmObject;
+                    if(pageObj.isOpen){
+                      obj.show();
+                    }
+                    if(pageObj.isMask){
+                      obj.append('<div class="mask"></div>');
+                    }
+                    obj.append('<div class="motai '+pageObj.isType+'"></div>');
+                    
+
+                    pageObj.close = function(){
+                      obj.hide();
+                    }
+                    <div class="k-motai" ng-if="booking.motaiDoneb">
+                      <div class="motai done">
+                        <span class="done-icon"></span>
+                        <h3>温馨提示！</h3>
+                        <p>您是否预约该设计师量房。</p>
+                        <a href="javascript:;" class="u-btns u-btns-revise" ng-click="booking.bookingCancelChange()">我在看看</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="javascript:;" class="u-btns" ng-click="booking.bookingChange()">确定预约</a>
+                      </div>
+                    </div>
+                    
+                    
             }
         };
     }])

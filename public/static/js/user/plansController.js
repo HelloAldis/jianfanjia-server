@@ -253,7 +253,7 @@ angular.module('controllers', [])
                 addPlansMsg : function(designer,user){
                     if(!$scope.comment.addPlansOff){
                         $scope.comment.addPlansOff = false;
-                        alert('你留言太快了，请稍候再提交！')
+                        alert('您留言太快了，请稍候再提交！')
                         return ;
                     }
                     if(!_.trim($scope.comment.plansMsg)){

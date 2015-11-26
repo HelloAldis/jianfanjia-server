@@ -100,15 +100,23 @@
 	var $infoplate =$('#j-infoplate');
 	var winHash = window.location.search.substring(1);
 	function loadList(){
-		var url = RootUrl+'api/v1/designer/'+winHash+'/products';
 		$.ajax({
-			url:url,
-			type: 'GET',
+			url:RootUrl+'api/v2/web/search_designer_product',
+			type: 'POST',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
+			data : JSON.stringify({
+			  "query":{
+			    "designerid":winHash
+			  },
+			  "from": 0,
+			  "limit" : 10000
+			}),
+			processData : false,
+			async : false,
 			success: function(res){
-				if(res['data'].length){
-					page(res['data'])
+				if(res['data'].total){
+					page(res['data']['products'])
 				}else{
 					$list.html('<div class="loading nodata" id="j-loading"></div>');
 				}
@@ -117,12 +125,15 @@
 	}
 	loadList();
 	function loadInfo(){
-		var url = RootUrl+'api/v1/designer/'+winHash+'/basicinfo';
 		$.ajax({
-			url:url,
-			type: 'GET',
+			url:RootUrl+'api/v2/web/designer_home_page',
+			type: 'POST',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
+			data : JSON.stringify({
+				"_id" : winHash
+			}),
+			processData : false,
 			success: function(res){
 				if(res['data']){
 					createInfo(res['data'])
@@ -192,7 +203,11 @@
 							+'</dl>'
 						+'</div>'
 			if(window.usertype != 2 && window.usertype == 1){
-				sInfo += '<a href="../user/owner_design.html" data-uid="'+data._id+'" id="addDesign" class="btn">添加意向</a>'
+				if(!data.is_my_favorite){
+					sInfo += '<a href="javascript:;" data-uid="'+data._id+'" id="addDesign" class="btn">添加意向</a>'
+				}else{
+					sInfo += '<a href="javascript:;" class="btn btn-disabled">已添加</a>'
+				}
 			}else if(window.usertype != 2 && window.usertype != 1 && window.usertype != 0){
 				sInfo += '<a href="../user/login.html?'+window.location.href+'" class="btn">添加意向</a>'
 			}
@@ -207,7 +222,10 @@
 				showPageNum : 9,
 				endPageNum : 1,
 				currentPage : 0,
+				prevText:"上一页",
+				nextText:"下一页",
 				linkTo : '',
+				showUbwz : true,
 				callback : function(num,obj){
 					var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
 					$list.html('');
@@ -238,8 +256,11 @@
 	//添加意向
 	$(document.body).delegate('#addDesign','click',function(ev){
 		ev.preventDefault();
-		var slth = $(this);
+		var slef = $(this);
 		var uidName = $(this).data('uid');
+		if(slef.hasClass('btn-disabled')){
+			return ;
+		}
 		var url = RootUrl+'api/v2/web/favorite/designer/add';
 		$.ajax({
 			url:url,
@@ -253,10 +274,11 @@
 			processData : false,
 			success: function(res){
 				if(res["msg"] == "success"){
-					alert('添加成功');
-					slef.html('查看详情').attr('href','homepage.html?'+uidname).removeClass('addIntent');
-				}else if(res["err_msg"] != null){
-					window.location.href = "../user/owner_design.html";
+					if(confirm('添加成功，是否继续浏览')){
+						slef.html('已添加').addClass('btn-disabled').removeData('uid');
+					}else{
+						window.location.href = '../user/owner.html#/designer';
+					}
 				}else{
 					alert("添加失败")
 				}

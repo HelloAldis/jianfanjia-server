@@ -2,7 +2,7 @@
 var globalUrl = 'http://101.200.191.159/';
 (function() {
     // load modules
-    angular.module('myJyzApp', ['ui.router','ui.bootstrap', 'controllers', 'services', 'filters'])
+    angular.module('myJyzApp', ['ui.router','ui.bootstrap','ng.ueditor', 'controllers', 'services', 'filters'])
         .run(function($rootScope, $state, $stateParams) {
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
@@ -130,6 +130,26 @@ var globalUrl = 'http://101.200.191.159/';
                     url: '/recruit',
                     templateUrl: RootURl+'views/recruit/recruit.html',
                     controller: 'RecruitController'
+                })
+                .state('news', {
+                    url: '/news',
+                    templateUrl: RootURl+'views/news/new.html',
+                    controller: 'NewsController'
+                })
+                .state('newsAdd', {
+                    url: '/news/add/:id',
+                    templateUrl: RootURl+'views/news/add.html',
+                    controller: 'NewsAddController'
+                })
+                .state('pictures', {
+                    url: '/pictures',
+                    templateUrl: RootURl+'views/pictures/pictures.html',
+                    controller: 'PicturesListController'
+                })
+                .state('picturesAdd', {
+                    url: '/pictures/add/:id',
+                    templateUrl: RootURl+'views/pictures/add.html',
+                    controller: 'PicturesAddController'
                 });
         });
     // angular bootstrap
