@@ -200,7 +200,7 @@ exports.search = function (req, res, next) {
       async.mapLimit(designers, 3, function (designer, callback) {
         Favorite.findOne({
           userid: userid,
-          favorite_designer: designerid,
+          favorite_designer: designer._id,
         }, {
           _id: 1,
         }, function (err, favorite) {
