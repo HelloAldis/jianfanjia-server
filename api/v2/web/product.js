@@ -102,7 +102,7 @@ exports.delete = function (req, res, next) {
 }
 
 exports.search_designer_product = function (req, res, next) {
-  var query = req.body.query;
+  var query = req.body.query || {};
   var sort = req.body.sort || {
     create_at: 1
   };
@@ -151,6 +151,7 @@ exports.designer_my_products = function (req, res, next) {
 exports.product_home_page = function (req, res, next) {
   var productid = req.body._id;
   var userid = ApiUtil.getUserid(req);
+  var usertype = ApiUtil.getUsertype(req);
   var ep = new eventproxy();
   ep.fail(next);
 
@@ -167,7 +168,7 @@ exports.product_home_page = function (req, res, next) {
         product = product.toObject();
         product.designer = designer;
 
-        if (userid) {
+        if (userid && usertype !== type.role_admin) {
           Favorite.findOne({
             userid: userid,
             favorite_product: productid,

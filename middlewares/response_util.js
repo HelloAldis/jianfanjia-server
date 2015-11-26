@@ -1,17 +1,25 @@
 // response util method middleware
 
-function sendData (json) {
+function sendData(json) {
+  if (json === null) {
+    json = {};
+  }
+
   this.send({
     data: json
   });
 }
 
-function sendSuccessMsg () {
-  this.send({msg:'success'});
+function sendSuccessMsg() {
+  this.send({
+    msg: 'success'
+  });
 }
 
-function sendErrMsg (err) {
-  this.send({err_msg:err});
+function sendErrMsg(err) {
+  this.send({
+    err_msg: err
+  });
 }
 
 module.exports = function (req, res, next) {

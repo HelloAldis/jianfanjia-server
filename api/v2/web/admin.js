@@ -9,6 +9,7 @@ var ApiStatistic = require('../../../proxy').ApiStatistic;
 var Requirement = require('../../../proxy').Requirement;
 var Evaluation = require('../../../proxy').Evaluation;
 var DecStrategy = require('../../../proxy').DecStrategy;
+var BeautifulImage = require('../../../proxy').BeautifulImage;
 var Image = require('../../../proxy').Image;
 var Plan = require('../../../proxy').Plan;
 var tools = require('../../../common/tools');
@@ -255,7 +256,7 @@ exports.searchDesigner = function (req, res, next) {
     accessToken: 0
   }, {
     sort: {
-      phone: 1
+      create_at: 1
     },
     skip: skip,
     limit: limit
@@ -290,7 +291,7 @@ exports.searchUser = function (req, res, next) {
     accessToken: 0
   }, {
     sort: {
-      phone: 1
+      create_at: 1
     },
     skip: skip,
     limit: limit
@@ -316,7 +317,9 @@ exports.searchUser = function (req, res, next) {
 
 exports.searchProduct = function (req, res, next) {
   var query = req.body.query;
-  var sort = req.body.sort;
+  var sort = req.body.sort || {
+    create_at: 1
+  };
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
   var ep = eventproxy();
@@ -349,7 +352,9 @@ exports.searchProduct = function (req, res, next) {
 
 exports.search_plan = function (req, res, next) {
   var query = req.body.query;
-  var sort = req.body.sort;
+  var sort = req.body.sort || {
+    request_date: 1
+  };
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
   var ep = eventproxy();
@@ -458,7 +463,9 @@ exports.api_statistic = function (req, res, next) {
 
 exports.search_requirement = function (req, res, next) {
   var query = req.body.query || {};
-  var sort = req.body.sort;
+  var sort = req.body.sort || {
+    create_at: 1
+  };
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
   var ep = eventproxy();
@@ -629,6 +636,27 @@ exports.add_article = function (req, res, next) {
   }
 }
 
+exports.update_article = function (req, res, next) {
+  var article = ApiUtil.buildArticle(req);
+  var articletype = req.body.articletype;
+  var _id = req.body._id;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  switch (articletype) {
+    case type.articletype_dec_strategy:
+      DecStrategy.setOne({
+          _id: _id
+        },
+        article, null, ep.done(function (dec_strategy) {
+          res.sendSuccessMsg();
+        }));
+      break;
+    default:
+      res.sendErrMsg('请求articletype类型错误');
+  }
+}
+
 exports.search_article = function (req, res, next) {
   var query = req.body.query || {};
   var sort = req.body.sort || {
@@ -640,11 +668,19 @@ exports.search_article = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
+  var project = null;
+  if (limit > 1) {
+    project = {
+      title: 1,
+      create_at: 1,
+      lastupdate: 1,
+      status: 1,
+    };
+  }
+
   switch (articletype) {
     case type.articletype_dec_strategy:
-      DecStrategy.paginate(query, {
-        title: 1
-      }, {
+      DecStrategy.paginate(query, project, {
         sort: sort,
         skip: skip,
         limit: limit
@@ -658,4 +694,63 @@ exports.search_article = function (req, res, next) {
     default:
       res.sendErrMsg('请求articletype类型错误');
   }
+}
+
+exports.add_beautiful_image = function (req, res, next) {
+  var beautifulImage = ApiUtil.buildBeautifulImage(req);
+  beautifulImage.status = type.beautiful_image_status_private;
+  beautifulImage.authorid = ApiUtil.getUserid(req);
+  beautifulImage.usertype = ApiUtil.getUsertype(req);
+
+  var ep = eventproxy();
+  ep.fail(next);
+
+  BeautifulImage.newAndSave(beautifulImage, ep.done(function (beautifulImage) {
+    res.sendSuccessMsg();
+  }));
+}
+
+exports.update_beautiful_image = function (req, res, next) {
+  var beautifulImage = ApiUtil.buildBeautifulImage(req);
+  var _id = req.body._id;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  BeautifulImage.setOne({
+    _id: _id
+  }, beautifulImage, null, ep.done(function (beautifulImage) {
+    res.sendSuccessMsg();
+  }));
+}
+
+exports.search_beautiful_image = function (req, res, next) {
+  var query = req.body.query || {};
+  var sort = req.body.sort || {
+    create_at: -1
+  };
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  var project = null;
+  if (limit > 1) {
+    project = {
+      title: 1,
+      create_at: 1,
+      lastupdate: 1,
+      status: 1,
+    };
+  }
+
+  BeautifulImage.paginate(query, project, {
+    sort: sort,
+    skip: skip,
+    limit: limit
+  }, ep.done(function (beautifulImages, total) {
+    res.sendData({
+      beautifulImages: beautifulImages,
+      total: total
+    });
+  }));
 }

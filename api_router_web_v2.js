@@ -15,6 +15,7 @@ var admin = require('./api/v2/web/admin');
 var feedback = require('./api/v2/web/feedback');
 var wechat = require('./api/v2/web/wechat');
 var dec_strategy = require('./api/v2/web/dec_strategy');
+var beautiful_image = require('./api/v2/web/beautiful_image');
 var config = require('./apiconfig');
 var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
@@ -46,7 +47,9 @@ router.post('/designer_home_page', designer.designer_home_page); //游客获取�
 router.post('/search_designer_product', product.search_designer_product); //游客获取设计师作品
 router.post('/product_home_page', product.product_home_page); //游客获取设计师作品
 router.get('/verify_email/:key/:phone/:type', sign.verify_email); //游客验证邮箱
-router.get('/dec_strategy/:_id/homepage', dec_strategy.dec_strategy_homepage); //获取某个作品信息
+router.get('/dec_strategy/:_id/homepage', dec_strategy.dec_strategy_homepage); //获取某个攻略主页
+router.post('/beautiful_image_homepage', beautiful_image.beautiful_image_homepage); //游客获取美图主页
+router.post('/search_beautiful_image', beautiful_image.search_beautiful_image); //游客搜索美图
 
 //wechat api
 router.post('/wechat/receive', wechat.receive); //接收微信平台消息
@@ -145,6 +148,10 @@ router.get('/admin/ueditor', auth.adminRequired, admin.ueditor_get); //ueditor
 router.post('/admin/ueditor', auth.adminRequired, upload.single('Filedata'),
   admin.ueditor_post); //ueditor
 router.post('/admin/add_article', auth.adminRequired, admin.add_article); //提交文章
+router.post('/admin/update_article', auth.adminRequired, admin.update_article); //更新文章
 router.post('/admin/search_article', auth.adminRequired, admin.search_article); //搜索文章
+router.post('/admin/add_beautiful_image', auth.adminRequired, admin.add_beautiful_image); //提交文章
+router.post('/admin/update_beautiful_image', auth.adminRequired, admin.update_beautiful_image); //更新文章
+router.post('/admin/search_beautiful_image', auth.adminRequired, admin.search_beautiful_image); //搜索文章
 
 module.exports = router;

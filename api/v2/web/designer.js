@@ -177,6 +177,8 @@ exports.listtop = function (req, res, next) {
 }
 
 exports.search = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var usertype = ApiUtil.getUsertype(req);
   var query = req.body.query || {};
   var sort = req.body.sort;
   var skip = req.body.from || 0;
@@ -192,11 +194,35 @@ exports.search = function (req, res, next) {
     sort: sort,
     skip: skip,
     limit: limit,
+    lean: true,
   }, ep.done(function (designers, total) {
-    res.sendData({
-      designers: designers,
-      total: total
-    });
+    if (userid && usertype === type.role_user) {
+      async.mapLimit(designers, 3, function (designer, callback) {
+        Favorite.findOne({
+          userid: userid,
+          favorite_designer: designer._id,
+        }, {
+          _id: 1,
+        }, function (err, favorite) {
+          if (favorite) {
+            designer.is_my_favorite = true;
+          } else {
+            designer.is_my_favorite = false;
+          }
+          callback(err, designer);
+        });
+      }, ep.done(function (designers) {
+        res.sendData({
+          designers: designers,
+          total: total
+        });
+      }));
+    } else {
+      res.sendData({
+        designers: designers,
+        total: total
+      });
+    }
   }));
 }
 

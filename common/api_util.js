@@ -309,6 +309,25 @@ exports.buildArticle = function (req) {
     undefined;
   article.description = req.body.description;
   article.content = req.body.content;
+  article.create_at = req.body.create_at || new Date().getTime();
+  article.status = req.body.status;
 
   return article;
+}
+
+exports.buildBeautifulImage = function (req) {
+  var beautifulImage = {};
+  beautifulImage.title = req.body.title;
+  beautifulImage.description = req.body.description;
+  beautifulImage.dec_type = req.body.dec_type;
+  beautifulImage.house_type = req.body.house_type;
+  beautifulImage.dec_style = req.body.dec_style;
+  beautifulImage.status = req.body.status;
+
+  beautifulImage.images = _.map(req.body.images, function (i) {
+    i.imageid = new ObjectId(i.imageid);
+    return i;
+  });
+
+  return beautifulImage;
 }
