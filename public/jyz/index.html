@@ -13,6 +13,8 @@
 	<script type="text/javascript" src="jyz/js/public.js"></script>
     <script type="text/javascript" src="js/lib/jquery.Huploadify.js"></script>
     <script type="text/javascript" src="js/lib/tdist.js"></script>
+    <script type="text/javascript" src="jyz/lib/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" src="jyz/lib/ueditor/ueditor.all.min.js"></script>
 </head>
 <body>
 	<header class="g-hd clearfix"> 
@@ -54,6 +56,8 @@
                     <li ng-class="{active: nav==&quot;field&quot;}"><a ui-sref="field">工地管理后台</a></li>
                     <li ng-class="{active: nav==&quot;feedback&quot;}"><a ui-sref="feedback">app用户反馈</a></li>
                     <li ng-class="{active: nav==&quot;recruit&quot;}"><a ui-sref="recruit">天使业主招募</a></li>
+                    <li ng-class="{active: nav==&quot;news&quot;}"><a ui-sref="news">新闻编辑</a></li>
+                    <li ng-class="{active: nav==&quot;pictures&quot;}"><a ui-sref="pictures">装修美图</a></li>
                 </ul>
 			</nav>
 		</aside>
@@ -73,6 +77,7 @@
     <script src="jyz/lib/angular/angular.js"></script>
     <script src="jyz/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="jyz/lib/ui-bootstrap-tpls-0.14.3.min.js"></script>
+    <script src="jyz/lib/angular-ueditor/angular-ueditor.min.js"></script>
     <script src="jyz/js/modules-init.js"></script>
     <script src="jyz/js/filter.js"></script>
     <script src="jyz/js/service.js"></script>
@@ -88,6 +93,8 @@
     <script src="jyz/views/field/FieldController.js"></script>
     <script src="jyz/views/feedback/FeedbackController.js"></script>
     <script src="jyz/views/recruit/RecruitController.js"></script>
+    <script src="jyz/views/news/NewsController.js"></script>
+    <script src="jyz/views/pictures/PicturesController.js"></script>
     <script src="jyz/js/app.js"></script>
 </body>
 </html>

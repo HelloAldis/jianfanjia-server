@@ -2,6 +2,7 @@ $(function(){
 	if(window.location.host == 'jianfanjia.com'){
 		window.location.href = RootUrl + 'tpl/user/login.html';
 	}
+	var winHash = window.location.search.substring(1);
 	// 检测函数
 	function isMobile(mobile){
 		return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile);
@@ -122,7 +123,11 @@ $(function(){
 			processData : false,
 			success: function(res){
 				if(res["data"] != null){
-                    window.location.href = res["data"].url;
+					if(winHash){
+						window.location.href = winHash;
+					}else{
+						window.location.href = res["data"].url;
+					}
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');	
 				}

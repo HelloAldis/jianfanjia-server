@@ -250,6 +250,7 @@ angular.module('controllers', [])
                 $location.path('requirement/'+id+"/"+statusUrl[status]);
             }
             var weeksData = initData.weeksData;
+            var newDesignerid = undefined;
             function myBooking(status){
                 userRequiremtne.designers({"requirementid":requiremtneId}).then(function(res){    //可以预约设计师列表
                         // 匹配的设计师
@@ -301,30 +302,14 @@ angular.module('controllers', [])
                                     $scope.bookingSuccess = $scope.ordersData.length < 3 ? true : false; 
                                     // 点击设计师
                                     $scope.selectDesignOff = false;
-                                    $scope.location = $location;
-                                    $scope.$watch( 'location.url()', function( url ){
-                                        if(url.split('/')[3].split("?")[1]){
-                                            $scope.bookingSuccess = true;
-                                        }
-                                    });
                                     $scope.selectDesign = function(data){
                                         var len = $scope.ordersData.length;
-                                        if($location.url().split('/')[3].split("?")[1]){
+                                        if(userRequiremtne.changeUId){
                                             data.active = true;
-                                            $scope.booking.motaiDone = true;
+                                            $scope.booking.motaiDoneb = true;
                                             $scope.booking.isReplace = true;
-                                            userRequiremtne.change({
-                                              "requirementid":requiremtneId,
-                                              "old_designerid":$location.url().split('/')[3].split("?")[1],
-                                              "new_designerid":data._id
-                                            }).then(function(res){    //更换设计师
-                                                if(res.data.msg == "success"){
-                                                    $scope.booking.isReplace = false;
-                                                    $scope.ordersData = undefined;
-                                                }
-                                            },function(res){
-                                                console.log(res)
-                                            });
+                                            newDesignerid = data._id;
+                                            $scope.selectDesignOff = true;
                                         }
                                         if(len > 2){
                                             return ;
@@ -363,6 +348,8 @@ angular.module('controllers', [])
             $scope.booking = {
                 isReplace : false,
                 motaiDone : false,
+                isReplaceb : false,
+                motaiDoneb : false,
                 bookingCancelBtn : function(){
                     if(!this.isReplace){
                         myBooking()
@@ -387,6 +374,37 @@ angular.module('controllers', [])
                     },function(res){
                         console.log(res)
                     });
+                },
+                bookingChange : function(){
+                    var This = this;
+                    userRequiremtne.change({
+                      "requirementid":requiremtneId,
+                      "old_designerid":userRequiremtne.changeUId,
+                      "new_designerid":newDesignerid
+                    }).then(function(res){    //更换设计师
+                        if(res.data.msg == "success"){
+                            This.isReplace = false;
+                            $scope.ordersData = undefined;
+                            myBooking()
+                            This.motaiDoneb = false;
+                            userRequiremtne.changeUId = "";
+                            $scope.bookingSuccess = false;
+                            $location.path('requirement/'+requiremtneId+"/score")
+                        }
+                    },function(res){
+                        console.log(res)
+                    });
+                },
+                bookingCancelChange : function(){
+                    newDesignerid = undefined;
+                    this.isReplaceb = false;
+                    this.motaiDoneb = false;
+                    angular.forEach($scope.matchs, function(value1, key1){
+                        value1.active = false;
+                    })
+                    angular.forEach($scope.favorites, function(value1, key1){
+                        value1.active = false;
+                    })
                 }
             }
             //匿名评价
@@ -494,6 +512,11 @@ angular.module('controllers', [])
                     angular.forEach(initData.scoreb, function(value, key){
                         value.cur = '';
                     });
+                },
+                bookingChange : function(id){
+                    $scope.bookingSuccess = true;
+                    userRequiremtne.changeUId = id;
+                    $location.path('requirement/'+requiremtneId+"/booking");
                 }
             }
         // 方案列表

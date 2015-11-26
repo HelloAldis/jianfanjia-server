@@ -33,11 +33,11 @@
 					<div ng-if="requirement.status == 0 || requirement.status == 1 || requirement.status == 2 || requirement.status == 6 || requirement.status == 3">
 						<p class="f-tar" ng-if="data.plan.status != 2 && data.plan.status != 6 && data.plan.status == 0">设计师正在响应中，请耐心等候！</p>
 						<p class="f-tar" ng-if="data.plan.status == 7">设计师无响应导致响应过期!<br /><br />
-							<a bo-href-i="owner.html#/requirement/{{requiremtneId}}/booking?{{data._id}}" class="u-btns u-btns-revise">重新预约一名设计师</a></p>
+							<button type="button" class="u-btns u-btns-revise" ng-click="score.bookingChange(data._id)">重新预约一名设计师</button>
 						<p class="f-tar" ng-if="data.plan.status == 8">设计师规定时间内没有上传方案已过期！<br /><br />
-							<a bo-href-i="owner.html#/requirement/{{requiremtneId}}/booking?{{data._id}}" class="u-btns u-btns-revise">重新预约一名设计师</a></p>
+							<button type="button" class="u-btns u-btns-revise" ng-click="score.bookingChange(data._id)">重新预约一名设计师</button>
 						<p class="f-tar" ng-if="data.plan.status == 1">设计师正在忙，暂时无法为您服务。<br /><br />
-							<a bo-href-i="owner.html#/requirement/{{requiremtneId}}/booking?{{data._id}}" class="u-btns u-btns-revise">重新预约一名设计师</a></p>
+							<button type="button" class="u-btns u-btns-revise" ng-click="score.bookingChange(data._id)">重新预约一名设计师</button>
 						<div class="btns" ng-if="data.plan.status == 2">
 							<a href="javascript:;" class="u-btns" ng-click="score.confirmBtn(data)">已上门量房</a>
 						</div>

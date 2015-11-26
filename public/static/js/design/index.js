@@ -123,20 +123,31 @@ $(function(){
 				}else if(window.usertype != 1 && window.usertype != 2 && window.usertype != 0){
 					gohome = '<a href="../user/login.html?'+window.location.href+'" data-uid="'+data._id+'" class="btn addIntent">添加意向</a>'
 				}else if(window.usertype == 1 && window.usertype != 2 ){
-					gohome = '<a href="../user/owner_design.html" data-uid="'+data._id+'" class="btn addIntent">添加意向</a>'
+					if(data.is_my_favorite){
+						gohome = '<a href="homepage.html?'+data._id+'" class="btn">查看详情</a>'
+					}else{
+						gohome = '<a href="../user/owner_design.html" data-uid="'+data._id+'" class="btn addIntent">添加意向</a>'
+					}
 				}
-				var url = RootUrl+'api/v1/designer/'+data._id+'/products';
 				var images  = $.ajax({
-					url:url,
-					type: 'GET',
+					url:RootUrl+'api/v2/web/search_designer_product',
+					type: 'POST',
 					contentType : 'application/json; charset=utf-8',
 					dataType: 'json',
+					data : JSON.stringify({
+					  "query":{
+					    "designerid":data._id
+					  },
+					  "from": 0,
+					  "limit" : data.authed_product_count
+					}),
+					processData : false,
 					async : false,
 					success: function(res){
 						return res['data'];
 				   	}
 				});
-				var imgData = $.parseJSON(images.responseText)["data"];
+				var imgData = $.parseJSON(images.responseText)['data']['products'];
 				var len1 = imgData.length > 3 ? 3 : imgData.length;
 				var works = '';
 		        if(len1){
@@ -201,6 +212,7 @@ $(function(){
 				prevText:"上一页",
 				nextText:"下一页",
 				linkTo : '__id__',
+				showUbwz : true,
 				callback : function(num,obj){
 					var dataArr = [];
 					for(var i=0;i<arr.designers.length;i++){
@@ -292,10 +304,10 @@ $(function(){
 		});
 		$('#j-filter-more').on('click',function(){
 			if($(this).hasClass('filterMore')){
-				$(this).removeClass();
+				$(this).html('更多选择').removeClass();
 				$('#j-filter').find('.more').addClass('hide');
 			}else{
-				$(this).addClass('filterMore');
+				$(this).html('收起').addClass('filterMore');
 				$('#j-filter').find('.more').removeClass('hide');
 			}
 		});
@@ -316,10 +328,11 @@ $(function(){
 					processData : false,
 					success: function(res){
 						if(res["msg"] == "success"){
-							alert('添加成功');
-							slef.html('查看详情').attr('href','homepage.html?'+uidname).removeClass('addIntent');
-						}else if(res["err_msg"] != null){
-							window.location.href = "../user/owner_design.html";
+							if(confirm('添加成功，是否继续添加')){
+								slef.html('查看详情').attr('href','homepage.html?'+uidname).removeClass('addIntent')
+							}else{
+								window.location.href = "../user/owner.html#/designer";
+							}
 						}else{
 							alert("添加失败")
 						}

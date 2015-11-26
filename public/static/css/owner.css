@@ -83,6 +83,7 @@ body{
 	font-size: 16px;
 	line-height: 38px;
 	color: #61687a;
+	font-weight: bold;
 }
 .g-sd .line{
 	margin:0 24px;
@@ -1516,6 +1517,8 @@ body{
 }
 .m-plans .profile p{
 	width: 800px;
+	word-break:break-all;
+	word-wrap:break-word;
 }
 .m-plans .images{
 	height: 210px;

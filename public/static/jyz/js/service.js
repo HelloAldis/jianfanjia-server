@@ -216,6 +216,48 @@
 			};
 		}])
 		/**
+		 * [管理员获取文章]
+		 * @param  {[angel]} [装修攻略]
+		 */
+	    .factory('adminArticle', ['$http', function($http){
+			var doRequest = function(url,data){
+				return $http({
+	                method : 'POST',
+	                url : RootUrl+'api/v2/web/admin/'+url,
+	                headers: {
+						'Content-Type': 'application/json; charset=utf-8'
+				    },
+	                data: data
+	            });
+			};
+			return {
+				search : function(data){return doRequest('search_article',data);},
+				add : function(data){return doRequest('add_article',data);},
+				upload : function(data){return doRequest('update_article',data);}
+			};
+		}])
+		/**
+		 * [管理员获取装修美图]
+		 * @param  {[image]} [天使用户招募活动]
+		 */
+	    .factory('adminImage', ['$http', function($http){
+			var doRequest = function(url,data){
+				return $http({
+	                method : 'POST',
+	                url : RootUrl+'api/v2/web/admin/'+url,
+	                headers: {
+						'Content-Type': 'application/json; charset=utf-8'
+				    },
+	                data: data
+	            });
+			};
+			return {
+				search : function(data){return doRequest('search_beautiful_image',data);},
+				add : function(data){return doRequest('add_beautiful_image',data);},
+				upload : function(data){return doRequest('update_beautiful_image',data);}
+			};
+		}])
+		/**
 		 * [管理员设置初始化数据]
 		 * @param  {[list]} [获取列表]
 		 */

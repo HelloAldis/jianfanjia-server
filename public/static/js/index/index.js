@@ -311,7 +311,7 @@ $(function(){
 								'<span>'+globalData.house_type[data[i].house_type]+'</span>'+
 								'<span>'+globalData.dec_style[data[i].dec_style]+'</span>'+
 							'</div>'+
-							'<p>'+ellipsisStr(data[i].description,80)+'</p>'+
+							'<p>'+(data[i].description ? ellipsisStr(data[i].description,80) : "")+'</p>'+
 						'</div>'+
 						'<a class="m-head" href="../design/homepage.html?'+data[i].designer._id+'" target="_blank"><img src="'+ head +'" alt="'+data[i].designer.username+'" /></a>'+
 					'</li>'
