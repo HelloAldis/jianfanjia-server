@@ -209,7 +209,7 @@ exports.search = function (req, res, next) {
           } else {
             designer.is_my_favorite = false;
           }
-          callback(err, favorite);
+          callback(err, designer);
         });
       }, ep.done(function (designers) {
         res.sendData({
