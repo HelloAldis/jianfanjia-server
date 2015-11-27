@@ -3,9 +3,9 @@
 		<div class="booking-tips">
 			<p class="f-fl">
 				<span ng-if="(requirement.status == 0 || requirement.status == 1 || requirement.status == 2 || requirement.status == 3 || requirement.status == 6) && ordersData.length < 3">您还可以预约<i ng-bind="3 - ordersData.length"></i>名设计师</span>
-				<span ng-if="bookingSuccess">您可以重新预约1名设计师</span>
+				<span ng-if="booking.bookingChangeStatus">您可以重新预约1名设计师</span>
 			</p>
-			<a href="../design/index.html" class="f-fr u-btns u-btns-revise" ng-if="bookingSuccess" target="_blank">更多选择</a>
+			<a href="../design/index.html" class="f-fr u-btns" ng-if="bookingSuccess" target="_blank">更多选择</a>
 		</div>
 		<h3>匹配的设计师</h3>
 		<ul class="m-designerList">
@@ -73,7 +73,7 @@
 		<span class="done-icon"></span>
 		<h3>温馨提示！</h3>
 		<p>您是否预约该设计师量房。</p>
-		<a href="javascript:;" class="u-btns u-btns-revise" ng-click="booking.bookingCancelChange()">我在看看</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="javascript:;" class="u-btns u-btns-revise" ng-click="booking.bookingCancelChange()">我再看看</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		<a href="javascript:;" class="u-btns" ng-click="booking.bookingChange()">确定预约</a>
 	</div>
 </div>

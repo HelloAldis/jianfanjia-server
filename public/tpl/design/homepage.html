@@ -274,11 +274,12 @@
 			processData : false,
 			success: function(res){
 				if(res["msg"] == "success"){
-					if(confirm('添加成功，是否继续浏览')){
-						slef.html('已添加').addClass('btn-disabled').removeData('uid');
+					slef.html('已添加').addClass('btn-disabled').removeData('uid');
+					/*if(confirm('添加成功，是否继续浏览')){
+						
 					}else{
 						window.location.href = '../user/owner.html#/designer';
-					}
+					}*/
 				}else{
 					alert("添加失败")
 				}

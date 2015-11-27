@@ -328,11 +328,12 @@ $(function(){
 					processData : false,
 					success: function(res){
 						if(res["msg"] == "success"){
-							if(confirm('添加成功，是否继续添加')){
+							slef.html('查看详情').attr('href','homepage.html?'+uidname).removeClass('addIntent')
+							/*if(confirm('添加成功，是否继续添加')){
 								slef.html('查看详情').attr('href','homepage.html?'+uidname).removeClass('addIntent')
 							}else{
 								window.location.href = "../user/owner.html#/designer";
-							}
+							}*/
 						}else{
 							alert("添加失败")
 						}

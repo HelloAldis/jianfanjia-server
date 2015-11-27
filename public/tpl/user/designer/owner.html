@@ -2,7 +2,7 @@
 	<div class="owenr-tips">
 		<p class="f-fl">装修需求摘要</p>
 	</div>
-	<div class="owenr-boxs" bindonce="requirement">
+	<div class="owenr-boxs" bindonce="requirement" ng-if="requirement">
 		<div class="info">
 			<span class="head">
 				<img bo-if="requirement.user.imageid" bo-src-i="/api/v2/web/thumbnail/70/{{requirement.user.imageid}}" bo-alt="requirement.user.username" />
@@ -23,9 +23,9 @@
 				</dl>
 			</div>
 		</div>
-		<div class="response answer" ng-if="owenr.motaiAnswer">
+		<div class="response answer" ng-if="owenr.motaiAnswer || !!requirement.plan.get_phone_time">
 			<div class="tips">
-				<p>请24小时内与业主沟通量房时间，并响应业主预约，过期视为放弃。</p>
+				<p>您已响应业主预约，请及时与业主沟通量房时间，并设置量房时间，过期视为放弃。</p>
 			</div>
 			<div class="content">
 				<dl>
@@ -37,14 +37,13 @@
 					</dd>
 				</dl>
 				<dl>
-					<dt>量房时间</dt>
+					<dt>设置量房时间</dt>
 					<dd>
 						<div my-date my-query="owenr.startDate" my-set="year-month-days-hour-minute"></div>
 					</dd>
 				</dl>
 			</div>
 			<div class="btns">
-				<a href="javascript:;" class="u-btns u-btns-revise" ng-click="owenr.answerCancelBtn()">&nbsp;&nbsp;取消&nbsp;&nbsp;</a>
 				<a href="javascript:;" class="u-btns" ng-click="owenr.answerOwenr()">&nbsp;&nbsp;确定&nbsp;&nbsp;</a>
 			</div>
 		</div>
@@ -80,7 +79,7 @@
 			</div>
 		</div>
 		<div class="select" ng-if="owenr.response && !(requirement.plan.status == 5 || requirement.plan.status == 1 || requirement.plan.status == 2 )">
-			<div ng-if="requirement.plan.status == 0">
+			<div ng-if="requirement.plan.status == 0 && !requirement.plan.get_phone_time">
 				<p>请24小时内与业主沟通量房时间，并响应业主预约，过期视为放弃。</p>
 				<div class="btns">
 					<a href="javascript:;" class="u-btns u-btns-revise" ng-click="owenr.rejectBtn()">&nbsp;&nbsp;拒绝&nbsp;&nbsp;</a>
@@ -96,4 +95,5 @@
 			</div>
 		</div>
 	</div>
+	<div class="pageLoading" ng-hide="!!requirement"></div>
 </div>

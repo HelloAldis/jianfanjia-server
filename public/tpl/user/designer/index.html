@@ -7,7 +7,7 @@
 	<a class="upper f-fr" href="javascript:;" ng-click="messageToggle(false)">更多</a>
 </div>
 <div class="main">
-	<div class="m-index" bindonce="designer">
+	<div class="m-index" bindonce="designer" ng-if="designer">
 		<div class="info f-cb">
 			<div class="onlineSetting" ng-class="{onlineShow : designer.online_status == 0 && designer.auth_type == 2 && designer.authed_product_count > 2,onlineHide : designer.online_status == 1}">
 				<h4 class="online" ng-click="onlineSetting(1)"><i class="iconfont2">&#xe62d;</i><span>在线</span></h4>
@@ -116,8 +116,11 @@
 							<div class="in in{{data.plan.status}}"></div>
 						</div>
 						<p ng-switch="data.plan.status">
-							<i ng-switch-when="0">等待响应预约</i>
-							<i ng-switch-when="1">等待响应预约</i>
+							<i ng-switch-when="0">
+								<i bo-if="!!data.plan.get_phone_time">等待设置量房时间</i>
+								<i bo-if="!data.plan.get_phone_time">等待响应预约</i>
+							</i>
+							<i ng-switch-when="1">已拒绝业主</i>
 							<i ng-switch-when="2">等待业主确认量房</i>
 							<i ng-switch-when="3">等待业主选择方案</i>
 							<i ng-switch-when="4">方案未选中</i>
@@ -160,7 +163,10 @@
 					</p>
 				</div>
 				<div class="btns" ng-switch="data.plan.status">
-					<a class="u-btns" ng-switch-when="0" bo-href-i="designer.html#/requirement/{{data._id}}/owner">前往响应预约</a>
+					<a class="u-btns" ng-switch-when="0" bo-href-i="designer.html#/requirement/{{data._id}}/owner">
+						<i bo-if="!!data.plan.get_phone_time">前往设置量房时间</i>
+						<i bo-if="!data.plan.get_phone_time">前往响应预约</i>
+					</a>
 					<a class="u-btns" ng-switch-when="1" bo-href-i="designer.html#/requirement/{{data._id}}/owner">前往响应预约</a>
 					<a class="u-btns" ng-switch-when="2" bo-href-i="designer.html#/requirement/{{data._id}}/owner">等待业主确认量房</a>
 					<a class="u-btns" ng-switch-when="3" bo-href-i="designer.html#/requirement/{{data._id}}/plan">装修方案</a>
@@ -173,4 +179,5 @@
 			</li>
 		</ul>
 	</div>
+	<div class="pageLoading" ng-hide="!!designer"></div>
 </div>

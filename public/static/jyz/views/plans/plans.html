@@ -40,6 +40,7 @@
 			<tr class="info thead">
 				<th>方案ID</th>
 				<th>提交时间</th>
+				<th>响应时间</th>
 				<th>量房时间</th>
 				<th>当前状态</th>
 				<th>状态更新时间</th>
@@ -52,6 +53,7 @@
 			<tr ng-repeat="user in userList">
 				<td>{{user._id}}</td>
 				<td>{{user.request_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.get_phone_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 				<td>{{user.house_check_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 				<td>{{user.status | planFilter}}</td>
 				<td>{{user.last_status_update_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>

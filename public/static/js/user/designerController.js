@@ -215,8 +215,15 @@ angular.module('controllers', [])
                 $scope.owenr.motaiReject = true;
             },
             answerBtn : function(){   //响应业主
-                $scope.owenr.response = false;
-                $scope.owenr.motaiAnswer = true;
+                userRequiremtne.answer({
+                  "requirementid": requiremtneId,
+                  "get_phone_time": (new Date).getTime()
+                }).then(function(res){ 
+                    $scope.owenr.response = false;
+                    $scope.owenr.motaiAnswer = true;
+                },function(res){
+                    console.log(res)
+                });
             },
             answerCancelBtn : function(){   //取消响应业主
                 $scope.owenr.response = true;

@@ -2,44 +2,28 @@ $(function(){
 	var $liveList = $('#j-live-list');
 	//渲染生成列表
 	function loadList(){
-		var url = RootUrl+'api/v1/share';
 		$.ajax({
-			url:url,
-			type: 'GET',
+			url:RootUrl+'api/v2/web/search_share',
+			type: 'Post',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
+			data : JSON.stringify({
+			  "query":{},
+			  "from": 0,
+			  "limit" : 10000
+			}),
+			processData : false,
 			success: function(res){
-				if(res['data'].length){
-					var info = getInfo(res['data'])
-					page(res['data'],info)
+				if(res['data'].total){
+					page(res['data']['shares'])
 				}else{
 					$liveList.html('<div class="loading nodata" id="j-loading"></div>');
 				}
 		   	}
 		});
 	}
-	//获取设计师信息
-	function getInfo(by){
-		var infoArr = [];
-		for (var i = 0; i < by.length; i++) {
-			var url = RootUrl+'api/v1/designer/'+by[i].designerid+'/basicinfo';
-			$.ajax({
-				url:url,
-				type: 'GET',
-				contentType : 'application/json; charset=utf-8',
-				dataType: 'json',
-				async : false,
-				success: function(res){
-					if(res['data']){
-						infoArr.push(res['data'])
-					}
-			   	}
-			});
-		};
-		return infoArr
-	}
 	//创建列表
-	function createList(data,info){
+	function createList(data){
 		var status = data.process[data.process.length-1].name;
 		var sList = '';
 		for (var i = 0; i < 7; i++) {
@@ -52,10 +36,10 @@ $(function(){
 			}
 		};
 		var imgId = data.process[data.process.length-1].images[0];
-		var head = info.imageid ? RootUrl+'api/v1/thumbnail/50/'+info.imageid : '../../static/img/public/headpic.jpg';
+		var head = data.designer.imageid ? RootUrl+'api/v1/thumbnail/50/'+data.designer.imageid : '../../static/img/public/headpic.jpg';
 		return '<li>'
 					+'<div class="g-wp f-cb">'
-						+'<a class="pic f-fl" href="detail.html?'+data._id+'"><img src="'+RootUrl+'api/v1/thumbnail/384/'+imgId+'" alt="'+data.cell+'" /></a>'
+						+'<a class="pic f-fl" href="detail.html?'+data._id+'"><img src="'+RootUrl+'api/v2/web/thumbnail/384/'+imgId+'" alt="'+data.cell+'" /></a>'
 						+'<div class="txt f-fl">'
 							+'<div class="info">'
 								+'<h4><a href="detail.html?'+data._id+'">'+data.cell+'</a><span><strong>'+data.house_area+'m&sup2;</strong><strong>'+globalData.house_type[data.house_type]+'</strong></span></h4>'
@@ -65,7 +49,7 @@ $(function(){
 								+'<p>当前阶段：<span>'+globalData.dec_flow[data.process[data.process.length-1].name]+'</span></p>'
 								+'<a href="detail.html?'+data._id+'" class="head">'
 									+'<span class="head-pic"><img src="'+head+'" alt="" /></span>'
-									+'<span class="head-name">'+info.username+'</span>'
+									+'<span class="head-name">'+data.designer.username+'</span>'
 								+'</a>'
 							+'</div>'
 							+'<div class="state-box">'
@@ -79,7 +63,7 @@ $(function(){
 				+'</li>'
 	}
 	//生成分页
-	function page(arr,info){
+	function page(arr){
 		var page = new Pageing({
 			id : 'j-page',
 			allNumPage : arr.length,
@@ -93,7 +77,7 @@ $(function(){
 					var maxElem = Math.min((num+1)*this.itemPage , this.allNumPage)
 					$liveList.html('');
 					for(var i=num*this.itemPage;i<maxElem;i++){
-						$liveList.append(createList(arr[i],info[i]));
+						$liveList.append(createList(arr[i]));
 					}
 					$liveList.find('li:odd').attr('class', 'even');
 					obj.find('.btns').on('click' , function(ev){

@@ -33,8 +33,11 @@
 								</div>
 
 								<p ng-switch="data.plan.status" ng-if="data.plan.status && (data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 6)">
-									<i ng-switch-when="0">等待响应预约</i>
-									<i ng-switch-when="1">等待响应预约</i>
+									<i ng-switch-when="0">
+										<i bo-if="!!data.plan.get_phone_time">等待设置量房时间</i>
+										<i bo-if="!data.plan.get_phone_time">等待响应预约</i>
+									</i>
+									<i ng-switch-when="1">已拒绝业主</i>
 									<i ng-switch-when="2">等待业主确认量房</i>
 									<i ng-switch-when="3">等待业主选择方案</i>
 									<i ng-switch-when="4">方案未选中</i>

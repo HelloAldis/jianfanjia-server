@@ -350,6 +350,7 @@ angular.module('controllers', [])
                 motaiDone : false,
                 isReplaceb : false,
                 motaiDoneb : false,
+                bookingChangeStatus : false,
                 bookingCancelBtn : function(){
                     if(!this.isReplace){
                         myBooking()
@@ -386,6 +387,7 @@ angular.module('controllers', [])
                             This.isReplace = false;
                             $scope.ordersData = undefined;
                             myBooking()
+                            This.bookingChangeStatus = false;
                             This.motaiDoneb = false;
                             userRequiremtne.changeUId = "";
                             $scope.bookingSuccess = false;
@@ -515,6 +517,7 @@ angular.module('controllers', [])
                 },
                 bookingChange : function(id){
                     $scope.bookingSuccess = true;
+                    $scope.booking.bookingChangeStatus = true;
                     userRequiremtne.changeUId = id;
                     $location.path('requirement/'+requiremtneId+"/booking");
                 }
