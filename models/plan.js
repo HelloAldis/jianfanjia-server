@@ -62,11 +62,11 @@ var PlanSchema = new Schema({
   last_status_update_time: {
     type: Number,
   },
-  // comments: {
-  //   type:
-  // },
   reject_respond_msg: {
     type: String,
+  },
+  get_phone_time: {
+    type: Number,
   },
 });
 
