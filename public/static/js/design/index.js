@@ -129,45 +129,17 @@ $(function(){
 						gohome = '<a href="../user/owner_design.html" data-uid="'+data._id+'" class="btn addIntent">添加意向</a>'
 					}
 				}
-				var images  = $.ajax({
-					url:RootUrl+'api/v2/web/search_designer_product',
-					type: 'POST',
-					contentType : 'application/json; charset=utf-8',
-					dataType: 'json',
-					data : JSON.stringify({
-					  "query":{
-					    "designerid":data._id
-					  },
-					  "from": 0,
-					  "limit" : data.authed_product_count
-					}),
-					processData : false,
-					async : false,
-					success: function(res){
-						return res['data'];
-				   	}
-				});
-				var imgData = $.parseJSON(images.responseText)['data']['products'];
-				var len1 = imgData.length > 3 ? 3 : imgData.length;
 				var works = '';
-		        if(len1){
-					for (var i = 0; i < len1; i++) {
-						if(!!imgData[i].images[0]){
-							works += '<a class="works" href="detail.html?'+imgData[i]._id+'" target="_blank"><img src="'+RootUrl+'api/v1/thumbnail/383/'+imgData[i].images[0].imageid+'" alt="'+imgData[i].cell+'"/></a>'
-						}else{
-							works = '<a class="works" href="homepage.html?'+data._id+'"><img src="../../static/img/public/default_products.jpg" alt="'+data.username+'的作品"/></a>';
-						}
-					};
-				}else{
-					works = '<a class="works" href="homepage.html?'+data._id+'"><img src="../../static/img/public/default_products.jpg" alt="'+data.username+'的作品"/></a>';
-				}
+				for (var i = 0; i < 3; i++) {
+					works += '<a class="works loadImg" href="javascript:;"><img src="../../static/img/public/load.gif" alt="'+data.username+'的作品"/></a>';
+				};
 				var order = '';
 				if(data.design_fee_range != undefined){
 					order = '<div class="order f-fr"><h5>设计费</h5><p><strong>'+globalData.price_area[data.design_fee_range]+'</strong>元/m&sup2;</p>'+gohome+'</div></div>'
 				}else{
 					order = '<div class="order f-fr"><h5>&nbsp;</h5><p>&nbsp;</p>'+gohome+'</div></div>'
 				}
-				return '<li>'
+				return '<li data-uid="'+data._id+'">'
 		          		+'<div class="g-wp">'
 		          			+'<div class="m-tt f-cb">'
 		          				+'<div class="info f-fl">'
@@ -220,6 +192,7 @@ $(function(){
 					}
 					$list.html(dataArr);
 					$design.find('li:odd').attr('class', 'even');
+					loadImg($design.find('li'));
 					obj.find('.btns').on('click',function(ev){
 						ev.preventDefault();
 						var index = $(this).attr("href").match(/\d+(\.\d+)?/g)[0]
@@ -231,6 +204,35 @@ $(function(){
 				}
 			});
 		};
+		function loadImg(li){
+			var obj = li;
+			obj.each(function(index, el) {
+				var uid = $(el).data('uid');
+				var oImg = $(el).find('.m-ct');
+				$.ajax({
+					url:RootUrl+'api/v2/web/search_designer_product',
+					type: 'POST',
+					contentType : 'application/json; charset=utf-8',
+					dataType: 'json',
+					data : JSON.stringify({
+					  "query":{
+					    "designerid":uid
+					  },
+					  "from": 0,
+					  "limit" : 3
+					}),
+					processData : false,
+					success: function(res){
+						if(res.data.total >= 3){
+							$.each(res['data']['products'],function(i,v){
+								oImg.find('a').eq(i).attr('href',"homepage.html?"+v._id).removeClass('.loadImg').find('img').attr('src', RootUrl+'api/v1/thumbnail/383/'+v.images[0].imageid);
+							})
+						}
+						console.log(res['data']['products'])
+				   	}
+				});	
+			});
+		}
 		//筛选
 		$filter.find('a').on('click',function(){
 			if($(this).hasClass('current')){

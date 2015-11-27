@@ -273,6 +273,9 @@
 	-moz-box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
 	box-shadow: 0px 0px 11px rgba(0,0,0,0.15);
 }
+.design-list .m-list .loadImg{
+	background:url(../img/user/loading.gif) center center no-repeat;
+}
 .design-list .m-list .works:first-child{
 	margin-left: 0;
 }
