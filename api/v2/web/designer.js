@@ -233,46 +233,69 @@ exports.okUser = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  Plan.setOne({
-    designerid: designerid,
-    requirementid: requirementid,
-    status: type.plan_status_not_respond,
-  }, {
-    house_check_time: house_check_time,
-    status: type.plan_status_designer_respond_no_housecheck,
-    last_status_update_time: new Date().getTime(),
-  }, null, ep.done(function (plan) {
-    if (plan) {
-      Requirement.setOne({
-        _id: plan.requirementid,
-        status: type.requirement_status_not_respond,
-      }, {
-        status: type.requirement_status_respond_no_housecheck
-      }, null, function (err) {});
-
-      Designer.findOne({
-        _id: designerid,
-      }, {
-        username: 1,
-        phone: 1
-      }, function (err, designer) {
-        User.findOne({
-          _id: plan.userid
+  if (house_check_time) {
+    Plan.setOne({
+      designerid: designerid,
+      requirementid: requirementid,
+      status: type.plan_status_not_respond,
+    }, {
+      house_check_time: house_check_time,
+      status: type.plan_status_designer_respond_no_housecheck,
+      last_status_update_time: new Date().getTime(),
+    }, null, ep.done(function (plan) {
+      if (plan) {
+        Requirement.setOne({
+          _id: plan.requirementid,
+          status: type.requirement_status_not_respond,
         }, {
-          phone: 1
-        }, function (err, user) {
-          if (user) {
-            sms.sendDesignerRespondUser(user.phone, [designer.username,
-              designer.phone, DateUtil.YYYY_MM_DD_HH_mm(
-                house_check_time)
-            ]);
-          }
-        });
-      });
-    }
+          status: type.requirement_status_respond_no_housecheck
+        }, null, function (err) {});
 
-    res.sendSuccessMsg();
-  }));
+        Designer.findOne({
+          _id: designerid,
+        }, {
+          username: 1,
+          phone: 1
+        }, function (err, designer) {
+          User.findOne({
+            _id: plan.userid
+          }, {
+            phone: 1
+          }, function (err, user) {
+            if (user) {
+              sms.sendDesignerRespondUser(user.phone, [designer
+                .username,
+                designer.phone, DateUtil.YYYY_MM_DD_HH_mm(
+                  house_check_time)
+              ]);
+            }
+          });
+        });
+      }
+
+      res.sendSuccessMsg();
+    }));
+  } else {
+    Plan.findOne({
+      designerid: designerid,
+      requirementid: requirementid,
+      status: type.plan_status_not_respond,
+    }, null, ep.done(function (plan) {
+      if (!plan) {
+        return res.sendSuccessMsg();
+      }
+
+      if (plan.get_phone_time) {
+        res.sendSuccessMsg();
+      } else {
+        plan.get_phone_time = new Date().getTime();
+        plan.last_status_update_time = plan.get_phone_time;
+        plan.save(ep.done(function () {
+          res.sendSuccessMsg();
+        }));
+      }
+    }));
+  }
 }
 
 exports.rejectUser = function (req, res, next) {

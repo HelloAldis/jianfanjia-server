@@ -298,6 +298,7 @@ exports.designer_one_requirement = function (req, res, next) {
       }, {
         status: 1,
         house_check_time: 1,
+        get_phone_time: 1,
       }, {
         skip: 0,
         limit: 1,

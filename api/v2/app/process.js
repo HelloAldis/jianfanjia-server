@@ -384,6 +384,7 @@ exports.reschedule = function (req, res, next) {
           section: reschedule.section,
           status: reschedule.status,
           cell: process.cell,
+          processid: process._id,
         });
       }));
     }));
@@ -463,6 +464,7 @@ exports.okReschedule = function (req, res, next) {
           section: reschedule.section,
           status: type.process_item_status_reschedule_ok,
           cell: process.cell,
+          processid: process._id,
         });
       }));
     }));
@@ -540,6 +542,7 @@ exports.rejectReschedule = function (req, res, next) {
           section: reschedule.section,
           status: type.process_item_status_reschedule_reject,
           cell: process.cell,
+          processid: process._id,
         });
       }));
     }));
@@ -607,6 +610,7 @@ exports.doneItem = function (req, res, next) {
               cell: process.cell,
               type: type.message_type_procurement,
               time: new Date().getTime(),
+              processid: process._id,
             });
           }
         }
@@ -659,6 +663,7 @@ exports.doneSection = function (req, res, next) {
           type: type.message_type_pay,
           time: new Date().getTime(),
           cell: process.cell,
+          processid: process._id,
         });
       }
 
@@ -749,6 +754,7 @@ exports.ys = function (req, res, next) {
         time: new Date().getTime(),
         section: section,
         cell: process.cell,
+        processid: process._id,
       });
     }
 

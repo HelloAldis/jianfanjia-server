@@ -103,8 +103,10 @@
 * 2. 付款提醒
 
 平台 platform
-* 0. Android
-* 1. iOS
+* 0. Android 业主
+* 1. iOS 业主
+* 2. Android 设计师
+* 3. iOS 设计师 
 
 需求状态 requirement status
 * 0. 未预约任何设计师
