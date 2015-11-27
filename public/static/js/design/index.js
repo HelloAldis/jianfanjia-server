@@ -11,6 +11,7 @@ $(function(){
 		var toFrom = 0;
 		var toQuery = {};
 		var toSort = {"product_count":-1};
+		var pageCache = {};
 		function setDefault(State){
 			if(!State.url.split("?")[1]){
 				History.pushState({state:1}, "互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 设计师第1页", "?page=1");
@@ -209,28 +210,35 @@ $(function(){
 			obj.each(function(index, el) {
 				var uid = $(el).data('uid');
 				var oImg = $(el).find('.m-ct');
-				$.ajax({
-					url:RootUrl+'api/v2/web/search_designer_product',
-					type: 'POST',
-					contentType : 'application/json; charset=utf-8',
-					dataType: 'json',
-					data : JSON.stringify({
-					  "query":{
-					    "designerid":uid
-					  },
-					  "from": 0,
-					  "limit" : 3
-					}),
-					processData : false,
-					success: function(res){
-						if(res.data.total >= 3){
-							$.each(res['data']['products'],function(i,v){
-								oImg.find('a').eq(i).attr('href',"homepage.html?"+v._id).removeClass('.loadImg').find('img').attr('src', RootUrl+'api/v1/thumbnail/383/'+v.images[0].imageid);
-							})
-						}
-						console.log(res['data']['products'])
-				   	}
-				});	
+				if(!pageCache[uid]){
+					pageCache[uid] = [];
+					$.ajax({
+						url:RootUrl+'api/v2/web/search_designer_product',
+						type: 'POST',
+						contentType : 'application/json; charset=utf-8',
+						dataType: 'json',
+						data : JSON.stringify({
+						  "query":{
+						    "designerid":uid
+						  },
+						  "from": 0,
+						  "limit" : 3
+						}),
+						processData : false,
+						success: function(res){
+							if(res.data.total >= 3){
+								$.each(res['data']['products'],function(i,v){
+									pageCache[uid].push(v);
+									oImg.find('a').eq(i).attr('href',"homepage.html?"+v._id).removeClass('.loadImg').find('img').attr('src', RootUrl+'api/v1/thumbnail/383/'+v.images[0].imageid);
+								})
+							}
+					   	}
+					});	
+				}else{
+					$.each(pageCache[uid],function(i,v){
+						oImg.find('a').eq(i).attr('href',"homepage.html?"+v._id).removeClass('.loadImg').find('img').attr('src', RootUrl+'api/v1/thumbnail/383/'+v.images[0].imageid);
+					})
+				}
 			});
 		}
 		//筛选

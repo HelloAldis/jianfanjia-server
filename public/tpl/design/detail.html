@@ -112,15 +112,30 @@
 	var $addIntent = $('#addIntent');
 	var arr = [];
 	function loadList(){
-		var url = RootUrl+'api/v1/product/'+winHash;
 		$.ajax({
-			url:url,
-			type: 'GET',
+			url:RootUrl+'api/v2/web/product_home_page',
+			type: 'POST',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
+			data : JSON.stringify({
+  				"_id": winHash
+			}),
+			processData : false,
 			success: function(res){
-				createInfo(res['data'])
-				$(".imgLoad").scrollLoading();
+				if(res != null){
+					getFavorite();
+					createInfo(res['data']);
+					$(".imgLoad").scrollLoading();
+				}
+		   	},
+		   	error:function(){
+		   		$('#j-design-detail').html('<div class="error"><h3>您查看作品不存在</h3><p>已被设计师删除或者您输入的地址有误<br />请重新输入打开<p></div>').css({
+		   			'text-align': 'center',
+		   			'font-size': '18px'
+		   		});
+		   		$('#j-design-detail').find('.error').find('h3').css({
+					'font-size': '30px'
+		   		})
 		   	}
 		});
 	}
@@ -232,7 +247,6 @@
 			}
 		}
 	})
-	getFavorite();
 	function favorite(type,fn){
 		var url = RootUrl+'api/v1/favorite/product';
 		$.ajax({

@@ -23,7 +23,7 @@
 				</dl>
 			</div>
 		</div>
-		<div class="response answer" ng-if="owenr.motaiAnswer || !!requirement.plan.get_phone_time">
+		<div class="response answer" ng-if="requirement.plan.status == 0 && (owenr.motaiAnswer || !!requirement.plan.get_phone_time)">
 			<div class="tips">
 				<p>您已响应业主预约，请及时与业主沟通量房时间，并设置量房时间，过期视为放弃。</p>
 			</div>
