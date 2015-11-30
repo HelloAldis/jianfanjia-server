@@ -56,6 +56,9 @@ var PlanSchema = new Schema({
   house_check_time: {
     type: Number,
   },
+  user_ok_house_check_time: {
+    type: Number,
+  },
   request_date: {
     type: Number,
   },

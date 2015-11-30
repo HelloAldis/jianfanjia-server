@@ -474,6 +474,7 @@ exports.okReschedule = function (req, res, next) {
   var query = {};
   var userid = ApiUtil.getUserid(req);
   query.processid = req.body.processid;
+  query.status = type.process_item_status_reschedule_req_new;
   var ep = eventproxy();
   ep.fail(next);
 
@@ -508,16 +509,17 @@ exports.okReschedule = function (req, res, next) {
     query.designerid = userid;
   }
 
-  Reschedule.setOne(query, {
-    status: type.process_item_status_reschedule_ok
-  }, {
+  Reschedule.find(query, {
     sort: {
       request_date: -1,
-    }
-  }, ep.done(function (reschedule) {
-    if (!reschedule) {
+    },
+    skip: 0,
+    limit: 1,
+  }, ep.done(function (reschedules) {
+    if (reschedules.length < 1) {
       return res.sendErrMsg('改期不存在');
     }
+    var reschedule = reschedules[0];
 
     var newDate = reschedule.new_date;
     var index = _.indexOf(type.process_work_flow, reschedule.section);
@@ -539,6 +541,9 @@ exports.okReschedule = function (req, res, next) {
             res.sendSuccessMsg();
             ep.emit('sendMessage', reschedule, process);
           }));
+
+          reschedule.status = type.process_item_status_reschedule_ok;
+          reschedule.save(function () {});
         }
       } else {
         res.sendErrMsg('工地不存在');
@@ -552,6 +557,7 @@ exports.rejectReschedule = function (req, res, next) {
   var query = {};
   var userid = ApiUtil.getUserid(req);
   query.processid = req.body.processid;
+  query.status = type.process_item_status_reschedule_req_new;
   var ep = eventproxy();
   ep.fail(next);
 
