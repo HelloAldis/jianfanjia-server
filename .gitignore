@@ -31,4 +31,3 @@ build/Release
 apiconfig.js
 xml2json
 bcrypt
-*.apk

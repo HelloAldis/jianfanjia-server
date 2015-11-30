@@ -65,6 +65,7 @@ router.post('/one_contract', auth.normalUserRequired, requirementWeb.one_contrac
 router.get('/process/list', auth.normalUserRequired, process.list); //获取装修工地列表
 router.get('/process/:_id', auth.normalUserRequired, process.getOne); //获取装修进度
 router.post('/process/image', auth.normalUserRequired, process.addImage); //上传照片到工地
+router.post('/process/add_images', auth.normalUserRequired, process.add_images); //上传多张照片到工地
 router.post('/process/delete_image', auth.normalUserRequired, process.delete_image); //上传照片到工地
 router.post('/process/done_item', auth.normalUserRequired, process.doneItem); //设置节点为已完成状态
 router.get('/process/reschedule/all', auth.normalUserRequired, process.listReschdule); //获取我的改期提醒

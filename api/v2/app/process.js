@@ -273,6 +273,38 @@ exports.addImage = function (req, res, next) {
   }));
 };
 
+exports.add_images = function (req, res, next) {
+  var section = tools.trim(req.body.section);
+  var item = tools.trim(req.body.item);
+  var images = req.body.images || [];
+  images = images.map(function (o) {
+    return new ObjectId(o);
+  });
+  var _id = req.body._id;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Process.add_images(_id, section, item, images, ep.done(function (process) {
+
+    if (process) {
+      var s = _.find(process.sections, function (o) {
+        return o.name === section;
+      });
+      if (s) {
+        var i = _.find(s.items, function (o) {
+          return o.name === item;
+        });
+
+        if (i && i.status === type.process_item_status_new) {
+          Process.updateStatus(_id, section, item, type.process_item_status_going,
+            function () {});
+        }
+      }
+    }
+    res.sendSuccessMsg();
+  }));
+};
+
 exports.delete_image = function (req, res, next) {
   var section = tools.trim(req.body.section);
   var item = tools.trim(req.body.item);

@@ -1,6 +1,9 @@
 var config = require('../apiconfig');
 var ApiUtil = require('../common/api_util');
 var type = require('../type');
+var eventproxy = require('eventproxy');
+var fs = require('fs');
+var path = require('path');
 
 exports.index = function (req, res, next) {
   res.redirect('/tpl/index/index.html');
@@ -14,4 +17,28 @@ exports.homePage = function (req, res, next) {
   } else if (usertype === type.role_designer) {
     res.redirect('/tpl/user/design.html');
   }
+}
+
+var apkDir = path.normalize(__dirname + '/../public/user_build');
+
+exports.download_user_apk = function (req, res, next) {
+  var ep = eventproxy();
+  ep.fail(next);
+
+  fs.readdir(apkDir, ep.done(function (apks) {
+    apks.sort();
+    var apk = apks.pop();
+    if (apk) {
+      var arr = apk.split('_');
+      if (arr.length != 5) {
+        res.sendErrMsg('bad apk');
+      } else {
+        var download_url = 'http://' + req.headers.host +
+          '/user_build/' + apk;
+        res.redirect(download_url);
+      }
+    } else {
+      res.sendErrMsg('no apk');
+    }
+  }));
 }
