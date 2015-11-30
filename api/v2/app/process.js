@@ -509,7 +509,7 @@ exports.okReschedule = function (req, res, next) {
     query.designerid = userid;
   }
 
-  Reschedule.find(query, {
+  Reschedule.find(query, null, {
     sort: {
       request_date: -1,
     },
