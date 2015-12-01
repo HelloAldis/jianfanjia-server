@@ -199,7 +199,6 @@ $(function(){
 						var index = $(this).attr("href").match(/\d+(\.\d+)?/g)[0]
 						toFrom = (index-1)*5;
 						History.pushState({state:index}, "互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 设计师第 "+index+" 页", "?page="+index+jsonChangeStr(toQuery)+jsonChangeStr(toSort));
-						loadList()
 						return false;
 					});
 				}
@@ -229,14 +228,14 @@ $(function(){
 							if(res.data.total >= 3){
 								$.each(res['data']['products'],function(i,v){
 									pageCache[uid].push(v);
-									oImg.find('a').eq(i).attr('href',"homepage.html?"+v._id).removeClass('.loadImg').find('img').attr('src', RootUrl+'api/v1/thumbnail/383/'+v.images[0].imageid);
+									oImg.find('a').eq(i).attr('href',"detail.html?"+v._id).removeClass('.loadImg').find('img').attr('src', RootUrl+'api/v1/thumbnail/383/'+v.images[0].imageid);
 								})
 							}
 					   	}
 					});	
 				}else{
 					$.each(pageCache[uid],function(i,v){
-						oImg.find('a').eq(i).attr('href',"homepage.html?"+v._id).removeClass('.loadImg').find('img').attr('src', RootUrl+'api/v1/thumbnail/383/'+v.images[0].imageid);
+						oImg.find('a').eq(i).attr('href',"detail.html?"+v._id).removeClass('.loadImg').find('img').attr('src', RootUrl+'api/v1/thumbnail/383/'+v.images[0].imageid);
 					})
 				}
 			});
@@ -351,9 +350,20 @@ $(function(){
 				});
 			}
 		});
+		var stateOne = true;
 		History.Adapter.bind(window,'statechange',function(){
 			var State = History.getState();
 			setDefault(State)
+			if(State.data.state !== 1){
+				stateOne = true;
+			}
+			if(State.data.state && stateOne){
+				loadList()
+			}
+			if(State.data.state == 1 || State.data.state == undefined){
+				stateOne = false;
+			}
 		});
 	})(window)
 });
+

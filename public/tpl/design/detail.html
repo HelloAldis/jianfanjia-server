@@ -129,7 +129,7 @@
 				}
 		   	},
 		   	error:function(){
-		   		$('#j-design-detail').html('<div class="error"><h3>您查看作品不存在</h3><p>已被设计师删除或者您输入的地址有误<br />请重新输入打开<p></div>').css({
+		   		$('#j-design-detail').html('<div class="error"><h3>您查看作品不存在</h3><p>已被删除或者您输入的地址有误<br />请重新输入打开<p></div>').css({
 		   			'text-align': 'center',
 		   			'font-size': '18px'
 		   		});
@@ -141,16 +141,16 @@
 	}
 	loadList();
 	function getFavorite(){
-		var url = RootUrl+'api/v1/favorite/product';
+		var url = RootUrl+'api/v2/web/favorite/product/list';
 		$.ajax({
 			url:url,
-			type: 'GET',
+			type: 'POST',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function(res){	
 				if(res['data'] != null){
-					$.each(res['data']['favorite_product'],function(i,el){
-						if(winHash == el){
+					$.each(res['data']['products'],function(i,el){
+						if(winHash == el._id){
 							$collect.addClass('cancel').html('取消收藏');
 							if(window.usertype == 2){
 								$collect1.addClass('cancel').html('取消收藏');
@@ -226,7 +226,7 @@
 			window.location.href = '../user/login.html?'+window.location.href;
 		}
 		if(!$(this).hasClass('cancel')){
-			favorite('POST',function(res){
+			favorite(function(res){
 				if(res['msg'] === "success"){
 					$collect.addClass('cancel').html('取消收藏');
 					if(window.usertype == 2){
@@ -236,7 +236,7 @@
 			})
 		}else{
 			if(confirm("你确定要取消收藏吗？")){
-				favorite('DELETE',function(res){
+				favorite(function(res){
 					if(res['msg'] === "success"){
 						$collect.removeClass('cancel').html('收藏作品');
 						if(window.usertype == 2){
@@ -247,11 +247,11 @@
 			}
 		}
 	})
-	function favorite(type,fn){
-		var url = RootUrl+'api/v1/favorite/product';
+	function favorite(fn){
+		var url = RootUrl+'api/v2/web/favorite/product/add';
 		$.ajax({
 			url:url,
-			type: type,
+			type: 'POST',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
 			data : JSON.stringify({
