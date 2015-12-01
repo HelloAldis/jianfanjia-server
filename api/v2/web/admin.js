@@ -627,6 +627,8 @@ exports.add_article = function (req, res, next) {
 
   switch (articletype) {
     case type.articletype_dec_strategy:
+    case type.articletype_dec_tip:
+      article.articletype = articletype;
       DecStrategy.newAndSave(article, ep.done(function (dec_strategy) {
         res.sendSuccessMsg();
       }));
@@ -645,6 +647,8 @@ exports.update_article = function (req, res, next) {
 
   switch (articletype) {
     case type.articletype_dec_strategy:
+    case type.articletype_dec_tip:
+      article.articletype = articletype;
       DecStrategy.setOne({
           _id: _id
         },
@@ -679,7 +683,11 @@ exports.search_article = function (req, res, next) {
   }
 
   switch (articletype) {
+    case undefined:
     case type.articletype_dec_strategy:
+    case type.articletype_dec_tip:
+      query.articletype = articletype;
+      console.log(query);
       DecStrategy.paginate(query, project, {
         sort: sort,
         skip: skip,

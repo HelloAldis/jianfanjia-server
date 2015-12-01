@@ -24,6 +24,9 @@ var DecStrategySchema = new Schema({
   usertype: {
     type: String,
   },
+  articletype: {
+    type: String,
+  },
   status: {
     type: String,
   },

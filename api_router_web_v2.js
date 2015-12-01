@@ -50,6 +50,9 @@ router.get('/verify_email/:key/:phone/:type', sign.verify_email); //游客验证
 router.get('/dec_strategy/:_id/homepage', dec_strategy.dec_strategy_homepage); //获取某个攻略主页
 router.post('/beautiful_image_homepage', beautiful_image.beautiful_image_homepage); //游客获取美图主页
 router.post('/search_beautiful_image', beautiful_image.search_beautiful_image); //游客搜索美图
+router.post('/top_articles', dec_strategy.top_articles); //top文章
+router.post('/search_article', dec_strategy.search_article); //top设计师
+router.post('/top_designers', designer.top_designers); //top设计师
 
 //wechat api
 router.post('/wechat/receive', wechat.receive); //接收微信平台消息

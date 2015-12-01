@@ -112,6 +112,12 @@ exports.search_designer_product = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
 
+  var search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    search_word = new RegExp(tools.trim(search_word), 'i');
+    query.cell = search_word;
+  }
+
   Product.paginate(query, null, {
     sort: sort,
     skip: skip,
