@@ -319,6 +319,10 @@ exports.delete_image = function (req, res, next) {
 };
 
 exports.addYsImage = function (req, res, next) {
+  if (!req.body.imageid) {
+    return res.sendErrMsg('缺少Image');
+  }
+
   var section = tools.trim(req.body.section);
   var key = tools.trim(req.body.key);
   var imageid = new ObjectId(req.body.imageid);
