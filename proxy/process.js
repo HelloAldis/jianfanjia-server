@@ -27,6 +27,26 @@ exports.addImage = function (id, section, item, imageid, callback) {
   }, callback);
 };
 
+exports.add_images = function (id, section, item, images, callback) {
+  var index = _.indexOf(type.process_work_flow, section);
+  var path = 'sections.' + index + '.items.name';
+  var query = {};
+  query._id = id;
+  query[path] = item;
+  path = 'sections.' + index + '.items.$.images';
+  var update = {};
+  update[path] = {
+    $each: images
+  };
+  var set = {};
+  set['sections.' + index + '.items.$.date'] = new Date().getTime();
+
+  Process.findOneAndUpdate(query, {
+    $push: update,
+    $set: set,
+  }, callback);
+};
+
 exports.deleteImage = function (id, section, item, i, callback) {
   var index = _.indexOf(type.process_work_flow, section);
   var path = 'sections.' + index + '.items.name';

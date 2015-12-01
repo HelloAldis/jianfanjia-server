@@ -273,6 +273,38 @@ exports.addImage = function (req, res, next) {
   }));
 };
 
+exports.add_images = function (req, res, next) {
+  var section = tools.trim(req.body.section);
+  var item = tools.trim(req.body.item);
+  var images = req.body.images || [];
+  images = images.map(function (o) {
+    return new ObjectId(o);
+  });
+  var _id = req.body._id;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Process.add_images(_id, section, item, images, ep.done(function (process) {
+
+    if (process) {
+      var s = _.find(process.sections, function (o) {
+        return o.name === section;
+      });
+      if (s) {
+        var i = _.find(s.items, function (o) {
+          return o.name === item;
+        });
+
+        if (i && i.status === type.process_item_status_new) {
+          Process.updateStatus(_id, section, item, type.process_item_status_going,
+            function () {});
+        }
+      }
+    }
+    res.sendSuccessMsg();
+  }));
+};
+
 exports.delete_image = function (req, res, next) {
   var section = tools.trim(req.body.section);
   var item = tools.trim(req.body.item);
@@ -442,6 +474,7 @@ exports.okReschedule = function (req, res, next) {
   var query = {};
   var userid = ApiUtil.getUserid(req);
   query.processid = req.body.processid;
+  query.status = type.process_item_status_reschedule_req_new;
   var ep = eventproxy();
   ep.fail(next);
 
@@ -476,16 +509,17 @@ exports.okReschedule = function (req, res, next) {
     query.designerid = userid;
   }
 
-  Reschedule.setOne(query, {
-    status: type.process_item_status_reschedule_ok
-  }, {
+  Reschedule.find(query, null, {
     sort: {
       request_date: -1,
-    }
-  }, ep.done(function (reschedule) {
-    if (!reschedule) {
+    },
+    skip: 0,
+    limit: 1,
+  }, ep.done(function (reschedules) {
+    if (reschedules.length < 1) {
       return res.sendErrMsg('改期不存在');
     }
+    var reschedule = reschedules[0];
 
     var newDate = reschedule.new_date;
     var index = _.indexOf(type.process_work_flow, reschedule.section);
@@ -507,6 +541,9 @@ exports.okReschedule = function (req, res, next) {
             res.sendSuccessMsg();
             ep.emit('sendMessage', reschedule, process);
           }));
+
+          reschedule.status = type.process_item_status_reschedule_ok;
+          reschedule.save(function () {});
         }
       } else {
         res.sendErrMsg('工地不存在');
@@ -520,6 +557,7 @@ exports.rejectReschedule = function (req, res, next) {
   var query = {};
   var userid = ApiUtil.getUserid(req);
   query.processid = req.body.processid;
+  query.status = type.process_item_status_reschedule_req_new;
   var ep = eventproxy();
   ep.fail(next);
 

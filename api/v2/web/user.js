@@ -279,13 +279,15 @@ exports.designer_house_checked = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
+  var time = new Date().getTime();
   Plan.setOne({
     designerid: designerid,
     requirementid: requirementid,
     status: type.plan_status_designer_respond_no_housecheck,
   }, {
     status: type.plan_status_designer_housecheck_no_plan,
-    last_status_update_time: new Date().getTime(),
+    last_status_update_time: time,
+    user_ok_house_check_time: time,
   }, null, ep.done(function (plan) {
     if (plan) {
       Requirement.setOne({
