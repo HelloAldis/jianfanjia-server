@@ -536,6 +536,7 @@ exports.okReschedule = function (req, res, next) {
         } else {
           var diff = newDate - process.sections[index].end_at;
           process.sections[index].end_at = newDate;
+          process.sections[index].status = type.process_item_status_reschedule_ok;
           for (var i = index + 1; i < process.sections.length; i++) {
             process.sections[i].start_at += diff;
             process.sections[i].end_at += diff;
