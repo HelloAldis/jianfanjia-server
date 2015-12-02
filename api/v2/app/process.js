@@ -674,9 +674,13 @@ exports.doneItem = function (req, res, next) {
           if (result.items.length - doneCount == 1) {
             var index = _.indexOf(type.process_work_flow, section);
             var next = type.process_work_flow[index + 1];
-            Process.updateStatus(_id, next, null, type.process_item_status_going,
+            //结束当前工序
+            Process.updateStatus(_id, section, null, type.process_item_status_done,
               ep.done(function () {
-                res.sendSuccessMsg()
+                Process.updateStatus(_id, next, null, type.process_item_status_going,
+                  ep.done(function () {
+                    res.sendSuccessMsg()
+                  }));
               }));
           } else {
             res.sendSuccessMsg();
