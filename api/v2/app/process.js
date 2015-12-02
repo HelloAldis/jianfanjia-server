@@ -671,7 +671,7 @@ exports.doneItem = function (req, res, next) {
           });
 
           //开工拆改 开启下个流程
-          if (result.items.length - doneCount == 1) {
+          if (result.items.length - doneCount <= 1) {
             var index = _.indexOf(type.process_work_flow, section);
             var next = type.process_work_flow[index + 1];
             //结束当前工序
