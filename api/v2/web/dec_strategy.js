@@ -41,12 +41,13 @@ exports.top_articles = function (req, res, next) {
   async.parallel({
     dec_strategies: function (callback) {
       DecStrategy.find({
-        // status: type.article_status_public,
+        status: type.article_status_public,
         articletype: type.articletype_dec_strategy,
       }, {
         title: 1,
         description: 1,
         cover_imageid: 1,
+        articletype: 1,
       }, {
         sort: {
           create_at: -1,
@@ -57,12 +58,13 @@ exports.top_articles = function (req, res, next) {
     },
     dec_tips: function (callback) {
       DecStrategy.find({
-        // status: type.article_status_public,
+        status: type.article_status_public,
         articletype: type.articletype_dec_tip,
       }, {
         title: 1,
         description: 1,
         cover_imageid: 1,
+        articletype: 1,
       }, {
         sort: {
           create_at: -1,
@@ -78,7 +80,7 @@ exports.top_articles = function (req, res, next) {
 
 exports.search_article = function (req, res, next) {
   var query = req.body.query || {};
-  // query.status = type.article_status_public;
+  query.status = type.article_status_public;
   var sort = req.body.sort || {
     create_at: -1
   };
@@ -91,6 +93,7 @@ exports.search_article = function (req, res, next) {
     title: 1,
     description: 1,
     cover_imageid: 1,
+    articletype: 1,
   }, {
     sort: {
       create_at: -1,

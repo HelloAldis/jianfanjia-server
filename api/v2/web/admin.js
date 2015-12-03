@@ -679,6 +679,7 @@ exports.search_article = function (req, res, next) {
       create_at: 1,
       lastupdate: 1,
       status: 1,
+      articletype: 1,
     };
   }
 
@@ -687,7 +688,6 @@ exports.search_article = function (req, res, next) {
     case type.articletype_dec_strategy:
     case type.articletype_dec_tip:
       query.articletype = articletype;
-      console.log(query);
       DecStrategy.paginate(query, project, {
         sort: sort,
         skip: skip,

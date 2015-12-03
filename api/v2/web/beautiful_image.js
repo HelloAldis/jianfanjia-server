@@ -55,7 +55,7 @@ exports.search_beautiful_image = function (req, res, next) {
     limit: limit
   }, ep.done(function (beautifulImages, total) {
     res.sendData({
-      beautifulImages: beautifulImages,
+      beautiful_images: beautifulImages,
       total: total
     });
   }));
