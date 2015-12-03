@@ -220,6 +220,8 @@ exports.buildShare = function (req) {
       return new ObjectId(i);
     });
   });
+  share.cover_imageid = req.body.cover_imageid ? new ObjectId(req.body.cover_imageid) :
+    undefined;
 
   return share;
 }
