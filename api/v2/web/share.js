@@ -103,8 +103,8 @@ exports.top_shares = function (req, res, next) {
       var latest_scenes = [];
       for (var i = 0; i < 30; i++) {
         var temp = {};
-        temp.username = _.sample(names, 1) + _.sample(sexs, 1);
-        temp.house_type = _.sample(house_types, 1);
+        temp.username = _.sample(names) + _.sample(sexs);
+        temp.house_type = _.sample(house_types);
         var rang = house_areas[temp.house_type];
         temp.house_area = _.random(rang.start, rang.end);
         latest_scenes.push(temp);
