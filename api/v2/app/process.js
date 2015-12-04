@@ -561,6 +561,10 @@ exports.rejectReschedule = function (req, res, next) {
   var usertype = ApiUtil.getUsertype(req);
   var query = {};
   var userid = ApiUtil.getUserid(req);
+  if (!req.body.processid) {
+    return res.sendErrMsg('缺少processid');
+  }
+
   query.processid = req.body.processid;
   query.status = type.process_item_status_reschedule_req_new;
   var ep = eventproxy();
@@ -736,7 +740,24 @@ exports.getOne = function (req, res, next) {
   Process.findOne({
     _id: _id
   }, null, ep.done(function (process) {
-    res.sendData(process);
+    if (process) {
+      Reschedule.findOne({
+        processid: req.body.processid,
+        status: type.process_item_status_reschedule_req_new,
+      }, ep.done(function (reschedule) {
+        if (reschedule) {
+          var index = _.indexOf(type.process_work_flow,
+            reschedule.section);
+          process = process.toObject();
+          process.sections[index].reschedule = reschedule;
+          res.sendData(process);
+        } else {
+          res.sendData(process);
+        }
+      }));
+    } else {
+      res.sendErrMsg('工地不存在')
+    }
   }));
 }
 
