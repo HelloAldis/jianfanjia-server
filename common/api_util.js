@@ -321,9 +321,11 @@ exports.buildBeautifulImage = function (req) {
   var beautifulImage = {};
   beautifulImage.title = req.body.title;
   beautifulImage.description = req.body.description;
+  beautifulImage.keywords = req.body.keywords;
   beautifulImage.dec_type = req.body.dec_type;
   beautifulImage.house_type = req.body.house_type;
   beautifulImage.dec_style = req.body.dec_style;
+  beautifulImage.section = req.body.section;
   beautifulImage.status = req.body.status;
 
   beautifulImage.images = _.map(req.body.images, function (i) {

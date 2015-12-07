@@ -43,6 +43,16 @@ exports.search_beautiful_image = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
+  var search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    search_word = new RegExp(tools.trim(search_word), 'i');
+    query['$or'] = [{
+      title: search_word
+    }, {
+      description: search_word
+    }];
+  }
+
   BeautifulImage.paginate(query, {
     title: 1,
     house_type: 1,
