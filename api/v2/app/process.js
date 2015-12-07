@@ -742,7 +742,7 @@ exports.getOne = function (req, res, next) {
   }, null, ep.done(function (process) {
     if (process) {
       Reschedule.findOne({
-        processid: req.body.processid,
+        processid: _id,
         status: type.process_item_status_reschedule_req_new,
       }, ep.done(function (reschedule) {
         if (reschedule) {
