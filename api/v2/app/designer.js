@@ -51,6 +51,7 @@ exports.home_page_designers = function (req, res, next) {
               imageid: 1,
               service_attitude: 1,
               respond_speed: 1,
+              auth_type: 1,
             }, function (err, designers) {
               if (designers) {
                 requirement.designers = designers;

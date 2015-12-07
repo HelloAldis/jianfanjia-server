@@ -179,8 +179,8 @@ exports.user_add_requirement = function (req, res, next) {
       accessToken: 0
     }, {
       sort: {
-        authed_product_count: -1,
         order_count: 1,
+        authed_product_count: -1,
         login_count: -1,
       }
     }, ep.done(function (designers) {;
@@ -237,8 +237,8 @@ exports.user_update_requirement = function (req, res, next) {
     accessToken: 0
   }, {
     sort: {
-      authed_product_count: -1,
       order_count: 1,
+      authed_product_count: -1,
       login_count: -1,
     }
   }, ep.done(function (designers) {

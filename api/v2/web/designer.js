@@ -176,6 +176,28 @@ exports.listtop = function (req, res, next) {
   }));
 }
 
+exports.top_designers = function (req, res, next) {
+  var ep = new eventproxy();
+  ep.fail(next);
+  var limit = req.body.limit;
+
+  Designer.find({
+    auth_type: type.designer_auth_type_done,
+    authed_product_count: {
+      $gte: 5
+    },
+  }, {
+    username: 1,
+    imageid: 1,
+    auth_type: 1,
+    uid_auth_type: 1,
+    work_auth_type: 1,
+  }, null, ep.done(function (designers) {
+    var recs = _.sample(designers, limit);
+    res.sendData(recs);
+  }));
+}
+
 exports.search = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var usertype = ApiUtil.getUsertype(req);
@@ -192,8 +214,14 @@ exports.search = function (req, res, next) {
 
   var search_word = req.body.search_word;
   if (search_word && search_word.trim().length > 0) {
-    search_word = new RegExp('^' + tools.trim(search_word), 'i');
-    query.username = search_word;
+    search_word = new RegExp(tools.trim(search_word), 'i');
+    query['$or'] = [{
+      company: search_word
+    }, {
+      username: search_word
+    }, {
+      philosophy: search_word
+    }];
   }
 
   Designer.paginate(query, noPrivateInfo, {

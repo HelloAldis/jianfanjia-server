@@ -16,3 +16,7 @@ exports.setOne = function (query, update, option, callback) {
     $set: update
   }, option, callback)
 }
+
+exports.findOne = function (query, project, callback) {
+  Reschedule.findOne(query, project, callback);
+}

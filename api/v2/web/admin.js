@@ -627,6 +627,8 @@ exports.add_article = function (req, res, next) {
 
   switch (articletype) {
     case type.articletype_dec_strategy:
+    case type.articletype_dec_tip:
+      article.articletype = articletype;
       DecStrategy.newAndSave(article, ep.done(function (dec_strategy) {
         res.sendSuccessMsg();
       }));
@@ -643,18 +645,12 @@ exports.update_article = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  switch (articletype) {
-    case type.articletype_dec_strategy:
-      DecStrategy.setOne({
-          _id: _id
-        },
-        article, null, ep.done(function (dec_strategy) {
-          res.sendSuccessMsg();
-        }));
-      break;
-    default:
-      res.sendErrMsg('请求articletype类型错误');
-  }
+  article.articletype = articletype;
+  DecStrategy.setOne({
+    _id: _id
+  }, article, null, ep.done(function (dec_strategy) {
+    res.sendSuccessMsg();
+  }));
 }
 
 exports.search_article = function (req, res, next) {
@@ -675,11 +671,15 @@ exports.search_article = function (req, res, next) {
       create_at: 1,
       lastupdate: 1,
       status: 1,
+      articletype: 1,
     };
   }
 
   switch (articletype) {
+    case undefined:
     case type.articletype_dec_strategy:
+    case type.articletype_dec_tip:
+      query.articletype = articletype;
       DecStrategy.paginate(query, project, {
         sort: sort,
         skip: skip,

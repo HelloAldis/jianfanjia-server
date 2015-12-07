@@ -9,6 +9,9 @@ var BeautifulImageSchema = new Schema({
   description: {
     type: String,
   },
+  keywords: {
+    type: String,
+  },
   images: {
     type: {
       imageid: {
@@ -29,6 +32,9 @@ var BeautifulImageSchema = new Schema({
     type: String,
   },
   dec_style: {
+    type: String,
+  },
+  section: {
     type: String,
   },
   authorid: {

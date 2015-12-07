@@ -143,6 +143,7 @@ var type = {
   wechat_token: 'wechat_token',
 
   articletype_dec_strategy: '0',
+  articletype_dec_tip: '1',
 
   article_status_private: '0',
   article_status_public: '1',

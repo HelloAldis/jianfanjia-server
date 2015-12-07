@@ -9,6 +9,9 @@ var ShareSchema = new Schema({
   designerid: {
     type: ObjectId
   },
+  cover_imageid: {
+    type: ObjectId,
+  },
   manager: {
     type: String
   },

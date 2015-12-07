@@ -319,6 +319,10 @@ exports.delete_image = function (req, res, next) {
 };
 
 exports.addYsImage = function (req, res, next) {
+  if (!req.body.imageid) {
+    return res.sendErrMsg('缺少Image');
+  }
+
   var section = tools.trim(req.body.section);
   var key = tools.trim(req.body.key);
   var imageid = new ObjectId(req.body.imageid);
@@ -532,6 +536,7 @@ exports.okReschedule = function (req, res, next) {
         } else {
           var diff = newDate - process.sections[index].end_at;
           process.sections[index].end_at = newDate;
+          process.sections[index].status = type.process_item_status_reschedule_ok;
           for (var i = index + 1; i < process.sections.length; i++) {
             process.sections[i].start_at += diff;
             process.sections[i].end_at += diff;
@@ -556,6 +561,10 @@ exports.rejectReschedule = function (req, res, next) {
   var usertype = ApiUtil.getUsertype(req);
   var query = {};
   var userid = ApiUtil.getUserid(req);
+  if (!req.body.processid) {
+    return res.sendErrMsg('缺少processid');
+  }
+
   query.processid = req.body.processid;
   query.status = type.process_item_status_reschedule_req_new;
   var ep = eventproxy();
@@ -666,12 +675,16 @@ exports.doneItem = function (req, res, next) {
           });
 
           //开工拆改 开启下个流程
-          if (result.items.length - doneCount == 1) {
+          if (result.items.length - doneCount <= 1) {
             var index = _.indexOf(type.process_work_flow, section);
             var next = type.process_work_flow[index + 1];
-            Process.updateStatus(_id, next, null, type.process_item_status_going,
+            //结束当前工序
+            Process.updateStatus(_id, section, null, type.process_item_status_done,
               ep.done(function () {
-                res.sendSuccessMsg()
+                Process.updateStatus(_id, next, null, type.process_item_status_going,
+                  ep.done(function () {
+                    res.sendSuccessMsg()
+                  }));
               }));
           } else {
             res.sendSuccessMsg();
@@ -727,7 +740,24 @@ exports.getOne = function (req, res, next) {
   Process.findOne({
     _id: _id
   }, null, ep.done(function (process) {
-    res.sendData(process);
+    if (process) {
+      Reschedule.findOne({
+        processid: _id,
+        status: type.process_item_status_reschedule_req_new,
+      }, ep.done(function (reschedule) {
+        if (reschedule) {
+          var index = _.indexOf(type.process_work_flow,
+            reschedule.section);
+          process = process.toObject();
+          process.sections[index].reschedule = reschedule;
+          res.sendData(process);
+        } else {
+          res.sendData(process);
+        }
+      }));
+    } else {
+      res.sendErrMsg('工地不存在')
+    }
   }));
 }
 
