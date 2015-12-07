@@ -9,6 +9,9 @@ var FeedbackSchema = new Schema({
   by: {
     type: ObjectId
   },
+  version: {
+    type: String,
+  },
   usertype: {
     type: String,
   },

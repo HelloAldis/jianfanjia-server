@@ -262,6 +262,7 @@ exports.buildFeedback = function (req) {
 
   feedback.content = req.body.content;
   feedback.platform = req.body.platform;
+  feedback.version = req.body.version;
   return feedback;
 }
 
