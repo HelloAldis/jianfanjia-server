@@ -202,7 +202,9 @@ exports.search = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var usertype = ApiUtil.getUsertype(req);
   var query = req.body.query || {};
-  var sort = req.body.sort;
+  var sort = req.body.sort || {
+    authed_product_count: -1,
+  };
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
   query.auth_type = type.designer_auth_type_done;
