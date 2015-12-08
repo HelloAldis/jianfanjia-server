@@ -21,6 +21,7 @@ var userWeb = require('./api/v2/web/user');
 var designerWeb = require('./api/v2/web/designer');
 var favoriteWeb = require('./api/v2/web/favorite');
 var productWeb = require('./api/v2/web/product');
+var beautiful_imageWeb = require('./api/v2/web/beautiful_image');
 
 var config = require('./apiconfig');
 var auth = require('./middlewares/auth');
@@ -51,6 +52,8 @@ router.post('/product_home_page', productWeb.product_home_page); //游客获取�
 router.post('/search_designer_product', productWeb.search_designer_product); //游客获取设计师作品
 router.get('/image/:_id', imageWeb.get); //获取图片
 router.get('/thumbnail/:width/:_id', imageWeb.thumbnail); //获取缩略图
+router.post('/beautiful_image_homepage', beautiful_imageWeb.beautiful_image_homepage); //游客获取美图主页
+router.post('/search_beautiful_image', beautiful_imageWeb.search_beautiful_image); //游客搜索美图
 //设备使用
 router.get('/device/android_build_version', device.android_build_version); //获取android信息
 
@@ -72,6 +75,9 @@ router.get('/process/reschedule/all', auth.normalUserRequired, process.listResch
 router.post('/process/reschedule', auth.normalUserRequired, process.reschedule); //提交改期提醒
 router.post('/process/reschedule/ok', auth.normalUserRequired, process.okReschedule); //同意改期提醒
 router.post('/process/reschedule/reject', auth.normalUserRequired, process.rejectReschedule); //拒绝改期提醒
+router.post('/favorite/product/list', auth.normalUserRequired, favoriteWeb.list_product); //收藏列表
+router.post('/favorite/product/add', auth.normalUserRequired, favoriteWeb.add_product); //收藏作品
+router.post('/favorite/product/delete', auth.normalUserRequired, favoriteWeb.delete_product); //删除收藏作品
 //设备使用
 router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定cid
 
