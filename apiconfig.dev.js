@@ -53,6 +53,12 @@ var config = {
   yzx_token: '26d602336aa881dbf272873e31b8b723',
   yzx_appid: '5484c9c5af984884ab8942616de7e5b7',
 
+  //个推配置
+  gt_HOST: 'http://sdk.open.api.igexin.com/apiex.htm',
+  gt_APPID: 't9nLEYqbWI7HUX2QkE79v2',
+  gt_APPKEY: 'm2fZOPk3fy5pgq6szkabb7',
+  gt_MASTERSECRET: 'QqajbwOntNAyGMYwX6AKc5',
+
   //一些业务配置
   send_email: true, //发不发送邮件
   send_sms: false, //发不发短信

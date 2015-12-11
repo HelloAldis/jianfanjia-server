@@ -15,21 +15,11 @@ var type = require('../../../type');
 var async = require('async');
 var sms = require('../../../common/sms');
 var designer_match_util = require('../../../common/designer_match');
-var gt = require('../../../getui/gt.js');
 
 exports.user_my_requirement_list = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var ep = eventproxy();
   ep.fail(next);
-
-  gt.pushMessageToSingle(userid, {
-    content: '测试一下',
-    section: 'section',
-    type: 'type',
-    time: new Date().getTime(),
-    cell: 'cell',
-    processid: userid,
-  });
 
   Requirement.find({
     userid: userid

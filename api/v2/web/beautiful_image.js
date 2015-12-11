@@ -56,7 +56,7 @@ exports.search_beautiful_image = function (req, res, next) {
   BeautifulImage.paginate(query, {
     title: 1,
     house_type: 1,
-    dec_type: 1,
+    section: 1,
     dec_style: 1,
     images: 1,
   }, {

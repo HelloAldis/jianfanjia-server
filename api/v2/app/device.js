@@ -22,6 +22,15 @@ exports.bindCid = function (req, res, next) {
 }
 
 exports.android_build_version = function (req, res, next) {
+  gt.pushMessageToSingle('566798dab6c449fd05969fef', {
+    content: '测试一下离线的',
+    section: 'section',
+    type: 'type',
+    time: new Date().getTime(),
+    cell: 'cell',
+    processid: '566798dab6c449fd05969fef',
+  });
+
   var ep = eventproxy();
   ep.fail(next);
 

@@ -11,7 +11,10 @@ var FavoriteSchema = new Schema({
   },
   favorite_designer: {
     type: [ObjectId]
-  }
+  },
+  favorite_beautiful_image: {
+    type: [ObjectId]
+  },
 });
 
 FavoriteSchema.index({

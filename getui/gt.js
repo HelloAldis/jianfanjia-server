@@ -1,4 +1,4 @@
-var config = require('./GtConfig');
+var config = require('../apiconfig');
 var GeTui = require('./GT.push');
 var TransmissionTemplate = require('./template/TransmissionTemplate');
 var SingleMessage = require('./message/SingleMessage');
@@ -6,11 +6,11 @@ var Target = require('./Target');
 var APNPayload = require('./payload/APNPayload');
 var SimpleAlertMsg = require('./payload/SimpleAlertMsg');
 
-var gt = new GeTui(config.HOST, config.APPKEY, config.MASTERSECRET);
+var gt = new GeTui(config.gt_HOST, config.gt_APPKEY, config.gt_MASTERSECRET);
 
 exports.aliasBind = function (userid, cid) {
   userid = userid.toString();
-  gt.bindAlias(config.APPID, userid, cid, function (err, res) {
+  gt.bindAlias(config.gt_APPID, userid, cid, function (err, res) {
     console.log('err = ' + err);
     console.log(res);
   });
@@ -21,17 +21,17 @@ exports.pushMessageToSingle = function (userid, playload) {
 
   var payload = new APNPayload();
   var alertMsg = new SimpleAlertMsg();
-  alertMsg.alertMsg = "AlertMsg";
+  alertMsg.alertMsg = playload.content;
   payload.alertMsg = alertMsg;
-  payload.badge = 5;
+  payload.badge = 1;
   payload.contentAvailable = 1;
-  payload.category = "ACTIONABLE";
+  payload.category = "ACTION 1";
   // payload.sound = "test1.wav";
   payload.customMsg.payload1 = JSON.stringify(playload);
 
   var template = new TransmissionTemplate({
-    appId: config.APPID,
-    appKey: config.APPKEY,
+    appId: config.gt_APPID,
+    appKey: config.gt_APPKEY,
     transmissionType: 2,
     transmissionContent: JSON.stringify(playload),
   });
@@ -39,13 +39,13 @@ exports.pushMessageToSingle = function (userid, playload) {
 
   var message = new SingleMessage({
     isOffline: true, //是否离线
-    offlineExpireTime: 3600 * 12 * 1000, //离线时间
+    offlineExpireTime: 3600 * 48 * 1000, //离线时间
     data: template, //设置推送消息类型
   });
 
   //接收方
   var target = new Target({
-    appId: config.APPID,
+    appId: config.gt_APPID,
     alias: userid,
   });
 

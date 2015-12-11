@@ -3,6 +3,7 @@ var eventproxy = require('eventproxy');
 var Favorite = require('../../../proxy').Favorite;
 var Product = require('../../../proxy').Product;
 var Designer = require('../../../proxy').Designer;
+var BeautifulImage = require('../../../proxy').BeautifulImage;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../apiconfig');
@@ -46,6 +47,48 @@ exports.list_product = function (req, res, next) {
     } else {
       return res.sendData({
         products: [],
+        total: 0,
+      });
+    }
+  }));
+}
+
+exports.list_beautiful_image = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Favorite.findOne({
+    userid: userid
+  }, null, ep.done(function (favorite) {
+    if (favorite && favorite.favorite_beautiful_image) {
+      var beautiful_imageids = favorite.favorite_beautiful_image.slice(
+        skip, skip + limit);
+      async.mapLimit(beautiful_imageids, 3, function (beautiful_imageid,
+        callback) {
+        BeautifulImage.findOne({
+          _id: beautiful_imageid
+        }, null, function (err, beautiful_image) {
+          if (!beautiful_image) {
+            beautiful_image = {
+              _id: beautiful_imageid,
+              is_deleted: true,
+            };
+          }
+
+          callback(err, beautiful_image);
+        });
+      }, ep.done(function (results) {
+        res.sendData({
+          beautiful_images: results,
+          total: favorite.favorite_beautiful_image.length,
+        });
+      }));
+    } else {
+      return res.sendData({
+        beautiful_images: [],
         total: 0,
       });
     }
@@ -155,6 +198,51 @@ exports.add_product = function (req, res, next) {
   }));
 };
 
+exports.add_beautiful_image = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var beautiful_id = new ObjectId(req.body._id);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Favorite.findOne({
+    userid: userid
+  }, null, ep.done(function (favorite) {
+    if (favorite) {
+      Favorite.addToSet({
+        userid: userid
+      }, {
+        favorite_beautiful_image: beautiful_id
+      }, null, ep.done(function () {
+        res.sendSuccessMsg();
+        var result = _.find(favorite.favorite_beautiful_image,
+          function (o) {
+            return o.toString() === beautiful_id.toString();
+          });
+
+        if (!result) {
+          BeautifulImage.incOne({
+            _id: beautiful_id
+          }, {
+            favorite_count: 1
+          });
+        }
+      }));
+    } else {
+      Favorite.newAndSave({
+        userid: userid,
+        favorite_beautiful_image: [beautiful_id]
+      }, ep.done(function () {
+        BeautifulImage.incOne({
+          _id: beautiful_id
+        }, {
+          favorite_count: 1
+        });
+        res.sendSuccessMsg();
+      }));
+    }
+  }));
+};
+
 exports.add_designer = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var designerid = new ObjectId(req.body._id);
@@ -207,7 +295,6 @@ exports.delete_product = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  console.log(productid);
   Favorite.pull({
     userid: userid
   }, {
@@ -228,6 +315,35 @@ exports.delete_product = function (req, res, next) {
     }
 
     res.sendSuccessMsg();
+  }));
+};
+
+exports.delete_beautiful_image = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var beautiful_imageid = new ObjectId(req.body._id);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Favorite.pull({
+    userid: userid
+  }, {
+    favorite_beautiful_image: beautiful_imageid
+  }, null, ep.done(function (favorite) {
+    res.sendSuccessMsg();
+    if (favorite) {
+      var result = _.find(favorite.favorite_beautiful_image, function (
+        o) {
+        return o.toString() === beautiful_imageid.toString();
+      });
+
+      if (result) {
+        BeautifulImage.incOne({
+          _id: beautiful_imageid
+        }, {
+          favorite_count: -1
+        });
+      }
+    }
   }));
 };
 
