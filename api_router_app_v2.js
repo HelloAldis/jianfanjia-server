@@ -78,6 +78,12 @@ router.post('/process/reschedule/reject', auth.normalUserRequired, process.rejec
 router.post('/favorite/product/list', auth.normalUserRequired, favoriteWeb.list_product); //收藏列表
 router.post('/favorite/product/add', auth.normalUserRequired, favoriteWeb.add_product); //收藏作品
 router.post('/favorite/product/delete', auth.normalUserRequired, favoriteWeb.delete_product); //删除收藏作品
+router.post('/favorite/beautiful_image/list', auth.normalUserRequired,
+  favoriteWeb.list_beautiful_image); //收藏美图列表
+router.post('/favorite/beautiful_image/add', auth.normalUserRequired,
+  favoriteWeb.add_beautiful_image); //收藏美图
+router.post('/favorite/beautiful_image/delete', auth.normalUserRequired,
+  favoriteWeb.delete_beautiful_image); //删除收藏美图
 //设备使用
 router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定cid
 

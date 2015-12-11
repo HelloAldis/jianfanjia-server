@@ -68,10 +68,10 @@ router.post('/favorite/product/list', auth.normalUserRequired, favorite.list_pro
 router.post('/favorite/product/add', auth.normalUserRequired, favorite.add_product); //收藏作品
 router.post('/favorite/product/delete', auth.normalUserRequired, favorite.delete_product); //删除收藏作品
 router.post('/favorite/beautiful_image/list', auth.normalUserRequired, favorite
-  .list_beautiful_image); //收藏列表
-router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favorite.add_beautiful_image); //收藏作品
+  .list_beautiful_image); //收藏美图列表
+router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favorite.add_beautiful_image); //收藏美图
 router.post('/favorite/beautiful_image/delete', auth.normalUserRequired,
-  favorite.delete_beautiful_image); //删除收藏作品
+  favorite.delete_beautiful_image); //删除收藏美图
 router.post('/add_comment', auth.normalUserRequired, comment.add_comment); //添加评论
 router.post('/unread_comment', auth.normalUserRequired, comment.unread_comment); //获取未读评论
 router.post('/topic_comments', auth.normalUserRequired, comment.topic_comments); //获取评论并标记为已读
