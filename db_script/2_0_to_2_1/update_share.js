@@ -13,7 +13,8 @@ var type = require('../../type');
 Share.find({}, null, null, function (err, shares) {
   shares.forEach(function (share) {
     share.process.forEach(function (process) {
-      process.name = (process.name + 1) + '';
+      var a = parseInt(process.name.slice(0, 1));
+      process.name = (a + 1) + '';
     });
     share.save(function () {
       console.log('save to ' + JSON.stringify(share));
