@@ -34,9 +34,18 @@ exports.list_product = function (req, res, next) {
               _id: productid,
               is_deleted: true,
             };
+            callback(err, product);
+          } else {
+            Designer.findOne({
+              _id: product.designerid
+            }, {
+              imageid: 1,
+            }, function (err, designer) {
+              product = product.toObject();
+              product.designer = designer;
+              callback(err, product);
+            });
           }
-
-          callback(err, product);
         });
       }, ep.done(function (results) {
         res.sendData({
