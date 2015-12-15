@@ -429,8 +429,8 @@ exports.reschedule = function (req, res, next) {
   Reschedule.findOne({
     processid: reschedule.processid,
     status: type.process_item_status_reschedule_req_new,
-  }, null, ep.done(function (reschedule) {
-    if (reschedule) {
+  }, null, ep.done(function (reschedule_indb) {
+    if (reschedule_indb) {
       return res.sendErrMsg('同一时间只能又一个改期！');
     }
 
