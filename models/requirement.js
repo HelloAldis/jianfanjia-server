@@ -39,6 +39,9 @@ var RequirementSchema = new Schema({
   house_type: {
     type: String
   },
+  business_house_type: {
+    type: String
+  },
   house_area: {
     type: Number,
     default: 0

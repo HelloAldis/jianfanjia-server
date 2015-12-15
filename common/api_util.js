@@ -189,6 +189,7 @@ exports.buildRequirement = function (req) {
   requirement.cell_unit = req.body.cell_unit;
   requirement.cell_detail_number = req.body.cell_detail_number;
   requirement.house_type = req.body.house_type;
+  requirement.business_house_type = req.body.business_house_type;
   requirement.house_area = req.body.house_area;
   requirement.dec_style = req.body.dec_style;
   requirement.dec_type = req.body.dec_type;

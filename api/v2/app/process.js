@@ -431,7 +431,7 @@ exports.reschedule = function (req, res, next) {
     status: type.process_item_status_reschedule_req_new,
   }, null, ep.done(function (reschedule_indb) {
     if (reschedule_indb) {
-      return res.sendErrMsg('同一时间只能又一个改期！');
+      return res.sendErrMsg('对方已经申请改期！');
     }
 
     Reschedule.newAndSave(reschedule, ep.done(function (reschedule) {
