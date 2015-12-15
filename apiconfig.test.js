@@ -55,9 +55,9 @@ var config = {
 
   //个推配置
   gt_HOST: 'http://sdk.open.api.igexin.com/apiex.htm',
-  gt_APPID: 't9nLEYqbWI7HUX2QkE79v2',
-  gt_APPKEY: 'm2fZOPk3fy5pgq6szkabb7',
-  gt_MASTERSECRET: 'QqajbwOntNAyGMYwX6AKc5',
+  gt_APPID: 'SLKdGK8YIr9wns6NPEL8v8',
+  gt_APPKEY: 'O3oCpGEAVp7NjP67JbMPt5',
+  gt_MASTERSECRET: 'IC092VcdKD66tT4D1lNVa9',
 
   //一些业务配置
   send_email: true, //发不发送邮件

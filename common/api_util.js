@@ -31,6 +31,9 @@ exports.buildUser = function (req) {
   user.district = req.body.district;
   user.address = req.body.address;
   user.email = req.body.email;
+  user.dec_progress = req.body.dec_progress;
+  user.dec_styles = req.body.dec_styles;
+  user.family_description = req.body.family_description;
 
   if (req.body.imageid) {
     user.imageid = new ObjectId(req.body.imageid);
@@ -180,7 +183,7 @@ exports.buildRequirement = function (req) {
   requirement.city = req.body.city;
   requirement.district = req.body.district;
   requirement.cell = req.body.cell;
-  requirement.street = req.body.street;
+  requirement.address = req.body.address;
   requirement.cell_phase = req.body.cell_phase;
   requirement.cell_building = req.body.cell_building;
   requirement.cell_unit = req.body.cell_unit;
