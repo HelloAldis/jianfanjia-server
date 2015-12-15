@@ -426,16 +426,25 @@ exports.reschedule = function (req, res, next) {
     }));
   });
 
-  Reschedule.newAndSave(reschedule, ep.done(function (reschedule) {
+  Reschedule.findOne({
+    processid: reschedule.processid,
+    status: type.process_item_status_reschedule_req_new,
+  }, null, ep.done(function (reschedule) {
     if (reschedule) {
-      Process.updateStatus(reschedule.processid, reschedule.section,
-        null, reschedule.status, ep.done(function (process) {
-          res.sendSuccessMsg();
-          ep.emit('sendMessage', process);
-        }));
-    } else {
-      res.sendErrMsg('无法保存成功');
+      return res.sendErrMsg('同一时间只能又一个改期！');
     }
+
+    Reschedule.newAndSave(reschedule, ep.done(function (reschedule) {
+      if (reschedule) {
+        Process.updateStatus(reschedule.processid, reschedule.section,
+          null, reschedule.status, ep.done(function (process) {
+            res.sendSuccessMsg();
+            ep.emit('sendMessage', process);
+          }));
+      } else {
+        res.sendErrMsg('无法保存成功');
+      }
+    }));
   }));
 };
 
@@ -509,8 +518,10 @@ exports.okReschedule = function (req, res, next) {
 
   if (usertype === type.role_user) {
     query.userid = userid;
+    query.request_role = type.role_designer;
   } else if (usertype === type.role_designer) {
     query.designerid = userid;
+    query.request_role = type.role_user;
   }
 
   Reschedule.find(query, null, {
@@ -597,8 +608,10 @@ exports.rejectReschedule = function (req, res, next) {
 
   if (usertype === type.role_user) {
     query.userid = userid;
+    query.request_role = type.role_designer;
   } else if (usertype === type.role_designer) {
     query.designerid = userid;
+    query.request_role = type.role_user;
   }
 
   Reschedule.setOne(query, {
