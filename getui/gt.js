@@ -5,6 +5,7 @@ var SingleMessage = require('./message/SingleMessage');
 var Target = require('./Target');
 var APNPayload = require('./payload/APNPayload');
 var SimpleAlertMsg = require('./payload/SimpleAlertMsg');
+var RequestError = require('./RequestError');
 
 var gt_user = new GeTui(config.gt_user_HOST, config.gt_user_APPKEY, config.gt_user_MASTERSECRET);
 var gt_designer = new GeTui(config.gt_user_HOST, config.gt_designer_APPKEY,
