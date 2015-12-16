@@ -85,7 +85,7 @@ router.post('/favorite/beautiful_image/add', auth.normalUserRequired,
 router.post('/favorite/beautiful_image/delete', auth.normalUserRequired,
   favoriteWeb.delete_beautiful_image); //删除收藏美图
 //设备使用
-router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定cid
+// router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定cid
 
 //业主独有功能
 router.post('/user/info', auth.userRequired, userWeb.user_update_info); //修改业主个人资料

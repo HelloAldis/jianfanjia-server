@@ -6,11 +6,13 @@ var Target = require('./Target');
 var APNPayload = require('./payload/APNPayload');
 var SimpleAlertMsg = require('./payload/SimpleAlertMsg');
 
-var gt = new GeTui(config.gt_HOST, config.gt_APPKEY, config.gt_MASTERSECRET);
+var gt_user = new GeTui(config.gt_user_HOST, config.gt_user_APPKEY, config.gt_user_MASTERSECRET);
+var gt_designer = new GeTui(config.gt_user_HOST, config.gt_designer_APPKEY,
+  config.gt_designer_MASTERSECRET);
 
 exports.aliasBind = function (userid, cid) {
   userid = userid.toString();
-  gt.bindAlias(config.gt_APPID, userid, cid, function (err, res) {
+  gt.bindAlias(config.gt_user_APPID, userid, cid, function (err, res) {
     console.log('err = ' + err);
     console.log(res);
   });
@@ -30,8 +32,8 @@ exports.pushMessageToSingle = function (userid, playload) {
   payload.customMsg.payload1 = JSON.stringify(playload);
 
   var template = new TransmissionTemplate({
-    appId: config.gt_APPID,
-    appKey: config.gt_APPKEY,
+    appId: config.gt_user_APPID,
+    appKey: config.gt_user_APPKEY,
     transmissionType: 2,
     transmissionContent: JSON.stringify(playload),
   });
@@ -45,13 +47,90 @@ exports.pushMessageToSingle = function (userid, playload) {
 
   //接收方
   var target = new Target({
-    appId: config.gt_APPID,
+    appId: config.gt_user_APPID,
     alias: userid,
   });
 
   console.log('userid = ' + userid);
   console.log(playload);
 
+  gt.pushMessageToSingle(message, target, function (err, res) {
+    console.log('push err = ' + err);
+    console.log(res);
+    if (err != null && err.exception != null && err.exception instanceof RequestError) {
+      var requestId = err.exception.requestId;
+      console.log(err.exception.requestId);
+      gt.pushMessageToSingle(message, target, requestId, function (err,
+        res) {
+        console.log(err);
+        console.log(res);
+      });
+    }
+  });
+}
+
+function buildMessage(appid, appkey, playload) {
+  var payload = new APNPayload();
+  var alertMsg = new SimpleAlertMsg();
+  alertMsg.alertMsg = playload.content;
+  payload.alertMsg = alertMsg;
+  payload.badge = 1;
+  payload.contentAvailable = 1;
+  payload.category = "ACTION 1";
+  // payload.sound = "test1.wav";
+  payload.customMsg.payload1 = JSON.stringify(playload);
+
+  var template = new TransmissionTemplate({
+    appId: appid,
+    appKey: appkey,
+    transmissionType: 2,
+    transmissionContent: JSON.stringify(playload),
+  });
+  template.setApnInfo(payload);
+
+  var message = new SingleMessage({
+    isOffline: true, //是否离线
+    offlineExpireTime: 3600 * 48 * 1000, //离线时间
+    data: template, //设置推送消息类型
+  });
+
+  console.log(playload);
+  return message;
+}
+
+function buildTarget(appid, userid) {
+  userid = userid.toString();
+  console.log('sending to userid = ' + userid);
+  //接收方
+  return new Target({
+    appId: appid,
+    alias: userid,
+  });
+}
+
+exports.pushMessageToUser = function (userid, playload) {
+  var target = buildTarget(config.gt_user_APPID, userid);
+  var message = buildMessage(config.gt_user_APPID, config.gt_user_APPKEY,
+    playload);
+  gt.pushMessageToSingle(message, target, function (err, res) {
+    console.log('push err = ' + err);
+    console.log(res);
+    if (err != null && err.exception != null && err.exception instanceof RequestError) {
+      var requestId = err.exception.requestId;
+      console.log(err.exception.requestId);
+      gt.pushMessageToSingle(message, target, requestId, function (err,
+        res) {
+        console.log(err);
+        console.log(res);
+      });
+    }
+  });
+}
+
+exports.pushMessageToDesigner = function (userid, playload) {
+  var target = buildTarget(config.gt_designer_APPID, userid);
+  var message = buildMessage(config.gt_designer_APPID, config.gt_designer_APPKEY,
+    playload);
   gt.pushMessageToSingle(message, target, function (err, res) {
     console.log('push err = ' + err);
     console.log(res);

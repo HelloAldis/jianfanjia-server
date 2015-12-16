@@ -54,10 +54,15 @@ var config = {
   yzx_appid: '5484c9c5af984884ab8942616de7e5b7',
 
   //个推配置
-  gt_HOST: 'http://sdk.open.api.igexin.com/apiex.htm',
-  gt_APPID: 'SLKdGK8YIr9wns6NPEL8v8',
-  gt_APPKEY: 'O3oCpGEAVp7NjP67JbMPt5',
-  gt_MASTERSECRET: 'IC092VcdKD66tT4D1lNVa9',
+  gt_user_HOST: 'http://sdk.open.api.igexin.com/apiex.htm',
+  gt_user_APPID: 'SLKdGK8YIr9wns6NPEL8v8',
+  gt_user_APPKEY: 'O3oCpGEAVp7NjP67JbMPt5',
+  gt_user_MASTERSECRET: 'IC092VcdKD66tT4D1lNVa9',
+  gt_user_APPSECRET: 'MM8Ybygbsz7EUvMoNpkHd5',
+  gt_designer_APPID: 's7Et91ZLPu8KRwBEtY4AZ8',
+  gt_designer_APPKEY: '8BTWfBSMYM95oFpDOwGYu5',
+  gt_designer_MASTERSECRET: 'Ngh4fDga668ScOax5rRx3',
+  gt_designer_APPSECRET: 'QbclEVLgAIA6iWblkTjyD4',
 
   //一些业务配置
   send_email: true, //发不发送邮件

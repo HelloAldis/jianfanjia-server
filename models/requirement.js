@@ -15,9 +15,9 @@ var RequirementSchema = new Schema({
   district: {
     type: String
   },
-  // street: {
-  //   type: String
-  // },
+  street: {
+    type: String
+  },
   address: {
     type: String
   },

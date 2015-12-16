@@ -183,6 +183,7 @@ exports.buildRequirement = function (req) {
   requirement.city = req.body.city;
   requirement.district = req.body.district;
   requirement.cell = req.body.cell;
+  requirement.street = req.body.street;
   requirement.address = req.body.address;
   requirement.cell_phase = req.body.cell_phase;
   requirement.cell_building = req.body.cell_building;
