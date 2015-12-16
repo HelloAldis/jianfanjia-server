@@ -114,6 +114,8 @@ exports.pushMessageToUser = function (userid, playload) {
   var target = buildTarget(config.gt_user_APPID, userid);
   var message = buildMessage(config.gt_user_APPID, config.gt_user_APPKEY,
     playload);
+  console.log(JSON.strinify(message));
+  console.log(JSON.strinify(target));
   gt_user.pushMessageToSingle(message, target, function (err, res) {
     console.log('push err = ' + err);
     console.log(res);
@@ -134,6 +136,8 @@ exports.pushMessageToDesigner = function (userid, playload) {
   var target = buildTarget(config.gt_designer_APPID, userid);
   var message = buildMessage(config.gt_designer_APPID, config.gt_designer_APPKEY,
     playload);
+  console.log(JSON.strinify(message));
+  console.log(JSON.strinify(target));
   gt_designer.pushMessageToSingle(message, target, function (err, res) {
     console.log('push err = ' + err);
     console.log(res);
