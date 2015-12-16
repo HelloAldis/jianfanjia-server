@@ -54,7 +54,7 @@ var config = {
   yzx_appid: '5484c9c5af984884ab8942616de7e5b7',
 
   //个推配置
-  gt_user_HOST: 'http://sdk.open.api.igexin.com/apiex.htm',
+  gt_HOST: 'http://sdk.open.api.igexin.com/apiex.htm',
   gt_user_APPID: 'YZV748rCe89l8CfZ7dtIF9',
   gt_user_APPKEY: '8GJ1XgPOL9ArriE8xOJDK8',
   gt_user_MASTERSECRET: 'OHgBPJVSE5AFssvoARUqQ3',

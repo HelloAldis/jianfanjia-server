@@ -7,8 +7,8 @@ var APNPayload = require('./payload/APNPayload');
 var SimpleAlertMsg = require('./payload/SimpleAlertMsg');
 var RequestError = require('./RequestError');
 
-var gt_user = new GeTui(config.gt_user_HOST, config.gt_user_APPKEY, config.gt_user_MASTERSECRET);
-var gt_designer = new GeTui(config.gt_user_HOST, config.gt_designer_APPKEY,
+var gt_user = new GeTui(config.gt_HOST, config.gt_user_APPKEY, config.gt_user_MASTERSECRET);
+var gt_designer = new GeTui(config.gt_HOST, config.gt_designer_APPKEY,
   config.gt_designer_MASTERSECRET);
 
 exports.aliasBind = function (userid, cid) {
@@ -114,9 +114,6 @@ exports.pushMessageToUser = function (userid, playload) {
   var target = buildTarget(config.gt_user_APPID, userid);
   var message = buildMessage(config.gt_user_APPID, config.gt_user_APPKEY,
     playload);
-  console.log(JSON.stringify(message));
-  console.log(JSON.stringify(target));
-  console.log(JSON.stringify(gt_user));
   gt_user.pushMessageToSingle(message, target, function (err, res) {
     console.log('push err = ' + err);
     console.log(res);
@@ -137,9 +134,6 @@ exports.pushMessageToDesigner = function (userid, playload) {
   var target = buildTarget(config.gt_designer_APPID, userid);
   var message = buildMessage(config.gt_designer_APPID, config.gt_designer_APPKEY,
     playload);
-  console.log(JSON.stringify(message));
-  console.log(JSON.stringify(target));
-  console.log(JSON.stringify(gt_designer));
   gt_designer.pushMessageToSingle(message, target, function (err, res) {
     console.log('push err = ' + err);
     console.log(res);
