@@ -109,6 +109,7 @@ function buildTarget(appid, userid) {
 }
 
 exports.pushMessageToUser = function (userid, playload) {
+  console.log('send to user');
   var target = buildTarget(config.gt_user_APPID, userid);
   var message = buildMessage(config.gt_user_APPID, config.gt_user_APPKEY,
     playload);
@@ -128,6 +129,7 @@ exports.pushMessageToUser = function (userid, playload) {
 }
 
 exports.pushMessageToDesigner = function (userid, playload) {
+  console.log('send to designer');
   var target = buildTarget(config.gt_designer_APPID, userid);
   var message = buildMessage(config.gt_designer_APPID, config.gt_designer_APPKEY,
     playload);
