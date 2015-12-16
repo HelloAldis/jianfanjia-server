@@ -54,14 +54,14 @@ exports.pushMessageToSingle = function (userid, playload) {
   console.log('userid = ' + userid);
   console.log(playload);
 
-  gt.pushMessageToSingle(message, target, function (err, res) {
+  gt_user.pushMessageToSingle(message, target, function (err, res) {
     console.log('push err = ' + err);
     console.log(res);
     if (err != null && err.exception != null && err.exception instanceof RequestError) {
       var requestId = err.exception.requestId;
       console.log(err.exception.requestId);
-      gt.pushMessageToSingle(message, target, requestId, function (err,
-        res) {
+      gt_user.pushMessageToSingle(message, target, requestId, function (
+        err, res) {
         console.log(err);
         console.log(res);
       });
@@ -112,14 +112,14 @@ exports.pushMessageToUser = function (userid, playload) {
   var target = buildTarget(config.gt_user_APPID, userid);
   var message = buildMessage(config.gt_user_APPID, config.gt_user_APPKEY,
     playload);
-  gt.pushMessageToSingle(message, target, function (err, res) {
+  gt_user.pushMessageToSingle(message, target, function (err, res) {
     console.log('push err = ' + err);
     console.log(res);
     if (err != null && err.exception != null && err.exception instanceof RequestError) {
       var requestId = err.exception.requestId;
       console.log(err.exception.requestId);
-      gt.pushMessageToSingle(message, target, requestId, function (err,
-        res) {
+      gt_user.pushMessageToSingle(message, target, requestId, function (
+        err, res) {
         console.log(err);
         console.log(res);
       });
@@ -131,17 +131,17 @@ exports.pushMessageToDesigner = function (userid, playload) {
   var target = buildTarget(config.gt_designer_APPID, userid);
   var message = buildMessage(config.gt_designer_APPID, config.gt_designer_APPKEY,
     playload);
-  gt.pushMessageToSingle(message, target, function (err, res) {
+  gt_designer.pushMessageToSingle(message, target, function (err, res) {
     console.log('push err = ' + err);
     console.log(res);
     if (err != null && err.exception != null && err.exception instanceof RequestError) {
       var requestId = err.exception.requestId;
       console.log(err.exception.requestId);
-      gt.pushMessageToSingle(message, target, requestId, function (err,
-        res) {
-        console.log(err);
-        console.log(res);
-      });
+      gt_designer.pushMessageToSingle(message, target, requestId,
+        function (err, res) {
+          console.log(err);
+          console.log(res);
+        });
     }
   });
 }
