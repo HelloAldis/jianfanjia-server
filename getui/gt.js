@@ -116,6 +116,7 @@ exports.pushMessageToUser = function (userid, playload) {
     playload);
   console.log(JSON.stringify(message));
   console.log(JSON.stringify(target));
+  console.log(JSON.stringify(gt_user));
   gt_user.pushMessageToSingle(message, target, function (err, res) {
     console.log('push err = ' + err);
     console.log(res);
@@ -138,6 +139,7 @@ exports.pushMessageToDesigner = function (userid, playload) {
     playload);
   console.log(JSON.stringify(message));
   console.log(JSON.stringify(target));
+  console.log(JSON.stringify(gt_designer));
   gt_designer.pushMessageToSingle(message, target, function (err, res) {
     console.log('push err = ' + err);
     console.log(res);

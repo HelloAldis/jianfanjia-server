@@ -22,6 +22,15 @@ exports.bindCid = function (req, res, next) {
 }
 
 exports.android_build_version = function (req, res, next) {
+  gt.pushMessageToUser('566798dab6c449fd05969fef', {
+    content: 'hahah测试一下',
+    section: 'section',
+    cell: 'cell',
+    type: 'type',
+    time: new Date().getTime(),
+    processid: '566798dab6c449fd05969fef',
+  });
+
   var ep = eventproxy();
   ep.fail(next);
 
