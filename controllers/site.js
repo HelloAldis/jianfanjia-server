@@ -27,8 +27,8 @@ exports.download_user_app = function (req, res, next) {
 
   var agent = req.get('user-agent');
   console.log(agent);
-  if (agent.search(/iphone/i)) {
-    res.redirect('www.jianfanjia.com');
+  if (agent.search(/iphone/i) > -1) {
+    res.redirect('http://www.jianfanjia.com');
   } else {
     res.redirect('http://t.cn/R4Lbu25');
   }
