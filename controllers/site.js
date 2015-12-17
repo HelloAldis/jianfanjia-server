@@ -32,21 +32,26 @@ exports.download_user_app = function (req, res, next) {
   } else {
     res.redirect('http://t.cn/R4Lbu25');
   }
+}
 
-  // fs.readdir(apkDir, ep.done(function (apks) {
-  //   apks.sort();
-  //   var apk = apks.pop();
-  //   if (apk) {
-  //     var arr = apk.split('_');
-  //     if (arr.length != 5) {
-  //       res.sendErrMsg('bad apk');
-  //     } else {
-  //       var download_url = 'http://' + req.headers.host +
-  //         '/user_build/' + apk;
-  //       res.redirect(download_url);
-  //     }
-  //   } else {
-  //     res.sendErrMsg('no apk');
-  //   }
-  // }));
+exports.download_user_apk = function (req, res, next) {
+  var ep = eventproxy();
+  ep.fail(next);
+
+  fs.readdir(apkDir, ep.done(function (apks) {
+    apks.sort();
+    var apk = apks.pop();
+    if (apk) {
+      var arr = apk.split('_');
+      if (arr.length != 5) {
+        res.sendErrMsg('bad apk');
+      } else {
+        var download_url = 'http://' + req.headers.host +
+          '/user_build/' + apk;
+        res.redirect(download_url);
+      }
+    } else {
+      res.sendErrMsg('no apk');
+    }
+  }));
 }
