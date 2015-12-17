@@ -603,16 +603,34 @@ exports.user_ordered_designers = function (req, res, next) {
   }));
 }
 
-exports.user_statistic_info = function (req, res, next) {
+exports.designer_statistic_info = function (req, res, next) {
   var _id = ApiUtil.getUserid(req);
   var ep = eventproxy();
   ep.fail(next);
 
   async.parallel({
     requirement_count: function (callback) {
-      Requirement.count({
-        userid: _id,
-      }, callback);
+      Plan.find({
+        designerid: _id,
+        status: {
+          $in: [type.plan_status_not_respond, type.plan_status_designer_respond_no_housecheck,
+            type.plan_status_designer_housecheck_no_plan, type.plan_status_designer_upload,
+            type.plan_status_user_final
+          ],
+        },
+      }, {
+        requirementid: 1
+      }, null, function (err, plans) {
+        var count = 0;
+        if (plans && plans.length > 0) {
+          plans = _.uniq(plans, function (p) {
+            return p.requirementid.toString();
+          });
+          count = plans.length;
+        }
+
+        callback(err, count);
+      });
     },
     favorite: function (callback) {
       Favorite.findOne({
@@ -630,7 +648,7 @@ exports.user_statistic_info = function (req, res, next) {
     },
   }, ep.done(function (result) {
     var favorite_product_count = 0;
-    if (result.favorite) {
+    if (result.favorite && result.favorite.favorite_product) {
       favorite_product_count = result.favorite.favorite_product.length;
     }
 
@@ -639,7 +657,7 @@ exports.user_statistic_info = function (req, res, next) {
       imageid: result.designer.imageid,
       product_count: result.designer.product_count,
       requirement_count: result.requirement_count,
-      favorite_product_count: result.favorite.favorite_product.length,
+      favorite_product_count: favorite_product_count,
     });
   }));
 }

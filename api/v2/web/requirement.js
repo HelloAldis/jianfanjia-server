@@ -43,6 +43,9 @@ exports.designer_my_requirement_list = function (req, res, next) {
     },
   }, null, ep.done(function (plans) {
     if (plans && plans.length > 0) {
+      plans = _.uniq(plans, function (p) {
+        return p.requirementid.toString();
+      });
       async.mapLimit(plans, 3, function (plan, callback) {
         async.parallel({
           requirement: function (callback) {
@@ -94,6 +97,9 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
     },
   }, null, ep.done(function (plans) {
     if (plans && plans.length > 0) {
+      plans = _.uniq(plans, function (p) {
+        return p.requirementid.toString();
+      });
       async.mapLimit(plans, 3, function (plan, callback) {
         async.parallel({
           requirement: function (callback) {

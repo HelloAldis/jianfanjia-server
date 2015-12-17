@@ -388,8 +388,13 @@ exports.user_statistic_info = function (req, res, next) {
     var favorite_product_count = 0;
     var favorite_designer_count = 0;
     if (result.favorite) {
-      favorite_product_count = result.favorite.favorite_product.length;
-      favorite_designer_count = result.favorite.favorite_designer.length;
+      if (result.favorite.favorite_product) {
+        favorite_product_count = result.favorite.favorite_product.length;
+      }
+
+      if (result.favorite.favorite_designer) {
+        favorite_designer_count = result.favorite.favorite_designer.length;
+      }
     }
 
     res.sendData({
