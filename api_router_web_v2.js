@@ -98,6 +98,7 @@ router.post('/user_requirement_plans', auth.userRequired, plan.user_requirement_
 router.post('/designer_house_checked', auth.userRequired, user.designer_house_checked); //确认设计师量完房
 router.post('/user/plan/final', auth.userRequired, plan.finalPlan); //选定方案
 router.post('/user_evaluate_designer', auth.userRequired, user.user_evaluate_designer); //业主评价设计师
+router.post('/user_statistic_info', auth.userRequired, user.user_statistic_info); //业主获取自己统计信息
 
 //设计师独有功能
 router.post('/designer/agree', auth.designerRequired, designer.agree); //同意条款

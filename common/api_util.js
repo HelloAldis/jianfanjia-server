@@ -220,6 +220,7 @@ exports.buildShare = function (req) {
   share.process = req.body.process;
   share.start_at = req.body.start_at;
   share.status = req.body.status;
+  share.progress = req.body.progress;
 
   _.forEach(share.process, function (p) {
     p.images = _.map(p.images, function (i) {

@@ -150,6 +150,9 @@ var type = {
 
   beautiful_image_status_private: '0',
   beautiful_image_status_public: '1',
+
+  share_progress_going: '0',
+  share_progress_done: '1',
 }
 
 module.exports = type;

@@ -81,6 +81,10 @@ var ShareSchema = new Schema({
   create_at: {
     type: Number
   },
+  progress: {
+    type: String,
+    default: '0',
+  },
 });
 
 mongoose.model('Share', ShareSchema);

@@ -188,6 +188,7 @@ exports.add = function (req, res, next) {
     share.designerid = new ObjectId(designerid);
   }
 
+  share.progress = type.share_progress_going;
   Share.newAndSave(share, ep.done(function () {
     res.sendSuccessMsg();
   }));

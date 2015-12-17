@@ -7,7 +7,6 @@ var User = require('../../../proxy').User;
 var Requirement = require('../../../proxy').Requirement;
 var Favorite = require('../../../proxy').Favorite;
 var Evaluation = require('../../../proxy').Evaluation;
-var Favorite = require('../../../proxy').Favorite;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../apiconfig');
@@ -426,7 +425,8 @@ exports.designers_user_can_order = function (req, res, next) {
         can_order_rec = _.filter(result.requirement.rec_designerids,
           function (oid) {
             return tools.findIndexObjectId(result.requirement.order_designerids,
-              oid) < 0;
+              oid) < 0 && tools.findObjectId(result.requirement.obsolete_designerids,
+              oid) < 0;;
           });
       }
 
@@ -436,6 +436,7 @@ exports.designers_user_can_order = function (req, res, next) {
           function (oid) {
             return tools.findIndexObjectId(result.requirement.order_designerids,
               oid) < 0 && tools.findIndexObjectId(result.requirement.rec_designerids,
+              oid) < 0 && tools.findObjectId(result.requirement.obsolete_designerids,
               oid) < 0;
           });
       }
@@ -599,5 +600,46 @@ exports.user_ordered_designers = function (req, res, next) {
     } else {
       res.sendErrMsg('需求不存在');
     }
+  }));
+}
+
+exports.user_statistic_info = function (req, res, next) {
+  var _id = ApiUtil.getUserid(req);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  async.parallel({
+    requirement_count: function (callback) {
+      Requirement.count({
+        userid: _id,
+      }, callback);
+    },
+    favorite: function (callback) {
+      Favorite.findOne({
+        userid: _id,
+      }, callback);
+    },
+    designer: function (callback) {
+      Designer.findOne({
+        _id: _id,
+      }, {
+        username: 1,
+        imageid: 1,
+        product_count: 1,
+      }, callback);
+    },
+  }, ep.done(function (result) {
+    var favorite_product_count = 0;
+    if (result.favorite) {
+      favorite_product_count = result.favorite.favorite_product.length;
+    }
+
+    res.sendData({
+      username: result.designer.username,
+      imageid: result.designer.imageid,
+      product_count: result.designer.product_count,
+      requirement_count: result.requirement_count,
+      favorite_product_count: result.favorite.favorite_product.length,
+    });
   }));
 }
