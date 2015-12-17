@@ -81,6 +81,7 @@ exports.home_page_designers = function (req, res, next) {
     }, {
       username: 1,
       imageid: 1,
+      auth_type: 1,
     }, {
       sort: {
         authed_product_count: -1

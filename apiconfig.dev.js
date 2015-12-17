@@ -89,3 +89,5 @@ var config = {
 };
 
 module.exports = config;
+
+//backup url http://fusion.qq.com/app_download?appid=1104973048&platform=qzone&via=QZ.MOBILEDETAIL.QRCODE&u=3046917960
