@@ -425,7 +425,7 @@ exports.designers_user_can_order = function (req, res, next) {
         can_order_rec = _.filter(result.requirement.rec_designerids,
           function (oid) {
             return tools.findIndexObjectId(result.requirement.order_designerids,
-              oid) < 0 && tools.findObjectId(result.requirement.obsolete_designerids,
+              oid) < 0 && tools.findIndexObjectId(result.requirement.obsolete_designerids,
               oid) < 0;;
           });
       }
@@ -436,7 +436,7 @@ exports.designers_user_can_order = function (req, res, next) {
           function (oid) {
             return tools.findIndexObjectId(result.requirement.order_designerids,
               oid) < 0 && tools.findIndexObjectId(result.requirement.rec_designerids,
-              oid) < 0 && tools.findObjectId(result.requirement.obsolete_designerids,
+              oid) < 0 && tools.findIndexObjectId(result.requirement.obsolete_designerids,
               oid) < 0;
           });
       }
