@@ -129,6 +129,11 @@ if (config.debug) {
   });
 }
 
+app.get('*', function (req, res) {
+  res.status(404);
+  res.redirect('/404.html');
+});
+
 app.listen(config.port, function () {
   logger.log('Jianfanjia listening on port', config.port);
 });
