@@ -53,6 +53,17 @@ var config = {
   yzx_token: '26d602336aa881dbf272873e31b8b723',
   yzx_appid: '5484c9c5af984884ab8942616de7e5b7',
 
+  //个推配置
+  gt_HOST: 'http://sdk.open.api.igexin.com/apiex.htm',
+  gt_user_APPID: 'YZV748rCe89l8CfZ7dtIF9',
+  gt_user_APPKEY: '8GJ1XgPOL9ArriE8xOJDK8',
+  gt_user_MASTERSECRET: 'OHgBPJVSE5AFssvoARUqQ3',
+  gt_user_APPSECRET: 'sJtpmFxS0a5sA30Au3iI36',
+  gt_designer_APPID: 'tE9LwxEKvxACImev1VLiCA',
+  gt_designer_APPKEY: '5pOVHYbLcS6GrWsp0CTwK3',
+  gt_designer_MASTERSECRET: '5zqjYN1uYwANZyNNMXrhZ1',
+  gt_designer_APPSECRET: 'qX6mtXErCJ7I5ADTLW8P85',
+
   //一些业务配置
   send_email: true, //发不发送邮件
   send_sms: true, //发不发短信

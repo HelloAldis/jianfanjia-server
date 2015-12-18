@@ -54,6 +54,15 @@ var UserSchema = new Schema({
   email_auth_date: {
     type: Number,
   },
+  dec_progress: {
+    type: String,
+  },
+  dec_styles: {
+    type: [String],
+  },
+  family_description: {
+    type: String,
+  },
 });
 
 UserSchema.index({

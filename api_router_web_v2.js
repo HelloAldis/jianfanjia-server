@@ -40,7 +40,7 @@ router.post('/add_angel_user', tempUserApi.add); //提交天使用户
 router.post('/search_share', share.search_share); //获取装修直播分享
 router.get('/image/:_id', image.get); //获取图片
 router.get('/thumbnail/:width/:_id', image.thumbnail); //获取缩略图
-router.get('/watermark/v1/:_id', image.watermark); //获取有水印图
+router.get('/watermark/:width/:_id', image.watermark); //获取有水印图
 router.post('/designer/listtop', designer.listtop); //获取首页设计师
 router.post('/designer/search', designer.search); //搜索设计师
 router.post('/designer_home_page', designer.designer_home_page); //游客获取设计师的主页
@@ -51,7 +51,8 @@ router.get('/dec_strategy/:_id/homepage', dec_strategy.dec_strategy_homepage); /
 router.post('/beautiful_image_homepage', beautiful_image.beautiful_image_homepage); //游客获取美图主页
 router.post('/search_beautiful_image', beautiful_image.search_beautiful_image); //游客搜索美图
 router.post('/top_articles', dec_strategy.top_articles); //top文章
-router.post('/search_article', dec_strategy.search_article); //top设计师
+router.post('/search_article', dec_strategy.search_article); //搜索文章
+router.post('/associate_article', dec_strategy.associate_article); //搜索文章
 router.post('/top_designers', designer.top_designers); //top设计师
 router.post('/top_shares', share.top_shares); //top工地直播
 
@@ -67,6 +68,11 @@ router.post('/image/crop', auth.normalUserRequired, image.crop); //上传图片
 router.post('/favorite/product/list', auth.normalUserRequired, favorite.list_product); //收藏列表
 router.post('/favorite/product/add', auth.normalUserRequired, favorite.add_product); //收藏作品
 router.post('/favorite/product/delete', auth.normalUserRequired, favorite.delete_product); //删除收藏作品
+router.post('/favorite/beautiful_image/list', auth.normalUserRequired, favorite
+  .list_beautiful_image); //收藏美图列表
+router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favorite.add_beautiful_image); //收藏美图
+router.post('/favorite/beautiful_image/delete', auth.normalUserRequired,
+  favorite.delete_beautiful_image); //删除收藏美图
 router.post('/add_comment', auth.normalUserRequired, comment.add_comment); //添加评论
 router.post('/unread_comment', auth.normalUserRequired, comment.unread_comment); //获取未读评论
 router.post('/topic_comments', auth.normalUserRequired, comment.topic_comments); //获取评论并标记为已读
@@ -93,6 +99,7 @@ router.post('/user_requirement_plans', auth.userRequired, plan.user_requirement_
 router.post('/designer_house_checked', auth.userRequired, user.designer_house_checked); //确认设计师量完房
 router.post('/user/plan/final', auth.userRequired, plan.finalPlan); //选定方案
 router.post('/user_evaluate_designer', auth.userRequired, user.user_evaluate_designer); //业主评价设计师
+router.post('/user_statistic_info', auth.userRequired, user.user_statistic_info); //业主获取自己统计信息
 
 //设计师独有功能
 router.post('/designer/agree', auth.designerRequired, designer.agree); //同意条款
@@ -124,6 +131,7 @@ router.post('/designer/plan/add', auth.designerRequired, plan.add); //提交方�
 router.post('/designer/plan/update', auth.designerRequired, plan.update); //更新方案
 router.post('/designer_requirement_plans', auth.designerRequired, plan.designer_requirement_plans); //设计师获取某个需求下的方案
 router.post('/config_contract', auth.designerRequired, requirement.config_contract); //配置合同
+router.post('/designer_statistic_info', auth.designerRequired, designer.designer_statistic_info); //设计师获取自己统计信息
 
 //管理员独有的功能
 router.post('/admin/login', admin.login); //审核设计师

@@ -170,6 +170,7 @@ exports.product_home_page = function (req, res, next) {
       }, {
         username: 1,
         imageid: 1,
+        auth_type: 1,
       }, ep.done(function (designer) {
         product = product.toObject();
         product.designer = designer;

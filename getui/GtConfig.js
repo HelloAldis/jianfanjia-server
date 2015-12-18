@@ -49,8 +49,3 @@ exports.getHttpInspectInterval = function () {
 exports.getSDKVersion = function () {
   return "4.0.0.1";
 };
-
-exports.HOST = 'http://sdk.open.api.igexin.com/apiex.htm';
-exports.APPID = 'YZV748rCe89l8CfZ7dtIF9';
-exports.APPKEY = '8GJ1XgPOL9ArriE8xOJDK8';
-exports.MASTERSECRET = 'OHgBPJVSE5AFssvoARUqQ3';

@@ -31,6 +31,9 @@ exports.buildUser = function (req) {
   user.district = req.body.district;
   user.address = req.body.address;
   user.email = req.body.email;
+  user.dec_progress = req.body.dec_progress;
+  user.dec_styles = req.body.dec_styles;
+  user.family_description = req.body.family_description;
 
   if (req.body.imageid) {
     user.imageid = new ObjectId(req.body.imageid);
@@ -181,11 +184,13 @@ exports.buildRequirement = function (req) {
   requirement.district = req.body.district;
   requirement.cell = req.body.cell;
   requirement.street = req.body.street;
+  requirement.address = req.body.address;
   requirement.cell_phase = req.body.cell_phase;
   requirement.cell_building = req.body.cell_building;
   requirement.cell_unit = req.body.cell_unit;
   requirement.cell_detail_number = req.body.cell_detail_number;
   requirement.house_type = req.body.house_type;
+  requirement.business_house_type = req.body.business_house_type;
   requirement.house_area = req.body.house_area;
   requirement.dec_style = req.body.dec_style;
   requirement.dec_type = req.body.dec_type;
@@ -214,6 +219,8 @@ exports.buildShare = function (req) {
   share.description = req.body.description;
   share.process = req.body.process;
   share.start_at = req.body.start_at;
+  share.status = req.body.status;
+  share.progress = req.body.progress;
 
   _.forEach(share.process, function (p) {
     p.images = _.map(p.images, function (i) {
@@ -262,6 +269,7 @@ exports.buildFeedback = function (req) {
 
   feedback.content = req.body.content;
   feedback.platform = req.body.platform;
+  feedback.version = req.body.version;
   return feedback;
 }
 

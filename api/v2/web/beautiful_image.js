@@ -1,6 +1,7 @@
 var validator = require('validator');
 var eventproxy = require('eventproxy');
 var BeautifulImage = require('../../../proxy').BeautifulImage;
+var Favorite = require('../../../proxy').Favorite;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../apiconfig');
@@ -11,23 +12,44 @@ var limit = require('../../../middlewares/limit');
 
 exports.beautiful_image_homepage = function (req, res, next) {
   var _id = req.body._id;
+  var userid = ApiUtil.getUserid(req);
+  var usertype = ApiUtil.getUsertype(req);
   var ep = eventproxy();
   ep.fail(next);
 
   BeautifulImage.findOne({
     _id: _id
   }, null, ep.done(function (beautiful_image) {
-    res.sendData(beautiful_image);
+    if (beautiful_image) {
+      if (userid && usertype !== type.role_admin) {
+        beautiful_image = beautiful_image.toObject();
+        Favorite.findOne({
+          userid: userid,
+          favorite_beautiful_image: _id,
+        }, null, ep.done(function (favorite) {
+          if (favorite) {
+            beautiful_image.is_my_favorite = true;
+          } else {
+            beautiful_image.is_my_favorite = false;
+          }
+          res.sendData(beautiful_image);
+        }));
+      } else {
+        res.sendData(beautiful_image);
+      }
 
-    limit.perwhatperdaydo('beautiful_image_homepage', req.ip + _id,
-      1,
-      function () {
-        BeautifulImage.incOne({
-          _id: _id
-        }, {
-          view_count: 1
+      limit.perwhatperdaydo('beautiful_image_homepage', req.ip + _id,
+        1,
+        function () {
+          BeautifulImage.incOne({
+            _id: _id
+          }, {
+            view_count: 1
+          });
         });
-      });
+    } else {
+      res.sendData({});
+    }
   }));
 }
 
@@ -56,7 +78,7 @@ exports.search_beautiful_image = function (req, res, next) {
   BeautifulImage.paginate(query, {
     title: 1,
     house_type: 1,
-    dec_type: 1,
+    section: 1,
     dec_style: 1,
     images: 1,
   }, {

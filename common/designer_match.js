@@ -38,7 +38,7 @@ exports.designer_match = function (designer, requirement) {
 
   //匹配房型
   if (_.indexOf(designer.dec_house_types, requirement.house_type) >=
-    0) {
+    0 || !requirement.house_type) {
     designer.match++;
   }
 

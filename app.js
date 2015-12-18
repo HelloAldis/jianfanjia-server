@@ -112,6 +112,7 @@ if (config.debug) {
 
 //API Request logger
 app.use('/api', req_res_log);
+app.use('/download', req_res_log);
 
 app.use('/api/v1', cors(), api_statistic.api_statistic, apiRouterV1);
 app.use('/api/v2/app', cors(), api_statistic.api_statistic, api_router_app_v2);
@@ -127,6 +128,11 @@ if (config.debug) {
     return res.status(500).send('500 status');
   });
 }
+
+app.get('*', function (req, res) {
+  res.status(404);
+  res.redirect('/404.html');
+});
 
 app.listen(config.port, function () {
   logger.log('Jianfanjia listening on port', config.port);

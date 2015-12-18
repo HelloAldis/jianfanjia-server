@@ -18,6 +18,9 @@ var RequirementSchema = new Schema({
   street: {
     type: String
   },
+  address: {
+    type: String
+  },
   cell: {
     type: String
   },
@@ -34,6 +37,9 @@ var RequirementSchema = new Schema({
     type: String,
   },
   house_type: {
+    type: String
+  },
+  business_house_type: {
     type: String
   },
   house_area: {

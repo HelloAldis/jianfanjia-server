@@ -21,6 +21,19 @@ exports.homePage = function (req, res, next) {
 
 var apkDir = path.normalize(__dirname + '/../public/user_build');
 
+exports.download_user_app = function (req, res, next) {
+  var ep = eventproxy();
+  ep.fail(next);
+
+  var agent = req.get('user-agent');
+  console.log(agent);
+  if (agent.search(/iphone/i) > -1) {
+    res.redirect('http://www.jianfanjia.com');
+  } else {
+    res.redirect('http://t.cn/R4Lbu25');
+  }
+}
+
 exports.download_user_apk = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);

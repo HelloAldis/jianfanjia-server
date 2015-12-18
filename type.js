@@ -14,9 +14,6 @@ var type = {
   product_auth_type_reject: '2',
   product_auth_type_illegal: '3',
 
-  share_status_invisible: '0',
-  share_status_visible: '1',
-
   designer_agree_type_new: '0',
   designer_agree_type_yes: '1',
 
@@ -150,6 +147,12 @@ var type = {
 
   beautiful_image_status_private: '0',
   beautiful_image_status_public: '1',
+
+  share_status_private: '0',
+  share_status_public: '1',
+
+  share_progress_going: '0',
+  share_progress_done: '1',
 }
 
 module.exports = type;

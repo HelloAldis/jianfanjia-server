@@ -101,6 +101,50 @@ exports.search_article = function (req, res, next) {
     skip: skip,
     limit: limit,
   }, ep.done(function (articles, total) {
-    res.sendData(articles);
+    res.sendData({
+      articles: articles,
+      total: total,
+    });
+  }));
+}
+
+exports.associate_article = function (req, res, next) {
+  var _id = req.body._id;
+  var keywords = req.body.keywords;
+  var limit = req.body.limit || 5;
+  var articletype = req.body.articletype;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  var query = {};
+  keywords = keywords.split(/,|，/);
+  _.remove(keywords, function (k) {
+    return k.trim().length === 0;
+  });
+  if (keywords.length > 0) {
+    var regex = new RegExp(keywords.join('|'), 'i');
+    query.keywords = regex;
+  }
+  query.status = type.article_status_public;
+  // query.articletype = articletype;
+  query._id = {
+    $ne: _id
+  };
+
+  DecStrategy.paginate(query, {
+    title: 1,
+    cover_imageid: 1,
+    articletype: 1,
+  }, {
+    sort: {
+      create_at: -1,
+    },
+    skip: 0,
+    limit: limit,
+  }, ep.done(function (articles, total) {
+    res.sendData({
+      articles: articles,
+      total: total,
+    });
   }));
 }

@@ -413,7 +413,7 @@ exports.reschedule = function (req, res, next) {
       }, ep.done(function (designer) {
         var json = buildMessage(usertype, user, designer,
           reschedule, '向您提出了改期, 希望可以将验收改期到');
-        gt.pushMessageToSingle(json.id, {
+        var playload = {
           content: json.content,
           type: type.message_type_reschedule,
           time: new Date().getTime(),
@@ -421,21 +421,35 @@ exports.reschedule = function (req, res, next) {
           status: reschedule.status,
           cell: process.cell,
           processid: process._id,
-        });
+        };
+        if (usertype === type.role_user) {
+          gt.pushMessageToDesigner(json.id, playload);
+        } else if (usertype === type.role_designer) {
+          gt.pushMessageToUser(json.id, playload)
+        }
       }));
     }));
   });
 
-  Reschedule.newAndSave(reschedule, ep.done(function (reschedule) {
-    if (reschedule) {
-      Process.updateStatus(reschedule.processid, reschedule.section,
-        null, reschedule.status, ep.done(function (process) {
-          res.sendSuccessMsg();
-          ep.emit('sendMessage', process);
-        }));
-    } else {
-      res.sendErrMsg('无法保存成功');
+  Reschedule.findOne({
+    processid: reschedule.processid,
+    status: type.process_item_status_reschedule_req_new,
+  }, null, ep.done(function (reschedule_indb) {
+    if (reschedule_indb) {
+      return res.sendErrMsg('对方已经申请改期！');
     }
+
+    Reschedule.newAndSave(reschedule, ep.done(function (reschedule) {
+      if (reschedule) {
+        Process.updateStatus(reschedule.processid, reschedule.section,
+          null, reschedule.status, ep.done(function (process) {
+            res.sendSuccessMsg();
+            ep.emit('sendMessage', process);
+          }));
+      } else {
+        res.sendErrMsg('无法保存成功');
+      }
+    }));
   }));
 };
 
@@ -494,7 +508,7 @@ exports.okReschedule = function (req, res, next) {
       }, ep.done(function (designer) {
         var json = buildMessage(usertype, user, designer,
           reschedule, '同意了您的改期, 验收将改期到');
-        gt.pushMessageToSingle(json.id, {
+        var playload = {
           content: json.content,
           type: type.message_type_reschedule,
           time: new Date().getTime(),
@@ -502,15 +516,22 @@ exports.okReschedule = function (req, res, next) {
           status: type.process_item_status_reschedule_ok,
           cell: process.cell,
           processid: process._id,
-        });
+        };
+        if (usertype === type.role_user) {
+          gt.pushMessageToDesigner(json.id, playload);
+        } else if (usertype === type.role_designer) {
+          gt.pushMessageToUser(json.id, playload)
+        }
       }));
     }));
   });
 
   if (usertype === type.role_user) {
     query.userid = userid;
+    query.request_role = type.role_designer;
   } else if (usertype === type.role_designer) {
     query.designerid = userid;
+    query.request_role = type.role_user;
   }
 
   Reschedule.find(query, null, {
@@ -582,7 +603,7 @@ exports.rejectReschedule = function (req, res, next) {
       }, ep.done(function (designer) {
         var json = buildMessage(usertype, user, designer,
           reschedule, '拒绝了您的改期, 无法改期到');
-        gt.pushMessageToSingle(json.id, {
+        var playload = {
           content: json.content,
           type: type.message_type_reschedule,
           time: new Date().getTime(),
@@ -590,15 +611,23 @@ exports.rejectReschedule = function (req, res, next) {
           status: type.process_item_status_reschedule_reject,
           cell: process.cell,
           processid: process._id,
-        });
+        };
+
+        if (usertype === type.role_user) {
+          gt.pushMessageToDesigner(json.id, playload);
+        } else if (usertype === type.role_designer) {
+          gt.pushMessageToUser(json.id, playload)
+        }
       }));
     }));
   });
 
   if (usertype === type.role_user) {
     query.userid = userid;
+    query.request_role = type.role_designer;
   } else if (usertype === type.role_designer) {
     query.designerid = userid;
+    query.request_role = type.role_user;
   }
 
   Reschedule.setOne(query, {
@@ -651,7 +680,7 @@ exports.doneItem = function (req, res, next) {
 
           if (result.items.length - doneCount <= 2) {
             var json = buildProcurement(section);
-            gt.pushMessageToSingle(process.userid, {
+            gt.pushMessageToUser(process.userid, {
               content: json.message,
               section: json.next,
               cell: process.cell,
@@ -708,7 +737,7 @@ exports.doneSection = function (req, res, next) {
     ep.done(function (process) {
       if (process) {
         var json = buildPay();
-        gt.pushMessageToSingle(process.userid, {
+        gt.pushMessageToUser(process.userid, {
           content: json.message,
           section: section,
           type: type.message_type_pay,
@@ -816,7 +845,7 @@ exports.ys = function (req, res, next) {
     _id: _id
   }, null, ep.done(function (process) {
     if (process) {
-      gt.pushMessageToSingle(process.userid, {
+      gt.pushMessageToUser(process.userid, {
         content: '设计师已经上传所有验收图片，您可以前往对比验收',
         type: type.message_type_user_ys,
         time: new Date().getTime(),
