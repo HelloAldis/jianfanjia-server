@@ -6,12 +6,12 @@
 		<li bindonce="ordersData" ng-repeat="data in ordersData">
 			<div class="designer f-cb">
 				<div class="info f-fl">
-					<a bo-href-i="../design/homepage.html?{{data._id}}" class="head f-fl" target="_blank">
+					<a bo-href-i="/tpl/design/home.html?{{data._id}}" class="head f-fl" target="_blank">
 						<img bo-src-i="/api/v2/web/thumbnail/70/{{data.imageid}}" bo-if="data.imageid" />
 					</a>
 					<dl class="f-fl">
 						<dt>
-							<a bo-href-i="../design/homepage.html?{{data._id}}" bo-text="data.username" target="_blank"></a>
+							<a bo-href-i="/tpl/design/home.html?{{data._id}}" bo-text="data.username" target="_blank"></a>
 							<span><i>V</i>认证设计师</span>
 						</dt>
 						<dd><i bo-text="data.city"></i><i bo-text="data.district"></i></dd>

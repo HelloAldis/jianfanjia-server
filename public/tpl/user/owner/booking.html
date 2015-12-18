@@ -5,19 +5,19 @@
 				<span ng-if="(requirement.status == 0 || requirement.status == 1 || requirement.status == 2 || requirement.status == 3 || requirement.status == 6) && ordersData.length < 3">您还可以预约<i ng-bind="3 - ordersData.length"></i>名设计师</span>
 				<span ng-if="booking.bookingChangeStatus">您可以重新预约1名设计师</span>
 			</p>
-			<a href="../design/index.html" class="f-fr u-btns" ng-if="bookingSuccess" target="_blank">更多选择</a>
+			<a href="/tpl/design/index.html" class="f-fr u-btns" ng-if="bookingSuccess" target="_blank">更多选择</a>
 		</div>
 		<h3>匹配的设计师</h3>
 		<ul class="m-designerList">
 			<li bindonce="matchs" ng-repeat="data in matchs" ng-click="selectDesign(data)" class="{{data.active ? 'active' : ''}}">
 				<div class="designer f-cb">
 					<div class="info f-fl">
-						<a bo-href-i="../design/homepage.html?{{data._id}}" class="head f-fl" target="_blank">
+						<a bo-href-i="/tpl/design/home.html?{{data._id}}" class="head f-fl" target="_blank">
 							<img bo-src-i="/api/v2/web/thumbnail/70/{{data.imageid}}" bo-if="data.imageid" />
 						</a>
 						<dl class="f-fl">
 							<dt>
-								<a bo-href-i="../design/homepage.html?{{data._id}}" bo-text="data.username" target="_blank"></a>
+								<a bo-href-i="/tpl/design/home.html?{{data._id}}" bo-text="data.username" target="_blank"></a>
 								<span><i>V</i>认证设计师</span>
 							</dt>
 							<dd><i bo-text="data.city" bo-if="data.district != '请选择市'"></i><i bo-text="data.district" bo-if="data.district != '请选择县/区'"></i></dd>
@@ -36,12 +36,12 @@
 			<li bindonce="favorites" ng-repeat="data in favorites" ng-click="selectDesign(data)" class="{{data.active ? 'active' : ''}}">
 				<div class="designer f-cb">
 					<div class="info f-fl">
-						<a bo-href-i="../design/homepage.html?{{data._id}}" class="head f-fl" target="_blank">
+						<a bo-href-i="/tpl/design/home.html?{{data._id}}" class="head f-fl" target="_blank">
 							<img bo-src-i="/api/v2/web/thumbnail/70/{{data.imageid}}" bo-if="data.imageid" />
 						</a>
 						<dl class="f-fl">
 							<dt>
-								<a bo-href-i="../design/homepage.html?{{data._id}}" bo-text="data.username" target="_blank"></a>
+								<a bo-href-i="/tpl/design/home.html?{{data._id}}" bo-text="data.username" target="_blank"></a>
 								<span><i>V</i>认证设计师</span>
 							</dt>
 							<dd><i bo-text="data.city" bo-if="data.district != '请选择市'"></i><i bo-text="data.district" bo-if="data.district != '请选择县/区'"></i></dd>
@@ -57,7 +57,7 @@
 				<div class="notdesigner f-cb">
 					<p>没有可预约的意向设计师</p>
 					<div class="btns">
-						<a href="../design/index.html" class="u-btns u-btns-revise" target="_blank">前往添加意向设计师</a>
+						<a href="/tpl/design/index.html" class="u-btns u-btns-revise" target="_blank">前往添加意向设计师</a>
 					</div>
 				</div>
 			</li>

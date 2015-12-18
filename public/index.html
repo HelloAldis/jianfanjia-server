@@ -1,58 +1,44 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+	<!--[if lt IE 8]>
+	  <script type="text/javascript">if(!-[1,]){window.location.href = "/tpl/other/error.html";}</script>
+	<![endif]-->
 	<meta charset="UTF-8" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家</title>
+	<title>首页--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="renderer" content="webkit">
 	<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
-	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
-	<link rel="stylesheet" type="text/css" href="../../static/css/index.css" />
-	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
-	<script type="text/javascript" data-main="static/js/index/index" src="../../static/js/lib/require.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/index.css" />
+	<script type="text/javascript" src="/static/js/lib/public.js"></script>
+	<script type="text/javascript" data-main="static/js/index/index" src="/static/js/lib/require.js"></script>
 	<!--[if lt IE 9]>
-	  <script type="text/javascript" src="../../static/js/ng/html5shiv-printshiv.js"></script>	
-      <script type="text/javascript" src="../../static/js/lib/json2-min.js"></script>
-    <![endif]-->
-     <!--[if lt IE 8]>
-      <script type="text/javascript">
-      	if(!-[1,]){window.location.href = "../other/error.html";} 
-      </script>
+	  <script type="text/javascript" src="/static/js/ng/html5shiv-printshiv.js"></script>	
+      <script type="text/javascript" src="/static/js/lib/json2-min.js"></script>
     <![endif]-->
 </head>
 <body>
 	<div class="g-tb g-wa">
 		<div class="g-wp f-cb">
-			
+			<a href="/tpl/download/index.html" class="m-app f-fl"><span>APP下载</span></a>
+			<a href="/zt/recruit/index.html" class="m-events f-fr">天使业主招募</a>
+			<div class="m-user f-fr" id="j-user"></div>
 		</div>
 	</div>
 	<header class="g-hd g-wa" id="j-hd">
 		<div class="g-wp f-cb">
 			<hgroup class="m-logo f-fl">
-				<h1><a href="../index/index.html">简繁家</a></h1>
+				<h1><a href="/">简繁家</a></h1>
 				<h2>我的设计师专单平台</h2>
 			</hgroup>
-			<div class="m-sch f-fl" id="j-sch">
-				<div class="u-sch-box f-fl">
-					<div class="u-sch-ds u-sch-us f-fl">
-						<div class="u-sch-ds-txt">
-							<span>设计师</span>
-							<i class="arrow"></i>
-						</div>
-						<ul class="u-sch-ds-sel">
-							<li>设计师</li>
-							<li>装修美图</li>
-						</ul>
-					</div>
-					<div class="u-sch-inp u-sch-inp-focus f-fl">
-						<input type="text" name="" placeholder="搜索设计师" id="" />
-					</div>
-				</div>
-				<button class="u-sch-btn f-fl">搜索</button>
+			<div class="m-sch f-fl" id="j-sch"></div>
+			<div class="m-slogan f-fr" id="j-slogan">
+				<h3>简繁家实力保障</h3>
+				<p>知名风投千万投资</p>
 			</div>
-			<div class="m-slogan f-fr" id="j-slogan"></div>
 		</div>
 	</header>
 	<nav class="g-nav g-wa">
@@ -60,154 +46,301 @@
 			<ul class="m-nav f-cb">
 				<li class="active"><a href="/">首页</a></li>
 				<li><a href="tpl/design/index.html">设计师</a></li>
-				<li><a href="tpl/live/index.html">装修美图 </a></li>
+				<li class="hide"><a href="tpl/mito/index.html">装修美图 </a></li>
 				<li><a href="tpl/live/index.html">装修直播</a></li>
-				<li><a href="tpl/live/index.html">独家秘籍</a></li>
-				<li><a href="tpl/live/index.html">你问我答</a></li>
+				<li class="hide"><a href="tpl/article/index.html">独家秘籍</a></li>
+				<li><a href="tpl/help/index.html">你问我答</a></li>
 			</ul>
-			<a href="/tpl/user/owner.html#release" class="m-release" id="j-release"><span><i></i></span>发布需求</a>
+			<a href="/tpl/user/owner.html#release" class="m-release bounce" id="j-release"><span><i></i></span>免费获取三套方案</a>
 		</div>
 	</nav>
-	<div class="g-hd">
-		<div class="g-wp f-cb">
-			<div class="m-logo f-fl">
-				<h1><a href="../index/index.html">简繁家</a></h1>
-			</div>
-			<div class="f-fr">
-				<div class="user" id="j-userLogin">
-					<a href="../user/login.html">登录</a>/<a href="../user/reg.html">注册</a>
-				</div>
-				<ul class="m-nav f-fl">
-					<li class="active"><a href="../index/index.html">首页</a></li>
-					<li><a href="../design/index.html">设计师</a></li>
-					<li><a href="../live/index.html">装修直播</a></li>
-					<li><a href="../merit/index.html">为什么选简繁家</a></li>
-				</ul>
-			</div>
-		</div>
+	<div class="g-banner g-wa" id="j-banner">
+		<ul>
+			<li><img src="/static/img/index/banner1.jpg" height="580" width="1920" alt="" /></li>
+			<li><img src="/static/img/index/banner2.jpg" height="580" width="1920" alt="" /></li>
+			<li><img src="/static/img/index/banner3.jpg" height="580" width="1920" alt="" /></li>
+			<li><img src="/static/img/index/banner4.jpg" height="580" width="1920" alt="" /></li>
+		</ul>
+		<ol class="g-wp">
+			<li class="one">
+				<i></i>
+				<h4>简单</h4>
+				<p>装修过程全景在线呈现</p>
+			</li>
+			<li class="two">
+				<i></i>
+				<h4>透明</h4>
+				<p>降低20%不必要的成本</p>
+			</li>
+			<li class="three">
+				<i></i>
+				<h4>高效</h4>
+				<p>装修过程一手全程掌控</p>
+			</li>
+		</ol>
 	</div>
-	<div class="g-banner" id="j-banner">
-		<div class="banner">
-			<ul>
-				<li><a target="_blank" href="../../zt/recruit/index.html"><img src="../../static/img/index/05.jpg" height="400" width="1920" alt="" /></a></li>
-				<li><a href="../merit/index.html"><img src="../../static/img/index/02.jpg" height="400" width="1920" alt="" /></a></li>
-				<li><a href="../merit/ensure.html"><img src="../../static/img/index/03.jpg" height="400" width="1920" alt="" /></a></li>
-				<li><a href=""><img src="../../static/img/index/04.jpg" height="400" width="1920" alt="" /></a></li>
-				<li><a href=""><img src="../../static/img/index/05.jpg" height="400" width="1920" alt="" /></a></li>
+	<section class="g-item g-wp g-designers" id="j-designers">
+		<h3 class="m-tt">
+			<a href="">
+				<span></span>
+				<strong>“大数据”匹配设计师</strong>
+			</a>
+		</h3>
+		<div class="m-ct">
+			<ul class="m-info">
+				<li>
+					<div class="u-icon">
+						<div class="base"></div>
+						<div class="shadow"></div>
+						<div class="icon icon1"></div>
+					</div>
+					<h4>设计师全程负责</h4>
+					<p>从设计到预算到施工管理到选材，设计师是贯穿家庭装修过程的灵魂人物。</p>
+				</li>
+				<li>
+					<div class="u-icon">
+						<div class="base"></div>
+						<div class="shadow"></div>
+						<div class="icon icon2"></div>
+					</div>
+					<h4>“大数据”精准匹配设计师</h4>
+					<p>从设计到预算到施工管理到选材，设计师是贯穿家庭装修过程的灵魂人物。</p>
+				</li>
+				<li>
+					<div class="u-icon">
+						<div class="base"></div>
+						<div class="shadow"></div>
+						<div class="icon icon3"></div>
+					</div>
+					<h4>高起点认证设计师</h4>
+					<p>从设计到预算到施工管理到选材，设计师是贯穿家庭装修过程的灵魂人物。</p>
+				</li>
 			</ul>
-			<div class="btns g-wp">
-				<a href="javascript:;" class="prev"><i class="iconfont">&#xe610;</i></a>
-				<a href="javascript:;" class="next"><i class="iconfont">&#xe60a;</i></a>
+			<ul class="m-list"></ul>
+			<div class="m-more f-tac">
+				<a href="tpl/design/index.html">查看更多设计师</a>
 			</div>
-			<ol>
-				<li class="active"></li>
-				<li></li>
-				<li></li>
-				<li></li>
-			</ol>
 		</div>
-	</div>
-	<div class="g-index-item g-index-flow">
+	</section>
+	<section class="g-item g-wp g-protect" id="j-protect">
+		<h3 class="m-tt">
+			<a href="">
+				<span></span>
+				<strong>简繁家装修保障</strong>
+			</a>
+		</h3>
+		<div class="m-ct">
+			<ul>
+				<li>
+					<p><i class="icon1"></i></p>
+					<h4>效果保障</h4>
+				</li>
+				<li>
+					<p><i class="icon2"></i></p>
+					<h4>合约保障</h4>
+				</li>
+				<li>
+					<p><i class="icon3"></i></p>
+					<h4>付款保障</h4>
+				</li>
+				<li>
+					<p><i class="icon4"></i></p>
+					<h4>质量保障</h4>
+				</li>
+				<li>
+					<p><i class="icon5"></i></p>
+					<h4>售后保障</h4>
+				</li>
+			</ul>
+		</div>
+	</section>
+	<section class="g-item g-wp g-supervise" id="j-supervise">
+		<h3 class="m-tt">
+			<a href="">
+				<span></span>
+				<strong>第三方监理服务</strong>
+			</a>
+		</h3>
+		<div class="m-ct">
+			<ul>
+				<li>
+					<h4>经济型施工监理</h4>
+					<i class="iconfont">&#xe635;</i>
+					<p>合理的方案</p>
+					<p>专业的人员</p>
+					<p>7次上门专业服务</p>
+					<a href="">立即申请</a>
+				</li>
+				<li class="active">
+					<h4>管家式施工监理</h4>
+					<i class="iconfont">&#xe635;</i>
+					<p>合理的方案</p>
+					<p>专业的人员</p>
+					<p>15次上门专业服务</p>
+					<a href="">立即申请</a>
+				</li>
+				<li>
+					<h4>标准型施工监理</h4>
+					<i class="iconfont">&#xe635;</i>
+					<p>合理的方案</p>
+					<p>专业的人员</p>
+					<p>7次上门专业服务</p>
+					<a href="">立即申请</a>
+				</li>
+			</ul>
+		</div>
+	</section>
+	<section class="g-item g-wp g-mito hide" id="j-mito">
+		<h3 class="m-tt">
+			<a href="">
+				<span></span>
+				<strong>装修美图精选</strong>
+			</a>
+		</h3>
+		<div class="m-ct"></div>
+	</section>
+	<section class="g-item g-wp g-live" id="j-live">
+		<h3 class="m-tt">
+			<a href="">
+				<span></span>
+				<strong>装修直播</strong>
+			</a>
+		</h3>
+		<div class="m-ct f-cb">
+			<div class="m-live f-fl"></div>
+			<div class="m-site f-fr"></div>
+		</div>
+	</section>
+	<section class="g-item g-wp g-raiders hide" id="j-raiders">
+		<h3 class="m-tt">
+			<a href="">
+				<span></span>
+				<strong>装修攻略</strong>
+			</a>
+		</h3>
+		<div class="m-ct"></div>
+	</section>
+	<section class="g-item g-wp g-steps" id="j-steps">
+		<h3 class="m-tt">
+			<a href="">
+				<span></span>
+				<strong>只需六步,轻松搞定装修</strong>
+			</a>
+		</h3>
+		<div class="m-ct">
+			<ul class="f-cb">
+				<li>
+					<a href="javascript:;">
+						<i class="iconfont">&#xe630;</i>
+						<strong>发布需求</strong>
+					</a>
+					<div class="join">
+						<span class="arc"></span>
+						<span class="circle"></span>
+						<span class="dot"></span>
+					</div>
+				</li>
+				<li class="even">
+					<a href="javascript:;">
+						<i class="iconfont">&#xe636;</i>
+						<strong>匹配三名设计师</strong>
+					</a>
+					<div class="join">
+						<span class="arc"></span>
+						<span class="circle"></span>
+						<span class="dot"></span>
+					</div>
+				</li>
+				<li>
+					<a href="javascript:;">
+						<i class="iconfont">&#xe63b;</i>
+						<strong>三套方案对比</strong>
+					</a>
+					<div class="join">
+						<span class="arc"></span>
+						<span class="circle"></span>
+						<span class="dot"></span>
+					</div>
+				</li>
+				<li class="even">
+					<a href="javascript:;">
+						<i class="iconfont">&#xe631;</i>
+						<strong>签订三方保障合同</strong>
+					</a>
+					<div class="join">
+						<span class="arc"></span>
+						<span class="circle"></span>
+						<span class="dot"></span>
+					</div>
+				</li>
+				<li>
+					<a href="javascript:;">
+						<i class="iconfont">&#xe637;</i>
+						<strong>全程施工监管</strong>
+					</a>
+					<div class="join">
+						<span class="arc"></span>
+						<span class="circle"></span>
+						<span class="dot"></span>
+					</div>
+				</li>
+				<li>
+					<a href="javascript:;">
+						<i class="iconfont">&#xe638;</i>
+						<strong>售后保障</strong>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</section>
+	<section class="g-wp g-links">
+		<div>
+			<h4>友情链接</h4>
+			<p>
+				<a href="//izx.aitaofei.com" target="_blank">常州装修</a>
+				<a href="//izx.aitaofei.com" target="_blank">爱装修</a>
+				<a href="//ak.zhuangle.cc" target="_blank">安康装乐网</a>
+				<a href="//www.szhydzs.com" target="_blank">深圳装修公司</a>
+				<a href="//www.fcxzx.cn" target="_blank">房产新资讯</a>
+				<a href="//www.cdaju.com" target="_blank">厂达居家具网</a>
+				<a href="//www.wowobang.cn" target="_blank">家装网站</a>
+				<a href="//www.haoyijiaju.com" target="_blank">好宜家家居</a>
+				<a href="//www.whlnzs.cn" target="_blank">武汉装修公司</a>
+				<a href="//www.0731zhuangxiu.cn" target="_blank">长沙装修公司</a>
+				<a href="//www.hkm168.com" target="_blank">华凯梦装饰公司</a>
+				<a href="//www.fuyuanfu.com" target="_blank">成都装修网</a>
+				<a href="//ty.nzw-china.com" target="_blank">太原装修公司</a>
+				<a href="//zxjc.dazu1.com" target="_blank">大足装修</a>
+				<a href="//www.szhydzs.com" target="_blank">四川名流装饰</a>
+				<a href="//www.cnintnet.com" target="_blank">济南装修网</a>
+				<a href="//www.meihejiazs.com" target="_blank">美和佳装饰</a>
+				<a href="//www.daianju.com" target="_blank">代安居装修网</a>
+				<a href="//www.qingtu168.com" target="_blank">合肥装饰公司</a>
+				<a href="//www.baietu.com" target="_blank">成都装修公司</a>
+				<a href="//www.zgxinfang.com" target="_blank">心房网</a>
+				<a href="//www.0527jzw.com" target="_blank">沭阳装修</a>
+				<a href="//www.mylovehome.com" target="_blank">东莞装修网</a>
+				<a href="//www.wenhuaxiang.com" target="_blank">昆明论坛</a>
+				<a href="//www.ihgzx.com" target="_blank">黄冈装修网</a>
+				<a href="//www.fuyuanfu.com" target="_blank">成都装修网</a>
+				<a href="//ty.nzw-china.com" target="_blank">太原装修公司</a>
+				<a href="//www.51zx.com" target="_blank">我要装修网</a>
+			</p>
+		</div>
+	</section>
+	<footer class="g-ft g-wa">
 		<div class="g-wp">
-			<div class="m-tt">
-				<h2><span><strong>装修流程</strong></span></h2>
-			</div>
-			<div class="m-ct">
-				<ul>
-					<li>
-						<div class="icon icon1"><span></span></div>
-						<p>发布需求</p>
-					</li>
-					<li style="left:206px">
-						<div class="icon icon2"><span></span></div>
-						<p>匹配及自选设计师</p>
-					</li>
-					<li style="left:420px">
-						<div class="icon icon3"><span></span></div>
-						<p>对比三套设计方案</p>
-					</li>
-					<li style="left:634px">
-						<div class="icon icon4"><span></span></div>
-						<p>签订三方保障合同</p>
-					</li>
-					<li style="left:848px">
-						<div class="icon icon5"><span></span></div>
-						<p>全程施工监管</p>
-					</li>
-					<li style="left:1061px">
-						<div class="icon icon6"><span></span></div>
-						<p>售后保障</p>
-					</li>
-				</ul>
-				<div class="line"></div>
-			</div>
-			<div class="more">
-				<a href="../user/owner.html" class="btn" id="submit_needs">发布需求</a>
-			</div>
+			<ul>
+				<li class="first"><a href="/tpl/about/owenr.html"><strong>业主指南</strong><em>业主指南</em></a></li>
+				<li><a href="/tpl/about/design.html"><strong>设计师指南</strong><em>设计师指南</em></a></li>
+				<li class="hide"><a href="/tpl/article/index.html"><strong>装修干货</strong><em>装修干货</em></a></li>
+				<li><a href="/tpl/about/index.html"><strong>关于我们</strong><em>关于我们</em></a></li>
+				<li class="last"><a href="/tpl/about/contact.html"><strong>联系我们</strong><em>联系我们</em></a></li>
+			</ul>
+			<p>免责声明：本网站部分内容由用户自行上传，如权利人发现存在误传其作品情形，请及时与本站联系。</p>
+			<p>Copyright © 2015-2016 jianfanjia.com   All Rights Reserved   武汉家易装科技有限公司   隐私权政策 鄂ICP备15014103号</p>
 		</div>
-	</div>
-	<div class="g-index-item g-index-design">
-		<div class="g-wp">
-			<div class="m-tt">
-				<h2><span><strong>设计师</strong></span></h2>
-			</div>
-			<div class="m-ct" id="j-index-design">
-				<div class="toggle">
-					<a href="javascript:;" class="toggle-btn prev"><i></i></a>
-					<a href="javascript:;" class="toggle-btn next"><i></i></a>
-				</div>
-			</div>
-			<div class="more">
-				<a href="../design/index.html">更多设计师</a>
-			</div>
-		</div>
-	</div>
-	<div class="g-index-item g-index-live">
-		<div class="g-wp">
-			<div class="m-tt">
-				<h2><span><strong>装修直播</strong></span></h2>
-			</div>
-			<div class="m-ct" id="j-index-live">
-				<div class="loading" id="j-loading"></div>
-			</div>
-			<div class="more">
-				<a href="../live/index.html">更多装修直播</a>
-			</div>
-		</div>
-	</div>
-	<div class="g-ft">
-		<div class="m-sitemap f-cb">
-			<div class="g-wp">
-				<div class="sitemap f-fl">
-					<dl>
-						<dt>业主指南</dt>
-						<dd><a href="../guide/index.html?0">业务流程</a></dd>
-						<dd><a href="../guide/index.html?1">三方保障合同</a></dd>
-					</dl>
-					<dl>
-						<dt>设计师指南</dt>
-						<dd><a href="../guide/design.html?0">设计师认证</a></dd>
-						<dd><a href="../guide/design.html?1">作品上传</a></dd>
-						<dd><a href="../guide/design.html?2">上门沟通及量房</a></dd>
-						<dd><a href="../guide/design.html?3">设计师入驻协议</a></dd>
-					</dl>
-					<dl>
-						<dt>关于我们</dt>
-						<dd><a href="../about/index.html#about">关于我们</a></dd>
-						<dd><a href="../about/index.html#contact">联系我们</a></dd>
-					</dl>
-				</div>
-				<div class="erweima f-fr">
-					<img src="../../img/public/erweima.jpg" alt="" />
-				</div>
-			</div>
-		</div>
-		<div class="m-copy">
-			<div class="g-wp">
-			Copyright © 2015-2025 jianfanjia.com All Rights Reserved 武汉家易装科技有限公司 隐私权政策 鄂ICP备15014103号
-			</div>
-		</div>
-	</div>
+	</footer>
 </body>
 </html>
 <script>

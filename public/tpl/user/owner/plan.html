@@ -6,13 +6,13 @@
 		<li bindonce="plans" ng-repeat="data in plans">
 			<div class="boxs">
 				<div class="info f-cb">
-					<a bo-href-i="../design/homepage.html?{{data.designer._id}}" class="head f-fl" target="_blank">
+					<a bo-href-i="/tpl/design/home.html?{{data.designer._id}}" class="head f-fl" target="_blank">
 						<img bo-src-i="/api/v2/web/thumbnail/70/{{data.designer.imageid}}" bo-alt="data.designer.username" bo-if="data.designer.imageid" />
-						<img bo-src="../../static/img/user/headPic.png" bo-alt="data.designer.username" bo-if="!data.designer.imageid" />
+						<img bo-src="/static/img/user/headPic.png" bo-alt="data.designer.username" bo-if="!data.designer.imageid" />
 					</a>
 					<dl class="f-fl">
 						<dt>
-							<a bo-href-i="../design/homepage.html?{{data.designer._id}}" bo-text="data.designer.username" target="_blank"></a>
+							<a bo-href-i="/tpl/design/home.html?{{data.designer._id}}" bo-text="data.designer.username" target="_blank"></a>
 							<span><i>V</i>认证设计师</span>
 							的方案
 						</dt>

@@ -3,111 +3,111 @@
     // load modules
     angular.module('myJyzDesigner', ['ui.router','pasvaz.bindonce','controllers', 'services', 'filters' , 'directives'])
         .config(function($stateProvider, $urlRouterProvider) {
-            var RootURl = '../../../tpl/user/designer/';
+            var url = RootUrl + 'tpl/user/designer/';
             $urlRouterProvider.otherwise('/index');
             $stateProvider
                 .state('index', {     //设计师首页
                     url: '/index',
-                    templateUrl: RootURl+'index.html',
+                    templateUrl: url+'index.html',
                     controller : 'indexCtrl'
                 })
                 .state('service', {     //设计师接单服务设置
                     url: '/service',
-                    templateUrl: RootURl+'service.html',
+                    templateUrl: url+'service.html',
                     controller : 'serviceCtrl'
                 })
                 .state('infor', {     //设计师编辑资料和提交认证
                     url: '/infor',
-                    templateUrl: RootURl+'infor.html',
+                    templateUrl: url+'infor.html',
                     controller : 'inforCtrl'
                 })
                 .state('requirementList', {   //需求列表
                     url: '/requirementList',
-                    templateUrl: RootURl+'requirementList.html',
+                    templateUrl: url+'requirementList.html',
                     controller : 'requirementListCtrl'
                 }) 
                 .state('requirement', {      //需求详情
                     url: '/requirement/:id',
-                    templateUrl: RootURl+'requirement.html'
+                    templateUrl: url+'requirement.html'
                 })
                 .state('requirement.detail', {    //需求详情--需求描述
                     url: '/detail',
-                    templateUrl: RootURl+'detail.html'
+                    templateUrl: url+'detail.html'
                 })
                 .state('requirement.owner', {     //需求详情--响应业主
                     url: '/owner',
-                    templateUrl: RootURl+'owner.html'
+                    templateUrl: url+'owner.html'
                 })
                 .state('requirement.plan', {      //需求详情--方案列表
                     url: '/plan',
-                    templateUrl: RootURl+'plan.html'
+                    templateUrl: url+'plan.html'
                 })
                 .state('requirement.contract', {     //需求详情--生成合同
                     url: '/contract',
-                    templateUrl: RootURl+'contract.html'
+                    templateUrl: url+'contract.html'
                 })
                 .state('createPlan', {     //需求详情--提交方案/修改方案
                     url: '/create/:id',
-                    templateUrl: RootURl+'create.html',
+                    templateUrl: url+'create.html',
                     controller : 'createCtrl'
                 })
                 .state('history', {      //历史订单列表
                     url: '/history',
-                    templateUrl: RootURl+'history.html',
+                    templateUrl: url+'history.html',
                     controller : 'historyListCtrl'
                 })
                 .state('products', {      //作品列表
                     url: '/products',
-                    templateUrl: RootURl+'products.html',
+                    templateUrl: url+'products.html',
                     controller : 'productsListCtrl'
                 })
                 .state('addProduct', {    //发布作品
                     url: '/release',
-                    templateUrl: RootURl+'release.html',
+                    templateUrl: url+'release.html',
                     controller : 'releaseCtrl'
                 })
                 .state('updateProduct', {     //修改作品
                     url: '/release/:id',
-                    templateUrl: RootURl+'release.html',
+                    templateUrl: url+'release.html',
                     controller : 'releaseCtrl'
                 })
                 .state('favorite', {      //收藏作品
                     url: '/favorite',
-                    templateUrl: RootURl+'favorite.html',
+                    templateUrl: url+'favorite.html',
                     controller : 'favoriteProductCtrl'
                 })
                 .state('authHeart', {      //认证中心
                     url: '/authHeart',
-                    templateUrl: RootURl+'authHeart.html'
+                    templateUrl: url+'authHeart.html'
                 })
                 .state('idcard', {      //基本资料认证
                     url: '/idcard',
-                    templateUrl: RootURl+'idcard.html',
+                    templateUrl: url+'idcard.html',
                     controller : 'idcardCtrl'
                 })
                 .state('addteam', {      //编辑施工团队
                     url: '/team',
-                    templateUrl: RootURl+'team.html',
+                    templateUrl: url+'team.html',
                     controller : 'teamCtrl'
                 })
                 .state('updateteam', {      //编辑施工团队
                     url: '/team/:id',
-                    templateUrl: RootURl+'team.html',
+                    templateUrl: url+'team.html',
                     controller : 'teamCtrl'
                 })
                 .state('teamList', {      //施工团队认证
                     url: '/teamList',
-                    templateUrl: RootURl+'teamList.html',
+                    templateUrl: url+'teamList.html',
                     controller : 'teamCtrl'
                 })
                 .state('phone', {      //手机修改
                     url: '/phone',
-                    templateUrl: RootURl+'phone.html',
+                    templateUrl: url+'phone.html',
                     controller : 'phoneCtrl'
                 })
                 .state('email', {      //邮箱认证
                     url: '/email',
-                    templateUrl: RootURl+'email.html',
+                    templateUrl: url+'email.html',
                     controller : 'emailCtrl'
                 })
         });

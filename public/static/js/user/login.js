@@ -1,141 +1,228 @@
-$(function(){
+require.config({
+    baseUrl: '../../static/js/',
+    paths  : {
+        jquery: 'lib/jquery-1.11.1.min',
+        lodash : 'lib/lodash.min'
+    },
+    shim   : {
+        'jquery.cookie': {
+            deps: ['jquery']
+        }
+    }
+});
+require(['jquery','lodash','lib/jquery.cookie','utils/goto','utils/search'],function($,_,cookie,Goto,Search){
 	if(window.location.host == 'jianfanjia.com'){
 		window.location.href = RootUrl + 'tpl/user/login.html';
 	}
-	var winHash = window.location.search.substring(1);
-	// 检测函数
-	function isMobile(mobile){
-		return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile);
-	}
-	function isPassword(str){
-	   return (/^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,30}$/.test(str));
-	}
-	function isVerifyCode(str){
-	   return (/^[\d]{6}$/.test(str));
-	}
-	var formUrl = window.location.search.substring(1);
-    var login_success_url = ["/","owner.html","designer.html"];
-	var emptyMsg = {
-        "login_mobile" : "请输入手机号",
-        "login_password": "请输入密码",
-        "login_tips" : "确保帐号安全，请勿在网吧或公用电脑上使用此功能！"
-    };
-    var errMsg = {
-        "login_mobile": "手机号不正确",
-        "login_password": "密码需为6~30个字母或数字"
-    };
-    var check_step = 0;
-    //获取对象
-	var mobile = $("#login-account");
-    var pass = $("#login-password");
-    var save = $('#saveUserInfo');
-    //验证函数
-    function checkMobile(){    //手机验证
-     	var id = "login_mobile";
-        if (isMobile(mobile.val())) {
-            return showOk(mobile,id);
+    var search = new Search;
+    search.init()
+    var goto = new Goto;
+    goto.init();
+    var Login = function(){};
+    Login.prototype = {
+        init : function(){
+            this.checkStep = 2;
+            this.time = 20150618;
+        	this.winSearch = window.location.search.substring(1);
+            this.winHash = window.location.hash ? window.location.hash : '';
+            this.mobile = $("#login-account");
+            this.pass = $("#login-password");
+            this.save = $('#saveUserInfo');
+            this.form = $('#form-login');
+            this.error = $('#error-info');
+            this.bindFocus();
+            this.bindBlur();
+            this.submit();
+            this.bindsave();
+            this.getCookie();
+        },
+        verify : {
+            isMobile : function(mobile){
+                return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile);
+            },
+            isPassword : function(str){
+                return (/^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,30}$/.test(str));
+            },
+            isVerifyCode : function(str){
+                return (/^[\d]{6}$/.test(str));
+            }
+        },
+        errmsg : {
+            'mobile'  : '手机号不正确',
+            'password' : '密码需为6~30个字母或数字',
+            'smscode'  : '短信验证码不正确',
+            'submit'   : '信息不完整',
+            'tips'     : '请勿在网吧或公用电脑上使用此功能！',
+            'save'     : '请先填写账号密码'
+        },
+        getCookie : function(){
+        	if(!$.cookie("rmbUser") == null || $.cookie("rmbUser")){
+        		this.mobile.val(this.fromCharCode($.cookie("userPhone")));
+        		this.pass.val(this.fromCharCode($.cookie("passWord")));
+        		this.save.find('span').attr('class', 'active');
+        	}
+        },
+        setCookie : function(){
+        	$.cookie("rmbUser", "true",  7 ); 
+        	$.cookie("userPhone", this.charCodeAt(this.mobile.val()), 7 ); 
+        	$.cookie("passWord", this.charCodeAt(this.pass.val()),  7 ); 
+        	this.error.html(this.errmsg.tips).removeClass('hide');
+        },
+        removeCookie : function(){
+        	$.removeCookie("rmbUser"); 
+        	$.removeCookie("userPhone"); 
+        	$.removeCookie("passWord"); 
+        	$('#error-info').addClass('hide').html('');
+        },
+        check : function(){
+            var self = this;
+            return {
+                mobile  :  function(){
+                    if(!self.verify.isMobile(self.mobile.val())){
+                        self.error.html(self.errmsg.mobile).removeClass('hide');
+                        self.mobile.parents('.item').addClass('error');
+                        return false;
+                    }else{
+                        self.error.html('').addClass('hide');
+                        self.checkStep--;
+                        self.mobile.parents('.item').removeClass('error');
+                        return true;
+                    }
+                },
+                pass  :  function(){
+                    if(!self.verify.isPassword(self.pass.val())){
+                        self.error.html(self.errmsg.password).removeClass('hide');
+                        self.pass.parents('.item').addClass('error');
+                        return false;
+                    }else{
+                        self.error.html('').addClass('hide');
+                        self.checkStep--;
+                        self.pass.parents('.item').removeClass('error');
+                        return true;
+                    }
+                }
+            }
+        },
+        bindsave : function(){
+            var self = this;
+            this.save.on('click',function(){
+            	var radio = $(this).find('span');
+            	if(radio.hasClass('active')){
+            		radio.attr('class', '');
+            		self.removeCookie();
+            	}else{
+            		if(self.verify.isMobile(self.mobile.val()) && self.verify.isPassword(self.pass.val())){
+            			self.setCookie();
+            			radio.attr('class', 'active');
+            		}else{
+            			self.error.html(self.errmsg.save).removeClass('hide');
+            			self.mobile.parents('.item').addClass('error');
+            			self.pass.parents('.item').addClass('error');
+            		}
+            	}
+            })
+        },
+        charCodeAt : function(str){
+        	var code = '';
+        	for (var i = 0,len = str.length; i < len; i++) {
+        		if(i == len-1){
+        			code += str.charCodeAt(i)+this.time
+        		}else{
+        			code += str.charCodeAt(i)+this.time+'%'
+        		}
+        	};
+        	return code;
+        },
+        fromCharCode : function(code){
+        	var str = '';
+        		code = code.split("%");
+        	for (var i = 0,len = code.length; i < len; i++) {
+        		code[i] = code[i]-this.time
+        		str += String.fromCharCode(code[i])
+        	};
+        	return str;
+        },
+        focus : function(obj){
+            obj.on('focus',function(){
+                $(this).parents('.item').addClass('focus');
+            })
+        },
+        bindFocus : function(){
+            var self = this;
+            this.focus(self.mobile);
+            this.focus(self.pass);
+        },
+        blur  : function(obj,num){
+            var self = this;
+            obj.on('blur',function(){
+                switch(num){
+                    case '0' : self.check().mobile();
+                    break;
+                    case '1' : self.check().pass();
+                    break;
+                }
+                $(this).parents('.item').removeClass('focus');
+            })
+        },
+        bindBlur  : function(){
+            var self = this;
+            this.blur(self.mobile,"0");
+            this.blur(self.pass,"1");
+        },
+        submit : function(){
+            var self = this;
+            this.form.on('submit',function(){
+                self.check().mobile();
+                self.check().pass();
+                console.log(self.checkStep)
+                if(self.checkStep > 0){
+                    self.error.html(self.errmsg.submit).removeClass('hide');
+                    return false;
+                }
+                var serialize = self.strToJson($(this).serialize());
+                $.ajax({
+                    url:RootUrl+'api/v2/web/login',
+                    type: 'post',
+                    contentType : 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    data : JSON.stringify(serialize),
+                    processData : false
+                })
+                .done(function(res) {
+                    if(res.data != null){
+                        self.error.html('保存成功').removeClass('hide');
+                        console.log(!!self.winSearch)
+                        if(!!self.winSearch){
+                            window.location.href = self.winSearch;
+                        }else{
+                            window.location.href = res.data.url+self.winHash;
+                        }
+                    }else{
+                        self.error.html(res['err_msg']).removeClass('hide');
+                    }
+                    if(res['err_msg']){
+                        self.checkStep = 2;
+                        self.error.html(res['err_msg']).removeClass('hide');
+                    }
+                });
+                return false;
+            });
+        },
+        strToJson : function(str){
+            var json = {};
+            if(str.indexOf("&") != -1){
+                var arr = str.split("&");
+                for (var i = 0,len = arr.length; i < len; i++) {
+                    var  temp = arr[i].split("=");
+                    json[temp[0]] = temp[1]
+                };
+            }else{
+                var  temp = str.split("=");
+                json[temp[0]] = temp[1]
+            }
+            return json;
         }
-        return showError(mobile,id);
     }
-    function checkPassword() {    //密码验证
-        var id = "login_password";
-        if (isPassword(pass.val())) {
-            return showOk(pass,id);
-        }
-        return showError(pass,id);
-    }
-    //显示验证信息
-   	function showError(obj,id, msg) {
-        var msg = msg || errMsg[id];
-        var parent = obj.closest('.m-item');
-        parent.find('.tips-icon-ok').addClass('hide');
-        parent.find('.tips-icon-err').removeClass('hide');
-        parent.find('.tips-info').html(msg).removeClass('hide')
-        return false;
-    }
-    function showOk(obj) {
-    	var parent = obj.closest('.m-item');
-        parent.find('.tips-icon-err').addClass('hide');
-        if ($.trim(obj.val()) != ""){
-        	parent.find('.tips-icon-ok').removeClass('hide');
-        	parent.find('.tips-info').html('').addClass('hide')
-        }
-        check_step--;
-        return true;
-    }
-    //事件操作
-    mobile.on('blur',function(){
-        checkMobile();
-    });
-    pass.on('blur',function(){
-        checkPassword();
-    });
-    save.on('click',function(){
-    	saveUserInfo();
-    })
-    // 存储一个带7天期限的 cookie 
-	function saveUserInfo(){
-
-		if($.trim(mobile.val()) != "" && $.trim(pass.val()) != ""){
-			var userName = encodeURI(mobile.val()); 
-			var passWord = encodeURI(pass.val());
-			if (save.is(":checked")) { 
-				$.cookie("rmbUser", "true",  7 ); 
-				$.cookie("userPhone", userName, 7 ); 
-				$.cookie("passWord", passWord,  7 ); 
-				$('#error-info').removeClass('hide').html(emptyMsg['login_tips']);
-			}else{ 
-				$.removeCookie("rmbUser"); 
-				$.removeCookie("userPhone"); 
-				$.removeCookie("passWord"); 
-				$('#error-info').addClass('hide').html('');
-			} 
-			$('#error-info').html('').addClass('hide');
-		}else{
-			$('#error-info').html('请先填写账号密码').removeClass('hide');	
-		}
-	}
-	//记住密码
-	if(!$.cookie("rmbUser") == null || $.cookie("rmbUser")){
-		mobile.val(decodeURI($.cookie("userPhone")));
-		pass.val(decodeURI($.cookie("passWord")));
-		save.attr("checked","checked");
-	}
-	$('#form-login').submit(function(){
-		check_step = 2;
-		checkMobile();
-		checkPassword();
-		if(check_step > 0){
-			return false;
-		}
-		var url = RootUrl+'api/v2/web/login';
-		var userName = mobile.val();
-		var passWord = pass.val();
-		$.ajax({
-			url:url,
-			type: 'post',
-			contentType : 'application/json; charset=utf-8',
-			dataType: 'json',
-			data : JSON.stringify({
-				"phone" : userName,
-				"pass"  : passWord
-			}),
-			processData : false,
-			success: function(res){
-				if(res["data"] != null){
-					if(winHash){
-						window.location.href = winHash;
-					}else{
-						window.location.href = res["data"].url;
-					}
-				}else{
-					$('#error-info').html(res['err_msg']).removeClass('hide');	
-				}
-				if(res['err_msg']){
-					$('#error-info').html(res['err_msg']).removeClass('hide');
-				}
-		   	}
-		});
-		return false;
-	})
-});
+    var login = new Login();
+    login.init();
+})

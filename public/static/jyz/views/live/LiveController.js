@@ -8,20 +8,21 @@
 	                    filterData.push(obj);
 	                }
 	            })
-
 	            return filterData;
 	        }
 	    })
     	.filter('processFilter', function () {
 	        return function (input) {
-	             return {0:'开工',
-	             		 1:'拆改',
-	             		 2:'水电',
-						 3:'泥木',
-						 4:'油漆',
-						 5:'安装',
-						 6:'竣工'}[input];
-	        }
+	             return {
+	             		"0" : "量房",
+						"1" : "开工",
+						"2" : "拆改",
+						"3" : "水电",
+						"4" : "泥木",
+						"5" : "油漆",
+						"6" : "安装",
+						"7" : "竣工"}[input];
+				}
 	    })
 	    .directive('mySelect',['$timeout',function($timeout){
 		    return {
@@ -188,13 +189,14 @@
 				{"num" :1,"name":'设计＋施工(全包)'},
 				{"num" :2,"name":'纯设计'}];
 				$scope.dec_flow = [
-				{"num" :0,"name":'开工'},
-				{"num" :1,"name":'拆改'},
-				{"num" :2,"name":'水电'},
-				{"num" :3,"name":'泥木'},
-				{"num" :4,"name":'油漆'},
-				{"num" :5,"name":'安装'},
-				{"num" :6,"name":'竣工'}];
+				{"num" :0,"name":'量房'},
+				{"num" :1,"name":'开工'},
+				{"num" :2,"name":'拆改'},
+				{"num" :3,"name":'水电'},
+				{"num" :4,"name":'泥木'},
+				{"num" :5,"name":'油漆'},
+				{"num" :6,"name":'安装'},
+				{"num" :7,"name":'竣工'}];
 				$scope.dataMapped = {
 					dec_type : "0",
 					dec_style : "0",
@@ -312,7 +314,8 @@
             			"work_type" : $scope.dataMapped.work_type,
             			"total_price" : $scope.dataMapped.total_price,
             			"description" : $scope.dataMapped.description,
-            			"process" : process
+            			"process" : process,
+            			"progress" : "0"
             		}
             		$http({
 	            		method : "POST",
@@ -490,13 +493,14 @@
             	};
             	$scope.processTime.today();
             	$scope.dec_flow = [
-					{"id" :0,"name":'开工'},
-					{"id" :1,"name":'拆改'},
-					{"id" :2,"name":'水电'},
-					{"id" :3,"name":'泥木'},
-					{"id" :4,"name":'油漆'},
-					{"id" :5,"name":'安装'},
-					{"id" :6,"name":'竣工'}];
+					{"num" :0,"name":'量房'},
+					{"num" :1,"name":'开工'},
+					{"num" :2,"name":'拆改'},
+					{"num" :3,"name":'水电'},
+					{"num" :4,"name":'泥木'},
+					{"num" :5,"name":'油漆'},
+					{"num" :6,"name":'安装'},
+					{"num" :7,"name":'竣工'}];
 				$scope.process = {};
             	adminShare.search({
 					  "query":{
@@ -523,6 +527,7 @@
 					aPreviewsItem.each(function(i,el){
 						images.push($(el).data('imgid'))
 					});
+
 					for (var i = 0,len = $scope.shares.process.length; i < len; i++) {
 						if(i != $scope.process.processName){
 							$scope.shares.process.push({
@@ -540,6 +545,9 @@
 					$scope.shares.process.sort(function(n,m){
 						return n.name - m.name;
 					})
+					if($scope.shares.process[$scope.shares.process.length-1].name == 7){
+						$scope.shares.progress = "1";
+					}
 					submitData()
         		}
         		$scope.deleteLive = function(){

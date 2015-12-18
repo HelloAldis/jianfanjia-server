@@ -94,7 +94,7 @@
                         $scope.loading.loadData = true;
                         $scope.loading.notData = true;
                     }else{
-                        $scope.userList = resp.data.data.beautifulImages;
+                        $scope.userList = resp.data.data.articles;
                         $scope.pagination.totalItems = resp.data.data.total;
                         $scope.loading.loadData = true;
                         $scope.loading.notData = false;
@@ -140,7 +140,10 @@
         }])
         .controller('PicturesAddController', ['$scope','$rootScope','$stateParams','$state','adminArticle',function($scope, $rootScope,$stateParams,$state,adminArticle){
               var currentId = $stateParams.id == undefined ? "" : $stateParams.id;
-              $scope.article_type = [{"num" :0,"name":'装修攻略'}];
+              $scope.article_type = [
+                {"num" :0,"name":'大百科'},
+                {"num" :1,"name":'小贴士'},
+              ];
               $scope.news = {
                 "title":"",
                 "description":"",

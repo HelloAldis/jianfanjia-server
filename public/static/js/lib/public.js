@@ -1,18 +1,76 @@
 // 全局数据
 var globalData = {
-	role : ['管理员','业主','设计师'],
-	sex  : ['男','女'],
-	dec_type : ['家装','商装','软装'],
-	work_type : ['设计＋施工(半包)','设计＋施工(全包)','纯设计'],
-	dec_style : ['欧式','中式','现代','地中海','美式','东南亚','田园'],
-	scheme_state : ['沟通中','已中标','未中标'],
-	orders_area : ['江岸区','江汉区','硚口区','汉阳区','武昌区','洪山区','青山区'],
-	price_area  : ['50－100','100-200','200－300','300以上'],
-	house_type : ['一室','二室','三室','四室','复式','别墅','LOFT','其他'],
-	dec_flow : ['开工','拆改','水电','泥木','油漆','安装','竣工'],
-	des_type : ['不限','表达型','聆听型'],
-	auth_type : ['未提交认证','审核中','审核通过'],
-	scheme_status : ['已预约但没有响应','已拒绝业主','已响应但是没有方案','提交了方案','方案被拒绝','方案被选中']
+	role : function(input){
+		return {
+			"0" : "管理员",
+			"1" : "业主",
+			"2" : "设计师"
+		}[input]
+	},
+	sex : function(input){
+		return {
+			"0" : "男",
+			"1" : "女",
+			"2" : "不限"
+		}[input]
+	},
+	dec_type : function(input){
+		return {
+			"0" : "家装",
+			"1" : "商装",
+			"2" : "软装"
+		}[input]
+	},
+	work_type : function(input){
+		return {
+			"0" : "设计＋施工(半包)",
+			"1" : "设计＋施工(全包)",
+			"2" : "纯设计"
+		}[input]
+	},
+	dec_style : function(input){
+		return {
+			"0" : "欧式",
+			"1" : "中式",
+			"2" : "现代",
+			"3" : "地中海",
+			"4" : "美式",
+			"5" : "东南亚",
+			"6" : "田园"
+		}[input]
+	},
+	price_area : function(input){
+		return {
+			"0" : "50-100",
+			"1" : "100-200",
+			"2" : "200-300",
+			"3" : "300以上"
+		}[input]
+	},
+	house_type : function(input){
+		return {
+			"0" : "一室",
+			"1" : "二室",
+			"2" : "三室",
+			"3" : "四室",
+			"4" : "复式",
+			"5" : "别墅",
+			"6" : "LOFT",
+			"7" : "其他"
+		}[input]
+	},
+	dec_flow : function(input){
+		return {
+			"0" : "量房",
+			"1" : "开工",
+			"2" : "拆改",
+			"3" : "水电",
+			"4" : "泥木",
+			"5" : "油漆",
+			"6" : "安装",
+			"7" : "竣工"
+		}[input]
+	}
 }
 var global_success_url = window.location;
 var RootUrl = 'http://101.200.191.159/';
@@ -26,201 +84,6 @@ var checkSupport = function(){
 	var fd = !!window.FormData;
 	return 'multiple' in input && fileSupport && 'onprogress' in xhr && 'upload' in xhr && fd ? 'html5' : 'flash';
 };
-//Cookie操作
-(function(factory){
-	if (typeof define === 'function' && define.amd) {
-		define(['jquery'], factory);
-	} else if (typeof exports === 'object') {
-		module.exports = factory(require('jquery'));
-	} else {
-		factory(jQuery);
-	}
-}(function($){
-	var pluses = /\+/g;
-	function encode(s) {
-		return config.raw ? s : encodeURIComponent(s);
-	}
-	function decode(s) {
-		return config.raw ? s : decodeURIComponent(s);
-	}
-	function stringifyCookieValue(value) {
-		return encode(config.json ? JSON.stringify(value) : String(value));
-	}
-	function parseCookieValue(s) {
-		if (s.indexOf('"') === 0) {
-			s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
-		}
-		try {
-			s = decodeURIComponent(s.replace(pluses, ' '));
-			return config.json ? JSON.parse(s) : s;
-		} catch(e) {}
-	}
-	function read(s, converter) {
-		var value = config.raw ? s : parseCookieValue(s);
-		return $.isFunction(converter) ? converter(value) : value;
-	}
-	var config = $.cookie = function (key, value, options) {
-		if (arguments.length > 1 && !$.isFunction(value)) {
-			options = $.extend({}, config.defaults, options);
-			if (typeof options.expires === 'number') {
-				var days = options.expires, t = options.expires = new Date();
-				t.setMilliseconds(t.getMilliseconds() + days * 864e+5);
-			}
-			return (document.cookie = [
-				encode(key), '=', stringifyCookieValue(value),
-				options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
-				options.path    ? '; path=' + options.path : '',
-				options.domain  ? '; domain=' + options.domain : '',
-				options.secure  ? '; secure' : ''
-			].join(''));
-		}
-		var result = key ? undefined : {},
-			cookies = document.cookie ? document.cookie.split('; ') : [],
-			i = 0,
-			l = cookies.length;
-		for (; i < l; i++) {
-			var parts = cookies[i].split('='),
-				name = decode(parts.shift()),
-				cookie = parts.join('=');
-			if (key === name) {
-				result = read(cookie, value);
-				break;
-			}
-			if (!key && (cookie = read(cookie)) !== undefined) {
-				result[name] = cookie;
-			}
-		}
-		return result;
-	};
-	config.defaults = {};
-	$.removeCookie = function (key, options) {
-		$.cookie(key, '', $.extend({}, options, { expires: -1 }));
-		return !$.cookie(key);
-	};
-}));
-window.username = $.cookie("username");
-window.usertype = $.cookie("usertype");
- $.ajaxSetup({cache:false}) //全局缓存，解决ie问题
-//消息提示框
-function promptMessage(str,msg){
-	var $win = $(window);
-	var $body = $(document.body);
-	var $promptBox = $('<div class="k-prompt"><h3>消息提示</h3><p class="'+msg+'">'+str+'</p></div>');
-	$body.append($promptBox)
-	var top = ($win.height()-$promptBox.outerHeight())/2;
-	$promptBox.stop().animate({top:top,opacity:1},function(){
-		setTimeout(function(){
-            $promptBox.stop().fadeToggle('slow',0,function(){
-            	$promptBox.remove();
-            })
-		}, 2000)
-	});
-}
-/*
-	下拉选择框插件
-	3个参数：
-		1：id用来生成input的name值的提供给后台
-		2：下拉选项列表数据
-		3：是否有下拉箭头按钮
-*/
-;(function($){
-	function ComboBox(options){
-		this.init(options)
-	}
-	ComboBox.prototype = {
-		init : function(options){
-			var self = this;
-			this.win = $(window);
-			this.doc = $(document);
-			this.body = $(document.body);
-			$.extend(this.settings = {
-				id : null,
-				list : [],
-				btn : true,
-				editor : false,
-				index : false,
-				query : 0,
-				callback : function(){}
-			},options || {});
-			self.settings.callback(this.settings.query);
-			this.selectBox = $('#'+this.settings.id);
-			this.input = $('<input type="hidden" name="'+this.settings.id+'" value="'+(this.settings.index ? this.settings.query : this.settings.list[this.settings.query])+'" />');
-			this.option = $('<div class="option"><span class="value">'+this.settings.list[this.settings.query]+'</span>'+(this.settings.btn?'<span class="arrow"><em></em><i></i></span>':'')+'</div>');
-			this.editor = $('<div class="editor"><input class="value" name="'+this.settings.id+'" value="'+this.settings.list[this.settings.query]+'" />'+(this.settings.btn?'<span class="arrow"><em></em><i></i></span>':'')+'</div>');
-			this.createList(this.settings.list);
-			if(this.settings.editor){
-				this.selectBox.append(this.editor);
-				this.editorEvent();
-			}else{
-				this.selectBox.append(this.input);
-				this.selectBox.append(this.option);
-				this.optionEvevt();
-			}
-			this.select = this.selectBox.find('.select');
-			this.selectEvent();
-		},
-		createList : function(data){
-			var sLi = '<ul class="select">';
-			for (var i = 0; i < data.length; i++) {
-				sLi+= '<li><a href="javascript:;">'+data[i]+'</a></li>'
-			};
-			sLi+='</ul>';
-			this.selectBox.append(sLi);
-		},
-		optionEvevt : function(){
-			var self = this;
-			self.option.on('click' , function(ev){
-				self.body.click(); 
-				self.selectShow();
-				return false;
-			});
-		},
-		selectEvent : function(){
-			var self = this;
-			this.body.on('click' , function(ev){
-				self.selectHide(); 
-			});
-			this.select.delegate('li', 'click' , function(ev){
-				ev.stopPropagation();
-				var value = $(this).find('a').text();
-				if(self.settings.index){
-					self.input.val($(this).index());
-				}else{
-					self.input.val(value)
-				}
-				if(self.settings.editor){
-					self.editor.find('.value').val(value).data('val',value);
-				}else{
-					self.option.find('.value').html(value);
-				}
-				self.settings.callback($(this).index());
-				self.selectHide();
-			});
-		},
-		editorEvent : function(){
-			var self = this;
-			this.editor.on('click' , function(ev){
-				self.body.click(); 
-				self.selectShow();
-				return false;
-			});
-			this.editor.find('.value').on('focus keyup',function(){
-				self.selectShow();
-				return false;
-			})
-		},
-		selectHide : function(){
-			this.selectBox.each(function(index, el) {
-				$(el).css('zIndex',5).find('.select').hide();
-			});
-		},
-		selectShow : function(){
-			this.select.show(); 
-			this.selectBox.css('zIndex',20)
-		}
-	}
-	window["ComboBox"] = ComboBox;
-})(jQuery);
 /*
 	1,格式化形式 "yyyy-MM-dd hh:mm:ss"
 	2，时间 
@@ -306,68 +169,3 @@ function ellipsisStr(str, len){
     }
 	return s;
 } 
-$(function(){
-	var userLogin = $('#j-userLogin');
-	var cookiesUserName = function(){
-		if(window.username && window.usertype){
-			if(window.usertype == 0){
-				userLogin.html('<a href="../jyz/live.html">管理员 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
-			}else if(window.usertype == 1){
-				userLogin.html('<a href="../user/owner.html">业主 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
-			}else if(window.usertype == 2){
-				userLogin.html('<a href="../user/designer.html">设计师 '+decodeURI(window.username)+'</a><a href="javascript:;" id="signout">退出</a>')
-			}
-		}
-	}
-	cookiesUserName()
-	//退出操作
-	$(document.body).delegate('#signout','click',function(ev){
-		ev.preventDefault();
-		var url = RootUrl+'api/v1/signout';
-		$.ajax({
-			url:url,
-			type: 'GET',
-			contentType : 'application/json; charset=utf-8',
-			dataType: 'json',
-			cache : false,
-			success: function(res){
-				if(res["msg"] === "success"){
-					$.removeCookie("username");
-					$.removeCookie("usertype");
-					window.location.href = "/";
-					userLogin.html('<a href="../user/login.html">登录</a>/<a href="../user/reg.html">注册</a>')
-				}else{
-					alert('提交失败')
-				}
-				
-		   	}
-		});
-	});
-	//回到顶部
-	var winH = $(window).height();
-	var $goto = $('<a class="goto" href="javascript:;"></a>');
-	$(document.body).append($goto);
-	$goto.on('click',function(){
-		$('html,body').animate({scrollTop: 0}, 500)
-		return false;
-	})
-	$(window).on('scroll',function(){
-		if($(this).scrollTop() > winH){
-			$goto.fadeIn(500)
-		}else{
-			$goto.fadeOut(500)
-		}
-	});
-		//手机app 
-	var appStr = '<div class="m-app"><a href="javascript:;">下载App</a><div class="ewm"><i><em></em></i><span>简繁家App</span><img width="121" src="../../static/img/public/emw.png" alt="简繁家App" /></div></div>'
-	userLogin.append(appStr);
-	var iBff = true;
-	$(document.body).delegate('.m-app','mouseenter',function(ev){
-		ev.preventDefault();
-		userLogin.find('.ewm').show().animate({top:40,opacity:1})
-	});
-	$(document.body).delegate('.m-app','mouseleave',function(ev){
-		ev.preventDefault();
-		userLogin.find('.ewm').animate({top:-160,opacity:0}).hide()
-	});
-})

@@ -7,72 +7,162 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
-	<link rel="stylesheet" type="text/css" href="../../static/css/public.css" />
-	<script type="text/javascript" src="../../static/js/lib/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../../static/js/lib/public.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/public.css" />
 	<style type="text/css">
-		.error-tips{
-			height: 145px;
-			line-height: 46px;
-			padding-top: 150px;
-			text-align: center;
-			background: #fff url(../../static/img/other/error-icon.jpg) 38px 20px no-repeat;
+		body{
+			padding-top: 100px;
+			background-color: #ebeced;
+		}
+		.g-error{
+			width: 700px;
+			min-width: 700px;
+			margin: 0 auto;
 		}
 		.error-tips h2{
 			font-size: 24px;
-		}
-		.error-tips span{
-			color: #a24923;
+			line-height: 100px;
+			color: #383d48;
 		}
 		.error-tips p{
 			font-size: 14px;
+			line-height: 16px;
+			color: #61687a;
 		}
-		.error-tips p span{
-			font-weight: bold;
-			font-size: 16px;
-			margin: 0 10px;
+		.g-error dl{
+			width: 324px;
+			margin: 0 auto;
+			text-align: center;
+		}
+		.g-error dt{
+			font-size: 14px;
+			line-height: 52px;
+			color: #999;
+		}
+		.g-error dd{
+			width: 100%;
 		}
 		.browser{
-			font-size: 0;
-			text-align: center;
+			height: 122px;
 		}
-		.browser a{
-			display: inline-block;
-			margin: 0 15px;
+		.g-error a{
+			float: left;
+			width: 72px;
+			height: 102px;
+			margin-left: 7px;
 		}
-		.erweima{
-			width: 260px;
-			margin:40px auto 30px;
-			font-size: 18px;
-			line-height: 48px;
-			text-align: center;
+		.g-error a span{
+			display: block;
+			width: 72px;
+			height: 0;
+			padding-top: 72px;
+			overflow: hidden;
+			background: #ebeced url(/static/img/other/error-icon.jpg) no-repeat;
 		}
-		.erweima img{
-			border: 1px solid #e5e5e5;
+		.g-error a strong{
+			display: block;
+			font-weight: normal;
+			line-height: 30px;
+			color: #61687a;
 		}
-		.erweima h4{
-			line-height: 55px;
+		.g-error a:hover{
+
+		}
+		.g-error a:hover strong{
 			color: #fe7004;
+		}
+		.erweima .ewm{
+			width: 127px;
+			height: 127px;
+			overflow: hidden;
+			padding: 12px;
+			background: #ebeced url(/static/img/other/error-icon.jpg) 0 -432px no-repeat;
+			cursor: default;
+		}
+		.erweima .ewm img{
+			width: 127px;
+			height: 127px;
+		}
+		.g-error a span.chrome{
+			background-position: 0 0;
+		}
+		.g-error a span.firefox{
+			background-position: 0 -72px;
+		}
+		.g-error a span.safari{
+			background-position: 0 -144px;
+		}
+		.g-error a span.ie{
+			background-position: 0 -216px;
+		}
+		.g-error a span.ios{
+			background-position: 0 -288px;
+		}
+		.g-error a span.android{
+			background-position: 0 -360px;
+		}
+		.g-error a:hover span.chrome{
+			background-position: -72px 0;
+		}
+		.g-error a:hover span.firefox{
+			background-position: -72px -72px;
+		}
+		.g-error a:hover span.safari{
+			background-position: -72px -144px;
+		}
+		.g-error a:hover span.ie{
+			background-position: -72px -216px;
+		}
+		.g-error a:hover span.ios{
+			background-position: -72px -288px;
+		}
+		.g-error a:hover span.android{
+			background-position: -72px -360px;
 		}
 	</style>
 </head>
 <body>
-	<div class="g-wp g-error f-cb">
-		<div class="error-tips">
-			<h2>简繁家温馨提示：<span>您的浏览器需要更新才能访问</span>哦！</h2>
-			<p>请使用<span>Chrome . Safari . firefox . opera</span>浏览器访问~</p>
+	<div class="g-error">
+		<div class="error-tips f-tac">
+			<h2>简繁家温馨提示：您的浏览器需要更新才能访问哦！</h2>
+			<p>为了得到我们网站最好的体验效果，我们建议您升级到最新版本的Internet Explore或选择另一个web浏览器。</p>
 		</div>
-		<div class="browser">
-			<a href="http://rj.baidu.com/soft/detail/14744.html" target="_blank"><img src="../../static/img/other/chrome.jpg" height="147" width="148" alt="chrome" /></a>
-			<a href="http://rj.baidu.com/soft/detail/12966.html?ald" target="_blank"><img src="../../static/img/other/safari.jpg" height="149" width="142" alt="safari" /></a>
-			<a href="http://www.firefox.com.cn/" target="_blank"><img src="../../static/img/other/firefox.jpg" height="147" width="148" alt="firefox" /></a>
-			<a href="http://www.opera.com/zh-cn" target="_blank"><img src="../../static/img/other/opera.jpg" height="151" width="135" alt="opera" /></a>
-		</div>
-		<div class="erweima">
-			<p>扫当前二维码可手机访问</p>
-			<img src="../../img/public/erweima.jpg" alt="" />
-			<h4>简繁家二维码</h4>
-		</div>
+		<dl class="browser">
+			<dt>以下是现在最流行的web浏览器</dt>
+			<dd class="f-cb">
+				<a href="http://rj.baidu.com/soft/detail/14744.html" target="_blank">
+					<span class="chrome">Chrome</span>
+					<strong>Chrome</strong>
+				</a>
+				<a href="http://www.firefox.com.cn/" target="_blank">
+					<span class="firefox">Firefox</span>
+					<strong>Firefox</strong>
+				</a>
+				<a href="http://rj.baidu.com/soft/detail/12966.html" target="_blank">
+					<span class="safari">Safari</span>
+					<strong>Safari</strong>
+				</a>
+				<a href="http://rj.baidu.com/soft/detail/23253.html" target="_blank">
+					<span class="ie">IE</span>
+					<strong>IE</strong>
+				</a>
+			</dd>
+		</dl>
+		<dl class="erweima">
+			<dt>您也可以下载我们的APP或在微信上获得一手资讯</dt>
+			<dd class="f-cb">
+				<a href="/tpl/download/index.html">
+					<span class="ios">iOS</span>
+					<strong>iOS</strong>
+				</a>
+				<a href="/tpl/download/index.html">
+					<span class="android">Android</span>
+					<strong>Android</strong>
+				</a>
+				<a href="javascript:;" class="ewm">
+					<img src="/static/img/public/erweima.jpg" alt="简繁家二维码" />
+				</a>
+			</dd>
+		</dl>
 	</div>
 </body>
 </html>

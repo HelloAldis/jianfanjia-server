@@ -152,5 +152,21 @@
                     "5":"方案被选中"
                 }[input];
             };
+        })
+        .filter('displayStateFilter', function () {
+            return function (input) {
+                return {
+                    "0":"页面隐藏",
+                    "1":"页面显示"
+                }[input];
+            };
+        })
+        .filter('articletypeFilter', function () {
+            return function (input) {
+                return {
+                    "0":"大百科",
+                    "1":"小贴士"
+                }[input];
+            };
         });
 })();

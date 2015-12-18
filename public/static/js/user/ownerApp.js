@@ -3,66 +3,66 @@
     // load modules
     angular.module('myJyzOwner', ['ui.router','pasvaz.bindonce','controllers', 'services', 'filters' , 'directives'])
         .config(function($stateProvider, $urlRouterProvider) {
-            var RootURl = '../../../tpl/user/owner/';
+            var url = RootUrl + 'tpl/user/owner/';
             $urlRouterProvider.otherwise('/index');
             $stateProvider
                 .state('index', {
                     url: '/index',
-                    templateUrl: RootURl+'index.html',
+                    templateUrl: url+'index.html',
                     controller : 'indexCtrl'
                 })
                 .state('infor', {
                     url: '/infor',
-                    templateUrl: RootURl+'infor.html',
+                    templateUrl: url+'infor.html',
                     controller : 'inforCtrl'
                 })
                 .state('addRequirement', {
                     url: '/release',
-                    templateUrl: RootURl+'release.html',
+                    templateUrl: url+'release.html',
                     controller : 'releaseCtrl'
                 })
                 .state('updateRequirement', {
                     url: '/release/:id',
-                    templateUrl: RootURl+'release.html',
+                    templateUrl: url+'release.html',
                     controller : 'releaseCtrl'
                 })
                 .state('requirementList', {
                     url: '/requirementList',
-                    templateUrl: RootURl+'requirementList.html',
+                    templateUrl: url+'requirementList.html',
                     controller : 'requirementListCtrl'
                 })
                 .state('requirement', {
                     url: '/requirement/:id',
-                    templateUrl: RootURl+'requirement.html'
+                    templateUrl: url+'requirement.html'
                 })
                 .state('requirement.detail', {
                     url: '/detail',
-                    templateUrl: RootURl+'detail.html'
+                    templateUrl: url+'detail.html'
                 })
                 .state('requirement.booking', {
                     url: '/booking',
-                    templateUrl: RootURl+'booking.html'
+                    templateUrl: url+'booking.html'
                 })
                 .state('requirement.plan', {
                     url: '/plan',
-                    templateUrl: RootURl+'plan.html'
+                    templateUrl: url+'plan.html'
                 })
                 .state('requirement.contract', {
                     url: '/contract',
-                    templateUrl: RootURl+'contract.html'
+                    templateUrl: url+'contract.html'
                 })
                 .state('requirement.score', {
                     url: '/score',
-                    templateUrl: RootURl+'score.html'
+                    templateUrl: url+'score.html'
                 })
                 .state('favorite', {
                     url: '/favorite',
-                    templateUrl: RootURl+'favorite.html',
+                    templateUrl: url+'favorite.html',
                     controller : 'favoriteProductCtrl'
                 })
                 .state('designer', {
                     url: '/designer',
-                    templateUrl: RootURl+'designer.html',
+                    templateUrl: url+'designer.html',
                     controller : 'favoriteDesignerCtrl'
                 })
         });

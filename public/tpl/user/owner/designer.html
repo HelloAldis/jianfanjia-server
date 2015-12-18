@@ -8,13 +8,13 @@
 				<li bindonce="designers" ng-repeat="data in designers">
 					<div class="designer f-cb">
 						<div class="info f-fl">
-							<a bo-href-i="../design/homepage.html?{{data._id}}" class="head f-fl">
+							<a bo-href-i="/tpl/design/home.html?{{data._id}}" class="head f-fl">
 								<img bo-src-i="/api/v2/web/thumbnail/70/{{data.imageid}}" bo-if="data.imageid" />
-								<img bo-src="../../static/img/user/headPic.png" bo-alt="data.username" bo-if="!data.imageid" />
+								<img bo-src="/static/img/user/headPic.png" bo-alt="data.username" bo-if="!data.imageid" />
 							</a>
 							<dl class="f-fl">
 								<dt>
-									<a bo-href-i="../design/homepage.html?{{data._id}}" bo-text="data.username"></a>
+									<a bo-href-i="/tpl/design/home.html?{{data._id}}" bo-text="data.username"></a>
 									<span><i>V</i>认证设计师</span>
 								</dt>
 								<dd><i bo-text="data.city"></i><i bo-text="data.district"></i></dd>

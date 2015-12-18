@@ -14,9 +14,7 @@
 		13, 回调函数，第一个参数当前页码，默认从0开始，使用时需要+1;
 */
 define(['jquery'], function($){
-	var Pageing = function(){
-		this.init(options)
-	}
+	var Pageing = function(){}
 	Pageing.prototype = {
 		init : function(options){
 			var self = this;
@@ -24,7 +22,7 @@ define(['jquery'], function($){
 			this.doc = $(document);
 			this.body = $(document.body);
 			$.extend(self.settings = {
-				id : null,
+				id : '#j-page',
 				allNumPage : 10,
 				itemPage : 5,
 				showPageNum : 10,
@@ -38,7 +36,7 @@ define(['jquery'], function($){
 				pageInfo : false,
 				callback : function(){return false;}
 			},options || {});
-			this.pageBox = $('#'+this.settings.id);
+			this.pageBox = $(this.settings.id);
 			//创建一个显示条数和每页显示条数值
 			this.settings.allNumPage = (!this.settings.allNumPage || this.settings.allNumPage < 0) ? 1 : this.settings.allNumPage;
 			this.settings.itemPage = (!this.settings.itemPage || this.settings.itemPage < 0) ? 1 : this.settings.itemPage;
@@ -48,7 +46,7 @@ define(['jquery'], function($){
 			this.settings.callback(this.settings.currentPage,this.pageBox);
 		},
 		createLinks : function(){
-			this.pageBox.empty();
+			this.destroy();
 			var self = this,
 				interval = this.getInterval(),
 				np = this.numPages();
@@ -169,6 +167,9 @@ define(['jquery'], function($){
 			}else {
 				return false;
 			}
+		},
+		destroy  : function(){
+			this.pageBox.html('');
 		}
 	}
 	return Pageing;
@@ -177,7 +178,7 @@ define(['jquery'], function($){
 	检测浏览器是否支持css3新属性，来给低版本浏览器做优雅降级；
 	placeholder
 */
-;(function(){
+/*;(function(){
 	function Placeholder(options){
 		var self = this;
 		this.settings = {
@@ -229,4 +230,4 @@ define(['jquery'], function($){
 		}
 	}
 	window["Placeholder"] = Placeholder;
-})(jQuery);
+})(jQuery);*/

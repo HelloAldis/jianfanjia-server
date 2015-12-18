@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>设计师--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+	<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
+	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
+	<link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+	<script type="text/javascript" src="/static/js/lib/jquery-1.11.1.min.js" ></script>
+	<!--[if IE 6]>
+	    <script type="text/javascript" src="/static/js/lib/png.js" ></script>
+	    <script type="text/javascript">
+	      DD_belatedPNG.fix('*');
+	    </script>
+	<![endif]-->
+    <style>
+    	body{
+    		position: relative;
+    	}
+		.g-tb{
+			position: absolute;
+			left:0;
+			top:0;
+			z-index: 90;
+			background-color: #fff;
+		}
+		.index{
+			color: #61687a;
+		}
+		.index:hover{
+			color: #fe7004;
+		}
+		html,body,.section,.choose,.choose .mask,.g-wp{
+			width: 100%;
+			height: 100%;
+		}
+		.g-wp{
+			width: 1000px;
+			min-width: 1000px;
+			position: relative;
+		}
+		.posa{
+			position: absolute;
+		}
+		.choose{
+			left:0;
+			top:0;
+			z-index: 100;
+		}
+		.choose .mask{
+			background-color: #000;
+			opacity: 0.3;
+			filter: alpha(opacity=30);
+		}
+		.choose .boxs{
+			left:50%;
+			top:50%;
+			z-index: 2;
+			width: 665px;
+			height: 337px;
+			padding-top: 63px;
+			margin-left: -332px;
+			margin-top: -200px;
+			text-align: center;
+			background-color: #fff;
+			border-radius: 5px;
+			-moz-box-shadow: 0px 0px 20px rgba(0,0,0,.3);
+			-webkit-box-shadow: 0px 0px 20px rgba(0,0,0,.3);
+			box-shadow: 0px 0px 20px rgba(0,0,0,.3);
+		}
+		.choose .boxs dl{
+			float: left;
+			width: 332px;
+			height: 260px;
+			padding-top: 15px;
+			background: #fff url(/static/img/download/head.jpg) -239px 118px no-repeat;
+			border-left: 1px solid #e5e5e5;
+			cursor: pointer;
+		}
+		.choose .boxs dl.owner{
+			border-left: none;
+			background-position: 94px 118px;
+		}
+		.choose .boxs dd{
+			font-size: 30px;
+			line-height: 46px;
+			font-weight: bold;
+			color: #383d48;
+		}
+		.choose .boxs dt{
+			font-size: 14px;
+			line-height: 18px;
+			color: #61687a;
+		}
+		.section{
+			background-position: center center;
+			background-repeat: no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
+		}
+		div.design{
+			background-color: #504a4d;
+			background-image: url(/static/img/download/bg2.jpg);
+		}
+		div.owner{
+			background-color: #ab7951;
+			background-image: url(/static/img/download/bg1.jpg);
+		}
+		.text{
+			top:50%;
+			right: 0;
+			width: 440px;
+			height: 338px;
+			margin-top: -169px;
+		}
+		.text h2{
+			top:0;
+			left:0;
+			height: 42px;
+			line-height: 42px;
+			font-size: 42px;
+			font-weight: bold;
+			color: #fff;
+			text-shadow:0px 0px 15px rgba(0,0,0,.3);
+		}
+		.text p{
+			top:70px;
+			left:0;
+			font-size: 20px;
+			line-height: 20px;
+			color: #fff;
+		}
+		.text .btns{
+			left:0;
+			width: 166px;
+			height: 70px;
+			font-size: 24px;
+			line-height: 70px;
+			color: #fff;
+			padding-left: 76px;
+			background:url(/static/img/download/btns.png) 0 -70px no-repeat;	
+		}
+		.text .btns:hover{
+			background-position: 0 -140px;
+		}
+		.text .ios{
+			top:172px;
+		}
+		.text .btns i{
+			position: absolute;
+			left:24px;
+			top:20px;
+			width: 30px;
+			height: 30px;
+			background:url(/static/img/download/icon.png) 0 0 no-repeat;
+		}
+		.text .disabled,.text .disabled:hover{
+			background-position: 0 0;
+		}
+		.text .android{
+			top:257px;
+		}
+		.text .android i{
+			background-position: 0 -30px;
+		}
+		.toggle{
+			left:50%;
+			bottom: 50px;
+			width: 120px;
+			margin-left: -60px;
+			text-align: center;
+		}
+		.toggle a{
+			display: block;
+			width: 118px;
+			font-size: 18px;
+			line-height: 30px;
+			color: #fe7004;
+			border: 1px solid #fe7004;
+			border-radius: 30px;
+		}
+		.toggle a:hover{
+			color: #fff;
+			background-color: #fe7004;
+		}
+		.toggle p{
+			font-size: 14px;
+			line-height: 32px;
+			color: #fff;
+		}
+		.erweima{
+			top:172px;
+			left:277px;
+			width: 143px;
+			height: 143px;
+			padding: 6px;
+			background-color: #fff;
+			border-radius: 4px;
+		}
+		.phone2,.phone1{
+			top:50%;
+		}
+		.phone2{
+			left:0;
+			width: 243px;
+			height: 473px;
+			margin-top: -236px;
+		}
+		.phone1{
+			z-index: 3;
+			left:129px;
+			width: 294px;
+			height: 574px;
+			margin-top: -287px;
+		}
+		.owner .phone1{
+			background:url(/static/img/download/phone1-2.png) 0 0 no-repeat;
+		}
+		.owner .phone2{
+			background:url(/static/img/download/phone2-2.png) 0 0 no-repeat;
+		}
+		.design .phone1{
+			background:url(/static/img/download/phone1-1.png) 0 0 no-repeat;
+		}
+		.design .phone2{
+			background:url(/static/img/download/phone2-1.png) 0 0 no-repeat;
+		}
+    </style>
+</head>
+<body>
+	<div class="g-tb g-wa">
+		<div class="g-wp f-cb">
+			<a href="/" class="f-fl index">回到首页</a>
+			<a href="/zt/recruit/index.html" class="m-events f-fr">天使业主招募</a>
+			<div class="m-user f-fr" id="j-user">
+				<ul>
+					<li>咨询热线：400-8515-167</li>
+					<li class="line"></li>
+					<li><a href="/tpl/user/login.html">你好，请登录</a></li>
+					<li class="line"></li>
+					<li><a href="/tpl/user/reg.html">免费注册</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="j-userType" class="choose posa">
+		<div class="boxs posa">
+			<dl class="owner">
+				<dt>我是</dt>
+				<dd>业主</dd>
+			</dl>
+			<dl class="design">
+				<dt>我是</dt>
+				<dd>设计师</dd>
+			</dl>
+		</div>
+		<div class="mask"></div>
+	</div>
+	<div class="section design hide">
+		<div class="g-wp">
+			<div class="phone1 posa"></div>
+			<div class="phone2 posa"></div>
+			<div class="text posa">
+				<h2 class="posa">简繁家设计师APP下载</h2>
+				<p class="posa">点击下载APP或扫描二维码，让您的装修变简单</p>
+				<span class="btns disabled ios posa"><i></i>敬请期待</span>
+				<a href="" class="btns android posa"><i></i>Android下载</a>
+				<div class="erweima posa"><img src="/static/img/download/design.jpg" alt="简繁家设计师APP下载" /></div>
+			</div>
+			<div class="toggle posa">
+				<a href="javascript:;" data-type="owner">我是业主</a>
+				<p>前往下载业主端</p>
+			</div>
+		</div>
+	</div>
+	<div class="section owner">
+		<div class="g-wp">
+			<div class="phone1 posa"></div>
+			<div class="phone2 posa"></div>
+			<div class="text posa">
+				<h2 class="posa">简繁家APP下载</h2>
+				<p class="posa">点击下载APP或扫描二维码，让您的装修变简单</p>
+				<span class="btns disabled ios posa"><i></i>敬请期待</span>
+				<a href="" class="btns android posa"><i></i>Android下载</a>
+				<div class="erweima posa"><img src="/static/img/download/owner.jpg" alt="简繁家APP下载" /></div>
+			</div>
+			<div class="toggle posa">
+				<a href="javascript:;" data-type="design">我是设计师</a>
+				<p>前往下载设计师端</p>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			$('#j-userType').delegate('dl','click',function(ev){
+                ev.preventDefault();
+                section($(this).attr('class'));
+                $('#j-userType').addClass('hide');
+            })
+			$('.toggle').delegate('a','click',function(ev){
+                ev.preventDefault();
+                section($(this).data('type'));
+            })
+            function section(active){
+            	$('.section').each(function(){
+            		if($(this).hasClass(active)){
+            			$(this).removeClass('hide');
+            		}else{
+            			$(this).addClass('hide');
+            		}
+            	})
+            }
+		})
+	</script>
+</body>
+</html>
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?66d38d3af612ed7c0979211372aa9682";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+</script>
