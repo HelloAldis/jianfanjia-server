@@ -506,27 +506,27 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
 	var design = new Designer();
 	design.init();	
 })
-// require(['utils/designers'],function(Designers){
-// 	var designers = new Designers();
-// 	designers.init({
-// 		id       : '#j-featured .m-ct',
-// 		template : [
-// 			'<%_.forEach(datas, function(item) {%>',
-// 		    '<li>',
-// 		    '<a href="/tpl/design/home.html?<%=item._id%>">',
-// 		    '<span class="arrow">',
-// 		    '<em></em>',
-// 		    '<i class="iconfont2">&#xe604;</i>',
-// 		    '</span>',
-// 		    '<img src="/api/v2/web/thumbnail/258/<%=item.imageid%>" alt="">',
-// 		    '<span class="txt"><%=item.username%></span>',
-// 		    '</a>',
-// 		    '</li>',
-// 		    '<%});%>'
-// 		],
-// 		limit : 3
-// 	})
-// })
+require(['utils/designers'],function(Designers){
+	var designers = new Designers();
+	designers.init({
+		id       : '#j-featured .m-ct',
+		template : [
+			'<%_.forEach(datas, function(item) {%>',
+		    '<li>',
+		    '<a href="/tpl/design/home.html?<%=item._id%>">',
+		    '<span class="arrow">',
+		    '<em></em>',
+		    '<i class="iconfont2">&#xe604;</i>',
+		    '</span>',
+		    '<img src="/api/v2/web/thumbnail/258/<%=item.imageid%>" alt="">',
+		    '<span class="txt"><%=item.username%></span>',
+		    '</a>',
+		    '</li>',
+		    '<%});%>'
+		],
+		limit : 5
+	})
+})
 
 
 // require(['utils/raiders'],function(Raiders){
@@ -549,249 +549,3 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
 // 		limit : 3
 // 	})
 // })
-
-
-
-
-
-
-
-/*$(function(){
-	(function(window,undefined){
-		// Establish Variables
-		var History = window.History, // Note: We are using a capital H instead of a lower h
-			State = History.getState();
-		var $design = $("#j-design-list");
-		var $list = $design.find('.m-list');
-		var $filter = $design.find('.m-filter');
-		var $sort = $design.find('.m-sort');
-		var pageOFF = true;
-		var toFrom = 0;
-		var toQuery = {};
-		var toSort = {"product_count":-1};
-		var pageCache = {};
-		function setDefault(State){
-			if(!State.url.split("?")[1]){
-				History.pushState({state:1}, "互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 设计师第1页", "?page=1");
-				setQuery({});
-				setSort({"product_count":-1});
-			}else{
-				var urlJson = strChangeJson(State.url.split("?")[1])
-				var current = urlJson.page != undefined ? parseInt(urlJson.page)-1 : 0;
-				var oQuery = {};
-				var oSort = {};
-				toFrom = current*5;
-				for(var i in urlJson){
-					if(i != 'page'){
-						if( i == 'product_count' || i == 'order_count' ||  i == 'view_count'){
-							oSort[i] = urlJson[i];
-						}else{
-							oQuery[i] = urlJson[i];
-						}
-					}
-				}
-				toQuery = oQuery;
-				setQuery(toQuery);
-				if(!$.isEmptyObject(oSort)){
-					toSort = oSort;
-					setSort(toSort);
-				}else{
-					oSort = {};
-					setSort({"product_count":-1});
-				}
-			}
-		}
-		setDefault(State)
-		function setQuery(query){
-			$filter.find('a').removeClass()
-			if(!$.isEmptyObject(query)){
-				$filter.find('dl').each(function(index, el) {
-					$.each(query,function(i){
-						if($(el).data('type') == i){
-							$(el).find('a').each(function(index, el1) {
-								$(el1).removeClass();
-								if($(el1).data('query') == query[i]){
-									$(el1).addClass('current');
-								}
-							})
-							return false;
-						}else{
-							$(el).find('a').eq(0).addClass('current');
-						}
-					})
-				})
-			}else{
-				$filter.find('dl').each(function(index, el) {
-					$(this).find('a').eq(0).addClass('current');
-				})
-			}
-			
-		}
-		function setSort(sort){
-			$sort.find('a').removeClass();
-			$sort.find('a').each(function(index, el) {
-				$.each(sort,function(i){
-					if($(el).data('sort') == i){
-						if(sort[i] == 1){
-							$(el).attr('class', 'current sort');
-						}else{
-							$(el).attr('class', 'current');
-						}
-					}else{
-						$(el).removeClass();
-					}	
-				});
-			})
-		}
-		
-
-		function page(arr,data){
-			var maxElem =  Math.ceil(arr.total/5);
-			var current =!History.getState().url.split("?")[1] ? 0 : parseInt(strChangeJson(History.getState().url.split("?")[1]).page) - 1
-			if(current+1 > maxElem){
-				History.pushState({state:1}, "互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 设计师第1页", "?page=1");
-				setQuery(toQuery);
-				setSort(toSort);
-				loadList();
-				return false;
-			}
-			var page = new Pageing({
-				id : 'j-page',
-				allNumPage : arr.total,
-				itemPage : 5,
-				showPageNum : 9,
-				endPageNum : 1,
-				currentPage : current,
-				prevText:"上一页",
-				nextText:"下一页",
-				linkTo : '__id__',
-				showUbwz : true,
-				callback : function(num,obj){
-					var dataArr = [];
-					for(var i=0;i<arr.designers.length;i++){
-						dataArr.push(createList(arr.designers[i]));
-					}
-					$list.html(dataArr);
-					$design.find('li:odd').attr('class', 'even');
-					loadImg($design.find('li'));
-					obj.find('.btns').on('click',function(ev){
-						ev.preventDefault();
-						var index = $(this).attr("href").match(/\d+(\.\d+)?/g)[0]
-						toFrom = (index-1)*5;
-						History.pushState({state:index}, "互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 设计师第 "+index+" 页", "?page="+index+jsonChangeStr(toQuery)+jsonChangeStr(toSort));
-						return false;
-					});
-				}
-			});
-		};
-		function loadImg(li){
-			var obj = li;
-			obj.each(function(index, el) {
-				var uid = $(el).data('uid');
-				var oImg = $(el).find('.m-ct');
-				if(!pageCache[uid]){
-					pageCache[uid] = [];
-					$.ajax({
-						url:RootUrl+'api/v2/web/search_designer_product',
-						type: 'POST',
-						contentType : 'application/json; charset=utf-8',
-						dataType: 'json',
-						data : JSON.stringify({
-						  "query":{
-						    "designerid":uid
-						  },
-						  "from": 0,
-						  "limit" : 3
-						}),
-						processData : false,
-						success: function(res){
-							if(res.data.total >= 3){
-								$.each(res['data']['products'],function(i,v){
-									pageCache[uid].push(v);
-									oImg.find('a').eq(i).attr('href',"detail.html?"+v._id).removeClass('.loadImg').find('img').attr('src', RootUrl+'api/v1/thumbnail/383/'+v.images[0].imageid);
-								})
-							}
-					   	}
-					});	
-				}else{
-					$.each(pageCache[uid],function(i,v){
-						oImg.find('a').eq(i).attr('href',"detail.html?"+v._id).removeClass('.loadImg').find('img').attr('src', RootUrl+'api/v1/thumbnail/383/'+v.images[0].imageid);
-					})
-				}
-			});
-		}
-		//筛选
-		$filter.find('a').on('click',function(){
-			if($(this).hasClass('current')){
-				return false;
-			}
-			$(this).attr('class','current').siblings().attr('class', '');
-			FilterSort();
-			return false;
-		});
-		//排序
-		function FilterSort(){
-			var filter = {},
-				sort = {};
-				$sort.find('a').each(function(index, el) {
-					if($(el).hasClass('current')){
-						if($(el).hasClass('sort')){
-							sort[$(el).data('sort')] = 1
-						}else{
-							sort[$(el).data('sort')] = -1
-						}
-					}
-				});
-				$filter.find('a').each(function(index, el) {
-					var oDl = $(this).closest('dl');
-					if($(this).hasClass('current') && $(this).data('query') != -1){
-						filter[oDl.data('type')] = $(this).data('query');
-					}
-				});
-			toQuery = filter;
-			toSort = sort;
-			toFrom = 0;
-			setQuery(toQuery);
-			setQuery(toQuery);
-			History.pushState({state:1}, "互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 设计师第1页", "?page=1"+jsonChangeStr(toQuery)+jsonChangeStr(toSort));
-			loadList();	
-		}
-		
-		//排序
-		$sort.find('a').on('click',function(){
-			$(this).addClass('current').siblings().removeClass('current');
-			if($(this).hasClass('sort')){
-				$(this).removeClass('sort');
-			}else{
-				$(this).addClass('sort');
-			}
-			FilterSort()
-			return false;
-		});
-		$('#j-filter-more').on('click',function(){
-			if($(this).hasClass('filterMore')){
-				$(this).html('更多选择').removeClass();
-				$('#j-filter').find('.more').addClass('hide');
-			}else{
-				$(this).html('收起').addClass('filterMore');
-				$('#j-filter').find('.more').removeClass('hide');
-			}
-		});
-
-		var stateOne = true;
-		History.Adapter.bind(window,'statechange',function(){
-			var State = History.getState();
-			setDefault(State)
-			if(State.data.state !== 1){
-				stateOne = true;
-			}
-			if(State.data.state && stateOne){
-				loadList()
-			}
-			if(State.data.state == 1 || State.data.state == undefined){
-				stateOne = false;
-			}
-		});
-	})(window)
-});
-*/
