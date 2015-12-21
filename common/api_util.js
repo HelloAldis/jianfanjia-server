@@ -68,11 +68,12 @@ exports.buildDesinger = function (req) {
     designer.big_imageid = new ObjectId(req.body.big_imageid);
   }
 
-  designer.award_details = _.map(req.body.award_details, function (i) {
-    i.award_imageid = new ObjectId(i.award_imageid);
-    return i;
-  });
-
+  if (req.body.award_details) {
+    designer.award_details = _.map(req.body.award_details, function (i) {
+      i.award_imageid = new ObjectId(i.award_imageid);
+      return i;
+    });
+  }
 
   return designer;
 }
@@ -151,10 +152,13 @@ exports.buildProduct = function (req) {
   product.work_type = req.body.work_type;
   product.total_price = req.body.total_price;
   product.description = req.body.description;
-  product.images = _.map(req.body.images, function (i) {
-    i.imageid = new ObjectId(i.imageid);
-    return i;
-  });
+
+  if (req.body.images) {
+    product.images = _.map(req.body.images, function (i) {
+      i.imageid = new ObjectId(i.imageid);
+      return i;
+    });
+  }
 
   return product;
 }
@@ -170,9 +174,11 @@ exports.buildPlan = function (req) {
   plan.total_design_fee = req.body.total_design_fee;
   plan.project_price_before_discount = req.body.project_price_before_discount;
 
-  plan.images = _.map(req.body.images, function (i) {
-    return new ObjectId(i);
-  });
+  if (req.body.images) {
+    plan.images = _.map(req.body.images, function (i) {
+      return new ObjectId(i);
+    });
+  }
 
   return plan;
 }
@@ -336,10 +342,12 @@ exports.buildBeautifulImage = function (req) {
   beautifulImage.section = req.body.section;
   beautifulImage.status = req.body.status;
 
-  beautifulImage.images = _.map(req.body.images, function (i) {
-    i.imageid = new ObjectId(i.imageid);
-    return i;
-  });
+  if (req.body.images) {
+    beautifulImage.images = _.map(req.body.images, function (i) {
+      i.imageid = new ObjectId(i.imageid);
+      return i;
+    });
+  }
 
   return beautifulImage;
 }
