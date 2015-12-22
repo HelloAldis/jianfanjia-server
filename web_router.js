@@ -11,6 +11,7 @@ var router = express.Router();
 router.get('/tpl/user/', site.homePage);
 router.get('/download/user/app', site.download_user_app);
 router.get('/download/user/apk', site.download_user_apk);
+router.get('/download/designer/apk', site.download_designer_apk);
 // router.post('/signup', sign.signup);
 // router.post('/login', sign.login);
 router.get('/tpl/article/detail.html', dec_strategy.dec_strategy_homepage);
