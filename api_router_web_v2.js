@@ -47,12 +47,12 @@ router.post('/designer_home_page', designer.designer_home_page); //游客获取�
 router.post('/search_designer_product', product.search_designer_product); //游客获取设计师作品
 router.post('/product_home_page', product.product_home_page); //游客获取设计师作品
 router.get('/verify_email/:key/:phone/:type', sign.verify_email); //游客验证邮箱
-router.get('/dec_strategy/:_id/homepage', dec_strategy.dec_strategy_homepage); //获取某个攻略主页
+//router.get('/dec_strategy/:_id/homepage', dec_strategy.dec_strategy_homepage); //获取某个攻略主页
 router.post('/beautiful_image_homepage', beautiful_image.beautiful_image_homepage); //游客获取美图主页
 router.post('/search_beautiful_image', beautiful_image.search_beautiful_image); //游客搜索美图
 router.post('/top_articles', dec_strategy.top_articles); //top文章
 router.post('/search_article', dec_strategy.search_article); //搜索文章
-router.post('/associate_article', dec_strategy.associate_article); //搜索文章
+//router.post('/associate_article', dec_strategy.associate_article); //搜索文章
 router.post('/top_designers', designer.top_designers); //top设计师
 router.post('/top_shares', share.top_shares); //top工地直播
 

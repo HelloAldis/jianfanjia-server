@@ -20,6 +20,7 @@ exports.homePage = function (req, res, next) {
 }
 
 var apkDir = path.normalize(__dirname + '/../public/user_build');
+var designerApkDir = path.normalize(__dirname + '/../public/designer_build');
 
 exports.download_user_app = function (req, res, next) {
   var ep = eventproxy();
@@ -55,3 +56,28 @@ exports.download_user_apk = function (req, res, next) {
     }
   }));
 }
+
+exports.download_designer_apk = function (req, res, next) {
+  var ep = eventproxy();
+  ep.fail(next);
+
+  fs.readdir(designerApkDir, ep.done(function (apks) {
+    apks.sort();
+    var apk = apks.pop();
+    if (apk) {
+      var arr = apk.split('_');
+      if (arr.length != 5) {
+        res.sendErrMsg('bad apk');
+      } else {
+        var download_url = 'http://' + req.headers.host +
+          '/designer_build/' + apk;
+        res.redirect(download_url);
+      }
+    } else {
+      res.sendErrMsg('no apk');
+    }
+  }));
+}
+
+//简繁家backup url http://t.cn/R4Lbu25 http://fusion.qq.com/app_download?appid=1104973048&platform=qzone&via=QZ.MOBILEDETAIL.QRCODE&u=3046917960
+//简繁家设计师backup url http://t.cn/R4b6MZH http://fusion.qq.com/app_download?appid=1104958443&platform=qzone&via=QZ.MOBILEDETAIL.QRCODE&u=3046917960

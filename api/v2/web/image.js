@@ -52,6 +52,10 @@ exports.get = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
+  if (!_id) {
+    return res.status(404).end();
+  }
+
   Image.findOne({
     _id: _id
   }, null, ep.done(function (image) {
@@ -73,6 +77,10 @@ exports.thumbnail = function (req, res, next) {
   var width = tools.trim(req.params.width);
   var ep = eventproxy();
   ep.fail(next);
+
+  if (!_id) {
+    return res.status(404).end();
+  }
 
   Image.findOne({
     _id: _id
@@ -98,6 +106,10 @@ exports.watermark = function (req, res, next) {
   var width = req.params.width;
   var ep = eventproxy();
   ep.fail(next);
+
+  if (!_id) {
+    return res.status(404).end();
+  }
 
   Image.findOne({
     _id: _id

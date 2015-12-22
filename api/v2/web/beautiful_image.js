@@ -21,22 +21,42 @@ exports.beautiful_image_homepage = function (req, res, next) {
     _id: _id
   }, null, ep.done(function (beautiful_image) {
     if (beautiful_image) {
-      if (userid && usertype !== type.role_admin) {
+      BeautifulImage.paginate({
+        _id: {
+          $ne: beautiful_image._id
+        },
+        house_type: beautiful_image.house_type,
+        dec_style: beautiful_image.dec_style,
+        section: beautiful_image.section,
+        status: type.beautiful_image_status_public,
+      }, {
+        images: 1,
+      }, {
+        sort: {
+          lastupdate: -1
+        },
+        skip: 0,
+        limit: 6
+      }, ep.done(function (associate_beautiful_images, total) {
         beautiful_image = beautiful_image.toObject();
-        Favorite.findOne({
-          userid: userid,
-          favorite_beautiful_image: _id,
-        }, null, ep.done(function (favorite) {
-          if (favorite) {
-            beautiful_image.is_my_favorite = true;
-          } else {
-            beautiful_image.is_my_favorite = false;
-          }
+        beautiful_image.associate_beautiful_images =
+          associate_beautiful_images;
+        if (userid && usertype !== type.role_admin) {
+          Favorite.findOne({
+            userid: userid,
+            favorite_beautiful_image: _id,
+          }, null, ep.done(function (favorite) {
+            if (favorite) {
+              beautiful_image.is_my_favorite = true;
+            } else {
+              beautiful_image.is_my_favorite = false;
+            }
+            res.sendData(beautiful_image);
+          }));
+        } else {
           res.sendData(beautiful_image);
-        }));
-      } else {
-        res.sendData(beautiful_image);
-      }
+        }
+      }));
 
       limit.perwhatperdaydo('beautiful_image_homepage', req.ip + _id,
         1,
