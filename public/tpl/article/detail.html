@@ -6,15 +6,15 @@
 	<![endif]-->
 	<meta charset="UTF-8" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>装修直播--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家</title>
+	<title>独家秘籍--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="renderer" content="webkit">
 	<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
 	<link rel="stylesheet" type="text/css" href="/static/css/public.css" />
-	<link rel="stylesheet" type="text/css" href="/static/css/user.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/article.css" />
 	<script type="text/javascript" src="/static/js/lib/public.js"></script>
-	<script type="text/javascript" data-main="/static/js/user/getpw" src="/static/js/lib/require.js"></script>
+	<script type="text/javascript" data-main="/static/js/article/detail" src="/static/js/lib/require.js"></script>
 	<!--[if lt IE 9]>
 	  <script type="text/javascript" src="/static/js/ng/html5shiv-printshiv.js"></script>	
       <script type="text/javascript" src="/static/js/lib/json2-min.js"></script>
@@ -25,13 +25,7 @@
 		<div class="g-wp f-cb">
 			<a href="/tpl/download/index.html" class="m-app f-fl"><span>APP下载</span></a>
 			<a href="/zt/recruit/index.html" class="m-events f-fr">天使业主招募</a>
-			<div class="m-user f-fr" id="j-user">
-				<ul>
-					<li>咨询热线：400-8515-167</li>
-					<li><a href="/tpl/user/login.html">你好，请登录</a></li>
-					<li><a href="/tpl/user/reg.html">免费注册</a></li>
-				</ul>
-			</div>
+			<div class="m-user f-fr" id="j-user"></div>
 		</div>
 	</div>
 	<header class="g-hd g-wa" id="j-hd">
@@ -54,75 +48,43 @@
 				<li><a href="/tpl/design/index.html">设计师</a></li>
 				<li><a href="/tpl/mito/index.html">装修美图</a></li>
 				<li><a href="/tpl/live/index.html">装修直播</a></li>
-				<li><a href="/tpl/article/index.html">独家秘籍</a></li>
+				<li class="active"><a href="/tpl/article/index.html">独家秘籍</a></li>
 				<li><a href="/tpl/help/index.html">你问我答</a></li>
 			</ul>
 			<a href="/tpl/user/owner.html#release" class="m-release bounce" id="j-release"><span><i></i></span>免费获取三套方案</a>
 		</div>
 	</nav>
-	<main class="g-bd g-wp" id="j-getpw">
-		<div class="g-sign">
-			<div class="m-sign-mn">
-				<div class="sign-mn">
-					<h2>找回密码</h2>
-					<div class="w-form">
-						<form id="form-getpw" method="post">
-							<div class="m-item f-cb">
-								<div class="item">
-									<label class="u-lab" for="getpw-account"><i class="iconfont">&#xe606;</i></label>
-									<div class="u-inp">
-										<div class="box">
-											<input type="text" class="input" name="phone" id="getpw-account" placeholder="请输入手机号码" />
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="m-item f-cb">
-								<div class="item">
-									<label class="u-lab" for="getpw-password"><i class="iconfont">&#xe63d;</i></label>
-									<div class="u-inp">
-										<div class="box">
-											<input type="password" class="input" name="pass" id="getpw-password" placeholder="请输入密码" />
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="m-item f-cb">
-								<div class="item">
-									<label class="u-lab" for="getpw-password2"><i class="iconfont">&#xe63d;</i></label>
-									<div class="u-inp">
-										<div class="box">
-											<input type="password" class="input" id="getpw-password2" placeholder="请确定密码" />
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="m-item verifyCode f-cb">
-								<div class="item f-fl">
-									<label class="u-lab" for="getpw-VerifyCode"><i class="iconfont">&#xe621;</i></label>
-									<div class="u-inp">
-										<div class="box">
-											<input type="text" class="input" name="code" id="getpw-VerifyCode" placeholder="请输入验证码" />
-										</div>
-									</div>
-								</div>
-								<span class="f-fr vcode" id="getVerifyCode">获取验证码</span>
-							</div>
-							<div class="m-item m-error-info hide" id="error-info">
-							</div>
-							<div class="m-item">
-								<div class="u-btn">
-									<input type="submit" class="u-btns submit-btn" id="getpw-submit" value="保存修改" />
-								</div>
-							</div>
-							<div class="m-item f-tac">
-								<a href="login.html" class="link">我想起来了，立即登录&nbsp;&nbsp;<i class="f-st">&gt;&gt;</i></a>
-							</div>
-						</form>
-					</div>
+	<main class="g-bd g-wp f-cb" id="j-detail">
+		<article class="f-fl g-mn">
+			<header class="m-tt">
+				<h1>备战六月黄梅天装修</h1>
+			</header>
+			<section class="m-ct">
+				<div class="content">
+					
+				</div>
+			</section>
+		</article>
+		<aside class="f-fr g-sd">
+			<div class="related">
+				<h3>相关推荐</h3>
+				<ul>
+					<li><a href=""><img src="" alt=""><span>装修中的细节</span></a></li>
+					<li><a href=""><img src="" alt=""><span>客厅装修的独门秘籍</span></a></li>
+					<li><a href=""><img src="" alt=""><span>客厅装修的独门秘籍</span></a></li>
+					<li><a href=""><img src="" alt=""><span>装修中的细节</span></a></li>
+				</ul>
+			</div>
+			<div class="concern">
+				<div class="box">
+					<span class="arrow"></span>
+					<span class="ribbonLeft"></span>
+					<span class="ribbonRight"></span>
+					<img src="/static/img/public/erweima.jpg" alt="关注简繁家" />
+					<p>扫码掌握更多一手内容</p>
 				</div>
 			</div>
-		</div>
+		</aside>
 	</main>
 	<footer class="g-ft g-wa">
 		<div class="g-wp">

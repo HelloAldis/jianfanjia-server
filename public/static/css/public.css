@@ -941,8 +941,7 @@ a.m-head:hover{
 	color: #999;
 }
 .g-ft ul{
-	/*width: 600px;*/
-	width: 480px;
+	width: 600px;
 	margin: 0 auto;
 	height: 18px;
 	line-height: 18px;

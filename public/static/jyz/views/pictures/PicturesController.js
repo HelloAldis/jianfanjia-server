@@ -156,13 +156,15 @@
               {"num" :5,"name":'别墅'},
               {"num" :6,"name":'LOFT'},
               {"num" :7,"name":'其他'}];
+              $scope.section = ['厨房','客厅','卫生间','卧室','餐厅','书房','玄关','阳台','儿童房','走廊','储物间']
               $scope.images = {
                 "title":"",
                 "description":"",
                 "dec_type":"0",
                 "house_type":"0",
                 "dec_style":"0",
-                "images":[]
+                "images":[],
+                "section" : '厨房'
               }
               if(currentId){
                 adminImage.search({

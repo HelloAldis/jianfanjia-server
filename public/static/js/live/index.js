@@ -50,6 +50,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user'
                 this.setfilter();
                 this.getfilter();
                 goto.init();
+                this.top = this.list.offset().top;
             },
             loadList : function(){
                 var self = this;
@@ -80,7 +81,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user'
             	var process = data.process[data.process.length-1].name
                 return arr = [
                         '<li>',
-                            '<a href="/tpl/live/detail.html?'+data._id+'" class="img"><img src="/api/v2/web/thumbnail/500/'+data.process[0].images[0]+'" alt="'+data.cell+'"></a>',
+                            '<a href="/tpl/live/detail.html?'+data._id+'" class="img"><img src="/api/v2/web/thumbnail/500/'+data.cover_imageid+'" alt="'+data.cell+'"></a>',
                             '<div class="txt">',
                                 '<h4><a href="/tpl/live/detail.html?'+data._id+'">'+data.cell+'</a></h4>',
                                 '<p><span>面积：'+data.house_area+'m&sup2;</span><span>户型：'+globalData.house_type(data.house_area)+'</span><span>风格：'+globalData.dec_style(data.dec_style)+'</span></p>',
@@ -147,9 +148,13 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user'
                         self.ul.html(dataArr);
                         obj.find('.btns').on('click',function(ev){
                             ev.preventDefault();
+                            if($(this).hasClass('current')){
+                                return ;
+                            }
                             var index = $(this).attr("href").match(/\d+(\.\d+)?/g)[0]
                             self.toFrom = (index-1)*5;
                             History.pushState({state:index}, "装修直播--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第 "+index+" 页", "?page="+index+'&status='+self.status);
+                            $('html,body').animate({scrollTop: self.top}, 500);
                             self.loadList();
                             return false;
                         });

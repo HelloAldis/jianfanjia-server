@@ -13,19 +13,18 @@ define(['jquery'], function($){
 		                title : '设计师',
 		                url   : '/tpl/design/index.html',
 		                api   : 'api/v2/web/designer/search'
-		            }/*,
+		            },
 		            {
 		                title : '装修美图',
 		                url   : '/tpl/mito/index.html',
 		                api   : 'api/v2/web/search_beautiful_image'
-		            }*/
+		            }
 		        ],
 				defaults : 0,
 				callback : function(){}
 			},options || {});
-			this.iNum = 0;
 			this.container = $(this.settings.id);
-			this.iNum = this.settings.defaults
+			this.iNum = this.settings.defaults;
 			//生成试图显示
 			this.create(this.settings.urlAPI);
 			this.input = this.container.find('.input');
@@ -38,7 +37,7 @@ define(['jquery'], function($){
 			var strArr =  ['<form><div class="u-sch-box f-fl">',
 							'<div class="u-sch-ds f-fl '+(data.length == 1 ? 'not' : '')+'">',
 							'<div class="u-sch-ds-txt">',
-								'<span>'+data[0].title+'</span>',
+								'<span>'+data[this.iNum].title+'</span>',
 								'<i class="arrow"></i>',
 							'</div>'
 							];
@@ -51,7 +50,7 @@ define(['jquery'], function($){
 				}
 				strArr.push('</div>');
 				strArr.push('<div class="u-sch-inp f-fl">'); 
-				strArr.push('<input type="text" name="" class="input" value="搜索'+data[0].title+'" id="" />'); 
+				strArr.push('<input type="text" name="" class="input" value="搜索'+data[this.iNum].title+'" id="" />'); 
 				strArr.push('</div>'); 
 				strArr.push('</div>');  
 				strArr.push('<button class="u-sch-btn f-fl" type="submit">搜索</button></form>');

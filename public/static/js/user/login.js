@@ -190,8 +190,6 @@ require(['jquery','lodash','lib/jquery.cookie','utils/goto','utils/search'],func
                 })
                 .done(function(res) {
                     if(res.data != null){
-                        self.error.html('保存成功').removeClass('hide');
-                        console.log(!!self.winSearch)
                         if(!!self.winSearch){
                             window.location.href = self.winSearch;
                         }else{

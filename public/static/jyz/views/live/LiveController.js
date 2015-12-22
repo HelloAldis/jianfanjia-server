@@ -315,7 +315,8 @@
             			"total_price" : $scope.dataMapped.total_price,
             			"description" : $scope.dataMapped.description,
             			"process" : process,
-            			"progress" : "0"
+            			"progress" : "0",
+            			"cover_imageid" : $scope.dataMapped.cover_imageid
             		}
             		$http({
 	            		method : "POST",
@@ -570,5 +571,57 @@
 	            	})
         		}
             }
-        ]);
+        ])
+	    .directive('myLiveuploade',['$timeout',function($timeout){     //封面图片上传
+          return {
+              replace : true,
+              scope: {
+                myQuery : "="
+              },
+              restrict: 'A',
+              template: '<div class="k-uploadbox clearfix"><div class="pic" id="create"><div class="fileBtn"><input class="hide" id="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_create"></div><div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg<strong ng-if="mySection.length">作品/照片/平面图上均不能放置个人电话号码或违反法律法规的信息。</strong></p></div></div><div class="previews-item"><div class="img"><img class="img" src="/api/v2/web/thumbnail/168/{{myQuery}}" alt=""><div></div></div>',
+              link: function($scope, iElm, iAttrs, controller){
+                    var uploaderUrl = RootUrl+'api/v2/web/image/upload',
+                      fileTypeExts = '*.jpg;*.png',
+                      fileSizeLimit = 3072,
+                      obj = angular.element(iElm);
+                    $('#create').Huploadify({
+                      auto:true,
+                      fileTypeExts:fileTypeExts,
+                      multi:true,
+                      formData:{},
+                      fileSizeLimit:fileSizeLimit,
+                      showUploadedPercent:true,//是否实时显示上传的百分比，如20%
+                      showUploadedSize:true,
+                      removeTimeout:1,
+                      fileObjName:'Filedata',
+                      buttonText : "",
+                      uploader:uploaderUrl,
+                      onUploadComplete:function(file, data, response){
+                        callbackImg(data)
+                      }
+                    });
+                  function callbackImg(arr){
+                    var data = $.parseJSON(arr);
+                    var img = new Image();
+                    img.onload=function(){
+                      if(img.width < 500){
+                      	alert('图片宽度小于500，请重新上传图片');
+                      	return ;
+                      }
+                      if(img.height < 500){
+                      	alert('图片高度小于500，请重新上传图片');
+                      	return ;
+                      }
+                      $scope.$apply(function(){
+                          $scope.myQuery = data.data
+                       });
+                    };  
+                    img.onerror=function(){alert("error!")};  
+                    img.src=RootUrl+'api/v1/image/'+data.data;
+                  }
+        
+              }
+          };
+      }]);
 })();

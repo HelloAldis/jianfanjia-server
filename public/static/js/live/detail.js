@@ -55,7 +55,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/user','utils/search','util
                 var process = data.process[data.process.length-1].name,
                     arr = [
                         '<div class="covers f-fl">',
-                            '<img src="/api/v2/web/thumbnail/320/'+data.process[0].images[0]+'" alt="'+data.cell+'">',
+                            '<img src="/api/v2/web/thumbnail/320/'+data.cover_imageid+'" alt="'+data.cell+'">',
                         '</div>',
                         '<div class="info f-fl">',
                             '<h3>'+data.cell+'</h3>',

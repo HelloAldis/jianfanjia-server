@@ -10,41 +10,48 @@ require.config({
         },
         'jquery.history': {
             deps: ['jquery']
-        },
-        'jquery.requestAnimationFrame.min': {
-            deps: ['jquery']
-        },
-        'jquery.fly.min': {
-            deps: ['jquery']
         }
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto','utils/search','utils/page','utils/user','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,history,Goto,Search,Pageing,User){
+require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto','utils/search','utils/user'],function($,_,cookie,history,Goto,Search,User){
     var History = window.History;
     var user = new User();
     user.init();
     var search = new Search;
-    search.init();
-    var page = new Pageing();
+    search.init({
+        defaults : 1
+    });
 	var goto = new Goto();
-	var Designer = function(){};
-	Designer.prototype = {
+	var Mito = function(){};
+	Mito.prototype = {
 		init : function(){
-			this.winHash = window.location.search.split("?")[1];
+            this.win = window;
+            this.doc = document;
+			this.winHash = this.win.location.search.split("?")[1];
 			this.toFrom = !this.winHash ? 0 : (parseInt(this.strToJson(this.winHash).page) - 1)*5;
 			this.cacheData = {}; //全局数据缓存
-			this.design = $("#j-design");
-			this.schInfo = this.design.find('.m-sch-info');
-			this.list = this.design.find('.m-list');
-			this.filter = this.design.find('.m-filter');
-			this.sort = this.design.find('.m-sort');
+            this.iCells = 4;
+            this.page = 1;
+            this.iWidth = 291;
+            this.iSpace = 12;
+            this.iOuterWidth = this.iWidth + this.iSpace;
+            this.arrT = [];
+            this.arrL = [];
+            this.iBtn = true;
+			this.mito = $("#j-mito");
+			this.schInfo = this.mito.find('.m-sch-info');
+			this.list = this.mito.find('.m-list');
+			this.filter = this.mito.find('.m-filter');
+			this.sort = this.mito.find('.m-sort');
+            this.content = this.mito.find('.m-content');
             this.search = $('#j-sch');
 			this.toQuery = {};
-			this.toSort = {};
+			this.toSort = {
+                "lastupdate":'-1'
+            };
 			this.searchWord = "";
-			this.usertype = $.cookie("usertype");
+            this.getCols();
 			this.loadList();
-			this.addIntent();
 			goto.init({
 				shop : true
 			});
@@ -61,7 +68,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
                 this.search.find('.u-sch-inp').addClass('u-sch-inp-focus');
             }
             this.submitBtn();
-            this.top = this.list.offset().top;
+            this.bindEvent();
 		},
         submitBtn : function(){     //搜索按钮  
             var submitBtn = this.search.find('form'),
@@ -78,12 +85,45 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
                 return false;
             })
         },
+        getCols : function(){
+            for (var i = 0; i < this.iCells; i++) {
+                this.arrT[i] = 0;
+                this.arrL[i] = this.iOuterWidth * i;
+            };
+        },
+        getMin : function (){
+            var self = this;
+            return _.indexOf(self.arrT,_.min(self.arrT))
+        },
+        getMax : function (){
+            var self = this;
+            return _.indexOf(self.arrT,_.max(self.arrT))
+        },
+        bindEvent : function(){
+            var self = this,
+                win = $(window);
+            win.on('scroll',function(){
+                var index =self.getMin();
+                var iH = win.scrollTop() + win.innerHeight();
+                document.title = iH + ':' + (self.arrT[index] + 50);
+                if (self.arrT[index] + 50 < iH) {
+                    self.page++;
+                    self.toFrom = (self.page-1)*36;
+                    History.pushState({state:index}, "设计师--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第 "+self.page+" 页", "?page="+self.page+"&query="+encodeURI(self.searchWord)+self.jsonToStr(self.toQuery)+self.jsonToStr(self.toSort));
+                    self.loadList();
+                }
+            })
+        },
 		loadList : function(){   //渲染生成列表
 			var self = this;
+            if (!self.iBtn) {
+                return ;
+            }
+            self.iBtn = false;
             this.toSort = $.isEmptyObject(this.toSort) ? undefined : this.toSort;
-			var oldData = {"query":this.toQuery,"sort":this.toSort,"search_word":this.searchWord,"from":this.toFrom,"limit":5}
+			var oldData = {"query":this.toQuery,"sort":this.toSort,"search_word":this.searchWord,"from":this.toFrom,"limit":24}
 			$.ajax({
-				url:RootUrl+'api/v2/web/designer/search',
+				url:RootUrl+'api/v2/web/search_beautiful_image',
 				type: 'POST',
 				contentType : 'application/json; charset=utf-8',
 				dataType: 'json',
@@ -95,67 +135,52 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
                     self.schmsg(self.searchWord,res['data'].total)
                 }
                 if(!!res.data.total){
-                    self.page(res.data)
+                    self.waterfall(res.data);
+                    for (var i = 0; i < res.data.beautiful_images.length; i++) {
+                        self.createList(res.data.beautiful_images[i])
+                    };
+                    self.setMainHeight(self.arrT[self.getMax()])
+                    setTimeout(function() {
+                        self.mito.find('.loging').hide();
+                    },1000)
+                    self.iBtn = true;
                 }else{
                     self.list.html('暂时没有已完成的');
-                    page.destroy();
                 }
             });
 		},
+        waterfall : function(data){
+            console.log(data)
+        },
 		createList  : function(data){      //创建列表
-			var arr = [
-				'<li data-uid="'+data._id+'">',
-					'<div class="work">',
-						'<div class="info">'
-				],
-				numStar = Math.round((data.respond_speed ? data.respond_speed : 0 + data.service_attitude ? data.service_attitude : 0)/2),
-				numStar = numStar >= 5 ? 5 : numStar,
-				strStar = '<span class="star">',
-				houseType = '',
-				style = '<dd class="f-cb">',
-				product = '<ul>';
-				arr.push('<a href="/tpl/design/home.html?'+data._id+'" class="head"><img src="/api/v1/thumbnail/90/'+data.imageid+'" alt="'+data.username+'"></a>');
-				arr.push('<dl><dt>');
-				arr.push('<a href="/tpl/design/home.html?'+data._id+'"><strong>'+data.username+'</strong></a>');	
-				arr.push('<span class="auth"><i class="iconfont" title="实名认证">&#xe634;</i><i class="iconfont" title="认证设计师">&#xe62a;</i></span>');			
-				for (var i = 0; i < 5; i++) {
-					if(i < numStar){
-						strStar += '<i class="iconfont">&#xe604;</i>'
-					}else{
-						strStar += '<i class="iconfont">&#xe62b;</i>'
-					}
-				};
-				strStar += '</span>';			
-				arr.push(strStar);
-				for (var i = 0 , len = data.dec_styles.length; i < len; i++) {
-					style += '<span class="style" data-style="'+data.dec_styles[i]+'">'+ globalData.dec_style(data.dec_styles[i])+'</span>'
-				};
-				arr.push(style);
-				for (var i = 0 , len = data.dec_house_types.length; i < len; i++) {
-					houseType += '<span class="house" data-house="'+data.dec_house_types[i]+'">'+ globalData.house_type(data.dec_house_types[i])+'</span>'
-				};
-				houseType += '</dd>';
-				arr.push(houseType);
-				arr.push('</dl></div><div class="service">');
-				if(this.usertype == 1 || this.usertype == undefined){
-					if(data.is_my_favorite){
-						arr.push('<div class="add"><a href="/tpl/user/owner.html#/designer" class="u-btns u-btns-revise">已添加</a><div class="mask"></div></div>');
-					}else{
-						arr.push('<div class="add"><button class="u-btns addIntent">添加意向</button><div class="mask"></div></div>');
-					}
-				}
-				arr.push('<div class="list">');
-				arr.push('<dl><dt>'+data.authed_product_count+'</dt><dd>作品数</dd></dl>');
-				arr.push('<dl><dt>'+data.order_count+'</dt><dd>预约数</dd></dl>');
-				arr.push('<dl><dt>'+globalData.price_area(data.design_fee_range)+'</dt><dd>设计费(元/m&sup2;)</dd></dl>');
-				arr.push('</div></div></div><div class="product">');
-				for (var i = 0; i < 3; i++) {
-					product += '<li><a class="loadImg" href="javascript:;"><img src="../../static/img/public/load.gif" alt="'+data.username+'的作品" /></a></li>'
-				};
-				product += '</ul>';
-				arr.push(product);
-				arr.push('</div></li>');
-				return arr.join('');
+            var self = this;
+            var iHeight = data.images[0].height * ((this.iWidth - 2) / data.images[0].width);
+            var index = self.getMin();
+            var sTags = '';
+            if(data.dec_style != undefined){
+                sTags += '<span>'+globalData.dec_style(data.dec_style)+'</span>'
+            }
+            if(data.house_type != undefined){
+                sTags += '<span>'+globalData.house_type(data.house_type)+'</span>'
+            }
+            if(data.dec_type != undefined){
+                sTags += '<span>'+globalData.dec_type(data.dec_type)+'</span>'
+            }
+            var arr = [
+                '<li style="left: '+self.arrL[index]+'px; top: '+self.arrT[index]+'px;">',
+                    '<div class="box">',
+                        '<a href="/tpl/mito/detail.html?'+data._id+'" target="_blank" class="img">',
+                            '<img src="/api/v2/web/thumbnail/289/'+data.images[0].imageid+'" style="width:'+(this.iWidth - 2)+'px; height:'+iHeight+'px;" alt="'+data.title+'" />',
+                        '</a>',
+                        '<div class="txt">',
+                            '<h4><a href="/tpl/mito/detail.html?'+data._id+'" target="_blank">'+data.title+'</a></h4>',
+                        '<p>'+sTags+'</p></div>',
+                    '</div>',
+                    '<div class="shadow"><div class="noe"></div><div class="two"></div></div>'
+            ]
+            this.arrT[index] += iHeight + 84;
+            this.list.append(arr.join(''));
+
 		},
 		loadImg   :  function(li){      //利用缓存加载作品图片
 			var self = this; 
@@ -194,6 +219,12 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
 				})	
 			}
 		},
+        getViewHeight : function(){
+            return $(window).height();   
+        },
+        setMainHeight : function(num){
+            this.content.height(num)  
+        },
 		page  : function(arr){
             var self = this,
                 maxElem =  Math.ceil(arr.total/5),
@@ -217,8 +248,8 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
                 callback : function(num,obj){
                     self.list.html('');
                     var dataArr = [];
-                    for(var i=0,len = arr.designers.length;i<len;i++){
-                        dataArr.push(self.createList(arr.designers[i]));
+                    for(var i=0,len = arr.beautiful_images.length;i<len;i++){
+                        dataArr.push(self.createList(arr.beautiful_images[i]));
                     }
                     self.list.html(dataArr);
                     self.loadImg(self.list.find('li'));
@@ -381,92 +412,12 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
         		return false;
         	})
         },
-        listTab : function(filter){
-            var self = this,
-                aLi = this.list.find('li'),
-                style = filter.dec_styles != undefined ? filter.dec_styles : undefined,
-                house = filter.dec_house_types != undefined ? filter.dec_house_types : undefined;
-            aLi.each(function(i,el){
-                $(el).find('.style').each(function(j,ele){
-                    if($(ele).data('style') == style){
-                        $(ele).addClass('active');
-                    }else{
-                        $(ele).removeClass('active'); 
-                    }
-                });
-                $(el).find('.house').each(function(j,ele){
-                    if($(ele).data('house') == house){
-                        $(ele).addClass('active');
-                    }else{
-                        $(ele).removeClass('active'); 
-                    }
-                });
-            });
-        },
         toggle   : function(){    //更新筛选
         	var self = this;
         	this.filter.delegate('.btns','click',function(ev){
         		ev.preventDefault();
         		self.filter.toggleClass('toggle');
         	});
-        },
-        addIntent : function(){     //添加意向
-        	var self = this,
-                off = true;
-    		this.design.delegate('.addIntent','click',function(ev){
-                ev.preventDefault();
-                if(!off){
-                    return ;
-                }
-                off = false;
-    			var slef = $(this),
-    				addOffset = goto.offset();
-    			if(self.usertype === '1'){
-    				var parent = $(this).closest('li'),
-    					uidname = parent.data('uid'),
-    					head = parent.find('.head'),
-    					img = head.find('img').attr('src')
-    					state = head.offset(),
-    					scrollTop = $(document).scrollTop();
-    					flyer = $('<img class="u-flyer" src="'+img+'">');
-    				var url = RootUrl+'api/v2/web/favorite/designer/add';
-    				$.ajax({
-    					url:url,
-    					type: 'POST',
-    					contentType : 'application/json; charset=utf-8',
-    					dataType: 'json',
-    					data : JSON.stringify({
-    						"_id":uidname
-    					}),
-    					processData : false
-    				})
-    				.done(function(res) {
-    					if(res.msg === "success"){
-    						slef.html('已添加').attr('href','/tpl/user/owner.html#/designer').removeClass('addIntent').addClass('u-btns-revise');
-    						flyer.fly({
-    							start: {
-    								left: state.left,
-    								top: state.top - scrollTop
-    							},
-    							end: {
-    								left: addOffset.left+10,
-    								top: addOffset.top+10,
-    								width: 0,
-    								height: 0
-    							},
-    							onEnd: function(){
-    								goto.addDesigners();
-                                    user.updateData();
-    								this.destory();
-    							}
-    						});
-                            off = true;
-    					}
-    				});
-    			}else{
-    	            window.location.href = '/tpl/user/login.html?'+window.location.href;
-    	        }
-    		});
         },
         schmsg  : function(input,size){    //显示搜索消息
         	var str = '<strong>搜索内容</strong><i class="f-st">&gt;</i><span class="tags">'+input+'<i>X</i></span><span class="result">共<i>'+size+'</i>结果</span>'+(!size ? '<span class="tips">以下是根据您搜索的设计师</span>' : '');
@@ -507,49 +458,6 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
             return str;
         }
 	}
-	var design = new Designer();
-	design.init();	
-})
-require(['utils/designers'],function(Designers){
-	var designers = new Designers();
-	designers.init({
-		id       : '#j-featured .m-ct',
-		template : [
-			'<%_.forEach(datas, function(item) {%>',
-		    '<li>',
-		    '<a href="/tpl/design/home.html?<%=item._id%>">',
-		    '<span class="arrow">',
-		    '<em></em>',
-		    '<i class="iconfont2">&#xe604;</i>',
-		    '</span>',
-		    '<img src="/api/v2/web/thumbnail/258/<%=item.imageid%>" alt="">',
-		    '<span class="txt"><%=item.username%></span>',
-		    '</a>',
-		    '</li>',
-		    '<%});%>'
-		],
-		limit : 5
-	})
-})
-
-
-// require(['utils/raiders'],function(Raiders){
-// 	var raiders = new Raiders;
-
-// 	var template = [
-// 	        '<ul>',
-// 	            '<%_.forEach(datas, function(item) {%>',
-// 				    '<li>',
-// 				    '<h4><a href="tpl/design/home.html?<%=item._id%>"><%=item.title%></a></h4>',
-// 				    '<p></p>',
-// 				    '</li>',
-// 			    '<%});%>',
-// 	        '</ul>'
-// 		]
-// 	raiders.init({
-// 		id       : '#j-raiders .m-ct',
-// 		templatebk : template,
-// 		templatets : [],
-// 		limit : 3
-// 	})
-// })
+	var mito = new Mito();
+	mito.init();	
+});
