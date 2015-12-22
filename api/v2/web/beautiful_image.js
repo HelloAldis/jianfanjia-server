@@ -42,7 +42,6 @@ exports.beautiful_image_homepage = function (req, res, next) {
         beautiful_image.associate_beautiful_images =
           associate_beautiful_images;
         if (userid && usertype !== type.role_admin) {
-          beautiful_image = beautiful_image.toObject();
           Favorite.findOne({
             userid: userid,
             favorite_beautiful_image: _id,
