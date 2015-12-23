@@ -3,6 +3,7 @@ body{
 	background-color: #ebeced;
 }
 .g-bd{
+	min-height: 680px;
 	padding: 20px 0 50px;
 }
 .g-sd{

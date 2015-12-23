@@ -20,7 +20,6 @@ require.config({
     }
 });
 require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto','utils/search','utils/page','utils/user','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,history,Goto,Search,Pageing,User){
-    var History = window.History;
     var user = new User();
     user.init();
     var search = new Search;
@@ -30,6 +29,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
 	var Designer = function(){};
 	Designer.prototype = {
 		init : function(){
+            var History = window.History;
 			this.winHash = window.location.search.split("?")[1];
 			this.toFrom = !this.winHash ? 0 : (parseInt(this.strToJson(this.winHash).page) - 1)*5;
 			this.cacheData = {}; //全局数据缓存
@@ -39,10 +39,17 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
 			this.filter = this.design.find('.m-filter');
 			this.sort = this.design.find('.m-sort');
             this.search = $('#j-sch');
+            this.notData = this.design.find('.k-notData');
+            this.loading = this.design.find('.k-loading');
 			this.toQuery = {};
 			this.toSort = {};
 			this.searchWord = "";
 			this.usertype = $.cookie("usertype");
+            if(!!this.winHash && (this.winHash.indexOf('?query=') != -1 || this.winHash.indexOf('&query=') != -1)){
+                this.searchWord = decodeURI(this.strToJson(this.winHash).query);
+                this.search.find('.input').val(this.searchWord);
+                this.search.find('.u-sch-inp').addClass('u-sch-inp-focus');
+            }
 			this.loadList();
 			this.addIntent();
 			goto.init({
@@ -55,11 +62,6 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
 			if(!!this.winHash){
 				this.setDefault(this.winHash);
 			}
-            if(!!this.winHash && (this.winHash.indexOf('?query=') != -1 || this.winHash.indexOf('&query=') != -1)){
-                this.searchWord = decodeURI(this.strToJson(this.winHash).query);
-                this.search.find('.input').val(this.searchWord);
-                this.search.find('.u-sch-inp').addClass('u-sch-inp-focus');
-            }
             this.submitBtn();
             this.top = this.list.offset().top;
 		},
@@ -73,6 +75,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
                 if(!!oInput.val() && oInput.val() != '搜索'+oSapn.html()){
                     self.searchWord = oInput.val();
                     History.pushState({state:1}, "设计师--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第1页", "?page=1&query="+encodeURI(self.searchWord)+self.jsonToStr(self.toQuery)+self.jsonToStr(self.toSort));
+                    self.notData.addClass('hide');
                     self.loadList();
                 }
                 return false;
@@ -80,7 +83,11 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
         },
 		loadList : function(){   //渲染生成列表
 			var self = this;
+            this.list.empty();
+            page.destroy();
+            this.loading.removeClass('hide');
             this.toSort = $.isEmptyObject(this.toSort) ? undefined : this.toSort;
+            console.log(this.searchWord)
 			var oldData = {"query":this.toQuery,"sort":this.toSort,"search_word":this.searchWord,"from":this.toFrom,"limit":5}
 			$.ajax({
 				url:RootUrl+'api/v2/web/designer/search',
@@ -91,14 +98,19 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
 				processData : false
 			})
             .done(function(res){
+                self.loading.addClass('hide');
                 if(!!self.searchWord){
                     self.schmsg(self.searchWord,res['data'].total)
                 }
                 if(!!res.data.total){
                     self.page(res.data)
                 }else{
-                    self.list.html('暂时没有已完成的');
-                    page.destroy();
+                    self.notData.removeClass('hide');
+                    self.toQuery = {};
+                    self.toSort = {};
+                    self.searchWord = "";
+                    self.toFrom = 0;
+                    self.loadList();
                 }
             });
 		},
@@ -147,7 +159,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
 				arr.push('<div class="list">');
 				arr.push('<dl><dt>'+data.authed_product_count+'</dt><dd>作品数</dd></dl>');
 				arr.push('<dl><dt>'+data.order_count+'</dt><dd>预约数</dd></dl>');
-				arr.push('<dl><dt>'+globalData.price_area(data.design_fee_range)+'</dt><dd>设计费(元/m&sup2;)</dd></dl>');
+				arr.push('<dl><dt>'+( data.design_fee_range == undefined ? '0' : globalData.price_area(data.design_fee_range))+'</dt><dd>设计费(元/m&sup2;)</dd></dl>');
 				arr.push('</div></div></div><div class="product">');
 				for (var i = 0; i < 3; i++) {
 					product += '<li><a class="loadImg" href="javascript:;"><img src="../../static/img/public/load.gif" alt="'+data.username+'的作品" /></a></li>'
@@ -343,6 +355,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
         		self.toSort = undefined;
         		History.pushState({state:1}, "设计师 -- 互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第1页", "?page=1&query="+encodeURI(self.searchWord)+self.jsonToStr(self.toQuery));
         	}
+            self.notData.addClass('hide');
         	this.loadList();	
         },
         sortfn : function(){   //排序
@@ -479,6 +492,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
                 ev.preventDefault();
                 self.searchWord = "";
                 History.pushState({state:1}, "设计师--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第1页", "?page=1&query="+encodeURI(self.searchWord)+self.jsonToStr(self.toQuery)+self.jsonToStr(self.toSort));
+                self.notData.addClass('hide');
                 self.loadList();
                 self.search.find('.input').val('搜索设计师');
                 self.search.find('.u-sch-inp').removeClass('u-sch-inp-focus');

@@ -11,19 +11,6 @@
 	            return filterData;
 	        }
 	    })
-    	.filter('processFilter', function () {
-	        return function (input) {
-	             return {
-	             		"0" : "量房",
-						"1" : "开工",
-						"2" : "拆改",
-						"3" : "水电",
-						"4" : "泥木",
-						"5" : "油漆",
-						"6" : "安装",
-						"7" : "竣工"}[input];
-				}
-	    })
 	    .directive('mySelect',['$timeout',function($timeout){
 		    return {
 		        replace : true,
@@ -516,7 +503,6 @@
             			var curId = parseInt($scope.shares.process[$scope.shares.process.length - 1].name);
             			$scope.process.processName = curId > $scope.shares.process.length-1 ? curId : curId + 1;
             			$scope.process.processDate = $filter('date')($scope.shares.process[$scope.shares.process.length - 1].date, 'yyyy-MM-dd'); 
-
             		}
             	},function(resp){
             		//返回错误信息

@@ -1,6 +1,5 @@
 define(['jquery'], function($){
-	var Banner = function(){
-	}
+	var Banner = function(){};
 	Banner.prototype = {
 		init : function(options){
 			var self = this;
@@ -23,16 +22,21 @@ define(['jquery'], function($){
 				oOl = this.container.find('ol'),
 				aOlLi = oOl.find('li');
 				aOlLi.each(function(index, el) {
-					$(el).hover(function(){
-						var index = $(this).index()+1;
-						$(this).addClass('active').siblings().removeClass('active');
-						aUlLi.eq(index).show().siblings().hide();
-					},function(){
-						$(this).removeClass('active');
-						aUlLi.eq(0).show().siblings().hide();
-					})
+					$(el).on('mouseenter',function(){
+						var This = $(this);
+						setTimeout(function(){
+							var index = This.index()+1;
+							This.addClass('active').siblings().removeClass('active');
+							aUlLi.attr('zIndex',0);
+							aUlLi.eq(index).attr('zIndex',10).stop().fadeTo(500,1).siblings().stop().fadeTo(500,0);
+						}, 300);
+					});
+				});
+				oOl.on('mouseleave',function(){
+					aOlLi.removeClass('active');
+					aUlLi.eq(0).attr('zIndex',10).stop().fadeTo(500,1).siblings().stop().fadeTo(500,0);
 				});
 		}
-	}
+	};
 	return Banner;
 });

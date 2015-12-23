@@ -31,15 +31,17 @@ define(['jquery'], function($){
 						'<ul>'
 				],
 				template;
+				data = data.length < 6 ? data.concat(data) : data;
+				data = data.length < 6 ? data.concat(data) : data;
 				for (var i = 0,len = data.length; i < len; i++) {
-				var li =    '<li><a href="/tpl/live/detail.html?'+data[i]._id+'" class="img"><img src="/api/v2/web/thumbnail/285/'+data[i].cover_imageid+'" alt="'+data[i].cell+'"></a>'+
-							'<div class="txt">'+
-								'<h4><a href="/tpl/live/detail.html?'+data[i]._id+'">'+data[i].cell+'</a></h4>'+
-								'<p><span>'+data[i].house_area+'m&sup2;</span><i>|</i><span>'+globalData.house_type(data[i].house_type)+'</span><i>|</i><span>'+globalData.dec_style(data[i].dec_style)+'</span></p>'+
-							'</div>'+
-							'<a href="/tpl/design/homepage.html?'+data[i].designer._id+'" class="head"><img src="/api/v2/web/thumbnail/80/'+data[i].designer.imageid+'" alt="'+data[i].designer.username+'"></a></li>'			 
+				var li =  '<li><a href="/tpl/live/detail.html?'+data[i]._id+'" class="img"><img src="/api/v2/web/thumbnail/285/'+data[i].cover_imageid+'" alt="'+data[i].cell+'"></a>'+
+						'<div class="txt">'+
+							'<h4><a href="/tpl/live/detail.html?'+data[i]._id+'">'+data[i].cell+'</a></h4>'+
+							'<p><span>'+data[i].house_area+'m&sup2;</span><i>|</i><span>'+globalData.house_type(data[i].house_type)+'</span><i>|</i><span>'+globalData.dec_style(data[i].dec_style)+'</span></p>'+
+						'</div>'+
+						'<a href="/tpl/design/home.html?'+data[i].designer._id+'" class="head"><img src="/api/v2/web/thumbnail/80/'+data[i].designer.imageid+'" alt="'+data[i].designer.username+'"></a></li>'			 
 					templates.push(li)
-				};
+				}
 				templates.push('</ul>');
 				templates.push('</div>');
 				templates.push('<div class="toggle">');
@@ -61,8 +63,8 @@ define(['jquery'], function($){
 				template;
 				for (var i = 0,len = data.length; i < len; i++) {
 					var li = '<li><span class="name">'+data[i].username+'</span><span class="area">'+data[i].house_area+'m&sup2;</span><span class="size">'+globalData.house_type(data[i].house_type)+'</span></li>';
-					templates.push(li)
-				};
+					templates.push(li);
+				}
 				templates.push('</ul>');
 				templates.push('</div>');
 				template = templates.join('');
@@ -74,27 +76,15 @@ define(['jquery'], function($){
 				timer = null,
 				prev = function(){
 					var first = oUl.find('li').first();
-					if(oUl.css('left') == '-305'){
-						oUl.css('left',0).stop().animate({left: -305},function(){
-							oUl.append(first).css('left',0)
-						});
-					}else{
-						oUl.stop().animate({left: -305},function(){
-							oUl.append(first).css('left',0)
-						});
-					}
+					oUl.stop().animate({left: -610},function(){
+						oUl.append(first).css('left',-305);
+					});	
 				},
 				next = function(){
 					var last = oUl.find('li').last();
-					if(oUl.css('left') == '0'){
-						oUl.css('left',-305).stop().animate({left: 0},function(){
-							oUl.prepend(last).css('left',-305)
-						});	
-					}else{
-						oUl.stop().animate({left: 0},function(){
-							oUl.prepend(last).css('left',-305)
-						});	
-					}				
+					oUl.stop().animate({left: 0},function(){
+						oUl.prepend(last).css('left',-305)
+					});				
 				};
 				this.live.delegate('.prev','click',function(){
 					prev();
@@ -102,6 +92,7 @@ define(['jquery'], function($){
 				this.live.delegate('.next','click',function(){
 					next();
 				});
+			oUl.prepend(oUl.find('li').last()).css('left',-305);
 			timer = setInterval(next, 3000);
 			this.live.hover(function() {
 				clearInterval(timer)

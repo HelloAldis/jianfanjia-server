@@ -44,6 +44,8 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
 			this.filter = this.mito.find('.m-filter');
 			this.sort = this.mito.find('.m-sort');
             this.content = this.mito.find('.m-content');
+            this.notData = this.mito.find('.k-notData');
+            this.loading = this.mito.find('.k-loading');
             this.search = $('#j-sch');
 			this.toQuery = {};
 			this.toSort = {
@@ -51,10 +53,13 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
             };
 			this.searchWord = "";
             this.getCols();
+            if(!!this.winHash && (this.winHash.indexOf('?query=') != -1 || this.winHash.indexOf('&query=') != -1)){
+                this.searchWord = decodeURI(this.strToJson(this.winHash).query);
+                this.search.find('.input').val(this.searchWord);
+                this.search.find('.u-sch-inp').addClass('u-sch-inp-focus');
+            }
 			this.loadList();
-			goto.init({
-				shop : true
-			});
+			goto.init();
 			this.toggle();
             this.sortfn();
             this.defaultSort();
@@ -62,11 +67,6 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
 			if(!!this.winHash){
 				this.setDefault(this.winHash);
 			}
-            if(!!this.winHash && (this.winHash.indexOf('?query=') != -1 || this.winHash.indexOf('&query=') != -1)){
-                this.searchWord = decodeURI(this.strToJson(this.winHash).query);
-                this.search.find('.input').val(this.searchWord);
-                this.search.find('.u-sch-inp').addClass('u-sch-inp-focus');
-            }
             this.submitBtn();
             this.bindEvent();
 		},
@@ -80,6 +80,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
                 if(!!oInput.val() && oInput.val() != '搜索'+oSapn.html()){
                     self.searchWord = oInput.val();
                     History.pushState({state:1}, "设计师--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第1页", "?page=1&query="+encodeURI(self.searchWord)+self.jsonToStr(self.toQuery)+self.jsonToStr(self.toSort));
+                    self.notData.addClass('hide');
                     self.loadList();
                 }
                 return false;
@@ -136,16 +137,23 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
                 }
                 if(!!res.data.total){
                     self.waterfall(res.data);
+                    self.cacheData[self.page] = [];
                     for (var i = 0; i < res.data.beautiful_images.length; i++) {
                         self.createList(res.data.beautiful_images[i])
                     };
-                    self.setMainHeight(self.arrT[self.getMax()])
+                    self.setMainHeight(self.arrT[self.getMax()]);
+                    console.log(self.cacheData[self.page])
                     setTimeout(function() {
                         self.mito.find('.loging').hide();
                     },1000)
                     self.iBtn = true;
                 }else{
-                    self.list.html('暂时没有已完成的');
+                    self.notData.removeClass('hide');
+                    self.toQuery = {};
+                    self.toSort = {};
+                    self.searchWord = "";
+                    self.toFrom = 0;
+                    self.loadList();
                 }
             });
 		},
@@ -180,7 +188,20 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
             ]
             this.arrT[index] += iHeight + 84;
             this.list.append(arr.join(''));
-
+            self.cacheData[self.page].push({
+                item : {
+                    left : self.arrL[index],
+                    top  : self.arrT[index]
+                },
+                img  : {
+                    width : this.iWidth - 2,
+                    height : iHeight,
+                    imageid : data.images[0].imageid
+                },
+                urlid : data._id,
+                title : data.title,
+                tags  : sTags
+            })
 		},
 		loadImg   :  function(li){      //利用缓存加载作品图片
 			var self = this; 
@@ -374,6 +395,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
         		self.toSort = undefined;
         		History.pushState({state:1}, "设计师 -- 互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第1页", "?page=1&query="+encodeURI(self.searchWord)+self.jsonToStr(self.toQuery));
         	}
+            self.notData.addClass('hide');
         	this.loadList();	
         },
         sortfn : function(){   //排序
@@ -420,7 +442,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
         	});
         },
         schmsg  : function(input,size){    //显示搜索消息
-        	var str = '<strong>搜索内容</strong><i class="f-st">&gt;</i><span class="tags">'+input+'<i>X</i></span><span class="result">共<i>'+size+'</i>结果</span>'+(!size ? '<span class="tips">以下是根据您搜索的设计师</span>' : '');
+        	var str = '<strong>搜索内容</strong><i class="f-st">&gt;</i><span class="tags">'+input+'<i>X</i></span><span class="result">共<i>'+size+'</i>结果</span>'+(!size ? '<span class="tips">以下是根据您搜索的装修美图</span>' : '');
         	this.schInfo.html(str).removeClass('hide');
             this.clearTags();
         },
@@ -430,6 +452,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
                 ev.preventDefault();
                 self.searchWord = "";
                 History.pushState({state:1}, "设计师--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第1页", "?page=1&query="+encodeURI(self.searchWord)+self.jsonToStr(self.toQuery)+self.jsonToStr(self.toSort));
+                self.notData.addClass('hide');
                 self.loadList();
                 self.search.find('.input').val('搜索设计师');
                 self.search.find('.u-sch-inp').removeClass('u-sch-inp-focus');

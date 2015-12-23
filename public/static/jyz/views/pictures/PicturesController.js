@@ -175,7 +175,10 @@
                   "limit":1
                 }).then(function(resp){
                      if(resp.data.data.total === 1){
-                         $scope.images = resp.data.data.beautifulImages[0];
+                        $scope.images = resp.data.data.beautifulImages[0];
+                        if($scope.images.indexOf(",") != -1){
+                            $scope.images = $scope.images.split(",").join("|");
+                        }
                      }
                  },function(resp){
                      //返回错误信息
@@ -184,7 +187,13 @@
 
                  });
               }
+              $scope.cancel = function(){
+                $state.go('pictures');
+              }
               $scope.picturesSubmit = function(){
+                  if($scope.images.indexOf("|") != -1){
+                      $scope.images = $scope.images.split("|").join(",");
+                  }
                   if(!currentId){
                       adminImage.add($scope.images).then(function(resp){
                          if(resp.data.msg === "success"){

@@ -13,6 +13,9 @@
 	<meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
 	<link rel="stylesheet" type="text/css" href="/static/css/public.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/design.css" />
+	<!--[if lt IE 10]>
+		<link rel="stylesheet" type="text/css" href="/static/css/ie.css" />
+	<![endif]-->
 	<script type="text/javascript" src="/static/js/lib/public.js"></script>
 	<script type="text/javascript" data-main="/static/js/design/index" src="/static/js/lib/require.js"></script>
 	<!--[if lt IE 9]>
@@ -115,10 +118,35 @@
 				<a href="javascript:;" data-sort="authed_product_count" data-asc="1" data-desc="-1">作品数<i class="desc">从高到低</i><i class="asc">从低到高</i></a>
 				<a href="javascript:;" data-sort="view_count" data-asc="1" data-desc="-1">浏览数<i class="desc">从高到低</i><i class="asc">从低到高</i></a>
 			</div>
-			<div class="m-design" id="j-design">
+			<div class="k-loading">
+				<div class="spinner">
+				  <div class="spinner-container container1">
+				    <div class="circle1"></div>
+				    <div class="circle2"></div>
+				    <div class="circle3"></div>
+				    <div class="circle4"></div>
+				  </div>
+				  <div class="spinner-container container2">
+				    <div class="circle1"></div>
+				    <div class="circle2"></div>
+				    <div class="circle3"></div>
+				    <div class="circle4"></div>
+				  </div>
+				  <div class="spinner-container container3">
+				    <div class="circle1"></div>
+				    <div class="circle2"></div>
+				    <div class="circle3"></div>
+				    <div class="circle4"></div>
+				  </div>
+				</div>
+				<p>正在加载中...</p>
+			</div>
+			<div class="k-notData search hide"><h4><i class="iconfont">&#xe626;</i></h4><p>很抱歉您匹配的内容暂时无法提供，以下是我们为您推荐的设计师。</p></div>
+			<div class="m-design">
 				<ul class="m-list"></ul>
 				<div class="m-page" id="j-page"></div>
 			</div>
+
 		</article>
 		<aside class="g-sd f-fr">
 			<section class="section featured" id="j-featured">

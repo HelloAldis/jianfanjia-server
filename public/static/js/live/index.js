@@ -16,28 +16,14 @@ require.config({
 require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user','utils/search','utils/page','utils/goto'],function($,_,cookie,history,User,Search,Pageing,Goto){
         var user = new User();
         user.init();
-        var History = window.History;
         var search = new Search();
-        search.init({
-            id     : '#j-sch',
-            urlAPI : [
-                {
-                    title : '设计师',
-                    url   : '/tpl/design/index.html',
-                    api   : 'api/v2/web/designer/search'
-                },
-                {
-                    title : '装修美图',
-                    url   : '/tpl/mito/index.html',
-                    api   : 'api/v2/web/search_beautiful_image'
-                }
-            ]
-        })
+        search.init();
         var goto = new Goto();
         var page = new Pageing();
         var Live = function(){};
         Live.prototype = {
             init  : function(){
+                var History = window.History;
                 this.cacheData = {}; //全局数据缓存
                 this.winHash = window.location.search.split("?")[1];
                 this.status = !this.winHash ? -1 : this.strToJson(this.winHash).status == undefined ? -1 : this.strToJson(this.winHash).status;
@@ -46,6 +32,8 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user'
                 this.filter = this.live.find('.m-filter');
                 this.list = this.live.find('.m-list');
                 this.ul = this.list.find('ul');
+                this.notData = this.live.find('.k-notData');
+                this.loading = this.live.find('.k-loading');
                 this.loadList();
                 this.setfilter();
                 this.getfilter();
@@ -54,6 +42,10 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user'
             },
             loadList : function(){
                 var self = this;
+                this.ul.empty();
+                page.destroy();
+                this.loading.removeClass('hide');
+                self.notData.addClass('hide');
                 $.ajax({
                     url:RootUrl+'api/v2/web/search_share',
                     type: 'POST',
@@ -68,12 +60,12 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user'
 					}),
                     processData : false
                 })
-                .done(function(res) {
-                	if(!!res.data.total){
+                .done(function(res){
+                    self.loading.addClass('hide');
+                	if(res.data.total > 0){
                         self.page(res.data)
                 	}else{
-                        self.ul.html('暂时没有已完成的');
-                        page.destroy();
+                        self.notData.removeClass('hide');
                     }
                 })
             },
@@ -84,7 +76,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user'
                             '<a href="/tpl/live/detail.html?'+data._id+'" class="img"><img src="/api/v2/web/thumbnail/500/'+data.cover_imageid+'" alt="'+data.cell+'"></a>',
                             '<div class="txt">',
                                 '<h4><a href="/tpl/live/detail.html?'+data._id+'">'+data.cell+'</a></h4>',
-                                '<p><span>面积：'+data.house_area+'m&sup2;</span><span>户型：'+globalData.house_type(data.house_area)+'</span><span>风格：'+globalData.dec_style(data.dec_style)+'</span></p>',
+                                '<p><span>面积：'+data.house_area+'m&sup2;</span><span>户型：'+globalData.house_type(data.house_type)+'</span><span>风格：'+globalData.dec_style(data.dec_style)+'</span></p>',
                                 '<div class="time">',
                                     '<span>开工时间</span><time>'+this.format(data.create_at , 'yyyy年MM月dd日')+'</time>',
                                 '</div><div class="f-cb"></div>',
@@ -121,8 +113,9 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user'
             },
             page  : function(arr){
                 var self = this,
+                    url = History.getState().url.split("?")[1],
                     maxElem =  Math.ceil(arr.total/5),
-                    current = !History.getState().url.split("?")[1] ? 0 : parseInt(this.strToJson(History.getState().url.split("?")[1]).page) - 1;
+                    current = !this.winHash && !url ? 0 : parseInt(this.strToJson(url).page) - 1;
                     if(current+1 > maxElem){
                         History.pushState({state:1}, "装修直播--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第1页", "?page=1&status="+self.status);
                         this.toFrom = 0;

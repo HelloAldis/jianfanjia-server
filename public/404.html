@@ -48,6 +48,28 @@
 			line-height: 30px;
 			color: #fe7004;
 		}
+		.g-error a{
+			display: inline-block;
+			width: 140px;
+			margin-top: 20px;
+			line-height: 40px;
+			font-size: 18px;
+			color: #fff;
+			text-align: center;
+			cursor: pointer;
+			border:0 none;
+			text-decoration: none;
+			background-color: #fe7004;
+			border-radius:5px;
+			-webkit-transition:all 0.5s;
+			-moz-transition:all 0.5s;	
+			-o-transition:all 0.5s;
+			transition:all 0.5s;
+		}
+		.g-error a:hover{
+			color: #fff;
+			background-color: #fe4504;
+		}
 	</style>
 </head>
 <body>
@@ -56,6 +78,7 @@
 		<h1>您查看的页面不存在</h1>
 		<p>您查看的页面已被删除或者您输入的地址有误</p>
 		<div id="error">10秒后，跳转到首页</div>
+		<a href="/">返回首页</a>
 	</div>
 	<script type="text/javascript">
 		var oError = document.getElementById('error');

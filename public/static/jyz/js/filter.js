@@ -104,14 +104,16 @@
         })
         .filter('processFilter', function () {
             return function (input) {
-                 return {0:'开工',
-                         1:'拆改',
-                         2:'水电',
-                         3:'泥木',
-                         4:'油漆',
-                         5:'安装',
-                         6:'竣工'
-                    }[input];
+                 return {
+                    "0" : "量房",
+                    "1" : "开工",
+                    "2" : "拆改",
+                    "3" : "水电",
+                    "4" : "泥木",
+                    "5" : "油漆",
+                    "6" : "安装",
+                    "7" : "竣工"
+                }[input];
             };
         })
         .filter('authFilter', function () {

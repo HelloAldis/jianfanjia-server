@@ -34,7 +34,8 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                 this.info = this.home.find('.m-home-info');
                 this.service = this.home.find('.m-home-service');
                 this.product = this.home.find('.m-home-product');
-                this.usertype = parseInt($.cookie("usertype"));
+                this.loading = this.home.find('.k-loading');
+                this.usertype = $.cookie("usertype");
                 this.toFrom = 0;
                 this.total = 0;
                 this.loadInfo();
@@ -52,6 +53,7 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                     processData : false
                 })
                 .done(function(res) {
+                    self.loading.addClass('hide');
                     self.createInfo(res.data)
                 })
                 .fail(function() {
@@ -59,7 +61,6 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                 });
             },
             createInfo  :  function(data){
-                    console.log(data)
                 var self = this,
                     numStar = Math.round((data.respond_speed ? data.respond_speed : 0 + data.service_attitude ? data.service_attitude : 0)/2),
                     numStar = numStar >= 5 ? 5 : numStar,
@@ -90,16 +91,16 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                     arr.push('<dd class="f-cb"><p>'+ data.philosophy+'</p></dd></dl>');
                     if(this.usertype == 1 || this.usertype == undefined){
                         if(data.is_my_favorite){
-                            arr.push('<a href="/tpl/user/owner.html#/designer" class="u-btns u-btns-revise">已添加</a>'); 
+                            arr.push('<div class="btns"><a href="/tpl/user/owner.html#/designer" class="u-btns u-btns-revise">已添加</a></div>'); 
                         }else{
-                            arr.push('<button class="u-btns addIntent">添加意向</button>'); 
+                            arr.push('<div class="btns"><a href="javascript:;" class="u-btns addIntent" data-uid="'+data._id+'">添加意向</a></div>'); 
                         }
                     }
                     arr.push('</div><div class="service f-cb"><div class="f-fl">');
                     arr.push('<dl><dt>'+data.authed_product_count+'</dt><dd>作品</dd></dl>');    
                     arr.push('<dl><dt>'+data.order_count+'</dt><dd>预约</dd></dl></div>');        
                     arr.push('<h4 class="f-fr"><em>设计费</em><strong>'+globalData.price_area(data.design_fee_range)+'</strong>元/m&sup2;</h4></div>');
-                    this.info.html(arr.join(''));
+                    this.info.html(arr.join('')).removeClass('hide');
                     this.createService(data);   
             },
             createService : function(data){
@@ -164,7 +165,7 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                         shop : true
                     })
                     this.loadList();
-                    this.product.html(this.createList());
+                    this.product.html(this.createList()).removeClass('hide');
                     this.addIntent();
             },
             loadList : function(){
@@ -236,18 +237,17 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                         return ;
                     }
                     off = false;
-                    var slef = $(this),
+                    var This = $(this),
                         addOffset = goto.offset();
                     if(self.usertype === '1'){
-                        var uidname = self.winHash,
+                        var uidname = $(this).data('uid'),
                             head = self.info.find('.head'),
                             img = head.find('img').attr('src')
                             state = head.offset(),
                             scrollTop = $(document).scrollTop();
                             flyer = $('<img class="u-flyer" src="'+img+'">');
-                        var url = RootUrl+'api/v2/web/favorite/designer/add';
                         $.ajax({
-                            url:url,
+                            url:RootUrl+'api/v2/web/favorite/designer/add',
                             type: 'POST',
                             contentType : 'application/json; charset=utf-8',
                             dataType: 'json',
@@ -258,7 +258,7 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                         })
                         .done(function(res) {
                             if(res.msg === "success"){
-                                slef.html('已添加').attr('href','/tpl/user/owner.html#/designer').removeClass('addIntent').addClass('u-btns-revise');
+                                This.html('已添加').attr('href','/tpl/user/owner.html#/designer').removeClass('addIntent').addClass('u-btns-revise');
                                 flyer.fly({
                                     start: {
                                         left: state.left,

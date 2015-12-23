@@ -32,6 +32,8 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user'
                 this.filter = this.article.find('.m-filter');
                 this.list = this.article.find('.m-list');
                 this.ul = this.list.find('ul');
+                this.notData = this.article.find('.k-notData');
+                this.loading = this.article.find('.k-loading');
                 this.hot();
                 this.loadList();
                 this.setfilter();
@@ -113,6 +115,10 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user'
             },
             loadList  : function(){
                 var self = this;
+                this.ul.empty();
+                page.destroy();
+                this.loading.removeClass('hide');
+                this.notData.addClass('hide');
                 $.ajax({
                     url:RootUrl+'api/v2/web/search_article',
                     type: 'POST',
@@ -131,11 +137,11 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user'
                     processData : false
                 })
                 .done(function(res) {
+                    self.loading.addClass('hide');
                     if(!!res.data.total){
                         self.page(res.data)
                     }else{
-                        self.ul.html('分类没有内容');
-                        page.destroy();
+                        self.notData.removeClass('hide');
                     }
                 })
             },
