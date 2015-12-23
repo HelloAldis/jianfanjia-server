@@ -24,6 +24,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/user','utils/search','util
                 this.detail = $("#j-detail");
                 this.info = this.detail.find('.m-info');
                 this.step = this.detail.find('.m-step');
+                this.loading = this.detail.find('.k-loading');
                 this.loadList();
             },
             loadList : function(){
@@ -43,6 +44,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/user','utils/search','util
                     processData : false
                 })
                 .done(function(res) {
+                    self.loading.addClass('hide');
                     if(res.data.total == 1){
                         self.createInfo(res.data.shares[0]);
                     }
@@ -76,15 +78,15 @@ require(['jquery','lodash','lib/jquery.cookie','utils/user','utils/search','util
                     arr.push('</ul></div></div>');
                     arr.push('<dl class="people f-fr"><dt>设计师</dt><dd><a href="/tpl/design/home.html?'+data.designer._id+'"><img src="/api/v2/web/thumbnail/40/'+data.designer.imageid+'" alt="'+data.designer.username+'"><strong>'+data.designer.username+'</strong></a></dd>');
                     arr.push('<dt>项目经理</dt><dd><span><i class="iconfont">&#xe602;</i><strong>'+data.manager+'</strong></span></dd></dl>');
-                    this.info.html(arr.join(''));
+                    this.info.html(arr.join('')).removeClass('hide');
                     this.createStep(data.process,process);
             },
             createStep : function(data,process){
-                var arr = ['<ul class="list">'],
+                var arr = ['<ul class="list '+(process == 7 ? 'end' : '')+'">'],
                     li ;
                     for (var i = 0 , len = data.length; i < len; i++) {
                         var img = '';
-                        li = '<li><dl class="'+(i == process ? 'current' : 'active')+'"><dt>'+globalData.dec_flow(data[i].name)+'</dt><dd>'+this.format(data[i].date , 'yyyy年MM月dd日')+'</dd></dl><div class="step"><span class="arrow"><i></i></span><ul class="img f-cb">';
+                        li = '<li class="'+(i == process ? 'current' : 'active')+'"><dl><dt>'+globalData.dec_flow(data[i].name)+'</dt><dd>'+this.format(data[i].date , 'yyyy年MM月dd日')+'</dd></dl><div class="step"><span class="arrow"><i></i></span><ul class="img f-cb">';
                         for (var j = 0 , len2 = data[i].images.length; j < len2; j++) {
                             img += '<li class="'+(j%5 === 0 ? 'first' : '')+'"><img src="/api/v2/web/thumbnail/185/'+data[i].images[j]+'" alt=""></li>';  
                         }
@@ -96,7 +98,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/user','utils/search','util
                          arr.push(li);
                     }
                     arr.push('</ul>');
-                    this.step.html(arr.join(''));
+                    this.step.html(arr.join('')).removeClass('hide');
                     goto.init();
             },
             format : function(date,format){

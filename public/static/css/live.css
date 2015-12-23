@@ -360,6 +360,9 @@ body{
 	margin-left: 71px;
 	border-left: 3px solid #e1e1e1;
 }
+.m-step .list.end{
+	padding-bottom: 0;
+}
 .m-step .list > li{
 	position: relative;
 }
@@ -381,7 +384,7 @@ body{
 	border: 3px solid #ffffff;
 	border-radius: 52px;
 }
-.m-step .list li dt.current{
+.m-step .list li.current dt{
 	color: #fe7004;
 	background-color: #fff;
 	border-color: #fe7004;

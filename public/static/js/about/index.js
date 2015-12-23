@@ -10,23 +10,11 @@ require.config({
         }
     }
 });
-require(['jquery','lib/jquery.cookie','utils/goto','utils/search'],function($,cookie,Goto,Search){
+require(['jquery','lib/jquery.cookie','utils/user','utils/goto','utils/search'],function($,cookie,User,Goto,Search){
+    var user = new User();
+    user.init();
     var search = new Search();
-    search.init({
-        id     : '#j-sch',
-        urlAPI : [
-            {
-                title : '设计师',
-                url   : '/tpl/design/index.html',
-                api   : 'api/v2/web/designer/search'
-            },
-            {
-                title : '装修美图',
-                url   : '/tpl/mito/index.html',
-                api   : 'api/v2/web/search_beautiful_image'
-            }
-        ]
-    })
+    search.init();
     var goto = new Goto();
     goto.init();
 })

@@ -43,14 +43,14 @@ define(['jquery','lib/jquery.cookie'], function($,cookie){
 					{
 						'name' : '装修保障',
 						'sclass' : 'protect',
-						'url'  : '',
+						'url'  : '/tpl/merit/index.html',
 						'icon' : '&#xe639;',
 						'hover' : '',
 					},
 					{
 						'name' : '监理服务',
 						'sclass' : 'supervise',
-						'url'  : '',
+						'url'  : '/tpl/merit/index.html',
 						'icon' : '&#xe635;',
 						'hover' : '',
 					},

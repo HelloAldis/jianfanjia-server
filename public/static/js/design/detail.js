@@ -33,6 +33,7 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                 this.detail = $("#j-detail");
                 this.main = this.detail.find('.g-mn');
                 this.side = this.detail.find('.g-sd');
+                this.loading = this.detail.find('.k-loading');
                 this.usertype = $.cookie("usertype");
                 this.loadList();
             },
@@ -49,6 +50,7 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                     processData : false
                 })
                 .done(function(res) {
+                    self.loading.addClass('hide');
                     if(res.data != null){
                         self.loadInfo(res.data.designer._id);
                         self.createProduct(res.data);
@@ -86,7 +88,7 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                         arr.push('<section><h3>'+data.images[i].section+'</h3><img src="/api/v2/web/watermark/880/'+data.images[i].imageid+'" alt="" />'+(!!data.images[i].description ? '<p>'+data.images[i].description+'</p>' : "")+'</section>')
                     };
                     arr.push('</div></div></div>');
-                    this.main.html(arr.join(''));
+                    this.main.html(arr.join('')).removeClass('hide');
                     this.favorite(data._id);
             },
             loadInfo : function(id){
@@ -127,11 +129,11 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                         if(data.is_my_favorite){
                             arr.push('<div class="btns"><a href="/tpl/user/owner.html#/designer" class="u-btns u-btns-revise">已添加</a></div>'); 
                         }else{
-                            arr.push('<div class="btns"><button class="u-btns addIntent">添加意向</button></div>'); 
+                            arr.push('<div class="btns"><a href="javascript:;" class="u-btns addIntent" data-uid="'+data._id+'">添加意向</a></div>'); 
                         }
                     }
                     arr.push('</div>');
-                    this.side.html(arr.join(''));
+                    this.side.html(arr.join('')).removeClass('hide');
                     goto.init({
                         shop : true
                     })
@@ -191,7 +193,7 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                     var This = $(this),
                         addOffset = goto.offset();
                     if(self.usertype === '1'){
-                        var uidname = self.winHash,
+                        var uidname = $(this).data('uid'),
                             head = self.side.find('.head'),
                             img = head.find('img').attr('src')
                             state = head.offset(),

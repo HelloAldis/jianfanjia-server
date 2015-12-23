@@ -157,6 +157,9 @@
                 }).then(function(resp){
                      if(resp.data.data.total === 1){
                         $scope.news = resp.data.data.articles[0];
+                        if($scope.news.keywords.indexOf(",") != -1){
+                            $scope.news.keywords = $scope.news.keywords.split(",").join("|");
+                        }
                      }
                  },function(resp){
                      //返回错误信息
@@ -165,7 +168,13 @@
 
                  });
               }
+              $scope.cancel = function(){
+                $state.go('news');
+              }
               $scope.newsUeditor = function(){
+                  if($scope.news.keywords.indexOf("|") != -1){
+                      $scope.news.keywords = $scope.news.keywords.split("|").join(",");
+                  }
                   if(!currentId){
                       adminArticle.add($scope.news).then(function(resp){
                          if(resp.data.msg === "success"){

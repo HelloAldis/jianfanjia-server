@@ -16,6 +16,7 @@
 define(['jquery'], function($){
 	var Pageing = function(){}
 	Pageing.prototype = {
+		id  : '#j-page',
 		init : function(options){
 			var self = this;
 			this.win = $(window);
@@ -169,7 +170,11 @@ define(['jquery'], function($){
 			}
 		},
 		destroy  : function(){
-			this.pageBox.html('');
+			if(!!this.pageBox){
+				this.pageBox.html(''); 
+			}else{
+				$(this.id).html('');
+			} 
 		}
 	}
 	return Pageing;

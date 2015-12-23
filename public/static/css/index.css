@@ -122,9 +122,29 @@
 	background-color: #f9f9f9;
 }
 .g-banner ul{
+	position: relative;
 	width: 100%;
 	height: 580px;
 	overflow: hidden;
+}
+.g-banner ul li{
+	position: absolute;
+	left:0;
+	top:0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.g-banner ul li img{
+	position: relative;
+	left:50%;
+	margin-left: -960px;
+}
+.g-banner ul li.default{
+	z-index: 10;
+	opacity: 1;
+	filter: alpha(opacity=100);
 }
 .g-banner ol{
 	height: 80px;
@@ -504,12 +524,8 @@
 	margin-left: -6px;
 	background-color: #fff;
 }
-.g-supervise li:first-child{
-	margin-left: 0;
-	margin-right: -6px;
-}
 .g-supervise li h4{
-	margin-bottom: 70px;
+	margin-bottom: 25px;
 	font-size: 18px;
 	line-height: 55px;
 	font-weight: bold;
@@ -517,11 +533,11 @@
 	background-color: #e5e5e5;
 }
 .g-supervise li .iconfont{
+	display: inline-block;
 	width: 100%;
 	margin-bottom: 20px;
-	font-size: 60px;
-	line-height: 80px;
-	display: none;
+	font-size: 40px;
+	line-height: 60px;
 }
 .g-supervise li p{
 	font-size: 14px;
@@ -531,7 +547,7 @@
 .g-supervise li a{
 	display: inline-block;
 	width: 170px;
-	margin-top: 70px;
+	margin-top: 30px;
 	font-size: 14px;
 	line-height: 38px;
 	color: #fe7004;
@@ -556,7 +572,8 @@
 	background-color: #fe7004;
 }
 .g-supervise li.active .iconfont{
-	display: inline-block;
+	font-size: 60px;
+	line-height: 80px;
 }
 .g-supervise li.active a{
 	margin-top: 40px;
@@ -566,6 +583,25 @@
 .g-supervise li.active a:hover{
 	border-color: #fe5c04;
 	background-color: #fe5c04;
+}
+.g-supervise li.first{
+	margin-left: 0;
+	margin-right: -6px;
+	background-color: #f9f9f9;
+}
+.g-supervise li.first h4{
+	width: 184px;
+	padding-top: 66px;
+	padding-left: 69px;
+	margin-bottom: 19px;
+	background: none;
+}
+.g-supervise li.first p{
+	width: 184px;
+	padding-left: 69px;
+	line-height: 20px;
+	text-align: left;
+	color: #616879;
 }
 /*装修美图*/
 .g-mito .m-ct{
@@ -586,6 +622,10 @@
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
+}
+.g-mito li a img{
+	width: 100%;
+	min-height: 100%;
 }
 .g-mito li span{
 	position: absolute;
@@ -834,6 +874,10 @@
 	height: 200px;
 	overflow: hidden;
 	background-color: #ccc;
+}
+.g-raiders dd a img{
+	width: 100%;
+	min-height: 100%;
 }
 .g-raiders dd a span{
 	position: absolute;

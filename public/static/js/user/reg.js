@@ -107,12 +107,12 @@ require(['jquery','lodash','lib/jquery.cookie','utils/goto','utils/search'],func
                 },
                 agree  : function(){
                     if(self.agree){
-                        self.error.html(self.errmsg.agree).removeClass('hide');
-                        return false;
-                    }else{
                         self.error.html('').addClass('hide');
                         self.checkStep--;
                         return true;
+                    }else{
+                        self.error.html(self.errmsg.agree).removeClass('hide');
+                        return false;
                     }
                 }
             };
@@ -120,11 +120,11 @@ require(['jquery','lodash','lib/jquery.cookie','utils/goto','utils/search'],func
         agreement : function(){
             var self = this;
             $('#reg-agreement').delegate('span','click',function(ev){
-                    ev.preventDefault();
-                    self.agree = $(this).hasClass('active');
-                    $(this).toggleClass('active');
-                    self.check().agree();
-                });
+                ev.preventDefault();
+                self.agree = $(this).hasClass('active');
+                $(this).toggleClass('active');
+                self.check().agree();
+            });
         },
         bindVerifyCode : function(){
             var self = this,
@@ -198,15 +198,15 @@ require(['jquery','lodash','lib/jquery.cookie','utils/goto','utils/search'],func
         },
         bindBlur  : function(){
             var self = this;
-            //this.blur(self.mobile,"0");
+            this.blur(self.mobile,"0");
             this.blur(self.captcha,"1");
             this.blur(self.pass,"2");
             this.blur(self.pass2,"3");
         },
         checkMobile : function(){
             var self = this;
-            self.mobile.on('input propertychange blur',function(){
-                if(self.check().mobile()){
+            self.mobile.on('input propertychange',function(){
+                if(self.verify.isMobile(self.mobile.val())){
                     $.ajax({
                         url:RootUrl+'api/v2/web/verify_phone',
                         type: 'post',
@@ -224,6 +224,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/goto','utils/search'],func
                         }
                     });
                 }
+                self.error.html('').addClass('hide');
                 $(this).parents('.item').removeClass('error').addClass('focus');
             });
         },

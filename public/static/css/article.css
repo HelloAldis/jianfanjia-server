@@ -259,7 +259,7 @@ body{
 .g-sd .related a:hover span{
 	color: #fe7004;
 }
-.g-sd .related a:hover img{
+.g-sd .related a:hover{
 	opacity: 0.8;
 	filter: alpha(opacity=80);
 }
