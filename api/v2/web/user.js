@@ -385,6 +385,10 @@ exports.user_statistic_info = function (req, res, next) {
       }, callback);
     },
   }, ep.done(function (result) {
+    if (!result.user) {
+      return res.sendErrMsg('没有登录');
+    }
+
     var favorite_product_count = 0;
     var favorite_designer_count = 0;
     if (result.favorite) {

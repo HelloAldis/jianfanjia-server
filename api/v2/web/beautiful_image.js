@@ -92,6 +92,8 @@ exports.search_beautiful_image = function (req, res, next) {
       title: search_word
     }, {
       description: search_word
+    }, {
+      keywords: search_word
     }];
   }
 

@@ -15,6 +15,10 @@ Share.find({}, null, null, function (err, shares) {
     share.process.forEach(function (process) {
       var a = parseInt(process.name.slice(0, 1));
       process.name = (a + 1) + '';
+
+      if (a === 6) {
+        share.progress = '1';
+      }
     });
     share.save(function () {
       console.log('save to ' + JSON.stringify(share));
