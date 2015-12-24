@@ -497,8 +497,8 @@ a.m-head:hover{
 	border: 1px solid #e5e5e5;
 }
 .m-page .btns.current{
-	color: #61687a;
-	background-color: #f9f9f9;
+	color: #fff;
+	background-color: #fe7004;
 }
 .m-page .btns:first-child{
 	border-radius: 2px 0 0 2px;
@@ -1137,15 +1137,6 @@ a.m-head:hover{
 	background-color: #fff;
 	opacity: 0.3;
 	filter: alpha(opacity=30);
-}
-.loading{
-	width: 164px;
-	height: 64px;
-	margin:50px auto;
-	background:#fff url(../img/public/loading1.jpg) no-repeat;
-}
-.nodata{
-	background-image: url(../img/public/nodata.jpg);
 }
 .g-goto{
 	position: fixed;

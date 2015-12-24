@@ -176,8 +176,8 @@
                 }).then(function(resp){
                      if(resp.data.data.total === 1){
                         $scope.images = resp.data.data.beautifulImages[0];
-                        if($scope.images.indexOf(",") != -1){
-                            $scope.images = $scope.images.split(",").join("|");
+                        if($scope.images.keywords.indexOf(",") != -1){
+                            $scope.images.keywords = $scope.images.keywords.split(",").join("|");
                         }
                      }
                  },function(resp){
@@ -191,8 +191,8 @@
                 $state.go('pictures');
               }
               $scope.picturesSubmit = function(){
-                  if($scope.images.indexOf("|") != -1){
-                      $scope.images = $scope.images.split("|").join(",");
+                  if($scope.images.keywords.indexOf("|") != -1){
+                    $scope.images.keywords = $scope.images.keywords.split("|").join(",");
                   }
                   if(!currentId){
                       adminImage.add($scope.images).then(function(resp){

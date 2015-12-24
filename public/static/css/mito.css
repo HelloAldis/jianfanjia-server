@@ -3,6 +3,7 @@ body{
 	background-color: #ebeced;
 }
 .g-bd{
+	min-height: 680px;
 	padding: 20px 0 50px;
 }
 .g-sd{
@@ -201,20 +202,38 @@ body{
 	border: 1px solid #e5e5e5;
 }
 .m-filter .list{
-	float: left;
-	width: 1146px;
-	height: 18px;
-	padding: 10px 0;
+	width: 100%;
+	height: 0;
 	overflow: hidden;
-	border-right: 1px solid #e5e5e5;
+	-webkit-transition:height 0.3s ease-out;
+	-moz-transition:height 0.3s ease-out;
+	-ms-transition:height 0.3s ease-out;
+	-o-transition:height 0.3s ease-out;
+	transition:height 0.3s ease-out;
 }
-.m-filter .btns{
+.m-filter .min{
+	width: 100%;
+	height: 38px;
+	line-height: 38px;
+	cursor: pointer;
+	overflow: hidden;
+	-webkit-transition:height 0.3s ease-out;
+	-moz-transition:height 0.3s ease-out;
+	-ms-transition:height 0.3s ease-out;
+	-o-transition:height 0.3s ease-out;
+	transition:height 0.3s ease-out;
+}
+.m-filter.toggle .min{
+	height: 0px;
+}
+.m-filter .min .minbtns{
 	float: right;
 	width: 50px;
 	height: 38px;
 	background-color: #fff;
+	border-left: 1px solid #e5e5e5;
 }
-.m-filter .more-btn{
+.m-filter  .more-btn{
 	position: relative;
 	display: block;
 	height: 100%;
@@ -234,74 +253,87 @@ body{
 	border-top-style: solid;
 	border-top-color: #d2d2d2;
 }
-.m-filter .more-btn i{
+.m-filter .min .more-btn i{
 	margin-top: -5px;
 	border-top-color: #fff;
 }
-.m-filter dl{
+.m-filter .min dl{
 	float: left;
-	width: 164px;
 	height: 18px;
 	overflow: hidden;
+	margin-top: 10px;
 	line-height: 18px;
 	border-left: 1px solid #eee;
 }
-.m-filter dl:first-child{
+.m-filter .min dl:first-child{
 	border-left: none;
 }
-.m-filter dl dt{
+.m-filter .min dt{
 	float: left;
 	padding-left: 30px;
 	font-size: 14px;
 	color: #61687a;
 }
-.m-filter dl dd{
-	float: left;
-	width: 70px;
-	padding-left: 5px;
-}
-.m-filter dl dd a{
+.m-filter .min dd{
 	float: left;
 	font-size: 14px;
 	padding: 0 15px;
 	color: #999;
-	margin-bottom: 10px;
 }
 .m-filter.toggle .list{
-	float: none;
-	width: 100%;
-	padding: 0;
-	height: auto;
-	border: none;
+	height: 117px;
 }
-.m-filter.toggle dl{
-	float: none;
+.m-filter .list dl{
 	width: 100%;
 	height: 38px;
 	line-height: 38px;
 	border-bottom: 1px solid #f4f4f4;
 }
-.m-filter.toggle dl dd{
-	width: auto;
+.m-filter .list dt{
+	float: left;
+	padding-left: 30px;
+	font-size: 14px;
+	color: #61687a;
 }
-.m-filter.toggle .current{
+.m-filter .list dd{
+	float: left;
+	font-size: 14px;
+	padding: 0 15px;
+	color: #999;
+}
+.m-filter .list a{
+	float: left;
+	padding: 0 15px;
+	font-size: 14px;
+	color: #999;
+}
+.m-filter .list .current{
 	color: #fe7004;
 }
-.m-filter.toggle .btns{
-	float: none;
+.m-filter .btns{
 	width: 100%;
-	height: 20px;
+	height: 0;
+	overflow: hidden;
+	background-color: #fff;
+	-webkit-transition:height 0.3s ease-out;
+	-moz-transition:height 0.3s ease-out;
+	-ms-transition:height 0.3s ease-out;
+	-o-transition:height 0.3s ease-out;
+	transition:height 0.3s ease-out;
 }
-.m-filter.toggle .more-btn span,.m-filter.toggle .more-btn i{
+.m-filter .btns .more-btn span,.m-filter .btns .more-btn i{
 	margin-top: -8px;
 	border-color: transparent;
 	border-style: dashed;
 	border-bottom-style: solid;
 	border-bottom-color: #d2d2d2;
 }
-.m-filter.toggle .more-btn i{
+.m-filter .btns .more-btn i{
 	margin-top: -6px;
 	border-bottom-color: #fff;
+}
+.m-filter.toggle .btns{
+	height: 38px;
 }
 .m-content .m-list{
 	position: relative;
