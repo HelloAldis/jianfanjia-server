@@ -2,6 +2,8 @@ var bcrypt = require('bcrypt');
 var moment = require('moment');
 var validator = require('validator');
 var _ = require('lodash');
+var mongoose = require('mongoose');
+var ObjectId = mongoose.Types.ObjectId;
 
 moment.locale('zh-cn'); // 使用中文
 
@@ -15,10 +17,6 @@ exports.formatDate = function (date, friendly) {
     return date.format('YYYY-MM-DD HH:mm');
   }
 
-};
-
-exports.validateId = function (str) {
-  return (/^[a-zA-Z0-9\-_]+$/i).test(str);
 };
 
 exports.bhash = function (str, callback) {
@@ -37,4 +35,8 @@ exports.findIndexObjectId = function (array, oid) {
   return _.findIndex(array, function (o) {
     return o.toString() === oid.toString();
   });
+}
+
+exports.isValidObjectId = function (oid) {
+  return oid && ObjectId.isValid(oid);
 }
