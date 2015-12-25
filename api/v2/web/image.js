@@ -52,7 +52,7 @@ exports.get = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  if (!_id) {
+  if (!tools.isValidObjectId(_id)) {
     return res.status(404).end();
   }
 
@@ -78,7 +78,7 @@ exports.thumbnail = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  if (!_id) {
+  if (!tools.isValidObjectId(_id)) {
     return res.status(404).end();
   }
 
@@ -107,7 +107,7 @@ exports.watermark = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  if (!_id) {
+  if (!tools.isValidObjectId(_id)) {
     return res.status(404).end();
   }
 
