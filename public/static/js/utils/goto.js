@@ -22,6 +22,7 @@ define(['jquery','lib/jquery.cookie'], function($,cookie){
 			this.body.append(this.container);
 			this.show();
 			this.goto();
+			this.addkefu();
 			this.hover('.weixin',-70);
 			if(this.settings.shop && this.usertype == 1){
 				this.getRequirement();
@@ -64,7 +65,7 @@ define(['jquery','lib/jquery.cookie'], function($,cookie){
 					{
 						'name' : '联系客服',
 						'sclass' : 'kefu',
-						'url'  : '',
+						'url'  : 'http://chat16.live800.com/live800/chatClient/chatbox.jsp?companyID=611886&configID=139921&jid=3699665419',
 						'icon' : '&#xe63a;',
 						'hover' : '',
 					},
@@ -86,7 +87,7 @@ define(['jquery','lib/jquery.cookie'], function($,cookie){
 						if(i === 0){
 							continue;
 						}
-						li = '<li><a class="link '+data[i].sclass+'" href="'+(!!data[i].url ? data[i].url : 'javascript:;')+'"><i class="iconfont">'+data[i].icon+'</i><strong>'+data[i].name+'</strong></a><div class="hover"><span><i></i></span><div>'+data[i].hover+'</div></div></li>';
+						li = '<li><a class="link '+data[i].sclass+'" href="'+(!!data[i].url ? data[i].url : 'javascript:;')+'" '+(!!data[i].url ? 'target="_blank"' : '')+'><i class="iconfont">'+data[i].icon+'</i><strong>'+data[i].name+'</strong></a><div class="hover"><span><i></i></span><div>'+data[i].hover+'</div></div></li>';
 					}
 					templates.push(li);
 				}
@@ -251,6 +252,27 @@ define(['jquery','lib/jquery.cookie'], function($,cookie){
 			}).on('mouseleave',function(){
 				bian = true;
 			});
+		},
+		addkefu : function(){
+			(function(){
+				var chat = document.createElement('script'); 
+				chat.type = 'text/javascript'; 
+				chat.async = true;
+				chat.src = 'http://chat16.live800.com/live800/chatClient/monitor.js?jid=3699665419&companyID=611886&configID=139920&codeType=custom';
+				var s = document.body; 
+				s.appendChild(chat)
+			})();
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-45900898-17']);
+			 _gaq.push(['_trackPageview']);
+			(function() {
+				var ga = document.createElement('script'); 
+				ga.type = 'text/javascript'; 
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; 
+				s.parentNode.insertBefore(ga, s);
+			 })();
 		}
 	};
 	return Goto;

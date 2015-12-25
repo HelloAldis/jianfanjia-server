@@ -16,7 +16,6 @@ require.config({
 require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user','utils/search','utils/page','utils/goto'],function($,_,cookie,history,User,Search,Pageing,Goto){
         var user = new User();
         user.init();
-        var History = window.History;
         var search = new Search();
         search.init();
         var goto = new Goto();
@@ -24,6 +23,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user'
         var Article = function(){};
         Article.prototype = {
             init : function(){
+                var History = window.History;
                 this.cacheData = {}; //全局数据缓存
                 this.winHash = window.location.search.split("?")[1];
                 this.status = !this.winHash ? -1 : this.strToJson(this.winHash).status == undefined ? -1 : this.strToJson(this.winHash).status;
@@ -205,6 +205,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user'
                             if($(this).hasClass('current')){
                                 return ;
                             }
+                            self.top = self.list.offset().top;
                             var index = $(this).attr("href").match(/\d+(\.\d+)?/g)[0]
                             self.toFrom = (index-1)*9;
                             History.pushState({state:index}, "独家秘籍--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第 "+index+" 页", "?page="+index+'&status='+self.status);

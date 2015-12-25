@@ -87,7 +87,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user'
                                     '<span class="auth"><i class="iconfont" title="实名认证">&#xe634;</i><i class="iconfont" title="认证设计师">&#xe62a;</i></span>',
                                 '</div>',
                             '</div>',
-                            '<div class="progress">',
+                            '<div class="progress '+(process == 7 && data.progress == 1 ? 'progress-end' : '')+'">',
                                 '<div class="in in'+process+'">'+globalData.dec_flow(process)+'</div>',
                             '</div>',
                         '</li>'
@@ -145,6 +145,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/user'
                             if($(this).hasClass('current')){
                                 return ;
                             }
+                            self.top = self.list.offset().top;
                             var index = $(this).attr("href").match(/\d+(\.\d+)?/g)[0]
                             self.toFrom = (index-1)*5;
                             History.pushState({state:index}, "装修直播--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第 "+index+" 页", "?page="+index+'&status='+self.status);

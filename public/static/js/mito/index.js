@@ -10,10 +10,13 @@ require.config({
         },
         'jquery.history': {
             deps: ['jquery']
+        },
+        'jquery.mousewheel.min':{
+            deps: ['jquery']
         }
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto','utils/search','utils/user'],function($,_,cookie,history,Goto,Search,User){
+require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','lib/jquery.mousewheel.min','utils/goto','utils/search','utils/user'],function($,_,cookie,history,mousewheel,Goto,Search,User){
     var History = window.History;
     var user = new User();
     user.init();
@@ -29,7 +32,9 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
             this.doc = document;
             this.limit = 24;  //获取列表条数
 			this.winHash = this.win.location.search.split("?")[1];
-			this.cacheData = {}; //全局数据缓存
+			this.cacheData = []; //全局数据缓存
+            this.cacheDataIndex = 0; //取数据的起始位置
+            this.cachePageData = {}; //分页数据缓存
             this.iCells = 4;
             this.page = 1;
             this.iWidth = 291;
@@ -38,6 +43,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
             this.arrT = [];
             this.arrL = [];
             this.iBtn = true;
+            this.isRenderView = false;
 			this.mito = $("#j-mito");
 			this.schInfo = this.mito.find('.m-sch-info');
 			this.list = this.mito.find('.m-list');
@@ -56,8 +62,8 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
                 this.setDefault(this.winHash);
             }else{
                 this.loadList();
-                this.bindEvent();
             }
+            this.isWaterfall();
 			goto.init();
 			this.toggle();
             this.sortfn();
@@ -97,68 +103,153 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
         },
         bindEvent : function(){
             var self = this,
-                win = $(window);
+                win = $(window),
+                cH = [0],
+                btn = false,
+                temp = 0;
             win.on('scroll',function(){
                 self.throttle(function(){
-                    var index =self.getMin();
+                    var index = self.getMin();
+                    var minH = self.arrT[index];
                     var iH = win.scrollTop() + win.innerHeight();
-                    document.title = iH + ':' + (self.arrT[index] + 50);
-                    if (self.arrT[index] + 50 < iH) {
-                        self.page++;
-                        self.toFrom = (self.page-1)*36;
-                        History.pushState({state:index}, "设计师--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第 "+self.page+" 页", "?page="+self.page+"&query="+encodeURI(self.searchWord)+self.jsonToStr(self.toQuery)+self.jsonToStr(self.toSort));
-                        self.loadList();
+                    if(self.page > 1){
+                        var maxH = self.cachePageData[self.page-1].top;
                     }
+                    if(btn){
+                        btn = iH <= temp;
+                    }else{
+                        btn = iH < temp; 
+                    }
+                    temp = iH;
+                    
+                    if(minH - 300 < iH){
+                        self.waterfall();
+                    }
+                    //console.log(maxH + 300 > iH , maxH , iH, self.page)
+                    if(self.page > 2 && maxH > iH && btn){
+                        self.waterfallretrn();
+                    }
+                    
+                    /*if(self.page > 1 && (maxH - cH > iH && maxH > iH){
+                        console.log('--false 当前最大高度：'+maxH +"::"+'当前最小高度：'+minH +"::"+ '当前滚动条位置：'+iH)
+                        self.waterfallretrn();
+                    }else{
+                        console.log('--false 当前最大高度：'+maxH +"::"+'当前最小高度：'+minH +"::"+ '当前滚动条位置：'+iH)
+                    }*/
+                    if( self.page > 2){
+                        var page = self.page - 2;
+                        self.list.find('li.page'+page).remove()
+                        //self.list.find('li').remove();
+                    }
+                    // if( self.page > 2){
+                    //     var page = self.page + 2;
+                    //     self.list.find('li.page'+page).remove()
+                    //     //self.list.find('li').remove();
+                    // }
                 },{context : self});
             })
         },
 		loadList : function(){   //渲染生成列表
 			var self = this;
-            this.list.empty();
+            //this.list.empty();
             this.loading.removeClass('hide');
-            this.toSort = _.isEmpty(this.toSort) ? undefined : this.toSort;
-			var oldData = {"query":this.toQuery,"sort":this.toSort,"search_word":this.searchWord,"from":this.toFrom,"limit":this.limit}
-			$.ajax({
-				url:RootUrl+'api/v2/web/search_beautiful_image',
-				type: 'POST',
-				contentType : 'application/json; charset=utf-8',
-				dataType: 'json',
-				data : JSON.stringify(oldData),
-				processData : false
-			})
-            .done(function(res){
-                self.loading.addClass('hide');
-                if(!!self.searchWord){
-                    self.schmsg(self.searchWord,res['data'].total)
-                }
-                if(!!res.data.total){
-                    self.waterfall(res.data);
-                    self.cacheData[self.page] = [];
-                    for (var i = 0; i < res.data.beautiful_images.length; i++) {
-                        self.createList(res.data.beautiful_images[i])
-                    };
-                    self.setMainHeight(self.arrT[self.getMax()]);
-                    console.log(self.cacheData[self.page])
-                    setTimeout(function() {
-                        self.mito.find('.loging').hide();
-                    },1000)
-                    self.iBtn = true;
-                }else{
-                    self.notData.removeClass('hide');
-                    self.toQuery = {};
-                    self.toSort = {};
-                    self.searchWord = "";
-                    self.toFrom = 0;
-                    self.loadList();
-                }
-            });
+            if(this.isRenderView){
+                this.renderView(self.cacheData);
+            }else{
+                this.toSort = _.isEmpty(this.toSort) ? undefined : this.toSort;
+                var oldData = {"query":this.toQuery,"sort":this.toSort,"search_word":this.searchWord,"from":this.toFrom,"limit":this.limit}
+                $.ajax({
+                    url:RootUrl+'api/v2/web/search_beautiful_image',
+                    type: 'POST',
+                    contentType : 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    data : JSON.stringify(oldData),
+                    processData : false
+                })
+                .done(function(res){
+                    self.loading.addClass('hide');
+                    if(!!self.searchWord){
+                        self.schmsg(self.searchWord,res['data'].total)
+                    }
+                    if(!!res.data.total){
+                        self.renderView(res.data.beautiful_images)
+                        if(res.data.beautiful_images.length < self.limit){
+                            self.isRenderView = true;
+                        }
+                    }else{
+                        self.isRenderView = true;
+                        self.notData.removeClass('hide');
+                        self.toQuery = {};
+                        self.toSort = {};
+                        self.searchWord = "";
+                        self.toFrom = 0;
+                        self.loadList();
+                    }
+                });
+            }
+            
 		},
-        waterfall : function(){    //检测是否开启瀑布流
-            if (!self.iBtn) {
+        renderView : function(array){
+            var self = this;
+            if(this.cachePageData[this.page] != undefined){
                 return ;
             }
-            self.iBtn = false;
+            this.cachePageData[this.page] = {
+                data : [],
+                height : 0,
+                top:0
+            }
+            var arr = this.createArrData(array);
+            for (var i = 0; i < this.limit; i++) {
+                this.createList(arr[i],i)
+            };
+            self.setMainHeight(self.arrT[self.getMax()]);
+            var pext = self.page == 1 ? 0 : self.cachePageData[self.page - 1].height;
+            self.cachePageData[self.page].height = self.arrT[self.getMax()] - pext;
+            self.cachePageData[self.page].top = self.arrT[self.getMax()];
+            self.iBtn = true;
+        },
+        createArrData : function(array){
+            var arr = [],
+                length = array.length,
+                limit = this.limit;
+            if(array.length == limit){
+                return array;
+            }
+            if(array.length < limit){
+                var len = limit - array.length;
+                var temp = [];
+                temp = array.slice(0);
+                console.log(this.cacheData.length,len,this.cacheDataIndex)
+                arr = temp.concat(this.cacheData.slice(this.cacheDataIndex,len));
+                this.cacheDataIndex = len;
+            }else{
+                arr = array.slice(0);
+            }
+            return arr;
+        },
+        waterfall : function(){    //检测是否开启瀑布流
+            if (!this.iBtn) {
+                return ;
+            }
+            this.iBtn = false;
+            this.page++;
+            this.toFrom = (this.page-1)*this.limit;
+            _.forEach(this.cacheData, function(n, key) {
+                n.left = undefined;
+                n.top = undefined;
+            });
+            History.pushState({state:this.page}, "设计师--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第 "+this.page+" 页", "?page="+this.page+"&query="+encodeURI(this.searchWord)+this.jsonToStr(this.toQuery)+this.jsonToStr(this.toSort));
             this.loadList();
+        },
+        waterfallretrn : function(){    //检测是否开启瀑布流
+            this.page--;
+            var data = this.cachePageData[this.page].data;
+            for (var i = 0; i < this.limit; i++) {
+                this.createList(data[i])
+            };
+            this.toFrom = (this.page-1)*this.limit;
+            History.pushState({state:this.page}, "设计师--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第 "+this.page+" 页", "?page="+this.page+"&query="+encodeURI(this.searchWord)+this.jsonToStr(this.toQuery)+this.jsonToStr(this.toSort));
         },
         isWaterfall : function(){
             if(_.isEmpty(this.toSort) && _.isEmpty(this.searchWord)){
@@ -166,50 +257,50 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
             }
         },
 		createList  : function(data){      //创建列表
-            var self = this;
-            var iHeight = data.images[0].height * ((this.iWidth - 2) / data.images[0].width);
+            var self = this,
+                iHeight,
+                iWidth = this.iWidth - 2,
+                sTags = '',
+                iHeight = parseInt(data.images[0].height) * ((iWidth) / data.images[0].width),
+                imageid = data.images[0].imageid,
+                sTags = '',
+                temp = {};
+                _.assign(temp,data);
+                temp.left = temp.left == undefined ? undefined : undefined;
+                temp.top = temp.top == undefined ? undefined : undefined;
+                console.log(temp)
+                this.cacheData.push(temp);
+                if(data.section != undefined){
+                    sTags += '<span>'+data.section+'</span>'
+                }
+                if(data.house_type != undefined){
+                    sTags += '<span>'+globalData.house_type(data.house_type)+'</span>'
+                }
+                if(data.dec_style != undefined){
+                    sTags += '<span>'+globalData.dec_style(data.dec_style)+'</span>'
+                }
+                if(data.dec_type != undefined){
+                    sTags += '<span>'+globalData.dec_type(data.dec_type)+'</span>'
+                }
             var index = self.getMin();
-            var sTags = '';
-            if(data.section != undefined){
-                sTags += '<span>'+data.section+'</span>'
-            }
-            if(data.house_type != undefined){
-                sTags += '<span>'+globalData.house_type(data.house_type)+'</span>'
-            }
-            if(data.dec_style != undefined){
-                sTags += '<span>'+globalData.dec_style(data.dec_style)+'</span>'
-            }
-            if(data.dec_type != undefined){
-                sTags += '<span>'+globalData.dec_type(data.dec_type)+'</span>'
-            }
+                data.left = data.left == undefined ? self.arrL[index] : data.left;
+                data.top = data.top == undefined ? self.arrT[index] : data.top;
             var arr = [
-                '<li style="left: '+self.arrL[index]+'px; top: '+self.arrT[index]+'px;">',
+                '<li class="page'+self.page+' '+(data.left == undefined ? 'new' : 'old')+'" style="left: '+data.left+'px; top: '+data.top+'px;">',
                     '<div class="box">',
                         '<a href="/tpl/mito/detail.html?'+data._id+'" target="_blank" class="img">',
-                            '<img src="/api/v2/web/thumbnail/289/'+data.images[0].imageid+'" style="width:'+(this.iWidth - 2)+'px; height:'+iHeight+'px;" alt="'+data.title+'" />',
+                            '<img src="/api/v2/web/thumbnail/289/'+imageid+'" style="width:'+iWidth+'px; height:'+iHeight+'px;" alt="'+data.title+'" />',
                         '</a>',
                         '<div class="txt">',
                             '<h4><a href="/tpl/mito/detail.html?'+data._id+'" target="_blank">'+data.title+'</a></h4>',
                         '<p>'+sTags+'</p></div>',
                     '</div>',
-                    '<div class="shadow"><div class="noe"></div><div class="two"></div></div>'
+                    '<div class="shadow"><div class="noe"></div><div class="two"></div></div></li>'
             ]
             this.arrT[index] += iHeight + 84;
             this.list.append(arr.join(''));
-            self.cacheData[self.page].push({
-                item : {
-                    left : self.arrL[index],
-                    top  : self.arrT[index]
-                },
-                img  : {
-                    width : this.iWidth - 2,
-                    height : iHeight,
-                    imageid : data.images[0].imageid
-                },
-                urlid : data._id,
-                title : data.title,
-                tags  : sTags
-            })
+            this.cachePageData[self.page].data.push(data);
+
 		},
         createLi : function(){
             var arr = [

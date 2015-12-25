@@ -60,6 +60,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/user','utils/search','util
                             '<img src="/api/v2/web/thumbnail/320/'+data.cover_imageid+'" alt="'+data.cell+'">',
                         '</div>',
                         '<div class="info f-fl">',
+                            ''+(process == 7 && data.progress == 1 ? '<span class="end-icon"></span>' : "")+'',
                             '<h3>'+data.cell+'</h3>',
                             '<p><span>参考造价：'+data.total_price+'万元</span><span>包工类型：'+globalData.work_type(data.work_type)+'</span><span>户型：'+globalData.house_type(data.house_type)+'</span><span>面积：'+data.house_area+'m&sup2;</span></p>',
                             '<div class="step step'+process+'">',
@@ -69,8 +70,10 @@ require(['jquery','lodash','lib/jquery.cookie','utils/user','utils/search','util
                     for (var i = 0; i < 8; i++) {
                         if(i < process){
                             arr.push('<li class="active"><div class="dot"></div><p>'+globalData.dec_flow(i)+'</p></li>');
-                        }else if(i == process){
+                        }else if(i == process && data.progress == 0){
                             arr.push('<li class="current"><div class="dot"></div><p>'+globalData.dec_flow(i)+'</p></li>');
+                        }else if(i == 7 && data.progress == 1){
+                            arr.push('<li class="active"><div class="dot"></div><p>'+globalData.dec_flow(i)+'</p></li>');
                         }else{
                             arr.push('<li><div class="dot"></div><p>'+globalData.dec_flow(i)+'</p></li>');
                         }
@@ -79,10 +82,10 @@ require(['jquery','lodash','lib/jquery.cookie','utils/user','utils/search','util
                     arr.push('<dl class="people f-fr"><dt>设计师</dt><dd><a href="/tpl/design/home.html?'+data.designer._id+'"><img src="/api/v2/web/thumbnail/40/'+data.designer.imageid+'" alt="'+data.designer.username+'"><strong>'+data.designer.username+'</strong></a></dd>');
                     arr.push('<dt>项目经理</dt><dd><span><i class="iconfont">&#xe602;</i><strong>'+data.manager+'</strong></span></dd></dl>');
                     this.info.html(arr.join('')).removeClass('hide');
-                    this.createStep(data.process,process);
+                    this.createStep(data.process,process,data.progress);
             },
-            createStep : function(data,process){
-                var arr = ['<ul class="list '+(process == 7 ? 'end' : '')+'">'],
+            createStep : function(data,process,progress){
+                var arr = ['<ul class="list '+(process == 7 && progress == 1 ? 'end' : '')+'">'],
                     li ;
                     for (var i = 0 , len = data.length; i < len; i++) {
                         var img = '';

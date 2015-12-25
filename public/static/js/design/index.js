@@ -240,7 +240,6 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
                         }
                         var index = $(this).attr("href").match(/\d+(\.\d+)?/g)[0];
                         self.toFrom = (index-1)*self.limit;
-                        console.log(self.toSort,self.toQuery)
                         History.pushState({state:index}, "设计师--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第 "+index+" 页", "?page="+index+"&query="+encodeURI(self.searchWord)+self.jsonToStr(self.toQuery)+self.jsonToStr(self.toSort));
                         $('html,body').animate({scrollTop: self.top}, 500);
                         self.loadList();
@@ -315,7 +314,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
             this.filter.find('.min').html(arr.join(''))
         },
         setSort  : function(sort){    //设置排序当前状态
-            this.sort.find('strong').attr('class', 'current');
+            this.sort.find('strong').attr('class', '');
         	this.sort.find('a').removeClass().each(function(index, el) {
         		$.each(sort,function(i){
         			if($(el).data('sort') == i){
