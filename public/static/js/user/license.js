@@ -1,23 +1,24 @@
 require.config({
     baseUrl: '/static/js/',
     paths  : {
-        jquery: 'lib/jquery-1.11.1.min',
-        lodash : 'lib/lodash.min'
+        jquery: 'lib/jquery',
+        lodash : 'lib/lodash'
     },
     shim   : {
         'jquery.cookie': {
-            deps: ['jquery'],
-            exports: 'jQuery.fn.cookie'
+            deps: ['jquery']
         }
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/search','utils/goto','utils/user'],function($,_,cookie,Search,Goto,User){
-    var search = new Search();
-    search.init();
-    var goto = new Goto();
-    goto.init();
-    var user = new User();
+require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
+    var user = new common.User();
     user.init();
+    var search = new common.Search();
+    search.init();
+    var goto = new common.Goto();
+    goto.init();
+});
+require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
     function loadList(url){
         $.ajax({
             url:RootUrl+'api/v2/web/designer/agree',
@@ -46,4 +47,4 @@ require(['jquery','lodash','lib/jquery.cookie','utils/search','utils/goto','util
             return false;
         }
     })
-});               
+});

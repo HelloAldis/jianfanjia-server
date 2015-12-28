@@ -1,8 +1,8 @@
 require.config({
-    baseUrl: '../../static/js/',
+    baseUrl: '/static/js/',
     paths  : {
-        jquery: 'lib/jquery-1.11.1.min',
-        lodash : 'lib/lodash.min'
+        jquery: 'lib/jquery',
+        lodash : 'lib/lodash'
     },
     shim   : {
         'jquery.cookie': {
@@ -19,20 +19,19 @@ require.config({
         }
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto','utils/search','utils/page','utils/user','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,history,Goto,Search,Pageing,User){
-    var user = new User();
-    user.init();
-    var search = new Search;
+require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/common','utils/page','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,history,common,Pageing){
+    var search = new common.Search();
     search.init();
+    var user = new common.User();
+    user.init();
     var page = new Pageing();
-	var goto = new Goto();
+	var goto = new common.Goto();
 	var Designer = function(){};
 	Designer.prototype = {
 		init : function(){
             var History = window.History;
             this.limit = 5;  //获取列表条数
             this.winHash = window.location.search.split("?")[1];   //获取URL参数，操作上下文
-            
 			this.cacheData = {}; //全局数据缓存
 			this.design = $("#j-design");   //获取容器元素
 			this.schInfo = this.design.find('.m-sch-info');   //获取搜索提示信息元素
@@ -50,7 +49,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
             if(!!this.winHash){       //获取URL参数,设置默认值
                 this.setDefault(this.winHash);
             }else{
-               this.loadList();    //加载数据 
+               this.loadList();    //加载数据
             }
 			this.addIntent();   //业主添加意向设计师
 			goto.init({         //显示右侧菜单
@@ -63,7 +62,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
             this.submitBtn();    //搜索按钮操作
             this.top = this.list.offset().top;   //获取列表top，供分页切换跳转列表顶部位置
 		},
-        submitBtn : function(){     //搜索按钮  
+        submitBtn : function(){     //搜索按钮
             var submitBtn = this.search.find('form'),
                 downSelect = this.search.find('.u-sch-ds'),
                 oInput = this.search.find('.input'),
@@ -125,8 +124,8 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
 				product = '<ul>';
 				arr.push('<a href="/tpl/design/home.html?'+data._id+'" class="head"><img src="/api/v1/thumbnail/90/'+data.imageid+'" alt="'+data.username+'"></a>');
 				arr.push('<dl><dt>');
-				arr.push('<a href="/tpl/design/home.html?'+data._id+'"><strong>'+data.username+'</strong></a>');	
-				arr.push('<span class="auth"><i class="iconfont" title="实名认证">&#xe634;</i><i class="iconfont" title="认证设计师">&#xe62a;</i></span>');			
+				arr.push('<a href="/tpl/design/home.html?'+data._id+'"><strong>'+data.username+'</strong></a>');
+				arr.push('<span class="auth"><i class="iconfont" title="实名认证">&#xe634;</i><i class="iconfont" title="认证设计师">&#xe62a;</i></span>');
 				for (var i = 0; i < 5; i++) {
 					if(i < numStar){
 						strStar += '<i class="iconfont">&#xe604;</i>'
@@ -134,7 +133,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
 						strStar += '<i class="iconfont">&#xe62b;</i>'
 					}
 				};
-				strStar += '</span>';			
+				strStar += '</span>';
 				arr.push(strStar);
 				for (var i = 0 , len = data.dec_styles.length; i < len; i++) {
 					style += '<span class="style" data-style="'+data.dec_styles[i]+'">'+ globalData.dec_style(data.dec_styles[i])+'</span>'
@@ -167,7 +166,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
 				return arr.join('');
 		},
 		loadImg   :  function(li){      //利用缓存加载作品图片
-			var self = this; 
+			var self = this;
 			li.each(function(index, el) {
 				var uid = $(el).data('uid');
 				var oImg = $(el).find('.product');
@@ -200,7 +199,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
 			function eachImg(obj,arr){
 				$.each(arr,function(i,v){
 					obj.find('a').eq(i).attr('href',"detail.html?"+v._id).removeClass('.loadImg').find('img').attr({'src' : '/api/v1/thumbnail/280/'+v.images[0].imageid , 'alt' : v.cell});
-				})	
+				})
 			}
 		},
 		page  : function(arr){    //数据分页
@@ -325,7 +324,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
         				}
         			}else{
         				$(el).removeClass();
-        			}	
+        			}
         		});
         	})
         },
@@ -356,7 +355,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
         	this.toFrom = 0;
             History.pushState({state:1}, "设计师 -- 互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第1页", "?page=1&query="+encodeURI(self.searchWord)+self.jsonToStr(self.toQuery)+self.jsonToStr(self.toSort));
             self.notData.addClass('hide');
-        	this.loadList();	
+        	this.loadList();
         },
         sortfn : function(){   //排序
         	var self = this;
@@ -404,14 +403,14 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
                     if($(ele).data('style') == style){
                         $(ele).addClass('active');
                     }else{
-                        $(ele).removeClass('active'); 
+                        $(ele).removeClass('active');
                     }
                 });
                 $(el).find('.house').each(function(j,ele){
                     if($(ele).data('house') == house){
                         $(ele).addClass('active');
                     }else{
-                        $(ele).removeClass('active'); 
+                        $(ele).removeClass('active');
                     }
                 });
             });
@@ -525,7 +524,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/goto'
         }
 	}
 	var design = new Designer();
-	design.init();	
+	design.init();
 })
 require(['utils/designers'],function(Designers){
 	var designers = new Designers();

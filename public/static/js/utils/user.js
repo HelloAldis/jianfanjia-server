@@ -1,4 +1,4 @@
-define(['jquery','lib/jquery.cookie'], function($){
+define(['jquery','lib/cookie'], function($){
 	var User = function(){}
 	User.prototype = {
 		init : function(options){
@@ -140,7 +140,7 @@ define(['jquery','lib/jquery.cookie'], function($){
 					if(res.msg === "success"){
 						window.location.href = "/"
 					}
-				})	
+				})
 			});
 		},
 		bindEvent : function(pageId){

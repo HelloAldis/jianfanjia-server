@@ -1,4 +1,4 @@
-define(['jquery','lib/jquery.cookie'], function($,cookie){
+define(['jquery','lib/cookie'], function($,cookie){
 	var Goto = function(){};
 	Goto.prototype = {
 		init : function(options){
@@ -28,6 +28,7 @@ define(['jquery','lib/jquery.cookie'], function($,cookie){
 				this.getRequirement();
 				this.addDesigners();
 			}
+			this.supervision();
 		},
 		create : function(){
 			this.container.empty();
@@ -51,7 +52,7 @@ define(['jquery','lib/jquery.cookie'], function($,cookie){
 					{
 						'name' : '监理服务',
 						'sclass' : 'supervise',
-						'url'  : '/tpl/merit/index.html',
+						'url'  : '/tpl/merit/supervision.html',
 						'icon' : '&#xe635;',
 						'hover' : '',
 					},
@@ -93,7 +94,7 @@ define(['jquery','lib/jquery.cookie'], function($,cookie){
 				}
 				templates.push('</ul>');
 				template = 	templates.join('');
-				this.container.html(template);		
+				this.container.html(template);
 		},
 		setTop : function(){
 			var winheight = this.win.height(),
@@ -108,7 +109,7 @@ define(['jquery','lib/jquery.cookie'], function($,cookie){
 				width = this.win.width();
 				if(width > 1280){
 					left = (width - 1200)/2 + 1200 +20;
-					right = 'auto'; 
+					right = 'auto';
 				}else{
 					right = 0;
 					left = 'auto';
@@ -176,6 +177,13 @@ define(['jquery','lib/jquery.cookie'], function($,cookie){
 				str = sUl.join('');
 				sibling.html(sUl);
 		},
+		supervision : function(){
+			if(this.usertype == undefined){
+				this.container.find('.supervise').attr('href','/tpl/user/login.html?/tpl/merit/supervision.html');
+			}else if(this.usertype == 2){
+				this.container.find('.supervise').attr('href','/tpl/merit/index.html');
+			}
+		},
 		addDesigners : function(){
 			var self = this,
 				$Span = this.container.find('.add').find('span');
@@ -196,36 +204,36 @@ define(['jquery','lib/jquery.cookie'], function($,cookie){
 		},
 		format : function(date,format){
 			var time = new Date(date),
-				o = { 
-					"M+" : time.getMonth()+1, //month 
-					"d+" : time.getDate(), //day 
-					"h+" : time.getHours(), //hour 
-					"m+" : time.getMinutes(), //minute 
-					"s+" : time.getSeconds(), //second 
-					"q+" : Math.floor((time.getMonth()+3)/3), //quarter 
-					"S" : time.getMilliseconds() //millisecond 
+				o = {
+					"M+" : time.getMonth()+1, //month
+					"d+" : time.getDate(), //day
+					"h+" : time.getHours(), //hour
+					"m+" : time.getMinutes(), //minute
+					"s+" : time.getSeconds(), //second
+					"q+" : Math.floor((time.getMonth()+3)/3), //quarter
+					"S" : time.getMilliseconds() //millisecond
 				};
-			if(/(y+)/.test(format)) { 
-			format = format.replace(RegExp.$1, (time.getFullYear()+"").substr(4 - RegExp.$1.length)); 
-			} 
-			for(var k in o) { 
-				if(new RegExp("("+ k +")").test(format)) { 
-					format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length)); 
-				} 
-			} 
-			return format; 
+			if(/(y+)/.test(format)) {
+			format = format.replace(RegExp.$1, (time.getFullYear()+"").substr(4 - RegExp.$1.length));
+			}
+			for(var k in o) {
+				if(new RegExp("("+ k +")").test(format)) {
+					format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+				}
+			}
+			return format;
 			/*
-			//使用方法 
-				var now = new Date(); 
-				var nowStr = now.format("yyyy-MM-dd hh:mm:ss"); 
-				//使用方法2: 
-				var testDate = new Date(); 
-				var testStr = testDate.format("YYYY年MM月dd日hh小时mm分ss秒"); 
-				alert(testStr); 
-				//示例： 
-				alert(new Date().Format("yyyy年MM月dd日")); 
-				alert(new Date().Format("MM/dd/yyyy")); 
-				alert(new Date().Format("yyyyMMdd")); 
+			//使用方法
+				var now = new Date();
+				var nowStr = now.format("yyyy-MM-dd hh:mm:ss");
+				//使用方法2:
+				var testDate = new Date();
+				var testStr = testDate.format("YYYY年MM月dd日hh小时mm分ss秒");
+				alert(testStr);
+				//示例：
+				alert(new Date().Format("yyyy年MM月dd日"));
+				alert(new Date().Format("MM/dd/yyyy"));
+				alert(new Date().Format("yyyyMMdd"));
 				alert(new Date().Format("yyyy-MM-dd hh:mm:ss"));
 			 */
 		},
@@ -254,23 +262,23 @@ define(['jquery','lib/jquery.cookie'], function($,cookie){
 			});
 		},
 		addkefu : function(){
-			(function(){
-				var chat = document.createElement('script'); 
-				chat.type = 'text/javascript'; 
-				chat.async = true;
-				chat.src = 'http://chat16.live800.com/live800/chatClient/monitor.js?jid=3699665419&companyID=611886&configID=139920&codeType=custom';
-				var s = document.body; 
-				s.appendChild(chat)
-			})();
+			// (function(){
+			// 	var chat = document.createElement('script');
+			// 	chat.type = 'text/javascript';
+			// 	chat.async = true;
+			// 	chat.src = 'http://chat16.live800.com/live800/chatClient/monitor.js?jid=3699665419&companyID=611886&configID=139920&codeType=custom';
+			// 	var s = document.body;
+			// 	s.appendChild(chat)
+			// })();
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-45900898-17']);
 			 _gaq.push(['_trackPageview']);
 			(function() {
-				var ga = document.createElement('script'); 
-				ga.type = 'text/javascript'; 
+				var ga = document.createElement('script');
+				ga.type = 'text/javascript';
 				ga.async = true;
 				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				var s = document.getElementsByTagName('script')[0]; 
+				var s = document.getElementsByTagName('script')[0];
 				s.parentNode.insertBefore(ga, s);
 			 })();
 		}

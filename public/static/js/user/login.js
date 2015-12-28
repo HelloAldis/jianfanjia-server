@@ -1,8 +1,8 @@
 require.config({
-    baseUrl: '../../static/js/',
+    baseUrl: '/static/js/',
     paths  : {
-        jquery: 'lib/jquery-1.11.1.min',
-        lodash : 'lib/lodash.min'
+        jquery: 'lib/jquery',
+        lodash : 'lib/lodash'
     },
     shim   : {
         'jquery.cookie': {
@@ -10,14 +10,16 @@ require.config({
         }
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/goto','utils/search'],function($,_,cookie,Goto,Search){
+require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
+    var search = new common.Search();
+    search.init();
+    var goto = new common.Goto();
+    goto.init();
+});
+require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
 	if(window.location.host == 'jianfanjia.com'){
 		window.location.href = RootUrl + 'tpl/user/login.html';
 	}
-    var search = new Search;
-    search.init()
-    var goto = new Goto;
-    goto.init();
     var Login = function(){};
     Login.prototype = {
         init : function(){
@@ -63,15 +65,15 @@ require(['jquery','lodash','lib/jquery.cookie','utils/goto','utils/search'],func
         	}
         },
         setCookie : function(){
-        	$.cookie("rmbUser", "true",  7 ); 
-        	$.cookie("userPhone", this.charCodeAt(this.mobile.val()), 7 ); 
-        	$.cookie("passWord", this.charCodeAt(this.pass.val()),  7 ); 
+        	$.cookie("rmbUser", "true",  7 );
+        	$.cookie("userPhone", this.charCodeAt(this.mobile.val()), 7 );
+        	$.cookie("passWord", this.charCodeAt(this.pass.val()),  7 );
         	this.error.html(this.errmsg.tips).removeClass('hide');
         },
         removeCookie : function(){
-        	$.removeCookie("rmbUser"); 
-        	$.removeCookie("userPhone"); 
-        	$.removeCookie("passWord"); 
+        	$.removeCookie("rmbUser");
+        	$.removeCookie("userPhone");
+        	$.removeCookie("passWord");
         	$('#error-info').addClass('hide').html('');
         },
         check : function(){

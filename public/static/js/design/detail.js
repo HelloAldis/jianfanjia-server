@@ -1,14 +1,11 @@
 require.config({
-    baseUrl: '../../static/js/',
+    baseUrl: '/static/js/',
     paths  : {
-        jquery: 'lib/jquery-1.11.1.min',
-        lodash : 'lib/lodash.min'
+        jquery: 'lib/jquery',
+        lodash : 'lib/lodash'
     },
     shim   : {
         'jquery.cookie': {
-            deps: ['jquery']
-        },
-        'jquery.history': {
             deps: ['jquery']
         },
         'jquery.requestAnimationFrame.min': {
@@ -19,12 +16,14 @@ require.config({
         }
     }
 });
-require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','utils/user','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,cookie,Goto,Search,Page,User){
-        var user = new User();
-        user.init();
-        var search = new Search;
-        search.init()
-        var goto = new Goto();
+require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
+    var user = new common.User();
+    user.init();
+    var search = new common.Search();
+    search.init();
+})
+require(['jquery','lib/jquery.cookie','utils/goto','utils/page','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,cookie,common,Page){
+        var goto = new common.Goto();
         var Detail = function(){};
         Detail.prototype = {
             init  : function(){
@@ -82,7 +81,7 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                                         '<p>设计思路：'+data.description+'</p>',
                                     '</div>',
                                 '</div>',
-                                '<div class="images">'      
+                                '<div class="images">'
                     ];
                     for (var i = 0 , len = data.images.length; i < len; i++) {
                         arr.push('<section><h3>'+data.images[i].section+'</h3><img src="/api/v2/web/watermark/880/'+data.images[i].imageid+'" alt="" />'+(!!data.images[i].description ? '<p>'+data.images[i].description+'</p>' : "")+'</section>')
@@ -127,9 +126,9 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                     ];
                     if(this.usertype == 1 || this.usertype == undefined){
                         if(data.is_my_favorite){
-                            arr.push('<div class="btns"><a href="/tpl/user/owner.html#/designer" class="u-btns u-btns-revise">已添加</a></div>'); 
+                            arr.push('<div class="btns"><a href="/tpl/user/owner.html#/designer" class="u-btns u-btns-revise">已添加</a></div>');
                         }else{
-                            arr.push('<div class="btns"><a href="javascript:;" class="u-btns addIntent" data-uid="'+data._id+'">添加意向</a></div>'); 
+                            arr.push('<div class="btns"><a href="javascript:;" class="u-btns addIntent" data-uid="'+data._id+'">添加意向</a></div>');
                         }
                     }
                     arr.push('</div>');

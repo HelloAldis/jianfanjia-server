@@ -1,19 +1,24 @@
 require.config({
-    baseUrl: '../static/js/',
+    baseUrl: '/static/js/',
     paths  : {
-        jquery: 'lib/jquery-1.11.1.min',
-        lodash : 'lib/lodash.min'
+        jquery: 'lib/jquery',
+        lodash : 'lib/lodash'
     },
     shim   : {
         'jquery.cookie': {
-            deps: ['jquery'],
-            exports: 'jQuery.fn.cookie'
+            deps: ['jquery']
         }
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','index/banner','utils/search','utils/designers','utils/goto','index/live','index/mito','utils/raiders','utils/user'],function($,_,cookie,Banner,Search,Designers,Goto,Live,Mito,Raiders,User){
-	var search = new Search();
-	search.init();
+require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
+    var user = new common.User();
+    user.init();
+    var search = new common.Search();
+    search.init();
+    var goto = new common.Goto();
+    goto.init({scroll : false});
+})
+require(['jquery','lodash','lib/jquery.cookie','index/banner','utils/designers','index/live','index/mito','utils/raiders'],function($,_,cookie,Banner,Designers,Live,Mito,Raiders){
 	var banner = new Banner();
 	banner.init({
 		id       : '#j-banner',
@@ -32,10 +37,6 @@ require(['jquery','lodash','lib/jquery.cookie','index/banner','utils/search','ut
 		    '<%});%>'
 		],
 		limit : 6
-	});
-	var goto = new Goto();
-	goto.init({
-		scroll : false
 	});
 	var live = new Live();
 	live.init({
@@ -72,6 +73,4 @@ require(['jquery','lodash','lib/jquery.cookie','index/banner','utils/search','ut
 		templatets : template,
 		limit : 5
 	})
-	var user = new User();
-	user.init()
-});               
+});
