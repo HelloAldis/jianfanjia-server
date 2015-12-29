@@ -1,8 +1,8 @@
 require.config({
-    baseUrl: '../../static/js/',
+    baseUrl: '/static/js/',
     paths  : {
-        jquery: 'lib/jquery-1.11.1.min',
-        lodash : 'lib/lodash.min'
+        jquery: 'lib/jquery',
+        lodash : 'lib/lodash'
     },
     shim   : {
         'jquery.cookie': {
@@ -10,11 +10,11 @@ require.config({
         }
     }
 });
-require(['jquery','lib/jquery.cookie','utils/user','utils/goto','utils/search'],function($,cookie,User,Goto,Search){
-    var user = new User();
+require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
+    var user = new common.User();
     user.init();
-    var search = new Search();
+    var search = new common.Search();
     search.init();
-    var goto = new Goto();
+    var goto = new common.Goto();
     goto.init();
-})
+});

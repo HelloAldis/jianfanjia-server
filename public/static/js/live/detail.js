@@ -1,8 +1,8 @@
 require.config({
-    baseUrl: '../../static/js/',
+    baseUrl: '/static/js/',
     paths  : {
-        jquery: 'lib/jquery-1.11.1.min',
-        lodash : 'lib/lodash.min'
+        jquery: 'lib/jquery',
+        lodash : 'lib/lodash'
     },
     shim   : {
         'jquery.cookie': {
@@ -10,12 +10,14 @@ require.config({
         }
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/user','utils/search','utils/goto'],function($,_,cookie,User,Search,Goto){
-        var user = new User();
-        user.init();
-        var search = new Search();
-        search.init();
-        var goto = new Goto();
+require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
+    var user = new common.User();
+    user.init();
+    var search = new common.Search();
+    search.init();
+})
+require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
+        var goto = new common.Goto();
         var Detail = function(){};
         Detail.prototype = {
             init  : function(){
@@ -91,7 +93,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/user','utils/search','util
                         var img = '';
                         li = '<li class="'+(i == process ? 'current' : 'active')+'"><dl><dt>'+globalData.dec_flow(data[i].name)+'</dt><dd>'+this.format(data[i].date , 'yyyy年MM月dd日')+'</dd></dl><div class="step"><span class="arrow"><i></i></span><ul class="img f-cb">';
                         for (var j = 0 , len2 = data[i].images.length; j < len2; j++) {
-                            img += '<li class="'+(j%5 === 0 ? 'first' : '')+'"><img src="/api/v2/web/thumbnail/185/'+data[i].images[j]+'" alt=""></li>';  
+                            img += '<li class="'+(j%5 === 0 ? 'first' : '')+'"><img src="/api/v2/web/thumbnail/185/'+data[i].images[j]+'" alt=""></li>';
                         }
                         li += img + '</ul>';
                         if(data[i].description){
@@ -106,24 +108,24 @@ require(['jquery','lodash','lib/jquery.cookie','utils/user','utils/search','util
             },
             format : function(date,format){
                 var time = new Date(date),
-                    o = { 
-                        "M+" : time.getMonth()+1, //month 
-                        "d+" : time.getDate(), //day 
-                        "h+" : time.getHours(), //hour 
-                        "m+" : time.getMinutes(), //minute 
-                        "s+" : time.getSeconds(), //second 
-                        "q+" : Math.floor((time.getMonth()+3)/3), //quarter 
-                        "S" : time.getMilliseconds() //millisecond 
+                    o = {
+                        "M+" : time.getMonth()+1, //month
+                        "d+" : time.getDate(), //day
+                        "h+" : time.getHours(), //hour
+                        "m+" : time.getMinutes(), //minute
+                        "s+" : time.getSeconds(), //second
+                        "q+" : Math.floor((time.getMonth()+3)/3), //quarter
+                        "S" : time.getMilliseconds() //millisecond
                     };
-                if(/(y+)/.test(format)) { 
-                format = format.replace(RegExp.$1, (time.getFullYear()+"").substr(4 - RegExp.$1.length)); 
-                } 
-                for(var k in o) { 
-                    if(new RegExp("("+ k +")").test(format)) { 
-                        format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length)); 
-                    } 
-                } 
-                return format; 
+                if(/(y+)/.test(format)) {
+                format = format.replace(RegExp.$1, (time.getFullYear()+"").substr(4 - RegExp.$1.length));
+                }
+                for(var k in o) {
+                    if(new RegExp("("+ k +")").test(format)) {
+                        format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+                    }
+                }
+                return format;
             },
         };
         var detail = new Detail();

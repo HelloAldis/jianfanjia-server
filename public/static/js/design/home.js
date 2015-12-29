@@ -1,14 +1,11 @@
 require.config({
-    baseUrl: '../../static/js/',
+    baseUrl: '/static/js/',
     paths  : {
-        jquery: 'lib/jquery-1.11.1.min',
-        lodash : 'lib/lodash.min'
+        jquery: 'lib/jquery',
+        lodash : 'lib/lodash'
     },
     shim   : {
         'jquery.cookie': {
-            deps: ['jquery']
-        },
-        'jquery.history': {
             deps: ['jquery']
         },
         'jquery.requestAnimationFrame.min': {
@@ -19,12 +16,14 @@ require.config({
         }
     }
 });
-require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','utils/user','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,cookie,Goto,Search,Page,User){
-        var user = new User();
-        user.init();
-        var search = new Search;
-        search.init()
-        var goto = new Goto;
+require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
+    var user = new common.User();
+    user.init();
+    var search = new common.Search();
+    search.init();
+})
+require(['jquery','lib/jquery.cookie','utils/common','utils/page''lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,cookie,common,Page){
+        var goto = new common.Goto;
         var Home = function(){};
         Home.prototype = {
             init  : function(){
@@ -77,7 +76,7 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                     }
                     arr.push('</div><div class="info"><div class="head"><span><img src="/api/v2/web/thumbnail/1190/'+data.imageid+'" alt="'+data.username+'" /></span></div>')
                     arr.push('<dl><dt><strong>'+data.username+'</strong>');
-                    arr.push('<span class="auth"><i class="iconfont" title="实名认证">&#xe634;</i><i class="iconfont" title="认证设计师">&#xe62a;</i></span>');          
+                    arr.push('<span class="auth"><i class="iconfont" title="实名认证">&#xe634;</i><i class="iconfont" title="认证设计师">&#xe62a;</i></span>');
                     for (var i = 0; i < 5; i++) {
                         if(i < numStar){
                             strStar += '<i class="iconfont">&#xe604;</i>'
@@ -85,23 +84,23 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                             strStar += '<i class="iconfont">&#xe62b;</i>'
                         }
                     };
-                    strStar += '</span>';           
+                    strStar += '</span>';
                     arr.push(strStar);
                     arr.push('<dd class="f-cb"><span><i class="iconfont2">&#xe61f;</i> '+ data.province +' '+ data.city +'</span></dd>');
                     arr.push('<dd class="f-cb"><p>'+ data.philosophy+'</p></dd></dl>');
                     if(this.usertype == 1 || this.usertype == undefined){
                         if(data.is_my_favorite){
-                            arr.push('<div class="btns"><a href="/tpl/user/owner.html#/designer" class="u-btns u-btns-revise">已添加</a></div>'); 
+                            arr.push('<div class="btns"><a href="/tpl/user/owner.html#/designer" class="u-btns u-btns-revise">已添加</a></div>');
                         }else{
-                            arr.push('<div class="btns"><a href="javascript:;" class="u-btns addIntent" data-uid="'+data._id+'">添加意向</a></div>'); 
+                            arr.push('<div class="btns"><a href="javascript:;" class="u-btns addIntent" data-uid="'+data._id+'">添加意向</a></div>');
                         }
                     }
                     arr.push('</div><div class="service f-cb"><div class="f-fl">');
-                    arr.push('<dl><dt>'+data.authed_product_count+'</dt><dd>作品</dd></dl>');    
-                    arr.push('<dl><dt>'+data.order_count+'</dt><dd>预约</dd></dl></div>');        
+                    arr.push('<dl><dt>'+data.authed_product_count+'</dt><dd>作品</dd></dl>');
+                    arr.push('<dl><dt>'+data.order_count+'</dt><dd>预约</dd></dl></div>');
                     arr.push('<h4 class="f-fr"><em>设计费</em><strong>'+globalData.price_area(data.design_fee_range)+'</strong>元/m&sup2;</h4></div>');
                     this.info.html(arr.join('')).removeClass('hide');
-                    this.createService(data);   
+                    this.createService(data);
             },
             createService : function(data){
                 var service = [
@@ -152,7 +151,7 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                         var span = ''
                         if($.isArray(service[i].content)){
                             for (var j = 0 , len2 = service[i].content.length; j < len2; j++){
-                                span += '<span>'+ globalData[service[i].type](service[i].content[j])+'</span> ';                                
+                                span += '<span>'+ globalData[service[i].type](service[i].content[j])+'</span> ';
                             };
                         }else{
                             span = '<p>'+service[i].content+'</p>'
@@ -212,7 +211,7 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                         '<div class="list">',
                             '<ul class="f-cb"></ul>',
                         '</div>',
-                        '<a href="javascript:;" class="loadmore">查看更多</a>' 
+                        '<a href="javascript:;" class="loadmore">查看更多</a>'
                     ].join('');
             },
             loadmore : function(){
@@ -226,7 +225,7 @@ require(['jquery','lib/jquery.cookie','utils/goto','utils/search','utils/page','
                     $(this).fadeOut(500);
                     self.loadList();
                     return false;
-                })    
+                })
             },
             addIntent : function(){
                 var self = this,

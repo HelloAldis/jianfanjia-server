@@ -1,20 +1,22 @@
 require.config({
-    baseUrl: '../../static/js/',
+    baseUrl: '/static/js/',
     paths  : {
-        jquery: 'lib/jquery-1.11.1.min',
-        lodash : 'lib/lodash.min'
+        jquery: 'lib/jquery',
+        lodash : 'lib/lodash'
     },
     shim   : {
-        'query.cookie': {
+        'jquery.cookie': {
             deps: ['jquery']
         }
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/goto','utils/search'],function($,_,cookie,Goto,Search){
-    var search = new Search();
+require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
+    var search = new common.Search();
     search.init();
-    var goto = new Goto();
+    var goto = new common.Goto();
     goto.init();
+});
+require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
     var Register = function(){};
     Register.prototype = {
         init : function(){

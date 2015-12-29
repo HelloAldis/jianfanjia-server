@@ -1,8 +1,8 @@
 require.config({
-    baseUrl: '../../static/js/',
+    baseUrl: '/static/js/',
     paths  : {
-        jquery: 'lib/jquery-1.11.1.min',
-        lodash : 'lib/lodash.min'
+        jquery: 'lib/jquery',
+        lodash : 'lib/lodash'
     }
 });
 require(['jquery','lodash'],function($,_){
@@ -44,7 +44,7 @@ require(['jquery','lodash'],function($,_){
                 oImg.attr('src', this.src);
             }
             objImg.onerror = function(){
-               window.location.href = '/404.html'; 
+               window.location.href = '/404.html';
             }
             objImg.src = '/api/v2/web/image/'+data.images[0].imageid;
             this.main.find('.img').html(oImg).hide().fadeIn(500);
@@ -54,11 +54,11 @@ require(['jquery','lodash'],function($,_){
                 '<div class="info">',
                     '<span class="head"><img src="/static/img/design/head.jpg" alt="简繁家"></span>',
                     '<dl><dt>简繁家</dt><dd>让装修变得简单</dd></dl></div>',
-                '<div class="related"><h3>相关图片</h3><ul>' 
+                '<div class="related"><h3>相关图片</h3><ul>'
             ];
             _.forEach(data.associate_beautiful_images, function(n, key) {
                 arr.push('<li><a href="/tpl/mito/detail.html?'+n._id+'"><img src="/api/v2/web/thumbnail/106/'+n.images[0].imageid+'" alt=""></a></li>')
-            });     
+            });
             arr.push('</ul></div>');
             self.side.html(arr.join('')).animate({right: 0})
         },
@@ -69,7 +69,7 @@ require(['jquery','lodash'],function($,_){
                     var img = '';
                     li = '<li><dl class="'+(i == process ? 'current' : 'active')+'"><dt>'+globalData.dec_flow(data[i].name)+'</dt><dd>'+this.format(data[i].date , 'yyyy年MM月dd日')+'</dd></dl><div class="step"><span class="arrow"><i></i></span><ul class="img f-cb">';
                     for (var j = 0 , len2 = data[i].images.length; j < len2; j++) {
-                        img += '<li class="'+(j%5 === 0 ? 'first' : '')+'"><img src="/api/v2/web/thumbnail/185/'+data[i].images[j]+'" alt=""></li>';  
+                        img += '<li class="'+(j%5 === 0 ? 'first' : '')+'"><img src="/api/v2/web/thumbnail/185/'+data[i].images[j]+'" alt=""></li>';
                     }
                     li += img + '</ul>';
                     if(data[i].description){
