@@ -355,7 +355,7 @@ body{
     overflow-y: auto;
 }
 .m-select .select a{
-    display: block; 
+    display: block;
     line-height: 30px;
     text-align: left;
     padding-left: 30px;
@@ -434,7 +434,7 @@ body{
     list-style: none;
 }
 .m-cities .select a{
-    display: block; 
+    display: block;
     line-height: 30px;
     text-align: center;
     color: #333;
@@ -505,7 +505,7 @@ body{
 }
 
 /*菜单*/
-.m-info li{ 
+.m-info li{
     float: left;
     position: relative;
 }
@@ -565,4 +565,8 @@ body{
     display: inline-block;
     vertical-align: middle;
     margin-left: 20px;
+}
+
+.ng-valid-required.ng-invalid-ellipsis{
+    border-color: #be0000;
 }

@@ -2,7 +2,7 @@
     angular.module('controllers')
         .controller('PicturesListController', ['$scope','$rootScope','adminImage',function($scope, $rootScope,adminImage){
              //全局标识，解决筛选和分页问题
-             $scope.phone = undefined; 
+             $scope.phone = undefined;
              $scope.createAt = undefined;
              //数据加载显示状态
              $scope.loading = {
@@ -10,7 +10,7 @@
                  notData : false
              };
              //分页控件
-             $scope.pagination = {      
+             $scope.pagination = {
                  currentPage : 1,
                  totalItems : 0,
                  maxSize : 5,
@@ -215,7 +215,7 @@
                           console.log(resp);
                      });
                   }
-              }            
+              }
         }])
       .directive('myProductuploade',['$timeout',function($timeout){     //作品图片上传
           return {
@@ -257,8 +257,8 @@
                       }else{
                         alert('已经上传过了')
                       }
-                    };  
-                    img.onerror=function(){alert("error!")};  
+                    };
+                    img.onerror=function(){alert("error!")};
                     img.src=RootUrl+'api/v1/image/'+data.data;
                   }
                   $scope.removeImg = function(i,arr){
@@ -276,4 +276,56 @@
               }
           };
       }])
+      .directive('ellipsis',['$timeout',function($timeout){     //检测标题长度
+           return {
+               replace : true,
+               require : 'ngModel',
+               restrict: 'A',
+               link: function($scope, iElm, iAttrs, controller) {
+                 var ellipsis = function(string,length){
+                     function getLength(str) {
+                        var realLength = 0, len = str.length, charCode = -1;
+                         for (var i = 0; i < len; i++) {
+                            charCode = str.charCodeAt(i);
+                            if (charCode >= 0 && charCode <= 128) realLength += 1;
+                            else realLength += 2;
+                         }
+                         return realLength;
+                     }
+                     function cutstr(str, len) {
+                         var str_length = 0,
+                             str_cut = new String(),
+                             str_len = str.length;
+                         for (var i = 0; i < str_len; i++) {
+                             var a = str.charAt(i);
+                             str_length++;
+                             if (escape(a).length > 4) {
+                                 str_length++;
+                             }
+                             str_cut = str_cut.concat(a);
+                             if (str_length >= len) {
+                                 str_cut = str_cut.concat("...");
+                                 return str_cut;
+                             }
+                         }
+                         if (str_length < len) {
+                             return str;
+                         }
+                     }
+                     if(getLength(string) > length) {
+                         return true;
+                     }else{
+                         return false;
+                     }
+                 }
+                 $scope.$watch(iAttrs.ngModel, function(newValue, oldValue, scope){
+                    if(ellipsis(newValue,40)) {
+                      controller.$setValidity('ellipsis', false)
+                     }else{
+                       controller.$setValidity('ellipsis', true)
+                     }
+                 });
+               }
+           };
+       }])
 })();

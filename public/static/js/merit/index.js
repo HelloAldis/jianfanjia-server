@@ -7,6 +7,9 @@ require.config({
     shim   : {
         'jquery.cookie': {
             deps: ['jquery']
+        },
+        'jquery.mousewheel.min' : {
+            deps: ['jquery']
         }
     }
 });
@@ -14,8 +17,10 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cook
     var user = new common.User();
     user.init();
 })
-require(['jquery','lodash'],function($,_){
+require(['jquery','lodash','lib/jquery.mousewheel.min'],function($,_){
     var $content = $('#j-content');
+    var $loading = $('#loading');
+    var bOff = true;
     //s1 3大核心优势
     var core = {
         section : $content.find('.section1'),
@@ -31,20 +36,132 @@ require(['jquery','lodash'],function($,_){
             "3" : [
                 '提交需求、确认设计方案等沟通过程可在线完成，业主还可以通过手机APP客户端全程查看施工进度，不用亲自前往工地，让装修更为快速高效。'
             ]
-        }
-    };
+        },
+        posDot : [
+            {
+                top:-28,
+                left:-26
+            },
+            {
+                top: -5,
+                left: 485
+            },
+            {
+                top: 313,
+                left: 212
+            }
+        ],
+        posName : [
+            {
+                name : '操作简单',
+                left :-62,
+                top:-86,
+                oL : -100,
+                oT : -86
+            },
+            {
+                name : '流程透明',
+                left :456,
+                top:-63,
+                oL : 500,
+                oT : -63
+            },
+            {
+                name : '快速高效',
+                left :181,
+                top:360,
+                oL : 181,
+                oT : 400
+            }
+        ]
+    }
     core.create = function(){
         var _this = this;
-        var core = this.section;
-        var dot = this.section.find('.dot');
-        _this.coreMove(1)
+        var core = this.section,
+            arr = [
+                '<h2>3大核心优势</h2>',
+                '<div class="main">',
+                    '<div class="bg"></div>',
+                    '<div class="gem"></div>',
+                    '<span class="ray ray1"></span>',
+                    '<span class="ray ray2"></span>',
+                    '<span class="ray ray3"></span>',
+                    '<div class="detail">',
+                        '<div class="txt"></div>',
+                        '<span class="arrow"><i></i></span>',
+                    '</div>'
+            ];
+            _.forEach(_this.posDot,function(v,k){
+                arr.push('<span data-index="'+(k+1)+'" data-left="'+v.left+'" data-top="'+v.top+'" class="dot dot'+(k+1)+'"></span>')
+            });
+            _.forEach(_this.posName,function(v,k){
+                arr.push('<h3 class="adv'+(k+1)+'" data-left="'+v.left+'" data-top="'+v.top+'" style="left:'+v.oL+'px;top:'+v.oT+'px;">'+v.name+'</h3>')
+            });
+            arr.push('</div>');
+            this.section.html(arr.join(''));
     }
     core.coreMoveIn = function(){
-
-    },
+        var _this = this,
+            dot = this.section.find('.dot'),
+            oH2 = this.section.find('h2'),
+            gem = this.section.find('.gem'),
+            bg = this.section.find('.bg');
+            oH2.fadeIn(500);
+            bg.delay(300).fadeIn(300);
+            gem.delay(500).fadeIn(400);
+            dot.each(function(index, el) {
+                var $this = $(this),
+                    index = $this.data('index'),
+                    left = parseInt($this.data('left')),
+                    top = parseInt($this.data('top')),
+                    adv = _this.section.find('h3.adv'+index),
+                    advL = parseInt(adv.data('left')),
+                    advT = parseInt(adv.data('top'));
+                $this.stop().animate({left:left,top:top,opacity:1},function(){
+                    adv.stop().animate({left:advL,top:advT,opacity:1})
+                });
+            });
+            bOff = true;
+    }
     core.coreMoveOut = function(){
-
-    },
+        core.coreMoveHover();
+        var _this = this,
+            dot = this.section.find('.dot'),
+            bg = this.section.find('.bg');
+            setTimeout(function(){
+                dot.each(function(index, el) {
+                    var $this = $(this),
+                        index = $this.data('index'),
+                        adv = _this.section.find('h3.adv'+index);
+                     adv.delay(500).stop().animate({opacity:0})
+                    $this.stop().delay(600).animate({left:228,top:142,opacity:0});
+                });
+                bg.delay(600).fadeOut(300,function(){
+                    core.create()
+                });
+            }, 1000)
+    }
+    core.coreMoveHover = function(){
+        var _this = this;
+        var core = this.section;
+        var oH2 = core.find('h2');
+        var main = core.find('.main');
+        var detail = core.find('.detail');
+        var gem = core.find('.gem');
+        var ray = core.find('.ray');
+        var aH3 = core.find('h3');
+        var dot = core.find('.dot');
+        main.removeClass('opacity');
+        aH3.each(function(index, el) {
+            var $this = $(this),
+            advL = parseInt($this.data('left')),
+            advT = parseInt($this.data('top'));
+            $this.css('width','auto').removeClass('adv').animate({left:advL,top:advT,fontSize:30,opacity:1});
+        });
+        detail.stop().animate({top:200,opacity:0});
+        dot.fadeTo(0,1);
+        ray.stop().fadeOut();
+    }
     core.coreMove = function(num){
         var _this = this;
         var core = this.section;
@@ -53,8 +170,12 @@ require(['jquery','lodash'],function($,_){
         var detail = core.find('.detail');
         var gem = core.find('.gem');
         var ray = core.find('.ray'+num);
-        var aH3 = core.find('.adv'+num);
+        var aH3 = core.find('h3');
+        var aDot = core.find('.dot');
+        var adv = core.find('.adv'+num);
+        var dot = core.find('.dot'+num);
         main.addClass('opacity');
+        this.coreMoveHover();
         var arr = [];
         oH2.stop().fadeOut();
         gem.stop().fadeOut();
@@ -66,12 +187,15 @@ require(['jquery','lodash'],function($,_){
             }
         })
         detail.find('.txt').html(arr.join(''));
-        aH3.addClass('adv').stop().animate({left:0,top:0,width:100+'%',fontSize:60,opacity:1},function(){
+        aH3.fadeTo(0,0.5);
+        aDot.fadeTo(0,0.5);
+        dot.fadeTo(0,1);
+        adv.addClass('adv').stop().animate({left:0,top:0,width:100+'%',fontSize:60,opacity:1},function(){
             ray.stop().fadeIn();
         });
         detail.show().stop().animate({top:144,opacity:1});
-    },
-    core.create();
+        bOff = true;
+    }
     //s2 5大线上靠谱保障
     var protect = {
         section : $content.find('.section2'),
@@ -91,9 +215,189 @@ require(['jquery','lodash'],function($,_){
             "5" : [
                 '“简繁家”采用设计师负责制，即让设计师完全掌管从设计到施工的整个装修过程，让设计师成为整个装修过程中的灵魂人物，确保装修效果100%实现最初的意图，不被其它因素影响。同时业主在装修过程中只需要与设计师一人对接，不用担心设计师与施工项目经理互相推脱，让沟通更为轻松顺畅。'
             ]
-        }
+        },
+        posDot : [
+            {
+                top:-27,
+                left:240
+            },
+            {
+                top: 105,
+                left: 504
+            },
+            {
+                top: 431,
+                left: 400
+            },
+            {
+                top: 400,
+                left: 56
+            },
+            {
+                top: 55,
+                left: -27
+            }
+        ],
+        posName : [
+            {
+                name : '合约保障',
+                left :208,
+                top:-85,
+                oL : 208,
+                oT : -120
+            },
+            {
+                name : '付款保障',
+                left :475,
+                top:46,
+                oL : 510,
+                oT : 46
+            },
+            {
+                name : '售后保障',
+                left :370,
+                top:479,
+                oL : 370,
+                oT : 510
+            },
+            {
+                name : '质量保障',
+                left :26,
+                top:448,
+                oL : 26,
+                oT : 500
+            },
+            {
+                name : '效果保障',
+                left :-58,
+                top:-3,
+                oL : -100,
+                oT : -3
+            }
+        ]
     };
-
+    protect.create = function(){
+        var _this = this;
+        var protect = this.section,
+            arr = [
+                '<h2>5大线上靠谱保障</h2>',
+                '<div class="main">',
+                    '<div class="bg"></div>',
+                    '<div class="gem"></div>',
+                    '<span class="ray ray1"></span>',
+                    '<span class="ray ray2"></span>',
+                    '<span class="ray ray3"></span>',
+                    '<span class="ray ray4"></span>',
+                    '<span class="ray ray5"></span>',
+                    '<div class="detail">',
+                        '<div class="txt"></div>',
+                        '<span class="arrow"><i></i></span>',
+                    '</div>'
+            ];
+            _.forEach(_this.posDot,function(v,k){
+                arr.push('<span data-index="'+(k+1)+'" data-left="'+v.left+'" data-top="'+v.top+'" class="dot dot'+(k+1)+'"></span>')
+            });
+            _.forEach(_this.posName,function(v,k){
+                arr.push('<h3 class="adv'+(k+1)+'" data-left="'+v.left+'" data-top="'+v.top+'" style="left:'+v.oL+'px;top:'+v.oT+'px;">'+v.name+'</h3>')
+            });
+            arr.push('</div>');
+            this.section.html(arr.join(''));
+    }
+    protect.protectMoveIn = function(){
+        var _this = this,
+            dot = this.section.find('.dot'),
+            oH2 = this.section.find('h2'),
+            gem = this.section.find('.gem'),
+            bg = this.section.find('.bg');
+            oH2.fadeIn(500);
+            bg.delay(300).fadeIn(300);
+            gem.delay(500).fadeIn(400);
+            dot.each(function(index, el) {
+                var $this = $(this),
+                    index = $this.data('index'),
+                    left = parseInt($this.data('left')),
+                    top = parseInt($this.data('top')),
+                    adv = _this.section.find('h3.adv'+index),
+                    advL = parseInt(adv.data('left')),
+                    advT = parseInt(adv.data('top'));
+                $this.stop().animate({left:left,top:top,opacity:1},function(){
+                    adv.stop().animate({left:advL,top:advT,opacity:1})
+                });
+            });
+            bOff = true;
+    }
+    protect.protectMoveOut = function(){
+        this.protectHover();
+        var _this = this,
+            dot = this.section.find('.dot'),
+            bg = this.section.find('.bg');
+            setTimeout(function(){
+                dot.each(function(index, el) {
+                    var $this = $(this),
+                        index = $this.data('index'),
+                        adv = _this.section.find('h3.adv'+index);
+                     adv.delay(500).stop().animate({opacity:0})
+                    $this.stop().delay(600).animate({left:228,top:142,opacity:0});
+                });
+                bg.delay(600).fadeOut(300,function(){
+                     protect.create()
+                });
+            }, 1000)
+    }
+    protect.protectHover = function(){
+        var _this = this;
+        var core = this.section;
+        var oH2 = core.find('h2');
+        var main = core.find('.main');
+        var detail = core.find('.detail');
+        var ray = core.find('.ray');
+        var aH3 = core.find('h3');
+        var dot = core.find('.dot');
+        main.removeClass('opacity');
+        aH3.each(function(index, el) {
+            var $this = $(this),
+            advL = parseInt($this.data('left')),
+            advT = parseInt($this.data('top'));
+            $this.css('width','auto').removeClass('adv').animate({left:advL,top:advT,fontSize:30,opacity:1});
+        });
+        detail.stop().animate({top:200,opacity:0});
+        dot.fadeTo(0,1);
+        ray.stop().fadeOut();
+    }
+    protect.protectMove = function(num){
+        var _this = this;
+        var protect = this.section;
+        var oH2 = protect.find('h2');
+        var main = protect.find('.main');
+        var detail = protect.find('.detail');
+        var gem = protect.find('.gem');
+        var ray = protect.find('.ray'+num);
+        var aH3 = protect.find('h3');
+        var aDot = protect.find('.dot');
+        var adv = protect.find('.adv'+num);
+        var dot = protect.find('.dot'+num);
+        _this.protectHover();
+        main.addClass('opacity');
+        var arr = [];
+        oH2.stop().fadeOut();
+        gem.stop().fadeOut();
+        _.forEach(_this.data[num], function(v,k) {
+            if(_this.data[num].length == 1){
+                arr.push('<p>'+v+'</p>')
+            }else{
+                arr.push('<p>'+(k+1)+'，'+v+'</p>')
+            }
+        })
+        detail.find('.txt').html(arr.join(''));
+        aH3.fadeTo(0,0.5);
+        aDot.fadeTo(0,0.5);
+        dot.fadeTo(0,1);
+        adv.addClass('adv').stop().animate({left:0,top:0,width:100+'%',fontSize:60,opacity:1},function(){
+            ray.stop().fadeIn();
+        });
+        detail.show().stop().animate({top:210,opacity:1});
+        bOff = true;
+    }
     //s3 第三方监理服务具体如何运作
     var operate = {
         section : $content.find('.section3'),
@@ -205,10 +509,15 @@ require(['jquery','lodash'],function($,_){
         ];
         operate.html(arr.join(''));
         this.operateCreate(operate);
-        this.operateMoveIn();
-        setTimeout(function(){
-            _this.operateMoveOut();
-        }, 3000)
+    }
+    operate.operateIn = function(){
+        var _this = this;
+        var operate = this.section;
+        var oHeader = operate.find('header');
+        oHeader.find('h2').stop().animate({fontSize: 72,opacity :1});
+        oHeader.find('span').stop().delay(500).fadeIn(1000);
+        oHeader.find('p').stop().animate({marginTop: 0,opacity :1});
+        bOff = true;
     }
     operate.operateCreate = function(operate){
         var _this = this;
@@ -290,6 +599,7 @@ require(['jquery','lodash'],function($,_){
                     width: 0});
             })
         });
+        bOff = true;
     }
     operate.operateMoveOut = function(){    //出场
         var operate = this.section;
@@ -305,7 +615,6 @@ require(['jquery','lodash'],function($,_){
             top: 0});
         });
     }
-    operate.create();
     //s4 我们如何筛选设计师
     var filter = {
         section : $content.find('.section4'),
@@ -322,15 +631,180 @@ require(['jquery','lodash'],function($,_){
             "4" : [
                 '入驻设计师必须提供过去的优秀设计作品，证明自己的业务能力和水平'
             ]
-        }
+        },
+        posDot : [
+            {
+                top:-19,
+                left:-27
+            },
+            {
+                top: -28,
+                left: 458
+            },
+            {
+                top: 230,
+                left: 513
+            },
+            {
+                top: 345,
+                left: 50
+            }
+        ],
+        posName : [
+            {
+                name : '行业资历认证',
+                left :-88,
+                top:-77,
+                oL : -110,
+                oT : -77
+            },
+            {
+                name : '设计师身份认证',
+                left :380,
+                top:-86,
+                oL : 380,
+                oT : -110
+            },
+            {
+                name : '施工工地认证',
+                left :452,
+                top:277,
+                oL : 500,
+                oT : 277
+            },
+            {
+                name : '个人设计作品认证',
+                left :-42,
+                top:393,
+                oL : -42,
+                oT : 440
+            }
+        ]
     };
     filter.create = function(){
-
+        var _this = this;
+        var filter = this.section,
+            arr = [
+                '<h2>我们如何筛选设计师</h2>',
+                '<div class="main">',
+                    '<div class="bg"></div>',
+                    '<div class="gem"></div>',
+                    '<span class="ray ray1"></span>',
+                    '<span class="ray ray2"></span>',
+                    '<span class="ray ray3"></span>',
+                    '<span class="ray ray4"></span>',
+                    '<div class="detail">',
+                        '<div class="txt"></div>',
+                        '<span class="arrow"><i></i></span>',
+                    '</div>'
+            ];
+            _.forEach(_this.posDot,function(v,k){
+                arr.push('<span data-index="'+(k+1)+'" data-left="'+v.left+'" data-top="'+v.top+'" class="dot dot'+(k+1)+'"></span>')
+            });
+            _.forEach(_this.posName,function(v,k){
+                arr.push('<h3 class="adv'+(k+1)+'" data-left="'+v.left+'" data-top="'+v.top+'" style="left:'+v.oL+'px;top:'+v.oT+'px;">'+v.name+'</h3>')
+            });
+            arr.push('</div>');
+        this.section.html(arr.join(''));
     }
-    filter.create();
+    filter.filterMoveIn = function(){
+        var _this = this,
+            dot = this.section.find('.dot'),
+            oH2 = this.section.find('h2'),
+            gem = this.section.find('.gem'),
+            bg = this.section.find('.bg');
+            oH2.fadeIn(500);
+            bg.delay(300).fadeIn(300);
+            gem.delay(500).fadeIn(400);
+            dot.each(function(index, el) {
+                var $this = $(this),
+                    index = $this.data('index'),
+                    left = parseInt($this.data('left')),
+                    top = parseInt($this.data('top')),
+                    adv = _this.section.find('h3.adv'+index),
+                    advL = parseInt(adv.data('left')),
+                    advT = parseInt(adv.data('top'));
+                $this.stop().animate({left:left,top:top,opacity:1},function(){
+                    adv.stop().animate({left:advL,top:advT,opacity:1})
+                });
+            });
+            bOff = true;
+    }
+    filter.filterMoveOut = function(){
+        this.filterHover();
+        var _this = this,
+            dot = this.section.find('.dot'),
+            bg = this.section.find('.bg');
+            setTimeout(function(){
+                dot.each(function(index, el) {
+                    var $this = $(this),
+                        index = $this.data('index'),
+                        adv = _this.section.find('h3.adv'+index);
+                     adv.delay(500).stop().animate({opacity:0})
+                    $this.stop().delay(600).animate({left:228,top:142,opacity:0});
+                });
+                bg.delay(600).fadeOut(300,function(){
+                     filter.create()
+                });
+            }, 1000)
+    }
+    filter.filterHover = function(){
+        var _this = this;
+        var core = this.section;
+        var oH2 = core.find('h2');
+        var main = core.find('.main');
+        var detail = core.find('.detail');
+        var ray = core.find('.ray');
+        var aH3 = core.find('h3');
+        var dot = core.find('.dot');
+        main.removeClass('opacity');
+        aH3.each(function(index, el) {
+            var $this = $(this),
+            advL = parseInt($this.data('left')),
+            advT = parseInt($this.data('top'));
+            $this.css('width','auto').removeClass('adv').animate({left:advL,top:advT,fontSize:30,opacity:1});
+        });
+        detail.stop().animate({top:200,opacity:0});
+        dot.fadeTo(0,1);
+        ray.stop().fadeOut();
+    }
+    filter.filterMove = function(num){
+        var _this = this;
+        var filter = this.section;
+        var oH2 = filter.find('h2');
+        var main = filter.find('.main');
+        var detail = filter.find('.detail');
+        var gem = filter.find('.gem');
+        var ray = filter.find('.ray'+num);
+        var aH3 = filter.find('h3');
+        var aDot = filter.find('.dot');
+        var adv = filter.find('.adv'+num);
+        var dot = filter.find('.dot'+num);
+        this.filterHover();
+        main.addClass('opacity');
+        var arr = [];
+        oH2.stop().fadeOut();
+        gem.stop().fadeOut();
+        _.forEach(_this.data[num], function(v,k) {
+            if(_this.data[num].length == 1){
+                arr.push('<p>'+v+'</p>')
+            }else{
+                arr.push('<p>'+(k+1)+'，'+v+'</p>')
+            }
+        })
+        detail.find('.txt').html(arr.join(''));
+        aH3.fadeTo(0,0.5);
+        aDot.fadeTo(0,0.5);
+        dot.fadeTo(0,1);
+        adv.addClass('adv').stop().animate({left:0,top:0,width:100+'%',fontSize:50,opacity:1},function(){
+            ray.stop().fadeIn();
+        });
+        detail.show().stop().animate({top:110,opacity:1});
+        bOff = true;
+    }
     //s5 为什么要收取设计费
     var fee = {
-        section : $content.find('.section7')
+        section : $content.find('.section5')
     }
     fee.create = function(){
         var _this = this,
@@ -366,11 +840,17 @@ require(['jquery','lodash'],function($,_){
             '</div>'
         ];
         fee.html(arr.join(''));
-        this.feeMoveIn();
-        setTimeout(function(){
-            _this.feeMoveOut();
-        }, 3000)
     };
+    fee.feeIn = function(){
+        var _this = this;
+        var operate = this.section;
+        var oHeader = operate.find('header');
+        var bg = operate.find('.bg');
+        oHeader.find('h2').stop().animate({fontSize: 72,opacity :1});
+        bg.find('span').stop().delay(500).fadeIn(1000);
+        oHeader.find('p').stop().animate({marginTop: 0,opacity :1});
+        bOff = true;
+    }
     fee.feeMoveIn = function(){
         var fee = this.section,
             oHeader = fee.find('header');
@@ -396,7 +876,8 @@ require(['jquery','lodash'],function($,_){
                     aItem3.find('p').stop().animate({left:-290,opacity : 1})
                 })
             }).addClass('step');
-    },
+        bOff = true;
+    }
     fee.feeMoveOut = function(){
         var fee = this.section;
         var oHeader = fee.find('header');
@@ -418,11 +899,92 @@ require(['jquery','lodash'],function($,_){
         aItem3.find('.black').stop().animate({left:-40,top:131,opacity : 0})
         oMain.stop().fadeOut();
         fee.find('span').stop().fadeOut();
-    },
-    fee.create();
+        bOff = true;
+    }
     //s6 7大装修工序全程一手掌握
     var app = {
-        section : $content.find('.section6')
+        section : $content.find('.section6'),
+        posDot : [
+            {
+                top: -28,
+                left: 275
+            },
+            {
+                top: 110,
+                left: 530
+            },
+            {
+                top: 426,
+                left: 540
+            },
+            {
+                top: 558,
+                left: 389
+            },
+            {
+                top: 558,
+                left: 162
+            },
+            {
+                top: 426,
+                left: 12
+            },
+            {
+                top: 109,
+                left: 22
+            }
+        ],
+        posName : [
+            {
+                name : '开工',
+                left :281,
+                top:-77,
+                oL : 281,
+                oT : -100
+            },
+            {
+                name : '拆改',
+                left :599,
+                top:106,
+                oL : 630,
+                oT : 106
+            },
+            {
+                name : '水电',
+                left :607,
+                top:427,
+                oL : 640,
+                oT : 427
+            },
+            {
+                name : '泥木',
+                left :399,
+                top:605,
+                oL : 399,
+                oT : 650
+            },
+            {
+                name : '油漆',
+                left :166,
+                top:605,
+                oL : 166,
+                oT : 650
+            },
+            {
+                name : '安装',
+                left :-45,
+                top:426,
+                oL : -80,
+                oT : 426
+            },
+            {
+                name : '竣工',
+                left :-34,
+                top:104,
+                oL : -70,
+                oT : 104
+            }
+        ]
     };
     app.create = function(){
         var _this = this
@@ -444,107 +1006,23 @@ require(['jquery','lodash'],function($,_){
                 '<div class="light-circle light-circle1"></div>',
                 '<div class="light-circle light-circle2"></div>',
                 '<div class="step-icon step-icon1"></div>',
-            ],
-            posDot = [
-                {
-                    top: -28,
-                    left: 275
-                },
-                {
-                    top: 110,
-                    left: 530
-                },
-                {
-                    top: 426,
-                    left: 540
-                },
-                {
-                    top: 558,
-                    left: 389
-                },
-                {
-                    top: 558,
-                    left: 162
-                },
-                {
-                    top: 426,
-                    left: 12
-                },
-                {
-                    top: 109,
-                    left: 22
-                }
-            ],
-            posName = [
-                {
-                    name : '开工',
-                    left :281,
-                    top:-77,
-                    oL : 281,
-                    oT : -100
-                },
-                {
-                    name : '拆改',
-                    left :599,
-                    top:106,
-                    oL : 630,
-                    oT : 106
-                },
-                {
-                    name : '水电',
-                    left :607,
-                    top:427,
-                    oL : 640,
-                    oT : 427
-                },
-                {
-                    name : '泥木',
-                    left :399,
-                    top:605,
-                    oL : 399,
-                    oT : 650
-                },
-                {
-                    name : '油漆',
-                    left :166,
-                    top:605,
-                    oL : 166,
-                    oT : 650
-                },
-                {
-                    name : '安装',
-                    left :-45,
-                    top:426,
-                    oL : -80,
-                    oT : 426
-                },
-                {
-                    name : '竣工',
-                    left :-34,
-                    top:104,
-                    oL : -70,
-                    oT : 104
-                }
             ];
-            _.forEach(posDot,function(v,k){
+            _.forEach(_this.posDot,function(v,k){
                 arr.push('<span data-index="'+(k+1)+'" data-left="'+v.left+'" data-top="'+v.top+'" class="dot dot'+(k+1)+'"></span>')
             });
-            _.forEach(posName,function(v,k){
+            _.forEach(_this.posName,function(v,k){
                 arr.push('<h3 class="adv'+(k+1)+'" data-left="'+v.left+'" data-top="'+v.top+'" style="left:'+v.oL+'px;top:'+v.oT+'px;">'+v.name+'</h3>')
             })
             this.section.html(arr.join(''));
-            app.dotMoveIn();
-            setTimeout(function(){
-                app.stepMoveIn();
-            }, 3000)
     };
     app.dotMoveIn = function(){
         var _this = this,
-            dot = this.section.find('.dot'),
-            oH2 = this.section.find('h2'),
-            bg = this.section.find('.bg'),
-            icon = this.section.find('.icon'),
-            app = this.section.find('.app');
+            section = $content.find('.section6'),
+            dot = section.find('.dot'),
+            oH2 = section.find('h2'),
+            bg = section.find('.bg'),
+            icon = section.find('.icon'),
+            app = section.find('.app');
             oH2.fadeIn(500);
             icon.fadeIn(800);
             bg.delay(300).fadeIn(300);
@@ -554,13 +1032,14 @@ require(['jquery','lodash'],function($,_){
                     index = $this.data('index'),
                     left = parseInt($this.data('left')),
                     top = parseInt($this.data('top')),
-                    adv = _this.section.find('h3.adv'+index),
+                    adv = section.find('h3.adv'+index),
                     advL = parseInt(adv.data('left')),
                     advT = parseInt(adv.data('top'));
                 $this.stop().animate({left:left,top:top,opacity:1},function(){
                     adv.stop().animate({left:advL,top:advT,opacity:1})
                 });
             });
+            bOff = true;
     };
     app.stepMove = function(num){
         var _this = this,
@@ -577,31 +1056,38 @@ require(['jquery','lodash'],function($,_){
                     }
                 });
             });
+            bOff = true;
     };
     app.stepMoveIn = function(){
         var _this = this,
-            dot = this.section.find('.dot'),
-            oH2 = this.section.find('h2'),
-            icon = this.section.find('.icon'),
-            optical = this.section.find('.optical'),
-            shim = this.section.find('.app-shim');
-            bg = this.section.find('.bg'),
-            lightCircle = this.section.find('.light-circle'),
-            app = this.section.find('.app');
-        app.stop().animate({top:400,opacity:0},function(){
-            app.addClass('app1').delay(300).animate({top:388,opacity:1});
-            shim.delay(600).stop().show().animate({top:377,opacity:1},function(){
-                optical.stop().animate({top:246,height:163} ,function(){
-                    lightCircle.stop().fadeIn();
-                    _this.stepMove(7);
-                });
+            section = $content.find('.section6'),
+            dot = section.find('.dot'),
+            oH2 = section.find('h2'),
+            icon = section.find('.icon'),
+            optical = section.find('.optical'),
+            shim = section.find('.app-shim');
+            bg = section.find('.bg'),
+            lightCircle = section.find('.light-circle'),
+            app = section.find('.app');
+            console.log(section)
+            oH2.addClass('step').animate({top:366,fontSize:38},function(){
+                icon.fadeOut(300);
             });
+            app.stop().animate({top:400,opacity:0},function(){
+                app.addClass('app1').delay(300).animate({top:388,opacity:1});
+                shim.delay(600).stop().show().animate({top:377,opacity:1},function(){
+                    optical.stop().animate({top:246,height:163} ,function(){
+                        lightCircle.stop().fadeIn();
+                        _this.stepMove(0);
+                    });
+                });
 
-        });
-        oH2.addClass('step').stop().animate({top:366,fontSize:38},function(){
-            icon.fadeOut(300);
-        });
+            });
+            bOff = true;
     };
+    app.dotMoveOut = function(){
+
+    }
     //s7 简繁家对比传统装修
     var diff = {
         section : $content.find('.section7'),
@@ -737,15 +1223,15 @@ require(['jquery','lodash'],function($,_){
         var diffMain = diff.find('.main');
         this.diffTitleMove(diffTt,diffMain);
         this.diffBgCreate(diffBg);
-        //this.diffCreate(diff)
         this.diffEdgeCreate(diffMain);
     };
-    diff.diffTitleMove = function(diffTt,diffMain){
+    diff.diffTitleMove = function(){
+        var diffTt = this.section.find('.title');
         var _this = this;
         diffTt.animate({
             opacity : 1,
             top: 50+'%'},function(){
-                _this.diffEdgeMoveIn(diffTt,diffMain);
+                _this.diffEdgeMoveIn();
             });
     }
     diff.diffEdgeCreate = function(obj){
@@ -758,8 +1244,9 @@ require(['jquery','lodash'],function($,_){
         });
         obj.html(arr.join(''));
     }
-   diff.diffEdgeMove = function(diffMain){
+   diff.diffEdgeMove = function(){
         var iNum = 0;
+        var diffMain = this.section;
         var body = diffMain.find('.body');
         var edge = diffMain.find('.edge');
         var time = null;
@@ -793,8 +1280,9 @@ require(['jquery','lodash'],function($,_){
             });
         });
     }
-    diff.diffEdgeMoveIn = function(diffTt,diffMain){
+    diff.diffEdgeMoveIn = function(){
         var _this = this;
+        var diffMain = this.section;
         var edge = diffMain.find('.edge');
         edge.each(function(index, el) {
             $(this).animate({
@@ -802,12 +1290,10 @@ require(['jquery','lodash'],function($,_){
             left: parseInt($(this).data('left')),
             top: parseInt($(this).data('top'))});
         });
-        setTimeout(function(){
-            diffTt.fadeOut();
-            _this.diffEdgeMove(diffMain);
-        }, 2000)
+        bOff = true;
     }
-    diff.diffEdgeMoveOut = function(diffMain){
+    diff.diffEdgeMoveOut = function(){
+        var diffMain = this.section;
         var edge = diffMain.find('.edge');
         edge.each(function(index, el) {
             $(this).animate({
@@ -824,7 +1310,6 @@ require(['jquery','lodash'],function($,_){
         });
         obj.hide().html(str).fadeIn();
     }
-    diff.create();
     //s8 辅材品牌圈
     var link = {
         section : $content.find('.section8')
@@ -841,7 +1326,6 @@ require(['jquery','lodash'],function($,_){
         };
         arr.push('</ul>');
         link.html(arr.join(''));
-        _this.linkMoveIn();
     },
     link.linkMoveIn = function(){   //入场
         var link = this.section;
@@ -856,9 +1340,10 @@ require(['jquery','lodash'],function($,_){
             left: parseInt($(this).data('left')),
             top: parseInt($(this).data('top'))});
         });
+        bOff = true;
     },
     link.linkMoveOut = function(){    //出场
-        var link = this.content.find('.section8');
+        var link = this.section;
         var oH2 = link.find('h2');
         var aLi = link.find('li');
         oH2.animate({
@@ -870,33 +1355,339 @@ require(['jquery','lodash'],function($,_){
             left: 473,
             top: 0});
         });
+        bOff = true;
     }
-    link.create();
     var Merit = function(){};
     Merit.prototype = {
         init  : function(){
             this.win = $(window);
             this.body = $('body');
-            if(this.win.height() > 980){
-                this.body.height(980)
-            }
-            //this.link();
-           //this.diff();
-            //this.operate();
-            //this.fee();
-            //this.core();
+            this.imgLoading();
+            this.setHeight();
+            this.bindEvent();
+            this.create();
         },
         create : function(){    //创建集合
+            core.create();
+            protect.create();
+            operate.create();
+            filter.create();
+            fee.create();
             app.create();
+            diff.create();
+            link.create();
+            this.sidenav_create();
         },
-        bindEvent : function(){    //事件列表
+        sidenav : function(){
 
         },
-        listEvent : function(num){    //事件列表
-            return [1][num]
+        sidenav_create : function(){
+            var side = $('#j-sidenav'),
+                data = [
+                    {
+                        name : '三大核心优势',
+                        index : 0
+                    },
+                    {
+                        name : '五大线上靠谱保障',
+                        index : 0
+                    },
+                    {
+                        name : '第三方监理服务具体如何运作',
+                        index : 0
+                    },
+                    {
+                        name : '我们如何筛选设计师',
+                        index : 0
+                    },
+                    {
+                        name : '为什么要收取设计费',
+                        index : 0
+                    },
+                    {
+                        name : '七大装修工序全程一手掌握',
+                        index : 0
+                    },
+                    {
+                        name : '简繁家对比传统装修',
+                        index : 0
+                    },
+                    {
+                        name : '辅材品牌圈',
+                        index : 0
+                    }
+                ];
+            var _this = this;
+            var arr = [
+                '<div class="line"></div>',
+                '<ul>'
+            ];
+            _.forEach(_this.data,function(v,k){
+                arr.push('<li data-index="'+v.index+'"><div class="circle"><div></div></div><p>'+v.name+'</p></li>')
+            })
+            arr.push('</ul>');
+            side.html(arr.join(''));
+            this.sidenav_event();
+
+        },
+        sidenav_event : function(){
+            var side = $('#j-sidenav');
+            var _this = this;
+            var aLi = side.find('li');
+            aLi.each(function(index, el) {
+                var $this = $(this);
+                $this.on('click',function(){
+                    _this.move($this.index());
+                    _this.sidenav_move()
+                });
+                _this.hover($this);
+            });
+        },
+        sidenav_move : function(num){
+            var side = $('#j-sidenav');
+            var aLi = side.find('li');
+            aLi.stop().animate({marginTop: 50});
+            aLi.eq(num).stop().animate({marginTop: 70});
+            aLi.eq(num).addClass('active').siblings().removeClass('active');
+        },
+        sidenav_hover : function($this){
+                var oP = $this.find('p');
+                $this.on('mouseenter',function(){
+                    if(!$this.hasClass('active')){
+                        $this.addClass('hover');
+                    }
+                }).on('mouseleave',function(){
+                    $this.removeClass('hover');
+                })
+        },
+        setHeight : function(){   //设计高度
+            var _this = this;
+            this.getHeight();
+            this.win.on('resize',function(){
+                _this.throttle(function(){
+                    _this.getHeight();
+                },{context : _this})
+            })
+        },
+        getHeight : function(){
+            if(this.win.height() < 900){
+                this.body.height(900)
+            }
+        },
+        transitionIn : function(){
+            setTimeout(function(){
+              $loading.fadeIn();
+
+            }, 500)
+        },
+        transitionOut : function(fn){
+            setTimeout(function(){
+                $loading.fadeOut();
+          }, 500)
+        },
+        show : function(num){
+            $content.find('.section').removeClass('active');
+            $content.find('.section'+num).addClass('active');
+        },
+        bindEvent : function(){    //事件列表
+            this.WheelEvent();
+        },
+        listEvent : function(num){    //事件列表\
+            var _this = this;
+            switch(num){
+                case 0:
+                    core.coreMoveIn();
+                    this.sidenav_move(0);
+                    this.show(1);
+                break;
+                case 1:
+                    core.coreMove(1);
+                break;
+                case 2:
+                    core.coreMove(2);
+                break;
+                case 3:
+                    core.coreMove(3);
+                break;
+                case 4:
+                    core.coreMoveOut();
+                    setTimeout(function(){
+                        _this.sidenav_move(1);
+                        _this.show(2);
+                        protect.protectMoveIn();
+                    }, 1500)
+                break;
+                case 5:
+                    protect.protectMove(1);
+                break;
+                case 6:
+                    protect.protectMove(2);
+                break;
+                case 7:
+                    protect.protectMove(3);
+                break;
+                case 8:
+                    protect.protectMove(4);
+                break;
+                case 9:
+                    protect.protectMove(5);
+                break;
+                case 10:
+                    protect.protectMoveOut();
+                    setTimeout(function(){
+                        _this.sidenav_move(2);
+                        _this.show(3);
+                        operate.operateIn();
+                    }, 1500)
+                break;
+                case 11:
+                    operate.operateMoveIn();
+                break;
+                case 12:
+                    operate.operateMoveOut();
+                    setTimeout(function(){
+                        _this.sidenav_move(3);
+                        _this.show(4);
+                        filter.filterMoveIn();
+                    }, 1500)
+                break;
+                case 13:
+                    filter.filterMove(1);
+                break;
+                case 14:
+                    filter.filterMove(2);
+                break;
+                case 15:
+                    filter.filterMove(3);
+                break;
+                case 16:
+                    filter.filterMove(4);
+                break;
+                case 17:
+                    filter.filterMoveOut();
+                    setTimeout(function(){
+                        _this.sidenav_move(4);
+                        _this.show(5);
+                        fee.feeIn();
+                    }, 1500)
+                break;
+                case 18:
+                    fee.feeMoveIn();
+                break;
+                case 19:
+                    fee.feeMoveOut();
+                    setTimeout(function(){
+                        _this.sidenav_move(5);
+                        _this.show(6);
+                        app.dotMoveIn();
+                    }, 1500)
+                break;
+                case 20:
+                    app.stepMove(2);
+                break;
+                case 21:
+                    app.stepMove(3);
+                break;
+                case 22:
+                    app.stepMove(4);
+                break;
+                case 23:
+                    app.stepMove(5);
+                break;
+                case 24:
+                    app.stepMove(6);
+                break;
+                case 25:
+                    app.stepMove(7);
+                break;
+                case 26:
+                    app.dotMoveOut();
+                    setTimeout(function(){
+                        _this.sidenav_move(6);
+                        _this.show(7);
+                        diff.diffTitleMove();
+                    }, 1500)
+                break;
+                case 27:
+                    diff.diffEdgeMoveOut();
+                    setTimeout(function(){
+                        _this.sidenav_move(7);
+                        _this.show(8);
+                        link.linkMoveIn();
+                    }, 1500)
+                break;
+                case 28:
+                    link.linkMoveOut();
+                    setTimeout(function(){
+                        _this.sidenav_move(0);
+                        _this.show(1);
+                        core.coreMoveIn();
+                    }, 1500)
+                break;
+            }
+        },
+        WheelEvent : function(){
+            var _this = this;
+            var i = 0
+            $('body').mousewheel(function(event,delta){
+                event.stopPropagation();
+                event.preventDefault();
+                if(!bOff){
+                    return ;
+                }
+                bOff = false;
+                console.log(event, delta,i)
+                if(delta == -1){
+                   _this.listEvent(i++)
+               }else{
+                    _this.listEvent(i--)
+               }
+            })
+        },
+        throttle  : function(){
+            var isClear = arguments[0],fn;
+            if(_.isBoolean(isClear)){
+                fn = arguments[1];
+                fn._throttleID && clearTimeout(fn._throttleID)
+            }else{
+                fn = isClear;
+                param = arguments[1];
+                var oP = _.assign({
+                    context : null,
+                    args : [],
+                    time : 300
+                },param);
+                arguments.callee(true,fn);
+                fn._throttleID = setTimeout(function(){
+                    fn.apply(oP.context , oP.args)
+                }, oP.time)
+            }
+        },
+        imgLoading : function(){
+            var dirname = '/static/img/';
+            var arr = ['merit.png','bg.jpg','core-bg.png','core-ray.png','detail-bg.png','diff-bg.png','diff-edge.png','diff-main.png',
+                'dot.png','fee-bg.png','filter-bg.png','filter-ray.png','gem.png','light-circle.png','link1.jpg','link2.jpg','link3.jpg',
+                'link4.jpg','link5.jpg','link6.jpg','link7.jpg','link8.jpg','link9.jpg','link10.jpg','link11.jpg','link12.jpg','link13.jpg',
+                'link14.jpg','link15.jpg','link16.jpg','link17.jpg','link18.jpg','link19.jpg','link20.jpg','operate-daybg.png','operate-hover.png',
+                'operate-icon.png','optical.png','phone1.png','phone2.png','phone-shim.png','protect-bg.png','protect-ray.png','rule.png',
+                'screen1-bg.png','shield.png','step-circle.png','step-icon.png'
+            ];
+            var iNum = 0;
+            _.forEach(arr,function(v,k){
+                var oImg = new Image();
+                oImg.onload = function(){
+                    iNum++;
+                    console.log(iNum)
+                }
+                oImg.onerror = function(){
+                    iNum++;
+                }
+                console.log(iNum)
+                //oImg.src = dirname + v;
+            })
+
         }
     }
     var merit = new Merit();
     merit.init();
-
 });

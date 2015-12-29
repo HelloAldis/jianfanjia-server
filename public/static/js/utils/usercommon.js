@@ -1,5 +1,4 @@
-define(['jquery','lib/jquery.cookie'], function($){
-  var Search = function(){}
+var Search = function(){}
   Search.prototype = {
     init : function(options){
       var self = this;
@@ -607,9 +606,9 @@ define(['jquery','lib/jquery.cookie'], function($){
        })();
     }
   };
-  return {
-    Search : Search,
-    User : User,
-    Goto : Goto
-  }
-});
+  var user = new User();
+  user.init();
+  var search = new Search();
+  search.init();
+  var goto = new Goto();
+  goto.init();

@@ -33,7 +33,7 @@
 					</span>
 				</dd>
 			</dl>
-			<a ui-sref="service" class="editor" ng-if="designer.online_status == 0 && designer.auth_type == 2 && designer.authed_product_count > 2"><i class="iconfont2">&#xe627;</i>&nbsp;&nbsp;接单服务</a>			
+			<a ui-sref="service" class="editor" ng-if="designer.online_status == 0 && designer.auth_type == 2 && designer.authed_product_count > 2"><i class="iconfont2">&#xe627;</i>&nbsp;&nbsp;接单服务</a>
 		</div>
 		<div class="flow">
 			<ul>
@@ -173,7 +173,7 @@
 					<a class="u-btns" ng-switch-when="4" bo-href-i="designer.html#/requirement/{{data._id}}/contract">前往生成</a>
 					<a class="u-btns" ng-switch-when="5" bo-href-i="designer.html#/requirement/{{data._id}}/contract">前往生成三方合同</a>
 					<a class="u-btns" ng-switch-when="6" bo-href-i="designer.html#/requirement/{{data._id}}/owner">给业主提交方案</a>
-					<a class="u-btns" ng-switch-when="7" bo-href-i="designer.html#/requirement/{{data._id}}/contract">下载简繁家APP</a>
+					<a class="u-btns" ng-switch-when="7" href="/tpl/download/index.html">下载简繁家APP</a>
 					<a class="u-btns" ng-switch-when="8" bo-href-i="designer.html#/requirement/{{data._id}}/contract">方案过期</a>
 				</div>
 			</li>
