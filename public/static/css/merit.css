@@ -119,6 +119,7 @@ body{
 	position: fixed;
 	right: 0;
 	top: 0;
+	z-index: 10;
 	width: 67px;
 	height: 100%;
 }
@@ -126,42 +127,65 @@ body{
 	height: 100%;
 	border-left: 1px dashed #b4b4b6;
 }
-.sidenav ul,.sidenav ol{
+.sidenav ul{
 	position: absolute;
-	left:0;
+	left:-14px;
 	top:0;
 	width: 100%;
 	height: 100%;
 }
+.sidenav ul li{
+	position: relative;
+}
 .sidenav ul li p{
-	position: absolute;
 	width: 26px;
 	padding: 14px 0;
 	font-size: 14px;
 	line-height: 16px;
 	text-align: center;
 }
-.sidenav ul li:hover{
-
+.sidenav ul li p{
+	display: none;
 }
-.sidenav ol{
+.sidenav ul li.hover p{
+	display: block;
 	position: absolute;
+	top:50%;
+	left:-30px;
+	width: 20px;
+  font-size: 12px;
 }
-.sidenav ol li{
+.sidenav ul li.active p{
+	display: block;
+	background-color: #0a0617;
+	border: 2px solid #fff;
+	border-radius: 26px;
+}
+.sidenav ul li.active .circle{
+	display: none;
+}
+.sidenav ul li{
+	margin-top: 70px;
+}
+.sidenav ul li .circle{
 	width: 12px;
 	height: 12px;
 	padding: 7px;
 	border: 2px solid #2293be;
 	border-radius: 50%;
+	cursor: pointer;
 }
-.sidenav ol li div{
+.sidenav ul li .circle div{
 	width: 12px;
 	height: 12px;
 	background-color: #42ccff;
 	border-radius: 50%;
 }
+.sidenav ul li:hover{
+
+}
 .g-tb{
-	position: absolute;
+	position: fixed;
 	left:0;
 	top:0;
 	z-index: 90;
@@ -179,8 +203,11 @@ body{
 }
 .section{
 	position: absolute;
-	left:50%;
-	top:50%;
+	left:0;
+	top:0;
+	width: 100%;
+	height: 100%;
+	display: none;
 }
 .dot{
 	position: absolute;
@@ -188,11 +215,9 @@ body{
 	height: 58px;
 	background: url(../img/merit/dot.png) 0 0 no-repeat;
 }
-.section1{
-	left:0;
-	top:0;
-	width: 100%;
-	height: 100%;
+.section.active{
+	display: block;
+	z-index: 10;
 }
 .section1 h2{
 	position: absolute;
@@ -206,6 +231,7 @@ body{
 	font-weight: bold;
 	text-align: center;
 	text-shadow:0 0 15px rgba(0,0,0,.6);
+	display: none;
 }
 .section1 .main{
 	position: absolute;
@@ -220,6 +246,7 @@ body{
 	width: 514px;
 	height: 343px;
 	background:url(../img/merit/core-bg.png) no-repeat;
+	display: none;
 }
 .section1 .ray{
 	position: absolute;
@@ -235,7 +262,7 @@ body{
 }
 .section1 .ray2{
 	top:23px;
-	height: 103px;
+	height: 149px;
 	background-position: 0 -142px;
 }
 .section1 .ray3{
@@ -246,18 +273,10 @@ body{
 .section1 .dot{
 	cursor: pointer;
 	z-index: 3;
-}
-.section1 .dot1{
-	top:-28px;
-	left:-26px;
-}
-.section1 .dot2{
-	top:-5px;
-	left:485px;
-}
-.section1 .dot3{
-	top:313px;
-	left:212px;
+	left:228px;
+	top:142px;
+	opacity: 0;
+	filter: alpha(opacity=0);
 }
 .section1 .gem{
 	position: absolute;
@@ -266,6 +285,7 @@ body{
 	width: 298px;
 	height: 242px;
 	background:url(../img/merit/gem.png) no-repeat;
+	display: none;
 }
 .section1 .main h3{
 	position: absolute;
@@ -273,18 +293,8 @@ body{
 	line-height: 68px;
 	white-space:nowrap;
 	word-break: break-all;
-}
-.section1 .main h3.adv1{
-	left:-62px;
-	top:-86px;
-}
-.section1 .main h3.adv2{
-	left:456px;
-	top:-63px;
-}
-.section1 .main h3.adv3{
-	left:181px;
-	top:360px;
+	opacity: 0;
+	filter: alpha(opacity=0);
 }
 .section1 .main h3.adv{
 	line-height: 144px;
@@ -332,12 +342,6 @@ body{
 	opacity: 0.5;
 	filter: alpha(opacity=50);
 }
-.section2{
-	left:0;
-	top:0;
-	width: 100%;
-	height: 100%;
-}
 .section2 h2{
 	position: absolute;
 	left:0;
@@ -350,6 +354,7 @@ body{
 	font-weight: bold;
 	text-align: center;
 	text-shadow:0 0 15px rgba(0,0,0,.6);
+	display: none;
 }
 .section2 .main{
 	position: absolute;
@@ -364,6 +369,7 @@ body{
 	width: 534px;
 	height: 462px;
 	background:url(../img/merit/protect-bg.png) no-repeat;
+	display: none;
 }
 .section2 .ray{
 	position: absolute;
@@ -403,26 +409,10 @@ body{
 .section2 .dot{
 	cursor: pointer;
 	z-index: 3;
-}
-.section2 .dot1{
-	top:-27px;
-	left:240px;
-}
-.section2 .dot2{
-	top:105px;
-	left:504px;
-}
-.section2 .dot3{
-	top:431px;
-	left:400px;
-}
-.section2 .dot4{
-	top:400px;
-	left:56px;
-}
-.section2 .dot5{
-	top:55px;
-	left:-27px;
+	left:238px;
+	top:202px;
+	opacity: 0;
+	filter: alpha(opacity=0);
 }
 .section2 .gem{
 	position: absolute;
@@ -431,6 +421,7 @@ body{
 	width: 248px;
 	height: 310px;
 	background:url(../img/merit/shield.png) no-repeat;
+	display: none;
 }
 .section2 .main h3{
 	position: absolute;
@@ -438,38 +429,14 @@ body{
 	line-height: 68px;
 	white-space:nowrap;
 	word-break: break-all;
-}
-.section2 .main h3.adv1{
-	left:208px;
-	top:-85px;
-}
-.section2 .main h3.adv2{
-	left:475px;
-	top:46px;
-}
-.section2 .main h3.adv3{
-	left:370px;
-	top:479px;
-}
-.section2 .main h3.adv4{
-	left:26px;
-	top:448px;
-}
-.section2 .main h3.adv5{
-	left:-58px;
-	top:-3px;
+	opacity: 0;
+	filter: alpha(opacity=0);
 }
 .section2 .main h3.adv{
-	line-height: 144px;
+	line-height: 250px;
 	font-weight: bold;
 	text-align: center;
 	text-shadow:0 0 15px rgba(0,0,0,.6);
-}
-.section3{
-	left:0;
-	top:0;
-	width: 100%;
-	height: 100%;
 }
 .section3 header{
 	position: absolute;
@@ -479,18 +446,19 @@ body{
 	margin-top: -105px;
 }
 .section3 header h2{
-	font-size: 72px;
+	font-size: 0;
 	line-height: 118px;
 	font-weight: bold;
 	text-align: center;
 	text-shadow:0 0 15px rgba(0,0,0,.6);
-	/*opacity: 0;
-	filter: alpha(opacity=0);*/
+	opacity: 0;
+	filter: alpha(opacity=0);
 }
 .section3 header span{
 	position: absolute;
 	overflow: hidden;
 	background: url(../img/merit/operate-icon.png) no-repeat;
+	display: none;
 }
 .section3 header span.arrow1{
 	left:91px;
@@ -517,9 +485,11 @@ body{
 }
 .section3 header p{
 	width: 940px;
-	margin: 0 auto;
+	margin: 30px auto 0;
 	font-size: 18px;
 	line-height: 31px;
+	opacity: 0;
+	filter: alpha(opacity=0);
 }
 .section3 ul{
 	position: relative;
@@ -601,12 +571,6 @@ body{
 .section3 li .hover.right{
 
 }
-.section4{
-	left:0;
-	top:0;
-	width: 100%;
-	height: 100%;
-}
 .section4 h2{
 	position: absolute;
 	left:0;
@@ -619,6 +583,7 @@ body{
 	font-weight: bold;
 	text-align: center;
 	text-shadow:0 0 15px rgba(0,0,0,.6);
+	display: none;
 }
 .section4 .main{
 	position: absolute;
@@ -633,6 +598,7 @@ body{
 	width: 545px;
 	height: 376px;
 	background:url(../img/merit/filter-bg.png) no-repeat;
+	display: none;
 }
 .section4 .ray{
 	position: absolute;
@@ -667,22 +633,10 @@ body{
 .section4 .dot{
 	cursor: pointer;
 	z-index: 3;
-}
-.section4 .dot1{
-	top:-19px;
-	left:-27px;
-}
-.section4 .dot2{
-	top:-28px;
-	left:458px;
-}
-.section4 .dot3{
-	top: 230px;
-	left: 513px;
-}
-.section4 .dot4{
-	top: 345px;
-	left: 50px;
+	left:243px;
+	top:159px;
+	opacity: 0;
+	filter: alpha(opacity=0);
 }
 .section4 .gem{
 	position: absolute;
@@ -691,6 +645,7 @@ body{
 	width: 280px;
 	height: 430px;
 	background:url(../img/merit/rule.png) no-repeat;
+	display: none;
 }
 .section4 .main h3{
 	position: absolute;
@@ -698,34 +653,14 @@ body{
 	line-height: 68px;
 	white-space:nowrap;
 	word-break: break-all;
-}
-.section4 .main h3.adv1{
-	left:-88px;
-	top:-77px;
-}
-.section4 .main h3.adv2{
-	left:380px;
-	top:-86px;
-}
-.section4 .main h3.adv3{
-	left:452px;
-	top:277px;
-}
-.section4 .main h3.adv4{
-	left:-42px;
-	top:393px;
+	opacity: 0;
+	filter: alpha(opacity=0);
 }
 .section4 .main h3.adv{
-	line-height: 144px;
+	line-height: 50px;
 	font-weight: bold;
 	text-align: center;
 	text-shadow:0 0 15px rgba(0,0,0,.6);
-}
-.section5{
-	left:0;
-	top:0;
-	width: 100%;
-	height: 100%;
 }
 .section5 header,.section5 .bg{
 	position: absolute;
@@ -735,18 +670,19 @@ body{
 	margin-top: -105px;
 }
 .section5 header h2{
-	font-size: 72px;
+	font-size: 0;
 	line-height: 118px;
 	font-weight: bold;
 	text-align: center;
 	text-shadow:0 0 15px rgba(0,0,0,.6);
-	/*opacity: 0;
-	filter: alpha(opacity=0);*/
+	opacity: 0;
+	filter: alpha(opacity=0);
 }
 .section5 .bg span{
 	position: absolute;
 	overflow: hidden;
 	background: url(../img/merit/operate-icon.png) no-repeat;
+	display: none;
 }
 .section5 .bg span.arrow1{
 	left:91px;
@@ -780,9 +716,11 @@ body{
 }
 .section5 header p{
 	width: 650px;
-	margin: 0 auto;
+	margin: 30px auto 0;
 	font-size: 18px;
 	line-height: 31px;
+	opacity: 0;
+	filter: alpha(opacity=0);
 }
 .section5 .main{
 	position: absolute;
@@ -870,12 +808,6 @@ body{
 	z-index: 5;
 	display: none;
 }
-.section6{
-	left:0;
-	top:0;
-	width: 100%;
-	height: 100%;
-}
 .section6 h2{
 	position: absolute;
 	left:0;
@@ -940,34 +872,6 @@ body{
 .section6 .dot.active{
 	background-position: 0 -58px;
 }
-/* .section6 .dot1{
-	top: -28px;
-	left: 275px;
-}
-.section6 .dot2{
-	top: 110px;
-	left: 530px;
-}
-.section6 .dot3{
-	top: 426px;
-	left: 540px;
-}
-.section6 .dot4{
-	top: 558px;
-	left: 389px;
-}
-.section6 .dot5{
-	top: 558px;
-	left: 162px;
-}
-.section6 .dot6{
-	top: 426px;
-	left: 12px;
-}
-.section6 .dot7{
-	top: 109px;
-	left: 22px;
-} */
 .section6 .flash{
 	background-position: 0 -116px;
 }
@@ -1065,34 +969,6 @@ body{
 	opacity: 0;
 	filter: alpha(opacity=0);
 }
-/* .section6 .main h3.adv1{
-	left:281px;
-	top:-77px;
-}
-.section6 .main h3.adv2{
-	left:599px;
-	top:106px;
-}
-.section6 .main h3.adv3{
-	left:607px;
-	top:427px;
-}
-.section6 .main h3.adv4{
-	left:399px;
-	top:605px;
-}
-.section6 .main h3.adv5{
-	left:166px;
-	top:605px;
-}
-.section6 .main h3.adv6{
-	left:-45px;
-	top:426px;
-}
-.section6 .main h3.adv7{
-	left:-34px;
-	top:104px;
-} */
 .section6 .main h3.adv{
 	color: #fff100;
 }
@@ -1148,12 +1024,6 @@ body{
 	width: 109px;
 	height: 127px;
 	background-position: 0 -173px;
-}
-.section7{
-	left:0;
-	top:0;
-	width: 100%;
-	height: 100%;
 }
 .section7 h2{
 	position: absolute;
@@ -1250,12 +1120,6 @@ body{
 	width: 120px;
 	height: 104px;
 	background:url(../img/merit/diff-bg.png) no-repeat;
-}
-.section8{
-	left:0;
-	top:0;
-	width: 100%;
-	height: 100%;
 }
 .section8 header{
 	position: relative;
