@@ -90,22 +90,21 @@ var Search = function(){}
       var inputBox = this.container.find('.u-sch-inp'),
         downSelect = this.container.find('.u-sch-ds'),
         oSapn = downSelect.find('.u-sch-ds-txt span'),
-        self = this,
-        name = oSapn.html();
+        self = this;
       inputBox.on('mouseenter',function(){
         $(this).addClass('u-sch-inp-focus');
       }).on('mouseleave',function(){
-        if(!!self.getInputVal() && self.getInputVal() == '搜索'+name){
+        if(!!self.getInputVal() && self.getInputVal() == '搜索'+oSapn.html()){
           $(this).removeClass('u-sch-inp-focus');
         }
       });
       this.input.on('focus',function(){
-        if($(this).val() === '搜索'+name){
+        if($(this).val() === '搜索'+oSapn.html()){
           $(this).val('');
         }
       }).on('blur',function(){
-        if(!self.getInputVal() || self.getInputVal() == '搜索'+name){
-          $(this).val('搜索'+name);
+        if(!self.getInputVal() || self.getInputVal() == '搜索'+oSapn.html()){
+          $(this).val('搜索'+oSapn.html());
           inputBox.removeClass('u-sch-inp-focus');
         }
       })

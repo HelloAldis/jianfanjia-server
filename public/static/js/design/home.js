@@ -22,7 +22,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cook
     var search = new common.Search();
     search.init();
 })
-require(['jquery','lib/jquery.cookie','utils/common','utils/page''lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,cookie,common,Page){
+require(['jquery','lib/jquery.cookie','utils/common','utils/page','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,cookie,common,Page){
         var goto = new common.Goto;
         var Home = function(){};
         Home.prototype = {
@@ -65,7 +65,7 @@ require(['jquery','lib/jquery.cookie','utils/common','utils/page''lib/jquery.req
                     numStar = numStar >= 5 ? 5 : numStar,
                     strStar = '<span class="star">',
                     arr = ['<div class="banner">'];
-                    if(this.usertype == 2 && !data.big_imageid){
+                    /*if(this.usertype == 2 && !data.big_imageid){
                         arr.push('<div class="change"><a href="/tpl/user/designer.html#/infor"><strong><i class="iconfont2">&#xe61a;</i></strong><span>请更改您的背景图片</span></a></div>')
                     }else if(this.usertype == 2 && data.big_imageid){
                         arr.push('<div class="change" style="background:url(/api/v2/web/thumbnail/1190/'+data.big_imageid+')"><a href="/tpl/user/designer.html#/infor"><strong><i class="iconfont2">&#xe61a;</i></strong><span>请更改您的背景图片</span></a></div>')
@@ -73,7 +73,9 @@ require(['jquery','lib/jquery.cookie','utils/common','utils/page''lib/jquery.req
                         arr.push('<div class="not"><h3>简繁家</h3><p>解决您的装修烦恼</p></div>')
                     }else{
                         arr.push('<img src="/api/v2/web/thumbnail/1190/'+data.big_imageid+'" alt="'+data.username+'个人主页" />')
-                    }
+                    }*/
+                    //暂时设计师背景图功能未做
+                    arr.push('<div class="not"><h3>简繁家</h3><p>解决您的装修烦恼</p></div>')
                     arr.push('</div><div class="info"><div class="head"><span><img src="/api/v2/web/thumbnail/1190/'+data.imageid+'" alt="'+data.username+'" /></span></div>')
                     arr.push('<dl><dt><strong>'+data.username+'</strong>');
                     arr.push('<span class="auth"><i class="iconfont" title="实名认证">&#xe634;</i><i class="iconfont" title="认证设计师">&#xe62a;</i></span>');

@@ -171,7 +171,6 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                         self.cachePageData = {};
                         self.getCols();
                         self.loadList();
-                        console.log(21)
                     }else{
                         self.cachePageData = {};
                         self.getCols();
@@ -179,19 +178,14 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                             self.notData2.removeClass('hide');
                             self.renderView(arr);
                         }
-                        console.log(22)
                     }
                 }else{
-                    console.log(1)
                     if(!!res.data.total){
-                        console.log(3)
                         if(arr.length <= self.limit){
-                            console.log(5)
                             self.notData2.removeClass('hide');
                             self.renderView(arr);
                         }
                     }else{
-                        console.log(4)
                         self.notData2.removeClass('hide');
                         self.toQuery = {};
                         self.toSort = {};
