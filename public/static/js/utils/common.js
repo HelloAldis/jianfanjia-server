@@ -351,10 +351,19 @@ define(['jquery','lib/jquery.cookie'], function($){
         this.getRequirement();
         this.addDesigners();
       }
-      this.supervision();
+      //this.supervision();
     },
     create : function(){
       this.container.empty();
+      /*
+      {
+        'name' : '监理服务',
+        'sclass' : 'supervise',
+        'url'  : '/tpl/merit/supervision.html',
+        'icon' : '&#xe635;',
+        'hover' : '',
+      },
+       */
       var self = this,
         template,
         data = [
@@ -370,13 +379,6 @@ define(['jquery','lib/jquery.cookie'], function($){
             'sclass' : 'protect',
             'url'  : '/tpl/merit/index.html',
             'icon' : '&#xe639;',
-            'hover' : '',
-          },
-          {
-            'name' : '监理服务',
-            'sclass' : 'supervise',
-            'url'  : '/tpl/merit/supervision.html',
-            'icon' : '&#xe635;',
             'hover' : '',
           },
           {

@@ -116,7 +116,7 @@ body{
 	bottom:0;
 }
 .sidenav{
-	position: fixed;
+	position: absolute;
 	right: 0;
 	top: 0;
 	z-index: 10;
@@ -137,23 +137,22 @@ body{
 .sidenav ul li{
 	position: relative;
 }
-.sidenav ul li p{
+.sidenav ul li p,.sidenav ul li span{
+	position: static;
 	width: 26px;
 	padding: 14px 0;
 	font-size: 14px;
 	line-height: 16px;
 	text-align: center;
-}
-.sidenav ul li p{
 	display: none;
 }
-.sidenav ul li.hover p{
-	display: block;
+.sidenav ul li.hover span{
 	position: absolute;
 	top:50%;
 	left:-30px;
 	width: 20px;
   font-size: 12px;
+  display: block;
 }
 .sidenav ul li.active p{
 	display: block;
@@ -460,6 +459,28 @@ body{
 	background: url(../img/merit/operate-icon.png) no-repeat;
 	display: none;
 }
+.section3 .tt{
+	padding:50px 64px 0;
+	display: none;
+}
+.section3 .tt dl{
+	width: 430px;
+	text-align: center;
+	text-shadow:0 0 15px rgba(0,0,0,.6);
+}
+.section3 .tt dl.f-fl{
+	color: #fff765;
+}
+.section3 .tt dt{
+	font-size: 36px;
+	line-height: 65px;
+	font-weight: bold;
+	text-align: center;
+}
+.section3 .tt dd{
+ 	font-size: 14px;
+ 	line-height: 14px;
+}
 .section3 header span.arrow1{
 	left:91px;
 	top:-24px;
@@ -491,33 +512,92 @@ body{
 	opacity: 0;
 	filter: alpha(opacity=0);
 }
-.section3 ul{
-	position: relative;
-	top:160px;
-	left:30px;
-}
-.section3 li{
+.section3 .scroll{
 	position: absolute;
-	left:462px;
+	top:225px;
+	left:0;
+	width: 1072px;
+	height: 600px;
+	padding:0 64px;
+	overflow: hidden;
+	display: none;
+}
+.section3 .scrollbar{
+	position: absolute;
+	right: 25px;
 	top:0;
-	opacity: 0;
-	filter: alpha(opacity=0);
+	z-index: 10;
+	width: 5px;
+	height: 100%;
 }
-.section3 li.active{
-	z-index: 20;
-}
-.section3 li .tags{
+.section3 .scrollbar .bar{
 	position: absolute;
 	left:0;
 	top:0;
-	width: 216px;
-	height: 216px;
-	text-align: center;
-	background: url(../img/merit/operate-daybg.png) no-repeat;
+	width: 5px;
+	height: 165px;
+	background-color: #0b325f;
+	border-radius: 5px;
 }
-.section3 li.active .tags{
-	color: #f2ff62;
-	background: none;
+.section3 ul{
+	position: absolute;
+	left:0;
+	top:0;
+	width: 100%;
+}
+.section3 li{
+	width: 100%;
+	height: 58px;
+}
+.section3 li .gj{
+	float: left;
+	width: 350px;
+	height: 39px;
+	padding: 15px 35px 0 45px;
+	color: #fffa97;
+	border-bottom: 1px solid #fffcc3;
+}
+.section3 li p{
+	line-height: 16px;
+}
+.section3 li .day{
+	position: relative;
+	float: left;
+	width: 140px;
+	height: 55px;
+	padding: 0 36px;
+}
+.section3 li .day .tags{
+	position: relative;
+	height: 53px;
+	text-align: center;
+	background-color: #128bad;
+	border: 1px solid #fff;
+}
+.section3 li .day:before{
+	content:"";
+		position: absolute;
+	right:0;
+	top: 0;
+	width: 36px;
+	height: 22px;
+	background:url(../img/merit/operate-daybg.png) 0 bottom no-repeat;
+}
+.section3 li .day:after{
+	content:"";
+	position: absolute;
+	left:0;
+	bottom: 0;
+	width: 36px;
+	height: 22px;
+	background:url(../img/merit/operate-daybg.png) no-repeat;
+}
+.section3 li .bz{
+	float: left;
+	width: 350px;
+	height: 39px;
+	padding: 15px 45px 0 35px;
+	border-top: 1px solid #fff;
 }
 .section3 li .tags span{
 	display: block;
@@ -526,13 +606,13 @@ body{
 	line-height: 30px;
 }
 .section3 li .tags h3{
-	font-size: 72px;
-	font-weight: bold;
-	line-height: 72px;
+	padding-top: 6px;
+	line-height:24px;
+	color: #04bafe;
 }
 .section3 li .tags p{
-	font-size: 24px;
-	line-height: 60px;
+		font-size: 14px;
+	line-height: 14px;
 }
 .section3 li .hover{
 	width: 0;
@@ -1028,7 +1108,7 @@ body{
 .section7 h2{
 	position: absolute;
 	left:0;
-	top:0;
+	top:50%;
 	z-index: 10;
 	width: 100%;
 	height: 180px;
@@ -1038,8 +1118,7 @@ body{
 	font-weight: bold;
 	text-align: center;
 	text-shadow:0 0 15px rgba(0,0,0,.6);
-	opacity: 0;
-	filter: alpha(opacity=0);
+	display: none;
 }
 .section7 .main{
 	position: absolute;
@@ -1050,13 +1129,14 @@ body{
 	height: 405px;
 	margin-left: -234px;
 	margin-top: -202px;
-	background:url(../img/merit/diff-main.png) no-repeat;
 }
 .section7 .main .body{
 	position: relative;
 	width: 468px;
 	height: 405px;
+	background:url(../img/merit/diff-main.png) no-repeat;
 	text-align: center;
+	display: none;
 }
 .section7 .main .body dt{
 	font-size: 14px;
@@ -1105,7 +1185,7 @@ body{
 	color: #fff100;
 	background-position: 0 bottom;
 }
-.section7 .main.active{
+.section7 .main.active .body{
 	background-position: 0 bottom;
 }
 .section7 .bg{
@@ -1114,6 +1194,7 @@ body{
 	width: 100%;
 	height: 445px;
 	margin-top: -222px;
+	display: none;
 }
 .section7 .bg div{
 	position: absolute;
