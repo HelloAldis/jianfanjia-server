@@ -3,6 +3,12 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
 var UserSchema = new Schema({
+  wechat_unionid: {
+    type: String
+  },
+  wechat_openid: {
+    type: String,
+  },
   phone: {
     type: String
   },

@@ -11,6 +11,9 @@ var ApiUtil = require('../../../common/api_util');
 var type = require('../../../type');
 var config = require('../../../apiconfig');
 var async = require('async');
+var superagent = require('superagent');
+var Image = require('../../../proxy').Image;
+var imageUtil = require('../../../common/image_util');
 
 exports.user_login = function (req, res, next) {
   var phone = validator.trim(req.body.phone);
@@ -250,5 +253,84 @@ exports.designer_signup = function (req, res, next) {
     phone: phone
   }, {}, ep.done(function (designer) {
     ep.emit('designer', designer);
+  }));
+}
+
+exports.user_wechat_login = function (req, res, next) {
+  var user = ApiUtil.buildWechatUser(req);
+  var ep = new eventproxy();
+  ep.fail(next);
+
+  if ([user.wechat_unionid, user.wechat_openid].some(function (item) {
+      return !item;
+    })) {
+    return res.sendErrMsg('信息不完整。');
+  }
+
+  User.findOne({
+    wechat_unionid: user.wechat_unionid
+  }, null, ep.done(function (user_indb) {
+    if (user_indb) {
+      authMiddleWare.gen_session(user_indb,
+        type.role_user, req, res);
+
+      var data = {};
+      data.usertype = type.role_user;
+      data.username = user_indb.username;
+      data.phone = user_indb.phone;
+      data._id = user_indb._id;
+      data.imageid = user_indb.imageid;
+      data.is_wechat_first_login = false;
+      res.sendData(data);
+    } else {
+      ep.on('imageid', function (imageid) {
+        User.newAndSave({
+          wechat_unionid: user.wechat_unionid,
+          wechat_openid: user.wechat_openid,
+          imageid: imageid,
+          sex: user.sex,
+          username: user.username,
+        }, ep.done(function (user_indb) {
+          // store session cookie
+          authMiddleWare.gen_session(user_indb, type.role_user,
+            req, res);
+          var data = {};
+          data.usertype = type.role_user;
+          data.phone = user_indb.phone;
+          data.username = user_indb.username;
+          data._id = user_indb._id;
+          data.imageid = user_indb.imageid;
+          res.sendData(data);
+        }));
+      });
+
+      if (user.image_url) {
+        superagent.get(user.image_url).end(function (err, sres) {
+          if (sres.ok) {
+            var md5 = utility.md5(sres.body);
+            Image.findOne({
+              'md5': md5,
+            }, null, function (err, image) {
+              if (image) {
+                ep.emit('imageid', image._id);
+              } else {
+                imageUtil.jpgbuffer(sres.body, ep.done(
+                  function (buf) {
+                    Image.newAndSave(md5, buf, undefined,
+                      function (err, savedImage) {
+                        ep.emit('imageid', savedImage ?
+                          savedImage._id : '');
+                      });
+                  }));
+              }
+            });
+          } else {
+            ep.emit('imageid', undefined);
+          }
+        });
+      } else {
+        ep.emit('imageid', undefined);
+      }
+    }
   }));
 }
