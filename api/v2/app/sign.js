@@ -52,6 +52,7 @@ exports.user_login = function (req, res, next) {
           data.username = result.user.username;
           data._id = result.user._id;
           data.imageid = result.user.imageid;
+          data.wechat_unionid = result.user.wechat_unionid;
           res.sendData(data);
         }));
       } else {
@@ -300,6 +301,7 @@ exports.user_wechat_login = function (req, res, next) {
           data.username = user_indb.username;
           data._id = user_indb._id;
           data.imageid = user_indb.imageid;
+          data.wechat_unionid = user_indb.wechat_unionid;
           res.sendData(data);
         }));
       });
@@ -331,6 +333,31 @@ exports.user_wechat_login = function (req, res, next) {
       } else {
         ep.emit('imageid', undefined);
       }
+    }
+  }));
+}
+
+exports.user_refresh_session = function (req, res, next) {
+  var _id = req.body._id;
+  var ep = new eventproxy();
+  ep.fail(next);
+
+  User.findOne({
+    _id: _id,
+  }, null, ep.done(function (user) {
+    if (user) {
+      authMiddleWare.gen_session(user, type.role_user,
+        req, res);
+      var data = {};
+      data.usertype = type.role_user;
+      data.phone = user.phone;
+      data.username = user.username;
+      data._id = user._id;
+      data.imageid = user.imageid;
+      data.wechat_unionid = user.wechat_unionid;
+      res.sendData(data);
+    } else {
+      res.sendSuccessMsg('用户不存在');
     }
   }));
 }

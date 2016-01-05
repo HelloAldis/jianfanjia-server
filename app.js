@@ -82,7 +82,7 @@ app.use(session({
     host: config.redis_host,
     pass: config.redis_pass,
   }),
-  rolling: false,
+  rolling: true,
   resave: false,
   saveUninitialized: false,
 }));

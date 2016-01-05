@@ -6,6 +6,7 @@ var Requirement = require('../../../proxy').Requirement;
 var Designer = require('../../../proxy').Designer;
 var Evaluation = require('../../../proxy').Evaluation;
 var Favorite = require('../../../proxy').Favorite;
+var VerifyCode = require('../../../proxy').VerifyCode;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../apiconfig');
@@ -338,5 +339,95 @@ exports.user_statistic_info = function (req, res, next) {
       favorite_product_count: favorite_product_count,
       favorite_designer_count: favorite_designer_count,
     });
+  }));
+}
+
+exports.user_bind_phone = function (req, res, next) {
+  var phone = req.body.phone;
+  var code = req.body.code;
+  var _id = ApiUtil.getUserid(req);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  //检查phone是不是被用了
+  ep.all('user', 'designer', function (user, designer) {
+    if (user || designer) {
+      res.sendErrMsg('手机号码已被使用');
+    } else {
+      //用户名手机号验证通过
+      VerifyCode.findOne({
+        phone: phone
+      }, ep.done(function (verifyCode) {
+        if (config.need_verify_code) {
+          if (!verifyCode) {
+            return res.sendErrMsg('验证码不对或已过期');
+          }
+
+          if (verifyCode.code !== code) {
+            return res.sendErrMsg('验证码不对或已过期');
+          }
+        }
+
+        User.setOne({
+          _id: _id,
+        }, {
+          phone: phone,
+        }, null, ep.done(function () {
+          res.sendSuccessMsg();
+        }));
+      }));
+    }
+  });
+
+  User.findOne({
+    phone: phone
+  }, null, ep.done(function (user) {
+    ep.emit('user', user);
+  }));
+
+  Designer.findOne({
+    phone: phone
+  }, {}, ep.done(function (designer) {
+    ep.emit('designer', designer);
+  }));
+}
+
+exports.user_bind_wechat = function (req, res, next) {
+  var wechat_unionid = req.body.wechat_unionid;
+  var wechat_openid = req.body.wechat_openid;
+  var _id = ApiUtil.getUserid(req);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  if ([wechat_unionid, wechat_openid].some(function (item) {
+      return !item;
+    })) {
+    return res.sendErrMsg('信息不完整。');
+  }
+
+  //检查phone是不是被用了
+  ep.all('user', function (user) {
+    if (user) {
+      res.sendErrMsg('此微信号已经被其他账号绑定');
+    } else {
+      //用户名手机号验证通过
+      User.setOne({
+        _id: _id,
+      }, {
+        wechat_unionid: wechat_unionid,
+        wechat_openid: wechat_openid,
+      }, null, ep.done(function () {
+        res.sendSuccessMsg();
+      }));
+    }
+  });
+
+  User.findOne({
+    wechat_unionid: wechat_unionid,
+    _id: {
+      $ne: _id
+    },
+  }, null, ep.done(function (user) {
+    ep.emit('user', user);
   }));
 }

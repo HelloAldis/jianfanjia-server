@@ -73,8 +73,6 @@ var UserSchema = new Schema({
 
 UserSchema.index({
   phone: 1
-}, {
-  unique: true
 });
 
 mongoose.model('User', UserSchema);
