@@ -206,6 +206,7 @@ body{
 }
 .m-info .info{
 	position: relative;
+	width: 563px;
 	padding-left: 30px;
 }
 .m-info .info .end-icon{
@@ -254,7 +255,7 @@ body{
 	line-height: 40px;
 }
 .m-info dd a,.m-info dd span{
-	display: block;	
+	display: block;
 }
 .m-info dd span .iconfont{
 	display: inline-block;
@@ -450,7 +451,7 @@ body{
 }
 .m-step .list p{
 	font-size: 14px;
-	line-height:18px; 
+	line-height:18px;
 	color: #61687a;
 }
 

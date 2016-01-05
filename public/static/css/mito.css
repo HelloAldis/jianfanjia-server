@@ -335,13 +335,22 @@ body{
 .m-filter.toggle .btns{
 	height: 38px;
 }
+.m-content .k-loading{
+	padding: 0;
+}
 .m-content .m-list{
 	position: relative;
+	min-height: 200px;
 }
-.m-content .m-list li{
+.m-content .m-list .wfc{
 	position: absolute;
+	-webkit-transition: opacity .4s ease-in-out;
+  -moz-transition: opacity .4s ease-in-out;
+  -o-transition: opacity .4s ease-in-out;
+  -ms-transition: opacity .4s ease-in-out;
+  transition: opacity .4s ease-in-out;
 }
-.m-content .m-list li .box{
+.m-content .m-list .wfc .box{
 	background-color: #fff;
 	border: 1px solid #e5e5e5;
 }
@@ -436,6 +445,41 @@ body,html,.g-detail{
 	background-color: #fff;
 	border-left: 1px solid #e5e5e5;
 }
+.g-sd .title{
+	padding: 50px 0 30px;
+}
+.g-sd .title p{
+	height: 12px;
+	padding: 19px;
+}
+.g-sd .title p span{
+	float: left;
+	padding: 0 10px;
+	font-size: 12px;
+	line-height: 12px;
+	color: #999;
+	border-left: 1px solid #eee;
+}
+.g-sd .title p span:first-child{
+	padding-left: 0;
+	border-left: none;
+}
+.g-sd .tags{
+	padding: 20px 0 0 29px;
+	font-size: 0;
+}
+.g-sd .tags span{
+	display: inline-block;
+	vertical-align: middle;
+  font-size: 16px;
+  line-height: 18px;
+  color: #999;
+  margin: 5px;
+  padding: 10px;
+  background: #f8f8f8;
+  white-space:nowrap;
+  word-break: break-all;
+}
 .g-sd .related{
 	position: absolute;
 	top:58%;
@@ -483,7 +527,7 @@ body,html,.g-detail{
 .g-sd h2{
 	padding-left: 19px;
 	font-size: 18px;
-	line-height: 132px;
+	line-height: 40px;
 	font-weight: bold;
 	color: #383d48;
 }
@@ -528,3 +572,5 @@ body,html,.g-detail{
 	color: #ff6a6a;
 	background-color: #e0e0e0;
 }
+
+

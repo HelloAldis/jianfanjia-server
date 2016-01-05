@@ -48,12 +48,35 @@ require(['jquery','lodash'],function($,_){
             }
             objImg.src = '/api/v2/web/image/'+data.images[0].imageid;
             this.main.find('.img').html(oImg).hide().fadeIn(500);
+            var tags = '';
+            var title = '';
+
+            if(data.section != undefined){
+                title += '<span>'+data.section+'</span>'
+            }
+            if(data.house_type != undefined){
+                title += '<span>'+globalData.house_type(data.house_type)+'</span>'
+            }
+            if(data.dec_style != undefined){
+                title += '<span>'+globalData.dec_style(data.dec_style)+'</span>'
+            }
+            /*if(data.dec_type != undefined){
+                title += '<span>'+globalData.dec_type(data.dec_type)+'</span>'
+            }*/
+            var key = data.keywords.split(",");
+            for (var i = 0; i < key.length; i++) {
+                tags += '<span>'+key[i]+'</span>'
+            };
             var arr = [
                 '<a href="/tpl/mito/index.html" class="close">&times;</a>',
-                '<h2>'+data.title+'</h2>',
+                '<div class="title">',
+                    '<h2>'+data.title+'</h2>',
+                    '<p>'+title+'</p>',
+                '</div>',
                 '<div class="info">',
                     '<span class="head"><img src="/static/img/design/head.jpg" alt="简繁家"></span>',
                     '<dl><dt>简繁家</dt><dd>让装修变得简单</dd></dl></div>',
+                '<div class="tags">'+tags+'</div>',
                 '<div class="related"><h3>相关图片</h3><ul>'
             ];
             _.forEach(data.associate_beautiful_images, function(n, key) {

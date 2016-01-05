@@ -74,7 +74,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                 iTimer = null;
                 arr = ['<div class="pic"><ul>'];
                 for (var i = 0; i < len; i++) {
-                    arr.push('<li><h4><a href="/tpl/article/detail.html?pid='+data[i]._id+'"><div><strong>'+data[i].title+'</strong><span>'+this.ellipsis(data[i].description, 100)+'</span></div><img src="/api/v2/web/thumbnail/820/'+data[i].cover_imageid+'" alt="'+data[i].title+'"></li>');
+                    arr.push('<li><h4><a href="/tpl/article/detail.html?pid='+data[i]._id+'" target="_blank"><div><strong>'+data[i].title+'</strong><span>'+this.ellipsis(data[i].description, 100)+'</span></div><img src="/api/v2/web/thumbnail/820/'+data[i].cover_imageid+'" alt="'+data[i].title+'"></li>');
                 };
                 arr.push('</ul></div><ol>');
                 for (var i = 0; i < len; i++) {
@@ -110,7 +110,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                 $hotposts = this.article.find('.hotposts'),
                 arr = ['<ul>'];
                 for (var i = 0,len = data.length; i < len; i++) {
-                    arr.push('<li '+(i == 2 ? 'class="last"' : '')+'><h4><a href="/tpl/article/detail.html?pid='+data[i]._id+'">'+data[i].title+'</a></h4><p>'+data[i].description+'</p></li>');
+                    arr.push('<li '+(i == 2 ? 'class="last"' : '')+'><h4><a href="/tpl/article/detail.html?pid='+data[i]._id+'" target="_blank" title="'+data.title+'">'+data[i].title+'</a></h4><p>'+data[i].description+'</p></li>');
                 };
                 arr.push('</ul>');
                 $hotposts.html(arr.join(''));
@@ -150,8 +150,8 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
         createList  :  function(data,i){
             return arr = [
                    ' <li '+(i%3 == 0 ? 'class="first"' : '')+'>',
-                        '<a href="/tpl/article/detail.html?pid='+data._id+'" class="img"><img src="/api/v2/web/thumbnail/388/'+data.cover_imageid+'" alt="'+data.title+'"></a>',
-                        '<h4><a href="/tpl/article/detail.html?pid='+data._id+'">'+data.title+'</a></h4>',
+                        '<a href="/tpl/article/detail.html?pid='+data._id+'" class="img" target="_blank"><img src="/api/v2/web/thumbnail/388/'+data.cover_imageid+'" alt="'+data.title+'"></a>',
+                        '<h4><a href="/tpl/article/detail.html?pid='+data._id+'" target="_blank" title="'+data.title+'">'+data.title+'</a></h4>',
                         '<p>'+this.ellipsis(data.description, 80)+'</p>',
                     '</li>'
                 ].join('');

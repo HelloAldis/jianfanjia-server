@@ -161,7 +161,7 @@ require(['jquery','lib/jquery.cookie','utils/common','utils/page','lib/jquery.re
                         sLi += '<li class="'+(service[i].sclass ? service[i].sclass : '')+'"><strong>'+service[i].title+'</strong><div>'+span+'</div></li>';
                     };
                     sLi += '</ul>'
-                    this.service.html(sLi);
+                    this.service.html(sLi).removeClass('hide');
                     goto.init({
                         shop : true
                     })
