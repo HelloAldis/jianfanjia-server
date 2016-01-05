@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <!--[if lt IE 8]>
+          <script type="text/javascript">if(!-[1,]){window.location.href = "/tpl/other/error.html";}</script>
+    <![endif]-->
+    <title>装修方案--简繁家</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/plans.css" />
+    <script type="text/javascript" src="/static/js/lib/public.js"></script>
+    <script type="text/javascript" src="/static/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/lib/lodash.min.js"></script>
+    <script type="text/javascript" src="/static/js/ng/angular.js"></script>
+    <script type="text/javascript" src="/static/js/ng/angular-cookies.js"></script>
+    <script type="text/javascript" src="/static/js/ng/bindonce.js"></script>
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="/static/js/ng/html5shiv-printshiv.js"></script>
+      <script type="text/javascript" src="/static/js/lib/json2-min.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<div class="g-tb g-wa">
+        <div class="g-wp f-cb">
+            <a href="/tpl/download/index.html" class="m-app f-fl"><span>APP下载</span></a>
+            <a href="/zt/recruit/index.html" class="m-events f-fr">天使业主招募</a>
+            <div class="m-user f-fr" id="j-user"></div>
+        </div>
+    </div>
+    <header class="g-hd g-wa" id="j-hd">
+        <div class="g-wp f-cb">
+            <hgroup class="m-logo f-fl">
+                <h1><a href="/">简繁家</a></h1>
+                <h2>我的设计师专单平台</h2>
+            </hgroup>
+            <div class="m-sch f-fl" id="j-sch"></div>
+            <div class="m-slogan f-fr" id="j-slogan">
+                <h3>简繁家实力保障</h3>
+                <p>知名风投千万投资</p>
+            </div>
+        </div>
+    </header>
+    <nav class="g-nav g-wa">
+        <div class="g-wp">
+            <ul class="m-nav f-cb">
+                <li class="active"><a href="/">首页</a></li>
+                <li><a href="/tpl/design/index.html">设计师</a></li>
+                <li><a href="/tpl/mito/index.html">装修美图</a></li>
+                <li><a href="/tpl/live/index.html">装修直播</a></li>
+                <li><a href="/tpl/article/index.html">装修攻略</a></li>
+                <li><a href="tpl/help/index.html">你问我答</a></li>
+            </ul>
+            <a href="/tpl/user/owner.html#release" class="m-release bounce" id="j-release"><span><i></i></span>免费获取三套方案</a>
+        </div>
+    </nav>
+    <div class="breadCrumbs g-wp">
+        <a href="../index/index.html">首页</a> &gt; <span>个人中心</span>
+    </div>
+	<main class="g-wp g-plans" ng-controller="detailCtrl">
+		<div class="m-plans" bindonce="plan" ng-if="plan">
+            <div class="plans-tt f-cb">
+                <h3 class="f-fl">
+                    <span bo-if="plan.requirement.cell"><i bo-text="plan.requirement.cell"></i>小区</span>
+                    <span bo-if="plan.requirement.cell_phase"><i bo-text="plan.requirement.cell_phase"></i>期</span>
+                </h3>
+                <div class="btns f-fr">
+                    <a bo-href-i="{{returnUrl}}" class="u-btns u-btns-revise">查看其它方案</a>
+                    <a href="javascript:;" class="u-btns" ng-click="comment.definePlan(plan.requirementid,plan.designerid)" bo-if="statusShow">选定方案</a>
+                </div>
+            </div>
+            <div class="plans-ct">
+                <ul class="tabs">
+                    <li ng-class="{'active':tab == 1}" ng-click="tabBtn(1)"><a href="javascript:;">方案详情</a></li>
+                    <li ng-class="{'active':tab == 2}" ng-click="tabBtn(2)"><a href="javascript:;">方案报价</a></li>
+                </ul>
+                <div class="boxs detail" ng-if="tab == 1">
+                    <ul class="info">
+                        <li>报价：<i bo-bind="plan.total_price/10000 | number:5"></i>万</li>
+                        <li>工期：<i bo-text="plan.duration"></i>天</li>
+                        <li>空间：<i bo-bind="plan.requirement.house_type | houseTypeFilter"></i></li>
+                        <li>面积：<i bo-bind="plan.requirement.house_area"></i>m&sup2;</li>
+                        <li>风格：<i bo-bind="plan.requirement.dec_style | decStyleFilter"></i></li>
+                    </ul>
+                    <div class="description f-cb">
+                        <a bo-href-i="/tpl/design/home.html?{{plan.designer._id}}" class="head f-fl">
+                            <img bo-src-i="/api/v2/web/image/{{plan.designer.imageid}}" bo-if="plan.designer.imageid" />
+                        </a>
+                        <dl class="f-fl">
+                            <dt><a bo-href-i="/tpl/design/home.html?{{plan.designer._id}}" bo-bind="plan.designer.username"></a><span><i>v</i>认证设计师</span></dt>
+                            <dd>
+                                <span class="sub"></span>
+                                <span class="sup"></span>
+                                <p bo-text="plan.description"></p>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="images">
+                        <img bo-src-i="/api/v2/web/image/{{img}}" alt="" ng-repeat="img in plan.images" />
+                    </div>
+                </div>
+                <div class="boxs quote f-cb" ng-if="tab == 2">
+                    <div class="table f-fl">
+                        <table>
+                            <thead>
+                                <tr class="title">
+                                    <th class="td1"><span>项目</span></th>
+                                    <th class="td2"><span>备注说明</span></th>
+                                    <th class="td3"><span>项目总价</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="list in plan.price_detail" ng-class="{true : 'even'}[$odd]">
+                                    <td class="td1"><span bo-text="list.item"></span></td>
+                                    <td class="td2"><span bo-text="list.description"></span></td>
+                                    <td class="td3"><span bo-text="list.price"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="price f-fl">
+                        <ul>
+                            <li>工程总造价<span>&yen;<s ng-bind="plan.project_price_before_discount | number"></s></li>
+                            <li>工程折后价<span>&yen;<i ng-bind="plan.project_price_after_discount | number"></span></i></li>
+                            <li>设计费<span>&yen;<i ng-bind="plan.total_design_fee | number"></i></span></li>
+                        </ul>
+                        <dl>
+                            <dt>折后总价</dt>
+                            <dd>&yen;<i ng-bind="plan.total_price | number"></i></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="m-plansMsg" id="plansMsg" ng-if="tab == 1">
+            <div class="review">
+                <div class="head">
+                    <img ng-src="/api/v2/web/thumbnail/50/{{comment.imageid}}" ng-if="comment.imageid" />
+                </div>
+                <div ng-class="{'focus textarea':comment.parentFocus,'textarea':!comment.parentFocus}"><textarea rows="10" ng-model="comment.plansMsg" ng-focus="comment.focus()" ng-blur="comment.blur()"></textarea></div>
+                <div class="btns"><input type="button" ng-click="comment.addPlansMsg(designer._id,requiremtne.userid)" class="u-btns" value="发表评论" /></div>
+            </div>
+            <div class="list" ng-if="comments.length != 0">
+                <ul>
+                    <li bindonce="comments" ng-repeat="list in comments">
+                        <div class="head">
+                            <img bo-src-i="/api/v2/web/thumbnail/50/{{list.byUser.imageid}}" bo-if="list.byUser.imageid" alt="" />
+                        </div>
+                        <h4><span bo-text="list.byUser.username"></span><time bo-text="list.date"></time></h4>
+                        <p><span class="find" bo-if="list.usertypeOff">@<i ng-bind="plan.designer.username" bo-if="list.usertype == 1"></i><i ng-bind="plan.user.username"  bo-if="list.usertype == 2"></i></span><span class="text" bo-text="list.content"></span><i ng-click="commentsBtn()" bo-if="list.usertypeOff" class="iconfont2">&#xe616;</i></p>
+                    </li>
+                </ul>
+            </div>
+            <div class="more" ng-if="comments.length > 9 && comment.moreOff">
+                <a href="javascript:;" ng-click="comment.moreBtn(comments.total)">加载更多</a>
+            </div>
+        </div>
+	</main>
+    <footer class="g-ft g-wa">
+        <div class="g-wp">
+            <ul>
+                <li class="first"><a href="/tpl/about/owenr.html"><strong>业主指南</strong><em>业主指南</em></a></li>
+                <li><a href="/tpl/about/design.html"><strong>设计师指南</strong><em>设计师指南</em></a></li>
+                <li><a href="/tpl/article/index.html"><strong>装修攻略</strong><em>装修攻略</em></a></li>
+                <li><a href="/tpl/about/index.html"><strong>关于我们</strong><em>关于我们</em></a></li>
+                <li class="last"><a href="/tpl/about/contact.html"><strong>联系我们</strong><em>联系我们</em></a></li>
+            </ul>
+            <p>免责声明：本网站部分内容由用户自行上传，如权利人发现存在误传其作品情形，请及时与本站联系。</p>
+            <p>Copyright © 2015-2016 jianfanjia.com   All Rights Reserved   武汉家易装科技有限公司   隐私权政策 鄂ICP备15014103号</p>
+        </div>
+    </footer>
+    <script type="text/javascript" src="/static/js/utils/usercommon.js"></script>
+    <script type="text/javascript" src="/static/js/user/filters.js"></script>
+    <script type="text/javascript" src="/static/js/user/directives.js"></script>
+    <script type="text/javascript" src="/static/js/user/plansApp.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<div class="owenr">
+	<div class="owenr-tips">
+		<p class="f-fl">装修需求摘要</p>
+	</div>
+	<div class="owenr-boxs" bindonce="requirement" ng-if="requirement">
+		<div class="info">
+			<span class="head">
+				<img bo-if="requirement.user.imageid" bo-src-i="/api/v2/web/thumbnail/70/{{requirement.user.imageid}}" bo-alt="requirement.user.username" />
+			</span>
+			<h3><strong bo-text="requirement.user.username"></strong><span ng-if="requirement.plan.status == 2 || requirement.plan.status == 6 || requirement.plan.status == 3 || requirement.plan.status == 4 || requirement.plan.status == 5 || requirement.plan.status == 8">(<i class="iconfont2">&#xe625;</i><i bo-text="requirement.user.phone"></i>)</span></h3>
+			<div class="detail f-cb">
+				<dl class="f-fl">
+					<dt>物业描述</dt>
+					<dd>
+						<span><i bo-text="requirement.house_type | houseTypeFilter"></i>，</span>
+						<span><i bo-text="requirement.house_area"></i>m&sup2;，</span>
+						<span>装修预算<i bo-text="requirement.total_price"></i>万</span>
+					</dd>
+				</dl>
+				<dl class="f-fl">
+					<dt>风格喜好</dt>
+					<dd><span><i bo-text="requirement.dec_style | decStyleFilter"></i></span></dd>
+				</dl>
+			</div>
+		</div>
+		<div class="response answer" ng-if="requirement.plan.status == 0 && (owenr.motaiAnswer || !!requirement.plan.get_phone_time)">
+			<div class="tips">
+				<p>您已响应业主预约，请及时与业主沟通量房时间，并设置量房时间，过期视为放弃。</p>
+			</div>
+			<div class="content">
+				<dl>
+					<dt>业主电话</dt>
+					<dd>
+						<div class="phone">
+							<span><i>手机</i><strong bo-text="requirement.user.phone"></strong></span>
+						</div>
+					</dd>
+				</dl>
+				<dl>
+					<dt>设置量房时间</dt>
+					<dd>
+						<div my-date my-query="owenr.startDate" my-set="year-month-days-hour-minute"></div>
+					</dd>
+				</dl>
+			</div>
+			<div class="btns">
+				<a href="javascript:;" class="u-btns" ng-click="owenr.answerOwenr()">&nbsp;&nbsp;确定&nbsp;&nbsp;</a>
+			</div>
+		</div>
+		<div class="response reject" ng-if="owenr.motaiReject">
+			<div class="tips">
+				<h4>拒绝接单原因</h4>
+			</div>
+			<div class="content">
+				<ul>
+					<li ng-repeat="list in owenr.messages" bindonce="owenr.messages" ng-click="owenr.messageBtn(list.id)"><i ng-class="{true:'active',false:''}[list.cur]"></i><span bo-text="list.msg"></span></li>
+				</ul>
+				<div class="other">
+					<label>其他</label>
+					<div class="inp">
+						<input type="text" ng-model="owenr.message">
+					</div>
+				</div>
+			</div>
+			<div class="btns">
+				<a href="javascript:;" class="u-btns u-btns-revise" ng-click="owenr.rejectCancelBtn()">&nbsp;&nbsp;取消&nbsp;&nbsp;</a>
+				<a href="javascript:;" class="u-btns" ng-click="owenr.rejectOwenr()">&nbsp;&nbsp;提交&nbsp;&nbsp;</a>
+			</div>
+		</div>
+		<div class="response reject answerOk" ng-if="requirement.plan.status == 2">
+			<div class="tips">
+				<h4>您已响应业主</h4>
+			</div>
+			<div class="content">
+				<p class="tips">
+					您与业主沟通并设置的量房时间为<span><i bo-text="requirement.plan.house_check_time | date : 'yyyy年MM月dd日HH时mm分'"></i></span>，请准时上门量房
+				</p>
+				<p>业主确认量房后，您才可以提交装修方案</p>
+			</div>
+		</div>
+		<div class="select" ng-if="owenr.response && !(requirement.plan.status == 5 || requirement.plan.status == 1 || requirement.plan.status == 2 )">
+			<div ng-if="requirement.plan.status == 0 && !requirement.plan.get_phone_time">
+				<p>请24小时内与业主沟通量房时间，并响应业主预约，过期视为放弃。</p>
+				<div class="btns">
+					<a href="javascript:;" class="u-btns u-btns-revise" ng-click="owenr.rejectBtn()">&nbsp;&nbsp;拒绝&nbsp;&nbsp;</a>
+					<a href="javascript:;" class="u-btns" ng-click="owenr.answerBtn()">&nbsp;&nbsp;响应&nbsp;&nbsp;</a>
+				</div>
+			</div>
+			<div>
+				<div class="btns" ng-if="requirement.plan.status == 6 || requirement.plan.status == 3">
+					<h4>业主已确认量房，请提交装修方案</h4>
+					<a ui-sref="createPlan({id:requirement._id+'&'+requirement.user._id+'&'+requirement.user.username})" class="u-btns" target="_blank">提交方案</a>
+					<p>您可以提交多套方案</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="pageLoading" ng-hide="!!requirement"></div>
+</div>

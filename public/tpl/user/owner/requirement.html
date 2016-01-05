@@ -1,0 +1,27 @@
+<div class="main m-requirement" bindonce="requirement" ng-controller="requirementCtrl">
+	<div class="m-tt">
+		<h2 class="f-fl">
+			<span bo-text="requirement.street" bo-if="requirement.street"></span>
+			<span bo-if="requirement.cell"><i bo-text="requirement.cell"></i>小区</span>
+			<span bo-if="requirement.street"><i bo-text="requirement.cell_phase"></i>期</span>
+			<span bo-if="requirement.street"><i bo-text="requirement.cell_building"></i>栋</span>
+			<span bo-if="requirement.street"><i bo-text="requirement.cell_unit"></i>单元</span>
+			<span bo-if="requirement.street"><i bo-text="requirement.cell_detail_number"></i>室</span>
+		</h2>
+		<a ui-sref="requirementList" class="f-fr u-btns u-btns-revise returnList">返回需求列表</a>
+	</div>
+	<div class="m-ct">
+		<ul class="tabs">
+			<li ng-class="{active: tab==&quot;detail&quot;}"><a bo-href-i="owner.html#/requirement/{{requiremtneId}}/detail">需求描述</a></li>
+			<li ng-class="{active: tab==&quot;booking&quot;}" ng-if="requirement.status == 0 || requirement.status == 1 || requirement.status == 2 || requirement.status == 3 || requirement.status == 4 || requirement.status == 5 || requirement.status == 6 || requirement.status == 7"><a bo-href-i="owner.html#/requirement/{{requiremtneId}}/booking">预约量房</a></li>
+			<li ng-class="{active: tab==&quot;score&quot;}" ng-if="requirement.status == 1 || requirement.status == 2 || requirement.status == 3 || requirement.status == 4 || requirement.status == 5 || requirement.status == 6 || requirement.status == 7"><a bo-href-i="owner.html#/requirement/{{requiremtneId}}/score">确认量房</a></li>
+			<li ng-class="{active: tab==&quot;plan&quot;}" ng-if="requirement.status == 6 || requirement.status == 3 || requirement.status == 7 || requirement.status == 4 || requirement.status == 5"><a bo-href-i="owner.html#/requirement/{{requiremtneId}}/plan">选择方案</a></li>
+			<li ng-class="{active: tab==&quot;contract&quot;}" ng-if="requirement.status == 7 || requirement.status == 5"><a bo-href-i="owner.html#/requirement/{{requiremtneId}}/contract">生成合同</a></li>
+		</ul>
+		<div class="requirement" ng-controller="requirementDetailCtrl">
+			<!--视图模板容器 start-->
+			<div ui-view></div>
+			<!--视图模板容器 end-->
+		</div>
+	</div>
+</div>

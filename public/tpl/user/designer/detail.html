@@ -1,0 +1,108 @@
+<div class="detail" bindonce="requirement">
+	<div class="detail-drid">
+		<ul>
+			<li>
+				<div class="span">
+					<strong>业主姓名</strong>
+					<span>
+						<span bo-text="requirement.user.username"></span>
+					</span>
+				</div>
+			</li>
+			<li>
+				<div class="span">
+					<strong>装修城市</strong>
+					<span>
+						<span bo-if="requirement.province"><i bo-text="requirement.province"></i></span>
+						<span bo-if="requirement.city"><i bo-text="requirement.city"></i></span>
+						<span bo-if="requirement.district"><i bo-text="requirement.district"></i></span>
+					</span>
+				</div>
+			</li>
+			<li>
+				<div class="span">
+					<strong>所属街道/路</strong>
+					<span>
+						<span bo-text="requirement.street"></span>
+					</span>
+				</div>
+			</li>
+			<li>
+				<div class="span">
+					<strong>位置</strong>
+					<span>
+						<span bo-if="requirement.cell"><i bo-text="requirement.cell"></i>小区</span>
+						<span bo-if="requirement.cell_phase"><i bo-text="requirement.cell_phase"></i>期</span>
+						<span bo-if="requirement.cell_building"><i bo-text="requirement.cell_building"></i>栋</span>
+						<span bo-if="requirement.cell_unit"><i bo-text="requirement.cell_unit"></i>单元</span>
+						<span bo-if="requirement.cell_detail_number"><i bo-text="requirement.cell_detail_number"></i>室</span>
+					</span>
+				</div>
+			</li>
+			<li>
+				<div class="span">
+					<strong>装修类别</strong>
+					<span>
+						<span bo-text="requirement.dec_type | decTypeFilter"></span>
+					</span>
+				</div>
+			</li>
+			<li>
+				<div class="span f-fl">
+					<strong>户型</strong>
+					<span>
+						<span bo-text="requirement.house_type | houseTypeFilter"></span>
+					</span>
+				</div>
+				<div class="span f-fl">
+					<strong>计划常住成员</strong>
+					<span>
+						<span bo-text="requirement.family_description"></span>
+					</span>
+				</div>
+			</li>
+			<li>
+				<div class="span f-fl">
+					<strong>装修面积</strong>
+					<span>
+						<span bo-if="requirement.house_area"><i bo-text="requirement.house_area"></i>m&sup2;</span>
+					</span>
+				</div>
+				<div class="span f-fl">
+					<strong>风格喜好</strong>
+					<span>
+						<span bo-text="requirement.dec_style | decStyleFilter"></span>
+					</span>
+				</div>
+			</li>
+			<li>
+				<div class="span f-fl">
+					<strong>包工类型</strong>
+					<span>
+						<span bo-text="requirement.work_type | workTypeFilter"></span>
+					</span>
+				</div>
+				<div class="span f-fl">
+					<strong>装修预算</strong>
+					<span>
+						<span bo-if="requirement.total_price"><i bo-text="requirement.total_price"></i>万元</span>
+					</span>
+				</div>
+			</li>
+			<li>
+				<div class="span f-fl">
+					<strong>偏好设计师类型</strong>
+					<span>
+						<span bo-text="requirement.communication_type | designTypeFilter"></span>
+					</span>
+				</div>
+				<div class="span f-fl">
+					<strong>偏好设计师性别</strong>
+					<span>
+						<span><i bo-text="requirement.prefer_sex | designSexFilter"></i></span>
+					</span>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>

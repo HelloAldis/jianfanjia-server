@@ -1,0 +1,59 @@
+<div class="main">
+	<div class="m-tt">
+		<h2 class="f-fl">我的装修需求列表</h2>
+		<a ui-sref="addRequirement" class="u-btns u-requirement f-fr" ng-if="requiremtnes.length > 3">提交新装修需求</a>
+	</div>
+	<div class="m-ct">
+		<div class="m-index m-requirementList">
+			<ul class="list">
+				<li ng-if="requirementList.length == 0">
+					<div class="ct">你还没有发布装修需求哟~</div>
+					<div class="btns">
+						<a ui-sref="addRequirement" class="u-btns">发布装修需求</a>
+					</div>
+				</li>
+				<li bindonce="requirementList" ng-repeat="data in requirementList" ng-click="goTo(data._id,data.status)">
+					<div class="boxs">
+						<div class="tt f-cb">
+							<h4 class="f-fl">
+								<strong>物业地址</strong>
+								<span bo-if="data.province"><i bo-text="data.province"></i></span>
+								<span bo-if="data.city"><i bo-text="data.city"></i></span>
+								<span bo-if="data.district"><i bo-text="data.district"></i></span>
+								<span bo-if="data.street"><i bo-text="data.street"></i></span>
+								<span bo-if="data.cell"><i bo-text="data.cell"></i>小区</span>
+								<span bo-if="data.cell_phase"><i bo-text="data.cell_phase"></i>期</span>
+								<span bo-if="data.cell_building"><i bo-text="data.cell_building"></i>栋</span>
+								<span bo-if="data.cell_unit"><i bo-text="data.cell_unit"></i>单元</span>
+								<span bo-if="data.cell_detail_number"><i bo-text="data.cell_detail_number"></i>室</span>
+							</h4>
+							<div class="progress f-fr">
+								<div class="bar">
+									<div class="in in{{data.status}}"></div>
+								</div>
+								<p ng-switch="data.status">
+									<i ng-switch-when="0">需要预约设计师</i>
+									<i ng-switch-when="1">设计师正在响应中</i>
+									<i ng-switch-when="2">确认设计师上门量房</i>
+									<i ng-switch-when="3">选择设计师方案</i>
+									<i ng-switch-when="4">生成并签订三方合同</i>
+									<i ng-switch-when="5">正在装修中</i>
+									<i ng-switch-when="6">设计师提交方案中</i>
+									<i ng-switch-when="7">APP管控装修工地</i>
+								</p>
+							</div>
+						</div>
+						<div class="tag">
+							<span bo-text="data.dec_style" bo-if="data.dec_style"></span>
+							<span bo-text="data.work_type" bo-if="data.work_type"></span>
+							<span bo-text="data.house_type" bo-if="data.house_type"></span>
+							<span bo-if="data.house_area"><i bo-text="data.house_area"></i>m&sup2;</span>
+							<span bo-if="data.total_price"><i bo-text="data.total_price"></i>万元</span>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<div class="pageLoading" ng-hide="!!requirementList"></div>
+		</div>
+	</div>
+</div>

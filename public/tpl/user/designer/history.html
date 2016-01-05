@@ -1,0 +1,49 @@
+<div class="main">
+	<div class="m-tt">
+		<h2 class="f-fl">我的历史装修需求列表</h2>
+	</div>
+	<div class="m-ct">
+		<div class="m-index m-requirementList m-historys">
+			<ul class="list">
+				<li ng-if="historys.length == 0">
+					<div class="ct">你还没有完结装修需求哟~</div>
+					<div class="btns">
+						<a ui-sref="requirementList" class="u-btns">查看装修需求列表</a>
+					</div>
+				</li>
+				<li bindonce ng-repeat="data in historys" ng-click="goTo(data._id,data.status)">
+					<div class="boxs">
+						<div class="tt f-cb">
+							<h4 class="f-fl">
+								<strong>物业地址</strong>
+								<span bo-if="data.province"><i bo-text="data.province"></i></span>
+								<span bo-if="data.city"><i bo-text="data.city"></i></span>
+								<span bo-if="data.district"><i bo-text="data.district"></i></span>
+								<span bo-if="data.street"><i bo-text="data.street"></i></span>
+								<span bo-if="data.cell"><i bo-text="data.cell"></i>小区</span>
+								<span bo-if="data.cell_phase"><i bo-text="data.cell_phase"></i>期</span>
+								<span bo-if="data.cell_building"><i bo-text="data.cell_building"></i>栋</span>
+								<span bo-if="data.cell_unit"><i bo-text="data.cell_unit"></i>单元</span>
+								<span bo-if="data.cell_detail_number"><i bo-text="data.cell_detail_number"></i>室</span>
+							</h4>
+						</div>
+						<div class="tag">
+							<span bo-if="data.dec_style"><i bo-text="data.dec_style"></i></span>
+							<span bo-if="data.work_type"><i bo-text="data.work_type"></i></span>
+							<span bo-if="data.house_type"><i bo-text="data.house_type"></i></span>
+							<span bo-if="data.house_area"><i bo-text="data.house_area"></i>m&sup2;</span>
+							<span bo-if="data.total_price"><i bo-text="data.total_price"></i>万元</span>
+						</div>
+						<div class="status" ng-switch="data.plan.status">
+							<i ng-switch-when="1">已拒绝</i>
+							<i ng-switch-when="4">未中标</i>
+							<i ng-switch-when="7">未响应</i>
+							<i ng-switch-when="8">未出方案</i>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<div class="pageLoading" ng-hide="!!historys"></div>
+		</div>
+	</div>
+</div>
