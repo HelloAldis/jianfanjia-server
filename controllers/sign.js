@@ -47,15 +47,11 @@ exports.wechat_login_callback = function (req, res, next) {
   ep.on('wechat_not_first_login', function (user_indb) {
     authMiddleWare.gen_session(user_indb,
       type.role_user, req, res);
-    var data = {};
-    data.usertype = type.role_user;
-    data.phone = user_indb.phone;
-    data.username = user_indb.username;
-    data._id = user_indb._id;
-    data.imageid = user_indb.imageid;
-    data.wechat_unionid = user_indb.wechat_unionid;
-    data.is_wechat_first_login = false;
-    res.sendData(data);
+    if (user_indb.phone) {
+      res.redirect(config.user_home_url);
+    } else {
+      res.redirect('/');
+    }
   });
 
   ep.on('wechat_first_login', function (sres) {
@@ -70,15 +66,7 @@ exports.wechat_login_callback = function (req, res, next) {
         // store session cookie
         authMiddleWare.gen_session(user_indb,
           type.role_user, req, res);
-        var data = {};
-        data.usertype = type.role_user;
-        data.phone = user_indb.phone;
-        data.username = user_indb.username;
-        data._id = user_indb._id;
-        data.imageid = user_indb.imageid;
-        data.wechat_unionid = user_indb.wechat_unionid;
-        data.is_wechat_first_login = true;
-        res.sendData(data);
+        res.redirect('/');
       }));
     });
 
@@ -131,7 +119,7 @@ exports.wechat_login_callback = function (req, res, next) {
     }));
   } else {
     //用户拒绝授权
-    res.redirect('/');
+    res.sendErrMsg('用户拒绝授权');
   }
 }
 
