@@ -42,6 +42,7 @@ router.post('/send_verify_code', limit.peripperday('send_verify_code', config.se
 router.post('/feedback', feedback.add); //游客反馈
 router.get('/device/android_build_version', device.android_build_version); //获取android信息
 router.post('/user_login', sign.user_login); //业主手机端登录
+router.post('/user_wechat_login', sign.user_wechat_login); //业主手机端微信登录
 router.post('/designer_login', sign.designer_login); //设计师手机端登录
 router.post('/verify_phone', signWeb.verifyPhone); //验证手机
 router.post('/user_signup', sign.user_signup); //业主手机端注册
@@ -54,6 +55,7 @@ router.get('/image/:_id', imageWeb.get); //获取图片
 router.get('/thumbnail/:width/:_id', imageWeb.thumbnail); //获取缩略图
 router.post('/beautiful_image_homepage', beautiful_imageWeb.beautiful_image_homepage); //游客获取美图主页
 router.post('/search_beautiful_image', beautiful_imageWeb.search_beautiful_image); //游客搜索美图
+router.post('/user_refresh_session', sign.user_refresh_session); //业主刷新sessiion
 //设备使用
 router.get('/device/android_build_version', device.android_build_version); //获取android信息
 router.get('/device/designer_android_build_version', device.designer_android_build_version); //获取designer android 信息
@@ -108,6 +110,8 @@ router.post('/user_requirement_plans', auth.userRequired, planWeb.user_requireme
 router.post('/user/plan/final', auth.userRequired, planWeb.finalPlan); //选定方案
 router.post('/user/process', auth.userRequired, process.start); //开启装修流程
 router.post('/process/done_section', auth.userRequired, process.doneSection); //对比验收完成
+router.post('/user_bind_phone', auth.userRequired, userWeb.user_bind_phone); //业主绑定手机号
+router.post('/user_bind_wechat', auth.userRequired, userWeb.user_bind_wechat); //业主绑定微信
 
 //设计师独有功能
 router.get('/designer/info', auth.designerRequired, designerWeb.getInfo); //获取设计师自己个人资料

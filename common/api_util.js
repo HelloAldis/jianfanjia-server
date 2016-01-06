@@ -42,6 +42,17 @@ exports.buildUser = function (req) {
   return user;
 }
 
+exports.buildWechatUser = function (req) {
+  var user = {};
+  user.username = req.body.username;
+  user.sex = req.body.sex;
+  user.image_url = req.body.image_url;
+  user.wechat_openid = req.body.wechat_openid;
+  user.wechat_unionid = req.body.wechat_unionid;
+
+  return user;
+}
+
 exports.buildDesinger = function (req) {
   var designer = {};
   designer.username = req.body.username;

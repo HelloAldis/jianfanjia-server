@@ -70,12 +70,27 @@ exports.add = function (req, res, next) {
       }));
     } else {
       //创建新的方案
-      plan.status = type.plan_status_designer_upload;
-      plan.designerid = designerid;
-      plan.userid = new ObjectId(userid);
-      plan.requirementid = new ObjectId(requirementid);
-      Plan.newAndSave(plan, ep.done(function () {
-        res.sendSuccessMsg();
+      Plan.findOne({
+        userid: userid,
+        designerid: designerid,
+        requirementid: requirementid,
+      }, null, ep.done(function (plan_indb) {
+        if (plan_indb) {
+          plan.status = type.plan_status_designer_upload;
+          plan.designerid = designerid;
+          plan.userid = new ObjectId(userid);
+          plan.requirementid = new ObjectId(requirementid);
+          plan.house_check_time = plan_indb.house_check_time;
+          plan.user_ok_house_check_time = plan_indb.user_ok_house_check_time;
+          plan.request_date = plan_indb.request_date;
+          plan.get_phone_time = plan_indb.get_phone_time;
+
+          Plan.newAndSave(plan, ep.done(function () {
+            res.sendSuccessMsg();
+          }));
+        } else {
+          res.sendSuccessMsg('数据错误');
+        }
       }));
     }
   }));

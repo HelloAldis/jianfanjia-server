@@ -65,7 +65,7 @@ exports.gen_session = function (user, usertype, req, res) {
 
   var opts = {
     path: '/',
-    maxAge: config.session_time,
+    maxAge: 1000 * 60 * 60 * 24 * 30,
     signed: false,
     httpOnly: false,
   };

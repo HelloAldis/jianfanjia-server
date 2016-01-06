@@ -15,5 +15,5 @@ router.get('/download/designer/apk', site.download_designer_apk);
 // router.post('/signup', sign.signup);
 // router.post('/login', sign.login);
 router.get('/tpl/article/detail.html', dec_strategy.dec_strategy_homepage);
-
+router.get('/wechat/login_callback', sign.wechat_login_callback);
 module.exports = router;
