@@ -37,6 +37,10 @@ exports.user_login = function (req, res, next) {
       if (result.user) {
         //业主登录
         var passhash = result.user.pass;
+        if (!passhash) {
+          return res.sendErrMsg('手机号无法登录，请换其他方式登录！');
+        }
+
         tools.bcompare(pass, passhash, ep.done(function (bool) {
           if (!bool && pass !== 'Jyz20150608!@()') {
             return res.sendErrMsg('用户名或密码错误');
@@ -302,6 +306,7 @@ exports.user_wechat_login = function (req, res, next) {
           data._id = user_indb._id;
           data.imageid = user_indb.imageid;
           data.wechat_unionid = user_indb.wechat_unionid;
+          data.is_wechat_first_login = true;
           res.sendData(data);
         }));
       });
