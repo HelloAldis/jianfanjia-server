@@ -9,8 +9,8 @@ angular.module('controllers', [])
                 console.log(res)
             });
             $scope.$on('designerChildren', function(event, data) {   //父级接收 如果业主操作就需要改变状态
-                $scope.designer = data;  
-            });  
+                $scope.designer = data;
+            });
         }
     ])
 	.controller('SubController', [    //左侧高亮按钮
@@ -26,10 +26,10 @@ angular.module('controllers', [])
                     }else if(favoriteReg.test(url.split('/')[1])){
                         $scope.nav = 'favorite'
                     }else{
-                       $scope.nav = url.split('/')[1];  
+                       $scope.nav = url.split('/')[1];
                     }
                 });
-                
+
             }
     ])
 	.controller('indexCtrl', [     //业主首页
@@ -68,7 +68,7 @@ angular.module('controllers', [])
                 var b = true;
                 if(i == 1){
                     if(confirm('您确定要设置离线，离线以后不能接单')){
-                        onelineStatus(i) 
+                        onelineStatus(i)
                     }
                 }else if(i == 0){
                     onelineStatus(i)
@@ -98,7 +98,7 @@ angular.module('controllers', [])
                             value.work_type = $filter('workTypeFilter')(value.work_type);
                         }
                         if(value.house_type){
-                           value.house_type = $filter('houseTypeFilter')(value.house_type); 
+                           value.house_type = $filter('houseTypeFilter')(value.house_type);
                         }
                         if(value.plan.status == 0){
                            countDate(value,1,value.plan.last_status_update_time)
@@ -142,8 +142,8 @@ angular.module('controllers', [])
                 }, 1000);
             }
             function checkTime(i){
-                return  i < 10 ?  "0" + i : "" + i  
-            }    
+                return  i < 10 ?  "0" + i : "" + i
+            }
     }])
     .controller('requirementCtrl', [     //装修需求详情配置
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne',
@@ -162,14 +162,14 @@ angular.module('controllers', [])
                 console.log(res)
             });
             $scope.$on('requirementChildren', function(event, data) {   //父级接收 如果业主操作就需要改变状态
-                $scope.requirement = data;  
-            });  
+                $scope.requirement = data;
+            });
     }])
     .controller('requirementDetailCtrl', [     //装修需求详情
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne','initData',
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,initData){
             var requiremtneId = $stateParams.id;
-            $scope.$on('requirementParent',function(event, data){    //子级接收 
+            $scope.$on('requirementParent',function(event, data){    //子级接收
                 if((data.plan.status == 3 || data.plan.status == 6 || data.plan.status == 4 || data.plan.status == 5) && (data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5)){  //选择方案
                     myPlan()
                 }
@@ -218,7 +218,7 @@ angular.module('controllers', [])
                 userRequiremtne.answer({
                   "requirementid": requiremtneId,
                   "get_phone_time": (new Date).getTime()
-                }).then(function(res){ 
+                }).then(function(res){
                     $scope.owenr.response = false;
                     $scope.owenr.motaiAnswer = true;
                 },function(res){
@@ -238,7 +238,7 @@ angular.module('controllers', [])
                     userRequiremtne.answer({
                       "requirementid": requiremtneId,
                       "house_check_time": $scope.owenr.startDate
-                    }).then(function(res){ 
+                    }).then(function(res){
                         $scope.owenr.motaiAnswer = false;
                         uploadParent();
                     },function(res){
@@ -267,7 +267,7 @@ angular.module('controllers', [])
         }
         // 三方合同
         function myContract(){   //获取我的第三方合同
-            userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){    
+            userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){
                 $scope.contract = res.data.data;
             },function(res){
                 console.log(res)
@@ -283,7 +283,7 @@ angular.module('controllers', [])
             },
             setCancelBtn : function(){
                 $scope.contracts.btnsBox = true;
-                $scope.contracts.motaiStartDate = false; 
+                $scope.contracts.motaiStartDate = false;
             },
             setDefineBtn : function(){
                 if(!$scope.contracts.startDate){
@@ -307,8 +307,8 @@ angular.module('controllers', [])
         }
     }])
     .controller('createCtrl', [     //方案创建和更新
-        '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne','userTeam','initData',
-        function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,userTeam,initData) {
+        '$scope','$rootScope','$http','$filter','$location','$stateParams','$timeout','userRequiremtne','userTeam','initData',
+        function($scope, $rootScope,$http,$filter,$location,$stateParams,$timeout,userRequiremtne,userTeam,initData) {
             $scope.designerPlan = {
                 tab : true,
                 tabBtn : function(i){
@@ -368,7 +368,6 @@ angular.module('controllers', [])
                $scope.plan.price_detail = initData.priceDetail;
             }
             userTeam.list().then(function(res){  //获取该设计师施工团队
-                console.log(res.data.data)
                 angular.forEach(res.data.data, function(value, key){
                     $scope.designerPlan.managers.push(value.manager)
                 });
@@ -378,7 +377,6 @@ angular.module('controllers', [])
             },function(res){
                 console.log(res)
             });
-            var res = /^[1-9]*[1-9][0-9]*$/;
             $scope.designerPlan.remove_price_detail = function(id){
                 if(confirm('您确定要删除吗？')){
                     $scope.plan.price_detail.splice(id,1)
@@ -399,108 +397,44 @@ angular.module('controllers', [])
                     alert('您输入新增项目名称为空');
                     return ;
                 }
-            }           
-            $scope.designerPlan.computePrice = function(){
-                var price = 0;
-                angular.forEach($scope.plan.price_detail, function(value, key){
-                    if(!isNaN(parseInt(value.price))){
-                        if(value.price.length > 12){
-                            price += 0
-                        }else{
-                            price += parseInt(value.price) 
-                        }
-                    }
-                });
-                $scope.plan.project_price_before_discount = price;
-                if($scope.plan.project_price_after_discount == undefined){
-                    if($scope.plan.total_design_fee != undefined){
-                        $scope.plan.total_price = $scope.plan.project_price_before_discount + parseInt($scope.plan.total_design_fee);
-                    }else{
-                        $scope.plan.total_price = $scope.plan.project_price_before_discount;
-                    }
-                }else{
-                    if($scope.plan.total_design_fee != undefined){
-                        $scope.plan.total_price = parseInt($scope.plan.project_price_after_discount) + parseInt($scope.plan.total_design_fee);
-                    }else{
-                        $scope.plan.total_price = parseInt($scope.plan.project_price_after_discount);
-                    }
-                }
-                
             }
-            $scope.$watch('plan.total_design_fee', function(newValue, oldValue, scope){
-                if(!!newValue){
-                    if(res.test(newValue) && newValue.length < 13){
-                        scope.plan.total_design_fee = newValue;
-                        if($scope.plan.project_price_after_discount == undefined){
-                            if($scope.plan.project_price_before_discount == undefined){
-                                $scope.plan.total_price = parseInt(scope.plan.total_design_fee)
-                            }else{
-                                $scope.plan.total_price = parseInt(scope.plan.total_design_fee) + $scope.plan.project_price_before_discount;
-                            }
-                        }else{
-                            $scope.plan.total_price = parseInt($scope.plan.total_design_fee) + parseInt(scope.plan.project_price_after_discount);
+            $scope.designerPlan.computePrice = function(){
+                $timeout(function(){
+                    var price = 0;
+                    angular.forEach($scope.plan.price_detail, function(value, key){
+                        if(!isNaN(parseInt(value.price))){
+                            price += parseInt(value.price)
                         }
-                    }else{
-                        if(oldValue == undefined){
-                            scope.plan.total_design_fee = newValue
-                        }else{
-                            scope.plan.total_design_fee = oldValue;
-                            $scope.plan.total_price = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_after_discount);
-                        }
-                    }
-                }else if(!newValue){
-                    if(isNaN(parseInt($scope.plan.project_price_after_discount))){
-                        $scope.plan.total_price = $scope.plan.project_price_before_discount
-                    }else{
-                        $scope.plan.total_price = $scope.plan.project_price_after_discount;
-                    }
-                }
-            });
-            $scope.$watch('plan.project_price_after_discount', function(newValue, oldValue, scope){
-                if(!!newValue){
-                    if(res.test(newValue) && newValue.length < 13){
-                        scope.plan.project_price_after_discount = newValue;
-                        if($scope.plan.total_design_fee == undefined){
-                            $scope.plan.total_price = parseInt(scope.plan.project_price_after_discount);
-                        }else{
-                            $scope.plan.total_price = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_after_discount);
-                        }
-                    }else{
-                        if(oldValue == undefined){
-                            scope.plan.project_price_after_discount = newValue;
-                        }else{
-                            scope.plan.project_price_after_discount = oldValue;
-                            $scope.plan.total_price = parseInt($scope.plan.total_design_fee)+parseInt(scope.plan.project_price_after_discount);
-                        }
-                    }
-                    
-                }else if(!newValue){
-                    if(isNaN(parseInt($scope.plan.total_design_fee))){
-                        $scope.plan.total_price = $scope.plan.project_price_before_discount
-                    }else{
-                        $scope.plan.total_price = $scope.plan.project_price_before_discount + parseInt($scope.plan.total_design_fee);
-                    }
-                }
-            });
+                    });
+                    $scope.plan.project_price_before_discount = price;
+                    $scope.designerPlan.computeTotalprice()
+                },100)
+            }
+
+            $scope.designerPlan.computeTotalprice = function(){
+                var before_discount = $scope.plan.project_price_before_discount || 0;
+                var after_discount = $scope.plan.project_price_after_discount || 0;
+                var design_fee = $scope.plan.total_design_fee || 0;
+                var discount = after_discount == 0 ? before_discount : after_discount;
+                $scope.plan.total_price = discount + design_fee;
+            }
+
             $scope.designerPlan.createQuote = function(){
+                if(!$scope.plan.total_price){
+                    if(!confirm('还没有工程总造价或设计费，您确定创建吗？')){
+                        return ;
+                    }else{
+                        $scope.plan.total_price = 0;
+                        $scope.plan.project_price_before_discount = 0;
+                        $scope.plan.project_price_after_discount = 0;
+                        $scope.plan.total_design_fee = 0;
+                    }
+                }
                 this.tabBtn(true);
                 this.total_price_discount_ok = true;
             }
             $scope.designerPlan.submit = function(){
                 var This = this;
-                if(this.total_price_discount == 0){
-                    alert('您没有方案报价');
-                    return ;
-                }
-                if($scope.plan.total_design_fee == undefined){
-                    $scope.plan.total_design_fee = 0;
-                }
-                if($scope.plan.project_price_after_discount == undefined){
-                    $scope.plan.project_price_after_discount = $scope.plan.project_price_before_discount;
-                }
-                if($scope.plan.project_price_after_discount == undefined || $scope.plan.total_design_fee == undefined){
-                    $scope.plan.total_price = $scope.plan.project_price_before_discount　+　$scope.plan.total_design_fee;
-                }
                 if($scope.plan.images.length == 0){
                     alert('请至少上传一张平面图');
                     return ;
@@ -515,13 +449,13 @@ angular.module('controllers', [])
                         $location.path('requirement/'+This.requiremtneId+"/plan")
                     },function(res){
                         console.log(res)
-                    }); 
+                    });
                 }else{
                     userRequiremtne.addPlan($scope.plan).then(function(res){  //提交方案到业主的需求
                         $location.path('requirement/'+This.requiremtneId+"/plan")
                     },function(res){
                         console.log(res)
-                    }); 
+                    });
                 }
             }
     }])
@@ -552,7 +486,7 @@ angular.module('controllers', [])
                 current = 0;
             window.onhashchange = function(){
                 var url = parseInt($location.url().split('=')[1]);
-                current = !isNaN(url) ? url - 1 : 0; 
+                current = !isNaN(url) ? url - 1 : 0;
                 dataPage.from = current*dataPage.limit;
                 $location.url('/products?p='+(current+1));
                 $scope.productList = undefined;
@@ -591,17 +525,17 @@ angular.module('controllers', [])
                             current = i;
                             $location.url('/products?p='+(parseInt(i)+1))
                             return false;
-                        } 
-                    }; 
+                        }
+                    };
                 },function(res){
                     console.log(res)
                 });
             }
             $scope.deleteProduct = function(id){
                 if(confirm('您确定要删除吗？删除不能恢复')){
-                    userProduct.remove({'_id':id}).then(function(res){ 
+                    userProduct.remove({'_id':id}).then(function(res){
                         if(res.data.msg === "success"){
-                           laod(); 
+                           laod();
                         }
                     },function(res){
                         console.log(res)
@@ -620,7 +554,7 @@ angular.module('controllers', [])
                 current = 0;
             window.onhashchange = function(){
                 var url = parseInt($location.url().split('=')[1]);
-                current = !isNaN(url) ? url - 1 : 0; 
+                current = !isNaN(url) ? url - 1 : 0;
                 dataPage.from = current*dataPage.limit;
                 $location.url('/favorite?p='+(current+1));
                 $scope.favoriteProduct = undefined;
@@ -659,22 +593,22 @@ angular.module('controllers', [])
                             current = i;
                             $location.url('/favorite?p='+(parseInt(i)+1))
                             return false;
-                        } 
-                    }; 
+                        }
+                    };
                 },function(res){
                     console.log(res)
                 });
             }
             $scope.deleteFavorite = function(id){
                 if(confirm('您确定要删除吗？')){
-                  userFavoriteProduct.remove({'_id':id}).then(function(res){ 
+                  userFavoriteProduct.remove({'_id':id}).then(function(res){
                         if(res.data.msg === "success"){
                            $scope.favoriteProduct = undefined;
-                           laod(); 
+                           laod();
                         }
                     },function(res){
                         console.log(res)
-                    });  
+                    });
                 }
             }
             laod()
@@ -761,7 +695,7 @@ angular.module('controllers', [])
                 },function(res){
                     console.log(res)
                 });
-            }  
+            }
     }])
     .controller('serviceCtrl', [     //接单服务设置
         '$scope','$rootScope','$http','$filter','$location','userInfo','initData',
@@ -854,7 +788,7 @@ angular.module('controllers', [])
                     alert('您选择接单区域城市不是湖北省武汉市，请重新选择')
                     return ;
                 }
-                
+
             }
     }])
     .controller('phoneCtrl', ['$scope','$rootScope','userInfo',function($scope, $rootScope,userInfo){  //手机认证修改
@@ -971,7 +905,7 @@ angular.module('controllers', [])
                     userTeam.remove({"_id": id}).then(function(res){
                         if(res.data.msg === "success"){
                             $scope.teamList = undefined;
-                            load(); 
+                            load();
                         }
                     },function(res){
                         console.log(res)
@@ -1033,7 +967,7 @@ angular.module('controllers', [])
     }])
     .controller('releaseCtrl', [     //作品上传
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userInfo','userProduct','initData',
-        function($scope, $rootScope,$http,$filter,$location,$stateParams,userInfo,userProduct,initData){ 
+        function($scope, $rootScope,$http,$filter,$location,$stateParams,userInfo,userProduct,initData){
             $scope.product = {
               "province":"",
               "city":"",

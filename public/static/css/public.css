@@ -42,7 +42,13 @@ template{display:none}
 .f-fz30{font-size: 30px;}
 .hide{display:none !important;}
 .show{display:block !important;}
-
+/*ie不支持.placeholder*/
+.placeholder{
+    position: absolute;
+    color: #aaa;
+    cursor: text;
+    z-index: 1;
+}
 /*图标字体  iconfont*******************************************************/
 @font-face{font-family:"iconfont";
 	src: url('../font/iconfont.eot');

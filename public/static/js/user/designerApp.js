@@ -1,7 +1,7 @@
 'use strict';
 (function() {
     // load modules
-    angular.module('myJyzDesigner', ['ui.router','pasvaz.bindonce','controllers', 'services', 'filters' , 'directives'])
+    angular.module('myJyzDesigner', ['ui.router','pasvaz.bindonce','controllers', 'services', 'filters' , 'directives','ngmodel.format'])
         .config(function($stateProvider, $urlRouterProvider) {
             var url = RootUrl + 'tpl/user/designer/';
             $urlRouterProvider.otherwise('/index');
@@ -25,7 +25,7 @@
                     url: '/requirementList',
                     templateUrl: url+'requirementList.html',
                     controller : 'requirementListCtrl'
-                }) 
+                })
                 .state('requirement', {      //需求详情
                     url: '/requirement/:id',
                     templateUrl: url+'requirement.html'

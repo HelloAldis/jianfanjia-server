@@ -29,7 +29,7 @@
 						<div class="item">
 							<label class="u-lab" for="dec_area">所在地区</label>
 							<div class="u-inp">
-								<div my-cities my-list="designerTeam.cities_list" my-province="team.province" my-city="team.city" my-district="team.district" ng-if="team.province"></div>				
+								<div my-cities my-list="designerTeam.cities_list" my-province="team.province" my-city="team.city" my-district="team.district" ng-if="team.province"></div>
 							</div>
 						</div>
 					</div>
@@ -37,7 +37,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-email">身份证号</label>
 							<div class="u-inp">
-								<input type="text" class="input" ng-model="team.uid" ng-pattern="/^(\d{6})(18|19|20)?(\d{2})([01]\d)([0123]\d)(\d{3})(\d|X)?$/" />
+								<input type="text" class="input" ng-model="team.uid" placeholder="请输入15位或者18位或带X身份证号码" my-placeholder ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" />
 							</div>
 						</div>
 					</div>
@@ -53,7 +53,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-addr">从业年限</label>
 							<div class="u-inp">
-								<input type="text" class="input" ng-model="team.work_year" check-number />
+								<input type="text" class="input" ng-model="team.work_year" placeholder="请输入整数" my-placeholder check-number />
 							</div>
 						</div>
 					</div>
@@ -79,7 +79,7 @@
 							<div class="u-inp">
 								<div class="" data-boxData="{'width':'250px','height':'120px'}">
 									<div my-otheruploade my-query="team.uid_image1"></div>
-								</div>				
+								</div>
 							</div>
 						</div>
 					</div>
@@ -89,7 +89,7 @@
 							<div class="u-inp">
 								<div class="" data-boxData="{'width':'250px','height':'120px'}">
 									<div my-otheruploade my-query="team.uid_image2"></div>
-								</div>	
+								</div>
 							</div>
 						</div>
 					</div>

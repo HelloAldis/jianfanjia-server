@@ -29,7 +29,7 @@ angular.module('directives', [])
                               list[i].cur = 'active';
                           }
                         };
-                      };  
+                      };
                    }else{
                     for (var i = 0,len = list.length; i < len; i++) {
                       if(list[i].id == query){
@@ -72,7 +72,7 @@ angular.module('directives', [])
                                   alert('只能选择3个擅长风格');
                                   return ;
                                 }
-                              } 
+                              }
                             }
                         }
                     });
@@ -251,7 +251,7 @@ angular.module('directives', [])
                     $scope.$apply(function(){
                         $scope.myQuery = iNum;
                     });
-                } 
+                }
             }
         };
     }])
@@ -400,7 +400,7 @@ angular.module('directives', [])
                     });
                   }
                   body.on('click', function(ev){
-                      selectHide(); 
+                      selectHide();
                   });
                   function clearValue(obj){
                     var oInput = obj.find('input'),
@@ -424,7 +424,7 @@ angular.module('directives', [])
                     });
                   }
                   function selectShow(obj){
-                    obj.find('.select').show(); 
+                    obj.find('.select').show();
                     oBox.css('zIndex',20)
                   }
             }
@@ -486,7 +486,7 @@ angular.module('directives', [])
                     for(var attr in areaJson){
                       if(Default[i].cn == areaJson[attr][0]){
                         Default[i].num = areaJson[attr][1];
-                        
+
                       }
                     }
                   }
@@ -497,7 +497,7 @@ angular.module('directives', [])
                     district = oBox.find('.district'),
                     body = angular.element(document),
                     listArr = [province,city,district];
-                    
+
                 for(var i = 0; i < DefaultLen; i++) {
                   createList(Default[i].num,listArr[i]);
                   selectEvent(listArr[i]);
@@ -585,7 +585,7 @@ angular.module('directives', [])
                     });
                   }
                   body.on('click', function(ev){
-                      selectHide(); 
+                      selectHide();
                   });
                   function clearValue(obj){
                     var oInput = obj.find('input'),
@@ -609,7 +609,7 @@ angular.module('directives', [])
                     });
                   }
                   function selectShow(obj){
-                    obj.find('.select').show(); 
+                    obj.find('.select').show();
                     oBox.css('zIndex',20)
                   }
             }
@@ -660,11 +660,11 @@ angular.module('directives', [])
                           t=0;
                         }else if(t>h){
                           t=h;
-                        } 
-                              if(l<0){
+                        }
+                        if(l<0){
                            l=0;
                         }else if(l>w){
-                              l=w;     
+                              l=w;
                         }
                         $cropBorder.css({
                             left: l,
@@ -675,7 +675,7 @@ angular.module('directives', [])
                         $('#cropPic2').css('clip','rect('+t+'px '+r+'px '+b+'px '+l+'px)')
                         moveout = false;
                     }).on('mouseout',function(e){
-                        $cropBox.off() 
+                        $cropBox.off()
                     }).on('mouseup',function(e){
                         $cropBox.off()
                     });
@@ -714,7 +714,7 @@ angular.module('directives', [])
                         'fileTypeExts' : fileTypeExts,
                         'fileSizeLimit' : fileSizeLimit+'KB',
                         'onUploadSuccess' : function(file, data, response) {
-                            callbackImg(data)  
+                            callbackImg(data)
                         }
                     });
                 }
@@ -758,8 +758,8 @@ angular.module('directives', [])
                     });
                     $('#cropPic1').attr('src',img.src);
                     $('#cropPic2').attr('src',img.src);
-                  };  
-                  img.onerror=function(){alert("error!")};  
+                  };
+                  img.onerror=function(){alert("error!")};
                   img.src=RootUrl+'api/v1/image/'+data.data;
                   $cropCancel.on('click',function(){
                      clearData();
@@ -816,67 +816,70 @@ angular.module('directives', [])
             restrict: 'A',
             template: '<div class="k-uploadbox f-cb"><div class="pic" id="create"><div class="fileBtn"><input class="hide" id="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_create"></div><div class="tips"><span><em></em><i></i></span><p>作品上传每张3M以内jpg</p></div></div><div class="item" ng-repeat="img in myQuery"><span class="close" ng-click="removeImg($index,myQuery)"></span><div class="img"><img ng-src="/api/v2/web/thumbnail/168/{{img}}" /></div></div></div>',
             link: function($scope, iElm, iAttrs, controller){
+                function loadImg(){
                   var uploaderUrl = RootUrl+'api/v2/web/image/upload',
-                    fileTypeExts = '*.jpg;*.png',
-                    fileSizeLimit = 3072;
-                if(checkSupport() === "html5"){
-                  $('#create').Huploadify({
-                    auto:true,
-                    fileTypeExts:fileTypeExts,
-                    multi:true,
-                    formData:{},
-                    fileSizeLimit:fileSizeLimit,
-                    showUploadedPercent:true,//是否实时显示上传的百分比，如20%
-                    showUploadedSize:true,
-                    removeTimeout:1,
-                    fileObjName:'Filedata',
-                    buttonText : "",
-                    uploader:uploaderUrl,
-                    onUploadComplete:function(file, data, response){
-                      callbackImg(data)
-                    }
-                  });
-                }else{
-                  $('#createUpload').uploadify({
-                      'auto'     : true,
-                      'removeTimeout' : 1,
-                        'swf'      : 'uploadify.swf',
-                        'uploader' : uploaderUrl,
-                        'method'   : 'post',
-                        'buttonText' : '',
-                        'multi'    : true,
-                        'uploadLimit' : 10,
-                        'width' : 168,
-                        'height' : 168,
-                        'fileTypeDesc' : 'Image Files',
-                        'fileTypeExts' : fileTypeExts,
-                        'fileSizeLimit' : fileSizeLimit+'KB',
-                        'onUploadSuccess' : function(file, data, response) {
-                            callbackImg(data)  
-                        }
+                      fileTypeExts = '*.jpg;*.png',
+                      fileSizeLimit = 3072;
+                  if(checkSupport() === "html5"){
+                    $('#create').Huploadify({
+                      auto:true,
+                      fileTypeExts:fileTypeExts,
+                      multi:true,
+                      formData:{},
+                      fileSizeLimit:fileSizeLimit,
+                      showUploadedPercent:true,
+                      showUploadedSize:true,
+                      removeTimeout:1,
+                      fileObjName:'Filedata',
+                      buttonText : "",
+                      uploader:uploaderUrl,
+                      onUploadStart : function(){
+                        $('#create').append('<div class="mask"></div>');
+                      },
+                      onUploadSuccess:function(file, data, response){
+                        callbackImg(data)
+                      }
                     });
+                  }else{
+                    $('#createUpload').uploadify({
+                          'auto'     : true,
+                          'removeTimeout' : 1,
+                          'swf'      : 'uploadify.swf',
+                          'uploader' : uploaderUrl,
+                          'method'   : 'post',
+                          'buttonText' : '',
+                          'multi'    : true,
+                          'uploadLimit' : 10,
+                          'width' : 168,
+                          'height' : 168,
+                          'fileTypeDesc' : 'Image Files',
+                          'fileTypeExts' : fileTypeExts,
+                          'fileSizeLimit' : fileSizeLimit+'KB',
+                          'onUploadStart' : function(){
+                              $('#create').append('<div class="mask"></div>');
+                          },
+                          'onUploadSuccess' : function(file, data, response) {
+                              callbackImg(data)
+                          }
+                    });
+                  }
                 }
+                loadImg();
                 function callbackImg(arr){
                   var data = $.parseJSON(arr);
                   var img = new Image();
                   img.onload=function(){
-                    // if(img.width < 300){
-                    //   alert('图片宽度小于300，请重新上传');
-                    //   return false;
-                    // }else if(img.height < 300){
-                    //   alert('图片高度小于300，请重新上传');
-                    //   return false;
-                    // }
                     if(_.indexOf($scope.myQuery,data.data) == -1){
                       $scope.$apply(function(){
-                        $scope.myQuery.push(data.data)
+                        $scope.myQuery.push(data.data);
                       });
                     }else{
                       alert('已经上传过了')
                     }
-                  };  
-                  img.onerror=function(){alert("error!")};  
-                  img.src=RootUrl+'api/v1/image/'+data.data;
+                    $('#create').find('.mask').remove();
+                  };
+                  img.onerror=function(){alert("error!");$('#create').find('.mask').remove();};
+                  img.src=RootUrl+'api/v2/web/thumbnail/168/'+data.data;
                 }
                 $scope.removeImg = function(i,arr){
                   if(arr.length < 2){
@@ -942,7 +945,7 @@ angular.module('directives', [])
                       'fileTypeExts' : fileTypeExts,
                       'fileSizeLimit' : fileSizeLimit+'KB',
                       'onUploadSuccess' : function(file, data, response) {
-                          callbackImg(data)  
+                          callbackImg(data)
                       }
                   });
               }
@@ -960,8 +963,8 @@ angular.module('directives', [])
                   $scope.$apply(function(){
                     $scope.myQuery = data.data
                   });
-                };  
-                img.onerror=function(){alert("error!")};  
+                };
+                img.onerror=function(){alert("error!")};
                 img.src=RootUrl+'api/v1/image/'+data.data;
               }
           }
@@ -981,7 +984,7 @@ angular.module('directives', [])
                     fileTypeExts = '*.jpg;*.png',
                     fileSizeLimit = 3072,
                     obj = angular.element(iElm);
-                   
+
                 if(checkSupport() === "html5"){
                   $('#create').Huploadify({
                     auto:true,
@@ -1015,7 +1018,7 @@ angular.module('directives', [])
                         'fileTypeExts' : fileTypeExts,
                         'fileSizeLimit' : fileSizeLimit+'KB',
                         'onUploadSuccess' : function(file, data, response) {
-                            callbackImg(data)  
+                            callbackImg(data)
                         }
                     });
                 }
@@ -1042,8 +1045,8 @@ angular.module('directives', [])
                     }else{
                       alert('已经上传过了')
                     }
-                  };  
-                  img.onerror=function(){alert("error!")};  
+                  };
+                  img.onerror=function(){alert("error!")};
                   img.src=RootUrl+'api/v1/image/'+data.data;
                 }
                 $scope.removeImg = function(i,arr){
@@ -1127,42 +1130,42 @@ angular.module('directives', [])
                       oSecond = oBox.find('.second'),
                       body = angular.element(document);
                   for (var i = 0; i < select.length; i++) {
-                    switch (select[i]){ 
-                      case 'year' : 
+                    switch (select[i]){
+                      case 'year' :
                         createList(yearData,oYear);
                         sYear = setDate(oYear,newDate.getFullYear());
                         optionEvevt(oYear)
                         fnDays();
-                      break; 
-                      case 'month' : 
+                      break;
+                      case 'month' :
                         createList(monthData,oMonth);
                         sMonth = setDate(oMonth,newDate.getMonth()+1);
                         optionEvevt(oMonth)
                       break;
-                      case 'days' : 
+                      case 'days' :
                         createList(daysData,oDays);
                         sDays = setDate(oDays,newDate.getDate());
                         optionEvevt(oDays)
-                      break; 
-                      case 'hour' : 
+                      break;
+                      case 'hour' :
                         createList(hourData,oHour);
                         sHour = setDate(oHour,newDate.getHours());
                         optionEvevt(oHour)
                       break;
-                      case 'minute' : 
+                      case 'minute' :
                         createList(minuteData,oMinute);
                         sMinute = setDate(oMinute,newDate.getMinutes());
                         optionEvevt(oMinute)
-                      break; 
-                      case 'second' : 
+                      break;
+                      case 'second' :
                         sSecond = setDate(oSecond,newDate.getSeconds());
                         optionEvevt(oSecond)
-                      break;   
-                      default : 
+                      break;
+                      default :
                         alert('您书写有错！')
-                      break; 
-                    } 
-                  }; 
+                      break;
+                    }
+                  };
                 // 渲染城市数据
                 function createList(arr,obj){
                     obj.find('select').remove();
@@ -1174,7 +1177,7 @@ angular.module('directives', [])
                       }else{
                         sHtml += '<li data-val="'+parseInt(arr[i])+'"><a>'+arr[i]+'</a></li>';
                       }
-                        
+
                     };
                     sHtml += '</ul>';
                     obj.append(sHtml)
@@ -1276,7 +1279,7 @@ angular.module('directives', [])
                   });
                 }
                 body.on('click', function(ev){
-                    selectHide(); 
+                    selectHide();
                 });
                 function selectHide(obj){
                   oBox.each(function(index, el) {
@@ -1288,7 +1291,7 @@ angular.module('directives', [])
                   });
                 }
                 function selectShow(obj){
-                  obj.find('.select').show(); 
+                  obj.find('.select').show();
                   oBox.css('zIndex',20)
                 }
                 function getDate(){
@@ -1306,7 +1309,7 @@ angular.module('directives', [])
                     }
                     $scope.myQuery = (new Date(s)).getTime();
                   });
-                }            
+                }
             }
         };
     }])
@@ -1317,18 +1320,42 @@ angular.module('directives', [])
             restrict: 'A',
             link: function($scope, iElm, iAttrs, controller) {
               var res = /^[1-9]*[1-9][0-9]*$/;
-                $scope.$watch(iAttrs.ngModel, function(newValue, oldValue, scope){
-                  if(!!newValue){
-                    if(res.test(newValue)){
-                      controller.$setValidity('number', true)
-                    }else{
-                      controller.$setValidity('number', false)
-                    }
+              $scope.$watch(iAttrs.ngModel, function(newValue, oldValue, scope){
+                if(!!newValue){
+                  if(res.test(newValue)){
+                    controller.$setValidity('number', true)
+                  }else{
+                    controller.$setValidity('number', false)
                   }
-                });
+                }
+              });
+              /*var res = /^([^0-9]*)(?:0(?=[1-9]))?([1-9][0-9]*|0|)(([^0-9]*)([0-9]*))*$/;
+                $scope.$watch(iAttrs.ngModel, function(newValue, oldValue, scope){
+                  var str = newValue.replace(res,'$2');
+                      controller.$setValidity('number', (parseInt(str) != NaN))
+                });*/
             }
         };
     }])
+    .directive('limitNumber',['$timeout',function($timeout){     //检测是不是数字
+         return {
+             replace : true,
+             require : 'ngModel',
+             restrict: 'A',
+             link: function($scope, iElm, iAttrs, controller) {
+               var res = /^([^0-9]*)(?:0(?=[1-9]))?([1-9][0-9]*|0|)(([^0-9]*)([0-9]*))*$/;
+               $scope.$watch(iAttrs.ngModel, function(newValue, oldValue, scope){
+                  if(!!newValue){
+                    console.log(typeof newValue)
+                    var str = newValue.replace(res,'$2');
+                    console.log(str)
+                    controller.$setViewValue(str);
+                    console.log(controller)
+                  }
+               });
+             }
+         };
+     }])
     .directive('myPageing',['$timeout',function($timeout){     //分页
         return {
             replace : true,
@@ -1406,7 +1433,7 @@ angular.module('directives', [])
                     var self = this;
                     return function(ev){ return self.pageSelected(pageId,ev); }
                   },
-                  appendItem : function(pageId, appendopts,np){  //生成按钮  
+                  appendItem : function(pageId, appendopts,np){  //生成按钮
                     pageId = pageId<0?0:(pageId<np?pageId:np-1); // 规范page id值
                     appendopts = angular.extend({text:pageId+1, classes:""}, appendopts||{});
                     if(pageId == pageObj.currentPage){
@@ -1415,7 +1442,7 @@ angular.module('directives', [])
                       var lnk = angular.element("<a>"+(appendopts.text)+"</a>")
                         .on("click", this.getClickHandler(pageId))
                         .addClass('btns')
-                        .attr('href', pageObj.linkTo.replace(/__id__/,pageId+1));   
+                        .attr('href', pageObj.linkTo.replace(/__id__/,pageId+1));
                     }
                     if(appendopts.classes){lnk.addClass(appendopts.classes);}
                     obj.append(lnk);
@@ -1474,3 +1501,78 @@ angular.module('directives', [])
             }
         };
     }])
+    .directive('myPlaceholder', ['$compile', function($compile){
+      return {
+          restrict: 'A',
+          scope: {},
+          link: function(scope, ele, attr) {
+              var input = document.createElement('input');
+              var isSupportPlaceholder = 'placeholder' in input || 'placeholder' in textarea;
+              if (!isSupportPlaceholder) {
+                  var fakePlaceholder = angular.element(
+                      '<span class="placeholder">' + attr['placeholder'] + '</span>');
+                  fakePlaceholder.on('click', function(e){
+                      e.stopPropagation();
+                      ele.focus();
+                  });
+                  ele.before(fakePlaceholder);
+                  $compile(fakePlaceholder)(scope);
+                  ele.on('focus', function(){
+                      fakePlaceholder.hide();
+                  }).on('blur', function(){
+                      if (ele.val() === '') {
+                          fakePlaceholder.show();
+                      }
+                  });
+                  scope.getElementPosition = function() {
+                      return ele.position();
+                  };
+                  scope.$watch(scope.getElementPosition, function(){
+                      fakePlaceholder.css({
+                          'top': ele.position().top + 'px',
+                          'left': ele.position().left + 'px'
+                      });
+                  }, true);
+                  scope.getElementHeight = function() {
+                      return ele.outerHeight();
+                  };
+                  scope.$watch(scope.getElementHeight, function(){
+                      fakePlaceholder.css('line-height', ele.outerHeight() + 'px');
+                  });
+                  if (ele.css('font-size')){
+                      fakePlaceholder.css('font-size', ele.css('font-size'));
+                  }
+                  if (ele.css('text-indent')){
+                      fakePlaceholder.css('text-indent',
+                          parseInt(ele.css('text-indent')) +
+                          parseInt(ele.css('border-left-width'))
+                      );
+                  }
+                  if (ele.css('padding-left')){
+                      fakePlaceholder.css('padding-left', ele.css('padding-left'));
+                  }
+                  if (ele.css('margin-top')){
+                      fakePlaceholder.css('margin-top', ele.css('margin-top'));
+                  }
+                  scope.isElementVisible = function(){
+                      return ele.is(':visible');
+                  };
+                  scope.$watch(scope.isElementVisible, function(){
+                      var displayVal = ele.is(':visible') ? 'block' : 'none';
+                      fakePlaceholder.css('display', displayVal);
+                      if (displayVal === 'blcok' && ele.val()) {
+                          fakePlaceholder.hide();
+                      }
+                  });
+                  scope.hasValue = function(){
+                      return ele.val();
+                  };
+                  scope.$watch(scope.hasValue, function(){
+                      if (ele.val()) {
+                          fakePlaceholder.hide();
+                      }
+                  });
+              }
+          }
+      };
+  }]);

@@ -33,12 +33,12 @@ define(['jquery','lodash'], function($,_){
 						'data'  : data.dec_strategies
  					},
  					{
-						'title' : '生活点滴',
+						'title' : '生活贴士',
 						'data'  : data.dec_tips
  					}
 				]
 			    templatebk = this.settings.templatebk.join(''),
-			    templatets = this.settings.templatets.join(''), 
+			    templatets = this.settings.templatets.join(''),
 				compiledbk = _.template(templatebk),
 				compiledts = _.template(templatets);
 			this.container.append(compiledbk({item : raiders[0]}));

@@ -72,7 +72,7 @@ body{
 	background-color: #f9f9f9;
 }
 .g-sd a:hover{
-	color: #fe7004;	
+	color: #fe7004;
 }
 .g-sd dl{
 	padding:10px 0;
@@ -395,12 +395,20 @@ body{
 }
 .k-cropBox .cropBox{
 	position:relative;
-	background-color: #bababa;
 }
 .k-cropBox img{
 	width: 100%;
 }
 .k-cropBox .img1{
+
+}
+.k-cropBox .mask{
+	position: absolute;
+	left:0;
+	top:0;
+	bottom:0;
+	right: 0;
+	background-color: #000;
 	opacity: 0.5;
 	filter: alpha(opacity=50);
 }
@@ -417,7 +425,7 @@ body{
 	z-index: 2;
 	width: 300px;
 	height: 300px;
-	border: 1px solid #fff;	
+	border: 1px solid #fff;
 }
 .k-cropBox .cropBorder span{
 	position: absolute;
@@ -532,7 +540,7 @@ body{
 	overflow-y: auto;
 }
 .k-select .select a{
-	display: block;	
+	display: block;
 	line-height: 30px;
 	text-align: center;
 	color: #333;
@@ -612,7 +620,7 @@ body{
 	display: none;
 }
 .k-cities .select a{
-	display: block;	
+	display: block;
 	line-height: 30px;
 	text-align: center;
 	color: #333;
@@ -681,7 +689,7 @@ body{
 	padding: 0 !important;
 }
 .m-date ul.select a{
-	display: block;	
+	display: block;
 	line-height: 30px;
 	text-align: center;
 	color: #333;
@@ -845,7 +853,7 @@ body{
 	border-top: 1px solid #eee;
 	-webkit-transition:background 0.5s;
 	-ms-transition:background 0.5s;
-	-moz-transition:background 0.5s;	
+	-moz-transition:background 0.5s;
 	-o-transition:background 0.5s;
 	transition:background 0.5s;
 }
@@ -880,7 +888,7 @@ body{
 .m-index .list .progress .bar{
 	width: 100%;
 	height: 8px;
-	background-color: #f1f1f1;	
+	background-color: #f1f1f1;
 }
 .m-index .list .progress .in{
 	height: 8px;
@@ -1034,7 +1042,7 @@ body{
 	opacity: 0.5;
 	-webkit-transition:opacity 0.5s;
 	-ms-transition:opacity 0.5s;
-	-moz-transition:opacity 0.5s;	
+	-moz-transition:opacity 0.5s;
 	-o-transition:opacity 0.5s;
 	transition:opacity 0.5s;
 }
@@ -1071,7 +1079,7 @@ body{
 	border-top: none;
 	-webkit-transition:background 0.5s;
 	-ms-transition:background 0.5s;
-	-moz-transition:background 0.5s;	
+	-moz-transition:background 0.5s;
 	-o-transition:background 0.5s;
 	transition:background 0.5s;
 }
@@ -1111,7 +1119,7 @@ body{
 }
 .m-historys .list .tag{
 	padding-top: 10px;
-}  
+}
 .u-requirement{
 	min-width: 126px;
 	padding: 0;
@@ -1132,7 +1140,7 @@ body{
 	height: 46px;
 	padding-left: 19px;
 	line-height: 46px;
-	background-color: #f1f1f1;	
+	background-color: #f1f1f1;
 }
 .m-requirement .tabs li{
 	float: left;
@@ -1678,7 +1686,7 @@ body{
 }
 .favorite .list .img img{
 	width: 100%;
-	min-height: 100%;	
+	min-height: 100%;
 }
 .favorite .list h4{
 	padding: 12px 19px 0;
@@ -1698,7 +1706,7 @@ body{
 	height: 30px;
 	line-height: 30px;
 	border-bottom: 1px solid #eee;
-} 
+}
 .favorite .list .tag span{
 	display: inline-block;
 	margin-right: 25px;
@@ -1866,7 +1874,7 @@ body{
 	height: 46px;
 	padding-left: 19px;
 	line-height: 45px;
-	background-color: #f1f1f1;	
+	background-color: #f1f1f1;
 }
 .plans-ct .tabs li{
 	float: left;
@@ -1988,10 +1996,12 @@ body{
 	width: 338px;
 }
 .plans-ct .quotes .table .td3 .designFee{
-	width: 188px;
-	margin-left: 108px;
+	display: inline-block;
+	margin-left: 60px;
 }
-
+.plans-ct .quotes .table .td3 .designFee input{
+		width: 188px;
+}
 .plans-ct .quotes .table tr input:focus{
 	border-color: #00a0e8;
 }
@@ -2021,10 +2031,12 @@ body{
 	border-top: 1px dashed #e3e3e3;
 	line-height: 99px;
 }
+.plans-ct .quotes .table .create .new{
+		margin-left: 158px;
+		margin-right: 10px;
+}
 .plans-ct .quotes .table .create input{
 	width: 273px;
-	margin-left: 158px;
-	margin-right: 10px;
 }
 .plans-ct .quotes .table .footer{
 	border-top: 1px solid #e5e5e5;
@@ -2083,6 +2095,17 @@ body{
     background:none;
     text-align: center;
 }
+.k-uploadbox .pic .mask{
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 10000;
+	background-color: #fff;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
 .k-uploadbox .item{
 	position: relative;
 	float: left;
@@ -2095,6 +2118,7 @@ body{
 	height: 168px;
 	overflow: hidden;
 	border-radius: 2px;
+	background:url(../img/user/loading.gif) center center no-repeat;
 }
 .k-uploadbox .item .close{
 	position: absolute;
@@ -2312,7 +2336,7 @@ body{
 	border-bottom: 1px solid #eee;
 	-webkit-transition:background 0.5s;
 	-ms-transition:background 0.5s;
-	-moz-transition:background 0.5s;	
+	-moz-transition:background 0.5s;
 	-o-transition:background 0.5s;
 	transition:background 0.5s;
 }

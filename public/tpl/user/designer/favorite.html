@@ -9,7 +9,7 @@
 					<div class="deleted" bo-if="list.is_deleted">
 						<span><i class="iconfont2">&#xe626;</i></span>
 						<p>原内容已被作者删除</p>
-						<a href="javascript:;" class="u-btns" ng-click="deleteFavorite(list._id)"><i>删除</i>删除</a>
+						<a href="javascript:;" class="u-btns" ng-click="deleteFavorite(list._id)"><i class="iconfont2">&#xe619;</i>&nbsp;&nbsp;删除</a>
 					</div>
 					<div class="boxs" bo-if="!list.is_deleted">
 						<a target="_blank" bo-href-i="/tpl/design/detail.html?{{list._id}}" class="img">
@@ -23,7 +23,7 @@
 							<span><i bo-text="list.dec_style"></i></span>
 						</div>
 						<p bo-text="list.description"></p>
-						<a href="javascript:;" class="u-btns" ng-click="deleteFavorite(list._id)"><i>删除</i>删除</a>
+						<a href="javascript:;" class="u-btns" ng-click="deleteFavorite(list._id)"><i class="iconfont2">&#xe619;</i>&nbsp;&nbsp;删除</a>
 					</div>
 				</li>
 			</ul>

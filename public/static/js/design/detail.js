@@ -23,6 +23,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cook
     search.init();
 })
 require(['jquery','lib/jquery.cookie','utils/common','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,cookie,common){
+        var user = new common.User();
         var goto = new common.Goto();
         var Detail = function(){};
         Detail.prototype = {
