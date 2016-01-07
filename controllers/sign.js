@@ -17,18 +17,19 @@ exports.wechat_login_callback = function (req, res, next) {
   ep.fail(next);
 
   console.log('code = ' + code);
-  console.log('state = ' + code);
+  console.log('state = ' + state);
   ep.on('access_token_ok', function (sres) {
     superagent.get(
-      'https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID'
+      'https://api.weixin.qq.com/sns/userinfo'
     ).query({
-      access_token: sres.access_token,
-      openid: sres.openid,
+      access_token: sres.body.access_token,
+      openid: sres.body.openid,
     }).end(ep.done(function (sres) {
-      if (sres.ok) {
-        console.log(sres.body);
+      console.log(sres.body);
+      console.log(sres);
+      if (sres.ok && sres.body.wechat_unionid) {
         User.findOne({
-          wechat_unionid: wechat_unionid,
+          wechat_unionid: sres.body.wechat_unionid,
         }, null, ep.done(function (user) {
           if (user) {
             //已经登录过
@@ -57,11 +58,11 @@ exports.wechat_login_callback = function (req, res, next) {
   ep.on('wechat_first_login', function (sres) {
     ep.on('imageid', function (imageid) {
       User.newAndSave({
-        wechat_unionid: sres.unionid,
-        wechat_openid: sres.openid,
+        wechat_unionid: sres.body.unionid,
+        wechat_openid: sres.body.openid,
         imageid: imageid,
-        sex: sres.sex - 1 + '',
-        username: sres.nickname,
+        sex: sres.body.sex - 1 + '',
+        username: sres.body.nickname,
       }, ep.done(function (user_indb) {
         // store session cookie
         authMiddleWare.gen_session(user_indb,
@@ -71,7 +72,7 @@ exports.wechat_login_callback = function (req, res, next) {
     });
 
     if (sres.headimgurl) {
-      superagent.get(sres.headimgurl).end(function (err,
+      superagent.get(sres.body.headimgurl).end(function (err,
         sres) {
         if (sres.ok) {
           var md5 = utility.md5(sres.body);
@@ -110,8 +111,9 @@ exports.wechat_login_callback = function (req, res, next) {
       code: code,
       grant_type: 'authorization_code',
     }).end(ep.done(function (sres) {
+      console.log(sres.body);
+      console.log(sres);
       if (sres.ok) {
-        console.log(sres.body);
         ep.emit('access_token_ok', sres);
       } else {
         res.sendErrMsg('获取access_token失败，授权失败');
@@ -123,4 +125,5 @@ exports.wechat_login_callback = function (req, res, next) {
   }
 }
 
+//https://open.weixin.qq.com/connect/qrconnect?appid=wxb7a170c2e0792072&redirect_uri=http%3a%2f%2f101.200.191.159%2fwechat%2flogin_callback&response_type=code&scope=snsapi_login&state=894a6cf426cb0cf80c51a2ef7cfdd241#wechat_redirect
 //https://open.weixin.qq.com/connect/qrconnect?appid=wxb7a170c2e0792072&redirect_uri=http%3a%2f%2f101.200.191.159%2fwechat%2flogin_callback&response_type=code&scope=snsapi_login&state=894a6cf426cb0cf80c51a2ef7cfdd240#wechat_redirect
