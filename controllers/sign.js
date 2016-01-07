@@ -72,9 +72,8 @@ exports.wechat_login_callback = function (req, res, next) {
       }));
     });
 
-    if (sres.headimgurl) {
-      superagent.get(sres.body.headimgurl).end(function (err,
-        sres) {
+    if (sres.body.headimgurl) {
+      superagent.get(sres.body.headimgurl).end(function (err, sres) {
         if (sres.ok) {
           var md5 = utility.md5(sres.body);
           Image.findOne({
