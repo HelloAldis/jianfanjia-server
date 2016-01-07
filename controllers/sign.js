@@ -27,9 +27,9 @@ exports.wechat_login_callback = function (req, res, next) {
     }).end(ep.done(function (sres) {
       sres.body = JSON.parse(sres.text);
       console.log(sres.body);
-      if (sres.ok && sres.body.wechat_unionid) {
+      if (sres.ok && sres.body.unionid) {
         User.findOne({
-          wechat_unionid: sres.body.wechat_unionid,
+          wechat_unionid: sres.body.unionid,
         }, null, ep.done(function (user) {
           if (user) {
             //已经登录过
