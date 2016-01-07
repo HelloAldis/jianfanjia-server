@@ -160,7 +160,8 @@ exports.search_share = function (req, res, next) {
       }, {
         _id: 1,
         username: 1,
-        imageid: 1
+        imageid: 1,
+        phone: 1,
       }, function (err, designer_indb) {
         var s = share.toObject();
         s.designer = designer_indb;
