@@ -192,6 +192,7 @@ exports.authWeb = function (req, res, next) {
   } else if (_.indexOf(userPages, url) >= 0) {
     if (userid) {
       if (usertype === type.role_user) {
+        console.log(req);
         var href = req.href;
         if (href.search(/owner.html#\/release/i) > -1) {
           if (Api.getPhone(req)) {
