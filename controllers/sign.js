@@ -12,7 +12,20 @@ var imageUtil = require('../common/image_util');
 var type = require('../type');
 var utility = require('utility');
 
-exports.wechat_login_callback = function (req, res, next) {
+exports.wechat_user_login = function (req, res, next) {
+  var redirect_uri =
+    'http%3a%2f%2f{host}%2fwechat%2fuser_login_callback';
+  var url =
+    'https://open.weixin.qq.com/connect/qrconnect?appid={appid}&redirect_uri={redirect_uri}&response_type=code&scope=snsapi_login&state={state}#wechat_redirect';
+  var state = utility.randomString(16, 'abcdef0123456789');
+  redirect_uri = redirect_uri.replace(/{host}/g, req.headers.host);
+  var url = url.replace(/{appid}/g, config.wechat_open_web_appid).replace(
+    /{redirect_uri}/g, redirect_uri).replace(/{state}/g, state);
+
+  res.redirect(url);
+}
+
+exports.wechat_user_login_callback = function (req, res, next) {
   var code = req.query.code;
   var state = req.query.state;
   var ep = new eventproxy();
