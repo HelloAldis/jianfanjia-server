@@ -56,6 +56,7 @@ exports.adminRequired = function (req, res, next) {
 exports.gen_session = function (user, usertype, req, res) {
   req.session.userid = user._id;
   req.session.usertype = usertype;
+  req.session.phone = user.phone;
   if (usertype === type.role_designer) {
     req.session.agreee_license = user.agreee_license;
   }
@@ -191,7 +192,16 @@ exports.authWeb = function (req, res, next) {
   } else if (_.indexOf(userPages, url) >= 0) {
     if (userid) {
       if (usertype === type.role_user) {
-        next();
+        var href = req.href;
+        if (href.search(/owner.html#\/release/i) > -1) {
+          if (Api.getPhone(req)) {
+            next();
+          } else {
+            res.redirect('/');
+          }
+        } else {
+          next();
+        }
       } else if (usertype === type.role_designer) {
         res.status(403).send('forbidden!');
       }
