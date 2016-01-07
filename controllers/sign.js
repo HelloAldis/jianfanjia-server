@@ -25,8 +25,8 @@ exports.wechat_login_callback = function (req, res, next) {
       access_token: sres.body.access_token,
       openid: sres.body.openid,
     }).end(ep.done(function (sres) {
+      sres.body = JSON.parse(sres.text);
       console.log(sres.body);
-      console.log(sres);
       if (sres.ok && sres.body.wechat_unionid) {
         User.findOne({
           wechat_unionid: sres.body.wechat_unionid,
@@ -51,7 +51,7 @@ exports.wechat_login_callback = function (req, res, next) {
     if (user_indb.phone) {
       res.redirect(config.user_home_url);
     } else {
-      res.redirect('/');
+      res.redirect(config.user_home_url);
     }
   });
 
@@ -67,7 +67,7 @@ exports.wechat_login_callback = function (req, res, next) {
         // store session cookie
         authMiddleWare.gen_session(user_indb,
           type.role_user, req, res);
-        res.redirect('/');
+        res.redirect(config.user_home_url);
       }));
     });
 
@@ -111,9 +111,9 @@ exports.wechat_login_callback = function (req, res, next) {
       code: code,
       grant_type: 'authorization_code',
     }).end(ep.done(function (sres) {
+      sres.body = JSON.parse(sres.text);
       console.log(sres.body);
-      console.log(sres);
-      if (sres.ok) {
+      if (sres.ok && sres.body.access_token && sres.body.openid) {
         ep.emit('access_token_ok', sres);
       } else {
         res.sendErrMsg('获取access_token失败，授权失败');
