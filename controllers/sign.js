@@ -9,6 +9,7 @@ var config = require('../apiconfig');
 var superagent = require('superagent');
 var Image = require('../proxy').Image;
 var imageUtil = require('../common/image_util');
+var type = require('../type');
 
 exports.wechat_login_callback = function (req, res, next) {
   var code = req.query.code;
