@@ -123,4 +123,4 @@ exports.wechat_login_callback = function (req, res, next) {
   }
 }
 
-//https://open.weixin.qq.com/connect/qrconnect?appid=wxbdc5610cc59c1631&redirect_uri=https%3A%2F%2Fpassport.yhd.com%2Fwechat%2Fcallback.do&response_type=code&scope=snsapi_login&state=894a6cf426cb0cf80c51a2ef7cfdd240#wechat_redirect
+//https://open.weixin.qq.com/connect/qrconnect?appid=wxb7a170c2e0792072&redirect_uri=http%3a%2f%2f101.200.191.159%2fwechat%2flogin_callback&response_type=code&scope=snsapi_login&state=894a6cf426cb0cf80c51a2ef7cfdd240#wechat_redirect
