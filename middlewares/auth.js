@@ -56,7 +56,6 @@ exports.adminRequired = function (req, res, next) {
 exports.gen_session = function (user, usertype, req, res) {
   req.session.userid = user._id;
   req.session.usertype = usertype;
-  req.session.phone = user.phone;
   if (usertype === type.role_designer) {
     req.session.agreee_license = user.agreee_license;
   }
@@ -114,30 +113,6 @@ exports.authUser = function (req, res, next) {
   }
 };
 
-// exports.apiAuth = function (req, res, next) {
-//   if (req.session.user) {
-//     next();
-//     return;
-//   }
-//
-//   var ep = new eventproxy();
-//   ep.fail(next);
-//
-//   var accessToken = req.body.accesstoken || req.query.accesstoken;
-//   accessToken = validator.trim(accessToken);
-//
-//   UserModel.findOne({accessToken: accessToken}, ep.done(function (user) {
-//     if (!user) {
-//       res.status(403);
-//       return res.send({error_msg: 'wrong accessToken'});
-//     }
-//     req.user = user;
-//     next();
-//   }));
-//
-// };
-
-
 var loginPages = ['/login.html'];
 var designerPages = ['/designer.html', 'license.html'];
 var userPages = ['/owner.html'];
@@ -192,17 +167,7 @@ exports.authWeb = function (req, res, next) {
   } else if (_.indexOf(userPages, url) >= 0) {
     if (userid) {
       if (usertype === type.role_user) {
-        console.log(req);
-        var href = req.href;
-        if (href.search(/owner.html#\/release/i) > -1) {
-          if (Api.getPhone(req)) {
-            next();
-          } else {
-            res.redirect('/');
-          }
-        } else {
-          next();
-        }
+        next();
       } else if (usertype === type.role_designer) {
         res.status(403).send('forbidden!');
       }

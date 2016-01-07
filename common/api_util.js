@@ -22,12 +22,6 @@ exports.getAgreeeLicense = function (req) {
   }
 }
 
-exports.getPhone = function (req) {
-  if (req.session) {
-    return req.session.phone;
-  }
-}
-
 exports.buildUser = function (req) {
   var user = {};
   user.username = req.body.username;
