@@ -72,10 +72,12 @@ exports.wechat_login_callback = function (req, res, next) {
       }));
     });
 
+    console.log('sres.body.headimgurl = ' + sres.body.headimgurl);
     if (sres.body.headimgurl) {
       superagent.get(sres.body.headimgurl).end(function (err, sres) {
         if (sres.ok) {
           var md5 = utility.md5(sres.body);
+          console.log(sres.body);
           Image.findOne({
             'md5': md5,
           }, null, function (err, image) {
