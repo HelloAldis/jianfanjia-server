@@ -29,6 +29,7 @@
 								<label class="u-lab" for="owner-email">报价</label>
 								<div class="u-inp">
 									<div class="input quote" ng-click="designerPlan.tabBtn(false)">
+										<input type="hidden" ng-model="plan.total_price" required />
 										<div ng-bind="plan.total_price | number"></div>
 										<span class="unit">元</span>
 									</div>
@@ -47,8 +48,9 @@
 							<div class="item">
 								<label class="u-lab">项目经理</label>
 								<div class="u-inp" style="z-index:100">
-									<div my-selectn my-list="designerPlan.managers" my-query="plan.manager" ng-if="plan.manager && designerPlan.managers.length"></div>
-									<a ui-sref="addteam" class="u-btns" ng-if="!designerPlan.managers.length">请先添加一名项目经理再提交方案</a>
+										<input type="hidden" ng-model="plan.manager" required />
+										<div my-selectn my-list="designerPlan.managers" my-query="plan.manager" ng-if="plan.manager && designerPlan.managers.length"></div>
+										<a ui-sref="addteam" class="u-btns" style="display:node;" ng-show="designerPlan.addteam">请先添加一名项目经理再提交方案</a>
 								</div>
 							</div>
 						</div>
@@ -56,6 +58,7 @@
 							<div class="item">
 								<label class="u-lab" for="owner-addr">上传平面图</label>
 								<div class="u-inp">
+									<input type="hidden" ng-model="plan.images.length" check-images required />
 									<div my-uploade my-id="create" my-query="plan.images" ng-if="plan"></div>
 								</div>
 							</div>
@@ -125,7 +128,7 @@
 					</dl>
 					<dl class="f-fr">
 						<dt>折后总价</dt>
-						<dd><span ng-if="plan.total_price != 0"><strong ng-bind="plan.total_price | number"></strong>元</span></dd>
+						<dd><span ng-if="plan.total_price"><strong ng-bind="plan.total_price | number"></strong>元</span></dd>
 					</dl>
 				</div>
 				<div class="btns">

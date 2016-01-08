@@ -100,7 +100,7 @@ require(['jquery','lib/jquery.cookie','utils/common','utils/page','lib/jquery.re
                     arr.push('</div><div class="service f-cb"><div class="f-fl">');
                     arr.push('<dl><dt>'+data.authed_product_count+'</dt><dd>作品</dd></dl>');
                     arr.push('<dl><dt>'+data.order_count+'</dt><dd>预约</dd></dl></div>');
-                    arr.push('<h4 class="f-fr"><em>设计费</em><strong>'+globalData.price_area(data.design_fee_range)+'</strong>元/m&sup2;</h4></div>');
+                    arr.push('<h4 class="f-fr"><em>设计费</em><strong>'+( data.design_fee_range == undefined ? '0' : globalData.price_area(data.design_fee_range))+'</strong>元/m&sup2;</h4></div>');
                     this.info.html(arr.join('')).removeClass('hide');
                     this.createService(data);
             },
@@ -152,10 +152,16 @@ require(['jquery','lib/jquery.cookie','utils/common','utils/page','lib/jquery.re
                     for (var i = 0 , len = service.length; i < len; i++) {
                         var span = ''
                         if($.isArray(service[i].content)){
+                            if(!service[i].content.length){
+                                continue;
+                            }
                             for (var j = 0 , len2 = service[i].content.length; j < len2; j++){
                                 span += '<span>'+ globalData[service[i].type](service[i].content[j])+'</span> ';
                             };
                         }else{
+                            if(service[i].content == '0个施工队'){
+                                continue;
+                            }
                             span = '<p>'+service[i].content+'</p>'
                         }
                         sLi += '<li class="'+(service[i].sclass ? service[i].sclass : '')+'"><strong>'+service[i].title+'</strong><div>'+span+'</div></li>';

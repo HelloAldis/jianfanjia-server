@@ -12,7 +12,10 @@
 							<label class="u-lab" for="owner-name">所在城市</label>
 							<div class="u-inp">
 								<div class="u-inp">
-									<div my-cities my-list="designerProduct.address" my-province="product.province" my-city="product.city" my-district="product.district" ng-if="product.province"></div>	
+									<input type="hidden" ng-model="product.province" check-province required />
+									<input type="hidden" ng-model="product.city" check-city required />
+									<input type="hidden" ng-model="product.district" required />
+									<div my-cities my-list="designerProduct.address" my-province="product.province" my-city="product.city" my-district="product.district" ng-if="product.province"></div>
 								</div>
 							</div>
 						</div>
@@ -21,7 +24,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-sex">小区名称</label>
 							<div class="u-inp">
-								<input type="text" class="input" ng-model="product.cell" required />
+								<input type="text" class="input" ng-model="product.cell" placeholder="不能为空" my-placeholder required />
 							</div>
 						</div>
 					</div>
@@ -46,7 +49,7 @@
 							<label class="u-lab" for="owner-addr">装修面积</label>
 							<div class="u-inp">
 								<div class="inp">
-									<input type="text" class="input" ng-model="product.house_area" check-number required />
+									<input type="text" class="input" ng-model="product.house_area" model-format="int" placeholder="请输入整数" my-placeholder required />
 									<span class="unit">m&sup2;</span>
 								</div>
 							</div>
@@ -73,7 +76,7 @@
 							<label class="u-lab" for="owner-addr">装修造价</label>
 							<div class="u-inp">
 								<div class="inp">
-									<input type="text" class="input" ng-model="product.total_price" check-number required />
+									<input type="text" class="input" ng-model="product.total_price" check-number required model-format="float" placeholder="请输入数字" my-placeholder />
 									<span class="unit">万元</span>
 								</div>
 							</div>
@@ -83,7 +86,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-addr">作品引言</label>
 							<div class="u-inp">
-								<textarea class="input long textarea" rows="10" ng-model="product.description" required></textarea>
+								<textarea class="input long textarea" rows="10" ng-model="product.description" required placeholder="不能为空" my-placeholder></textarea>
 							</div>
 						</div>
 					</div>
@@ -91,6 +94,7 @@
 						<div class="item">
 							<label class="u-lab" for="owner-addr">上传作品图片</label>
 							<div class="u-inp product">
+								<input type="hidden" ng-model="product.images.length" check-images required />
 								<div my-productuploade my-id="product" my-query="product.images" my-section="designerProduct.section" ng-if="product"></div>
 							</div>
 						</div>

@@ -685,7 +685,7 @@ angular.module('directives', [])
                   $('#upload').Huploadify({
                     auto:true,
                     fileTypeExts:fileTypeExts,
-                    multi:true,
+                    multi:false,
                     formData:{},
                     fileSizeLimit:fileSizeLimit,
                     showUploadedPercent:true,//是否实时显示上传的百分比，如20%
@@ -706,7 +706,7 @@ angular.module('directives', [])
                         'uploader' : uploaderUrl,
                         'method'   : 'post',
                         'buttonText' : '',
-                        'multi'    : true,
+                        'multi'    : false,
                         'uploadLimit' : 10,
                         'width' : 120,
                         'height' : 120,
@@ -816,20 +816,23 @@ angular.module('directives', [])
             restrict: 'A',
             template: '<div class="k-uploadbox f-cb"><div class="pic" id="create"><div class="fileBtn"><input class="hide" id="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_create"></div><div class="tips"><span><em></em><i></i></span><p>作品上传每张3M以内jpg</p></div></div><div class="item" ng-repeat="img in myQuery"><span class="close" ng-click="removeImg($index,myQuery)"></span><div class="img"><img ng-src="/api/v2/web/thumbnail/168/{{img}}" /></div></div></div>',
             link: function($scope, iElm, iAttrs, controller){
-                function loadImg(){
+              function loadImg(){
                   var uploaderUrl = RootUrl+'api/v2/web/image/upload',
                       fileTypeExts = '*.jpg;*.png',
-                      fileSizeLimit = 3072;
+                      fileSizeLimit = 3072,
+                      multi = false,
+                      auto = true,
+                      removeTimeout = 1;
                   if(checkSupport() === "html5"){
                     $('#create').Huploadify({
-                      auto:true,
+                      auto:auto,
                       fileTypeExts:fileTypeExts,
-                      multi:true,
+                      multi:multi,
                       formData:{},
                       fileSizeLimit:fileSizeLimit,
                       showUploadedPercent:true,
                       showUploadedSize:true,
-                      removeTimeout:1,
+                      removeTimeout:removeTimeout,
                       fileObjName:'Filedata',
                       buttonText : "",
                       uploader:uploaderUrl,
@@ -842,13 +845,13 @@ angular.module('directives', [])
                     });
                   }else{
                     $('#createUpload').uploadify({
-                          'auto'     : true,
-                          'removeTimeout' : 1,
+                          'auto'     : auto,
+                          'removeTimeout' : removeTimeout,
                           'swf'      : 'uploadify.swf',
                           'uploader' : uploaderUrl,
                           'method'   : 'post',
                           'buttonText' : '',
-                          'multi'    : true,
+                          'multi'    : multi,
                           'uploadLimit' : 10,
                           'width' : 168,
                           'height' : 168,
@@ -868,18 +871,18 @@ angular.module('directives', [])
                 function callbackImg(arr){
                   var data = $.parseJSON(arr);
                   var img = new Image();
-                  img.onload=function(){
-                    if(_.indexOf($scope.myQuery,data.data) == -1){
+                  if(_.indexOf($scope.myQuery,data.data) == -1){
+                    img.onload=function(){
                       $scope.$apply(function(){
                         $scope.myQuery.push(data.data);
                       });
-                    }else{
-                      alert('已经上传过了')
                     }
-                    $('#create').find('.mask').remove();
-                  };
-                  img.onerror=function(){alert("error!");$('#create').find('.mask').remove();};
-                  img.src=RootUrl+'api/v2/web/thumbnail/168/'+data.data;
+                    img.onerror=function(){alert("error!");$('#create').find('.mask').remove();};
+                    img.src=RootUrl+'api/v2/web/thumbnail/168/'+data.data;
+                  }else{
+                    alert('已经上传过了')
+                  }
+                  $('#create').find('.mask').remove();
                 }
                 $scope.removeImg = function(i,arr){
                   if(arr.length < 2){
@@ -916,7 +919,7 @@ angular.module('directives', [])
                 create.Huploadify({
                   auto:true,
                   fileTypeExts:fileTypeExts,
-                  multi:true,
+                  multi:false,
                   formData:{},
                   fileSizeLimit:fileSizeLimit,
                   showUploadedPercent:true,//是否实时显示上传的百分比，如20%
@@ -931,13 +934,13 @@ angular.module('directives', [])
                 });
               }else{
                 createUpload.uploadify({
-                    'auto'     : true,
-                    'removeTimeout' : 1,
+                      'auto'     : true,
+                      'removeTimeout' : 1,
                       'swf'      : 'uploadify.swf',
                       'uploader' : uploaderUrl,
                       'method'   : 'post',
                       'buttonText' : '',
-                      'multi'    : true,
+                      'multi'    : false,
                       'uploadLimit' : 10,
                       'width' : boxData.width,
                       'height' : boxData.height,
@@ -980,74 +983,78 @@ angular.module('directives', [])
             restrict: 'A',
             template: '<div class="k-uploadbox f-cb"><div class="pic" id="create"><div class="fileBtn"><input class="hide" id="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_create"></div><div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg<strong ng-if="mySection.length">作品/照片/平面图上均不能放置个人电话号码或违反法律法规的信息。</strong></p></div></div><div class="previews-item" ng-repeat="img in myQuery"><span class="close" ng-click="removeImg($index,myQuery)"></span><div class="img"><img class="img" src="/api/v2/web/thumbnail/168/{{img.imageid}}" ng-show="mySection.length" alt=""><img class="img" src="/api/v2/web/thumbnail/168/{{img.award_imageid}}" ng-show="!mySection.length" alt=""></div><div my-selecte ng-if="mySection.length" my-list="mySection" my-query="img.section"></div><textarea class="input textarea" ng-model="img.description" name="itme_con" cols="30" rows="10"></textarea></div></div>',
             link: function($scope, iElm, iAttrs, controller){
+                 var obj = angular.element(iElm);
+              function loadImg(){
                   var uploaderUrl = RootUrl+'api/v2/web/image/upload',
-                    fileTypeExts = '*.jpg;*.png',
-                    fileSizeLimit = 3072,
-                    obj = angular.element(iElm);
-
-                if(checkSupport() === "html5"){
-                  $('#create').Huploadify({
-                    auto:true,
-                    fileTypeExts:fileTypeExts,
-                    multi:true,
-                    formData:{},
-                    fileSizeLimit:fileSizeLimit,
-                    showUploadedPercent:true,//是否实时显示上传的百分比，如20%
-                    showUploadedSize:true,
-                    removeTimeout:1,
-                    fileObjName:'Filedata',
-                    buttonText : "",
-                    uploader:uploaderUrl,
-                    onUploadComplete:function(file, data, response){
-                      callbackImg(data)
-                    }
-                  });
-                }else{
-                  $('#createUpload').uploadify({
-                      'auto'     : true,
-                      'removeTimeout' : 1,
-                        'swf'      : 'uploadify.swf',
-                        'uploader' : uploaderUrl,
-                        'method'   : 'post',
-                        'buttonText' : '',
-                        'multi'    : true,
-                        'uploadLimit' : 10,
-                        'width' : 168,
-                        'height' : 168,
-                        'fileTypeDesc' : 'Image Files',
-                        'fileTypeExts' : fileTypeExts,
-                        'fileSizeLimit' : fileSizeLimit+'KB',
-                        'onUploadSuccess' : function(file, data, response) {
-                            callbackImg(data)
-                        }
+                      fileTypeExts = '*.jpg;*.png',
+                      fileSizeLimit = 3072,
+                      multi = false,
+                      auto = true,
+                      removeTimeout = 1;
+                  if(checkSupport() === "html5"){
+                    $('#create').Huploadify({
+                      auto:auto,
+                      fileTypeExts:fileTypeExts,
+                      multi:multi,
+                      formData:{},
+                      fileSizeLimit:fileSizeLimit,
+                      showUploadedPercent:true,
+                      showUploadedSize:true,
+                      removeTimeout:removeTimeout,
+                      fileObjName:'Filedata',
+                      buttonText : "",
+                      uploader:uploaderUrl,
+                      onUploadStart : function(){
+                        $('#create').append('<div class="mask"></div>');
+                      },
+                      onUploadSuccess:function(file, data, response){
+                        callbackImg(data)
+                      }
                     });
+                  }else{
+                    $('#createUpload').uploadify({
+                          'auto'     : auto,
+                          'removeTimeout' : removeTimeout,
+                          'swf'      : 'uploadify.swf',
+                          'uploader' : uploaderUrl,
+                          'method'   : 'post',
+                          'buttonText' : '',
+                          'multi'    : multi,
+                          'uploadLimit' : 10,
+                          'width' : 168,
+                          'height' : 168,
+                          'fileTypeDesc' : 'Image Files',
+                          'fileTypeExts' : fileTypeExts,
+                          'fileSizeLimit' : fileSizeLimit+'KB',
+                          'onUploadStart' : function(){
+                              $('#create').append('<div class="mask"></div>');
+                          },
+                          'onUploadSuccess' : function(file, data, response) {
+                              callbackImg(data)
+                          }
+                    });
+                  }
                 }
+                loadImg()
                 function callbackImg(arr){
                   var data = $.parseJSON(arr);
                   var img = new Image();
-                  img.onload=function(){
-                    // if(img.width < 300){
-                    //   alert('图片宽度小于300，请重新上传');
-                    //   return false;
-                    // }else if(img.height < 300){
-                    //   alert('图片高度小于300，请重新上传');
-                    //   return false;
-                    // }
-                    if(_.indexOf($scope.myQuery,data.data) == -1){
+                  if(_.indexOf($scope.myQuery,data.data) == -1){
+                    img.onload=function(){
                       $scope.$apply(function(){
-                        if($scope.mySection.length){
-                          $scope.myQuery.push({"section":"客厅","imageid":data.data,"description":""})
-                        }else{
-                          $scope.myQuery.push({"award_imageid":data.data,"description":""})
-                        }
-
-                      });
-                    }else{
-                      alert('已经上传过了')
+                          if($scope.mySection.length){
+                            $scope.myQuery.push({"section":"客厅","imageid":data.data,"description":""})
+                          }else{
+                            $scope.myQuery.push({"award_imageid":data.data,"description":""})
+                          }
+                        });
                     }
-                  };
-                  img.onerror=function(){alert("error!")};
-                  img.src=RootUrl+'api/v1/image/'+data.data;
+                    img.onerror=function(){alert("error!");$('#create').find('.mask').remove();};
+                    img.src=RootUrl+'api/v2/web/thumbnail/168/'+data.data;
+                  }else{
+                    alert('已经上传过了')
+                  }
+                  $('#create').find('.mask').remove();
                 }
                 $scope.removeImg = function(i,arr){
                   if(arr.length < 2){
@@ -1329,33 +1336,57 @@ angular.module('directives', [])
                   }
                 }
               });
-              /*var res = /^([^0-9]*)(?:0(?=[1-9]))?([1-9][0-9]*|0|)(([^0-9]*)([0-9]*))*$/;
-                $scope.$watch(iAttrs.ngModel, function(newValue, oldValue, scope){
-                  var str = newValue.replace(res,'$2');
-                      controller.$setValidity('number', (parseInt(str) != NaN))
-                });*/
             }
         };
     }])
-    .directive('limitNumber',['$timeout',function($timeout){     //检测是不是数字
-         return {
-             replace : true,
-             require : 'ngModel',
-             restrict: 'A',
-             link: function($scope, iElm, iAttrs, controller) {
-               var res = /^([^0-9]*)(?:0(?=[1-9]))?([1-9][0-9]*|0|)(([^0-9]*)([0-9]*))*$/;
-               $scope.$watch(iAttrs.ngModel, function(newValue, oldValue, scope){
-                  if(!!newValue){
-                    console.log(typeof newValue)
-                    var str = newValue.replace(res,'$2');
-                    console.log(str)
-                    controller.$setViewValue(str);
-                    console.log(controller)
-                  }
-               });
-             }
-         };
-     }])
+   .directive('checkImages',['$timeout',function($timeout){     //检测多张图片
+        return {
+            replace : true,
+            require : 'ngModel',
+            restrict: 'A',
+            link: function($scope, iElm, iAttrs, controller) {
+              $scope.$watch(iAttrs.ngModel, function(newValue, oldValue, scope){
+                controller.$setValidity('images', newValue > 0 ? true : false)
+              });
+            }
+        };
+    }])
+    .directive('checkImage',['$timeout',function($timeout){     //检测单张图片
+        return {
+            replace : true,
+            require : 'ngModel',
+            restrict: 'A',
+            link: function($scope, iElm, iAttrs, controller) {
+              $scope.$watch(iAttrs.ngModel, function(newValue, oldValue, scope){
+                controller.$setValidity('image', !newValue ? true : false)
+              });
+            }
+        };
+    }])
+    .directive('checkProvince',['$timeout',function($timeout){     //检测省份
+        return {
+            replace : true,
+            require : 'ngModel',
+            restrict: 'A',
+            link: function($scope, iElm, iAttrs, controller) {
+              $scope.$watch(iAttrs.ngModel, function(newValue, oldValue, scope){
+                controller.$setValidity('province', newValue != '请选择省份' ? true : false)
+              });
+            }
+        };
+    }])
+    .directive('checkCity',['$timeout',function($timeout){     //检测城市
+        return {
+            replace : true,
+            require : 'ngModel',
+            restrict: 'A',
+            link: function($scope, iElm, iAttrs, controller) {
+              $scope.$watch(iAttrs.ngModel, function(newValue, oldValue, scope){
+                controller.$setValidity('city', newValue != '请选择市' ? true : false)
+              });
+            }
+        };
+    }])
     .directive('myPageing',['$timeout',function($timeout){     //分页
         return {
             replace : true,

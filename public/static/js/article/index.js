@@ -171,7 +171,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                 $(this).attr('class', 'current').siblings().attr('class','');
                 self.toFrom = 0;
                 self.status = $(this).data('filter');
-                History.pushState({state:1}, "独家秘籍--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第1页", "?page=1&status="+self.status);
+                History.pushState({state:1}, "装修攻略--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第1页", "?page=1&status="+self.status);
                 self.loadList();
             })
         },
@@ -180,7 +180,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                 maxElem =  Math.ceil(arr.total/9),
                 current = !History.getState().url.split("?")[1] ? 0 : parseInt(this.strToJson(History.getState().url.split("?")[1]).page) - 1;
                 if(current+1 > maxElem){
-                    History.pushState({state:1}, "独家秘籍--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第1页", "?page=1&status="+self.status);
+                    History.pushState({state:1}, "装修攻略--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第1页", "?page=1&status="+self.status);
                     this.toFrom = 0;
                     self.loadList();
                     return false;
@@ -210,7 +210,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                         self.top = self.list.offset().top;
                         var index = $(this).attr("href").match(/\d+(\.\d+)?/g)[0]
                         self.toFrom = (index-1)*9;
-                        History.pushState({state:index}, "独家秘籍--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第 "+index+" 页", "?page="+index+'&status='+self.status);
+                        History.pushState({state:index}, "装修攻略--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第 "+index+" 页", "?page="+index+'&status='+self.status);
                         $('html,body').animate({scrollTop: self.top}, 500);
                         self.loadList();
                         return false;

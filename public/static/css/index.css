@@ -198,7 +198,7 @@
 	background-color: #ffa400;
 }
 .g-banner ol li.three.active{
-	background-color: #d32000;
+	background-color: #a3d702;
 }
 .g-banner ol li.one.active i{
 	background-position: 0 -58px;
@@ -516,7 +516,7 @@
 }
 .g-supervise li{
 	float: left;
-	width: 322px;
+	width: 320px;
 	height: 348px;
 	border: 1px solid #e5e5e5;
 	text-align: center;
@@ -525,23 +525,30 @@
 	background-color: #fff;
 }
 .g-supervise li h4{
-	margin-bottom: 25px;
 	font-size: 18px;
 	line-height: 55px;
 	font-weight: bold;
 	color: #383d48;
 	background-color: #e5e5e5;
 }
-.g-supervise li .iconfont{
-	display: inline-block;
-	width: 100%;
-	margin-bottom: 20px;
-	font-size: 40px;
-	line-height: 60px;
+.g-supervise .service{
+	height: 80px;
+	padding-top: 23px;
+	margin-bottom: 12px;
+	background: #efefef url(../img/index/supervise.png) 0 35px no-repeat;
+}
+.g-supervise .service h5{
+	font-size: 20px;
+	line-height: 56px;
+	color: #383d48;
+}
+.g-supervise .service .shim{
+	height: 25px;
+	background:url(../img/index/supervise.png) 0 -72px no-repeat;
 }
 .g-supervise li p{
-	font-size: 14px;
-	line-height: 28px;
+	font-size: 16px;
+	line-height: 30px;
 	color: #383d48;
 }
 .g-supervise li a{
@@ -561,19 +568,27 @@
 .g-supervise li.active{
 	position: relative;
 	z-index: 1;
-	width: 320px;
 	height: 382px;
 	margin: 0;
 	border: 2px solid #fe7004;
 }
 .g-supervise li.active h4{
-	margin-bottom: 30px;
 	color: #fff;
 	background-color: #fe7004;
 }
-.g-supervise li.active .iconfont{
-	font-size: 60px;
-	line-height: 80px;
+.g-supervise li.active .service{
+	height: 96px;
+	padding-top: 23px;
+	margin-bottom: 15px;
+	background: #ff8c1b url(../img/index/supervise.png) 0 50px no-repeat;
+}
+.g-supervise li.active .service h5{
+	line-height: 72px;
+	color: #fff;
+}
+.g-supervise li.active p{
+	font-size: 18px;
+	line-height: 36px;
 }
 .g-supervise li.active a{
 	margin-top: 40px;
@@ -587,21 +602,33 @@
 .g-supervise li.first{
 	margin-left: 0;
 	margin-right: -6px;
-	background-color: #f9f9f9;
 }
-.g-supervise li.first h4{
-	width: 220px;
-	padding-top: 66px;
-	padding-left: 60px;
-	margin-bottom: 19px;
-	background: none;
+.g-supervise li.first .service{
+	position: relative;
+	height: 137px;
+	padding-top: 9px;
+	margin-bottom: 60px;
+	background: #efefef;
+}
+.g-supervise li.first .service .icon{
+	position: absolute;
+	left:50%;
+	top:100px;
+	width: 80px;
+	height: 84px;
+	margin-left: -40px;
+	background: url(../img/index/supervise.png) 0 -104px no-repeat;
+}
+.g-supervise li.first .service h5{
+	font-size: 20px;
+	line-height: 112px;
+	font-weight: bold;
+	color: #fe7004;
 }
 .g-supervise li.first p{
-	width: 184px;
-	padding-left: 60px;
-	line-height: 20px;
-	text-align: left;
-	color: #616879;
+	font-size: 14px;
+	line-height: 24px;
+	color: #61687a;
 }
 /*装修美图*/
 .g-mito .m-ct{

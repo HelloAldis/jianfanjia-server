@@ -20,8 +20,9 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
     var Register = function(){};
     Register.prototype = {
         init : function(){
-            this.checkStep = 5;
+            this.checkStep = 4;
             this.agree = true;
+            this.isMobile = false;
             this.status = $("#reg-status");
             this.mobile = $("#reg-account");
             this.captcha = $("#reg-VerifyCode");
@@ -63,6 +64,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                     if(!self.verify.isMobile(self.mobile.val())){
                         self.error.html(self.errmsg.mobile).removeClass('hide');
                         self.mobile.parents('.item').addClass('error');
+                        self.checkStep++;
                         return false;
                     }else{
                         self.error.html('').addClass('hide');
@@ -75,6 +77,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                     if(!self.verify.isVerifyCode(self.captcha.val())){
                         self.error.html(self.errmsg.smscode).removeClass('hide');
                         self.captcha.parents('.item').addClass('error');
+                        self.checkStep++;
                         return false;
                     }else{
                         self.error.html('').addClass('hide');
@@ -87,6 +90,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                     if(!self.verify.isPassword(self.pass.val())){
                         self.error.html(self.errmsg.password).removeClass('hide');
                         self.pass.parents('.item').addClass('error');
+                        self.checkStep++;
                         return false;
                     }else{
                         self.error.html('').addClass('hide');
@@ -99,6 +103,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                     if(self.pass.val() === self.pass2.val() && !self.verify.isPassword(self.pass2.val())){
                         self.error.html(self.errmsg.password_confirm).removeClass('hide');
                         self.pass2.parents('.item').addClass('error');
+                        self.checkStep++;
                         return false;
                     }else{
                         self.error.html('').addClass('hide');
@@ -110,7 +115,6 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                 agree  : function(){
                     if(self.agree){
                         self.error.html('').addClass('hide');
-                        self.checkStep--;
                         return true;
                     }else{
                         self.error.html(self.errmsg.agree).removeClass('hide');
@@ -123,7 +127,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             var self = this;
             $('#reg-agreement').delegate('span','click',function(ev){
                 ev.preventDefault();
-                self.agree = $(this).hasClass('active');
+                self.agree = !$(this).hasClass('active');
                 $(this).toggleClass('active');
                 self.check().agree();
             });
@@ -221,8 +225,11 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                     })
                     .done(function(res) {
                         if(res.err_msg){
+                            self.isMobile = true;
                             self.mobile.parents('.item').addClass('error');
                             self.error.html(res.err_msg).removeClass('hide');
+                        }else{
+                            self.isMobile = false;
                         }
                     });
                 }
@@ -233,14 +240,21 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
         submit : function(){
             var self = this;
             this.form.on('submit',function(){
+                if(self.isMobile){
+                    self.mobile.parents('.item').addClass('error');
+                    self.error.html('手机号码已被使用').removeClass('hide');
+                    return false;
+                }
                 self.check().mobile();
                 self.check().captcha();
                 self.check().pass();
                 self.check().pass2();
-                self.check().agree();
-                if(self.checkStep > 0){
+                if(self.checkStep > 0 ){
                     self.error.html(self.errmsg.submit).removeClass('hide');
                     return false;
+                }
+                if(!self.check().agree()){
+                   return false;
                 }
                 var serialize = self.strToJson($(this).serialize());
                 $.ajax({
@@ -255,10 +269,6 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                     if(res.data !== null){
                         window.location.href = res.data.url;
                     }else{
-                        self.error.html(res.err_msg).removeClass('hide');
-                    }
-                    if(res.err_msg){
-                        self.checkStep = 4;
                         self.error.html(res.err_msg).removeClass('hide');
                     }
                 });

@@ -12,7 +12,7 @@
 				<dl class="f-fl">
 					<dt>物业描述</dt>
 					<dd>
-						<span><i bo-text="requirement.house_type | houseTypeFilter"></i>，</span>
+						<span bo-if="requirement.house_type != undefined"><i bo-text="requirement.house_type | houseTypeFilter"></i>，</span>
 						<span><i bo-text="requirement.house_area"></i>m&sup2;，</span>
 						<span>装修预算<i bo-text="requirement.total_price"></i>万</span>
 					</dd>
@@ -89,7 +89,7 @@
 			<div>
 				<div class="btns" ng-if="requirement.plan.status == 6 || requirement.plan.status == 3">
 					<h4>业主已确认量房，请提交装修方案</h4>
-					<a ui-sref="createPlan({id:requirement._id+'&'+requirement.user._id+'&'+requirement.user.username})" class="u-btns" target="_blank">提交方案</a>
+					<a ui-sref="createPlan({id:requirement._id+'&'+requirement.user._id+'&'+requirement.user.username})" class="u-btns">提交方案</a>
 					<p>您可以提交多套方案</p>
 				</div>
 			</div>

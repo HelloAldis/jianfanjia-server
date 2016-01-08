@@ -189,7 +189,8 @@ angular.module('services', [])
                     "description": "",
                     "price": undefined,
                     "item": "厨房"
-                },{
+                },
+                {
                     "description": "",
                     "price": undefined,
                     "item": "主卫"
@@ -203,7 +204,8 @@ angular.module('services', [])
                     "description": "",
                     "price": undefined,
                     "item": "阳台一"
-                },{
+                },
+                {
                     "description": "",
                     "price": undefined,
                     "item": "阳台二"
