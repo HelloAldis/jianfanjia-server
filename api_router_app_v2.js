@@ -1,7 +1,7 @@
 var express = require('express');
 
 var sign = require('./api/v2/app/sign');
-// var user = require('./api/v2/app/user');
+var user = require('./api/v2/app/user');
 var requirement = require('./api/v2/app/requirement');
 // var plan = require('./api/v2/app/plan');
 // var favorite = require('./api/v2/app/favorite');
@@ -111,7 +111,7 @@ router.post('/user/plan/final', auth.userRequired, planWeb.finalPlan); //选定�
 router.post('/user/process', auth.userRequired, process.start); //开启装修流程
 router.post('/process/done_section', auth.userRequired, process.doneSection); //对比验收完成
 router.post('/user_bind_phone', auth.userRequired, userWeb.user_bind_phone); //业主绑定手机号
-router.post('/user_bind_wechat', auth.userRequired, userWeb.user_bind_wechat); //业主绑定微信
+router.post('/user_bind_wechat', auth.userRequired, user.user_bind_wechat); //业主绑定微信
 
 //设计师独有功能
 router.get('/designer/info', auth.designerRequired, designerWeb.getInfo); //获取设计师自己个人资料
