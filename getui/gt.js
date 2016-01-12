@@ -6,6 +6,7 @@ var Target = require('./Target');
 var APNPayload = require('./payload/APNPayload');
 var SimpleAlertMsg = require('./payload/SimpleAlertMsg');
 var RequestError = require('./RequestError');
+var type = require('../type');
 
 var gt_user = new GeTui(config.gt_HOST, config.gt_user_APPKEY, config.gt_user_MASTERSECRET);
 var gt_designer = new GeTui(config.gt_HOST, config.gt_designer_APPKEY,
@@ -70,10 +71,18 @@ exports.pushMessageToSingle = function (userid, playload) {
   });
 }
 
+function buildAPNAlertMessage(playload) {
+  if (playload.type === type.message_type_procurement) {
+    return '您即将进入下一轮建材购买阶段，您需要购买的是：' + playload.content;
+  } else {
+    return playload.content;
+  }
+}
+
 function buildMessage(appid, appkey, playload) {
   var payload = new APNPayload();
   var alertMsg = new SimpleAlertMsg();
-  alertMsg.alertMsg = playload.content;
+  alertMsg.alertMsg = buildAPNAlertMessage(playload);
   payload.alertMsg = alertMsg;
   payload.badge = 1;
   payload.contentAvailable = 1;

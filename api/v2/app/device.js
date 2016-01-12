@@ -24,13 +24,13 @@ exports.bindCid = function (req, res, next) {
 }
 
 exports.android_build_version = function (req, res, next) {
-  // gt.pushMessageToUser('566798dab6c449fd05969fef', {
-  //   content: 'hahah测试一下',
-  //   section: 'section',
-  //   cell: 'cell',
-  //   type: 'type',
+  // gt.pushMessageToUser('568494454ade4cb02eeff7c5', {
+  //   content: '水电材料',
+  //   section: 'shui_dian',
+  //   cell: '清江山水',
+  //   type: type.message_type_procurement,
   //   time: new Date().getTime(),
-  //   processid: '566798dab6c449fd05969fef',
+  //   processid: '5684d3e7f04423733566b06e',
   // });
 
   var ep = eventproxy();
