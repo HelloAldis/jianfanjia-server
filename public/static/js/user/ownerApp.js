@@ -1,7 +1,7 @@
 'use strict';
 (function() {
     // load modules
-    angular.module('myJyzOwner', ['ui.router','pasvaz.bindonce','controllers', 'services', 'filters' , 'directives'])
+    angular.module('myJyzOwner', ['ui.router','pasvaz.bindonce','controllers', 'services', 'filters' , 'directives','ngmodel.format'])
         .config(function($stateProvider, $urlRouterProvider) {
             var url = RootUrl + 'tpl/user/owner/';
             $urlRouterProvider.otherwise('/index');
@@ -20,6 +20,11 @@
                     url: '/release',
                     templateUrl: url+'release.html',
                     controller : 'releaseCtrl'
+                })
+                .state('bindPhone', {
+                    url: '/phone',
+                    templateUrl: url+'phone.html',
+                    controller : 'phoneCtrl'
                 })
                 .state('updateRequirement', {
                     url: '/release/:id',

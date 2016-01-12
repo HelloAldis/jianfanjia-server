@@ -15,7 +15,7 @@ angular.module('controllers', [])
                         })
                     },function(res){
                         console.log(res)
-                    }); 
+                    });
                 }
                 var designerReg = /designer\?p=/;
                 var favoriteReg = /favorite\?p=/;
@@ -33,7 +33,7 @@ angular.module('controllers', [])
                     }else if(designerReg.test(url.split('/')[1])){
                         $scope.nav = 'designer'
                     }else{
-                       $scope.nav = url.split('/')[1];  
+                       $scope.nav = url.split('/')[1];
                     }
                 });
             }
@@ -49,7 +49,7 @@ angular.module('controllers', [])
         	});
             userComment.unread().then(function(res){
                 $scope.messages = res.data.data;
-                $scope.commentShow = $scope.messages.length != 0 ? true : false; 
+                $scope.commentShow = $scope.messages.length != 0 ? true : false;
                 angular.forEach($scope.messages, function(value, key){
                     value.date = $filter('date')(value.date,'yyyy-MM-dd HH:mm:ss');
                 })
@@ -81,7 +81,7 @@ angular.module('controllers', [])
             userInfo.get().then(function(res){  //获取个人资料
                 if(res.data.data != null){
                     $scope.user = _.assign($scope.user, res.data.data);
-                    $scope.userInfo.isLoading = true; 
+                    $scope.userInfo.isLoading = true;
                 }
             },function(res){
                 console.log(res)
@@ -91,7 +91,7 @@ angular.module('controllers', [])
                     $('#fileToUpload').uploadify('destroy');
                 }
                 $scope.userInfo.disabled = true;
-                userInfo.update($scope.user).then(function(res){     
+                userInfo.update($scope.user).then(function(res){
                     if(res.data.msg == "success"){
                         $('#j-userLogin').find('a').eq(0).html('业主 '+$scope.user.username);
                         $location.path('index');
@@ -100,6 +100,86 @@ angular.module('controllers', [])
                     console.log(res)
                 })
             };
+    }])
+    .controller('phoneCtrl', [     //绑定手机号码
+        '$scope','$rootScope','$location','$stateParams','$interval','userRequiremtne',
+        function($scope, $rootScope,$location,$stateParams,$interval,userRequiremtne){
+            $scope.user = {
+                  "phone":undefined,
+                  "code":undefined
+                }
+            $scope.phone = {
+                phoneMsg : "手机号码不正确",
+                disabled : false,
+                codeValue : '获取验证码',
+                verifyCodeOff : true,
+                verifyPhoneOff : false,
+                isMobile : function(mobile){
+                    return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile);
+                },
+                isVerifyCode : function(str){
+                    return (/^[\d]{6}$/.test(str));
+                },
+                verifyphone : function(phone){
+                    var _this = this;
+                    if(this.isMobile(phone)){
+                        userRequiremtne.verify({'phone':phone}).then(function(res){  //提交手机
+                            if(res.data.msg === "success"){
+                                _this.phoneMsg = "";
+                                _this.verifyPhoneOff = true;
+                            }else{
+                                _this.phoneMsg = res.data.msg;
+                            }
+                        },function(res){
+                            console.log(res)
+                        });
+                    }
+                },
+                verifycode : function(code){
+                    var _this = this;
+                    if(!this.isVerifyCode(code)){
+                        this.codeMsg = '验证码不正确'
+                    }
+                },
+                pullcode : function(phone){
+                    var _this = this;
+                    if(_this.verifyCodeOff && _this.verifyPhoneOff){
+                        _this.verifyCodeOff = false;
+                        countdown();
+                        userRequiremtne.code({'phone':phone}).then(function(res){  //提交手机
+                            console.log(res)
+                           //$location.path('release');
+                        },function(res){
+                            console.log(res)
+                        });
+                    }
+                    function countdown(num){
+                        var count = num || 60;
+                        var timer = null;
+                        $interval.cancel(timer);
+                        timer = $interval(function(){
+                            if(count <= 0){
+                                $interval.cancel(timer);
+                                count = num;
+                                _this.verifyCodeOff = true;
+                                _this.codeValue = '重新获取';
+                            }else{
+                               count--;
+                                _this.codeValue = count+'s后重新获取';
+                            }
+                        }, 1000);
+                    }
+                },
+                submit : function(){
+                    userRequiremtne.phone($scope.user).then(function(res){  //提交手机
+                        if(res.data.msg === "success"){
+                            $location.path('release');
+                        }
+                    },function(res){
+                        console.log(res)
+                    });
+                }
+            }
     }])
 	.controller('releaseCtrl', [     //业主提交需求
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne','userInfo','initData',
@@ -132,7 +212,7 @@ angular.module('controllers', [])
                 communication_type :'0',
                 prefer_sex : '2',
                 family_description : $scope.userRelease.familyDescription[0].name
-            }     
+            }
             if($scope.userRelease.isRelease){        //发布新需求
                 userInfo.get().then(function(res){  //获取个人资料
                     $scope.user = res.data.data;
@@ -144,6 +224,9 @@ angular.module('controllers', [])
                         $scope.requiremtne.province = '请选择省份';
                         $scope.requiremtne.city = '请选择市';
                         $scope.requiremtne.district = '请选择县/区';
+                    }
+                    if($scope.user.phone == undefined){
+                        $location.path('phone');
                     }
                 },function(res){
                     console.log(res)
@@ -174,7 +257,7 @@ angular.module('controllers', [])
                             }
                         },function(res){
                             console.log(res)
-                        }); 
+                        });
                     }else{
                         userRequiremtne.update($scope.requiremtne).then(function(res){  //修改需求
                             if(res.data.msg == "success"){
@@ -220,14 +303,14 @@ angular.module('controllers', [])
                     console.log(res)
             });
             $scope.$on('requirementChildren', function(event, data) {   //父级接收 如果业主操作就需要改变状态
-                $scope.requirement = data;  
-            });  
+                $scope.requirement = data;
+            });
     }])
     .controller('requirementDetailCtrl', [     //装修需求详情
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne','initData',
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,initData){
             var requiremtneId = $stateParams.id;
-            $scope.$on('requirementParent',function(event, data){    //子级接收 
+            $scope.$on('requirementParent',function(event, data){    //子级接收
                 if(data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 4 || data.status == 5 || data.status == 6 || data.status == 7){  //预约量房、确认量房
                     myBooking(data.status)
                 }
@@ -299,7 +382,7 @@ angular.module('controllers', [])
                                         })
                                     })
                                     //检测是否可以点击
-                                    $scope.bookingSuccess = $scope.ordersData.length < 3 ? true : false; 
+                                    $scope.bookingSuccess = $scope.ordersData.length < 3 ? true : false;
                                     // 点击设计师
                                     $scope.selectDesignOff = false;
                                     $scope.selectDesign = function(data){
@@ -356,7 +439,7 @@ angular.module('controllers', [])
                         myBooking()
                         this.motaiDone = false;
                         $location.url('requirement/'+requiremtneId+"/score");
-                    }                   
+                    }
                 },
                 bookingBtn : function(){
                     var This = this;
@@ -435,12 +518,12 @@ angular.module('controllers', [])
                 scoreResponds : initData.scorea,
                 scoreServices : initData.scoreb,
                 respondBtn : function(i){
-                    var This = this; 
+                    var This = this;
                     this.scoreRespond = i;
                     scoreEvent.click(This.scoreResponds,i)
                 },
                 serviceBtn : function(i){
-                    var This = this; 
+                    var This = this;
                     this.scoreService = i;
                     scoreEvent.click(This.scoreServices,i)
                 },
@@ -455,7 +538,7 @@ angular.module('controllers', [])
                     this.clear();
                 },
                 scoreSubmitBtn : function(){    //提交评价
-                    var This = this; 
+                    var This = this;
                     userRequiremtne.score({
                       "requirementid": requiremtneId,
                       "designerid" :This.designerScore._id,
@@ -482,7 +565,7 @@ angular.module('controllers', [])
                     this.motaiScore = true;
                 },
                 confirmBtn : function(data){  //确认量房
-                    var This = this; 
+                    var This = this;
                     userRequiremtne.checked({
                       "requirementid":requiremtneId,
                       "designerid":data._id
@@ -535,7 +618,7 @@ angular.module('controllers', [])
               "planid": pid,
               "designerid": uid,
               "requirementid": requiremtneId
-            }).then(function(res){    
+            }).then(function(res){
                 if(res.data.msg == "success"){
                     alert('您已经选定方案，等候设计师生成合同')
                     myPlan()   //更新方案列表
@@ -547,7 +630,7 @@ angular.module('controllers', [])
         }
         // 三方合同
         function myContract(){   //获取我的第三方合同
-            userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){    
+            userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){
                 $scope.contract = res.data.data;
             },function(res){
                 console.log(res)
@@ -564,7 +647,7 @@ angular.module('controllers', [])
                 current = 0;
             window.onhashchange = function(){
                 var url = parseInt($location.url().split('=')[1]);
-                current = !isNaN(url) ? url - 1 : 0; 
+                current = !isNaN(url) ? url - 1 : 0;
                 dataPage.from = current*dataPage.limit;
                 $location.url('/favorite?p='+(current+1));
                 $scope.favoriteProduct = undefined;
@@ -611,10 +694,10 @@ angular.module('controllers', [])
             }
             $scope.deleteFavorite = function(id){
                 if(confirm('您确定要删除吗？')){
-                    userFavoriteProduct.remove({'_id':id}).then(function(res){ 
+                    userFavoriteProduct.remove({'_id':id}).then(function(res){
                         if(res.data.msg === "success"){
                             $scope.favoriteProduct = undefined;
-                            laod(); 
+                            laod();
                         }
                     },function(res){
                         console.log(res)
@@ -633,7 +716,7 @@ angular.module('controllers', [])
                 current = 0;
             window.onhashchange = function(){
                 var url = parseInt($location.url().split('=')[1]);
-                current = !isNaN(url) ? url - 1 : 0; 
+                current = !isNaN(url) ? url - 1 : 0;
                 dataPage.from = current*dataPage.limit;
                 $location.url('/designer?p='+(current+1));
                 $scope.designers = undefined;
@@ -678,7 +761,7 @@ angular.module('controllers', [])
                     userFavoriteDesigner.remove({'_id':id}).then(function(res){  //获取意向设计师列表
                         if(res.data.msg === "success"){
                             $scope.designers = undefined;
-                            laod(); 
+                            laod();
                         }
                     },function(res){
                         console.log(res)

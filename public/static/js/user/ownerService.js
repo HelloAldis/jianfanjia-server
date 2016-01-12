@@ -29,6 +29,9 @@ angular.module('services', [])
 		};
 		return {
 			list : function(){return doRequest('user_my_requirement_list')},
+      verify : function(data){return doRequest('verify_phone',data)},
+      phone : function(data){return doRequest('user_bind_phone',data)},
+      code : function(data){return doRequest('send_verify_code',data)},
 			add : function(data){return doRequest('user_add_requirement',data)},
 			get : function(data){return doRequest('user_one_requirement',data)},
 			update : function(data){return doRequest('user_update_requirement',data)},
@@ -42,7 +45,7 @@ angular.module('services', [])
 			score : function(data){return doRequest('user_evaluate_designer',data)},
 			contract : function(data){return doRequest('one_contract',data)},
 			change : function(data){return doRequest('user_change_ordered_designer',data)},
-			changeUId : "" 
+			changeUId : ""
 		}
 	}])
 	.factory('userFavoriteDesigner', ['$http', function($http){     //业主 list获取意向设计师列表 add添加 remove删除
@@ -107,18 +110,18 @@ angular.module('services', [])
                 "4":"contract",
                 "5":"contract",
                 "6":"plan",
-                "7":"contract"               
+                "7":"contract"
             },
-            userSex : [ 
+            userSex : [
                 {
                     id : '0',
                     name : '男',
-                    cur : '' 
+                    cur : ''
                 },
                 {
                     id : '1',
                     name : '女',
-                    cur : '' 
+                    cur : ''
                 }
             ],
             decStyle : [
@@ -170,7 +173,7 @@ angular.module('services', [])
                 {"id" :5,"name":'别墅'},
                 {"id" :6,"name":'LOFT'},
                 {"id" :7,"name":'其他'}
-            ], 
+            ],
            	workType : [
                 {"id" :0,"name":'设计＋施工(半包)'},
                 {"id" :1,"name":'设计＋施工(全包)'},
