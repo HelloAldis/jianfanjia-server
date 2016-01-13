@@ -44,6 +44,10 @@ var config = {
   open_weixin_token: false,
   interval_get_wechat_token: 90,
 
+  //微信开放平台设置
+  wechat_open_web_appid: 'wxb7a170c2e0792072',
+  wechat_open_web_appsecret: '1f7fd458aa22ef8758f370c225d38cdc',
+
   //微米短信配置
   sms_uid: 'S9w4LEmiYSgR',
   sms_pas: 's5pf823y',

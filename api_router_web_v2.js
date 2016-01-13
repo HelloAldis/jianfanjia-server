@@ -41,7 +41,7 @@ router.post('/search_share', share.search_share); //获取装修直播分享
 router.get('/image/:_id', image.get); //获取图片
 router.get('/thumbnail/:width/:_id', image.thumbnail); //获取缩略图
 router.get('/watermark/:width/:_id', image.watermark); //获取有水印图
-router.post('/designer/listtop', designer.listtop); //获取首页设计师
+// router.post('/designer/listtop', designer.listtop); //获取首页设计师
 router.post('/designer/search', designer.search); //搜索设计师
 router.post('/designer_home_page', designer.designer_home_page); //游客获取设计师的主页
 router.post('/search_designer_product', product.search_designer_product); //游客获取设计师作品
@@ -52,10 +52,10 @@ router.post('/beautiful_image_homepage', beautiful_image.beautiful_image_homepag
 router.post('/search_beautiful_image', beautiful_image.search_beautiful_image); //游客搜索美图
 router.post('/top_articles', dec_strategy.top_articles); //top文章
 router.post('/search_article', dec_strategy.search_article); //搜索文章
-//router.post('/associate_article', dec_strategy.associate_article); //搜索文章
+//router.post('/associate_article', dec_strategy.associate_article); //相关文章
 router.post('/top_designers', designer.top_designers); //top设计师
 router.post('/top_shares', share.top_shares); //top工地直播
-
+router.post('/top_beautiful_images', beautiful_image.top_beautiful_images); //top美图
 //wechat api
 router.post('/wechat/receive', wechat.receive); //接收微信平台消息
 router.get('/wechat/receive', wechat.signature); //认证微信平台
