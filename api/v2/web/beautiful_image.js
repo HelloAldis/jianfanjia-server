@@ -114,3 +114,28 @@ exports.search_beautiful_image = function (req, res, next) {
     });
   }));
 }
+
+exports.top_beautiful_images = function (req, res, next) {
+  var ep = new eventproxy();
+  ep.fail(next);
+  var limit = req.body.limit;
+
+  BeautifulImage.find({
+    status: type.beautiful_image_status_public,
+  }, {
+    title: 1,
+    house_type: 1,
+    section: 1,
+    dec_style: 1,
+    images: 1,
+  }, {
+    sort: {
+      view_count: -1
+    },
+    skip: 0,
+    limit: 50,
+  }, ep.done(function (beautifulImages) {
+    var recs = _.sample(beautifulImages, limit);
+    res.sendData(recs);
+  }));
+}
