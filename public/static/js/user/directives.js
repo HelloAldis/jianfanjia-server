@@ -1392,7 +1392,7 @@ angular.module('directives', [])
             replace : true,
             scope:{
               pageObject : '=pageObject'
-          },
+            },
             restrict: 'A',
             template: '<div class="k-pageing"><ul class="pagination"></ul></div>',
             link: function($scope, iElm, iAttrs, controller){
@@ -1532,6 +1532,69 @@ angular.module('directives', [])
             }
         };
     }])
+    .directive('myBlur',['$timeout',function($timeout){     //检测是不是数字
+        function strToJson(str){
+          var json = {},len = 0;
+          str = str.replace(/^{(.*)}$/,"$1");
+          if(str == ""){
+            return {
+              json : json,
+              len : len
+            }
+          }
+          str.split(",")
+          if(angular.isArray(str)){
+            angular.forEach(str,function(v){
+              var str2 = v.split(":");
+              json[str2[0]] = str2[1];
+            })
+            len = str.length;
+          }else{
+            var str2 = str.split(":");
+            json[str2[0]] = str2[1];
+            len = 1;
+          }
+          return {
+            json : json,
+            len : len
+          }
+        }
+        function verifyFrom(value,rules,length){
+          var i = 0;
+          for (var attr in rules) {
+            rules[attr] = eval(rules[attr]);
+            if(attr == 'pattern' && rules[attr].test(value)){ //正则验证
+              i++
+            }
+            if(attr == 'minlength' && rules[attr] == value.length){  //最小长度
+              i++
+            }
+            if(attr == 'maxlength' && rules[attr] == value.length){   //最大长度
+              i++
+            }
+          };
+          return length == i ? true : false
+        }
+         return {
+             replace : true,
+             require : 'ngModel',
+             restrict: 'A',
+             scope : true,
+             link: function(scope, iElm, iAttrs, controller) {
+               var  verify= strToJson(iAttrs.myBlur).json,
+                    length = strToJson(iAttrs.myBlur).len;
+                    iElm.on('focus',function(){
+                        controller.$setValidity('myVerify', false);
+                     }).on('blur',function(){
+                      console.log(!!iElm.context.value)
+                        if(!!iElm.context.value){
+                          console.log(verifyFrom(iElm.context.value,verify,length))
+                           controller.$setValidity('myVerify', true);
+                        }
+                    });
+             }
+         };
+     }])
     .directive('myPlaceholder', ['$compile', function($compile){
       return {
           restrict: 'A',

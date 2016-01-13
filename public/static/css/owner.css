@@ -72,7 +72,7 @@ body{
 	background-color: #f9f9f9;
 }
 .g-sd a:hover{
-	color: #fe7004;	
+	color: #fe7004;
 }
 .g-sd dl{
 	padding:10px 0;
@@ -206,7 +206,7 @@ body{
 	border-radius: 3px;
 	-webkit-transition:background 0.5s;
 	-ms-transition:background 0.5s;
-	-moz-transition:background 0.5s;	
+	-moz-transition:background 0.5s;
 	-o-transition:background 0.5s;
 	transition:background 0.5s;
 }
@@ -261,6 +261,8 @@ body{
 .k-form .u-inp{
 	position: relative;
 	float: left;
+	display:table;
+  word-spacing:-1em;
 }
 .k-form .u-inp .input{
 	width: 230px;
@@ -274,6 +276,7 @@ body{
 	border: 1px solid #d2d2d2;
 	background-color: #f9f9f9;
 	border-radius: 2px;
+	word-spacing:0;
 }
 .k-form .u-inp .input.disabled{
 	color: #888;
@@ -286,8 +289,25 @@ body{
 .k-form .u-inp .input.short{
 	width: 130px;
 }
+.k-form .u-inp .input.code{
+	width: 110px;
+}
 .k-form .u-inp .input.mini{
 	width: 60px;
+}
+.k-form .u-inp .code-btns{
+	width: 108px;
+	padding: 0;
+	margin-left: 10px;
+	line-height: 28px;
+	font-size: 12px;
+	word-spacing:0;
+}
+.k-form .u-inp .has-error{
+	color: #ff6a6a;
+	font-size: 12px;
+	word-spacing:0;
+	margin-left: 10px;
 }
 .k-form .u-inp .input.ng-dirty.ng-invalid-number,.k-form .u-inp .input.ng-dirty.ng-invalid-pattern,.k-form .u-inp .input.ng-dirty.ng-invalid-required{
 	border-color: #ff6a6a;
@@ -481,7 +501,7 @@ body{
 	z-index: 2;
 	width: 300px;
 	height: 300px;
-	border: 1px solid #fff;	
+	border: 1px solid #fff;
 }
 .k-cropBox .cropBorder span{
 	position: absolute;
@@ -596,7 +616,7 @@ body{
 	overflow-y: auto;
 }
 .k-select .select a{
-	display: block;	
+	display: block;
 	line-height: 30px;
 	text-align: center;
 	color: #333;
@@ -676,7 +696,7 @@ body{
 	display: none;
 }
 .k-cities .select a{
-	display: block;	
+	display: block;
 	line-height: 30px;
 	text-align: center;
 	color: #333;
@@ -794,7 +814,7 @@ body{
 	border-top: 1px solid #eee;
 	-webkit-transition:background 0.5s;
 	-ms-transition:background 0.5s;
-	-moz-transition:background 0.5s;	
+	-moz-transition:background 0.5s;
 	-o-transition:background 0.5s;
 	transition:background 0.5s;
 }
@@ -829,7 +849,7 @@ body{
 .m-index .list .progress .bar{
 	width: 100%;
 	height: 8px;
-	background-color: #f1f1f1;	
+	background-color: #f1f1f1;
 }
 .m-index .list .progress .in{
 	height: 8px;
@@ -960,7 +980,7 @@ body{
 	opacity: 0.5;
 	-webkit-transition:opacity 0.5s;
 	-ms-transition:opacity 0.5s;
-	-moz-transition:opacity 0.5s;	
+	-moz-transition:opacity 0.5s;
 	-o-transition:opacity 0.5s;
 	transition:opacity 0.5s;
 }
@@ -1002,7 +1022,7 @@ body{
 	border-top: none;
 	-webkit-transition:background 0.5s;
 	-ms-transition:background 0.5s;
-	-moz-transition:background 0.5s;	
+	-moz-transition:background 0.5s;
 	-o-transition:background 0.5s;
 	transition:background 0.5s;
 }
@@ -1047,7 +1067,7 @@ body{
 	height: 46px;
 	padding-left: 19px;
 	line-height: 46px;
-	background-color: #f1f1f1;	
+	background-color: #f1f1f1;
 }
 .m-requirement .tabs li{
 	float: left;
@@ -1232,7 +1252,7 @@ body{
 	width: 38px;
 	height: 38px;
 	background:url(../img/user/booking-status-icon.png) 0 0 no-repeat;
-} 
+}
 .booking .m-designerList .active{
 	background-color: #f0f8fb;
 	border-left: 5px solid #fc7207;
@@ -1240,7 +1260,7 @@ body{
 }
 .booking .m-designerList .active .status{
 	background-position: 0 -38px;
-} 
+}
 .booking-btns{
 	padding: 30px 0;
 	text-align: center;
@@ -1249,7 +1269,7 @@ body{
 /*确认量房*/
 .score .select .btns{
 	text-align: right;
-} 
+}
 .score .select p{
 	padding-top: 15px;
 	line-height: 18px;
@@ -1594,7 +1614,7 @@ body{
 }
 .favorite .list .img img{
 	width: 100%;
-	min-height: 100%;	
+	min-height: 100%;
 }
 .favorite .list h4{
 	padding: 12px 19px 0;
@@ -1614,7 +1634,7 @@ body{
 	height: 30px;
 	line-height: 30px;
 	border-bottom: 1px solid #eee;
-} 
+}
 .favorite .list .tag span{
 	display: inline-block;
 	margin-right: 25px;

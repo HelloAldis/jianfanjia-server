@@ -30,6 +30,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             this.pass2 = $("#reg-password2");
             this.form = $('#form-reg');
             this.error = $('#error-info');
+            this.weixin = $('#weixin');
             this.checkMobile();
             this.bindVerifyCode();
             this.bindFocus();
@@ -276,8 +277,14 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             });
         },
         setType : function(){
+            var self = this;
             var $oInput = this.status.find('input');
                 this.status.delegate('li','click',function(ev){
+                    if($(this).html() == '业主'){
+                        self.weixin.show();
+                    }else{
+                        self.weixin.hide();
+                    }
                     ev.preventDefault();
                     $(this).attr('class','active').siblings().attr('class','');
                     $oInput.val($(this).data('status'));

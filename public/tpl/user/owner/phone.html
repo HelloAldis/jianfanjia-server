@@ -1,0 +1,34 @@
+<div class="main">
+  <div class="m-tt">
+    <h2 class="f-fl">绑定手机号码</h2>
+  </div>
+  <div class="m-ct">
+    <form name="release" ng-submit="phone.submit()" novalidate>
+      <div class="k-form release">
+        <div class="m-boxs">
+          <div class="m-item f-cb">
+            <div class="item">
+              <label class="u-lab" for="owner-sex">手机号码</label>
+              <div class="u-inp">
+                <input type="text" class="input" ng-model="user.phone" placeholder="11位手机号码" my-placeholder ng-pattern="/^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/" required name="phone" ng-blur="phone.verifyphone(user.phone)" />
+                <span ng-show="release.phone.$invalid && !release.phone.$pristine && !phone.verifyPhoneOff" class="has-error" ng-bind="phone.phoneMsg"></span>
+              </div>
+            </div>
+          </div>
+          <div class="m-item f-cb">
+            <div class="item">
+              <label class="u-lab" for="owner-email">验证码</label>
+              <div class="u-inp">
+                <input type="text" class="input code" ng-model="user.code" required placeholder="6位数字验证码" my-placeholder ng-pattern="/^[\d]{6}$/" name="code" />
+                <input type="button" ng-value="phone.codeValue" class="u-btns u-btns-revise code-btns" ng-class="{'u-btns-disabled':!phone.verifyPhoneOff || !phone.verifyCodeOff}" ng-disabled="!phone.verifyPhoneOff || !phone.verifyCodeOff" ng-click="phone.pullcode(user.phone)">
+                <span ng-show="release.code.$invalid && !release.code.$pristine" class="has-error">验证码不正确</span>
+              </div>
+            </div>
+          </div>
+        <div class="m-btns">
+          <input type="submit" class="u-btns" ng-class="{'u-btns-disabled':release.$invalid || phone.disabled}" ng-disabled="release.$invalid || userRelease.disabled" id="owner-submit" value="确认绑定" />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
