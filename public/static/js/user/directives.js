@@ -981,7 +981,7 @@ angular.module('directives', [])
               mySection : "="
             },
             restrict: 'A',
-            template: '<div class="k-uploadbox f-cb"><div class="pic" id="create"><div class="fileBtn"><input class="hide" id="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_create"></div><div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg<strong ng-if="mySection.length">作品/照片/平面图上均不能放置个人电话号码或违反法律法规的信息。</strong></p></div></div><div class="previews-item" ng-repeat="img in myQuery"><span class="close" ng-click="removeImg($index,myQuery)"></span><div class="img"><img class="img" src="/api/v2/web/thumbnail/168/{{img.imageid}}" ng-show="mySection.length" alt=""><img class="img" src="/api/v2/web/thumbnail/168/{{img.award_imageid}}" ng-show="!mySection.length" alt=""></div><div my-selecte ng-if="mySection.length" my-list="mySection" my-query="img.section"></div><textarea class="input textarea" ng-model="img.description" name="itme_con" cols="30" rows="10"></textarea></div></div>',
+            template: '<div class="k-uploadbox f-cb"><div class="pic" id="create"><div class="fileBtn"><input class="hide" id="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_create"></div><div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg<strong ng-if="mySection.length">作品/照片/平面图上均不能放置个人电话号码或违反法律法规的信息。</strong></p></div></div><div class="previews-item" ng-repeat="img in myQuery"><span class="close" ng-click="removeImg($index,myQuery)"></span><div class="img"><img class="img" src="/api/v2/web/thumbnail/168/{{img.imageid}}" ng-show="mySection.length" alt=""></div><div my-selecte ng-if="mySection.length" my-list="mySection" my-query="img.section"></div><textarea class="input textarea" ng-model="img.description" name="itme_con" cols="30" rows="10"></textarea></div></div>',
             link: function($scope, iElm, iAttrs, controller){
                  var obj = angular.element(iElm);
               function loadImg(){
@@ -1600,8 +1600,9 @@ angular.module('directives', [])
           restrict: 'A',
           scope: {},
           link: function(scope, ele, attr) {
-              var input = document.createElement('input');
-              var isSupportPlaceholder = 'placeholder' in input || 'placeholder' in textarea;
+              var input = document.createElement('input'),
+                  textarea = document.createElement('textarea'),
+                  isSupportPlaceholder = 'placeholder' in input || 'placeholder' in textarea;
               if (!isSupportPlaceholder) {
                   var fakePlaceholder = angular.element(
                       '<span class="placeholder">' + attr['placeholder'] + '</span>');

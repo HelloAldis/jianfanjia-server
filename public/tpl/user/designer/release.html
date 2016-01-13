@@ -1,7 +1,7 @@
-<div class="main">
+ <div class="main">
 	<div class="m-tt">
 		<h2 class="f-fl">发布作品</h2>
-		<a ui-sref="products" class="u-btns u-btns-revise u-requirement f-fr">返回作品列表</a>
+		<a ui-sref="products.list({id:1})" class="u-btns u-btns-revise u-requirement f-fr">返回作品列表</a>
 	</div>
 	<div class="m-ct">
 		<form name="myRelease" ng-submit="designerProduct.submit()" novalidate ng-if="designerProduct.isLoading">

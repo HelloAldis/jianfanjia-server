@@ -225,8 +225,8 @@ define(['jquery','lib/jquery.cookie'], function($){
             '<span class="arrow"><i></i></span><ul>',
             '<li><a href="/tpl/user/owner.html#/release">免费发布装修需求</a></li>',
             '<li><a href="/tpl/user/owner.html#/requirementList">装修需求列表<i>'+data.requirement_count+'</i></a></li>',
-            '<li><a href="/tpl/user/owner.html#/designer">我的意向设计师<i>'+data.favorite_designer_count+'</i></a></li>',
-            '<li><a href="/tpl/user/owner.html#/favorite">收藏作品<i>'+data.favorite_product_count+'</i></a></li>',
+            '<li><a href="/tpl/user/owner.html#/designer/1">我的意向设计师<i>'+data.favorite_designer_count+'</i></a></li>',
+            '<li><a href="/tpl/user/owner.html#/favorite/1">收藏作品<i>'+data.favorite_product_count+'</i></a></li>',
             '<li><a href="javascript:;" class="quit">退出登录</a></li>',
             '</ul>'
           ];
@@ -237,8 +237,8 @@ define(['jquery','lib/jquery.cookie'], function($){
           '<span class="arrow"><i></i></span><ul>',
           '<li><a href="/tpl/user/designer.html#/requirementList">装修需求列表<i>'+data.requirement_count+'</i></a></li>',
           '<li><a href="/tpl/user/designer.html#/products">我的作品<i>'+data.product_count+'</i></a></li>',
-          '<li><a href="/tpl/user/designer.html#/favorite">收藏作品<i>'+data.favorite_product_count+'</i></a></li>',
-          '<li><a href="/tpl/user/designer.html#/authHeart">认证中心</a></li>',
+          '<li><a href="/tpl/user/designer.html#/favorite/1">收藏作品<i>'+data.favorite_product_count+'</i></a></li>',
+          '<li><a href="/tpl/user/designer.html#/authHeart/1">认证中心</a></li>',
           '<li><a href="javascript:;" class="quit">退出登录</a></li>',
           '</ul>'
         ];

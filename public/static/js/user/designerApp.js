@@ -2,6 +2,10 @@
 (function() {
     // load modules
     angular.module('myJyzDesigner', ['ui.router','pasvaz.bindonce','controllers', 'services', 'filters' , 'directives','ngmodel.format'])
+        .run(['$rootScope','$state','$stateParams',function($rootScope,$state,$stateParams) {
+            $rootScope.$state = $state;
+            $rootScope.$stateParams = $stateParams;
+        }])
         .config(function($stateProvider, $urlRouterProvider) {
             var url = RootUrl + 'tpl/user/designer/';
             $urlRouterProvider.otherwise('/index');
@@ -58,6 +62,10 @@
                 })
                 .state('products', {      //作品列表
                     url: '/products',
+                    template: '<div ui-view></div>'
+                })
+                .state('products.list', {      //作品列表
+                    url: '/{id:[0-9]{1,6}}',
                     templateUrl: url+'products.html',
                     controller : 'productsListCtrl'
                 })
@@ -73,6 +81,10 @@
                 })
                 .state('favorite', {      //收藏作品
                     url: '/favorite',
+                    template: '<div ui-view></div>'
+                })
+                .state('favorite.list', {      //收藏作品
+                    url: '/{id:[0-9]{1,6}}',
                     templateUrl: url+'favorite.html',
                     controller : 'favoriteProductCtrl'
                 })

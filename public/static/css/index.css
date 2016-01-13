@@ -649,6 +649,7 @@
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
+	background:url(../img/user/loading.gif) center center no-repeat;
 }
 .g-mito li a img{
 	width: 100%;
@@ -667,7 +668,7 @@
 	color: #fff;
 	background: url(../img/index/index-toggle-btn.png) repeat-x 0 -90px;
 }
-.g-mito li a:hover img{
+.g-mito li a:hover{
 	opacity: 0.8;
 	filter: alpha(opacity=80);
 }
@@ -717,11 +718,12 @@
 	width: 285px;
 	height: 262px;
 	overflow: hidden;
+	background:url(../img/user/loading.gif) center center no-repeat;
 	border-radius: 2px 2px 0 0;
 }
-.g-live .m-live li .img img{
-	width: 100%;
-	min-height: 100%;
+.g-live .m-live li .img:hover{
+	opacity: 0.8;
+	filter: alpha(opacity=80);
 }
 .g-live .m-live li .txt{
 	height: 122px;
@@ -900,11 +902,7 @@
 	width: 212px;
 	height: 200px;
 	overflow: hidden;
-	background-color: #ccc;
-}
-.g-raiders dd a img{
-	width: 100%;
-	min-height: 100%;
+	background:url(../img/user/loading.gif) center center no-repeat;
 }
 .g-raiders dd a span{
 	position: absolute;
@@ -923,7 +921,7 @@
 	color: #fff;
 	background: url(../img/index/index-toggle-btn.png) repeat-x 0 -90px;
 }
-.g-raiders dd a:hover img{
+.g-raiders dd a:hover{
 	opacity: 0.8;
 	filter: alpha(opacity=80);
 }

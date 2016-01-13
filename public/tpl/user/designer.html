@@ -67,28 +67,28 @@
 	<main class="g-wp g-user f-cb" ng-controller="designerController">
 		<aside class="g-sd f-fl" ng-controller="SubController">
 			<div class="m-sdc">
-				<h2 ng-class="{active: nav==&quot;index&quot;}"><a ui-sref="index"><i class="iconfont2">&#xe610;</i>个人中心</a></h2>
+				<h2 ng-class="{active: $state.includes('index')}"><a ui-sref="index"><i class="iconfont2">&#xe610;</i>个人中心</a></h2>
 	            <dl>
 	                <dt>业主装修需求</dt>
-	                <dd ng-class="{active: nav==&quot;requirementList&quot;}"><a ui-sref="requirementList">装修需求列表</a></dd>
-	                <dd ng-class="{active: nav==&quot;history&quot;}"><a ui-sref="history">历史装修需求</a></dd>
+	                <dd ng-class="{active: $state.includes('requirementList') || $state.includes('requirement')}"><a ui-sref="requirementList">装修需求列表</a></dd>
+	                <dd ng-class="{active: $state.includes('history')}"><a ui-sref="history">历史装修需求</a></dd>
 	            </dl>
 	            <div class="line"></div>
 	            <dl>
 	                <dt>我的作品</dt>
-	                <dd ng-class="{active: nav==&quot;products&quot;}"><a ui-sref="products">作品列表</a></dd>
-	                <dd ng-class="{active: nav==&quot;release&quot;}"><a ui-sref="addProduct">发布作品</a></dd>
+	                <dd ng-class="{active: $state.includes('products.list')}"><a ui-sref="products.list({id:1})">作品列表</a></dd>
+	                <dd ng-class="{active: $state.includes('addProduct')}"><a ui-sref="addProduct">发布作品</a></dd>
 	            </dl>
                 <div class="line"></div>
                 <dl>
                     <dt>我的收藏</dt>
-                    <dd ng-class="{active: nav==&quot;favorite&quot;}"><a ui-sref="favorite">作品收藏列表</a></dd>
+                    <dd ng-class="{active: $state.includes('favorite.list')}"><a ui-sref="favorite.list({id:1})">作品收藏列表</a></dd>
                 </dl>
             </div>
             <div class="m-sdc authHeart">
-	            <h2 ng-class="{active: nav==&quot;authHeart&quot;}"><a ui-sref="authHeart"><i class="iconfont2">&#xe62c;</i>认证中心</a></h2>
+	            <h2 ng-class="{active: $state.includes('authHeart')}"><a ui-sref="authHeart"><i class="iconfont2">&#xe62c;</i>认证中心</a></h2>
 	            <dl>
-	                <dd ng-class="{active: nav==&quot;infor&quot;}">
+	                <dd ng-class="{active: $state.includes('infor')}">
                         <a ui-sref="infor">基本资料认证</a>
                         <span ng-class="{show:designer}" ng-switch="designer.auth_type">
                             <i ng-switch-when="1" class="authStatus0 iconfont2">&#xe60b;</i>
@@ -97,7 +97,7 @@
                             <i ng-switch-when="4" class="authStatus4 iconfont2">&#xe612;</i>
                         </span>
                     </dd>
-	                <dd ng-class="{active: nav==&quot;idcard&quot;}">
+	                <dd ng-class="{active: $state.includes('idcard')}">
                         <a ui-sref="idcard">身份认证</a>
                         <span ng-class="{show:designer}" ng-switch="designer.uid_auth_type">
                             <i ng-switch-when="1" class="authStatus0 iconfont2">&#xe60b;</i>
@@ -106,13 +106,13 @@
                             <i ng-switch-when="4" class="authStatus4 iconfont2">&#xe612;</i>
                         </span>
                     </dd>
-	                <dd ng-class="{active: nav==&quot;products&quot;}">
-                        <a ui-sref="products">作品认证</a>
+	                <dd ng-class="{active: $state.includes('products.list')}">
+                        <a ui-sref="products.list({id:1})">作品认证</a>
                         <span ng-class="{show:designer}">
                             <i ng-if="designer.authed_product_count > 2" class="authStatus2 iconfont2">&#xe608;</i>
                         </span>
                     </dd>
-	                <dd ng-class="{active: nav==&quot;teamList&quot;}">
+	                <dd ng-class="{active: $state.includes('teamList')}">
                         <a ui-sref="teamList">施工团队</a>
                         <span ng-class="{show:designer}" ng-switch="designer.work_auth_type">
                             <i ng-switch-when="1" class="authStatus0 iconfont2">&#xe60b;</i>
@@ -121,11 +121,11 @@
                             <i ng-switch-when="4" class="authStatus4 iconfont2">&#xe612;</i>
                         </span>
                     </dd>
-	                <dd ng-class="{active: nav==&quot;phone&quot;}">
+	                <dd ng-class="{active: $state.includes('phone')}">
                         <a ui-sref="phone">手机认证</a>
                         <span ng-class="{show:designer}"><i class="authStatus2 iconfont2">&#xe608;</i></span>
                     </dd>
-	                <dd ng-class="{active: nav==&quot;email&quot;}">
+	                <dd ng-class="{active: $state.includes('email')}">
                         <a ui-sref="email">邮箱认证</a>
                         <span ng-class="{show:designer}" ng-switch="designer.email_auth_type">
                             <i ng-switch-when="1" class="authStatus0 iconfont2">&#xe60b;</i>

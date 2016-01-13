@@ -181,10 +181,12 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                     self.error.html(self.errmsg.submit).removeClass('hide');
                     return false;
                 }
+                var url = $(this).attr('action');
+                var type = $(this).attr('method');
                 var serialize = self.strToJson($(this).serialize());
                 $.ajax({
-                    url:RootUrl+'api/v2/web/login',
-                    type: 'post',
+                    url:url,
+                    type: type,
                     contentType : 'application/json; charset=utf-8',
                     dataType: 'json',
                     data : JSON.stringify(serialize),

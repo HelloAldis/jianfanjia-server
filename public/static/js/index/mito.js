@@ -45,24 +45,17 @@ define(['jquery'], function($){
 		ajax : function(){
 			var self = this;
 			$.ajax({
-				url: RootUrl+'api/v2/web/search_beautiful_image',
+				url: RootUrl+'api/v2/web/top_beautiful_images',
 				type: "post",
 				contentType : 'application/json; charset=utf-8',
 				dataType: 'json',
 				data : JSON.stringify({
-				  "query":{
-
-				  },
-				  "sort":{
-				    "lastupdate":-1
-				  },
-				  "from":0,
 				  "limit":4
 				}),
 				processData : false,
 			})
 			.done(function(res) {
-				self.create(res.data.beautiful_images);
+				self.create(res.data);
 			})
 			.fail(function() {
 				//console.log("error");

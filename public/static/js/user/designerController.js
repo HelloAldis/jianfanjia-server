@@ -489,23 +489,16 @@ angular.module('controllers', [])
             }
     }])
     .controller('productsListCtrl', [     //我的作品列表
-        '$scope','$rootScope','$http','$filter','$location','userProduct',
-        function($scope, $rootScope,$http,$filter,$location,userProduct){
-            var dataPage = {
-                  "from": 0,
-                  "limit":10
+        '$scope','$state','$filter','userProduct',function($scope,$state,$filter,userProduct){
+            $scope.productList = undefined;
+            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+                dataPage = {
+                  "from": _index*6,
+                  "limit":6
                 },
-                current = 0;
-            window.onhashchange = function(){
-                var url = parseInt($location.url().split('=')[1]);
-                current = !isNaN(url) ? url - 1 : 0;
-                dataPage.from = current*dataPage.limit;
-                $location.url('/products?p='+(current+1));
-                $scope.productList = undefined;
-                laod();
-            }
+                current = _index;
             function laod(){
-                userProduct.list().then(function(res){  //获取作品收藏列表
+                userProduct.list(dataPage).then(function(res){  //获取作品收藏列表
                     $scope.productList = res.data.data.products;
                     angular.forEach($scope.productList, function(value, key){
                         value.house_type = $filter('houseTypeFilter')(value.house_type);
@@ -516,16 +509,15 @@ angular.module('controllers', [])
                         $scope.productList = undefined;
                         dataPage.from = current*dataPage.limit;
                         current = 0;
-                        laod();
-                        $location.url('/products?p=1')
+                        $state.go('products.list', { id: 1 });
                     }
                     $scope.pageing = {
                         allNumPage : res.data.data.total,
-                        itemPage : 10,
+                        itemPage : dataPage.limit,
                         showPageNum : 5,
                         endPageNum : 3,
-                        currentPage : 0,
-                        linkTo:"?p=__id__",
+                        currentPage : current,
+                        linkTo:"#/products/__id__",
                         prevText:"上一页",
                         nextText:"下一页",
                         ellipseText:"...",
@@ -533,9 +525,8 @@ angular.module('controllers', [])
                         pageInfo : false,
                         callback : function (i,obj) {
                             dataPage.from = i*this.itemPage;
-                            laod();
                             current = i;
-                            $location.url('/products?p='+(parseInt(i)+1))
+                            $state.go('products.list', { id: parseInt(i)+1 });
                             return false;
                         }
                     };
@@ -556,44 +547,36 @@ angular.module('controllers', [])
             }
             laod()
     }])
-    .controller('favoriteProductCtrl', [     //作品收藏列表
-        '$scope','$rootScope','$http','$filter','$location','userFavoriteProduct',
-        function($scope, $rootScope,$http,$filter,$location,userFavoriteProduct){
-            var dataPage = {
-                  "from": 0,
+   .controller('favoriteProductCtrl', [     //作品收藏列表
+        '$scope','$state','$filter','userFavoriteProduct',function($scope,$state,$filter,userFavoriteProduct){
+            $scope.designers = undefined;
+            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+                dataPage = {
+                  "from": _index*4,
                   "limit":4
                 },
-                current = 0;
-            window.onhashchange = function(){
-                var url = parseInt($location.url().split('=')[1]);
-                current = !isNaN(url) ? url - 1 : 0;
-                dataPage.from = current*dataPage.limit;
-                $location.url('/favorite?p='+(current+1));
-                $scope.favoriteProduct = undefined;
-                laod();
-            }
+                current = _index;
             function laod(){
                 userFavoriteProduct.list(dataPage).then(function(res){  //获取作品收藏列表
                     $scope.favoriteProduct = res.data.data.products;
+                    if($scope.favoriteProduct.length == 0 && res.data.data.total != 0){
+                        $scope.favoriteProduct = undefined;
+                        dataPage.from = current*dataPage.limit;
+                        current = 0;
+                        $state.go('favorite.list', { id: 1 });
+                    }
                     angular.forEach($scope.favoriteProduct, function(value, key){
                         value.house_type = $filter('houseTypeFilter')(value.house_type);
                         value.dec_style = $filter('decStyleFilter')(value.dec_style);
                         value.description = $filter('limitTo')(value.description,100);
                     })
-                    if($scope.favoriteProduct.length == 0 && res.data.data.total != 0){
-                        $scope.favoriteProduct = undefined;
-                        dataPage.from = current*dataPage.limit;
-                        current = 0;
-                        laod();
-                        $location.url('/favorite?p=1')
-                    }
                     $scope.pageing = {
                         allNumPage : res.data.data.total,
                         itemPage : dataPage.limit,
                         showPageNum : 5,
                         endPageNum : 3,
                         currentPage : current,
-                        linkTo:"#/favorite?p=__id__",
+                        linkTo:"#/favorite/__id__",
                         prevText:"上一页",
                         nextText:"下一页",
                         ellipseText:"...",
@@ -601,22 +584,21 @@ angular.module('controllers', [])
                         pageInfo : false,
                         callback : function (i,obj) {
                             dataPage.from = i*this.itemPage;
-                            laod();
                             current = i;
-                            $location.url('/favorite?p='+(parseInt(i)+1))
+                            $state.go('favorite.list', { id: parseInt(i)+1 });
                             return false;
                         }
-                    };
+                    }
                 },function(res){
                     console.log(res)
                 });
             }
             $scope.deleteFavorite = function(id){
                 if(confirm('您确定要删除吗？')){
-                  userFavoriteProduct.remove({'_id':id}).then(function(res){
+                    userFavoriteProduct.remove({'_id':id}).then(function(res){
                         if(res.data.msg === "success"){
-                           $scope.favoriteProduct = undefined;
-                           laod();
+                            $scope.favoriteProduct = undefined;
+                            laod();
                         }
                     },function(res){
                         console.log(res)
@@ -978,8 +960,8 @@ angular.module('controllers', [])
         }
     }])
     .controller('releaseCtrl', [     //作品上传
-        '$scope','$rootScope','$http','$filter','$location','$stateParams','userInfo','userProduct','initData',
-        function($scope, $rootScope,$http,$filter,$location,$stateParams,userInfo,userProduct,initData){
+        '$scope','$state','$filter','$stateParams','userProduct','initData',
+        function($scope,$state,$filter,$stateParams,userProduct,initData){
             $scope.product = {
               "province":undefined,
               "city":undefined,
@@ -1041,7 +1023,7 @@ angular.module('controllers', [])
                 if(this.isRelease){
                     userProduct.add($scope.product).then(function(res){
                         if(res.data.msg === "success"){
-                            $location.path('products');
+                            $state.go('products.list', { id: 1 });
                         }
                     },function(res){
                         console.log(res)
@@ -1049,7 +1031,7 @@ angular.module('controllers', [])
                 }else{
                     userProduct.update($scope.product).then(function(res){
                         if(res.data.msg === "success"){
-                            $location.path('products');
+                            $state.go('products.list', { id: 1 });
                         }
                     },function(res){
                         console.log(res)

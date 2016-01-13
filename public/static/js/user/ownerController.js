@@ -638,43 +638,35 @@ angular.module('controllers', [])
         }
     }])
    .controller('favoriteProductCtrl', [     //作品收藏列表
-        '$scope','$rootScope','$http','$filter','$location','userFavoriteProduct',
-        function($scope, $rootScope,$http,$filter,$location,userFavoriteProduct){
-            var dataPage = {
-                  "from": 0,
+        '$scope','$state','$filter','userFavoriteProduct',function($scope,$state,$filter,userFavoriteProduct){
+            $scope.designers = undefined;
+            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+                dataPage = {
+                  "from": _index*4,
                   "limit":4
                 },
-                current = 0;
-            window.onhashchange = function(){
-                var url = parseInt($location.url().split('=')[1]);
-                current = !isNaN(url) ? url - 1 : 0;
-                dataPage.from = current*dataPage.limit;
-                $location.url('/favorite?p='+(current+1));
-                $scope.favoriteProduct = undefined;
-                laod();
-            }
+                current = _index;
             function laod(){
                 userFavoriteProduct.list(dataPage).then(function(res){  //获取作品收藏列表
                     $scope.favoriteProduct = res.data.data.products;
+                    if($scope.favoriteProduct.length == 0 && res.data.data.total != 0){
+                        $scope.favoriteProduct = undefined;
+                        dataPage.from = current*dataPage.limit;
+                        current = 0;
+                        $state.go('favorite.list', { id: 1 });
+                    }
                     angular.forEach($scope.favoriteProduct, function(value, key){
                         value.house_type = $filter('houseTypeFilter')(value.house_type);
                         value.dec_style = $filter('decStyleFilter')(value.dec_style);
                         value.description = $filter('limitTo')(value.description,100);
                     })
-                    if($scope.favoriteProduct.length == 0 && res.data.data.total != 0){
-                        $scope.favoriteProduct = undefined;
-                        dataPage.from = current*dataPage.limit;
-                        current = 0;
-                        laod();
-                        $location.url('/favorite?p=1')
-                    }
                     $scope.pageing = {
                         allNumPage : res.data.data.total,
                         itemPage : dataPage.limit,
                         showPageNum : 5,
                         endPageNum : 3,
                         currentPage : current,
-                        linkTo:"#/favorite?p=__id__",
+                        linkTo:"#/favorite/__id__",
                         prevText:"上一页",
                         nextText:"下一页",
                         ellipseText:"...",
@@ -682,9 +674,8 @@ angular.module('controllers', [])
                         pageInfo : false,
                         callback : function (i,obj) {
                             dataPage.from = i*this.itemPage;
-                            laod();
                             current = i;
-                            $location.url('/favorite?p='+(parseInt(i)+1))
+                            $state.go('favorite.list', { id: parseInt(i)+1 });
                             return false;
                         }
                     }
@@ -707,21 +698,14 @@ angular.module('controllers', [])
             laod()
     }])
     .controller('favoriteDesignerCtrl', [     //意向设计师列表
-        '$scope','$rootScope','$http','$filter','$location','userFavoriteDesigner',
-        function($scope, $rootScope,$http,$filter,$location,userFavoriteDesigner){
-            var dataPage = {
-                  "from": 0,
-                  "limit":10
+        '$scope','$state','userFavoriteDesigner',function($scope,$state,userFavoriteDesigner){
+            $scope.designers = undefined;
+            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+                dataPage = {
+                  "from": _index*5,
+                  "limit":5
                 },
-                current = 0;
-            window.onhashchange = function(){
-                var url = parseInt($location.url().split('=')[1]);
-                current = !isNaN(url) ? url - 1 : 0;
-                dataPage.from = current*dataPage.limit;
-                $location.url('/designer?p='+(current+1));
-                $scope.designers = undefined;
-                laod();
-            }
+                current = _index;
             function laod(){
                 userFavoriteDesigner.list(dataPage).then(function(res){  //获取意向设计师列表
                     $scope.designers = res.data.data.designers;
@@ -729,8 +713,7 @@ angular.module('controllers', [])
                         $scope.designers = undefined;
                         dataPage.from = current*dataPage.limit;
                         current = 0;
-                        laod();
-                        $location.url('/designer?p=1')
+                        $state.go('designer.list', { id: 1 });
                     }
                     $scope.pageing = {
                         allNumPage : res.data.data.total,
@@ -738,7 +721,7 @@ angular.module('controllers', [])
                         showPageNum : 5,
                         endPageNum : 3,
                         currentPage : current,
-                        linkTo:"#/designer?p=__id__",
+                        linkTo:"#/designer/__id__",
                         prevText:"上一页",
                         nextText:"下一页",
                         ellipseText:"...",
@@ -746,9 +729,8 @@ angular.module('controllers', [])
                         pageInfo : false,
                         callback : function (i,obj) {
                             dataPage.from = i*this.itemPage;
-                            laod();
                             current = i;
-                            $location.url('/designer?p='+(parseInt(i)+1))
+                            $state.go('designer.list', { id: parseInt(i)+1 });
                             return false;
                         }
                     }

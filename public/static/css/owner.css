@@ -3,6 +3,7 @@ body{
 	background-color: #ebeced;
 }
 .g-user{
+	min-height: 600px;
 	padding-bottom: 50px;
 }
 /*面包屑导航*/
@@ -352,7 +353,7 @@ body{
 }
 .k-form .u-inp .unit{
 	position: absolute;
-	right:0;
+	right:10px;
 	top:0;
 	width: 40px;
 	line-height: 28px;

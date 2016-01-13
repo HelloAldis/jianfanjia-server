@@ -19,7 +19,7 @@
 					</span>
 				</div>
 			</li>
-			<li>
+			<li bp-if="requirement.street">
 				<div class="span">
 					<strong>所属街道/路</strong>
 					<span>
@@ -29,7 +29,7 @@
 			</li>
 			<li>
 				<div class="span">
-					<strong>位置</strong>
+					<strong>详细地址</strong>
 					<span>
 						<span bo-if="requirement.cell"><i bo-text="requirement.cell"></i>小区</span>
 						<span bo-if="requirement.cell_phase"><i bo-text="requirement.cell_phase"></i>期</span>
@@ -41,17 +41,17 @@
 			</li>
 			<li>
 				<div class="span">
-					<strong>装修类别</strong>
+					<strong>装修户型</strong>
 					<span>
-						<span bo-text="requirement.dec_type | decTypeFilter"></span>
+						<span bo-text="requirement.house_type | houseTypeFilter"></span>
 					</span>
 				</div>
 			</li>
 			<li>
 				<div class="span f-fl">
-					<strong>户型</strong>
+					<strong>装修类别</strong>
 					<span>
-						<span bo-text="requirement.house_type | houseTypeFilter"></span>
+						<span bo-text="requirement.dec_type | decTypeFilter"></span>
 					</span>
 				</div>
 				<div class="span f-fl">
