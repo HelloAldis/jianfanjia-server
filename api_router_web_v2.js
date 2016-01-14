@@ -157,6 +157,8 @@ router.post('/admin/update_team', auth.adminRequired, admin.update_team); //管�
 router.post('/admin/update_designer_online_status', auth.adminRequired, admin.update_designer_online_status); //管理员更新设计师在线状态
 router.post('/admin/search_plan', auth.adminRequired, admin.search_plan); //管理员搜索方案
 router.post('/admin/search_angel_user', auth.adminRequired, tempUserApi.search_temp_user); //搜索天使用户
+router.post('/admin/search_process', auth.adminRequired, admin.search_process); //搜索工地
+
 //ueditor
 router.get('/admin/ueditor', auth.adminRequired, admin.ueditor_get); //ueditor
 router.post('/admin/ueditor', auth.adminRequired, upload.single('Filedata'),

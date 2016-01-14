@@ -98,6 +98,7 @@ exports.topic_comments = function (req, res, next) {
   var section = req.body.section;
   var item = req.body.item;
   var userid = ApiUtil.getUserid(req);
+  var usertype = ApiUtil.getUsertype(req);
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
 
@@ -137,11 +138,13 @@ exports.topic_comments = function (req, res, next) {
         });
       }
 
-      Comment.setOne({
-        _id: comment._id,
-      }, {
-        status: type.comment_status_all_read,
-      }, null, function () {});
+      if (usertype === type.role_user || usertype === type.role_designer) {
+        Comment.setOne({
+          _id: comment._id,
+        }, {
+          status: type.comment_status_all_read,
+        }, null, function () {});
+      }
     }, ep.done(function (results) {
       res.sendData({
         comments: results,

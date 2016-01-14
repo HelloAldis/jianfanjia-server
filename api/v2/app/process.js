@@ -59,6 +59,7 @@ exports.start = function (req, res, next) {
       process.district = result.requirement.district;
       process.cell = result.requirement.cell;
       process.house_type = result.requirement.house_type;
+      process.business_house_type = result.requirement.business_house_type;
       process.house_area = result.requirement.house_area;
       process.dec_style = result.requirement.dec_style;
       process.work_type = result.requirement.work_type;
