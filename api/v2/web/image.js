@@ -24,7 +24,9 @@ exports.add = function (req, res, next) {
       'userid': userid
     }, null, ep.done(function (image) {
       if (image) {
-        res.sendData(image._id);
+        if (!req.timedout) {
+          res.sendData(image._id);
+        }
       } else {
         imageUtil.jpgbuffer(data, ep.done(function (buf) {
           Image.newAndSave(md5, buf, userid, ep.done(function (
@@ -45,7 +47,9 @@ exports.add = function (req, res, next) {
       ep.emit('data', req.file.buffer);
     }
   } else {
-    res.status(403).send('forbidden');
+    if (!req.timedout) {
+      res.status(403).send('forbidden');
+    }
   }
 };
 

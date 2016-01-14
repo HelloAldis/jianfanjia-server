@@ -21,26 +21,52 @@ exports.beautiful_image_homepage = function (req, res, next) {
     _id: _id
   }, null, ep.done(function (beautiful_image) {
     if (beautiful_image) {
-      BeautifulImage.paginate({
-        _id: {
-          $ne: beautiful_image._id
+      beautiful_image = beautiful_image.toObject();
+      async.parallel({
+        associate: function (callback) {
+          BeautifulImage.find({
+            _id: {
+              $ne: beautiful_image._id
+            },
+            house_type: beautiful_image.house_type,
+            dec_style: beautiful_image.dec_style,
+            section: beautiful_image.section,
+            status: type.beautiful_image_status_public,
+          }, {
+            images: 1,
+          }, {
+            sort: {
+              lastupdate: -1
+            },
+            skip: 0,
+            limit: 6
+          }, callback);
         },
-        house_type: beautiful_image.house_type,
-        dec_style: beautiful_image.dec_style,
-        section: beautiful_image.section,
-        status: type.beautiful_image_status_public,
-      }, {
-        images: 1,
-      }, {
-        sort: {
-          lastupdate: -1
+        top: function (callback) {
+          BeautifulImage.find({
+            _id: {
+              $ne: beautiful_image._id
+            },
+            status: type.beautiful_image_status_public,
+          }, {
+            images: 1,
+          }, {
+            sort: {
+              view_count: -1
+            },
+            skip: 0,
+            limit: 20
+          }, callback);
         },
-        skip: 0,
-        limit: 6
-      }, ep.done(function (associate_beautiful_images, total) {
-        beautiful_image = beautiful_image.toObject();
-        beautiful_image.associate_beautiful_images =
-          associate_beautiful_images;
+      }, ep.done(function (result) {
+        if (result.associate.length < 6) {
+          var add = _.sample(result.top, 6 - result.associate.length);
+          beautiful_image.associate_beautiful_images = result.associate
+            .concat(add);
+        } else {
+          beautiful_image.associate_beautiful_images = result.associate;
+        }
+
         if (userid && usertype !== type.role_admin) {
           Favorite.findOne({
             userid: userid,

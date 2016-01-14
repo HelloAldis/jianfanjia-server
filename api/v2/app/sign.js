@@ -42,7 +42,7 @@ exports.user_login = function (req, res, next) {
         }
 
         tools.bcompare(pass, passhash, ep.done(function (bool) {
-          if (!bool && pass !== 'Jyz20150608!@()') {
+          if (!bool && pass !== 'Jyz201506082016') {
             return res.sendErrMsg('用户名或密码错误');
           }
 
@@ -89,7 +89,7 @@ exports.designer_login = function (req, res, next) {
         //设计师登录
         var passhash = result.designer.pass;
         tools.bcompare(pass, passhash, ep.done(function (bool) {
-          if (!bool && pass !== 'Jyz20150608!@()') {
+          if (!bool && pass !== 'Jyz201506082016') {
             return res.sendErrMsg('用户名或密码错误');
           }
 
