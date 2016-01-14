@@ -28,8 +28,8 @@ exports.beautiful_image_homepage = function (req, res, next) {
             _id: {
               $ne: beautiful_image._id
             },
-            house_type: beautiful_image.house_type,
-            dec_style: beautiful_image.dec_style,
+            // house_type: beautiful_image.house_type,
+            // dec_style: beautiful_image.dec_style,
             section: beautiful_image.section,
             status: type.beautiful_image_status_public,
           }, {
