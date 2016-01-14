@@ -10,6 +10,7 @@ var Requirement = require('../../../proxy').Requirement;
 var Evaluation = require('../../../proxy').Evaluation;
 var DecStrategy = require('../../../proxy').DecStrategy;
 var BeautifulImage = require('../../../proxy').BeautifulImage;
+var Process = require('../../../proxy').Process;
 var Image = require('../../../proxy').Image;
 var Plan = require('../../../proxy').Plan;
 var tools = require('../../../common/tools');
@@ -517,6 +518,54 @@ exports.search_requirement = function (req, res, next) {
     }, ep.done(function (results) {
       res.sendData({
         requirements: results,
+        total: total
+      });
+    }));
+  }));
+}
+
+exports.search_process = function (req, res, next) {
+  var query = req.body.query || {};
+  var sort = req.body.sort || {
+    create_at: 1
+  };
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Process.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit,
+    lean: true,
+  }, ep.done(function (processes, total) {
+    async.mapLimit(processes, 3, function (process, callback) {
+      async.parallel({
+        user: function (callback) {
+          User.findOne({
+            _id: process.userid,
+          }, {
+            username: 1,
+            phone: 1
+          }, callback);
+        },
+        designer: function (callback) {
+          Designer.findOne({
+            _id: process.final_designerid,
+          }, {
+            username: 1,
+            phone: 1
+          }, callback);
+        },
+      }, function (err, result) {
+        process.user = result.user;
+        process.designer = result.designer;
+        callback(err, process);
+      });
+    }, ep.done(function (results) {
+      res.sendData({
+        processes: results,
         total: total
       });
     }));

@@ -194,3 +194,15 @@ exports.removeOne = function (query, option, callback) {
 exports.findOne = function (query, project, callback) {
   Process.findOne(query, project, callback);
 }
+
+exports.paginate = function (query, project, option, callback) {
+  Process.count(query, function (err, count) {
+    if (err) {
+      return callback(err, null);
+    }
+
+    exports.find(query, project, option, function (err, designers) {
+      callback(err, designers, count);
+    });
+  });
+}
