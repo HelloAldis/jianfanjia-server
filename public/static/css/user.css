@@ -193,10 +193,10 @@ body{
 	left:50%;
 	top:0;
 	z-index: 2;
-	width: 42px;
-	margin-left: -21px;
+	width: 150px;
+	margin-left: -75px;
+	font-size: 12px;
 	line-height: 19px;
-	font-weight: bold;
 	text-align: center;
 	color: #b4b4b4;
 	background-color: #fff;

@@ -73,7 +73,7 @@
 				workAuth : function(data){return doRequest('update_work_auth',data);},
 				uidAuth : function(data){return doRequest('update_uid_auth',data);},
 				infoAuth : function(data){return doRequest('update_basic_auth',data);},
-				online : function(data){return doRequest('update_designer_online_status',data);} 
+				online : function(data){return doRequest('update_designer_online_status',data);}
 			};
 		}])
 		/**
@@ -143,7 +143,7 @@
 			var doRequest = function(url,data){
 				return $http({
 	                method : 'POST',
-	                url : RootUrl+'api/v2/web/share/'+url,
+	                url : RootUrl+'api/v2/web/admin/'+url,
 	                headers: {
 						'Content-Type': 'application/json; charset=utf-8'
 				    },
@@ -151,11 +151,7 @@
 	            });
 			};
 			return {
-				list : function(){return doRequest('designer/info/get');},
-				get : function(){return doRequest('designer/info/get');},
-				update : function(data){return doRequest('update',data);},
-				add : function(data){return doRequest('add',data);},
-				remove : function(data){return doRequest('delete',data);}
+				search : function(data){return doRequest('search_process',data);}
 			};
 		}])
 		/**

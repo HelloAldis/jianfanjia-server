@@ -9,6 +9,7 @@ angular.module('controllers', [])
                    userRequiremtne.list().then(function(res){
                         $rootScope.requirementList = res.data.data;
                         angular.forEach($rootScope.requirementList, function(value, key){
+                            value.dec_type = $filter('decTypeFilter')(value.dec_type);
                             value.dec_style = $filter('decStyleFilter')(value.dec_style);
                             value.work_type = $filter('workTypeFilter')(value.work_type);
                             value.house_type = $filter('houseTypeFilter')(value.house_type);
@@ -17,25 +18,6 @@ angular.module('controllers', [])
                         console.log(res)
                     });
                 }
-                var designerReg = /designer\?p=/;
-                var favoriteReg = /favorite\?p=/;
-                $scope.location = $location;
-                $scope.$watch( 'location.url()', function( url ){
-                    if(url.split('/')[1] == 'requirement'){
-                        $scope.nav = 'requirementList'
-                    }else if(url.split('/')[1] == 'revise'){
-                        $scope.nav = 'requirementList'
-                    }else if(url.split('/')[1] == 'requirementList' || url.split('/')[1] == 'index'){
-                        requiremtne();
-                        $scope.nav = url.split('/')[1];
-                    }else if(favoriteReg.test(url.split('/')[1])){
-                        $scope.nav = 'favorite'
-                    }else if(designerReg.test(url.split('/')[1])){
-                        $scope.nav = 'designer'
-                    }else{
-                       $scope.nav = url.split('/')[1];
-                    }
-                });
             }
     ])
 	.controller('indexCtrl', [     //业主首页
@@ -186,11 +168,13 @@ angular.module('controllers', [])
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,userInfo,initData){
             $scope.userRelease = {
                 isRelease : $stateParams.id == undefined ? true : false,
+                releaseValue : this.isRelease ? '  提交  ' : '  修改  ',
                 citiesList : initData.tdist,
                 loadData : false,
                 decStyle : initData.decStyle,
                 houseType : initData.houseType,
                 workType : initData.workType,
+                businessType : initData.businessHouseType,
                 communicationType : initData.communicationType,
                 decType : initData.decType,
                 preferSex : initData.designSex,
@@ -205,6 +189,7 @@ angular.module('controllers', [])
                 }
             }
             $scope.requiremtne = {
+                business_house_type : '0',
                 dec_type : '0',
                 work_type : '0',
                 dec_style : '0',
@@ -232,7 +217,7 @@ angular.module('controllers', [])
                     console.log(res)
                 });
             }else{   //修改某条需求
-                userRequiremtne.get({'_id':$stateParams.id}).then(function(res){  //获取个人资料
+                userRequiremtne.get({'_id':$stateParams.id}).then(function(res){  //获取需求列表
                     if(res.data.data != null){
                         $scope.requiremtne = _.assign($scope.requiremtne, res.data.data);
                     }
@@ -241,12 +226,25 @@ angular.module('controllers', [])
                     console.log(res)
                 });
             }
-            $scope.userRelease.submit = function(){
+            $scope.userRelease.submit = function(type){
                 var This = this;
-                if(!$scope.requiremtne.family_description){
-                    alert('您的计划常住成员不能为空')
-                    return ;
+                if(type == 0){
+                    $scope.requiremtne.street = undefined;
+                    $scope.requiremtne.business_house_type = undefined;
+                    if(!$scope.requiremtne.family_description){
+                        alert('您的计划常住成员不能为空')
+                        return ;
+                    }
                 }
+                if(type == 1){
+                    $scope.requiremtne.cell_phase = undefined;
+                    $scope.requiremtne.cell_building = undefined;
+                    $scope.requiremtne.cell_unit = undefined;
+                    $scope.requiremtne.cell_detail_number = undefined;
+                    $scope.requiremtne.house_type = undefined;
+                    $scope.requiremtne.family_description = undefined;
+                }
+                $scope.requiremtne.dec_type = type;
                 if($scope.requiremtne.province === "湖北省" && $scope.requiremtne.city === "武汉市"){
                     This.disabled = true;
                     if($scope.userRelease.isRelease){

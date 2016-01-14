@@ -25,6 +25,11 @@
                     templateUrl: url+'release.html',
                     controller : 'releaseCtrl'
                 })
+                .state('addRequirementb', {
+                    url: '/releaseb',
+                    templateUrl: url+'releaseb.html',
+                    controller : 'releaseCtrl'
+                })
                 .state('bindPhone', {
                     url: '/phone',
                     templateUrl: url+'phone.html',
@@ -33,6 +38,11 @@
                 .state('updateRequirement', {
                     url: '/release/:id',
                     templateUrl: url+'release.html',
+                    controller : 'releaseCtrl'
+                })
+                .state('updateRequirementb', {
+                    url: '/releaseb/:id',
+                    templateUrl: url+'releaseb.html',
                     controller : 'releaseCtrl'
                 })
                 .state('requirementList', {

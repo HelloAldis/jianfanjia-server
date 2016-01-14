@@ -168,7 +168,7 @@ angular.module('filters', [])
             }[input];
         }
     })
-    .filter('userStatusTipsFilter', function () {     //业主需求状态进度当前提示文字    
+    .filter('userStatusTipsFilter', function () {     //业主需求状态进度当前提示文字
         return function (input) {
             return {
                 "0":"需要预约设计师",
@@ -182,7 +182,7 @@ angular.module('filters', [])
             }[input];
         }
     })
-    .filter('userRequiremtnesTipsFilter', function () {   //业主需求状态当前提示文字   
+    .filter('userRequiremtnesTipsFilter', function () {   //业主需求状态当前提示文字
         return function (input) {
             return {
                 "0":"已预约无响应",
@@ -287,10 +287,10 @@ angular.module('filters', [])
                 if (input.indexOf('-') == 0) {   // 处理负数符号“-”
                     input = input.replace("-", "");
                     minus = "负";
-                } 
+                }
                 if (input.indexOf('+') == 0) {   // 处理前导正数符号“+”（无实际意义）
                     input = input.replace("+", "");
-                } 
+                }
             }
             parts = input.split('.'); // 数组赋值：（整数部分.小数部分），Array的length=1则仅为整数。
             if (parts.length > 1) {
@@ -374,3 +374,18 @@ angular.module('filters', [])
             return time;
         }
     })
+    .filter('businessHouseTypeFilter', function () {    //商装类型
+        return function (input) {
+            return {
+                "0":"餐厅",
+                "1":"服装店",
+                "2":"酒吧",
+                "3":"美容院",
+                "4":"办公室",
+                "5":"美发店",
+                "6":"幼儿园",
+                "7":"酒店",
+                "9999":"其他"
+            }[input];
+        }
+    });

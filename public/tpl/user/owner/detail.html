@@ -13,21 +13,24 @@
 			</li>
 			<li>
 				<div class="span">
-					<strong>所属街道/路</strong>
-					<span>
+					<strong>详细地址</strong>
+					<span bo-if="requirement.dec_type == 1">
 						<span bo-text="requirement.street"></span>
 					</span>
-				</div>
-			</li>
-			<li>
-				<div class="span">
-					<strong>位置</strong>
-					<span>
+					<span bo-if="requirement.dec_type == 0">
 						<span bo-if="requirement.cell"><i bo-text="requirement.cell"></i>小区</span>
 						<span bo-if="requirement.cell_phase"><i bo-text="requirement.cell_phase"></i>期</span>
 						<span bo-if="requirement.cell_building"><i bo-text="requirement.cell_building"></i>栋</span>
 						<span bo-if="requirement.cell_unit"><i bo-text="requirement.cell_unit"></i>单元</span>
 						<span bo-if="requirement.cell_detail_number"><i bo-text="requirement.cell_detail_number"></i>室</span>
+					</span>
+				</div>
+			</li>
+			<li bo-if="requirement.dec_type == 1">
+				<div class="span">
+					<strong>项目名称</strong>
+					<span>
+						<span bo-text="requirement.cell"></span>
 					</span>
 				</div>
 			</li>
@@ -39,7 +42,15 @@
 					</span>
 				</div>
 			</li>
-			<li>
+			<li bo-if="requirement.dec_type == 1">
+				<div class="span">
+					<strong>商装类型</strong>
+					<span>
+						<span bo-text="requirement.business_house_type | businessHouseTypeFilter"></span>
+					</span>
+				</div>
+			</li>
+			<li bo-if="requirement.dec_type == 0">
 				<div class="span f-fl">
 					<strong>户型</strong>
 					<span>
@@ -98,7 +109,8 @@
 		</ul>
 	</div>
 	<div class="detail-btns" bo-if="requirement.status == 0">
-		<a ui-sref="updateRequirement({id:requiremtneId})" class="u-btns u-btns-revise">修改装修需求</a>
+		<a bo-if="requirement.dec_type == 0" ui-sref="updateRequirement({id:requiremtneId})" class="u-btns u-btns-revise">修改装修需求</a>
+		<a bo-if="requirement.dec_type == 1" ui-sref="updateRequirementb({id:requiremtneId})" class="u-btns u-btns-revise">修改装修需求</a>
 		<a bo-href-i="owner.html#/requirement/{{requiremtneId}}/booking" class="u-btns">前往预约量房</a>
 	</div>
 </div>
