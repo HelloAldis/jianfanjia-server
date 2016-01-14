@@ -21,9 +21,8 @@ Image.count({}, function (err, count) {
         gm(image.data).identify(function (err, value) {
           if (err) {
             console.log('error image with imageid = ' + image._id);
-            next(err);
+            next(null);
           } else {
-
             console.log(util.format(
               'format=%s  Geometry=%s  depth=%s  Resolution=%s  Filesize=%s  Compression=%s  JPEG-Quality=%s  Colorspace=%s',
               value['format'], value['Geometry'], value[
