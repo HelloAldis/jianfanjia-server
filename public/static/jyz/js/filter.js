@@ -170,5 +170,61 @@
                     "1":"小贴士"
                 }[input];
             };
+        })
+        .filter('fieldstatusFilter', function () {
+            return function (input) {
+                return {
+                    '0':'未开工',
+                    '1':'进行中',
+                    '2':'已完成',
+                    '3':'改期申请中',
+                    '4':'改期同意',
+                    '5':'改期拒绝'
+                }[input];
+            };
+        })
+        .filter('fieldsNameFilter', function () {
+            return function (input) {
+                return {
+                    "kai_gong":"开工",
+                     "xcjd":"现场交底",
+                     "qdzmjcl":"墙地砖面积测量",
+                     "cgdyccl":"橱柜第一次测量",
+                     "sgxcl":"石膏线测量",
+                     "mdbcl":"木地板测量",
+                     "kgmbslcl":"开关面板数量核算",
+                     "chai_gai":"拆改",
+                     "cpbh":"成品保护",
+                     "ztcg":"主体拆改",
+                     "qpcc":"墙皮铲除",
+                     "shui_dian":"水电",
+                     "sdsg":"水电施工",
+                     "ntsg":"暖通施工",
+                     "ni_mu":"泥木",
+                     "sgxaz":"石膏线安装",
+                     "cwqfssg":"厨卫全防水施工",
+                     "cwqdzsg":"厨卫墙地砖施工",
+                     "ktytzsg":"客厅阳台砖施工",
+                     "dmzp":"地面找平",
+                     "ddsg":"吊顶施工",
+                     "gtsg":"柜体施工",
+                     "you_qi":"油漆",
+                     "mqqsg":"木器漆施工",
+                     "qmrjq":"墙面乳胶漆",
+                     "an_zhuang":"安装",
+                     "scaz":"石材安装",
+                     "jjaz":"洁具安装",
+                     "cwddaz":"厨卫吊顶安装",
+                     "wjaz":"五金安装",
+                     "cgscaz":"橱柜水槽安装",
+                     "yjzjaz":"烟机灶具安装",
+                     "mdbmmaz":"木地板木门安装",
+                     "qzpt":"墙纸铺贴",
+                     "mbdjaz":"面板灯具安装",
+                     "snzl":"室内整理",
+                     "jun_gong":"竣工",
+                     "dbys":"对比验收"
+                }[input];
+            };
         });
 })();

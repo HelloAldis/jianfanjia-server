@@ -495,7 +495,11 @@ define(['jquery','lib/jquery.cookie'], function($){
         sUl = ['<ul>'],
         str;
         for (var i = 0, len = data.length; i < len; i++) {
-          var sLi = '<li><a class="" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+data[i].cell+'小区'+data[i].cell_phase+'期'+data[i].cell_building+'栋'+data[i].cell_unit+'单元'+data[i].cell_detail_number+'室</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
+          if(data[i].dec_type == 0){
+            var sLi = '<li><a class="" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+data[i].cell+'小区'+data[i].cell_phase+'期'+data[i].cell_building+'栋'+data[i].cell_unit+'单元'+data[i].cell_detail_number+'室</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
+          }else{
+            var sLi = '<li><a class="" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+data[i].cell+'<span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
+          }
           sUl.push(sLi);
         }
         sUl.push('<ul>');

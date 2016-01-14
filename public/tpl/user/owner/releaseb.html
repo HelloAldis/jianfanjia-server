@@ -4,15 +4,15 @@
 	</div>
 	<div class="m-ct">
 		<ul class="tabs">
-			<li class="active"><a>家装</a></li>
-			<li ng-show="userRelease.isRelease"><a ui-sref="addRequirementb">商装</a></li>
+			<li ng-show="userRelease.isRelease"><a ui-sref="addRequirement">家装</a></li>
+			<li class="active"><a>商装</a></li>
 		</ul>
-		<form name="release" ng-submit="userRelease.submit(0)" ng-if="requiremtne.province" novalidate>
+		<form name="release" ng-submit="userRelease.submit(1)" ng-if="requiremtne.province" novalidate>
 			<div class="k-form release">
 				<div class="m-boxs">
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-name"><i>*</i>装修城市</label>
+							<label class="u-lab"><i>*</i>装修城市</label>
 							<div class="u-inp">
 								<div my-cities my-list="userRelease.citiesList" my-province="requiremtne.province" my-city="requiremtne.city" my-district="requiremtne.district" ng-if="requiremtne.province"></div>
 								<p class="alert">目前装修城市仅支持湖北省武汉市</p>
@@ -21,62 +21,31 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-email"><i>*</i>详细地址</label>
+							<label class="u-lab" for="owner-sex"><i>*</i>详细地址</label>
 							<div class="u-inp">
-								<ul class="mark">
-									<li>
-										<div class="f-fl">
-											<input type="text" class="input short" ng-model="requiremtne.cell" required />
-										</div>
-										<span>小区</span>
-									</li>
-									<li>
-										<div class="f-fl">
-											<input type="text" class="input mini" ng-model="requiremtne.cell_phase" required />
-										</div>
-										<span>期</span>
-									</li>
-									<li>
-										<div class="f-fl">
-											<input type="text" class="input mini" ng-model="requiremtne.cell_building" required />
-										</div>
-										<span>栋</span>
-									</li>
-									<li>
-										<div class="f-fl">
-											<input type="text" class="input mini" ng-model="requiremtne.cell_unit" required />
-										</div>
-										<span>单元</span>
-									</li>
-									<li>
-										<div class="f-fl">
-											<input type="text" class="input mini" ng-model="requiremtne.cell_detail_number" required />
-										</div>
-										<span>室</span>
-									</li>
-								</ul>
+								<input type="text" class="input long" ng-model="requiremtne.street" required />
 							</div>
 						</div>
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-email"><i>*</i>装修户型</label>
+							<label class="u-lab"><i>*</i>项目名称</label>
 							<div class="u-inp">
-								<div my-select my-list="userRelease.houseType" my-query="requiremtne.house_type"></div>
+								<input type="text" class="input" ng-model="requiremtne.cell" required />
 							</div>
 						</div>
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab"><i>*</i>计划常住成员</label>
+							<label class="u-lab"><i>*</i>商装类型</label>
 							<div class="u-inp">
-								<div my-selecte my-list="userRelease.familyDescription" my-query="requiremtne.family_description"></div>
+								<div my-select my-list="userRelease.businessType" my-query="requiremtne.business_house_type"></div>
 							</div>
 						</div>
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr"><i>*</i>装修面积</label>
+							<label class="u-lab"><i>*</i>装修面积</label>
 							<div class="u-inp">
 								<div class="inp">
 									<input type="text" class="input" ng-model="requiremtne.house_area" check-number required />
@@ -87,7 +56,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr"><i>*</i>包工类型</label>
+							<label class="u-lab"><i>*</i>包工类型</label>
 							<div class="u-inp">
 								<div my-select my-list="userRelease.workType" my-query="requiremtne.work_type"></div>
 								<div class="work-tips">
@@ -99,7 +68,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr"><i>*</i>装修预算</label>
+							<label class="u-lab"><i>*</i>装修预算</label>
 							<div class="u-inp">
 								<div class="inp">
 									<input type="text" class="input" ng-model="requiremtne.total_price" check-number required />
@@ -110,7 +79,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr"><i>*</i>风格喜好</label>
+							<label class="u-lab"><i>*</i>风格喜好</label>
 							<div class="u-inp">
 								<div class="k-stylePic">
 									<div my-stylepic my-list="userRelease.decStyle" my-query="requiremtne.dec_style"></div>
@@ -120,7 +89,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr">偏好设计师性别</label>
+							<label class="u-lab">偏好设计师性别</label>
 							<div class="u-inp">
 								<div my-select my-list="userRelease.preferSex" my-query="requiremtne.prefer_sex"></div>
 							</div>
@@ -128,7 +97,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr">偏好设计师类型</label>
+							<label class="u-lab">偏好设计师类型</label>
 							<div class="u-inp">
 								<div my-select my-list="userRelease.communicationType" my-query="requiremtne.communication_type"></div>
 							</div>

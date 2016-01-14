@@ -13,25 +13,6 @@ angular.module('controllers', [])
             });
         }
     ])
-	.controller('SubController', [    //左侧高亮按钮
-            '$scope','$location','userRequiremtne',function($scope, $location,userRequiremtne) {
-                $scope.location = $location;
-                var productsReg = /products\?p=/;
-                var favoriteReg = /favorite\?p=/;
-                $scope.$watch( 'location.url()', function( url ){
-                    if(url.split('/')[1] == 'requirement'){
-                        $scope.nav = 'requirementList'
-                    }else if(url.split('/')[1] == 'revise' || productsReg.test(url.split('/')[1])){
-                        $scope.nav = 'products'
-                    }else if(favoriteReg.test(url.split('/')[1])){
-                        $scope.nav = 'favorite'
-                    }else{
-                       $scope.nav = url.split('/')[1];
-                    }
-                });
-
-            }
-    ])
 	.controller('indexCtrl', [     //业主首页
         '$scope','$rootScope','$http','$filter','$location','userInfo','userRequiremtne','userComment',
         function($scope, $rootScope,$http,$filter,$location,userInfo,userRequiremtne,userComment) {
@@ -91,6 +72,9 @@ angular.module('controllers', [])
                 $scope.requiremtnes = res.data.data;
                 angular.forEach($scope.requiremtnes, function(value, key){
                     if(value){
+                        if(value.dec_type){
+                            value.dec_type = $filter('decTypeFilter')(value.dec_type);
+                        }
                         if(value.dec_style){
                             value.dec_style = $filter('decStyleFilter')(value.dec_style);
                         }
@@ -477,6 +461,7 @@ angular.module('controllers', [])
             userRequiremtne.history().then(function(res){
                 $scope.historys = res.data.data;
                 angular.forEach($scope.historys, function(value, key){
+                    value.dec_type = $filter('decTypeFilter')(value.dec_type);
                     value.dec_style = $filter('decStyleFilter')(value.dec_style);
                     value.work_type = $filter('workTypeFilter')(value.work_type);
                     value.house_type = $filter('houseTypeFilter')(value.house_type);

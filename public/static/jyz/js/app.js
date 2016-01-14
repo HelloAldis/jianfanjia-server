@@ -121,6 +121,11 @@ var globalUrl = 'http://101.200.191.159/';
                     templateUrl: RootURl+'views/field/field.html',
                     controller: 'FieldController'
                 })
+                .state('fieldMore', {
+                    url: '/field/:id',
+                    templateUrl: RootURl+'views/field/detail.html',
+                    controller: 'FieldDetailController'
+                })
                 .state('feedback', {
                     url: '/feedback',
                     templateUrl: RootURl+'views/feedback/feedback.html',

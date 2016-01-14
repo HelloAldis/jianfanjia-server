@@ -65,7 +65,7 @@ require(['jquery','lib/jquery.cookie','utils/common','lib/jquery.requestAnimatio
                         '<div class="m-detail-product">',
                             '<div class="m-tt">',
                                 '<h2>'+data.cell+'</h2>',
-                                '<a href="javascript:;" class="u-btns u-btns-revise favorite">'+(data.is_my_favorite ? '取消收藏' : '收藏作品')+'</a>',
+                                '<a href="javascript:;" class="u-btns u-btns-hollow favorite '+(data.is_my_favorite ? 'u-btns-revise' : '')+'">'+(data.is_my_favorite ? '取消收藏' : '收藏作品')+'</a>',
                             '</div>',
                            ' <div class="m-ct">',
                                 '<div class="info">',
@@ -150,14 +150,14 @@ require(['jquery','lib/jquery.cookie','utils/common','lib/jquery.requestAnimatio
                         if(This.html() == '收藏作品'){
                             favorite('add',function(res){
                                 if(res['msg'] === "success"){
-                                    This.html('取消收藏');
+                                    This.addClass(' u-btns-revise').html('取消收藏');
                                 }
                             })
                         }else{
                             if(confirm("你确定要取消收藏吗？")){
                                 favorite('delete',function(res){
                                     if(res['msg'] === "success"){
-                                        This.html('收藏作品');
+                                        This.removeClass(' u-btns-revise').html('收藏作品');
                                     }
                                 })
                             }

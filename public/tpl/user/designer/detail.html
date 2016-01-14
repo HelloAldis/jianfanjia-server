@@ -1,14 +1,6 @@
-<div class="detail" bindonce="requirement">
+<div class="detail" bindonce="requirement" ng-if="requirement">
 	<div class="detail-drid">
 		<ul>
-			<li>
-				<div class="span">
-					<strong>业主姓名</strong>
-					<span>
-						<span bo-text="requirement.user.username"></span>
-					</span>
-				</div>
-			</li>
 			<li>
 				<div class="span">
 					<strong>装修城市</strong>
@@ -19,18 +11,13 @@
 					</span>
 				</div>
 			</li>
-			<li bp-if="requirement.street">
-				<div class="span">
-					<strong>所属街道/路</strong>
-					<span>
-						<span bo-text="requirement.street"></span>
-					</span>
-				</div>
-			</li>
 			<li>
 				<div class="span">
 					<strong>详细地址</strong>
-					<span>
+					<span bo-if="requirement.dec_type == 1">
+						<span bo-text="requirement.street"></span>
+					</span>
+					<span bo-if="requirement.dec_type == 0">
 						<span bo-if="requirement.cell"><i bo-text="requirement.cell"></i>小区</span>
 						<span bo-if="requirement.cell_phase"><i bo-text="requirement.cell_phase"></i>期</span>
 						<span bo-if="requirement.cell_building"><i bo-text="requirement.cell_building"></i>栋</span>
@@ -39,19 +26,35 @@
 					</span>
 				</div>
 			</li>
-			<li>
+			<li bo-if="requirement.dec_type == 1">
 				<div class="span">
-					<strong>装修户型</strong>
+					<strong>项目名称</strong>
 					<span>
-						<span bo-text="requirement.house_type | houseTypeFilter"></span>
+						<span bo-text="requirement.cell"></span>
 					</span>
 				</div>
 			</li>
 			<li>
-				<div class="span f-fl">
+				<div class="span">
 					<strong>装修类别</strong>
 					<span>
 						<span bo-text="requirement.dec_type | decTypeFilter"></span>
+					</span>
+				</div>
+			</li>
+			<li bo-if="requirement.dec_type == 1">
+				<div class="span">
+					<strong>商装类型</strong>
+					<span>
+						<span bo-text="requirement.business_house_type | businessHouseTypeFilter"></span>
+					</span>
+				</div>
+			</li>
+			<li bo-if="requirement.dec_type == 0">
+				<div class="span f-fl">
+					<strong>户型</strong>
+					<span>
+						<span bo-text="requirement.house_type | houseTypeFilter"></span>
 					</span>
 				</div>
 				<div class="span f-fl">
@@ -99,10 +102,11 @@
 				<div class="span f-fl">
 					<strong>偏好设计师性别</strong>
 					<span>
-						<span><i bo-text="requirement.prefer_sex | designSexFilter"></i></span>
+						<span><i bo-text="requirement.prefer_sex | sexFilter"></i></span>
 					</span>
 				</div>
 			</li>
 		</ul>
 	</div>
 </div>
+<div class="pageLoading" ng-hide="!!requirement"></div>

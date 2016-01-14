@@ -199,6 +199,17 @@ angular.module('services', [])
                 {"name":'两个人'},
                 {"name":'三个人'},
                 {"name":'四个人'}
+            ],
+            businessHouseType : [
+                {"id" :0,"name":'餐厅'},
+                {"id" :1,"name":'服装店'},
+                {"id" :2,"name":'酒吧'},
+                {"id" :3,"name":'美容院'},
+                {"id" :4,"name":'办公室'},
+                {"id" :5,"name":'美发店'},
+                {"id" :6,"name":'幼儿园'},
+                {"id" :7,"name":'酒店'},
+                {"id" :9999,"name":'其他'}
             ]
 		}
 	})
