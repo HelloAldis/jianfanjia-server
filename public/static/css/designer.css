@@ -2081,171 +2081,6 @@ body{
 	padding: 29px 0;
 	text-align: center;
 }
-/*方案上传*/
-.k-uploadbox{
-	width: 570px;
-}
-.k-uploadbox .pic{
-	position: relative;
-	float: left;
-    width: 168px;
-    height: 168px;
-    margin:0 20px 20px 0;
-    overflow: visible;
-    background:none;
-    text-align: center;
-}
-.k-uploadbox .pic .mask{
-	position: absolute;
-	left: 0;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 10000;
-	background-color: #fff;
-	opacity: 0;
-	filter: alpha(opacity=0);
-}
-.k-uploadbox .item{
-	position: relative;
-	float: left;
-	width: 168px;
-	height: 168px;
-	margin:0 20px 20px 0;
-}
-.k-uploadbox .item .img{
-	width: 168px;
-	height: 168px;
-	overflow: hidden;
-	border-radius: 2px;
-	background:url(../img/user/loading.gif) center center no-repeat;
-}
-.k-uploadbox .item .close{
-	position: absolute;
-	right: 0;
-	top: 0;
-	width: 20px;
-	height: 20px;
-	background: url(../img/user/uploadify-cancel.png) center center no-repeat;
-	cursor: pointer;
-	display: none;
-}
-.k-uploadbox .item:hover .close{
-	display: block;
-}
-.k-uploadbox .item img{
-	min-width: 100%;
-	min-height: 100%;
-}
-.k-uploadbox .pic .fileBtn,.k-uploadbox .pic .uploadify-button{
-	position: absolute;
-    z-index: 20;
-    left:0;
-    top: 0;
-    width: 166px;
-    height: 166px;
-}
-.k-uploadbox .pic .tips{
-	position: absolute;
-	left:0;
-	top:0;
-	z-index: 9;
-	width: 166px;
-    height: 166px;
-	background-color: #f9f9f9;
-    border: 1px solid #d2d2d2;
-    border-radius: 2px;
-	text-align: center;
-}
-.k-uploadbox .pic .tips p{
-	padding-top: 117px;
-	line-height: 50px;
-	color: #999;
-}
-.k-uploadbox .pic .tips span{
-	position: absolute;
-	width: 32px;
-	height: 32px;
-	left:50%;
-	top:50%;
-	margin-top: -16px;
-	margin-left: -16px;
-}
-.k-uploadbox .pic .tips span em{
-	position: absolute;
-	left:15px;
-	top:0;
-	width: 2px;
-	height: 32px;
-	background-color: #c3c3c3;
-}
-.k-uploadbox .pic .tips span i{
-	position: absolute;
-	left:0;
-	top:15px;
-	width: 32px;
-	height: 2px;
-	background-color: #c3c3c3;
-}
-.k-uploadbox .pic .uploadify-queue,.k-uploadbox .uploadify-queue{
-	position: absolute;
-	left:0;
-	top:0;
-	z-index: 11;
-	width: 166px;
-}
-.k-uploadbox p{
-	padding-top: 10px;
-	text-align: center;
-}
-.k-cropMask{
-	position:fixed;
-	z-index: 1000;
-	left:0;
-	top:0;
-	background-color: #000;
-	display: none;
-}
-.k-uploadbox .uploadify-queue-item {
-    background-color: #F5F5F5;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    font: 11px Verdana,Geneva,sans-serif;
-    margin-top: 5px;
-    max-width: 350px;
-    padding: 10px
-}
-
-.k-uploadbox .uploadify-error {
-    background-color: #FDE5DD!important
-}
-
-.k-uploadbox .uploadify-queue-item.completed{
-    background-color: #E5E5E5
-}
-
-.k-uploadbox .uploadify-progress {
-    background-color: #E5E5E5;
-    margin-top: 10px;
-    width: 100%
-}
-
-.k-uploadbox .uploadify-progress-bar {
-    background-color: #09F;
-    height: 3px;
-    width: 1px
-}
-.k-uploadbox .up_filename,.k-uploadbox .delfilebtn,.k-uploadbox .progressnum{
-	display: none;
-}
-.k-uploadbox .pic .img{
-	display: block;
-	width: 120px;
-	height: 120px;
-	margin: 0 auto;
-	border-radius: 120px;
-}
 /*认证中心*/
 .inofTips{
 	margin: 20px 19px;
@@ -2729,26 +2564,53 @@ body{
 	border-color: #ff6a6a;
 }
 
-/*作品上传*/
-.product .previews-item{
+
+/*多图上传 方案，获奖照片，作品*/
+.insertimage{
+	width: 570px;
+}
+.insertimage .pic{
+	position: relative;
+	float: left;
+  width: 168px;
+  height: 168px;
+  margin:0 20px 20px 0;
+  overflow: visible;
+  background:none;
+  text-align: center;
+}
+.insertimage .pic .mask{
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 10000;
+	background-color: #fff;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.insertimage .item{
 	position: relative;
 	float: left;
 	width: 168px;
-	padding-right: 20px;
+	margin:0 20px 20px 0;
 }
-.product .previews-item .img{
-	width: 100%;
+.insertimage .default .item{
 	height: 168px;
-	margin-bottom: 10px;
 }
-.product .previews-item .k-select{
-	width: 100%;
+.insertimage .item .img{
+	width: 168px;
+	height: 168px;
+	overflow: hidden;
 	margin-bottom: 10px;
+	border-radius: 2px;
+	background:url(../img/user/loading.gif) center center no-repeat;
 }
-.k-form .product .previews-item .input{
- 	width: 148px;
- }
-.product .previews-item .close{
+.insertimage .default .item .img{
+	margin-bottom: 0;
+}
+.insertimage .item .close{
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -2758,10 +2620,151 @@ body{
 	cursor: pointer;
 	display: none;
 }
-.product .previews-item:hover .close{
+.insertimage .item:hover .close{
 	display: block;
 }
-.product .k-uploadbox .pic .tips p strong{
+.insertimage .item img{
+	min-width: 100%;
+	min-height: 100%;
+}
+.insertimage .pic .fileBtn,.insertimage .pic .uploadify-button{
+	position: absolute;
+    z-index: 20;
+    left:0;
+    top: 0;
+    width: 166px;
+    height: 166px;
+}
+.insertimage .pic .tips{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 9;
+	width: 166px;
+    height: 166px;
+	background-color: #f9f9f9;
+    border: 1px solid #d2d2d2;
+    border-radius: 2px;
+	text-align: center;
+}
+.insertimage .pic .tips p{
+	padding-top: 117px;
+	line-height: 50px;
+	color: #999;
+}
+.insertimage .pic .tips span{
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	left:50%;
+	top:50%;
+	margin-top: -16px;
+	margin-left: -16px;
+}
+.insertimage .pic .tips span em{
+	position: absolute;
+	left:15px;
+	top:0;
+	width: 2px;
+	height: 32px;
+	background-color: #c3c3c3;
+}
+.insertimage .pic .tips span i{
+	position: absolute;
+	left:0;
+	top:15px;
+	width: 32px;
+	height: 2px;
+	background-color: #c3c3c3;
+}
+.insertimage .pic .uploadify-queue,.insertimage .uploadify-queue{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 11;
+	width: 166px;
+}
+.insertimage p{
+	padding-top: 10px;
+	text-align: center;
+}
+.k-cropMask{
+	position:fixed;
+	z-index: 1000;
+	left:0;
+	top:0;
+	background-color: #000;
+	display: none;
+}
+.insertimage .uploadify-queue-item {
+    background-color: #F5F5F5;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font: 11px Verdana,Geneva,sans-serif;
+    margin-top: 5px;
+    max-width: 350px;
+    padding: 10px
+}
+.insertimage .uploadify-error {
+    background-color: #FDE5DD!important
+}
+.insertimage .uploadify-queue-item.completed{
+    background-color: #E5E5E5
+}
+.insertimage .uploadify-progress {
+    background-color: #E5E5E5;
+    margin-top: 10px;
+    width: 100%
+}
+.insertimage .uploadify-progress-bar {
+    background-color: #09F;
+    height: 3px;
+    width: 1px
+}
+.insertimage .up_filename,.insertimage .delfilebtn,.insertimage .progressnum{
+	display: none;
+}
+.insertimage .pic .img{
+	display: block;
+	width: 120px;
+	height: 120px;
+	margin: 0 auto;
+	border-radius: 120px;
+}
+/*作品*/
+.insertimage .edit{
+
+}
+/*获奖照片*/
+.insertimage .write{
+
+}
+/*方案*/
+.insertimage .default{
+
+}
+.insertimage .item .k-select{
+	width: 100%;
+	margin-bottom: 10px;
+}
+.k-form .insertimage .item .input{
+ 	width: 148px;
+ }
+.insertimage .item .close{
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 20px;
+	height: 20px;
+	background: url(../img/user/uploadify-cancel.png) center center no-repeat;
+	cursor: pointer;
+	display: none;
+}
+.insertimage .item:hover .close{
+	display: block;
+}
+.insertimage .k-uploadbox .pic .tips p strong{
 	display: block;
     line-height: 18px;
     font-weight: normal;

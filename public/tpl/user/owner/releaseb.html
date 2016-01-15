@@ -14,6 +14,9 @@
 						<div class="item">
 							<label class="u-lab"><i>*</i>装修城市</label>
 							<div class="u-inp">
+								<input type="hidden" ng-model="requiremtne.province" check-province required />
+								<input type="hidden" ng-model="requiremtne.city" check-city required />
+								<input type="hidden" ng-model="requiremtne.district" required />
 								<div my-cities my-list="userRelease.citiesList" my-province="requiremtne.province" my-city="requiremtne.city" my-district="requiremtne.district" ng-if="requiremtne.province"></div>
 								<p class="alert">目前装修城市仅支持湖北省武汉市</p>
 							</div>
@@ -23,7 +26,8 @@
 						<div class="item">
 							<label class="u-lab" for="owner-sex"><i>*</i>详细地址</label>
 							<div class="u-inp">
-								<input type="text" class="input long" ng-model="requiremtne.street" required />
+								<input type="text" class="input long" ng-model="requiremtne.street" name="street" placeholder="不能为空" my-placeholder required />
+								<span ng-show="release.street.$invalid && !release.street.$pristine" class="has-error">所填内容不能为空</span>
 							</div>
 						</div>
 					</div>
@@ -31,7 +35,8 @@
 						<div class="item">
 							<label class="u-lab"><i>*</i>项目名称</label>
 							<div class="u-inp">
-								<input type="text" class="input" ng-model="requiremtne.cell" required />
+								<input type="text" class="input" ng-model="requiremtne.cell" name="cell" placeholder="不能为空" my-placeholder required />
+								<span ng-show="release.cell.$invalid && !release.cell.$pristine" class="has-error">所填内容不能为空</span>
 							</div>
 						</div>
 					</div>
@@ -48,8 +53,9 @@
 							<label class="u-lab"><i>*</i>装修面积</label>
 							<div class="u-inp">
 								<div class="inp">
-									<input type="text" class="input" ng-model="requiremtne.house_area" check-number required />
+									<input type="text" class="input" ng-model="requiremtne.house_area" placeholder="只能填纯数字" my-placeholder check-number required name="house_area" />
 									<span class="unit">m&sup2;</span>
+									<span ng-show="release.house_area.$invalid && !release.house_area.$pristine" class="has-error">所填内容必须为数字</span>
 								</div>
 							</div>
 						</div>
@@ -60,8 +66,8 @@
 							<div class="u-inp">
 								<div my-select my-list="userRelease.workType" my-query="requiremtne.work_type"></div>
 								<div class="work-tips">
-									<p>半包 是指装修工程中，施工方提供人员施工及辅材供应的承包形式；</p>
-									<p>全包 是指装修工程中，施工方提供装修所涉所有项目的承包形式。</p>
+									<p><strong>半包</strong>是指装修工程中，施工方提供人员施工及辅材供应的承包形式；</p>
+									<p><strong>全包</strong>是指装修工程中，施工方提供装修所涉所有项目的承包形式。</p>
 								</div>
 							</div>
 						</div>
@@ -71,8 +77,9 @@
 							<label class="u-lab"><i>*</i>装修预算</label>
 							<div class="u-inp">
 								<div class="inp">
-									<input type="text" class="input" ng-model="requiremtne.total_price" check-number required />
+									<input type="text" class="input" ng-model="requiremtne.total_price" name="total_price" placeholder="只能填纯数字" my-placeholder check-number required />
 									<span class="unit">万元</span>
+									<span ng-show="release.total_price.$invalid && !release.total_price.$pristine" class="has-error">所填内容必须为数字</span>
 								</div>
 							</div>
 						</div>

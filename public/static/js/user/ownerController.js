@@ -4,6 +4,12 @@ angular.module('controllers', [])
             '$scope','$rootScope','$location','$filter','userRequiremtne',
             function($scope, $rootScope ,$location,$filter,userRequiremtne) {
                 //全局需求列表
+                $scope.location = $location;
+                $scope.$watch( 'location.url()', function( url ){
+                    if(url.split('/')[1] == 'requirementList' || url.split('/')[1] == 'index'){
+                        requiremtne();
+                    }
+                });
                 requiremtne()
                 function requiremtne(){
                    userRequiremtne.list().then(function(res){
@@ -168,7 +174,7 @@ angular.module('controllers', [])
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,userInfo,initData){
             $scope.userRelease = {
                 isRelease : $stateParams.id == undefined ? true : false,
-                releaseValue : this.isRelease ? '  提交  ' : '  修改  ',
+                releaseValue : $stateParams.id == undefined ? '  提交  ' : '  修改  ',
                 citiesList : initData.tdist,
                 loadData : false,
                 decStyle : initData.decStyle,
@@ -252,6 +258,7 @@ angular.module('controllers', [])
                             if(res.data.data.requirementid){
                                 This.requirementid = res.data.data.requirementid;
                                 This.motaiDone = true;
+                                userRequiremtne.list();
                             }
                         },function(res){
                             console.log(res)
@@ -260,6 +267,7 @@ angular.module('controllers', [])
                         userRequiremtne.update($scope.requiremtne).then(function(res){  //修改需求
                             if(res.data.msg == "success"){
                                 This.motaiDone = true;
+                                userRequiremtne.list();
                             }
                         },function(res){
                             console.log(res)

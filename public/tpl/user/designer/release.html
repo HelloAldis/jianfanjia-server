@@ -93,9 +93,9 @@
 					<div class="m-item f-cb">
 						<div class="item">
 							<label class="u-lab" for="owner-addr">上传作品图片</label>
-							<div class="u-inp product">
+							<div class="u-inp insertimage">
 								<input type="hidden" ng-model="product.images.length" check-images required />
-								<div my-productuploade my-id="product" my-query="product.images" my-section="designerProduct.section" ng-if="product"></div>
+								<div my-insertimage my-query="product.images" my-section="designerProduct.section" ng-if="product" my-type="edit"></div>
 							</div>
 						</div>
 					</div>
