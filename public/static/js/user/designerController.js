@@ -365,7 +365,7 @@ angular.module('controllers', [])
                angular.forEach(initData.priceDetail, function(value, key){
                    value.price = undefined;
                });
-               $scope.plan.price_detail = initData.priceDetail;
+               $scope.plan.price_detail = _.assign({},initData.priceDetail)
             }
             $scope.designerPlan.remove_price_detail = function(id){
                 if(confirm('您确定要删除吗？')){
@@ -773,8 +773,8 @@ angular.module('controllers', [])
     .controller('phoneCtrl', ['$scope','$rootScope','userInfo',function($scope, $rootScope,userInfo){  //手机认证修改
     }])
     .controller('emailCtrl', [     //邮箱认证修改
-        '$scope','$rootScope','$http','$filter','$location','userInfo',
-        function($scope, $rootScope,$http,$filter,$location,userInfo){
+        '$scope','$rootScope','$http','$filter','$location','$timeout','userInfo',
+        function($scope, $rootScope,$http,$filter,$location,$timeout,userInfo){
         function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
             userInfo.get().then(function(res){
                 $scope.designeremail = res.data.data;
@@ -788,22 +788,25 @@ angular.module('controllers', [])
             status : false,
             waiting : false,
             disabled : false,
+            again : false,
             change : function(){
                 this.status = true;
             },
             send : function(){
+                var _this = this;
                 this.status = false;
                 var date = new Date();
-                if(date.getTime() - $scope.designeremail.email_auth_date < 60000){
+                if(date.getTime() - $scope.designeremail.email_auth_date < 600000){
                     alert('您点的太快了，稍后再试');
                     return ;
                 }
                 userInfo.emailInfo({"email":$scope.designeremail.email}).then(function(res){
-                    uploadDesignerInfo()
-                },function(res){
-                    console.log(res)
-                });
-                userInfo.email().then(function(res){
+                    uploadDesignerInfo();
+                    userInfo.email();
+                    _this.again = true;
+                    $timeout(function(){
+                        _this.again = false;
+                    },3000)
                 },function(res){
                     console.log(res)
                 });

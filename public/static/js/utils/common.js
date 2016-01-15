@@ -370,7 +370,7 @@ define(['jquery','lib/jquery.cookie'], function($){
           {
             'name' : '我的意向',
             'sclass' : 'add',
-            'url'  : '/tpl/user/owner.html#/designer',
+            'url'  : '/tpl/user/owner.html#/designer/1',
             'icon' : '&#xe614;',
             'hover' : '',
           },

@@ -57,9 +57,9 @@
 						<div class="m-item f-cb">
 							<div class="item">
 								<label class="u-lab" for="owner-addr">上传平面图</label>
-								<div class="u-inp">
+								<div class="u-inp insertimage">
 									<input type="hidden" ng-model="plan.images.length" check-images required />
-									<div my-uploade my-id="create" my-query="plan.images" ng-if="plan"></div>
+									<div my-insertimage my-query="plan.images" ng-if="plan" my-type="default"></div>
 								</div>
 							</div>
 						</div>

@@ -254,6 +254,9 @@ body{
 	font-size: 14px;
 	color: #61687a;
 }
+.k-form .u-lab i{
+	color: #ff4a4a;
+}
 .k-form .u-lab span{
 	font-size: 12px;
 	color: #999;
@@ -308,7 +311,7 @@ body{
 	color: #ff6a6a;
 	font-size: 12px;
 	word-spacing:0;
-	margin-left: 10px;
+	margin-left: 20px;
 }
 .k-form .u-inp .input.ng-dirty.ng-invalid-number,.k-form .u-inp .input.ng-dirty.ng-invalid-pattern,.k-form .u-inp .input.ng-dirty.ng-invalid-required{
 	border-color: #ff6a6a;
@@ -353,7 +356,7 @@ body{
 }
 .k-form .u-inp .unit{
 	position: absolute;
-	right:10px;
+	left:210px;
 	top:0;
 	width: 40px;
 	line-height: 28px;

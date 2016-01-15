@@ -85,7 +85,8 @@
 								<div class="item">
 									<label class="u-lab" for="owner-name">工作年限</label>
 									<div class="u-inp">
-										<input type="text" class="input" ng-model="designer.work_year" check-number required placeholder="只能为整数" my-placeholder />
+										<input type="text" class="input" ng-model="designer.work_year" name="work_year" check-number required placeholder="只能为整数" my-placeholder />
+										<span ng-show="designerinfo.work_year.$invalid && !designerinfo.work_year.$pristine" class="has-error">不是整数</span>
 									</div>
 								</div>
 							</div>
@@ -126,8 +127,8 @@
 							<div class="m-item f-cb">
 								<div class="item">
 									<label class="u-lab" for="owner-name">获奖照片及描述</label>
-									<div class="u-inp product">
-										<div my-productuploade my-id="product" my-query="designer.award_details" my-section="[]"></div>
+									<div class="u-inp insertimage">
+										<div my-insertimage my-query="designer.award_details" my-type="write" ng-if="designer"></div>
 									</div>
 								</div>
 							</div>

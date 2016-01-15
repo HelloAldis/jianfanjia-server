@@ -71,6 +71,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
             submitBtn.on('submit',function(){
                 if(!!oInput.val() && oInput.val() != '搜索'+oSapn.html()){
                     self.searchWord = oInput.val();
+                    self.toFrom = 0;
                     History.pushState({state:1}, "设计师--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第1页", "?page=1&query="+encodeURI(self.searchWord)+self.jsonToStr(self.toQuery)+self.jsonToStr(self.toSort));
                     self.notData.addClass('hide');
                     self.loadList();
