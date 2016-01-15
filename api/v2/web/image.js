@@ -70,7 +70,7 @@ exports.get = function (req, res, next) {
         'Content-Type': 'image/jpeg',
         'Cache-Control': 'max-age=315360000',
         'Accept-Ranges': 'bytes',
-        'Content-Length': image.data.length,
+        // 'Content-Length': image.data.length,
       });
       res.write(image.data);
       res.end();
@@ -100,7 +100,7 @@ exports.thumbnail = function (req, res, next) {
           'Content-Type': 'image/jpeg',
           'Cache-Control': 'max-age=315360000',
           'Accept-Ranges': 'bytes',
-          'Content-Length': image.data.length,
+          // 'Content-Length': image.data.length,
         });
         stdout.pipe(res);
       }));
@@ -131,7 +131,7 @@ exports.watermark = function (req, res, next) {
             'Content-Type': 'image/jpeg',
             'Cache-Control': 'max-age=315360000',
             'Accept-Ranges': 'bytes',
-            'Content-Length': image.data.length,
+            // 'Content-Length': image.data.length,
           });
           stdout.pipe(res);
         }));
