@@ -30,6 +30,12 @@ Image.count({}, function (err, count) {
                 'Filesize'], value['Compression'], value[
                 'JPEG-Quality'], value[
                 'JPEG-Colorspace-Name']));
+            gm(image.data).density(72, 72).quality(80).compress(
+              'JPEG').toBuffer(function (err, buff) {
+              var loss = (image.data.length - buff.length) /
+                1024.0;
+              console.log('reduce size ' + loss + ' kb');
+            });
             next(null);
           }
         });
