@@ -14,9 +14,9 @@
 						<div class="item">
 							<label class="u-lab" for="owner-name"><i>*</i>装修城市</label>
 							<div class="u-inp">
-								<input type="hidden" ng-model="product.province" check-province required />
-								<input type="hidden" ng-model="product.city" check-city required />
-								<input type="hidden" ng-model="product.district" required />
+								<input type="hidden" ng-model="requiremtne.province" check-province required />
+								<input type="hidden" ng-model="requiremtne.city" check-city required />
+								<input type="hidden" ng-model="requiremtne.district" required />
 								<div my-cities my-list="userRelease.citiesList" my-province="requiremtne.province" my-city="requiremtne.city" my-district="requiremtne.district" ng-if="requiremtne.province"></div>
 								<p class="alert">目前装修城市仅支持湖北省武汉市</p>
 							</div>

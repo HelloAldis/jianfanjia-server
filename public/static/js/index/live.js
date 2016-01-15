@@ -87,10 +87,10 @@ define(['jquery'], function($){
 					});
 				};
 				this.live.delegate('.prev','click',function(){
-					prev();
+					next();
 				});
 				this.live.delegate('.next','click',function(){
-					next();
+					prev();
 				});
 			oUl.prepend(oUl.find('li').last()).css('left',-305);
 			timer = setInterval(next, 3000);
