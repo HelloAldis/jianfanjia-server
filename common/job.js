@@ -70,8 +70,8 @@ agenda.define('get_wechat_token', function (job, done) {
 });
 
 agenda.on('ready', function () {
-  agenda.every(config.interval_scan_expired_respond + ' minutes',
-    'expire_designer_respond');
+  // agenda.every(config.interval_scan_expired_respond + ' minutes',
+  //   'expire_designer_respond');
   agenda.every(config.interval_scan_expired_upload_plan + ' minutes',
     'expire_designer_upload_plan');
 
