@@ -362,10 +362,15 @@ angular.module('controllers', [])
                 //创建方案
                $scope.plan.userid = $stateParams.id.split("&")[1];
                $scope.plan.requirementid = $scope.designerPlan.requiremtneId;
-               angular.forEach(initData.priceDetail, function(value, key){
-                   value.price = undefined;
-               });
-               $scope.plan.price_detail = _.assign({},initData.priceDetail)
+               $scope.plan.price_detail = initData.priceDetail.slice(0);
+               angular.forEach($scope.plan.price_detail, function(value, key){
+                        if(!!value.price){
+                            value.price = undefined;
+                        }
+                        if(!!value.description){
+                            value.description = "";
+                        }
+                });
             }
             $scope.designerPlan.remove_price_detail = function(id){
                 if(confirm('您确定要删除吗？')){
@@ -444,6 +449,7 @@ angular.module('controllers', [])
                         console.log(res)
                     });
                 }else{
+                    console
                     _.remove($scope.plan.price_detail, function(n) {
                        return n.price == undefined;
                     });
