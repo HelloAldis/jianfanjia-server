@@ -31,12 +31,16 @@ Image.count({}, function (err, count) {
                 'JPEG-Quality'], value[
                 'JPEG-Colorspace-Name']));
             gm(image.data).density(72, 72).quality(80).compress(
-              'JPEG').toBuffer(function (err, buff) {
+              'JPEG').interlace('Line').toBuffer('jpg', function (err, buff) {
               var loss = (image.data.length - buff.length) /
                 1024.0;
-              console.log('reduce size ' + loss + ' kb');
+              if (loss > 0) {
+                console.log('reduce size ' + loss + ' kb');
+              } else {
+                console.log('inc size ' + loss + ' kb');
+              }
+                next(null);
             });
-            next(null);
           }
         });
       }
