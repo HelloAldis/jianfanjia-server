@@ -8,7 +8,8 @@ Image.count({}, function (err, count) {
   if (err) {
     return console.log('err = ' + err);
   }
-  var total = 0;
+  var reduce = 0;
+  var inc = 0;
 
   async.timesSeries(count, function (n, next) {
     Image.find({}, null, {
@@ -31,18 +32,38 @@ Image.count({}, function (err, count) {
                 'Filesize'], value['Compression'], value[
                 'JPEG-Quality'], value[
                 'JPEG-Colorspace-Name']));
-            gm(image.data).density(72, 72).quality(80).compress(
-              'JPEG').interlace('Line').toBuffer('jpg', function (err, buff) {
-              var loss = (image.data.length - buff.length) /
-                1024.0;
-              total += loss;
-              if (loss > 0) {
-                console.log('reduce size ' + loss + ' kb');
-              } else {
-                console.log('inc size ' + loss + ' kb');
-              }
+
+            if (value['format'] === 'JPEG') {
+              gm(image.data).density(72, 72).quality(80).compress(
+                'JPEG').interlace('Line').toBuffer('JPEG', function (err, buff) {
+                var loss = (image.data.length - buff.length) /
+                  1024.0;
+                if (loss > 0) {
+                  reduce += loss;
+                  console.log('reduce size ' + loss + ' kb');
+                } else {
+                  inc += loss;
+                  console.log('inc size ' + loss + ' kb');
+                }
                 next(null);
-            });
+              });
+            } else {
+              gm(image.data).toBuffer('JPEG', function (err, jpegbuf) {
+                gm(jpegbuf).density(72, 72).quality(80).compress(
+                  'JPEG').interlace('Line').toBuffer('JPEG', function (err, buff) {
+                  var loss = (image.data.length - buff.length) /
+                    1024.0;
+                  if (loss > 0) {
+                    reduce += loss;
+                    console.log('reduce size ' + loss + ' kb');
+                  } else {
+                    inc += loss;
+                    console.log('inc size ' + loss + ' kb');
+                  }
+                  next(null);
+                });
+              });
+            }
           }
         });
       }
@@ -54,6 +75,7 @@ Image.count({}, function (err, count) {
       console.log('complete ok');
     }
     console.log('count ' + count);
-    console.log('total ' + total + ' kb');
+    console.log('reduce ' + reduce + ' kb');
+    console.log('inc ' + inc + ' kb');
   });
 });
