@@ -41,6 +41,8 @@ Image.count({}, function (err, count) {
                 if (loss > 0) {
                   reduce += loss;
                   console.log('reduce size ' + loss + ' kb');
+                  image.data = buff;
+                  image.save(function () {});
                 } else {
                   inc += loss;
                   console.log('inc size ' + loss + ' kb');
@@ -53,6 +55,9 @@ Image.count({}, function (err, count) {
                   'JPEG').interlace('Line').toBuffer('JPEG', function (err, buff) {
                   var loss = (image.data.length - buff.length) /
                     1024.0;
+                    
+                  image.data = buff;
+                  image.save(function () {});
                   if (loss > 0) {
                     reduce += loss;
                     console.log('reduce size ' + loss + ' kb');
