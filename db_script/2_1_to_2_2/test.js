@@ -8,6 +8,7 @@ Image.count({}, function (err, count) {
   if (err) {
     return console.log('err = ' + err);
   }
+  var total = 0;
 
   async.timesSeries(count, function (n, next) {
     Image.find({}, null, {
@@ -34,6 +35,7 @@ Image.count({}, function (err, count) {
               'JPEG').interlace('Line').toBuffer('jpg', function (err, buff) {
               var loss = (image.data.length - buff.length) /
                 1024.0;
+              total += loss;
               if (loss > 0) {
                 console.log('reduce size ' + loss + ' kb');
               } else {
@@ -51,5 +53,7 @@ Image.count({}, function (err, count) {
     } else {
       console.log('complete ok');
     }
+    console.log('count ' + count);
+    console.log('total ' + total + ' kb');
   });
 });
