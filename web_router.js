@@ -19,4 +19,5 @@ router.get('/tpl/article/detail.html', dec_strategy.dec_strategy_homepage);
 router.get('/wechat/user_login_callback', sign.wechat_user_login_callback);
 router.get('/wechat/user_login', sign.wechat_user_login);
 router.get('/wechat/user_wenjuan/:wenjuanid', wechat.user_wenjuan);
+router.get('/wechat/user_wenjuan_callback/:wenjuanid', wechat.user_wenjuan_callback);
 module.exports = router;
