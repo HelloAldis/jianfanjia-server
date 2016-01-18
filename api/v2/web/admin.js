@@ -805,3 +805,54 @@ exports.search_beautiful_image = function (req, res, next) {
     });
   }));
 }
+
+exports.search_answer = function (req, res, next) {
+  var query = req.body.query || {};
+  var sort = req.body.sort || {
+    questionid: 1
+  };
+  var skip = req.body.from || 0;
+  var limit = req.body.limit || 10;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Answer.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit,
+    lean: true,
+  }, ep.done(function (answers, total) {
+    async.mapLimit(answers, 3, function (answer, callback) {
+      if (answer.userid && answer.usertype) {
+        if (answer.usertype === type.role_user) {
+          User.find({
+            _id: answer.userid,
+          }, {
+            username: 1,
+          }, function (err, user) {
+            answer.by = user;
+            callback(err, user);
+          });
+        } else if (answer.usertype === type.role_designer) {
+          Designer.find({
+            _id: answer.userid,
+          }, {
+            username: 1,
+          }, function (err, designer) {
+            answer.by = designer;
+            callback(err, designer);
+          });
+        } else {
+          callback(null, answer);
+        }
+      } else {
+        callback(null, answer);
+      }
+    }, ep.done(function (results) {
+      res.sendData({
+        processes: results,
+        total: total
+      });
+    }));
+  }))
+}
