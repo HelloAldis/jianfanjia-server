@@ -122,8 +122,8 @@ exports.wechat_user_login_callback = function (req, res, next) {
     superagent.get(
       'https://api.weixin.qq.com/sns/oauth2/access_token'
     ).query({
-      appid: config.wechat_open_web_appid,
-      secret: config.wechat_open_web_appsecret,
+      appid: config.wechat_openid,
+      secret: config.wechat_app_Secret,
       code: code,
       grant_type: 'authorization_code',
     }).end(ep.done(function (sres) {
