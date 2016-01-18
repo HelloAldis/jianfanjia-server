@@ -181,6 +181,6 @@ exports.user_wenjuan_callback = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
 
-  var wenjuan_url = ['', 'www.jianfanjia.com', ''];
+  var wenjuan_url = ['', '/', ''];
   wechat_auth(req, res, next, wenjuan_url[wenjuanid]);
 }
