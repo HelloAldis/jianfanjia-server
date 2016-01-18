@@ -1,7 +1,7 @@
 var gm = require('gm');
 
 exports.resize2stream = function (buffer, width, callback) {
-  gm(buffer).resize(width).stream(callback);
+  gm(buffer).resize(width).interlace('Line').stream(callback);
 }
 
 exports.resize2buffer = function (buffer, width, callback) {
