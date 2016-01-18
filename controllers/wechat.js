@@ -157,7 +157,7 @@ function wechat_auth(req, res, next, redirect) {
     superagent.get(
       'https://api.weixin.qq.com/sns/oauth2/access_token'
     ).query({
-      appid: config.wechat_openid,
+      appid: config.wechat_appid,
       secret: config.wechat_app_Secret,
       code: code,
       grant_type: 'authorization_code',
