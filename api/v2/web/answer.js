@@ -19,34 +19,34 @@ exports.upload_wenjuan_answer = function (req, res, next) {
     var answer = req.body.answers[n];
     answer.userid = userid;
     answer.usertype = usertype;
+    console.log(answer);
     Answer.newAndSave(answer, function (err) {
       next(err);
     });
   }, ep.done(function () {
-    res.sendSuccessMsg();
-    // if (usertype === type.role_user) {
-    //   User.findOne({
-    //     _id: userid,
-    //   }, {
-    //     imageid: 1,
-    //     username: 1,
-    //   }, ep.done(function (user) {
-    //     res.sendData(user);
-    //   }));
-    // } else(usertype === type.role_designer) {
-    //   Designer.findOne({
-    //     _id: userid,
-    //   }, {
-    //     imageid: 1,
-    //     username: 1,
-    //   }, ep.done(function (designer) {
-    //     res.sendData(designer);
-    //   }));
-    // } else {
-    //   res.sendData({
-    //     username: 'Admin',
-    //   });
-    // }
+    if (usertype === type.role_user) {
+      User.findOne({
+        _id: userid,
+      }, {
+        imageid: 1,
+        username: 1,
+      }, ep.done(function (user) {
+        res.sendData(user);
+      }));
+    } else(usertype === type.role_designer) {
+      Designer.findOne({
+        _id: userid,
+      }, {
+        imageid: 1,
+        username: 1,
+      }, ep.done(function (designer) {
+        res.sendData(designer);
+      }));
+    } else {
+      res.sendData({
+        username: '路人',
+      });
+    }
   }));
 }
 
