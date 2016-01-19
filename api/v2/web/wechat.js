@@ -97,7 +97,7 @@ function handleText(msg, req, res, next) {
 
 var wejuan1_image_url =
   'https://mmbiz.qlogo.cn/mmbiz/vibZVd8mqTIwgeicZbtFqlUzJYMnzwr6EmQKodMuibNUKqKZkYbu1N0lSiaNQhoS3UgOGxtZrweTtxmXOwFY65k31w/0?wx_fmt=jpeg';
-var wenjuan1_url = 'http://dev.jianfanjia.com/wechat/user_wenjuan/1';
+var wenjuan1_url = '/wechat/user_wenjuan/1';
 
 function handleEvent(msg, req, res, next) {
   var ep = eventproxy();
@@ -120,7 +120,8 @@ function handleEvent(msg, req, res, next) {
     res.send(wechat_util.get_image_text_msg(msg.FromUserName,
       msg.ToUserName,
       '参与问卷，从这里开始',
-      '认真填写调查问卷，回答完毕后截图，会有惊喜等你哦！', wejuan1_image_url, wenjuan1_url));
+      '认真填写调查问卷，回答完毕后截图，会有惊喜等你哦！', wejuan1_image_url, 'http://' + req.headers
+      .host + wenjuan1_url));
 
   } else if (msg.Event === type.wechat_Event_SCAN && msg.EventKey) {
     if (msg.EventKey) {
@@ -136,7 +137,8 @@ function handleEvent(msg, req, res, next) {
     res.send(wechat_util.get_image_text_msg(msg.FromUserName,
       msg.ToUserName,
       '参与问卷，从这里开始',
-      '认真填写调查问卷，回答完毕后截图，会有惊喜等你哦！', wejuan1_image_url, wenjuan1_url));
+      '认真填写调查问卷，回答完毕后截图，会有惊喜等你哦！', wejuan1_image_url, 'http://' + req.headers
+      .host + wenjuan1_url));
   } else {
     res.send('success');
   }

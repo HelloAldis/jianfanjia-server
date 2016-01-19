@@ -141,5 +141,4 @@ exports.wechat_user_login_callback = function (req, res, next) {
   }
 }
 
-//https://open.weixin.qq.com/connect/qrconnect?appid=wxb7a170c2e0792072&redirect_uri=http%3a%2f%2f101.200.191.159%2fwechat%2flogin_callback&response_type=code&scope=snsapi_login&state=894a6cf426cb0cf80c51a2ef7cfdd241#wechat_redirect
-//https://open.weixin.qq.com/connect/qrconnect?appid=wxb7a170c2e0792072&redirect_uri=http%3a%2f%2f101.200.191.159%2fwechat%2flogin_callback&response_type=code&scope=snsapi_login&state=894a6cf426cb0cf80c51a2ef7cfdd240#wechat_redirect
+//https://open.weixin.qq.com/connect/qrconnect?appid=wxb7a170c2e0792072&redirect_uri=http%3a%2f%2fdev.jianfanjia.com%2fwechat%2flogin_callback&response_type=code&scope=snsapi_login&state=894a6cf426cb0cf80c51a2ef7cfdd241#wechat_redirect
