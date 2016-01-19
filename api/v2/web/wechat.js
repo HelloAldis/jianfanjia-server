@@ -96,7 +96,7 @@ function handleText(msg, req, res, next) {
 }
 
 var wejuan1_image_url =
-  'https://mmbiz.qlogo.cn/mmbiz/vibZVd8mqTIwgeicZbtFqlUzJYMnzwr6EmIWeCaxvbZPASOjS5ot6QgUTAQM4jlRS3tO45HqITI9XQg7l1XlLLvg/0?wx_fmt=png';
+  'https://mmbiz.qlogo.cn/mmbiz/vibZVd8mqTIwgeicZbtFqlUzJYMnzwr6EmQOS2nUVYXTPDWOpfFGCO9PFS874qfEzFSPHmADAl2MQJicBs5pefYUw/0?wx_fmt=jpeg';
 var wenjuan1_url = 'http://dev.jianfanjia.com/wechat/user_wenjuan/1';
 
 function handleEvent(msg, req, res, next) {
