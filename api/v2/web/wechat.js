@@ -50,7 +50,7 @@ function handleText(msg, req, res, next) {
             var url =
               'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=' +
               wei_res.body.ticket;
-            res.send(wehchat_util.get_image_text_msg(msg.FromUserName,
+            res.send(wechat_util.get_image_text_msg(msg.FromUserName,
               msg.ToUserName,
               '简繁家感谢你为我们推广',
               '请点击链接并保管好你的二维码', url, url));
@@ -65,7 +65,7 @@ function handleText(msg, req, res, next) {
       openid: msg.FromUserName
     }, null, ep.done(function (kpi) {
       if (kpi) {
-        res.send(wehchat_util.get_text_msg(msg.FromUserName, msg.ToUserName,
+        res.send(wechat_util.get_text_msg(msg.FromUserName, msg.ToUserName,
           '你的kpi为' + kpi.subscribe_count +
           ', 请爆发你的小宇宙吧！'));
       } else {
@@ -84,7 +84,7 @@ function handleText(msg, req, res, next) {
           return kpi.username + ' ' + kpi.subscribe_count + '+' + kpi
             .scan_count;
         });
-        res.send(wehchat_util.get_text_msg(msg.FromUserName, msg.ToUserName,
+        res.send(wechat_util.get_text_msg(msg.FromUserName, msg.ToUserName,
           arr.join('\n')));
       } else {
         res.send('success');
@@ -117,7 +117,7 @@ function handleEvent(msg, req, res, next) {
         });
     }
 
-    res.send(wehchat_util.get_image_text_msg(msg.FromUserName,
+    res.send(wechat_util.get_image_text_msg(msg.FromUserName,
       msg.ToUserName,
       'title文案待定',
       'description文案待定', wejuan1_image_url, wenjuan1_url));
@@ -133,7 +133,7 @@ function handleEvent(msg, req, res, next) {
       });
     }
 
-    res.send(wehchat_util.get_image_text_msg(msg.FromUserName,
+    res.send(wechat_util.get_image_text_msg(msg.FromUserName,
       msg.ToUserName,
       'title文案待定',
       'description文案待定', wejuan1_image_url, wenjuan1_url));
