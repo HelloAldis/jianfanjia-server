@@ -61,7 +61,9 @@ define(['jquery','lodash','lib/jquery.cookie'],function($,_){
                     n.house_type = n.house_type ? globalData.house_type(n.house_type) : '';
                     n.seq = (c.page)+"-"+k;
                     n.imgW = 291;
-                    n.imgH = n.images[0].height * (n.imgW / n.images[0].width);
+                    n.imgWD = n.images[0].width;
+                    n.imgHD = n.images[0].height;
+                    n.imgH = n.imgHD * (n.imgW / n.imgWD);
                     h.append(a(n));
                   }),
                   data.page && (page = data.page),

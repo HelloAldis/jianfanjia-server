@@ -430,6 +430,7 @@ body,html,.g-detail{
 .g-mn .m-mn .img{
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
 	text-align: center;
 }
 .g-mn .m-mn .img img{

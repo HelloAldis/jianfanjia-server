@@ -9,11 +9,14 @@ require(['jquery','lodash'],function($,_){
     var Detail = function(){};
     Detail.prototype = {
         init  : function(){
-            this.winHash = window.location.search.substring(1);
+            this.winHash = window.location.search.substring(1) ? this.strToJson(window.location.search.substring(1)) : undefined;
             this.detail = $("#j-detail");
             this.main = this.detail.find('.m-mn');
             this.side = this.detail.find('.g-sd');
             this.setHeight();
+            if(this.winHash){
+                this.loadImg(this.winHash);
+            }
             this.bindEvent();
             this.loadList();
         },
@@ -25,7 +28,7 @@ require(['jquery','lodash'],function($,_){
                 contentType : 'application/json; charset=utf-8',
                 dataType: 'json',
                 data : JSON.stringify(                    {
-                  "_id": self.winHash
+                  "_id": self.winHash.pid
                 }),
                 processData : false
             })
@@ -36,21 +39,17 @@ require(['jquery','lodash'],function($,_){
                window.location.href = '/404.html';
             });
         },
+        loadImg : function(data){
+            if(!!data.imgid){
+                this.main.find('.img').html('<img src="/api/v2/web/image/'+data.imgid+'" />').hide().fadeIn(500);
+            }else{
+                window.location.href = '/404.html';
+            }
+        },
         createInfo  :  function(data){
             var self = this;
-            var oImg = $('<img />');
-            var objImg = new Image();
-            objImg.onload = function() {
-                oImg.attr('src', this.src);
-            }
-            objImg.onerror = function(){
-               window.location.href = '/404.html';
-            }
-            objImg.src = '/api/v2/web/image/'+data.images[0].imageid;
-            this.main.find('.img').html(oImg).hide().fadeIn(500);
             var tags = '';
             var title = '';
-
             if(data.section != undefined){
                 title += '<span>'+data.section+'</span>'
             }
@@ -80,7 +79,7 @@ require(['jquery','lodash'],function($,_){
                 '<div class="related"><h3>相关图片</h3><ul>'
             ];
             _.forEach(data.associate_beautiful_images, function(n, key) {
-                arr.push('<li><a href="/tpl/mito/detail.html?'+n._id+'"><img src="/api/v2/web/thumbnail/106/'+n.images[0].imageid+'" alt=""></a></li>')
+                arr.push('<li><a href="/tpl/mito/detail.html?pid='+n._id+'&imgid='+n.images[0].imageid+'&imgw='+n.images[0].width+'&imgh='+n.images[0].height+'"><img src="/api/v2/web/thumbnail/106/'+n.images[0].imageid+'" alt=""></a></li>')
             });
             arr.push('</ul></div>');
             self.side.html(arr.join('')).animate({right: 0})
@@ -132,6 +131,20 @@ require(['jquery','lodash'],function($,_){
                     fn.apply(oP.context , oP.args)
                 }, oP.time)
             }
+        },
+        strToJson : function(str){    // 字符串转对象
+            var json = {},temp;
+            if(str.indexOf("&") != -1){
+                var arr = str.split("&");
+                for (var i = 0,len = arr.length; i < len; i++) {
+                    temp = arr[i].split("=");
+                    json[temp[0]] = temp[1];
+                }
+            }else{
+                temp = str.split("=");
+                json[temp[0]] = temp[1];
+            }
+            return json;
         }
     };
     var detail = new Detail();
