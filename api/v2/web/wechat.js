@@ -160,8 +160,7 @@ exports.signature = function (req, res, next) {
   var timestamp = req.query.timestamp;
   var nonce = req.query.nonce;
   var echostr = req.query.echostr;
-  var token = 'jianfanjiatopscrecttoken';
-  var arr = [token, timestamp, nonce];
+  var arr = [config.wechat_token, timestamp, nonce];
   var str = arr.sort().join('');
   console.log(utility.sha1(str));
   if (signature === utility.sha1(str)) {
