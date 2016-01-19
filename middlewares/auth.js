@@ -116,7 +116,6 @@ exports.authUser = function (req, res, next) {
 var loginPages = ['/login.html'];
 var designerPages = ['/designer.html', 'license.html'];
 var userPages = ['/owner.html'];
-var wenjuan1Pages = ['/weixin/survey/index.html'];
 
 exports.checkCookie = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -138,8 +137,6 @@ exports.authWeb = function (req, res, next) {
   var url = req.path;
   var userid = ApiUtil.getUserid(req);
   var usertype = ApiUtil.getUsertype(req);
-  console.log(url);
-  console.log(userid);
 
   if (_.indexOf(loginPages, url) >= 0) {
     if (userid) {
@@ -176,7 +173,21 @@ exports.authWeb = function (req, res, next) {
     } else {
       res.redirect('login.html');
     }
-  } else if (_.indexOf(wenjuan1Pages, url) >= 0) {
+  } else {
+    next();
+  }
+}
+
+var wenjuan1Pages = ['/survey/index.html'];
+
+exports.authWechat = function (req, res, next) {
+  var url = req.path;
+  var userid = ApiUtil.getUserid(req);
+  var usertype = ApiUtil.getUsertype(req);
+  console.log(url);
+  console.log(userid);
+
+  if (_.indexOf(wenjuan1Pages, url) >= 0) {
     if (userid) {
       next();
     } else {
