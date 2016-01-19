@@ -94,7 +94,7 @@ app.use('/jyz', auth.checkCookie);
 app.use('/tpl/user', auth.authWeb);
 app.use('/jyz', auth.authAdminWeb);
 //拦截微信页面
-app.use('/weixin', auth.authWechat);
+// app.use('/weixin', auth.authWechat);
 // 静态资源
 app.use('/', express.static(staticDir));
 
