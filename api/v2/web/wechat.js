@@ -96,7 +96,7 @@ function handleText(msg, req, res, next) {
 }
 
 var wejuan1_image_url =
-  'https://mmbiz.qlogo.cn/mmbiz/vibZVd8mqTIwgeicZbtFqlUzJYMnzwr6EmQOS2nUVYXTPDWOpfFGCO9PFS874qfEzFSPHmADAl2MQJicBs5pefYUw/0?wx_fmt=jpeg';
+  'https://mmbiz.qlogo.cn/mmbiz/vibZVd8mqTIwgeicZbtFqlUzJYMnzwr6EmQKodMuibNUKqKZkYbu1N0lSiaNQhoS3UgOGxtZrweTtxmXOwFY65k31w/0?wx_fmt=jpeg';
 var wenjuan1_url = 'http://dev.jianfanjia.com/wechat/user_wenjuan/1';
 
 function handleEvent(msg, req, res, next) {
@@ -119,8 +119,8 @@ function handleEvent(msg, req, res, next) {
 
     res.send(wechat_util.get_image_text_msg(msg.FromUserName,
       msg.ToUserName,
-      'title文案待定',
-      'description文案待定', wejuan1_image_url, wenjuan1_url));
+      'title文案还没好',
+      'description文案还没好', wejuan1_image_url, wenjuan1_url));
 
   } else if (msg.Event === type.wechat_Event_SCAN && msg.EventKey) {
     if (msg.EventKey) {
@@ -135,8 +135,8 @@ function handleEvent(msg, req, res, next) {
 
     res.send(wechat_util.get_image_text_msg(msg.FromUserName,
       msg.ToUserName,
-      'title文案待定',
-      'description文案待定', wejuan1_image_url, wenjuan1_url));
+      'title文案还没好',
+      'description文案还没好', wejuan1_image_url, wenjuan1_url));
   } else {
     res.send('success');
   }

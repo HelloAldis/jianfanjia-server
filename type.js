@@ -60,7 +60,7 @@ var type = {
   process_section_jun_gong: 'jun_gong',
 
   process_work_flow: ['kai_gong', 'chai_gai', 'shui_dian', 'ni_mu', 'you_qi',
-    'an_zhuang', 'jun_gong'
+    'an_zhuang', 'jun_gong', 'done'
   ],
 
   procurement_notification_message: ['', '水电材料', '蹲便器,防水涂料',
