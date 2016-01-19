@@ -138,7 +138,8 @@ exports.authWeb = function (req, res, next) {
   var url = req.path;
   var userid = ApiUtil.getUserid(req);
   var usertype = ApiUtil.getUsertype(req);
-
+  console.log(url);
+  console.log(userid);
 
   if (_.indexOf(loginPages, url) >= 0) {
     if (userid) {
