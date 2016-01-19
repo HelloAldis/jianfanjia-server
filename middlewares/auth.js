@@ -116,6 +116,7 @@ exports.authUser = function (req, res, next) {
 var loginPages = ['/login.html'];
 var designerPages = ['/designer.html', 'license.html'];
 var userPages = ['/owner.html'];
+var wenjuan1Pages = ['/weixin/survey/index.html'];
 
 exports.checkCookie = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -173,6 +174,12 @@ exports.authWeb = function (req, res, next) {
       }
     } else {
       res.redirect('login.html');
+    }
+  } else if (_.indexOf(wenjuan1Pages, url) >= 0) {
+    if (userid) {
+      next();
+    } else {
+      res.redirect('/wechat/user_wenjuan/1');
     }
   } else {
     next();
