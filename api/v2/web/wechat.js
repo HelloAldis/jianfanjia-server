@@ -9,6 +9,7 @@ var cache = require('../../../common/cache');
 var request = require('superagent');
 var limit = require('../../../middlewares/limit');
 var wechat_util = require('../../../common/wechat_util');
+var config = require('../../../apiconfig');
 
 function toJson(xml) {
   return xml2json.toJson(xml.toString(), {
