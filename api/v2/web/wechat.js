@@ -119,8 +119,8 @@ function handleEvent(msg, req, res, next) {
 
     res.send(wechat_util.get_image_text_msg(msg.FromUserName,
       msg.ToUserName,
-      'title文案还没好',
-      'description文案还没好', wejuan1_image_url, wenjuan1_url));
+      '参与问卷，从这里开始',
+      '认真填写调查问卷，回答完毕后截图，会有惊喜等你哦！', wejuan1_image_url, wenjuan1_url));
 
   } else if (msg.Event === type.wechat_Event_SCAN && msg.EventKey) {
     if (msg.EventKey) {
@@ -135,8 +135,8 @@ function handleEvent(msg, req, res, next) {
 
     res.send(wechat_util.get_image_text_msg(msg.FromUserName,
       msg.ToUserName,
-      'title文案还没好',
-      'description文案还没好', wejuan1_image_url, wenjuan1_url));
+      '参与问卷，从这里开始',
+      '认真填写调查问卷，回答完毕后截图，会有惊喜等你哦！', wejuan1_image_url, wenjuan1_url));
   } else {
     res.send('success');
   }
