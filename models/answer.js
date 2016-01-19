@@ -18,6 +18,9 @@ var AnswerSchema = new Schema({
   choice_answer: {
     type: [Number]
   },
+  text_answer: {
+    type: String,
+  },
   create_at: {
     type: Number,
   },
