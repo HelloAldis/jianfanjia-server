@@ -13,6 +13,7 @@ var BeautifulImage = require('../../../proxy').BeautifulImage;
 var Process = require('../../../proxy').Process;
 var Image = require('../../../proxy').Image;
 var Plan = require('../../../proxy').Plan;
+var Answer = require('../../../proxy').Answer;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../apiconfig');
@@ -831,7 +832,7 @@ exports.search_answer = function (req, res, next) {
             username: 1,
           }, function (err, user) {
             answer.by = user;
-            callback(err, user);
+            callback(err, answer);
           });
         } else if (answer.usertype === type.role_designer) {
           Designer.find({
@@ -840,7 +841,7 @@ exports.search_answer = function (req, res, next) {
             username: 1,
           }, function (err, designer) {
             answer.by = designer;
-            callback(err, designer);
+            callback(err, answer);
           });
         } else {
           callback(null, answer);
@@ -850,9 +851,43 @@ exports.search_answer = function (req, res, next) {
       }
     }, ep.done(function (results) {
       res.sendData({
-        processes: results,
+        answers: results,
         total: total
       });
     }));
   }))
+}
+
+exports.count_answer = function (req, res, next) {
+  var wenjuanid = req.body.wenjuanid;
+  var questionid = req.body.questionid;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Answer.find({
+    wenjuanid: wenjuanid,
+    questionid: questionid,
+  }, {
+    choice_answer: 1,
+    text_answer: 1,
+  }, null, ep.done(function (answers) {
+    var result = [];
+    for (answer of answers) {
+      for (var i = 0; i < answer.choice_answer.length; i++) {
+        if (result[answer.choice_answer[i]]) {
+          result[answer.choice_answer[i]] = result[answer.choice_answer[
+            i]] + 1;
+        } else {
+          result[answer.choice_answer[i]] = 1;
+        }
+      }
+    }
+    for (var i = 0; i < result.length; i++) {
+      if (!result[i]) {
+        result[i] = 0;
+      }
+    }
+
+    res.sendData(result);
+  }));
 }
