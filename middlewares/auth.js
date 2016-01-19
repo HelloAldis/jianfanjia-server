@@ -138,7 +138,6 @@ exports.authWeb = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var usertype = ApiUtil.getUsertype(req);
 
-
   if (_.indexOf(loginPages, url) >= 0) {
     if (userid) {
       if (usertype === type.role_user) {
@@ -173,6 +172,24 @@ exports.authWeb = function (req, res, next) {
       }
     } else {
       res.redirect('login.html');
+    }
+  } else {
+    next();
+  }
+}
+
+var wenjuan1Pages = ['/survey/index.html'];
+
+exports.authWechat = function (req, res, next) {
+  var url = req.path;
+  var userid = ApiUtil.getUserid(req);
+  var usertype = ApiUtil.getUsertype(req);
+
+  if (_.indexOf(wenjuan1Pages, url) >= 0) {
+    if (userid) {
+      next();
+    } else {
+      res.redirect('/wechat/user_wenjuan/1');
     }
   } else {
     next();

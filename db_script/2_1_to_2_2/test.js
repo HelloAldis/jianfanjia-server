@@ -8,6 +8,8 @@ Image.count({}, function (err, count) {
   if (err) {
     return console.log('err = ' + err);
   }
+  var reduce = 0;
+  var inc = 0;
 
   async.timesSeries(count, function (n, next) {
     Image.find({}, null, {
@@ -30,7 +32,43 @@ Image.count({}, function (err, count) {
                 'Filesize'], value['Compression'], value[
                 'JPEG-Quality'], value[
                 'JPEG-Colorspace-Name']));
-            next(null);
+
+            if (value['format'] === 'JPEG') {
+              gm(image.data).density(72, 72).quality(80).compress(
+                'JPEG').interlace('Line').toBuffer('JPEG', function (err, buff) {
+                var loss = (image.data.length - buff.length) /
+                  1024.0;
+                if (loss > 0) {
+                  reduce += loss;
+                  console.log('reduce size ' + loss + ' kb');
+                  image.data = buff;
+                  image.save(function () {});
+                } else {
+                  inc += loss;
+                  console.log('inc size ' + loss + ' kb');
+                }
+                next(null);
+              });
+            } else {
+              gm(image.data).toBuffer('JPEG', function (err, jpegbuf) {
+                gm(jpegbuf).density(72, 72).quality(80).compress(
+                  'JPEG').interlace('Line').toBuffer('JPEG', function (err, buff) {
+                  var loss = (image.data.length - buff.length) /
+                    1024.0;
+                    
+                  image.data = buff;
+                  image.save(function () {});
+                  if (loss > 0) {
+                    reduce += loss;
+                    console.log('reduce size ' + loss + ' kb');
+                  } else {
+                    inc += loss;
+                    console.log('inc size ' + loss + ' kb');
+                  }
+                  next(null);
+                });
+              });
+            }
           }
         });
       }
@@ -41,5 +79,8 @@ Image.count({}, function (err, count) {
     } else {
       console.log('complete ok');
     }
+    console.log('count ' + count);
+    console.log('reduce ' + reduce + ' kb');
+    console.log('inc ' + inc + ' kb');
   });
 });

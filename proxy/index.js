@@ -18,3 +18,4 @@ exports.Evaluation = require('./evaluation');
 exports.Kpi = require('./kpi');
 exports.DecStrategy = require('./dec_strategy');
 exports.BeautifulImage = require('./beautiful_image');
+exports.Answer = require('./answer');

@@ -16,6 +16,7 @@ var feedback = require('./api/v2/web/feedback');
 var wechat = require('./api/v2/web/wechat');
 var dec_strategy = require('./api/v2/web/dec_strategy');
 var beautiful_image = require('./api/v2/web/beautiful_image');
+var answer = require('./api/v2/web/answer');
 var config = require('./apiconfig');
 var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
@@ -80,6 +81,8 @@ router.post('/one_plan', auth.normalUserRequired, plan.getOne); //获取某个�
 router.post('/one_contract', auth.normalUserRequired, requirement.one_contract); //获取某个合同信息
 router.post('/send_verify_email', auth.normalUserRequired, sign.send_verify_email); //发送验证邮箱邮件
 router.get('/download_contract/:_id', auth.normalUserRequired, requirement.download_contract); //下载合同
+router.post('/upload_wenjuan_answer', auth.normalUserRequired, answer.upload_wenjuan_answer); //提交问卷答案
+router.post('/check_wenjuan_answer', auth.normalUserRequired, answer.check_wenjuan_answer); //获取我的问卷状态
 
 //业主独有功能
 router.post('/user/info', auth.userRequired, user.user_update_info); //修改业主个人资料
@@ -158,7 +161,6 @@ router.post('/admin/update_designer_online_status', auth.adminRequired, admin.up
 router.post('/admin/search_plan', auth.adminRequired, admin.search_plan); //管理员搜索方案
 router.post('/admin/search_angel_user', auth.adminRequired, tempUserApi.search_temp_user); //搜索天使用户
 router.post('/admin/search_process', auth.adminRequired, admin.search_process); //管理员搜索工地
-
 //ueditor
 router.get('/admin/ueditor', auth.adminRequired, admin.ueditor_get); //ueditor
 router.post('/admin/ueditor', auth.adminRequired, upload.single('Filedata'),
@@ -169,5 +171,7 @@ router.post('/admin/search_article', auth.adminRequired, admin.search_article); 
 router.post('/admin/add_beautiful_image', auth.adminRequired, admin.add_beautiful_image); //提交文章
 router.post('/admin/update_beautiful_image', auth.adminRequired, admin.update_beautiful_image); //更新文章
 router.post('/admin/search_beautiful_image', auth.adminRequired, admin.search_beautiful_image); //搜索文章
+router.post('/admin/search_answer', auth.adminRequired, admin.search_answer); //搜索问卷答案
+router.post('/admin/count_answer', auth.adminRequired, admin.count_answer); //统计问卷答案
 
 module.exports = router;

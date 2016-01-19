@@ -56,6 +56,9 @@ var ProcessSchema = new Schema({
   create_at: {
     type: Number
   },
+  lastupdate: {
+    type: Number
+  },
 
   sections: [{
     name: {

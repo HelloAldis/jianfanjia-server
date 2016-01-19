@@ -6,6 +6,7 @@ var _ = require('lodash');
 exports.newAndSave = function (json, callback) {
   var process = new Process(json);
   process.create_at = new Date().getTime();
+  process.lastupdate = process.create_at;
   process.save(callback);
 };
 
@@ -19,7 +20,8 @@ exports.addImage = function (id, section, item, imageid, callback) {
   var update = {};
   update[path] = imageid;
   var set = {};
-  set['sections.' + index + '.items.$.date'] = new Date().getTime();
+  set['lastupdate'] = new Date().getTime();
+  set['sections.' + index + '.items.$.date'] = set['lastupdate'];
 
   Process.findOneAndUpdate(query, {
     $push: update,
@@ -39,7 +41,8 @@ exports.add_images = function (id, section, item, images, callback) {
     $each: images
   };
   var set = {};
-  set['sections.' + index + '.items.$.date'] = new Date().getTime();
+  set['lastupdate'] = new Date().getTime();
+  set['sections.' + index + '.items.$.date'] = set['lastupdate'];
 
   Process.findOneAndUpdate(query, {
     $push: update,
@@ -58,7 +61,8 @@ exports.deleteImage = function (id, section, item, i, callback) {
   var pull = {};
   pull['sections.' + index + '.items.$.images'] = null;
   var set = {};
-  set['sections.' + index + '.items.$.date'] = new Date().getTime();
+  set['lastupdate'] = new Date().getTime();
+  set['sections.' + index + '.items.$.date'] = set['lastupdate'];
 
   Process.findOneAndUpdate(query, {
     $unset: unset,
@@ -79,7 +83,8 @@ exports.addCommentCount = function (id, section, item, callback) {
   var inc = {};
   inc['sections.' + index + '.items.$.comment_count'] = 1;
   var set = {};
-  set['sections.' + index + '.items.$.date'] = new Date().getTime();
+  set['lastupdate'] = new Date().getTime();
+  set['sections.' + index + '.items.$.date'] = set['lastupdate'];
 
   Process.findOneAndUpdate(query, {
     $inc: inc,
@@ -97,7 +102,8 @@ exports.addComment = function (id, section, item, comment, callback) {
   var update = {};
   update[path] = comment;
   var set = {};
-  set['sections.' + index + '.items.$.date'] = new Date().getTime();
+  set['lastupdate'] = new Date().getTime();
+  set['sections.' + index + '.items.$.date'] = set['lastupdate'];
 
   Process.findOneAndUpdate(query, {
     $push: update,
@@ -113,7 +119,8 @@ exports.addYsImage = function (id, section, key, imageid, callback) {
     imageid: imageid
   };
   var set = {};
-  set['sections.$.ys.date'] = new Date().getTime();
+  set['lastupdate'] = new Date().getTime();
+  set['sections.$.ys.date'] = set['lastupdate'];
 
   Process.findOneAndUpdate({
     _id: id,
@@ -134,7 +141,8 @@ exports.updateYsImage = function (id, section, key, imageid, callback) {
   var update = {};
   path = 'sections.' + index + '.ys.images.$.imageid'
   update[path] = imageid;
-  update['sections.' + index + '.ys.date'] = new Date().getTime();
+  update['lastupdate'] = new Date().getTime();
+  update['sections.' + index + '.ys.date'] = update['lastupdate'];
 
   Process.findOneAndUpdate(query, {
     $set: update
@@ -161,6 +169,7 @@ exports.updateStatus = function (id, section, item, status, callback) {
   var index = _.indexOf(type.process_work_flow, section);
   var query = {};
   var update = {};
+  update['lastupdate'] = new Date().getTime();
 
   if (item) {
     var path = 'sections.' + index + '.items.name';

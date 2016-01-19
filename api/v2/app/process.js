@@ -828,6 +828,9 @@ exports.list = function (req, res, next) {
     district: 1,
     cell: 1,
     going_on: 1,
+    final_planid: 1,
+    requirementid: 1,
+    lastupdate: 1,
   }, {
     lean: true
   }, ep.done(function (processes) {

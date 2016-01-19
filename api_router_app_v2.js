@@ -118,5 +118,7 @@ router.get('/designer/info', auth.designerRequired, designerWeb.getInfo); //获�
 router.post('/process/ysimage', auth.designerRequired, process.addYsImage); //提交验收照片
 router.post('/process/ysimage/delete', auth.designerRequired, process.deleteYsImage); //删除验收照片
 router.post('/process/can_ys', auth.designerRequired, process.ys); //可以开始验收了
+router.post('/designer_get_user_requirements', auth.designerRequired,
+  requirement.designer_get_user_requirements); //设计师获取我的业主需求信息
 
 module.exports = router;
