@@ -33,7 +33,7 @@ exports.upload_wenjuan_answer = function (req, res, next) {
       }, ep.done(function (user) {
         res.sendData(user);
       }));
-    } else(usertype === type.role_designer) {
+    } else if (usertype === type.role_designer) {
       Designer.findOne({
         _id: userid,
       }, {
