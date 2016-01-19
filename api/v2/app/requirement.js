@@ -5,6 +5,7 @@ var Plan = require('../../../proxy').Plan;
 var Requirement = require('../../../proxy').Requirement;
 var Designer = require('../../../proxy').Designer;
 var Process = require('../../../proxy').Process;
+var Evaluation = require('../../../proxy').Evaluation;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../apiconfig');
@@ -105,5 +106,72 @@ exports.user_my_requirement_list = function (req, res, next) {
     } else {
       res.sendData([]);
     }
+  }));
+}
+
+exports.designer_get_user_requirements = function (req, res, next) {
+  var designerid = req.body.designerid;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Requirement.find({
+    order_designerids: designerid,
+  }, null, {
+    lean: true
+  }, ep.done(function (requirements) {
+    async.mapLimit(requirements, 3, function (requirement, callback) {
+      async.parallel({
+        plan: function (callback) {
+          Plan.find({
+            designerid: designerid,
+            requirementid: requirement._id,
+          }, {
+            status: 1,
+            request_date: 1,
+            house_check_time: 1,
+            last_status_update_time: 1,
+            reject_respond_msg: 1,
+          }, {
+            skip: 0,
+            limit: 1,
+            sort: {
+              last_status_update_time: -1
+            },
+            lean: true,
+          }, function (err, plans) {
+            callback(err, plans[0]);
+          });
+        },
+        evaluation: function (callback) {
+          Evaluation.findOne({
+            userid: requirement.userid,
+            designerid: requirement.designerid,
+            requirementid: requirement._id,
+          }, null, function (err, evaluation) {
+            if (evaluation) {
+              callback(err, evaluation);
+            } else {
+              callback(err, undefined);
+            }
+          });
+        },
+        user: function (callback) {
+          User.findOne({
+            _id: requirement.userid
+          }, {
+            username: 1,
+            imageid: 1,
+            sex: 1,
+          }, callback);
+        },
+      }, function (err, result) {
+        requirement.user = result.user;
+        requirement.evaluation = result.evaluation;
+        requirement.plan = result.plan;
+        callback(err, requirement);
+      });
+    }, ep.done(function (requirements) {
+      res.sendData(requirements);
+    }));
   }));
 }
