@@ -877,37 +877,35 @@ exports.count_answer = function (req, res, next) {
   }, ep.done(function (answers) {
     var result = [];
     for (answer of answers) {
-      if (!result[answer.questionid]) {
-        result[answer.questionid] = {
+      var a = _.find(result, function (o) {
+        return o.questionid === answer.questionid;
+      });
+
+      if (!a) {
+        a = {
           questionid: answer.questionid,
           answer_count: [],
         }
+        result.push(a);
       }
 
       for (var i = 0; i < answer.choice_answer.length; i++) {
-        if (result[answer.questionid].answer_count[answer.choice_answer[
-            i]]) {
-          result[answer.questionid].answer_count[answer.choice_answer[
-            i]] = result[answer.questionid].answer_count[answer.choice_answer[
-            i]] + 1;
+        if (a.answer_count[answer.choice_answer[i]]) {
+          a.answer_count[answer.choice_answer[i]] = a.answer_count[
+            answer.choice_answer[i]] + 1;
         } else {
-          result[answer.questionid].answer_count[answer.choice_answer[
+          a.answer_count[answer.choice_answer[
             i]] = 1;
         }
       }
     }
 
     for (var i = 0; i < result.length; i++) {
-      if (!result[i]) {
-        result[i] = {
-          questionid: i,
-          answer_count: [],
-        }
-      }
-
-      for (var j = 0; j < result[i].answer_count.length; j++) {
-        if (!result[i].answer_count[j]) {
-          result[i].answer_count[j] = 0;
+      if (result[i]) {
+        for (var j = 0; j < result[i].answer_count.length; j++) {
+          if (!result[i].answer_count[j]) {
+            result[i].answer_count[j] = 0;
+          }
         }
       }
     }
