@@ -813,10 +813,16 @@ exports.list = function (req, res, next) {
           Plan.findOne({
             _id: process.final_planid
           }, null, callback)
+        },
+        requirement: function (callback) {
+          Requirement.findOne({
+            _id: process.requirementid
+          }, null, callback);
         }
       }, function (err, result) {
         process.user = result.user;
         process.plan = result.plan;
+        process.requirement = result.requirement;
         callback(err, process);
       });
 
