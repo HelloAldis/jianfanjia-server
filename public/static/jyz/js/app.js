@@ -155,6 +155,16 @@ var globalUrl = 'http://101.200.191.159/';
                     url: '/pictures/add/:id',
                     templateUrl: RootURl+'views/pictures/add.html',
                     controller: 'PicturesAddController'
+                })
+                .state('survey', {
+                    url: '/survey',
+                    templateUrl: RootURl+'views/survey/list.html',
+                    controller: 'SurveyListController'
+                })
+                .state('surveyDetail', {
+                    url: '/survey/:id',
+                    templateUrl: RootURl+'views/survey/detail.html',
+                    controller: 'SurveyDetailController'
                 });
         });
     // angular bootstrap

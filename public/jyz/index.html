@@ -17,9 +17,9 @@
     <script type="text/javascript" src="jyz/lib/ueditor/ueditor.all.min.js"></script>
 </head>
 <body>
-	<header class="g-hd clearfix"> 
+	<header class="g-hd clearfix">
 		<div class="m-logo pull-left">
-			<h1><a href="../tpl/index/index.html">简繁家</a></h1>
+			<h1><a href="/">简繁家</a></h1>
 		</div>
 		<ul class="list-inline m-info pull-right" id="j-info">
 			<!-- <li>
@@ -42,7 +42,7 @@
 			</li>
 		</ul>
 	</header>
-	<main class="g-bd clearfix"> 
+	<main class="g-bd clearfix">
 		<aside class="g-sd pull-left">
 			<nav ng-controller="SubController">
                 <ul class="list-unstyled">
@@ -58,6 +58,7 @@
                     <li ng-class="{active: nav==&quot;recruit&quot;}"><a ui-sref="recruit">天使业主招募</a></li>
                     <li ng-class="{active: nav==&quot;news&quot;}"><a ui-sref="news">新闻编辑</a></li>
                     <li ng-class="{active: nav==&quot;pictures&quot;}"><a ui-sref="pictures">装修美图</a></li>
+                    <li ng-class="{active: nav==&quot;survey&quot;}"><a ui-sref="survey">问卷调查</a></li>
                 </ul>
 			</nav>
 		</aside>
@@ -95,6 +96,7 @@
     <script src="jyz/views/recruit/RecruitController.js"></script>
     <script src="jyz/views/news/NewsController.js"></script>
     <script src="jyz/views/pictures/PicturesController.js"></script>
+    <script src="jyz/views/survey/SurveyController.js"></script>
     <script src="jyz/js/app.js"></script>
 </body>
 </html>

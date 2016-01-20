@@ -208,7 +208,8 @@
 	            });
 			};
 			return {
-				angel : function(data){return doRequest('search_angel_user',data);}
+				angel : function(data){return doRequest('search_angel_user',data);},
+				answer : function(data){return doRequest('count_answer',data);}
 			};
 		}])
 		/**
