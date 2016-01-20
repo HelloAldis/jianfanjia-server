@@ -842,6 +842,7 @@ exports.list = function (req, res, next) {
     final_planid: 1,
     requirementid: 1,
     lastupdate: 1,
+    start_at: 1,
   }, {
     lean: true
   }, ep.done(function (processes) {
