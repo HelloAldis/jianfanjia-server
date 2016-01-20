@@ -25,8 +25,8 @@
                   id : 0,
                   title : '您是否有过装修经历？',
                   item : [
-                     'A ：有',
-                     'B ：没有'
+                     'A：有',
+                     'B：没有'
                    ]
                 },
                 {
@@ -35,7 +35,7 @@
                   item : [
                      'A：直接找包工头（项目经理）',
                      'B：直接找装修公司',
-                     'C: 找设计师装修',
+                     'C：找设计师装修',
                      'D：找互联网装修平台'
                    ]
                 },
@@ -78,7 +78,7 @@
                   item : [
                        'A：800元/平方米以下',
                        'B：800元/平方米——1500元/平方米',
-                       'C: 1500元/平方米以上'
+                       'C：1500元/平方米以上'
                      ]
                 },
                 {
@@ -144,7 +144,7 @@
                        'B：<img src="/weixin/survey/icon1.png" width="120" alt="" />',
                        'C：<img src="/weixin/survey/icon2.png" width="120" alt="" />',
                        'D：<img src="/weixin/survey/icon3.png" width="120" alt="" />',
-                       'E: <img src="/weixin/survey/icon4.png" width="120" alt="" />'
+                       'E：<img src="/weixin/survey/icon4.png" width="120" alt="" />'
                      ]
                 },
                 {
@@ -273,7 +273,7 @@
                        'B：<img src="/weixin/survey/icon1.png" width="120" alt="" />',
                        'C：<img src="/weixin/survey/icon2.png" width="120" alt="" />',
                        'D：<img src="/weixin/survey/icon3.png" width="120" alt="" />',
-                       'E: <img src="/weixin/survey/icon4.png" width="120" alt="" />'
+                       'E：<img src="/weixin/survey/icon4.png" width="120" alt="" />'
                      ]
                 },
               ];
