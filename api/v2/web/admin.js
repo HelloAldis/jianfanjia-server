@@ -865,26 +865,50 @@ exports.count_answer = function (req, res, next) {
   ep.fail(next);
 
   Answer.find({
-    wenjuanid: wenjuanid,
-    questionid: questionid,
+    wenjuanid: wenjuanid
   }, {
     choice_answer: 1,
     text_answer: 1,
-  }, null, ep.done(function (answers) {
+    questionid: 1,
+  }, {
+    sort: {
+      questionid: 1
+    }
+  }, ep.done(function (answers) {
     var result = [];
     for (answer of answers) {
+      if (!result[answer.questionid]) {
+        result[answer.questionid] = {
+          questionid: answer.questionid,
+          answer_count: [],
+        }
+      }
+
       for (var i = 0; i < answer.choice_answer.length; i++) {
-        if (result[answer.choice_answer[i]]) {
-          result[answer.choice_answer[i]] = result[answer.choice_answer[
+        if (result[answer.questionid].answer_count[answer.choice_answer[
+            i]]) {
+          result[answer.questionid].answer_count[answer.choice_answer[
+            i]] = result[answer.questionid].answer_count[answer.choice_answer[
             i]] + 1;
         } else {
-          result[answer.choice_answer[i]] = 1;
+          result[answer.questionid].answer_count[answer.choice_answer[
+            i]] = 1;
         }
       }
     }
+
     for (var i = 0; i < result.length; i++) {
       if (!result[i]) {
-        result[i] = 0;
+        result[i] = {
+          questionid: i,
+          answer_count: [],
+        }
+      }
+
+      for (var j = 0; j < result[i].answer_count.length; j++) {
+        if (!result[i].answer_count[j]) {
+          result[i].answer_count[j] = 0;
+        }
       }
     }
 

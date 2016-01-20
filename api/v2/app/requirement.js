@@ -110,7 +110,7 @@ exports.user_my_requirement_list = function (req, res, next) {
 }
 
 exports.designer_get_user_requirements = function (req, res, next) {
-  var designerid = req.body.designerid;
+  var designerid = ApiUtil.getUserid(req);
   var ep = eventproxy();
   ep.fail(next);
 
