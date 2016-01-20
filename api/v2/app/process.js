@@ -799,16 +799,27 @@ exports.list = function (req, res, next) {
 
   ep.on('processes', function (processes) {
     async.mapLimit(processes, 3, function (process, callback) {
-      User.findOne({
-        _id: process.userid
-      }, {
-        username: 1,
-        imageid: 1,
-        phone: 1,
-      }, function (err, user) {
-        process.user = user;
+      async.parallel({
+        user: function (callback) {
+          User.findOne({
+            _id: process.userid
+          }, {
+            username: 1,
+            imageid: 1,
+            phone: 1,
+          }, callback);
+        },
+        plan: function (callback) {
+          Plan.findOne({
+            _id: process.final_planid
+          }, null, callback)
+        }
+      }, function (err, result) {
+        process.user = result.user;
+        process.plan = result.plan;
         callback(err, process);
       });
+
     }, ep.done(function (results) {
       res.sendData(results);
     }));
