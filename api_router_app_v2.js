@@ -120,5 +120,9 @@ router.post('/process/ysimage/delete', auth.designerRequired, process.deleteYsIm
 router.post('/process/can_ys', auth.designerRequired, process.ys); //可以开始验收了
 router.post('/designer_get_user_requirements', auth.designerRequired,
   requirement.designer_get_user_requirements); //设计师获取我的业主需求信息
+router.post('/designer/user/ok', auth.designerRequired, designerWeb.okUser); //响应业主
+router.post('/designer/user/reject', auth.designerRequired, designerWeb.rejectUser); //拒绝业主
+router.post('/designer_requirement_plans', auth.designerRequired, planWeb.designer_requirement_plans); //设计师获取某个需求下的方案
+router.post('/config_contract', auth.designerRequired, requirementWeb.config_contract); //配置合同
 
 module.exports = router;

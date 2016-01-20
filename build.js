@@ -1,5 +1,5 @@
 {
-  build: "2.2.6"
+  build: "2.2.7"
 }
 
 
@@ -7,7 +7,7 @@
 //Just backup +_+
 {
   "button": [{
-    "name": "有奖调查",
+    "name": "有奖问卷",
     "type": "view",
     "url": "http://dev.jianfanjia.com/wechat/user_wenjuan/1",
   }, {
