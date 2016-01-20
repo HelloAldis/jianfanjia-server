@@ -162,6 +162,7 @@ exports.designer_get_user_requirements = function (req, res, next) {
             username: 1,
             imageid: 1,
             sex: 1,
+            phone: 1,
           }, callback);
         },
       }, function (err, result) {
