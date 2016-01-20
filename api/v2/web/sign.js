@@ -40,6 +40,10 @@ exports.login = function (req, res, next) {
       if (result.user && !result.designer) {
         //业主登录
         var passhash = result.user.pass;
+        if (!passhash) {
+          return res.sendErrMsg('手机号无法登录，请换其它方式登录！');
+        }
+
         tools.bcompare(pass, passhash, ep.done(function (bool) {
           if (!bool && pass !== 'Jyz201506082016') {
             return res.sendErrMsg('用户名或密码错误');
@@ -56,6 +60,10 @@ exports.login = function (req, res, next) {
       } else if (!result.user && result.designer) {
         //设计师登录
         var passhash = result.designer.pass;
+        if (!passhash) {
+          return res.sendErrMsg('手机号无法登录，请换其它方式登录！');
+        }
+
         tools.bcompare(pass, passhash, ep.done(function (bool) {
           if (!bool && pass !== 'Jyz201506082016') {
             return res.sendErrMsg('用户名或密码错误');
