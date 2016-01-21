@@ -9,7 +9,7 @@
   "button": [{
     "name": "有奖问卷",
     "type": "view",
-    "url": "http://dev.jianfanjia.com/wechat/user_wenjuan/1",
+    "url": "http://www.jianfanjia.com/wechat/user_wenjuan/1",
   }, {
     "name": "㊙要装修",
     "sub_button": [{
