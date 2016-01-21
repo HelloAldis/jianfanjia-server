@@ -48,14 +48,13 @@ gulp.task('push-changes', function (cb) {
 
 gulp.task('create-new-tag', function (cb) {
   var version = getPackageJsonVersion();
-  git.tag(version, 'Created Tag for version: ' + version, function (error) {
-    if (error) {
-      return cb(error);
-    }
-    git.push('origin', 'master', {
-      args: '--tags'
-    }, cb);
-  });
+  git.tag('build-' + version, 'Created Tag for version: ' + version,
+    function (error) {
+      if (error) {
+        return cb(error);
+      }
+      git.push('origin', 'build-' + version, cb);
+    });
 });
 
 
@@ -63,8 +62,8 @@ gulp.task('release', function (callback) {
   runSequence(
     'bump-version',
     'commit-changes',
-    // 'push-changes',
-    // 'create-new-tag',
+    'push-changes',
+    'create-new-tag',
     function (error) {
       if (error) {
         console.log(error.message);

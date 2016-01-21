@@ -1,11 +1,4 @@
 {
-  build: "2.2.10"
-}
-
-
-
-//Just backup +_+
-{
   "button": [{
     "name": "有奖问卷",
     "type": "view",
