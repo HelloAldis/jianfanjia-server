@@ -131,6 +131,8 @@ exports.designer_get_user_requirements = function (req, res, next) {
             house_check_time: 1,
             last_status_update_time: 1,
             reject_respond_msg: 1,
+            total_price: 1,
+            duration: 1,
           }, {
             skip: 0,
             limit: 1,
