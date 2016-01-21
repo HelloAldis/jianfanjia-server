@@ -1,5 +1,5 @@
-var redis  = require('./redis');
-var _      = require('lodash');
+var redis = require('./redis');
+var _ = require('lodash');
 var logger = require('./logger');
 
 var get = function (key, callback) {
@@ -13,7 +13,7 @@ var get = function (key, callback) {
     }
     data = JSON.parse(data);
     var duration = (new Date() - t);
-    logger.debug('Cache', 'get', key, (duration + 'ms').green);
+    logger.debug('Cache get %s %s ms', key, duration);
     callback(null, data);
   });
 };
@@ -37,7 +37,7 @@ var set = function (key, value, time, callback) {
     redis.setex(key, time, value, callback);
   }
   var duration = (new Date() - t);
-  logger.debug("Cache", "set", key, (duration + 'ms').green);
+  logger.debug("Cache set %s %s ms", key, duration);
 };
 
 exports.set = set;

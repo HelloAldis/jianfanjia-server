@@ -131,11 +131,6 @@ exports.getOne = function (req, res, next) {
       return next(err);
     }
 
-    // console.log('time = ' + designer._id.getTimestamp().getTime()); //1439782910000
-    // var a = designer._id.toString().substring(0, 8);
-    // console.log('a = ' + a);
-    // console.log('int = ' + (parseInt(a, 16) * 1000));
-
     if (designer) {
       res.sendData(designer);
 

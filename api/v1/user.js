@@ -82,9 +82,7 @@ exports.updateRequirement = function (req, res, next) {
     }, {
       username: username
     }, null, function (err) {
-      if (err) {
-        console.log(err);
-      }
+      if (err) {}
     });
   }
 

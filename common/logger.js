@@ -1,61 +1,50 @@
-var fs     = require('fs');
+var winston = require('winston');
+var Rotate = require('winston-daily-rotate-file');
 var config = require('../apiconfig');
+var path = require('path');
 
-if (!fs.existsSync("./log")) {
-  fs.mkdirSync("./log");
-}
+var logDirectory = path.normalize(__dirname + '/../log');
 
-exports.log = function () {
-  writeLog('', 'info', arguments);
-};
+var logger = new winston.Logger({
+  transports: [
+    new Rotate({
+      level: 'debug',
+      filename: logDirectory + '/all.log',
+      handleExceptions: true,
+      humanReadableUnhandledException: true,
+      datePattern: '.yyyy-MM-dd',
+      // maxsize: 5242880, //5MB
+      // maxFiles: 5,
+      json: false,
+      colorize: false
+    }),
+    new winston.transports.File({
+      level: 'error',
+      filename: logDirectory + '/error.log',
+      handleExceptions: true,
+      humanReadableUnhandledException: true,
+      json: true,
+      maxsize: 5242880, //5MB
+      maxFiles: 5,
+      json: false,
+      colorize: false
+    }),
+    new winston.transports.Console({
+      level: 'debug',
+      handleExceptions: true,
+      humanReadableUnhandledException: true,
+      timestamp: true,
+      json: false,
+      colorize: true
+    }),
+  ],
+  exitOnError: false,
+});
 
-exports.info = function () {
-  writeLog('  ', 'info', arguments);
-};
-
-exports.debug = function () {
-  writeLog("  ", 'debug', arguments);
-};
-
-exports.warn = function () {
-  writeLog("  ", 'warn', arguments);
-};
-
-exports.error = function () {
-  writeLog("  ", 'error', arguments);
-};
-
-var env = process.env.NODE_ENV || "development";
-var consolePrint = config.debug && env !== 'test';
-var writeLog = function (prefix, logType, args) {
-  var filePrint = logType !== 'debug';
-
-  if (!filePrint && !consolePrint) {
-    return;
-  }
-
-  var infos = Array.prototype.slice.call(args);
-
-  var logStr = infos.join(" ");
-
-
-  switch (logType) {
-  case "debug":
-    logStr = logStr;
-    break;
-  case 'warn':
-    logStr = logStr;
-    break;
-  case 'error':
-    logStr = logStr;
-    break;
-  }
-
-  var line = prefix + logStr;
-  if (filePrint) {
-    fs.appendFile('./log/' + env + '.log', line + "\n");
-  }
-  if (consolePrint) {
-    console.log(line);
+logger.stream = {
+  write: function (message, encoding) {
+    logger.info(message);
   }
 };
+
+module.exports = logger;

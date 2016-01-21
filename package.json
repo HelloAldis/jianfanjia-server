@@ -40,6 +40,8 @@
     "superagent": "^1.4.0",
     "utility": "^1.4.0",
     "validator": "^4.0.2",
+    "winston": "^2.1.1",
+    "winston-daily-rotate-file": "^1.0.1",
     "wkhtmltopdf": "^0.1.5",
     "xml2json": "^0.9.0"
   }

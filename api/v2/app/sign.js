@@ -84,7 +84,6 @@ exports.designer_login = function (req, res, next) {
     },
 
     ep.done(function (result) {
-      console.log(result);
       if (result.designer) {
         //设计师登录
         var passhash = result.designer.pass;
