@@ -41,7 +41,7 @@ var config = {
   //微信公众平台设置
   wechat_app_Secret: '1b9bfbd4f8d9610858bacaf3e313e665',
   wechat_appid: 'wxdf8d720164933e01',
-  wechat_token: 'ccb8de186792832bdc630542c255b394'
+  wechat_token: 'ccb8de186792832bdc630542c255b394',
   wechat_aes_key: 'JQxanAvCNbFsqBiasfkLFpQqxrq0IMsesLU3eVVkgYb',
   open_weixin_token: false,
   interval_get_wechat_token: 90,
