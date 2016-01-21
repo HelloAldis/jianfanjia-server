@@ -11,6 +11,7 @@ var Image = require('../proxy').Image;
 var imageUtil = require('../common/image_util');
 var type = require('../type');
 var utility = require('utility');
+var logger = require('../common/logger');
 
 exports.wechat_user_login = function (req, res, next) {
   var redirect_uri =
@@ -31,8 +32,8 @@ exports.wechat_user_login_callback = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
 
-  console.log('code = ' + code);
-  console.log('state = ' + state);
+  logger.debug('code = ' + code);
+  logger.debug('state = ' + state);
   ep.on('access_token_ok', function (sres) {
     superagent.get(
       'https://api.weixin.qq.com/sns/userinfo'
@@ -41,7 +42,7 @@ exports.wechat_user_login_callback = function (req, res, next) {
       openid: sres.body.openid,
     }).end(ep.done(function (sres) {
       sres.body = JSON.parse(sres.text);
-      console.log(sres.body);
+      logger.debug(sres.body);
       if (sres.ok && sres.body.unionid) {
         User.findOne({
           wechat_unionid: sres.body.unionid,
@@ -86,12 +87,12 @@ exports.wechat_user_login_callback = function (req, res, next) {
       }));
     });
 
-    console.log('sres.body.headimgurl = ' + sres.body.headimgurl);
+    logger.debug('sres.body.headimgurl = ' + sres.body.headimgurl);
     if (sres.body.headimgurl) {
       superagent.get(sres.body.headimgurl).end(function (err, sres) {
         if (sres.ok) {
           var md5 = utility.md5(sres.body);
-          console.log(sres.body);
+          logger.debug(sres.body);
           Image.findOne({
             'md5': md5,
           }, null, function (err, image) {
@@ -128,7 +129,7 @@ exports.wechat_user_login_callback = function (req, res, next) {
       grant_type: 'authorization_code',
     }).end(ep.done(function (sres) {
       sres.body = JSON.parse(sres.text);
-      console.log(sres.body);
+      logger.debug(sres.body);
       if (sres.ok && sres.body.access_token && sres.body.openid) {
         ep.emit('access_token_ok', sres);
       } else {

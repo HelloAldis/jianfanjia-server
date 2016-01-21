@@ -4,6 +4,7 @@ var Plan = require('../proxy').Plan;
 var type = require('../type');
 var request = require('superagent');
 var cache = require('../common/cache');
+var logger = require('./logger');
 
 var agenda = new Agenda({
   db: {
@@ -27,7 +28,7 @@ agenda.define('expire_designer_respond', function (job, done) {
     status: type.plan_status_designer_no_respond_expired,
     last_status_update_time: now,
   }, function (err, count) {
-    console.log('expire designer respond err: ' + err + ' count: ' +
+    logger.info('expire designer respond err: ' + err + ' count: ' +
       JSON.stringify(count));
     done();
   });
@@ -46,7 +47,7 @@ agenda.define('expire_designer_upload_plan', function (job, done) {
     status: type.plan_status_designer_no_plan_expired,
     last_status_update_time: now,
   }, function (err, count) {
-    console.log('expire designer upload plan err: ' + err +
+    logger.info('expire designer upload plan err: ' + err +
       ' count: ' + JSON.stringify(count));
     done();
   });
@@ -59,11 +60,11 @@ agenda.define('get_wechat_token', function (job, done) {
     secret: config.wechat_app_Secret,
   }).end(function (err, res) {
     if (res.ok) {
-      console.log(res.body);
+      logger.info(res.body);
       cache.set(type.wechat_token, res.body.access_token, 60 * 60 * 2)
       done();
     } else {
-      console.log('err = ' + res.text);
+      logger.info('err = ' + res.text);
       done();
     }
   });

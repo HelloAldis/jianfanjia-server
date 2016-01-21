@@ -9,7 +9,7 @@ var traceMQuery = function (method, info, query) {
     infos.push((millis + 'ms'));
 
     // var duration = (new Date()) - t;
-    logger.debug("MONGO".magenta, infos.join(' '));
+    logger.debug('mongoose log %s', infos.join(' '));
   };
 };
 

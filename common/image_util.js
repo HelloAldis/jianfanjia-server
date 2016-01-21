@@ -26,8 +26,6 @@ exports.watermark = function (buffer, callback) {
       var command = 'image Over ';
       var x = value.width - 366;
       command = command + x + ',10 0,0 mark.png'
-
-      console.log(command);
       this.draw(command).stream(callback);
     } else {
       return callback('invalid image');
@@ -42,7 +40,3 @@ exports.resizeThenWatermark2stream = function (buffer, width, callback) {
 
   gm(buffer).resize(width).draw(command).stream(callback);
 }
-
-// gm('test.jpg').quality(90).write('output5.jpg', function (err) {
-//   console.log(err);
-// });
