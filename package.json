@@ -1,6 +1,6 @@
 {
   "name": "jianfanjia",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Jian Fan Jian welcome and API project",
   "main": "app.js",
   "scripts": {
@@ -44,5 +44,13 @@
     "winston-daily-rotate-file": "^1.0.1",
     "wkhtmltopdf": "^0.1.5",
     "xml2json": "^0.9.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-bump": "^1.0.0",
+    "gulp-git": "^1.6.1",
+    "gulp-util": "^3.0.7",
+    "minimist": "^1.2.0",
+    "run-sequence": "^1.1.5"
   }
 }
