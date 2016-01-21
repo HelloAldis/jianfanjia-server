@@ -36,7 +36,7 @@ function getPackageJsonVersion() {
 
 gulp.task('commit-changes', function () {
   return gulp.src('.')
-    .pipe(git.commit('[Prerelease] Bumped version number: ' +
+    .pipe(git.commit('[Release] Bumped version number: ' +
       getPackageJsonVersion(), {
         args: '-a'
       }));
