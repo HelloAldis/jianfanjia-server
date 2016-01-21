@@ -152,8 +152,8 @@
 			width: 4.7665rem;
 			height: 0.0563rem;
 			margin: 0 auto;
-			background: -webkit-gradient(linear, left top, right top, color-stop(0%,#242220), color-stop(50%,#f2eb72), color-stop(100%,#242220)); 
-			background: -webkit-linear-gradient(left, #242220 0%,#f2eb72 50%,#242220 100%); 
+			background: -webkit-gradient(linear, left top, right top, color-stop(0%,#242220), color-stop(50%,#f2eb72), color-stop(100%,#242220));
+			background: -webkit-linear-gradient(left, #242220 0%,#f2eb72 50%,#242220 100%);
 			background: linear-gradient(to right, #242220 0%,#f2eb72 50%,#242220 100%);
 		}
 		main li a{
@@ -356,7 +356,7 @@
     	if(!$(this).hasClass('disabled')){
     		$.ajax({
     		  type: 'POST',
-    		  url: 'http://101.200.191.159/api/v1/add_angel_user',
+    		  url: '/api/v1/add_angel_user',
     		  data: JSON.stringify({
 				  "phone":$("#phone")[0].value,
 				  "name":$("#name")[0].value,
