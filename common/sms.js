@@ -3,11 +3,11 @@ var querystring = require('querystring');
 var config = require('../apiconfig');
 var DateUtil = require('./date_util');
 var utility = require('utility');
-var logger = require('./logger')
+var logger = require('./logger');
 
 exports.sendWeiMi = function (phone, cid, p1) {
   if (!config.send_sms) {
-    console.log('weimi send to phone = ' + phone);
+    logger.info('weimi send to phone = ' + phone);
     return;
   }
 
@@ -36,10 +36,10 @@ exports.sendWeiMi = function (phone, cid, p1) {
   var req = http.request(options, function (res) {
     res.setEncoding('utf8');
     res.on('data', function (chunk) {
-      console.log(JSON.parse(chunk));
+      logger.info(JSON.parse(chunk));
     });
     res.on('end', function () {
-      console.log('over');
+      logger.info('over');
     });
   });
   req.write(content);
@@ -56,7 +56,7 @@ exports.sendYuyue = function (phone) {
 
 function yzx(phone, templateId, paramArray) {
   if (!config.send_sms) {
-    console.log('yzx send to phone = ' + phone);
+    logger.info('yzx send to phone = ' + phone);
     return;
   }
 
@@ -83,7 +83,7 @@ function yzx(phone, templateId, paramArray) {
   var req = http.request(options, function (res) {
     res.setEncoding('utf8');
     res.on('data', function (chunk) {
-      console.log(JSON.parse(chunk));
+      logger.info(JSON.parse(chunk));
     });
   });
   req.end();

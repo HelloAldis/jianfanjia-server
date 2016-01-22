@@ -10,6 +10,7 @@ var request = require('superagent');
 var limit = require('../../../middlewares/limit');
 var wechat_util = require('../../../common/wechat_util');
 var config = require('../../../apiconfig');
+var logger = require('../../../common/logger');
 
 function toJson(xml) {
   return xml2json.toJson(xml.toString(), {
@@ -36,7 +37,6 @@ function handleText(msg, req, res, next) {
         var url =
           'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=' +
           token;
-        console.log(url);
         request.post(url).send({
           expire_seconds: 604800,
           action_name: 'QR_SCENE',
@@ -55,7 +55,7 @@ function handleText(msg, req, res, next) {
               '简繁家感谢你为我们推广',
               '请点击链接并保管好你的二维码', url, url));
           } else {
-            console.log(wei_res.text);
+            logger.error(wei_res.text);
           }
         }));
       }));
@@ -147,7 +147,7 @@ function handleEvent(msg, req, res, next) {
 exports.receive = function (req, res, next) {
   req.on('data', function (data) {
     var msg = toJson(data);
-    console.log(msg);
+    logger.debug(msg);
     if (msg.MsgType === type.wechat_MsgType_text) {
       handleText(msg, req, res, next);
     } else if (msg.MsgType === type.wechat_MsgType_event) {
@@ -165,7 +165,6 @@ exports.signature = function (req, res, next) {
   var echostr = req.query.echostr;
   var arr = [config.wechat_token, timestamp, nonce];
   var str = arr.sort().join('');
-  console.log(utility.sha1(str));
   if (signature === utility.sha1(str)) {
     res.send(echostr);
   } else {

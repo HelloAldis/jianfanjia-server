@@ -399,7 +399,6 @@ exports.reschedule = function (req, res, next) {
           section: reschedule.section,
           status: reschedule.status,
         });
-        console.log(json.content);
         // gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
         //   content: json.content,
         //   type: type.message_type_reschedule,
@@ -489,7 +488,6 @@ exports.okReschedule = function (req, res, next) {
           section: reschedule.section,
           status: type.process_item_status_reschedule_ok,
         });
-        console.log(json.content);
         // gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
         //   content: json.content,
         //   type: type.message_type_reschedule,
@@ -590,11 +588,6 @@ exports.rejectReschedule = function (req, res, next) {
           section: reschedule.section,
           status: type.process_item_status_reschedule_reject,
         });
-        console.log(json.content);
-        // gt.pushMessageToSingle('55dee46f75e6aa64c0c9378d', {
-        //   content: json.content,
-        //   type: type.message_type_reschedule,
-        // });
       });
     });
   });
@@ -662,11 +655,8 @@ exports.doneItem = function (req, res, next) {
             }
           });
 
-          console.log('result=' + result);
-          console.log('doneCount' + doneCount);
           if (result.items.length - doneCount <= 2) {
             var json = buildProcurement(section);
-            console.log('采购提醒 ' + json);
             gt.pushMessageToSingle(process.userid, {
               content: json.message,
               section: json.next,
@@ -723,7 +713,6 @@ exports.doneSection = function (req, res, next) {
 
       if (process) {
         var json = buildPay();
-        console.log(json);
         gt.pushMessageToSingle(process.userid, {
           content: json.message,
           section: section,

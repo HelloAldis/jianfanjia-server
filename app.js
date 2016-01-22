@@ -103,11 +103,11 @@ app.use(responseUtil);
 // routes
 if (config.debug) {
   app.use('/api/v1', function (req, res, next) {
-    console.log(req.body);
+    logger.debug(req.body);
     next();
   });
   app.use('/api/v2', function (req, res, next) {
-    console.log(req.body);
+    logger.debug(req.body);
     next();
   });
 }
@@ -126,7 +126,7 @@ if (config.debug) {
   app.use(errorhandler());
 } else {
   app.use(function (err, req, res, next) {
-    logger.error('server 500 error:', err);
+    logger.error('server 500 error: %j', err);
     return res.status(500).send('500 status');
   });
 }
@@ -137,7 +137,7 @@ app.get('*', function (req, res) {
 });
 
 app.listen(config.port, function () {
-  logger.log('Jianfanjia listening on port', config.port);
+  logger.info('Jianfanjia listening on port %s', config.port);
 });
 
 module.exports = app;

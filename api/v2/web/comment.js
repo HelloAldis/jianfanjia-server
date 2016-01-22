@@ -34,9 +34,7 @@ exports.add_comment = function (req, res, next) {
       comment_indb.topictype === type.topic_type_process_item) {
       Process.addCommentCount(comment_indb.topicid, comment_indb.section,
         comment_indb.item,
-        function (err) {
-          console.log(err);
-        });
+        function (err) {});
     }
   }));
 }
@@ -62,7 +60,6 @@ exports.unread_comment = function (req, res, next) {
     },
     lean: true,
   }, ep.done(function (comments) {
-    console.log(comments);
     async.mapLimit(comments, 3, function (comment, callback) {
       if (comment.usertype === type.role_user) {
         User.findOne({

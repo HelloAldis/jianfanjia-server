@@ -19,7 +19,6 @@ exports.upload_wenjuan_answer = function (req, res, next) {
     var answer = req.body.answers[n];
     answer.userid = userid;
     answer.usertype = usertype;
-    console.log(answer);
     Answer.newAndSave(answer, function (err) {
       next(err);
     });

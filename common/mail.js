@@ -1,6 +1,7 @@
 var mailer = require('nodemailer');
 var config = require('../apiconfig');
 var util = require('util');
+var logger = require('./logger');
 var transport = mailer.createTransport(config.mail_opts);
 
 /**
@@ -15,7 +16,7 @@ var sendMail = function (data, callback) {
   transport.sendMail(data, function (err) {
     if (err) {
       // 写为日志
-      console.log(err);
+      logger.info(err);
     }
     callback(err);
   });
@@ -45,7 +46,7 @@ exports.send_verify_email = function (who, token, name, phone, type, url,
     '<p>若您没有在简繁家申请邮箱认证，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p>' +
     '<p>简繁家 欢迎你。</p>';
 
-  console.log(html);
+  logger.debug(html);
   exports.sendMail({
     from: from,
     to: to,

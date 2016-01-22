@@ -7,6 +7,7 @@ var APNPayload = require('./payload/APNPayload');
 var SimpleAlertMsg = require('./payload/SimpleAlertMsg');
 var RequestError = require('./RequestError');
 var type = require('../type');
+var logger = require('../common/logger');
 
 var gt_user = new GeTui(config.gt_HOST, config.gt_user_APPKEY, config.gt_user_MASTERSECRET);
 var gt_designer = new GeTui(config.gt_HOST, config.gt_designer_APPKEY,
@@ -15,8 +16,8 @@ var gt_designer = new GeTui(config.gt_HOST, config.gt_designer_APPKEY,
 exports.aliasBind = function (userid, cid) {
   userid = userid.toString();
   gt.bindAlias(config.gt_user_APPID, userid, cid, function (err, res) {
-    console.log('err = ' + err);
-    console.log(res);
+    logger.debug('err = ' + err);
+    logger.debug(res);
   });
 }
 
@@ -53,19 +54,19 @@ exports.pushMessageToSingle = function (userid, playload) {
     alias: userid,
   });
 
-  console.log('userid = ' + userid);
-  console.log(playload);
+  logger.debug('userid = ' + userid);
+  logger.debug(playload);
 
   gt_user.pushMessageToSingle(message, target, function (err, res) {
-    console.log('push err = ' + err);
-    console.log(res);
+    logger.debug('push err = ' + err);
+    logger.debug(res);
     if (err != null && err.exception != null && err.exception instanceof RequestError) {
       var requestId = err.exception.requestId;
-      console.log(err.exception.requestId);
+      logger.debug(err.exception.requestId);
       gt_user.pushMessageToSingle(message, target, requestId, function (
         err, res) {
-        console.log(err);
-        console.log(res);
+        logger.debug(err);
+        logger.debug(res);
       });
     }
   });
@@ -104,13 +105,13 @@ function buildMessage(appid, appkey, playload) {
     data: template, //设置推送消息类型
   });
 
-  console.log(playload);
+  logger.debug(playload);
   return message;
 }
 
 function buildTarget(appid, userid) {
   userid = userid.toString();
-  console.log('sending to userid = ' + userid);
+  logger.debug('sending to userid = ' + userid);
   //接收方
   return new Target({
     appId: appid,
@@ -119,40 +120,40 @@ function buildTarget(appid, userid) {
 }
 
 exports.pushMessageToUser = function (userid, playload) {
-  console.log('send to user');
+  logger.debug('send to user');
   var target = buildTarget(config.gt_user_APPID, userid);
   var message = buildMessage(config.gt_user_APPID, config.gt_user_APPKEY,
     playload);
   gt_user.pushMessageToSingle(message, target, function (err, res) {
-    console.log('push err = ' + err);
-    console.log(res);
+    logger.debug('push err = ' + err);
+    logger.debug(res);
     if (err != null && err.exception != null && err.exception instanceof RequestError) {
       var requestId = err.exception.requestId;
-      console.log(err.exception.requestId);
+      logger.debug(err.exception.requestId);
       gt_user.pushMessageToSingle(message, target, requestId, function (
         err, res) {
-        console.log(err);
-        console.log(res);
+        logger.debug(err);
+        logger.debug(res);
       });
     }
   });
 }
 
 exports.pushMessageToDesigner = function (userid, playload) {
-  console.log('send to designer');
+  logger.debug('send to designer');
   var target = buildTarget(config.gt_designer_APPID, userid);
   var message = buildMessage(config.gt_designer_APPID, config.gt_designer_APPKEY,
     playload);
   gt_designer.pushMessageToSingle(message, target, function (err, res) {
-    console.log('push err = ' + err);
-    console.log(res);
+    logger.debug('push err = ' + err);
+    logger.debug(res);
     if (err != null && err.exception != null && err.exception instanceof RequestError) {
       var requestId = err.exception.requestId;
-      console.log(err.exception.requestId);
+      logger.debug(err.exception.requestId);
       gt_designer.pushMessageToSingle(message, target, requestId,
         function (err, res) {
-          console.log(err);
-          console.log(res);
+          logger.debug(err);
+          logger.debug(res);
         });
     }
   });
