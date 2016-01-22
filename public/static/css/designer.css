@@ -2305,9 +2305,11 @@ body{
     color: #60636a;
     cursor: default;
 }
+.m-phone .pending .alert-box{
+	padding: 40px 100px;
+}
 .m-phone .pending .tips{
 	padding: 20px 19px;
-	margin-top: 80px;
 	font-size: 14px;
 	line-height: 18px;
 	text-align: left;

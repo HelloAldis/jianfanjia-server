@@ -265,3 +265,63 @@
     };
 
 })(this, angular);
+(function(angular){
+    angular.module("my.jyz", ["my.jyz.tpls","my.jyz.alert"]);
+    angular.module("my.jyz.tpls", ["jyz/template/alert/alert.html"]);
+    angular.module('my.jyz.alert', [])
+    .controller('myAlertController', ['$scope', '$attrs', '$interpolate', '$timeout', function($scope, $attrs, $interpolate, $timeout) {
+      $scope.closeable = !!$attrs.close;
+      var dismissOnTimeout = angular.isDefined($attrs.dismissOnTimeout) ?
+        $interpolate($attrs.dismissOnTimeout)($scope.$parent) : null;
+
+      if (dismissOnTimeout) {
+        $timeout(function() {
+          $scope.close();
+        }, parseInt(dismissOnTimeout, 10));
+      }
+    }])
+    .directive('myAlert', function() {
+      return {
+        controller: 'myAlertController',
+        controllerAs: 'alert',
+        templateUrl: function(element, attrs) {
+          return attrs.templateUrl || 'jyz/template/alert/alert.html';
+        },
+        transclude: true,
+        replace: true,
+        scope: {
+          type: '@',
+          close: '&',
+          text : '@'
+        }
+      };
+    })
+    .filter('to_trusted', ['$sce', function ($sce) {
+      return function (text) {
+          return $sce.trustAsHtml(text);
+      }
+    }])
+    .filter('alertTypeFilter', function () {
+        return function (input) {
+            return {
+                'warning' : '<i class="iconfont">&#xe640;</i>',
+                'error' : '<i class="iconfont">&#xe63e;</i>',
+                'success' : '<i class="iconfont">&#xe63f;</i>'
+              }[input];
+        }
+    })
+    angular.module("jyz/template/alert/alert.html", []).run(["$templateCache", function($templateCache) {
+      var icon =
+      $templateCache.put("jyz/template/alert/alert.html",
+        "<div class=\"k-alert\" ng-class=\"['k-alert-' + (type || 'warning'), closeable ? 'alert-dismissible' : null]\" role=\"alert\">\n" +
+        "    <button ng-show=\"closeable\" type=\"button\" class=\"close\" ng-click=\"close({$event: $event})\">\n" +
+        "        <span aria-hidden=\"true\">&times;</span>\n" +
+        "        <span class=\"sr-only\">Close</span>\n" +
+        "    </button>\n" +
+        "    <div class=\"icon\" ng-bind-html=\"type | alertTypeFilter | to_trusted\"></div>\n"+
+        "    <div class=\"text\" ng-bind=\"text\"></div>\n"+
+        "    <div ng-transclude></div>\n" +
+        "</div>\n" +
+        "");
+    }]);
+})(angular)

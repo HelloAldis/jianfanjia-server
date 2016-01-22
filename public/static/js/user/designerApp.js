@@ -1,7 +1,7 @@
 'use strict';
 (function() {
     // load modules
-    angular.module('myJyzDesigner', ['ui.router','pasvaz.bindonce','controllers', 'services', 'filters' , 'directives','ngmodel.format'])
+    angular.module('myJyzDesigner', ['ui.router','pasvaz.bindonce','controllers', 'services', 'filters' , 'directives','ngmodel.format','my.jyz'])
         .run(['$rootScope','$state','$stateParams',function($rootScope,$state,$stateParams) {
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;

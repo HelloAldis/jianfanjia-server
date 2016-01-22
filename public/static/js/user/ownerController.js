@@ -202,7 +202,7 @@ angular.module('controllers', [])
                 house_type : '0',
                 communication_type :'0',
                 prefer_sex : '2',
-                family_description : $scope.userRelease.familyDescription[0].name
+                family_description : $scope.userRelease.familyDescription[0]
             }
             if($scope.userRelease.isRelease){        //发布新需求
                 userInfo.get().then(function(res){  //获取个人资料
@@ -313,8 +313,8 @@ angular.module('controllers', [])
             });
     }])
     .controller('requirementDetailCtrl', [     //装修需求详情
-        '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne','initData',
-        function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,initData){
+        '$scope','$rootScope','$timeout','$filter','$location','$stateParams','userRequiremtne','initData',
+        function($scope, $rootScope,$timeout,$filter,$location,$stateParams,userRequiremtne,initData){
             var requiremtneId = $stateParams.id;
             $scope.$on('requirementParent',function(event, data){    //子级接收
                 if(data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 4 || data.status == 5 || data.status == 6 || data.status == 7){  //预约量房、确认量房
@@ -615,10 +615,14 @@ angular.module('controllers', [])
         function myPlan(){
             userRequiremtne.plans({"requirementid":requiremtneId}).then(function(res){    //获取我的方案列表
                 $scope.plans = res.data.data;
+                $timeout(function(){
+                    $scope.definePlan.success = false;
+                },3000);
             },function(res){
                 console.log(res)
             });
         }
+        $scope.definePlan.success = false;
         $scope.definePlan = function(pid,uid){   //确定方案
             userRequiremtne.define({
               "planid": pid,
@@ -626,6 +630,7 @@ angular.module('controllers', [])
               "requirementid": requiremtneId
             }).then(function(res){
                 if(res.data.msg == "success"){
+                    $scope.definePlan.success = true;
                     alert('您已经选定方案，等候设计师生成合同')
                     myPlan()   //更新方案列表
                     uploadParent()   //更新需求状态

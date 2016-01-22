@@ -194,12 +194,7 @@ angular.module('services', [])
                 {"id" :1,"name":'女'},
                 {"id" :2,"name":'不限'}
             ],
-            familyDescription : [
-                {"name":'单身'},
-                {"name":'两个人'},
-                {"name":'三个人'},
-                {"name":'四个人'}
-            ],
+            familyDescription : ['单身','幸福小两口','三口之家','三代同堂','其它'],
             businessHouseType : [
                 {"id" :0,"name":'餐厅'},
                 {"id" :1,"name":'服装店'},

@@ -19,6 +19,8 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cook
     goto.init();
 });
 require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
+    var $apply = $('#apply'),
+        $agree = $('#agree');
     function loadList(url){
         $.ajax({
             url:RootUrl+'api/v2/web/designer/agree',
@@ -32,19 +34,19 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             }
         })
     }
-    $('#agree').on('click',function(){
+    $agree.on('click',function(){
         if($(this).hasClass('active')){
-            $(this).attr('class','')
+            $(this).attr('class','');
+            $apply.attr('disabled', true).addClass('u-btns-disabled');
         }else{
-            $(this).attr('class','active')
+            $(this).attr('class','active');
+            $apply.attr('disabled', false).removeClass('u-btns-disabled');
         }
     })
-    $('#apply').on('click',function(){
-        if($('#agree').hasClass('active')){
+    $apply.on('click',function(){
+        if($agree.hasClass('active')){
             loadList('designer.html#/infor');
-        }else{
-            alert('请先同意入驻协议协议')
-            return false;
         }
+        return false;
     })
 });

@@ -173,20 +173,26 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
         },
         submit : function(){
             var self = this;
-            this.form.on('submit',function(){
+            $(document).on('keydown',function(e){
+                if(e.which == 13){
+                    submitfn();
+                }
+            })
+            this.form.on('click','#login-submit',function(){
+                submitfn();
+                return false;
+            });
+            function submitfn(){
                 self.check().mobile();
                 self.check().pass();
-                console.log(self.checkStep)
                 if(self.checkStep > 0){
                     self.error.html(self.errmsg.submit).removeClass('hide');
                     return false;
                 }
-                var url = $(this).attr('action');
-                var type = $(this).attr('method');
-                var serialize = self.strToJson($(this).serialize());
+                var serialize = self.strToJson(self.form.serialize());
                 $.ajax({
-                    url:url,
-                    type: type,
+                    url:'/api/v2/web/login',
+                    type: 'POST',
                     contentType : 'application/json; charset=utf-8',
                     dataType: 'json',
                     data : JSON.stringify(serialize),
@@ -207,8 +213,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                         self.error.html(res['err_msg']).removeClass('hide');
                     }
                 });
-                return false;
-            });
+            }
         },
         strToJson : function(str){
             var json = {};

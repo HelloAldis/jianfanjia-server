@@ -240,7 +240,16 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
         },
         submit : function(){
             var self = this;
-            this.form.on('submit',function(){
+            $(document).on('keydown',function(e){
+                if(e.which == 13){
+                    submitfn();
+                }
+            })
+            this.form.on('click','#reg-submit',function(){
+                submitfn();
+                return false;
+            });
+            function submitfn(){
                 if(self.isMobile){
                     self.mobile.parents('.item').addClass('error');
                     self.error.html('手机号码已被使用').removeClass('hide');
@@ -257,7 +266,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                 if(!self.check().agree()){
                    return false;
                 }
-                var serialize = self.strToJson($(this).serialize());
+                var serialize = self.strToJson(self.form.serialize());
                 $.ajax({
                     url:RootUrl+'api/v2/web/signup',
                     type: 'post',
@@ -273,8 +282,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                         self.error.html(res.err_msg).removeClass('hide');
                     }
                 });
-                return false;
-            });
+            }
         },
         setType : function(){
             var self = this;

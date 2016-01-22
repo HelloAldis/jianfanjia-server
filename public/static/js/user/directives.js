@@ -906,17 +906,21 @@ angular.module('directives', [])
             myQuery : "="
           },
           restrict: 'A',
-          template: '<div class="k-otheruploade"><div class="create"><div class="fileBtn"><input class="hide" class="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" class="id_create"></div><img ng-src="/api/v2/web/thumbnail/250/{{myQuery}}" ng-if="myQuery" /><div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div></div></div>',
+          template: function(){
+            return [
+              '<div class="k-otheruploade"><div class="create"><div class="fileBtn"><input class="hide" class="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" class="id_create1"></div><img ng-src="/api/v2/web/thumbnail/250/{{myQuery}}" ng-if="myQuery" /><div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div></div></div>',
+            ].join('');
+          },
           link: function($scope, iElm, iAttrs, controller){
-              var uploaderUrl = RootUrl+'api/v2/web/image/upload',
+              var uploaderUrl = '/api/v2/web/image/upload',
                   fileTypeExts = '*.jpg;*.png',
                   fileSizeLimit = 3072,
                   obj = $(iElm).parent(),
-                  create = obj.find('.create'),
-                  createUpload = obj.find('.createUpload'),
+                  create = $('.create'),
+                  createUpload = $('.createUpload'),
                   boxData = obj.data('boxData');
               if(checkSupport() === "html5"){
-                create.Huploadify({
+                $('.create').Huploadify({
                   auto:true,
                   fileTypeExts:fileTypeExts,
                   multi:false,
@@ -933,7 +937,7 @@ angular.module('directives', [])
                   }
                 });
               }else{
-                createUpload.uploadify({
+                $('.createUpload').uploadify({
                       'auto'     : true,
                       'removeTimeout' : 1,
                       'swf'      : 'uploadify.swf',
@@ -942,8 +946,8 @@ angular.module('directives', [])
                       'buttonText' : '',
                       'multi'    : false,
                       'uploadLimit' : 10,
-                      'width' : boxData.width,
-                      'height' : boxData.height,
+                      'width' : 250,
+                      'height' : 120,
                       'fileTypeDesc' : 'Image Files',
                       'fileTypeExts' : fileTypeExts,
                       'fileSizeLimit' : fileSizeLimit+'KB',
@@ -973,9 +977,19 @@ angular.module('directives', [])
           }
       };
     }])
-    .directive('mySimpleupload',['$timeout',function($timeout){     //单个图片上传
+    .directive('mySimpleupload', function() { //单个图片上传
       return {
-          replace : true,
+        transclude: true,
+        restrict: 'A',
+        scope: {
+          myQuery : "="
+        },
+        template: '<div my-simpleuploadone my-query="myQuery"></div>'
+      };
+    })
+    .directive('mySimpleuploadone',['$timeout',function($timeout){
+      return {
+          require: '^mySimpleupload',
           scope: {
             myQuery : "="
           },
@@ -1016,8 +1030,8 @@ angular.module('directives', [])
                       'buttonText' : '',
                       'multi'    : false,
                       'uploadLimit' : 10,
-                      'width' : boxData.width,
-                      'height' : boxData.height,
+                      'width' : 250,
+                      'height' : 120,
                       'fileTypeDesc' : 'Image Files',
                       'fileTypeExts' : fileTypeExts,
                       'fileSizeLimit' : fileSizeLimit+'KB',
@@ -1104,6 +1118,12 @@ angular.module('directives', [])
                       },
                       onUploadSuccess:function(file, data, response){
                         callbackImg(data)
+                      },
+                      onUploadError : function(file, errorCode, errorMsg, errorString) {
+                          alert('上传超时，请重新上传');
+                          $('#create').Huploadify('cancel', '*');
+                          $('#create').find('.mask').remove();
+                          //alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
                       }
                     });
                   }else{
@@ -1126,6 +1146,9 @@ angular.module('directives', [])
                           },
                           'onUploadSuccess' : function(file, data, response) {
                               callbackImg(data)
+                          },
+                          'onUploadError' : function(file, errorCode, errorMsg, errorString) {
+                              alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
                           }
                     });
                   }

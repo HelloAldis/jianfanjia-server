@@ -773,7 +773,6 @@ angular.module('controllers', [])
                     alert('您选择接单区域城市不是湖北省武汉市，请重新选择')
                     return ;
                 }
-
             }
     }])
     .controller('phoneCtrl', ['$scope','$rootScope','userInfo',function($scope, $rootScope,userInfo){  //手机认证修改
@@ -795,6 +794,7 @@ angular.module('controllers', [])
             waiting : false,
             disabled : false,
             again : false,
+            prompt : false,
             change : function(){
                 this.status = true;
             },
@@ -803,7 +803,10 @@ angular.module('controllers', [])
                 this.status = false;
                 var date = new Date();
                 if(date.getTime() - $scope.designeremail.email_auth_date < 600000){
-                    alert('您点的太快了，稍后再试');
+                    _this.prompt = true;
+                    $timeout(function(){
+                        _this.prompt = false;
+                    },3000)
                     return ;
                 }
                 userInfo.emailInfo({"email":$scope.designeremail.email}).then(function(res){

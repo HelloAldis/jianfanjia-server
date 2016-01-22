@@ -148,7 +148,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
 				arr.push('</dl></div><div class="service">');
 				if(this.usertype == 1 || this.usertype == undefined){
 					if(data.is_my_favorite){
-						arr.push('<div class="add"><a href="/tpl/user/owner.html#/designer" class="u-btns u-btns-revise">已添加</a><div class="mask"></div></div>');
+						arr.push('<div class="add"><a href="/tpl/user/owner.html#/designer/1" class="u-btns u-btns-revise">已添加</a><div class="mask"></div></div>');
 					}else{
 						arr.push('<div class="add"><button class="u-btns addIntent">添加意向</button><div class="mask"></div></div>');
 					}
@@ -458,7 +458,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
     				})
     				.done(function(res) {
     					if(res.msg === "success"){
-    						slef.html('已添加').attr('href','/tpl/user/owner.html#/designer').removeClass('addIntent').addClass('u-btns-revise');
+    						slef.html('已添加').attr('href','/tpl/user/owner.html#/designer/1').removeClass('addIntent').addClass('u-btns-revise');
     						flyer.fly({
     							start: {
     								left: state.left,

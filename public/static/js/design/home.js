@@ -16,13 +16,11 @@ require.config({
         }
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
-    var user = new common.User();
-    user.init();
-    var search = new common.Search();
-    search.init();
-})
 require(['jquery','lib/jquery.cookie','utils/common','utils/page','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,cookie,common,Page){
+        var user = new common.User();
+        user.init();
+        var search = new common.Search();
+        search.init();
         var goto = new common.Goto;
         var Home = function(){};
         Home.prototype = {
@@ -92,7 +90,7 @@ require(['jquery','lib/jquery.cookie','utils/common','utils/page','lib/jquery.re
                     arr.push('<dd class="f-cb"><p>'+ data.philosophy+'</p></dd></dl>');
                     if(this.usertype == 1 || this.usertype == undefined){
                         if(data.is_my_favorite){
-                            arr.push('<div class="btns"><a href="/tpl/user/owner.html#/designer" class="u-btns u-btns-revise">已添加</a></div>');
+                            arr.push('<div class="btns"><a href="/tpl/user/owner.html#/designer/1" class="u-btns u-btns-revise">已添加</a></div>');
                         }else{
                             arr.push('<div class="btns"><a href="javascript:;" class="u-btns addIntent" data-uid="'+data._id+'">添加意向</a></div>');
                         }
@@ -137,7 +135,7 @@ require(['jquery','lib/jquery.cookie','utils/common','utils/page','lib/jquery.re
                         {
                             'sclass' : 'half',
                             'title' : '工作年限：',
-                            'content' : data.work_year+'年'
+                            'content' : (data.work_year || 0)+'年'
                         },
                         {
                             'title' : '曾就职装饰公司：',
@@ -159,7 +157,7 @@ require(['jquery','lib/jquery.cookie','utils/common','utils/page','lib/jquery.re
                                 span += '<span>'+ globalData[service[i].type](service[i].content[j])+'</span> ';
                             };
                         }else{
-                            if(service[i].content == '0个施工队'){
+                            if(service[i].content == '0个施工队' || service[i].content == '0年' || service[i].content == undefined){
                                 continue;
                             }
                             span = '<p>'+service[i].content+'</p>'
@@ -265,7 +263,7 @@ require(['jquery','lib/jquery.cookie','utils/common','utils/page','lib/jquery.re
                         })
                         .done(function(res) {
                             if(res.msg === "success"){
-                                This.html('已添加').attr('href','/tpl/user/owner.html#/designer').removeClass('addIntent').addClass('u-btns-revise');
+                                This.html('已添加').attr('href','/tpl/user/owner.html#/designer/1').removeClass('addIntent').addClass('u-btns-revise');
                                 flyer.fly({
                                     start: {
                                         left: state.left,

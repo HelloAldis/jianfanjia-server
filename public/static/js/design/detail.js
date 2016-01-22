@@ -16,19 +16,17 @@ require.config({
         }
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
-    var user = new common.User();
-    user.init();
-    var search = new common.Search();
-    search.init();
-})
-require(['jquery','lib/jquery.cookie','utils/common','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,cookie,common){
+require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,common){
         var user = new common.User();
+        user.init();
+        var search = new common.Search();
+        search.init();
         var goto = new common.Goto();
         var Detail = function(){};
         Detail.prototype = {
             init  : function(){
-                this.cacheData = {}; //全局数据缓存
+                this.body = $('body');
+                this.modalStatus = false;
                 this.winHash = window.location.search.substring(1);
                 this.detail = $("#j-detail");
                 this.main = this.detail.find('.g-mn');
@@ -127,7 +125,7 @@ require(['jquery','lib/jquery.cookie','utils/common','lib/jquery.requestAnimatio
                     ];
                     if(this.usertype == 1 || this.usertype == undefined){
                         if(data.is_my_favorite){
-                            arr.push('<div class="btns"><a href="/tpl/user/owner.html#/designer" class="u-btns u-btns-revise">已添加</a></div>');
+                            arr.push('<div class="btns"><a href="/tpl/user/owner.html#/designer/1" class="u-btns u-btns-revise">已添加</a></div>');
                         }else{
                             arr.push('<div class="btns"><a href="javascript:;" class="u-btns addIntent" data-uid="'+data._id+'">添加意向</a></div>');
                         }
@@ -141,6 +139,7 @@ require(['jquery','lib/jquery.cookie','utils/common','lib/jquery.requestAnimatio
             },
             favorite  : function(id){
                 var self = this;
+                self.modal("您确定要取消收藏吗？");
                 this.main.delegate('.favorite','click',function(ev){
                     ev.preventDefault();
                     var This = $(this);
@@ -154,16 +153,33 @@ require(['jquery','lib/jquery.cookie','utils/common','lib/jquery.requestAnimatio
                                 }
                             })
                         }else{
-                            if(confirm("你确定要取消收藏吗？")){
-                                favorite('delete',function(res){
-                                    if(res['msg'] === "success"){
-                                        This.removeClass(' u-btns-revise').html('收藏作品');
-                                    }
-                                })
-                            }
+                            show();
                         }
                     }
-                })
+                });
+                var $modal = $('#j-modal'),
+                    $backdrop = $('#j-modal-backdrop'),
+                    $cancel = $modal.find('.cancel'),
+                    $define = $modal.find('.define');
+                function show(){
+                    $backdrop.fadeIn();
+                    $modal.fadeIn();
+                }
+                function hide(){
+                    $backdrop.hide();
+                    $modal.hide();
+                }
+                $cancel.on('click',function(){
+                    hide();
+                });
+                $define.on('click',function(){
+                    favorite('delete',function(res){
+                        if(res['msg'] === "success"){
+                            self.main.find('.favorite').removeClass(' u-btns-revise').html('收藏作品');
+                        }
+                    })
+                    hide();
+                });
                 function favorite(state,fn){
                     $.ajax({
                         url:RootUrl+'api/v2/web/favorite/product/'+state,
@@ -180,6 +196,30 @@ require(['jquery','lib/jquery.cookie','utils/common','lib/jquery.requestAnimatio
                         user.updateData();
                     });
                 }
+            },
+            modal : function(text){
+                var self = this,
+                    arr = [
+                    '<div class="k-modal dialog" id="j-modal">',
+                        '<div class="modal-dialog">',
+                          '<div class="modal-content">',
+                            '<div class="modal-body">',
+                               '<div class="icon">',
+                                    '<i class="iconfont">&#xe619;</i>',
+                               '</div>',
+                               '<p>'+text+'</p>',
+                            '</div>',
+                            '<div class="modal-footer">',
+                              '<button type="button" class="u-btns u-btns-revise cancel">取消</button>',
+                              '<button type="button" class="u-btns define">确定</button>',
+                            '</div>',
+                          '</div>',
+                        '</div>',
+                      '</div>',
+                    '</div>',
+                    '<div class="k-modal-backdrop" id="j-modal-backdrop"></div>'
+                ];
+                this.body.append(arr.join(''));
             },
             addIntent : function(){
                 var self = this,
@@ -212,7 +252,7 @@ require(['jquery','lib/jquery.cookie','utils/common','lib/jquery.requestAnimatio
                         })
                         .done(function(res) {
                             if(res.msg === "success"){
-                                This.html('已添加').attr('href','/tpl/user/owner.html#/designer').removeClass('addIntent').addClass('u-btns-revise');
+                                This.html('已添加').attr('href','/tpl/user/owner.html#/designer/1').removeClass('addIntent').addClass('u-btns-revise');
                                 flyer.fly({
                                     start: {
                                         left: state.left,

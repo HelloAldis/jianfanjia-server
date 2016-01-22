@@ -1471,3 +1471,209 @@ a.m-head:hover{
     -webkit-transform: scale(1.0);
   }
 }
+/*警告框组件*/
+.k-alert{
+	height: 72px;
+	line-height: 72px;
+	color: #fff;
+}
+.k-alert .icon{
+	float: left;
+	width: 82px;
+	height: 72px;
+	line-height: 72px;
+	text-align: center;
+}
+.k-alert .icon .iconfont{
+	font-size: 26px;
+}
+.k-alert .text{
+	float: left;
+	padding-left: 30px;
+	font-size: 18px;
+}
+.k-alert .close{
+	float: right;
+  margin-right: 20px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+}
+.k-alert .button{
+	float: right;
+	margin-right: 20px;
+	width: 64px;
+	height: 32px;
+	font-size: 14px;
+	color: #60636a;
+	background-color: #f6f6f6;
+	border-radius: 4px;
+}
+.k-alert.k-alert-success{
+	background-color: #4dbe62;
+}
+.k-alert.k-alert-success .icon{
+	background-color: #40a653;
+}
+.k-alert.k-alert-warning{
+	color: #383d48;
+	background-color: #f9e391;
+}
+.k-alert.k-alert-warning .icon{
+	background-color: #f9d891;
+}
+.k-alert.k-alert-error{
+	background-color: #ff6c6a;
+}
+.k-alert.k-alert-error .icon{
+	background-color: #fe4f4d;
+}
+/*模态框组件*/
+.k-modal{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  overflow: hidden;
+}
+.k-modal .modal-dialog{
+	position: relative;
+	width: 590px;
+  margin: 30px auto;
+}
+.k-modal .modal-content{
+	position: relative;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  text-align: center;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 0 15px rgba(0,0,0,.12);
+  box-shadow: 0 0 15px rgba(0,0,0,.12);
+}
+.k-modal .modal-header{
+	min-height: 18px;
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.k-modal .modal-header .close{
+	  float: right;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+}
+.k-modal .modal-header .close:hover{
+		filter: alpha(opacity=80);
+    opacity: .8;
+}
+.k-modal .modal-title{
+	font-size: 16px;
+	line-height: 25px;
+	color: #383d48;
+}
+.k-modal .modal-body{
+	position: relative;
+  padding: 15px;
+}
+.k-modal .modal-footer{
+	display:table;
+	width: 100%;
+	padding: 15px 0;
+	word-spacing:-1em;
+}
+.k-modal .modal-footer .u-btns{
+	word-spacing:0;
+}
+.k-modal .modal-footer .define{}
+.k-modal .modal-footer .cancel{}
+/*遮罩*/
+.k-modal-backdrop{
+	position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000;
+  filter: alpha(opacity=50);
+  opacity: .5;
+  display: none;
+}
+/*对话框*/
+.k-modal.dialog .modal-dialog{
+	width: 370px;
+}
+.k-modal.dialog .modal-body .icon{
+	padding-top: 60px;
+}
+.k-modal.dialog .modal-body .iconfont{
+	font-size: 86px;
+	line-height: 100px;
+	color: #9c9caa;
+}
+.k-modal.dialog .modal-body p{
+	font-size: 20px;
+	line-height: 100px;
+	color: #383d48;
+}
+.k-modal.dialog .modal-footer{
+	border-top: 1px solid #e5e5e5;
+}
+.k-modal.dialog .modal-footer .u-btns{
+	width: 138px;
+	margin: 0 15px;
+}
+
+/*新年活动*/
+.m-logo{
+	background: url(../img/newyear/logo.png) no-repeat 0 0;
+}
+.m-release,.m-release:hover{
+	color: #ffde00;
+	background:url(../img/newyear/release.png) 0 0 no-repeat;
+}
+.m-events{
+	display: none;
+}
+.g-hd .g-wp{
+	position: relative;
+}
+.g-hd .g-wp:after,.g-hd .g-wp:before{
+	position: absolute;
+	top:-35px;
+	width: 112px;
+	height: 181px;
+	background:url(../img/newyear/lantern.png) 0 0 no-repeat;
+}
+.g-hd .g-wp:before{
+	left:-120px;
+}
+.g-hd .g-wp:after{
+	background-position: 0 -183px;
+	right: -120px;
+}
+.u-sch-box{
+	border-color: #d23a0b;
+}
+.u-sch-btn{
+	color: #f9cd01;
+	background-color: #d23a0b;
+}
+.u-sch-btn:hover{
+	color: #f9cd01;
+	background-color: #b93107;
+}
+.m-nav .active a, .m-nav .active a:hover{
+	color: #ffde00;
+	background-color: #d23a0b;
+}
+.g-tb{
+	background:url(../img/newyear/top-ng.jpg) repeat-x;
+}

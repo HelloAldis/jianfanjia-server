@@ -15,7 +15,7 @@ var globalData = {
 	scheme_status : ['已预约但没有响应','已拒绝业主','已响应但是没有方案','提交了方案','方案被拒绝','方案被选中']
 }
 var global_success_url = window.location;
-var RootUrl = 'http://101.200.191.159/';
+var RootUrl = '/';
 //Cookie操作
 (function(factory){
 	if (typeof define === 'function' && define.amd) {
@@ -160,7 +160,7 @@ function promptMessage(str,msg){
 		optionEvevt : function(){
 			var self = this;
 			self.option.on('click' , function(ev){
-				self.body.click(); 
+				self.body.click();
 				self.selectShow();
 				return false;
 			});
@@ -168,7 +168,7 @@ function promptMessage(str,msg){
 		selectEvent : function(){
 			var self = this;
 			this.body.on('click' , function(ev){
-				self.selectHide(); 
+				self.selectHide();
 			});
 			this.select.delegate('li', 'click' , function(ev){
 				ev.stopPropagation();
@@ -190,7 +190,7 @@ function promptMessage(str,msg){
 		editorEvent : function(){
 			var self = this;
 			this.editor.on('click' , function(ev){
-				self.body.click(); 
+				self.body.click();
 				self.selectShow();
 				return false;
 			});
@@ -205,7 +205,7 @@ function promptMessage(str,msg){
 			});
 		},
 		selectShow : function(){
-			this.select.show(); 
+			this.select.show();
 			this.selectBox.css('zIndex',20)
 		}
 	}
@@ -213,9 +213,9 @@ function promptMessage(str,msg){
 })(jQuery);
 /*
 	1,格式化形式 "yyyy-MM-dd hh:mm:ss"
-	2，时间 
+	2，时间
 
-*/ 
+*/
 function format(format,data){
 	var date = new Date(data)
     var o = {
@@ -234,7 +234,7 @@ function format(format,data){
     }
     return format;
 }
-function IdentityCodeValid(code){ 
+function IdentityCodeValid(code){
     var city={11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",21:"辽宁",22:"吉林",23:"黑龙江 ",31:"上海",32:"江苏",33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",42:"湖北 ",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",51:"四川",52:"贵州",53:"云南",54:"西藏 ",61:"陕西",62:"甘肃",63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国外 "};
     var tip = "";
     var pass= true;
@@ -274,7 +274,7 @@ function IdentityCodeValid(code){
 	str  要截取字符串
 	len  截取长度
 */
-function ellipsisStr(str, len){ 
+function ellipsisStr(str, len){
 	if(str.length*2 <= len) {
 	    return str;
 	}
@@ -295,7 +295,7 @@ function ellipsisStr(str, len){
         }
     }
 	return s;
-} 
+}
 $(function(){
 	$('#j-info').find('li').hover(function() {
 		$('#login').removeClass('shrink')
@@ -321,7 +321,7 @@ $(function(){
 				}else{
 					alert('提交失败')
 				}
-				
+
 		   	}
 		});
 	});
