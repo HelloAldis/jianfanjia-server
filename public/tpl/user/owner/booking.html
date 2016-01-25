@@ -62,8 +62,8 @@
 				</div>
 			</li>
 		</ul>
-		<div class="booking-btns" ng-if="bookingSuccess && ordersData.length < 3 && (requirement.status == 0 || requirement.status == 1 || requirement.status == 2 || requirement.status == 6 || requirement.status == 3)">
-			<a href="javascript:;" class="u-btns" ng-click="booking.bookingBtn()">预约量房</a>
+		<div class="booking-btns" ng-if="ordersData.length < 3 && (requirement.status == 0 || requirement.status == 1 || requirement.status == 2 || requirement.status == 6 || requirement.status == 3)">
+			<button type="button" class="u-btns" ng-class="{'u-btns-disabled':!bookingSuccess}" ng-click="booking.bookingBtn()" ng-disabled="!bookingSuccess">预约量房</button>
 		</div>
 	</div>
 	<div class="pageLoading" ng-hide="!!matchs || !!favorites"></div>

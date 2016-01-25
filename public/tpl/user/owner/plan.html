@@ -51,11 +51,11 @@
 	</div>
 	<div class="pageLoading" ng-hide="!!plans"></div>
 </div>
-<div class="k-motai" ng-if="score.motaiDone">
+<div class="k-motai" ng-if="definePlanSuccess">
 	<div class="motai done">
 		<span class="done-icon"></span>
 		<h3>选定成功！</h3>
 		<p>设计师将在近期内生成第三方合同，请保持紧密沟通。</p>
-		<input type="button" class="u-btns" value="&nbsp;&nbsp;确定&nbsp;&nbsp;">
+		<input type="button" class="u-btns" ng-click="definePlanBtn()" value="&nbsp;&nbsp;确定&nbsp;&nbsp;">
 	</div>
 </div>

@@ -2531,14 +2531,25 @@ body{
 	font-size: 14px;
 	color: #999;
 }
+.m-team .list dd .span-all{
+	float:none;
+	width: 100%;
+	height: auto;
+}
 .m-team .list dd .span span{
 	display: inline-block;
+	vertical-align: middle;
 	width: 180px;
 }
 .m-team .list dd .span em{
 	display: inline-block;
+	vertical-align: middle;
 	color: #383d48;
 }
+.m-team .list dd .span-all em{
+	width: 670px;
+}
+
 /*接单服务设置*/
 .m-service .k-form .u-lab{
 	width: 170px;

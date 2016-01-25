@@ -265,7 +265,7 @@
 		</div>
 		<div class="mask"></div>
 	</div>
-	<div class="section design hide">
+	<div class="section design hide" id="designer">
 		<div class="g-wp">
 			<div class="phone1 posa"></div>
 			<div class="phone2 posa"></div>
@@ -282,7 +282,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="section owner">
+	<div class="section owner" id="owner">
 		<div class="g-wp">
 			<div class="phone1 posa"></div>
 			<div class="phone2 posa"></div>
@@ -301,6 +301,13 @@
 	</div>
 	<script type="text/javascript">
 		$(function(){
+			var win = window.location.hash ? window.location.hash : undefined;
+			if(!!win){
+				$('#j-userType').addClass('hide');
+				$('.section').addClass('hide');
+				$(win).removeClass('hide');
+				$('.toggle').addClass('hide');
+			}
 			$('#j-userType').delegate('dl','click',function(ev){
                 ev.preventDefault();
                 section($(this).attr('class'));

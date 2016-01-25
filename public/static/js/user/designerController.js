@@ -13,7 +13,7 @@ angular.module('controllers', [])
             });
         }
     ])
-	.controller('indexCtrl', [     //业主首页
+	.controller('indexCtrl', [     //设计师首页
         '$scope','$rootScope','$http','$filter','$location','userInfo','userRequiremtne','userComment',
         function($scope, $rootScope,$http,$filter,$location,userInfo,userRequiremtne,userComment) {
             $scope.userAreaOff = false;

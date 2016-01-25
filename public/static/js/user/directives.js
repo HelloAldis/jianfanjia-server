@@ -979,12 +979,91 @@ angular.module('directives', [])
     }])
     .directive('mySimpleupload', function() { //单个图片上传
       return {
-        transclude: true,
         restrict: 'A',
         scope: {
-          myQuery : "="
+          myQuery : "=",
+          myId : "@"
         },
-        template: '<div my-simpleuploadone my-query="myQuery"></div>'
+        template: function(){
+            return [
+                '<div class="k-otheruploade">',
+                    '<div class="create" id="upload2">',
+                        '<div class="fileBtn">',
+                        '<input class="hide {{ myId }}fileToUpload" type="file" name="upfile">',
+                        '<input type="hidden" id="{{ myId }}sessionId2" value="${pageContext.session.id}" />',
+                        '<input type="hidden" value="{{ myId }}1215154565" name="tmpdir" id="{{ myId }}id_file2">',
+                        '</div>',
+                        '<img class="img" ng-src="/api/v2/web/thumbnail/250/{{myQuery}}" ng-if="myQuery" alt="" />',
+                        '<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>',
+                    '</div>',
+                '</div>',
+            ].join('');
+        },
+          link: function(scope, iElm, iAttrs, controller){
+              var uploaderUrl = '/api/v2/web/image/upload',
+                  fileTypeExts = '*.jpg;*.png',
+                  fileSizeLimit = 3072,
+                  obj = $(iElm).parent(),
+                  create = obj.find('.create'),
+                  createUpload = $(iAttrs.id+'fileToUpload'),
+                  boxData = obj.data('boxData');
+                console.log(createUpload.selector)
+              if(checkSupport() === "html5"){
+                  create.Huploadify({
+                      auto:true,
+                      fileTypeExts:fileTypeExts,
+                      multi:false,
+                      formData:{},
+                      fileSizeLimit:fileSizeLimit,
+                      showUploadedPercent:true,//是否实时显示上传的百分比，如20%
+                      showUploadedSize:true,
+                      removeTimeout:1,
+                      fileObjName:'Filedata',
+                      buttonText : "",
+                      uploader:uploaderUrl,
+                      onUploadComplete:function(file, data, response){
+                          callbackImg(data)
+                      }
+                  });
+              }else{
+                  createUpload.uploadify({
+                      'auto'     : true,
+                      'removeTimeout' : 1,
+                      'swf'      : 'uploadify.swf',
+                      'uploader' : uploaderUrl,
+                      'method'   : 'post',
+                      'buttonText' : '',
+                      'multi'    : false,
+                      'uploadLimit' : 10,
+                      'width' : 250,
+                      'height' : 120,
+                      'fileTypeDesc' : 'Image Files',
+                      'fileTypeExts' : fileTypeExts,
+                      'fileSizeLimit' : fileSizeLimit+'KB',
+                      'onUploadSuccess' : function(file, data, response) {
+                          callbackImg(data)
+                      }
+                  });
+              }
+              function callbackImg(arr){
+                  var data = $.parseJSON(arr);
+                  var img = new Image();
+                  img.onload=function(){
+                      // if(img.width < 300){
+                      //   alert('图片宽度小于300，请重新上传');
+                      //   return false;
+                      // }else if(img.height < 300){
+                      //   alert('图片高度小于300，请重新上传');
+                      //   return false;
+                      // }
+                      scope.$apply(function(){
+                          scope.myQuery = data.data
+                      });
+                  };
+                  img.onerror=function(){alert("error!")};
+                  img.src=RootUrl+'api/v1/image/'+data.data;
+              }
+          }
       };
     })
     .directive('mySimpleuploadone',['$timeout',function($timeout){

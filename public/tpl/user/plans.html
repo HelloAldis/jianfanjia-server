@@ -48,7 +48,7 @@
     <nav class="g-nav g-wa">
         <div class="g-wp">
             <ul class="m-nav f-cb">
-                <li class="active"><a href="/">首页</a></li>
+                <li><a href="/">首页</a></li>
                 <li><a href="/tpl/design/index.html">设计师</a></li>
                 <li><a href="/tpl/mito/index.html">装修美图</a></li>
                 <li><a href="/tpl/live/index.html">装修直播</a></li>
@@ -59,7 +59,7 @@
         </div>
     </nav>
     <div class="breadCrumbs g-wp">
-        <a href="../index/index.html">首页</a> &gt; <span>个人中心</span>
+        <a href="/">首页</a> &gt; <span>我的方案</span>
     </div>
 	<main class="g-wp g-plans" ng-controller="detailCtrl">
 		<div>
@@ -146,7 +146,7 @@
                         <img ng-src="/api/v2/web/thumbnail/50/{{comment.imageid}}" ng-if="comment.imageid" />
                     </div>
                     <div ng-class="{'focus textarea':comment.parentFocus,'textarea':!comment.parentFocus}"><textarea rows="10" ng-model="comment.plansMsg" ng-focus="comment.focus()" ng-blur="comment.blur()"></textarea></div>
-                    <div class="btns"><input type="button" ng-click="comment.addPlansMsg(designer._id,requiremtne.userid)" class="u-btns" value="发表评论" /></div>
+                    <div class="btns"><input type="button" ng-click="comment.addPlansMsg(plan.designer._id,plan.user._id)" class="u-btns" value="发表评论" /></div>
                 </div>
                 <div class="list" ng-if="comments.length != 0">
                     <ul>

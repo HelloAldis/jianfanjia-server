@@ -388,7 +388,7 @@ angular.module('controllers', [])
                                         })
                                     })
                                     //检测是否可以点击
-                                    $scope.bookingSuccess = $scope.ordersData.length < 3 ? true : false;
+                                    $scope.bookingSuccess = false;
                                     // 点击设计师
                                     $scope.selectDesignOff = false;
                                     $scope.selectDesign = function(data){
@@ -399,6 +399,9 @@ angular.module('controllers', [])
                                             $scope.booking.isReplace = true;
                                             newDesignerid = data._id;
                                             $scope.selectDesignOff = true;
+                                        }
+                                        if(len > 0 || len < 4){
+                                            $scope.bookingSuccess = true;
                                         }
                                         if(len > 2){
                                             return ;
@@ -622,7 +625,7 @@ angular.module('controllers', [])
                 console.log(res)
             });
         }
-        $scope.definePlan.success = false;
+        $scope.definePlanSuccess = false;
         $scope.definePlan = function(pid,uid){   //确定方案
             userRequiremtne.define({
               "planid": pid,
@@ -630,14 +633,16 @@ angular.module('controllers', [])
               "requirementid": requiremtneId
             }).then(function(res){
                 if(res.data.msg == "success"){
-                    $scope.definePlan.success = true;
-                    alert('您已经选定方案，等候设计师生成合同')
+                    $scope.definePlanSuccess = true;
                     myPlan()   //更新方案列表
                     uploadParent()   //更新需求状态
                 }
             },function(res){
                 console.log(res)
             });
+        }
+        $scope.definePlanBtn = function(){
+            $scope.definePlanSuccess = false;
         }
         // 三方合同
         function myContract(){   //获取我的第三方合同

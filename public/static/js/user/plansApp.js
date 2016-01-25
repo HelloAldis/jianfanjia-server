@@ -40,6 +40,12 @@
                         $scope.comment.plansTabs = off;
                     },
                     addPlansMsg : function(designer,user){
+                        var toId;
+                        if(userType == 1){  //如果是业主提交留言
+                            toId = designer;
+                        }else if(userType == 2){ //如果是设计师提交留言
+                            toId = user;
+                        }
                         if(!$scope.comment.addPlansOff){
                             $scope.comment.addPlansOff = false;
                             alert('您留言太快了，请稍候再提交！')
@@ -49,12 +55,12 @@
                             alert('留言不能为空！')
                             return ;
                         }
-                        userPlan.add({
-                          "topicid":planId,
+                        userPlan.add({   //提交留言
+                          "topicid":planId,  //留言所在方案id
                           "topictype" : '0',
-                          "content": $scope.comment.plansMsg,
-                          "to":(userType == '1') ? user : designer
-                        }).then(function(res){  //提交留言
+                          "content": $scope.comment.plansMsg,  //留言内容
+                          "to":toId    //留言给哪个用户
+                        }).then(function(res){
                             load(true)
                             $scope.comment.moreOff = true;
                             $scope.comment.plansMsg = '';
