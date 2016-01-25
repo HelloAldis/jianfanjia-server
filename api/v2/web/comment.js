@@ -135,7 +135,7 @@ exports.topic_comments = function (req, res, next) {
         });
       }
 
-      if (usertype === type.role_user || usertype === type.role_designer) {
+      if (userid && comment.to && comment.to.toString() === userid.toString()) {
         Comment.setOne({
           _id: comment._id,
         }, {
