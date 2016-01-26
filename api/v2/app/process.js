@@ -690,6 +690,29 @@ exports.doneItem = function (req, res, next) {
               processid: process._id,
             });
           }
+        } else if ((process.work_type === type.work_type_all) && (section !== type.process_section_kai_gong &&
+            section !== type.process_section_jun_gong)) {
+          var result = _.find(process.sections, function (o) {
+            return o.name === section;
+          });
+          var doneCount = 0;
+          _.forEach(result.items, function (e) {
+            if (e.status === type.process_item_status_done) {
+              doneCount += 1;
+            }
+          });
+
+          if (result.items.length - doneCount <= 2) {
+            var json = buildProcurement(section);
+            gt.pushMessageToDesigner(process.designerid, {
+              content: json.message,
+              section: json.next,
+              cell: process.cell,
+              type: type.message_type_procurement,
+              time: new Date().getTime(),
+              processid: process._id,
+            });
+          }
         }
 
         if (section === type.process_section_kai_gong || section === type
@@ -751,7 +774,7 @@ exports.doneSection = function (req, res, next) {
       //开启下个流程
       var index = _.indexOf(type.process_work_flow, section);
       var next = type.process_work_flow[index + 1];
-      if (next) {
+      if (next && next !== type.process_section_done) {
         Process.updateStatus(_id, next, null, type.process_item_status_going,
           ep.done(function () {
             res.sendSuccessMsg()

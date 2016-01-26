@@ -58,6 +58,7 @@ var type = {
   process_section_you_qi: 'you_qi',
   process_section_an_zhuang: 'an_zhuang',
   process_section_jun_gong: 'jun_gong',
+  process_section_done: 'done',
 
   process_work_flow: ['kai_gong', 'chai_gai', 'shui_dian', 'ni_mu', 'you_qi',
     'an_zhuang', 'jun_gong', 'done'
