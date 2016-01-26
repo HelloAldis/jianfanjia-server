@@ -105,11 +105,17 @@ app.use(responseUtil);
 // routes
 if (config.debug) {
   app.use('/api/v1', function (req, res, next) {
-    logger.debug(req.body);
+    if (!(req.body instanceof Buffer)) {
+      logger.debug(req.body);
+    }
+
     next();
   });
   app.use('/api/v2', function (req, res, next) {
-    logger.debug(req.body);
+    if (!(req.body instanceof Buffer)) {
+      logger.debug(req.body);
+    }
+
     next();
   });
 }
