@@ -90,6 +90,7 @@ app.use(session({
 //check浏览器段cookie状态
 app.use('/tpl', auth.checkCookie);
 app.use('/jyz', auth.checkCookie);
+app.use('/index.html', auth.checkCookie);
 //拦截web
 app.use('/tpl/user', auth.authWeb);
 app.use('/jyz', auth.authAdminWeb);
