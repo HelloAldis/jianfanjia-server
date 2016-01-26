@@ -87,9 +87,11 @@ app.use(session({
   saveUninitialized: false,
 }));
 
-//check浏览器段cookie状态
+//check浏览器端cookie状态
 app.use('/tpl', auth.checkCookie);
 app.use('/jyz', auth.checkCookie);
+app.use('/api/v2/user_statistic_info', auth.checkCookie);
+app.use('/api/v2/designer_statistic_info', auth.checkCookie);
 //拦截web
 app.use('/tpl/user', auth.authWeb);
 app.use('/jyz', auth.authAdminWeb);
@@ -103,11 +105,17 @@ app.use(responseUtil);
 // routes
 if (config.debug) {
   app.use('/api/v1', function (req, res, next) {
-    logger.debug(req.body);
+    if (!(req.body instanceof Buffer)) {
+      logger.debug(req.body);
+    }
+
     next();
   });
   app.use('/api/v2', function (req, res, next) {
-    logger.debug(req.body);
+    if (!(req.body instanceof Buffer)) {
+      logger.debug(req.body);
+    }
+
     next();
   });
 }
