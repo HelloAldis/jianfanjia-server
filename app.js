@@ -87,10 +87,10 @@ app.use(session({
   saveUninitialized: false,
 }));
 
-//check浏览器段cookie状态
+//check浏览器端cookie状态
 app.use('/tpl', auth.checkCookie);
 app.use('/jyz', auth.checkCookie);
-app.use('/index.html', auth.checkCookie);
+app.use('/api', auth.checkCookie);
 //拦截web
 app.use('/tpl/user', auth.authWeb);
 app.use('/jyz', auth.authAdminWeb);
