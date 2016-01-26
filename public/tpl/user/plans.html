@@ -128,7 +128,7 @@
                         </div>
                         <div class="price f-fl">
                             <ul>
-                                <li>工程总造价<span>&yen;<s ng-bind="plan.project_price_before_discount | number"></s></span></li>
+                                <li>工程总造价<span>&yen;<s ng-class="{'notproject':!plan.project_price_after_discount}" ng-bind="plan.project_price_before_discount | number"></s></span></li>
                                 <li bo-if="plan.project_price_after_discount">工程折后价<span>&yen;<i ng-bind="plan.project_price_after_discount | number"></i></span></li>
                                 <li>设计费<span>&yen;<i ng-bind="plan.total_design_fee | number"></i></span></li>
                             </ul>

@@ -166,6 +166,7 @@ body{
 	color: #61636f;
 }
 .plans-ct .price li span{float: right;}
+.plans-ct .price li .notproject{text-decoration: none;}
 .plans-ct .price ul{
 	padding-bottom: 30px;
 }

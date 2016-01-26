@@ -107,7 +107,7 @@ angular.module('services', [])
                 "1":"score",
                 "2":"score",
                 "3":"plan",
-                "4":"contract",
+                "4":"plan",
                 "5":"contract",
                 "6":"plan",
                 "7":"contract"

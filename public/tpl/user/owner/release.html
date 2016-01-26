@@ -73,7 +73,7 @@
 						<div class="item">
 							<label class="u-lab"><i>*</i>计划常住成员</label>
 							<div class="u-inp">
-								<div my-selecte my-list="userRelease.familyDescription" my-query="requiremtne.family_description"></div>
+								<div my-selectn my-list="userRelease.familyDescription" my-query="requiremtne.family_description"></div>
 							</div>
 						</div>
 					</div>
@@ -82,9 +82,9 @@
 							<label class="u-lab" for="owner-addr"><i>*</i>装修面积</label>
 							<div class="u-inp">
 								<div class="inp">
-									<input type="text" class="input" ng-model="requiremtne.house_area" placeholder="只能填纯数字" my-placeholder check-number required name="house_area" />
+									<input type="text" class="input" ng-model="requiremtne.house_area" placeholder="只能填整数" my-placeholder check-number required name="house_area" />
 									<span class="unit">m&sup2;</span>
-									<span ng-show="release.house_area.$invalid && !release.house_area.$pristine" class="has-error">所填内容必须为数字</span>
+									<span ng-show="release.house_area.$invalid && !release.house_area.$pristine" class="has-error">所填内容必须为整数</span>
 								</div>
 							</div>
 						</div>
@@ -106,9 +106,9 @@
 							<label class="u-lab" for="owner-addr"><i>*</i>装修预算</label>
 							<div class="u-inp">
 								<div class="inp">
-									<input type="text" class="input" ng-model="requiremtne.total_price" name="total_price" placeholder="只能填纯数字" my-placeholder check-number required />
+									<input type="text" class="input" ng-model="requiremtne.total_price" name="total_price" placeholder="只能填整数" my-placeholder check-number required />
 									<span class="unit">万元</span>
-									<span ng-show="release.total_price.$invalid && !release.total_price.$pristine" class="has-error">所填内容必须为数字</span>
+									<span ng-show="release.total_price.$invalid && !release.total_price.$pristine" class="has-error">所填内容必须为整数</span>
 								</div>
 							</div>
 						</div>
