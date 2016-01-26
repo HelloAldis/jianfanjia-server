@@ -704,7 +704,7 @@ exports.doneItem = function (req, res, next) {
 
           if (result.items.length - doneCount <= 2) {
             var json = buildProcurement(section);
-            gt.pushMessageToDesigner(process.designerid, {
+            gt.pushMessageToDesigner(process.final_designerid, {
               content: json.message,
               section: json.next,
               cell: process.cell,
