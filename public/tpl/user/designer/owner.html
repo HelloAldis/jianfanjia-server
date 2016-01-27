@@ -89,7 +89,7 @@
 			<div>
 				<div class="btns" ng-if="requirement.plan.status == 6 || requirement.plan.status == 3">
 					<h4>业主已确认量房，请提交装修方案</h4>
-					<a ui-sref="createPlan({id:requirement._id+'&'+requirement.user._id+'&'+requirement.user.username})" class="u-btns">提交方案</a>
+					<a ui-sref="createPlan({id:requirement._id+'&'+requirement.user._id+'&'+requirement.user.username+'&'+requirement.work_type})" class="u-btns">提交方案</a>
 					<p>您可以提交多套方案</p>
 				</div>
 			</div>

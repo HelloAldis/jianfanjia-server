@@ -310,6 +310,7 @@ angular.module('controllers', [])
                 total_price_discount : undefined,
                 total_price_discount_ok : false,
                 username : this.isCreate ? "" : $stateParams.id.split("&")[2],
+                worktype : this.isCreate ? undefined : $stateParams.id.split("&")[3]
             }
             $scope.$watch('designerPlan.add_price_detail_name', function(newValue, oldValue, scope){
                 if(!!newValue){
@@ -437,9 +438,14 @@ angular.module('controllers', [])
                     alert('请至少上传一张平面图');
                     return ;
                 }
-                if($scope.plan.manager == ''){
+                if($scope.designerPlan.worktype != 2 && $scope.plan.manager == ''){
                     alert('您没有选择项目经理');
                     return ;
+                }
+                if($scope.designerPlan.worktype == 2){
+                    $scope.plan.manager == ''
+                    $scope.plan.duration = 0;
+                    $scope.plan.total_price = 0;
                 }
                 this.disabled = true;
                 if($scope.designerPlan.isCreate){
@@ -517,7 +523,7 @@ angular.module('controllers', [])
                         callback : function (i,obj) {
                             dataPage.from = i*this.itemPage;
                             current = i;
-                            $state.go('products.list', { id: parseInt(i)+1 });
+                            $state.go('products.list', { id: parseInt(i,10)+1 });
                             return false;
                         }
                     };

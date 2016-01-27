@@ -15,7 +15,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb">
+						<div class="m-item f-cb" ng-if="designerPlan.worktype != 2">
 							<div class="item">
 								<label class="u-lab" for="owner-sex">工期</label>
 								<div class="u-inp">
@@ -24,7 +24,16 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb">
+						<div class="m-item f-cb" ng-if="designerPlan.worktype == 2">
+							<div class="item">
+								<label class="u-lab" for="owner-sex">设计费</label>
+								<div class="u-inp">
+									<input type="text" class="input" ng-model="plan.total_design_fee" model-format="int" placeholder="请输入整数" my-placeholder required />
+									<span class="unit">元</span>
+								</div>
+							</div>
+						</div>
+						<div class="m-item f-cb" ng-if="designerPlan.worktype != 2">
 							<div class="item">
 								<label class="u-lab" for="owner-email">报价</label>
 								<div class="u-inp">
@@ -44,7 +53,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb">
+						<div class="m-item f-cb" ng-if="designerPlan.worktype != 2">
 							<div class="item">
 								<label class="u-lab">项目经理</label>
 								<div class="u-inp" style="z-index:100">

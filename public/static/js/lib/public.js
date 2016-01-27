@@ -73,7 +73,7 @@ var globalData = {
 	}
 }
 var global_success_url = window.location;
-var RootUrl = 'http://101.200.191.159/';
+var RootUrl = '/';
 // 检测浏览器是否支持css3新属性，来给低版本浏览器做优雅降级；
 function testCss3(c){var p=['webkit','Moz','ms','o'],i,a=[],s=document.documentElement.style,t=function(r){return r.replace(/-(\w)/g,function($0,$1){return $1.toUpperCase()})};for(i in p){a.push(t(p[i]+'-'+c));a.push(t(c))}for(i in a){if(a[i]in s){return true}}return false};
 // 检测浏览器是否支持html5上传，来给低版本浏览器做优雅降级；

@@ -1,7 +1,7 @@
 <div class="plans">
 	<div class="plans-tips">
 		<p class="f-fl">装修方案摘要</p>
-		<a bo-if="requirement.plan.status == 6 || requirement.plan.status == 3" ui-sref="createPlan({id:requirement._id+'&'+requirement.user._id+'&'+requirement.user.username})" class="u-btns f-fr">提交新方案</a>
+		<a bo-if="requirement.plan.status == 6 || requirement.plan.status == 3" ui-sref="createPlan({id:requirement._id+'&'+requirement.user._id+'&'+requirement.user.username+'&'+requirement.work_type})" class="u-btns f-fr">提交新方案</a>
 	</div>
 	<ul class="m-plans" ng-if="plans.length == 0 || plans">
 		<li bindonce="plans" ng-repeat="data in plans">
@@ -14,7 +14,11 @@
 						<dt>
 							给业主<strong bo-text="data.user.username"></strong>的方案
 						</dt>
-						<dd>
+						<dd bo-if="requirement.work_type == 2">
+							<span>设计费<strong>&yen;<i bo-text="data.total_design_fee"></i></strong></span>
+							<span><i class="iconfont2">&#xe625;</i><em bo-text="data.user.phone"></em></span>
+						</dd>
+						<dd bo-if="requirement.work_type != 2">
 							<span>报价<strong>&yen;<i bo-text="data.total_price"></i></strong></span>
 							<span>工期<strong><i bo-text="data.duration"></i>天</strong></span>
 							<span><i class="iconfont2">&#xe625;</i><em bo-text="data.user.phone"></em></span>

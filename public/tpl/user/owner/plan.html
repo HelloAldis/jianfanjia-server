@@ -16,7 +16,11 @@
 							<span><i>V</i>认证设计师</span>
 							的方案
 						</dt>
-						<dd>
+						<dd bo-if="requirement.work_type == 2">
+							<span>设计费<strong>&yen;<i bo-text="data.total_design_fee"></i></strong></span>
+							<span><i class="iconfont2">&#xe625;</i><em bo-text="data.designer.phone"></em></span>
+						</dd>
+						<dd bo-if="requirement.work_type != 2">
 							<span>报价<strong>&yen;<i bo-text="data.total_price"></i></strong></span>
 							<span>工期<strong><i bo-text="data.duration"></i>天</strong></span>
 							<span><i class="iconfont2">&#xe625;</i><em bo-text="data.designer.phone"></em></span>
