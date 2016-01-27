@@ -25,6 +25,7 @@ var type = {
   requirement_status_final_plan: '4',
   requirement_status_config_contract: '7',
   requirement_status_config_process: '5',
+  requirement_status_done_process: '8',
 
   plan_status_not_respond: '0',
   plan_status_designer_reject: '1',
