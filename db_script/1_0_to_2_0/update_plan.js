@@ -22,7 +22,7 @@ Plan.find({}, null, function (err, plans) {
 
       var project_price_before_discount = 0;
       for (var i = 0; i < plan.price_detail.length; i++) {
-        if (isNaN(plan.price_detail[i].price)) {
+        if (isNaN(plan.price_detail[i].price || plan.price_detail[i].price === null)) {
           plan.price_detail[i].price = 0;
         } else {
           project_price_before_discount += plan.price_detail[i].price;
