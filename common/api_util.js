@@ -177,13 +177,13 @@ exports.buildProduct = function (req) {
 exports.buildPlan = function (req) {
   var plan = {};
   plan.duration = req.body.duration;
-  plan.total_price = req.body.total_price;
+  plan.total_price = req.body.total_price || 0;
   plan.description = req.body.description;
   plan.manager = req.body.manager;
   plan.price_detail = req.body.price_detail;
-  plan.project_price_after_discount = req.body.project_price_after_discount;
+  plan.project_price_after_discount = req.body.project_price_after_discount || 0;
   plan.total_design_fee = req.body.total_design_fee;
-  plan.project_price_before_discount = req.body.project_price_before_discount;
+  plan.project_price_before_discount = req.body.project_price_before_discount || 0;
 
   if (req.body.images) {
     plan.images = _.map(req.body.images, function (i) {
