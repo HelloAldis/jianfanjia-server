@@ -14,7 +14,7 @@ Plan.find({}, null, function (err, plans) {
   plans.forEach(function (plan) {
 
     if (plan.status === type.plan_status_designer_upload || plan.status === type.plan_status_user_not_final ||
-      plan.plan_status_user_final) {
+      plan.status === type.plan_status_user_final) {
       var bt = plan.total_price;
       var bpa = plan.project_price_after_discount;
       var bpb = plan.project_price_before_discount;
