@@ -181,9 +181,9 @@ exports.buildPlan = function (req) {
   plan.description = req.body.description;
   plan.manager = req.body.manager;
   plan.price_detail = req.body.price_detail;
-  plan.project_price_after_discount = req.body.project_price_after_discount || 0;
-  plan.total_design_fee = req.body.total_design_fee;
+  plan.total_design_fee = req.body.total_design_fee || 0;
   plan.project_price_before_discount = req.body.project_price_before_discount || 0;
+  plan.project_price_after_discount = req.body.project_price_after_discount || plan.project_price_before_discount;
 
   if (req.body.images) {
     plan.images = _.map(req.body.images, function (i) {
