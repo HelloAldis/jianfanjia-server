@@ -774,11 +774,21 @@ exports.doneSection = function (req, res, next) {
       //开启下个流程
       var index = _.indexOf(type.process_work_flow, section);
       var next = type.process_work_flow[index + 1];
-      if (next && next !== type.process_section_done) {
-        Process.updateStatus(_id, next, null, type.process_item_status_going,
-          ep.done(function () {
-            res.sendSuccessMsg()
+      if (next) {
+        if (next === type.process_section_done) {
+          Requirement.setOne({
+            _id: process.requirementid,
+          }, {
+            status: type.requirement_status_done_process,
+          }, null, ep.done(function () {
+            res.sendSuccessMsg();
           }));
+        } else {
+          Process.updateStatus(_id, next, null, type.process_item_status_going,
+            ep.done(function () {
+              res.sendSuccessMsg();
+            }));
+        }
       } else {
         res.sendSuccessMsg();
       }
