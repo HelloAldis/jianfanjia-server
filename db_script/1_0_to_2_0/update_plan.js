@@ -12,7 +12,9 @@ var type = require('../../type');
 
 Plan.find({}, null, function (err, plans) {
   plans.forEach(function (plan) {
-    if (plan.price_detail && plan.price_detail.length > 0) {
+
+    if (plan.status === type.plan_status_designer_upload || plan.status === type.plan_status_user_not_final ||
+      plan.status === type.plan_status_user_final) {
       var bt = plan.total_price;
       var bpa = plan.project_price_after_discount;
       var bpb = plan.project_price_before_discount;
@@ -20,7 +22,11 @@ Plan.find({}, null, function (err, plans) {
 
       var project_price_before_discount = 0;
       for (var i = 0; i < plan.price_detail.length; i++) {
-        project_price_before_discount += plan.price_detail[i].price;
+        if (isNaN(plan.price_detail[i].price || plan.price_detail[i].price === null)) {
+          plan.price_detail[i].price = 0;
+        } else {
+          project_price_before_discount += plan.price_detail[i].price;
+        }
       }
 
       if (plan.project_price_before_discount) {
@@ -49,10 +55,11 @@ Plan.find({}, null, function (err, plans) {
           " project_price_after_discount:" + bpa +
           " project_price_before_discount:" + bpb +
           " total_design_fee:" + bte);
-        console.log("after change total :" + plan.total_price +
+        console.log(" after change total :" + plan.total_price +
           " project_price_after_discount:" + plan.project_price_after_discount +
           " project_price_before_discount:" + plan.project_price_before_discount +
           " total_design_fee:" + plan.total_design_fee);
+        console.log(plan._id);
       });
     }
   });
