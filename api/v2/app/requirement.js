@@ -174,7 +174,20 @@ exports.designer_get_user_requirements = function (req, res, next) {
         callback(err, requirement);
       });
     }, ep.done(function (requirements) {
-      res.sendData(requirements);
+      Desiger.findOne({
+        _id: designerid
+      }, {
+        username: 1,
+        imageid: 1,
+        service_attitude: 1,
+        respond_speed: 1,
+      }, ep.done(function (designer) {
+        requirements = requirements.map(function (o) {
+          o.designer = designer;
+          return o;
+        });
+        res.sendData(requirements);
+      }));
     }));
   }));
 }
