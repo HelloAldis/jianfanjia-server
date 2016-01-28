@@ -174,7 +174,7 @@ exports.designer_get_user_requirements = function (req, res, next) {
         callback(err, requirement);
       });
     }, ep.done(function (requirements) {
-      Desiger.findOne({
+      Designer.findOne({
         _id: designerid
       }, {
         username: 1,
