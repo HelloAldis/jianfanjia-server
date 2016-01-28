@@ -28,8 +28,7 @@ exports.user_my_requirement_list = function (req, res, next) {
     if (requirements.length > 0) {
       async.mapLimit(requirements, 3, function (requirement, callback) {
         requirement = requirement.toObject();
-        if (requirement.order_designerids && requirement.order_designerids
-          .length > 0) {
+        if (requirement.order_designerids && requirement.order_designerids.length > 0) {
           Designer.find({
             _id: {
               $in: requirement.order_designerids,
@@ -87,7 +86,8 @@ exports.user_my_requirement_list = function (req, res, next) {
       }, ep.done(function (requirements) {
         async.mapLimit(requirements, 3, function (requirement,
           callback) {
-          if (requirement.status === type.requirement_status_config_process) {
+          if (requirement.status === type.requirement_status_config_process || requirement.status ===
+            type.requirement_status_done_process) {
             Process.findOne({
               requirementid: requirement._id,
             }, {

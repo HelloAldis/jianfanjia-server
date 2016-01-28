@@ -313,7 +313,7 @@ exports.one_contract = function (req, res, next) {
     _id: requirementid,
     status: {
       $in: [type.requirement_status_final_plan, type.requirement_status_config_contract,
-        type.requirement_status_config_process
+        type.requirement_status_config_process, type.requirement_status_done_process
       ]
     }
   }, null, ep.done(function (requirement) {
