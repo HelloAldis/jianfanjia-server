@@ -792,6 +792,7 @@ exports.search_beautiful_image = function (req, res, next) {
       create_at: 1,
       lastupdate: 1,
       status: 1,
+      images: 1,
     };
   }
 

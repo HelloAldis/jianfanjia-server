@@ -365,3 +365,32 @@ exports.user_refresh_session = function (req, res, next) {
     }
   }));
 }
+
+exports.designer_refresh_session = function (req, res, next) {
+  var _id = req.body._id;
+  var ep = new eventproxy();
+  ep.fail(next);
+
+  Designer.findOne({
+    _id: _id,
+  }, null, ep.done(function (designer) {
+    if (designer) {
+      authMiddleWare.gen_session(designer, type.role_designer, req, res);
+      var data = {};
+      data.usertype = type.role_designer;
+      data.phone = designer.phone;
+      data.username = designer.username;
+      data._id = designer._id;
+      data.imageid = designer.imageid;
+      res.sendData(data);
+
+      Designer.incOne({
+        _id: designer._id
+      }, {
+        login_count: 1
+      }, {});
+    } else {
+      res.sendSuccessMsg('用户不存在');
+    }
+  }));
+}

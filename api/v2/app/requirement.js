@@ -28,8 +28,7 @@ exports.user_my_requirement_list = function (req, res, next) {
     if (requirements.length > 0) {
       async.mapLimit(requirements, 3, function (requirement, callback) {
         requirement = requirement.toObject();
-        if (requirement.order_designerids && requirement.order_designerids
-          .length > 0) {
+        if (requirement.order_designerids && requirement.order_designerids.length > 0) {
           Designer.find({
             _id: {
               $in: requirement.order_designerids,
@@ -87,7 +86,8 @@ exports.user_my_requirement_list = function (req, res, next) {
       }, ep.done(function (requirements) {
         async.mapLimit(requirements, 3, function (requirement,
           callback) {
-          if (requirement.status === type.requirement_status_config_process) {
+          if (requirement.status === type.requirement_status_config_process || requirement.status ===
+            type.requirement_status_done_process) {
             Process.findOne({
               requirementid: requirement._id,
             }, {
@@ -174,7 +174,20 @@ exports.designer_get_user_requirements = function (req, res, next) {
         callback(err, requirement);
       });
     }, ep.done(function (requirements) {
-      res.sendData(requirements);
+      Designer.findOne({
+        _id: designerid
+      }, {
+        username: 1,
+        imageid: 1,
+        service_attitude: 1,
+        respond_speed: 1,
+      }, ep.done(function (designer) {
+        requirements = requirements.map(function (o) {
+          o.designer = designer;
+          return o;
+        });
+        res.sendData(requirements);
+      }));
     }));
   }));
 }

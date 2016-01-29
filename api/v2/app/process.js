@@ -781,7 +781,10 @@ exports.doneSection = function (req, res, next) {
           }, {
             status: type.requirement_status_done_process,
           }, null, ep.done(function () {
-            res.sendSuccessMsg();
+            process.going_on = next;
+            process.save(ep.done(function () {
+              res.sendSuccessMsg();
+            }));
           }));
         } else {
           Process.updateStatus(_id, next, null, type.process_item_status_going,

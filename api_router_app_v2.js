@@ -56,6 +56,7 @@ router.get('/thumbnail/:width/:_id', imageWeb.thumbnail); //获取缩略图
 router.post('/beautiful_image_homepage', beautiful_imageWeb.beautiful_image_homepage); //游客获取美图主页
 router.post('/search_beautiful_image', beautiful_imageWeb.search_beautiful_image); //游客搜索美图
 router.post('/user_refresh_session', sign.user_refresh_session); //业主刷新sessiion
+router.post('/designer_refresh_session', sign.designer_refresh_session); //设计师刷新sessiion
 //设备使用
 router.get('/device/android_build_version', device.android_build_version); //获取android信息
 router.get('/device/designer_android_build_version', device.designer_android_build_version); //获取designer android 信息
