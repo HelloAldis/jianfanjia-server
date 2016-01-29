@@ -63,7 +63,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cook
                         '</div>',
                         '<div class="info f-fl">',
                             ''+(process == 7 && data.progress == 1 ? '<span class="end-icon"></span>' : "")+'',
-                            '<h3>'+data.cell+'</h3>',
+                            '<h3>'+data.cell+(data.dec_type ? '<small>（'+globalData.dec_type(data.dec_type)+'）</small>':'')+'</h3>',
                             '<p><span>参考造价：'+data.total_price+'万元</span><span>包工类型：'+globalData.work_type(data.work_type)+'</span><span>户型：'+globalData.house_type(data.house_type)+'</span><span>面积：'+data.house_area+'m&sup2;</span></p>',
                             '<div class="step step'+process+'">',
                                 '<div class="line"><div class="in"></div></div>',

@@ -81,7 +81,7 @@
                     </ul>
                     <div class="boxs detail" ng-if="tab == 1">
                         <ul class="info">
-                            <li bo-if="plan.requirement.work_type != 2">报价：<span bo-if="plan.total_price != 0"><i bo-bind="plan.total_price/10000 | number:5"></i>万元</span><span bo-if="plan.total_price == 0"><i bo-bind="plan.total_price"></i>元</span></li>
+                            <li bo-if="plan.requirement.work_type != 2">报价：<span bo-if="plan.total_price != 0"><i bo-bind="plan.total_price | moneyFilter:4"></i>万元</span><span bo-if="plan.total_price == 0"><i bo-bind="plan.total_price"></i>元</span></li>
                             <li bo-if="plan.requirement.work_type == 2">设计费：<span bo-if="plan.total_design_fee != 0"><i bo-bind="plan.total_design_fee/10000 | number:5"></i>万元</span><span bo-if="plan.total_design_fee == 0"><i bo-bind="plan.total_design_fee"></i>元</span></li>
                             <li bo-if="plan.requirement.work_type != 2">工期：<i bo-text="plan.duration"></i>天</li>
                             <li bo-if="plan.requirement.dec_type == 0">空间：<i bo-bind="plan.requirement.house_type | houseTypeFilter"></i></li>

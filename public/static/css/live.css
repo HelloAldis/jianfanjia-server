@@ -111,6 +111,7 @@ body{
 }
 .m-list .txt p{
 	height: 14px;
+	padding-bottom: 10px;
 }
 .m-list .txt p span{
 	float: left;
@@ -126,7 +127,7 @@ body{
 }
 .m-list .txt .time{
 	float: left;
-	margin-top: 39px;
+	margin-top: 20px;
 	height: 36px;
 	line-height: 36px;
 	background-color: #fff;
@@ -153,7 +154,7 @@ body{
 	width: 100%;
 	height: 40px;
 	padding-top: 20px;
-	margin-top: 38px;
+	margin-top: 25px;
 	line-height: 40px;
 	border-top: 1px solid #ebeced;
 }
@@ -222,6 +223,11 @@ body{
 	font-size: 20px;
 	line-height: 50px;
 	color: #383d48;
+}
+.m-info h3 small{
+	margin-left: 10px;
+	font-size: 14px;
+	color: #999;
 }
 .m-info .info p{
 	height: 14px;

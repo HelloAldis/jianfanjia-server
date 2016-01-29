@@ -214,7 +214,7 @@
                     $('#create').Huploadify({
                       auto:true,
                       fileTypeExts:fileTypeExts,
-                      multi:true,
+                      multi:false,
                       formData:{},
                       fileSizeLimit:fileSizeLimit,
                       showUploadedPercent:true,//是否实时显示上传的百分比，如20%

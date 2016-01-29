@@ -388,4 +388,21 @@ angular.module('filters', [])
                 "9999":"其他"
             }[input];
         }
+    })
+    .filter('moneyFilter', function () {    //商装类型
+        return function (input,param) {
+            if(input === undefined){
+                return ;
+            }
+            if(param === undefined){
+                return input
+            }
+            var arr = [1];
+            for(var i=0; i<param; i++){
+                arr.push(0)
+            }
+            var str = arr.join('');
+            var num = (+input)/(+str)+'';
+            return parseFloat(num);
+        }
     });
