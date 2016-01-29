@@ -371,7 +371,7 @@ exports.designer_refresh_session = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
 
-  Desiger.findOne({
+  Designer.findOne({
     _id: _id,
   }, null, ep.done(function (designer) {
     if (designer) {
