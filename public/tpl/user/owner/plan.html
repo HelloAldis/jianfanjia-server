@@ -36,9 +36,9 @@
 					<h4 class="f-fl">设计说明：</h4>
 					<p class="f-fl" bo-text="data.description"></p>
 				</div>
-				<div class="images">
-					<img bo-src-i="/api/v2/web/thumbnail/280/{{img}}" alt="" ng-repeat="img in data.images | limitTo : 3" />
-				</div>
+				<ul class="images">
+					<li ng-repeat="img in data.images | limitTo : 3"><img bo-src-i="/api/v2/web/thumbnail/280/{{img}}" alt=""></li>
+				</ul>
 				<div class="select">
 					<a bo-href-i="plans.html?pid={{data._id}}#plansMsg" class="u-btns u-btns-revise msg f-fl" target="_blank">留言 (<i bo-text="data.comment_count"></i>)</a>
 					<div class="btns f-fr">
@@ -59,7 +59,8 @@
 	<div class="motai done">
 		<span class="done-icon"></span>
 		<h3>选定成功！</h3>
-		<p>设计师将在近期内生成第三方合同，请保持紧密沟通。</p>
+		<p ng-if="requirement.work_type == 2">简繁家将在近期内与您第三方合同，请保持紧密沟通。</p>
+		<p ng-if="requirement.work_type != 2">设计师将在近期内生成第三方合同，请保持紧密沟通。</p>
 		<input type="button" class="u-btns" ng-click="definePlanBtn()" value="&nbsp;&nbsp;确定&nbsp;&nbsp;">
 	</div>
 </div>

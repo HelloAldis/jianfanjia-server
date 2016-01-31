@@ -101,6 +101,7 @@
 							<i ng-switch-when="5">APP配置工地</i>
 							<i ng-switch-when="6">设计师提交方案中</i>
 							<i ng-switch-when="7">APP管控装修工地</i>
+							<i ng-switch-when="8">已竣工</i>
 						</p>
 					</div>
 				</div>
@@ -132,6 +133,9 @@
 					<p ng-switch-when="7">
 						您已选定设计师装修方案，请下载 <br />简繁家APP，掌上管控装修工地。
 					</p>
+					<p ng-switch-when="7">
+						您的需求已竣工。
+					</p>
 				</div>
 				<div class="btns" ng-switch="data.status">
 					<a class="u-btns" ng-switch-when="0" bo-href-i="owner.html#/requirement/{{data._id}}/booking">前往预约量房</a>
@@ -142,6 +146,7 @@
 					<a class="u-btns" ng-switch-when="5" bo-href-i="owner.html#/requirement/{{data._id}}/contract">APP配置工地</a>
 					<a class="u-btns" ng-switch-when="6" bo-href-i="owner.html#/requirement/{{data._id}}/plan">查看并选择装修方案</a>
 					<a class="u-btns" ng-switch-when="7" href="/tpl/download/index.html">下载简繁家APP</a>
+					<a class="u-btns" ng-switch-when="8" href="owner.html#/requirement/{{data._id}}/detail">查看需求详情</a>
 				</div>
 			</li>
 		</ul>

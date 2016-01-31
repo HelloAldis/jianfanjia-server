@@ -34,9 +34,9 @@
 					<h4 class="f-fl">设计说明：</h4>
 					<p class="f-fl" bo-text="data.description"></p>
 				</div>
-				<div class="images">
-					<img bo-src-i="/api/v2/web/thumbnail/280/{{img}}" alt="" ng-repeat="img in data.images | limitTo : 3" />
-				</div>
+				<ul class="images">
+					<li ng-repeat="img in data.images | limitTo : 3"><img bo-src-i="/api/v2/web/thumbnail/280/{{img}}" alt=""></li>
+				</ul>
 				<div class="select">
 					<a bo-href-i="plans.html?pid={{data._id}}#plansMsg" class="u-btns u-btns-revise msg f-fl" target="_blank">留言 (<i bo-text="data.comment_count"></i>)</a>
 					<div class="btns f-fr">

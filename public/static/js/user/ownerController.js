@@ -323,7 +323,7 @@ angular.module('controllers', [])
                 if(data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5){  //选择方案
                     myPlan()
                 }
-                if(data.status == 7 || data.status == 4 || data.status == 5){   //生成合同
+                if((data.status == 7 || data.status == 4 || data.status == 5) && data.work_type != 2){   //生成合同
                     myContract()
                 }
             })

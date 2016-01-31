@@ -191,7 +191,15 @@ body{
 }
 .message-more .upper{
 	display: block;
-	padding-right: 10px;
+	width: 100%;
+	line-height: 30px;
+	text-align: center;
+	color: #61687a;
+	border-top: 1px solid #e5e5e5;
+}
+.message-more .upper:hover{
+	color: #fe7004;
+	background-color: #f9f9f9;
 }
 /*按钮*/
 .u-btns{
@@ -1547,13 +1555,16 @@ body{
 .m-plans .images{
 	height: 210px;
 }
-.m-plans .images img{
-	margin-left: 20px;
+.m-plans .images li{
+	float: left;
 	width: 280px;
 	height: 180px;
+	overflow: hidden;
+	margin-left: 20px;
+	border-top: none;
 	border-radius: 2px;
 }
-.m-plans .images img:first-child{
+.m-plans .images li:first-child{
 	margin-left: 0;
 }
 .m-plans .select{

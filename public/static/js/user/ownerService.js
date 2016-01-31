@@ -110,7 +110,8 @@ angular.module('services', [])
                 "4":"plan",
                 "5":"contract",
                 "6":"plan",
-                "7":"contract"
+                "7":"contract",
+                "8":"detail"
             },
             userSex : [
                 {
