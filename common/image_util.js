@@ -4,6 +4,10 @@ exports.resize2stream = function (buffer, width, callback) {
   gm(buffer).resize(width).interlace('Line').stream(callback);
 }
 
+exports.resize2stream2 = function (buffer, width, height, callback) {
+  gm(buffer).resize(width, height, '^').gravity('Center').extent(width, height).interlace('Line').stream(callback);
+}
+
 exports.resize2buffer = function (buffer, width, callback) {
   gm(buffer).resize(width).toBuffer(callback);
 }
