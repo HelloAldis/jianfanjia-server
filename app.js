@@ -132,13 +132,13 @@ app.use('/', webRouter);
 // error handler
 if (config.debug) {
   app.use(function (err, req, res, next) {
-    logger.error('server 500 error: %s', err.stack);
+    logger.error('server 500 error: %s, %s', err.stack, err.errors);
     next(err, req, res);
   });
   app.use(errorhandler());
 } else {
   app.use(function (err, req, res, next) {
-    logger.error('server 500 error: %s ', err.stack);
+    logger.error('server 500 error: %s, %s', err.stack, err.errors);
     return res.status(500).send('500 status');
   });
 }

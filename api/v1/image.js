@@ -54,7 +54,7 @@ exports.add = function (req, res, next) {
       ep.emit('data', req.file.buffer);
     }
   } else {
-    res.status(403).send('forbidden');
+    res.status(400).send('upload error');
   }
 };
 

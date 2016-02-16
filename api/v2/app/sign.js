@@ -361,7 +361,7 @@ exports.user_refresh_session = function (req, res, next) {
       data.wechat_unionid = user.wechat_unionid;
       res.sendData(data);
     } else {
-      res.sendSuccessMsg('用户不存在');
+      res.sendErrMsg('用户不存在');
     }
   }));
 }
@@ -390,7 +390,7 @@ exports.designer_refresh_session = function (req, res, next) {
         login_count: 1
       }, {});
     } else {
-      res.sendSuccessMsg('用户不存在');
+      res.sendErrMsg('用户不存在');
     }
   }));
 }

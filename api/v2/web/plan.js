@@ -89,7 +89,7 @@ exports.add = function (req, res, next) {
             res.sendSuccessMsg();
           }));
         } else {
-          res.sendSuccessMsg('数据错误');
+          res.sendErrMsg('数据错误');
         }
       }));
     }

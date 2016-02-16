@@ -58,6 +58,34 @@ exports.beautiful_image_homepage = function (req, res, next) {
             limit: 20
           }, callback);
         },
+        previous: function (callback) {
+          BeautifulImage.find({
+            section: beautiful_image.section,
+            status: type.beautiful_image_status_public,
+            lastupdate: {
+              $lt: beautiful_image.lastupdate,
+            },
+          }, {
+            images: 1,
+          }, {
+            skip: 0,
+            limit: 1
+          }, callback);
+        },
+        next: function (callback) {
+          BeautifulImage.find({
+            section: beautiful_image.section,
+            status: type.beautiful_image_status_public,
+            lastupdate: {
+              $gt: beautiful_image.lastupdate,
+            },
+          }, {
+            images: 1,
+          }, {
+            skip: 0,
+            limit: 1
+          }, callback);
+        },
       }, ep.done(function (result) {
         if (result.associate.length < 6) {
           var add = _.sample(result.top, 6 - result.associate.length);
@@ -66,6 +94,8 @@ exports.beautiful_image_homepage = function (req, res, next) {
         } else {
           beautiful_image.associate_beautiful_images = result.associate;
         }
+        beautiful_image.previous = result.previous;
+        beautiful_image.next = result.next;
 
         if (userid && usertype !== type.role_admin) {
           Favorite.findOne({

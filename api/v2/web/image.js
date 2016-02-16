@@ -48,7 +48,7 @@ exports.add = function (req, res, next) {
     }
   } else {
     if (!req.timedout) {
-      res.status(403).send('forbidden');
+      res.status(400).send('upload error');
     }
   }
 };
