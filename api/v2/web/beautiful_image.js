@@ -59,7 +59,7 @@ exports.beautiful_image_homepage = function (req, res, next) {
           }, callback);
         },
         previous: function (callback) {
-          BeautifulImage.find({
+          BeautifulImage.paginate({
             section: beautiful_image.section,
             status: type.beautiful_image_status_public,
             lastupdate: {
@@ -70,10 +70,15 @@ exports.beautiful_image_homepage = function (req, res, next) {
           }, {
             skip: 0,
             limit: 1
-          }, callback);
+          }, function (err, beautiful_images, total) {
+            callback(err, {
+              beautiful_images: beautiful_images,
+              total: total,
+            });
+          });
         },
         next: function (callback) {
-          BeautifulImage.find({
+          BeautifulImage.paginate({
             section: beautiful_image.section,
             status: type.beautiful_image_status_public,
             lastupdate: {
@@ -84,7 +89,12 @@ exports.beautiful_image_homepage = function (req, res, next) {
           }, {
             skip: 0,
             limit: 1
-          }, callback);
+          }, function (err, beautiful_images, total) {
+            callback(err, {
+              beautiful_images: beautiful_images,
+              total: total,
+            });
+          });
         },
       }, ep.done(function (result) {
         if (result.associate.length < 6) {
