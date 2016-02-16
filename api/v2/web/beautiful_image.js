@@ -68,6 +68,9 @@ exports.beautiful_image_homepage = function (req, res, next) {
           }, {
             images: 1,
           }, {
+            sort: {
+              lastupdate: -1,
+            },
             skip: 0,
             limit: 1
           }, function (err, beautiful_images, total) {
@@ -87,6 +90,9 @@ exports.beautiful_image_homepage = function (req, res, next) {
           }, {
             images: 1,
           }, {
+            sort: {
+              lastupdate: 1,
+            },
             skip: 0,
             limit: 1
           }, function (err, beautiful_images, total) {
