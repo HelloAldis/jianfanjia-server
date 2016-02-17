@@ -86,7 +86,7 @@ exports.list_beautiful_image = function (req, res, next) {
               is_deleted: true,
             };
           }
-
+          beautiful_image.is_my_favorite = true;
           callback(err, beautiful_image);
         });
       }, ep.done(function (results) {
