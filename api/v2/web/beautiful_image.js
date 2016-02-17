@@ -12,6 +12,8 @@ var limit = require('../../../middlewares/limit');
 
 exports.beautiful_image_homepage = function (req, res, next) {
   var _id = req.body._id;
+  var previous_count = req.body.previous_count || 1;
+  var next_count = req.body.next_count || 1;
   var userid = ApiUtil.getUserid(req);
   var usertype = ApiUtil.getUsertype(req);
   var ep = eventproxy();
@@ -65,14 +67,12 @@ exports.beautiful_image_homepage = function (req, res, next) {
             lastupdate: {
               $lt: beautiful_image.lastupdate,
             },
-          }, {
-            images: 1,
-          }, {
+          }, null, {
             sort: {
               lastupdate: -1,
             },
             skip: 0,
-            limit: 1
+            limit: previous_count,
           }, function (err, beautiful_images, total) {
             callback(err, {
               beautiful_images: beautiful_images,
@@ -87,14 +87,12 @@ exports.beautiful_image_homepage = function (req, res, next) {
             lastupdate: {
               $gt: beautiful_image.lastupdate,
             },
-          }, {
-            images: 1,
-          }, {
+          }, null, {
             sort: {
               lastupdate: 1,
             },
             skip: 0,
-            limit: 1
+            limit: next_count,
           }, function (err, beautiful_images, total) {
             callback(err, {
               beautiful_images: beautiful_images,

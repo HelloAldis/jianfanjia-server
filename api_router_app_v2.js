@@ -53,6 +53,7 @@ router.post('/product_home_page', productWeb.product_home_page); //游客获取�
 router.post('/search_designer_product', productWeb.search_designer_product); //游客获取设计师作品
 router.get('/image/:_id', imageWeb.get); //获取图片
 router.get('/thumbnail/:width/:_id', imageWeb.thumbnail); //获取缩略图
+router.get('/thumbnail2/:width/:height/:_id', imageWeb.thumbnail2); //获取缩略图2
 router.post('/beautiful_image_homepage', beautiful_imageWeb.beautiful_image_homepage); //游客获取美图主页
 router.post('/search_beautiful_image', beautiful_imageWeb.search_beautiful_image); //游客搜索美图
 router.post('/user_refresh_session', sign.user_refresh_session); //业主刷新sessiion
