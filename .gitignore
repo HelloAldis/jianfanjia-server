@@ -32,3 +32,4 @@ build/Release
 apiconfig.js
 xml2json
 bcrypt
+node-expat
