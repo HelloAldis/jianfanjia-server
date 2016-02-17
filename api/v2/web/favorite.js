@@ -80,7 +80,9 @@ exports.list_beautiful_image = function (req, res, next) {
         BeautifulImage.findOne({
           _id: beautiful_imageid
         }, null, function (err, beautiful_image) {
-          if (!beautiful_image) {
+          if (beautiful_image) {
+            beautiful_image = beautiful_image.toObject();
+          } else {
             beautiful_image = {
               _id: beautiful_imageid,
               is_deleted: true,
