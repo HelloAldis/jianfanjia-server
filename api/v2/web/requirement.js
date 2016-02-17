@@ -146,6 +146,34 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
   }));
 }
 
+exports.designer_my_done_requirement_history_list = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Requirement.find({
+    final_designerid: designerid,
+    status: type.requirement_status_done_process,
+  }, null, {
+    lean: 1
+  }, ep.done(function (requirements) {
+    async.mapLimit(requirements, 3, function (requirement, callback) {
+      User.findOne({
+        _id: requirement.userid,
+      }, {
+        phone: 1,
+        imageid: 1,
+        username: 1,
+      }, function (err, user) {
+        requirement.user = user;
+        callback(err, requirement);
+      });
+    }, ep.done(function (requirements) {
+      res.sendData(requirements);
+    }));
+  }));
+}
+
 exports.user_add_requirement = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var requirement = ApiUtil.buildRequirement(req);
