@@ -85,52 +85,118 @@ exports.designer_my_requirement_list = function (req, res, next) {
 
 exports.designer_my_requirement_history_list = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
+  var list_type = req.body.list_type || 0;
   var ep = eventproxy();
   ep.fail(next);
 
-  Plan.find({
-    designerid: designerid,
-    status: {
-      $in: [type.plan_status_designer_no_respond_expired, type.plan_status_designer_no_plan_expired,
-        type.plan_status_user_not_final, type.plan_status_designer_reject
-      ],
-    },
-  }, null, ep.done(function (plans) {
-    if (plans && plans.length > 0) {
-      plans = _.uniq(plans, function (p) {
-        return p.requirementid.toString();
-      });
-      async.mapLimit(plans, 3, function (plan, callback) {
-        async.parallel({
-          requirement: function (callback) {
+  if (list_type === 0) {
+    async.parallel({
+      invalid_requirements: function (callback) {
+        Plan.find({
+          designerid: designerid,
+          status: {
+            $in: [type.plan_status_designer_no_respond_expired, type.plan_status_designer_no_plan_expired,
+              type.plan_status_user_not_final, type.plan_status_designer_reject
+            ],
+          },
+        }, null, ep.done(function (plans) {
+
+          plans = _.uniq(plans, function (p) {
+            return p.requirementid.toString();
+          });
+          async.mapLimit(plans, 3, function (plan, callback) {
             Requirement.findOne({
               _id: plan.requirementid,
               final_designerid: {
                 $ne: designerid,
               },
-            }, null, callback);
-          },
-          user: function (callback) {
-            User.findOne({
-              _id: plan.userid
-            }, {
-              username: 1,
-              phone: 1,
-              imageid: 1
-            }, callback);
-          }
-        }, ep.done(function (result) {
-          if (result.requirement) {
-            var requirement = result.requirement.toObject();
-            requirement.user = result.user;
-            requirement.plan = plan;
-            callback(null, requirement);
-          } else {
-            callback(null, null);
-          }
-        }));
+            }, null, function (err, requirement) {
 
-      }, ep.done(function (requirements) {
+              if (requirement) {
+                requirement = requirement.toObject();
+                requirement.plan = plan;
+                callback(err, requirement);
+              } else {
+                callback(err, null);
+              }
+            });
+          }, function (err, requirements) {
+            _.remove(requirements, function (requirement) {
+              if (requirement) {
+                return false;
+              } else {
+                return true;
+              }
+            });
+            callback(err, requirements);
+          });
+        }));
+      },
+      done_requirements: function (callback) {
+        Requirement.find({
+          final_designerid: designerid,
+          status: type.requirement_status_done_process,
+        }, null, {
+          lean: 1
+        }, function (err, requirements) {
+          callback(err, requirements);
+        });
+      },
+    }, ep.done(function (result) {
+      res.sendData(result.done_requirements.concat(result.invalid_requirements));
+    }));
+  } else if (list_type === 1) {
+    Requirement.find({
+      final_designerid: designerid,
+      status: type.requirement_status_done_process,
+    }, null, {
+      lean: 1
+    }, function (err, requirements) {
+      res.sendData(requirements)
+    });
+  } else {
+    var status = undefined;
+    if (list_type === 2) {
+      status = {
+        $in: [type.plan_status_designer_reject],
+      };
+    } else if (list_type === 3) {
+      status = {
+        $in: [type.plan_status_designer_no_respond_expired],
+      };
+    } else if (list_type === 4) {
+      status = {
+        $in: [type.plan_status_designer_no_plan_expired],
+      };
+    } else {
+      status = {
+        $in: [type.plan_status_user_not_final],
+      };
+    }
+
+    Plan.find({
+      designerid: designerid,
+      status: status,
+    }, null, ep.done(function (plans) {
+      plans = _.uniq(plans, function (p) {
+        return p.requirementid.toString();
+      });
+      async.mapLimit(plans, 3, function (plan, callback) {
+        Requirement.findOne({
+          _id: plan.requirementid,
+          final_designerid: {
+            $ne: designerid,
+          },
+        }, null, function (err, requirement) {
+          if (requirement) {
+            requirement = requirement.toObject();
+            requirement.plan = plan;
+            callback(err, requirement);
+          } else {
+            callback(err, null);
+          }
+        });
+      }, function (err, requirements) {
         _.remove(requirements, function (requirement) {
           if (requirement) {
             return false;
@@ -139,39 +205,9 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
           }
         });
         res.sendData(requirements);
-      }));
-    } else {
-      return res.sendData([]);
-    }
-  }));
-}
-
-exports.designer_my_done_requirement_history_list = function (req, res, next) {
-  var designerid = ApiUtil.getUserid(req);
-  var ep = eventproxy();
-  ep.fail(next);
-
-  Requirement.find({
-    final_designerid: designerid,
-    status: type.requirement_status_done_process,
-  }, null, {
-    lean: 1
-  }, ep.done(function (requirements) {
-    async.mapLimit(requirements, 3, function (requirement, callback) {
-      User.findOne({
-        _id: requirement.userid,
-      }, {
-        phone: 1,
-        imageid: 1,
-        username: 1,
-      }, function (err, user) {
-        requirement.user = user;
-        callback(err, requirement);
       });
-    }, ep.done(function (requirements) {
-      res.sendData(requirements);
     }));
-  }));
+  }
 }
 
 exports.user_add_requirement = function (req, res, next) {

@@ -134,8 +134,6 @@ router.post('/designer_my_requirement_list', auth.designerRequired, requirement
   .designer_my_requirement_list); //设计获取和自己相关的需求列表
 router.post('/designer_my_requirement_history_list', auth.designerRequired,
   requirement.designer_my_requirement_history_list); //设计获取和自己相关的放弃的历史需求列表
-router.post('/designer_my_done_requirement_history_list', auth.designerRequired,
-  requirement.designer_my_done_requirement_history_list); //设计获取和自己相关的竣工需求列表
 router.post('/designer_one_requirement', auth.designerRequired, requirement.designer_one_requirement); //设计获取某个需求
 router.post('/designer/user/ok', auth.designerRequired, designer.okUser); //响应业主
 router.post('/designer/user/reject', auth.designerRequired, designer.rejectUser); //拒绝业主
