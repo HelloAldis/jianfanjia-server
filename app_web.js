@@ -61,6 +61,7 @@ app.use(bodyParser.raw({
 app.use(require('cookie-parser')(config.session_secret));
 app.use(session({
   cookie: {
+    domain: '.jianfanjia.com',
     path: '/',
     httpOnly: true,
     secure: false,
