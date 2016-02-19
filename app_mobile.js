@@ -6,11 +6,11 @@ var path = require('path');
 var compression = require('compression');
 var session = require('express-session');
 var timeout = require('connect-timeout');
-// var req_res_log = require('./middlewares/req_res_log');
-// var api_router_app_v2 = require('./api_router_app_v2');
-// var api_router_web_v2 = require('./api_router_web_v2');
+var req_res_log = require('./middlewares/req_res_log');
+var api_router_app_v2 = require('./api_router_app_v2');
+var api_router_web_v2 = require('./api_router_web_v2');
 var auth = require('./middlewares/auth');
-// var responseUtil = require('./middlewares/response_util');
+var responseUtil = require('./middlewares/response_util');
 // var RedisStore = require('connect-redis')(session);
 var bodyParser = require('body-parser');
 var cors = require('cors');
@@ -52,6 +52,25 @@ app.use(bodyParser.raw({
 
 // 静态资源
 app.use('/', express.static(path.join(__dirname, 'mobile')));
+
+//api response util middleware
+app.use(responseUtil);
+
+// routes
+if (config.debug) {
+  app.use('/api/v2', function (req, res, next) {
+    if (!(req.body instanceof Buffer)) {
+      logger.debug(req.body);
+    }
+
+    next();
+  });
+}
+
+//API Request logger
+app.use('/api', req_res_log);
+app.use('/api/v2/app', cors(), api_statistic.api_statistic, api_router_app_v2);
+app.use('/api/v2/web', cors(), api_statistic.api_statistic, api_router_web_v2);
 
 // error handler
 app.use(function (err, req, res, next) {
