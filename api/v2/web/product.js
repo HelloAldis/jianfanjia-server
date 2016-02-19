@@ -232,7 +232,7 @@ exports.top_products = function (req, res, next) {
       view_count: -1,
     },
     skip: 0,
-    limit: 100,
+    limit: 300,
   }, ep.done(function (products) {
     var recs = _.sample(products, limit);
     res.sendData(recs);
