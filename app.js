@@ -1,156 +1,20 @@
 //load configuration
 var config = require('./apiconfig');
-
 var express = require('express');
-var path = require('path');
-var compression = require('compression');
-var session = require('express-session');
-var timeout = require('connect-timeout');
-// var passport = require('passport');
+var vhost = require('vhost');
+var logger = require('./common/logger');
+
 require('./middlewares/mongoose_log'); // 打印 mongodb 查询日志
 require('./models');
-var req_res_log = require('./middlewares/req_res_log');
-var webRouter = require('./web_router');
-var apiRouterV1 = require('./api_router_v1');
-var api_router_app_v2 = require('./api_router_app_v2');
-var api_router_web_v2 = require('./api_router_web_v2');
-var auth = require('./middlewares/auth');
-var responseUtil = require('./middlewares/response_util');
-var RedisStore = require('connect-redis')(session);
-var _ = require('lodash');
-var bodyParser = require('body-parser');
-// var cookieParser = require('cookie-parser');
-var errorhandler = require('errorhandler');
-var cors = require('cors');
-var morgan = require('morgan');
-var logger = require('./common/logger');
-var helmet = require('helmet');
-//防治跨站请求伪造攻击
-var csurf = require('csurf');
-var api_statistic = require('./middlewares/api_statistic');
 require('./common/job');
 
-// 静态文件目录
-var staticDir = path.join(__dirname, 'public');
+//main App
+var main_app = express();
+main_app.use(vhost(config.www_web_domain_regex, require('./app_web')));
+main_app.use(vhost(config.m_web_domain_regex, require('./app_mobile')));
 
-var app = express();
-// configuration in all env
-app.enable('trust proxy');
-app.use(require('prerender-node').set('prerenderToken', 'ECav3XjGcRGdN9q0EtF1'));
-
-//config view engine
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
-app.engine('html', require('ejs').__express);
-if (config.debug) {
-  app.set('view cache', false);
-} else {
-  app.set('view cache', true);
-}
-
-app.use(compression());
-// 通用的中间件
-app.use(require('response-time')());
-app.use(timeout('40s'));
-app.use(helmet.frameguard('sameorigin')); // 防止 clickjacking attacks
-app.use(helmet.hidePoweredBy({
-  setTo: 'PHP 4.2.0'
-})); //伪造poweredby
-app.use(bodyParser.json({
-  limit: '1mb'
-}));
-app.use(bodyParser.urlencoded({
-  extended: true,
-  limit: '1mb'
-}));
-app.use(bodyParser.raw({
-  limit: '3mb',
-  type: 'image/jpeg'
-}));
-
-app.use(require('method-override')());
-app.use(require('cookie-parser')(config.session_secret));
-app.use(session({
-  cookie: {
-    path: '/',
-    httpOnly: true,
-    secure: false,
-    maxAge: config.session_time,
-  },
-  secret: config.session_secret,
-  store: new RedisStore({
-    port: config.redis_port,
-    host: config.redis_host,
-    pass: config.redis_pass,
-  }),
-  rolling: true,
-  resave: false,
-  saveUninitialized: false,
-}));
-
-//check浏览器端cookie状态
-app.use('/tpl', auth.checkCookie);
-app.use('/jyz', auth.checkCookie);
-app.use('/api/v2/user_statistic_info', auth.checkCookie);
-app.use('/api/v2/designer_statistic_info', auth.checkCookie);
-//拦截web
-app.use('/tpl/user', auth.authWeb);
-app.use('/jyz', auth.authAdminWeb);
-//拦截微信页面
-app.use('/weixin', auth.authWechat);
-// 静态资源
-app.use('/', express.static(staticDir));
-
-app.use(responseUtil);
-
-// routes
-if (config.debug) {
-  app.use('/api/v1', function (req, res, next) {
-    if (!(req.body instanceof Buffer)) {
-      logger.debug(req.body);
-    }
-
-    next();
-  });
-  app.use('/api/v2', function (req, res, next) {
-    if (!(req.body instanceof Buffer)) {
-      logger.debug(req.body);
-    }
-
-    next();
-  });
-}
-
-//API Request logger
-app.use('/api', req_res_log);
-app.use('/download', req_res_log);
-
-app.use('/api/v1', cors(), api_statistic.api_statistic, apiRouterV1);
-app.use('/api/v2/app', cors(), api_statistic.api_statistic, api_router_app_v2);
-app.use('/api/v2/web', cors(), api_statistic.api_statistic, api_router_web_v2);
-app.use('/', webRouter);
-
-// error handler
-if (config.debug) {
-  app.use(function (err, req, res, next) {
-    logger.error('server 500 error: %s, %s', err.stack, err.errors);
-    next(err, req, res);
-  });
-  app.use(errorhandler());
-} else {
-  app.use(function (err, req, res, next) {
-    logger.error('server 500 error: %s, %s', err.stack, err.errors);
-    return res.status(500).send('500 status');
-  });
-}
-
-app.get('*', function (req, res) {
-  res.status(404);
-  res.redirect('/404.html');
-});
-
-app.listen(config.port, function () {
+main_app.listen(config.port, function () {
   logger.info('Jianfanjia listening on port %s', config.port);
 });
 
-module.exports = app;
+module.exports = main_app;

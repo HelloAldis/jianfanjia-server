@@ -11,6 +11,11 @@ var config = {
   // 程序运行的端口
   port: 80,
 
+  //电脑版web domain RegExp
+  www_web_domain_regex: /www.jianfanjia.com|jianfanjia.com/,
+  //移动端web domain RegExp
+  m_web_domain_regex: /m.jianfanjia.com/,
+
   // mongodb 配置
   db: 'mongodb://127.0.0.1/jianfanjia',
 
