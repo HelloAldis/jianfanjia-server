@@ -217,3 +217,24 @@ exports.designer_one_product = function (req, res, next) {
     res.sendData(product);
   }));
 }
+
+exports.top_products = function (req, res, next) {
+  var ep = new eventproxy();
+  ep.fail(next);
+  var limit = req.body.limit || 20;
+
+  Product.find({
+    auth_type: type.product_auth_type_done,
+  }, {
+    images: 1,
+  }, {
+    sort: {
+      view_count: -1,
+    },
+    skip: 0,
+    limit: 100,
+  }, ep.done(function (products) {
+    var recs = _.sample(products, limit);
+    res.sendData(recs);
+  }));
+}

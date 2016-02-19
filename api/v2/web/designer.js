@@ -156,25 +156,6 @@ exports.designer_home_page = function (req, res, next) {
   }));
 }
 
-// exports.listtop = function (req, res, next) {
-//   var ep = new eventproxy();
-//   ep.fail(next);
-//
-//   Designer.find({
-//     auth_type: type.designer_auth_type_done,
-//     authed_product_count: {
-//       $gte: 3
-//     },
-//   }, noPrivateInfo, {
-//     sort: {
-//       auth_date: -1
-//     },
-//     limit: config.index_top_designer_count
-//   }, ep.done(function (designers) {
-//     res.sendData(designers);
-//   }));
-// }
-
 exports.top_designers = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);

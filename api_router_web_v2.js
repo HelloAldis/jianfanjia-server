@@ -46,7 +46,6 @@ router.get('/image/:_id', image.get); //获取图片
 router.get('/thumbnail/:width/:_id', image.thumbnail); //获取缩略图
 router.get('/thumbnail2/:width/:height/:_id', image.thumbnail2); //获取缩略图2
 router.get('/watermark/:width/:_id', image.watermark); //获取有水印图
-// router.post('/designer/listtop', designer.listtop); //获取首页设计师
 router.post('/designer/search', designer.search); //搜索设计师
 router.post('/designer_home_page', designer.designer_home_page); //游客获取设计师的主页
 router.post('/search_designer_product', product.search_designer_product); //游客获取设计师作品

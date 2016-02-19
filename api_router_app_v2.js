@@ -50,8 +50,10 @@ router.post('/user_signup', sign.user_signup); //业主手机端注册
 router.post('/designer_signup', sign.designer_signup); //设计师手机端注册
 router.post('/update_pass', signWeb.updatePass); //修改密码
 router.post('/designer_home_page', designerWeb.designer_home_page); //游客获取设计师的主页
+router.post('/top_products', productWeb.top_products); //游客获取top作品
 router.post('/product_home_page', productWeb.product_home_page); //游客获取设计师作品
-router.post('/search_designer_product', productWeb.search_designer_product); //游客获取设计师作品
+router.post('/search_designer_product', productWeb.search_designer_product); //游客搜索设计师作品
+router.post('/search_designer', designerWeb.search); //搜索设计师
 router.get('/image/:_id', imageWeb.get); //获取图片
 router.get('/thumbnail/:width/:_id', imageWeb.thumbnail); //获取缩略图
 router.get('/thumbnail2/:width/:height/:_id', imageWeb.thumbnail2); //获取缩略图2
