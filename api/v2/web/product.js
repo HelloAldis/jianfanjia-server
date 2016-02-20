@@ -122,11 +122,24 @@ exports.search_designer_product = function (req, res, next) {
     sort: sort,
     skip: skip,
     limit: limit,
+    lean: true,
   }, ep.done(function (products, total) {
-    res.sendData({
-      products: products,
-      total: total,
-    });
+    async.mapLimit(products, 3, function (product, callback) {
+      Designer.findOne({
+        _id: product.designerid,
+      }, {
+        username: 1,
+        imageid: 1,
+      }, function (err, designer) {
+        product.designer = designer;
+        callback(err, product);
+      });
+    }, ep.done(function (products) {
+      res.sendData({
+        products: products,
+        total: total,
+      });
+    }));
   }));
 }
 
