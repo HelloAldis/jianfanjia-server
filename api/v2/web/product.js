@@ -130,6 +130,7 @@ exports.search_designer_product = function (req, res, next) {
       }, {
         username: 1,
         imageid: 1,
+        auth_type: 1,
       }, function (err, designer) {
         product.designer = designer;
         callback(err, product);
