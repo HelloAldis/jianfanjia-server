@@ -17,6 +17,7 @@ var cors = require('cors');
 var logger = require('./common/logger');
 var helmet = require('helmet');
 var api_statistic = require('./middlewares/api_statistic');
+var router_mobile = require('./router_mobile');
 
 //config the web app
 var app = express();
@@ -71,6 +72,7 @@ if (config.debug) {
 app.use('/api', req_res_log);
 app.use('/api/v2/app', cors(), api_statistic.api_statistic, api_router_app_v2);
 app.use('/api/v2/web', cors(), api_statistic.api_statistic, api_router_web_v2);
+app.use('/', router_mobile);
 
 // error handler
 app.use(function (err, req, res, next) {

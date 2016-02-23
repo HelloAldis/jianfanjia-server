@@ -8,7 +8,7 @@ var session = require('express-session');
 var timeout = require('connect-timeout');
 // var passport = require('passport');
 var req_res_log = require('./middlewares/req_res_log');
-var webRouter = require('./web_router');
+var router_web = require('./router_web');
 var apiRouterV1 = require('./api_router_v1');
 var api_router_app_v2 = require('./api_router_app_v2');
 var api_router_web_v2 = require('./api_router_web_v2');
@@ -118,7 +118,7 @@ app.use('/download', req_res_log);
 app.use('/api/v1', cors(), api_statistic.api_statistic, apiRouterV1);
 app.use('/api/v2/app', cors(), api_statistic.api_statistic, api_router_app_v2);
 app.use('/api/v2/web', cors(), api_statistic.api_statistic, api_router_web_v2);
-app.use('/', webRouter);
+app.use('/', router_web);
 
 // error handler
 app.use(function (err, req, res, next) {
