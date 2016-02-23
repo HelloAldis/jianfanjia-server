@@ -82,7 +82,12 @@ app.use(function (err, req, res, next) {
 
 app.get('*', function (req, res) {
   res.status(404);
-  res.redirect('/404.html');
+  logger.debug(req.path);
+  if (req.path === '/404.html') {
+    res.end();
+  } else {
+    res.redirect('/404.html');
+  }
 });
 
 module.exports = app;
