@@ -38,7 +38,7 @@ exports.user_login = function (req, res, next) {
         //业主登录
         var passhash = result.user.pass;
         if (!passhash) {
-          return res.sendErrMsg('手机号无法登录，请换其它方式登录！');
+          return res.sendErrMsg('您是微信注册用户，请您换微信登录！');
         }
 
         tools.bcompare(pass, passhash, ep.done(function (bool) {
@@ -361,7 +361,7 @@ exports.user_refresh_session = function (req, res, next) {
       data.wechat_unionid = user.wechat_unionid;
       res.sendData(data);
     } else {
-      res.sendSuccessMsg('用户不存在');
+      res.sendErrMsg('用户不存在');
     }
   }));
 }
@@ -390,7 +390,7 @@ exports.designer_refresh_session = function (req, res, next) {
         login_count: 1
       }, {});
     } else {
-      res.sendSuccessMsg('用户不存在');
+      res.sendErrMsg('用户不存在');
     }
   }));
 }

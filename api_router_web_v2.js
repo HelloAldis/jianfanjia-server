@@ -1,4 +1,3 @@
-var express = require('express');
 var tempUserApi = require('./api/v2/web/temp_user');
 var sign = require('./api/v2/web/sign');
 var image = require('./api/v2/web/image');
@@ -17,10 +16,14 @@ var wechat = require('./api/v2/web/wechat');
 var dec_strategy = require('./api/v2/web/dec_strategy');
 var beautiful_image = require('./api/v2/web/beautiful_image');
 var answer = require('./api/v2/web/answer');
+
+var processApp = require('./api/v2/app/process');
+
 var config = require('./apiconfig');
 var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
 
+var express = require('express');
 var router = express.Router();
 
 var multer = require('multer')
@@ -41,8 +44,8 @@ router.post('/add_angel_user', tempUserApi.add); //提交天使用户
 router.post('/search_share', share.search_share); //获取装修直播分享
 router.get('/image/:_id', image.get); //获取图片
 router.get('/thumbnail/:width/:_id', image.thumbnail); //获取缩略图
+router.get('/thumbnail2/:width/:height/:_id', image.thumbnail2); //获取缩略图2
 router.get('/watermark/:width/:_id', image.watermark); //获取有水印图
-// router.post('/designer/listtop', designer.listtop); //获取首页设计师
 router.post('/designer/search', designer.search); //搜索设计师
 router.post('/designer_home_page', designer.designer_home_page); //游客获取设计师的主页
 router.post('/search_designer_product', product.search_designer_product); //游客获取设计师作品
@@ -105,6 +108,7 @@ router.post('/user_evaluate_designer', auth.userRequired, user.user_evaluate_des
 router.post('/user_statistic_info', auth.userRequired, user.user_statistic_info); //业主获取自己统计信息
 router.post('/user_bind_wechat', auth.userRequired, user.user_bind_wechat); //业主绑定微信
 router.post('/user_bind_phone', auth.userRequired, user.user_bind_phone); //业主绑定手机号
+router.post('/user/process', auth.userRequired, processApp.start); //开启装修流程
 
 //设计师独有功能
 router.post('/designer/agree', auth.designerRequired, designer.agree); //同意条款
@@ -128,7 +132,7 @@ router.post('/designer/update_online_status', auth.designerRequired, designer.up
 router.post('/designer_my_requirement_list', auth.designerRequired, requirement
   .designer_my_requirement_list); //设计获取和自己相关的需求列表
 router.post('/designer_my_requirement_history_list', auth.designerRequired,
-  requirement.designer_my_requirement_history_list); //设计获取和自己相关的历史需求列表
+  requirement.designer_my_requirement_history_list); //设计获取和自己相关的放弃的历史需求列表
 router.post('/designer_one_requirement', auth.designerRequired, requirement.designer_one_requirement); //设计获取某个需求
 router.post('/designer/user/ok', auth.designerRequired, designer.okUser); //响应业主
 router.post('/designer/user/reject', auth.designerRequired, designer.rejectUser); //拒绝业主

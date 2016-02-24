@@ -48,7 +48,7 @@ exports.add = function (req, res, next) {
     }
   } else {
     if (!req.timedout) {
-      res.status(403).send('forbidden');
+      res.status(400).send('upload error');
     }
   }
 };
@@ -101,6 +101,37 @@ exports.thumbnail = function (req, res, next) {
           'Cache-Control': 'max-age=315360000',
           'Accept-Ranges': 'bytes',
           // 'Content-Length': image.data.length,
+        });
+        stdout.pipe(res);
+      }));
+
+    } else {
+      res.status(404).end();
+    }
+  }));
+}
+
+exports.thumbnail2 = function (req, res, next) {
+  var _id = tools.trim(req.params._id);
+  var width = tools.trim(req.params.width);
+  var height = tools.trim(req.params.height);
+  var ep = eventproxy();
+  ep.fail(next);
+
+  if (!tools.isValidObjectId(_id)) {
+    return res.status(404).end();
+  }
+
+  Image.findOne({
+    _id: _id
+  }, null, ep.done(function (image) {
+    if (image) {
+      imageUtil.resize2stream2(image.data, width, height, ep.done(function (
+        stdout, stderr) {
+        res.writeHead(200, {
+          'Content-Type': 'image/jpeg',
+          'Cache-Control': 'max-age=315360000',
+          'Accept-Ranges': 'bytes',
         });
         stdout.pipe(res);
       }));

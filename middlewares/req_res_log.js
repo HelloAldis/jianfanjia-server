@@ -18,7 +18,7 @@ fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 
 var httpLogger = undefined;
 var format =
-  ':date[clf] :remote-addr :remote-user :method :req[Content-Type] :url HTTP/:http-version/:user-agent :status :res[content-length] - :response-time ms';
+  ':date[clf] :remote-addr :remote-user :method :req[Content-Type] :req[cookie] :url HTTP/:http-version/:user-agent :status :res[content-length] - :response-time ms';
 httpLogger = morgan(format, {
   stream: logger.stream
 });

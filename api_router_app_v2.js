@@ -11,6 +11,7 @@ var designer = require('./api/v2/app/designer');
 var process = require('./api/v2/app/process');
 var device = require('./api/v2/app/device');
 var feedback = require('./api/v2/app/feedback');
+var beautiful_image = require('./api/v2/app/beautiful_image');
 
 var signWeb = require('./api/v2/web/sign');
 var imageWeb = require('./api/v2/web/image');
@@ -49,12 +50,15 @@ router.post('/user_signup', sign.user_signup); //业主手机端注册
 router.post('/designer_signup', sign.designer_signup); //设计师手机端注册
 router.post('/update_pass', signWeb.updatePass); //修改密码
 router.post('/designer_home_page', designerWeb.designer_home_page); //游客获取设计师的主页
+router.post('/top_products', productWeb.top_products); //游客获取top作品
 router.post('/product_home_page', productWeb.product_home_page); //游客获取设计师作品
-router.post('/search_designer_product', productWeb.search_designer_product); //游客获取设计师作品
+router.post('/search_designer_product', productWeb.search_designer_product); //游客搜索设计师作品
+router.post('/search_designer', designerWeb.search); //搜索设计师
 router.get('/image/:_id', imageWeb.get); //获取图片
 router.get('/thumbnail/:width/:_id', imageWeb.thumbnail); //获取缩略图
+router.get('/thumbnail2/:width/:height/:_id', imageWeb.thumbnail2); //获取缩略图2
 router.post('/beautiful_image_homepage', beautiful_imageWeb.beautiful_image_homepage); //游客获取美图主页
-router.post('/search_beautiful_image', beautiful_imageWeb.search_beautiful_image); //游客搜索美图
+router.post('/search_beautiful_image', beautiful_image.search_beautiful_image); //游客搜索美图
 router.post('/user_refresh_session', sign.user_refresh_session); //业主刷新sessiion
 router.post('/designer_refresh_session', sign.designer_refresh_session); //设计师刷新sessiion
 //设备使用

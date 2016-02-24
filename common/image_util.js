@@ -4,6 +4,10 @@ exports.resize2stream = function (buffer, width, callback) {
   gm(buffer).resize(width).interlace('Line').stream(callback);
 }
 
+exports.resize2stream2 = function (buffer, width, height, callback) {
+  gm(buffer).resize(width, height, '^').gravity('Center').extent(width, height).interlace('Line').stream(callback);
+}
+
 exports.resize2buffer = function (buffer, width, callback) {
   gm(buffer).resize(width).toBuffer(callback);
 }
@@ -13,7 +17,7 @@ exports.crop2buffer = function (buffer, width, hight, x, y, callback) {
 }
 
 exports.jpgbuffer = function (buffer, callback) {
-  gm(buffer).quality(90).toBuffer('jpg', callback);
+  gm(buffer).density(72, 72).quality(80).compress('JPEG').interlace('Line').toBuffer('JPEG', callback);
 }
 
 exports.watermark = function (buffer, callback) {
@@ -38,5 +42,5 @@ exports.resizeThenWatermark2stream = function (buffer, width, callback) {
   var x = width - 366;
   command = command + x + ',10 0,0 mark.png'
 
-  gm(buffer).resize(width).draw(command).stream(callback);
+  gm(buffer).resize(width).draw(command).interlace('Line').stream(callback);
 }

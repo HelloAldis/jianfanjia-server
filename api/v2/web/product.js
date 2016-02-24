@@ -122,11 +122,25 @@ exports.search_designer_product = function (req, res, next) {
     sort: sort,
     skip: skip,
     limit: limit,
+    lean: true,
   }, ep.done(function (products, total) {
-    res.sendData({
-      products: products,
-      total: total,
-    });
+    async.mapLimit(products, 3, function (product, callback) {
+      Designer.findOne({
+        _id: product.designerid,
+      }, {
+        username: 1,
+        imageid: 1,
+        auth_type: 1,
+      }, function (err, designer) {
+        product.designer = designer;
+        callback(err, product);
+      });
+    }, ep.done(function (products) {
+      res.sendData({
+        products: products,
+        total: total,
+      });
+    }));
   }));
 }
 
@@ -215,5 +229,26 @@ exports.designer_one_product = function (req, res, next) {
     _id: _id
   }, null, ep.done(function (product) {
     res.sendData(product);
+  }));
+}
+
+exports.top_products = function (req, res, next) {
+  var ep = new eventproxy();
+  ep.fail(next);
+  var limit = req.body.limit || 20;
+
+  Product.find({
+    auth_type: type.product_auth_type_done,
+  }, {
+    images: 1,
+  }, {
+    sort: {
+      view_count: -1,
+    },
+    skip: 0,
+    limit: 300,
+  }, ep.done(function (products) {
+    var recs = _.sample(products, limit);
+    res.sendData(recs);
   }));
 }

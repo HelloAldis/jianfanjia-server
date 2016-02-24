@@ -12,6 +12,8 @@ var limit = require('../../../middlewares/limit');
 
 exports.beautiful_image_homepage = function (req, res, next) {
   var _id = req.body._id;
+  var previous_count = req.body.previous_count || 1;
+  var next_count = req.body.next_count || 1;
   var userid = ApiUtil.getUserid(req);
   var usertype = ApiUtil.getUsertype(req);
   var ep = eventproxy();
@@ -58,6 +60,46 @@ exports.beautiful_image_homepage = function (req, res, next) {
             limit: 20
           }, callback);
         },
+        previous: function (callback) {
+          BeautifulImage.paginate({
+            section: beautiful_image.section,
+            status: type.beautiful_image_status_public,
+            lastupdate: {
+              $lt: beautiful_image.lastupdate,
+            },
+          }, null, {
+            sort: {
+              lastupdate: -1,
+            },
+            skip: 0,
+            limit: previous_count,
+          }, function (err, beautiful_images, total) {
+            callback(err, {
+              beautiful_images: beautiful_images,
+              total: total,
+            });
+          });
+        },
+        next: function (callback) {
+          BeautifulImage.paginate({
+            section: beautiful_image.section,
+            status: type.beautiful_image_status_public,
+            lastupdate: {
+              $gt: beautiful_image.lastupdate,
+            },
+          }, null, {
+            sort: {
+              lastupdate: 1,
+            },
+            skip: 0,
+            limit: next_count,
+          }, function (err, beautiful_images, total) {
+            callback(err, {
+              beautiful_images: beautiful_images,
+              total: total,
+            });
+          });
+        },
       }, ep.done(function (result) {
         if (result.associate.length < 6) {
           var add = _.sample(result.top, 6 - result.associate.length);
@@ -66,6 +108,8 @@ exports.beautiful_image_homepage = function (req, res, next) {
         } else {
           beautiful_image.associate_beautiful_images = result.associate;
         }
+        beautiful_image.previous = result.previous;
+        beautiful_image.next = result.next;
 
         if (userid && usertype !== type.role_admin) {
           Favorite.findOne({
