@@ -96,8 +96,14 @@ angular.module('controllers', [])
                 console.log(res)
             });
             var statusUrl = initData.statusUrl;
-            $scope.goTo = function(id,status){
-                $location.path('requirement/'+id+"/"+statusUrl[status]);
+            $scope.goTo = function(data){
+                if(data.plan.status == 5 && (data.status == 4 || data.status == 5 || data.status == 7 || data.status == 8) && data.work_type != '纯设计'){
+                    $location.path('requirement/'+data._id+"/"+statusUrl[data.status]);
+                }else if(data.plan.status == 5 && data.status == 4 && data.work_type == '纯设计'){
+                    $location.path('requirement/'+data._id+"/"+statusUrl[8]);
+                }else{
+                    $location.path('requirement/'+data._id+"/"+statusUrl[data.plan.status]);
+                }
             }
             function countDate(value,num,time){
                 var days = num*60*60*24*1000,
@@ -150,8 +156,8 @@ angular.module('controllers', [])
             });
     }])
     .controller('requirementDetailCtrl', [     //装修需求详情
-        '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne','initData',
-        function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,initData){
+        '$scope','$rootScope','$timeout','$filter','$location','$stateParams','userRequiremtne','initData',
+        function($scope, $rootScope,$timeout,$filter,$location,$stateParams,userRequiremtne,initData){
             var requiremtneId = $stateParams.id;
             $scope.$on('requirementParent',function(event, data){    //子级接收
                 if((data.plan.status == 3 || data.plan.status == 6 || data.plan.status == 4 || data.plan.status == 5) && (data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5)){  //选择方案
@@ -258,6 +264,8 @@ angular.module('controllers', [])
             });
         }
         $scope.contracts = {
+            timer : null,
+            success : false,
             btnsBox : true,
             motaiStartDate : false,
             startDate : '',
@@ -279,10 +287,12 @@ angular.module('controllers', [])
                       "requirementid":requiremtneId,
                       "start_at":$scope.contracts.startDate
                     }).then(function(res){
+                        $timeout.cancel($scope.contracts.timer)
                         uploadParent();
                         myContract();
-                        $scope.contracts.btnsBox = true;
+                        btnsBox = true;
                         $scope.contracts.motaiStartDate = false;
+                        $scope.contracts.success = true;
                     },function(res){
                         console.log(res)
                     });
@@ -470,19 +480,66 @@ angular.module('controllers', [])
     .controller('historyListCtrl', [     //历史装修需求列表
         '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne',
         function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne){
-            userRequiremtne.history().then(function(res){
-                $scope.historys = res.data.data;
-                angular.forEach($scope.historys, function(value, key){
-                    value.dec_type = $filter('decTypeFilter')(value.dec_type);
-                    value.dec_style = $filter('decStyleFilter')(value.dec_style);
-                    value.work_type = $filter('workTypeFilter')(value.work_type);
-                    value.house_type = $filter('houseTypeFilter')(value.house_type);
-                })
-            },function(res){
-                console.log(res)
-            });
+            $scope.historyTab = [
+                {
+                    id : 0,
+                    name : '全部',
+                    cur : true
+                },
+                {
+                    id : 1,
+                    name : '已完成',
+                    cur : false
+                },
+                {
+                    id : 2,
+                    name : '已拒绝',
+                    cur : false
+                },
+                {
+                    id : 3,
+                    name : '未响应',
+                    cur : false
+                },
+                {
+                    id : 4,
+                    name : '未出方案',
+                    cur : false
+                },
+                {
+                    id : 5,
+                    name : '未中标',
+                    cur : false
+                }
+            ];
+            $scope.historyName = '';
+            $scope.history = function(id){
+                angular.forEach($scope.historyTab,function(v,k){
+                    v.cur = false;
+                });
+                $scope.historys = undefined;
+                $scope.historyTab[id].cur = true;
+                $scope.historyName = $scope.historyTab[id].name;
+                loadList(id);
+            }
+            function loadList(id){
+                userRequiremtne.history({
+                    "list_type": id
+                } ).then(function(res){
+                    $scope.historys = res.data.data;
+                    angular.forEach($scope.historys, function(value, key){
+                        value.dec_type = $filter('decTypeFilter')(value.dec_type);
+                        value.dec_style = $filter('decStyleFilter')(value.dec_style);
+                        value.work_type = $filter('workTypeFilter')(value.work_type);
+                        value.house_type = $filter('houseTypeFilter')(value.house_type);
+                    })
+                },function(res){
+                    console.log(res)
+                });
+            }
+            loadList(0)
             $scope.goTo = function(id,status){
-                $location.path('requirement/'+id+"/detail");
+                $location.path('history/'+id+"/detail");
             }
     }])
     .controller('productsListCtrl', [     //我的作品列表

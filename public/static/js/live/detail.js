@@ -59,7 +59,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cook
                 var process = data.process[data.process.length-1].name,
                     arr = [
                         '<div class="covers f-fl">',
-                            '<img src="/api/v2/web/thumbnail/320/'+data.cover_imageid+'" alt="'+data.cell+'">',
+                            '<img src="/api/v2/web/thumbnail2/320/206/'+data.cover_imageid+'" alt="'+data.cell+'">',
                         '</div>',
                         '<div class="info f-fl">',
                             ''+(process == 7 && data.progress == 1 ? '<span class="end-icon"></span>' : "")+'',
@@ -81,7 +81,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cook
                         }
                     }
                     arr.push('</ul></div></div>');
-                    arr.push('<dl class="people f-fr"><dt>设计师</dt><dd><a href="/tpl/design/home.html?'+data.designer._id+'"><img src="/api/v2/web/thumbnail/40/'+data.designer.imageid+'" alt="'+data.designer.username+'"><strong>'+data.designer.username+'</strong></a></dd>');
+                    arr.push('<dl class="people f-fr"><dt>设计师</dt><dd><a href="/tpl/design/home.html?'+data.designer._id+'"><img src="/api/v2/web/thumbnail2/40/40/'+data.designer.imageid+'" alt="'+data.designer.username+'"><strong>'+data.designer.username+'</strong></a></dd>');
                     arr.push('<dt>项目经理</dt><dd><span><i class="iconfont">&#xe602;</i><strong>'+data.manager+'</strong></span></dd></dl>');
                     this.info.html(arr.join('')).removeClass('hide');
                     this.createStep(data.process,process,data.progress);
@@ -93,7 +93,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cook
                         var img = '';
                         li = '<li class="'+(i == process ? 'current' : 'active')+'"><dl><dt>'+globalData.dec_flow(data[i].name)+'</dt><dd>'+this.format(data[i].date , 'yyyy年MM月dd日')+'</dd></dl><div class="step"><span class="arrow"><i></i></span><ul class="img f-cb">';
                         for (var j = 0 , len2 = data[i].images.length; j < len2; j++) {
-                            img += '<li class="'+(j%5 === 0 ? 'first' : '')+'"><img src="/api/v2/web/thumbnail/185/'+data[i].images[j]+'" alt=""></li>';
+                            img += '<li class="'+(j%5 === 0 ? 'first' : '')+'"><img src="/api/v2/web/thumbnail2/185/185/'+data[i].images[j]+'" alt=""></li>';
                         }
                         li += img + '</ul>';
                         if(data[i].description){

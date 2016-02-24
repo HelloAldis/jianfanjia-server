@@ -1,7 +1,7 @@
 'use strict';
 (function() {
     // load modules
-    angular.module('myJyzOwner', ['ui.router','pasvaz.bindonce','controllers', 'services', 'filters' , 'directives','ngmodel.format'])
+    angular.module('myJyzOwner', ['ui.router','pasvaz.bindonce','controllers', 'services', 'filters' , 'directives','ngmodel.format','my.jyz'])
         .run(['$rootScope','$state','$stateParams',function($rootScope,$state,$stateParams) {
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
@@ -69,6 +69,14 @@
                 .state('requirement.contract', {
                     url: '/contract',
                     templateUrl: url+'contract.html'
+                })
+                .state('requirement.field', {
+                    url: '/field',
+                    templateUrl: url+'field.html'
+                })
+                .state('requirement.fulfill', {
+                    url: '/fulfill',
+                    templateUrl: url+'fulfill.html'
                 })
                 .state('requirement.score', {
                     url: '/score',

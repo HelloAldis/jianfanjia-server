@@ -34,12 +34,12 @@ define(['jquery'], function($){
 				data = data.length < 6 ? data.concat(data) : data;
 				data = data.length < 6 ? data.concat(data) : data;
 				for (var i = 0,len = data.length; i < len; i++) {
-				var li =  '<li><a href="/tpl/live/detail.html?'+data[i]._id+'" class="img"><img src="/api/v2/web/thumbnail/500/'+data[i].cover_imageid+'" alt="'+data[i].cell+'"></a>'+
+				var li =  '<li><a href="/tpl/live/detail.html?'+data[i]._id+'" class="img"><img src="/api/v2/web/thumbnail2/285/262/'+data[i].cover_imageid+'" alt="'+data[i].cell+'"></a>'+
 						'<div class="txt">'+
 							'<h4><a href="/tpl/live/detail.html?'+data[i]._id+'">'+data[i].cell+'</a></h4>'+
 							'<p><span>'+data[i].house_area+'m&sup2;</span><i>|</i><span>'+globalData.house_type(data[i].house_type)+'</span><i>|</i><span>'+globalData.dec_style(data[i].dec_style)+'</span></p>'+
 						'</div>'+
-						'<a href="/tpl/design/home.html?'+data[i].designer._id+'" class="head"><img src="/api/v2/web/thumbnail/80/'+data[i].designer.imageid+'" alt="'+data[i].designer.username+'"></a></li>'
+						'<a href="/tpl/design/home.html?'+data[i].designer._id+'" class="head"><img src="/api/v2/web/thumbnail2/80/80/'+data[i].designer.imageid+'" alt="'+data[i].designer.username+'"></a></li>'
 					templates.push(li)
 				}
 				templates.push('</ul>');

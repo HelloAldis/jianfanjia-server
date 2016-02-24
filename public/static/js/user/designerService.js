@@ -127,9 +127,10 @@ angular.module('services', [])
                 "2":"owner",
                 "3":"plan",
                 "4":"contract",
-                "5":"contract",
+                "5":"field",
                 "6":"owner",
-                "7":"contract"
+                "7":"contract",
+                "8":"fulfill"
             },
             rejectMsg : [
                 {

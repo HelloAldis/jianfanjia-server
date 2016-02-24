@@ -29,9 +29,9 @@ angular.module('services', [])
 		};
 		return {
 			list : function(){return doRequest('user_my_requirement_list')},
-      verify : function(data){return doRequest('verify_phone',data)},
-      phone : function(data){return doRequest('user_bind_phone',data)},
-      code : function(data){return doRequest('send_verify_code',data)},
+            verify : function(data){return doRequest('verify_phone',data)},
+            phone : function(data){return doRequest('user_bind_phone',data)},
+            code : function(data){return doRequest('send_verify_code',data)},
 			add : function(data){return doRequest('user_add_requirement',data)},
 			get : function(data){return doRequest('user_one_requirement',data)},
 			update : function(data){return doRequest('user_update_requirement',data)},
@@ -45,6 +45,7 @@ angular.module('services', [])
 			score : function(data){return doRequest('user_evaluate_designer',data)},
 			contract : function(data){return doRequest('one_contract',data)},
 			change : function(data){return doRequest('user_change_ordered_designer',data)},
+            process : function(data){return doRequest('user/process',data)},
 			changeUId : ""
 		}
 	}])
@@ -108,10 +109,10 @@ angular.module('services', [])
                 "2":"score",
                 "3":"plan",
                 "4":"plan",
-                "5":"contract",
+                "5":"field",
                 "6":"plan",
                 "7":"contract",
-                "8":"detail"
+                "8":"fulfill"
             },
             userSex : [
                 {

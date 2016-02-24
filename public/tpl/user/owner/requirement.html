@@ -12,11 +12,14 @@
 	</div>
 	<div class="m-ct">
 		<ul class="tabs">
-			<li ng-class="{active: tab==&quot;detail&quot;}"><a bo-href-i="owner.html#/requirement/{{requiremtneId}}/detail">需求描述</a></li>
-			<li ng-class="{active: tab==&quot;booking&quot;}" ng-if="requirement.status == 0 || requirement.status == 1 || requirement.status == 2 || requirement.status == 3 || requirement.status == 4 || requirement.status == 5 || requirement.status == 6 || requirement.status == 7"><a bo-href-i="owner.html#/requirement/{{requiremtneId}}/booking">预约量房</a></li>
-			<li ng-class="{active: tab==&quot;score&quot;}" ng-if="requirement.status == 1 || requirement.status == 2 || requirement.status == 3 || requirement.status == 4 || requirement.status == 5 || requirement.status == 6 || requirement.status == 7"><a bo-href-i="owner.html#/requirement/{{requiremtneId}}/score">确认量房</a></li>
-			<li ng-class="{active: tab==&quot;plan&quot;}" ng-if="requirement.status == 6 || requirement.status == 3 || requirement.status == 7 || requirement.status == 4 || requirement.status == 5"><a bo-href-i="owner.html#/requirement/{{requiremtneId}}/plan">选择方案</a></li>
-			<li ng-class="{active: tab==&quot;contract&quot;}" ng-if="requirement.status == 7 || requirement.status == 5"><a bo-href-i="owner.html#/requirement/{{requiremtneId}}/contract">生成合同</a></li>
+			<li ng-class="{active: tab==&quot;detail&quot;}"><a ui-sref="requirement.detail({id:requiremtneId})">需求描述</a></li>
+			<li ng-class="{active: tab==&quot;booking&quot;}" ng-if="requirement.status == 0 || requirement.status == 1 || requirement.status == 2 || requirement.status == 3 || requirement.status == 4 || requirement.status == 5 || requirement.status == 6 || requirement.status == 7 || requirement.status == 8"><a ui-sref="requirement.booking({id:requiremtneId})">预约量房</a></li>
+			<li ng-class="{active: tab==&quot;score&quot;}" ng-if="requirement.status == 1 || requirement.status == 2 || requirement.status == 3 || requirement.status == 4 || requirement.status == 5 || requirement.status == 6 || requirement.status == 7 || requirement.status == 8"><a ui-sref="requirement.score({id:requiremtneId})">确认量房</a></li>
+			<li ng-class="{active: tab==&quot;plan&quot;}" ng-if="requirement.status == 6 || requirement.status == 3 || requirement.status == 7 || requirement.status == 4 || requirement.status == 5 || requirement.status == 8"><a ui-sref="requirement.plan({id:requiremtneId})">选择方案</a></li>
+			<li ng-class="{active: tab==&quot;contract&quot;}" ng-if="(requirement.status == 7 || requirement.status == 5 || requirement.status == 8) && requirement.work_type != 2"><a ui-sref="requirement.contract({id:requiremtneId})">生成合同</a></li>
+			<li ng-class="{active: tab==&quot;field&quot;}" ng-if="(requirement.status == 5 || requirement.status == 8) && requirement.work_type != 2"><a ui-sref="requirement.field({id:requiremtneId})">管理工地</a></li>
+			<li ng-class="{active: tab==&quot;fulfill&quot;}" ng-if="requirement.status == 8 && requirement.work_type != 2"><a ui-sref="requirement.fulfill({id:requiremtneId})">完成</a></li>
+			<li ng-class="{active: tab==&quot;fulfill&quot;}" ng-if="requirement.status == 4 && requirement.work_type == 2"><a ui-sref="requirement.fulfill({id:requiremtneId})">完成</a></li>
 		</ul>
 		<div class="requirement" ng-controller="requirementDetailCtrl">
 			<!--视图模板容器 start-->

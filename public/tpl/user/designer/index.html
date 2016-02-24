@@ -43,30 +43,38 @@
 						<p>提交资料完成<br />设计师认证</p>
 					</div>
 				</li>
-				<li>
-					<div class="line"></div>
-				</li>
+				<li class="line"><div></div></li>
 				<li>
 					<div class="txt">
 						<div class="num num2"></div>
 						<p>响应并预约<br />量房时间</p>
 					</div>
 				</li>
-				<li>
-					<div class="line"></div>
-				</li>
+				<li class="line"><div></div></li>
 				<li>
 					<div class="txt">
 						<div class="num num3"></div>
 						<p>上门量房并<br />提交方案</p>
 					</div>
 				</li>
-				<li>
-					<div class="line"></div>
-				</li>
+				<li class="line"><div></div></li>
 				<li>
 					<div class="txt">
 						<div class="num num4"></div>
+						<p>提交方案<br />合同</p>
+					</div>
+				</li>
+				<li class="line"><div></div></li>
+				<li>
+					<div class="txt">
+						<div class="num num5"></div>
+						<p>上门量房并<br />提交方案</p>
+					</div>
+				</li>
+				<li class="line"><div></div></li>
+				<li>
+					<div class="txt">
+						<div class="num num6"></div>
 						<p>提交方案<br />合同</p>
 					</div>
 				</li>
@@ -111,11 +119,11 @@
 						<span bo-if="data.cell_unit && requirement.dec_type == 0"><i bo-text="data.cell_unit"></i>单元</span>
 						<span bo-if="data.cell_detail_number && requirement.dec_type == 0"><i bo-text="data.cell_detail_number"></i>室</span>
 					</h4>
-					<div class="progress f-fr">
+					<div class="progress f-fr" bo-if="data.work_type != 2">
 						<div class="bar">
 							<div class="in in{{data.plan.status}}"></div>
 						</div>
-						<p ng-switch="data.plan.status">
+						<p ng-switch="data.plan.status" bo-if="data.plan.status != 5">
 							<i ng-switch-when="0">
 								<i bo-if="!!data.plan.get_phone_time">等待设置量房时间</i>
 								<i bo-if="!data.plan.get_phone_time">等待响应预约</i>
@@ -129,9 +137,37 @@
 							<i ng-switch-when="7">未响应业主</i>
 							<i ng-switch-when="8">未上传方案</i>
 						</p>
+						<p ng-switch="data.status" bo-if="data.plan.status == 5 && (data.status == 4 || data.status == 5 || data.status == 7 || data.status == 8) && data.work_type != '纯设计'">
+							<i ng-switch-when="4">前往配置合同</i>
+							<i ng-switch-when="5">APP管理工地</i>
+							<i ng-switch-when="7">查看合同</i>
+							<i ng-switch-when="8">已竣工</i>
+						</p>
+					</div>
+					<div class="progress f-fr" bo-if="data.work_type == 2">
+						<div class="bar">
+							<div class="in in{{data.status}}" ng-class="{'in8':data.status == 4}"></div>
+						</div>
+						<p ng-switch="data.plan.status" bo-if="data.plan.status != 5">
+							<i ng-switch-when="0">
+								<i bo-if="!!data.plan.get_phone_time">等待设置量房时间</i>
+								<i bo-if="!data.plan.get_phone_time">等待响应预约</i>
+							</i>
+							<i ng-switch-when="1">已拒绝业主</i>
+							<i ng-switch-when="2">等待业主确认量房</i>
+							<i ng-switch-when="3">等待业主选择方案</i>
+							<i ng-switch-when="4">方案未选中</i>
+							<i ng-switch-when="5">方案被选中</i>
+							<i ng-switch-when="6">提交方案中</i>
+							<i ng-switch-when="7">未响应业主</i>
+							<i ng-switch-when="8">未上传方案</i>
+						</p>
+						<p bo-if="data.plan.status == 5 && data.status == 4">
+							<i>已完成</i>
+						</p>
 					</div>
 				</div>
-				<div class="ct" ng-switch="data.plan.status">
+				<div class="ct" ng-switch="data.plan.status" bo-if="data.plan.status != 5">
 					<p ng-switch-when="0">
 						请24小时内与业主沟通量房时间，并响应业主预约，过期视为放弃。
 					</p>
@@ -162,7 +198,23 @@
 						您没有在规定时间内上传方案，请在历史历史装修需求查看
 					</p>
 				</div>
-				<div class="btns" ng-switch="data.plan.status">
+				<div class="ct" ng-switch="data.status" bo-if="data.plan.status == 5 && data.work_type != 2">
+					<p ng-switch-when="5">
+						您的工地已经配置，前往APP实时掌控最新进度
+					</p>
+					<p ng-switch-when="7">
+						业主已选定您的装修方案，请下载 <br />简繁家APP，掌上管控装修工地。
+					</p>
+					<p ng-switch-when="8">
+						您已完成业主工地需求
+					</p>
+				</div>
+				<div class="ct" bo-if="data.plan.status == 5 && data.status == 4 && data.work_type == 2">
+					<p>
+						您已完成业主设计需求
+					</p>
+				</div>
+				<div class="btns" ng-switch="data.plan.status" bo-if="data.plan.status != 5">
 					<a class="u-btns" ng-switch-when="0" bo-href-i="designer.html#/requirement/{{data._id}}/owner">
 						<i bo-if="!!data.plan.get_phone_time">前往设置量房时间</i>
 						<i bo-if="!data.plan.get_phone_time">前往响应预约</i>
@@ -175,6 +227,14 @@
 					<a class="u-btns" ng-switch-when="6" bo-href-i="designer.html#/requirement/{{data._id}}/owner">给业主提交方案</a>
 					<a class="u-btns" ng-switch-when="7" href="/tpl/download/index.html">下载简繁家APP</a>
 					<a class="u-btns" ng-switch-when="8" bo-href-i="designer.html#/requirement/{{data._id}}/contract">方案过期</a>
+				</div>
+				<div class="btns" ng-switch="data.status" bo-if="data.plan.status == 5 && data.work_type != 2">
+					<a class="u-btns" ng-switch-when="5" bo-href-i="designer.html#/requirement/{{data._id}}/field">工地管理</a>
+					<a class="u-btns" ng-switch-when="7" bo-href-i="designer.html#/requirement/{{data._id}}/contract">等待业主确认合同</a>
+					<a class="u-btns" ng-switch-when="8" bo-href-i="designer.html#/requirement/{{data._id}}/fulfill">工地已竣工</a>
+				</div>
+				<div class="btns" bo-if="data.plan.status == 5 && data.status && data.work_type == 2">
+					<a class="u-btns" bo-href-i="designer.html#/requirement/{{data._id}}/fulfill">设计已完成</a>
 				</div>
 			</li>
 		</ul>

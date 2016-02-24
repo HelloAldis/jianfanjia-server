@@ -170,8 +170,9 @@ angular.module('controllers', [])
             }
     }])
 	.controller('releaseCtrl', [     //业主提交需求
-        '$scope','$rootScope','$http','$filter','$location','$stateParams','userRequiremtne','userInfo','initData',
-        function($scope, $rootScope,$http,$filter,$location,$stateParams,userRequiremtne,userInfo,initData){
+        '$scope','$rootScope','$timeout','$filter','$location','$stateParams','userRequiremtne','userInfo','initData',
+        function($scope, $rootScope,$timeout,$filter,$location,$stateParams,userRequiremtne,userInfo,initData){
+            var timer = null;
             $scope.userRelease = {
                 isRelease : $stateParams.id == undefined ? true : false,
                 releaseValue : $stateParams.id == undefined ? '  提交  ' : '  修改  ',
@@ -234,14 +235,12 @@ angular.module('controllers', [])
             }
             $scope.userRelease.submit = function(type){
                 var This = this;
+                //家装
                 if(type == 0){
                     $scope.requiremtne.street = undefined;
                     $scope.requiremtne.business_house_type = undefined;
-                    if(!$scope.requiremtne.family_description){
-                        alert('您的计划常住成员不能为空')
-                        return ;
-                    }
                 }
+                //商装
                 if(type == 1){
                     $scope.requiremtne.cell_phase = undefined;
                     $scope.requiremtne.cell_building = undefined;
@@ -274,7 +273,15 @@ angular.module('controllers', [])
                         });
                     }
                 }else{
-                    alert('您选择装修城市不是湖北省武汉市，请重新选择')
+                    //清除定时器，防止重复开启，产生bug
+                    $timeout.cancel(timer);
+                    //弹出超过三个设计师提示信息
+                    $scope.bookingPrompt = true;
+                    //3s后提示信息消失
+                    timer = $timeout(function(){
+                        $scope.bookingPrompt = false;
+                        $timeout.cancel(timer);
+                    },3000);
                     return ;
                 }
             }
@@ -283,8 +290,13 @@ angular.module('controllers', [])
         '$scope','$rootScope','$location','initData',
         function($scope, $rootScope,$location,initData){
             var statusUrl = initData.statusUrl;
-            $scope.goTo = function(id,status){
-                $location.path('requirement/'+id+"/"+statusUrl[status]);
+            $scope.goTo = function(data){
+                if(data.work_type == '纯设计' && data.status == 4){
+                    $location.path('requirement/'+data._id+"/"+statusUrl[8]);
+                }else{
+                    $location.path('requirement/'+data._id+"/"+statusUrl[data.status]);
+                }
+
             }
     }])
     .controller('requirementCtrl', [     //装修需求详情配置
@@ -316,6 +328,7 @@ angular.module('controllers', [])
         '$scope','$rootScope','$timeout','$filter','$location','$stateParams','userRequiremtne','initData',
         function($scope, $rootScope,$timeout,$filter,$location,$stateParams,userRequiremtne,initData){
             var requiremtneId = $stateParams.id;
+            var timer = null;
             $scope.$on('requirementParent',function(event, data){    //子级接收
                 if(data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 4 || data.status == 5 || data.status == 6 || data.status == 7){  //预约量房、确认量房
                     myBooking(data.status)
@@ -400,9 +413,7 @@ angular.module('controllers', [])
                                             newDesignerid = data._id;
                                             $scope.selectDesignOff = true;
                                         }
-                                        if(len > 0 || len < 4){
-                                            $scope.bookingSuccess = true;
-                                        }
+                                        $scope.bookingSuccess = (len > 1 || len < 4);
                                         if(len > 2){
                                             return ;
                                         }
@@ -416,8 +427,17 @@ angular.module('controllers', [])
                                             return ;
                                         }
                                         if(!data.active){
+                                            console.log(1)
                                             if(($scope.orderDesigns.length+len) > 2){
-                                                alert('您已经预约了3名设计师');
+                                                //清除定时器，防止重复开启，产生bug
+                                                $timeout.cancel(timer);
+                                                //弹出超过三个设计师提示信息
+                                                $scope.bookingPrompt = true;
+                                                //3s后提示信息消失
+                                                timer = $timeout(function(){
+                                                    $scope.bookingPrompt = false;
+                                                    $timeout.cancel(timer);
+                                                },3000);
                                                 return ;
                                             }
                                             data.active = true;
@@ -426,6 +446,9 @@ angular.module('controllers', [])
                                             data.active = false;
                                             var index = _.indexOf($scope.orderDesigns,data._id);
                                             $scope.orderDesigns.splice(index, 1);
+                                            console.log($scope.orderDesigns.length)
+                                            console.log($scope.orderDesigns.length+len)
+                                            $scope.bookingSuccess = ($scope.orderDesigns.length+len) == 0 ? false : true;
                                         }
                                     }
                                 }
@@ -452,6 +475,7 @@ angular.module('controllers', [])
                 },
                 bookingBtn : function(){
                     var This = this;
+                    //被废弃，不要删除，以防万一，做一个保险
                     if(!$scope.orderDesigns.length){
                         alert('您至少要预约1名设计师');
                         return ;
@@ -641,13 +665,31 @@ angular.module('controllers', [])
                 console.log(res)
             });
         }
-        $scope.definePlanBtn = function(){
+        $scope.definePlanBtn = function(data){
             $scope.definePlanSuccess = false;
+            if(data.work_type == 2){
+                $location.path('requirement/'+requiremtneId+"/fulfill");
+            }
         }
         // 三方合同
         function myContract(){   //获取我的第三方合同
             userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){
                 $scope.contract = res.data.data;
+            },function(res){
+                console.log(res)
+            });
+        }
+        $scope.contractSuccess = true;
+        $scope.contractSuccessBtn = function(){
+            $scope.contractSuccess = !$scope.contractSuccess;
+        }
+        $scope.contractBtn = function(data){
+            userRequiremtne.process({
+                "requirementid": data._id,
+                "final_planid": data.plan._id
+            }).then(function(res){
+                uploadParent()   //更新需求状态
+                $location.path('requirement/'+requiremtneId+"/field");
             },function(res){
                 console.log(res)
             });

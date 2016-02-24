@@ -50,6 +50,14 @@
                     url: '/contract',
                     templateUrl: url+'contract.html'
                 })
+                .state('requirement.field', {     //需求详情---管理工地
+                    url: '/field',
+                    templateUrl: url+'field.html'
+                })
+                .state('requirement.fulfill', {   //需求详情----已竣工
+                    url: '/fulfill',
+                    templateUrl: url+'fulfill.html'
+                })
                 .state('createPlan', {     //需求详情--提交方案/修改方案
                     url: '/create/:id',
                     templateUrl: url+'create.html',
@@ -59,6 +67,34 @@
                     url: '/history',
                     templateUrl: url+'history.html',
                     controller : 'historyListCtrl'
+                })
+                .state('historyList', {      //需求详情
+                    url: '/history/:id',
+                    templateUrl: url+'historyList.html'
+                })
+                .state('historyList.detail', {    //需求详情--需求描述
+                    url: '/detail',
+                    templateUrl: url+'detail.html'
+                })
+                .state('historyList.owner', {     //需求详情--响应业主
+                    url: '/owner',
+                    templateUrl: url+'owner.html'
+                })
+                .state('historyList.plan', {      //需求详情--方案列表
+                    url: '/plan',
+                    templateUrl: url+'plan.html'
+                })
+                .state('historyList.contract', {     //需求详情--生成合同
+                    url: '/contract',
+                    templateUrl: url+'contract.html'
+                })
+                .state('historyList.field', {     //需求详情---管理工地
+                    url: '/field',
+                    templateUrl: url+'field.html'
+                })
+                .state('historyList.fulfill', {   //需求详情----已竣工
+                    url: '/fulfill',
+                    templateUrl: url+'fulfill.html'
                 })
                 .state('products', {      //作品列表
                     url: '/products',

@@ -28,40 +28,46 @@
 						<p>发布装修<br />需求</p>
 					</div>
 				</li>
-				<li>
-					<div class="line"></div>
-				</li>
+				<li class="line"><div></div></li>
 				<li>
 					<div class="txt">
 						<div class="num num2"></div>
 						<p>预约设计师<br />上门量房</p>
 					</div>
 				</li>
-				<li>
-					<div class="line"></div>
-				</li>
+				<li class="line"><div></div></li>
 				<li>
 					<div class="txt">
 						<div class="num num3"></div>
 						<p>确认设计师<br />上门量房</p>
 					</div>
 				</li>
-				<li>
-					<div class="line"></div>
-				</li>
+				<li class="line"><div></div></li>
 				<li>
 					<div class="txt">
 						<div class="num num4"></div>
 						<p>选择装修<br />方案</p>
 					</div>
 				</li>
-				<li>
-					<div class="line"></div>
-				</li>
+				<li class="line"><div></div></li>
 				<li>
 					<div class="txt">
 						<div class="num num5"></div>
 						<p>生成三方<br />合同</p>
+					</div>
+				</li>
+				<li class="line"><div></div></li>
+				<li>
+					<div class="txt">
+						<div class="num num6"></div>
+						<p>管理您的<br />工地</p>
+					</div>
+				</li>
+				<li class="line"><div></div></li>
+				<li>
+					<div class="txt">
+						<div class="num num7"></div>
+						<p>竣工</p>
 					</div>
 				</li>
 			</ul>
@@ -88,7 +94,7 @@
 						<span bo-if="data.cell_unit && requirement.dec_type == '家装'"><i bo-text="data.cell_unit"></i>单元</span>
 						<span bo-if="data.cell_detail_number && requirement.dec_type == '家装'"><i bo-text="data.cell_detail_number"></i>室</span>
 					</h4>
-					<div class="progress f-fr">
+					<div class="progress f-fr" bo-if="data.work_type != '纯设计'">
 						<div class="bar">
 							<div class="in in{{data.status}}"></div>
 						</div>
@@ -97,15 +103,27 @@
 							<i ng-switch-when="1">设计师正在响应中</i>
 							<i ng-switch-when="2">确认设计师上门量房</i>
 							<i ng-switch-when="3">选择设计师方案</i>
-							<i ng-switch-when="4">生成并签订三方合同</i>
-							<i ng-switch-when="5">APP配置工地</i>
+							<i ng-switch-when="4">等待设计师生成合同</i>
+							<i ng-switch-when="5">正在装修中</i>
 							<i ng-switch-when="6">设计师提交方案中</i>
-							<i ng-switch-when="7">APP管控装修工地</i>
+							<i ng-switch-when="7">确定合同开启工地</i>
 							<i ng-switch-when="8">已竣工</i>
 						</p>
 					</div>
+					<div class="progress f-fr" bo-if="data.work_type == '纯设计'">
+						<div class="bar">
+							<div class="in in{{data.status}}" ng-class="{'in8':data.status == 4}"></div>
+						</div>
+						<p ng-switch="data.status">
+							<i ng-switch-when="0">需要预约设计师</i>
+							<i ng-switch-when="1">设计师正在响应中</i>
+							<i ng-switch-when="2">确认设计师上门量房</i>
+							<i ng-switch-when="3">选择设计师方案</i>
+							<i ng-switch-when="4">已完成</i>
+						</p>
+					</div>
 				</div>
-				<div class="ct" ng-switch="data.status">
+				<div class="ct" ng-switch="data.status" bo-if="data.work_type != '纯设计'">
 					<p ng-switch-when="0">
 						系统已为您匹配<span bo-if="data.rec_designerids.length != 0"><i bo-text="data.rec_designerids.length"></i>名</span>设计师，请预约设计师上门量房
 					</p>
@@ -131,22 +149,48 @@
 						设计师将在5天内响应给您方案，供您选择，请留意短信通知。
 					</p>
 					<p ng-switch-when="7">
-						您已选定设计师装修方案，请下载 <br />简繁家APP，掌上管控装修工地。
+						设计师已经生成合同，请前往确认合同，开启工地管理。
 					</p>
-					<p ng-switch-when="7">
-						您的需求已竣工。
+					<p ng-switch-when="8">
+						您的工地已圆满竣工，感谢您选择简繁家，我们会继续努力为您提供更优质的服务。
 					</p>
 				</div>
-				<div class="btns" ng-switch="data.status">
+				<div class="ct" ng-switch="data.status" bo-if="data.work_type == '纯设计'">
+					<p ng-switch-when="0">
+						系统已为您匹配<span bo-if="data.rec_designerids.length != 0"><i bo-text="data.rec_designerids.length"></i>名</span>设计师，请预约设计师上门量房
+					</p>
+					<p ng-switch-when="1">
+						您已经预约了<i bo-text="data.order_designerids.length"></i>名设计师，请等待设计师响应。<br />
+						设计师将在24小时内响应您的需求。如果超过时间未响应，您可以重新预约设计师。
+					</p>
+					<p ng-switch-when="2">
+						请确认设计师已上门量房并给予服务评价。<br />
+						确认量房后，设计师才可以提交装修方案。
+					</p>
+					<p ng-switch-when="3">
+						设计师已上传装修方案，请查看并选择装修方案
+					</p>
+					<p ng-switch-when="4">
+						您的设计需求已完成，感谢您选择简繁家，我们会继续努力为您提供更优质的服务。
+					</p>
+				</div>
+				<div class="btns" ng-switch="data.status" bo-if="data.work_type != '纯设计'">
 					<a class="u-btns" ng-switch-when="0" bo-href-i="owner.html#/requirement/{{data._id}}/booking">前往预约量房</a>
 					<a class="u-btns" ng-switch-when="1" bo-href-i="owner.html#/requirement/{{data._id}}/score">查看设计师响应</a>
 					<a class="u-btns" ng-switch-when="2" bo-href-i="owner.html#/requirement/{{data._id}}/score">前往确认设计师上门量房</a>
 					<a class="u-btns" ng-switch-when="3" bo-href-i="owner.html#/requirement/{{data._id}}/plan">查看并选择装修方案</a>
 					<a class="u-btns" ng-switch-when="4" bo-href-i="owner.html#/requirement/{{data._id}}/contract">前往生成三方合同</a>
-					<a class="u-btns" ng-switch-when="5" bo-href-i="owner.html#/requirement/{{data._id}}/contract">APP配置工地</a>
+					<a class="u-btns" ng-switch-when="5" bo-href-i="owner.html#/requirement/{{data._id}}/field">工地管理</a>
 					<a class="u-btns" ng-switch-when="6" bo-href-i="owner.html#/requirement/{{data._id}}/plan">查看并选择装修方案</a>
-					<a class="u-btns" ng-switch-when="7" href="/tpl/download/index.html">下载简繁家APP</a>
-					<a class="u-btns" ng-switch-when="8" href="owner.html#/requirement/{{data._id}}/detail">查看需求详情</a>
+					<a class="u-btns" ng-switch-when="7" href="owner.html#/requirement/{{data._id}}/contract">确认合同</a>
+					<a class="u-btns" ng-switch-when="8" href="owner.html#/requirement/{{data._id}}/fulfill">工地已竣工</a>
+				</div>
+				<div class="btns" ng-switch="data.status" bo-if="data.work_type == '纯设计'">
+					<a class="u-btns" ng-switch-when="0" bo-href-i="owner.html#/requirement/{{data._id}}/booking">前往预约量房</a>
+					<a class="u-btns" ng-switch-when="1" bo-href-i="owner.html#/requirement/{{data._id}}/score">查看设计师响应</a>
+					<a class="u-btns" ng-switch-when="2" bo-href-i="owner.html#/requirement/{{data._id}}/score">前往确认设计师上门量房</a>
+					<a class="u-btns" ng-switch-when="3" bo-href-i="owner.html#/requirement/{{data._id}}/plan">查看并选择装修方案</a>
+					<a class="u-btns" ng-switch-when="4" bo-href-i="owner.html#/requirement/{{data._id}}/fulfill">设计已完成</a>
 				</div>
 			</li>
 		</ul>

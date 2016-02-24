@@ -123,7 +123,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
 				houseType = '',
 				style = '<dd class="f-cb">',
 				product = '<ul>';
-				arr.push('<a href="/tpl/design/home.html?'+data._id+'" class="head"><img src="/api/v1/thumbnail/90/'+data.imageid+'" alt="'+data.username+'"></a>');
+				arr.push('<a href="/tpl/design/home.html?'+data._id+'" class="head"><img src="/api/v2/web/thumbnail2/90/90/'+data.imageid+'" alt="'+data.username+'"></a>');
 				arr.push('<dl><dt>');
 				arr.push('<a href="/tpl/design/home.html?'+data._id+'"><strong>'+data.username+'</strong></a>');
 				arr.push('<span class="auth"><i class="iconfont" title="实名认证">&#xe634;</i><i class="iconfont" title="认证设计师">&#xe62a;</i></span>');
@@ -199,7 +199,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
 			});
 			function eachImg(obj,arr){
 				$.each(arr,function(i,v){
-					obj.find('a').eq(i).attr('href',"detail.html?"+v._id).removeClass('.loadImg').find('img').attr({'src' : '/api/v1/thumbnail/280/'+v.images[0].imageid , 'alt' : v.cell});
+					obj.find('a').eq(i).attr('href',"detail.html?"+v._id).removeClass('.loadImg').find('img').attr({'src' : '/api/v2/web/thumbnail2/280/220/'+v.images[0].imageid , 'alt' : v.cell});
 				})
 			}
 		},
@@ -539,7 +539,7 @@ require(['utils/designers'],function(Designers){
 		    '<em></em>',
 		    '<i class="iconfont2">&#xe604;</i>',
 		    '</span>',
-		    '<img src="/api/v2/web/thumbnail/258/<%=item.imageid%>" alt="">',
+		    '<img src="/api/v2/web/thumbnail2/258/258/<%=item.imageid%>" alt="">',
 		    '<span class="txt"><%=item.username%></span>',
 		    '</a>',
 		    '</li>',

@@ -31,11 +31,11 @@
 			</dl>
 		</div>
 	</div>
+	<div my-alert type="success" ng-show="contracts.success || contract.status == 7" text="设置合同成功，等候业主确认合同开启工地"></div>
 	<div class="contract-btns" ng-if="contracts.btnsBox">
 		<a href="agreement.html" target="_blank" class="u-btns u-btns-revise">查看第三方合同</a>
 		<a href="javascript:;" class="u-btns" ng-click="contracts.setStartDate()" ng-if="contract.status == 4">设置开工日期</a>
 		<a ng-click="goTo(detail._id,'0')" class="u-btns hide">下载第三方合同</a>
-		<a href="/tpl/download/index.html#designer" class="u-btns" ng-if="contract.status == 7">下载APP管理工地</a>
 	</div>
 	<div class="contract-startDate" ng-if="contracts.motaiStartDate">
 		<dl>
@@ -50,4 +50,5 @@
 		</div>
 	</div>
 </div>
+
 

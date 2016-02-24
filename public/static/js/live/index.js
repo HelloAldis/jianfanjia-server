@@ -76,7 +76,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
             data.start_at = !data.start_at ? data.create_at : data.start_at;
             return arr = [
                     '<li>',
-                        '<a href="/tpl/live/detail.html?'+data._id+'" class="img"><img src="/api/v2/web/thumbnail/500/'+data.cover_imageid+'" alt="'+data.cell+'"></a>',
+                        '<a href="/tpl/live/detail.html?'+data._id+'" class="img"><img src="/api/v2/web/thumbnail2/500/278/'+data.cover_imageid+'" alt="'+data.cell+'"></a>',
                         '<div class="txt">',
                             '<h4><a href="/tpl/live/detail.html?'+data._id+'">'+data.cell+'</a></h4>',
                             '<p><span>面积：'+data.house_area+'m&sup2;</span><span>户型：'+globalData.house_type(data.house_type)+'</span><span>风格：'+globalData.dec_style(data.dec_style)+'</span></p>',
@@ -85,7 +85,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                                 '<span>直播时间</span><time>'+this.format(data.start_at , 'yyyy年MM月dd日')+'</time>',
                             '</div><div class="f-cb"></div>',
                             '<div class="info">',
-                                '<a href="/tpl/design/home.html?'+data.designer._id+'" class="head"><img src="/api/v1/thumbnail/40/'+data.designer.imageid+'" alt="'+data.designer.username+'"></a>',
+                                '<a href="/tpl/design/home.html?'+data.designer._id+'" class="head"><img src="/api/v2/web/thumbnail2/40/40/'+data.designer.imageid+'" alt="'+data.designer.username+'"></a>',
                                 '<a href="/tpl/design/home.html?'+data.designer._id+'" class="name"><strong>'+data.designer.username+'</strong></a>',
                                 '<span class="auth"><i class="iconfont" title="实名认证">&#xe634;</i><i class="iconfont" title="认证设计师">&#xe62a;</i></span>',
                             '</div>',

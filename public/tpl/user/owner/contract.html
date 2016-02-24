@@ -31,10 +31,13 @@
 			</dl>
 		</div>
 	</div>
+	<div class="contractCheckbox" ng-if="contract._id">
+		<span ng-if="contract.status == 7" ng-click="contractSuccessBtn()" ng-class="{'active':contractSuccess}"><i></i>我已阅读并同意该合同</span>
+	</div>
 	<div class="contract-btns" ng-if="contract._id">
 		<a href="javascript:;" onclick="window.open('../other/agreement.html','maxwindow','toolbar=no,width=1000,location=no,directories=no,menubar=no,scrollbars=yes,resizable=no,status=no');" class="u-btns u-btns-revise">查看第三方合同</a>
 		<a ng-click="goTo(detail._id,'0')" class="u-btns hide">下载第三方合同</a>
-		<a href="/tpl/download/index.html#owner" class="u-btns">下载APP管理工地</a>
+		<button type="button" class="u-btns" ng-if="contract.status == 7" ng-class="{'u-btns-disabled':!contractSuccess}" ng-click="contractBtn(contract)" ng-disabled="!contractSuccess">确认第三方合同</button>
 	</div>
 	<div class="pageLoading" ng-hide="contract._id"></div>
 </div>

@@ -74,7 +74,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                 iTimer = null;
                 arr = ['<div class="pic"><ul>'];
                 for (var i = 0; i < len; i++) {
-                    arr.push('<li><h4><a href="/tpl/article/detail.html?pid='+data[i]._id+'" target="_blank"><div><strong>'+data[i].title+'</strong><span>'+_.trunc(data[i].description, {'length': 45})+'</span></div><img src="/api/v2/web/thumbnail/820/'+data[i].cover_imageid+'" alt="'+data[i].title+'"></li>');
+                    arr.push('<li><a href="/tpl/article/detail.html?pid='+data[i]._id+'" target="_blank"><div><strong>'+data[i].title+'</strong><span>'+_.trunc(data[i].description, {'length': 45})+'</span></div><img src="/api/v2/web/thumbnail2/820/348/'+data[i].cover_imageid+'" alt="'+data[i].title+'"></li>');
                 };
                 arr.push('</ul></div><ol>');
                 for (var i = 0; i < len; i++) {
@@ -150,7 +150,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
         createList  :  function(data,i){
             return arr = [
                    ' <li '+(i%3 == 0 ? 'class="first"' : '')+'>',
-                        '<a href="/tpl/article/detail.html?pid='+data._id+'" class="img" target="_blank"><img src="/api/v2/web/thumbnail/388/'+data.cover_imageid+'" alt="'+data.title+'"></a>',
+                        '<a href="/tpl/article/detail.html?pid='+data._id+'" class="img" target="_blank"><img src="/api/v2/web/thumbnail2/388/165/'+data.cover_imageid+'" alt="'+data.title+'"></a>',
                         '<h4><a href="/tpl/article/detail.html?pid='+data._id+'" target="_blank" title="'+data.title+'">'+data.title+'</a></h4>',
                         '<p>'+_.trunc(data.description, {'length': 40})+'</p>',
                     '</li>'
