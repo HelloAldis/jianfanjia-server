@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        var Dpr = 1, uAgent = window.navigator.userAgent;
+        var isIOS = uAgent.match(/iphone/i);
+        var isYIXIN = uAgent.match(/yixin/i);
+        var is2345 = uAgent.match(/Mb2345/i);
+        var ishaosou = uAgent.match(/mso_app/i);
+        var isSogou = uAgent.match(/sogoumobilebrowser/ig);
+        var isLiebao = uAgent.match(/liebaofast/i);
+        var isGnbr = uAgent.match(/GNBR/i);
+        function resizeRoot(){
+            var wWidth = (screen.width > 0) ? (window.innerWidth >= screen.width || window.innerWidth == 0) ? screen.width : window.innerWidth : window.innerWidth, wDpr, wFsize;
+            var wHeight = (screen.height > 0) ? (window.innerHeight >= screen.height || window.innerHeight == 0) ? screen.height : window.innerHeight : window.innerHeight;
+            if (window.devicePixelRatio) {
+                wDpr = window.devicePixelRatio;
+            } else {
+                wDpr = isIOS ? wWidth > 818 ? 3 : wWidth > 480 ? 2 : 1 : 1;
+            }
+            if(isIOS) {
+                wWidth = screen.width;
+                wHeight = screen.height;
+            }
+            if(wWidth > wHeight){
+                wWidth = wHeight;
+            }
+            wFsize = wWidth > 1080 ? 144 : wWidth / 7.5;
+            wFsize = wFsize > 32 ? wFsize : 32;
+            window.screenWidth_ = wWidth;
+            document.getElementsByTagName('html')[0].dataset.dpr = wDpr;
+            document.getElementsByTagName('html')[0].style.fontSize = wFsize + 'px';
+        }
+        resizeRoot();
+    </script>
+    <style>
+        body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,a,code,em,img,q,small,strong,dd,dl,dt,li,ol,ul,fieldset,form,label,table,tbody,tr,th,td,input{margin:0;padding:0;border:0}
+        body{font-size:32px;font-size:.32rem;max-width:1080px;margin:0 auto;background:#fff;font-family:'STHeiti','Microsoft YaHei',Helvetica,Arial,sans-serif;-webkit-text-size-adjust:none}
+        a,a:active,a:hover,a:focus,a:visited{text-decoration:none}
+        a,img{-webkit-touch-callout:none}
+        ol,ul,li{list-style:none}
+        textarea,input[type="password"],input[type="text"]{resize:none;outline:0;-webkit-appearance:none;white-space:pre-wrap;word-wrap:break-word;background:#fff}
+        header{
+            position: relative;
+            margin: 0 0.3rem;
+        }
+        header h1{
+            font-size: .46rem;
+            color: #34495c;
+            padding: .2rem 0;
+            font-weight: normal;
+        }
+        header:after{
+            position: absolute;
+            left:0;
+            content: '';
+            width: 100%;
+            height: 2px;
+            background-color: #d4d4d4;
+            -webkit-transform:scaleY(0.5);
+            transform:scaleY(0.5);
+        }
+        .content{
+            margin: 0 0.3rem;
+        }
+        footer{
+            position: relative;
+            height: 4rem;
+            margin:0 0.3rem;
+        }
+        footer div{
+            position: absolute;
+            left:50%;
+            top:50%;
+            z-index: 3;
+            width: 0.9873188405797101rem;
+            height: 0.36231884057971014rem;
+            background:#fff url(data:image/jpg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAA8AAD/4QMZaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjMtYzAxMSA2Ni4xNDU2NjEsIDIwMTIvMDIvMDYtMTQ6NTY6MjcgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjYyMzgxOENFRDc3QzExRTVCODhDODNDNTA2ODZFMUEyIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjYyMzgxOENERDc3QzExRTVCODhDODNDNTA2ODZFMUEyIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzYgV2luZG93cyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSI2NTFDQ0IyNjRCNTJGRDM1NzRGRjRBMjRCN0ExREM0MSIgc3RSZWY6ZG9jdW1lbnRJRD0iNjUxQ0NCMjY0QjUyRkQzNTc0RkY0QTI0QjdBMURDNDEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7/7gAmQWRvYmUAZMAAAAABAwAVBAMGCg0AAAYBAAAHHAAACI4AAApF/9sAhAAGBAQEBQQGBQUGCQYF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) no-repeat;
+            -webkit-background-size: cover;
+            background-size: cover;
+            -webkit-transform:translate(-50%,-50%);
+            transform:translate(-50%,-50%);
+        }
+        footer:before{
+            position: absolute;
+            left:0;
+            top:50%;
+            content: '';
+            width: 100%;
+            height: 2px;
+            background-color: #d5d5d5;
+            -webkit-transform:translate(-50%,-50%);
+            transform:translate(-50%,-50%);
+            -webkit-transform:scaleY(0.5);
+            transform:scaleY(0.5);
+        }
+        footer:after{
+            position: absolute;
+            left:50%;
+            top:50%;
+            content: '';
+            width: 2rem;
+            height: 0.8rem;
+            background-color: #fff;
+            -webkit-transform:translate(-50%,-50%);
+            transform:translate(-50%,-50%);
+        }
+        aside{
+            height: 5rem;
+            margin-left: 0.3rem;
+        }
+        aside h3{
+            font-size: .46rem;
+            line-height: .46rem;
+            color: #2b475f;
+            padding: .2rem 0;
+            font-weight: normal;
+        }
+        aside h3 span{
+            display: inline-block;
+            vertical-align: middle;
+            width: 0.25rem;
+            height: 0.25rem;
+            border-right: 2px solid #2b475f;
+            border-top: 2px solid #2b475f;
+            -webkit-transform:rotate(45deg);
+            transform:rotate(45deg);
+        }
+        .box{
+            overflow: hidden;
+            width: 100%;
+        }
+        .list{
+            width: 1000vw;
+        }
+        aside section{
+            float: left;
+            width: 47vw;
+            margin-right: 3vw;
+        }
+        aside section a{
+            display: block;
+        }
+        aside section a img{
+            width: 100%;
+        }
+        aside section a span{
+            width: 94%;
+            padding-left: 1%;
+            color: #7c8389;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* number of lines to show */
+            -webkit-box-orient: vertical;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <article>
+            <header>
+                <h1>措手不及！家里渗水怎么办？措手不及！家里渗水怎么办？措手不及！家里渗水怎么办？</h1>
+            </header>
+            <section>
+                <div class="content" id="content">
+                    <p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><br class="Apple-interchange-newline"><img style="font: inherit; margin: 1em auto; padding: 0px; border-radius: 4px; border: 0px currentColor; border-image: none; vertical-align: baseline; display: block; max-width: 100%; font-size-adjust: inherit; font-stretch: inherit;" onerror="javascript:errorimg.call(this);" alt="措手不及！家里渗水怎么办？" src="http://p2.pstatp.com/large/9303/621286737" img_height="375" img_width="500"></p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">防患于未然，隐蔽工程要仔细漏水了固然要解决，但如果能把问题扼杀于摇篮，不出现漏水，那就不得不把隐蔽工程做好了。隐蔽工程是指隐蔽在装饰表面内部的管线工程和结构工程。隐蔽工程包括：凿墙排线、埋管、排管，强电和弱电的线穿管，还有冷热水管的规划施工，空调系统，门窗底板，吊顶龙骨架，地板和墙板龙骨基层。</p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">漏水了，最需要注意的一个重要问题也就是水管及其小配件的问题了。有资料显示，这些隐蔽工程一旦有过一次翻修，其投入将会是先期投入的10倍以上。那么应该如何挑选水管呢？</p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">1，经济性能：水管经济型不能用第一次投资来衡量，因为它是个“投资小，损失大”产品。长寿命、免维护、无损失，才是水管经济性能的关键所在。水管和管件产品如果不能与建筑物等同寿命，会给消费者带来水管第一次投资10倍以上的损失(主要是多次的装潢材料的损失)，还可能造成家庭的财产损失，增加维护费用。</p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">2，环保卫生性能：优质水管材料应该是不会给水造成污染，而且可以循环往复使用的，没有再使用的顾虑，不会给子孙后代留下一大堆污染的垃圾而没有好办法处理，我们必须为子孙后代着想。</p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">3，耐腐蚀性能：<span style="font: inherit; margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; vertical-align: baseline; font-size-adjust: inherit; font-stretch: inherit;">优质水管材料除了水管材料强度要足之外，还必须有很强的耐腐蚀性能。主要包括：耐水流腐蚀问题、耐水质腐蚀、耐空气腐蚀等。腐蚀是水管漏水的第二位因素，但却是造成水管污染水源的第一位因素。</span></p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><span style="font: inherit; margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; vertical-align: baseline; font-size-adjust: inherit; font-stretch: inherit;">4，热膨胀性能：我们会使用冷水，也会使用热水;我们生活的环境也会发生一年的四季变化。所以优质的水管材料不应该是导热材料，应该是热膨胀系数较小，对环境温度和使用温度适应性较强。热膨胀系数过高也是漏水的原因之一。</span></p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><span style="font: inherit; margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; vertical-align: baseline; font-size-adjust: inherit; font-stretch: inherit;">各种渗水情况如何处理？</span></p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><span style="font: inherit; margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; vertical-align: baseline; font-size-adjust: inherit; font-stretch: inherit;">1，窗边渗水：窗边渗水最常见的原因是窗框与墙体之间的密封性没有处理好，遇到这种情况，业主只要用密封胶(一般的玻璃胶即可)把窗框与墙体密封好就可以了。此外，如果外窗台低于内窗台也会出现窗边渗水的情况。但这种情况很少发生，一般由建筑不规范所导致，属于房屋质量问题，一旦出现这种情况，应该及时找物业协商解决。建议在打密封胶时，一定要彻底清除原有的密封胶。</span></p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><span style="font: inherit; margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; vertical-align: baseline; font-size-adjust: inherit; font-stretch: inherit;">2，天花板漏水：修补天花板漏水需要楼上住户的配合，天花板漏水和楼上住户的关系比较大，产生天花板漏水主要有两种情况：<br><br>第一种情况：楼上卫生间、厨房的防水层没有做好。这种情况下，需要敲掉地砖重新做防水。为了避免出现这种情况，业主在装修时，就应该尽量把防水做好。规范施工应该做三次闭水试验，第一次闭水试验是在装修工人进场前;改水改电后，卫生间和厨房要重新做防水，并且进行第二次闭水试验;瓷砖贴完后，为了避免瓷砖铺贴过程中对防水层的破坏，应该再做一次闭水试验；<br><br>第二种情况：楼上住户卫生间或厨房的地漏堵塞，积水通过暖气管的套管漏出，导致天花板被洇湿。解决办法是填实楼上住户暖气管和套管之间的空隙，用油麻将套管和暖气管之间的空隙填实后再用油腻子填实、抹平。另外，在生活中尽量避免地漏堵塞。<br><br>温馨提示：天花板漏水多位于墙角或管道底部，应及时找到出水点，方便补救。</span></p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><img style="font: inherit; margin: 1em auto; padding: 0px; border-radius: 4px; border: 0px currentColor; border-image: none; vertical-align: baseline; display: block; max-width: 100%; font-size-adjust: inherit; font-stretch: inherit;" onerror="javascript:errorimg.call(this);" alt="措手不及！家里渗水怎么办？" src="http://p3.pstatp.com/large/9299/6141334684" img_height="366" img_width="500"></p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">3，墙壁渗水：墙壁出现漏水的原因比较多，补救起来也比较麻烦，最重要的就是找准原因，对症下药。</p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><img style="font: inherit; margin: 1em auto; padding: 0px; border-radius: 4px; border: 0px currentColor; border-image: none; vertical-align: baseline; display: block; max-width: 100%; font-size-adjust: inherit; font-stretch: inherit;" onerror="javascript:errorimg.call(this);" alt="措手不及！家里渗水怎么办？" src="http://p2.pstatp.com/large/9302/3396033411" img_height="333" img_width="500"></p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">第一种情况：上水管暗管没有装好、水管劣质、镀锌管生锈老化都有可能导致漏水。出现这种情况很麻烦，只能哪漏换哪儿，哪换排除哪儿；</p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">第二种情况：淋浴区的轻体墙防水层高度没有达到1.8米，轻体墙处于常年的潮湿环境下容易受潮。可以在淋浴时转换喷头角度，尽量避免水喷射到轻体墙上;或者将淋浴喷头改装到周边没有轻体墙的承重墙上;最好是敲掉墙砖重新做防水；</p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">第三种情况：外墙出现裂缝，造成墙内石棉常年潮湿。墙内石棉吸收雨水后不容易干，长年累月，内墙就会出现洇水、发霉、掉粉。出现这种情况，消费者应及时通知物业进行修补，不应该自己解决，避免发生危险。</p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;"><img style="font: inherit; margin: 1em auto; padding: 0px; border-radius: 4px; border: 0px currentColor; border-image: none; vertical-align: baseline; display: block; max-width: 100%; font-size-adjust: inherit; font-stretch: inherit;" onerror="javascript:errorimg.call(this);" alt="措手不及！家里渗水怎么办？" src="http://p3.pstatp.com/large/9299/6141295738" img_height="333" img_width="500"></p><p style="font: 18px/27px helvetica, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, simsun; margin: 1em 0px 0px; padding: 0px; border: 0px currentColor; border-image: none; color: rgb(93, 93, 93); text-transform: none; text-indent: 0px; letter-spacing: normal; word-spacing: 0px; vertical-align: baseline; white-space: normal; widows: 1; font-size-adjust: none; font-stretch: inherit; background-color: rgb(255, 255, 255); -webkit-text-stroke-width: 0px;">第四种情况：建造房屋时，外墙的施工洞没有封好。一旦下雨，雨水溅入施工洞导致内墙出现返潮等情况，墙壁干后将出现带状或圈状痕迹。由于施工洞多在烟道、排气孔内，这种情况就多发于烟道和排气孔附近的墙壁，发生这种情况应及时向物业反映。</p><p>&nbsp;</p>
+                </div>
+            </section>
+            <footer>
+                <div></div>
+            </footer>
+        </article>
+        <aside>
+            <h3>相关推荐<span></span></h3>
+            <div id="text"></div>
+            <div id='slider' class='swipe box'>
+                <div class="swipe-wrap list" style="transform: translateX(0%);">
+                    <section>
+                        <a href="http://devm.jianfanjia.com//tpl/article/detail.html?pid=56836d39d92ec98b7a111b2a">
+                            <img src="http://devm.jianfanjia.com/api/v2/web/thumbnail2/220/140/56836d31d92ec98b7a111b29" alt="装修公司最不想告诉你的预算经验！get到手！">
+                            <span>装修公司最不想告诉你的预算经验！get到手！</span>
+                        </a>
+                    </section>
+                    <section><a href="http://devm.jianfanjia.com//tpl/article/detail.html?pid=56836e10d92ec98b7a111b34"><img src="http://devm.jianfanjia.com/api/v2/web/thumbnail2/220/140/56836df9d92ec98b7a111b33" alt="比&quot;马路游击队&quot;靠谱 5步搞定强化木地板安装"><span>比"马路游击队"靠谱 5步搞定强化木地板安装</span></a>
+                    </section>
+                    <section><a href="http://devm.jianfanjia.com//tpl/article/detail.html?pid=56836e3fd92ec98b7a111b36"><img src="http://devm.jianfanjia.com/api/v2/web/thumbnail2/220/140/56836e32d92ec98b7a111b35" alt="瓷砖的好坏不会鉴别？ 看这里就对了"><span>瓷砖的好坏不会鉴别？ 看这里就对了</span></a>
+                    </section>
+                    <section><a href="http://devm.jianfanjia.com//tpl/article/detail.html?pid=56836f12d92ec98b7a111b40"><img src="http://devm.jianfanjia.com/api/v2/web/thumbnail2/220/140/56836f05d92ec98b7a111b3f" alt="地暖怎么选怎么装？千万别被忽悠"><span>地暖怎么选怎么装？千万别被忽悠</span></a>
+                    </section>
+                </div>
+            </div>
+        </aside>
+    </main>
+    <script>
+        var oSlider = document.getElementById('slider');
+        var oList = oSlider.querySelectorAll('.list')[0];
+        var index = 0;
+        var section = oSlider.getElementsByTagName('section');
+        var width = 414*0.5;
+        var isScrolling = false;
+        oList.addEventListener('touchstart',function(event) {
+            var touches = event.touches[0];
+            // measure start values
+            start = {
+                // 手指按下相对屏幕的位置
+                x: touches.pageX,
+                y: touches.pageY,
+                // 手指按下的时间戳
+                time: +new Date
+            };
+            isScrolling = false;
+            // reset delta and end measurements
+            delta = {};
+            // attach touchmove and touchend listeners
+            oList.addEventListener('touchmove', move, false);
+            oList.addEventListener('touchend', end, false);
+            if (event.stopPropagation) event.stopPropagation();
+        },false);
+        function move(event) {
+
+            if (event.touches.length > 1 || event.scale && event.scale !== 1) return
+            var touches = event.touches[0];
+            // measure change in x and y
+            delta = {
+                x: touches.pageX - start.x,
+                y: touches.pageY - start.y
+            }
+            if(!isScrolling){
+                isScrolling = true;
+                if(delta.x > 0){
+                    if(index == 0){
+                        index == 0
+                    }else{
+                        index--;
+                    }
+                }else{
+                    if(index == section.length - 2){
+                        index == section.length - 2
+                    }else{
+                        index++;
+                    }
+                }
+            }
+            oList.style.webkitTransition = '1s';
+            oList.style.webkitTransform = 'translateX(-'+5*index+'%)';
+        }
+        function end(){
+            isScrolling = false;
+            oList.removeEventListener('touchmove', move, false)
+            oList.removeEventListener('touchend', end, false)
+        }
+    </script>
+</body>
+</html>
