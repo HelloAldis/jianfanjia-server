@@ -15,6 +15,7 @@ var async = require('async');
 var sms = require('../../../common/sms');
 var designer_match_util = require('../../../common/designer_match');
 var wkhtmltopdf = require('wkhtmltopdf');
+var requirement_util = require('../../../common/requirement_util');
 
 exports.user_my_requirement_list = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -63,7 +64,7 @@ exports.designer_my_requirement_list = function (req, res, next) {
             }, callback);
           }
         }, ep.done(function (result) {
-          if (result.requirement) {
+          if (!requirement_util.isDone(result.requirement)) {
             var requirement = result.requirement.toObject();
             requirement.user = result.user;
             requirement.plan = plan;
@@ -74,6 +75,9 @@ exports.designer_my_requirement_list = function (req, res, next) {
         }));
 
       }, ep.done(function (requirements) {
+        _.remove(requirements, function (requirement) {
+          return requirement ? false : true;
+        });
         res.sendData(requirements);
       }));
     } else {
@@ -135,11 +139,22 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
       done_requirements: function (callback) {
         Requirement.find({
           final_designerid: designerid,
-          status: type.requirement_status_done_process,
+          status: {
+            $in: [type.requirement_status_done_process, type.requirement_status_final_plan]
+          },
         }, null, {
           lean: 1
         }, function (err, requirements) {
-          callback(err, requirements);
+          async.mapLimit(requirements, 3, function (requirement, callback) {
+            Plan.findOne({
+              _id: requirement.final_planid,
+            }, null, function (err, plan) {
+              requirement.plan = plan;
+              callback(err, requirement);
+            });
+          }, function (err, requirements) {
+            callback(err, requirements);
+          });
         });
       },
     }, ep.done(function (result) {
@@ -148,11 +163,22 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
   } else if (list_type === 1) {
     Requirement.find({
       final_designerid: designerid,
-      status: type.requirement_status_done_process,
+      status: {
+        $in: [type.requirement_status_done_process, type.requirement_status_final_plan]
+      },
     }, null, {
       lean: 1
     }, function (err, requirements) {
-      res.sendData(requirements)
+      async.mapLimit(requirements, 3, function (requirement, callback) {
+        Plan.findOne({
+          _id: requirement.final_planid,
+        }, null, function (err, plan) {
+          requirement.plan = plan;
+          callback(err, requirement);
+        });
+      }, function (err, requirements) {
+        res.sendData(requirements)
+      });
     });
   } else {
     var status = undefined;

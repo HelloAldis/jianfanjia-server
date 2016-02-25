@@ -82,7 +82,6 @@ app.use(function (err, req, res, next) {
 
 app.get('*', function (req, res) {
   res.status(404);
-  logger.debug(req.path);
   if (req.path === '/404.html') {
     res.end();
   } else {
