@@ -330,13 +330,13 @@ angular.module('controllers', [])
             var requiremtneId = $stateParams.id;
             var timer = null;
             $scope.$on('requirementParent',function(event, data){    //子级接收
-                if(data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 4 || data.status == 5 || data.status == 6 || data.status == 7){  //预约量房、确认量房
+                if(data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 4 || data.status == 5 || data.status == 6 || data.status == 7 || data.status == 8){  //预约量房、确认量房
                     myBooking(data.status)
                 }
-                if(data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5){  //选择方案
+                if(data.status == 8 || data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5){  //选择方案
                     myPlan()
                 }
-                if((data.status == 7 || data.status == 4 || data.status == 5) && data.work_type != 2){   //生成合同
+                if((data.status == 8 || data.status == 7 || data.status == 4 || data.status == 5) && data.work_type != 2){   //生成合同
                     myContract()
                 }
             })

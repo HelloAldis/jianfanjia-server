@@ -80,7 +80,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="authen" ng-if="(designer.auth_type == 0 || designer.auth_type == 1 || designer.auth_type == 3 || designer.auth_type == 4) && designer.authed_product_count < 3">
+		<div class="authen" ng-if="(designer.auth_type == 0 || designer.auth_type == 1 || designer.auth_type == 3 || designer.auth_type == 4) && designer.authed_product_count < 4">
 			<div class="inofTips"><i class="iconfont2">&#xe612;</i>完成基本资料认证及作品认证（至少3套）的设计师才可以接单</div>
 			<p>
 				<span ng-if="designer.auth_type == 0">欢迎来到简繁家，请完善您的基本资料</span>
@@ -95,6 +95,15 @@
 				<a class="u-btns u-btns-revise" ng-if="designer.auth_type == 3" ui-sref="infor">重新提交</a>
 				<a class="u-btns u-btns-revise" ng-if="designer.auth_type == 4" ui-sref="infor">重新提交</a>
 				<a class="u-btns" ng-if="designer.auth_type == 2 && designer.authed_product_count == 0" ui-sref="addProduct">发布作品</a>
+			</div>
+		</div>
+		<div class="authen" ng-if="(designer.auth_type == 2) && designer.authed_product_count < 4">
+			<div class="inofTips"><i class="iconfont2">&#xe612;</i>作品认证（至少3套）的设计师才可以接单</div>
+			<p>
+				<span>您有<strong bo-text="designer.authed_product_count"></strong>套作品通过认证，请继续发布作品</span>
+			</p>
+			<div class="btns">
+				<a class="u-btns" ui-sref="addProduct">发布作品</a>
 			</div>
 		</div>
 		<ul class="list">
@@ -121,7 +130,8 @@
 					</h4>
 					<div class="progress f-fr" bo-if="data.work_type != 2">
 						<div class="bar">
-							<div class="in in{{data.plan.status}}"></div>
+							<div class="in in{{data.plan.status}}" ng-if="data.plan.status && (data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 6)"></div>
+							<div class="in in{{data.status}}" ng-if="data.plan.status == 5 && (data.status == 4 || data.status == 5 || data.status == 7 || data.status == 8) && data.work_type != 2"></div>
 						</div>
 						<p ng-switch="data.plan.status" bo-if="data.plan.status != 5">
 							<i ng-switch-when="0">
@@ -176,7 +186,7 @@
 						请在24小时内响应业主需求，过期视为放弃。
 					</p>
 					<p ng-switch-when="2">
-						您已经响应业主，请准时上面量房<br />
+						您已经响应业主，请准时上门量房<br />
 						业主确认量房后，您才可以提交装修方案。
 					</p>
 					<p ng-switch-when="3">

@@ -65,8 +65,13 @@
 		<div class="g-sign">
 			<article class="m-sign-mn f-fl">
 				<div class="sign-mn">
-					<h2>简繁家账号登录</h2>
-					<div class="w-form">
+					<div id="login-status">
+						<ul class="f-cb">
+							<li data-status="weixin" class="active f-fl">微信登录</li>
+							<li data-status="account" class="f-fr">账号登录</li>
+						</ul>
+					</div>
+					<div data-type="account" class="w-form hide">
 						<form id="form-login">
 							<div class="m-item f-cb">
 								<div class="item">
@@ -101,14 +106,22 @@
 									<input type="button" class="u-btns submit-btn" id="login-submit" value="登录" />
 								</div>
 							</div>
-							<div class="m-item weixin" id="weixin">
-								<h4><span>或使用以下方式登录</span></h4>
-								<a href="/wechat/user_login" target="_blank">微信登录</a>
-							</div>
 							<div class="m-item f-tac">
 								<a href="reg.html" class="link">没有账号，立即注册&nbsp;&nbsp;<i class="f-st">&gt;&gt;</i></a>
 							</div>
 						</form>
+					</div>
+					<div data-type="weixin" class="w-form weixin">
+						<div class="m-item title">
+							<h3>请点击按钮后扫码登录</h3>
+							<img src="/static/img/user/weixn.png" width="44" height="108" alt="">
+						</div>
+						<div class="m-item btns">
+							<a href="/wechat/user_login" target="_blank">微信登录</a>
+						</div>
+						<div class="m-item f-tac">
+							<a href="reg.html" class="link">没有账号，立即注册&nbsp;&nbsp;<i class="f-st">&gt;&gt;</i></a>
+						</div>
 					</div>
 				</div>
 			</article>

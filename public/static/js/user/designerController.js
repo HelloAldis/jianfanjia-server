@@ -160,10 +160,10 @@ angular.module('controllers', [])
         function($scope, $rootScope,$timeout,$filter,$location,$stateParams,userRequiremtne,initData){
             var requiremtneId = $stateParams.id;
             $scope.$on('requirementParent',function(event, data){    //子级接收
-                if((data.plan.status == 3 || data.plan.status == 6 || data.plan.status == 4 || data.plan.status == 5) && (data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5)){  //选择方案
+                if((data.plan.status == 3 || data.plan.status == 6 || data.plan.status == 4 || data.plan.status == 5) && (data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5 || data.status == 8)){  //选择方案
                     myPlan()
                 }
-                if((data.status == 7 || data.status == 4 || data.status == 5) && data.work_type != 2){   //生成合同
+                if((data.status == 7 || data.status == 4 || data.status == 5 || data.status == 8) && data.work_type != 2){   //生成合同
                     myContract()
                 }
             })
@@ -290,7 +290,7 @@ angular.module('controllers', [])
                         $timeout.cancel($scope.contracts.timer)
                         uploadParent();
                         myContract();
-                        btnsBox = true;
+                        $scope.contracts.btnsBox = true;
                         $scope.contracts.motaiStartDate = false;
                         $scope.contracts.success = true;
                     },function(res){

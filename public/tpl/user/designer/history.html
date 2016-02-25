@@ -9,7 +9,7 @@
 		<div class="m-index m-requirementList m-historys">
 			<ul class="list">
 				<li ng-if="historys.length == 0">
-					<div class="ct">你还没有<i ng-bind="historyName"></i>装修需求哟~</div>
+					<div class="ct">您还没有<i ng-bind="historyName" ng-hide="historyName == '全部'"></i>装修需求哟~</div>
 					<div class="btns">
 						<a ui-sref="requirementList" class="u-btns">查看装修需求列表</a>
 					</div>
@@ -38,14 +38,15 @@
 							<span bo-if="data.house_area"><i bo-text="data.house_area"></i>m&sup2;</span>
 							<span bo-if="data.total_price"><i bo-text="data.total_price"></i>万元</span>
 						</div>
-						<div class="status" ng-switch="data.plan.status" bo-if="data.status != 8">
+						<div class="status" ng-switch="data.plan.status" bo-if="data.plan.status != 5">
 							<i ng-switch-when="1">已拒绝</i>
 							<i ng-switch-when="4">未中标</i>
 							<i ng-switch-when="7">未响应</i>
 							<i ng-switch-when="8">未出方案</i>
 						</div>
-						<div class="status" bo-if="data.status == 8">
-							<i class="ok">已完成</i>
+						<div class="status" ng-switch="data.status" bo-if="data.plan.status == 5">
+							<i ng-switch-when="4" class="ok">已完成</i>
+							<i ng-switch-when="8" class="ok">已竣工</i>
 						</div>
 					</div>
 				</li>

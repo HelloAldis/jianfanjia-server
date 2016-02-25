@@ -32,11 +32,14 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             this.save = $('#saveUserInfo');
             this.form = $('#form-login');
             this.error = $('#error-info');
+            this.tabs = $('#login-status');
+            this.Wform = $('.w-form');
             this.bindFocus();
             this.bindBlur();
             this.submit();
             this.bindsave();
             this.getCookie();
+            this.tabsfn();
         },
         verify : {
             isMobile : function(mobile){
@@ -48,6 +51,17 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             isVerifyCode : function(str){
                 return (/^[\d]{6}$/.test(str));
             }
+        },
+        tabsfn : function(){
+            var aLi = this.tabs.find('li');
+            var _this = this;
+            aLi.each(function(i,e){
+                $(e).on('click',function(){
+                    var status = $(this).data('status');
+                    $(this).addClass('active').siblings().removeClass('active');
+                    _this.Wform.filter("[data-type="+status+"]").removeClass('hide').siblings('.w-form').addClass('hide');
+                })
+            })
         },
         errmsg : {
             'mobile'  : '手机号不正确',
@@ -177,7 +191,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                 if(e.which == 13){
                     submitfn();
                 }
-            })
+            });
             this.form.on('click','#login-submit',function(){
                 submitfn();
                 return false;

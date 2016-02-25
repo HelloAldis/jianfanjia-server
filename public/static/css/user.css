@@ -183,12 +183,54 @@ body{
 	font-size: 14px;
 	text-align: center;
 }
-.weixin h4{
+
+.weixin .btns a{
+	display: block;
+	line-height: 32px;
+	color: #fff;
+	background-color: #30bf30;
+	border: 1px solid #1a9f1a;
+	border-radius: 3px;
+}
+.weixin .btns a:hover{
+	color: #fff;
+	background-color: #52bf30;
+}
+.weixin .title h3{
+	padding-bottom: 17px;
+	font-size: 14px;
+	line-height: 14px;
+	color: #61687a;
+}
+#login-status{
+	padding-bottom: 25px;
+}
+#login-status ul{
+	height: 61px;
+	font-size: 24px;
+	line-height: 59px;
+	color: #383d48;
+	border-bottom: 1px solid #ccc;
+}
+#login-status ul li{
+	cursor: pointer;
+}
+#login-status ul .active{
+	position: relative;
+	z-index: 1;
+	color: #fe7004;
+	border-bottom: 3px solid #fe7004;
+}
+.weixin1{
+	font-size: 14px;
+	text-align: center;
+}
+.weixin1 h4{
 	position: relative;
 	height: 30px;
 	background-color: #fff;
 }
-.weixin h4 span{
+.weixin1 h4 span{
 	position: absolute;
 	left:50%;
 	top:0;
@@ -201,7 +243,7 @@ body{
 	color: #b4b4b4;
 	background-color: #fff;
 }
-.weixin h4:before{
+.weixin1 h4:before{
 	content:"";
 	position: absolute;
 	left:0;
@@ -210,14 +252,14 @@ body{
 	height: 1px;
 	background-color: #e5e5e5;
 }
-.weixin a{
+.weixin1 a{
 	display: block;
 	line-height: 32px;
 	color: #30bf30;
 	border: 1px solid #30bf30;
 	border-radius: 3px;
 }
-.weixin a:hover{
+.weixin1 a:hover{
 	color: #fff;
 	background-color: #30bf30;
 }

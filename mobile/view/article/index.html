@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
     <meta charset="UTF-8">
     <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
-    <title>装修攻略--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家</title>
+    <title>装修攻略</title>
     <meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
     <meta name="keywords" content="室内装修,装修流程,装修知识,装修效果图,家装施工监理">
     <script>
@@ -135,6 +135,7 @@
         .swipe-wrap {
             overflow: hidden;
             position: relative;
+            width: 2000px;
         }
         .swipe-wrap > div {
             float:left;
@@ -146,6 +147,15 @@
             display: block;
             width: 100%;
         }
+        .swipe-wrap div a:before{
+            position: absolute;
+            left:0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            content: '';
+            background-color: rgba(0,0,0,.3);
+        }
         .swipe-wrap div a img{
             width: 100%;
         }
@@ -153,6 +163,7 @@
             position: absolute;
             left:50%;
             top:50%;
+            z-index: 2;
             width: 60%;
             font-size: .4rem;
             line-height: .6rem;
@@ -180,8 +191,8 @@
         .swipe .btns > span{
             display: inline-block;
             vertical-align: middle;
-            width: 0.2rem;
-            height: 0.2rem;
+            width: 0.1rem;
+            height: 0.1rem;
             margin: 0 5px;
             border: 2px solid #fff;
             -webkit-border-radius: 100%;
@@ -189,8 +200,8 @@
             border-radius: 100%;
         }
         .swipe .btns .active{
-            width: 0.35rem;
-            height: 0.35rem;
+            width: 0.25rem;
+            height: 0.25rem;
             border: none;
             background-color: #fff;
         }
@@ -209,7 +220,7 @@
             -o-box-flex: 1;
             box-flex: 1;
             text-align: center;
-            line-height: 1.3rem;
+            line-height: 1rem;
             color: #848b93;
         }
         .tab ul li.active{
@@ -221,13 +232,6 @@
         main > div.active{
             display: block;
         }
-        /*main > div li{
-            position: relative;
-            float: left;
-            width: 50vw;
-            margin-bottom: 0.3rem;
-            background-color: #fff;
-        }*/
         main > div li:nth-of-type(2n) span:before{
             position: absolute;
             width: 2px;
@@ -250,8 +254,8 @@
         }
         main > div li a div{
             float: left;
-            width: 55%;
-            padding: 1%;
+            width: 53%;
+            padding:1% 1% 1% 4%;
         }
         main > div li a div h4{
             color: #333;

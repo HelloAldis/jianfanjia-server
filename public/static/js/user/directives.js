@@ -646,7 +646,7 @@ angular.module('directives', [])
                 if(!$scope.myQuery){
                   $userHead.attr('src','../../../static/img/user/headPic.png')
                 }else{
-                  $userHead.attr('src',RootUrl+'api/v2/web/thumbnail/120/'+$scope.myQuery)
+                  $userHead.attr('src',RootUrl+'api/v2/web/thumbnail2/120/120/'+$scope.myQuery)
                 }
                 $cropBorder.on('mousedown',function(e){
                     disX = e.clientX - parseInt($(this).css("left"));
@@ -784,7 +784,7 @@ angular.module('directives', [])
                       .done(function(res){
                         $scope.$apply(function(){
                             $scope.myQuery = res.data;
-                            $userHead.attr('src',RootUrl+'api/v2/web/thumbnail/120/'+res.data)
+                            $userHead.attr('src',RootUrl+'api/v2/web/thumbnail2/120/120/'+res.data)
                         });
                         clearData();
                         data.data = null;
@@ -1026,6 +1026,7 @@ angular.module('directives', [])
                       }
                   });
               }else{
+                  //createUpload.uploadify('destroy');
                   createUpload.uploadify({
                       'auto'     : true,
                       'removeTimeout' : 1,
@@ -1164,7 +1165,7 @@ angular.module('directives', [])
                           '</div>',
                           '<div class="item" ng-repeat="img in myQuery">',
                             '<span class="close" ng-click="removeImg($index,myQuery)"></span>',
-                            '<div class="img"><img ng-if="myType == &#39;edit&#39;" ng-src="/api/v2/web/thumbnail/168/{{img.imageid}}" /><img ng-if="myType == &#39;write&#39;" ng-src="/api/v2/web/thumbnail/168/{{img.award_imageid}}" /><img ng-if="myType == &#39;default&#39;" ng-src="/api/v2/web/thumbnail/168/{{img}}" /></div>',
+                            '<div class="img"><img ng-if="myType == &#39;edit&#39;" ng-src="/api/v2/web/thumbnail/168/{{img.imageid}}" /><img ng-if="myType == &#39;write&#39;" ng-src="/api/v2/web/thumbnail2/168/168/{{img.award_imageid}}" /><img ng-if="myType == &#39;default&#39;" ng-src="/api/v2/web/thumbnail2/168/168/{{img}}" /></div>',
                             '<div ng-if="myType == &#39;edit&#39;" my-selecte ng-if="mySection.length" my-list="mySection" my-query="img.section"></div>',
                             '<textarea ng-if="myType == &#39;edit&#39; || myType == &#39;write&#39;" class="input textarea" ng-model="img.description" name="itme_con" cols="30" rows="10"></textarea>',
                           '</div>',
@@ -1249,7 +1250,7 @@ angular.module('directives', [])
                         });
                     }
                     img.onerror=function(){alert("error!");$('#create').find('.mask').remove();};
-                    img.src=RootUrl+'api/v2/web/thumbnail/168/'+data.data;
+                    img.src=RootUrl+'api/v2/web/thumbnail2/168/168/'+data.data;
                   }else{
                     alert('已经上传过了')
                   }

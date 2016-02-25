@@ -526,9 +526,10 @@ body{
 	min-height: 100%;		
 }
 .m-home-info .banner .not{
+	width: 100%;
 	height: 100%;	
 	text-align: center;
-	background:#ebecee url(../img/design/bg-pttrn.jpg) repeat;
+	background:url(../img/design/bg.jpg) no-repeat;
 }
 .m-home-info .banner .not h3{
 	padding-top: 100px;
@@ -540,7 +541,7 @@ body{
 	padding-top: 13px;
 	font-size: 14px;
 	line-height: 14px;
-	color: #66677b;
+	color: #fff;
 }
 .m-home-info .banner .change{
 	height: 100%;	

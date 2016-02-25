@@ -29,7 +29,8 @@
 							</h4>
 							<div class="progress f-fr" bo-if="data.work_type != '纯设计'">
 								<div class="bar">
-									<div class="in in{{data.plan.status}}"></div>
+									<div class="in in{{data.plan.status}}" ng-if="data.plan.status && (data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 6)"></div>
+									<div class="in in{{data.status}}" ng-if="data.plan.status == 5 && (data.status == 4 || data.status == 5 || data.status == 7 || data.status == 8) && data.work_type != '纯设计'"></div>
 								</div>
 								<p ng-switch="data.plan.status" ng-if="data.plan.status && (data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 6)">
 									<i ng-switch-when="0">
