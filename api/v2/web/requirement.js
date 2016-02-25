@@ -15,7 +15,7 @@ var async = require('async');
 var sms = require('../../../common/sms');
 var designer_match_util = require('../../../common/designer_match');
 var wkhtmltopdf = require('wkhtmltopdf');
-var requirement_util = ('../../../common/requirement_util');
+var requirement_util = require('../../../common/requirement_util');
 
 exports.user_my_requirement_list = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
