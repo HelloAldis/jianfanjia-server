@@ -140,10 +140,10 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
         Requirement.find({
           $or:[{
             final_designerid: designerid,
-            status:type.requirement_status_final_plan
+            status:type.requirement_status_done_process
           }, {
             final_designerid: designerid,
-            status:type.requirement_status_done_process,
+            status:type.requirement_status_final_plan,
             work_type:type.work_type_design_only,
           }],
         }, null, {
@@ -168,10 +168,10 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
     Requirement.find({
       $or:[{
         final_designerid: designerid,
-        status:type.requirement_status_final_plan
+        status:type.requirement_status_done_process
       }, {
         final_designerid: designerid,
-        status:type.requirement_status_done_process,
+        status:type.requirement_status_final_plan,
         work_type:type.work_type_design_only,
       }],
     }, null, {
