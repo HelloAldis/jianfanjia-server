@@ -145,7 +145,16 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
         }, null, {
           lean: 1
         }, function (err, requirements) {
-          callback(err, requirements);
+          async.mapLimit(requirements, 3, function (requirement, callback) {
+            Plan.findOne({
+              _id: requirement.final_planid,
+            }, null, function (err, plan) {
+              requirement.plan = plan;
+              callback(err, requirement);
+            });
+          }, function (err, requirements) {
+            callback(err, requirements);
+          });
         });
       },
     }, ep.done(function (result) {
@@ -160,7 +169,16 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
     }, null, {
       lean: 1
     }, function (err, requirements) {
-      res.sendData(requirements)
+      async.mapLimit(requirements, 3, function (requirement, callback) {
+        Plan.findOne({
+          _id: requirement.final_planid,
+        }, null, function (err, plan) {
+          requirement.plan = plan;
+          callback(err, requirement);
+        });
+      }, function (err, requirements) {
+        res.sendData(requirements)
+      });
     });
   } else {
     var status = undefined;
