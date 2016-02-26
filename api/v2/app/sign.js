@@ -222,6 +222,7 @@ exports.designer_signup = function (req, res, next) {
         Designer.newAndSave({
           phone: phone,
           pass: passhash,
+          username: '用户' + phone.slice(-4),
         }, ep.done(function (user_indb) {
           // store session cookie
           authMiddleWare.gen_session(user_indb,
