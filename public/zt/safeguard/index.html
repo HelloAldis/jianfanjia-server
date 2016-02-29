@@ -28,11 +28,7 @@
             background-color: #ebeced;
         }
         .g-banner{
-            text-align: center;
-            font-size: 60px;
-            height: 300px;
-            line-height: 300px;
-            color: #fff;
+            height: 440px;
             background:url(banner.jpg) no-repeat center top;
         }
         .apply{
@@ -66,98 +62,49 @@
         .apply a:hover{
             background-color: #fe5c04;
         }
-        .table{
-            width: 842px;
-            margin: 0 auto;
-            padding-bottom: 100px;
-        }
-        .table table{
+        .m-tabs{
             width: 100%;
-            background-color: #fff;
+            min-width: 1200px;
+            height: 92px;
+            background-color: #f9f9f9;
         }
-        .table .td1{
-            width: 20%;
+        .m-tabs li{
+            position: relative;
+            float: left;
+            width: 50%;
+            height: 92px;
+            cursor: pointer;
         }
-        .table .td2,.table .td3{
-            width: 40%;
+        .m-tabs li.active{
+            background-color: #ebeced;
         }
-        .table thead{
-            border-left: 1px solid #393939;
-            border-right: 1px solid #393939;
+        .m-tabs li dl{
+            padding-top: 22px;
+            padding-left: 196px;
         }
-
-        .table thead th{
-            height: 100px;
-            background-color: #393939;
-            color: #fff;
+        .m-tabs li dt{
+            float: left;
+            width: 48px;
+            height: 48px;
+            background:url(tab-icon.png) no-repeat 0 0;
         }
-        .table thead th.td2{
-            background-color: #fe7004;
+        .m-tabs li .icon2{
+            background-position: 0 bottom;
         }
-        .table thead h3{
-            font-size: 30px;
+        .m-tabs li dd{
+            float: left;
+            padding-left: 20px;
+        }
+        .m-tabs li dd h4{
+            font-size: 20px;
+            line-height: 28px;
             font-weight: bold;
-        }
-        .table thead p{
-            font-size: 14px;
-        }
-        .table tbody{
-            background-color: #fff;
-        }
-        .table tbody tr.even{
-            background-color: #f5f5f5;
-        }
-        .table tbody td.td1{
-            padding: 10px 0;
-            text-align: center;
-        }
-        .table tbody td.td1 h4{
-            padding-bottom: 10px;
-            font-size: 12px;
-            color: #04bafe;
-            line-height: 12px;
-        }
-        .table tbody td{
-            border-bottom: 1px solid #ebeced;
-        }
-        .table tbody td.td1{
-            border-left: 1px solid #ccc;
-        }
-        .table tbody td.td3{
-            border-right: 1px solid #ccc;
-        }
-        .table tbody td.td1 p{
-            font-size: 16px;
-            line-height: 16px;
-            font-weight: bold;
-            color: #393939;
-        }
-        .table tbody td.td2{
-            border-left: 1px solid #fe7004;
-            border-right: 1px solid #fe7004;
-        }
-        .table tbody td.td2 p{
-            padding: 16px 25px;
-            line-height: 18px;
-            color: #fe7004;
-        }
-        .table tbody td.td3 p{
-            padding: 16px 25px;
-            line-height: 18px;
-        }
-        .table tbody .last td{
-            border-bottom: 1px solid #ccc;
-        }
-        .table tbody .last td.td2{
-            border-bottom: 1px solid #fe7004;
-        }
-        .description{
-            width: 980px;
-            margin: 0 auto;
-            padding: 40px 0;
-            font-size: 18px;
-            line-height: 30px;
             color: #383d48;
+        }
+        .m-tabs li dd p{
+            font-size: 14px;
+            line-height: 22px;
+            color: #999;
         }
         .m-popup{
             position: fixed;
@@ -248,16 +195,6 @@
             -webkit-box-shadow: 0 0 0px 1000px #f9f9f9 inset;
             border: 1px solid #CCC!important;
         }
-        .label-placeholder{
-            position: absolute;
-            left: 20px;
-            height: 20px;
-            top: 9px;
-            font-size: 12px;
-            line-height: 20px;
-            color: #999;
-            cursor: text;
-        }
         .success{
             display: none;
         }
@@ -285,6 +222,155 @@
         }
         .m-popup .popup-main .success .u-btns{
             width: 150px;
+        }
+        .g-main table,.loan,.safety{
+            width: 100%;
+            text-align: center;
+        }
+        .g-main table{
+            background-color: #fff;
+            border-collapse: separate;
+        }
+        .g-main{
+            padding-bottom: 250px;
+        }
+        .loan .td2{
+            width: 50%;
+        }
+        .loan th{
+            font-size: 30px;
+            line-height: 126px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #b1002e;
+        }
+        .loan th.td2{
+            background-color: #00377a;
+            margin-left: -1px;
+        }
+        .loan td{
+            font-size: 18px;
+            line-height: 100px;
+            color: #61687a;
+            border-left: 1px solid #ccc;
+        }
+        .loan td.td2{
+            border-right: 1px solid #ccc;
+        }
+        .loan td span{
+            margin: 0 5px;
+            color: #fe7004;
+        }
+        .loan .last td{
+            border-bottom: 1px solid #ccc;
+        }
+        .g-main table .even{
+            background-color: #f5f5f5;
+        }
+        .loan{
+            padding: 35px 0;
+        }
+        .flow h3{
+            font-size: 30px;
+            line-height: 110px;
+            font-weight: bold;
+            color: #383d48;
+        }
+        .flow ul{
+            padding-left: 10px;
+        }
+        .flow li{
+            float: left;
+            width: 160px;
+            margin: 0 38px;
+        }
+        .flow li span{
+            display: block;
+            width: 160px;
+            height: 160px;
+            background:url(flow-icon.png) no-repeat 0 0;
+        }
+        .flow li span.icon2{
+            background-position:0 -160px;
+        }
+        .flow li span.icon3{
+            background-position:0 -320px;
+        }
+        .flow li span.icon4{
+            background-position:0 -480px;
+        }
+        .flow li span.icon5{
+            background-position:0 -640px;
+        }
+        .flow li p{
+            font-size: 18px;
+            line-height: 60px;
+            color: #61687a;
+        }
+        .security{
+            padding-top: 243px;
+        }
+        .security dt{
+            float: left;
+            padding:0 80px 0 136px;
+        }
+        .security dd{
+            float: left;
+            width: 744px;
+            text-align: left;
+        }
+        .security dd h3,.service h3{
+            padding-bottom: 26px;
+            font-size: 30px;
+            line-height: 44px;
+            font-weight: bold;
+            color: #383d48;
+        }
+        .security dd p,.service p{
+            font-size: 18px;
+            line-height: 30px;
+            color: #34495e;
+        }
+        .safety th{
+            font-size: 30px;
+            line-height: 126px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #257fdf;
+        }
+        .safety .td3{
+            color: #fff;
+            border-left:1px solid #ccc;
+        }
+        .safety td{
+            font-size: 18px;
+            line-height: 100px;
+            color: #61687a;
+            border-left: 1px solid #ccc;
+        }
+        .safety .td1{
+            width: 40%;
+        }
+        .safety .td3{
+            border-right: 1px solid #ccc;
+        }
+        .safety td.td3{
+            color: #fe7004;
+        }
+        .safety .last td{
+            font-size: 30px;
+            font-weight: bold;
+            color: #fff;
+            border: none;
+            background-color: #34495e;
+        }
+        .safety .last .td3{
+            background-color: #fe7004;
+        }
+        .service{
+            width: 980px;
+            margin: 0 auto;
+            padding: 70px 0 35px;
         }
     </style>
 </head>
@@ -322,105 +408,134 @@
         <a href="/tpl/user/owner.html#release" class="m-release bounce" id="j-release"><span><i></i></span>免费获取三套方案</a>
     </div>
 </nav>
-<div class="g-banner g-wa" id="j-banner">
-    <h2>第三方监理服务</h2>
+<div class="g-banner g-wa" id="j-banner"></div>
+<div class="m-tabs" id="j-tabs">
+    <ul class="g-wp">
+        <li data-btn="loan" class="active">
+            <dl>
+                <dt class="icon1"></dt>
+                <dd>
+                    <h4>装修贷款服务</h4>
+                    <p>花明天的钱装今天的家</p>
+                </dd>
+            </dl>
+        </li>
+        <li data-btn="safety">
+            <dl>
+                <dt class="icon2"></dt>
+                <dd>
+                    <h4>双重保险服务</h4>
+                    <p>意外财产保险和质量保证基金</p>
+                </dd>
+            </dl>
+        </li>
+    </ul>
 </div>
-<main class="g-wp">
-    <p class="description">
-        “简繁家”引入第三方监理服务，和传统装修公司相比，该监理服务绝不会走过场，认真检验、核对每个施工节点，保证装修按时、按质完成，并且不再需要业主每天亲自跑工地，为业主节约了大量的时间和精力。“简繁家”提供了标准型和管家型两种监理服务，它们是具体是如何运作的，两者之间有哪些区别呢？
-    </p>
-    <div class="table">
+<main class="g-wp g-main" id="j-main">
+    <section data-box="loan" class="loan showBox">
         <table>
             <thead>
-            <tr>
-                <th class="td1"><h3>工序</h3></th>
-                <th class="td2"><h3>管家监理</h3><p>2000元/户</p></th>
-                <th class="td3"><h3>标准监理</h3><p>1000元/户</p></th>
-            </tr>
+                <tr>
+                    <th class="td1">中银消费金融</th>
+                    <th class="td2">湖北消费金融</th>
+                </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="td1"><h4>第1天</h4><p>开工</p></td>
-                    <td class="td2"><p>三方（业主、设计师和项目经理、平台监理方）见面，交换联系方式；设计方案交底；工期安排交底。</p></td>
-                    <td class="td3"><p>三方（业主、设计师和项目经理、平台监理方）见面，交换联系方式；设计方案交底；工期安排交底。</p></td>
+                    <td class="td1">月利率<span>0.86%</span></td>
+                    <td class="td2">月利率<span>0.71%</span>起</td>
                 </tr>
                 <tr class="even">
-                    <td class="td1"><h4>第3天</h4><p>水电材料进场</p></td>
-                    <td class="td2"><p>材料验收；施工及验收要求交底；布线需求交底。</p></td>
-                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
+                    <td class="td1">一天放款</td>
+                    <td class="td2">手续简便，到账快</td>
                 </tr>
                 <tr>
-                    <td class="td1"><h4>第12天</h4><p>水电验收</p></td>
-                    <td class="td2"><p>根据《水电验收标准》验收。</p></td>
-                    <td class="td3"><p>根据《水电验收标准》验收。</p></td>
+                    <td class="td1">额度<span>1-20</span>万</td>
+                    <td class="td2">额度<span>1-20</span>万</td>
                 </tr>
-                <tr class="even">
-                    <td class="td1"><h4>第16天</h4><p>泥木材料进场</p></td>
-                    <td class="td2"><p>材料验收；施工及验收要求交底。</p></td>
-                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
-                </tr>
-                <tr>
-                    <td class="td1"><h4>第18天</h4><p>防水验收</p></td>
-                    <td class="td2"><p>根据《防水验收标准》验收。</p></td>
-                    <td class="td3"><p>根据《防水验收标准》验收。</p></td>
-                </tr>
-                <tr class="even">
-                    <td class="td1"><h4>第20天</h4><p>泥木巡检</p></td>
-                    <td class="td2"><p>检查是否存在错贴、误贴；检查是否存在空鼓、颜色搭配等问题；成品报护及现场卫生处理。</p></td>
-                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
-                </tr>
-                <tr>
-                    <td class="td1"><h4>第24天</h4><p>泥木验收</p></td>
-                    <td class="td2"><p>根据《泥工验收标准》验收。</p></td>
-                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
-                </tr>
-                <tr class="even">
-                    <td class="td1"><h4>第32天</h4><p>吊顶验收</p></td>
-                    <td class="td2"><p>根据《木工验收标准》验收。</p></td>
-                    <td class="td3"><p>根据《木工验收标准》验收。</p></td>
-                </tr>
-                <tr>
-                    <td class="td1"><h4>第34天</h4><p>木作巡检</p></td>
-                    <td class="td2"><p>检查是否根据图纸要求施工；检查木作施工中是否存在不规范的操作；成品保护及现场卫生处理。</p></td>
-                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
-                </tr>
-                <tr class="even">
-                    <td class="td1"><h4>第36天</h4><p>木作验收</p></td>
-                    <td class="td2"><p>根据《木工验收标准》验收。</p></td>
-                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
-                </tr>
-                <tr>
-                    <td class="td1"><h4>第37天</h4><p>油漆材料进场</p></td>
-                    <td class="td2"><p>材料验收；油漆施工及验收要求交底。</p></td>
-                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
-                </tr>
-                <tr class="even">
-                    <td class="td1"><h4>第42天</h4><p>油漆基础处理</p></td>
-                    <td class="td2"><p>检查墙面接缝处理情况；检查墙面基层有无空鼓；检查墙面平整度、阴阳角平直度。</p></td>
-                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
-                </tr>
-                <tr>
-                    <td class="td1"><h4>第46天</h4><p>油漆验收</p></td>
-                    <td class="td2"><p>根据《油漆验收标准》验收。</p></td>
-                    <td class="td3"><p>根据《油漆验收标准》验收。</p></td>
-                </tr>
-                <tr class="even">
-                    <td class="td1"><h4>第58天</h4><p>安装验收</p></td>
-                    <td class="td2"><p>根据《安装验收标准》验收。</p></td>
-                    <td class="td3"><p>根据《安装验收标准》验收。</p></td>
-                </tr>
-                <tr class="last">
-                    <td class="td1"><h4>第60天</h4><p>竣工验收</p></td>
-                    <td class="td2"><p>根据《竣工验收标准》验收。</p></td>
-                    <td class="td3"><p>根据《竣工验收标准》验收。</p></td>
+                <tr class="even last">
+                    <td class="td1">期限<span>12-36</span>个月</td>
+                    <td class="td2">期限<span>12-360</span>个月</td>
                 </tr>
             </tbody>
         </table>
-    </div>
+        <div class="flow">
+            <h3>服务流程</h3>
+            <ul class="f-cb">
+                <li><span class="icon1"></span><p>在线申请</p></li>
+                <li><span class="icon2"></span><p>客户面谈</p></li>
+                <li><span class="icon3"></span><p>资料评估</p></li>
+                <li><span class="icon4"></span><p>签署合同</p></li>
+                <li><span class="icon5"></span><p>借款成功</p></li>
+            </ul>
+        </div>
+    </section>
+    <section data-box="safety" class="safety showBox hide">
+        <div class="service">
+            <h3>意外财产保险服务</h3>
+            <p>“简繁家”与“阳光保险集团”联手为业主提供总价值最高达62万元的家庭财产总和保险，同时建立了专项质量保证基金。该基金由设计师个人缴纳和“简繁家”平台划拨基金共同组成，可先行赔付，为业主的装修售后服务提供可靠双重保证。</p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th class="td2" colspan="2">保险标的</th>
+                    <th class="td3">最高保险金额（元）</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="td1" rowspan="3">家庭财产综合保险</td>
+                    <td class="td2">房屋及其室内附属设备</td>
+                    <td class="td3">500000</td>
+                </tr>
+                <tr class="even">
+                    <td class="td2">室内装潢</td>
+                    <td class="td3">50000</td>
+                </tr>
+                <tr>
+                    <td class="td2">室内财产</td>
+                    <td class="td3">50000</td>
+                </tr>
+                <tr class="even">
+                    <td class="td2" colspan="2">附加盗抢保险</td>
+                    <td class="td3">3000</td>
+                </tr>
+                <tr>
+                    <td class="td2" colspan="2">附加管道破裂及水渍保险</td>
+                    <td class="td3">3000</td>
+                </tr>
+                <tr class="even">
+                    <td class="td2" colspan="2">附加管道破裂及水渍第三者责任保险</td>
+                    <td class="td3">3000</td>
+                </tr>
+                <tr>
+                    <td class="td2" colspan="2">附加家庭责任综合保险</td>
+                    <td class="td3">10000</td>
+                </tr>
+                <tr class="even">
+                    <td class="td2" colspan="2">附加家用电器用电安全保险</td>
+                    <td class="td3">3000</td>
+                </tr>
+                <tr class="last">
+                    <td class="td2" colspan="2">总保额</td>
+                    <td class="td3">622000</td>
+                </tr>
+            </tbody>
+        </table>
+        <dl class="security f-cb">
+            <dt>
+                <img src="shield.png" width="198" height="235" alt="">
+            </dt>
+            <dd>
+                <h3>专项质量保证基金</h3>
+                <p>“简繁家”专门成立了专项质保基金，其由设计师个人缴纳和“简繁家”平台划拨基金共同组成。如果业主遇到售后方面的问题，申请后可直接为业主先行赔付，让装修售后变得更为简单，同时为业主们提供可靠的保证。</p>
+            </dd>
+        </dl>
+    </section>
 </main>
 <div class="apply">
     <div class="g-wp">
-        <h3 class="f-fl">一键申请，第三方监理让您放心</h3>
+        <h3 class="f-fl">一键申请，花明天的钱装今天的家</h3>
         <a href="javascript:;" class="f-fr" id="submitBtn">免费申请</a>
     </div>
 </div>

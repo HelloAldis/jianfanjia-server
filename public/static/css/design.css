@@ -535,13 +535,14 @@ body{
 	padding-top: 100px;
 	font-size: 36px;
 	line-height: 36px;
-	color: #fe7004;
+	color: #fff;
 }
 .m-home-info .banner .not p{
 	padding-top: 13px;
 	font-size: 14px;
 	line-height: 14px;
 	color: #fff;
+	letter-spacing:4px;
 }
 .m-home-info .banner .change{
 	height: 100%;	
