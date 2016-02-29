@@ -1,3 +1,7 @@
+/**
+  Release build as command  gulp release (-a|-b|-c)
+*/
+
 var gulp = require('gulp');
 var minimist = require('minimist')
 var runSequence = require('run-sequence');

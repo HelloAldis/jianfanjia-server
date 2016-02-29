@@ -138,10 +138,14 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
       },
       done_requirements: function (callback) {
         Requirement.find({
-          final_designerid: designerid,
-          status: {
-            $in: [type.requirement_status_done_process, type.requirement_status_final_plan]
-          },
+          $or:[{
+            final_designerid: designerid,
+            status:type.requirement_status_done_process
+          }, {
+            final_designerid: designerid,
+            status:type.requirement_status_final_plan,
+            work_type:type.work_type_design_only,
+          }],
         }, null, {
           lean: 1
         }, function (err, requirements) {
@@ -162,10 +166,14 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
     }));
   } else if (list_type === 1) {
     Requirement.find({
-      final_designerid: designerid,
-      status: {
-        $in: [type.requirement_status_done_process, type.requirement_status_final_plan]
-      },
+      $or:[{
+        final_designerid: designerid,
+        status:type.requirement_status_done_process
+      }, {
+        final_designerid: designerid,
+        status:type.requirement_status_final_plan,
+        work_type:type.work_type_design_only,
+      }],
     }, null, {
       lean: 1
     }, function (err, requirements) {
