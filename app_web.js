@@ -41,7 +41,7 @@ app.set('view cache', !config.debug);
 app.use(compression());
 // 通用的中间件
 app.use(require('response-time')());
-app.use(timeout('40s'));
+app.use(timeout('60s'));
 app.use(helmet.frameguard('sameorigin')); // 防止 clickjacking attacks
 app.use(helmet.hidePoweredBy({
   setTo: 'PHP 4.2.0'
