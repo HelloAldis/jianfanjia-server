@@ -12,7 +12,13 @@ var UserMessageSchema = new Schema({
   content: {
     type: String
   },
+  type: {
+    type: String
+  },
   create_at: {
+    type: Number,
+  },
+  lastupdate: {
     type: Number,
   },
   status: {
