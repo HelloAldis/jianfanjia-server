@@ -41,8 +41,8 @@ exports.login = function (req, res, next) {
         //业主登录
         var passhash = result.user.pass;
         if (!passhash) {
-          // return res.sendErrMsg('您是微信注册用户，请您换微信登录！');
-          return res.redirect('/wechat/user_login');
+          return res.sendErrMsg('您是微信注册用户，请您换微信登录！');
+          // return res.redirect('/wechat/user_login');
         }
 
         tools.bcompare(pass, passhash, ep.done(function (bool) {
@@ -62,8 +62,8 @@ exports.login = function (req, res, next) {
         //设计师登录
         var passhash = result.designer.pass;
         if (!passhash) {
-          // return res.sendErrMsg('您是微信注册用户，请您换微信登录！');
-          return res.redirect('/wechat/user_login');
+          return res.sendErrMsg('您是微信注册用户，请您换微信登录！');
+          // return res.redirect('/wechat/user_login');
         }
 
         tools.bcompare(pass, passhash, ep.done(function (bool) {
