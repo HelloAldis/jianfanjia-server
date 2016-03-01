@@ -117,14 +117,15 @@
 }
 /*banner*/
 .g-banner{
-	height: 660px;
+	position: relative;
+	height: 560px;
 	overflow: hidden;
 	background-color: #f9f9f9;
 }
 .g-banner ul{
 	position: relative;
 	width: 100%;
-	height: 580px;
+	height: 480px;
 	overflow: hidden;
 }
 .g-banner ul li{
@@ -146,12 +147,70 @@
 	opacity: 1;
 	filter: alpha(opacity=100);
 }
+.g-banner .toggle{
+	position: absolute;
+	top: 0;
+	left:50%;
+	z-index: 10;
+	margin-left: -600px;
+}
+.g-banner .toggle span{
+	position: absolute;
+	top:220px;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	cursor: pointer;
+}
+.g-banner .toggle span i{
+	font-size: 40px;
+	color: #fff;
+}
+.g-banner .toggle .prev{
+	left:0;
+}
+.g-banner .toggle .next{
+	right:0;
+}
+.g-banner .btns{
+	position: absolute;
+	left:0;
+	top:440px;
+	z-index: 20;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	font-size: 0;
+}
+.g-banner .btns span{
+	display: inline-block;
+	vertical-align: middle;
+	width: 10px;
+	height: 10px;
+	margin: 0 5px;
+	cursor: pointer;
+	background-color: #fff;
+	-webkit-border-radius: 100%;
+	-moz-border-radius: 100%;
+	border-radius: 100%;
+}
+.g-banner .btns span.active{
+	width: 8px;
+	height: 8px;
+	border: 1px solid #fff;
+	background: none;
+}
 .g-banner ol{
 	height: 80px;
 }
 .g-banner ol li{
-	position: relative;
 	float: left;
+}
+.g-banner ol li a{
+	position: relative;
+	display: block;
 	width: 274px;
 	height: 80px;
 	padding-left: 126px;
@@ -174,7 +233,7 @@
 	line-height: 18px;
 	color: #61687a;
 }
-.g-banner ol li.active h4,.g-banner ol li.active p{
+.g-banner ol li a:hover p,.g-banner ol li a:hover h4{
 	color: #fff;
 }
 .g-banner ol li i{
@@ -191,22 +250,22 @@
 .g-banner ol li.three i{
 	background-position: -126px 0;
 }
-.g-banner ol li.one.active{
+.g-banner ol li.one a:hover{
 	background-color: #3d7fc0;
 }
-.g-banner ol li.two.active{
+.g-banner ol li.two a:hover{
 	background-color: #ffa400;
 }
-.g-banner ol li.three.active{
+.g-banner ol li.three a:hover{
 	background-color: #a3d702;
 }
-.g-banner ol li.one.active i{
+.g-banner ol li.one a:hover i{
 	background-position: 0 -58px;
 }
-.g-banner ol li.two.active i{
+.g-banner ol li.two a:hover i{
 	background-position: -63px -58px;
 }
-.g-banner ol li.three.active i{
+.g-banner ol li.three a:hover i{
 	background-position: -126px -58px;
 }
 /*大数据*/

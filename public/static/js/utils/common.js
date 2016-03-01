@@ -185,13 +185,16 @@ define(['jquery','lib/jquery.cookie'], function($){
         type: 'POST',
         dataType: 'json',
         contentType : 'application/json; charset=utf-8'
-      })
-      .done(function(res){
+      }).done(function(res){
         if(res.data != null){
           if(!off){
             self.createInfo(res.data,false);
           }
           self.createOwnerPulldown(res.data);
+        }
+      }).fail(function(err){
+        if(err.status == 403){
+          self.createDefault();
         }
       });
     },
@@ -202,13 +205,16 @@ define(['jquery','lib/jquery.cookie'], function($){
         type: 'POST',
         dataType: 'json',
         contentType : 'application/json; charset=utf-8'
-      })
-      .done(function(res){
+      }).done(function(res){
         if(res.data != null){
           if(!off){
             self.createInfo(res.data,true);
           }
           self.createDesignPulldown(res.data);
+        }
+      }).fail(function(err){
+        if(err.status == 403){
+          self.createDefault();
         }
       });
     },
@@ -265,11 +271,12 @@ define(['jquery','lib/jquery.cookie'], function($){
           type: 'POST',
           dataType: 'json',
           contentType : 'application/json; charset=utf-8'
-        })
-        .done(function(res){
+        }).done(function(res){
           if(res.msg === "success"){
             window.location.href = "/"
           }
+        }).fail(function(err){
+          console.log(err)
         })
       });
     },
@@ -480,12 +487,13 @@ define(['jquery','lib/jquery.cookie'], function($){
         type: 'POST',
         contentType : 'application/json; charset=utf-8',
         dataType: 'json'
-      })
-      .done(function(res) {
+      }).done(function(res) {
         if(res.data.length > 0){
           self.setRequirement(res.data);
           self.hover('.add',-80);
         }
+      }).fail(function(err){
+        console.log(err)
       });
     },
     setRequirement : function(data){
@@ -526,9 +534,10 @@ define(['jquery','lib/jquery.cookie'], function($){
            "limit":10
         }),
         processData : false
-      })
-      .done(function(res) {
+      }).done(function(res) {
         $Span.html(res.data.total);
+      }).fail(function(err){
+        console.log(err)
       });
     },
     format : function(date,format){

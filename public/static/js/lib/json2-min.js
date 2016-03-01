@@ -1,3 +1,19 @@
+(function(){
+    var isIE = window.navigator.userAgent.toLocaleLowerCase().indexOf('msie') !== -1,
+        isLteIE8 = isIE && !+[1,],
+        dm = document.documentMode,
+        isIE5, isIE6, isIE7;
+    if (dm){
+        isIE5 = dm === 5;
+        isIE6 = dm === 6;
+        isIE7 = dm === 7;
+    }else{
+        isIE5 = (isLteIE8 && (!document.compatMode || document.compatMode === 'BackCompat'));
+        isIE6 = isLteIE8 && !isIE5 && !XMLHttpRequest;
+        isIE7 = isLteIE8 && !isIE6 && !document.documentMode;
+    }
+    if(isIE5 || isIE6 || isIE7){window.location.href = "/tpl/other/error.html";}
+})();
 if (typeof JSON !== 'object') {JSON = {};}
 (function () {'use strict';function f(n) {return n < 10 ? '0' + n : n;}
     if (typeof Date.prototype.toJSON !== 'function') {Date.prototype.toJSON = function (key) {return isFinite(this.valueOf())? this.getUTCFullYear()+'-'+f(this.getUTCMonth() + 1) + '-' +f(this.getUTCDate())+'T'+f(this.getUTCHours())+':'+f(this.getUTCMinutes())+':'+f(this.getUTCSeconds())+'Z':null;};String.prototype.toJSON=Number.prototype.toJSON=Boolean.prototype.toJSON = function (key){return this.valueOf();};}

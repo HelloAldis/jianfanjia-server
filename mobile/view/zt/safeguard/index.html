@@ -107,7 +107,7 @@
             width: 94%;
             margin: 0 auto;
             text-align: center;
-            padding-bottom: 2.4315rem;
+            padding-bottom: 4rem;
         }
         .form h2{
             font-size: 0.5636rem;
@@ -467,8 +467,8 @@
     $(function(){
         var check_step = 2;
         //事件操作
-        $("#name").on('blur',function(){
-            if(!!$.trim($(this).val()) && $.trim($(this).val()).length > 1 && $.trim($(this).val()).length < 21){
+        $("#name").on('blur input',function(){
+            if(!!$.trim($(this).val()) && $.trim($(this).val()).length > 0 && $.trim($(this).val()).length < 21){
                 $(this).removeClass('error')
                 check_step--;
             }else{
@@ -502,13 +502,14 @@
         })
         $('#info-submit').on('touchstart',function(){
             if(!$(this).hasClass('disabled')){
+                document.activeElement.blur();
                 $.ajax({
                     type: 'POST',
                     url: '/api/v2/web/add_angel_user',
                     data: JSON.stringify({
                         "phone":$("#phone")[0].value,
                         "name":$("#name")[0].value,
-                        "district":undefined,
+                        "district":'贷款保险app',
                         "house_area":undefined,
                         "total_price":undefined
                     }),
@@ -523,6 +524,7 @@
                             $("#phone")[0].value = '';
                             $("#name")[0].value = '';
                             delay();
+                            check_step = 2;
                         }
                     },
                     error: function(xhr, type){

@@ -4,8 +4,23 @@
 		<meta charset="UTF-8"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 		<meta name="renderer" content="webkit" />
-		<!--[if lt IE 8]>
-			  <script type="text/javascript">if(!-[1,]){window.location.href = "/tpl/other/error.html";}</script>
+		<!--[if lt IE 9]>
+			  <script type="text/javascript">
+				  var isIE = window.navigator.userAgent.toLocaleLowerCase().indexOf('msie') !== -1,
+				  		isLteIE8 = isIE && !+[1,],
+						dm = document.documentMode,
+						isIE5, isIE6, isIE7;
+				  if (dm){
+					  isIE5 = dm === 5;
+					  isIE6 = dm === 6;
+					  isIE7 = dm === 7;
+				  }else{
+					  isIE5 = (isLteIE8 && (!document.compatMode || document.compatMode === 'BackCompat'));
+					  isIE6 = isLteIE8 && !isIE5 && !XMLHttpRequest;
+					  isIE7 = isLteIE8 && !isIE6 && !document.documentMode;
+				  }
+				  if(isIE5 || isIE6 || isIE7){window.location.href = "/tpl/other/error.html";}
+			  </script>
 		<![endif]-->
 		<title>首页--互联网装修|武汉装修|设计师平台|简繁家互联网装修平台</title>
 		<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
@@ -16,7 +31,7 @@
 			<link rel="stylesheet" type="text/css" href="/static/css/ie.css" />
 		<![endif]-->
 		<script type="text/javascript" src="/static/js/lib/public.js"></script>
-		<script type="text/javascript" data-main="/static/js/index/index" src="/static/js/lib/require.js"></script>
+		<script type="text/javascript" data-main="/static/js/index/index-dc5bbbc1fd" src="/static/js/lib/require.js"></script>
 		<!--[if lt IE 9]>
 		  <script type="text/javascript" src="/static/js/ng/html5shiv-printshiv.js"></script>
 	      <script type="text/javascript" src="/static/js/lib/json2-min.js"></script>
@@ -58,26 +73,38 @@
 	</nav>
 	<div class="g-banner g-wa" id="j-banner">
 		<ul>
-			<li class="default"><img src="/static/img/index/banner1.jpg" height="580" width="1920" alt="" /></li>
-			<li><img src="/static/img/index/banner2.jpg" height="580" width="1920" alt="" /></li>
-			<li><img src="/static/img/index/banner3.jpg" height="580" width="1920" alt="" /></li>
-			<li><img src="/static/img/index/banner4.jpg" height="580" width="1920" alt="" /></li>
+			<li><a href="/zt/supervision/index.html" target="_blank"><img src="/static/img/index/banner2016030101.jpg" height="480" width="1920" alt="" /></a></li>
+			<li><a href="/zt/safeguard/index.html" target="_blank"><img src="/static/img/index/banner2016030102.jpg" height="480" width="1920" alt="" /></a></li>
 		</ul>
+		<div class="btns">
+			<span class="active"></span>
+			<span></span>
+		</div>
+		<div class="toggle g-wp">
+			<span class="prev"><i class="iconfont">&#xe611;</i></span>
+			<span class="next"><i class="iconfont">&#xe617;</i></span>
+		</div>
 		<ol class="g-wp">
 			<li class="one">
-				<i></i>
-				<h4>简单</h4>
-				<p>装修过程全景在线呈现</p>
+				<a href="/tpl/merit/index.html">
+					<i></i>
+					<h4>简单</h4>
+					<p>装修过程全景在线呈现</p>
+				</a>
 			</li>
 			<li class="two">
-				<i></i>
-				<h4>透明</h4>
-				<p>降低20%不必要的成本</p>
+				<a href="/tpl/merit/index.html">
+					<i></i>
+					<h4>透明</h4>
+					<p>降低20%不必要的成本</p>
+				</a>
 			</li>
 			<li class="three">
-				<i></i>
-				<h4>高效</h4>
-				<p>装修过程一手全程掌控</p>
+				<a href="/tpl/merit/index.html">
+					<i></i>
+					<h4>高效</h4>
+					<p>装修过程一手全程掌控</p>
+				</a>
 			</li>
 		</ol>
 	</div>
