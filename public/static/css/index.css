@@ -203,7 +203,7 @@
 	background: none;
 }
 .g-banner ol{
-	height: 80px;
+	height: 110px;
 }
 .g-banner ol li{
 	float: left;
@@ -211,15 +211,10 @@
 .g-banner ol li a{
 	position: relative;
 	display: block;
-	width: 274px;
+	width: 250px;
 	height: 80px;
-	padding-left: 126px;
+	padding-left: 150px;
 	cursor: pointer;
-}
-.g-banner ol li i{
-	position: absolute;
-	width: 46px;
-	height: 46px;
 }
 .g-banner ol li h4{
 	padding-top: 14px;
@@ -234,39 +229,21 @@
 	color: #61687a;
 }
 .g-banner ol li a:hover p,.g-banner ol li a:hover h4{
-	color: #fff;
+	color: #fe7004;
 }
 .g-banner ol li i{
 	position: absolute;
-	left:60px;
+	left:82px;
 	top:17px;
-	width: 46px;
-	height: 46px;
+	width: 48px;
+	height: 48px;
 	background:url(../img/index/banner-sprite.png) 0 0 no-repeat;
 }
 .g-banner ol li.two i{
-	background-position: -63px 0;
+	background-position: -62px 0;
 }
 .g-banner ol li.three i{
-	background-position: -126px 0;
-}
-.g-banner ol li.one a:hover{
-	background-color: #3d7fc0;
-}
-.g-banner ol li.two a:hover{
-	background-color: #ffa400;
-}
-.g-banner ol li.three a:hover{
-	background-color: #a3d702;
-}
-.g-banner ol li.one a:hover i{
-	background-position: 0 -58px;
-}
-.g-banner ol li.two a:hover i{
-	background-position: -63px -58px;
-}
-.g-banner ol li.three a:hover i{
-	background-position: -126px -58px;
+	background-position: -124px 0;
 }
 /*大数据*/
 .g-designers .m-ct{

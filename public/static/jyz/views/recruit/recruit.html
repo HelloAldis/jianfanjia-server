@@ -47,7 +47,7 @@
 				<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 				<td>{{user.name ? user.name : '未填写'}}</td>
 				<td>{{user.phone}}</td>
-				<td>{{user.district ? (user.district | decDistrictsFilter) : '未填写'}}</td>
+				<td>{{user.district ? user.district : '未填写'}}</td>
 				<td>{{user.house_area}} m&sup2;</td>
 				<td>{{user.total_price}} 万元</td>
 			</tr>
