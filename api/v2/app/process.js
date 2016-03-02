@@ -16,6 +16,7 @@ var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../../type');
 var async = require('async');
 var gt = require('../../../getui/gt.js');
+var logger = require('../../../common/logger');
 
 exports.start = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -236,6 +237,7 @@ exports.start = function (req, res, next) {
       process.sections[6].end_at = DateUtil.add(process.sections[6].start_at,
         config.duration_60_jun_gong, f);
 
+      logger.debug(process);
       Process.newAndSave(process, ep.done(function (process_indb) {
         res.sendData(process_indb);
       }));
