@@ -64,12 +64,15 @@ $(function(){
         this.popup = $('#j-popup');
         this.name = $('#name');
         this.phone = $('#phone');
+        this.bName = false;
+        this.bPhone = false;
         this.popupSubmit = $('#popup-submit');
         this.popupForm = $('#popup-form');
         this.tabs = $('#j-tabs');
         this.main = $('#j-main');
         this.tabEvent();
         this.applyEvent();
+        this.submitForm();
     }
     Supervision.prototype.tabEvent = function(){
         var aLi = this.tabs.find('li');
@@ -101,27 +104,25 @@ $(function(){
             _this.popupClose();
         });
         this.verifyForm();
-        this.submitForm();
     }
     Supervision.prototype.popupClose = function(){
         this.popup.stop().hide();
+        this.clearForm();
     }
     Supervision.prototype.verifyForm = function(){
         var _this = this;
-        var bName = false;
-        var bPhone = false;
         function isMobile(mobile){
             return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile);
         }
-        this.name.on('blur',function(){
-            if(!this.value){
+        this.name.on('blur input propertychange',function(){
+            if(!$.trim(this.value)){
                 $(this).addClass('error').siblings('.errorMsg').html('姓名不能为空');
                 _this.popupSubmit.addClass('u-btns-disabled');
-                bName = false;
+                _this.bName = false;
             }else{
                 $(this).removeClass('error').siblings('.errorMsg').html('');
-                bName = true;
-                if(bPhone){
+                _this.bName = true;
+                if(_this.bPhone){
                     _this.popupSubmit.removeClass('u-btns-disabled');
                 }
             }
@@ -130,15 +131,15 @@ $(function(){
             if(!this.value){
                 $(this).addClass('error').siblings('.errorMsg').html('手机号码不能为空');
                 _this.popupSubmit.addClass('u-btns-disabled');
-                bPhone = false;
+                _this.bPhone = false;
             }else if(!isMobile(this.value)){
                 $(this).addClass('error').siblings('.errorMsg').html('手机号码不正确');
                 _this.popupSubmit.addClass('u-btns-disabled');
-                bPhone = false;
+                _this.bPhone = false;
             }else{
                 $(this).removeClass('error').siblings('.errorMsg').html('');
-                bPhone = true;
-                if(bName){
+                _this.bPhone = true;
+                if(_this.bName){
                     _this.popupSubmit.removeClass('u-btns-disabled');
                 }
             }
@@ -147,9 +148,11 @@ $(function(){
     Supervision.prototype.submitForm = function(){
         var _this = this;
         this.popupForm.on('submit',function(){
-            if(!_this.popupSubmit.hasClass('u-btns-disabled')){
-                _this.ajax();
-            }
+            setTimeout(function(){
+                if(!_this.popupSubmit.hasClass('u-btns-disabled')){
+                    _this.ajax();
+                }
+            },300);
             return false;
         });
     }
@@ -163,21 +166,30 @@ $(function(){
             dataType: 'json',
             data : JSON.stringify({
                 "phone":this.phone.val(),
-                "name":this.name.val()
+                "name":this.name.val(),
+                "district":'贷款保险web',
+                "house_area":undefined,
+                "total_price":undefined
             }),
             processData : false
         })
         .done(function(res) {
             if(res.msg == "success"){
                 successHide.hide().siblings('.success').show();
-                _this.phone.val('');
-                _this.name.val('');
                 _this.done();
+                _this.clearForm();
             }
         })
         .fail(function(res) {
             console.log(res);
         });
+    }
+    Supervision.prototype.clearForm = function(){
+        this.phone.val('').removeClass('error').siblings('.errorMsg').html('');
+        this.name.val('').removeClass('error').siblings('.errorMsg').html('');
+        this.popupSubmit.addClass('u-btns-disabled');
+        this.bName = false;
+        this.bPhone = false;
     }
     Supervision.prototype.done = function(){
         var _this = this;
