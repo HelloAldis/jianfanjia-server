@@ -155,6 +155,19 @@ var type = {
 
   share_progress_going: '0',
   share_progress_done: '1',
+
+  user_message_type_reschedule: '0',
+  user_message_type_procurement: '1',
+  user_message_type_pay: '2',
+  user_message_type_ys: '3',
+  user_message_type_platform: '4',
+  user_message_type_comment_plan: '5',
+  user_message_type_comment_process_item: '6',
+  user_message_type_designer_respond: '7',
+  user_message_type_designer_reject: '8',
+  user_message_type_designer_upload_plan: '9',
+  user_message_type_designer_config_contract: '10',
+
 }
 
 module.exports = type;

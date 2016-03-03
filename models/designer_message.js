@@ -12,7 +12,7 @@ var DesignerMessageSchema = new Schema({
   content: {
     type: String
   },
-  type: {
+  message_type: {
     type: String
   },
   create_at: {

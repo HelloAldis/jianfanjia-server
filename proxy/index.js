@@ -21,5 +21,5 @@ exports.Kpi = require('./kpi');
 exports.DecStrategy = require('./dec_strategy');
 exports.BeautifulImage = require('./beautiful_image');
 exports.Answer = require('./answer');
-exports.UserMessage = factory.create_proxy(require('../models').UserMessage);
-exports.DesignerMessage = factory.create_proxy(require('../models').DesignerMessage);
+//exports.UserMessage = factory.create_proxy(require('../models').UserMessage);
+//exports.DesignerMessage = factory.create_proxy(require('../models').DesignerMessage);

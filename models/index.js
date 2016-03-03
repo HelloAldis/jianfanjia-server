@@ -30,8 +30,8 @@ require('./kpi');
 require('./dec_strategy');
 require('./beautiful_image');
 require('./answer');
-require('./designer_message');
-require('./user_message');
+//require('./designer_message');
+//require('./user_message');
 
 exports.User = mongoose.model('User');
 exports.Designer = mongoose.model('Designer');
@@ -54,5 +54,5 @@ exports.Kpi = mongoose.model('Kpi');
 exports.DecStrategy = mongoose.model('DecStrategy');
 exports.BeautifulImage = mongoose.model('BeautifulImage');
 exports.Answer = mongoose.model('Answer');
-exports.UserMessage = mongoose.model('UserMessage');
-exports.DesignerMessage = mongoose.model('DesignerMessage');
+//exports.UserMessage = mongoose.model('UserMessage');
+//exports.DesignerMessage = mongoose.model('DesignerMessage');
