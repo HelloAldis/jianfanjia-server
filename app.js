@@ -10,8 +10,8 @@ require('./common/job');
 
 //main App
 var main_app = express();
-main_app.use(vhost(config.www_web_domain_regex, require('./app_web')));
 main_app.use(vhost(config.m_web_domain_regex, require('./app_mobile')));
+main_app.use(vhost(config.www_web_domain_regex, require('./app_web')));
 
 main_app.listen(config.port, function () {
   logger.info('Jianfanjia listening on port %s', config.port);

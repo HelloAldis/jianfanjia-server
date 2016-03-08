@@ -1,3 +1,5 @@
+var factory = require('./factory');
+
 exports.User = require('./user');
 exports.Designer = require('./designer');
 exports.TempUser = require('./temp_user');
@@ -19,3 +21,5 @@ exports.Kpi = require('./kpi');
 exports.DecStrategy = require('./dec_strategy');
 exports.BeautifulImage = require('./beautiful_image');
 exports.Answer = require('./answer');
+//exports.UserMessage = factory.create_proxy(require('../models').UserMessage);
+//exports.DesignerMessage = factory.create_proxy(require('../models').DesignerMessage);
