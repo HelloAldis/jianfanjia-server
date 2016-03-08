@@ -18,7 +18,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cook
 });
 require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
 	if(window.location.host == 'jianfanjia.com'){
-		window.location.href = RootUrl + 'tpl/user/login.html';
+		window.location.href = 'http://www.jianfanjia.com/tpl/user/login.html';
 	}
     var Login = function(){};
     Login.prototype = {

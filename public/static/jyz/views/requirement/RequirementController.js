@@ -149,6 +149,11 @@
                         name : '配置工地',
                         cur : false 
                     },
+                    {
+                        id : "8",
+                        name : '已完成',
+                        cur : false
+                    },
                 ];
                 $scope.authBtn = function(id){
                     $scope.userList = undefined;

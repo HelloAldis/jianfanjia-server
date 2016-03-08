@@ -9,7 +9,8 @@
 				<li ng-if="requirementList.length == 0">
 					<div class="ct">你还没有发布装修需求哟~</div>
 					<div class="btns">
-						<a ui-sref="addRequirement" class="u-btns">发布装修需求</a>
+						<a ui-sref="addRequirement" class="u-btns">发布家装需求</a>
+						<a ui-sref="addRequirementb" class="u-btns">发布商装需求</a>
 					</div>
 				</li>
 				<li bindonce="requirementList" ng-repeat="data in requirementList" ng-click="goTo(data)">

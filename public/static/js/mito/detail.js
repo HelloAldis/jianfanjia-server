@@ -14,6 +14,7 @@ require(['jquery','lodash'],function($,_){
             this.main = this.detail.find('.m-mn');
             this.side = this.detail.find('.g-sd');
             this.close = this.detail.find('.close');
+            this.zoomStatus = false;
             this.setHeight(92);
             if(this.winHash){
                 this.loadImg(this.winHash);
@@ -42,9 +43,20 @@ require(['jquery','lodash'],function($,_){
         },
         loadImg : function(data){
             if(!!data.imgid){
-                this.main.find('.img').html('<img src="/api/v2/web/image/'+data.imgid+'" /><span class="zoom"></span>').hide().fadeIn(500);
+                this.zoomStatus = sessionStorage.getItem("zoom") === 'true';
+                if(this.zoomStatus){
+                    this.bindZoombig();
+                }
+                this.main.find('.img').html('<img src="/api/v2/web/image/'+data.imgid+'" /><span class="zoom '+(this.zoomStatus ? 'zooming' : '')+'"></span>').hide().fadeIn(500);
             }else{
                 window.location.href = '/404.html';
+            }
+        },
+        isStorageSupport : function(){
+            try {
+                return 'localStorage' in window && window['localStorage'] !== null;
+            } catch (e) {
+                return false;
             }
         },
         createInfo  :  function(data){
@@ -83,9 +95,14 @@ require(['jquery','lodash'],function($,_){
                 arr.push('<li><a href="/tpl/mito/detail.html?pid='+n._id+'&imgid='+n.images[0].imageid+'&imgw='+n.images[0].width+'&imgh='+n.images[0].height+'"><img src="/api/v2/web/thumbnail/106/'+n.images[0].imageid+'" alt=""></a></li>')
             });
             arr.push('</ul></div>');
-            self.side.html(arr.join('')).animate({right: 0},function(){
+            if(this.zoomStatus){
+                self.side.html(arr.join(''));
                 self.close.fadeIn();
-            })
+            }else{
+                self.side.html(arr.join('')).animate({right: 0},function(){
+                    self.close.fadeIn();
+                })
+            }
             if(data.previous.beautiful_images.length != 0){
                 var left = '<a class="toggle prev" href="/tpl/mito/detail.html?pid='+data.previous.beautiful_images[0]._id+'&imgid='+data.previous.beautiful_images[0].images[0].imageid+'&imgw='+data.previous.beautiful_images[0].images[0].width+'&imgh='+data.previous.beautiful_images[0].images[0].height+'"><i class="iconfont">&#xe611;</i></a>';
                 oImg.append(left);
@@ -94,7 +111,6 @@ require(['jquery','lodash'],function($,_){
                 var right = '<a class="toggle next" href="/tpl/mito/detail.html?pid='+data.next.beautiful_images[0]._id+'&imgid='+data.next.beautiful_images[0].images[0].imageid+'&imgw='+data.next.beautiful_images[0].images[0].width+'&imgh='+data.next.beautiful_images[0].images[0].height+'"><i class="iconfont">&#xe617;</i></a>';
                 oImg.append(right);
             }
-
         },
         createStep : function(data,process){
             var arr = ['<ul class="list">'],
@@ -121,8 +137,9 @@ require(['jquery','lodash'],function($,_){
         },
         bindEvent : function(){
             var self = this;
+            var h = self.zoomStatus ? 0 : 92;
             $(window).on('resize',function(){
-                self.throttle(self.setHeight(92),{context : self})
+                self.setHeight(h);
             });
             this.bindZoom();
         },
@@ -132,10 +149,13 @@ require(['jquery','lodash'],function($,_){
             zoom.on('click',function(){
                 var _this = $(this);
                 if($(this).hasClass('zooming')){
-                    self.side.fadeIn();
+                    self.side.css('right',0).fadeIn();
                     self.setHeight(92);
                     self.main.css('margin','46px 420px 46px 20px');
                     $(this).removeClass('zooming');
+                    if(self.isStorageSupport()){
+                        sessionStorage.setItem("zoom","false");
+                    }
                 }else{
                     self.side.fadeOut(function(){
                         _this.animate({
@@ -148,35 +168,34 @@ require(['jquery','lodash'],function($,_){
                             self.setHeight(0);
                             self.main.animate({
                                 'marginTop':0,
-                                'marginBottom':0,
+                                'marginBottom':0
                             },function(){
-                                _this.addClass('zooming')
+                                _this.addClass('zooming');
+                                if(self.isStorageSupport()){
+                                    sessionStorage.setItem("zoom","true");
+                                }
                             })
                         });
                     });
-
-
                 }
             })
         },
-        throttle  : function(){
-            var isClear = arguments[0],fn;
-            if(_.isBoolean(isClear)){
-                fn = arguments[1];
-                fn._throttleID && clearTimeout(fn._throttleID)
-            }else{
-                fn = isClear;
-                param = arguments[1];
-                var oP = _.assign({
-                    context : null,
-                    args : [],
-                    time : 300
-                },param);
-                arguments.callee(true,fn);
-                fn._throttleID = setTimeout(function(){
-                    fn.apply(oP.context , oP.args)
-                }, oP.time)
-            }
+        bindZoombig : function(){
+            var zoom = this.main.find('.zoom');
+            var close = this.detail.find('.close');
+            zoom.css({
+                'right' : 50,
+                'bottom' : 50
+            });
+            this.main.css({
+                'marginTop':0,
+                'marginBottom':0,
+                'marginRight':20
+            });
+            this.setHeight(0);
+            close.on('click',function(){
+                sessionStorage.setItem("zoom","false");
+            });
         },
         strToJson : function(str){    // 字符串转对象
             var json = {},temp;

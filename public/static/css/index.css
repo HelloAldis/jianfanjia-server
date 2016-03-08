@@ -187,20 +187,16 @@
 .g-banner .btns span{
 	display: inline-block;
 	vertical-align: middle;
-	width: 10px;
-	height: 10px;
+	width: 8px;
+	height: 8px;
 	margin: 0 5px;
 	cursor: pointer;
-	background-color: #fff;
-	-webkit-border-radius: 100%;
-	-moz-border-radius: 100%;
+	border: 1px solid #fff;
+
 	border-radius: 100%;
 }
 .g-banner .btns span.active{
-	width: 8px;
-	height: 8px;
-	border: 1px solid #fff;
-	background: none;
+	background-color: #fff;
 }
 .g-banner ol{
 	height: 110px;
@@ -686,10 +682,8 @@
 	height: 100%;
 	overflow: hidden;
 	background:url(../img/user/loading.gif) center center no-repeat;
-}
-.g-mito li a img{
-	width: 100%;
-	min-height: 100%;
+	-webkit-transition: opacity 0.35s;
+	transition: opacity 0.35s;
 }
 .g-mito li span{
 	position: absolute;
@@ -703,6 +697,16 @@
 	text-align: center;
 	color: #fff;
 	background: url(../img/index/index-toggle-btn.png) repeat-x 0 -90px;
+}
+.g-mito li a img{
+-webkit-transition:-webkit-transform 0.35s;
+transition:transform 0.35s;
+-webkit-transform: scale(1);
+transform: scale(1);
+}
+.g-mito li a:hover img{
+-webkit-transform: scale(1.15);
+transform: scale(1.15);
 }
 .g-mito li a:hover{
 	opacity: 0.8;
@@ -756,10 +760,22 @@
 	overflow: hidden;
 	background:url(../img/user/loading.gif) center center no-repeat;
 	border-radius: 2px 2px 0 0;
+	-webkit-transition: opacity 0.35s;
+	transition: opacity 0.35s;
+}
+.g-live .m-live li .img img{
+	-webkit-transition: -webkit-transform 0.35s;
+	transition: transform 0.35s;
+	-webkit-transform: scale(1);
+	transform: scale(1);
 }
 .g-live .m-live li .img:hover{
 	opacity: 0.8;
 	filter: alpha(opacity=80);
+}
+.g-live .m-live li .img:hover img{
+	-webkit-transform: scale(1.15);
+	transform: scale(1.15);
 }
 .g-live .m-live li .txt{
 	height: 122px;
@@ -939,6 +955,8 @@
 	height: 200px;
 	overflow: hidden;
 	background:url(../img/user/loading.gif) center center no-repeat;
+	-webkit-transition: opacity 0.35s;
+	transition: opacity 0.35s;
 }
 .g-raiders dd a span{
 	position: absolute;
@@ -960,6 +978,16 @@
 .g-raiders dd a:hover{
 	opacity: 0.8;
 	filter: alpha(opacity=80);
+}
+.g-raiders dd a img{
+	-webkit-transition:-webkit-transform 0.35s;
+	transition:transform 0.35s;
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+.g-raiders dd a:hover img{
+	-webkit-transform: scale(1.15);
+	transform: scale(1.15);
 }
 :root .g-raiders dd a span{
 	background: none;
@@ -999,6 +1027,7 @@
 	text-align: center;
 	font-size: 14px;
 	color: #fff;
+	cursor: default;
 	background:url(../img/index/steps-sprite.png) 0 0 no-repeat;
 }
 .g-steps .m-ct a .iconfont{

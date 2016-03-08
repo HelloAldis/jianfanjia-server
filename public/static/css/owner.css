@@ -1440,11 +1440,17 @@ body{
 	margin: 42px auto 20px;
 	background:url(../img/user/motaiDone-icon.png) 0 0 no-repeat;
 }
+.k-motai .done .confirm-icon{
+	background-position: 0 -88px;
+}
 .k-motai .done h3{
 	line-height: 46px;
 	font-size: 24px;
 	font-weight: bold;
 	color: #1cb235;
+}
+.k-motai .confirm h3{
+	color: #f8d794;
 }
 .k-motai .done p{
 	height: 52px;

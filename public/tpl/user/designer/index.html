@@ -84,7 +84,7 @@
 			<a href="/tpl/user/notice.html" class="f-fl link">设计师收费规则更改说明 <span>new</span></a>
 			<a href="/tpl/user/notice.html" class="f-fr more">查看详情</a>
 		</div>
-		<div class="authen" ng-if="(designer.auth_type == 0 || designer.auth_type == 1 || designer.auth_type == 3 || designer.auth_type == 4) && designer.authed_product_count < 4">
+		<div class="authen" ng-if="(designer.auth_type == 0 || designer.auth_type == 1 || designer.auth_type == 3 || designer.auth_type == 4) && designer.authed_product_count < 3">
 			<div class="inofTips"><i class="iconfont2">&#xe612;</i>完成基本资料认证及作品认证（至少3套）的设计师才可以接单</div>
 			<p>
 				<span ng-if="designer.auth_type == 0">欢迎来到简繁家，请完善您的基本资料</span>
@@ -101,7 +101,7 @@
 				<a class="u-btns" ng-if="designer.auth_type == 2 && designer.authed_product_count == 0" ui-sref="addProduct">发布作品</a>
 			</div>
 		</div>
-		<div class="authen" ng-if="(designer.auth_type == 2) && designer.authed_product_count < 4">
+		<div class="authen" ng-if="(designer.auth_type == 2) && designer.authed_product_count < 3">
 			<div class="inofTips"><i class="iconfont2">&#xe612;</i>作品认证（至少3套）的设计师才可以接单</div>
 			<p>
 				<span>您有<strong bo-text="designer.authed_product_count"></strong>套作品通过认证，请继续发布作品</span>

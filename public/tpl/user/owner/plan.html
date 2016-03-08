@@ -43,7 +43,7 @@
 					<a bo-href-i="plans.html?pid={{data._id}}#plansMsg" class="u-btns u-btns-revise msg f-fl" target="_blank">留言 (<i bo-text="data.comment_count"></i>)</a>
 					<div class="btns f-fr">
 						<a bo-href-i="plans.html?pid={{data._id}}" class="u-btns u-btns-revise" target="_blank">预览方案</a>
-						<a href="javascript:;" class="u-btns" ng-hide="{{requirement.status == 4 || requirement.status == 5 || requirement.status == 7}}" ng-click="definePlan(data._id,data.designer._id)">选定方案</a>
+						<button type="button" class="u-btns" ng-hide="requirement.status == 4 || requirement.status == 5 || requirement.status == 7" ng-click="definePlan.select(data._id,data.designer._id)">选定方案</button>
 					</div>
 				</div>
 			</div>
@@ -55,12 +55,19 @@
 	</div>
 	<div class="pageLoading" ng-hide="!!plans"></div>
 </div>
-<div class="k-motai" ng-if="definePlanSuccess">
-	<div class="motai done">
+<div class="k-motai" ng-if="definePlan.success">
+	<div class="motai done confirm" ng-if="definePlan.confirm">
+		<span class="done-icon confirm-icon"></span>
+		<h3>温馨提醒！</h3>
+		<p>您确认选定方案，选定以后不能更改</p>
+		<button type="button" class="u-btns u-btns-revise" ng-click="definePlan.cancel()">我再看看</button>&nbsp;&nbsp;&nbsp;&nbsp;
+		<button type="button" class="u-btns" ng-click="definePlan.define()">已经确定</button>
+	</div>
+	<div class="motai done" ng-if="definePlan.done">
 		<span class="done-icon"></span>
 		<h3>选定成功！</h3>
 		<p ng-if="requirement.work_type == 2">简繁家将在近期内与您第三方合同，请保持紧密沟通。</p>
 		<p ng-if="requirement.work_type != 2">设计师将在近期内生成第三方合同，请保持紧密沟通。</p>
-		<input type="button" class="u-btns" ng-click="definePlanBtn(requirement)" value="&nbsp;&nbsp;确定&nbsp;&nbsp;">
+		<button type="button" class="u-btns" ng-click="definePlan.goto(requirement)">&nbsp;&nbsp;确定&nbsp;&nbsp;</button>
 	</div>
 </div>
