@@ -72,8 +72,12 @@ DaoProxy.prototype.incOne = function (query, update, option, callback) {
     lastupdate: Date().getTime(),
   };
 
-  Favorite.findOneAndUpdate(query, {
+  this.model.findOneAndUpdate(query, {
     $inc: update,
     $set: set
   }, option, function (err) {});
+}
+
+DaoProxy.prototype.removeOne = function (query, option, callback) {
+  this.model.findOneAndRemove(query, option, callback);
 }
