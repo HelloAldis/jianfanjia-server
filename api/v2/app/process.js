@@ -17,6 +17,7 @@ var type = require('../../../type');
 var async = require('async');
 var gt = require('../../../getui/gt.js');
 var logger = require('../../../common/logger');
+var message_util = require('../../../common/message_util');
 
 exports.start = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -379,23 +380,6 @@ function buildMessage(usertype, user, designer, reschedule, msg) {
   };
 }
 
-function buildProcurement(section) {
-  var index = _.indexOf(type.process_work_flow, section);
-  var message = type.procurement_notification_message[index];
-  var next = type.process_work_flow[index + 1];
-
-  return {
-    next: next,
-    message: message,
-  };
-}
-
-function buildPay() {
-  return {
-    message: '您即将进入下一轮付款环节，简繁家工作人员将会和您联系'
-  };
-}
-
 exports.reschedule = function (req, res, next) {
   var reschedule = ApiUtil.buildReschedule(req);
   var usertype = ApiUtil.getUsertype(req);
@@ -414,21 +398,10 @@ exports.reschedule = function (req, res, next) {
         _id: 1,
         username: 1
       }, ep.done(function (designer) {
-        var json = buildMessage(usertype, user, designer,
-          reschedule, '向您提出了改期, 希望可以将验收改期到');
-        var playload = {
-          content: json.content,
-          type: type.message_type_reschedule,
-          time: new Date().getTime(),
-          section: reschedule.section,
-          status: reschedule.status,
-          cell: process.cell,
-          processid: process._id,
-        };
         if (usertype === type.role_user) {
-          gt.pushMessageToDesigner(json.id, playload);
+          message_util.designer_message_type_user_reschedule(user, designer, reschedule);
         } else if (usertype === type.role_designer) {
-          gt.pushMessageToUser(json.id, playload)
+          message_util.user_message_type_designer_reschedule(user, designer, reschedule);
         }
       }));
     }));
@@ -509,21 +482,10 @@ exports.okReschedule = function (req, res, next) {
         _id: 1,
         username: 1
       }, ep.done(function (designer) {
-        var json = buildMessage(usertype, user, designer,
-          reschedule, '同意了您的改期, 验收将改期到');
-        var playload = {
-          content: json.content,
-          type: type.message_type_reschedule,
-          time: new Date().getTime(),
-          section: reschedule.section,
-          status: type.process_item_status_reschedule_ok,
-          cell: process.cell,
-          processid: process._id,
-        };
         if (usertype === type.role_user) {
-          gt.pushMessageToDesigner(json.id, playload);
+          message_utl.designer_message_type_user_ok_reschedule(user, designer, reschedule)
         } else if (usertype === type.role_designer) {
-          gt.pushMessageToUser(json.id, playload)
+          message_util.user_message_type_designer_ok_reschedule(user, designer, reschedule);
         }
       }));
     }));
@@ -617,9 +579,9 @@ exports.rejectReschedule = function (req, res, next) {
         };
 
         if (usertype === type.role_user) {
-          gt.pushMessageToDesigner(json.id, playload);
+          message_utl.designer_message_type_user_reject_reschedule(user, designer, reschedule);
         } else if (usertype === type.role_designer) {
-          gt.pushMessageToUser(json.id, playload)
+          message_utl.user_message_type_designer_reject_reschedule(user, designer, reschedule);
         }
       }));
     }));
@@ -682,15 +644,7 @@ exports.doneItem = function (req, res, next) {
           });
 
           if (result.items.length - doneCount <= 2) {
-            var json = buildProcurement(section);
-            gt.pushMessageToUser(process.userid, {
-              content: json.message,
-              section: json.next,
-              cell: process.cell,
-              type: type.message_type_procurement,
-              time: new Date().getTime(),
-              processid: process._id,
-            });
+            message_utl.user_message_type_procurement(process, section);
           }
         } else if ((process.work_type === type.work_type_all) && (section !== type.process_section_kai_gong &&
             section !== type.process_section_jun_gong)) {
@@ -705,15 +659,7 @@ exports.doneItem = function (req, res, next) {
           });
 
           if (result.items.length - doneCount <= 2) {
-            var json = buildProcurement(section);
-            gt.pushMessageToDesigner(process.final_designerid, {
-              content: json.message,
-              section: json.next,
-              cell: process.cell,
-              type: type.message_type_procurement,
-              time: new Date().getTime(),
-              processid: process._id,
-            });
+            message_utl.designer_message_type_procurement(process, section);
           }
         }
 
@@ -762,15 +708,7 @@ exports.doneSection = function (req, res, next) {
   Process.updateStatus(_id, section, null, type.process_item_status_done,
     ep.done(function (process) {
       if (process) {
-        var json = buildPay();
-        gt.pushMessageToUser(process.userid, {
-          content: json.message,
-          section: section,
-          type: type.message_type_pay,
-          time: new Date().getTime(),
-          cell: process.cell,
-          processid: process._id,
-        });
+        message_utl.user_message_type_pay(process, section);
       }
 
       //开启下个流程
@@ -905,14 +843,7 @@ exports.ys = function (req, res, next) {
     _id: _id
   }, null, ep.done(function (process) {
     if (process) {
-      gt.pushMessageToUser(process.userid, {
-        content: '设计师已经上传所有验收图片，您可以前往对比验收',
-        type: type.message_type_user_ys,
-        time: new Date().getTime(),
-        section: section,
-        cell: process.cell,
-        processid: process._id,
-      });
+      message_utl.user_message_type_ys(process, section);
     }
 
     res.sendSuccessMsg();

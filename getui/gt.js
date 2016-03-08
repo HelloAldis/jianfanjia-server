@@ -10,67 +10,7 @@ var type = require('../type');
 var logger = require('../common/logger');
 
 var gt_user = new GeTui(config.gt_HOST, config.gt_user_APPKEY, config.gt_user_MASTERSECRET);
-var gt_designer = new GeTui(config.gt_HOST, config.gt_designer_APPKEY,
-  config.gt_designer_MASTERSECRET);
-
-exports.aliasBind = function (userid, cid) {
-  userid = userid.toString();
-  gt.bindAlias(config.gt_user_APPID, userid, cid, function (err, res) {
-    logger.debug('err = ' + err);
-    logger.debug(res);
-  });
-}
-
-exports.pushMessageToSingle = function (userid, playload) {
-  userid = userid.toString();
-
-  var payload = new APNPayload();
-  var alertMsg = new SimpleAlertMsg();
-  alertMsg.alertMsg = playload.content;
-  payload.alertMsg = alertMsg;
-  payload.badge = 1;
-  payload.contentAvailable = 1;
-  payload.category = "ACTION 1";
-  // payload.sound = "test1.wav";
-  payload.customMsg.payload1 = JSON.stringify(playload);
-
-  var template = new TransmissionTemplate({
-    appId: config.gt_user_APPID,
-    appKey: config.gt_user_APPKEY,
-    transmissionType: 2,
-    transmissionContent: JSON.stringify(playload),
-  });
-  template.setApnInfo(payload);
-
-  var message = new SingleMessage({
-    isOffline: true, //是否离线
-    offlineExpireTime: 3600 * 48 * 1000, //离线时间
-    data: template, //设置推送消息类型
-  });
-
-  //接收方
-  var target = new Target({
-    appId: config.gt_user_APPID,
-    alias: userid,
-  });
-
-  logger.debug('userid = ' + userid);
-  logger.debug(playload);
-
-  gt_user.pushMessageToSingle(message, target, function (err, res) {
-    logger.debug('push err = ' + err);
-    logger.debug(res);
-    if (err != null && err.exception != null && err.exception instanceof RequestError) {
-      var requestId = err.exception.requestId;
-      logger.debug(err.exception.requestId);
-      gt_user.pushMessageToSingle(message, target, requestId, function (
-        err, res) {
-        logger.debug(err);
-        logger.debug(res);
-      });
-    }
-  });
-}
+var gt_designer = new GeTui(config.gt_HOST, config.gt_designer_APPKEY, config.gt_designer_MASTERSECRET);
 
 function buildAPNAlertMessage(playload) {
   if (playload.type === type.message_type_procurement) {
@@ -80,12 +20,30 @@ function buildAPNAlertMessage(playload) {
   }
 }
 
+exports.buildPayloadFromUserMessage = function (user_message) {
+  return {
+    content: user_message.content,
+    type: user_message.message_type,
+    time: user_message.create_at,
+    messageid: user_message._id,
+  };
+}
+
+exports.buildPayloadFromDesignerMessage = function (designer_message) {
+  return {
+    content: designer_message.content,
+    type: designer_message.message_type,
+    time: designer_message.create_at,
+    messageid: designer_message._id,
+  };
+}
+
 function buildMessage(appid, appkey, playload) {
   var payload = new APNPayload();
   var alertMsg = new SimpleAlertMsg();
-  alertMsg.alertMsg = buildAPNAlertMessage(playload);
+  alertMsg.alertMsg = playload.content;
   payload.alertMsg = alertMsg;
-  payload.badge = 1;
+  payload.badge = playload.badge;
   payload.contentAvailable = 1;
   payload.category = "ACTION 1";
   // payload.sound = "test1.wav";
@@ -122,8 +80,7 @@ function buildTarget(appid, userid) {
 exports.pushMessageToUser = function (userid, playload) {
   logger.debug('send to user');
   var target = buildTarget(config.gt_user_APPID, userid);
-  var message = buildMessage(config.gt_user_APPID, config.gt_user_APPKEY,
-    playload);
+  var message = buildMessage(config.gt_user_APPID, config.gt_user_APPKEY, playload);
   gt_user.pushMessageToSingle(message, target, function (err, res) {
     logger.debug('push err = ' + err);
     logger.debug(res);
@@ -142,8 +99,7 @@ exports.pushMessageToUser = function (userid, playload) {
 exports.pushMessageToDesigner = function (userid, playload) {
   logger.debug('send to designer');
   var target = buildTarget(config.gt_designer_APPID, userid);
-  var message = buildMessage(config.gt_designer_APPID, config.gt_designer_APPKEY,
-    playload);
+  var message = buildMessage(config.gt_designer_APPID, config.gt_designer_APPKEY, playload);
   gt_designer.pushMessageToSingle(message, target, function (err, res) {
     logger.debug('push err = ' + err);
     logger.debug(res);

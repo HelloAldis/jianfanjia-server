@@ -6,6 +6,30 @@ var UserMessageSchema = new Schema({
   userid: {
     type: ObjectId
   },
+  designerid: {
+    type: ObjectId
+  },
+  requirementid: {
+    type: ObjectId
+  },
+  planid: {
+    type: ObjectId
+  },
+  processid: {
+    type: ObjectId
+  },
+  topicid: {
+    type: ObjectId
+  },
+  commentid: {
+    type: ObjectId
+  },
+  section: {
+    type: String,
+  },
+  item: {
+    type: String,
+  },
   title: {
     type: String
   },

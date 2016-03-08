@@ -78,7 +78,7 @@ router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favorite.a
 router.post('/favorite/beautiful_image/delete', auth.normalUserRequired,
   favorite.delete_beautiful_image); //删除收藏美图
 router.post('/add_comment', auth.normalUserRequired, comment.add_comment); //添加评论
-router.post('/unread_comment', auth.normalUserRequired, comment.unread_comment); //获取未读评论
+// router.post('/unread_comment', auth.normalUserRequired, comment.unread_comment); //获取未读评论
 router.post('/topic_comments', auth.normalUserRequired, comment.topic_comments); //获取评论并标记为已读
 router.post('/one_plan', auth.normalUserRequired, plan.getOne); //获取某个方案信息
 router.post('/one_contract', auth.normalUserRequired, requirement.one_contract); //获取某个合同信息

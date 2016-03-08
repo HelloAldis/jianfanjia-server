@@ -1,4 +1,3 @@
-
 exports.create_proxy = function create_proxy(model) {
   return new DaoProxy(model);
 }
@@ -46,6 +45,10 @@ DaoProxy.prototype.paginate = function (query, project, option, callback) {
   });
 }
 
+DaoProxy.prototype.count = function (query, callback) {
+  this.model.count(query, callback);
+}
+
 /**
   update bason to mongodb
 */
@@ -64,7 +67,7 @@ DaoProxy.prototype.setSome = function (query, update, option, callback) {
   }, option, callback);
 }
 
-DaoProxy.prototype.incOne  = function (query, update, option, callback) {
+DaoProxy.prototype.incOne = function (query, update, option, callback) {
   var set = {
     lastupdate: Date().getTime(),
   };

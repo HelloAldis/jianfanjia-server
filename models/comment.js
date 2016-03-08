@@ -30,9 +30,6 @@ var CommentSchema = new Schema({
   date: {
     type: Number,
   },
-  status: {
-    type: String,
-  }
 });
 
 CommentSchema.index({
