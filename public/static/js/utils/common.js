@@ -464,7 +464,7 @@ define(['jquery','lib/jquery.cookie'], function($){
       if(this.settings.scroll){
         self.container.show();
       }else{
-        var height = this.win.height();
+        var height = 800//this.win.height();
         $(window).on('scroll',function(){
           if($(this).scrollTop() > height){
             self.container.fadeIn(500);
@@ -502,17 +502,16 @@ define(['jquery','lib/jquery.cookie'], function($){
         sibling = $add.siblings('.hover').find('div'),
         sUl = ['<ul>'],
         str;
-        for (var i = 0, len = data.length < 3 ? data.length : 3; i < len; i++) {
+        for (var i = 0, len = data.length; i < len; i++) {
           if(data[i].dec_type == 0){
-            var sLi = '<li><a class="" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+data[i].cell+'小区'+data[i].cell_phase+'期'+data[i].cell_building+'栋'+data[i].cell_unit+'单元'+data[i].cell_detail_number+'室</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
+            str = '<li><a class="" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+data[i].cell+'小区'+data[i].cell_phase+'期'+data[i].cell_building+'栋'+data[i].cell_unit+'单元'+data[i].cell_detail_number+'室</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
           }else{
-            var sLi = '<li><a class="" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+data[i].cell+'</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
+            str = '<li><a class="" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+data[i].cell+'</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
           }
-          sUl.push(sLi);
+          sUl.push(str);
         }
-        sUl.push('<ul>');
-        str = sUl.join('');
-        sibling.html(sUl);
+        sUl.push('</ul>');
+        sibling.html(sUl.join(''));
     },
     supervision : function(){
       if(this.usertype == undefined){
