@@ -16,6 +16,7 @@ var sms = require('../../../common/sms');
 var designer_match_util = require('../../../common/designer_match');
 var wkhtmltopdf = require('wkhtmltopdf');
 var requirement_util = require('../../../common/requirement_util');
+var message_util = require('../../../common/message_util');
 
 exports.user_my_requirement_list = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
@@ -138,13 +139,13 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
       },
       done_requirements: function (callback) {
         Requirement.find({
-          $or:[{
+          $or: [{
             final_designerid: designerid,
-            status:type.requirement_status_done_process
+            status: type.requirement_status_done_process
           }, {
             final_designerid: designerid,
-            status:type.requirement_status_final_plan,
-            work_type:type.work_type_design_only,
+            status: type.requirement_status_final_plan,
+            work_type: type.work_type_design_only,
           }],
         }, null, {
           lean: 1
@@ -166,13 +167,13 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
     }));
   } else if (list_type === 1) {
     Requirement.find({
-      $or:[{
+      $or: [{
         final_designerid: designerid,
-        status:type.requirement_status_done_process
+        status: type.requirement_status_done_process
       }, {
         final_designerid: designerid,
-        status:type.requirement_status_final_plan,
-        work_type:type.work_type_design_only,
+        status: type.requirement_status_final_plan,
+        work_type: type.work_type_design_only,
       }],
     }, null, {
       lean: 1
@@ -482,8 +483,31 @@ exports.config_contract = function (req, res, next) {
   }, {
     start_at: start_at,
     status: type.requirement_status_config_contract,
-  }, null, ep.done(function () {
+  }, null, ep.done(function (requirement) {
     res.sendSuccessMsg();
+
+    if (requirement) {
+      async.parallel({
+        user: function (callback) {
+          User.findOne({
+            _id: requirement.userid,
+          }, {
+            username: 1,
+          }, callback);
+        },
+        designer: function (callback) {
+          Designer.findOne({
+            _id: requirement.final_designerid,
+          }, {
+            username: 1,
+          }, callback);
+        }
+      }, function (err, result) {
+        if (!err && result.user && result.designer) {
+          message_util.user_message_type_designer_config_contract(result.user, result.designer, requirement);
+        }
+      });
+    }
   }));
 }
 

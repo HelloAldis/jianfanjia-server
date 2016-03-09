@@ -30,7 +30,10 @@ var api_statistic = require('./middlewares/api_statistic');
 var app = express();
 // configuration in all env
 app.enable('trust proxy');
-app.use(require('prerender-node').set('prerenderToken', 'ECav3XjGcRGdN9q0EtF1'));
+
+if (config.debug) {
+  app.use(require('prerender-node').set('prerenderToken', 'ECav3XjGcRGdN9q0EtF1'));
+}
 
 //config view engine
 app.set('views', path.join(__dirname, 'views'));

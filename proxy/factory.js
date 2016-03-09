@@ -1,4 +1,3 @@
-
 exports.create_proxy = function create_proxy(model) {
   return new DaoProxy(model);
 }
@@ -40,10 +39,14 @@ DaoProxy.prototype.paginate = function (query, project, option, callback) {
       return callback(err, null);
     }
 
-    this.find(query, project, option, function (err, products) {
+    this.model.find(query, project, option, function (err, products) {
       callback(err, products, count);
     });
   });
+}
+
+DaoProxy.prototype.count = function (query, callback) {
+  this.model.count(query, callback);
 }
 
 /**
@@ -64,13 +67,17 @@ DaoProxy.prototype.setSome = function (query, update, option, callback) {
   }, option, callback);
 }
 
-DaoProxy.prototype.incOne  = function (query, update, option, callback) {
+DaoProxy.prototype.incOne = function (query, update, option, callback) {
   var set = {
     lastupdate: Date().getTime(),
   };
 
-  Favorite.findOneAndUpdate(query, {
+  this.model.findOneAndUpdate(query, {
     $inc: update,
     $set: set
   }, option, function (err) {});
+}
+
+DaoProxy.prototype.removeOne = function (query, option, callback) {
+  this.model.findOneAndRemove(query, option, callback);
 }

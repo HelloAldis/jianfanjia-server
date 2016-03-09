@@ -23,6 +23,7 @@ var designerWeb = require('./api/v2/web/designer');
 var favoriteWeb = require('./api/v2/web/favorite');
 var productWeb = require('./api/v2/web/product');
 var beautiful_imageWeb = require('./api/v2/web/beautiful_image');
+var messageWeb = require('./api/v2/web/message');
 
 var config = require('./apiconfig');
 var auth = require('./middlewares/auth');
@@ -117,6 +118,11 @@ router.post('/user/process', auth.userRequired, process.start); //开启装修�
 router.post('/process/done_section', auth.userRequired, process.doneSection); //对比验收完成
 router.post('/user_bind_phone', auth.userRequired, userWeb.user_bind_phone); //业主绑定手机号
 router.post('/user_bind_wechat', auth.userRequired, user.user_bind_wechat); //业主绑定微信
+router.post('/search_user_message', auth.userRequired, messageWeb.search_user_message); //搜索业主通知
+router.post('/user_message_detail', auth.userRequired, messageWeb.user_message_detail); //业主通知详情
+router.post('/delete_user_message', auth.userRequired, messageWeb.delete_user_message); //删除业主消息
+router.post('/unread_user_message_count', auth.userRequired, messageWeb.unread_user_message_count); //未读消息个数
+router.post('/search_user_comment', auth.userRequired, messageWeb.search_user_comment); //未读消息个数
 
 //设计师独有功能
 router.get('/designer/info', auth.designerRequired, designerWeb.getInfo); //获取设计师自己个人资料
@@ -129,5 +135,10 @@ router.post('/designer/user/ok', auth.designerRequired, designerWeb.okUser); //�
 router.post('/designer/user/reject', auth.designerRequired, designerWeb.rejectUser); //拒绝业主
 router.post('/designer_requirement_plans', auth.designerRequired, planWeb.designer_requirement_plans); //设计师获取某个需求下的方案
 router.post('/config_contract', auth.designerRequired, requirementWeb.config_contract); //配置合同
+router.post('/search_designer_message', auth.designerRequired, messageWeb.search_designer_message); //搜索设计师通知
+router.post('/designer_message_detail', auth.designerRequired, messageWeb.designer_message_detail); //设计师通知详情
+router.post('/delete_designer_message', auth.designerRequired, messageWeb.delete_designer_message); //删除设计师消息
+router.post('/unread_designer_message_count', auth.designerRequired, messageWeb.unread_designer_message_count); //未读消息个数
+router.post('/search_designer_comment', auth.designerRequired, messageWeb.search_designer_comment); //未读消息个数
 
 module.exports = router;

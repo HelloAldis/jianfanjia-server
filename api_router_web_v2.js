@@ -16,6 +16,7 @@ var wechat = require('./api/v2/web/wechat');
 var dec_strategy = require('./api/v2/web/dec_strategy');
 var beautiful_image = require('./api/v2/web/beautiful_image');
 var answer = require('./api/v2/web/answer');
+var message = require('./api/v2/web/message');
 
 var processApp = require('./api/v2/app/process');
 
@@ -78,7 +79,7 @@ router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favorite.a
 router.post('/favorite/beautiful_image/delete', auth.normalUserRequired,
   favorite.delete_beautiful_image); //删除收藏美图
 router.post('/add_comment', auth.normalUserRequired, comment.add_comment); //添加评论
-router.post('/unread_comment', auth.normalUserRequired, comment.unread_comment); //获取未读评论
+// router.post('/unread_comment', auth.normalUserRequired, comment.unread_comment); //获取未读评论
 router.post('/topic_comments', auth.normalUserRequired, comment.topic_comments); //获取评论并标记为已读
 router.post('/one_plan', auth.normalUserRequired, plan.getOne); //获取某个方案信息
 router.post('/one_contract', auth.normalUserRequired, requirement.one_contract); //获取某个合同信息
@@ -109,6 +110,11 @@ router.post('/user_statistic_info', auth.userRequired, user.user_statistic_info)
 router.post('/user_bind_wechat', auth.userRequired, user.user_bind_wechat); //业主绑定微信
 router.post('/user_bind_phone', auth.userRequired, user.user_bind_phone); //业主绑定手机号
 router.post('/user/process', auth.userRequired, processApp.start); //开启装修流程
+router.post('/search_user_message', auth.userRequired, message.search_user_message); //搜索业主通知
+router.post('/user_message_detail', auth.userRequired, message.user_message_detail); //业主通知详情
+router.post('/delete_user_message', auth.userRequired, message.delete_user_message); //删除业主消息
+router.post('/unread_user_message_count', auth.userRequired, message.unread_user_message_count); //未读消息个数
+router.post('/search_user_comment', auth.userRequired, message.search_user_comment); //获取业主的评论通知
 
 //设计师独有功能
 router.post('/designer/agree', auth.designerRequired, designer.agree); //同意条款
@@ -141,6 +147,11 @@ router.post('/designer/plan/update', auth.designerRequired, plan.update); //更�
 router.post('/designer_requirement_plans', auth.designerRequired, plan.designer_requirement_plans); //设计师获取某个需求下的方案
 router.post('/config_contract', auth.designerRequired, requirement.config_contract); //配置合同
 router.post('/designer_statistic_info', auth.designerRequired, designer.designer_statistic_info); //设计师获取自己统计信息
+router.post('/search_designer_message', auth.designerRequired, message.search_designer_message); //搜索设计师通知
+router.post('/designer_message_detail', auth.designerRequired, message.designer_message_detail); //设计师通知详情
+router.post('/delete_designer_message', auth.designerRequired, message.delete_designer_message); //删除设计师消息
+router.post('/unread_designer_message_count', auth.designerRequired, message.unread_designer_message_count); //未读消息个数
+router.post('/search_designer_comment', auth.designerRequired, message.search_designer_comment); //获取设计师的评论通知
 
 //管理员独有的功能
 router.post('/admin/login', admin.login); //审核设计师

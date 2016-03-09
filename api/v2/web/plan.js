@@ -14,6 +14,7 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../../type');
 var sms = require('../../../common/sms');
+var message_util = require('../../../common/message_util');
 
 exports.add = function (req, res, next) {
   var plan = ApiUtil.buildPlan(req);
@@ -61,6 +62,7 @@ exports.add = function (req, res, next) {
             }, {
               phone: 1
             }, function (err, user) {
+              message_util.user_message_type_designer_upload_plan(user, designer, plan_indb)
               sms.sendDesignerPlanUploaded(user.phone, [
                 designer.username, designer.phone
               ]);
@@ -85,8 +87,30 @@ exports.add = function (req, res, next) {
           plan.request_date = plan_indb.request_date;
           plan.get_phone_time = plan_indb.get_phone_time;
 
-          Plan.newAndSave(plan, ep.done(function () {
+          Plan.newAndSave(plan, ep.done(function (plan) {
             res.sendSuccessMsg();
+
+            async.parallel({
+              user: function (callback) {
+                User.findOne({
+                  _id: plan.userid,
+                }, {
+                  username: 1,
+                }, callback);
+              },
+              designer: function (callback) {
+                Designer.findOne({
+                  _id: designerid,
+                }, {
+                  username: 1,
+                }, callback);
+              }
+            }, function (err, result) {
+              if (!err && result.user && result.designer) {
+                message_util.user_message_type_designer_upload_plan(result.user, result.designer, plan);
+              }
+            });
+
           }));
         } else {
           res.sendErrMsg('数据错误');
@@ -233,48 +257,38 @@ exports.finalPlan = function (req, res, next) {
             },
             function (err, user) {
               if (user) {
-                _.forEach(requirement.order_designerids,
-                  function (designerid) {
-                    Plan.find({
-                      designerid: designerid,
-                      requirementid: requirementid,
-                    }, {
-                      status: 1,
-                    }, {
-                      skip: 0,
-                      limit: 1,
-                      sort: {
-                        last_status_update_time: -1,
-                      },
-                    }, function (err, plans) {
-                      if (plans.length > 0) {
-                        Designer.findOne({
-                          _id: designerid
-                        }, {
-                          phone: 1
-                        }, function (err,
-                          designer) {
-                          if (plans[0].status ===
-                            type.plan_status_user_final
-                          ) {
-                            sms.sendDesignerPlanFinaled(
-                              designer.phone, [
-                                user.username,
-                                user.phone
-                              ]);
-                          } else if (plans[0].status ===
-                            type.plan_status_user_not_final
-                          ) {
-                            sms.sendDesignerPlanNotFinaled(
-                              designer.phone, [
-                                user.username,
-                                user.phone
-                              ]);
-                          }
-                        });
-                      }
-                    });
+                _.forEach(requirement.order_designerids, function (designerid) {
+                  Plan.find({
+                    designerid: designerid,
+                    requirementid: requirementid,
+                  }, {
+                    status: 1,
+                  }, {
+                    skip: 0,
+                    limit: 1,
+                    sort: {
+                      last_status_update_time: -1,
+                    },
+                  }, function (err, plans) {
+                    if (plans.length > 0) {
+                      Designer.findOne({
+                        _id: designerid
+                      }, {
+                        phone: 1
+                      }, function (err, designer) {
+                        if (plans[0].status === type.plan_status_user_final) {
+                          message_util.designer_message_type_user_final_plan(user, designer, plans[0]);
+                          sms.sendDesignerPlanFinaled(
+                            designer.phone, [user.username, user.phone]);
+                        } else if (plans[0].status === type.plan_status_user_not_final) {
+                          message_util.designer_message_type_user_unfinal_plan(user, designer, plans[0]);
+                          sms.sendDesignerPlanNotFinaled(
+                            designer.phone, [user.username, user.phone]);
+                        }
+                      });
+                    }
                   });
+                });
               }
             });
         }));

@@ -28,7 +28,7 @@ exports.find = function (query, project, option, callback) {
 exports.setOne = function (query, update, option, callback) {
   Designer.findOneAndUpdate(query, {
     $set: update
-  }, option, callback)
+  }, option, callback);
 }
 
 exports.paginate = function (query, project, option, callback) {
@@ -41,4 +41,8 @@ exports.paginate = function (query, project, option, callback) {
       callback(err, designers, count);
     });
   });
+}
+
+exports.count = function (query, callback) {
+  Designer.count(query, callback);
 }

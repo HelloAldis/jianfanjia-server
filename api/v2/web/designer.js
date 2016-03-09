@@ -20,6 +20,7 @@ var designer_match_util = require('../../../common/designer_match');
 var DateUtil = require('../../../common/date_util');
 var sms = require('../../../common/sms');
 var authMiddleWare = require('../../../middlewares/auth');
+var message_util = require('../../../common/message_util');
 
 var noPassAndToken = {
   pass: 0,
@@ -279,6 +280,7 @@ exports.okUser = function (req, res, next) {
             phone: 1
           }, function (err, user) {
             if (user) {
+              message_util.user_message_type_designer_respond(user, designer, plan);
               sms.sendDesignerRespondUser(user.phone, [designer
                 .username,
                 designer.phone, DateUtil.YYYY_MM_DD_HH_mm(
@@ -330,8 +332,29 @@ exports.rejectUser = function (req, res, next) {
     status: type.plan_status_designer_reject,
     last_status_update_time: new Date().getTime(),
     reject_respond_msg: reject_respond_msg,
-  }, null, ep.done(function () {
+  }, null, ep.done(function (plan) {
     res.sendSuccessMsg();
+
+    async.parallel({
+      user: function (callback) {
+        User.findOne({
+          _id: plan.userid,
+        }, {
+          username: 1,
+        }, callback);
+      },
+      designer: function (callback) {
+        Designer.findOne({
+          _id: designerid,
+        }, {
+          username: 1,
+        }, callback);
+      }
+    }, function (err, result) {
+      if (!err && result.user && result.designer) {
+        message_util.user_message_type_designer_reject(result.user, result.designer, plan);
+      }
+    });
   }));
 }
 
