@@ -26,6 +26,7 @@ var ObjectId = mongoose.Types.ObjectId;
 var sms = require('../../../common/sms');
 var utility = require('utility');
 var imageUtil = require('../../../common/image_util');
+var message_util = require('../../../common/message_util');
 
 exports.login = function (req, res, next) {
   if (req.body.username === 'sunny' && req.body.pass === '!@Jyz20150608#$') {
@@ -56,7 +57,10 @@ exports.update_basic_auth = function (req, res, next) {
   }, {}, ep.done(function (designer) {
     if (designer) {
       if (new_auth_type === type.designer_auth_type_done) {
+        message_util.designer_message_type_basic_auth_done(designer);
         sms.sendYzxAuthSuccess(designer.phone, [designer.username]);
+      } else if (new_auth_type === type.designer_auth_type_reject) {
+        message_util.designer_message_type_basic_auth_reject(designer, auth_message);
       }
     }
 
@@ -78,6 +82,14 @@ exports.update_uid_auth = function (req, res, next) {
     uid_auth_date: new Date().getTime(),
     uid_auth_message: auth_message,
   }, {}, ep.done(function (designer) {
+    if (designer) {
+      if (new_auth_type === type.designer_auth_type_done) {
+        message_util.designer_message_type_uid_auth_done(designer);
+      } else if (new_auth_type === type.designer_auth_type_reject) {
+        message_util.designer_message_type_uid_auth_reject(designer, auth_message);
+      }
+    }
+
     res.sendSuccessMsg();
   }));
 }
@@ -96,6 +108,14 @@ exports.update_work_auth = function (req, res, next) {
     work_auth_date: new Date().getTime(),
     work_auth_message: auth_message,
   }, {}, ep.done(function (designer) {
+    if (designer) {
+      if (new_auth_type === type.designer_auth_type_done) {
+        message_util.designer_message_type_work_auth_done(designer);
+      } else if (new_auth_type === type.designer_auth_type_reject) {
+        message_util.designer_message_type_work_auth_reject(designer, auth_message);
+      }
+    }
+
     res.sendSuccessMsg();
   }));
 }
@@ -136,6 +156,14 @@ exports.update_product_auth = function (req, res, next) {
             upsert: true
           });
         }
+      }
+
+      if (new_auth_type === type.product_auth_type_done) {
+        message_util.designer_message_type_product_auth_done(designer, product);
+      } else if (new_auth_type === type.product_auth_type_reject) {
+        message_util.designer_message_type_work_auth_reject(designer, product);
+      } else if (new_auth_type === type.product_auth_type_illegal) {
+        message_util.designer_message_type_product_auth_illegal(designer, product);
       }
     }
     res.sendSuccessMsg();

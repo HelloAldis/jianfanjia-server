@@ -19,6 +19,7 @@ var async = require('async');
 var sms = require('../../../common/sms');
 var moment = require('moment');
 var authMiddleWare = require('../../../middlewares/auth');
+var message_util = require('../../../common/message_util');
 
 exports.user_my_info = function (req, res, next) {
   var userid = req.params._id || ApiUtil.getUserid(req);
@@ -111,6 +112,8 @@ exports.order_designer = function (req, res, next) {
                   username: 1,
                   phone: 1
                 }, ep.done(function (user) {
+                  message_util.designer_message_type_user_order(user, designer, requirement);
+
                   sms.sendUserOrderDesigner(
                     designer.phone, [user.username]
                   );
@@ -235,6 +238,11 @@ exports.designer_house_checked = function (req, res, next) {
         username: 1,
         phone: 1,
       }, function (err, designer) {
+        message.designer_message_type_user_ok_house_checked({
+          _id: ApiUtil.getUserid(req)
+        }, designer, {
+          _id: requirementid,
+        });
         sms.sendRemimdDesignerPlan(designer.phone, [designer.username]);
       });
     }

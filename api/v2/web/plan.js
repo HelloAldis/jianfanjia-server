@@ -257,48 +257,38 @@ exports.finalPlan = function (req, res, next) {
             },
             function (err, user) {
               if (user) {
-                _.forEach(requirement.order_designerids,
-                  function (designerid) {
-                    Plan.find({
-                      designerid: designerid,
-                      requirementid: requirementid,
-                    }, {
-                      status: 1,
-                    }, {
-                      skip: 0,
-                      limit: 1,
-                      sort: {
-                        last_status_update_time: -1,
-                      },
-                    }, function (err, plans) {
-                      if (plans.length > 0) {
-                        Designer.findOne({
-                          _id: designerid
-                        }, {
-                          phone: 1
-                        }, function (err,
-                          designer) {
-                          if (plans[0].status ===
-                            type.plan_status_user_final
-                          ) {
-                            sms.sendDesignerPlanFinaled(
-                              designer.phone, [
-                                user.username,
-                                user.phone
-                              ]);
-                          } else if (plans[0].status ===
-                            type.plan_status_user_not_final
-                          ) {
-                            sms.sendDesignerPlanNotFinaled(
-                              designer.phone, [
-                                user.username,
-                                user.phone
-                              ]);
-                          }
-                        });
-                      }
-                    });
+                _.forEach(requirement.order_designerids, function (designerid) {
+                  Plan.find({
+                    designerid: designerid,
+                    requirementid: requirementid,
+                  }, {
+                    status: 1,
+                  }, {
+                    skip: 0,
+                    limit: 1,
+                    sort: {
+                      last_status_update_time: -1,
+                    },
+                  }, function (err, plans) {
+                    if (plans.length > 0) {
+                      Designer.findOne({
+                        _id: designerid
+                      }, {
+                        phone: 1
+                      }, function (err, designer) {
+                        if (plans[0].status === type.plan_status_user_final) {
+                          message_util.designer_message_type_user_final_plan(user, designer, plans[0]);
+                          sms.sendDesignerPlanFinaled(
+                            designer.phone, [user.username, user.phone]);
+                        } else if (plans[0].status === type.plan_status_user_not_final) {
+                          message_util.designer_message_type_user_unfinal_plan(user, designer, plans[0]);
+                          sms.sendDesignerPlanNotFinaled(
+                            designer.phone, [user.username, user.phone]);
+                        }
+                      });
+                    }
                   });
+                });
               }
             });
         }));

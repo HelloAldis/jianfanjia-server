@@ -36,6 +36,9 @@ var DesignerMessageSchema = new Schema({
   content: {
     type: String
   },
+  auth_message: {
+    type: String
+  },
   message_type: {
     type: String
   },

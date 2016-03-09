@@ -241,6 +241,7 @@ exports.start = function (req, res, next) {
       logger.debug(process);
       Process.newAndSave(process, ep.done(function (process_indb) {
         res.sendData(process_indb);
+        message_util.designer_message_type_user_ok_contract(requirement);
       }));
     } else {
       res.sendErrMsg('配置工地失败');
@@ -357,28 +358,6 @@ exports.deleteYsImage = function (req, res, next) {
     res.sendSuccessMsg();
   }));
 };
-
-function buildMessage(usertype, user, designer, reschedule, msg) {
-  var id = '';
-  var name = '';
-  if (usertype === type.role_user) {
-    name = user.username || user.phone;
-    name = '业主' + name;
-    id = designer._id;
-  } else if (usertype === type.role_designer) {
-    name = designer.username || designer.phone;
-    name = '设计师' + name;
-    id = user._id;
-  }
-  // var content = name + '向您提出了一个延期提醒, 希望可以延期到' + DateUtil.YYYY_MM_DD(
-  // reschedule.new_date);
-  var content = name + msg + DateUtil.YYYY_MM_DD(reschedule.new_date);
-
-  return {
-    id: id,
-    content: content
-  };
-}
 
 exports.reschedule = function (req, res, next) {
   var reschedule = ApiUtil.buildReschedule(req);
@@ -566,18 +545,6 @@ exports.rejectReschedule = function (req, res, next) {
         _id: 1,
         username: 1
       }, ep.done(function (designer) {
-        var json = buildMessage(usertype, user, designer,
-          reschedule, '拒绝了您的改期, 无法改期到');
-        var playload = {
-          content: json.content,
-          type: type.message_type_reschedule,
-          time: new Date().getTime(),
-          section: reschedule.section,
-          status: type.process_item_status_reschedule_reject,
-          cell: process.cell,
-          processid: process._id,
-        };
-
         if (usertype === type.role_user) {
           message_util.designer_message_type_user_reject_reschedule(user, designer, reschedule);
         } else if (usertype === type.role_designer) {
