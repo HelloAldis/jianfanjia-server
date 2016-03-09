@@ -16,6 +16,7 @@ var sms = require('../../../common/sms');
 var designer_match_util = require('../../../common/designer_match');
 var wkhtmltopdf = require('wkhtmltopdf');
 var requirement_util = require('../../../common/requirement_util');
+var message_util = require('../../../common/message_util');
 
 exports.user_my_requirement_list = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);

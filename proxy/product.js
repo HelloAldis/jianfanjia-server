@@ -42,3 +42,7 @@ exports.paginate = function (query, project, option, callback) {
 exports.removeOne = function (query, option, callback) {
   Product.findOneAndRemove(query, option, callback)
 };
+
+exports.count = function (query, callback) {
+  Product.count(query, callback);
+}

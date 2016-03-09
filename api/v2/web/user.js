@@ -238,7 +238,7 @@ exports.designer_house_checked = function (req, res, next) {
         username: 1,
         phone: 1,
       }, function (err, designer) {
-        message.designer_message_type_user_ok_house_checked({
+        message_util.designer_message_type_user_ok_house_checked({
           _id: ApiUtil.getUserid(req)
         }, designer, {
           _id: requirementid,
