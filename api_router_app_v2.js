@@ -122,6 +122,7 @@ router.post('/search_user_message', auth.userRequired, messageWeb.search_user_me
 router.post('/user_message_detail', auth.userRequired, messageWeb.user_message_detail); //业主通知详情
 router.post('/delete_user_message', auth.userRequired, messageWeb.delete_user_message); //删除业主消息
 router.post('/unread_user_message_count', auth.userRequired, messageWeb.unread_user_message_count); //未读消息个数
+router.post('/search_user_comment', auth.userRequired, messageWeb.search_user_comment); //未读消息个数
 
 //设计师独有功能
 router.get('/designer/info', auth.designerRequired, designerWeb.getInfo); //获取设计师自己个人资料
@@ -138,5 +139,6 @@ router.post('/search_designer_message', auth.designerRequired, messageWeb.search
 router.post('/designer_message_detail', auth.designerRequired, messageWeb.designer_message_detail); //设计师通知详情
 router.post('/delete_designer_message', auth.designerRequired, messageWeb.delete_designer_message); //删除设计师消息
 router.post('/unread_designer_message_count', auth.designerRequired, messageWeb.unread_designer_message_count); //未读消息个数
+router.post('/search_designer_comment', auth.designerRequired, messageWeb.search_designer_comment); //未读消息个数
 
 module.exports = router;
