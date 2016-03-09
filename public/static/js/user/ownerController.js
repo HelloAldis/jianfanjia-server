@@ -58,7 +58,7 @@ angular.module('controllers', [])
                 district : '请选择县/区',
                 sex : "",
                 email : "",
-                address : "",
+                address : ""
             };
             $scope.userInfo = {
                 disabled : false,
@@ -296,7 +296,6 @@ angular.module('controllers', [])
                 }else{
                     $location.path('requirement/'+data._id+"/"+statusUrl[data.status]);
                 }
-
             }
     }])
     .controller('requirementCtrl', [     //装修需求详情配置
@@ -325,13 +324,17 @@ angular.module('controllers', [])
             });
     }])
     .controller('requirementDetailCtrl', [     //装修需求详情
-        '$scope','$rootScope','$timeout','$filter','$location','$stateParams','userRequiremtne','initData',
-        function($scope, $rootScope,$timeout,$filter,$location,$stateParams,userRequiremtne,initData){
+        '$scope','$rootScope','$timeout','$filter','$location','$stateParams','$interval','userRequiremtne','initData',
+        function($scope, $rootScope,$timeout,$filter,$location,$stateParams,$interval,userRequiremtne,initData){
             var requiremtneId = $stateParams.id;
             var timer = null;
+            var timerScore = null;
             $scope.$on('requirementParent',function(event, data){    //子级接收
                 if(data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 4 || data.status == 5 || data.status == 6 || data.status == 7 || data.status == 8){  //预约量房、确认量房
                     myBooking(data.status)
+                    timerScore = $interval(function(){
+                        $scope.score.newDate = +new Date();
+                    },1000);
                 }
                 if(data.status == 8 || data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5){  //选择方案
                     myPlan()
@@ -427,7 +430,6 @@ angular.module('controllers', [])
                                             return ;
                                         }
                                         if(!data.active){
-                                            console.log(1)
                                             if(($scope.orderDesigns.length+len) > 2){
                                                 //清除定时器，防止重复开启，产生bug
                                                 $timeout.cancel(timer);
@@ -544,6 +546,7 @@ angular.module('controllers', [])
                 }
             }
             $scope.score = {
+                newDate : +new Date(),
                 designerScore : {},
                 scoreComment : '',
                 scoreRespond : '0',
@@ -594,6 +597,7 @@ angular.module('controllers', [])
                 },
                 scoreDefineBtn : function(data){    //开启评价
                     this.clear();
+                    $interval.cancel(timerScore);
                     this.motaiDone = false;
                     this.motaiScore = true;
                 },
@@ -638,37 +642,53 @@ angular.module('controllers', [])
                     $location.path('requirement/'+requiremtneId+"/booking");
                 }
             }
+
+
         // 方案列表
         function myPlan(){
             userRequiremtne.plans({"requirementid":requiremtneId}).then(function(res){    //获取我的方案列表
                 $scope.plans = res.data.data;
-                $timeout(function(){
-                    $scope.definePlan.success = false;
-                },3000);
             },function(res){
                 console.log(res)
             });
         }
-        $scope.definePlanSuccess = false;
-        $scope.definePlan = function(pid,uid){   //确定方案
-            userRequiremtne.define({
-              "planid": pid,
-              "designerid": uid,
-              "requirementid": requiremtneId
-            }).then(function(res){
-                if(res.data.msg == "success"){
-                    $scope.definePlanSuccess = true;
-                    myPlan()   //更新方案列表
-                    uploadParent()   //更新需求状态
+        var planData = {
+            "planid": '',
+            "designerid": '',
+            "requirementid": requiremtneId
+        }
+        $scope.definePlan = {
+            success : false,
+            confirm : true,
+            done  : false,
+            cancel : function(){
+                this.success = false;
+            },
+            select : function(pid,uid){
+                this.success = true;
+                this.confirm = true;
+                planData.planid = pid;
+                planData.designerid = uid;
+            },
+            define : function(){   //确定方案
+                var _this = this;
+                userRequiremtne.define(planData).then(function(res){
+                    if(res.data.msg == "success"){
+                        _this.confirm = false;
+                        _this.done = true;
+                        myPlan()   //更新方案列表
+                        uploadParent()   //更新需求状态
+                    }
+                },function(res){
+                    console.log(res)
+                });
+            },
+            goto : function(data){
+                this.success = false;
+                planData = {};
+                if(data.work_type == 2){
+                    $location.path('requirement/'+requiremtneId+"/fulfill");
                 }
-            },function(res){
-                console.log(res)
-            });
-        }
-        $scope.definePlanBtn = function(data){
-            $scope.definePlanSuccess = false;
-            if(data.work_type == 2){
-                $location.path('requirement/'+requiremtneId+"/fulfill");
             }
         }
         // 三方合同
@@ -810,3 +830,4 @@ angular.module('controllers', [])
             }
             laod()
     }])
+

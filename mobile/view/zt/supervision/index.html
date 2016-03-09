@@ -92,7 +92,7 @@
         }
 
         .table thead th{
-            height: 100px;
+            height: 1.2rem;
             background-color: #393939;
             color: #fff;
         }
@@ -467,6 +467,15 @@
                     $("#page").show();
                 },3000)
             }
+            $(document).on('scroll',function(){
+                var docT = document.body.getBoundingClientRect().bottom;
+                var winT = window.innerHeight;
+                if(docT -100 < winT){
+                    $('.apply').hide();
+                }else{
+                    $('.apply').show();
+                }
+            })
         })
     </script>
 </body>

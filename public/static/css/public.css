@@ -1168,7 +1168,7 @@ a.m-head:hover{
 	left:-200px;
 	top:0;
 	background-color: #fff;
-	border: 1px solid #e5e5e5;
+	border: 1px solid #fe7004;
 	display: none;
 }
 .g-goto li .hover > span{
@@ -1182,7 +1182,7 @@ a.m-head:hover{
 	border-color: transparent;
 	border-style: dashed;
 	border-left-style: solid;
-	border-left-color: #e5e5e5;
+	border-left-color: #fe7004;
 	display: none;
 }
 .g-goto li .hover > span i{
@@ -1203,8 +1203,14 @@ a.m-head:hover{
 	width: 48px;
 	height: 48px;
 	overflow: hidden;
-	background-color: #f9f9f9;
-	border: 1px solid #e5e5e5;
+	background-color: #fff;
+	border: 1px solid #fe7004;
+}
+.g-goto li .link:first-child{
+	border-radius:2px 2px 0 0;
+}
+.g-goto li .link:last-child{
+	border-radius:0 0 2px 2px;
 }
 .g-goto li .link i{
 	display: block;
@@ -1214,8 +1220,8 @@ a.m-head:hover{
 	text-align: center;
 	line-height: 48px;
 	font-size: 30px;
-	color: #b2b2b2;
-	background-color: #f9f9f9;
+	color: #fe7004;
+	background-color: #fff;
 	-webkit-transition:all 0.5s;
 	-moz-transition:all 0.5s;
 	-ms-transition:all 0.5s;
@@ -1231,9 +1237,9 @@ a.m-head:hover{
 	text-align: center;
 	line-height: 18px;
 	font-size: 14px;
-	color: #999;
+	color: #fe7004;
 	font-weight: normal;
-	background-color: #f9f9f9;
+	background-color: #fff;
 	-webkit-transition:all 0.5s;
 	-moz-transition:all 0.5s;
 	-ms-transition:all 0.5s;
@@ -1265,8 +1271,12 @@ a.m-head:hover{
 	width: 299px;
 	height: 218px;
 }
+.g-goto li .add + .hover > div{
+	height: 218px;
+	overflow-y: auto;
+}
 .g-goto li .add + .hover ul{
-
+	
 }
 .g-goto li .add + .hover li{
 	border-top: 1px solid #e5e5e5;

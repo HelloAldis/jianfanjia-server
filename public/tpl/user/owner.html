@@ -62,12 +62,12 @@
         </div>
     </nav>
     <div class="breadCrumbs g-wp">
-        <a href="../index/index.html">首页</a> &gt; <span>个人中心</span>
+        <a href="/">首页</a> &gt; <span>个人中心</span>
     </div>
 	<main class="g-wp g-user f-cb">
 		<aside class="g-sd f-fl" ng-controller="SubController">
             <div class="m-sdc">
-    			<h2 ng-class="{active: $state.includes('index')}"><a ui-sref="index"><i class="iconfont2">&#xe610;</i>个人中心</a></h2>
+                <h2 ng-class="{active: $state.includes('index')}"><a ui-sref="index"><i class="iconfont2">&#xe610;</i>个人中心</a></h2>
                 <dl>
                     <dt>我的装修</dt>
                     <dd ng-class="{active: $state.includes('requirementList') || $state.includes('requirement')}"><a ui-sref="requirementList">装修需求列表</a></dd>

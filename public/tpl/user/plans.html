@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="zh-CN">
+<html lang="zh-CN" ng-app="myJyzPlans">
 <head>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
@@ -19,12 +19,14 @@
     <script type="text/javascript" src="/static/js/ng/angular.js"></script>
     <script type="text/javascript" src="/static/js/ng/angular-cookies.js"></script>
     <script type="text/javascript" src="/static/js/ng/bindonce.js"></script>
+    <script type="text/javascript" src="/static/js/user/filters.js"></script>
+    <script type="text/javascript" src="/static/js/user/directives.js"></script>
+    <script type="text/javascript" src="/static/js/user/plansApp.js"></script>
     <!--[if lt IE 9]>
-      <script type="text/javascript" src="/static/js/ng/html5shiv-printshiv.js"></script>
-      <script type="text/javascript" src="/static/js/lib/json2-min.js"></script>
+      <script type="text/javascript" src="/static/js/lib/ie8.js"></script>
     <![endif]-->
 </head>
-<body>
+<body ng-controller="detailCtrl">
 	<div class="g-tb g-wa">
         <div class="g-wp f-cb">
             <a href="/tpl/download/index.html" class="m-app f-fl"><span>APP下载</span></a>
@@ -61,9 +63,9 @@
     <div class="breadCrumbs g-wp">
         <a href="/">首页</a> &gt; <span>我的方案</span>
     </div>
-	<main class="g-wp g-plans" ng-controller="detailCtrl">
-		<div>
-            <div class="m-plans" bindonce="plan" ng-if="plan">
+	<main class="g-wp g-plans">
+		<div ng-if="plan">
+            <div class="m-plans" bindonce="plan">
                 <div class="plans-tt f-cb">
                     <h3 class="f-fl">
                         <span bo-if="plan.requirement.cell"><i bo-text="plan.requirement.cell"></i><i bo-if="plan.requirement.dec_type == 0">小区</i></span>
@@ -71,7 +73,7 @@
                     </h3>
                     <div class="btns f-fr">
                         <a bo-href-i="{{returnUrl}}" class="u-btns u-btns-revise">查看其它方案</a>
-                        <a href="javascript:;" class="u-btns" ng-click="comment.definePlan(plan.requirementid,plan.designerid)" bo-if="statusShow">选定方案</a>
+                        <a href="javascript:;" class="u-btns" ng-click="definePlan.select(plan.requirementid,plan.designerid)" ng-if="plan.status != 5">选定方案</a>
                     </div>
                 </div>
                 <div class="plans-ct">
@@ -178,9 +180,23 @@
             <p>Copyright © 2015-2016 jianfanjia.com   All Rights Reserved   武汉家易装科技有限公司   隐私权政策 鄂ICP备15014103号</p>
         </div>
     </footer>
+    <div class="k-motai" ng-if="plan && definePlan.success">
+        <div class="motai done confirm" ng-if="definePlan.confirm">
+            <span class="done-icon confirm-icon"></span>
+            <h3>温馨提醒！</h3>
+            <p>您确认选定方案，选定以后不能更改</p>
+            <button type="button" class="u-btns u-btns-revise" ng-click="definePlan.cancel()">我再看看</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="u-btns" ng-click="definePlan.define()">已经确定</button>
+        </div>
+        <div class="motai done" ng-if="definePlan.done">
+            <span class="done-icon"></span>
+            <h3>选定成功！</h3>
+            <p ng-if="requirement.work_type == 2">简繁家将在近期内与您第三方合同，请保持紧密沟通。</p>
+            <p ng-if="requirement.work_type != 2">设计师将在近期内生成第三方合同，请保持紧密沟通。</p>
+            <button type="button" class="u-btns" ng-click="definePlan.goto(requirement)">&nbsp;&nbsp;确定&nbsp;&nbsp;</button>
+        </div>
+    </div>
     <script type="text/javascript" src="/static/js/utils/usercommon.js"></script>
-    <script type="text/javascript" src="/static/js/user/filters.js"></script>
-    <script type="text/javascript" src="/static/js/user/directives.js"></script>
-    <script type="text/javascript" src="/static/js/user/plansApp.js"></script>
+
 </body>
 </html>

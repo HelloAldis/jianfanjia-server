@@ -12,7 +12,7 @@ var config = {
   port: 80,
 
   //电脑版web domain RegExp
-  www_web_domain_regex: /www.jianfanjia.com|jianfanjia.com/,
+  www_web_domain_regex: /www.jianfanjia.com/,
   //移动端web domain RegExp
   m_web_domain_regex: /m.jianfanjia.com/,
 

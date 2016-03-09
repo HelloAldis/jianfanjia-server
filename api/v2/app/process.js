@@ -22,20 +22,18 @@ var message_util = require('../../../common/message_util');
 exports.start = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var requirementid = req.body.requirementid;
-  var final_planid = req.body.final_planid;
   var ep = eventproxy();
   ep.fail(next);
 
-  if ([requirementid, final_planid, req.body.requirementid]
-    .some(function (item) {
+  if ([requirementid].some(function (item) {
       return !item ? true : false;
     })) {
     res.sendErrMsg('信息不完整。')
     return;
   }
 
-  async.parallel({
-    requirement: function (callback) {
+  async.waterfall([
+    function (callback) {
       Requirement.setOne({
         _id: requirementid,
         status: type.requirement_status_config_contract,
@@ -43,31 +41,33 @@ exports.start = function (req, res, next) {
         status: type.requirement_status_config_process
       }, null, callback);
     },
-    plan: function (callback) {
+    function (requirement, callback) {
       Plan.findOne({
-        _id: final_planid
+        _id: requirement.final_planid,
       }, {
         duration: 1
-      }, callback);
+      }, function (err, plan) {
+        callback(err, requirement, plan)
+      });
     }
-  }, ep.done(function (result) {
-    if (result.requirement && result.plan) {
+  ], ep.done(function (requirement, plan) {
+    if (requirement && plan) {
       var process = {};
-      process.final_designerid = result.requirement.final_designerid;
-      process.final_planid = result.requirement.final_planid;
-      process.requirementid = result.requirement._id;
-      process.province = result.requirement.province;
-      process.city = result.requirement.city;
-      process.district = result.requirement.district;
-      process.cell = result.requirement.cell;
-      process.house_type = result.requirement.house_type;
-      process.business_house_type = result.requirement.business_house_type;
-      process.house_area = result.requirement.house_area;
-      process.dec_style = result.requirement.dec_style;
-      process.work_type = result.requirement.work_type;
-      process.total_price = result.requirement.total_price;
-      process.start_at = result.requirement.start_at;
-      process.duration = result.plan.duration;
+      process.final_designerid = requirement.final_designerid;
+      process.final_planid = requirement.final_planid;
+      process.requirementid = requirement._id;
+      process.province = requirement.province;
+      process.city = requirement.city;
+      process.district = requirement.district;
+      process.cell = requirement.cell;
+      process.house_type = requirement.house_type;
+      process.business_house_type = requirement.business_house_type;
+      process.house_area = requirement.house_area;
+      process.dec_style = requirement.dec_style;
+      process.work_type = requirement.work_type;
+      process.total_price = requirement.total_price;
+      process.start_at = requirement.start_at;
+      process.duration = plan.duration;
 
       process.userid = userid;
       process.going_on = type.process_section_kai_gong;
