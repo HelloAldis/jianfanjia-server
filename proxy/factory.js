@@ -39,7 +39,7 @@ DaoProxy.prototype.paginate = function (query, project, option, callback) {
       return callback(err, null);
     }
 
-    this.find(query, project, option, function (err, products) {
+    this.model.find(query, project, option, function (err, products) {
       callback(err, products, count);
     });
   });

@@ -107,7 +107,7 @@ exports.add = function (req, res, next) {
               }
             }, function (err, result) {
               if (!err && result.user && result.designer) {
-                message_utl.user_message_type_designer_upload_plan(result.user, result.designer, plan);
+                message_util.user_message_type_designer_upload_plan(result.user, result.designer, plan);
               }
             });
 

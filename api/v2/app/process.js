@@ -483,7 +483,7 @@ exports.okReschedule = function (req, res, next) {
         username: 1
       }, ep.done(function (designer) {
         if (usertype === type.role_user) {
-          message_utl.designer_message_type_user_ok_reschedule(user, designer, reschedule)
+          message_util.designer_message_type_user_ok_reschedule(user, designer, reschedule)
         } else if (usertype === type.role_designer) {
           message_util.user_message_type_designer_ok_reschedule(user, designer, reschedule);
         }
@@ -579,9 +579,9 @@ exports.rejectReschedule = function (req, res, next) {
         };
 
         if (usertype === type.role_user) {
-          message_utl.designer_message_type_user_reject_reschedule(user, designer, reschedule);
+          message_util.designer_message_type_user_reject_reschedule(user, designer, reschedule);
         } else if (usertype === type.role_designer) {
-          message_utl.user_message_type_designer_reject_reschedule(user, designer, reschedule);
+          message_util.user_message_type_designer_reject_reschedule(user, designer, reschedule);
         }
       }));
     }));
@@ -644,7 +644,7 @@ exports.doneItem = function (req, res, next) {
           });
 
           if (result.items.length - doneCount <= 2) {
-            message_utl.user_message_type_procurement(process, section);
+            message_util.user_message_type_procurement(process, section);
           }
         } else if ((process.work_type === type.work_type_all) && (section !== type.process_section_kai_gong &&
             section !== type.process_section_jun_gong)) {
@@ -659,7 +659,7 @@ exports.doneItem = function (req, res, next) {
           });
 
           if (result.items.length - doneCount <= 2) {
-            message_utl.designer_message_type_procurement(process, section);
+            message_util.designer_message_type_procurement(process, section);
           }
         }
 
@@ -708,7 +708,7 @@ exports.doneSection = function (req, res, next) {
   Process.updateStatus(_id, section, null, type.process_item_status_done,
     ep.done(function (process) {
       if (process) {
-        message_utl.user_message_type_pay(process, section);
+        message_util.user_message_type_pay(process, section);
       }
 
       //开启下个流程
@@ -843,7 +843,7 @@ exports.ys = function (req, res, next) {
     _id: _id
   }, null, ep.done(function (process) {
     if (process) {
-      message_utl.user_message_type_ys(process, section);
+      message_util.user_message_type_ys(process, section);
     }
 
     res.sendSuccessMsg();

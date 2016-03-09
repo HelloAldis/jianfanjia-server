@@ -50,10 +50,14 @@ exports.unread_user_message_count = function (req, res, next) {
   ep.fail(next);
 
   async.mapLimit(query_array, 3, function (query, callback) {
-    query.userid = userid;
-    UserMessage.count(query, callback);
+    var q = {};
+    q.userid = userid;
+    q.message_type = {
+      $in: query
+    };
+    UserMessage.count(q, callback);
   }, ep.done(function (count_array) {
-    res.sendData(count_array),
+    res.sendData(count_array);
   }));
 }
 
@@ -154,16 +158,20 @@ exports.delete_designer_message = function (req, res, next) {
   }));
 }
 
-exports.unread_user_message_count = function (req, res, next) {
+exports.unread_designer_message_count = function (req, res, next) {
   var designerid = ApiUtil.getUserid(req);
   var query_array = req.body.query_array;
   var ep = eventproxy();
   ep.fail(next);
 
   async.mapLimit(query_array, 3, function (query, callback) {
-    query.designerid = designerid;
-    DesignerMessage.count(query, callback);
+    var q = {};
+    q.designerid = designerid;
+    q.message_type = {
+      $in: query
+    };
+    DesignerMessage.count(q, callback);
   }, ep.done(function (count_array) {
-    res.sendData(count_array),
+    res.sendData(count_array);
   }));
 }

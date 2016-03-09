@@ -113,6 +113,7 @@ router.post('/user/process', auth.userRequired, processApp.start); //开启装�
 router.post('/search_user_message', auth.userRequired, message.search_user_message); //搜索业主通知
 router.post('/user_message_detail', auth.userRequired, message.user_message_detail); //业主通知详情
 router.post('/delete_user_message', auth.userRequired, message.delete_user_message); //删除业主消息
+router.post('/unread_user_message_count', auth.userRequired, message.unread_user_message_count); //未读消息个数
 
 //设计师独有功能
 router.post('/designer/agree', auth.designerRequired, designer.agree); //同意条款
@@ -145,9 +146,10 @@ router.post('/designer/plan/update', auth.designerRequired, plan.update); //更�
 router.post('/designer_requirement_plans', auth.designerRequired, plan.designer_requirement_plans); //设计师获取某个需求下的方案
 router.post('/config_contract', auth.designerRequired, requirement.config_contract); //配置合同
 router.post('/designer_statistic_info', auth.designerRequired, designer.designer_statistic_info); //设计师获取自己统计信息
-router.post('/search_designer_message', auth.userRequired, message.search_designer_message); //搜索设计师通知
-router.post('/designer_message_detail', auth.userRequired, message.designer_message_detail); //设计师通知详情
-router.post('/delete_designer_message', auth.userRequired, message.delete_designer_message); //删除设计师消息
+router.post('/search_designer_message', auth.designerRequired, message.search_designer_message); //搜索设计师通知
+router.post('/designer_message_detail', auth.designerRequired, message.designer_message_detail); //设计师通知详情
+router.post('/delete_designer_message', auth.designerRequired, message.delete_designer_message); //删除设计师消息
+router.post('/unread_designer_message_count', auth.designerRequired, message.unread_designer_message_count); //未读消息个数
 
 //管理员独有的功能
 router.post('/admin/login', admin.login); //审核设计师

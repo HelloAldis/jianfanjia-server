@@ -503,7 +503,7 @@ exports.config_contract = function (req, res, next) {
         }
       }, function (err, result) {
         if (!err && result.user && result.designer) {
-          message_utl.user_message_type_designer_config_contract(result.user, result.designer, requirement);
+          message_util.user_message_type_designer_config_contract(result.user, result.designer, requirement);
         }
       });
     }
