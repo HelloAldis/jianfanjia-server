@@ -67,15 +67,27 @@ exports.search_user_comment = function (req, res, next) {
     sort: sort,
     lean: true,
   }, ep.done(function (messages, total) {
-    res.sendData({
-      list: messages,
-      total: total,
-    });
+    async.mapLimit(messages, 3, function (message, callback) {
+      Designer.findOne({
+        _id: message.designerid,
+      }, {
+        username: 1,
+        imageid: 1,
+      }, function (err, designer) {
+        message.designer = designer;
+        callback(err, message);
+      });
+    }, ep.done(function (messages) {
+      res.sendData({
+        list: messages,
+        total: total,
+      });
 
-    query.status = type.message_status_unread;
-    UserMessage.setSome(query, {
-      status: type.message_status_readed,
-    }, {}, function () {});
+      query.status = type.message_status_unread;
+      UserMessage.setSome(query, {
+        status: type.message_status_readed,
+      }, {}, function () {});
+    }));
   }));
 }
 
@@ -235,14 +247,26 @@ exports.search_designer_comment = function (req, res, next) {
     sort: sort,
     lean: true,
   }, ep.done(function (messages, total) {
-    res.sendData({
-      list: messages,
-      total: total,
-    });
+    async.mapLimit(messages, 3, function (message, callback) {
+      User.findOne({
+        _id: message.userid,
+      }, {
+        username: 1,
+        imageid: 1,
+      }, function (err, user) {
+        message.user = user;
+        callback(err, message);
+      });
+    }, ep.done(function (messages) {
+      res.sendData({
+        list: messages,
+        total: total,
+      });
 
-    query.status = type.message_status_unread;
-    DesignerMessage.setSome(query, {
-      status: type.message_status_readed,
-    }, {}, function () {});
+      query.status = type.message_status_unread;
+      DesignerMessage.setSome(query, {
+        status: type.message_status_readed,
+      }, {}, function () {});
+    }));
   }));
 }
