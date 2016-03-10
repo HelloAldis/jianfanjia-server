@@ -42,6 +42,7 @@ exports.add = function (req, res, next) {
         status: type.plan_status_designer_housecheck_no_plan,
       };
 
+      plan.name = '方案1';
       Plan.setOne(query, plan, null, ep.done(function () {
         Requirement.setOne({
           _id: requirementid,
@@ -72,12 +73,14 @@ exports.add = function (req, res, next) {
       }));
     } else {
       //创建新的方案
-      Plan.findOne({
+      Plan.find({
         userid: userid,
         designerid: designerid,
         requirementid: requirementid,
-      }, null, ep.done(function (plan_indb) {
-        if (plan_indb) {
+      }, null, null, ep.done(function (plans_indb) {
+        if (plans_indb.length) {
+          var plan_indb = plans_indb[0];
+          plan.name = '方案' + (plans_indb.length + 1);
           plan.status = type.plan_status_designer_upload;
           plan.designerid = designerid;
           plan.userid = new ObjectId(userid);

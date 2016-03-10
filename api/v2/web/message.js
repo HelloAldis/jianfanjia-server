@@ -88,6 +88,7 @@ exports.unread_user_message_count = function (req, res, next) {
   async.mapLimit(query_array, 3, function (query, callback) {
     var q = {};
     q.userid = userid;
+    q.status = type.message_status_unread;
     q.message_type = {
       $in: query
     };
@@ -204,6 +205,7 @@ exports.unread_designer_message_count = function (req, res, next) {
   async.mapLimit(query_array, 3, function (query, callback) {
     var q = {};
     q.designerid = designerid;
+    q.status = type.message_status_unread;
     q.message_type = {
       $in: query
     };
