@@ -597,41 +597,7 @@ exports.doneItem = function (req, res, next) {
     ep.done(function (process) {
       if (process) {
         //push notification
-        if ((process.work_type === type.work_type_half) &&
-          (section !== type.process_section_kai_gong && section !== type.process_section_jun_gong)
-        ) {
-          var result = _.find(process.sections, function (o) {
-            return o.name === section;
-          });
-          var doneCount = 0;
-          _.forEach(result.items, function (e) {
-            if (e.status === type.process_item_status_done) {
-              doneCount += 1;
-            }
-          });
-
-          if (result.items.length - doneCount <= 2) {
-            message_util.user_message_type_procurement(process, section);
-          }
-        } else if ((process.work_type === type.work_type_all) && (section !== type.process_section_kai_gong &&
-            section !== type.process_section_jun_gong)) {
-          var result = _.find(process.sections, function (o) {
-            return o.name === section;
-          });
-          var doneCount = 0;
-          _.forEach(result.items, function (e) {
-            if (e.status === type.process_item_status_done) {
-              doneCount += 1;
-            }
-          });
-
-          if (result.items.length - doneCount <= 2) {
-            message_util.designer_message_type_procurement(process, section);
-          }
-        }
-
-        if (section === type.process_section_kai_gong || section === type
-          .process_section_chai_gai) {
+        if (section === type.process_section_kai_gong || section === type.process_section_chai_gai) {
           var result = _.find(process.sections, function (o) {
             return o.name === section;
           });
@@ -651,7 +617,12 @@ exports.doneItem = function (req, res, next) {
               ep.done(function () {
                 Process.updateStatus(_id, next, null, type.process_item_status_going,
                   ep.done(function () {
-                    res.sendSuccessMsg()
+                    res.sendSuccessMsg();
+                    if (process.work_type === type.work_type_half) {
+                      message_util.user_message_type_procurement(process, next);
+                    }
+
+                    message_util.designer_message_type_procurement(process, next);
                   }));
               }));
           } else {
@@ -697,6 +668,11 @@ exports.doneSection = function (req, res, next) {
           Process.updateStatus(_id, next, null, type.process_item_status_going,
             ep.done(function () {
               res.sendSuccessMsg();
+              if (process.work_type === type.work_type_half) {
+                message_util.user_message_type_procurement(process, next);
+              }
+
+              message_util.designer_message_type_procurement(process, next);
             }));
         }
       } else {
