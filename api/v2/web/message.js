@@ -34,16 +34,51 @@ exports.search_user_message = function (req, res, next) {
     status: 1,
     message_type: 1,
     create_at: 1,
+    processid: 1,
+    requirementid: 1,
   }, {
     skip: skip,
     limit: limit,
     sort: sort,
     lean: true,
   }, ep.done(function (messages, total) {
-    res.sendData({
-      list: messages,
-      total: total,
-    });
+    async.mapLimit(messages, 3, function (message, callback) {
+      if ([type.user_message_type_designer_reschedule,
+          type.user_message_type_designer_ok_reschedule,
+          type.user_message_type_designer_reject_reschedule,
+          type.user_message_type_procurement,
+          type.user_message_type_pay,
+          type.user_message_type_ys,
+        ].indexOf(message.message_type) > -1) {
+        Process.findOne({
+          _id: message.processid,
+        }, {
+          cell: 1,
+        }, function (err, process) {
+          message.cell = process.cell;
+          callback(err, message);
+        });
+      } else if ([type.user_message_type_designer_respond,
+          type.user_message_type_designer_reject,
+          type.user_message_type_designer_upload_plan,
+          type.user_message_type_designer_config_contract
+        ].indexOf(message.message_type) > -1) {
+        Requirement.findOne({
+          _id: message.requirementid
+        }, {
+          cell: 1,
+        }, function (err, requirement) {
+          message.cell = requirement.cell;
+          callback(err, message);
+        });
+      }
+
+    }, ep.done(function (messages) {
+      res.sendData({
+        list: messages,
+        total: total,
+      });
+    }));
   }));
 }
 

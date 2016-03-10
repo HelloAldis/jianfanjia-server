@@ -177,7 +177,11 @@ exports.user_requirement_plans = function (req, res, next) {
         type.plan_status_designer_upload
       ]
     }
-  }, null, null, ep.done(function (plans) {
+  }, null, {
+    sort: {
+      request_date: 1,
+    }
+  }, ep.done(function (plans) {
     async.mapLimit(plans, 3, function (plan, callback) {
       Designer.findOne({
         _id: plan.designerid
@@ -316,7 +320,11 @@ exports.designer_requirement_plans = function (req, res, next) {
         type.plan_status_designer_upload
       ]
     }
-  }, null, null, ep.done(function (plans) {
+  }, null, {
+    sort: {
+      request_date: 1,
+    }
+  }, ep.done(function (plans) {
     async.mapLimit(plans, 3, function (plan, callback) {
       User.findOne({
         _id: plan.userid

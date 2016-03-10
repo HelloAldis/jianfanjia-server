@@ -31,7 +31,11 @@ Plan.count(query, function (err, count) {
           status: {
             $in: [type.plan_status_designer_upload, type.plan_status_user_not_final, type.plan_status_user_final]
           }
-        }, null, null, function (err, plan_array) {
+        }, null, {
+          sort: {
+            request_date: 1,
+          }
+        }, function (err, plan_array) {
           var planid_array = _.pluck(plan_array, '_id');
           var index = tools.findIndexObjectId(planid_array, plan._id);
           plan.name = '方案' + (index + 1);
