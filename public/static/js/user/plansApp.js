@@ -30,6 +30,42 @@
                 $scope.tabBtn = function(i){
                     $scope.tab = i
                 }
+                var planData = {
+                    "planid": planId,
+                    "designerid": '',
+                    "requirementid": ''
+                }
+                $scope.definePlan = {
+                    statusShow : userType == 1,
+                    success : false,
+                    confirm : true,
+                    done  : false,
+                    cancel : function(){
+                        this.success = false;
+                    },
+                    select : function(rid,uid){
+                        this.success = true;
+                        this.confirm = true;
+                        planData.requirementid = rid;
+                        planData.designerid = uid;
+                    },
+                    define : function(){   //确定方案
+                        var _this = this;
+                        userPlan.final(planData).then(function(res){  //提交留言
+                             if(res.data.msg === "success"){
+                                 _this.confirm = false;
+                                 _this.done = true;
+                             }
+                         },function(res){
+                            console.log(res)
+                         });
+                    },
+                    goto : function(data){
+                        this.success = false;
+                        window.location.href = 'owner.html#/requirement/'+planData.requirementid+'/plan';
+                        planData = {};
+                    }
+                }
                 $scope.comment = {
                     imageid : '',
                     plansTabs : false,
@@ -96,21 +132,6 @@
                     },
                     blur : function(){
                        $scope.comment.parentFocus = false; 
-                    },
-                    definePlan : function(rid,did){
-                        if(confirm('您确定选定方案吗？')){
-                            userPlan.final({
-                              "planid": planId,
-                              "designerid": did,
-                              "requirementid": rid
-                            }).then(function(res){  //提交留言
-                                if(res.data.msg === "success"){
-                                    window.location.href = 'owner.html#/requirement/'+rid+'/plan';
-                                }
-                            },function(res){
-                                console.log(res)
-                            });
-                        }
                     }
                 }
                 $scope.comments = [];
@@ -160,8 +181,7 @@
                 },function(res){
                     console.log(res)
                 });
-               
-        }]) 
+        }]);
     // angular bootstrap
     angular.bootstrap(document, ['myJyzPlans']);
 })();

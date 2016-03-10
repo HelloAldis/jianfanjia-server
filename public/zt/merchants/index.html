@@ -1,0 +1,358 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <!--[if lt IE 8]>
+    <script type="text/javascript">if(!-[1,]){window.location.href = "/tpl/other/error.html";}</script>
+    <![endif]-->
+    <title>主材火热招商--平台成就共赢</title>
+    <meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
+    <meta name="keywords" content="互联网装修,武汉装修,设计师平台,简繁家互联网装修平台,家装施工监理">
+    <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+    <script type="text/javascript" src="/static/js/lib/public.js"></script>
+    <script type="text/javascript" src="/static/js/lib/jquery.js"></script>
+    <script type="text/javascript" src="/static/js/lib/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/static/js/lib/lodash.js"></script>
+    <!--[if lt IE 9]>
+        <script type="text/javascript" src="/static/js/lib/ie8.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        .g-banner{
+            height: 500px;
+            background:url(banner.jpg) no-repeat center top;
+        }
+        .g-item1{
+            background-color: #ff950c;
+        }
+        .g-item1 p{
+            padding: 75px;
+            font-size: 14px;
+            line-height: 28px;
+            color: #fff;
+        }
+        .g-item2 .m-hd{
+            padding-top: 11px;
+        }
+        .m-hd h3{
+            padding-top: 44px;
+            font-size: 24px;
+            line-height: 60px;
+            font-weight: bold;
+            color: #383d48;
+        }
+        .m-hd p{
+            font-size: 16px;
+            line-height: 16px;
+            font-weight: bold;
+            color: #999;
+        }
+        .condition{
+            padding: 40px 88px 20px;
+        }
+        .condition li{
+            position: relative;
+            float: left;
+            width: 274px;
+            height: 114px;
+            line-height: 114px;
+            margin:0 32px 50px;
+            text-align: center;
+            background-color: #f9f9f9;
+            border: 1px solid #fe7004;
+            border-radius: 2px;
+        }
+        .condition li i{
+            position: absolute;
+            right: 2px;
+            bottom: 2px;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            font-size: 0;
+            border-width: 4px;
+            border-color: transparent;
+            border-style: dashed;
+            border-bottom-style: solid;
+            border-bottom-color: #fdc879;
+            border-right-style: solid;
+            border-right-color: #fdc879;
+        }
+        .condition li p{
+            position: absolute;
+            left:20px;
+            top:15px;
+            width: 234px;
+            height: 114px;
+            font-size: 16px;
+            line-height: 28px;
+            font-weight: bold;
+            color: #fe7004;
+            text-align: left;
+        }
+        .condition li span{
+            display: inline-block;
+            vertical-align: middle;
+            width: 61px;
+            height: 39px;
+            background:url(item2-bg.png) no-repeat;
+        }
+        .condition li.list1 p,.condition li.list6 p{
+            top:50%;
+            margin-top: -14px;
+        }
+        .condition li.list2 span{
+            background-position: 0 -39px;
+        }
+        .condition li.list3 p,.condition li.list5 p{
+            top:27px;
+        }
+        .condition li.list3 span{
+             background-position: 0 -78px;
+        }
+        .condition li.list4 span{
+            background-position: 0 -117px;
+        }
+        .condition li.list5 span{
+            background-position: 0 -156px;
+        }
+        .condition li.list6 span{
+            background-position: 0 -195px;
+        }
+        .condition li.list6 p{
+            text-align: center;
+        }
+        .apply{
+            position: fixed;
+            left:0;
+            bottom: 0;
+            z-index: 10;
+            width: 100%;
+            min-width:1200px;
+            height: 110px;
+            font-size: 24px;
+            line-height: 110px;
+            text-align: center;
+            border-bottom: 1px solid #fe7004;
+            background-color: #000;
+            filter: alpha(opacity=70);
+            opacity: 1;
+            background-color: rgba(0,0,0,.7);
+        }
+        .apply span{
+            display: inline-block;
+            vertical-align: middle;
+            height: 50px;
+            margin-left: 40px;
+            font-size: 24px;
+            line-height: 50px;
+            color: #fff;
+            border: 1px solid #fe7004;
+        }
+        .apply span b{
+            display: inline-block;
+            padding: 0 16px;
+            background-color: #fe7004;
+        }
+        .apply span i{
+            padding: 0 32px;
+        }
+        .apply .icon{
+            display: inline-block;
+            vertical-align: middle;
+            width: 51px;
+            height: 51px;
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6M0I4QkI5ODNFNUM2MTFFNUIyQjE5MTRDMjgzNkQ2MkYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6M0I4QkI5ODRFNUM2MTFFNUIyQjE5MTRDMjgzNkQ2MkYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDozQjhCQjk4MUU1QzYxMUU1QjJCMTkxNEMyODM2RDYyRiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDozQjhCQjk4MkU1QzYxMUU1QjJCMTkxNEMyODM2RDYyRiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PvPSgbUAAAadSURBVHja1FoJbFVF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);
+        }
+        .g-item3{
+            background: #ff4a4a url(item3-bg.png) center bottom no-repeat;
+        }
+        .g-item3 .m-hd h3{
+            color: #fff;
+        }
+        .select{
+            position: relative;
+            width: 948px;
+            height: 222px;
+            margin: 84px auto 0;
+            background: url(circle.png) no-repeat;
+        }
+        .select .dot{
+            position: absolute;
+            left:0;
+            top:0;
+            width: 10px;
+            height: 10px;
+            background-color: #ffff00;
+            border: 3px solid #f3a061;
+            border-radius: 100%;
+        }
+        .select > div{
+            position: absolute;
+            font-size: 16px;
+            line-height: 28px;
+            color: #fff;
+        }
+        .select .item1{
+            left:80px;
+            top:100px;
+        }
+        .select .item1 p{
+            padding: 20px 0 0 27px;
+        }
+        .select .item2{
+            left:206px;
+            top:-44px;
+        }
+        .select .item2 .dot{
+            top:50px;
+            left:112px;
+        }
+        .select .item3{
+            left:507px;
+            top:-44px;
+        }
+        .select .item3 .dot{
+            top:50px;
+            left:103px;
+        }
+        .select .item4{
+            left:621px;
+            top:120px;
+        }
+        .select .item4 .dot{
+            top:-20px;
+            left:231px;
+        }
+    </style>
+</head>
+<body>
+<div class="g-tb g-wa">
+    <div class="g-wp f-cb">
+        <a href="/tpl/download/index.html" class="m-app f-fl"><span>APP下载</span></a>
+        <a href="/zt/recruit/index.html" class="m-events f-fr">简繁家主材火热招商中</a>
+        <div class="m-user f-fr" id="j-user"></div>
+    </div>
+</div>
+<header class="g-hd g-wa" id="j-hd">
+    <div class="g-wp f-cb">
+        <hgroup class="m-logo f-fl">
+            <h1><a href="/">简繁家</a></h1>
+            <h2>我的设计师专单平台</h2>
+        </hgroup>
+        <div class="m-sch f-fl" id="j-sch"></div>
+        <div class="m-slogan f-fr" id="j-slogan">
+            <h3>简繁家实力保障</h3>
+            <p>知名风投千万投资</p>
+        </div>
+    </div>
+</header>
+<nav class="g-nav g-wa">
+    <div class="g-wp">
+        <ul class="m-nav f-cb">
+            <li class="active"><a href="/">首页</a></li>
+            <li><a href="/tpl/design/index.html">设计师</a></li>
+            <li><a href="/tpl/mito/index.html">装修美图 </a></li>
+            <li><a href="/tpl/live/index.html">装修直播</a></li>
+            <li><a href="/tpl/article/index.html">装修攻略</a></li>
+            <li><a href="/tpl/help/index.html">你问我答</a></li>
+        </ul>
+        <a href="/tpl/user/owner.html#release" class="m-release bounce" id="j-release"><span><i></i></span>免费获取三套方案</a>
+    </div>
+</nav>
+<div class="g-banner g-wa"></div>
+<main>
+    <section class="g-item1 g-wa">
+        <div class="g-wp">
+            <p>
+                简繁家互联网装修平台致力于打造健康、规范的装修业态，能够为业主提供简单、透明、高效的装修体验。在装修过程中，设计、施工是装修品质的保障前提，而装修材料的选择、采购、售后也是决定装修品质的关键环节。简繁家作为主导“设计师从设计到施工一体负责制”的互联网装修平台，在装修设计及施工管理层面已经有了成熟的体系，并收获了良好的口碑与知名度。为了给业主提供更全面的装修服务，更好地体现“简单、透明、高效”的互联网装修特性，平台面向装饰装修建材商家公开招商。
+            </p>
+        </div>
+    </section>
+    <section class="g-item g-item2">
+        <div class="g-wp">
+            <header class="m-hd f-tac">
+                <h3>入驻条件</h3>
+                <p>欢迎具备以下条件的商家联系我们</p>
+            </header>
+            <div class="m-mn condition">
+                <ul class="f-cb">
+                    <li class="list1"><p>属于建材厂家或者至少省级代理</p><span></span><i></i></li>
+                    <li class="list2"><p>在本省省会城市一级建材市场或卖场有500平方（含）以上的形象店</p><span></span><i></i></li>
+                    <li class="list3"><p>拥有正式注册品牌，无品牌所有权上的法律分歧及纠纷</p><span></span><i></i></li>
+                    <li class="list4"><p>产品各项指标皆符合国家相关法律法规的规定，并具有相应的认可证书</p><span></span><i></i></li>
+                    <li class="list5"><p>省级代理须出具工商执照、厂家授权书等相关资质、资格证明</p><span></span><i></i></li>
+                    <li class="list6"><p>其它事项面议</p><span></span><i></i></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="g-item g-item3">
+        <div class="g-wp">
+            <header class="m-hd f-tac">
+                <h3>为什么选择我们</h3>
+            </header>
+            <div class="m-mn select">
+                <div class="item1">
+                    <span class="dot"></span>
+                    <p>
+                        顶级风投基金K2VC优选项目，<br />
+                        全力投资支持的互联网装修平台
+                    </p>
+                </div>
+                <div class="item2">
+                    <span class="dot"></span>
+                    <p>
+                        风口行业、抓住家居建材网销趋势
+                    </p>
+                </div>
+                <div class="item3">
+                    <span class="dot"></span>
+                    <p>
+                        强大的市场推广、装修签单能力
+                    </p>
+                </div>
+                <div class="item4">
+                    <span class="dot"></span>
+                    <p>
+                        减少销售层级、降低销售成本，<br />
+                        免除传统模式下的诸多杂费
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<div class="apply">
+    <div class="g-wp">
+        <em class="icon"></em>
+        <span class="phone"><b>招商电话</b><i>18971686023</i></span>
+        <span class="people"><b>联系人</b><i>许先生</i></span>
+    </div>
+</div>
+<footer class="g-ft g-wa">
+    <div class="g-wp">
+        <ul>
+            <li class="first"><a href="/tpl/about/owenr.html"><strong>业主指南</strong><em>业主指南</em></a></li>
+            <li><a href="/tpl/about/design.html"><strong>设计师指南</strong><em>设计师指南</em></a></li>
+            <li><a href="/tpl/article/index.html"><strong>装修攻略</strong><em>装修攻略</em></a></li>
+            <li><a href="/tpl/about/index.html"><strong>关于我们</strong><em>关于我们</em></a></li>
+            <li class="last"><a href="/tpl/about/contact.html"><strong>联系我们</strong><em>联系我们</em></a></li>
+        </ul>
+        <p>免责声明：本网站部分内容由用户自行上传，如权利人发现存在误传其作品情形，请及时与本站联系。</p>
+        <p>Copyright © 2015-2016 jianfanjia.com   All Rights Reserved   武汉家易装科技有限公司   隐私权政策 鄂ICP备15014103号</p>
+    </div>
+</footer>
+<script type="text/javascript" src="/static/js/utils/usercommon.js"></script>
+</body>
+</html>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?66d38d3af612ed7c0979211372aa9682";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
