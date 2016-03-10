@@ -169,6 +169,7 @@ var type = {
   user_message_type_designer_config_contract: '10',
   user_message_type_designer_reject_reschedule: '11',
   user_message_type_designer_ok_reschedule: '12',
+  user_message_type_designer_remind_ok_house_checked: '13',
 
   designer_message_type_user_reschedule: '0',
   designer_message_type_procurement: '1',

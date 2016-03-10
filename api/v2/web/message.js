@@ -36,6 +36,7 @@ exports.search_user_message = function (req, res, next) {
     create_at: 1,
     processid: 1,
     requirementid: 1,
+    section: 1,
   }, {
     skip: skip,
     limit: limit,
@@ -165,6 +166,22 @@ exports.user_message_detail = function (req, res, next) {
   }));
 }
 
+exports.read_user_message = function (req, res, next) {
+  var userid = ApiUtil.getUserid(req);
+  var messageid = req.body.messageid;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  UserMessage.setOne({
+    _id: messageid,
+    userid: userid,
+  }, {
+    status: type.message_status_readed,
+  }, ep.done(function () {
+    res.sendSuccessMsg();
+  }));
+}
+
 exports.delete_user_message = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var messageid = req.body.messageid;
@@ -196,6 +213,7 @@ exports.search_designer_message = function (req, res, next) {
     status: 1,
     message_type: 1,
     create_at: 1,
+    section: 1,
   }, {
     skip: skip,
     limit: limit,
@@ -226,6 +244,22 @@ exports.designer_message_detail = function (req, res, next) {
     }, {
       status: type.message_status_readed,
     }, function () {});
+  }));
+}
+
+exports.read_designer_message = function (req, res, next) {
+  var designerid = ApiUtil.getUserid(req);
+  var messageid = req.body.messageid;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  DesignerMessage.setOne({
+    _id: messageid,
+    designerid: designerid,
+  }, {
+    status: type.message_status_readed,
+  }, ep.done(function () {
+    res.sendSuccessMsg();
   }));
 }
 
