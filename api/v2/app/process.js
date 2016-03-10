@@ -367,20 +367,20 @@ exports.reschedule = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  ep.on('sendMessage', function (process) {
+  ep.on('sendMessage', function (process, reschedule_indb) {
     User.findOne({
-      _id: reschedule.userid
+      _id: reschedule_indb.userid
     }, null, ep.done(function (user) {
       Designer.findOne({
-        _id: reschedule.designerid
+        _id: reschedule_indb.designerid
       }, {
         _id: 1,
         username: 1
       }, ep.done(function (designer) {
         if (usertype === type.role_user) {
-          message_util.designer_message_type_user_reschedule(user, designer, reschedule);
+          message_util.designer_message_type_user_reschedule(user, designer, reschedule_indb);
         } else if (usertype === type.role_designer) {
-          message_util.user_message_type_designer_reschedule(user, designer, reschedule);
+          message_util.user_message_type_designer_reschedule(user, designer, reschedule_indb);
         }
       }));
     }));
@@ -394,12 +394,12 @@ exports.reschedule = function (req, res, next) {
       return res.sendErrMsg('对方已经申请改期！');
     }
 
-    Reschedule.newAndSave(reschedule, ep.done(function (reschedule) {
-      if (reschedule) {
-        Process.updateStatus(reschedule.processid, reschedule.section,
-          null, reschedule.status, ep.done(function (process) {
+    Reschedule.newAndSave(reschedule, ep.done(function (reschedule_indb) {
+      if (reschedule_indb) {
+        Process.updateStatus(reschedule_indb.processid, reschedule_indb.section,
+          null, reschedule_indb.status, ep.done(function (process) {
             res.sendSuccessMsg();
-            ep.emit('sendMessage', process);
+            ep.emit('sendMessage', process, reschedule_indb);
           }));
       } else {
         res.sendErrMsg('无法保存成功');

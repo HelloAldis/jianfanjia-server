@@ -40,6 +40,7 @@ exports.user_message_type_designer_reschedule = function (user, designer, resche
     userid: user._id,
     designerid: designer._id,
     processid: reschedule.processid,
+    rescheduleid: reschedule._id,
     section: reschedule.section,
     title: 'title',
     content: '设计师' + designer.username + '向您提出了改期, 希望可以将验收改期到' + date_util.YYYY_MM_DD(reschedule.new_date),

@@ -24,6 +24,9 @@ var DesignerMessageSchema = new Schema({
   commentid: {
     type: ObjectId
   },
+  rescheduleid: {
+    type: ObjectId
+  },
   section: {
     type: String,
   },

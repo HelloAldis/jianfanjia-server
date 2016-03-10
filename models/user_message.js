@@ -21,6 +21,9 @@ var UserMessageSchema = new Schema({
   topicid: {
     type: ObjectId
   },
+  rescheduleid: {
+    type: ObjectId
+  },
   commentid: {
     type: ObjectId
   },

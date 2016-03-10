@@ -61,6 +61,8 @@ DaoProxy.prototype.setOne = function (query, update, option, callback) {
 }
 
 DaoProxy.prototype.setSome = function (query, update, option, callback) {
+  option = option || {};
+  option.multi = true;
   update.lastupdate = new Date().getTime();
   this.model.update(query, {
     $set: update
