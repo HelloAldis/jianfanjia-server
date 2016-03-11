@@ -183,7 +183,7 @@ exports.user_message_detail = function (req, res, next) {
       }, {
         cell: 1,
         status: 1,
-      }, ep.done(function (err, process) {
+      }, ep.done(function (err, requirement) {
         message = message.toObject();
         message.requirement = requirement;
         res.sendData(message);
