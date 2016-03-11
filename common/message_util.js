@@ -26,7 +26,7 @@ function saveUserMessageAndPush(user_message) {
   UserMessage.newAndSave(user_message, function (err, user_message_indb) {
     if (user_message_indb) {
       UserMessage.count({
-        designerid: user_message_indb.userid,
+        userid: user_message_indb.userid,
         status: type.message_status_unread,
       }, function (err, count) {
         var payload = gt.buildPayloadFromUserMessage(user_message_indb);
