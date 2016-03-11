@@ -190,12 +190,11 @@ exports.user_message_detail = function (req, res, next) {
       }));
     } else if (type.user_message_type_designer_reschedule === message.message_type) {
       async.parallel({
-        requirement: function (callback) {
-          Requirement.findOne({
-            _id: message.requirementid,
+        process: function (callback) {
+          Process.findOne({
+            _id: message.processid,
           }, {
             cell: 1,
-            status: 1,
           }, callback);
         },
         reschedule: function (callback) {
@@ -205,7 +204,7 @@ exports.user_message_detail = function (req, res, next) {
         }
       }, ep.done(function (result) {
         message = message.toObject();
-        message.requirement = result.requirement;
+        message.process = result.process;
         message.reschedule = result.reschedule;
         res.sendData(message);
       }));
