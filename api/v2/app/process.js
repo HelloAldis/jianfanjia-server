@@ -641,8 +641,6 @@ exports.doneItem = function (req, res, next) {
                     if (process.work_type === type.work_type_half) {
                       message_util.user_message_type_procurement(process, next);
                     }
-
-                    message_util.designer_message_type_procurement(process, next);
                   }));
               }));
           } else {
@@ -691,8 +689,6 @@ exports.doneSection = function (req, res, next) {
               if (process.work_type === type.work_type_half) {
                 message_util.user_message_type_procurement(process, next);
               }
-
-              message_util.designer_message_type_procurement(process, next);
             }));
         }
       } else {

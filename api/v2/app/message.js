@@ -54,6 +54,7 @@ exports.search_user_comment = function (req, res, next) {
             }, {
               images: 1,
               status: 1,
+              name: 1,
               requirementid: 1,
             }, callback);
           }
@@ -145,6 +146,7 @@ exports.search_designer_comment = function (req, res, next) {
             }, {
               images: 1,
               status: 1,
+              name: 1,
               requirementid: 1,
             }, callback);
           }

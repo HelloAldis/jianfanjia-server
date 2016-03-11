@@ -39,6 +39,9 @@ var UserMessageSchema = new Schema({
   content: {
     type: String
   },
+  html: {
+    type: String
+  },
   message_type: {
     type: String
   },
