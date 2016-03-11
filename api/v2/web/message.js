@@ -170,8 +170,10 @@ exports.user_message_detail = function (req, res, next) {
       }, {
         cell: 1,
       }, ep.done(function (err, process) {
+        console.log(process);
         message = message.toObject();
         message.process = process;
+        console.log(message);
         res.sendData(message);
       }));
     } else if ([type.user_message_type_designer_respond,
