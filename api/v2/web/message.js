@@ -56,7 +56,7 @@ exports.search_user_message = function (req, res, next) {
         }, {
           cell: 1,
         }, function (err, process) {
-          message.cell = process.cell;
+          message.process = process;
           callback(err, message);
         });
       } else if ([type.user_message_type_designer_respond,
@@ -69,9 +69,11 @@ exports.search_user_message = function (req, res, next) {
         }, {
           cell: 1,
         }, function (err, requirement) {
-          message.cell = requirement.cell;
+          message.requirement = requirement;
           callback(err, message);
         });
+      } else {
+        callback(null, message);
       }
 
     }, ep.done(function (messages) {
@@ -156,7 +158,81 @@ exports.user_message_detail = function (req, res, next) {
     _id: messageid,
     userid: userid,
   }, null, ep.done(function (message) {
-    res.sendData(message);
+    if ([type.user_message_type_designer_ok_reschedule,
+        type.user_message_type_designer_reject_reschedule,
+        type.user_message_type_procurement,
+        type.user_message_type_pay,
+        type.user_message_type_ys
+      ].indexOf(message.message_type) > -1) {
+      Process.findOne({
+        _id: message.processid,
+      }, {
+        cell: 1,
+      }, ep.done(function (err, process) {
+        message = message.toObject();
+        message.process = process;
+        res.sendData(message);
+      }));
+    } else if ([type.user_message_type_designer_respond,
+        type.user_message_type_designer_reject,
+        type.user_message_type_designer_config_contract,
+      ].indexOf(message.message_type) > -1) {
+      Requirement.findOne({
+        _id: message.requirementid,
+      }, {
+        cell: 1,
+        status: 1,
+      }, ep.done(function (err, process) {
+        message = message.toObject();
+        message.requirement = requirement;
+        res.sendData(message);
+      }));
+    } else if (type.user_message_type_designer_reschedule === message.message_type) {
+      async.parallel({
+        requirement: function (callback) {
+          Requirement.findOne({
+            _id: message.requirementid,
+          }, {
+            cell: 1,
+            status: 1,
+          }, callback);
+        },
+        reschedule: function (callback) {
+          Reschedule.findOne({
+            _id: message.rescheduleid,
+          }, null, callback);
+        }
+      }, ep.done(function (result) {
+        message = message.toObject();
+        message.requirement = result.requirement;
+        message.reschedule = result.reschedule;
+        res.sendData(message);
+      }));
+    } else if (type.user_message_type_designer_upload_plan === message.message_type) {
+      async.parallel({
+        requirement: function (callback) {
+          Requirement.findOne({
+            _id: message.requirementid,
+          }, {
+            cell: 1,
+            status: 1,
+          }, callback);
+        },
+        plan: function (callback) {
+          Plan.findOne({
+            _id: message.planid,
+          }, null, callback);
+        }
+      }, ep.done(function (result) {
+        message = message.toObject();
+        message.requirement = result.requirement;
+        message.plan = result.plan;
+        res.sendData(message);
+      }));
+    } else {
+      res.sendData(message);
+    }
+
     UserMessage.setOne({
       _id: messageid,
       userid: userid,

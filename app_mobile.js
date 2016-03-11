@@ -58,15 +58,13 @@ app.use('/', express.static(path.join(__dirname, 'mobile')));
 app.use(responseUtil);
 
 // routes
-if (config.debug) {
-  app.use('/api/v2', function (req, res, next) {
-    if (!(req.body instanceof Buffer)) {
-      logger.debug(req.body);
-    }
+app.use('/api/v2', function (req, res, next) {
+  if (!(req.body instanceof Buffer)) {
+    logger.debug(req.body);
+  }
 
-    next();
-  });
-}
+  next();
+});
 
 //API Request logger
 app.use('/api', req_res_log);
