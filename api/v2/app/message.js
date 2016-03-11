@@ -51,12 +51,7 @@ exports.search_user_comment = function (req, res, next) {
           plan: function (callback) {
             Plan.findOne({
               _id: message.topicid,
-            }, {
-              images: 1,
-              status: 1,
-              name: 1,
-              requirementid: 1,
-            }, callback);
+            }, null, callback);
           }
         }, ep.done(function (result) {
           Requirement.findOne({
