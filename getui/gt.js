@@ -38,22 +38,22 @@ exports.buildPayloadFromDesignerMessage = function (designer_message) {
   };
 }
 
-function buildMessage(appid, appkey, playload) {
+function buildMessage(appid, appkey, payload_in) {
   var payload = new APNPayload();
   var alertMsg = new SimpleAlertMsg();
-  alertMsg.alertMsg = playload.content;
+  alertMsg.alertMsg = payload_in.content;
   payload.alertMsg = alertMsg;
-  payload.badge = playload.badge;
+  payload.badge = payload_in.badge;
   payload.contentAvailable = 1;
   payload.category = "ACTION 1";
   // payload.sound = "test1.wav";
-  payload.customMsg.payload1 = JSON.stringify(playload);
+  payload.customMsg.payload1 = JSON.stringify(payload_in);
 
   var template = new TransmissionTemplate({
     appId: appid,
     appKey: appkey,
     transmissionType: 2,
-    transmissionContent: JSON.stringify(playload),
+    transmissionContent: JSON.stringify(payload_in),
   });
   template.setApnInfo(payload);
 
@@ -63,7 +63,7 @@ function buildMessage(appid, appkey, playload) {
     data: template, //设置推送消息类型
   });
 
-  logger.debug(playload);
+  logger.debug(payload_in);
   return message;
 }
 
@@ -77,10 +77,10 @@ function buildTarget(appid, userid) {
   });
 }
 
-exports.pushMessageToUser = function (userid, playload) {
+exports.pushMessageToUser = function (userid, payload) {
   logger.debug('send to user');
   var target = buildTarget(config.gt_user_APPID, userid);
-  var message = buildMessage(config.gt_user_APPID, config.gt_user_APPKEY, playload);
+  var message = buildMessage(config.gt_user_APPID, config.gt_user_APPKEY, payload);
   gt_user.pushMessageToSingle(message, target, function (err, res) {
     logger.debug('push err = ' + err);
     logger.debug(res);
@@ -96,10 +96,10 @@ exports.pushMessageToUser = function (userid, playload) {
   });
 }
 
-exports.pushMessageToDesigner = function (userid, playload) {
+exports.pushMessageToDesigner = function (userid, payload) {
   logger.debug('send to designer');
   var target = buildTarget(config.gt_designer_APPID, userid);
-  var message = buildMessage(config.gt_designer_APPID, config.gt_designer_APPKEY, playload);
+  var message = buildMessage(config.gt_designer_APPID, config.gt_designer_APPKEY, payload);
   gt_designer.pushMessageToSingle(message, target, function (err, res) {
     logger.debug('push err = ' + err);
     logger.debug(res);

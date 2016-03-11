@@ -15,6 +15,7 @@ function saveDesignerMessageAndPush(designer_message) {
       }, function (err, count) {
         var payload = gt.buildPayloadFromDesignerMessage(designer_message_indb);
         payload.badge = count;
+        console.log(payload);
         gt.pushMessageToDesigner(designer_message_indb.designerid, payload);
       });
     }
@@ -30,6 +31,7 @@ function saveUserMessageAndPush(user_message) {
       }, function (err, count) {
         var payload = gt.buildPayloadFromUserMessage(user_message_indb);
         payload.badge = count;
+        console.log(payload);
         gt.pushMessageToUser(user_message_indb.userid, payload);
       });
     }
@@ -335,7 +337,7 @@ exports.user_message_type_ys = function (process, section) {
     section: section,
     title: '验收提醒',
     content: '尊敬的业主您好：' + name + '等待您的验收，请您前往确认，谢谢！如有问题可以拨打我们的客服热线：400-8515-167',
-    html: util.format(user_message_type_ys_template, designer.username),
+    html: util.format(user_message_type_ys_template, name),
     message_type: type.user_message_type_ys,
     status: type.message_status_unread,
   };

@@ -296,10 +296,42 @@ exports.search_designer_message = function (req, res, next) {
     sort: sort,
     lean: true,
   }, ep.done(function (messages, total) {
-    res.sendData({
-      list: messages,
-      total: total,
-    });
+    async.mapLimit(messages, 3, function (message, callback) {
+      if ([type.designer_message_type_user_reschedule,
+          type.designer_message_type_user_reject_reschedule,
+          type.designer_message_type_user_ok_reschedule
+        ].indexOf(message.message_type) > -1) {
+        Process.findOne({
+          _id: message.processid,
+        }, {
+          cell: 1,
+        }, function (err, process) {
+          message.process = process;
+          callback(err, message);
+        });
+      } else if ([type.designer_message_type_user_order,
+          type.designer_message_type_user_ok_house_checked,
+          type.designer_message_type_user_unfinal_plan,
+          type.designer_message_type_user_final_plan,
+          type.designer_message_type_user_ok_contract
+        ].indexOf(message.message_type) > -1) {
+        Requirement.findOne({
+          _id: message.requirementid
+        }, {
+          cell: 1,
+        }, function (err, requirement) {
+          message.requirement = requirement;
+          callback(err, message);
+        });
+      } else {
+        callback(null, message);
+      }
+    }, ep.done(function (messages) {
+      res.sendData({
+        list: messages,
+        total: total,
+      });
+    }));
   }));
 }
 
@@ -313,7 +345,59 @@ exports.designer_message_detail = function (req, res, next) {
     _id: messageid,
     designerid: designerid,
   }, null, ep.done(function (message) {
-    res.sendData(message);
+    if ([type.designer_message_type_user_reschedule,
+        type.designer_message_type_user_reject_reschedule,
+        type.designer_message_type_user_ok_reschedule,
+      ].indexOf(message.message_type) > -1) {
+      Process.findOne({
+        _id: message.processid,
+      }, {
+        cell: 1,
+      }, ep.done(function (process) {
+        message = message.toObject();
+        message.process = process;
+        res.sendData(message);
+      }));
+    } else if ([type.designer_message_type_user_order,
+        type.designer_message_type_user_ok_house_checked,
+        type.designer_message_type_user_unfinal_plan,
+        type.designer_message_type_user_final_plan,
+        type.designer_message_type_user_ok_contract
+      ].indexOf(message.message_type) > -1) {
+      Requirement.findOne({
+        _id: message.requirementid,
+      }, {
+        cell: 1,
+        status: 1,
+      }, ep.done(function (requirement) {
+        message = message.toObject();
+        message.requirement = requirement;
+        res.sendData(message);
+      }));
+    } else if (type.designer_message_type_user_reschedule === message.message_type) {
+      async.parallel({
+        process: function (callback) {
+          Process.findOne({
+            _id: message.processid,
+          }, {
+            cell: 1,
+          }, callback);
+        },
+        reschedule: function (callback) {
+          Reschedule.findOne({
+            _id: message.rescheduleid,
+          }, null, callback);
+        }
+      }, ep.done(function (result) {
+        message = message.toObject();
+        message.process = result.process;
+        message.reschedule = result.reschedule;
+        res.sendData(message);
+      }));
+    } else {
+      res.sendData(message);
+    }
+
     DesignerMessage.setOne({
       _id: messageid,
       designerid: designerid,
