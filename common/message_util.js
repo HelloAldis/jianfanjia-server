@@ -38,7 +38,7 @@ function saveUserMessageAndPush(user_message) {
 
 var user_message_type_designer_reschedule_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
 <p>您的设计师%s希望将本阶段工期修改至</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
@@ -67,7 +67,7 @@ exports.user_message_type_designer_reschedule = function (user, designer, resche
 
 var user_message_type_designer_ok_reschedule_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
 <p>您的设计师%s同意了您的改期需求，本阶段工期将会修改至</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
@@ -96,7 +96,7 @@ exports.user_message_type_designer_ok_reschedule = function (user, designer, res
 
 var user_message_type_designer_reject_reschedule_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
 <p>您的设计师%s不同意你修改工期。</p>\
 <p>如有问题请及时与设计师联系。</p>\
@@ -122,7 +122,7 @@ exports.user_message_type_designer_reject_reschedule = function (user, designer,
 
 var user_message_type_procurement_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
 <p>您即将进入%s阶段需要购买以下材料</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
@@ -154,7 +154,7 @@ exports.user_message_type_procurement = function (process, next) {
 
 var user_message_type_pay_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
 <p>%s阶段已经完成</p>\
 <p>您需要支付装修进度款，谢谢！</p>\
@@ -216,7 +216,7 @@ exports.user_message_type_comment_process_item = function (comment) {
 
 var user_message_type_designer_respond_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
 <p>设计师%s已经已经响应了您的需求</p>\
 <p>设计师将会与您取得联系，请保持电话畅通。</p>\
@@ -241,7 +241,7 @@ exports.user_message_type_designer_respond = function (user, designer, plan) {
 
 var user_message_type_designer_reject_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
 <p>十分抱歉，设计师%s拒绝了您的需求</p>\
 <p>您还可以选择其他设计师。</p>\
@@ -266,7 +266,7 @@ exports.user_message_type_designer_reject = function (user, designer, plan) {
 
 var user_message_type_designer_upload_plan_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
 <p>您的设计师%s已经上传了方案</p>\
 <p>请您前往查看，如有问题请及时与设计师联系。</p>\
@@ -291,7 +291,7 @@ exports.user_message_type_designer_upload_plan = function (user, designer, plan)
 
 var user_message_type_designer_config_contract_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
 <p>您的设计师%s已经配置好了装修合同</p>\
 <p>请您及时查阅，如有问题请及时与设计师联系。</p>\
@@ -316,7 +316,7 @@ exports.user_message_type_designer_config_contract = function (user, designer, r
 
 var user_message_type_ys_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
 <p>%s等待您的验收，请您前往确认，谢谢！</p>\
 <p>如有问题可以拨打我们的客服热线：<a herf="tel:400-8515-167">400-8515-167</a></p>\
@@ -345,7 +345,7 @@ exports.user_message_type_ys = function (process, section) {
 
 var user_message_type_designer_remind_ok_house_checked_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
 <p>您的设计师%s已经为您量完房</p>\
 <p>为了加快整个流程，请您及时确认！如有问题请及时与设计师联系</p>\
@@ -369,7 +369,7 @@ exports.user_message_type_designer_remind_ok_house_checked = function (user, des
 
 var designer_message_type_user_reschedule_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>业主%s希望将本阶段工期修改至</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
@@ -399,7 +399,7 @@ exports.designer_message_type_user_reschedule = function (user, designer, resche
 
 var designer_message_type_user_ok_reschedule_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>业主%s同意了您的改期需求，本阶段工期将会修改至</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
@@ -428,7 +428,7 @@ exports.designer_message_type_user_ok_reschedule = function (user, designer, res
 
 var designer_message_type_user_reject_reschedule_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>业主%s不同意你修改本阶段工期至</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
@@ -510,7 +510,7 @@ exports.designer_message_type_comment_process_item = function (comment) {
 
 var designer_message_type_basic_auth_done_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>您提交的基本信息已经顺利通过！</p>\
 <p>如有问题可以拨打我们的客服热线：<a herf="tel:400-8515-167">400-8515-167</a></p>\
@@ -531,7 +531,7 @@ exports.designer_message_type_basic_auth_done = function (designer) {
 
 var designer_message_type_basic_auth_reject_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>您提交的基本信息由于</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
@@ -554,7 +554,7 @@ exports.designer_message_type_basic_auth_reject = function (designer, auth_messa
 
 var designer_message_type_uid_auth_done_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>您提交的身份证和银行卡信息已经审核通过！</p>\
 <p>如有问题可以拨打我们的客服热线：<a herf="tel:400-8515-167">400-8515-167</a></p>\
@@ -575,7 +575,7 @@ exports.designer_message_type_uid_auth_done = function (designer) {
 
 var designer_message_type_uid_auth_reject_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>您提交的身份证和银行卡信息由于</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
@@ -598,7 +598,7 @@ exports.designer_message_type_uid_auth_reject = function (designer, auth_message
 
 var designer_message_type_work_auth_done_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>您提交的工地信息已经审核通过！</p>\
 <p>如有问题可以拨打我们的客服热线：<a herf="tel:400-8515-167">400-8515-167</a></p>\
@@ -619,7 +619,7 @@ exports.designer_message_type_work_auth_done = function (designer) {
 
 var designer_message_type_work_auth_reject_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>您提交的工地信息由于</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
@@ -642,7 +642,7 @@ exports.designer_message_type_work_auth_reject = function (designer, auth_messag
 
 var designer_message_type_product_auth_done_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>你提交的设计案例已经审核通过！</p>\
 <p>为了提高匹配率、增加接单的几率，请您上传更多有效作品！</p>\
@@ -665,7 +665,7 @@ exports.designer_message_type_product_auth_done = function (designer, product) {
 
 var designer_message_type_product_auth_reject_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>您提交的设计案例由于</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
@@ -689,7 +689,7 @@ exports.designer_message_type_product_auth_reject = function (designer, product,
 
 var designer_message_type_product_auth_illegal_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>您提交的设计案例由于</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
@@ -713,7 +713,7 @@ exports.designer_message_type_product_auth_illegal = function (designer, product
 
 var designer_message_type_user_order_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>%业主预约您上门量房，请及时响应！</p>\
 <p>如有问题可以拨打我们的客服热线：<a herf="tel:400-8515-167">400-8515-167</a></p>\
@@ -736,7 +736,7 @@ exports.designer_message_type_user_order = function (user, designer, requirement
 
 var designer_message_type_user_ok_house_checked_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>%业主已经确认了量房信息，请您尽快上传方案！</p>\
 <p>如有问题可以拨打我们的客服热线：<a herf="tel:400-8515-167">400-8515-167</a></p>\
@@ -759,7 +759,7 @@ exports.designer_message_type_user_ok_house_checked = function (user, designer, 
 
 var designer_message_type_user_unfinal_plan_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>您提交的方案没有被业主%采纳</p>\
 <p>请继续努力不要灰心，下一次一定能成功中标！</p>\
@@ -784,7 +784,7 @@ exports.designer_message_type_user_unfinal_plan = function (user, designer, plan
 
 var designer_message_type_user_final_plan_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>您提交的方案已经被业主%采纳</p>\
 <p>请及时与业主联系并进入下一步流程!</p>\
@@ -809,7 +809,7 @@ exports.designer_message_type_user_final_plan = function (user, designer, plan) 
 
 var designer_message_type_user_ok_contract_template =
   '<html>\
-<body style="color:#7c8389; font-size:15">\
+<body style="padding-left:20; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
 <p>%业主已经确认了您的合同信息，请及时与业主联系签署合同！</p>\
 <p>请及时与业主联系并进入下一步流程!</p>\
