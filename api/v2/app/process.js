@@ -241,7 +241,27 @@ exports.start = function (req, res, next) {
       logger.debug(process);
       Process.newAndSave(process, ep.done(function (process_indb) {
         res.sendData(process_indb);
-        message_util.designer_message_type_user_ok_contract(requirement);
+
+        async.parallel({
+          user: function (callback) {
+            User.findOne({
+              _id: userid,
+            }, {
+              username: 1,
+            }, callback);
+          },
+          designer: function (callback) {
+            Designer.findOne({
+              _id: requirement.final_designerid,
+            }, {
+              username: 1,
+            }, callback);
+          }
+        }, function (err, result) {
+          if (!err && result.user && result.designer) {
+            message_util.designer_message_type_user_ok_contract(user, designer, requirement);
+          }
+        });
       }));
     } else {
       res.sendErrMsg('配置工地失败');

@@ -25,6 +25,7 @@ var favoriteWeb = require('./api/v2/web/favorite');
 var productWeb = require('./api/v2/web/product');
 var beautiful_imageWeb = require('./api/v2/web/beautiful_image');
 var messageWeb = require('./api/v2/web/message');
+var shareWeb = require('./api/v2/web/share');
 
 var config = require('./apiconfig');
 var auth = require('./middlewares/auth');
@@ -63,6 +64,7 @@ router.post('/beautiful_image_homepage', beautiful_imageWeb.beautiful_image_home
 router.post('/search_beautiful_image', beautiful_image.search_beautiful_image); //游客搜索美图
 router.post('/user_refresh_session', sign.user_refresh_session); //业主刷新sessiion
 router.post('/designer_refresh_session', sign.designer_refresh_session); //设计师刷新sessiion
+router.post('/search_share', shareWeb.search_share); //获取装修直播分享
 //设备使用
 router.get('/device/android_build_version', device.android_build_version); //获取android信息
 router.get('/device/designer_android_build_version', device.designer_android_build_version); //获取designer android 信息

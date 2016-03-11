@@ -58,6 +58,7 @@ exports.user_message_type_designer_ok_reschedule = function (user, designer, res
     userid: user._id,
     designerid: designer._id,
     processid: reschedule.processid,
+    rescheduleid: reschedule._id,
     section: reschedule.section,
     title: '改期提醒',
     content: '尊敬的业主您好：您的设计师' + designer.username + '同意了您的改期需求，本阶段工期将会修改至' + date_util.YYYY_MM_DD(reschedule.new_date) + '，请及时与设计师沟通',
@@ -73,9 +74,10 @@ exports.user_message_type_designer_reject_reschedule = function (user, designer,
     userid: user._id,
     designerid: designer._id,
     processid: reschedule.processid,
+    rescheduleid: reschedule._id,
     section: reschedule.section,
     title: '改期提醒',
-    content: '尊敬的业主您好：您的设计师设' + designer.username + '计师不同意你修改工期。如有问题可以拨打我们的客服热线：400-8515-167',
+    content: '尊敬的业主您好：您的设计师' + designer.username + '计师不同意你修改工期。如有问题可以拨打我们的客服热线：400-8515-167',
     message_type: type.user_message_type_designer_reject_reschedule,
     status: type.message_status_unread,
   };
@@ -92,6 +94,8 @@ exports.user_message_type_procurement = function (process, next) {
     userid: process.userid,
     designerid: process.final_designerid,
     processid: process._id,
+    requirementid: process.requirementid,
+    planid: process.final_planid,
     section: next,
     title: '采购提醒',
     content: '尊敬的业主您好：您即将进入' + name + '阶段需要购买以下材料' + message + '，为了不耽误您的工期，请您尽快采购！如有问题请及时与设计师，也可以拨打我们的客服热线：400-8515-167',
@@ -110,6 +114,8 @@ exports.user_message_type_pay = function (process, section) {
     userid: process.userid,
     designerid: process.final_designerid,
     processid: process._id,
+    requirementid: process.requirementid,
+    planid: process.final_planid,
     section: section,
     title: '付款提醒',
     content: '尊敬的业主您好：' + name + '阶段已经完成，您需要支付装修进度款，谢谢！如有问题可以拨打我们的客服热线：400-8515-167',
@@ -159,7 +165,7 @@ exports.user_message_type_designer_respond = function (user, designer, plan) {
     planid: plan._id,
     requirementid: plan.requirementid,
     title: '需求提醒',
-    content: '尊敬的业主您好：设计师 ' + designer.username + ' 已经已经响应了您的需求，设计师将会与您取得联系，请保持电话畅通。',
+    content: '尊敬的业主您好：设计师' + designer.username + '已经已经响应了您的需求，设计师将会与您取得联系，请保持电话畅通。',
     message_type: type.user_message_type_designer_respond,
     status: type.message_status_unread,
   };
@@ -174,7 +180,7 @@ exports.user_message_type_designer_reject = function (user, designer, plan) {
     planid: plan._id,
     requirementid: plan.requirementid,
     title: '需求提醒',
-    content: '尊敬的业主您好：十分抱歉，设计师 ' + designer.username + ' 拒绝了您的需求，您还可以选择其他设计师，如有问题可以拨打我们的客服热线：400-8515-167',
+    content: '尊敬的业主您好：十分抱歉，设计师' + designer.username + '拒绝了您的需求，您还可以选择其他设计师，如有问题可以拨打我们的客服热线：400-8515-167',
     message_type: type.user_message_type_designer_reject,
     status: type.message_status_unread,
   };
@@ -189,7 +195,7 @@ exports.user_message_type_designer_upload_plan = function (user, designer, plan)
     planid: plan._id,
     requirementid: plan.requirementid,
     title: '需求提醒',
-    content: '尊敬的业主您好：您的设计师 ' + designer.username + ' 已经上传了方案，请您前往查看！',
+    content: '尊敬的业主您好：您的设计师' + designer.username + '已经上传了方案，请您前往查看！',
     message_type: type.user_message_type_designer_upload_plan,
     status: type.message_status_unread,
   };
@@ -204,7 +210,7 @@ exports.user_message_type_designer_config_contract = function (user, designer, r
     planid: requirement.final_planid,
     requirementid: requirement._id,
     title: '需求提醒',
-    content: '尊敬的业主您好：您的设计师 ' + designer.username + ' 已经配置好了装修合同，请您及时查阅！如有问题请及时与设计师联系，也可以拨打我们的客服热线：400-8515-167',
+    content: '尊敬的业主您好：您的设计师' + designer.username + '已经配置好了装修合同，请您及时查阅！如有问题请及时与设计师联系，也可以拨打我们的客服热线：400-8515-167',
     message_type: type.user_message_type_designer_config_contract,
     status: type.message_status_unread,
   };
@@ -220,6 +226,8 @@ exports.user_message_type_ys = function (process, section) {
     userid: process.userid,
     designerid: process.final_designerid,
     processid: process._id,
+    requirementid: process.requirementid,
+    planid: process.final_planid,
     section: section,
     title: '验收提醒',
     content: '尊敬的业主您好：' + name + '等待您的验收，请您前往确认，谢谢！如有问题可以拨打我们的客服热线：400-8515-167',
@@ -236,7 +244,7 @@ exports.user_message_type_designer_remind_ok_house_checked = function (user, des
     designerid: designer._id,
     requirementid: requirement._id,
     title: '需求提醒',
-    content: '尊敬的业主您好：您的设计师 ' + designer.username + ' 已经为您量完房，为了加快整个流程，请您及时确认！如有问题请及时与设计师联系，也可以拨打我们的客服热线：400-8515-167',
+    content: '尊敬的业主您好：您的设计师' + designer.username + '已经为您量完房，为了加快整个流程，请您及时确认！如有问题请及时与设计师联系，也可以拨打我们的客服热线：400-8515-167',
     message_type: type.user_message_type_designer_remind_ok_house_checked,
     status: type.message_status_unread,
   };
@@ -249,6 +257,7 @@ exports.designer_message_type_user_reschedule = function (user, designer, resche
     userid: user._id,
     designerid: designer._id,
     processid: reschedule.processid,
+    rescheduleid: reschedule._id,
     section: reschedule.section,
     title: '改期提醒',
     content: designer.username + '设计师您好：业主' + user.username + '希望将本阶段工期修改至' + date_util.YYYY_MM_DD(reschedule.new_date) +
@@ -265,6 +274,7 @@ exports.designer_message_type_user_ok_reschedule = function (user, designer, res
     userid: user._id,
     designerid: designer._id,
     processid: reschedule.processid,
+    rescheduleid: reschedule._id,
     section: reschedule.section,
     title: '改期提醒',
     content: designer.username + '设计师您好：业主' + user.username + '同意了您的改期需求，本阶段工期将会修改至' + date_util.YYYY_MM_DD(reschedule.new_date),
@@ -280,6 +290,7 @@ exports.designer_message_type_user_reject_reschedule = function (user, designer,
     userid: user._id,
     designerid: designer._id,
     processid: reschedule.processid,
+    rescheduleid: reschedule._id,
     section: reschedule.section,
     title: '改期提醒',
     content: designer.username + '设计师您好：业主' + user.username + '不同意你修改本阶段工期至' + date_util.YYYY_MM_DD(reschedule.new_date),
@@ -299,6 +310,8 @@ exports.designer_message_type_procurement = function (process, section) {
     userid: process.userid,
     designerid: process.final_designerid,
     processid: process._id,
+    requirementid: process.requirementid,
+    planid: process.final_planid,
     section: next,
     title: '采购提醒',
     content: '简繁家温馨提示您即将进入下一轮建材购买阶段，您需要购买的是：' + message,
@@ -416,6 +429,7 @@ exports.designer_message_type_work_auth_reject = function (designer, auth_messag
 exports.designer_message_type_product_auth_done = function (designer, product) {
   var designer_message = {
     designerid: designer._id,
+    productid: product._id,
     title: '系统通知',
     content: designer.username + '设计师您好：你提交的设计案例已经审核通过！为了提高匹配率、增加接单的几率，请您上传更多有效作品！',
     message_type: type.designer_message_type_product_auth_done,
@@ -428,6 +442,7 @@ exports.designer_message_type_product_auth_done = function (designer, product) {
 exports.designer_message_type_product_auth_reject = function (designer, product, auth_message) {
   var designer_message = {
     designerid: designer._id,
+    productid: product._id,
     title: '系统通知',
     content: designer.username + '设计师您好：您提交的设计案例由于' + auth_message + '，审核没有通过，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
     message_type: type.designer_message_type_product_auth_reject,
@@ -440,6 +455,7 @@ exports.designer_message_type_product_auth_reject = function (designer, product,
 exports.designer_message_type_product_auth_illegal = function (designer, product, auth_message) {
   var designer_message = {
     designerid: designer._id,
+    productid: product._id,
     title: '系统通知',
     content: designer.username + '设计师您好：您提交的设计案例由于' + auth_message + '而下线，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
     message_type: type.designer_message_type_product_auth_illegal,
@@ -453,6 +469,7 @@ exports.designer_message_type_user_order = function (user, designer, requirement
   var designer_message = {
     userid: user._id,
     designerid: designer._id,
+    requirementid: requirement._id,
     title: '预约提醒',
     content: designer.username + '设计师您好：' + user.username + '业主预约您上门量房，请及时响应！',
     message_type: type.designer_message_type_user_order,
@@ -466,6 +483,7 @@ exports.designer_message_type_user_ok_house_checked = function (user, designer, 
   var designer_message = {
     userid: user._id,
     designerid: designer._id,
+    requirementid: requirement._id,
     title: '量房提醒',
     content: designer.username + '设计师您好：' + user.username + '已经确认了量房信息，请您尽快上传方案！',
     message_type: type.designer_message_type_user_ok_house_checked,
@@ -479,6 +497,8 @@ exports.designer_message_type_user_unfinal_plan = function (user, designer, plan
   var designer_message = {
     userid: user._id,
     designerid: designer._id,
+    requirementid: plan.requirementid,
+    planid: plan._id,
     title: '丢标提醒',
     content: designer.username + '设计师您好：您提交的方案没有被业主' + user.username + '采纳，请继续努力不要灰心，下一次一定能成功中标！',
     message_type: type.designer_message_type_user_unfinal_plan,
@@ -492,6 +512,8 @@ exports.designer_message_type_user_final_plan = function (user, designer, plan) 
   var designer_message = {
     userid: user._id,
     designerid: designer._id,
+    requirementid: plan.requirementid,
+    planid: plan._id,
     title: '中标提醒',
     content: designer.username + '设计师您好：您提交的方案已经被业主' + user.username + '采纳，请及时与业主联系并进入下一步流程!',
     message_type: type.designer_message_type_user_final_plan,
@@ -505,13 +527,13 @@ exports.designer_message_type_user_ok_contract = function (user, designer, requi
   var designer_message = {
     userid: requirement.userid,
     designerid: requirement.final_designerid,
+    requirementid: requirement._id,
+    planid: requirement.final_planid,
     title: '合同提醒',
-    content: "业主已经确认了合同，请您做好装修准备",
     content: designer.username + '设计师您好：' + user.username + '业主已经确认了您的合同信息，请及时与业主联系签署合同！',
     message_type: type.designer_message_type_user_ok_contract,
     status: type.message_status_unread,
   };
 
   saveDesignerMessageAndPush(designer_message);
-  //TODO
 }

@@ -27,6 +27,9 @@ var DesignerMessageSchema = new Schema({
   rescheduleid: {
     type: ObjectId
   },
+  productid: {
+    type: ObjectId
+  },
   section: {
     type: String,
   },
