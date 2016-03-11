@@ -7,6 +7,7 @@ var DesignerMessage = require('../../../proxy').DesignerMessage;
 var Plan = require('../../../proxy').Plan;
 var Process = require('../../../proxy').Process;
 var Requirement = require('../../../proxy').Requirement;
+var Reschedule = require('../../../proxy').Reschedule;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
 var config = require('../../../apiconfig');
