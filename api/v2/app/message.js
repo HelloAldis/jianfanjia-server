@@ -59,6 +59,10 @@ exports.search_user_comment = function (req, res, next) {
           }, {
             cell: 1,
             status: 1,
+            dec_type: 1,
+            cell_phase: 1,
+            house_area: 1,
+            work_type: 1,
           }, function (err, requirement) {
             message.requirement = requirement;
             message.designer = result.designer;
