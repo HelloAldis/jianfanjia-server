@@ -169,11 +169,9 @@ exports.user_message_detail = function (req, res, next) {
         _id: message.processid,
       }, {
         cell: 1,
-      }, ep.done(function (err, process) {
-        console.log(process);
+      }, ep.done(function (process) {
         message = message.toObject();
         message.process = process;
-        console.log(message);
         res.sendData(message);
       }));
     } else if ([type.user_message_type_designer_respond,
@@ -185,7 +183,7 @@ exports.user_message_detail = function (req, res, next) {
       }, {
         cell: 1,
         status: 1,
-      }, ep.done(function (err, requirement) {
+      }, ep.done(function (requirement) {
         message = message.toObject();
         message.requirement = requirement;
         res.sendData(message);
