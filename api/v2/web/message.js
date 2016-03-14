@@ -221,6 +221,7 @@ exports.user_message_detail = function (req, res, next) {
             cell_phase: 1,
             house_area: 1,
             work_type: 1,
+            house_type: 1,
           }, callback);
         },
         plan: function (callback) {
