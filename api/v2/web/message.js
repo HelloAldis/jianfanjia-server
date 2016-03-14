@@ -345,8 +345,7 @@ exports.designer_message_detail = function (req, res, next) {
     _id: messageid,
     designerid: designerid,
   }, null, ep.done(function (message) {
-    if ([type.designer_message_type_user_reschedule,
-        type.designer_message_type_user_reject_reschedule,
+    if ([type.designer_message_type_user_reject_reschedule,
         type.designer_message_type_user_ok_reschedule,
       ].indexOf(message.message_type) > -1) {
       Process.findOne({

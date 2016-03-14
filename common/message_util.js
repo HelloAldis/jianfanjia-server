@@ -15,7 +15,6 @@ function saveDesignerMessageAndPush(designer_message) {
       }, function (err, count) {
         var payload = gt.buildPayloadFromDesignerMessage(designer_message_indb);
         payload.badge = count;
-        console.log(payload);
         gt.pushMessageToDesigner(designer_message_indb.designerid, payload);
       });
     }
@@ -31,7 +30,6 @@ function saveUserMessageAndPush(user_message) {
       }, function (err, count) {
         var payload = gt.buildPayloadFromUserMessage(user_message_indb);
         payload.badge = count;
-        console.log(payload);
         gt.pushMessageToUser(user_message_indb.userid, payload);
       });
     }
