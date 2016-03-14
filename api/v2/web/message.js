@@ -296,6 +296,8 @@ exports.search_designer_message = function (req, res, next) {
     message_type: 1,
     create_at: 1,
     section: 1,
+    requirementid: 1,
+    processid: 1,
   }, {
     skip: skip,
     limit: limit,

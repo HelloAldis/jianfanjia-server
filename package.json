@@ -45,7 +45,10 @@
     "winston": "2.2.0",
     "winston-daily-rotate-file": "1.0.1",
     "wkhtmltopdf": "0.1.5",
-    "xml2json": "0.9.0"
+    "xml2json": "0.9.0",
+    "node-uuid": "1.4.7",
+    "async": "1.5.2",
+    "request": "2.69.0"
   },
   "devDependencies": {
     "gulp": "3.9.1",
