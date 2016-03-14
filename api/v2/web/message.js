@@ -169,6 +169,7 @@ exports.user_message_detail = function (req, res, next) {
         _id: message.processid,
       }, {
         cell: 1,
+        section: 1,
       }, ep.done(function (process) {
         message = message.toObject();
         message.process = process;

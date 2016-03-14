@@ -18,7 +18,7 @@ Designer.count({}, function (err, count) {
         next(err);
       } else {
         var designer = designers[0];
-        designer.view_count = designer.view_count + _.random(5000, 10000);
+        designer.view_count = designer.view_count + _.random(10000, 50000);
         // designer.favorite_count = designer.favorite_count + _.random(50, 100);
         designer.save(function () {
           next();
@@ -48,7 +48,7 @@ Product.count({}, function (err, count) {
         next(err);
       } else {
         var product = products[0];
-        product.view_count = product.view_count + _.random(5000, 10000);
+        product.view_count = product.view_count + _.random(10000, 50000);
         // product.favorite_count = product.favorite_count + random(50, 100);
         product.save(function () {
           next();
