@@ -664,7 +664,9 @@ exports.doneSection = function (req, res, next) {
   Process.updateStatus(_id, section, null, type.process_item_status_done,
     ep.done(function (process) {
       if (process) {
-        message_util.user_message_type_pay(process, section);
+        if ([type.process_section_shui_dian, type.process_section_ni_mu, type.process_section_jun_gong].indexOf(section) > -1) {
+          message_util.user_message_type_pay(process, section);
+        }
       }
 
       //开启下个流程
