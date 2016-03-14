@@ -158,13 +158,19 @@ exports.update_product_auth = function (req, res, next) {
         }
       }
 
-      if (new_auth_type === type.product_auth_type_done) {
-        message_util.designer_message_type_product_auth_done(designer, product);
-      } else if (new_auth_type === type.product_auth_type_reject) {
-        message_util.designer_message_type_product_auth_reject(designer, product, auth_message);
-      } else if (new_auth_type === type.product_auth_type_illegal) {
-        message_util.designer_message_type_product_auth_illegal(designer, product, auth_message);
-      }
+      Designer.findOne({
+        _id: designerid
+      }, {
+        username: 1,
+      }, function (err, designer) {
+        if (new_auth_type === type.product_auth_type_done) {
+          message_util.designer_message_type_product_auth_done(designer, product);
+        } else if (new_auth_type === type.product_auth_type_reject) {
+          message_util.designer_message_type_product_auth_reject(designer, product, auth_message);
+        } else if (new_auth_type === type.product_auth_type_illegal) {
+          message_util.designer_message_type_product_auth_illegal(designer, product, auth_message);
+        }
+      });
     }
     res.sendSuccessMsg();
   }));

@@ -103,7 +103,8 @@ exports.order_designer = function (req, res, next) {
             Designer.findOne({
               _id: designerid
             }, {
-              phone: 1
+              phone: 1,
+              username: 1
             }, ep.done(function (designer) {
               if (designer) {
                 User.findOne({
