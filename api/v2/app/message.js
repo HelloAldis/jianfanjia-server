@@ -143,18 +143,19 @@ exports.search_designer_comment = function (req, res, next) {
           plan: function (callback) {
             Plan.findOne({
               _id: message.topicid,
-            }, {
-              images: 1,
-              status: 1,
-              name: 1,
-              requirementid: 1,
-            }, callback);
+            }, null, callback);
           }
         }, ep.done(function (result) {
           Requirement.findOne({
             _id: result.plan.requirementid,
           }, {
             cell: 1,
+            status: 1,
+            dec_type: 1,
+            cell_phase: 1,
+            house_area: 1,
+            work_type: 1,
+            house_type: 1,
           }, function (err, requirement) {
             message.requirement = requirement;
             message.user = result.user;
