@@ -1,11 +1,3 @@
-<div class="message f-cb {{messageClass ? 'message-more' : ''}}" ng-if="commentShow">
-	<span class="num f-fl">{{messages.length}}</span>
-	<ul class="list f-fl">
-		<li bindonce="messages" ng-repeat="data in messages"><a bo-href-i="/tpl/user/plans.html?pid={{data.topicid}}"><time bo-text="data.date"></time>&nbsp;&nbsp;&nbsp;设计师<mark bo-text="data.byUser.username">milk</mark>给您方案留了言，点击查看留言</a></li>
-	</ul>
-	<a class="more f-fr" href="javascript:;" ng-if="messages.length > 1" ng-click="messageToggle(true)">更多</a>
-	<a class="upper f-fr" href="javascript:;" ng-click="messageToggle(false)">收起</a>
-</div>
 <div class="main">
 	<div class="m-index">
 		<div class="info f-cb" bindonce="user">

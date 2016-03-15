@@ -1,7 +1,7 @@
 'use strict';
 angular.module('controllers', [])
     .controller('designerController', [    //所有设计师资料
-        '$scope','$location','userInfo',function($scope, $location,userInfo) {
+        '$scope','$location','userInfo','userMessage',function($scope, $location,userInfo,userMessage) {
             userInfo.get().then(function(res){
                 $scope.designer = res.data.data;
                 $scope.$broadcast('designerParent', res.data.data);   //父级传递
@@ -11,21 +11,26 @@ angular.module('controllers', [])
             $scope.$on('designerChildren', function(event, data) {   //父级接收 如果业主操作就需要改变状态
                 $scope.designer = data;
             });
+            $scope.count = {};
+            userMessage.count({
+                "query_array":[["2","3","4","5","6","7","8","10","11","12","13"], ["14", "15","16","17","18"],["3"]]
+            }).then(function(res){
+                $scope.count.notice = res.data.data[0];
+                $scope.count.remind = res.data.data[1];
+                $scope.count.comment = res.data.data[2];
+                $scope.$broadcast('userMessageParent', $scope.count);   //父级传递
+            },function(err){
+                console.log(err);
+            });
+            $scope.$on('userMessageChildren', function(event, data) {   //父级接收 如果业主操作就需要改变状态
+                $scope.count = data;
+            });
         }
     ])
 	.controller('indexCtrl', [     //设计师首页
-        '$scope','$rootScope','$http','$filter','$location','userInfo','userRequiremtne','userComment',
-        function($scope, $rootScope,$http,$filter,$location,userInfo,userRequiremtne,userComment) {
+        '$scope','$rootScope','$http','$filter','$location','userInfo','userRequiremtne',
+        function($scope, $rootScope,$http,$filter,$location,userInfo,userRequiremtne) {
             $scope.userAreaOff = false;
-            userComment.unread().then(function(res){
-                $scope.messages = res.data.data;
-                $scope.notMessages = $scope.messages.length ? true : false;
-                angular.forEach($scope.messages, function(value, key){
-                    value.date = $filter('date')(value.date,'yyyy-MM-dd HH:mm:ss');
-                })
-            },function(res){
-                console.log(res)
-            });
             function uploadDesignerInfo(){
                 userInfo.get().then(function(res){
                     $scope.designer = res.data.data;
@@ -35,10 +40,6 @@ angular.module('controllers', [])
                 });
             }
             uploadDesignerInfo();
-            $scope.messageClass = false;
-            $scope.messageToggle = function(b){
-                $scope.messageClass = b;
-            }
             userRequiremtne.list().then(function(res){
                 $scope.requirementList = res.data.data;
                  $scope.notRequiremtnes = !$scope.requirementList.length ? true : false;
@@ -160,13 +161,16 @@ angular.module('controllers', [])
         function($scope, $rootScope,$timeout,$filter,$location,$stateParams,userRequiremtne,initData){
             var requiremtneId = $stateParams.id;
             $scope.$on('requirementParent',function(event, data){    //子级接收
+                setPrivileges(data);
+            })
+            function setPrivileges(data){    //设置显示权限
                 if((data.plan.status == 3 || data.plan.status == 6 || data.plan.status == 4 || data.plan.status == 5) && (data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5 || data.status == 8)){  //选择方案
                     myPlan()
                 }
                 if((data.status == 7 || data.status == 4 || data.status == 5 || data.status == 8) && data.work_type != 2){   //生成合同
                     myContract()
                 }
-            })
+            }
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userRequiremtne.get({"_id":$stateParams.id}).then(function(res){
                     $scope.$emit('requirementChildren', res.data.data);
@@ -1099,3 +1103,418 @@ angular.module('controllers', [])
                 }
             }
     }])
+    .controller('noticeCtrl', [     //系统通知
+        '$scope','$state','userMessage',function($scope,$state,userMessage){
+            $scope.notice = {
+                name : '',
+                "arr" : "2-5-6-7-8-9-10-11-12-13-21",
+                tab : [
+                    {
+                        id : 0,
+                        name : '全部',
+                        cur : true,
+                        arr : "2-5-6-7-8-9-10-11-12-13-21"
+                    },
+                    {
+                        id : 1,
+                        name : '官方公告',
+                        cur : false,
+                        arr : "21"
+                    },
+                    {
+                        id : 2,
+                        name : '系统通知',
+                        cur : false,
+                        arr : "2-5-6-7-8-9-10-11-12-13"
+                    }
+                ],
+                goto : function(id){
+                    var _this = this;
+                    angular.forEach(this.tab,function(v,k){
+                        v.cur = false;
+                        _this.tab[id].cur = true;
+                        _this.name = _this.tab[id].name;
+                        _this.arr = _this.tab[id].arr;
+                    });
+                }
+            };
+            angular.forEach($scope.notice.tab,function(v,k){
+                if(v.arr == $state.params.type){
+                    v.cur = true;
+                }else{
+                    v.cur = false;
+                }
+            });
+        }])
+    .controller('noticeListCtrl', [     //系统通知列表
+        '$scope','$state','userMessage',function($scope,$state,userMessage){
+            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+                message_type = ChangeArray($state.params.type),
+                status = $state.params.status,
+                dataPage = {
+                    "query":{
+                        "message_type":{
+                            "$in" : message_type
+                        },
+                        "status": status
+                    },
+                    "from": _index*1,
+                    "limit":1
+                },
+                current = _index,
+                url = {
+                    '2': '',
+                    '5': 'infor',
+                    '6': 'infor',
+                    '7': 'idcard',
+                    '8': 'idcard',
+                    '9': 'teamList',
+                    '10': 'teamList',
+                    '11': 'products.list',
+                    '12': 'products.list',
+                    '13': 'products.list',
+                    '21': ''
+                };
+            $scope.noticeList = {
+                "list" : undefined,
+                read : function(id,status){
+                    if(status == 0){
+                        userMessage.read({
+                            "messageid":id
+                        });
+                        uploadParent()
+                    }
+                },
+                goto : function(data){
+                    if(data.message_type === '11' || data.message_type === '12' || data.message_type === '13'){
+                       $state.go(url[data.message_type],{id:1});
+                    }else{
+                        $state.go(url[data.message_type]);
+                    }
+                    if(data.status == 0){
+                       this.read(data._id,data.status)
+                    }
+                },
+                remove : function(id){
+                    userMessage.remove({
+                        "messageid":id
+                    }).then(function(res){
+                        laod();
+                    },function(err){
+                        console.log(err);
+                    });
+                }
+            };
+            function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+                userMessage.count({
+                    "query_array":[["2","3","4","5","6","7","8","10","11","12","13"], ["14", "15","16","17","18"],["3"]]
+                }).then(function(res){
+                    $scope.count.notice = res.data.data[0];
+                    $scope.count.remind = res.data.data[1];
+                    $scope.count.comment = res.data.data[2];
+                    $scope.$emit('userMessageParent', $scope.count);   //父级传递
+                },function(err){
+                    console.log(err);
+                });
+            }
+            function ChangeArray(str){
+                var arr = [];
+                if(str.indexOf('-') != -1){
+                    arr = str.split('-');
+                }else{
+                    arr.push(str);
+
+                }
+                return arr;
+            }
+            function laod(){
+                userMessage.search(JSON.stringify(dataPage)).then(function(res){  //获取意向设计师列表
+                    $scope.noticeList.list = res.data.data.list;
+                    if($scope.noticeList.list.length == 0 && res.data.data.total != 0){
+                        $scope.noticeList.list = undefined;
+                        dataPage.from = current*dataPage.limit;
+                        current = 0;
+                        $state.go('notice.list.type', {id:1,type:$state.params.type,status:$state.params.status});
+                    }
+                    $scope.pageing = {
+                        allNumPage : res.data.data.total,
+                        itemPage : dataPage.limit,
+                        showPageNum : 5,
+                        endPageNum : 3,
+                        currentPage : current,
+                        linkTo:"#/notice/list/__id__",
+                        prevText:"上一页",
+                        nextText:"下一页",
+                        ellipseText:"...",
+                        showUbwz : false,
+                        pageInfo : false,
+                        callback : function (i,obj) {
+                            dataPage.from = i*this.itemPage;
+                            current = i;
+                            $state.go('notice.list.type', {id:parseInt(i)+1,type:$state.params.type,status:$state.params.status});
+                            return false;
+                        }
+                    }
+                },function(res){
+                    console.log(res)
+                });
+            }
+            laod();
+        }])
+        .controller('noticeDetailCtrl', [     //系统通知详情
+            '$scope','$state','userMessage',function($scope,$state,userMessage){
+            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+                message_type = ChangeArray($state.params.type),
+                status = $state.params.status,
+                dataPage = {
+                    "query":{
+                        "message_type":{
+                            "$in" : message_type
+                        },
+                        "status": status
+                    },
+                    "from": _index*1,
+                    "limit":1
+                },
+                current = _index;
+            $scope.remindList = {
+                "list" : undefined,
+                read : function(id,status){
+                    if(status == 0){
+                        userMessage.read({
+                            "messageid":id
+                        });
+                        uploadParent()
+                    }
+                }
+            };
+            function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+                userMessage.count({
+                    "query_array":[["2","3","4","5","6","7","8","10","11","12","13"], ["14", "15","16","17","18"],["3"]]
+                }).then(function(res){
+                    $scope.count.notice = res.data.data[0];
+                    $scope.count.remind = res.data.data[1];
+                    $scope.count.comment = res.data.data[2];
+                    $scope.$emit('userMessageParent', $scope.count);   //父级传递
+                },function(err){
+                    console.log(err);
+                });
+            }
+            function ChangeArray(str){
+                var arr = [];
+                if(str.indexOf('-') != -1){
+                    arr = str.split('-');
+                }else{
+                    arr.push(str);
+                }
+                return arr;
+            }
+        }])
+    .controller('remindCtrl', [     //需求提醒列表
+        '$scope','$state','userMessage',function($scope,$state,userMessage){
+            $scope.remind = {
+                "name" : '',
+                "arr" : "14-15-16-17-18",
+                "tab" : [
+                    {
+                        "id" : 0,
+                        "name" : '全部',
+                        "cur" : false,
+                        "arr" : "14-15-16-17-18"
+                    },
+                    {
+                        "id" : 1,
+                        "name" : '预约提醒',
+                        "cur" : false,
+                        "arr" : "14"
+                    },
+                    {
+                        "id" : 2,
+                        "name" : '量房提醒',
+                        "cur" : false,
+                        "arr" : "15"
+                    },
+                    {
+                        "id" : 3,
+                        "name" : '中标提醒',
+                        "cur" : false,
+                        "arr" : "16"
+                    },
+                    {
+                        "id" : 4,
+                        "name" : '未中标提醒',
+                        "cur" : false,
+                        "arr" : "17"
+                    },
+                    {
+                        "id" : 5,
+                        "name" : '合同提醒',
+                        "cur" : false,
+                        "arr" : "18"
+                    }
+                ],
+                goto : function(id){
+                    var _this = this;
+                    angular.forEach(this.tab,function(v,k){
+                        v.cur = false;
+                        _this.tab[id].cur = true;
+                        _this.name = _this.tab[id].name;
+                        _this.arr = _this.tab[id].arr;
+                    });
+                }
+            };
+            angular.forEach($scope.remind.tab,function(v,k){
+                if(v.arr == $state.params.type){
+                    v.cur = true;
+                }else{
+                    v.cur = false;
+                }
+            });
+        }])
+    .controller('remindListCtrl', [     //需求提醒列表
+        '$scope','$state','userMessage',function($scope,$state,userMessage){
+            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+                message_type = ChangeArray($state.params.type),
+                status = $state.params.status,
+                dataPage = {
+                    "query":{
+                        "message_type":{
+                            "$in" : message_type
+                        },
+                        "status": status
+                    },
+                    "from": _index*1,
+                    "limit":1
+                },
+                current = _index;
+            $scope.remindList = {
+                "list" : undefined,
+                read : function(id,status){
+                    if(status == 0){
+                        userMessage.read({
+                            "messageid":id
+                        });
+                        uploadParent()
+                    }
+                }
+            };
+            function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+                userMessage.count({
+                    "query_array":[["2","3","4","5","6","7","8","10","11","12","13"], ["14", "15","16","17","18"],["3"]]
+                }).then(function(res){
+                    $scope.count.notice = res.data.data[0];
+                    $scope.count.remind = res.data.data[1];
+                    $scope.count.comment = res.data.data[2];
+                    $scope.$emit('userMessageParent', $scope.count);   //父级传递
+                },function(err){
+                    console.log(err)
+                });
+            }
+            function ChangeArray(str){
+                var arr = [];
+                if(str.indexOf('-') != -1){
+                    arr = str.split('-');
+                }else{
+                    arr.push(str);
+
+                }
+                return arr;
+            }
+            function laod(){
+                userMessage.search(JSON.stringify(dataPage)).then(function(res){  //获取意向设计师列表
+                    $scope.remindList.list = res.data.data.list;
+                    if($scope.remindList.list.length == 0 && res.data.data.total != 0){
+                        $scope.remindList.list = undefined;
+                        dataPage.from = current*dataPage.limit;
+                        current = 0;
+                        $state.go('remind.list.type', {id:1,type:$state.params.type,status:$state.params.status});
+                    }
+                    $scope.pageing = {
+                        allNumPage : res.data.data.total,
+                        itemPage : dataPage.limit,
+                        showPageNum : 5,
+                        endPageNum : 3,
+                        currentPage : current,
+                        linkTo:"#/remind/list/__id__",
+                        prevText:"上一页",
+                        nextText:"下一页",
+                        ellipseText:"...",
+                        showUbwz : false,
+                        pageInfo : false,
+                        callback : function (i,obj) {
+                            dataPage.from = i*this.itemPage;
+                            current = i;
+                            $state.go('remind.list.type', {id:parseInt(i)+1,type:$state.params.type,status:$state.params.status});
+                            return false;
+                        }
+                    }
+                },function(res){
+                    console.log(res)
+                });
+            }
+            laod();
+        }])
+    .controller('commentCtrl', [     //评论列表
+        '$scope','$state','userMessage',function($scope,$state,userMessage){
+            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+                dataPage = {
+                    "from": _index*5,
+                    "limit":5
+                },
+                current = _index,
+                status = undefined;
+                $scope.count = {};
+            $scope.comment = {
+                "name" : '',
+                "tab" : [
+                    {
+                        "id" : 0,
+                        "name" : '全部',
+                        "cur" : true
+                    }
+                ],
+                goto : function(id){
+                    var _this = this;
+                    angular.forEach(this.tab,function(v,k){
+                        v.cur = false;
+                        _this.tab[id].cur = true;
+                        _this.name = _this.tab[id].name;
+                        loadList(id);
+                    });
+                },
+                "list" : undefined
+            };
+            function laod(){
+                userMessage.comment(dataPage).then(function(res){  //获取意向设计师列表
+                    $scope.comment.list = res.data.data.list;
+                    if($scope.comment.list.length == 0 && res.data.data.total != 0){
+                        $scope.comment.list = undefined;
+                        dataPage.from = current*dataPage.limit;
+                        current = 0;
+                        $state.go('comment.list', { id: 1 });
+                    }
+                    $scope.pageing = {
+                        allNumPage : res.data.data.total,
+                        itemPage : dataPage.limit,
+                        showPageNum : 5,
+                        endPageNum : 3,
+                        currentPage : current,
+                        linkTo:"#/comment/__id__",
+                        prevText:"上一页",
+                        nextText:"下一页",
+                        ellipseText:"...",
+                        showUbwz : false,
+                        pageInfo : false,
+                        callback : function (i,obj) {
+                            dataPage.from = i*this.itemPage;
+                            current = i;
+                            $state.go('comment.list', { id: parseInt(i)+1 });
+                            return false;
+                        }
+                    }
+                },function(res){
+                    console.log(res)
+                });
+            }
+            laod()
+        }]);

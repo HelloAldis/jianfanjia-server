@@ -1,3 +1,4 @@
+
 'use strict';
 angular.module('services', [])
 	.factory('userInfo', ['$http', function($http){   //业主 get获取资料 post修改资料
@@ -16,6 +17,26 @@ angular.module('services', [])
 			update : function(data){return doRequest('user/info',data)}
 		}
 	}])
+    .factory('userMessage', ['$http', function($http){   //业主 get获取资料 post修改资料
+        var doRequest = function(url,data){
+            return $http({
+                method : 'POST',
+                url : RootUrl+'api/v2/web/'+url,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                data: data
+            })
+        };
+        return {
+            count : function(data){return doRequest('unread_user_message_count',data)},
+            search : function(data){return doRequest('search_user_message',data)},
+            comment : function(data){return doRequest('search_user_comment',data)},
+            remove : function(data){return doRequest('delete_user_message',data)},
+            read : function(data){return doRequest('read_user_message',data)},
+            get : function(data){return doRequest('user_message_detail',data)}
+        }
+    }])
 	.factory('userRequiremtne', ['$http', function($http){      //业主 add 提交需求 get获取单条信息 update更新需求 list需求列表 booking预约量房 designers可以预约的设计师 order已经预约设计师列表 checked确认设计师量完房 plans获取方案列表 define选定方案  plan获取某个方案信息  contract获取合同信息
 		var doRequest = function(url,data){
 			return $http({

@@ -1,0 +1,32 @@
+<div ng-if="remindList.list && remindList.list.length != 0">
+    <ul class="m-remindList">
+    <li bindonce="remindList.list" class="f-cb" ng-repeat="data in remindList.list">
+        <div class="info f-fl">
+            <h4>
+                <span  bo-if="data.message_type == 7">【响应提醒】</span>
+                <span  bo-if="data.message_type == 8">【拒绝提醒】</span>
+                <span  bo-if="data.message_type == 9">【方案提醒】</span>
+                <span  bo-if="data.message_type == 10">【合同提醒】</span>
+                <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 7" ui-sref="requirement.score({id:data.requirementid})"></a>
+                <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 8" ui-sref="requirement.score({id:data.requirementid})"></a>
+                <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 9" ui-sref="requirement.plan({id:data.requirementid})"></a>
+                <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 10" ui-sref="requirement.contract({id:data.requirementid})"></a>
+                <i bo-if="data.status == 0">[未读]</i>
+            </h4>
+            <p>
+                <time bo-text="data.create_at | date : 'yyyy-MM-dd  HH:mm'"></time>
+            </p>
+        </div>
+        <a class="u-btns u-btns-revise f-fr" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 7" ui-sref="requirement.score({id:data.requirementid})">查看详情</a>
+        <a class="u-btns u-btns-revise f-fr" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 8" ui-sref="requirement.score({id:data.requirementid})">查看详情</a>
+        <a class="u-btns u-btns-revise f-fr" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 9" ui-sref="requirement.plan({id:data.requirementid})">查看详情</a>
+        <a class="u-btns u-btns-revise f-fr" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 10" ui-sref="requirement.contract({id:data.requirementid})">查看详情</a>
+    </li>
+</ul>
+<div my-pageing page-object="pageing" ng-if="remindList.list"></div>
+</div>
+<div class="pageLoading" ng-hide="!!remindList.list"></div>
+<div class="pageNotdate message-pageNotdate" ng-show="remindList.list.length == 0">
+    <h3><span></span></h3>
+    <p>暂时没有任何内容</p>
+</div>
