@@ -283,7 +283,8 @@ exports.finalPlan = function (req, res, next) {
                       Designer.findOne({
                         _id: designerid
                       }, {
-                        phone: 1
+                        phone: 1,
+                        username: 1,
                       }, function (err, designer) {
                         if (plans[0].status === type.plan_status_user_final) {
                           message_util.designer_message_type_user_final_plan(user, designer, plans[0]);
