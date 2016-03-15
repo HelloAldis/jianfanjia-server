@@ -29,8 +29,7 @@ exports.share_process_homepage = function (req, res, next) {
         username: 1,
         imageid: 1
       }, ep.done(function (designer_indb) {
-        share.Designer = designer_indb;
-
+        share.designer = designer_indb;
         res.render('share_process', {
           share: share
         });
