@@ -168,16 +168,18 @@ exports.user_requirement_plans = function (req, res, next) {
   var designerid = req.body.designerid;
   var ep = eventproxy();
   ep.fail(next);
+  var query = {};
+  query.requirementid = requirementid;
+  query.status = {
+    $in: [type.plan_status_user_final, type.plan_status_user_not_final,
+      type.plan_status_designer_upload
+    ]
+  };
+  if (designerid) {
+    query.designerid = designerid;
+  }
 
-  Plan.find({
-    requirementid: requirementid,
-    designerid: designerid,
-    status: {
-      $in: [type.plan_status_user_final, type.plan_status_user_not_final,
-        type.plan_status_designer_upload
-      ]
-    }
-  }, null, {
+  Plan.find(query, null, {
     sort: {
       request_date: 1,
     }
