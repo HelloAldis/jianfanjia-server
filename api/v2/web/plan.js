@@ -42,6 +42,7 @@ exports.add = function (req, res, next) {
         status: type.plan_status_designer_housecheck_no_plan,
       };
 
+      plan.name = '方案1';
       Plan.setOne(query, plan, null, ep.done(function () {
         Requirement.setOne({
           _id: requirementid,
@@ -72,12 +73,14 @@ exports.add = function (req, res, next) {
       }));
     } else {
       //创建新的方案
-      Plan.findOne({
+      Plan.find({
         userid: userid,
         designerid: designerid,
         requirementid: requirementid,
-      }, null, ep.done(function (plan_indb) {
-        if (plan_indb) {
+      }, null, null, ep.done(function (plans_indb) {
+        if (plans_indb.length) {
+          var plan_indb = plans_indb[0];
+          plan.name = '方案' + (plans_indb.length + 1);
           plan.status = type.plan_status_designer_upload;
           plan.designerid = designerid;
           plan.userid = new ObjectId(userid);
@@ -165,16 +168,22 @@ exports.user_requirement_plans = function (req, res, next) {
   var designerid = req.body.designerid;
   var ep = eventproxy();
   ep.fail(next);
+  var query = {};
+  query.requirementid = requirementid;
+  query.status = {
+    $in: [type.plan_status_user_final, type.plan_status_user_not_final,
+      type.plan_status_designer_upload
+    ]
+  };
+  if (designerid) {
+    query.designerid = designerid;
+  }
 
-  Plan.find({
-    requirementid: requirementid,
-    designerid: designerid,
-    status: {
-      $in: [type.plan_status_user_final, type.plan_status_user_not_final,
-        type.plan_status_designer_upload
-      ]
+  Plan.find(query, null, {
+    sort: {
+      request_date: 1,
     }
-  }, null, null, ep.done(function (plans) {
+  }, ep.done(function (plans) {
     async.mapLimit(plans, 3, function (plan, callback) {
       Designer.findOne({
         _id: plan.designerid
@@ -274,7 +283,8 @@ exports.finalPlan = function (req, res, next) {
                       Designer.findOne({
                         _id: designerid
                       }, {
-                        phone: 1
+                        phone: 1,
+                        username: 1,
                       }, function (err, designer) {
                         if (plans[0].status === type.plan_status_user_final) {
                           message_util.designer_message_type_user_final_plan(user, designer, plans[0]);
@@ -313,7 +323,11 @@ exports.designer_requirement_plans = function (req, res, next) {
         type.plan_status_designer_upload
       ]
     }
-  }, null, null, ep.done(function (plans) {
+  }, null, {
+    sort: {
+      request_date: 1,
+    }
+  }, ep.done(function (plans) {
     async.mapLimit(plans, 3, function (plan, callback) {
       User.findOne({
         _id: plan.userid

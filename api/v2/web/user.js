@@ -103,7 +103,8 @@ exports.order_designer = function (req, res, next) {
             Designer.findOne({
               _id: designerid
             }, {
-              phone: 1
+              phone: 1,
+              username: 1
             }, ep.done(function (designer) {
               if (designer) {
                 User.findOne({
@@ -232,18 +233,30 @@ exports.designer_house_checked = function (req, res, next) {
         status: type.requirement_status_housecheck_no_plan
       }, null, function (err) {});
 
-      Designer.findOne({
-        _id: designerid
-      }, {
-        username: 1,
-        phone: 1,
-      }, function (err, designer) {
-        message_util.designer_message_type_user_ok_house_checked({
-          _id: ApiUtil.getUserid(req)
-        }, designer, {
-          _id: requirementid,
-        });
-        sms.sendRemimdDesignerPlan(designer.phone, [designer.username]);
+      async.parallel({
+        user: function (callback) {
+          User.findOne({
+            _id: ApiUtil.getUserid(req),
+          }, {
+            username: 1,
+            phone: 1,
+          }, callback);
+        },
+        designer: function (callback) {
+          Designer.findOne({
+            _id: designerid,
+          }, {
+            username: 1,
+            phone: 1,
+          }, callback);
+        }
+      }, function (err, result) {
+        if (!err && result.user && result.designer) {
+          message_util.designer_message_type_user_ok_house_checked(result.user, result.designer, {
+            _id: requirementid,
+          });
+          sms.sendRemimdDesignerPlan(result.designer.phone, [result.designer.username]);
+        }
       });
     }
 

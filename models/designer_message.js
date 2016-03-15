@@ -24,6 +24,12 @@ var DesignerMessageSchema = new Schema({
   commentid: {
     type: ObjectId
   },
+  rescheduleid: {
+    type: ObjectId
+  },
+  productid: {
+    type: ObjectId
+  },
   section: {
     type: String,
   },
@@ -34,6 +40,9 @@ var DesignerMessageSchema = new Schema({
     type: String
   },
   content: {
+    type: String
+  },
+  html: {
     type: String
   },
   auth_message: {

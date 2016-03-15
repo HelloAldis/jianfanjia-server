@@ -277,7 +277,8 @@ exports.okUser = function (req, res, next) {
           User.findOne({
             _id: plan.userid
           }, {
-            phone: 1
+            phone: 1,
+            username: 1,
           }, function (err, user) {
             if (user) {
               message_util.user_message_type_designer_respond(user, designer, plan);

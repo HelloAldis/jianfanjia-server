@@ -65,9 +65,11 @@ var type = {
     'an_zhuang', 'jun_gong', 'done'
   ],
 
-  procurement_notification_message: ['', '水电材料', '蹲便器、防水涂料',
-    '石膏线、木工材料、厨卫墙砖、地砖进场',
-    '油漆、涂料及相关辅料、五金、洁具', '厨卫吊顶、石材、橱柜、烟机、灶具、木地板、木门、面板、灯具、墙纸', ''
+  process_work_flow_name: ['开工', '拆改', '水电', '泥木', '油漆', '安装', '竣工'],
+
+  procurement_notification_message: ['', '', '水电材料', '蹲便器（及水箱）、防水涂料以及石膏角线、墙地砖、水泥、沙、地漏、泥工材料、木工工程相关材料',
+    '油漆工程相关材料',
+    '石材、洁具、厨卫吊顶、五金、厨柜、水槽、烟机灶具、木地板、木门、面板、灯具、墙纸', ''
   ],
 
   process_kai_gong_item_xcjd: 'xcjd',
@@ -169,6 +171,7 @@ var type = {
   user_message_type_designer_config_contract: '10',
   user_message_type_designer_reject_reschedule: '11',
   user_message_type_designer_ok_reschedule: '12',
+  user_message_type_designer_remind_ok_house_checked: '13',
 
   designer_message_type_user_reschedule: '0',
   designer_message_type_procurement: '1',

@@ -25,14 +25,11 @@ build/Release
 
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
-#node_modules
+node_modules
 
 # Mac files
 .DS_Store
 apiconfig.js
-xml2json
-bcrypt
-node-expat
 
-#subline ide file
+#sublime ide file
 .idea

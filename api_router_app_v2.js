@@ -12,6 +12,7 @@ var process = require('./api/v2/app/process');
 var device = require('./api/v2/app/device');
 var feedback = require('./api/v2/app/feedback');
 var beautiful_image = require('./api/v2/app/beautiful_image');
+var message = require('./api/v2/app/message');
 
 var signWeb = require('./api/v2/web/sign');
 var imageWeb = require('./api/v2/web/image');
@@ -24,6 +25,7 @@ var favoriteWeb = require('./api/v2/web/favorite');
 var productWeb = require('./api/v2/web/product');
 var beautiful_imageWeb = require('./api/v2/web/beautiful_image');
 var messageWeb = require('./api/v2/web/message');
+var shareWeb = require('./api/v2/web/share');
 
 var config = require('./apiconfig');
 var auth = require('./middlewares/auth');
@@ -62,6 +64,7 @@ router.post('/beautiful_image_homepage', beautiful_imageWeb.beautiful_image_home
 router.post('/search_beautiful_image', beautiful_image.search_beautiful_image); //游客搜索美图
 router.post('/user_refresh_session', sign.user_refresh_session); //业主刷新sessiion
 router.post('/designer_refresh_session', sign.designer_refresh_session); //设计师刷新sessiion
+router.post('/search_share', shareWeb.search_share); //获取装修直播分享
 //设备使用
 router.get('/device/android_build_version', device.android_build_version); //获取android信息
 router.get('/device/designer_android_build_version', device.designer_android_build_version); //获取designer android 信息
@@ -122,7 +125,7 @@ router.post('/search_user_message', auth.userRequired, messageWeb.search_user_me
 router.post('/user_message_detail', auth.userRequired, messageWeb.user_message_detail); //业主通知详情
 router.post('/delete_user_message', auth.userRequired, messageWeb.delete_user_message); //删除业主消息
 router.post('/unread_user_message_count', auth.userRequired, messageWeb.unread_user_message_count); //未读消息个数
-router.post('/search_user_comment', auth.userRequired, messageWeb.search_user_comment); //未读消息个数
+router.post('/search_user_comment', auth.userRequired, message.search_user_comment); //获取业主评论通知
 
 //设计师独有功能
 router.get('/designer/info', auth.designerRequired, designerWeb.getInfo); //获取设计师自己个人资料
@@ -139,6 +142,6 @@ router.post('/search_designer_message', auth.designerRequired, messageWeb.search
 router.post('/designer_message_detail', auth.designerRequired, messageWeb.designer_message_detail); //设计师通知详情
 router.post('/delete_designer_message', auth.designerRequired, messageWeb.delete_designer_message); //删除设计师消息
 router.post('/unread_designer_message_count', auth.designerRequired, messageWeb.unread_designer_message_count); //未读消息个数
-router.post('/search_designer_comment', auth.designerRequired, messageWeb.search_designer_comment); //未读消息个数
+router.post('/search_designer_comment', auth.designerRequired, message.search_designer_comment); //获取设计师评论通知
 
 module.exports = router;

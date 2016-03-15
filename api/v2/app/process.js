@@ -241,7 +241,27 @@ exports.start = function (req, res, next) {
       logger.debug(process);
       Process.newAndSave(process, ep.done(function (process_indb) {
         res.sendData(process_indb);
-        message_util.designer_message_type_user_ok_contract(requirement);
+
+        async.parallel({
+          user: function (callback) {
+            User.findOne({
+              _id: userid,
+            }, {
+              username: 1,
+            }, callback);
+          },
+          designer: function (callback) {
+            Designer.findOne({
+              _id: requirement.final_designerid,
+            }, {
+              username: 1,
+            }, callback);
+          }
+        }, function (err, result) {
+          if (!err && result.user && result.designer) {
+            message_util.designer_message_type_user_ok_contract(user, designer, requirement);
+          }
+        });
       }));
     } else {
       res.sendErrMsg('配置工地失败');
@@ -367,20 +387,20 @@ exports.reschedule = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  ep.on('sendMessage', function (process) {
+  ep.on('sendMessage', function (process, reschedule_indb) {
     User.findOne({
-      _id: reschedule.userid
+      _id: reschedule_indb.userid
     }, null, ep.done(function (user) {
       Designer.findOne({
-        _id: reschedule.designerid
+        _id: reschedule_indb.designerid
       }, {
         _id: 1,
         username: 1
       }, ep.done(function (designer) {
         if (usertype === type.role_user) {
-          message_util.designer_message_type_user_reschedule(user, designer, reschedule);
+          message_util.designer_message_type_user_reschedule(user, designer, reschedule_indb);
         } else if (usertype === type.role_designer) {
-          message_util.user_message_type_designer_reschedule(user, designer, reschedule);
+          message_util.user_message_type_designer_reschedule(user, designer, reschedule_indb);
         }
       }));
     }));
@@ -394,12 +414,12 @@ exports.reschedule = function (req, res, next) {
       return res.sendErrMsg('对方已经申请改期！');
     }
 
-    Reschedule.newAndSave(reschedule, ep.done(function (reschedule) {
-      if (reschedule) {
-        Process.updateStatus(reschedule.processid, reschedule.section,
-          null, reschedule.status, ep.done(function (process) {
+    Reschedule.newAndSave(reschedule, ep.done(function (reschedule_indb) {
+      if (reschedule_indb) {
+        Process.updateStatus(reschedule_indb.processid, reschedule_indb.section,
+          null, reschedule_indb.status, ep.done(function (process) {
             res.sendSuccessMsg();
-            ep.emit('sendMessage', process);
+            ep.emit('sendMessage', process, reschedule_indb);
           }));
       } else {
         res.sendErrMsg('无法保存成功');
@@ -597,41 +617,7 @@ exports.doneItem = function (req, res, next) {
     ep.done(function (process) {
       if (process) {
         //push notification
-        if ((process.work_type === type.work_type_half) &&
-          (section !== type.process_section_kai_gong && section !== type.process_section_jun_gong)
-        ) {
-          var result = _.find(process.sections, function (o) {
-            return o.name === section;
-          });
-          var doneCount = 0;
-          _.forEach(result.items, function (e) {
-            if (e.status === type.process_item_status_done) {
-              doneCount += 1;
-            }
-          });
-
-          if (result.items.length - doneCount <= 2) {
-            message_util.user_message_type_procurement(process, section);
-          }
-        } else if ((process.work_type === type.work_type_all) && (section !== type.process_section_kai_gong &&
-            section !== type.process_section_jun_gong)) {
-          var result = _.find(process.sections, function (o) {
-            return o.name === section;
-          });
-          var doneCount = 0;
-          _.forEach(result.items, function (e) {
-            if (e.status === type.process_item_status_done) {
-              doneCount += 1;
-            }
-          });
-
-          if (result.items.length - doneCount <= 2) {
-            message_util.designer_message_type_procurement(process, section);
-          }
-        }
-
-        if (section === type.process_section_kai_gong || section === type
-          .process_section_chai_gai) {
+        if (section === type.process_section_kai_gong || section === type.process_section_chai_gai) {
           var result = _.find(process.sections, function (o) {
             return o.name === section;
           });
@@ -651,7 +637,10 @@ exports.doneItem = function (req, res, next) {
               ep.done(function () {
                 Process.updateStatus(_id, next, null, type.process_item_status_going,
                   ep.done(function () {
-                    res.sendSuccessMsg()
+                    res.sendSuccessMsg();
+                    if (process.work_type === type.work_type_half) {
+                      message_util.user_message_type_procurement(process, next);
+                    }
                   }));
               }));
           } else {
@@ -675,7 +664,9 @@ exports.doneSection = function (req, res, next) {
   Process.updateStatus(_id, section, null, type.process_item_status_done,
     ep.done(function (process) {
       if (process) {
-        message_util.user_message_type_pay(process, section);
+        if ([type.process_section_shui_dian, type.process_section_ni_mu, type.process_section_jun_gong].indexOf(section) > -1) {
+          message_util.user_message_type_pay(process, section);
+        }
       }
 
       //开启下个流程
@@ -697,6 +688,9 @@ exports.doneSection = function (req, res, next) {
           Process.updateStatus(_id, next, null, type.process_item_status_going,
             ep.done(function () {
               res.sendSuccessMsg();
+              if (process.work_type === type.work_type_half) {
+                message_util.user_message_type_procurement(process, next);
+              }
             }));
         }
       } else {
