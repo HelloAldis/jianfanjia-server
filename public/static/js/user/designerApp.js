@@ -158,6 +158,48 @@
                     templateUrl: url+'email.html',
                     controller : 'emailCtrl'
                 })
+                .state('notice', {      //系统公告
+                    url: '/notice',
+                    template: '<div ui-view></div>'
+                })
+                .state('notice.list', {   //系统公告列表
+                    url: '/list',
+                    templateUrl: url+'notice.html',
+                    controller : 'noticeCtrl'
+                })
+                .state('notice.list.type', {    //系统公告列表
+                    url: '/{id:[0-9]{1,6}}?type&status',
+                    templateUrl: url+'noticeList.html',
+                    controller : 'noticeListCtrl'
+                })
+                .state('notice.detail', {       //系统公告详情
+                    url: '/detail/:id',
+                    templateUrl: url+'noticeDetail.html',
+                    controller : 'noticeDetailCtrl'
+                })
+                .state('remind', {             //需求提醒
+                    url: '/remind',
+                    template: '<div ui-view></div>'
+                })
+                .state('remind.list', {       //需求提醒列表
+                    url: '/list',
+                    templateUrl: url+'remind.html',
+                    controller : 'remindCtrl'
+                })
+                .state('remind.list.type', {     //需求提醒列表
+                    url: '/{id:[0-9]{1,6}}?type&status',
+                    templateUrl: url+'remindList.html',
+                    controller : 'remindListCtrl'
+                })
+                .state('comment', {     //评论列表
+                    url: '/comment',
+                    template: '<div ui-view></div>'
+                })
+                .state('comment.list', {     //评论列表
+                    url: '/{id:[0-9]{1,6}}',
+                    templateUrl: url+'comment.html',
+                    controller : 'commentCtrl'
+                })
         });
     // angular bootstrap
     angular.bootstrap(document, ['myJyzDesigner']);

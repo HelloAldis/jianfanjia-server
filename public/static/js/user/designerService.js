@@ -22,6 +22,26 @@ angular.module('services', [])
 			service : function(data){return doRequest('designer/update_business_info',data)}
 		}
 	}])
+    .factory('userMessage', ['$http', function($http){   //业主 get获取资料 post修改资料
+        var doRequest = function(url,data){
+            return $http({
+                method : 'POST',
+                url : RootUrl+'api/v2/web/'+url,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                data: data
+            })
+        };
+        return {
+            count : function(data){return doRequest('unread_designer_message_count',data)},
+            search : function(data){return doRequest('search_designer_message',data)},
+            comment : function(data){return doRequest('search_designer_comment',data)},
+            remove : function(data){return doRequest('delete_designer_message',data)},
+            read : function(data){return doRequest('read_designer_message',data)},
+            get : function(data){return doRequest('designer_message_detail',data)}
+        }
+    }])
 	.factory('userRequiremtne', ['$http', function($http){      //设计师 list需求列表 get获取单条信息 answer响应业主 reject拒绝业主 config配置合同 plans获取方案列表  contract获取合同信息   history 历史订单  addPlan添加方案  update更新方案
 		var doRequest = function(url,data){
 			return $http({

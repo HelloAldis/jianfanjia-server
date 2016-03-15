@@ -100,6 +100,48 @@
                     templateUrl: url+'designer.html',
                     controller : 'favoriteDesignerCtrl'
                 })
+                .state('notice', {
+                    url: '/notice',
+                    template: '<div ui-view></div>'
+                })
+                .state('notice.list', {
+                    url: '/list',
+                    templateUrl: url+'notice.html',
+                    controller : 'noticeCtrl'
+                })
+                .state('notice.list.type', {
+                    url: '/{id:[0-9]{1,6}}?type&status',
+                    templateUrl: url+'noticeList.html',
+                    controller : 'noticeListCtrl'
+                })
+                .state('notice.detail', {
+                    url: '/detail/:id',
+                    templateUrl: url+'noticeDetail.html',
+                    controller : 'noticeDetailCtrl'
+                })
+                .state('remind', {
+                    url: '/remind',
+                    template: '<div ui-view></div>'
+                })
+                .state('remind.list', {
+                    url: '/list',
+                    templateUrl: url+'remind.html',
+                    controller : 'remindCtrl'
+                })
+                .state('remind.list.type', {
+                    url: '/{id:[0-9]{1,6}}?type&status',
+                    templateUrl: url+'remindList.html',
+                    controller : 'remindListCtrl'
+                })
+                .state('comment', {
+                    url: '/comment',
+                    template: '<div ui-view></div>'
+                })
+                .state('comment.list', {
+                    url: '/{id:[0-9]{1,6}}',
+                    templateUrl: url+'comment.html',
+                    controller : 'commentCtrl'
+                })
         });
     // angular bootstrap
     angular.bootstrap(document, ['myJyzOwner']);

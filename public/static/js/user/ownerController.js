@@ -1,8 +1,25 @@
-'use strict';
+"use strict";
 angular.module('controllers', [])
+    .controller('appController', ['$scope','$rootScope','userMessage',
+        function($scope, $rootScope ,userMessage){
+            $scope.count = {};
+            userMessage.count({
+                "query_array":[["4"], ["7", "8","9","10"],["5"]]
+            }).then(function(res){
+                $scope.count.notice = res.data.data[0];
+                $scope.count.remind = res.data.data[1];
+                $scope.count.comment = res.data.data[2];
+                $scope.$broadcast('userMessageParent', $scope.count);   //父级传递
+            },function(err){
+                console.log(err);
+            });
+            $scope.$on('userMessageChildren', function(event, data) {   //父级接收 如果业主操作就需要改变状态
+                $scope.count = data;
+            });
+    }])
 	.controller('SubController', [    //左侧高亮按钮
-            '$scope','$rootScope','$location','$filter','userRequiremtne',
-            function($scope, $rootScope ,$location,$filter,userRequiremtne) {
+            '$scope','$rootScope','$location','$filter','userRequiremtne','userMessage',
+            function($scope, $rootScope ,$location,$filter,userRequiremtne,userMessage) {
                 //全局需求列表
                 $scope.location = $location;
                 $scope.$watch( 'location.url()', function( url ){
@@ -10,7 +27,7 @@ angular.module('controllers', [])
                         requiremtne();
                     }
                 });
-                requiremtne()
+                requiremtne();
                 function requiremtne(){
                    userRequiremtne.list().then(function(res){
                         $rootScope.requirementList = res.data.data;
@@ -19,35 +36,21 @@ angular.module('controllers', [])
                             value.dec_style = $filter('decStyleFilter')(value.dec_style);
                             value.work_type = $filter('workTypeFilter')(value.work_type);
                             value.house_type = $filter('houseTypeFilter')(value.house_type);
-                        })
+                        });
                     },function(res){
-                        console.log(res)
+                        console.log(res);
                     });
                 }
             }
     ])
 	.controller('indexCtrl', [     //业主首页
-        '$scope','$rootScope','$http','$filter','$location','userInfo','userRequiremtne','userComment',
-        function($scope, $rootScope,$http,$filter,$location,userInfo,userRequiremtne,userComment){
-            $scope.commentShow = false;
+        '$scope','$rootScope','$http','$filter','$location','userInfo','userRequiremtne',
+        function($scope, $rootScope,$http,$filter,$location,userInfo,userRequiremtne){
         	userInfo.get().then(function(res){
         		$scope.user = res.data.data;
-        	},function(res){
-        		console.log(res)
+        	},function(err){
+        		console.log(err);
         	});
-            userComment.unread().then(function(res){
-                $scope.messages = res.data.data;
-                $scope.commentShow = $scope.messages.length != 0 ? true : false;
-                angular.forEach($scope.messages, function(value, key){
-                    value.date = $filter('date')(value.date,'yyyy-MM-dd HH:mm:ss');
-                })
-            },function(res){
-                console.log(res)
-            });
-            $scope.messageClass = false;
-            $scope.messageToggle = function(b){
-                $scope.messageClass = b;
-            }
     }])
     .controller('inforCtrl', [     //业主资料
         '$scope','$rootScope','$location','userInfo','initData',
@@ -67,12 +70,12 @@ angular.module('controllers', [])
                 isLoading : false
             };
             userInfo.get().then(function(res){  //获取个人资料
-                if(res.data.data != null){
+                if(res.data.data !== null){
                     $scope.user = _.assign($scope.user, res.data.data);
                     $scope.userInfo.isLoading = true;
                 }
-            },function(res){
-                console.log(res)
+            },function(err){
+                console.log(err);
             });
             $scope.userInfo.submit = function(){     //修改个人资料
                 if(checkSupport() !== "html5"){
@@ -84,9 +87,9 @@ angular.module('controllers', [])
                         $('#j-userLogin').find('a').eq(0).html('业主 '+$scope.user.username);
                         $location.path('index');
                     }
-                },function(res){
-                    console.log(res)
-                })
+                },function(err){
+                    console.log(err);
+                });
             };
     }])
     .controller('phoneCtrl', [     //绑定手机号码
@@ -126,7 +129,7 @@ angular.module('controllers', [])
                 verifycode : function(code){
                     var _this = this;
                     if(!this.isVerifyCode(code)){
-                        this.codeMsg = '验证码不正确'
+                        this.codeMsg = '验证码不正确';
                     }
                 },
                 pullcode : function(phone){
@@ -137,8 +140,8 @@ angular.module('controllers', [])
                         userRequiremtne.code({'phone':phone}).then(function(res){  //提交手机
                             console.log(res)
                            //$location.path('release');
-                        },function(res){
-                            console.log(res)
+                        },function(err){
+                            console.log(err);
                         });
                     }
                     function countdown(num){
@@ -165,7 +168,7 @@ angular.module('controllers', [])
                         }
                     },function(res){
                         console.log(res)
-                    });
+                    })
                 }
             }
     }])
@@ -362,12 +365,12 @@ angular.module('controllers', [])
                         $scope.matchs = res.data.data.rec_designer;
                         angular.forEach($scope.matchs, function(value, key){
                             value.active = false;
-                        })
+                        });
                         // 自选的设计师
                         $scope.favorites = res.data.data.favorite_designer;
                         angular.forEach($scope.favorites, function(value, key){
                             value.active = false;
-                        })
+                        });
                         $scope.orderDesigns = [];
                         userRequiremtne.order({"requirementid":requiremtneId}).then(function(res){    //已经预约设计师列表
                                 $scope.ordersData = res.data.data;
@@ -450,7 +453,7 @@ angular.module('controllers', [])
                                             $scope.orderDesigns.splice(index, 1);
                                             console.log($scope.orderDesigns.length)
                                             console.log($scope.orderDesigns.length+len)
-                                            $scope.bookingSuccess = ($scope.orderDesigns.length+len) == 0 ? false : true;
+                                            $scope.bookingSuccess = ($scope.orderDesigns.length+len) === 0 ? false : true;
                                         }
                                     }
                                 }
@@ -459,7 +462,7 @@ angular.module('controllers', [])
                         });
                     },function(res){
                         console.log(res)
-                });
+                    });
             }
             //预约量房
             $scope.booking = {
@@ -504,15 +507,15 @@ angular.module('controllers', [])
                         if(res.data.msg == "success"){
                             This.isReplace = false;
                             $scope.ordersData = undefined;
-                            myBooking()
+                            myBooking();
                             This.bookingChangeStatus = false;
                             This.motaiDoneb = false;
                             userRequiremtne.changeUId = "";
                             $scope.bookingSuccess = false;
                             $location.path('requirement/'+requiremtneId+"/score")
                         }
-                    },function(res){
-                        console.log(res)
+                    },function(err){
+                        console.log(err);
                     });
                 },
                 bookingCancelChange : function(){
@@ -521,10 +524,10 @@ angular.module('controllers', [])
                     this.motaiDoneb = false;
                     angular.forEach($scope.matchs, function(value1, key1){
                         value1.active = false;
-                    })
+                    });
                     angular.forEach($scope.favorites, function(value1, key1){
                         value1.active = false;
-                    })
+                    });
                 }
             }
             //匿名评价
@@ -538,13 +541,13 @@ angular.module('controllers', [])
                 click : function(arr,i){
                     angular.forEach(arr, function(value, key){
                         if(key+1 <= i){
-                            value.cur = 'active'
+                            value.cur = 'active';
                         }else{
                             value.cur = '';
                         }
-                    })
+                    });
                 }
-            }
+            };
             $scope.score = {
                 newDate : +new Date(),
                 designerScore : {},
@@ -556,18 +559,18 @@ angular.module('controllers', [])
                 respondBtn : function(i){
                     var This = this;
                     this.scoreRespond = i;
-                    scoreEvent.click(This.scoreResponds,i)
+                    scoreEvent.click(This.scoreResponds,i);
                 },
                 serviceBtn : function(i){
                     var This = this;
                     this.scoreService = i;
-                    scoreEvent.click(This.scoreServices,i)
+                    scoreEvent.click(This.scoreServices,i);
                 },
                 motaiScore : false,
                 anonymity : false,
                 motaiDone : false,
                 anonymityBtn : function(){   //匿名评价
-                    this.anonymity = !this.anonymity
+                    this.anonymity = !this.anonymity;
                 },
                 scoreCancelBtn : function(){   //取消评价
                     $scope.score.motaiScore = false;
@@ -591,8 +594,8 @@ angular.module('controllers', [])
                             This.clear();
                             $location.path('requirement/'+requiremtneId+"/plan");
                         }
-                    },function(res){
-                        console.log(res)
+                    },function(err){
+                        console.log(err);
                     });
                 },
                 scoreDefineBtn : function(data){    //开启评价
@@ -613,8 +616,8 @@ angular.module('controllers', [])
                             This.motaiDone = true;
                             This.designerScore = data;
                         }
-                    },function(res){
-                        console.log(res)
+                    },function(err){
+                        console.log(err);
                     });
                 },
                 scoreBtn : function(data){
@@ -641,22 +644,22 @@ angular.module('controllers', [])
                     userRequiremtne.changeUId = id;
                     $location.path('requirement/'+requiremtneId+"/booking");
                 }
-            }
+            };
 
 
         // 方案列表
         function myPlan(){
             userRequiremtne.plans({"requirementid":requiremtneId}).then(function(res){    //获取我的方案列表
                 $scope.plans = res.data.data;
-            },function(res){
-                console.log(res)
+            },function(err){
+                console.log(err);
             });
         }
         var planData = {
             "planid": '',
             "designerid": '',
             "requirementid": requiremtneId
-        }
+        };
         $scope.definePlan = {
             success : false,
             confirm : true,
@@ -676,11 +679,11 @@ angular.module('controllers', [])
                     if(res.data.msg == "success"){
                         _this.confirm = false;
                         _this.done = true;
-                        myPlan()   //更新方案列表
-                        uploadParent()   //更新需求状态
+                        myPlan();   //更新方案列表
+                        uploadParent();   //更新需求状态
                     }
-                },function(res){
-                    console.log(res)
+                },function(err){
+                    console.log(err);
                 });
             },
             goto : function(data){
@@ -690,35 +693,35 @@ angular.module('controllers', [])
                     $location.path('requirement/'+requiremtneId+"/fulfill");
                 }
             }
-        }
+        };
         // 三方合同
         function myContract(){   //获取我的第三方合同
             userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){
                 $scope.contract = res.data.data;
-            },function(res){
-                console.log(res)
+            },function(err){
+                console.log(err);
             });
         }
         $scope.contractSuccess = true;
         $scope.contractSuccessBtn = function(){
             $scope.contractSuccess = !$scope.contractSuccess;
-        }
+        };
         $scope.contractBtn = function(data){
             userRequiremtne.process({
                 "requirementid": data._id,
                 "final_planid": data.plan._id
             }).then(function(res){
-                uploadParent()   //更新需求状态
+                uploadParent();   //更新需求状态
                 $location.path('requirement/'+requiremtneId+"/field");
-            },function(res){
-                console.log(res)
+            },function(err){
+                console.log(err);
             });
-        }
+        };
     }])
    .controller('favoriteProductCtrl', [     //作品收藏列表
         '$scope','$state','$filter','userFavoriteProduct',function($scope,$state,$filter,userFavoriteProduct){
             $scope.designers = undefined;
-            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+            var _index = parseInt($state.params.id) !== NaN ? parseInt($state.params.id) - 1 : 0,
                 dataPage = {
                   "from": _index*4,
                   "limit":4
@@ -727,7 +730,7 @@ angular.module('controllers', [])
             function laod(){
                 userFavoriteProduct.list(dataPage).then(function(res){  //获取作品收藏列表
                     $scope.favoriteProduct = res.data.data.products;
-                    if($scope.favoriteProduct.length == 0 && res.data.data.total != 0){
+                    if($scope.favoriteProduct.length === 0 && res.data.data.total !== 0){
                         $scope.favoriteProduct = undefined;
                         dataPage.from = current*dataPage.limit;
                         current = 0;
@@ -830,4 +833,398 @@ angular.module('controllers', [])
             }
             laod()
     }])
+    .controller('noticeCtrl', [     //系统通知
+        '$scope','$state','userMessage',function($scope,$state,userMessage){
+            $scope.notice = {
+                name : '',
+                "arr" : "4-13",
+                tab : [
+                    {
+                        id : 0,
+                        name : '全部',
+                        cur : true,
+                        arr : "4-13"
+                    },
+                    {
+                        id : 1,
+                        name : '官方公告',
+                        cur : false,
+                        arr : "13"
+                    },
+                    {
+                        id : 2,
+                        name : '系统通知',
+                        cur : false,
+                        arr : "4"
+                    }
+                ],
+                goto : function(id){
+                    var _this = this;
+                    angular.forEach(this.tab,function(v,k){
+                        v.cur = false;
+                        _this.tab[id].cur = true;
+                        _this.name = _this.tab[id].name;
+                        _this.arr = _this.tab[id].arr;
+                    });
+                }
+            };
+            angular.forEach($scope.notice.tab,function(v,k){
+                if(v.arr == $state.params.type){
+                    v.cur = true;
+                }else{
+                    v.cur = false;
+                }
+            });
+        }])
+    .controller('noticeListCtrl', [     //系统通知列表
+        '$scope','$state','userMessage',function($scope,$state,userMessage){
+            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+                message_type = ChangeArray($state.params.type),
+                status = $state.params.status,
+                dataPage = {
+                    "query":{
+                        "message_type":{
+                            "$in" : message_type
+                        },
+                        "status": status
+                    },
+                    "from": _index*1,
+                    "limit":1
+                },
+                current = _index,
+                url = {
+                    '4' : 'index'
+                }
+            $scope.noticeList = {
+                "list" : undefined,
+                read : function(id,status){
+                    if(status == 0){
+                        userMessage.read({
+                            "messageid":id
+                        });
+                        uploadParent()
+                    }
+                },
+                goto : function(data){
+                    $state.go(url[data.message_type]);
+                    if(data.status == 0){
+                       this.read(data._id,data.status)
+                    }
+                },
+                remove : function(id){
+                    userMessage.remove({
+                        "messageid":id
+                    }).then(function(res){
+                        laod();
+                    },function(err){
+                        console.log(err);
+                    });
+                }
+            };
+            function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+                userMessage.count({
+                    "query_array":[["4"], ["7", "8","9","10"],["5"]]
+                }).then(function(res){
+                    $scope.count.notice = res.data.data[0];
+                    $scope.count.remind = res.data.data[1];
+                    $scope.count.comment = res.data.data[2];
+                    $scope.$emit('userMessageParent', $scope.count);   //父级传递
+                },function(err){
+                    console.log(err)
+                });
+            }
+            function ChangeArray(str){
+                var arr = [];
+                if(str.indexOf('-') != -1){
+                    arr = str.split('-');
+                }else{
+                    arr.push(str);
 
+                }
+                return arr;
+            }
+            function laod(){
+                userMessage.search(JSON.stringify(dataPage)).then(function(res){  //获取意向设计师列表
+                    $scope.noticeList.list = res.data.data.list;
+                    if($scope.noticeList.list.length == 0 && res.data.data.total != 0){
+                        $scope.noticeList.list = undefined;
+                        dataPage.from = current*dataPage.limit;
+                        current = 0;
+                        $state.go('notice.list.type', {id:1,type:$state.params.type,status:$state.params.status});
+                    }
+                    $scope.pageing = {
+                        allNumPage : res.data.data.total,
+                        itemPage : dataPage.limit,
+                        showPageNum : 5,
+                        endPageNum : 3,
+                        currentPage : current,
+                        linkTo:"#/notice/list/__id__",
+                        prevText:"上一页",
+                        nextText:"下一页",
+                        ellipseText:"...",
+                        showUbwz : false,
+                        pageInfo : false,
+                        callback : function (i,obj) {
+                            dataPage.from = i*this.itemPage;
+                            current = i;
+                            $state.go('notice.list.type', {id:parseInt(i)+1,type:$state.params.type,status:$state.params.status});
+                            return false;
+                        }
+                    }
+                },function(res){
+                    console.log(res)
+                });
+            }
+            laod();
+        }])
+        .controller('noticeDetailCtrl', [     //系统通知详情
+            '$scope','$state','userMessage',function($scope,$state,userMessage){
+            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+                message_type = ChangeArray($state.params.type),
+                status = $state.params.status,
+                dataPage = {
+                    "query":{
+                        "message_type":{
+                            "$in" : message_type
+                        },
+                        "status": status
+                    },
+                    "from": _index*1,
+                    "limit":1
+                },
+                current = _index;
+            $scope.remindList = {
+                "list" : undefined,
+                read : function(id,status){
+                    if(status == 0){
+                        userMessage.read({
+                            "messageid":id
+                        });
+                        uploadParent()
+                    }
+                }
+            };
+            function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+                userMessage.count({
+                    "query_array":[["4"], ["7", "8","9","10"],["5"]]
+                }).then(function(res){
+                    $scope.count.notice = res.data.data[0];
+                    $scope.count.remind = res.data.data[1];
+                    $scope.count.comment = res.data.data[2];
+                    $scope.$emit('userMessageParent', $scope.count);   //父级传递
+                },function(err){
+                    console.log(err);
+                });
+            }
+            function ChangeArray(str){
+                var arr = [];
+                if(str.indexOf('-') != -1){
+                    arr = str.split('-');
+                }else{
+                    arr.push(str);
+                }
+                return arr;
+            }
+        }])
+    .controller('remindCtrl', [     //需求提醒列表
+        '$scope','$state','userMessage',function($scope,$state,userMessage){
+            $scope.remind = {
+                "name" : '',
+                "arr" : "7-8-9-10",
+                "tab" : [
+                    {
+                        "id" : 0,
+                        "name" : '全部',
+                        "cur" : false,
+                        "arr" : "7-8-9-10"
+                    },
+                    {
+                        "id" : 1,
+                        "name" : '响应提醒',
+                        "cur" : false,
+                        "arr" : "7"
+                    },
+                    {
+                        "id" : 2,
+                        "name" : '拒绝提醒',
+                        "cur" : false,
+                        "arr" : "8"
+                    },
+                    {
+                        "id" : 3,
+                        "name" : '方案提醒',
+                        "cur" : false,
+                        "arr" : "9"
+                    },
+                    {
+                        "id" : 4,
+                        "name" : '合同提醒',
+                        "cur" : false,
+                        "arr" : "10"
+                    }
+                ],
+                goto : function(id){
+                    var _this = this;
+                    angular.forEach(this.tab,function(v,k){
+                        v.cur = false;
+                        _this.tab[id].cur = true;
+                        _this.name = _this.tab[id].name;
+                        _this.arr = _this.tab[id].arr;
+                    });
+                }
+            };
+            angular.forEach($scope.remind.tab,function(v,k){
+                if(v.arr == $state.params.type){
+                    v.cur = true;
+                }else{
+                    v.cur = false;
+                }
+            });
+        }])
+    .controller('remindListCtrl', [     //需求提醒列表
+        '$scope','$state','userMessage',function($scope,$state,userMessage){
+            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+                message_type = ChangeArray($state.params.type),
+                status = $state.params.status,
+                dataPage = {
+                    "query":{
+                        "message_type":{
+                            "$in" : message_type
+                        },
+                        "status": status
+                    },
+                    "from": _index*1,
+                    "limit":1
+                },
+                current = _index;
+            $scope.remindList = {
+                "list" : undefined,
+                read : function(id,status){
+                    if(status == 0){
+                        userMessage.read({
+                            "messageid":id
+                        });
+                        uploadParent()
+                    }
+                }
+            };
+            function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+                userMessage.count({
+                    "query_array":[["4"], ["7", "8","9","10"],["5"]]
+                }).then(function(res){
+                    $scope.count.notice = res.data.data[0];
+                    $scope.count.remind = res.data.data[1];
+                    $scope.count.comment = res.data.data[2];
+                    $scope.$emit('userMessageParent', $scope.count);   //父级传递
+                },function(err){
+                    console.log(err)
+                });
+            }
+            function ChangeArray(str){
+                var arr = [];
+                if(str.indexOf('-') != -1){
+                    arr = str.split('-');
+                }else{
+                    arr.push(str);
+
+                }
+                return arr;
+            }
+            function laod(){
+                userMessage.search(JSON.stringify(dataPage)).then(function(res){  //获取意向设计师列表
+                    $scope.remindList.list = res.data.data.list;
+                    if($scope.remindList.list.length == 0 && res.data.data.total != 0){
+                        $scope.remindList.list = undefined;
+                        dataPage.from = current*dataPage.limit;
+                        current = 0;
+                        $state.go('remind.list.type', {id:1,type:$state.params.type,status:$state.params.status});
+                    }
+                    $scope.pageing = {
+                        allNumPage : res.data.data.total,
+                        itemPage : dataPage.limit,
+                        showPageNum : 5,
+                        endPageNum : 3,
+                        currentPage : current,
+                        linkTo:"#/remind/list/__id__",
+                        prevText:"上一页",
+                        nextText:"下一页",
+                        ellipseText:"...",
+                        showUbwz : false,
+                        pageInfo : false,
+                        callback : function (i,obj) {
+                            dataPage.from = i*this.itemPage;
+                            current = i;
+                            $state.go('remind.list.type', {id:parseInt(i)+1,type:$state.params.type,status:$state.params.status});
+                            return false;
+                        }
+                    }
+                },function(res){
+                    console.log(res)
+                });
+            }
+            laod();
+        }])
+    .controller('commentCtrl', [     //评论列表
+        '$scope','$state','userMessage',function($scope,$state,userMessage){
+            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+                dataPage = {
+                    "from": _index*5,
+                    "limit":5
+                },
+                current = _index,
+                status = undefined;
+                $scope.count = {};
+            $scope.comment = {
+                "name" : '',
+                "tab" : [
+                    {
+                        "id" : 0,
+                        "name" : '全部',
+                        "cur" : true
+                    }
+                ],
+                goto : function(id){
+                    var _this = this;
+                    angular.forEach(this.tab,function(v,k){
+                        v.cur = false;
+                        _this.tab[id].cur = true;
+                        _this.name = _this.tab[id].name;
+                        loadList(id);
+                    });
+                },
+                "list" : undefined
+            };
+            function laod(){
+                userMessage.comment(dataPage).then(function(res){  //获取意向设计师列表
+                    $scope.comment.list = res.data.data.list;
+                    if($scope.comment.list.length == 0 && res.data.data.total != 0){
+                        $scope.comment.list = undefined;
+                        dataPage.from = current*dataPage.limit;
+                        current = 0;
+                        $state.go('comment.list', { id: 1 });
+                    }
+                    $scope.pageing = {
+                        allNumPage : res.data.data.total,
+                        itemPage : dataPage.limit,
+                        showPageNum : 5,
+                        endPageNum : 3,
+                        currentPage : current,
+                        linkTo:"#/comment/__id__",
+                        prevText:"上一页",
+                        nextText:"下一页",
+                        ellipseText:"...",
+                        showUbwz : false,
+                        pageInfo : false,
+                        callback : function (i,obj) {
+                            dataPage.from = i*this.itemPage;
+                            current = i;
+                            $state.go('comment.list', { id: parseInt(i)+1 });
+                            return false;
+                        }
+                    }
+                },function(res){
+                    console.log(res)
+                });
+            }
+            laod()
+        }]);
