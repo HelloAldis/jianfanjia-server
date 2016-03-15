@@ -34,17 +34,29 @@ exports.add_comment = function (req, res, next) {
     }
 
     if (comment_indb.usertype === type.role_user) {
-      if (comment.topictype === type.topic_type_plan) {
-        message_util.designer_message_type_comment_plan(comment_indb);
-      } else if (comment.topictype === type.topic_type_process_item) {
-        message_util.designer_message_type_comment_process_item(comment_indb);
-      }
+      User.findOne({
+        _id: userid
+      }, {
+        username: 1,
+      }, function (err, user) {
+        if (comment.topictype === type.topic_type_plan) {
+          message_util.designer_message_type_comment_plan(comment_indb, user.username);
+        } else if (comment.topictype === type.topic_type_process_item) {
+          message_util.designer_message_type_comment_process_item(comment_indb, user.username);
+        }
+      });
     } else if (comment_indb.usertype === type.role_designer) {
-      if (comment.topictype === type.topic_type_plan) {
-        message_util.user_message_type_comment_plan(comment_indb);
-      } else if (comment.topictype === type.topic_type_process_item) {
-        message_util.user_message_type_comment_process_item(comment_indb);
-      }
+      Designer.findOne({
+        _id: userid,
+      }, {
+        username: 1,
+      }, function (err, designer) {
+        if (comment.topictype === type.topic_type_plan) {
+          message_util.user_message_type_comment_plan(comment_indb, designer.username);
+        } else if (comment.topictype === type.topic_type_process_item) {
+          message_util.user_message_type_comment_process_item(comment_indb, designer.username);
+        }
+      });
     }
   }));
 }

@@ -21,6 +21,22 @@ function saveDesignerMessageAndPush(designer_message) {
   });
 }
 
+function saveDesignerCommentAndPush(designer_message, username) {
+  DesignerMessage.newAndSave(designer_message, function (err, designer_message_indb) {
+    if (designer_message_indb) {
+      DesignerMessage.count({
+        designerid: designer_message_indb.designerid,
+        status: type.message_status_unread,
+      }, function (err, count) {
+        var payload = gt.buildPayloadFromDesignerMessage(designer_message_indb);
+        payload.badge = count;
+        payload.content = username + '给你留言：' + payload.content;
+        gt.pushMessageToDesigner(designer_message_indb.designerid, payload);
+      });
+    }
+  });
+}
+
 function saveUserMessageAndPush(user_message) {
   UserMessage.newAndSave(user_message, function (err, user_message_indb) {
     if (user_message_indb) {
@@ -30,6 +46,22 @@ function saveUserMessageAndPush(user_message) {
       }, function (err, count) {
         var payload = gt.buildPayloadFromUserMessage(user_message_indb);
         payload.badge = count;
+        gt.pushMessageToUser(user_message_indb.userid, payload);
+      });
+    }
+  });
+}
+
+function saveUserCommentAndPush(user_message, username) {
+  UserMessage.newAndSave(user_message, function (err, user_message_indb) {
+    if (user_message_indb) {
+      UserMessage.count({
+        userid: user_message_indb.userid,
+        status: type.message_status_unread,
+      }, function (err, count) {
+        var payload = gt.buildPayloadFromUserMessage(user_message_indb);
+        payload.badge = count;
+        payload.content = username + '给你留言：' + payload.content;
         gt.pushMessageToUser(user_message_indb.userid, payload);
       });
     }
@@ -182,7 +214,7 @@ exports.user_message_type_pay = function (process, section) {
   saveUserMessageAndPush(user_message);
 }
 
-exports.user_message_type_comment_plan = function (comment) {
+exports.user_message_type_comment_plan = function (comment, username) {
   var user_message = {
     userid: comment.to,
     designerid: comment.by,
@@ -194,10 +226,10 @@ exports.user_message_type_comment_plan = function (comment) {
     status: type.message_status_unread,
   };
 
-  saveUserMessageAndPush(user_message);
+  saveUserCommentAndPush(user_message, username);
 }
 
-exports.user_message_type_comment_process_item = function (comment) {
+exports.user_message_type_comment_process_item = function (comment, username) {
   var user_message = {
     userid: comment.to,
     designerid: comment.by,
@@ -211,7 +243,7 @@ exports.user_message_type_comment_process_item = function (comment) {
     status: type.message_status_unread,
   };
 
-  saveUserMessageAndPush(user_message);
+  saveUserCommentAndPush(user_message, username);
 }
 
 var user_message_type_designer_respond_template =
@@ -476,7 +508,7 @@ exports.designer_message_type_user_reject_reschedule = function (user, designer,
 //   saveDesignerMessageAndPush(designer_message);
 // }
 
-exports.designer_message_type_comment_plan = function (comment) {
+exports.designer_message_type_comment_plan = function (comment, username) {
   var designer_message = {
     userid: comment.by,
     designerid: comment.to,
@@ -488,10 +520,10 @@ exports.designer_message_type_comment_plan = function (comment) {
     status: type.message_status_unread,
   }
 
-  saveDesignerMessageAndPush(designer_message);
+  saveDesignerCommentAndPush(designer_message, username);
 }
 
-exports.designer_message_type_comment_process_item = function (comment) {
+exports.designer_message_type_comment_process_item = function (comment, username) {
   var designer_message = {
     userid: comment.by,
     designerid: comment.to,
@@ -505,7 +537,7 @@ exports.designer_message_type_comment_process_item = function (comment) {
     status: type.message_status_unread,
   }
 
-  saveDesignerMessageAndPush(designer_message);
+  saveDesignerCommentAndPush(designer_message, username);
 }
 
 var designer_message_type_basic_auth_done_template =
