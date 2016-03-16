@@ -1,27 +1,29 @@
-var validator = require('validator');
-var eventproxy = require('eventproxy');
-var User = require('../../../proxy').User;
-var Plan = require('../../../proxy').Plan;
-var Requirement = require('../../../proxy').Requirement;
-var Designer = require('../../../proxy').Designer;
-var Comment = require('../../../proxy').Comment;
-var tools = require('../../../common/tools');
-var _ = require('lodash');
-var config = require('../../../apiconfig');
-var async = require('async');
-var ApiUtil = require('../../../common/api_util');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
-var type = require('../../../type');
-var sms = require('../../../common/sms');
-var message_util = require('../../../common/message_util');
+"use strict";
+
+const validator = require('validator');
+const eventproxy = require('eventproxy');
+const User = require('../../../proxy').User;
+const Plan = require('../../../proxy').Plan;
+const Requirement = require('../../../proxy').Requirement;
+const Designer = require('../../../proxy').Designer;
+const Comment = require('../../../proxy').Comment;
+const tools = require('../../../common/tools');
+const _ = require('lodash');
+const config = require('../../../apiconfig');
+const async = require('async');
+const ApiUtil = require('../../../common/api_util');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
+const type = require('../../../type');
+const sms = require('../../../common/sms');
+const message_util = require('../../../common/message_util');
 
 exports.add = function (req, res, next) {
-  var plan = ApiUtil.buildPlan(req);
-  var designerid = ApiUtil.getUserid(req);
-  var userid = tools.trim(req.body.userid);
-  var requirementid = tools.trim(req.body.requirementid);
-  var ep = eventproxy();
+  let plan = ApiUtil.buildPlan(req);
+  let designerid = ApiUtil.getUserid(req);
+  let userid = tools.trim(req.body.userid);
+  let requirementid = tools.trim(req.body.requirementid);
+  let ep = eventproxy();
   ep.fail(next);
 
   //查找是否有位上传的方案
@@ -35,7 +37,7 @@ exports.add = function (req, res, next) {
       //有已响应但是没上传的方案，直接上传方案到这里
       plan.status = type.plan_status_designer_upload; //修改status为已上传
       plan.last_status_update_time = new Date().getTime();
-      var query = {
+      let query = {
         userid: userid,
         designerid: designerid,
         requirementid: requirementid,
@@ -79,7 +81,7 @@ exports.add = function (req, res, next) {
         requirementid: requirementid,
       }, null, null, ep.done(function (plans_indb) {
         if (plans_indb.length) {
-          var plan_indb = plans_indb[0];
+          let plan_indb = plans_indb[0];
           plan.name = '方案' + (plans_indb.length + 1);
           plan.status = type.plan_status_designer_upload;
           plan.designerid = designerid;
@@ -124,10 +126,10 @@ exports.add = function (req, res, next) {
 };
 
 exports.update = function (req, res, next) {
-  var plan = ApiUtil.buildPlan(req);
-  var oid = tools.trim(req.body._id);
-  var designerid = ApiUtil.getUserid(req);
-  var ep = eventproxy();
+  let plan = ApiUtil.buildPlan(req);
+  let oid = tools.trim(req.body._id);
+  let designerid = ApiUtil.getUserid(req);
+  let ep = eventproxy();
   ep.fail(next);
 
   if (oid === '') {
@@ -144,10 +146,10 @@ exports.update = function (req, res, next) {
 }
 
 exports.delete = function (req, res, next) {
-  var user = req.user || req.session.user;
-  var oid = tools.trim(req.body._id);
-  var designerid = ApiUtil.getUserid(req);
-  var ep = eventproxy();
+  let user = req.user || req.session.user;
+  let oid = tools.trim(req.body._id);
+  let designerid = ApiUtil.getUserid(req);
+  let ep = eventproxy();
   ep.fail(next);
 
   if (oid === '') {
@@ -164,11 +166,11 @@ exports.delete = function (req, res, next) {
 }
 
 exports.user_requirement_plans = function (req, res, next) {
-  var requirementid = req.body.requirementid;
-  var designerid = req.body.designerid;
-  var ep = eventproxy();
+  let requirementid = req.body.requirementid;
+  let designerid = req.body.designerid;
+  let ep = eventproxy();
   ep.fail(next);
-  var query = {};
+  let query = {};
   query.requirementid = requirementid;
   query.status = {
     $in: [type.plan_status_user_final, type.plan_status_user_not_final,
@@ -210,11 +212,11 @@ exports.user_requirement_plans = function (req, res, next) {
 }
 
 exports.finalPlan = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var planid = new ObjectId(req.body.planid);
-  var designerid = new ObjectId(req.body.designerid);
-  var requirementid = req.body.requirementid;
-  var ep = eventproxy();
+  let userid = ApiUtil.getUserid(req);
+  let planid = new ObjectId(req.body.planid);
+  let designerid = new ObjectId(req.body.designerid);
+  let requirementid = req.body.requirementid;
+  let ep = eventproxy();
   ep.fail(next);
 
   Requirement.setOne({
@@ -272,6 +274,7 @@ exports.finalPlan = function (req, res, next) {
                     requirementid: requirementid,
                   }, {
                     status: 1,
+                    requirementid: 1,
                   }, {
                     skip: 0,
                     limit: 1,
@@ -310,9 +313,9 @@ exports.finalPlan = function (req, res, next) {
 }
 
 exports.designer_requirement_plans = function (req, res, next) {
-  var designerid = ApiUtil.getUserid(req);
-  var requirementid = req.body.requirementid;
-  var ep = eventproxy();
+  let designerid = ApiUtil.getUserid(req);
+  let requirementid = req.body.requirementid;
+  let ep = eventproxy();
   ep.fail(next);
 
   Plan.find({
@@ -354,8 +357,8 @@ exports.designer_requirement_plans = function (req, res, next) {
 }
 
 exports.getOne = function (req, res, next) {
-  var query = req.body;
-  var ep = eventproxy();
+  let query = req.body;
+  let ep = eventproxy();
   ep.fail(next);
 
   Plan.findOne(query, null, ep.done(function (plan) {

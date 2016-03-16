@@ -1,30 +1,32 @@
-var validator = require('validator');
-var eventproxy = require('eventproxy');
-var BeautifulImage = require('../../../proxy').BeautifulImage;
-var Favorite = require('../../../proxy').Favorite;
-var tools = require('../../../common/tools');
-var _ = require('lodash');
-var config = require('../../../apiconfig');
-var async = require('async');
-var ApiUtil = require('../../../common/api_util');
-var type = require('../../../type');
-var limit = require('../../../middlewares/limit');
+"use strict";
+
+const validator = require('validator');
+const eventproxy = require('eventproxy');
+const BeautifulImage = require('../../../proxy').BeautifulImage;
+const Favorite = require('../../../proxy').Favorite;
+const tools = require('../../../common/tools');
+const _ = require('lodash');
+const config = require('../../../apiconfig');
+const async = require('async');
+const ApiUtil = require('../../../common/api_util');
+const type = require('../../../type');
+const limit = require('../../../middlewares/limit');
 
 exports.search_beautiful_image = function (req, res, next) {
-  var query = req.body.query || {};
+  let query = req.body.query || {};
   query.status = type.beautiful_image_status_public;
-  var sort = req.body.sort || {
+  let sort = req.body.sort || {
     lastupdate: -1
   };
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var userid = ApiUtil.getUserid(req);
-  var usertype = ApiUtil.getUsertype(req);
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let userid = ApiUtil.getUserid(req);
+  let usertype = ApiUtil.getUsertype(req);
 
-  var ep = eventproxy();
+  let ep = eventproxy();
   ep.fail(next);
 
-  var search_word = req.body.search_word;
+  let search_word = req.body.search_word;
   if (search_word && search_word.trim().length > 0) {
     search_word = new RegExp(tools.trim(search_word), 'i');
     query['$or'] = [{

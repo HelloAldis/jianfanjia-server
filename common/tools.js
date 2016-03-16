@@ -40,3 +40,13 @@ exports.findIndexObjectId = function (array, oid) {
 exports.isValidObjectId = function (oid) {
   return oid && ObjectId.isValid(oid);
 }
+
+exports.deleteUndefinedAndNullProperty = function (obj) {
+  for (var p in obj) {
+    if (obj[p] === null || obj[p] === undefined) {
+      delete obj[p];
+    }
+  }
+
+  return obj
+}

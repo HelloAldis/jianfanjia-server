@@ -259,7 +259,7 @@ exports.start = function (req, res, next) {
           }
         }, function (err, result) {
           if (!err && result.user && result.designer) {
-            message_util.designer_message_type_user_ok_contract(user, designer, requirement);
+            message_util.designer_message_type_user_ok_contract(result.user, result.designer, requirement);
           }
         });
       }));

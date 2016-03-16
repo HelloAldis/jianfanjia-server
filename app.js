@@ -1,15 +1,17 @@
+"use strict";
+
 //load configuration
-var config = require('./apiconfig');
-var express = require('express');
-var vhost = require('vhost');
-var logger = require('./common/logger');
+const config = require('./apiconfig');
+const express = require('express');
+const vhost = require('vhost');
+const logger = require('./common/logger');
 
 require('./middlewares/mongoose_log'); // 打印 mongodb 查询日志
 require('./models');
 require('./common/job');
 
 //main App
-var main_app = express();
+let main_app = express();
 main_app.use(vhost('jianfanjia.com', function (req, res, next) {
   res.redirect('http://www.jianfanjia.com' + req.url);
 }));

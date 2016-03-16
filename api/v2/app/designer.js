@@ -1,29 +1,26 @@
-var validator = require('validator');
-var eventproxy = require('eventproxy');
-var Designer = require('../../../proxy').Designer;
-var Product = require('../../../proxy').Product;
-var Plan = require('../../../proxy').Plan;
-var User = require('../../../proxy').User;
-var Requirement = require('../../../proxy').Requirement;
-var Favorite = require('../../../proxy').Favorite;
-var tools = require('../../../common/tools');
-var _ = require('lodash');
-var config = require('../../../apiconfig');
-var async = require('async');
-var ApiUtil = require('../../../common/api_util');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
-var type = require('../../../type');
-var limit = require('../../../middlewares/limit')
+"use strict";
+
+const eventproxy = require('eventproxy');
+const Designer = require('../../../proxy').Designer;
+const Product = require('../../../proxy').Product;
+const Plan = require('../../../proxy').Plan;
+const User = require('../../../proxy').User;
+const Requirement = require('../../../proxy').Requirement;
+const Favorite = require('../../../proxy').Favorite;
+const _ = require('lodash');
+const config = require('../../../apiconfig');
+const async = require('async');
+const ApiUtil = require('../../../common/api_util');
+const type = require('../../../type');
 
 exports.home_page_designers = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var ep = eventproxy();
+  let userid = ApiUtil.getUserid(req);
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let ep = eventproxy();
   ep.fail(next);
 
-  var tasks = {};
+  let tasks = {};
   if (skip === 0) {
     tasks.requirement = function (callback) {
       Requirement.find({
@@ -40,7 +37,7 @@ exports.home_page_designers = function (req, res, next) {
         lean: true,
       }, ep.done(function (requirements) {
         if (requirements.length > 0) {
-          var requirement = requirements[0];
+          let requirement = requirements[0];
           if (requirement.status === type.requirement_status_new) {
             Designer.find({
               _id: {
