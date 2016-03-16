@@ -1,10 +1,12 @@
-var type = require('../type');
-var UserMessage = require('../proxy').UserMessage;
-var DesignerMessage = require('../proxy').DesignerMessage;
-var gt = require('../getui/gt.js');
-var date_util = require('./date_util');
-var _ = require('lodash');
-var util = require('util');
+"use strict";
+
+const type = require('../type');
+const UserMessage = require('../proxy').UserMessage;
+const DesignerMessage = require('../proxy').DesignerMessage;
+const gt = require('../getui/gt.js');
+const date_util = require('./date_util');
+const _ = require('lodash');
+const util = require('util');
 
 function saveDesignerMessageAndPush(designer_message) {
   DesignerMessage.newAndSave(designer_message, function (err, designer_message_indb) {
@@ -13,7 +15,7 @@ function saveDesignerMessageAndPush(designer_message) {
         designerid: designer_message_indb.designerid,
         status: type.message_status_unread,
       }, function (err, count) {
-        var payload = gt.buildPayloadFromDesignerMessage(designer_message_indb);
+        let payload = gt.buildPayloadFromDesignerMessage(designer_message_indb);
         payload.badge = count;
         gt.pushMessageToDesigner(designer_message_indb.designerid, payload);
       });
@@ -28,7 +30,7 @@ function saveDesignerCommentAndPush(designer_message, username) {
         designerid: designer_message_indb.designerid,
         status: type.message_status_unread,
       }, function (err, count) {
-        var payload = gt.buildPayloadFromDesignerMessage(designer_message_indb);
+        let payload = gt.buildPayloadFromDesignerMessage(designer_message_indb);
         payload.badge = count;
         payload.content = username + ' 给你留言：' + payload.content;
         gt.pushMessageToDesigner(designer_message_indb.designerid, payload);
@@ -44,7 +46,7 @@ function saveUserMessageAndPush(user_message) {
         userid: user_message_indb.userid,
         status: type.message_status_unread,
       }, function (err, count) {
-        var payload = gt.buildPayloadFromUserMessage(user_message_indb);
+        let payload = gt.buildPayloadFromUserMessage(user_message_indb);
         payload.badge = count;
         gt.pushMessageToUser(user_message_indb.userid, payload);
       });
@@ -59,7 +61,7 @@ function saveUserCommentAndPush(user_message, username) {
         userid: user_message_indb.userid,
         status: type.message_status_unread,
       }, function (err, count) {
-        var payload = gt.buildPayloadFromUserMessage(user_message_indb);
+        let payload = gt.buildPayloadFromUserMessage(user_message_indb);
         payload.badge = count;
         payload.content = username + ' 给你留言：' + payload.content;
         gt.pushMessageToUser(user_message_indb.userid, payload);
@@ -68,7 +70,7 @@ function saveUserCommentAndPush(user_message, username) {
   });
 }
 
-var user_message_type_designer_reschedule_template =
+let user_message_type_designer_reschedule_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
@@ -79,8 +81,8 @@ var user_message_type_designer_reschedule_template =
 </body>\
 </html>';
 exports.user_message_type_designer_reschedule = function (user, designer, reschedule) {
-  var new_date = date_util.YYYY_MM_DD(reschedule.new_date)
-  var user_message = {
+  let new_date = date_util.YYYY_MM_DD(reschedule.new_date)
+  let user_message = {
     userid: user._id,
     designerid: designer._id,
     processid: reschedule.processid,
@@ -97,7 +99,7 @@ exports.user_message_type_designer_reschedule = function (user, designer, resche
   saveUserMessageAndPush(user_message);
 }
 
-var user_message_type_designer_ok_reschedule_template =
+let user_message_type_designer_ok_reschedule_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
@@ -108,9 +110,9 @@ var user_message_type_designer_ok_reschedule_template =
 </body>\
 </html>';
 exports.user_message_type_designer_ok_reschedule = function (user, designer, reschedule) {
-  var new_date = date_util.YYYY_MM_DD(reschedule.new_date);
+  let new_date = date_util.YYYY_MM_DD(reschedule.new_date);
 
-  var user_message = {
+  let user_message = {
     userid: user._id,
     designerid: designer._id,
     processid: reschedule.processid,
@@ -126,7 +128,7 @@ exports.user_message_type_designer_ok_reschedule = function (user, designer, res
   saveUserMessageAndPush(user_message);
 }
 
-var user_message_type_designer_reject_reschedule_template =
+let user_message_type_designer_reject_reschedule_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
@@ -136,7 +138,7 @@ var user_message_type_designer_reject_reschedule_template =
 </body>\
 </html>';
 exports.user_message_type_designer_reject_reschedule = function (user, designer, reschedule) {
-  var user_message = {
+  let user_message = {
     userid: user._id,
     designerid: designer._id,
     processid: reschedule.processid,
@@ -152,7 +154,7 @@ exports.user_message_type_designer_reject_reschedule = function (user, designer,
   saveUserMessageAndPush(user_message);
 }
 
-var user_message_type_procurement_template =
+let user_message_type_procurement_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
@@ -163,11 +165,11 @@ var user_message_type_procurement_template =
 </body>\
 </html>'
 exports.user_message_type_procurement = function (process, next) {
-  var index = _.indexOf(type.process_work_flow, next);
-  var message = type.procurement_notification_message[index];
-  var name = type.process_work_flow_name[index];
+  let index = _.indexOf(type.process_work_flow, next);
+  let message = type.procurement_notification_message[index];
+  let name = type.process_work_flow_name[index];
 
-  var user_message = {
+  let user_message = {
     userid: process.userid,
     designerid: process.final_designerid,
     processid: process._id,
@@ -184,7 +186,7 @@ exports.user_message_type_procurement = function (process, next) {
   saveUserMessageAndPush(user_message);
 }
 
-var user_message_type_pay_template =
+let user_message_type_pay_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
@@ -194,10 +196,10 @@ var user_message_type_pay_template =
 </body>\
 </html>'
 exports.user_message_type_pay = function (process, section) {
-  var index = _.indexOf(type.process_work_flow, section);
-  var name = type.process_work_flow_name[index];
+  let index = _.indexOf(type.process_work_flow, section);
+  let name = type.process_work_flow_name[index];
 
-  var user_message = {
+  let user_message = {
     userid: process.userid,
     designerid: process.final_designerid,
     processid: process._id,
@@ -215,7 +217,7 @@ exports.user_message_type_pay = function (process, section) {
 }
 
 exports.user_message_type_comment_plan = function (comment, username) {
-  var user_message = {
+  let user_message = {
     userid: comment.to,
     designerid: comment.by,
     topicid: comment.topicid,
@@ -230,7 +232,7 @@ exports.user_message_type_comment_plan = function (comment, username) {
 }
 
 exports.user_message_type_comment_process_item = function (comment, username) {
-  var user_message = {
+  let user_message = {
     userid: comment.to,
     designerid: comment.by,
     topicid: comment.topicid,
@@ -246,7 +248,7 @@ exports.user_message_type_comment_process_item = function (comment, username) {
   saveUserCommentAndPush(user_message, username);
 }
 
-var user_message_type_designer_respond_template =
+let user_message_type_designer_respond_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
@@ -256,7 +258,7 @@ var user_message_type_designer_respond_template =
 </body>\
 </html>'
 exports.user_message_type_designer_respond = function (user, designer, plan) {
-  var user_message = {
+  let user_message = {
     userid: user._id,
     designerid: designer._id,
     planid: plan._id,
@@ -271,7 +273,7 @@ exports.user_message_type_designer_respond = function (user, designer, plan) {
   saveUserMessageAndPush(user_message);
 }
 
-var user_message_type_designer_reject_template =
+let user_message_type_designer_reject_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
@@ -281,7 +283,7 @@ var user_message_type_designer_reject_template =
 </body>\
 </html>'
 exports.user_message_type_designer_reject = function (user, designer, plan) {
-  var user_message = {
+  let user_message = {
     userid: user._id,
     designerid: designer._id,
     planid: plan._id,
@@ -296,7 +298,7 @@ exports.user_message_type_designer_reject = function (user, designer, plan) {
   saveUserMessageAndPush(user_message);
 }
 
-var user_message_type_designer_upload_plan_template =
+let user_message_type_designer_upload_plan_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
@@ -306,7 +308,7 @@ var user_message_type_designer_upload_plan_template =
 </body>\
 </html>'
 exports.user_message_type_designer_upload_plan = function (user, designer, plan) {
-  var user_message = {
+  let user_message = {
     userid: user._id,
     designerid: designer._id,
     planid: plan._id,
@@ -321,7 +323,7 @@ exports.user_message_type_designer_upload_plan = function (user, designer, plan)
   saveUserMessageAndPush(user_message);
 }
 
-var user_message_type_designer_config_contract_template =
+let user_message_type_designer_config_contract_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
@@ -331,7 +333,7 @@ var user_message_type_designer_config_contract_template =
 </body>\
 </html>'
 exports.user_message_type_designer_config_contract = function (user, designer, requirement) {
-  var user_message = {
+  let user_message = {
     userid: user._id,
     designerid: designer._id,
     planid: requirement.final_planid,
@@ -346,7 +348,7 @@ exports.user_message_type_designer_config_contract = function (user, designer, r
   saveUserMessageAndPush(user_message);
 }
 
-var user_message_type_ys_template =
+let user_message_type_ys_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
@@ -355,10 +357,10 @@ var user_message_type_ys_template =
 </body>\
 </html>'
 exports.user_message_type_ys = function (process, section) {
-  var index = _.indexOf(type.process_work_flow, section);
-  var name = type.process_work_flow_name[index];
+  let index = _.indexOf(type.process_work_flow, section);
+  let name = type.process_work_flow_name[index];
 
-  var user_message = {
+  let user_message = {
     userid: process.userid,
     designerid: process.final_designerid,
     processid: process._id,
@@ -375,7 +377,7 @@ exports.user_message_type_ys = function (process, section) {
   saveUserMessageAndPush(user_message);
 }
 
-var user_message_type_designer_remind_ok_house_checked_template =
+let user_message_type_designer_remind_ok_house_checked_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
@@ -385,7 +387,7 @@ var user_message_type_designer_remind_ok_house_checked_template =
 </body>\
 </html>'
 exports.user_message_type_designer_remind_ok_house_checked = function (user, designer, requirement) {
-  var user_message = {
+  let user_message = {
     userid: user._id,
     designerid: designer._id,
     requirementid: requirement._id,
@@ -399,7 +401,7 @@ exports.user_message_type_designer_remind_ok_house_checked = function (user, des
   saveUserMessageAndPush(user_message);
 }
 
-var designer_message_type_user_reschedule_template =
+let designer_message_type_user_reschedule_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -410,9 +412,9 @@ var designer_message_type_user_reschedule_template =
 </body>\
 </html>'
 exports.designer_message_type_user_reschedule = function (user, designer, reschedule) {
-  var new_date = date_util.YYYY_MM_DD(reschedule.new_date);
+  let new_date = date_util.YYYY_MM_DD(reschedule.new_date);
 
-  var designer_message = {
+  let designer_message = {
     userid: user._id,
     designerid: designer._id,
     processid: reschedule.processid,
@@ -429,7 +431,7 @@ exports.designer_message_type_user_reschedule = function (user, designer, resche
   saveDesignerMessageAndPush(designer_message);
 }
 
-var designer_message_type_user_ok_reschedule_template =
+let designer_message_type_user_ok_reschedule_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -440,9 +442,9 @@ var designer_message_type_user_ok_reschedule_template =
 </body>\
 </html>'
 exports.designer_message_type_user_ok_reschedule = function (user, designer, reschedule) {
-  var new_date = date_util.YYYY_MM_DD(reschedule.new_date);
+  let new_date = date_util.YYYY_MM_DD(reschedule.new_date);
 
-  var designer_message = {
+  let designer_message = {
     userid: user._id,
     designerid: designer._id,
     processid: reschedule.processid,
@@ -458,7 +460,7 @@ exports.designer_message_type_user_ok_reschedule = function (user, designer, res
   saveDesignerMessageAndPush(designer_message);
 }
 
-var designer_message_type_user_reject_reschedule_template =
+let designer_message_type_user_reject_reschedule_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -469,9 +471,9 @@ var designer_message_type_user_reject_reschedule_template =
 </body>\
 </html>'
 exports.designer_message_type_user_reject_reschedule = function (user, designer, reschedule) {
-  var new_date = date_util.YYYY_MM_DD(reschedule.new_date)
+  let new_date = date_util.YYYY_MM_DD(reschedule.new_date)
 
-  var designer_message = {
+  let designer_message = {
     userid: user._id,
     designerid: designer._id,
     processid: reschedule.processid,
@@ -488,11 +490,11 @@ exports.designer_message_type_user_reject_reschedule = function (user, designer,
 }
 
 // exports.designer_message_type_procurement = function (process, section) {
-//   var index = _.indexOf(type.process_work_flow, section);
-//   var message = type.procurement_notification_message[index];
-//   var next = type.process_work_flow[index + 1];
+//   let index = _.indexOf(type.process_work_flow, section);
+//   let message = type.procurement_notification_message[index];
+//   let next = type.process_work_flow[index + 1];
 //
-//   var designer_message = {
+//   let designer_message = {
 //     userid: process.userid,
 //     designerid: process.final_designerid,
 //     processid: process._id,
@@ -509,7 +511,7 @@ exports.designer_message_type_user_reject_reschedule = function (user, designer,
 // }
 
 exports.designer_message_type_comment_plan = function (comment, username) {
-  var designer_message = {
+  let designer_message = {
     userid: comment.by,
     designerid: comment.to,
     topicid: comment.topicid,
@@ -524,7 +526,7 @@ exports.designer_message_type_comment_plan = function (comment, username) {
 }
 
 exports.designer_message_type_comment_process_item = function (comment, username) {
-  var designer_message = {
+  let designer_message = {
     userid: comment.by,
     designerid: comment.to,
     topicid: comment.topicid,
@@ -540,7 +542,7 @@ exports.designer_message_type_comment_process_item = function (comment, username
   saveDesignerCommentAndPush(designer_message, username);
 }
 
-var designer_message_type_basic_auth_done_template =
+let designer_message_type_basic_auth_done_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -549,7 +551,7 @@ var designer_message_type_basic_auth_done_template =
 </body>\
 </html>'
 exports.designer_message_type_basic_auth_done = function (designer) {
-  var designer_message = {
+  let designer_message = {
     designerid: designer._id,
     title: '系统通知',
     content: designer.username + '设计师您好：您提交的基本信息已经顺利通过！',
@@ -561,7 +563,7 @@ exports.designer_message_type_basic_auth_done = function (designer) {
   saveDesignerMessageAndPush(designer_message);
 }
 
-var designer_message_type_basic_auth_reject_template =
+let designer_message_type_basic_auth_reject_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -572,10 +574,10 @@ var designer_message_type_basic_auth_reject_template =
 </body>\
 </html>'
 exports.designer_message_type_basic_auth_reject = function (designer, auth_message) {
-  var designer_message = {
+  let designer_message = {
     designerid: designer._id,
     title: '系统通知',
-    content: designer.username + '设计师您好：您提交的基本信息由于' + auth_message + '，审核没有通过，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
+    content: designer.username + '设计师您好：您提交的基本信息由于【' + auth_message + '】，审核没有通过，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
     html: util.format(designer_message_type_basic_auth_reject_template, designer.username, auth_message),
     message_type: type.designer_message_type_basic_auth_reject,
     status: type.message_status_unread,
@@ -584,7 +586,7 @@ exports.designer_message_type_basic_auth_reject = function (designer, auth_messa
   saveDesignerMessageAndPush(designer_message);
 }
 
-var designer_message_type_uid_auth_done_template =
+let designer_message_type_uid_auth_done_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -593,7 +595,7 @@ var designer_message_type_uid_auth_done_template =
 </body>\
 </html>'
 exports.designer_message_type_uid_auth_done = function (designer) {
-  var designer_message = {
+  let designer_message = {
     designerid: designer._id,
     title: '系统通知',
     content: designer.username + '设计师您好：您提交的身份证和银行卡信息已经审核通过！',
@@ -605,7 +607,7 @@ exports.designer_message_type_uid_auth_done = function (designer) {
   saveDesignerMessageAndPush(designer_message);
 }
 
-var designer_message_type_uid_auth_reject_template =
+let designer_message_type_uid_auth_reject_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -616,10 +618,10 @@ var designer_message_type_uid_auth_reject_template =
 </body>\
 </html>'
 exports.designer_message_type_uid_auth_reject = function (designer, auth_message) {
-  var designer_message = {
+  let designer_message = {
     designerid: designer._id,
     title: '系统通知',
-    content: designer.username + '设计师您好：您提交的身份证和银行卡信息由于' + auth_message + '，审核没有通过，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
+    content: designer.username + '设计师您好：您提交的身份证和银行卡信息由于【' + auth_message + '】，审核没有通过，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
     html: util.format(designer_message_type_uid_auth_reject_template, designer.username, auth_message),
     message_type: type.designer_message_type_uid_auth_reject,
     status: type.message_status_unread,
@@ -628,7 +630,7 @@ exports.designer_message_type_uid_auth_reject = function (designer, auth_message
   saveDesignerMessageAndPush(designer_message);
 }
 
-var designer_message_type_work_auth_done_template =
+let designer_message_type_work_auth_done_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -637,7 +639,7 @@ var designer_message_type_work_auth_done_template =
 </body>\
 </html>'
 exports.designer_message_type_work_auth_done = function (designer) {
-  var designer_message = {
+  let designer_message = {
     designerid: designer._id,
     title: '系统通知',
     content: designer.username + '设计师您好：您提交的工地信息已经审核通过！',
@@ -649,7 +651,7 @@ exports.designer_message_type_work_auth_done = function (designer) {
   saveDesignerMessageAndPush(designer_message);
 }
 
-var designer_message_type_work_auth_reject_template =
+let designer_message_type_work_auth_reject_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -660,10 +662,10 @@ var designer_message_type_work_auth_reject_template =
 </body>\
 </html>'
 exports.designer_message_type_work_auth_reject = function (designer, auth_message) {
-  var designer_message = {
+  let designer_message = {
     designerid: designer._id,
     title: '系统通知',
-    content: designer.username + '设计师您好：您提交的工地信息由于' + auth_message + '，审核没有通过，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
+    content: designer.username + '设计师您好：您提交的工地信息由于【' + auth_message + '】，审核没有通过，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
     html: util.format(designer_message_type_work_auth_reject_template, designer.username, auth_message),
     message_type: type.designer_message_type_work_auth_reject,
     status: type.message_status_unread,
@@ -672,7 +674,7 @@ exports.designer_message_type_work_auth_reject = function (designer, auth_messag
   saveDesignerMessageAndPush(designer_message);
 }
 
-var designer_message_type_product_auth_done_template =
+let designer_message_type_product_auth_done_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -682,7 +684,7 @@ var designer_message_type_product_auth_done_template =
 </body>\
 </html>'
 exports.designer_message_type_product_auth_done = function (designer, product) {
-  var designer_message = {
+  let designer_message = {
     designerid: designer._id,
     productid: product._id,
     title: '系统通知',
@@ -695,7 +697,7 @@ exports.designer_message_type_product_auth_done = function (designer, product) {
   saveDesignerMessageAndPush(designer_message);
 }
 
-var designer_message_type_product_auth_reject_template =
+let designer_message_type_product_auth_reject_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -706,11 +708,11 @@ var designer_message_type_product_auth_reject_template =
 </body>\
 </html>'
 exports.designer_message_type_product_auth_reject = function (designer, product, auth_message) {
-  var designer_message = {
+  let designer_message = {
     designerid: designer._id,
     productid: product._id,
     title: '系统通知',
-    content: designer.username + '设计师您好：您提交的设计案例由于' + auth_message + '，审核没有通过，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
+    content: designer.username + '设计师您好：您提交的设计案例由于【' + auth_message + '】，审核没有通过，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
     html: util.format(designer_message_type_product_auth_reject_template, designer.username, auth_message),
     message_type: type.designer_message_type_product_auth_reject,
     status: type.message_status_unread,
@@ -719,7 +721,7 @@ exports.designer_message_type_product_auth_reject = function (designer, product,
   saveDesignerMessageAndPush(designer_message);
 }
 
-var designer_message_type_product_auth_illegal_template =
+let designer_message_type_product_auth_illegal_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -730,11 +732,11 @@ var designer_message_type_product_auth_illegal_template =
 </body>\
 </html>'
 exports.designer_message_type_product_auth_illegal = function (designer, product, auth_message) {
-  var designer_message = {
+  let designer_message = {
     designerid: designer._id,
     productid: product._id,
     title: '系统通知',
-    content: designer.username + '设计师您好：您提交的设计案例由于' + auth_message + '而下线，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
+    content: designer.username + '设计师您好：您提交的设计案例由于【' + auth_message + '】而下线，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
     html: util.format(designer_message_type_product_auth_illegal_template, designer.username, auth_message),
     message_type: type.designer_message_type_product_auth_illegal,
     status: type.message_status_unread,
@@ -743,7 +745,7 @@ exports.designer_message_type_product_auth_illegal = function (designer, product
   saveDesignerMessageAndPush(designer_message);
 }
 
-var designer_message_type_user_order_template =
+let designer_message_type_user_order_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -752,7 +754,7 @@ var designer_message_type_user_order_template =
 </body>\
 </html>'
 exports.designer_message_type_user_order = function (user, designer, requirement) {
-  var designer_message = {
+  let designer_message = {
     userid: user._id,
     designerid: designer._id,
     requirementid: requirement._id,
@@ -766,7 +768,7 @@ exports.designer_message_type_user_order = function (user, designer, requirement
   saveDesignerMessageAndPush(designer_message);
 }
 
-var designer_message_type_user_ok_house_checked_template =
+let designer_message_type_user_ok_house_checked_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -775,7 +777,7 @@ var designer_message_type_user_ok_house_checked_template =
 </body>\
 </html>'
 exports.designer_message_type_user_ok_house_checked = function (user, designer, requirement) {
-  var designer_message = {
+  let designer_message = {
     userid: user._id,
     designerid: designer._id,
     requirementid: requirement._id,
@@ -789,7 +791,7 @@ exports.designer_message_type_user_ok_house_checked = function (user, designer, 
   saveDesignerMessageAndPush(designer_message);
 }
 
-var designer_message_type_user_unfinal_plan_template =
+let designer_message_type_user_unfinal_plan_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -799,7 +801,7 @@ var designer_message_type_user_unfinal_plan_template =
 </body>\
 </html>'
 exports.designer_message_type_user_unfinal_plan = function (user, designer, plan) {
-  var designer_message = {
+  let designer_message = {
     userid: user._id,
     designerid: designer._id,
     requirementid: plan.requirementid,
@@ -814,7 +816,7 @@ exports.designer_message_type_user_unfinal_plan = function (user, designer, plan
   saveDesignerMessageAndPush(designer_message);
 }
 
-var designer_message_type_user_final_plan_template =
+let designer_message_type_user_final_plan_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -824,7 +826,7 @@ var designer_message_type_user_final_plan_template =
 </body>\
 </html>'
 exports.designer_message_type_user_final_plan = function (user, designer, plan) {
-  var designer_message = {
+  let designer_message = {
     userid: user._id,
     designerid: designer._id,
     requirementid: plan.requirementid,
@@ -839,7 +841,7 @@ exports.designer_message_type_user_final_plan = function (user, designer, plan) 
   saveDesignerMessageAndPush(designer_message);
 }
 
-var designer_message_type_user_ok_contract_template =
+let designer_message_type_user_ok_contract_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
@@ -849,7 +851,7 @@ var designer_message_type_user_ok_contract_template =
 </body>\
 </html>'
 exports.designer_message_type_user_ok_contract = function (user, designer, requirement) {
-  var designer_message = {
+  let designer_message = {
     userid: requirement.userid,
     designerid: requirement.final_designerid,
     requirementid: requirement._id,
