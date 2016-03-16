@@ -282,8 +282,7 @@ exports.okUser = function (req, res, next) {
           }, function (err, user) {
             if (user) {
               message_util.user_message_type_designer_respond(user, designer, plan);
-              sms.sendDesignerRespondUser(user.phone, [designer
-                .username,
+              sms.sendDesignerRespondUser(user.phone, [designer.username,
                 designer.phone, DateUtil.YYYY_MM_DD_HH_mm(
                   house_check_time)
               ]);

@@ -366,8 +366,6 @@ exports.designer_message_detail = function (req, res, next) {
         res.sendData(message);
       }));
     } else if ([type.designer_message_type_user_ok_house_checked,
-        type.designer_message_type_user_unfinal_plan,
-        type.designer_message_type_user_final_plan,
         type.designer_message_type_user_ok_contract
       ].indexOf(message.message_type) > -1) {
       Requirement.findOne({
@@ -430,6 +428,31 @@ exports.designer_message_detail = function (req, res, next) {
         message.requirement = result.requirement;
         message.plan = result.plan;
         message.user = result.user;
+        res.sendData(message);
+      }));
+    } else if ([type.designer_message_type_user_unfinal_plan,
+        type.designer_message_type_user_final_plan,
+      ].indexOf(message.message_type) > -1) {
+      async.parallel({
+        requirement: function (callback) {
+          Requirement.findOne({
+            _id: message.requirementid,
+          }, {
+            cell: 1,
+            status: 1,
+          }, callback);
+        },
+        plan: function (callback) {
+          Plan.findOne({
+            _id: message.planid,
+          }, {
+            status: 1
+          }, callback);
+        }
+      }, ep.done(function (result) {
+        message = message.toObject();
+        message.requirement = result.requirement;
+        message.plan = result.plan;
         res.sendData(message);
       }));
     } else {
