@@ -252,7 +252,7 @@ let user_message_type_designer_respond_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
-<p>设计师【%s】已经已经响应了您的需求</p>\
+<p>设计师【%s】已经响应了您的需求</p>\
 <p>设计师将会与您取得联系，请保持电话畅通。</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
@@ -264,7 +264,7 @@ exports.user_message_type_designer_respond = function (user, designer, plan) {
     planid: plan._id,
     requirementid: plan.requirementid,
     title: '需求提醒',
-    content: '尊敬的业主您好：设计师【' + designer.username + '】已经已经响应了您的需求，设计师将会与您取得联系，请保持电话畅通。',
+    content: '尊敬的业主您好：设计师【' + designer.username + '】已经响应了您的需求，设计师将会与您取得联系，请保持电话畅通。',
     html: util.format(user_message_type_designer_respond_template, designer.username),
     message_type: type.user_message_type_designer_respond,
     status: type.message_status_unread,
