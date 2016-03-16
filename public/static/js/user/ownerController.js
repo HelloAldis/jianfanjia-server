@@ -888,8 +888,8 @@ angular.module('controllers', [])
                         },
                         "status": status
                     },
-                    "from": _index*1,
-                    "limit":1
+                    "from": _index*3,
+                    "limit":3
                 },
                 current = _index,
                 url = {
@@ -989,8 +989,8 @@ angular.module('controllers', [])
                         },
                         "status": status
                     },
-                    "from": _index*1,
-                    "limit":1
+                    "from": _index*3,
+                    "limit":3
                 },
                 current = _index;
             $scope.remindList = {
@@ -1093,8 +1093,8 @@ angular.module('controllers', [])
                         },
                         "status": status
                     },
-                    "from": _index*1,
-                    "limit":1
+                    "from": _index*3,
+                    "limit":3
                 },
                 current = _index;
             $scope.remindList = {
