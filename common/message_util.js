@@ -32,7 +32,7 @@ function saveDesignerCommentAndPush(designer_message, username) {
       }, function (err, count) {
         let payload = gt.buildPayloadFromDesignerMessage(designer_message_indb);
         payload.badge = count;
-        payload.content = username + ' 给你留言：' + payload.content;
+        payload.content = username + ' 给您留言：' + payload.content;
         gt.pushMessageToDesigner(designer_message_indb.designerid, payload);
       });
     }
@@ -63,7 +63,7 @@ function saveUserCommentAndPush(user_message, username) {
       }, function (err, count) {
         let payload = gt.buildPayloadFromUserMessage(user_message_indb);
         payload.badge = count;
-        payload.content = username + ' 给你留言：' + payload.content;
+        payload.content = username + ' 给您留言：' + payload.content;
         gt.pushMessageToUser(user_message_indb.userid, payload);
       });
     }

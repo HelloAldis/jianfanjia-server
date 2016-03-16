@@ -429,7 +429,7 @@ exports.designer_message_detail = function (req, res, next) {
         message = message.toObject();
         message.requirement = result.requirement;
         message.plan = result.plan;
-        message.user = message.user;
+        message.user = result.user;
         res.sendData(message);
       }));
     } else {

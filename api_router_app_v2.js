@@ -143,5 +143,6 @@ router.post('/designer_message_detail', auth.designerRequired, messageWeb.design
 router.post('/delete_designer_message', auth.designerRequired, messageWeb.delete_designer_message); //删除设计师消息
 router.post('/unread_designer_message_count', auth.designerRequired, messageWeb.unread_designer_message_count); //未读消息个数
 router.post('/search_designer_comment', auth.designerRequired, message.search_designer_comment); //获取设计师评论通知
+router.post('/designer_remind_user_house_check', auth.designerRequired, designerWeb.designer_remind_user_house_check); //设计师提醒业主确认量房
 
 module.exports = router;

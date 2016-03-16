@@ -695,6 +695,8 @@ exports.designer_remind_user_house_check = function (req, res, next) {
     },
   }, ep.done(function (result) {
     res.sendSuccessMsg();
-    message_util.user_message_type_designer_remind_ok_house_checked(result.user, result.designer, result.plan);
+    if (result.user && result.designer && result.plan) {
+      message_util.user_message_type_designer_remind_ok_house_checked(result.user, result.designer, result.plan);
+    }
   }));
 }
