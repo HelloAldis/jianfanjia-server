@@ -365,8 +365,7 @@ exports.designer_message_detail = function (req, res, next) {
         message.process = process;
         res.sendData(message);
       }));
-    } else if ([type.designer_message_type_user_order,
-        type.designer_message_type_user_ok_house_checked,
+    } else if ([type.designer_message_type_user_ok_house_checked,
         type.designer_message_type_user_unfinal_plan,
         type.designer_message_type_user_final_plan,
         type.designer_message_type_user_ok_contract
@@ -399,6 +398,38 @@ exports.designer_message_detail = function (req, res, next) {
         message = message.toObject();
         message.process = result.process;
         message.reschedule = result.reschedule;
+        res.sendData(message);
+      }));
+    } else if (type.designer_message_type_user_order === message.message_type) {
+      async.parallel({
+        requirement: function (callback) {
+          Requirement.findOne({
+            _id: message.requirementid,
+          }, {
+            cell: 1,
+            status: 1,
+          }, callback);
+        },
+        plan: function (callback) {
+          Plan.findOne({
+            _id: message.planid,
+          }, {
+            status: 1
+          }, callback);
+        },
+        user: function (callback) {
+          User.findOne({
+            _id: message.userid,
+          }, {
+            username: 1,
+            phone: 1,
+          })
+        },
+      }, ep.done(function (result) {
+        message = message.toObject();
+        message.requirement = result.requirement;
+        message.plan = result.plan;
+        message.user = message.user;
         res.sendData(message);
       }));
     } else {

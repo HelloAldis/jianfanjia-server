@@ -753,11 +753,12 @@ let designer_message_type_user_order_template =
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
 </html>'
-exports.designer_message_type_user_order = function (user, designer, requirement) {
+exports.designer_message_type_user_order = function (user, designer, plan) {
   let designer_message = {
     userid: user._id,
     designerid: designer._id,
-    requirementid: requirement._id,
+    requirementid: plan.requirementid,
+    planid: plan._id,
     title: '预约提醒',
     content: '设计师您好：业主【' + user.username + '】预约您上门量房，请及时响应！',
     html: util.format(designer_message_type_user_order_template, user.username),
@@ -776,11 +777,12 @@ let designer_message_type_user_ok_house_checked_template =
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
 </html>'
-exports.designer_message_type_user_ok_house_checked = function (user, designer, requirement) {
+exports.designer_message_type_user_ok_house_checked = function (user, designer, plan) {
   let designer_message = {
     userid: user._id,
     designerid: designer._id,
-    requirementid: requirement._id,
+    requirementid: plan.requirementid,
+    planid: plan._id,
     title: '量房提醒',
     content: '设计师您好：业主【' + user.username + '】已经确认了量房信息，请您尽快上传方案！',
     html: util.format(designer_message_type_user_ok_house_checked_template, user.username),
