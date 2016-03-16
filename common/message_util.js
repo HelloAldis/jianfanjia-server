@@ -546,7 +546,7 @@ let designer_message_type_basic_auth_done_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>%s设计师您好：</p>\
-<p>您提交的基本信息已经顺利通过！</p>\
+<p>您提交的基本信息已经顺利通过审核！</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
 </html>'
@@ -554,7 +554,7 @@ exports.designer_message_type_basic_auth_done = function (designer) {
   let designer_message = {
     designerid: designer._id,
     title: '系统通知',
-    content: designer.username + '设计师您好：您提交的基本信息已经顺利通过！',
+    content: designer.username + '设计师您好：您提交的基本信息已经顺利审核！',
     html: util.format(designer_message_type_basic_auth_done_template, designer.username),
     message_type: type.designer_message_type_basic_auth_done,
     status: type.message_status_unread,
