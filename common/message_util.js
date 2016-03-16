@@ -569,7 +569,7 @@ let designer_message_type_basic_auth_reject_template =
 <p>设计师您好：</p>\
 <p>您提交的基本信息由于</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
-<p>审核没有通过，请重新提交资料！</p>\
+<p>审核没有通过，请修改后重新提交审核！</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
 </html>'
@@ -577,7 +577,7 @@ exports.designer_message_type_basic_auth_reject = function (designer, auth_messa
   let designer_message = {
     designerid: designer._id,
     title: '系统通知',
-    content: '设计师您好：您提交的基本信息由于【' + auth_message + '】，审核没有通过，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
+    content: '设计师您好：您提交的基本信息由于【' + auth_message + '】，审核没有通过，请修改后重新提交审核！如有疑问可以拨打我们的客服热线：400-8515-167',
     html: util.format(designer_message_type_basic_auth_reject_template, auth_message),
     message_type: type.designer_message_type_basic_auth_reject,
     status: type.message_status_unread,
@@ -613,7 +613,7 @@ let designer_message_type_uid_auth_reject_template =
 <p>设计师您好：</p>\
 <p>您提交的身份证和银行卡信息由于</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
-<p>审核没有通过，请重新提交资料！</p>\
+<p>审核没有通过，请修改后重新提交审核！</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
 </html>'
@@ -621,7 +621,7 @@ exports.designer_message_type_uid_auth_reject = function (designer, auth_message
   let designer_message = {
     designerid: designer._id,
     title: '系统通知',
-    content: '设计师您好：您提交的身份证和银行卡信息由于【' + auth_message + '】，审核没有通过，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
+    content: '设计师您好：您提交的身份证和银行卡信息由于【' + auth_message + '】，审核没有通过，请修改后重新提交审核！如有疑问可以拨打我们的客服热线：400-8515-167',
     html: util.format(designer_message_type_uid_auth_reject_template, auth_message),
     message_type: type.designer_message_type_uid_auth_reject,
     status: type.message_status_unread,
@@ -657,7 +657,7 @@ let designer_message_type_work_auth_reject_template =
 <p>设计师您好：</p>\
 <p>您提交的工地信息由于</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
-<p>审核没有通过，请重新提交资料！</p>\
+<p>审核没有通过，请修改后重新提交审核！</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
 </html>'
@@ -665,7 +665,7 @@ exports.designer_message_type_work_auth_reject = function (designer, auth_messag
   let designer_message = {
     designerid: designer._id,
     title: '系统通知',
-    content: '设计师您好：您提交的工地信息由于【' + auth_message + '】，审核没有通过，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
+    content: '设计师您好：您提交的工地信息由于【' + auth_message + '】，审核没有通过，请修改后重新提交审核！如有疑问可以拨打我们的客服热线：400-8515-167',
     html: util.format(designer_message_type_work_auth_reject_template, auth_message),
     message_type: type.designer_message_type_work_auth_reject,
     status: type.message_status_unread,
@@ -703,7 +703,7 @@ let designer_message_type_product_auth_reject_template =
 <p>设计师您好：</p>\
 <p>您提交的设计案例由于</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
-<p>审核没有通过，请重新提交资料！</p>\
+<p>审核没有通过，请修改后重新提交审核！</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
 </html>'
@@ -712,7 +712,7 @@ exports.designer_message_type_product_auth_reject = function (designer, product,
     designerid: designer._id,
     productid: product._id,
     title: '系统通知',
-    content: '设计师您好：您提交的设计案例由于【' + auth_message + '】，审核没有通过，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
+    content: '设计师您好：您提交的设计案例由于【' + auth_message + '】，审核没有通过，请修改后重新提交审核！如有疑问可以拨打我们的客服热线：400-8515-167',
     html: designer_message_type_product_auth_reject_template,
     message_type: type.designer_message_type_product_auth_reject,
     status: type.message_status_unread,
@@ -727,7 +727,7 @@ let designer_message_type_product_auth_illegal_template =
 <p>设计师您好：</p>\
 <p>您提交的设计案例由于</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
-<p>而下线，请重新提交资料！</p>\
+<p>而下线，请修改后重新提交审核！</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
 </html>'
@@ -736,7 +736,7 @@ exports.designer_message_type_product_auth_illegal = function (designer, product
     designerid: designer._id,
     productid: product._id,
     title: '系统通知',
-    content: '设计师您好：您提交的设计案例由于【' + auth_message + '】而下线，请重新提交资料！如有疑问可以拨打我们的客服热线：400-8515-167',
+    content: '设计师您好：您提交的设计案例由于【' + auth_message + '】而下线，请修改后重新提交审核！如有疑问可以拨打我们的客服热线：400-8515-167',
     html: util.format(designer_message_type_product_auth_illegal_template, auth_message),
     message_type: type.designer_message_type_product_auth_illegal,
     status: type.message_status_unread,
