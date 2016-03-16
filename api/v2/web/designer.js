@@ -666,3 +666,35 @@ exports.designer_statistic_info = function (req, res, next) {
     });
   }));
 }
+
+exports.designer_remind_user_house_check = function (req, res, next) {
+  var planid = req.body.planid;
+  var userid = req.body.userid;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  async.parallel({
+    designer: function (callback) {
+      Designer.findOne({
+        _id: ApiUtil.getUserid(req),
+      }, {
+        username: 1
+      }, callback);
+    },
+    plan: function (callback) {
+      Plan.findOne({
+        _id: planid,
+      }, null, callback);
+    },
+    user: function (callback) {
+      User.findOne({
+        _id: message.userid,
+      }, {
+        username: 1
+      }, callback);
+    },
+  }, ep.done(function (result) {
+    res.sendSuccessMsg();
+    message_util.user_message_type_designer_remind_ok_house_checked(result.user, result.designer, result.plan);
+  }));
+}

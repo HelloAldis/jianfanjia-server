@@ -386,11 +386,12 @@ let user_message_type_designer_remind_ok_house_checked_template =
 <p>也可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
 </html>'
-exports.user_message_type_designer_remind_ok_house_checked = function (user, designer, requirement) {
+exports.user_message_type_designer_remind_ok_house_checked = function (user, designer, plan) {
   let user_message = {
     userid: user._id,
     designerid: designer._id,
-    requirementid: requirement._id,
+    requirementid: plan.requirementid,
+    planid: plan._id,
     title: '需求提醒',
     content: '尊敬的业主您好：您的设计师【' + designer.username + '】已经为您量完房，为了加快整个流程，请您及时确认！如有问题请及时与设计师联系，也可以拨打我们的客服热线：400-8515-167',
     html: util.format(user_message_type_designer_remind_ok_house_checked_template, designer.username),

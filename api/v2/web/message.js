@@ -423,7 +423,7 @@ exports.designer_message_detail = function (req, res, next) {
           }, {
             username: 1,
             phone: 1,
-          })
+          }, callback);
         },
       }, ep.done(function (result) {
         message = message.toObject();
