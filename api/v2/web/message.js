@@ -440,14 +440,17 @@ exports.designer_message_detail = function (req, res, next) {
           }, {
             cell: 1,
             status: 1,
+            dec_type: 1,
+            cell_phase: 1,
+            house_area: 1,
+            work_type: 1,
+            house_type: 1,
           }, callback);
         },
         plan: function (callback) {
           Plan.findOne({
             _id: message.planid,
-          }, {
-            status: 1
-          }, callback);
+          }, null, callback);
         }
       }, ep.done(function (result) {
         message = message.toObject();
