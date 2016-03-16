@@ -1,29 +1,31 @@
-var validator = require('validator');
-var eventproxy = require('eventproxy');
-var User = require('../../../proxy').User;
-var Plan = require('../../../proxy').Plan;
-var Requirement = require('../../../proxy').Requirement;
-var Designer = require('../../../proxy').Designer;
-var Evaluation = require('../../../proxy').Evaluation;
-var Favorite = require('../../../proxy').Favorite;
-var VerifyCode = require('../../../proxy').VerifyCode;
-var tools = require('../../../common/tools');
-var _ = require('lodash');
-var config = require('../../../apiconfig');
-var ApiUtil = require('../../../common/api_util');
-var DateUtil = require('../../../common/date_util');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
-var type = require('../../../type');
-var async = require('async');
-var sms = require('../../../common/sms');
-var moment = require('moment');
-var authMiddleWare = require('../../../middlewares/auth');
-var message_util = require('../../../common/message_util');
+"use strict";
+
+const validator = require('validator');
+const eventproxy = require('eventproxy');
+const User = require('../../../proxy').User;
+const Plan = require('../../../proxy').Plan;
+const Requirement = require('../../../proxy').Requirement;
+const Designer = require('../../../proxy').Designer;
+const Evaluation = require('../../../proxy').Evaluation;
+const Favorite = require('../../../proxy').Favorite;
+const VerifyCode = require('../../../proxy').VerifyCode;
+const tools = require('../../../common/tools');
+const _ = require('lodash');
+const config = require('../../../apiconfig');
+const ApiUtil = require('../../../common/api_util');
+const DateUtil = require('../../../common/date_util');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
+const type = require('../../../type');
+const async = require('async');
+const sms = require('../../../common/sms');
+const moment = require('moment');
+const authMiddleWare = require('../../../middlewares/auth');
+const message_util = require('../../../common/message_util');
 
 exports.user_my_info = function (req, res, next) {
-  var userid = req.params._id || ApiUtil.getUserid(req);
-  var ep = eventproxy();
+  let userid = req.params._id || ApiUtil.getUserid(req);
+  let ep = eventproxy();
   ep.fail(next);
 
   User.findOne({
@@ -37,9 +39,9 @@ exports.user_my_info = function (req, res, next) {
 }
 
 exports.user_update_info = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var user = ApiUtil.buildUser(req);
-  var ep = eventproxy();
+  let userid = ApiUtil.getUserid(req);
+  let user = ApiUtil.buildUser(req);
+  let ep = eventproxy();
   ep.fail(next);
 
   User.setOne({
@@ -53,12 +55,12 @@ exports.user_update_info = function (req, res, next) {
 };
 
 exports.order_designer = function (req, res, next) {
-  var designerids = _.map(req.body.designerids, function (e) {
+  let designerids = _.map(req.body.designerids, function (e) {
     return new ObjectId(e);
   });
-  var requirementid = req.body.requirementid;
-  var userid = ApiUtil.getUserid(req);
-  var ep = eventproxy();
+  let requirementid = req.body.requirementid;
+  let userid = ApiUtil.getUserid(req);
+  let ep = eventproxy();
   ep.fail(next);
 
   async.waterfall([function (callback) {
@@ -80,7 +82,7 @@ exports.order_designer = function (req, res, next) {
       res.sendErrMsg('最多预约3个设计师');
     } else {
       _.forEach(designerids, function (designerid) {
-        var json = {};
+        let json = {};
         json.designerid = designerid;
         json.userid = userid;
         json.requirementid = requirement._id;
@@ -139,11 +141,11 @@ exports.order_designer = function (req, res, next) {
 };
 
 exports.user_change_ordered_designer = function (req, res, next) {
-  var requirementid = req.body.requirementid;
-  var userid = ApiUtil.getUserid(req);
-  var old_designerid = new ObjectId(req.body.old_designerid);
-  var new_designerid = new ObjectId(req.body.new_designerid);
-  var ep = eventproxy();
+  let requirementid = req.body.requirementid;
+  let userid = ApiUtil.getUserid(req);
+  let old_designerid = new ObjectId(req.body.old_designerid);
+  let new_designerid = new ObjectId(req.body.new_designerid);
+  let ep = eventproxy();
   ep.fail(next);
 
   async.waterfall([function (callback) {
@@ -157,7 +159,7 @@ exports.user_change_ordered_designer = function (req, res, next) {
       return res.sendErrMsg('需求不存在');
     }
 
-    var json = {};
+    let json = {};
     json.designerid = new_designerid;
     json.userid = userid;
     json.requirementid = requirement._id;
@@ -175,7 +177,8 @@ exports.user_change_ordered_designer = function (req, res, next) {
         Designer.findOne({
           _id: new_designerid
         }, {
-          phone: 1
+          phone: 1,
+          username: 1,
         }, ep.done(function (designer) {
           if (designer) {
             User.findOne({
@@ -184,8 +187,8 @@ exports.user_change_ordered_designer = function (req, res, next) {
               username: 1,
               phone: 1
             }, ep.done(function (user) {
-              sms.sendUserOrderDesigner(
-                designer.phone, [user.username]);
+              message_util.designer_message_type_user_order(user, designer, requirement);
+              sms.sendUserOrderDesigner(designer.phone, [user.username]);
             }));
           }
         }));
@@ -210,12 +213,12 @@ exports.user_change_ordered_designer = function (req, res, next) {
 }
 
 exports.designer_house_checked = function (req, res, next) {
-  var designerid = req.body.designerid
-  var requirementid = req.body.requirementid;
-  var ep = eventproxy();
+  let designerid = req.body.designerid
+  let requirementid = req.body.requirementid;
+  let ep = eventproxy();
   ep.fail(next);
 
-  var time = new Date().getTime();
+  let time = new Date().getTime();
   Plan.setOne({
     designerid: designerid,
     requirementid: requirementid,
@@ -265,9 +268,9 @@ exports.designer_house_checked = function (req, res, next) {
 }
 
 exports.user_evaluate_designer = function (req, res, next) {
-  var evaluation = ApiUtil.buildEvaluation(req);
+  let evaluation = ApiUtil.buildEvaluation(req);
   evaluation.userid = ApiUtil.getUserid(req);
-  var ep = eventproxy();
+  let ep = eventproxy();
   ep.fail(next);
 
   Evaluation.setOne({
@@ -313,8 +316,8 @@ exports.user_evaluate_designer = function (req, res, next) {
 }
 
 exports.user_statistic_info = function (req, res, next) {
-  var _id = ApiUtil.getUserid(req);
-  var ep = eventproxy();
+  let _id = ApiUtil.getUserid(req);
+  let ep = eventproxy();
   ep.fail(next);
 
   async.parallel({
@@ -341,8 +344,8 @@ exports.user_statistic_info = function (req, res, next) {
       return res.sendErrMsg('没有登录');
     }
 
-    var favorite_product_count = 0;
-    var favorite_designer_count = 0;
+    let favorite_product_count = 0;
+    let favorite_designer_count = 0;
     if (result.favorite) {
       if (result.favorite.favorite_product) {
         favorite_product_count = result.favorite.favorite_product.length;
@@ -364,10 +367,10 @@ exports.user_statistic_info = function (req, res, next) {
 }
 
 exports.user_bind_phone = function (req, res, next) {
-  var phone = req.body.phone;
-  var code = req.body.code;
-  var _id = ApiUtil.getUserid(req);
-  var ep = eventproxy();
+  let phone = req.body.phone;
+  let code = req.body.code;
+  let _id = ApiUtil.getUserid(req);
+  let ep = eventproxy();
   ep.fail(next);
 
   //检查phone是不是被用了
@@ -414,10 +417,10 @@ exports.user_bind_phone = function (req, res, next) {
 }
 
 exports.user_bind_wechat = function (req, res, next) {
-  var wechat_unionid = req.body.wechat_unionid;
-  var wechat_openid = req.body.wechat_openid;
-  var _id = ApiUtil.getUserid(req);
-  var ep = eventproxy();
+  let wechat_unionid = req.body.wechat_unionid;
+  let wechat_openid = req.body.wechat_openid;
+  let _id = ApiUtil.getUserid(req);
+  let ep = eventproxy();
   ep.fail(next);
 
   if ([wechat_unionid, wechat_openid].some(function (item) {
