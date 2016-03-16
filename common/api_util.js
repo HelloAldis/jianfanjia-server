@@ -39,7 +39,7 @@ exports.buildUser = function (req) {
     user.imageid = new ObjectId(req.body.imageid);
   }
 
-  return user;
+  return tools.deleteUndefinedAndNullProperty(user);
 }
 
 exports.buildWechatUser = function (req) {
@@ -50,7 +50,7 @@ exports.buildWechatUser = function (req) {
   user.wechat_openid = req.body.wechat_openid;
   user.wechat_unionid = req.body.wechat_unionid;
 
-  return user;
+  return tools.deleteUndefinedAndNullProperty(user);
 }
 
 exports.buildDesinger = function (req) {
@@ -86,7 +86,7 @@ exports.buildDesinger = function (req) {
     });
   }
 
-  return designer;
+  return tools.deleteUndefinedAndNullProperty(designer);
 }
 
 exports.buildDesignerBusinessInfo = function (req) {
@@ -101,7 +101,7 @@ exports.buildDesignerBusinessInfo = function (req) {
   designer.dec_fee_all = req.body.dec_fee_all;
   designer.communication_type = req.body.communication_type;
 
-  return designer;
+  return tools.deleteUndefinedAndNullProperty(designer);
 }
 
 exports.buildUidBank = function (req) {
@@ -123,7 +123,7 @@ exports.buildUidBank = function (req) {
     designer.bank_card_image1 = new ObjectId(req.body.bank_card_image1);
   }
 
-  return designer;
+  return tools.deleteUndefinedAndNullProperty(designer);
 }
 
 exports.buildTeam = function (req) {
@@ -147,7 +147,7 @@ exports.buildTeam = function (req) {
     team.uid_image2 = new ObjectId(req.body.uid_image2);
   }
 
-  return team;
+  return tools.deleteUndefinedAndNullProperty(team);
 }
 
 exports.buildProduct = function (req) {
@@ -171,7 +171,7 @@ exports.buildProduct = function (req) {
     });
   }
 
-  return product;
+  return tools.deleteUndefinedAndNullProperty(product);
 }
 
 exports.buildPlan = function (req) {
@@ -194,7 +194,7 @@ exports.buildPlan = function (req) {
     });
   }
 
-  return plan;
+  return tools.deleteUndefinedAndNullProperty(plan);
 }
 
 exports.buildRequirement = function (req) {
@@ -220,7 +220,7 @@ exports.buildRequirement = function (req) {
   requirement.communication_type = req.body.communication_type;
   requirement.family_description = req.body.family_description;
 
-  return requirement;
+  return tools.deleteUndefinedAndNullProperty(requirement);
 }
 
 exports.buildShare = function (req) {
@@ -250,7 +250,7 @@ exports.buildShare = function (req) {
   share.cover_imageid = req.body.cover_imageid ? new ObjectId(req.body.cover_imageid) :
     undefined;
 
-  return share;
+  return tools.deleteUndefinedAndNullProperty(share);
 }
 
 exports.buildProcess = function (req) {
@@ -270,7 +270,7 @@ exports.buildProcess = function (req) {
   process.start_at = req.body.start_at;
   process.duration = req.body.duration;
 
-  return process;
+  return tools.deleteUndefinedAndNullProperty(process);
 }
 
 exports.buildReschedule = function (req) {
@@ -281,7 +281,7 @@ exports.buildReschedule = function (req) {
   reschedule.section = req.body.section;
   reschedule.new_date = req.body.new_date;
 
-  return reschedule;
+  return tools.deleteUndefinedAndNullProperty(reschedule);
 }
 
 exports.buildFeedback = function (req) {
@@ -290,7 +290,8 @@ exports.buildFeedback = function (req) {
   feedback.content = req.body.content;
   feedback.platform = req.body.platform;
   feedback.version = req.body.version;
-  return feedback;
+
+  return tools.deleteUndefinedAndNullProperty(feedback);
 }
 
 exports.buildTempUser = function (req) {
@@ -302,7 +303,7 @@ exports.buildTempUser = function (req) {
   tempUser.house_area = req.body.house_area;
   tempUser.total_price = req.body.total_price;
 
-  return tempUser;
+  return tools.deleteUndefinedAndNullProperty(tempUser);
 }
 
 exports.buildComment = function (req) {
@@ -314,7 +315,7 @@ exports.buildComment = function (req) {
   comment.content = req.body.content;
   comment.to = req.body.to ? new ObjectId(req.body.to) : undefined;
 
-  return comment;
+  return tools.deleteUndefinedAndNullProperty(comment);
 }
 
 exports.buildEvaluation = function (req) {
@@ -328,7 +329,7 @@ exports.buildEvaluation = function (req) {
   evaluation.comment = req.body.comment;
   evaluation.is_anonymous = req.body.is_anonymous;
 
-  return evaluation;
+  return tools.deleteUndefinedAndNullProperty(evaluation);
 }
 
 exports.buildArticle = function (req) {
@@ -342,7 +343,7 @@ exports.buildArticle = function (req) {
   article.create_at = req.body.create_at || new Date().getTime();
   article.status = req.body.status;
 
-  return article;
+  return tools.deleteUndefinedAndNullProperty(article);
 }
 
 exports.buildBeautifulImage = function (req) {
@@ -363,5 +364,5 @@ exports.buildBeautifulImage = function (req) {
     });
   }
 
-  return beautifulImage;
+  return tools.deleteUndefinedAndNullProperty(beautifulImage);
 }

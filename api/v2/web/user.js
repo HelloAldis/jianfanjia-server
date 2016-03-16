@@ -44,6 +44,7 @@ exports.user_update_info = function (req, res, next) {
   let ep = eventproxy();
   ep.fail(next);
 
+  console.log(user);
   User.setOne({
     _id: userid
   }, user, {
@@ -116,10 +117,7 @@ exports.order_designer = function (req, res, next) {
                   phone: 1
                 }, ep.done(function (user) {
                   message_util.designer_message_type_user_order(user, designer, requirement);
-
-                  sms.sendUserOrderDesigner(
-                    designer.phone, [user.username]
-                  );
+                  sms.sendUserOrderDesigner(designer.phone, [user.username]);
                 }));
               }
             }));
