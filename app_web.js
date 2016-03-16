@@ -31,7 +31,7 @@ var app = express();
 // configuration in all env
 app.enable('trust proxy');
 
-if (config.debug) {
+if (!config.debug) {
   app.use(require('prerender-node').set('prerenderToken', 'ECav3XjGcRGdN9q0EtF1'));
 }
 
