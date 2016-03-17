@@ -6,8 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
   <meta name="renderer" content="webkit" />
   <title>装修直播详情</title>
-  <meta name="description" content="description">
+  <meta name="description" content="我发现简繁家正在直播<%= share.cell %>小区的装修，感觉还蛮不错，分享给大家！">
   <meta name="keywords" content="keywords">
+  <meta name="format-detection" content="telephone=no,email=no"/>
   <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
   <script type="text/javascript">
     var Dpr = 1, uAgent = window.navigator.userAgent;
@@ -61,6 +62,7 @@
         color: #383d48;
     }
     h1 span{
+        font-size: 0.3rem;
         color: #999;
     }
     header p{
@@ -68,7 +70,7 @@
         line-height: 0.5rem;
         color: #61687a;
     }
-    header p span:first-child{
+    header p span{
         margin-right: 10px;
     }
     .user{
@@ -128,13 +130,16 @@
         height:1rem;
         padding: 0.4rem 0;
     }
-    .user li img{
+    .user li .head{
         position: absolute;
         left:1rem;
         width: 0.76rem;
         height: 0.76rem;
         border-radius: 100%;
         overflow: hidden;
+        background:url(/img/share/user.png) no-repeat;
+        -webkit-background-size: 100%;
+        background-size: 100%;
     }
     .user li h3{
         padding-left: 2rem;
@@ -179,47 +184,29 @@
         text-align: center;
         line-height: 0.64rem;
     }
+    .itme .icon0{
+        background:url(/img/share/0-2.png) no-repeat;
+    }
     .itme .icon1{
       background:url(/img/share/1-2.png) no-repeat;
-    }
-    .itme.active .icon1{
-      background-image: url(/img/share/1-1.png);
     }
     .itme .icon2{
       background:url(/img/share/2-2.png) no-repeat;
     }
-    .itme.active .icon2{
-      background-image: url(/img/share/2-1.png);
-    }
     .itme .icon3{
       background:url(/img/share/3-2.png) no-repeat;
-    }
-    .itme.active .icon3{
-      background-image: url(/img/share/3-1.png);
     }
     .itme .icon4{
       background:url(/img/share/4-2.png) no-repeat;
     }
-    .itme.active .icon4{
-      background-image: url(/img/share/4-1.png);
-    }
     .itme .icon5{
       background:url(/img/share/5-2.png) no-repeat;
-    }
-    .itme.active .icon5{
-      background-image: url(/img/share/5-1.png);
     }
     .itme .icon6{
       background:url(/img/share/6-2.png) no-repeat;
     }
-    .itme.active .icon6{
-      background-image: url(/img/share/6-1.png);
-    }
     .itme .icon7{
       background:url(/img/share/7-2.png) no-repeat;
-    }
-    .itme.active .icon7{
-      background-image: url(/img/share/7-1.png);
     }
     .itme .icon{
       -webkit-background-size: 100%;
@@ -284,23 +271,25 @@
     <header>
         <h1><%= share.cell %><span>（<% if (share.dec_type == 0) { %>家装<% }else if (share.dec_type == 1) { %>商装<% }else if (share.dec_type == 2) { %>软装<% } %>）</span></h1>
         <p>
+            <span>面积：<%= share.house_area %>m&sup2;</span>
+            <span>户型：<% if (share.house_type == 0) { %>一室<% }else if (share.house_type == 1) { %>二室<% }else if (share.house_type == 2) { %>三室<% }else if (share.house_type == 3) { %>四室<% }else if (share.house_type == 4) { %>复式<% }else if (share.house_type == 5) { %>别墅<% }else if (share.house_type == 6) { %>LOFT<% }else if (share.house_type == 7) { %>其他<% } %></span>
+            <span>风格：<% if (share.dec_style == 0) { %>欧式<% }else if (share.dec_style == 1) { %>中式<% }else if (share.dec_style == 2) { %>现代<% }else if (share.dec_style == 3) { %>地中海<% }else if (share.dec_style == 4) { %>美式<% }else if (share.dec_style == 5) { %>东南亚<% }else if (share.dec_style == 6) { %>田园<% } %></span>
+        </p>
+        <p>
             <span>参考造价：<%= share.total_price %>万元</span>
             <span>包工类型：<% if (share.work_type == 0) { %>半包<% }else if (share.work_type == 1) { %>全包<% }else if (share.work_type == 2) { %>纯设计<% } %></span>
         </p>
-        <p>
-            <span>户型：<% if (share.house_type == 0) { %>一室<% }else if (share.house_type == 1) { %>二室<% }else if (share.house_type == 2) { %>三室<% }else if (share.house_type == 3) { %>四室<% }else if (share.house_type == 4) { %>复式<% }else if (share.house_type == 5) { %>别墅<% }else if (share.house_type == 6) { %>LOFT<% }else if (share.house_type == 7) { %>其他<% } %></span>
-            <span>面积：<%= share.house_area %>m&sup2;</span>
-        </p>
+
     </header>
     <div class="user">
         <ul>
             <li>
-                <img src="/api/v2/web/thumbnail2/64/64/<%= share.designer.imageid %>" alt="" />
+                <img class="head" src="/api/v2/web/thumbnail2/64/64/<%= share.designer.imageid %>" alt="" />
                 <h3><%= share.designer.username %></h3>
                 <p>设计师</p>
             </li>
             <li>
-                <img src="/api/v2/web/thumbnail2/64/64/<%= share.designer.imageid %>" alt="" />
+                <span class="head"></span>
                 <h3><%= share.manager %></h3>
                 <p>项目经理</p>
             </li>

@@ -1952,6 +1952,8 @@ body{
 	line-height: 25px;
 	color: #61687a;
 	border-bottom: 1px solid #dedddd;
+	word-wrap:break-word;
+	word-break:break-all;
 }
 .m-commentList .panel-body a{
 	display: block;

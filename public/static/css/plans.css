@@ -327,6 +327,8 @@ body{
 .m-plansMsg .list p{
 	line-height: 20px;
 	color: #5f636f;
+	word-wrap:break-word;
+	word-break:break-all;
 }
 .m-plansMsg .list .iconfont2{
 	margin-left: 10px;

@@ -469,7 +469,6 @@ angular.module('controllers', [])
                         console.log(res)
                     });
                 }else{
-                    console
                     _.remove($scope.plan.price_detail, function(n) {
                        return n.price == undefined;
                     });
@@ -1400,7 +1399,7 @@ angular.module('controllers', [])
             };
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userMessage.count({
-                    "query_array":[["2","3","4","5","6","7","8","10","11","12","13"], ["14", "15","16","17","18"],["3"]]
+                    "query_array":[["2","4","5","6","7","8","10","11","12","13"], ["14", "15","16","17","18"],["3"]]
                 }).then(function(res){
                     $scope.count.notice = res.data.data[0];
                     $scope.count.remind = res.data.data[1];
