@@ -555,7 +555,7 @@ exports.designer_message_type_basic_auth_done = function (designer) {
   let designer_message = {
     designerid: designer._id,
     title: '系统通知',
-    content: '设计师您好：您提交的基本信息已经顺利审核！',
+    content: '设计师您好：您提交的基本信息已经顺利通过审核！',
     html: designer_message_type_basic_auth_done_template,
     message_type: type.designer_message_type_basic_auth_done,
     status: type.message_status_unread,
@@ -591,7 +591,7 @@ let designer_message_type_uid_auth_done_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>设计师您好：</p>\
-<p>您提交的身份证和银行卡信息已经审核通过！</p>\
+<p>您提交的身份证和银行卡信息已经顺利通过审核！</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
 </html>'
@@ -599,7 +599,7 @@ exports.designer_message_type_uid_auth_done = function (designer) {
   let designer_message = {
     designerid: designer._id,
     title: '系统通知',
-    content: '设计师您好：您提交的身份证和银行卡信息已经审核通过！',
+    content: '设计师您好：您提交的身份证和银行卡信息已经顺利通过审核！',
     html: designer_message_type_uid_auth_done_template,
     message_type: type.designer_message_type_uid_auth_done,
     status: type.message_status_unread,
@@ -635,7 +635,7 @@ let designer_message_type_work_auth_done_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>设计师您好：</p>\
-<p>您提交的工地信息已经审核通过！</p>\
+<p>您提交的工地信息已经顺利通过审核！</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
 </html>'
@@ -643,7 +643,7 @@ exports.designer_message_type_work_auth_done = function (designer) {
   let designer_message = {
     designerid: designer._id,
     title: '系统通知',
-    content: '设计师您好：您提交的工地信息已经审核通过！',
+    content: '设计师您好：您提交的工地信息已经顺利通过审核！',
     html: designer_message_type_work_auth_done_template,
     message_type: type.designer_message_type_work_auth_done,
     status: type.message_status_unread,
@@ -679,7 +679,7 @@ let designer_message_type_product_auth_done_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>设计师您好：</p>\
-<p>你提交的设计案例已经审核通过！</p>\
+<p>你提交的设计案例已经顺利通过审核！</p>\
 <p>为了提高匹配率、增加接单的几率，请您上传更多有效作品！</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
@@ -689,7 +689,7 @@ exports.designer_message_type_product_auth_done = function (designer, product) {
     designerid: designer._id,
     productid: product._id,
     title: '系统通知',
-    content: '设计师您好：你提交的设计案例已经审核通过！为了提高匹配率、增加接单的几率，请您上传更多有效作品！',
+    content: '设计师您好：你提交的设计案例已经顺利通过审核！为了提高匹配率、增加接单的几率，请您上传更多有效作品！',
     html: designer_message_type_product_auth_done_template,
     message_type: type.designer_message_type_product_auth_done,
     status: type.message_status_unread,
