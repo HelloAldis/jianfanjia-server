@@ -252,7 +252,9 @@ let user_message_type_designer_respond_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
-<p>设计师【%s】已经响应了您的需求</p>\
+<p>设计师【%s，手机：<a href="tel:%s">%s</a>】已经响应了您的需求，</p>\
+<p>设计师确定的量房时间是</p>\
+<p style="color:#fe7003; font-size:16">%s</p>\
 <p>设计师将会与您取得联系，请保持电话畅通。</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
@@ -265,7 +267,8 @@ exports.user_message_type_designer_respond = function (user, designer, plan) {
     requirementid: plan.requirementid,
     title: '需求提醒',
     content: '尊敬的业主您好：设计师【' + designer.username + '】已经响应了您的需求，设计师将会与您取得联系，请保持电话畅通。',
-    html: util.format(user_message_type_designer_respond_template, designer.username),
+    html: util.format(user_message_type_designer_respond_template, designer.username, designer.phone, designer.phone, date_util.YYYY_MM_DD_HH_mm(
+      plan.house_check_time)),
     message_type: type.user_message_type_designer_respond,
     status: type.message_status_unread,
   };
@@ -714,7 +717,7 @@ exports.designer_message_type_product_auth_reject = function (designer, product,
     productid: product._id,
     title: '系统通知',
     content: '设计师您好：您提交的设计案例由于【' + auth_message + '】，审核没有通过，请修改后重新提交审核！如有疑问可以拨打我们的客服热线：400-8515-167',
-    html: designer_message_type_product_auth_reject_template,
+    html: util.format(designer_message_type_product_auth_reject_template, auth_message),
     message_type: type.designer_message_type_product_auth_reject,
     status: type.message_status_unread,
   }

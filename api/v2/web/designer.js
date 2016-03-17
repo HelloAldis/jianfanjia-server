@@ -259,7 +259,9 @@ exports.okUser = function (req, res, next) {
       house_check_time: house_check_time,
       status: type.plan_status_designer_respond_no_housecheck,
       last_status_update_time: new Date().getTime(),
-    }, null, ep.done(function (plan) {
+    }, {
+      new: true,
+    }, ep.done(function (plan) {
       if (plan) {
         Requirement.setOne({
           _id: plan.requirementid,
@@ -283,8 +285,7 @@ exports.okUser = function (req, res, next) {
             if (user) {
               message_util.user_message_type_designer_respond(user, designer, plan);
               sms.sendDesignerRespondUser(user.phone, [designer.username,
-                designer.phone, DateUtil.YYYY_MM_DD_HH_mm(
-                  house_check_time)
+                designer.phone, DateUtil.YYYY_MM_DD_HH_mm(house_check_time)
               ]);
             }
           });
@@ -687,7 +688,7 @@ exports.designer_remind_user_house_check = function (req, res, next) {
     },
     user: function (callback) {
       User.findOne({
-        _id: message.userid,
+        _id: userid,
       }, {
         username: 1
       }, callback);
