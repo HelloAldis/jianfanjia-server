@@ -455,6 +455,9 @@ exports.designers_user_can_order = function (req, res, next) {
             auth_type: type.designer_auth_type_done,
             agreee_license: type.designer_agree_type_yes,
             online_status: type.online_status_on,
+            authed_product_count: {
+              $gte: 3
+            },
           }, {
             username: 1,
             imageid: 1,
@@ -494,6 +497,9 @@ exports.designers_user_can_order = function (req, res, next) {
             auth_type: type.designer_auth_type_done,
             agreee_license: type.designer_agree_type_yes,
             online_status: type.online_status_on,
+            authed_product_count: {
+              $gte: 3
+            },
           }, {
             username: 1,
             imageid: 1,
