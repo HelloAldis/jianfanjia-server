@@ -259,7 +259,9 @@ exports.okUser = function (req, res, next) {
       house_check_time: house_check_time,
       status: type.plan_status_designer_respond_no_housecheck,
       last_status_update_time: new Date().getTime(),
-    }, null, ep.done(function (plan) {
+    }, {
+      new: true,
+    }, ep.done(function (plan) {
       if (plan) {
         Requirement.setOne({
           _id: plan.requirementid,
@@ -282,10 +284,8 @@ exports.okUser = function (req, res, next) {
           }, function (err, user) {
             if (user) {
               message_util.user_message_type_designer_respond(user, designer, plan);
-              sms.sendDesignerRespondUser(user.phone, [designer
-                .username,
-                designer.phone, DateUtil.YYYY_MM_DD_HH_mm(
-                  house_check_time)
+              sms.sendDesignerRespondUser(user.phone, [designer.username,
+                designer.phone, DateUtil.YYYY_MM_DD_HH_mm(house_check_time)
               ]);
             }
           });
@@ -455,6 +455,9 @@ exports.designers_user_can_order = function (req, res, next) {
             auth_type: type.designer_auth_type_done,
             agreee_license: type.designer_agree_type_yes,
             online_status: type.online_status_on,
+            authed_product_count: {
+              $gte: 3
+            },
           }, {
             username: 1,
             imageid: 1,
@@ -494,6 +497,9 @@ exports.designers_user_can_order = function (req, res, next) {
             auth_type: type.designer_auth_type_done,
             agreee_license: type.designer_agree_type_yes,
             online_status: type.online_status_on,
+            authed_product_count: {
+              $gte: 3
+            },
           }, {
             username: 1,
             imageid: 1,
@@ -688,13 +694,15 @@ exports.designer_remind_user_house_check = function (req, res, next) {
     },
     user: function (callback) {
       User.findOne({
-        _id: message.userid,
+        _id: userid,
       }, {
         username: 1
       }, callback);
     },
   }, ep.done(function (result) {
     res.sendSuccessMsg();
-    message_util.user_message_type_designer_remind_ok_house_checked(result.user, result.designer, result.plan);
+    if (result.user && result.designer && result.plan) {
+      message_util.user_message_type_designer_remind_ok_house_checked(result.user, result.designer, result.plan);
+    }
   }));
 }

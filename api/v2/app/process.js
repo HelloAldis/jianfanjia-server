@@ -638,7 +638,7 @@ exports.doneItem = function (req, res, next) {
                 Process.updateStatus(_id, next, null, type.process_item_status_going,
                   ep.done(function () {
                     res.sendSuccessMsg();
-                    if (process.work_type === type.work_type_half) {
+                    if (process.work_type === type.work_type_half && next === type.process_section_shui_dian) {
                       message_util.user_message_type_procurement(process, next);
                     }
                   }));
@@ -666,6 +666,15 @@ exports.doneSection = function (req, res, next) {
       if (process) {
         if ([type.process_section_shui_dian, type.process_section_ni_mu, type.process_section_jun_gong].indexOf(section) > -1) {
           message_util.user_message_type_pay(process, section);
+
+          User.findOne({
+            _id: process.userid,
+          }, {
+            username: 1,
+            phone: 1,
+          }, ep.done(function (user) {
+            message_util.designer_message_type_user_ok_process_section(user, process, section);
+          }));
         }
       }
 
@@ -688,7 +697,9 @@ exports.doneSection = function (req, res, next) {
           Process.updateStatus(_id, next, null, type.process_item_status_going,
             ep.done(function () {
               res.sendSuccessMsg();
-              if (process.work_type === type.work_type_half) {
+              if (process.work_type === type.work_type_half && [type.process_section_shui_dian, type.process_section_ni_mu,
+                  type.process_section_you_qi, type.process_section_an_zhuang
+                ].indexOf(next) > -1) {
                 message_util.user_message_type_procurement(process, next);
               }
             }));

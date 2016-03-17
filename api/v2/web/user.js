@@ -169,32 +169,37 @@ exports.user_change_ordered_designer = function (req, res, next) {
 
     Plan.findOne(json, null, ep.done(function (plan) {
       if (!plan) {
-        Plan.newAndSave(json, ep.done(function (plan_indb) {}));
+        Plan.newAndSave(json, ep.done(function (plan_indb) {
+          async.parallel({
+            designer: function (callback) {
+              Designer.findOne({
+                _id: new_designerid
+              }, {
+                phone: 1,
+                username: 1
+              }, callback);
+            },
+            user: function (callback) {
+              User.findOne({
+                _id: userid
+              }, {
+                username: 1,
+                phone: 1,
+              }, callback);
+            }
+          }, ep.done(function (result) {
+            if (result.user && result.designer) {
+              message_util.designer_message_type_user_order(result.user, result.designer, plan_indb);
+              sms.sendUserOrderDesigner(result.designer.phone, [result.user.username]);
+            }
+          }));
+        }));
 
         Designer.incOne({
           _id: new_designerid
         }, {
           order_count: 1
         }, {});
-
-        Designer.findOne({
-          _id: new_designerid
-        }, {
-          phone: 1,
-          username: 1,
-        }, ep.done(function (designer) {
-          if (designer) {
-            User.findOne({
-              _id: userid
-            }, {
-              username: 1,
-              phone: 1
-            }, ep.done(function (user) {
-              message_util.designer_message_type_user_order(user, designer, requirement);
-              sms.sendUserOrderDesigner(designer.phone, [user.username]);
-            }));
-          }
-        }));
       }
     }));
 

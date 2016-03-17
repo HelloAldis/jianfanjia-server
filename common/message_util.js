@@ -32,7 +32,7 @@ function saveDesignerCommentAndPush(designer_message, username) {
       }, function (err, count) {
         let payload = gt.buildPayloadFromDesignerMessage(designer_message_indb);
         payload.badge = count;
-        payload.content = username + ' 给你留言：' + payload.content;
+        payload.content = username + ' 给您留言：' + payload.content;
         gt.pushMessageToDesigner(designer_message_indb.designerid, payload);
       });
     }
@@ -63,7 +63,7 @@ function saveUserCommentAndPush(user_message, username) {
       }, function (err, count) {
         let payload = gt.buildPayloadFromUserMessage(user_message_indb);
         payload.badge = count;
-        payload.content = username + ' 给你留言：' + payload.content;
+        payload.content = username + ' 给您留言：' + payload.content;
         gt.pushMessageToUser(user_message_indb.userid, payload);
       });
     }
@@ -132,7 +132,7 @@ let user_message_type_designer_reject_reschedule_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
-<p>您的设计师【%s】不同意你修改工期。</p>\
+<p>您的设计师【%s】不同意您修改工期。</p>\
 <p>如有问题请及时与设计师联系。</p>\
 <p>也可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
@@ -145,7 +145,7 @@ exports.user_message_type_designer_reject_reschedule = function (user, designer,
     rescheduleid: reschedule._id,
     section: reschedule.section,
     title: '改期提醒',
-    content: '尊敬的业主您好：您的设计师【' + designer.username + '】不同意你修改工期。如有问题可以拨打我们的客服热线：400-8515-167',
+    content: '尊敬的业主您好：您的设计师【' + designer.username + '】不同意您修改工期。如有问题可以拨打我们的客服热线：400-8515-167',
     html: util.format(user_message_type_designer_reject_reschedule_template, designer.username),
     message_type: type.user_message_type_designer_reject_reschedule,
     status: type.message_status_unread,
@@ -252,7 +252,9 @@ let user_message_type_designer_respond_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>尊敬的业主您好：</p>\
-<p>设计师【%s】已经响应了您的需求</p>\
+<p>设计师【%s，手机：<a href="tel:%s">%s</a>】已经响应了您的需求，</p>\
+<p>设计师确定的量房时间是</p>\
+<p style="color:#fe7003; font-size:16">%s</p>\
 <p>设计师将会与您取得联系，请保持电话畅通。</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
@@ -265,7 +267,8 @@ exports.user_message_type_designer_respond = function (user, designer, plan) {
     requirementid: plan.requirementid,
     title: '需求提醒',
     content: '尊敬的业主您好：设计师【' + designer.username + '】已经响应了您的需求，设计师将会与您取得联系，请保持电话畅通。',
-    html: util.format(user_message_type_designer_respond_template, designer.username),
+    html: util.format(user_message_type_designer_respond_template, designer.username, designer.phone, designer.phone, date_util.YYYY_MM_DD_HH_mm(
+      plan.house_check_time)),
     message_type: type.user_message_type_designer_respond,
     status: type.message_status_unread,
   };
@@ -465,7 +468,7 @@ let designer_message_type_user_reject_reschedule_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>设计师您好：</p>\
-<p>业主【%s】不同意你修改本阶段工期至</p>\
+<p>业主【%s】不同意您修改本阶段工期至</p>\
 <p style="color:#fe7003; font-size:16">%s</p>\
 <p>如有问题请及时与业主或项目经理联系</p>\
 <p>也可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
@@ -481,11 +484,38 @@ exports.designer_message_type_user_reject_reschedule = function (user, designer,
     rescheduleid: reschedule._id,
     section: reschedule.section,
     title: '改期提醒',
-    content: '设计师您好：业主【' + user.username + '】不同意你修改本阶段工期至' + new_date,
+    content: '设计师您好：业主【' + user.username + '】不同意您修改本阶段工期至' + new_date,
     html: util.format(designer_message_type_user_reject_reschedule_template, user.username, new_date),
     message_type: type.designer_message_type_user_reject_reschedule,
     status: type.message_status_unread,
   };
+
+  saveDesignerMessageAndPush(designer_message);
+}
+
+let designer_message_type_user_ok_process_section_template =
+  '<html>\
+<body style="padding-left:10; color:#7c8389; font-size:15">\
+<p>设计师您好：</p>\
+<p>业主【%s】已经对比验收完阶段</p>\
+<p style="color:#fe7003; font-size:16">%s</p>\
+<p>如有问题请及时与业主或项目经理联系</p>\
+<p>也可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
+</body>\
+</html>'
+exports.designer_message_type_user_ok_process_section = function (user, process, section) {
+  let designer_message = {
+    userid: user._id,
+    designerid: process.final_designerid,
+    requirementid: process.requirementid,
+    planid: process.final_planid,
+    processid: reschedule.processid,
+    section: section,
+    title: '验收提醒',
+    content: '设计师您好：业主【' + user.username + '】已经验收完阶段【' + section + '】，如有问题请及时与业主或项目经理联系，也可以拨打我们的客服热线400-8515-167',
+    message_type: type.designer_message_type_user_ok_process_section,
+    status: type.message_status_unread,
+  }
 
   saveDesignerMessageAndPush(designer_message);
 }
@@ -555,7 +585,7 @@ exports.designer_message_type_basic_auth_done = function (designer) {
   let designer_message = {
     designerid: designer._id,
     title: '系统通知',
-    content: '设计师您好：您提交的基本信息已经顺利审核！',
+    content: '设计师您好：您提交的基本信息已经顺利通过审核！',
     html: designer_message_type_basic_auth_done_template,
     message_type: type.designer_message_type_basic_auth_done,
     status: type.message_status_unread,
@@ -591,7 +621,7 @@ let designer_message_type_uid_auth_done_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>设计师您好：</p>\
-<p>您提交的身份证和银行卡信息已经审核通过！</p>\
+<p>您提交的身份证和银行卡信息已经顺利通过审核！</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
 </html>'
@@ -599,7 +629,7 @@ exports.designer_message_type_uid_auth_done = function (designer) {
   let designer_message = {
     designerid: designer._id,
     title: '系统通知',
-    content: '设计师您好：您提交的身份证和银行卡信息已经审核通过！',
+    content: '设计师您好：您提交的身份证和银行卡信息已经顺利通过审核！',
     html: designer_message_type_uid_auth_done_template,
     message_type: type.designer_message_type_uid_auth_done,
     status: type.message_status_unread,
@@ -635,7 +665,7 @@ let designer_message_type_work_auth_done_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>设计师您好：</p>\
-<p>您提交的工地信息已经审核通过！</p>\
+<p>您提交的工地信息已经顺利通过审核！</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
 </html>'
@@ -643,7 +673,7 @@ exports.designer_message_type_work_auth_done = function (designer) {
   let designer_message = {
     designerid: designer._id,
     title: '系统通知',
-    content: '设计师您好：您提交的工地信息已经审核通过！',
+    content: '设计师您好：您提交的工地信息已经顺利通过审核！',
     html: designer_message_type_work_auth_done_template,
     message_type: type.designer_message_type_work_auth_done,
     status: type.message_status_unread,
@@ -679,7 +709,7 @@ let designer_message_type_product_auth_done_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>设计师您好：</p>\
-<p>你提交的设计案例已经审核通过！</p>\
+<p>您提交的设计案例已经顺利通过审核！</p>\
 <p>为了提高匹配率、增加接单的几率，请您上传更多有效作品！</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
@@ -689,7 +719,7 @@ exports.designer_message_type_product_auth_done = function (designer, product) {
     designerid: designer._id,
     productid: product._id,
     title: '系统通知',
-    content: '设计师您好：你提交的设计案例已经审核通过！为了提高匹配率、增加接单的几率，请您上传更多有效作品！',
+    content: '设计师您好：您提交的设计案例已经顺利通过审核！为了提高匹配率、增加接单的几率，请您上传更多有效作品！',
     html: designer_message_type_product_auth_done_template,
     message_type: type.designer_message_type_product_auth_done,
     status: type.message_status_unread,
@@ -714,7 +744,7 @@ exports.designer_message_type_product_auth_reject = function (designer, product,
     productid: product._id,
     title: '系统通知',
     content: '设计师您好：您提交的设计案例由于【' + auth_message + '】，审核没有通过，请修改后重新提交审核！如有疑问可以拨打我们的客服热线：400-8515-167',
-    html: designer_message_type_product_auth_reject_template,
+    html: util.format(designer_message_type_product_auth_reject_template, auth_message),
     message_type: type.designer_message_type_product_auth_reject,
     status: type.message_status_unread,
   }

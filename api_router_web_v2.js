@@ -136,10 +136,8 @@ router.post('/designer/team/update', auth.designerRequired, team.update); //更�
 router.post('/designer/team/delete', auth.designerRequired, team.delete); //删除施工队伍
 router.post('/designer/auth', auth.designerRequired, designer.auth); //提交认证申请
 router.post('/designer/update_online_status', auth.designerRequired, designer.update_online_status); //更改在线状态
-router.post('/designer_my_requirement_list', auth.designerRequired, requirement
-  .designer_my_requirement_list); //设计获取和自己相关的需求列表
-router.post('/designer_my_requirement_history_list', auth.designerRequired,
-  requirement.designer_my_requirement_history_list); //设计获取和自己相关的放弃的历史需求列表
+router.post('/designer_my_requirement_list', auth.designerRequired, requirement.designer_my_requirement_list); //设计获取和自己相关的需求列表
+router.post('/designer_my_requirement_history_list', auth.designerRequired, requirement.designer_my_requirement_history_list); //设计获取和自己相关的放弃的历史需求列表
 router.post('/designer_one_requirement', auth.designerRequired, requirement.designer_one_requirement); //设计获取某个需求
 router.post('/designer/user/ok', auth.designerRequired, designer.okUser); //响应业主
 router.post('/designer/user/reject', auth.designerRequired, designer.rejectUser); //拒绝业主
@@ -154,6 +152,8 @@ router.post('/delete_designer_message', auth.designerRequired, message.delete_de
 router.post('/unread_designer_message_count', auth.designerRequired, message.unread_designer_message_count); //未读消息个数
 router.post('/search_designer_comment', auth.designerRequired, message.search_designer_comment); //获取设计师的评论通知
 router.post('/read_designer_message', auth.designerRequired, message.read_designer_message); //设计师标记通知已读
+router.post('/designer_remind_user_house_check', auth.designerRequired, limit.peruserperday('designer_remind_user_house_check', config.designer_remind_user_house_check_time_one_day),
+  designer.designer_remind_user_house_check); //设计师提醒业主确认量房
 
 //管理员独有的功能
 router.post('/admin/login', admin.login); //审核设计师

@@ -63,7 +63,8 @@ exports.search_user_message = function (req, res, next) {
       } else if ([type.user_message_type_designer_respond,
           type.user_message_type_designer_reject,
           type.user_message_type_designer_upload_plan,
-          type.user_message_type_designer_config_contract
+          type.user_message_type_designer_config_contract,
+          type.user_message_type_designer_remind_ok_house_checked
         ].indexOf(message.message_type) > -1) {
         Requirement.findOne({
           _id: message.requirementid
@@ -209,7 +210,9 @@ exports.user_message_detail = function (req, res, next) {
         message.reschedule = result.reschedule;
         res.sendData(message);
       }));
-    } else if (type.user_message_type_designer_upload_plan === message.message_type) {
+    } else if ([type.user_message_type_designer_upload_plan,
+        type.user_message_type_designer_remind_ok_house_checked
+      ].indexOf(message.message_type) > -1) {
       async.parallel({
         requirement: function (callback) {
           Requirement.findOne({
@@ -307,7 +310,8 @@ exports.search_designer_message = function (req, res, next) {
     async.mapLimit(messages, 3, function (message, callback) {
       if ([type.designer_message_type_user_reschedule,
           type.designer_message_type_user_reject_reschedule,
-          type.designer_message_type_user_ok_reschedule
+          type.designer_message_type_user_ok_reschedule,
+          type.designer_message_type_user_ok_process_section
         ].indexOf(message.message_type) > -1) {
         Process.findOne({
           _id: message.processid,
@@ -355,6 +359,7 @@ exports.designer_message_detail = function (req, res, next) {
   }, null, ep.done(function (message) {
     if ([type.designer_message_type_user_reject_reschedule,
         type.designer_message_type_user_ok_reschedule,
+        type.designer_message_type_user_ok_process_section,
       ].indexOf(message.message_type) > -1) {
       Process.findOne({
         _id: message.processid,
@@ -366,8 +371,6 @@ exports.designer_message_detail = function (req, res, next) {
         res.sendData(message);
       }));
     } else if ([type.designer_message_type_user_ok_house_checked,
-        type.designer_message_type_user_unfinal_plan,
-        type.designer_message_type_user_final_plan,
         type.designer_message_type_user_ok_contract
       ].indexOf(message.message_type) > -1) {
       Requirement.findOne({
@@ -429,7 +432,35 @@ exports.designer_message_detail = function (req, res, next) {
         message = message.toObject();
         message.requirement = result.requirement;
         message.plan = result.plan;
-        message.user = message.user;
+        message.user = result.user;
+        res.sendData(message);
+      }));
+    } else if ([type.designer_message_type_user_unfinal_plan,
+        type.designer_message_type_user_final_plan,
+      ].indexOf(message.message_type) > -1) {
+      async.parallel({
+        requirement: function (callback) {
+          Requirement.findOne({
+            _id: message.requirementid,
+          }, {
+            cell: 1,
+            status: 1,
+            dec_type: 1,
+            cell_phase: 1,
+            house_area: 1,
+            work_type: 1,
+            house_type: 1,
+          }, callback);
+        },
+        plan: function (callback) {
+          Plan.findOne({
+            _id: message.planid,
+          }, null, callback);
+        }
+      }, ep.done(function (result) {
+        message = message.toObject();
+        message.requirement = result.requirement;
+        message.plan = result.plan;
         res.sendData(message);
       }));
     } else {
