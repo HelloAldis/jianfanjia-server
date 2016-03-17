@@ -63,7 +63,8 @@ exports.search_user_message = function (req, res, next) {
       } else if ([type.user_message_type_designer_respond,
           type.user_message_type_designer_reject,
           type.user_message_type_designer_upload_plan,
-          type.user_message_type_designer_config_contract
+          type.user_message_type_designer_config_contract,
+          type.user_message_type_designer_remind_ok_house_checked
         ].indexOf(message.message_type) > -1) {
         Requirement.findOne({
           _id: message.requirementid
@@ -209,7 +210,9 @@ exports.user_message_detail = function (req, res, next) {
         message.reschedule = result.reschedule;
         res.sendData(message);
       }));
-    } else if (type.user_message_type_designer_upload_plan === message.message_type) {
+    } else if ([type.user_message_type_designer_upload_plan,
+        type.user_message_type_designer_remind_ok_house_checked
+      ].indexOf(message.message_type) > -1) {
       async.parallel({
         requirement: function (callback) {
           Requirement.findOne({
