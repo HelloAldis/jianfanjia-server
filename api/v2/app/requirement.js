@@ -147,7 +147,7 @@ exports.designer_get_user_requirements = function (req, res, next) {
         evaluation: function (callback) {
           Evaluation.findOne({
             userid: requirement.userid,
-            designerid: requirement.designerid,
+            designerid: designerid,
             requirementid: requirement._id,
           }, null, function (err, evaluation) {
             if (evaluation) {

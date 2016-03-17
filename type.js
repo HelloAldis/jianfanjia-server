@@ -194,6 +194,7 @@ var type = {
   designer_message_type_user_ok_contract: '18',
   designer_message_type_user_reject_reschedule: '19',
   designer_message_type_user_ok_reschedule: '20',
+  designer_message_type_user_ok_process_section: '21',
 
   message_status_unread: '0',
   message_status_readed: '1',

@@ -307,7 +307,8 @@ exports.search_designer_message = function (req, res, next) {
     async.mapLimit(messages, 3, function (message, callback) {
       if ([type.designer_message_type_user_reschedule,
           type.designer_message_type_user_reject_reschedule,
-          type.designer_message_type_user_ok_reschedule
+          type.designer_message_type_user_ok_reschedule,
+          type.designer_message_type_user_ok_process_section
         ].indexOf(message.message_type) > -1) {
         Process.findOne({
           _id: message.processid,
@@ -355,6 +356,7 @@ exports.designer_message_detail = function (req, res, next) {
   }, null, ep.done(function (message) {
     if ([type.designer_message_type_user_reject_reschedule,
         type.designer_message_type_user_ok_reschedule,
+        type.designer_message_type_user_ok_process_section,
       ].indexOf(message.message_type) > -1) {
       Process.findOne({
         _id: message.processid,
