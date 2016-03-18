@@ -504,15 +504,18 @@ let designer_message_type_user_ok_process_section_template =
 </body>\
 </html>'
 exports.designer_message_type_user_ok_process_section = function (user, process, section) {
+  let index = _.indexOf(type.process_work_flow, section);
+  let name = type.process_work_flow_name[index];
+
   let designer_message = {
     userid: user._id,
     designerid: process.final_designerid,
     requirementid: process.requirementid,
     planid: process.final_planid,
-    processid: reschedule.processid,
+    processid: process._id,
     section: section,
     title: '验收提醒',
-    content: '设计师您好：业主【' + user.username + '】已经验收完阶段【' + section + '】，如有问题请及时与业主或项目经理联系，也可以拨打我们的客服热线400-8515-167',
+    content: '设计师您好：业主【' + user.username + '】已经验收完【' + name + '】阶段，如有问题请及时与业主或项目经理联系，也可以拨打我们的客服热线400-8515-167',
     message_type: type.designer_message_type_user_ok_process_section,
     status: type.message_status_unread,
   }
