@@ -408,10 +408,7 @@ exports.designer_message_detail = function (req, res, next) {
         requirement: function (callback) {
           Requirement.findOne({
             _id: message.requirementid,
-          }, {
-            cell: 1,
-            status: 1,
-          }, callback);
+          }, null, callback);
         },
         plan: function (callback) {
           Plan.findOne({
