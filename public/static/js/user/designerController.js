@@ -1180,8 +1180,9 @@ angular.module('controllers', [])
                     if(status == 0){
                         userMessage.read({
                             "messageid":id
+                        }).then(function(){
+                            uploadParent();
                         });
-                        uploadParent()
                     }
                 },
                 goto : function(data){
@@ -1282,8 +1283,9 @@ angular.module('controllers', [])
                     if(status == 0){
                         userMessage.read({
                             "messageid":id
+                        }).then(function(){
+                            uploadParent();
                         });
-                        uploadParent()
                     }
                 }
             };
@@ -1392,8 +1394,9 @@ angular.module('controllers', [])
                     if(status == 0){
                         userMessage.read({
                             "messageid":id
+                        }).then(function(){
+                            uploadParent();
                         });
-                        uploadParent()
                     }
                 }
             };
