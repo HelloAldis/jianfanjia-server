@@ -1,33 +1,34 @@
-var validator = require('validator');
-var eventproxy = require('eventproxy');
-var Designer = require('../../../proxy').Designer;
-var Product = require('../../../proxy').Product;
-var Plan = require('../../../proxy').Plan;
-var User = require('../../../proxy').User;
-var Requirement = require('../../../proxy').Requirement;
-var Favorite = require('../../../proxy').Favorite;
-var Evaluation = require('../../../proxy').Evaluation;
-var tools = require('../../../common/tools');
-var _ = require('lodash');
-var config = require('../../../apiconfig');
-var async = require('async');
-var ApiUtil = require('../../../common/api_util');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
-var type = require('../../../type');
-var limit = require('../../../middlewares/limit')
-var designer_match_util = require('../../../common/designer_match');
-var DateUtil = require('../../../common/date_util');
-var sms = require('../../../common/sms');
-var authMiddleWare = require('../../../middlewares/auth');
-var message_util = require('../../../common/message_util');
+"use strict"
 
-var noPassAndToken = {
+const validator = require('validator');
+const eventproxy = require('eventproxy');
+const Designer = require('../../../proxy').Designer;
+const Product = require('../../../proxy').Product;
+const Plan = require('../../../proxy').Plan;
+const User = require('../../../proxy').User;
+const Requirement = require('../../../proxy').Requirement;
+const Favorite = require('../../../proxy').Favorite;
+const Evaluation = require('../../../proxy').Evaluation;
+const tools = require('../../../common/tools');
+const _ = require('lodash');
+const config = require('../../../apiconfig');
+const async = require('async');
+const ApiUtil = require('../../../common/api_util');
+const type = require('../../../type');
+const limit = require('../../../middlewares/limit')
+const designer_match_util = require('../../../common/designer_match');
+const DateUtil = require('../../../common/date_util');
+const sms = require('../../../common/sms');
+const authMiddleWare = require('../../../middlewares/auth');
+const message_util = require('../../../common/message_util');
+const reg_util = require('../../../common/reg_util');
+
+let noPassAndToken = {
   pass: 0,
   accessToken: 0,
 };
 
-var noPrivateInfo = {
+let noPrivateInfo = {
   pass: 0,
   accessToken: 0,
   uid: 0,
@@ -38,8 +39,8 @@ var noPrivateInfo = {
 }
 
 exports.getInfo = function (req, res, next) {
-  var designerid = ApiUtil.getUserid(req);
-  var ep = new eventproxy();
+  let designerid = ApiUtil.getUserid(req);
+  let ep = new eventproxy();
   ep.fail(next);
 
   Designer.findOne({
@@ -50,12 +51,12 @@ exports.getInfo = function (req, res, next) {
 };
 
 exports.updateInfo = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var designer = ApiUtil.buildDesinger(req);
+  let userid = ApiUtil.getUserid(req);
+  let designer = ApiUtil.buildDesinger(req);
   designer.auth_type = type.designer_auth_type_new;
   designer.auth_date = new Date().getTime();
   designer.auth_message = '';
-  var ep = new eventproxy();
+  let ep = new eventproxy();
   ep.fail(next);
 
   Designer.setOne({
@@ -69,9 +70,9 @@ exports.updateInfo = function (req, res, next) {
 };
 
 exports.update_business_info = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var designer = ApiUtil.buildDesignerBusinessInfo(req);
-  var ep = new eventproxy();
+  let userid = ApiUtil.getUserid(req);
+  let designer = ApiUtil.buildDesignerBusinessInfo(req);
+  let ep = new eventproxy();
   ep.fail(next);
 
   Designer.setOne({
@@ -82,12 +83,12 @@ exports.update_business_info = function (req, res, next) {
 };
 
 exports.uid_bank_info = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var uidbank = ApiUtil.buildUidBank(req);
+  let userid = ApiUtil.getUserid(req);
+  let uidbank = ApiUtil.buildUidBank(req);
   uidbank.uid_auth_type = type.designer_auth_type_processing;
   uidbank.uid_auth_date = new Date().getTime();
   uidbank.uid_auth_message = '';
-  var ep = new eventproxy();
+  let ep = new eventproxy();
   ep.fail(next);
 
   Designer.setOne({
@@ -98,9 +99,9 @@ exports.uid_bank_info = function (req, res, next) {
 };
 
 exports.email_info = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var email = tools.trim(req.body.email);
-  var ep = new eventproxy();
+  let userid = ApiUtil.getUserid(req);
+  let email = tools.trim(req.body.email);
+  let ep = new eventproxy();
   ep.fail(next);
 
   Designer.setOne({
@@ -116,10 +117,10 @@ exports.email_info = function (req, res, next) {
 };
 
 exports.designer_home_page = function (req, res, next) {
-  var designerid = req.body._id;
-  var userid = ApiUtil.getUserid(req);
-  var usertype = ApiUtil.getUsertype(req);
-  var ep = new eventproxy();
+  let designerid = req.body._id;
+  let userid = ApiUtil.getUserid(req);
+  let usertype = ApiUtil.getUsertype(req);
+  let ep = new eventproxy();
   ep.fail(next);
 
   Designer.findOne({
@@ -158,9 +159,9 @@ exports.designer_home_page = function (req, res, next) {
 }
 
 exports.top_designers = function (req, res, next) {
-  var ep = new eventproxy();
+  let ep = new eventproxy();
   ep.fail(next);
-  var limit = req.body.limit;
+  let limit = req.body.limit;
 
   Designer.find({
     auth_type: type.designer_auth_type_done,
@@ -174,30 +175,30 @@ exports.top_designers = function (req, res, next) {
     uid_auth_type: 1,
     work_auth_type: 1,
   }, null, ep.done(function (designers) {
-    var recs = _.sample(designers, limit);
+    let recs = _.sample(designers, limit);
     res.sendData(recs);
   }));
 }
 
 exports.search = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var usertype = ApiUtil.getUsertype(req);
-  var query = req.body.query || {};
-  var sort = req.body.sort || {
+  let userid = ApiUtil.getUserid(req);
+  let usertype = ApiUtil.getUsertype(req);
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
     authed_product_count: -1,
   };
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
   query.auth_type = type.designer_auth_type_done;
   query.authed_product_count = {
     $gte: 3
   };
-  var ep = new eventproxy();
+  let ep = new eventproxy();
   ep.fail(next);
 
-  var search_word = req.body.search_word;
+  let search_word = req.body.search_word;
   if (search_word && search_word.trim().length > 0) {
-    search_word = new RegExp(tools.trim(search_word), 'i');
+    search_word = reg_util.reg(tools.trim(search_word), 'i');
     query['$or'] = [{
       company: search_word
     }, {
@@ -244,10 +245,10 @@ exports.search = function (req, res, next) {
 }
 
 exports.okUser = function (req, res, next) {
-  var designerid = ApiUtil.getUserid(req);
-  var requirementid = tools.trim(req.body.requirementid);
-  var house_check_time = req.body.house_check_time;
-  var ep = eventproxy();
+  let designerid = ApiUtil.getUserid(req);
+  let requirementid = tools.trim(req.body.requirementid);
+  let house_check_time = req.body.house_check_time;
+  let ep = eventproxy();
   ep.fail(next);
 
   if (house_check_time) {
@@ -318,11 +319,11 @@ exports.okUser = function (req, res, next) {
 }
 
 exports.rejectUser = function (req, res, next) {
-  var designerid = ApiUtil.getUserid(req);
-  var requirementid = tools.trim(req.body.requirementid);
-  var reject_respond_msg = req.body.reject_respond_msg;
+  let designerid = ApiUtil.getUserid(req);
+  let requirementid = tools.trim(req.body.requirementid);
+  let reject_respond_msg = req.body.reject_respond_msg;
 
-  var ep = eventproxy();
+  let ep = eventproxy();
   ep.fail(next);
 
   Plan.setOne({
@@ -360,8 +361,8 @@ exports.rejectUser = function (req, res, next) {
 }
 
 exports.auth = function (req, res, next) {
-  var designerid = ApiUtil.getUserid(req);
-  var ep = eventproxy();
+  let designerid = ApiUtil.getUserid(req);
+  let ep = eventproxy();
   ep.fail(next);
 
   Designer.setOne({
@@ -375,8 +376,8 @@ exports.auth = function (req, res, next) {
 }
 
 exports.agree = function (req, res, next) {
-  var designerid = ApiUtil.getUserid(req);
-  var ep = eventproxy();
+  let designerid = ApiUtil.getUserid(req);
+  let ep = eventproxy();
   ep.fail(next);
 
   Designer.setOne({
@@ -390,9 +391,9 @@ exports.agree = function (req, res, next) {
 }
 
 exports.update_online_status = function (req, res, next) {
-  var designerid = ApiUtil.getUserid(req);
-  var new_oneline_status = tools.trim(req.body.new_oneline_status);
-  var ep = eventproxy();
+  let designerid = ApiUtil.getUserid(req);
+  let new_oneline_status = tools.trim(req.body.new_oneline_status);
+  let ep = eventproxy();
   ep.fail(next);
 
   Designer.setOne({
@@ -406,9 +407,9 @@ exports.update_online_status = function (req, res, next) {
 }
 
 exports.designers_user_can_order = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var requirementid = req.body.requirementid;
-  var ep = eventproxy();
+  let userid = ApiUtil.getUserid(req);
+  let requirementid = req.body.requirementid;
+  let ep = eventproxy();
   ep.fail(next);
 
   async.parallel({
@@ -425,7 +426,7 @@ exports.designers_user_can_order = function (req, res, next) {
     },
 
     ep.done(function (result) {
-      var can_order_rec = [];
+      let can_order_rec = [];
       if (result.requirement && result.requirement.rec_designerids) {
         can_order_rec = _.filter(result.requirement.rec_designerids,
           function (oid) {
@@ -435,7 +436,7 @@ exports.designers_user_can_order = function (req, res, next) {
           });
       }
 
-      var can_order_fav = [];
+      let can_order_fav = [];
       if (result.requirement && result.favorite && result.favorite.favorite_designer) {
         can_order_fav = _.filter(result.favorite.favorite_designer,
           function (oid) {
@@ -534,9 +535,9 @@ exports.designers_user_can_order = function (req, res, next) {
 }
 
 exports.user_ordered_designers = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var requirementid = req.body.requirementid;
-  var ep = eventproxy();
+  let userid = ApiUtil.getUserid(req);
+  let requirementid = req.body.requirementid;
+  let ep = eventproxy();
   ep.fail(next);
 
   async.waterfall([function (callback) {
@@ -615,8 +616,8 @@ exports.user_ordered_designers = function (req, res, next) {
 }
 
 exports.designer_statistic_info = function (req, res, next) {
-  var _id = ApiUtil.getUserid(req);
-  var ep = eventproxy();
+  let _id = ApiUtil.getUserid(req);
+  let ep = eventproxy();
   ep.fail(next);
 
   async.parallel({
@@ -632,7 +633,7 @@ exports.designer_statistic_info = function (req, res, next) {
       }, {
         requirementid: 1
       }, null, function (err, plans) {
-        var count = 0;
+        let count = 0;
         if (plans && plans.length > 0) {
           plans = _.uniq(plans, function (p) {
             return p.requirementid.toString();
@@ -658,7 +659,7 @@ exports.designer_statistic_info = function (req, res, next) {
       }, callback);
     },
   }, ep.done(function (result) {
-    var favorite_product_count = 0;
+    let favorite_product_count = 0;
     if (result.favorite && result.favorite.favorite_product) {
       favorite_product_count = result.favorite.favorite_product.length;
     }
@@ -674,9 +675,9 @@ exports.designer_statistic_info = function (req, res, next) {
 }
 
 exports.designer_remind_user_house_check = function (req, res, next) {
-  var planid = req.body.planid;
-  var userid = req.body.userid;
-  var ep = eventproxy();
+  let planid = req.body.planid;
+  let userid = req.body.userid;
+  let ep = eventproxy();
   ep.fail(next);
 
   async.parallel({

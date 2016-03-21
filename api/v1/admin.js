@@ -13,6 +13,7 @@ var _ = require('lodash');
 var config = require('../../apiconfig');
 var async = require('async');
 var ApiUtil = require('../../common/api_util');
+var reg_util = require('../../common/reg_util');
 var type = require('../../type');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
@@ -201,7 +202,7 @@ exports.listAuthingDesigner = function (req, res, next) {
 exports.searchDesigner = function (req, res, next) {
   var query = req.body.query;
   var phone = tools.trim(query.phone);
-  var phoneReg = new RegExp('^' + tools.trim(phone));
+  var phoneReg = reg_util.reg('^' + tools.trim(phone));
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
 
@@ -238,7 +239,7 @@ exports.searchDesigner = function (req, res, next) {
 exports.searchUser = function (req, res, next) {
   var query = req.body.query;
   var phone = tools.trim(query.phone);
-  var phoneReg = new RegExp('^' + tools.trim(phone));
+  var phoneReg = reg_util.reg('^' + tools.trim(phone));
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
 

@@ -1,22 +1,25 @@
-var validator = require('validator');
-var eventproxy = require('eventproxy');
-var BeautifulImage = require('../../../proxy').BeautifulImage;
-var Favorite = require('../../../proxy').Favorite;
-var tools = require('../../../common/tools');
-var _ = require('lodash');
-var config = require('../../../apiconfig');
-var async = require('async');
-var ApiUtil = require('../../../common/api_util');
-var type = require('../../../type');
-var limit = require('../../../middlewares/limit');
+"use strict"
+
+const validator = require('validator');
+const eventproxy = require('eventproxy');
+const BeautifulImage = require('../../../proxy').BeautifulImage;
+const Favorite = require('../../../proxy').Favorite;
+const tools = require('../../../common/tools');
+const _ = require('lodash');
+const config = require('../../../apiconfig');
+const async = require('async');
+const ApiUtil = require('../../../common/api_util');
+const type = require('../../../type');
+const limit = require('../../../middlewares/limit');
+const reg_util = require('../../../common/reg_util');
 
 exports.beautiful_image_homepage = function (req, res, next) {
-  var _id = req.body._id;
-  var previous_count = req.body.previous_count || 1;
-  var next_count = req.body.next_count || 1;
-  var userid = ApiUtil.getUserid(req);
-  var usertype = ApiUtil.getUsertype(req);
-  var ep = eventproxy();
+  let _id = req.body._id;
+  let previous_count = req.body.previous_count || 1;
+  let next_count = req.body.next_count || 1;
+  let userid = ApiUtil.getUserid(req);
+  let usertype = ApiUtil.getUsertype(req);
+  let ep = eventproxy();
   ep.fail(next);
 
   BeautifulImage.findOne({
@@ -102,7 +105,7 @@ exports.beautiful_image_homepage = function (req, res, next) {
         },
       }, ep.done(function (result) {
         if (result.associate.length < 6) {
-          var add = _.sample(result.top, 6 - result.associate.length);
+          let add = _.sample(result.top, 6 - result.associate.length);
           beautiful_image.associate_beautiful_images = result.associate
             .concat(add);
         } else {
@@ -144,20 +147,20 @@ exports.beautiful_image_homepage = function (req, res, next) {
 }
 
 exports.search_beautiful_image = function (req, res, next) {
-  var query = req.body.query || {};
+  let query = req.body.query || {};
   query.status = type.beautiful_image_status_public;
-  var sort = req.body.sort || {
+  let sort = req.body.sort || {
     lastupdate: -1
   };
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
 
-  var ep = eventproxy();
+  let ep = eventproxy();
   ep.fail(next);
 
-  var search_word = req.body.search_word;
+  let search_word = req.body.search_word;
   if (search_word && search_word.trim().length > 0) {
-    search_word = new RegExp(tools.trim(search_word), 'i');
+    search_word = reg_util.reg(tools.trim(search_word), 'i');
     query['$or'] = [{
       title: search_word
     }, {
@@ -186,9 +189,9 @@ exports.search_beautiful_image = function (req, res, next) {
 }
 
 exports.top_beautiful_images = function (req, res, next) {
-  var ep = new eventproxy();
+  let ep = new eventproxy();
   ep.fail(next);
-  var limit = req.body.limit;
+  let limit = req.body.limit;
 
   BeautifulImage.find({
     status: type.beautiful_image_status_public,
@@ -205,7 +208,7 @@ exports.top_beautiful_images = function (req, res, next) {
     skip: 0,
     limit: 50,
   }, ep.done(function (beautifulImages) {
-    var recs = _.sample(beautifulImages, limit);
+    let recs = _.sample(beautifulImages, limit);
     res.sendData(recs);
   }));
 }
