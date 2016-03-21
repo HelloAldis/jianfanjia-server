@@ -209,3 +209,21 @@ exports.crop = function (req, res, next) {
     }));
   });
 }
+
+exports.imagemeta = function (req, res, next) {
+  var _id = req.body._id;
+  var ep = eventproxy();
+  ep.fail(next);
+
+  Image.findOne({
+    _id: _id,
+  }, null, ep.done(function (image) {
+    if (image) {
+      imageUtil.meta(image.data, ep.done(function (value) {
+        res.sendData(value);
+      }));
+    } else {
+      res.status(404).end();
+    }
+  }));
+}

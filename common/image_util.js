@@ -37,6 +37,16 @@ exports.watermark = function (buffer, callback) {
   });
 }
 
+exports.meta = function (buffer, callback) {
+  gm(buffer).size(function (err, value) {
+    if (err) {
+      return callback(err);
+    }
+
+    callback(null, value);
+  });
+}
+
 exports.resizeThenWatermark2stream = function (buffer, width, callback) {
   var command = 'image Over ';
   var x = width - 366;
