@@ -151,7 +151,7 @@
 							<i ng-switch-when="7">未响应业主</i>
 							<i ng-switch-when="8">未上传方案</i>
 						</p>
-						<p ng-switch="data.status" bo-if="data.plan.status == 5 && (data.status == 4 || data.status == 5 || data.status == 7 || data.status == 8) && data.work_type != '纯设计'">
+						<p ng-switch="data.status" bo-if="data.plan.status == 5 && (data.status == 4 || data.status == 5 || data.status == 7 || data.status == 8) && data.work_type != 2">
 							<i ng-switch-when="4">前往配置合同</i>
 							<i ng-switch-when="5">APP管理工地</i>
 							<i ng-switch-when="7">查看合同</i>
@@ -183,7 +183,7 @@
 				</div>
 				<div class="ct" ng-switch="data.plan.status" bo-if="data.plan.status != 5">
 					<p ng-switch-when="0">
-						请24小时内与业主沟通量房时间，并响应业主预约，过期视为放弃。
+						为了增加接单的可能性，请您尽快与业主沟通量房时间并响应业主预约。
 					</p>
 					<p ng-switch-when="1">
 						业主向您发起一个量房预约，请等待您响应。<br />

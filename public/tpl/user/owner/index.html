@@ -112,6 +112,7 @@
 							<i ng-switch-when="2">确认设计师上门量房</i>
 							<i ng-switch-when="3">选择设计师方案</i>
 							<i ng-switch-when="4">已完成</i>
+							<i ng-switch-when="6">设计师提交方案中</i>
 						</p>
 					</div>
 				</div>
@@ -131,7 +132,7 @@
 						设计师已上传装修方案，请查看并选择装修方案
 					</p>
 					<p ng-switch-when="4">
-						您已选择设计师的装修方案，生成并签订三方合同
+						您已选择设计师的装修方案，请等待设计师生成三方合同
 					</p>
 					<p ng-switch-when="5">
 						您的工地已经配置，前往APP实时掌控最新进度
@@ -165,13 +166,17 @@
 					<p ng-switch-when="4">
 						您的设计需求已完成，感谢您选择简繁家，我们会继续努力为您提供更优质的服务。
 					</p>
+					<p ng-switch-when="6">
+						您已经确认设计师量房，请等待设计师上传方案。<br />
+						设计师将在5天内响应给您方案，供您选择，请留意短信通知。
+					</p>
 				</div>
 				<div class="btns" ng-switch="data.status" bo-if="data.work_type != '纯设计'">
 					<a class="u-btns" ng-switch-when="0" bo-href-i="owner.html#/requirement/{{data._id}}/booking">前往预约量房</a>
 					<a class="u-btns" ng-switch-when="1" bo-href-i="owner.html#/requirement/{{data._id}}/score">查看设计师响应</a>
 					<a class="u-btns" ng-switch-when="2" bo-href-i="owner.html#/requirement/{{data._id}}/score">前往确认设计师上门量房</a>
 					<a class="u-btns" ng-switch-when="3" bo-href-i="owner.html#/requirement/{{data._id}}/plan">查看并选择装修方案</a>
-					<a class="u-btns" ng-switch-when="4" bo-href-i="owner.html#/requirement/{{data._id}}/contract">前往生成三方合同</a>
+					<!--<a class="u-btns" ng-switch-when="4" bo-href-i="owner.html#/requirement/{{data._id}}/contract">前往生成三方合同</a>-->
 					<a class="u-btns" ng-switch-when="5" bo-href-i="owner.html#/requirement/{{data._id}}/field">工地管理</a>
 					<a class="u-btns" ng-switch-when="6" bo-href-i="owner.html#/requirement/{{data._id}}/plan">查看并选择装修方案</a>
 					<a class="u-btns" ng-switch-when="7" href="owner.html#/requirement/{{data._id}}/contract">确认合同</a>

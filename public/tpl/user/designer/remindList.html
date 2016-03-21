@@ -12,7 +12,7 @@
                 </span>
                 <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 14" ui-sref="requirement.owner({id:data.requirement._id})"></a>
                 <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 15" ui-sref="requirement.owner({id:data.requirement._id})"></a>
-                <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 16" ui-sref="requirement.plan({id:data.requirement._id})"></a>
+                <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 16" ui-sref="requirement.contract({id:data.requirement._id})"></a>
                 <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 17" ui-sref="requirement.plan({id:data.requirement._id})"></a>
                  <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 18" ui-sref="requirement.contract({id:data.requirement._id})"></a>
                 <i bo-if="data.status == 0">[未读]</i>
