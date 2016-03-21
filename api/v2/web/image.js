@@ -211,19 +211,32 @@ exports.crop = function (req, res, next) {
 }
 
 exports.imagemeta = function (req, res, next) {
-  var _id = req.body._id;
+  var _ids = req.body._ids;
   var ep = eventproxy();
   ep.fail(next);
 
-  Image.findOne({
-    _id: _id,
-  }, null, ep.done(function (image) {
-    if (image) {
-      imageUtil.meta(image.data, ep.done(function (value) {
-        res.sendData(value);
-      }));
-    } else {
-      res.status(404).end();
-    }
+  async.mapLimit(_ids, 3, function (_id, callback) {
+    Image.findOne({
+      _id: _id,
+    }, null, function (err, image) {
+      if (err || !image) {
+        callback(null, {
+          _id: _id
+        });
+      } else {
+        imageUtil.meta(image.data, function (err, value) {
+          if (err || !value) {
+            callback(null, {
+              _id: _id
+            });
+          } else {
+            value._id = _id;
+            callback(null, value);
+          }
+        });
+      }
+    });
+  }, ep.done(function (metas) {
+    res.sendData(metas);
   }));
 }
