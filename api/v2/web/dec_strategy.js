@@ -1,17 +1,20 @@
-var validator = require('validator');
-var eventproxy = require('eventproxy');
-var DecStrategy = require('../../../proxy').DecStrategy;
-var tools = require('../../../common/tools');
-var _ = require('lodash');
-var config = require('../../../apiconfig');
-var async = require('async');
-var ApiUtil = require('../../../common/api_util');
-var type = require('../../../type');
-var limit = require('../../../middlewares/limit');
+"use strict"
+
+const validator = require('validator');
+const eventproxy = require('eventproxy');
+const DecStrategy = require('../../../proxy').DecStrategy;
+const tools = require('../../../common/tools');
+const _ = require('lodash');
+const config = require('../../../apiconfig');
+const async = require('async');
+const ApiUtil = require('../../../common/api_util');
+const type = require('../../../type');
+const limit = require('../../../middlewares/limit');
+const reg_util = require('../../../common/reg_util');
 
 exports.top_articles = function (req, res, next) {
-  var limit = req.body.limit || 5;
-  var ep = eventproxy();
+  let limit = req.body.limit || 5;
+  let ep = eventproxy();
   ep.fail(next);
 
   async.parallel({
@@ -55,14 +58,14 @@ exports.top_articles = function (req, res, next) {
 }
 
 exports.search_article = function (req, res, next) {
-  var query = req.body.query || {};
+  let query = req.body.query || {};
   query.status = type.article_status_public;
-  var sort = req.body.sort || {
+  let sort = req.body.sort || {
     create_at: -1
   };
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var ep = eventproxy();
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let ep = eventproxy();
   ep.fail(next);
 
   DecStrategy.paginate(query, {
@@ -85,20 +88,20 @@ exports.search_article = function (req, res, next) {
 }
 
 // exports.associate_article = function (req, res, next) {
-//   var _id = req.body._id;
-//   var keywords = req.body.keywords;
-//   var limit = req.body.limit || 5;
-//   var articletype = req.body.articletype;
-//   var ep = eventproxy();
+//   let _id = req.body._id;
+//   let keywords = req.body.keywords;
+//   let limit = req.body.limit || 5;
+//   let articletype = req.body.articletype;
+//   let ep = eventproxy();
 //   ep.fail(next);
 //
-//   var query = {};
+//   let query = {};
 //   keywords = keywords.split(/,|，/);
 //   _.remove(keywords, function (k) {
 //     return k.trim().length === 0;
 //   });
 //   if (keywords.length > 0) {
-//     var regex = new RegExp(keywords.join('|'), 'i');
+//     let regex = reg_util.reg(keywords.join('|'), 'i');
 //     query.keywords = regex;
 //   }
 //   query.status = type.article_status_public;

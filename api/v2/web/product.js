@@ -1,24 +1,27 @@
-var validator = require('validator');
-var eventproxy = require('eventproxy');
-var Product = require('../../../proxy').Product;
-var Designer = require('../../../proxy').Designer;
-var Favorite = require('../../../proxy').Favorite;
-var tools = require('../../../common/tools');
-var _ = require('lodash');
-var config = require('../../../apiconfig');
-var async = require('async');
-var ApiUtil = require('../../../common/api_util');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
-var limit = require('../../../middlewares/limit');
-var type = require('../../../type');
+"use strict"
+
+const validator = require('validator');
+const eventproxy = require('eventproxy');
+const Product = require('../../../proxy').Product;
+const Designer = require('../../../proxy').Designer;
+const Favorite = require('../../../proxy').Favorite;
+const tools = require('../../../common/tools');
+const _ = require('lodash');
+const config = require('../../../apiconfig');
+const async = require('async');
+const ApiUtil = require('../../../common/api_util');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
+const limit = require('../../../middlewares/limit');
+const type = require('../../../type');
+const reg_util = require('../../../common/reg_util');
 
 exports.add = function (req, res, next) {
-  var product = ApiUtil.buildProduct(req);
-  var designerid = ApiUtil.getUserid(req);
+  let product = ApiUtil.buildProduct(req);
+  let designerid = ApiUtil.getUserid(req);
   product.designerid = designerid;
   product.auth_date = new Date().getTime();
-  var ep = new eventproxy();
+  let ep = new eventproxy();
   ep.fail(next);
 
   Product.newAndSave(product, ep.done(function (product) {
@@ -37,12 +40,12 @@ exports.add = function (req, res, next) {
 };
 
 exports.update = function (req, res, next) {
-  var product = ApiUtil.buildProduct(req);
-  var oid = tools.trim(req.body._id);
-  var designerid = ApiUtil.getUserid(req);
+  let product = ApiUtil.buildProduct(req);
+  let oid = tools.trim(req.body._id);
+  let designerid = ApiUtil.getUserid(req);
   product.auth_type = type.product_auth_type_new;
   product.auth_date = new Date().getTime();
-  var ep = new eventproxy();
+  let ep = new eventproxy();
   ep.fail(next);
 
   if (oid === '') {
@@ -69,9 +72,9 @@ exports.update = function (req, res, next) {
 }
 
 exports.delete = function (req, res, next) {
-  var designerid = ApiUtil.getUserid(req);
-  var oid = tools.trim(req.body._id);
-  var ep = new eventproxy();
+  let designerid = ApiUtil.getUserid(req);
+  let oid = tools.trim(req.body._id);
+  let ep = new eventproxy();
   ep.fail(next);
 
   if (oid === '') {
@@ -84,7 +87,7 @@ exports.delete = function (req, res, next) {
     designerid: designerid
   }, {}, ep.done(function (product) {
     if (product) {
-      var inc = {
+      let inc = {
         product_count: -1
       };
 
@@ -102,19 +105,19 @@ exports.delete = function (req, res, next) {
 }
 
 exports.search_designer_product = function (req, res, next) {
-  var query = req.body.query || {};
-  var sort = req.body.sort || {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
     create_at: 1
   };
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
   query.auth_type = type.product_auth_type_done;
-  var ep = new eventproxy();
+  let ep = new eventproxy();
   ep.fail(next);
 
-  var search_word = req.body.search_word;
+  let search_word = req.body.search_word;
   if (search_word && search_word.trim().length > 0) {
-    search_word = new RegExp(tools.trim(search_word), 'i');
+    search_word = reg_util.reg(tools.trim(search_word), 'i');
     query.cell = search_word;
   }
 
@@ -145,13 +148,13 @@ exports.search_designer_product = function (req, res, next) {
 }
 
 exports.designer_my_products = function (req, res, next) {
-  var sort = req.body.sort || {
+  let sort = req.body.sort || {
     create_at: 1
   };
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var designerid = ApiUtil.getUserid(req);
-  var ep = new eventproxy();
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let designerid = ApiUtil.getUserid(req);
+  let ep = new eventproxy();
   ep.fail(next);
 
   Product.paginate({
@@ -169,10 +172,10 @@ exports.designer_my_products = function (req, res, next) {
 }
 
 exports.product_home_page = function (req, res, next) {
-  var productid = req.body._id;
-  var userid = ApiUtil.getUserid(req);
-  var usertype = ApiUtil.getUsertype(req);
-  var ep = new eventproxy();
+  let productid = req.body._id;
+  let userid = ApiUtil.getUserid(req);
+  let usertype = ApiUtil.getUsertype(req);
+  let ep = new eventproxy();
   ep.fail(next);
 
   Product.findOne({
@@ -221,8 +224,8 @@ exports.product_home_page = function (req, res, next) {
 }
 
 exports.designer_one_product = function (req, res, next) {
-  var _id = req.body._id;
-  var ep = new eventproxy();
+  let _id = req.body._id;
+  let ep = new eventproxy();
   ep.fail(next);
 
   Product.findOne({
@@ -233,9 +236,9 @@ exports.designer_one_product = function (req, res, next) {
 }
 
 exports.top_products = function (req, res, next) {
-  var ep = new eventproxy();
+  let ep = new eventproxy();
   ep.fail(next);
-  var limit = req.body.limit || 20;
+  let limit = req.body.limit || 20;
 
   Product.find({
     auth_type: type.product_auth_type_done,
@@ -248,7 +251,7 @@ exports.top_products = function (req, res, next) {
     skip: 0,
     limit: 300,
   }, ep.done(function (products) {
-    var recs = _.sample(products, limit);
+    let recs = _.sample(products, limit);
     res.sendData(recs);
   }));
 }

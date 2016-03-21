@@ -9,6 +9,7 @@ const _ = require('lodash');
 const config = require('../../../apiconfig');
 const async = require('async');
 const ApiUtil = require('../../../common/api_util');
+const reg_util = require('../../../common/reg_util');
 const type = require('../../../type');
 const limit = require('../../../middlewares/limit');
 
@@ -28,7 +29,7 @@ exports.search_beautiful_image = function (req, res, next) {
 
   let search_word = req.body.search_word;
   if (search_word && search_word.trim().length > 0) {
-    search_word = new RegExp(tools.trim(search_word), 'i');
+    search_word = reg_util.reg(tools.trim(search_word), 'i');
     query['$or'] = [{
       title: search_word
     }, {

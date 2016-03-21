@@ -1,32 +1,35 @@
-var validator = require('validator');
-var eventproxy = require('eventproxy');
-var Designer = require('../../../proxy').Designer;
-var Share = require('../../../proxy').Share;
-var Team = require('../../../proxy').Team;
-var User = require('../../../proxy').User;
-var Product = require('../../../proxy').Product;
-var ApiStatistic = require('../../../proxy').ApiStatistic;
-var Requirement = require('../../../proxy').Requirement;
-var Evaluation = require('../../../proxy').Evaluation;
-var DecStrategy = require('../../../proxy').DecStrategy;
-var BeautifulImage = require('../../../proxy').BeautifulImage;
-var Process = require('../../../proxy').Process;
-var Image = require('../../../proxy').Image;
-var Plan = require('../../../proxy').Plan;
-var Answer = require('../../../proxy').Answer;
-var tools = require('../../../common/tools');
-var _ = require('lodash');
-var config = require('../../../apiconfig');
-var ue_config = require('../../../ueditor/ue_config');
-var async = require('async');
-var ApiUtil = require('../../../common/api_util');
-var type = require('../../../type');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
-var sms = require('../../../common/sms');
-var utility = require('utility');
-var imageUtil = require('../../../common/image_util');
-var message_util = require('../../../common/message_util');
+"use strict"
+
+const validator = require('validator');
+const eventproxy = require('eventproxy');
+const Designer = require('../../../proxy').Designer;
+const Share = require('../../../proxy').Share;
+const Team = require('../../../proxy').Team;
+const User = require('../../../proxy').User;
+const Product = require('../../../proxy').Product;
+const ApiStatistic = require('../../../proxy').ApiStatistic;
+const Requirement = require('../../../proxy').Requirement;
+const Evaluation = require('../../../proxy').Evaluation;
+const DecStrategy = require('../../../proxy').DecStrategy;
+const BeautifulImage = require('../../../proxy').BeautifulImage;
+const Process = require('../../../proxy').Process;
+const Image = require('../../../proxy').Image;
+const Plan = require('../../../proxy').Plan;
+const Answer = require('../../../proxy').Answer;
+const tools = require('../../../common/tools');
+const _ = require('lodash');
+const config = require('../../../apiconfig');
+const ue_config = require('../../../ueditor/ue_config');
+const async = require('async');
+const ApiUtil = require('../../../common/api_util');
+const type = require('../../../type');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
+const sms = require('../../../common/sms');
+const utility = require('utility');
+const imageUtil = require('../../../common/image_util');
+const message_util = require('../../../common/message_util');
+const reg_util = require('../../../common/reg_util');
 
 exports.login = function (req, res, next) {
   if (req.body.username === 'sunny' && req.body.pass === '!@Jyz20150608#$') {
@@ -42,10 +45,10 @@ exports.login = function (req, res, next) {
 }
 
 exports.update_basic_auth = function (req, res, next) {
-  var designerid = tools.trim(req.body._id);
-  var new_auth_type = tools.trim(req.body.new_auth_type);
-  var auth_message = tools.trim(req.body.auth_message);
-  var ep = eventproxy();
+  let designerid = tools.trim(req.body._id);
+  let new_auth_type = tools.trim(req.body.new_auth_type);
+  let auth_message = tools.trim(req.body.auth_message);
+  let ep = eventproxy();
   ep.fail(next);
 
   Designer.setOne({
@@ -69,10 +72,10 @@ exports.update_basic_auth = function (req, res, next) {
 }
 
 exports.update_uid_auth = function (req, res, next) {
-  var designerid = tools.trim(req.body._id);
-  var new_auth_type = tools.trim(req.body.new_auth_type);
-  var auth_message = tools.trim(req.body.auth_message);
-  var ep = eventproxy();
+  let designerid = tools.trim(req.body._id);
+  let new_auth_type = tools.trim(req.body.new_auth_type);
+  let auth_message = tools.trim(req.body.auth_message);
+  let ep = eventproxy();
   ep.fail(next);
 
   Designer.setOne({
@@ -95,10 +98,10 @@ exports.update_uid_auth = function (req, res, next) {
 }
 
 exports.update_work_auth = function (req, res, next) {
-  var designerid = tools.trim(req.body._id);
-  var new_auth_type = tools.trim(req.body.new_auth_type);
-  var auth_message = tools.trim(req.body.auth_message);
-  var ep = eventproxy();
+  let designerid = tools.trim(req.body._id);
+  let new_auth_type = tools.trim(req.body.new_auth_type);
+  let auth_message = tools.trim(req.body.auth_message);
+  let ep = eventproxy();
   ep.fail(next);
 
   Designer.setOne({
@@ -121,11 +124,11 @@ exports.update_work_auth = function (req, res, next) {
 }
 
 exports.update_product_auth = function (req, res, next) {
-  var productid = tools.trim(req.body._id);
-  var designerid = tools.trim(req.body.designerid);
-  var new_auth_type = tools.trim(req.body.new_auth_type);
-  var auth_message = tools.trim(req.body.auth_message);
-  var ep = eventproxy();
+  let productid = tools.trim(req.body._id);
+  let designerid = tools.trim(req.body.designerid);
+  let new_auth_type = tools.trim(req.body.new_auth_type);
+  let auth_message = tools.trim(req.body.auth_message);
+  let ep = eventproxy();
   ep.fail(next);
 
   Product.setOne({
@@ -177,10 +180,10 @@ exports.update_product_auth = function (req, res, next) {
 }
 
 exports.search_share = function (req, res, next) {
-  var query = req.body.query;
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var ep = eventproxy();
+  let query = req.body.query;
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let ep = eventproxy();
   ep.fail(next);
 
   Share.paginate(query, null, {
@@ -199,7 +202,7 @@ exports.search_share = function (req, res, next) {
         imageid: 1,
         phone: 1,
       }, function (err, designer_indb) {
-        var s = share.toObject();
+        let s = share.toObject();
         s.designer = designer_indb;
         callback(err, s);
       });
@@ -213,10 +216,10 @@ exports.search_share = function (req, res, next) {
 }
 
 exports.add = function (req, res, next) {
-  var share = ApiUtil.buildShare(req);
-  var designerid = tools.trim(req.body.designerid);
-  var userid = tools.trim(req.body.userid);
-  var ep = eventproxy();
+  let share = ApiUtil.buildShare(req);
+  let designerid = tools.trim(req.body.designerid);
+  let userid = tools.trim(req.body.userid);
+  let ep = eventproxy();
   ep.fail(next);
 
   if (userid) {
@@ -232,9 +235,9 @@ exports.add = function (req, res, next) {
 };
 
 exports.update = function (req, res, next) {
-  var share = ApiUtil.buildShare(req);
-  var shareid = tools.trim(req.body._id);
-  var ep = eventproxy();
+  let share = ApiUtil.buildShare(req);
+  let shareid = tools.trim(req.body._id);
+  let ep = eventproxy();
   ep.fail(next);
 
   share.lastupdate = new Date().getTime();
@@ -246,8 +249,8 @@ exports.update = function (req, res, next) {
 };
 
 exports.delete = function (req, res, next) {
-  var _id = tools.trim(req.body._id);
-  var ep = eventproxy();
+  let _id = tools.trim(req.body._id);
+  let ep = eventproxy();
   ep.fail(next);
 
   Share.removeOne({
@@ -258,7 +261,7 @@ exports.delete = function (req, res, next) {
 }
 
 exports.listAuthingDesigner = function (req, res, next) {
-  var ep = eventproxy();
+  let ep = eventproxy();
   ep.fail(next);
 
   Designer.find({
@@ -272,12 +275,12 @@ exports.listAuthingDesigner = function (req, res, next) {
 };
 
 exports.searchDesigner = function (req, res, next) {
-  var query = req.body.query;
-  var phone = tools.trim(query.phone);
-  var phoneReg = new RegExp('^' + tools.trim(phone));
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var ep = eventproxy();
+  let query = req.body.query;
+  let phone = tools.trim(query.phone);
+  let phoneReg = reg_util.reg('^' + tools.trim(phone));
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let ep = eventproxy();
   ep.fail(next);
 
   if (phone) {
@@ -307,12 +310,12 @@ exports.searchDesigner = function (req, res, next) {
 }
 
 exports.searchUser = function (req, res, next) {
-  var query = req.body.query;
-  var phone = tools.trim(query.phone);
-  var phoneReg = new RegExp('^' + tools.trim(phone));
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var ep = eventproxy();
+  let query = req.body.query;
+  let phone = tools.trim(query.phone);
+  let phoneReg = reg_util.reg('^' + tools.trim(phone));
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let ep = eventproxy();
   ep.fail(next);
 
   if (phone) {
@@ -354,13 +357,13 @@ exports.searchUser = function (req, res, next) {
 }
 
 exports.searchProduct = function (req, res, next) {
-  var query = req.body.query;
-  var sort = req.body.sort || {
+  let query = req.body.query;
+  let sort = req.body.sort || {
     create_at: 1
   };
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var ep = eventproxy();
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let ep = eventproxy();
   ep.fail(next);
 
   Product.paginate(query, null, {
@@ -389,13 +392,13 @@ exports.searchProduct = function (req, res, next) {
 }
 
 exports.search_plan = function (req, res, next) {
-  var query = req.body.query;
-  var sort = req.body.sort || {
+  let query = req.body.query;
+  let sort = req.body.sort || {
     request_date: 1
   };
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var ep = eventproxy();
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let ep = eventproxy();
   ep.fail(next);
 
   Plan.paginate(query, null, {
@@ -448,8 +451,8 @@ exports.search_plan = function (req, res, next) {
 
 
 exports.getDesigner = function (req, res, next) {
-  var designerid = req.params._id;
-  var ep = eventproxy();
+  let designerid = req.params._id;
+  let ep = eventproxy();
   ep.fail(next);
 
   Designer.findOne({
@@ -467,11 +470,11 @@ exports.getDesigner = function (req, res, next) {
 }
 
 exports.search_team = function (req, res, next) {
-  var query = req.body.query || {};
-  var sort = req.body.sort;
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var ep = eventproxy();
+  let query = req.body.query || {};
+  let sort = req.body.sort;
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let ep = eventproxy();
   ep.fail(next);
 
   Team.paginate(query, null, {
@@ -487,7 +490,7 @@ exports.search_team = function (req, res, next) {
 }
 
 exports.api_statistic = function (req, res, next) {
-  var ep = eventproxy();
+  let ep = eventproxy();
   ep.fail(next);
 
   ApiStatistic.find({}, {}, {
@@ -500,13 +503,13 @@ exports.api_statistic = function (req, res, next) {
 };
 
 exports.search_requirement = function (req, res, next) {
-  var query = req.body.query || {};
-  var sort = req.body.sort || {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
     create_at: 1
   };
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var ep = eventproxy();
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let ep = eventproxy();
   ep.fail(next);
 
   Requirement.paginate(query, null, {
@@ -560,13 +563,13 @@ exports.search_requirement = function (req, res, next) {
 }
 
 exports.search_process = function (req, res, next) {
-  var query = req.body.query || {};
-  var sort = req.body.sort || {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
     create_at: 1
   };
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var ep = eventproxy();
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let ep = eventproxy();
   ep.fail(next);
 
   Process.paginate(query, null, {
@@ -608,8 +611,8 @@ exports.search_process = function (req, res, next) {
 }
 
 exports.update_team = function (req, res, next) {
-  var team = ApiUtil.buildTeam(req);
-  var oid = tools.trim(req.body._id);
+  let team = ApiUtil.buildTeam(req);
+  let oid = tools.trim(req.body._id);
 
   if (oid === '') {
     res.sendErrMsg('信息不完全');
@@ -624,10 +627,10 @@ exports.update_team = function (req, res, next) {
 }
 
 exports.update_designer_online_status = function (req, res, next) {
-  var designerid = tools.trim(req.body.designerid);
-  var new_oneline_status = tools.trim(req.body.new_oneline_status);
+  let designerid = tools.trim(req.body.designerid);
+  let new_oneline_status = tools.trim(req.body.new_oneline_status);
 
-  var ep = eventproxy();
+  let ep = eventproxy();
   ep.fail(next);
 
   Designer.setOne({
@@ -641,7 +644,7 @@ exports.update_designer_online_status = function (req, res, next) {
 }
 
 exports.ueditor_get = function (req, res, next) {
-  var action = req.query.action;
+  let action = req.query.action;
 
   switch (action) {
     case 'config':
@@ -654,15 +657,15 @@ exports.ueditor_get = function (req, res, next) {
 }
 
 exports.ueditor_post = function (req, res, next) {
-  var ep = eventproxy();
+  let ep = eventproxy();
   ep.fail(next);
-  var action = req.query.action;
+  let action = req.query.action;
 
   switch (action) {
     case 'uploadimage':
-      var data = req.file.buffer;
-      var userid = ApiUtil.getUserid(req);
-      var md5 = utility.md5(data);
+      let data = req.file.buffer;
+      let userid = ApiUtil.getUserid(req);
+      let md5 = utility.md5(data);
 
       Image.findOne({
         'md5': md5,
@@ -703,12 +706,12 @@ HTTP/1.1/Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gec
 */
 
 exports.add_article = function (req, res, next) {
-  var article = ApiUtil.buildArticle(req);
-  var articletype = req.body.articletype;
+  let article = ApiUtil.buildArticle(req);
+  let articletype = req.body.articletype;
   article.status = type.article_status_private;
   article.authorid = ApiUtil.getUserid(req);
   article.usertype = ApiUtil.getUsertype(req);
-  var ep = eventproxy();
+  let ep = eventproxy();
   ep.fail(next);
 
   switch (articletype) {
@@ -725,10 +728,10 @@ exports.add_article = function (req, res, next) {
 }
 
 exports.update_article = function (req, res, next) {
-  var article = ApiUtil.buildArticle(req);
-  var articletype = req.body.articletype;
-  var _id = req.body._id;
-  var ep = eventproxy();
+  let article = ApiUtil.buildArticle(req);
+  let articletype = req.body.articletype;
+  let _id = req.body._id;
+  let ep = eventproxy();
   ep.fail(next);
 
   article.articletype = articletype;
@@ -740,17 +743,17 @@ exports.update_article = function (req, res, next) {
 }
 
 exports.search_article = function (req, res, next) {
-  var query = req.body.query || {};
-  var sort = req.body.sort || {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
     create_at: -1
   };
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var articletype = req.body.articletype;
-  var ep = eventproxy();
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let articletype = req.body.articletype;
+  let ep = eventproxy();
   ep.fail(next);
 
-  var project = null;
+  let project = null;
   if (limit > 1) {
     project = {
       title: 1,
@@ -783,12 +786,12 @@ exports.search_article = function (req, res, next) {
 }
 
 exports.add_beautiful_image = function (req, res, next) {
-  var beautifulImage = ApiUtil.buildBeautifulImage(req);
+  let beautifulImage = ApiUtil.buildBeautifulImage(req);
   beautifulImage.status = type.beautiful_image_status_private;
   beautifulImage.authorid = ApiUtil.getUserid(req);
   beautifulImage.usertype = ApiUtil.getUsertype(req);
 
-  var ep = eventproxy();
+  let ep = eventproxy();
   ep.fail(next);
 
   BeautifulImage.newAndSave(beautifulImage, ep.done(function (beautifulImage) {
@@ -797,9 +800,9 @@ exports.add_beautiful_image = function (req, res, next) {
 }
 
 exports.update_beautiful_image = function (req, res, next) {
-  var beautifulImage = ApiUtil.buildBeautifulImage(req);
-  var _id = req.body._id;
-  var ep = eventproxy();
+  let beautifulImage = ApiUtil.buildBeautifulImage(req);
+  let _id = req.body._id;
+  let ep = eventproxy();
   ep.fail(next);
 
   BeautifulImage.setOne({
@@ -810,16 +813,16 @@ exports.update_beautiful_image = function (req, res, next) {
 }
 
 exports.search_beautiful_image = function (req, res, next) {
-  var query = req.body.query || {};
-  var sort = req.body.sort || {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
     create_at: -1
   };
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var ep = eventproxy();
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let ep = eventproxy();
   ep.fail(next);
 
-  var project = null;
+  let project = null;
   if (limit > 1) {
     project = {
       title: 1,
@@ -843,13 +846,13 @@ exports.search_beautiful_image = function (req, res, next) {
 }
 
 exports.search_answer = function (req, res, next) {
-  var query = req.body.query || {};
-  var sort = req.body.sort || {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
     questionid: 1
   };
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var ep = eventproxy();
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let ep = eventproxy();
   ep.fail(next);
 
   Answer.paginate(query, null, {
@@ -894,9 +897,9 @@ exports.search_answer = function (req, res, next) {
 }
 
 exports.count_answer = function (req, res, next) {
-  var wenjuanid = req.body.wenjuanid;
-  var questionid = req.body.questionid;
-  var ep = eventproxy();
+  let wenjuanid = req.body.wenjuanid;
+  let questionid = req.body.questionid;
+  let ep = eventproxy();
   ep.fail(next);
 
   Answer.find({
@@ -910,9 +913,9 @@ exports.count_answer = function (req, res, next) {
       questionid: 1
     }
   }, ep.done(function (answers) {
-    var result = [];
+    let result = [];
     for (answer of answers) {
-      var a = _.find(result, function (o) {
+      let a = _.find(result, function (o) {
         return o.questionid === answer.questionid;
       });
 
@@ -924,7 +927,7 @@ exports.count_answer = function (req, res, next) {
         result.push(a);
       }
 
-      for (var i = 0; i < answer.choice_answer.length; i++) {
+      for (let i = 0; i < answer.choice_answer.length; i++) {
         if (a.answer_count[answer.choice_answer[i]]) {
           a.answer_count[answer.choice_answer[i]] = a.answer_count[
             answer.choice_answer[i]] + 1;
@@ -935,9 +938,9 @@ exports.count_answer = function (req, res, next) {
       }
     }
 
-    for (var i = 0; i < result.length; i++) {
+    for (let i = 0; i < result.length; i++) {
       if (result[i]) {
-        for (var j = 0; j < result[i].answer_count.length; j++) {
+        for (let j = 0; j < result[i].answer_count.length; j++) {
           if (!result[i].answer_count[j]) {
             result[i].answer_count[j] = 0;
           }
