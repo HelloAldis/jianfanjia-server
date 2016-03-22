@@ -153,7 +153,7 @@ router.post('/delete_designer_message', auth.designerRequired, message.delete_de
 router.post('/unread_designer_message_count', auth.designerRequired, message.unread_designer_message_count); //未读消息个数
 router.post('/search_designer_comment', auth.designerRequired, message.search_designer_comment); //获取设计师的评论通知
 router.post('/read_designer_message', auth.designerRequired, message.read_designer_message); //设计师标记通知已读
-router.post('/designer_remind_user_house_check', auth.designerRequired, limit.peruserperday('designer_remind_user_house_check', config.designer_remind_user_house_check_time_one_day),
+router.post('/designer_remind_user_house_check', auth.designerRequired, limit.peruserplanperday('designer_remind_user_house_check', config.designer_remind_user_house_check_time_one_day),
   designer.designer_remind_user_house_check); //设计师提醒业主确认量房
 
 //管理员独有的功能
