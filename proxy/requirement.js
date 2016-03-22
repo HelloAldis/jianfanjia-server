@@ -68,6 +68,10 @@ exports.removeOne = function (query, option, callback) {
   Requirement.findOneAndRemove(query, option, callback)
 };
 
+exports.removeSome = function (query, callback) {
+  Requirement.remove(query, callback);
+};
+
 exports.count = function (query, callback) {
   Requirement.count(query, callback);
 }
