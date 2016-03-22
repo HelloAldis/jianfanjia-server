@@ -342,6 +342,7 @@ exports.buildArticle = function (req) {
   article.content = req.body.content;
   article.create_at = req.body.create_at || new Date().getTime();
   article.status = req.body.status;
+  article.articletype = req.body.articletype;
 
   return tools.deleteUndefinedAndNullThenFilterXss(article);
 }

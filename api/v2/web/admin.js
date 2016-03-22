@@ -707,17 +707,15 @@ HTTP/1.1/Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gec
 
 exports.add_article = function (req, res, next) {
   let article = ApiUtil.buildArticle(req);
-  let articletype = req.body.articletype;
   article.status = type.article_status_private;
   article.authorid = ApiUtil.getUserid(req);
   article.usertype = ApiUtil.getUsertype(req);
   let ep = eventproxy();
   ep.fail(next);
 
-  switch (articletype) {
+  switch (article.articletype) {
     case type.articletype_dec_strategy:
     case type.articletype_dec_tip:
-      article.articletype = articletype;
       DecStrategy.newAndSave(article, ep.done(function (dec_strategy) {
         res.sendSuccessMsg();
       }));
@@ -729,12 +727,10 @@ exports.add_article = function (req, res, next) {
 
 exports.update_article = function (req, res, next) {
   let article = ApiUtil.buildArticle(req);
-  let articletype = req.body.articletype;
   let _id = req.body._id;
   let ep = eventproxy();
   ep.fail(next);
 
-  article.articletype = articletype;
   DecStrategy.setOne({
     _id: _id
   }, article, null, ep.done(function (dec_strategy) {
@@ -749,7 +745,6 @@ exports.search_article = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
-  let articletype = req.body.articletype;
   let ep = eventproxy();
   ep.fail(next);
 
@@ -764,11 +759,10 @@ exports.search_article = function (req, res, next) {
     };
   }
 
-  switch (articletype) {
+  switch (query.articletype) {
     case undefined:
     case type.articletype_dec_strategy:
     case type.articletype_dec_tip:
-      query.articletype = articletype;
       DecStrategy.paginate(query, project, {
         sort: sort,
         skip: skip,
