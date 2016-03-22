@@ -51,7 +51,7 @@ exports.deleteUndefinedAndNullThenFilterXss = function (obj) {
     } else if (typeof obj[p] === 'string') {
       obj[p] = xss_util(obj[p]);
     } else if (typeof obj[p] === 'object' && !(obj[p] instanceof ObjectId)) {
-      exports.deleteUndefinedAndNullThenFilterXss(obj);
+      exports.deleteUndefinedAndNullThenFilterXss(obj[p]);
     }
   }
 
