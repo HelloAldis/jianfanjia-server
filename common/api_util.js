@@ -344,7 +344,7 @@ exports.buildArticle = function (req) {
   article.status = req.body.status;
   article.articletype = req.body.articletype;
 
-  return tools.deleteUndefinedAndNullThenFilterXss(article);
+  return tools.deleteUndefinedAndNull(article);
 }
 
 exports.buildBeautifulImage = function (req) {

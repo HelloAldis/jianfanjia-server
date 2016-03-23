@@ -58,6 +58,18 @@ exports.deleteUndefinedAndNullThenFilterXss = function (obj) {
   return obj
 }
 
+exports.deleteUndefinedAndNull = function (obj) {
+  for (let p in obj) {
+    if (obj[p] === null || obj[p] === undefined) {
+      delete obj[p];
+    } else if (typeof obj[p] === 'object' && !(obj[p] instanceof ObjectId)) {
+      exports.deleteUndefinedAndNull(obj[p]);
+    }
+  }
+
+  return obj
+}
+
 exports.xss = function (html) {
   if (html === undefined || html === null) {
     return undefined;
