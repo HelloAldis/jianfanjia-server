@@ -858,7 +858,8 @@ let designer_message_type_user_final_plan_template =
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>设计师您好：</p>\
 <p>您提交的方案已经被业主【%s】采纳</p>\
-<p>请及时与业主联系并进入下一步流程!</p>\
+<p>简繁家工作人员会联系您线下签合同</p>\
+<p>请及时与业主联系并配置合同设置开工时间</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
 </html>'
@@ -869,7 +870,7 @@ exports.designer_message_type_user_final_plan = function (user, designer, plan) 
     requirementid: plan.requirementid,
     planid: plan._id,
     title: '中标提醒',
-    content: '设计师您好：您提交的方案已经被业主【' + user.username + '】采纳，请及时与业主联系并进入下一步流程!',
+    content: '设计师您好：您提交的方案已经被业主【' + user.username + '】采纳，简繁家工作人员会联系您线下签合同，请及时与业主联系并配置合同设置开工时间!',
     html: util.format(designer_message_type_user_final_plan_template, user.username),
     message_type: type.designer_message_type_user_final_plan,
     status: type.message_status_unread,
