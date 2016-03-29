@@ -1,17 +1,13 @@
 "use strict";
 
-const validator = require('validator');
 const eventproxy = require('eventproxy');
 const BeautifulImage = require('../../../proxy').BeautifulImage;
 const Favorite = require('../../../proxy').Favorite;
 const tools = require('../../../common/tools');
-const _ = require('lodash');
-const config = require('../../../apiconfig');
 const async = require('async');
 const ApiUtil = require('../../../common/api_util');
 const reg_util = require('../../../common/reg_util');
 const type = require('../../../type');
-const limit = require('../../../middlewares/limit');
 
 exports.search_beautiful_image = function (req, res, next) {
   let query = req.body.query || {};

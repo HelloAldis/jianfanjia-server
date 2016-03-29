@@ -1,6 +1,5 @@
 var winston = require('winston');
 var Rotate = require('winston-daily-rotate-file');
-var config = require('../apiconfig');
 var path = require('path');
 
 var logDirectory = path.normalize(__dirname + '/../log');
@@ -23,7 +22,6 @@ var logger = new winston.Logger({
       filename: logDirectory + '/error.log',
       handleExceptions: true,
       humanReadableUnhandledException: true,
-      json: true,
       maxsize: 5242880, //5MB
       maxFiles: 5,
       json: false,

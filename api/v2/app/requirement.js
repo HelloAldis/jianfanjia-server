@@ -1,4 +1,3 @@
-var validator = require('validator');
 var eventproxy = require('eventproxy');
 var User = require('../../../proxy').User;
 var Plan = require('../../../proxy').Plan;
@@ -6,15 +5,10 @@ var Requirement = require('../../../proxy').Requirement;
 var Designer = require('../../../proxy').Designer;
 var Process = require('../../../proxy').Process;
 var Evaluation = require('../../../proxy').Evaluation;
-var tools = require('../../../common/tools');
 var _ = require('lodash');
-var config = require('../../../apiconfig');
 var ApiUtil = require('../../../common/api_util');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../../type');
 var async = require('async');
-var sms = require('../../../common/sms');
 var designer_match_util = require('../../../common/designer_match');
 
 exports.user_my_requirement_list = function (req, res, next) {

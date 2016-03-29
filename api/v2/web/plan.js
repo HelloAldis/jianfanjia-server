@@ -1,6 +1,5 @@
-"use strict";
+'use strict';
 
-const validator = require('validator');
 const eventproxy = require('eventproxy');
 const User = require('../../../proxy').User;
 const Plan = require('../../../proxy').Plan;
@@ -9,7 +8,6 @@ const Designer = require('../../../proxy').Designer;
 const Comment = require('../../../proxy').Comment;
 const tools = require('../../../common/tools');
 const _ = require('lodash');
-const config = require('../../../apiconfig');
 const async = require('async');
 const ApiUtil = require('../../../common/api_util');
 const mongoose = require('mongoose');

@@ -1,6 +1,5 @@
 var models = require('../models');
 var DecStrategy = models.DecStrategy;
-var uuid = require('node-uuid');
 
 exports.newAndSave = function (json, callback) {
   var decStrategy = new DecStrategy(json);
@@ -19,10 +18,10 @@ exports.setOne = function (query, update, option, callback) {
   }, option, callback);
 }
 
-exports.incOne = function (query, update, option, callback) {
+exports.incOne = function (query, update, option) {
   DecStrategy.findOneAndUpdate(query, {
     $inc: update
-  }, option, function (err) {});
+  }, option, function () {});
 }
 
 exports.find = function (query, project, option, callback) {

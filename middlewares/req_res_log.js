@@ -1,9 +1,7 @@
 var fs = require('fs');
 var morgan = require('morgan');
-var config = require('../apiconfig');
 var path = require('path');
 var logger = require('../common/logger');
-
 
 logger.stream = {
   write: function (message, encoding) {

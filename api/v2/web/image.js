@@ -1,13 +1,8 @@
-var validator = require('validator');
 var eventproxy = require('eventproxy');
 var Image = require('../../../proxy').Image;
 var tools = require('../../../common/tools');
-var _ = require('lodash');
-var config = require('../../../apiconfig');
 var async = require('async');
 var ApiUtil = require('../../../common/api_util');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
 var utility = require('utility');
 var imageUtil = require('../../../common/image_util');
 
@@ -20,8 +15,8 @@ exports.add = function (req, res, next) {
     var md5 = utility.md5(data);
 
     Image.findOne({
-      'md5': md5,
-      'userid': userid
+      md5: md5,
+      userid: userid
     }, null, ep.done(function (image) {
       if (image) {
         if (!req.timedout) {
@@ -195,8 +190,8 @@ exports.crop = function (req, res, next) {
     var md5 = utility.md5(data);
 
     Image.findOne({
-      'md5': md5,
-      'userid': userid
+      md5: md5,
+      userid: userid
     }, null, ep.done(function (image) {
       if (image) {
         res.sendData(image._id);

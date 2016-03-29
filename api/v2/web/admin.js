@@ -1,6 +1,5 @@
-"use strict"
+'use strict'
 
-const validator = require('validator');
 const eventproxy = require('eventproxy');
 const Designer = require('../../../proxy').Designer;
 const Share = require('../../../proxy').Share;
@@ -18,7 +17,6 @@ const Plan = require('../../../proxy').Plan;
 const Answer = require('../../../proxy').Answer;
 const tools = require('../../../common/tools');
 const _ = require('lodash');
-const config = require('../../../apiconfig');
 const ue_config = require('../../../ueditor/ue_config');
 const async = require('async');
 const ApiUtil = require('../../../common/api_util');
@@ -613,6 +611,8 @@ exports.search_process = function (req, res, next) {
 exports.update_team = function (req, res, next) {
   let team = ApiUtil.buildTeam(req);
   let oid = tools.trim(req.body._id);
+  let ep = eventproxy();
+  ep.fail(next);
 
   if (oid === '') {
     res.sendErrMsg('信息不完全');
@@ -638,7 +638,7 @@ exports.update_designer_online_status = function (req, res, next) {
   }, {
     online_status: new_oneline_status,
     online_update_time: new Date().getTime(),
-  }, {}, ep.done(function (designer) {
+  }, {}, ep.done(function () {
     res.sendSuccessMsg();
   }));
 }
@@ -908,7 +908,7 @@ exports.count_answer = function (req, res, next) {
     }
   }, ep.done(function (answers) {
     let result = [];
-    for (answer of answers) {
+    for (let answer of answers) {
       let a = _.find(result, function (o) {
         return o.questionid === answer.questionid;
       });

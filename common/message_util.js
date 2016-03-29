@@ -5,16 +5,27 @@ const UserMessage = require('../proxy').UserMessage;
 const DesignerMessage = require('../proxy').DesignerMessage;
 const gt = require('../getui/gt.js');
 const date_util = require('./date_util');
+const logger = require('./logger')
 const _ = require('lodash');
 const util = require('util');
 
 function saveDesignerMessageAndPush(designer_message) {
   DesignerMessage.newAndSave(designer_message, function (err, designer_message_indb) {
+    if (err) {
+      logger.error(err);;
+      return;
+    }
+
     if (designer_message_indb) {
       DesignerMessage.count({
         designerid: designer_message_indb.designerid,
         status: type.message_status_unread,
       }, function (err, count) {
+        if (err) {
+          logger.error(err);;
+          return;
+        }
+
         let payload = gt.buildPayloadFromDesignerMessage(designer_message_indb);
         payload.badge = count;
         gt.pushMessageToDesigner(designer_message_indb.designerid, payload);
@@ -25,11 +36,21 @@ function saveDesignerMessageAndPush(designer_message) {
 
 function saveDesignerCommentAndPush(designer_message, username) {
   DesignerMessage.newAndSave(designer_message, function (err, designer_message_indb) {
+    if (err) {
+      logger.error(err);;
+      return;
+    }
+
     if (designer_message_indb) {
       DesignerMessage.count({
         designerid: designer_message_indb.designerid,
         status: type.message_status_unread,
       }, function (err, count) {
+        if (err) {
+          logger.error(err);;
+          return;
+        }
+
         let payload = gt.buildPayloadFromDesignerMessage(designer_message_indb);
         payload.badge = count;
         payload.content = username + ' 给您留言：' + payload.content;
@@ -41,11 +62,21 @@ function saveDesignerCommentAndPush(designer_message, username) {
 
 function saveUserMessageAndPush(user_message) {
   UserMessage.newAndSave(user_message, function (err, user_message_indb) {
+    if (err) {
+      logger.error(err);;
+      return;
+    }
+
     if (user_message_indb) {
       UserMessage.count({
         userid: user_message_indb.userid,
         status: type.message_status_unread,
       }, function (err, count) {
+        if (err) {
+          logger.error(err);;
+          return;
+        }
+
         let payload = gt.buildPayloadFromUserMessage(user_message_indb);
         payload.badge = count;
         gt.pushMessageToUser(user_message_indb.userid, payload);
@@ -56,11 +87,21 @@ function saveUserMessageAndPush(user_message) {
 
 function saveUserCommentAndPush(user_message, username) {
   UserMessage.newAndSave(user_message, function (err, user_message_indb) {
+    if (err) {
+      logger.error(err);;
+      return;
+    }
+
     if (user_message_indb) {
       UserMessage.count({
         userid: user_message_indb.userid,
         status: type.message_status_unread,
       }, function (err, count) {
+        if (err) {
+          logger.error(err);;
+          return;
+        }
+
         let payload = gt.buildPayloadFromUserMessage(user_message_indb);
         payload.badge = count;
         payload.content = username + ' 给您留言：' + payload.content;

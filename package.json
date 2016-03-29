@@ -8,6 +8,7 @@
   "description": "Jian Fan Jian welcome and API project",
   "main": "app.js",
   "scripts": {
+    "eslint": "eslint ./api/v2 ./common ./controllers ./middlewares ./models ./proxy ./*.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Aldis Zhan",

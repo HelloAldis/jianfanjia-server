@@ -1,6 +1,5 @@
 "use strict";
 
-const validator = require('validator');
 const eventproxy = require('eventproxy');
 const User = require('../../../proxy').User;
 const Plan = require('../../../proxy').Plan;
@@ -9,17 +8,13 @@ const Designer = require('../../../proxy').Designer;
 const Evaluation = require('../../../proxy').Evaluation;
 const Favorite = require('../../../proxy').Favorite;
 const VerifyCode = require('../../../proxy').VerifyCode;
-const tools = require('../../../common/tools');
-const _ = require('lodash');
 const config = require('../../../apiconfig');
 const ApiUtil = require('../../../common/api_util');
-const DateUtil = require('../../../common/date_util');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 const type = require('../../../type');
 const async = require('async');
 const sms = require('../../../common/sms');
-const moment = require('moment');
 const authMiddleWare = require('../../../middlewares/auth');
 const message_util = require('../../../common/message_util');
 

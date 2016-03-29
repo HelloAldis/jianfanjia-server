@@ -1,16 +1,10 @@
-var validator = require('validator');
 var eventproxy = require('eventproxy');
 var User = require('../../../proxy').User;
 var Comment = require('../../../proxy').Comment;
 var Designer = require('../../../proxy').Designer;
 var Process = require('../../../proxy').Process;
-var tools = require('../../../common/tools');
-var _ = require('lodash');
-var config = require('../../../apiconfig');
 var async = require('async');
 var ApiUtil = require('../../../common/api_util');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../../type');
 var message_util = require('../../../common/message_util');
 

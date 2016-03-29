@@ -1,8 +1,9 @@
-var validator = require('validator');
-var tools = require('./tools');
-var _ = require('lodash');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
+'use strict'
+
+const tools = require('./tools');
+const _ = require('lodash');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 exports.getUserid = function (req) {
   if (req.session) {
@@ -23,27 +24,34 @@ exports.getAgreeeLicense = function (req) {
 }
 
 exports.buildUser = function (req) {
-  var user = {};
-  user.username = req.body.username;
-  user.sex = req.body.sex;
-  user.province = req.body.province;
-  user.city = req.body.city;
-  user.district = req.body.district;
-  user.address = req.body.address;
-  user.email = req.body.email;
-  user.dec_progress = req.body.dec_progress;
-  user.dec_styles = req.body.dec_styles;
-  user.family_description = req.body.family_description;
+  let user = {};
+  let input;
+  if (req.body.user) {
+    input = req.body.user;
+  } else {
+    input = req.body;
+  }
 
-  if (req.body.imageid) {
-    user.imageid = new ObjectId(req.body.imageid);
+  user.username = input.username;
+  user.sex = input.sex;
+  user.province = input.province;
+  user.city = input.city;
+  user.district = input.district;
+  user.address = input.address;
+  user.email = input.email;
+  user.dec_progress = input.dec_progress;
+  user.dec_styles = input.dec_styles;
+  user.family_description = input.family_description;
+
+  if (input.imageid) {
+    user.imageid = new ObjectId(input.imageid);
   }
 
   return tools.deleteUndefinedAndNullThenFilterXss(user);
 }
 
 exports.buildWechatUser = function (req) {
-  var user = {};
+  let user = {};
   user.username = req.body.username;
   user.sex = req.body.sex;
   user.image_url = req.body.image_url;
@@ -54,7 +62,7 @@ exports.buildWechatUser = function (req) {
 }
 
 exports.buildDesinger = function (req) {
-  var designer = {};
+  let designer = {};
   designer.username = req.body.username;
   designer.sex = req.body.sex;
   designer.province = req.body.province;
@@ -90,7 +98,7 @@ exports.buildDesinger = function (req) {
 }
 
 exports.buildDesignerBusinessInfo = function (req) {
-  var designer = {};
+  let designer = {};
   designer.dec_types = req.body.dec_types;
   designer.work_types = req.body.work_types;
   designer.dec_styles = req.body.dec_styles;
@@ -105,7 +113,7 @@ exports.buildDesignerBusinessInfo = function (req) {
 }
 
 exports.buildUidBank = function (req) {
-  var designer = {};
+  let designer = {};
   designer.username = req.body.username;
   designer.uid = req.body.uid;
   designer.bank_card = req.body.bank_card;
@@ -127,7 +135,7 @@ exports.buildUidBank = function (req) {
 }
 
 exports.buildTeam = function (req) {
-  var team = {};
+  let team = {};
   team.manager = req.body.manager;
   team.uid = req.body.uid;
   team.company = req.body.company;
@@ -151,7 +159,7 @@ exports.buildTeam = function (req) {
 }
 
 exports.buildProduct = function (req) {
-  var product = {};
+  let product = {};
   product.province = req.body.province;
   product.city = req.body.city;
   product.district = req.body.district;
@@ -175,7 +183,7 @@ exports.buildProduct = function (req) {
 }
 
 exports.buildPlan = function (req) {
-  var plan = {};
+  let plan = {};
   plan.duration = req.body.duration;
   plan.description = req.body.description;
   plan.manager = req.body.manager;
@@ -198,33 +206,40 @@ exports.buildPlan = function (req) {
 }
 
 exports.buildRequirement = function (req) {
-  var requirement = {};
-  requirement.province = req.body.province;
-  requirement.city = req.body.city;
-  requirement.district = req.body.district;
-  requirement.cell = req.body.cell;
-  requirement.street = req.body.street;
-  requirement.address = req.body.address;
-  requirement.cell_phase = req.body.cell_phase;
-  requirement.cell_building = req.body.cell_building;
-  requirement.cell_unit = req.body.cell_unit;
-  requirement.cell_detail_number = req.body.cell_detail_number;
-  requirement.house_type = req.body.house_type;
-  requirement.business_house_type = req.body.business_house_type;
-  requirement.house_area = req.body.house_area;
-  requirement.dec_style = req.body.dec_style;
-  requirement.dec_type = req.body.dec_type;
-  requirement.prefer_sex = req.body.prefer_sex;
-  requirement.work_type = req.body.work_type;
-  requirement.total_price = req.body.total_price;
-  requirement.communication_type = req.body.communication_type;
-  requirement.family_description = req.body.family_description;
+  let requirement = {};
+  let input;
+  if (req.body.requirement) {
+    input = req.body.requirement;
+  } else {
+    input = req.body;
+  }
+
+  requirement.province = input.province;
+  requirement.city = input.city;
+  requirement.district = input.district;
+  requirement.cell = input.cell;
+  requirement.street = input.street;
+  requirement.address = input.address;
+  requirement.cell_phase = input.cell_phase;
+  requirement.cell_building = input.cell_building;
+  requirement.cell_unit = input.cell_unit;
+  requirement.cell_detail_number = input.cell_detail_number;
+  requirement.house_type = input.house_type;
+  requirement.business_house_type = input.business_house_type;
+  requirement.house_area = input.house_area;
+  requirement.dec_style = input.dec_style;
+  requirement.dec_type = input.dec_type;
+  requirement.prefer_sex = input.prefer_sex;
+  requirement.work_type = input.work_type;
+  requirement.total_price = input.total_price;
+  requirement.communication_type = input.communication_type;
+  requirement.family_description = input.family_description;
 
   return tools.deleteUndefinedAndNullThenFilterXss(requirement);
 }
 
 exports.buildShare = function (req) {
-  var share = {};
+  let share = {};
   share.manager = req.body.manager;
   share.province = req.body.province;
   share.city = req.body.city;
@@ -254,7 +269,7 @@ exports.buildShare = function (req) {
 }
 
 exports.buildProcess = function (req) {
-  var process = {};
+  let process = {};
   process.final_designerid = new ObjectId(req.body.final_designerid);
   process.final_planid = new ObjectId(req.body.final_planid);
   process.requirementid = new ObjectId(req.body.requirementid);
@@ -274,7 +289,7 @@ exports.buildProcess = function (req) {
 }
 
 exports.buildReschedule = function (req) {
-  var reschedule = {};
+  let reschedule = {};
   reschedule.processid = new ObjectId(tools.trim(req.body.processid));
   reschedule.userid = new ObjectId(tools.trim(req.body.userid));
   reschedule.designerid = new ObjectId(tools.trim(req.body.designerid));
@@ -285,7 +300,7 @@ exports.buildReschedule = function (req) {
 }
 
 exports.buildFeedback = function (req) {
-  var feedback = {};
+  let feedback = {};
 
   feedback.content = req.body.content;
   feedback.platform = req.body.platform;
@@ -295,7 +310,7 @@ exports.buildFeedback = function (req) {
 }
 
 exports.buildTempUser = function (req) {
-  var tempUser = {};
+  let tempUser = {};
 
   tempUser.name = req.body.name;
   tempUser.phone = req.body.phone;
@@ -307,7 +322,7 @@ exports.buildTempUser = function (req) {
 }
 
 exports.buildComment = function (req) {
-  var comment = {};
+  let comment = {};
   comment.topicid = req.body.topicid;
   comment.section = req.body.section;
   comment.item = req.body.item;
@@ -319,7 +334,7 @@ exports.buildComment = function (req) {
 }
 
 exports.buildEvaluation = function (req) {
-  var evaluation = {};
+  let evaluation = {};
   evaluation.designerid = req.body.designerid ? new ObjectId(req.body.designerid) :
     undefined;
   evaluation.requirementid = req.body.requirementid ? new ObjectId(req.body.requirementid) :
@@ -333,7 +348,7 @@ exports.buildEvaluation = function (req) {
 }
 
 exports.buildArticle = function (req) {
-  var article = {};
+  let article = {};
   article.title = req.body.title;
   article.keywords = req.body.keywords;
   article.cover_imageid = req.body.cover_imageid ? new ObjectId(req.body.cover_imageid) :
@@ -348,7 +363,7 @@ exports.buildArticle = function (req) {
 }
 
 exports.buildBeautifulImage = function (req) {
-  var beautifulImage = {};
+  let beautifulImage = {};
   beautifulImage.title = req.body.title;
   beautifulImage.description = req.body.description;
   beautifulImage.keywords = req.body.keywords;
