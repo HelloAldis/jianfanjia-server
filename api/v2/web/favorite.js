@@ -1,4 +1,3 @@
-var validator = require('validator');
 var eventproxy = require('eventproxy');
 var Favorite = require('../../../proxy').Favorite;
 var Product = require('../../../proxy').Product;
@@ -6,7 +5,6 @@ var Designer = require('../../../proxy').Designer;
 var BeautifulImage = require('../../../proxy').BeautifulImage;
 var tools = require('../../../common/tools');
 var _ = require('lodash');
-var config = require('../../../apiconfig');
 var ApiUtil = require('../../../common/api_util');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;

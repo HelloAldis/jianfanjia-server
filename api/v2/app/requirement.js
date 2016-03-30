@@ -1,4 +1,3 @@
-var validator = require('validator');
 var eventproxy = require('eventproxy');
 var User = require('../../../proxy').User;
 var Plan = require('../../../proxy').Plan;
@@ -6,15 +5,10 @@ var Requirement = require('../../../proxy').Requirement;
 var Designer = require('../../../proxy').Designer;
 var Process = require('../../../proxy').Process;
 var Evaluation = require('../../../proxy').Evaluation;
-var tools = require('../../../common/tools');
 var _ = require('lodash');
-var config = require('../../../apiconfig');
 var ApiUtil = require('../../../common/api_util');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../../type');
 var async = require('async');
-var sms = require('../../../common/sms');
 var designer_match_util = require('../../../common/designer_match');
 
 exports.user_my_requirement_list = function (req, res, next) {
@@ -24,7 +18,11 @@ exports.user_my_requirement_list = function (req, res, next) {
 
   Requirement.find({
     userid: userid
-  }, null, ep.done(function (requirements) {
+  }, null, {
+    sort: {
+      create_at: -1
+    }
+  }, ep.done(function (requirements) {
     if (requirements.length > 0) {
       async.mapLimit(requirements, 3, function (requirement, callback) {
         requirement = requirement.toObject();
@@ -61,8 +59,7 @@ exports.user_my_requirement_list = function (req, res, next) {
               callback(null, requirement);
             }));
           }));
-        } else if (requirement.rec_designerids && requirement.rec_designerids
-          .length > 0) {
+        } else if (requirement.rec_designerids && requirement.rec_designerids.length > 0) {
           Designer.find({
             _id: {
               $in: requirement.rec_designerids,
@@ -84,10 +81,8 @@ exports.user_my_requirement_list = function (req, res, next) {
           callback(null, requirement);
         }
       }, ep.done(function (requirements) {
-        async.mapLimit(requirements, 3, function (requirement,
-          callback) {
-          if (requirement.status === type.requirement_status_config_process || requirement.status ===
-            type.requirement_status_done_process) {
+        async.mapLimit(requirements, 3, function (requirement, callback) {
+          if (requirement.status === type.requirement_status_config_process || requirement.status === type.requirement_status_done_process) {
             Process.findOne({
               requirementid: requirement._id,
             }, {
@@ -182,6 +177,9 @@ exports.designer_get_user_requirements = function (req, res, next) {
         service_attitude: 1,
         respond_speed: 1,
       }, ep.done(function (designer) {
+        requirements.sort(function (a, b) {
+          return b.plan.request_date - a.plan.request_date;
+        });
         requirements = requirements.map(function (o) {
           o.designer = designer;
           return o;

@@ -1,7 +1,5 @@
 var TempUser = require('../../../proxy').TempUser;
 var eventproxy = require('eventproxy');
-var validator = require('validator');
-var _ = require('lodash');
 var ApiUtil = require('../../../common/api_util');
 
 exports.add = function (req, res, next) {

@@ -132,8 +132,7 @@ router.get('/designer/info', auth.designerRequired, designerWeb.getInfo); //获�
 router.post('/process/ysimage', auth.designerRequired, process.addYsImage); //提交验收照片
 router.post('/process/ysimage/delete', auth.designerRequired, process.deleteYsImage); //删除验收照片
 router.post('/process/can_ys', auth.designerRequired, process.ys); //可以开始验收了
-router.post('/designer_get_user_requirements', auth.designerRequired,
-  requirement.designer_get_user_requirements); //设计师获取我的业主需求信息
+router.post('/designer_get_user_requirements', auth.designerRequired, requirement.designer_get_user_requirements); //设计师获取我的业主需求信息
 router.post('/designer/user/ok', auth.designerRequired, designerWeb.okUser); //响应业主
 router.post('/designer/user/reject', auth.designerRequired, designerWeb.rejectUser); //拒绝业主
 router.post('/designer_requirement_plans', auth.designerRequired, planWeb.designer_requirement_plans); //设计师获取某个需求下的方案
@@ -143,7 +142,7 @@ router.post('/designer_message_detail', auth.designerRequired, messageWeb.design
 router.post('/delete_designer_message', auth.designerRequired, messageWeb.delete_designer_message); //删除设计师消息
 router.post('/unread_designer_message_count', auth.designerRequired, messageWeb.unread_designer_message_count); //未读消息个数
 router.post('/search_designer_comment', auth.designerRequired, message.search_designer_comment); //获取设计师评论通知
-router.post('/designer_remind_user_house_check', auth.designerRequired, limit.peruserperday('designer_remind_user_house_check', config.designer_remind_user_house_check_time_one_day),
+router.post('/designer_remind_user_house_check', auth.designerRequired, limit.peruserplanperday('designer_remind_user_house_check', config.designer_remind_user_house_check_time_one_day),
   designerWeb.designer_remind_user_house_check); //设计师提醒业主确认量房
 
 module.exports = router;

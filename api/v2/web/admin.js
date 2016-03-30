@@ -1,6 +1,5 @@
-"use strict"
+'use strict'
 
-const validator = require('validator');
 const eventproxy = require('eventproxy');
 const Designer = require('../../../proxy').Designer;
 const Share = require('../../../proxy').Share;
@@ -18,7 +17,6 @@ const Plan = require('../../../proxy').Plan;
 const Answer = require('../../../proxy').Answer;
 const tools = require('../../../common/tools');
 const _ = require('lodash');
-const config = require('../../../apiconfig');
 const ue_config = require('../../../ueditor/ue_config');
 const async = require('async');
 const ApiUtil = require('../../../common/api_util');
@@ -277,7 +275,7 @@ exports.listAuthingDesigner = function (req, res, next) {
 exports.searchDesigner = function (req, res, next) {
   let query = req.body.query;
   let phone = tools.trim(query.phone);
-  let phoneReg = reg_util.reg('^' + tools.trim(phone));
+  let phoneReg = reg_util.reg(tools.trim(phone));
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
   let ep = eventproxy();
@@ -312,7 +310,7 @@ exports.searchDesigner = function (req, res, next) {
 exports.searchUser = function (req, res, next) {
   let query = req.body.query;
   let phone = tools.trim(query.phone);
-  let phoneReg = reg_util.reg('^' + tools.trim(phone));
+  let phoneReg = reg_util.reg(tools.trim(phone));
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
   let ep = eventproxy();
@@ -613,6 +611,8 @@ exports.search_process = function (req, res, next) {
 exports.update_team = function (req, res, next) {
   let team = ApiUtil.buildTeam(req);
   let oid = tools.trim(req.body._id);
+  let ep = eventproxy();
+  ep.fail(next);
 
   if (oid === '') {
     res.sendErrMsg('信息不完全');
@@ -638,7 +638,7 @@ exports.update_designer_online_status = function (req, res, next) {
   }, {
     online_status: new_oneline_status,
     online_update_time: new Date().getTime(),
-  }, {}, ep.done(function (designer) {
+  }, {}, ep.done(function () {
     res.sendSuccessMsg();
   }));
 }
@@ -707,17 +707,15 @@ HTTP/1.1/Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gec
 
 exports.add_article = function (req, res, next) {
   let article = ApiUtil.buildArticle(req);
-  let articletype = req.body.articletype;
   article.status = type.article_status_private;
   article.authorid = ApiUtil.getUserid(req);
   article.usertype = ApiUtil.getUsertype(req);
   let ep = eventproxy();
   ep.fail(next);
 
-  switch (articletype) {
+  switch (article.articletype) {
     case type.articletype_dec_strategy:
     case type.articletype_dec_tip:
-      article.articletype = articletype;
       DecStrategy.newAndSave(article, ep.done(function (dec_strategy) {
         res.sendSuccessMsg();
       }));
@@ -729,12 +727,10 @@ exports.add_article = function (req, res, next) {
 
 exports.update_article = function (req, res, next) {
   let article = ApiUtil.buildArticle(req);
-  let articletype = req.body.articletype;
   let _id = req.body._id;
   let ep = eventproxy();
   ep.fail(next);
 
-  article.articletype = articletype;
   DecStrategy.setOne({
     _id: _id
   }, article, null, ep.done(function (dec_strategy) {
@@ -749,7 +745,6 @@ exports.search_article = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
-  let articletype = req.body.articletype;
   let ep = eventproxy();
   ep.fail(next);
 
@@ -764,11 +759,10 @@ exports.search_article = function (req, res, next) {
     };
   }
 
-  switch (articletype) {
+  switch (query.articletype) {
     case undefined:
     case type.articletype_dec_strategy:
     case type.articletype_dec_tip:
-      query.articletype = articletype;
       DecStrategy.paginate(query, project, {
         sort: sort,
         skip: skip,
@@ -914,7 +908,7 @@ exports.count_answer = function (req, res, next) {
     }
   }, ep.done(function (answers) {
     let result = [];
-    for (answer of answers) {
+    for (let answer of answers) {
       let a = _.find(result, function (o) {
         return o.questionid === answer.questionid;
       });

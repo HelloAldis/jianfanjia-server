@@ -1,11 +1,7 @@
 var eventproxy = require('eventproxy');
 var Share = require('../proxy').Share;
 var Designer = require('../proxy').Designer;
-var _ = require('lodash');
-var config = require('../apiconfig');
 var async = require('async');
-var ApiUtil = require('../common/api_util');
-var type = require('../type');
 
 exports.share_process_homepage = function (req, res, next) {
   var _id = req.query.pid;

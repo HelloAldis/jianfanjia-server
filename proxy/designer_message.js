@@ -10,10 +10,10 @@ exports.newAndSave = function (json, callback) {
   designer.save(callback);
 };
 
-exports.incOne = function (query, update, option, callback) {
+exports.incOne = function (query, update, option) {
   Designer.findOneAndUpdate(query, {
     $inc: update
-  }, option, function (err) {});
+  }, option, function () {});
 }
 
 exports.findOne = function (query, project, callback) {

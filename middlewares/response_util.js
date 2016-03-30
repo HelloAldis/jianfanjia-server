@@ -23,7 +23,6 @@ function sendErrMsg(err) {
 }
 
 module.exports = function (req, res, next) {
-
   res.sendData = sendData;
   res.sendSuccessMsg = sendSuccessMsg;
   res.sendErrMsg = sendErrMsg;

@@ -1,4 +1,3 @@
-var config = require('../apiconfig');
 var ApiUtil = require('../common/api_util');
 var type = require('../type');
 var eventproxy = require('eventproxy');
@@ -43,7 +42,7 @@ exports.download_user_apk = function (req, res, next) {
     var apk = apks.pop();
     if (apk) {
       var arr = apk.split('_');
-      if (arr.length != 5) {
+      if (arr.length !== 5) {
         res.sendErrMsg('bad apk');
       } else {
         var download_url = 'http://' + req.headers.host +
@@ -65,7 +64,7 @@ exports.download_designer_apk = function (req, res, next) {
     var apk = apks.pop();
     if (apk) {
       var arr = apk.split('_');
-      if (arr.length != 5) {
+      if (arr.length !== 5) {
         res.sendErrMsg('bad apk');
       } else {
         var download_url = 'http://' + req.headers.host +

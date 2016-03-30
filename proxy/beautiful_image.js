@@ -1,6 +1,5 @@
 var models = require('../models');
 var BeautifulImage = models.BeautifulImage;
-var uuid = require('node-uuid');
 
 exports.newAndSave = function (json, callback) {
   var beautifulImage = new BeautifulImage(json);
@@ -20,10 +19,10 @@ exports.setOne = function (query, update, option, callback) {
   }, option, callback);
 }
 
-exports.incOne = function (query, update, option, callback) {
+exports.incOne = function (query, update, option) {
   BeautifulImage.findOneAndUpdate(query, {
     $inc: update
-  }, option, function (err) {});
+  }, option, function () {});
 }
 
 exports.find = function (query, project, option, callback) {

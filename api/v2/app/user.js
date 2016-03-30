@@ -1,14 +1,6 @@
-var validator = require('validator');
 var eventproxy = require('eventproxy');
 var User = require('../../../proxy').User;
-var tools = require('../../../common/tools');
-var _ = require('lodash');
-var config = require('../../../apiconfig');
 var ApiUtil = require('../../../common/api_util');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
-var type = require('../../../type');
-var async = require('async');
 
 exports.user_bind_wechat = function (req, res, next) {
   var wechat_unionid = req.body.wechat_unionid;

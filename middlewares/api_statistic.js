@@ -1,8 +1,4 @@
 var ApiStatistic = require('../proxy').ApiStatistic;
-var config = require('../apiconfig');
-var type = require('../type');
-var ApiUtil = require('../common/api_util');
-var _ = require('lodash');
 
 /**
  * 需要通用用户登录

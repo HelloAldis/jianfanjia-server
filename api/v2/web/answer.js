@@ -1,8 +1,5 @@
-var _ = require('lodash');
 var eventproxy = require('eventproxy');
-var utility = require('utility');
 var type = require('../../../type');
-var util = require('util');
 var Answer = require('../../../proxy').Answer;
 var User = require('../../../proxy').User;
 var Designer = require('../../../proxy').Designer;
@@ -12,11 +9,12 @@ var async = require('async');
 exports.upload_wenjuan_answer = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var usertype = ApiUtil.getUsertype(req);
+  var answers = ApiUtil.buildAnswers(req);
   var ep = eventproxy();
   ep.fail(next);
 
-  async.times(req.body.answers.length, function (n, next) {
-    var answer = req.body.answers[n];
+  async.times(answers.length, function (n, next) {
+    var answer = answers[n];
     answer.userid = userid;
     answer.usertype = usertype;
     Answer.newAndSave(answer, function (err) {

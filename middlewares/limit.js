@@ -62,4 +62,8 @@ exports.peripperday = makePerDayLimiter('peripperday', function (req) {
   return req.ip;
 });
 
+exports.peruserplanperday = makePerDayLimiter('peruserplanperday', function (req) {
+  return ApiUtil.getUserid(req) + req.body.planid;
+});
+
 exports.perwhatperdaydo = perDayDo('perwhatperdaydo');

@@ -1,4 +1,3 @@
-var validator = require('validator');
 var eventproxy = require('eventproxy');
 var User = require('../../../proxy').User;
 var Reschedule = require('../../../proxy').Reschedule;
@@ -15,7 +14,6 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var type = require('../../../type');
 var async = require('async');
-var gt = require('../../../getui/gt.js');
 var logger = require('../../../common/logger');
 var message_util = require('../../../common/message_util');
 
@@ -338,7 +336,7 @@ exports.delete_image = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  Process.deleteImage(_id, section, item, index, ep.done(function (process) {
+  Process.deleteImage(_id, section, item, index, ep.done(function () {
     res.sendSuccessMsg();
   }));
 };
@@ -798,7 +796,10 @@ exports.list = function (req, res, next) {
     lastupdate: 1,
     start_at: 1,
   }, {
-    lean: true
+    lean: true,
+    sort: {
+      start_at: -1
+    }
   }, ep.done(function (processes) {
     ep.emit('processes', processes);
   }));

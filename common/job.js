@@ -81,7 +81,6 @@ agenda.on('ready', function () {
       'get_wechat_token');
   }
 
-
   agenda.start();
 });
 

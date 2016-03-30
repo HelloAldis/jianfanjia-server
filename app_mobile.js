@@ -39,8 +39,9 @@ app.use(require('response-time')());
 app.use(timeout('60s'));
 app.use(helmet.frameguard('sameorigin')); // 防止 clickjacking attacks
 app.use(helmet.hidePoweredBy({
-  setTo: 'PHP 4.2.0'
+  setTo: 'By Aldis'
 })); //伪造poweredby
+app.use(helmet.xssFilter());
 app.use(bodyParser.json({
   limit: '1mb'
 }));

@@ -1,11 +1,7 @@
-var validator = require('validator');
 var eventproxy = require('eventproxy');
 var DecStrategy = require('../proxy').DecStrategy;
-var tools = require('../common/tools');
 var _ = require('lodash');
-var config = require('../apiconfig');
 var async = require('async');
-var ApiUtil = require('../common/api_util');
 var type = require('../type');
 var limit = require('../middlewares/limit');
 
@@ -53,7 +49,7 @@ exports.dec_strategy_homepage = function (req, res, next) {
         },
         associate_articles: function (callback) {
           var query = {};
-          keywords = dec_strategy.keywords.split(/,|，/);
+          var keywords = dec_strategy.keywords.split(/,|，/);
           _.remove(keywords, function (k) {
             return k.trim().length === 0;
           });

@@ -6,7 +6,6 @@ var VerifyCode = require('../../../proxy').VerifyCode;
 var tools = require('../../../common/tools');
 var authMiddleWare = require('../../../middlewares/auth');
 var utility = require('utility');
-var sms = require('../../../common/sms');
 var ApiUtil = require('../../../common/api_util');
 var type = require('../../../type');
 var config = require('../../../apiconfig');

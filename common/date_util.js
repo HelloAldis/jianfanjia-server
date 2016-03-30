@@ -1,5 +1,3 @@
-var validator = require('validator');
-var tools = require('./tools');
 var _ = require('lodash');
 var moment = require('moment');
 

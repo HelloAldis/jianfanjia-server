@@ -1,9 +1,7 @@
 "use strict"
 
-const validator = require('validator');
 const eventproxy = require('eventproxy');
 const Designer = require('../../../proxy').Designer;
-const Product = require('../../../proxy').Product;
 const Plan = require('../../../proxy').Plan;
 const User = require('../../../proxy').User;
 const Requirement = require('../../../proxy').Requirement;
@@ -11,7 +9,6 @@ const Favorite = require('../../../proxy').Favorite;
 const Evaluation = require('../../../proxy').Evaluation;
 const tools = require('../../../common/tools');
 const _ = require('lodash');
-const config = require('../../../apiconfig');
 const async = require('async');
 const ApiUtil = require('../../../common/api_util');
 const type = require('../../../type');

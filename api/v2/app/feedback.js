@@ -2,14 +2,9 @@ var eventproxy = require('eventproxy');
 var Feedback = require('../../../proxy').Feedback;
 var User = require('../../../proxy').User;
 var Designer = require('../../../proxy').Designer;
-var tools = require('../../../common/tools');
-var _ = require('lodash');
-var config = require('../../../apiconfig');
 var async = require('async');
 var ApiUtil = require('../../../common/api_util');
 var type = require('../../../type');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
 
 exports.add = function (req, res, next) {
   var feedback = ApiUtil.buildFeedback(req);

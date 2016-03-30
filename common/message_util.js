@@ -5,16 +5,27 @@ const UserMessage = require('../proxy').UserMessage;
 const DesignerMessage = require('../proxy').DesignerMessage;
 const gt = require('../getui/gt.js');
 const date_util = require('./date_util');
+const logger = require('./logger')
 const _ = require('lodash');
 const util = require('util');
 
 function saveDesignerMessageAndPush(designer_message) {
   DesignerMessage.newAndSave(designer_message, function (err, designer_message_indb) {
+    if (err) {
+      logger.error(err);;
+      return;
+    }
+
     if (designer_message_indb) {
       DesignerMessage.count({
         designerid: designer_message_indb.designerid,
         status: type.message_status_unread,
       }, function (err, count) {
+        if (err) {
+          logger.error(err);;
+          return;
+        }
+
         let payload = gt.buildPayloadFromDesignerMessage(designer_message_indb);
         payload.badge = count;
         gt.pushMessageToDesigner(designer_message_indb.designerid, payload);
@@ -25,11 +36,21 @@ function saveDesignerMessageAndPush(designer_message) {
 
 function saveDesignerCommentAndPush(designer_message, username) {
   DesignerMessage.newAndSave(designer_message, function (err, designer_message_indb) {
+    if (err) {
+      logger.error(err);;
+      return;
+    }
+
     if (designer_message_indb) {
       DesignerMessage.count({
         designerid: designer_message_indb.designerid,
         status: type.message_status_unread,
       }, function (err, count) {
+        if (err) {
+          logger.error(err);;
+          return;
+        }
+
         let payload = gt.buildPayloadFromDesignerMessage(designer_message_indb);
         payload.badge = count;
         payload.content = username + ' 给您留言：' + payload.content;
@@ -41,11 +62,21 @@ function saveDesignerCommentAndPush(designer_message, username) {
 
 function saveUserMessageAndPush(user_message) {
   UserMessage.newAndSave(user_message, function (err, user_message_indb) {
+    if (err) {
+      logger.error(err);;
+      return;
+    }
+
     if (user_message_indb) {
       UserMessage.count({
         userid: user_message_indb.userid,
         status: type.message_status_unread,
       }, function (err, count) {
+        if (err) {
+          logger.error(err);;
+          return;
+        }
+
         let payload = gt.buildPayloadFromUserMessage(user_message_indb);
         payload.badge = count;
         gt.pushMessageToUser(user_message_indb.userid, payload);
@@ -56,11 +87,21 @@ function saveUserMessageAndPush(user_message) {
 
 function saveUserCommentAndPush(user_message, username) {
   UserMessage.newAndSave(user_message, function (err, user_message_indb) {
+    if (err) {
+      logger.error(err);;
+      return;
+    }
+
     if (user_message_indb) {
       UserMessage.count({
         userid: user_message_indb.userid,
         status: type.message_status_unread,
       }, function (err, count) {
+        if (err) {
+          logger.error(err);;
+          return;
+        }
+
         let payload = gt.buildPayloadFromUserMessage(user_message_indb);
         payload.badge = count;
         payload.content = username + ' 给您留言：' + payload.content;
@@ -858,7 +899,8 @@ let designer_message_type_user_final_plan_template =
 <body style="padding-left:10; color:#7c8389; font-size:15">\
 <p>设计师您好：</p>\
 <p>您提交的方案已经被业主【%s】采纳</p>\
-<p>请及时与业主联系并进入下一步流程!</p>\
+<p>简繁家工作人员会联系您线下签合同</p>\
+<p>请及时与业主联系并配置合同设置开工时间</p>\
 <p>如有问题可以拨打我们的客服热线：<a href="tel:400-8515-167">400-8515-167</a></p>\
 </body>\
 </html>'
@@ -869,7 +911,7 @@ exports.designer_message_type_user_final_plan = function (user, designer, plan) 
     requirementid: plan.requirementid,
     planid: plan._id,
     title: '中标提醒',
-    content: '设计师您好：您提交的方案已经被业主【' + user.username + '】采纳，请及时与业主联系并进入下一步流程!',
+    content: '设计师您好：您提交的方案已经被业主【' + user.username + '】采纳，简繁家工作人员会联系您线下签合同，请及时与业主联系并配置合同设置开工时间!',
     html: util.format(designer_message_type_user_final_plan_template, user.username),
     message_type: type.designer_message_type_user_final_plan,
     status: type.message_status_unread,

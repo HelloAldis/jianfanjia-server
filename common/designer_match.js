@@ -48,8 +48,7 @@ exports.designer_match = function (designer, requirement) {
   }
 
   //匹配性别
-  if ((designer.sex === requirement.prefer_sex) || requirement.prefer_sex ==
-    type.sex_no_limit) {
+  if ((designer.sex === requirement.prefer_sex) || requirement.prefer_sex === type.sex_no_limit) {
     designer.match++;
   }
 

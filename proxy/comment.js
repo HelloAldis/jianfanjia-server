@@ -1,6 +1,5 @@
 var models = require('../models');
 var Comment = models.Comment;
-var uuid = require('node-uuid');
 
 exports.newAndSave = function (json, callback) {
   var comment = new Comment(json);
@@ -10,7 +9,6 @@ exports.newAndSave = function (json, callback) {
 exports.removeOne = function (query, option, callback) {
   Comment.findOneAndRemove(query, option, callback)
 };
-
 
 exports.setOne = function (query, update, option, callback) {
   Comment.findOneAndUpdate(query, {
