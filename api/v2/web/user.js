@@ -14,6 +14,7 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 const type = require('../../../type');
 const async = require('async');
+const _ = require('lodash');
 const sms = require('../../../common/sms');
 const authMiddleWare = require('../../../middlewares/auth');
 const message_util = require('../../../common/message_util');
