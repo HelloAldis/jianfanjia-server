@@ -18,9 +18,12 @@ var RequirementSchema = new Schema({
   street: {
     type: String
   },
-  address: {
+  basic_address: {
     type: String
   },
+  detail_address: {
+    type: String
+  }
   cell: {
     type: String
   },

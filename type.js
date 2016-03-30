@@ -198,6 +198,9 @@ var type = {
 
   message_status_unread: '0',
   message_status_readed: '1',
+
+  dec_type_home: '0',
+  dec_type_business: '1',
 }
 
 module.exports = type;
