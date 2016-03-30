@@ -796,7 +796,10 @@ exports.list = function (req, res, next) {
     lastupdate: 1,
     start_at: 1,
   }, {
-    lean: true
+    lean: true,
+    sort: {
+      start_at: -1
+    }
   }, ep.done(function (processes) {
     ep.emit('processes', processes);
   }));
