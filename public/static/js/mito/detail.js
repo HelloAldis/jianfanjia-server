@@ -5,7 +5,7 @@ require.config({
         lodash : 'lib/lodash'
     }
 });
-require(['jquery','lodash'],function($,_){
+require(['jquery','lodash','lib/jquery.mousewheel.min'],function($,_){
     var Detail = function(){};
     Detail.prototype = {
         init  : function(){
@@ -106,10 +106,12 @@ require(['jquery','lodash'],function($,_){
             if(data.previous.beautiful_images.length != 0){
                 var left = '<a class="toggle prev" href="/tpl/mito/detail.html?pid='+data.previous.beautiful_images[0]._id+'&imgid='+data.previous.beautiful_images[0].images[0].imageid+'&imgw='+data.previous.beautiful_images[0].images[0].width+'&imgh='+data.previous.beautiful_images[0].images[0].height+'"><i class="iconfont">&#xe611;</i></a>';
                 oImg.append(left);
+                this.bindMove('prev');
             }
             if(data.next.beautiful_images.length != 0){
                 var right = '<a class="toggle next" href="/tpl/mito/detail.html?pid='+data.next.beautiful_images[0]._id+'&imgid='+data.next.beautiful_images[0].images[0].imageid+'&imgw='+data.next.beautiful_images[0].images[0].width+'&imgh='+data.next.beautiful_images[0].images[0].height+'"><i class="iconfont">&#xe617;</i></a>';
                 oImg.append(right);
+                this.bindMove("next");
             }
         },
         createStep : function(data,process){
@@ -179,6 +181,48 @@ require(['jquery','lodash'],function($,_){
                     });
                 }
             })
+        },
+        bindMove : function(dir){
+            var _this = this;
+            var doc = $(document);
+            var timer = null;
+            var isPrev = dir === 'prev';
+            var isNext = dir === 'next';
+            var $btn = $('.'+dir);
+            $btn.on('click.move',function(){
+                window.location = $(this).attr('href');
+            });
+            doc.on('keydown',function(event){
+                switch (event.keyCode) {
+                    case 37:    //左
+                        isPrev && $btn.trigger('click.move');
+                        break;
+                    case 38:    //上
+                        isPrev && $btn.trigger('click.move');
+                        break;
+                    case 39:    //右
+                        isNext && $btn.trigger('click.move');
+                        break;
+                    case 40:    //下
+                        isNext && $btn.trigger('click.move');
+                        break;
+                }
+            });
+            doc.one('mousewheel',mousewheelFn);
+            doc.on('mousewheel',function(ev){
+                ev.preventDefault();
+            });
+            function mousewheelFn(ev,direction){
+                if( direction < 1 ){  //向下滚动
+                    isNext && $btn.trigger('click.move');
+                }else{
+                    isPrev && $btn.trigger('click.move');
+                }
+                clearTimeout(timer);
+                timer = setTimeout(function(){
+                    doc.one("mousewheel",mousewheelFn);
+                },1200);
+            }
         },
         bindZoombig : function(){
             var zoom = this.main.find('.zoom');

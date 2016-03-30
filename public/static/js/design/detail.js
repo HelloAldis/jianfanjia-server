@@ -16,26 +16,220 @@ require.config({
         }
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,common){
+require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousewheel.min','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,common){
         var user = new common.User();
         user.init();
         var search = new common.Search();
         search.init();
         var goto = new common.Goto();
+        var LightBox = function(){};
+        LightBox.prototype = {
+            init : function(pos){
+                this.doc = $(document);
+                this.arr = pos.arr || [];
+                this.select = pos.select || '.lightBox';
+                this.parent = pos.parent || this.doc;
+                if(this.arr.length){
+                    this.lightBoxAjax(this.arr);
+                }
+            },
+            lightBoxAjax : function(arr){    //获取图片对象，供大图操作
+                var _this = this;
+                $.ajax({
+                        url: '/api/v2/web/imagemeta',
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType : 'application/json; charset=utf-8',
+                        data : JSON.stringify({
+                            _ids : arr
+                        }),
+                        processData : false
+                    })
+                    .done(function(res) {
+                        res.data.length && _this.lightBoxBindEvent(res.data);
+                    })
+                    .fail(function(error) {
+                        console.log(error);
+                    });
+            },
+            lightBoxBindEvent : function(arr){
+                var _this = this;
+                var lightBox = $('<div class="m-lightBox"></div>');
+                this.parent.find(this.select).css('cursor','pointer');
+                this.parent.on('click',this.select,function(ev) {
+                    ev.preventDefault();
+                    _this.lightBoxShow(lightBox,arr,$(this).data('index')*1);
+                });
+            },
+            lightBoxShow : function(obj,arr,index){
+                var timer = null;
+                var win = $(window).width();
+                var doc = this.doc;
+                var maxLen = ~~((win-200)/76);
+                var len = arr.length;
+                var isMove = len > maxLen;
+                var _this = this;
+                var i = index;
+                var k = isMove ? (index > (len - maxLen) && index < len) ? (len - maxLen) : index - maxLen > 0 ? index - maxLen+1 : 0 : index;
+                var close = $('<span class="close">&times;</span>');
+                obj.append(close);
+                var togglePrev = $('<span class="toggle prev" style="display: '+(index == 0 ? 'none' : 'block')+'"><i class="iconfont">&#xe611;</i></span>');
+                var toggleNext = $('<span class="toggle next" style="display: '+(index == len-1 ? 'none' : 'block')+'"><i class="iconfont">&#xe617;</i></span>');
+                var imgBox = $('<div class="imgBox"><img class="imgBig" /></div>');
+                imgBox.append(togglePrev);
+                imgBox.append(toggleNext);
+                var imgTab = $('<div class="imgTab"></div>');
+                obj.append(imgBox);
+                var tabPrev = $('<span class="toggle prev" style="display: '+(index == 0 ? 'none' : 'block')+'"><i class="iconfont">&#xe611;</i></span>');
+                var tabNext = $('<span class="toggle next" style="display: '+(index <= len-1 && index > len-maxLen  ? 'none' : 'block')+'"><i class="iconfont">&#xe617;</i></span>');
+                if(isMove){
+                    imgTab.append(tabPrev);
+                    imgTab.append(tabNext);
+                }
+                var tab = $('<div class="tab"></div>');
+                var str = '<ul style="left:'+(isMove ? -76*k : 0)+'px;width:'+(len*76)+'px">';
+                _.forEach(arr,function(k,v){
+                    str += '<li class="'+(v===index ? 'active' : '')+'"><span></span><img src="/api/v2/web/thumbnail2/66/66/'+k._id+'" /></li>'
+                });
+                str += '</div>';
+                tab.html(str);
+                imgTab.append(tab);
+                obj.append(imgTab);
+                var imgBig = obj.find('.imgBig');
+                var oUl = obj.find('ul');
+                var aLi = oUl.find('li');
+                this.lightBoxImgBig(imgBig,arr,index);
+                if(obj.css('display') === 'none'){
+                    obj.show();
+                }else{
+                    $('body').append(obj);
+                }
+                close.on('click',function(){
+                    _this.lightBoxHide(obj);
+                    doc.off('mousewheel');
+                });
+                imgBox.on('click','.prev',function(){
+                    oUl.trigger("move:prev");
+                });
+                imgBox.on('click','.next',function(){
+                    oUl.trigger("move:next");
+                });
+                function thumbnailMove(){
+                    if(isMove){
+                        oUl.stop().animate({
+                            left:-76*k
+                        });
+                    }
+                }
+                imgTab.on('click','li',function(){
+                    var n = $(this).index()*1;
+                    moveTo(n);
+                });
+                imgTab.on('click','.prev',function(){
+                    oUl.trigger("move:prev");
+                });
+                imgTab.on('click','.next',function(){
+                    oUl.trigger("move:next");
+                });
+                oUl.on('move:prev',function(){
+                    moveTo('prev');
+                });
+                oUl.on('move:next',function(){
+                    moveTo('next');
+                });
+                function moveTo(m){
+                    if(m === 'prev'){
+                        if(i == 0){
+                            i = 0
+                        }else{
+                            --i;
+                        }
+                        if(k == 0){
+                            k == 0;
+                        }else{
+                            --k;
+                        }
+                    }else if(m === 'next'){
+                        if(i == len - 1){
+                            i = len - 1;
+                        }else{
+                            ++i;
+                        }
+                        if(k == len - maxLen){
+                            k == len - maxLen;
+                        }else{
+                            ++k;
+                        }
+                    }else{
+                        i = m;
+                        k = i >= len - maxLen ? len - maxLen : m;
+                    }
+                    thumbnailMove();
+                    _this.lightBoxImgBig(imgBig,arr,i);
+                    _this.lightBoxToggle(aLi,i);
+                    togglePrev.toggle(i !== 0);
+                    toggleNext.toggle(i !== len-1);
+                    tabPrev.toggle(k !== 0);
+                    tabNext.toggle(k !== len - maxLen);
+
+                }
+                doc.on('keydown',function(event){
+                    switch (event.keyCode) {
+                        case 37:    //左
+                            oUl.trigger("move:prev");
+                            break;
+                        case 38:    //上
+                            oUl.trigger("move:prev");
+                            break;
+                        case 39:    //右
+                            oUl.trigger("move:next");
+                            break;
+                        case 40:    //下
+                            oUl.trigger("move:next");
+                            break;
+                    }
+                });
+                doc.one('mousewheel',mousewheelFn);
+                doc.on('mousewheel',function(ev){
+                    ev.preventDefault();
+                });
+                function mousewheelFn(ev,direction){
+                    if( direction < 1 ){  //向下滚动
+                        oUl.trigger("move:next");
+                    }else{  //向上滚动
+                        oUl.trigger("move:prev");
+                    }
+                    clearTimeout(timer);
+                    timer = setTimeout(function(){
+                        doc.one("mousewheel",mousewheelFn);
+                    },1200);
+                }
+            },
+            lightBoxToggle : function(li,index){
+                li.eq(index).addClass('active').siblings().removeClass('active');
+            },
+            lightBoxImgBig :function(obj,arr,index){
+                obj.attr('src','').attr('src','/api/v2/web/image/'+arr[index]._id);
+            },
+            lightBoxHide : function(obj){
+                obj.hide().html('');
+            }
+        }
+        var lightBox = new LightBox();
         var Detail = function(){};
         Detail.prototype = {
             init  : function(){
                 this.body = $('body');
                 this.modalStatus = false;
-                this.winHash = window.location.search.substring(1);
+                var winHash = window.location.search.substring(1);
                 this.detail = $("#j-detail");
                 this.main = this.detail.find('.g-mn');
                 this.side = this.detail.find('.g-sd');
                 this.loading = this.detail.find('.k-loading');
                 this.usertype = $.cookie("usertype");
-                this.loadList();
+                this.loadList(winHash);
             },
-            loadList : function(){
+            loadList : function(id){
                 var self = this;
                 $.ajax({
                     url:RootUrl+'api/v2/web/product_home_page',
@@ -43,7 +237,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.reques
                     contentType : 'application/json; charset=utf-8',
                     dataType: 'json',
                     data : JSON.stringify({
-                        "_id": self.winHash
+                        "_id": id
                     }),
                     processData : false
                 })
@@ -59,6 +253,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.reques
                 });
             },
             createProduct : function(data){
+                var img = [];
                 var arr = [
                         '<div class="m-detail-product">',
                             '<div class="m-tt">',
@@ -83,11 +278,17 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.reques
                                 '<div class="images">'
                     ];
                     for (var i = 0 , len = data.images.length; i < len; i++) {
-                        arr.push('<section><h3>'+data.images[i].section+'</h3><img src="/api/v2/web/watermark/880/'+data.images[i].imageid+'" alt="" />'+(!!data.images[i].description ? '<p>'+data.images[i].description+'</p>' : "")+'</section>')
+                        arr.push('<section><h3>'+data.images[i].section+'</h3><img class="lightBox" data-index="'+i+'" src="/api/v2/web/watermark/880/'+data.images[i].imageid+'" alt="" />'+(!!data.images[i].description ? '<p>'+data.images[i].description+'</p>' : "")+'</section>');
+                        img.push(data.images[i].imageid)
                     };
                     arr.push('</div></div></div>');
                     this.main.html(arr.join('')).removeClass('hide');
                     this.favorite(data._id);
+                    lightBox.init({
+                        arr : img,
+                        select : '.lightBox',
+                        parent : this.detail
+                    });
             },
             loadInfo : function(id){
                 var self = this;
@@ -134,7 +335,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.reques
                     this.side.html(arr.join('')).removeClass('hide');
                     goto.init({
                         shop : true
-                    })
+                    });
                     this.addIntent();
             },
             favorite  : function(id){
@@ -177,7 +378,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.reques
                         if(res['msg'] === "success"){
                             self.main.find('.favorite').removeClass(' u-btns-revise').html('收藏作品');
                         }
-                    })
+                    });
                     hide();
                 });
                 function favorite(state,fn){
@@ -192,14 +393,13 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.reques
                         processData : false
                     })
                     .done(function(res) {
-                        fn(res)
+                        fn(res);
                         user.updateData();
                     });
                 }
             },
             modal : function(text){
-                var self = this,
-                    arr = [
+                var arr = [
                     '<div class="k-modal dialog" id="j-modal">',
                         '<div class="modal-dialog">',
                           '<div class="modal-content">',
@@ -235,13 +435,12 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.reques
                     if(self.usertype === '1'){
                         var uidname = $(this).data('uid'),
                             head = self.side.find('.head'),
-                            img = head.find('img').attr('src')
+                            img = head.find('img').attr('src'),
                             state = head.offset(),
-                            scrollTop = $(document).scrollTop();
+                            scrollTop = $(document).scrollTop(),
                             flyer = $('<img class="u-flyer" src="'+img+'">');
-                        var url = RootUrl+'api/v2/web/favorite/designer/add';
                         $.ajax({
-                            url:url,
+                            url:'/api/v2/web/favorite/designer/add',
                             type: 'POST',
                             contentType : 'application/json; charset=utf-8',
                             dataType: 'json',
@@ -278,7 +477,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.reques
                     }
                 });
             }
-        }
+        };
         var detail = new Detail();
         detail.init();
 })

@@ -244,7 +244,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                 if(e.which == 13){
                     submitfn();
                 }
-            })
+            });
             this.form.on('click','#reg-submit',function(){
                 submitfn();
                 return false;

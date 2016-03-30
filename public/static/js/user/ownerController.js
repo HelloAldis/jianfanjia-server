@@ -46,15 +46,20 @@ angular.module('controllers', [])
 	.controller('indexCtrl', [     //业主首页
         '$scope','$rootScope','$http','$filter','$location','userInfo','userRequiremtne',
         function($scope, $rootScope,$http,$filter,$location,userInfo,userRequiremtne){
-        	userInfo.get().then(function(res){
-        		$scope.user = res.data.data;
-        	},function(err){
-        		console.log(err);
-        	});
+            if(userInfo.storage){
+                userInfo.get().then(function(res){
+                    $scope.user = res.data.data;
+                    userInfo.save(res.data.data);
+                },function(err){
+                    console.log(err);
+                });
+            }else{
+                $scope.user = userInfo.pull;
+            }
     }])
     .controller('inforCtrl', [     //业主资料
-        '$scope','$rootScope','$location','userInfo','initData',
-        function($scope, $rootScope,$location,userInfo,initData){
+        '$scope','$rootScope','$state','userInfo','initData',
+        function($scope, $rootScope,$state,userInfo,initData){
             $scope.user = {
                 province : '请选择省份',
                 city : '请选择市',
@@ -69,14 +74,20 @@ angular.module('controllers', [])
                 userSex : initData.userSex,
                 isLoading : false
             };
-            userInfo.get().then(function(res){  //获取个人资料
-                if(res.data.data !== null){
-                    $scope.user = _.assign($scope.user, res.data.data);
-                    $scope.userInfo.isLoading = true;
-                }
-            },function(err){
-                console.log(err);
-            });
+            if(userInfo.storage){    //获取个人资料
+                userInfo.get().then(function(res){
+                    if(res.data.data !== null){
+                        $scope.user = _.assign($scope.user, res.data.data);
+                        $scope.userInfo.isLoading = true;
+                        userInfo.save(res.data.data);
+                    }
+                },function(err){
+                    console.log(err);
+                });
+            }else{
+                $scope.user = userInfo.pull;
+                $scope.userInfo.isLoading = true;
+            }
             $scope.userInfo.submit = function(){     //修改个人资料
                 if(checkSupport() !== "html5"){
                     $('#fileToUpload').uploadify('destroy');
@@ -84,8 +95,9 @@ angular.module('controllers', [])
                 $scope.userInfo.disabled = true;
                 userInfo.update($scope.user).then(function(res){
                     if(res.data.msg == "success"){
+                        userInfo.save($scope.user);
                         $('#j-userLogin').find('a').eq(0).html('业主 '+$scope.user.username);
-                        $location.path('index');
+                        $state.go('index');
                     }
                 },function(err){
                     console.log(err);
@@ -93,12 +105,12 @@ angular.module('controllers', [])
             };
     }])
     .controller('phoneCtrl', [     //绑定手机号码
-        '$scope','$rootScope','$location','$stateParams','$interval','userRequiremtne',
-        function($scope, $rootScope,$location,$stateParams,$interval,userRequiremtne){
+        '$scope','$rootScope','$state','$stateParams','$interval','userRequiremtne',
+        function($scope, $rootScope,$state,$stateParams,$interval,userRequiremtne){
             $scope.user = {
-                  "phone":undefined,
-                  "code":undefined
-                }
+                "phone":undefined,
+                "code":undefined
+            };
             $scope.phone = {
                 phoneMsg : "手机号码不正确",
                 disabled : false,
@@ -164,7 +176,7 @@ angular.module('controllers', [])
                 submit : function(){
                     userRequiremtne.phone($scope.user).then(function(res){  //提交手机
                         if(res.data.msg === "success"){
-                            $location.path('release');
+                            $state.go('release');
                         }
                     },function(res){
                         console.log(res)
@@ -173,8 +185,8 @@ angular.module('controllers', [])
             }
     }])
 	.controller('releaseCtrl', [     //业主提交需求
-        '$scope','$rootScope','$timeout','$filter','$location','$stateParams','userRequiremtne','userInfo','initData',
-        function($scope, $rootScope,$timeout,$filter,$location,$stateParams,userRequiremtne,userInfo,initData){
+        '$scope','$rootScope','$timeout','$filter','$state','$stateParams','userRequiremtne','userInfo','initData',
+        function($scope, $rootScope,$timeout,$filter,$state,$stateParams,userRequiremtne,userInfo,initData){
             var timer = null;
             $scope.userRelease = {
                 isRelease : $stateParams.id == undefined ? true : false,
@@ -195,7 +207,7 @@ angular.module('controllers', [])
                 submitDefine : function(){
                     var This = this;
                     This.motaiDone = false;
-                    $location.path('requirement/'+This.requirementid+"/booking");
+                    $state.go('requirement.booking',{id:This.requirementid});
                 }
             }
             $scope.requiremtne = {
@@ -208,24 +220,34 @@ angular.module('controllers', [])
                 prefer_sex : '2',
                 family_description : $scope.userRelease.familyDescription[0]
             }
+            function setAddress(data){
+                if(!!data.province){
+                    $scope.requiremtne.province = data.province;
+                    $scope.requiremtne.city = data.city;
+                    $scope.requiremtne.district = data.district;
+                }else{
+                    $scope.requiremtne.province = '请选择省份';
+                    $scope.requiremtne.city = '请选择市';
+                    $scope.requiremtne.district = '请选择县/区';
+                }
+                if(data.phone == undefined){
+                    $state.go('phone');
+                }
+            }
             if($scope.userRelease.isRelease){        //发布新需求
-                userInfo.get().then(function(res){  //获取个人资料
-                    $scope.user = res.data.data;
-                    if(!!$scope.user.province){
-                        $scope.requiremtne.province = $scope.user.province;
-                        $scope.requiremtne.city = $scope.user.city;
-                        $scope.requiremtne.district = $scope.user.district;
-                    }else{
-                        $scope.requiremtne.province = '请选择省份';
-                        $scope.requiremtne.city = '请选择市';
-                        $scope.requiremtne.district = '请选择县/区';
-                    }
-                    if($scope.user.phone == undefined){
-                        $location.path('phone');
-                    }
-                },function(res){
-                    console.log(res)
-                });
+                if(userInfo.storage){    //获取个人资料
+
+                    userInfo.get().then(function(res){
+                        if(res.data.data !== null){
+                            userInfo.save(res.data.data);
+                            setAddress(res.data.data);
+                        }
+                    },function(err){
+                        console.log(err);
+                    });
+                }else{
+                    setAddress(userInfo.pull);
+                }
             }else{   //修改某条需求
                 userRequiremtne.get({'_id':$stateParams.id}).then(function(res){  //获取需求列表
                     if(res.data.data != null){

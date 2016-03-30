@@ -19,40 +19,9 @@ body{
 	color: #fe7004;
 	text-decoration: underline;
 }
-/*按钮*/
-.u-btns{
-	display: inline-block;
-	padding: 0 17px;
-	line-height: 36px;
-	font-size: 14px;
-	text-align: center;
-	color: #fff;
-	cursor: pointer;
-	background-color: #fe7004;
-	border: 1px solid #e75812;
-	border-radius: 3px;
-	-webkit-transition:background 0.5s;
-	-ms-transition:background 0.5s;
-	-moz-transition:background 0.5s;	
-	-o-transition:background 0.5s;
-	transition:background 0.5s;
-}
-.u-btns:hover{
-	color: #fff;
-	background-color: #ff801f;
-}
-.u-btns-revise{
-	color: #60636a;
-	background-color: #f6f6f6;
-	border-color: #ccc;
-}
-.u-btns-revise:hover{
-	color: #333;
-	background-color: #e8e8e8;
-	color: #cbcbcb;
-}
 /*方案详情*/
 .m-plans{
+	min-height: 650px;
 	background-color: #fff;
 	border: 1px solid #e6e6e6;
 	border-radius: 4px;
@@ -248,11 +217,17 @@ body{
 	bottom:8px;
 	background:url(../img/user/decorative.png) 0 bottom no-repeat;
 }
+.pageLoading{
+	width: 100%;
+	height: 350px;
+	background:url(../img/user/loading.gif) center center no-repeat;
+}
 .m-plansMsg{
 	margin-top: 20px;
 	background-color: #fff;
 	border: 1px solid #e6e6e6;
 	border-radius: 4px;
+	display: none;
 }
 .m-plansMsg .review{
 	position: relative;
@@ -272,11 +247,19 @@ body{
 	width: 100%;		
 }
 .m-plansMsg .review .textarea{
+	position: relative;
 	height: 80px;
-  overflow: hidden;
-  padding-left: 20px;
+  	overflow: hidden;
+  	padding-left: 20px;
 	border: 1px solid #e6e6e6;
 	background-color: #f9f9f9;
+}
+.m-plansMsg .review .textarea label{
+	position: absolute;
+	left:10px;
+	top:10px;
+	cursor: text;
+	color: #999;
 }
 .m-plansMsg .review .textarea textarea{
   float: left;
@@ -333,6 +316,7 @@ body{
 .m-plansMsg .list .iconfont2{
 	margin-left: 10px;
 	color: #999;
+	cursor: pointer;
 }
 .m-plansMsg .more{
 	
@@ -499,4 +483,181 @@ body{
 	padding-bottom: 13px;
 	line-height: 26px;
 	color: #999;
+}
+.k-motai .pending{
+	text-align: center;
+	font-size: 24px;
+	line-height:348px;
+	font-weight: bold;
+	color: #fe7004;
+}
+.m-lightBox{
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 9999;
+	background-color: #000;
+}
+.m-lightBox .close{
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 100;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	font-size: 40px;
+	line-height: 50px;
+	color: #fff;
+	cursor: pointer;
+	background-color: #000;
+}
+.m-lightBox .imgBox{
+	position: absolute;
+	left:20px;
+	top:20px;
+	right: 20px;
+	bottom: 100px;
+	text-align: center;
+	background:url(../img/user/loading.gif) center center no-repeat;
+	overflow: hidden;
+}
+.m-lightBox .imgBox img{
+	height: 100%;
+	vertical-align: middle;
+}
+.m-lightBox .imgBox .toggle{
+	position: absolute;
+	top:50%;
+	width: 116px;
+	height: 98px;
+	margin-top: -49px;
+	line-height: 98px;
+	text-align: center;
+	filter: alpha(opacity=50);
+	opacity: 0.5;
+	z-index: 20;
+	cursor: pointer;
+	-webkit-transition:opacity 0.5s ease-out;
+	-moz-transition:opacity 0.5s ease-out;
+	-ms-transition:opacity 0.5s ease-out;
+	-o-transition:opacity 0.5s ease-out;
+	transition:opacity 0.5s ease-out;
+}
+.m-lightBox .imgBox .toggle:hover{
+	filter: alpha(opacity=70);
+	opacity: 0.7;
+}
+.m-lightBox .imgBox .toggle i{
+	position: relative;
+	font-size: 40px;
+	color: #fff;
+}
+.m-lightBox .imgBox .prev{
+	left:0;
+	background: url(../img/mito/toggle.png) no-repeat;
+}
+:root .m-lightBox .imgBox .prev{
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%);
+	background: -webkit-linear-gradient(left, rgba(0,0,0,1) 0%,rgba(255,255,255,0) 100%);
+	background: linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(255,255,255,0) 100%);
+}
+.m-lightBox .imgBox .next{
+	right: 0;
+	background: url(../img/mito/toggle.png) no-repeat 0 bottom;
+}
+:root .m-lightBox .imgBox .next{
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%);
+	background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(0,0,0,1) 100%);
+	background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(0,0,0,1) 100%);
+}
+.m-lightBox .imgTab{
+	position: absolute;
+	left:20px;
+	right: 20px;
+	bottom: 17px;
+	height: 66px;
+	text-align: center;
+	overflow: hidden;
+}
+.m-lightBox .imgTab .toggle{
+	position: absolute;
+	top:50%;
+	width: 50px;
+	height: 50px;
+	margin-top: -25px;
+	line-height: 50px;
+	text-align: center;
+	filter: alpha(opacity=70);
+	opacity: 0.7;
+	z-index: 20;
+	cursor: pointer;
+	-webkit-transition:opacity 0.5s ease-out;
+	-moz-transition:opacity 0.5s ease-out;
+	-ms-transition:opacity 0.5s ease-out;
+	-o-transition:opacity 0.5s ease-out;
+	transition:opacity 0.5s ease-out;
+}
+.m-lightBox .imgTab .toggle:hover{
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+.m-lightBox .imgTab .prev {
+	left: 0;
+}
+.m-lightBox .imgTab .next {
+	right: 0;
+}
+.m-lightBox .imgTab .toggle i{
+	position: relative;
+	font-size: 24px;
+	color: #fff;
+}
+.m-lightBox .imgTab .tab{
+	position: relative;
+	height: 66px;
+	margin: 0 80px;
+	overflow: hidden;
+}
+.m-lightBox .imgTab .tab ul{
+	position: absolute;
+	left:0;
+	top:0;
+}
+.m-lightBox .imgTab .tab li{
+	position: relative;
+	float: left;
+	width: 66px;
+	height: 66px;
+	margin-right: 10px;
+	filter: alpha(opacity=70);
+	opacity: 0.7;
+	cursor: pointer;
+	-webkit-transition:opacity 0.5s ease-out;
+	-moz-transition:opacity 0.5s ease-out;
+	-ms-transition:opacity 0.5s ease-out;
+	-o-transition:opacity 0.5s ease-out;
+	transition:opacity 0.5s ease-out;
+}
+.m-lightBox .imgTab .tab li span{
+	position: absolute;
+	left: 0;
+	top: 0;
+	content: '';
+	width: 62px;
+	height: 62px;
+	border: 2px solid #fff;
+	display: none;
+}
+.m-lightBox .imgTab .tab li.active,.m-lightBox .imgTab .tab li:hover{
+	filter: alpha(opacity=1);
+	opacity: 1;
+}
+.m-lightBox .imgTab .tab li.active span{
+	display: block;
+
 }
