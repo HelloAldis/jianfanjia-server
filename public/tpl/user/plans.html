@@ -13,17 +13,11 @@
     <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/plans.css" />
     <script type="text/javascript" src="/static/js/lib/public.js"></script>
-    <script type="text/javascript" src="/static/js/lib/jquery.js"></script>
-    <script type="text/javascript" src="/static/js/lib/lodash.js"></script>
-    <script type="text/javascript" src="/static/js/lib/jquery.cookie.js"></script>
-    <script type="text/javascript" src="/static/js/ng/angular.js"></script>
-    <script type="text/javascript" src="/static/js/ng/angular-cookies.js"></script>
-    <script type="text/javascript" src="/static/js/ng/bindonce.js"></script>
     <!--[if lt IE 9]>
       <script type="text/javascript" src="/static/js/lib/ie8.js"></script>
     <![endif]-->
 </head>
-<body ng-controller="detailCtrl">
+<body>
     <div class="g-tb g-wa">
         <div class="g-wp f-cb">
             <a href="/tpl/download/index.html" class="m-app f-fl"><span>APP下载</span></a>
@@ -60,109 +54,11 @@
     <div class="breadCrumbs g-wp">
         <a href="/">首页</a> &gt; <span>我的方案</span>
     </div>
-	<main class="g-wp g-plans">
-		<div ng-if="plan">
-            <div class="m-plans" bindonce="plan">
-                <div class="plans-tt f-cb">
-                    <h3 class="f-fl">
-                        <span bo-if="plan.requirement.cell"><i bo-text="plan.requirement.cell"></i><i bo-if="plan.requirement.dec_type == 0">小区</i></span>
-                        <span bo-if="plan.requirement.cell_phase"><i bo-text="plan.requirement.cell_phase"></i>期</span>
-                    </h3>
-                    <div class="btns f-fr">
-                        <a bo-href-i="{{returnUrl}}" class="u-btns u-btns-revise">查看其它方案</a>
-                        <a href="javascript:;" class="u-btns" ng-click="definePlan.select(plan.requirementid,plan.designerid)" ng-if="plan.status != 5 && definePlan.statusShow">选定方案</a>
-                    </div>
-                </div>
-                <div class="plans-ct">
-                     <ul class="tabs">
-                        <li ng-class="{'active':tab == 1}" ng-click="tabBtn(1)"><a href="javascript:;">方案详情</a></li>
-                        <li ng-class="{'active':tab == 2}" bo-if="plan.requirement.work_type == 0 || plan.requirement.work_type == 1" ng-click="tabBtn(2)"><a href="javascript:;">方案报价</a></li>
-                    </ul>
-                    <div class="boxs detail" ng-if="tab == 1">
-                        <ul class="info">
-                            <li bo-if="plan.requirement.work_type != 2">报价：<span bo-if="plan.total_price != 0"><i bo-bind="plan.total_price | moneyFilter:4"></i>万元</span><span bo-if="plan.total_price == 0"><i bo-bind="plan.total_price"></i>元</span></li>
-                            <li bo-if="plan.requirement.work_type == 2">设计费：<span bo-if="plan.total_design_fee != 0"><i bo-bind="plan.total_design_fee/10000 | number:5"></i>万元</span><span bo-if="plan.total_design_fee == 0"><i bo-bind="plan.total_design_fee"></i>元</span></li>
-                            <li bo-if="plan.requirement.work_type != 2">工期：<i bo-text="plan.duration"></i>天</li>
-                            <li bo-if="plan.requirement.dec_type == 0">空间：<i bo-bind="plan.requirement.house_type | houseTypeFilter"></i></li>
-                            <li>面积：<i bo-bind="plan.requirement.house_area"></i>m&sup2;</li>
-                            <li>风格：<i bo-bind="plan.requirement.dec_style | decStyleFilter"></i></li>
-                        </ul>
-                        <div class="description f-cb">
-                            <a bo-href-i="/tpl/design/home.html?{{plan.designer._id}}" class="head f-fl">
-                                <img bo-src-i="/api/v2/web/image/{{plan.designer.imageid}}" bo-if="plan.designer.imageid" />
-                            </a>
-                            <dl class="f-fl">
-                                <dt>
-                                    <a bo-href-i="/tpl/design/home.html?{{plan.designer._id}}" bo-bind="plan.designer.username"></a><span><i>v</i>认证设计师</span>
-                                </dt>
-                                <dd>
-                                    <span class="sub"></span>
-                                    <span class="sup"></span>
-                                    <p bo-text="plan.description"></p>
-                                </dd>
-                            </dl>
-                        </div>
-                        <div class="images">
-                            <img bo-src-i="/api/v2/web/image/{{img}}" alt="" ng-repeat="img in plan.images" />
-                        </div>
-                    </div>
-                    <div class="boxs quote f-cb" ng-if="tab == 2">
-                        <div class="table f-fl">
-                            <table>
-                                <thead>
-                                    <tr class="title">
-                                        <th class="td1"><span>项目</span></th>
-                                        <th class="td2"><span>备注说明</span></th>
-                                        <th class="td3"><span>项目总价</span></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="list in plan.price_detail" ng-class="{true : 'even'}[$odd]">
-                                        <td class="td1"><span bo-text="list.item"></span></td>
-                                        <td class="td2"><span bo-text="list.description"></span></td>
-                                        <td class="td3"><span bo-text="list.price"></span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="price f-fl">
-                            <ul>
-                                <li>工程总造价<span>&yen;<s ng-class="{'notproject':!plan.project_price_after_discount}" ng-bind="plan.project_price_before_discount | number"></s></span></li>
-                                <li bo-if="plan.project_price_after_discount">工程折后价<span>&yen;<i ng-bind="plan.project_price_after_discount | number"></i></span></li>
-                                <li>设计费<span>&yen;<i ng-bind="plan.total_design_fee | number"></i></span></li>
-                            </ul>
-                            <dl>
-                                <dt>合计总价</dt>
-                                <dd>&yen;<i ng-bind="plan.total_price | number"></i></dd>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="m-plansMsg" id="plansMsg" ng-if="tab == 1">
-                <div class="review">
-                    <div class="head">
-                        <img ng-src="/api/v2/web/thumbnail/50/{{comment.imageid}}" ng-if="comment.imageid" />
-                    </div>
-                    <div ng-class="{'focus textarea':comment.parentFocus,'textarea':!comment.parentFocus}"><textarea rows="10" ng-model="comment.plansMsg" ng-focus="comment.focus()" ng-blur="comment.blur()"></textarea></div>
-                    <div class="btns"><input type="button" ng-click="comment.addPlansMsg(plan.designer._id,plan.user._id)" class="u-btns" value="发表评论" /></div>
-                </div>
-                <div class="list" ng-if="comments.length != 0">
-                    <ul>
-                        <li bindonce="comments" ng-repeat="list in comments">
-                            <div class="head">
-                                <img bo-src-i="/api/v2/web/thumbnail/50/{{list.byUser.imageid}}" bo-if="list.byUser.imageid" alt="" />
-                            </div>
-                            <h4><span bo-text="list.byUser.username"></span><time bo-text="list.date"></time></h4>
-                            <p><span class="find" bo-if="list.usertypeOff">@<i ng-bind="plan.designer.username" bo-if="list.usertype == 1"></i><i ng-bind="plan.user.username"  bo-if="list.usertype == 2"></i></span><span class="text" bo-text="list.content"></span><i ng-click="commentsBtn()" bo-if="list.usertypeOff" class="iconfont2">&#xe616;</i></p>
-                        </li>
-                    </ul>
-                </div>
-                <div class="more" ng-if="comments.length > 9 && comment.moreOff">
-                    <a href="javascript:;" ng-click="comment.moreBtn(comments.total)">加载更多</a>
-                </div>
-            </div>
+	<main class="g-wp g-plans" id="j-plans">
+        <div class="m-plans">
+            <div class="pageLoading"></div>
         </div>
+        <div class="m-plansMsg" id="plansMsg"></div>
 	</main>
     <footer class="g-ft g-wa">
         <div class="g-wp">
@@ -177,25 +73,6 @@
             <p>Copyright © 2015-2016 jianfanjia.com   All Rights Reserved   武汉家易装科技有限公司   隐私权政策 鄂ICP备15014103号</p>
         </div>
     </footer>
-    <div class="k-motai" ng-if="plan && definePlan.success" ng-class="{ true : 'show',false : 'hide'}[definePlan.success]">
-        <div class="motai done confirm" ng-if="definePlan.confirm">
-            <span class="done-icon confirm-icon"></span>
-            <h3>温馨提醒！</h3>
-            <p>您确认选定方案，选定以后不能更改</p>
-            <button type="button" class="u-btns u-btns-revise" ng-click="definePlan.cancel()">我再看看</button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="button" class="u-btns" ng-click="definePlan.define()">已经确定</button>
-        </div>
-        <div class="motai done" ng-if="definePlan.done">
-            <span class="done-icon"></span>
-            <h3>选定成功！</h3>
-            <p ng-if="requirement.work_type == 2">简繁家将在近期内与您第三方合同，请保持紧密沟通。</p>
-            <p ng-if="requirement.work_type != 2">设计师将在近期内生成第三方合同，请保持紧密沟通。</p>
-            <button type="button" class="u-btns" ng-click="definePlan.goto(requirement)">&nbsp;&nbsp;确定&nbsp;&nbsp;</button>
-        </div>
-    </div>
-    <script type="text/javascript" src="/static/js/utils/usercommon.js"></script>
-    <script type="text/javascript" src="/static/js/user/filters.js"></script>
-    <script type="text/javascript" src="/static/js/user/directives.js"></script>
-    <script type="text/javascript" src="/static/js/user/plansApp.js"></script>
+    <script type="text/javascript" data-main="/static/js/user/plans" src="/static/js/lib/require.js"></script>
 </body>
 </html>

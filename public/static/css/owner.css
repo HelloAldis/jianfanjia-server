@@ -1979,6 +1979,9 @@ body{
 	padding: 20px 0 25px;
 	border-bottom: 1px solid #eee;
 }
+.m-remindList .info{
+	width: 780px;
+}
 .m-remindList .info h4{
 	font-size: 14px;
 	line-height:30px;
