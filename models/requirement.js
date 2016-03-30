@@ -23,7 +23,7 @@ var RequirementSchema = new Schema({
   },
   detail_address: {
     type: String
-  }
+  },
   cell: {
     type: String
   },
