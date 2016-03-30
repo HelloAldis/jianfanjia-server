@@ -299,7 +299,7 @@ exports.user_add_requirement = function (req, res, next) {
 exports.user_update_requirement = function (req, res, next) {
   var userid = ApiUtil.getUserid(req);
   var requirement = ApiUtil.buildRequirement(req);
-  var _id = req.body._id;
+  var _id = req.body._id || req.body.requirement._id;
   requirement.status = type.requirement_status_new;
   var ep = eventproxy();
   ep.fail(next);
