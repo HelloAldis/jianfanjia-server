@@ -15,13 +15,14 @@ var RequirementSchema = new Schema({
   district: {
     type: String
   },
-  street: {
-    type: String
-  },
   basic_address: {
     type: String
   },
   detail_address: {
+    type: String
+  },
+
+  street: {
     type: String
   },
   cell: {
@@ -39,6 +40,8 @@ var RequirementSchema = new Schema({
   cell_detail_number: {
     type: String,
   },
+
+
   house_type: {
     type: String
   },

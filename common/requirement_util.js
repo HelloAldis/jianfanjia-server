@@ -17,7 +17,7 @@ exports.isDone = function (requirement) {
 
 exports.merge2BasciAddress = function (cell, cell_phase) {
   if (cell_phase) {
-    return cell + cell_phase + '期'
+    return cell + cell_phase + '期';
   }
 
   return cell;

@@ -58,6 +58,8 @@ exports.start = function (req, res, next) {
       process.city = requirement.city;
       process.district = requirement.district;
       process.cell = requirement.cell;
+      process.basic_address = requirement.basic_address;
+      process.detail_address = requirement.detail_address;
       process.house_type = requirement.house_type;
       process.business_house_type = requirement.business_house_type;
       process.house_area = requirement.house_area;
@@ -448,7 +450,8 @@ exports.listReschdule = function (req, res, next) {
       Process.findOne({
         _id: reschedule.processid,
       }, {
-        cell: 1
+        cell: 1,
+        basic_address: 1,
       }, function (err, process) {
         reschedule = reschedule.toObject();
         reschedule.process = process;
@@ -790,6 +793,7 @@ exports.list = function (req, res, next) {
     city: 1,
     district: 1,
     cell: 1,
+    basic_address: 1,
     going_on: 1,
     final_planid: 1,
     requirementid: 1,

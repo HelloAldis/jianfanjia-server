@@ -1,6 +1,7 @@
 'use strict'
 
 const tools = require('./tools');
+const requirement_util = require('./requirement_util');
 const _ = require('lodash');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
@@ -217,13 +218,16 @@ exports.buildRequirement = function (req) {
   requirement.province = input.province;
   requirement.city = input.city;
   requirement.district = input.district;
-  requirement.cell = input.cell;
-  requirement.street = input.street;
-  requirement.address = input.address;
-  requirement.cell_phase = input.cell_phase;
-  requirement.cell_building = input.cell_building;
-  requirement.cell_unit = input.cell_unit;
-  requirement.cell_detail_number = input.cell_detail_number;
+
+  // requirement.street = input.street;
+  // requirement.cell = input.cell;
+  // requirement.cell_phase = input.cell_phase;
+  // requirement.cell_building = input.cell_building;
+  // requirement.cell_unit = input.cell_unit;
+  // requirement.cell_detail_number = input.cell_detail_number;
+  requirement.basic_address = input.basic_address || requirement_util.merge2BasciAddress(input.cell, input.cell_phase);
+  requirement.detail_address = input.detail_address || requirement_util.merge2DetailAddress(input.cell_building, input.cell_unit, input.cell_detail_number);
+
   requirement.house_type = input.house_type;
   requirement.business_house_type = input.business_house_type;
   requirement.house_area = input.house_area;
@@ -277,6 +281,8 @@ exports.buildProcess = function (req) {
   process.city = req.body.city;
   process.district = req.body.district;
   process.cell = req.body.cell;
+  process.basic_address = req.body.basic_address;
+  process.detail_address = req.body.detail_address;
   process.house_type = req.body.house_type;
   process.house_area = req.body.house_area;
   process.dec_style = req.body.dec_style;
