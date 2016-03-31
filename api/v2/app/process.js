@@ -1,26 +1,29 @@
-var eventproxy = require('eventproxy');
-var User = require('../../../proxy').User;
-var Reschedule = require('../../../proxy').Reschedule;
-var Requirement = require('../../../proxy').Requirement;
-var Process = require('../../../proxy').Process;
-var Designer = require('../../../proxy').Designer;
-var Plan = require('../../../proxy').Plan;
-var tools = require('../../../common/tools');
-var _ = require('lodash');
-var config = require('../../../apiconfig');
-var ApiUtil = require('../../../common/api_util');
-var DateUtil = require('../../../common/date_util');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
-var type = require('../../../type');
-var async = require('async');
-var logger = require('../../../common/logger');
-var message_util = require('../../../common/message_util');
+'use strict'
+
+const eventproxy = require('eventproxy');
+const User = require('../../../proxy').User;
+const Reschedule = require('../../../proxy').Reschedule;
+const Requirement = require('../../../proxy').Requirement;
+const Process = require('../../../proxy').Process;
+const Designer = require('../../../proxy').Designer;
+const Plan = require('../../../proxy').Plan;
+const tools = require('../../../common/tools');
+const _ = require('lodash');
+const config = require('../../../apiconfig');
+const ApiUtil = require('../../../common/api_util');
+const DateUtil = require('../../../common/date_util');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
+const type = require('../../../type');
+const async = require('async');
+const logger = require('../../../common/logger');
+const message_util = require('../../../common/message_util');
+const process_business = require('../../../business/process_business');
 
 exports.start = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var requirementid = req.body.requirementid;
-  var ep = eventproxy();
+  let userid = ApiUtil.getUserid(req);
+  let requirementid = req.body.requirementid;
+  let ep = eventproxy();
   ep.fail(next);
 
   if ([requirementid].some(function (item) {
@@ -50,7 +53,7 @@ exports.start = function (req, res, next) {
     }
   ], ep.done(function (requirement, plan) {
     if (requirement && plan) {
-      var process = {};
+      let process = {};
       process.final_designerid = requirement.final_designerid;
       process.final_planid = requirement.final_planid;
       process.requirementid = requirement._id;
@@ -71,172 +74,100 @@ exports.start = function (req, res, next) {
 
       process.userid = userid;
       process.going_on = type.process_section_kai_gong;
-      process.sections = [];
+      process.sections = process_business.getSections(process_business.home_process_workflow, process_business.home_process_60_template,
+        process.duration, process.start_at);
 
-      process.sections[0] = {}
-      process.sections[0].name = type.process_section_kai_gong;
-      process.sections[0].status = type.process_item_status_going;
-      process.sections[0].items = [];
-      process.sections[0].items[0] = {};
-      process.sections[0].items[0].name = type.process_kai_gong_item_xcjd;
-      process.sections[0].items[0].status = type.process_item_status_new;
-      process.sections[0].items[1] = {};
-      process.sections[0].items[1].name = type.process_kai_gong_item_cgdyccl;
-      process.sections[0].items[1].status = type.process_item_status_new;
-      process.sections[0].items[2] = {};
-      process.sections[0].items[2].name = type.process_kai_gong_item_qdzmjcl;
-      process.sections[0].items[2].status = type.process_item_status_new;
-      process.sections[0].items[3] = {};
-      process.sections[0].items[3].name = type.process_kai_gong_item_sgxcl;
-      process.sections[0].items[3].status = type.process_item_status_new;
-      process.sections[0].items[4] = {};
-      process.sections[0].items[4].name = type.process_kai_gong_item_mdbcl;
-      process.sections[0].items[4].status = type.process_item_status_new;
-      process.sections[0].items[5] = {};
-      process.sections[0].items[5].name = type.process_kai_gong_item_kgmbslcl;
-      process.sections[0].items[5].status = type.process_item_status_new;
+      logger.debug(process);
+      Process.newAndSave(process, ep.done(function (process_indb) {
+        res.sendData(process_indb);
 
-      process.sections[1] = {}
-      process.sections[1].name = type.process_section_chai_gai;
-      process.sections[1].status = type.process_item_status_new;
-      process.sections[1].items = [];
-      process.sections[1].items[0] = {};
-      process.sections[1].items[0].name = type.process_chai_gai_item_cpbh;
-      process.sections[1].items[0].status = type.process_item_status_new;
-      process.sections[1].items[1] = {};
-      process.sections[1].items[1].name = type.process_chai_gai_item_ztcg;
-      process.sections[1].items[1].status = type.process_item_status_new;
-      process.sections[1].items[2] = {};
-      process.sections[1].items[2].name = type.process_chai_gai_item_qpcc;
-      process.sections[1].items[2].status = type.process_item_status_new;
+        async.parallel({
+          user: function (callback) {
+            User.findOne({
+              _id: userid,
+            }, {
+              username: 1,
+            }, callback);
+          },
+          designer: function (callback) {
+            Designer.findOne({
+              _id: requirement.final_designerid,
+            }, {
+              username: 1,
+            }, callback);
+          }
+        }, function (err, result) {
+          if (!err && result.user && result.designer) {
+            message_util.designer_message_type_user_ok_contract(result.user, result.designer, requirement);
+          }
+        });
+      }));
+    } else {
+      res.sendErrMsg('配置工地失败');
+    }
+  }));
+}
 
+exports.start_business = function (req, res, next) {
+  let userid = ApiUtil.getUserid(req);
+  let requirementid = req.body.requirementid;
+  let ep = eventproxy();
+  ep.fail(next);
 
-      process.sections[2] = {}
-      process.sections[2].name = type.process_section_shui_dian;
-      process.sections[2].status = type.process_item_status_new;
-      process.sections[2].items = [];
-      process.sections[2].items[0] = {};
-      process.sections[2].items[0].name = type.process_shui_dian_item_sdsg;
-      process.sections[2].items[0].status = type.process_item_status_new;
-      process.sections[2].items[1] = {};
-      process.sections[2].items[1].name = type.process_shui_dian_item_ntsg;
-      process.sections[2].items[1].status = type.process_item_status_new;
-      process.sections[2].ys = {};
-      process.sections[2].ys.images = [];
+  if ([requirementid].some(function (item) {
+      return !item ? true : false;
+    })) {
+    res.sendErrMsg('信息不完整。')
+    return;
+  }
 
-      process.sections[3] = {}
-      process.sections[3].name = type.process_section_ni_mu;
-      process.sections[3].status = type.process_item_status_new;
-      process.sections[3].items = [];
-      process.sections[3].items[0] = {};
-      process.sections[3].items[0].name = type.process_ni_mu_item_sgxaz;
-      process.sections[3].items[0].status = type.process_item_status_new;
-      process.sections[3].items[1] = {};
-      process.sections[3].items[1].name = type.process_ni_mu_item_cwqfssg;
-      process.sections[3].items[1].status = type.process_item_status_new;
-      process.sections[3].items[2] = {};
-      process.sections[3].items[2].name = type.process_ni_mu_item_cwqdzsg;
-      process.sections[3].items[2].status = type.process_item_status_new;
-      process.sections[3].items[3] = {};
-      process.sections[3].items[3].name = type.process_ni_mu_item_ktytzsg;
-      process.sections[3].items[3].status = type.process_item_status_new;
-      process.sections[3].items[4] = {};
-      process.sections[3].items[4].name = type.process_ni_mu_item_dmzp;
-      process.sections[3].items[4].status = type.process_item_status_new;
-      process.sections[3].items[5] = {};
-      process.sections[3].items[5].name = type.process_ni_mu_item_ddsg;
-      process.sections[3].items[5].status = type.process_item_status_new;
-      process.sections[3].items[6] = {};
-      process.sections[3].items[6].name = type.process_ni_mu_item_gtsg;
-      process.sections[3].items[6].status = type.process_item_status_new;
-      process.sections[3].ys = {};
-      process.sections[3].ys.images = [];
+  async.waterfall([
+    function (callback) {
+      Requirement.setOne({
+        _id: requirementid,
+        status: type.requirement_status_config_contract,
+      }, {
+        status: type.requirement_status_config_process
+      }, null, callback);
+    },
+    function (requirement, callback) {
+      Plan.findOne({
+        _id: requirement.final_planid,
+      }, {
+        duration: 1
+      }, function (err, plan) {
+        callback(err, requirement, plan)
+      });
+    }
+  ], ep.done(function (requirement, plan) {
+    if (requirement && plan) {
+      let process = {};
+      process.final_designerid = requirement.final_designerid;
+      process.final_planid = requirement.final_planid;
+      process.requirementid = requirement._id;
+      process.province = requirement.province;
+      process.city = requirement.city;
+      process.district = requirement.district;
+      process.cell = requirement.cell;
+      process.basic_address = requirement.basic_address;
+      process.detail_address = requirement.detail_address;
+      process.house_type = requirement.house_type;
+      process.business_house_type = requirement.business_house_type;
+      process.house_area = requirement.house_area;
+      process.dec_style = requirement.dec_style;
+      process.work_type = requirement.work_type;
+      process.total_price = requirement.total_price;
+      process.start_at = requirement.start_at;
+      process.duration = plan.duration;
 
-      process.sections[4] = {}
-      process.sections[4].name = type.process_section_you_qi;
-      process.sections[4].status = type.process_item_status_new;
-      process.sections[4].items = [];
-      process.sections[4].items[0] = {};
-      process.sections[4].items[0].name = type.process_you_qi_item_mqqsg;
-      process.sections[4].items[0].status = type.process_item_status_new;
-      process.sections[4].items[1] = {};
-      process.sections[4].items[1].name = type.process_you_qi_item_qmrjq;
-      process.sections[4].items[1].status = type.process_item_status_new;
-      process.sections[4].ys = {};
-      process.sections[4].ys.images = [];
+      process.userid = userid;
+      process.going_on = type.process_section_kai_gong;
+      process.sections = process_business.getSections(process_business.business_process_workflow, process_business.home_process_60_template,
+        process.duration, process.start_at);
 
-      process.sections[5] = {}
-      process.sections[5].name = type.process_section_an_zhuang;
-      process.sections[5].status = type.process_item_status_new;
-      process.sections[5].items = [];
-      process.sections[5].items[0] = {};
-      process.sections[5].items[0].name = type.process_an_zhuang_item_scaz;
-      process.sections[5].items[0].status = type.process_item_status_new;
-      process.sections[5].items[1] = {};
-      process.sections[5].items[1].name = type.process_an_zhuang_item_jjaz;
-      process.sections[5].items[1].status = type.process_item_status_new;
-      process.sections[5].items[2] = {};
-      process.sections[5].items[2].name = type.process_an_zhuang_item_cwddaz;
-      process.sections[5].items[2].status = type.process_item_status_new;
-      process.sections[5].items[3] = {};
-      process.sections[5].items[3].name = type.process_an_zhuang_item_wjaz;
-      process.sections[5].items[3].status = type.process_item_status_new;
-      process.sections[5].items[4] = {};
-      process.sections[5].items[4].name = type.process_an_zhuang_item_cgscaz;
-      process.sections[5].items[4].status = type.process_item_status_new;
-      process.sections[5].items[5] = {};
-      process.sections[5].items[5].name = type.process_an_zhuang_item_yjzjaz;
-      process.sections[5].items[5].status = type.process_item_status_new;
-      process.sections[5].items[6] = {};
-      process.sections[5].items[6].name = type.process_an_zhuang_item_mdbmmaz;
-      process.sections[5].items[6].status = type.process_item_status_new;
-      process.sections[5].items[7] = {};
-      process.sections[5].items[7].name = type.process_an_zhuang_item_qzpt;
-      process.sections[5].items[7].status = type.process_item_status_new;
-      process.sections[5].items[8] = {};
-      process.sections[5].items[8].name = type.process_an_zhuang_item_mbdjaz;
-      process.sections[5].items[8].status = type.process_item_status_new;
-      process.sections[5].items[9] = {};
-      process.sections[5].items[9].name = type.process_an_zhuang_item_snzl;
-      process.sections[5].items[9].status = type.process_item_status_new;
-      process.sections[5].ys = {};
-      process.sections[5].ys.images = [];
-
-      process.sections[6] = {}
-      process.sections[6].name = type.process_section_jun_gong;
-      process.sections[6].status = type.process_item_status_new;
-      process.sections[6].ys = {};
-      process.sections[6].ys.images = [];
-
-      var f = process.duration / config.duration_60;
-
-      process.sections[0].start_at = process.start_at;
-      process.sections[0].end_at = DateUtil.add(process.sections[0].start_at,
-        config.duration_60_kai_gong, f);
-
-      process.sections[1].start_at = process.sections[0].end_at;
-      process.sections[1].end_at = DateUtil.add(process.sections[1].start_at,
-        config.duration_60_chai_gai, f);
-
-      process.sections[2].start_at = process.sections[1].end_at;
-      process.sections[2].end_at = DateUtil.add(process.sections[2].start_at,
-        config.duration_60_shui_dian, f);
-
-      process.sections[3].start_at = process.sections[2].end_at;
-      process.sections[3].end_at = DateUtil.add(process.sections[3].start_at,
-        config.duration_60_ni_mu, f);
-
-      process.sections[4].start_at = process.sections[3].end_at;
-      process.sections[4].end_at = DateUtil.add(process.sections[4].start_at,
-        config.duration_60_you_qi, f);
-
-      process.sections[5].start_at = process.sections[4].end_at;
-      process.sections[5].end_at = DateUtil.add(process.sections[5].start_at,
-        config.duration_60_an_zhuang, f);
-
-      process.sections[6].start_at = process.sections[5].end_at;
-      process.sections[6].end_at = DateUtil.add(process.sections[6].start_at,
-        config.duration_60_jun_gong, f);
+      for (let section of process.sections) {
+        section.status = type.process_item_status_going;
+      }
 
       logger.debug(process);
       Process.newAndSave(process, ep.done(function (process_indb) {
@@ -270,21 +201,21 @@ exports.start = function (req, res, next) {
 }
 
 exports.addImage = function (req, res, next) {
-  var section = tools.trim(req.body.section);
-  var item = tools.trim(req.body.item);
-  var imageid = new ObjectId(req.body.imageid);
-  var _id = req.body._id;
-  var ep = eventproxy();
+  let section = tools.trim(req.body.section);
+  let item = tools.trim(req.body.item);
+  let imageid = new ObjectId(req.body.imageid);
+  let _id = req.body._id;
+  let ep = eventproxy();
   ep.fail(next);
 
   Process.addImage(_id, section, item, imageid, ep.done(function (process) {
 
     if (process) {
-      var s = _.find(process.sections, function (o) {
+      let s = _.find(process.sections, function (o) {
         return o.name === section;
       });
       if (s) {
-        var i = _.find(s.items, function (o) {
+        let i = _.find(s.items, function (o) {
           return o.name === item;
         });
 
@@ -299,24 +230,24 @@ exports.addImage = function (req, res, next) {
 };
 
 exports.add_images = function (req, res, next) {
-  var section = tools.trim(req.body.section);
-  var item = tools.trim(req.body.item);
-  var images = req.body.images || [];
+  let section = tools.trim(req.body.section);
+  let item = tools.trim(req.body.item);
+  let images = req.body.images || [];
   images = images.map(function (o) {
     return new ObjectId(o);
   });
-  var _id = req.body._id;
-  var ep = eventproxy();
+  let _id = req.body._id;
+  let ep = eventproxy();
   ep.fail(next);
 
   Process.add_images(_id, section, item, images, ep.done(function (process) {
 
     if (process) {
-      var s = _.find(process.sections, function (o) {
+      let s = _.find(process.sections, function (o) {
         return o.name === section;
       });
       if (s) {
-        var i = _.find(s.items, function (o) {
+        let i = _.find(s.items, function (o) {
           return o.name === item;
         });
 
@@ -331,11 +262,11 @@ exports.add_images = function (req, res, next) {
 };
 
 exports.delete_image = function (req, res, next) {
-  var section = tools.trim(req.body.section);
-  var item = tools.trim(req.body.item);
-  var index = req.body.index;
-  var _id = req.body._id;
-  var ep = eventproxy();
+  let section = tools.trim(req.body.section);
+  let item = tools.trim(req.body.item);
+  let index = req.body.index;
+  let _id = req.body._id;
+  let ep = eventproxy();
   ep.fail(next);
 
   Process.deleteImage(_id, section, item, index, ep.done(function () {
@@ -348,11 +279,11 @@ exports.addYsImage = function (req, res, next) {
     return res.sendErrMsg('缺少Image');
   }
 
-  var section = tools.trim(req.body.section);
-  var key = tools.trim(req.body.key);
-  var imageid = new ObjectId(req.body.imageid);
-  var _id = req.body._id;
-  var ep = eventproxy();
+  let section = tools.trim(req.body.section);
+  let key = tools.trim(req.body.key);
+  let imageid = new ObjectId(req.body.imageid);
+  let _id = req.body._id;
+  let ep = eventproxy();
   ep.fail(next);
 
   Process.updateYsImage(_id, section, key, imageid, ep.done(function (process) {
@@ -368,10 +299,10 @@ exports.addYsImage = function (req, res, next) {
 }
 
 exports.deleteYsImage = function (req, res, next) {
-  var section = tools.trim(req.body.section);
-  var key = tools.trim(req.body.key);
-  var _id = req.body._id;
-  var ep = eventproxy();
+  let section = tools.trim(req.body.section);
+  let key = tools.trim(req.body.key);
+  let _id = req.body._id;
+  let ep = eventproxy();
   ep.fail(next);
 
   Process.deleteYsImage(_id, section, key, ep.done(function (process) {
@@ -380,11 +311,11 @@ exports.deleteYsImage = function (req, res, next) {
 };
 
 exports.reschedule = function (req, res, next) {
-  var reschedule = ApiUtil.buildReschedule(req);
-  var usertype = ApiUtil.getUsertype(req);
+  let reschedule = ApiUtil.buildReschedule(req);
+  let usertype = ApiUtil.getUsertype(req);
   reschedule.request_role = usertype;
   reschedule.status = type.process_item_status_reschedule_req_new;
-  var ep = eventproxy();
+  let ep = eventproxy();
   ep.fail(next);
 
   ep.on('sendMessage', function (process, reschedule_indb) {
@@ -429,10 +360,10 @@ exports.reschedule = function (req, res, next) {
 };
 
 exports.listReschdule = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var usertype = ApiUtil.getUsertype(req);
-  var query = {};
-  var ep = eventproxy();
+  let userid = ApiUtil.getUserid(req);
+  let usertype = ApiUtil.getUsertype(req);
+  let query = {};
+  let ep = eventproxy();
   ep.fail(next);
 
   if (usertype === type.role_user) {
@@ -464,12 +395,12 @@ exports.listReschdule = function (req, res, next) {
 }
 
 exports.okReschedule = function (req, res, next) {
-  var usertype = ApiUtil.getUsertype(req);
-  var query = {};
-  var userid = ApiUtil.getUserid(req);
+  let usertype = ApiUtil.getUsertype(req);
+  let query = {};
+  let userid = ApiUtil.getUserid(req);
   query.processid = req.body.processid;
   query.status = type.process_item_status_reschedule_req_new;
-  var ep = eventproxy();
+  let ep = eventproxy();
   ep.fail(next);
 
   ep.on('sendMessage', function (reschedule, process) {
@@ -509,10 +440,10 @@ exports.okReschedule = function (req, res, next) {
     if (reschedules.length < 1) {
       return res.sendErrMsg('改期不存在');
     }
-    var reschedule = reschedules[0];
+    let reschedule = reschedules[0];
 
-    var newDate = reschedule.new_date;
-    var index = _.indexOf(type.process_work_flow, reschedule.section);
+    let newDate = reschedule.new_date;
+    let index = _.indexOf(type.process_work_flow, reschedule.section);
     Process.findOne({
       _id: reschedule.processid
     }, null, ep.done(function (process) {
@@ -520,10 +451,10 @@ exports.okReschedule = function (req, res, next) {
         if (process.sections[index].start_at >= newDate) {
           res.sendErrMsg('无法改期到比开始还早');
         } else {
-          var diff = newDate - process.sections[index].end_at;
+          let diff = newDate - process.sections[index].end_at;
           process.sections[index].end_at = newDate;
           process.sections[index].status = type.process_item_status_reschedule_ok;
-          for (var i = index + 1; i < process.sections.length; i++) {
+          for (let i = index + 1; i < process.sections.length; i++) {
             process.sections[i].start_at += diff;
             process.sections[i].end_at += diff;
           }
@@ -544,16 +475,16 @@ exports.okReschedule = function (req, res, next) {
 }
 
 exports.rejectReschedule = function (req, res, next) {
-  var usertype = ApiUtil.getUsertype(req);
-  var query = {};
-  var userid = ApiUtil.getUserid(req);
+  let usertype = ApiUtil.getUsertype(req);
+  let query = {};
+  let userid = ApiUtil.getUserid(req);
   if (!req.body.processid) {
     return res.sendErrMsg('缺少processid');
   }
 
   query.processid = req.body.processid;
   query.status = type.process_item_status_reschedule_req_new;
-  var ep = eventproxy();
+  let ep = eventproxy();
   ep.fail(next);
 
   ep.on('sendMessage', function (reschedule, process) {
@@ -604,10 +535,10 @@ exports.rejectReschedule = function (req, res, next) {
 }
 
 exports.doneItem = function (req, res, next) {
-  var section = tools.trim(req.body.section);
-  var item = tools.trim(req.body.item);
-  var _id = req.body._id;
-  var ep = eventproxy();
+  let section = tools.trim(req.body.section);
+  let item = tools.trim(req.body.item);
+  let _id = req.body._id;
+  let ep = eventproxy();
   ep.fail(next);
 
   if (!item) {
@@ -619,10 +550,10 @@ exports.doneItem = function (req, res, next) {
       if (process) {
         //push notification
         if (section === type.process_section_kai_gong || section === type.process_section_chai_gai) {
-          var result = _.find(process.sections, function (o) {
+          let result = _.find(process.sections, function (o) {
             return o.name === section;
           });
-          var doneCount = 0;
+          let doneCount = 0;
           _.forEach(result.items, function (e) {
             if (e.status === type.process_item_status_done) {
               doneCount += 1;
@@ -631,8 +562,8 @@ exports.doneItem = function (req, res, next) {
 
           //开工拆改 开启下个流程
           if (result.items.length - doneCount <= 1) {
-            var index = _.indexOf(type.process_work_flow, section);
-            var next = type.process_work_flow[index + 1];
+            let index = _.indexOf(type.process_work_flow, section);
+            let next = type.process_work_flow[index + 1];
             //结束当前工序
             Process.updateStatus(_id, section, null, type.process_item_status_done,
               ep.done(function () {
@@ -657,9 +588,9 @@ exports.doneItem = function (req, res, next) {
 };
 
 exports.doneSection = function (req, res, next) {
-  var section = tools.trim(req.body.section);
-  var _id = req.body._id;
-  var ep = eventproxy();
+  let section = tools.trim(req.body.section);
+  let _id = req.body._id;
+  let ep = eventproxy();
   ep.fail(next);
 
   Process.updateStatus(_id, section, null, type.process_item_status_done,
@@ -680,8 +611,8 @@ exports.doneSection = function (req, res, next) {
       }
 
       //开启下个流程
-      var index = _.indexOf(type.process_work_flow, section);
-      var next = type.process_work_flow[index + 1];
+      let index = _.indexOf(type.process_work_flow, section);
+      let next = type.process_work_flow[index + 1];
       if (next) {
         if (next === type.process_section_done) {
           Requirement.setOne({
@@ -712,8 +643,8 @@ exports.doneSection = function (req, res, next) {
 };
 
 exports.getOne = function (req, res, next) {
-  var _id = req.params._id;
-  var ep = eventproxy();
+  let _id = req.params._id;
+  let ep = eventproxy();
   ep.fail(next);
 
   Process.findOne({
@@ -725,7 +656,7 @@ exports.getOne = function (req, res, next) {
         status: type.process_item_status_reschedule_req_new,
       }, ep.done(function (reschedule) {
         if (reschedule) {
-          var index = _.indexOf(type.process_work_flow,
+          let index = _.indexOf(type.process_work_flow,
             reschedule.section);
           process = process.toObject();
           process.sections[index].reschedule = reschedule;
@@ -741,9 +672,9 @@ exports.getOne = function (req, res, next) {
 }
 
 exports.list = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var usertype = ApiUtil.getUsertype(req);
-  var ep = eventproxy();
+  let userid = ApiUtil.getUserid(req);
+  let usertype = ApiUtil.getUsertype(req);
+  let ep = eventproxy();
   ep.fail(next);
 
   ep.on('processes', function (processes) {
@@ -780,7 +711,7 @@ exports.list = function (req, res, next) {
     }));
   });
 
-  var query = {};
+  let query = {};
   if (usertype === type.role_user) {
     query.userid = userid;
   } else if (usertype === type.role_designer) {
@@ -810,10 +741,10 @@ exports.list = function (req, res, next) {
 }
 
 exports.ys = function (req, res, next) {
-  var designerid = ApiUtil.getUserid(req);
-  var section = tools.trim(req.body.section);
-  var _id = req.body._id;
-  var ep = eventproxy();
+  let designerid = ApiUtil.getUserid(req);
+  let section = tools.trim(req.body.section);
+  let _id = req.body._id;
+  let ep = eventproxy();
   ep.fail(next);
 
   Process.findOne({

@@ -39,6 +39,7 @@ Requirement.count({}, function (err, count) {
         requirement.cell_building = undefined;
         requirement.cell_unit = undefined;
         requirement.cell_detail_number = undefined;
+        requirement.street = undefined;
 
         requirement.save(function (err) {
           next(err);

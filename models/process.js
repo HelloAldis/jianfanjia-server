@@ -76,6 +76,9 @@ var ProcessSchema = new Schema({
     name: {
       type: String
     },
+    label: {
+      type: String
+    },
     start_at: {
       type: Number
     },
@@ -88,6 +91,9 @@ var ProcessSchema = new Schema({
     },
     items: [{
       name: {
+        type: String
+      },
+      label: {
         type: String
       },
       date: {
