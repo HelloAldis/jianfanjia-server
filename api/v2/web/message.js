@@ -195,6 +195,7 @@ exports.user_message_detail = function (req, res, next) {
           }, {
             cell: 1,
             basic_address: 1,
+            sections: 1,
           }, callback);
         },
         reschedule: function (callback) {
@@ -367,6 +368,7 @@ exports.designer_message_detail = function (req, res, next) {
       }, {
         cell: 1,
         basic_address: 1,
+        sections: 1,
       }, ep.done(function (process) {
         message = message.toObject();
         message.process = process;
@@ -394,6 +396,7 @@ exports.designer_message_detail = function (req, res, next) {
           }, {
             cell: 1,
             basic_address: 1,
+            sections: 1,
           }, callback);
         },
         reschedule: function (callback) {

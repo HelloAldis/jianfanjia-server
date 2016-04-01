@@ -170,6 +170,9 @@ var type = {
 
   dec_type_home: '0',
   dec_type_business: '1',
+
+  requirement_package_type_default: '0',
+  requirement_package_type_365: '1',
 }
 
 module.exports = type;

@@ -238,6 +238,7 @@ exports.buildRequirement = function (req) {
   requirement.total_price = input.total_price;
   requirement.communication_type = input.communication_type;
   requirement.family_description = input.family_description;
+  requirement.package_type = input.package_type;
 
   return tools.deleteUndefinedAndNullThenFilterXss(requirement);
 }

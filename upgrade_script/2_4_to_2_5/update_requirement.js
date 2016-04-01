@@ -34,6 +34,7 @@ Requirement.count({}, function (err, count) {
           requirement.detail_address = requirement.detail_address || requirement.street;
         }
 
+        requirement.package_type = type.requirement_package_type_default;
         requirement.cell = undefined;
         requirement.cell_phase = undefined;
         requirement.cell_building = undefined;
