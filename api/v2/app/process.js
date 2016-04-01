@@ -70,103 +70,23 @@ exports.start = function (req, res, next) {
       process.work_type = requirement.work_type;
       process.total_price = requirement.total_price;
       process.start_at = requirement.start_at;
+      process.dec_type = requirement.dec_type;
       process.duration = plan.duration;
 
       process.userid = userid;
       process.going_on = type.process_section_kai_gong;
-      process.sections = process_business.getSections(process_business.home_process_workflow, process_business.home_process_60_template,
-        process.duration, process.start_at);
 
-      logger.debug(process);
-      Process.newAndSave(process, ep.done(function (process_indb) {
-        res.sendData(process_indb);
+      if (process.dec_type === type.dec_type_home) {
+        process.sections = process_business.getSections(process_business.home_process_workflow, process_business.home_process_60_template,
+          process.duration, process.start_at);
+      } else {
+        process.sections = process_business.getSections(process_business.business_process_workflow, process_business.home_process_60_template,
+          process.duration, process.start_at);
 
-        async.parallel({
-          user: function (callback) {
-            User.findOne({
-              _id: userid,
-            }, {
-              username: 1,
-            }, callback);
-          },
-          designer: function (callback) {
-            Designer.findOne({
-              _id: requirement.final_designerid,
-            }, {
-              username: 1,
-            }, callback);
-          }
-        }, function (err, result) {
-          if (!err && result.user && result.designer) {
-            message_util.designer_message_type_user_ok_contract(result.user, result.designer, requirement);
-          }
-        });
-      }));
-    } else {
-      res.sendErrMsg('配置工地失败');
-    }
-  }));
-}
-
-exports.start_business = function (req, res, next) {
-  let userid = ApiUtil.getUserid(req);
-  let requirementid = req.body.requirementid;
-  let ep = eventproxy();
-  ep.fail(next);
-
-  if ([requirementid].some(function (item) {
-      return !item ? true : false;
-    })) {
-    res.sendErrMsg('信息不完整。')
-    return;
-  }
-
-  async.waterfall([
-    function (callback) {
-      Requirement.setOne({
-        _id: requirementid,
-        status: type.requirement_status_config_contract,
-      }, {
-        status: type.requirement_status_config_process
-      }, null, callback);
-    },
-    function (requirement, callback) {
-      Plan.findOne({
-        _id: requirement.final_planid,
-      }, {
-        duration: 1
-      }, function (err, plan) {
-        callback(err, requirement, plan)
-      });
-    }
-  ], ep.done(function (requirement, plan) {
-    if (requirement && plan) {
-      let process = {};
-      process.final_designerid = requirement.final_designerid;
-      process.final_planid = requirement.final_planid;
-      process.requirementid = requirement._id;
-      process.province = requirement.province;
-      process.city = requirement.city;
-      process.district = requirement.district;
-      process.cell = requirement.cell;
-      process.basic_address = requirement.basic_address;
-      process.detail_address = requirement.detail_address;
-      process.house_type = requirement.house_type;
-      process.business_house_type = requirement.business_house_type;
-      process.house_area = requirement.house_area;
-      process.dec_style = requirement.dec_style;
-      process.work_type = requirement.work_type;
-      process.total_price = requirement.total_price;
-      process.start_at = requirement.start_at;
-      process.duration = plan.duration;
-
-      process.userid = userid;
-      process.going_on = type.process_section_kai_gong;
-      process.sections = process_business.getSections(process_business.business_process_workflow, process_business.home_process_60_template,
-        process.duration, process.start_at);
-
-      for (let section of process.sections) {
-        section.status = type.process_item_status_going;
+        //默认开启所有工序
+        for (let section of process.sections) {
+          section.status = type.process_item_status_going;
+        }
       }
 
       logger.debug(process);

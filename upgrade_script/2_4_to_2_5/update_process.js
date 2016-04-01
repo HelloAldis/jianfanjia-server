@@ -23,26 +23,17 @@ Process.count({}, function (err, count) {
         next(err);
       } else {
         let process = processes[0];
-        if (process.requirementid) {
-          Requirement.findOne({
-            _id: process.requirementid,
-          }, null, function (err, requirement) {
-            if (requirement) {
-              for (let i = 0; i < requirement.sections.length; i++) {
-                requirement.sections[i].label = process_business.home_process_workflow[i].section[1];
-                for (var j = 0; j < requirement.sections[i].items.length; j++) {
-                  requirement.section[i].items[j].label = process_business.home_process_workflow[i].items[j][1];
-                }
-              }
 
-              process.save(function (err) {
-                next(err);
-              });
-            } else {
-              next(err);
-            }
-          });
+        for (let i = 0; i < process.sections.length; i++) {
+          process.sections[i].label = process_business.home_process_workflow[i].section[1];
+          for (var j = 0; j < process.sections[i].items.length; j++) {
+            process.sections[i].items[j].label = process_business.home_process_workflow[i].items[j][1];
+          }
         }
+
+        process.save(function (err) {
+          next(err);
+        });
       }
     });
   }, function (err) {
