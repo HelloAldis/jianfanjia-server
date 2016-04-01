@@ -4,8 +4,9 @@ var uuid = require('node-uuid');
 
 exports.newAndSave = function (json, callback) {
   var plan = new Plan(json);
-  plan.request_date = new Date().getTime();
-  plan.last_status_update_time = new Date().getTime();
+  // plan.request_date = new Date().getTime();
+  plan.create_at = new Date().getTime();
+  plan.last_status_update_time = plan.create_at;
   plan.save(callback);
 };
 

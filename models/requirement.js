@@ -68,9 +68,6 @@ var RequirementSchema = new Schema({
     type: Number,
     default: 0
   },
-  // designerids: {
-  //   type: [ObjectId]
-  // },
   rec_designerids: {
     type: [ObjectId]
   },

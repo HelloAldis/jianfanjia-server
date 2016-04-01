@@ -70,7 +70,7 @@ router.get('/signout', auth.normalUserRequired, sign.signout); //登出
 // router.post('/process/reschedule/ok', auth.normalUserRequired, process.okReschedule); //同意改期提醒
 // router.post('/process/reschedule/reject', auth.normalUserRequired, process.rejectReschedule); //拒绝改期提醒
 //设备使用
-router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定cid
+//router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定cid
 
 //业主独有功能
 // router.put('/user/info', auth.userRequired, user.updateInfo); //修改业主个人资料
@@ -86,30 +86,30 @@ router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定ci
 // router.post('/user/designer/info', auth.userRequired, designer.user_designer_info);
 
 //设计师独有功能
-router.put('/designer/info', auth.designerRequired, designer.updateInfo); //修改设计师个人资料
-router.get('/designer/info', auth.designerRequired, designer.getInfo); //获取设计师自己个人资料
-router.put('/designer/uid_bank_info', auth.designerRequired, designer.uid_bank_info);
-router.put('/designer/email_info', auth.designerRequired, designer.email_info);
-router.get('/designer/user', auth.designerRequired, designer.myUser); //我的业主
-router.post('/designer/user/ok', auth.designerRequired, designer.okUser); //响应业主
-router.post('/designer/user/reject', auth.designerRequired, designer.rejectUser); //拒绝业主
-router.get('/designer/plan', auth.designerRequired, plan.designerMyPlan); //我的装修方案
-router.post('/designer/plan', auth.designerRequired, plan.add); //提交方案
-router.put('/designer/plan', auth.designerRequired, plan.update); //更新方案
-router.get('/designer/product', auth.designerRequired, product.listForDesigner); //上传作品
-router.post('/designer/product', auth.designerRequired, product.add); //上传作品
-router.put('/designer/product', auth.designerRequired, product.update); //更新作品
-router.delete('/designer/product', auth.designerRequired, product.delete); //删除作品
-router.get('/designer/team', auth.designerRequired, team.list); //获取施工队伍
-router.post('/designer/team', auth.designerRequired, team.add); //添加施工队伍
-router.put('/designer/team', auth.designerRequired, team.update); //更新施工队伍
-router.delete('/designer/team', auth.designerRequired, team.delete); //删除施工队伍
-router.post('/designer/auth', auth.designerRequired, designer.auth); //提交认证申请
-router.post('/designer/agree', auth.designerRequired, designer.agree); //提交认证申请
+//router.put('/designer/info', auth.designerRequired, designer.updateInfo); //修改设计师个人资料
+//router.get('/designer/info', auth.designerRequired, designer.getInfo); //获取设计师自己个人资料
+//router.put('/designer/uid_bank_info', auth.designerRequired, designer.uid_bank_info);
+//router.put('/designer/email_info', auth.designerRequired, designer.email_info);
+//router.get('/designer/user', auth.designerRequired, designer.myUser); //我的业主
+//router.post('/designer/user/ok', auth.designerRequired, designer.okUser); //响应业主
+//router.post('/designer/user/reject', auth.designerRequired, designer.rejectUser); //拒绝业主
+//router.get('/designer/plan', auth.designerRequired, plan.designerMyPlan); //我的装修方案
+//router.post('/designer/plan', auth.designerRequired, plan.add); //提交方案
+//router.put('/designer/plan', auth.designerRequired, plan.update); //更新方案
+//router.get('/designer/product', auth.designerRequired, product.listForDesigner); //上传作品
+//router.post('/designer/product', auth.designerRequired, product.add); //上传作品
+//router.put('/designer/product', auth.designerRequired, product.update); //更新作品
+// router.delete('/designer/product', auth.designerRequired, product.delete); //删除作品
+// router.get('/designer/team', auth.designerRequired, team.list); //获取施工队伍
+// router.post('/designer/team', auth.designerRequired, team.add); //添加施工队伍
+// router.put('/designer/team', auth.designerRequired, team.update); //更新施工队伍
+// router.delete('/designer/team', auth.designerRequired, team.delete); //删除施工队伍
+// router.post('/designer/auth', auth.designerRequired, designer.auth); //提交认证申请
+// router.post('/designer/agree', auth.designerRequired, designer.agree); //提交认证申请
 // router.post('/process/ysimage', auth.designerRequired, process.addYsImage); //提交验收照片
 // router.delete('/process/ysimage', auth.designerRequired, process.deleteYsImage); //删除验收照片
 // router.post('/process/can_ys', auth.designerRequired, process.ys); //可以开始验收了
-router.post('/designer/update_online_status', auth.designerRequired, designer.update_online_status); //更改在线状态
+//router.post('/designer/update_online_status', auth.designerRequired, designer.update_online_status); //更改在线状态
 
 //管理员独有的功能
 router.post('/admin/login', admin.login); //审核设计师

@@ -650,6 +650,7 @@ exports.list = function (req, res, next) {
     requirementid: 1,
     lastupdate: 1,
     start_at: 1,
+    section: 1,
   }, {
     lean: true,
     sort: {

@@ -83,6 +83,7 @@ exports.order_designer = function (req, res, next) {
         json.designerid = designerid;
         json.userid = userid;
         json.requirementid = requirement._id;
+        json.request_date = new Date().getTime();
 
         Plan.findOne({
           designerid: designerid,
@@ -162,6 +163,7 @@ exports.user_change_ordered_designer = function (req, res, next) {
     json.designerid = new_designerid;
     json.userid = userid;
     json.requirementid = requirement._id;
+    json.request_date = new Date().getTime();
 
     Plan.findOne(json, null, ep.done(function (plan) {
       if (!plan) {
