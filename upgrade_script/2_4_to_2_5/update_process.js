@@ -25,6 +25,7 @@ Process.count({}, function (err, count) {
         let process = processes[0];
 
         for (let i = 0; i < process.sections.length; i++) {
+          console.log('i = ' + i);
           process.sections[i].label = process_business.home_process_workflow[i].section[1];
           for (var j = 0; j < process.sections[i].items.length; j++) {
             process.sections[i].items[j].label = process_business.home_process_workflow[i].items[j][1];
