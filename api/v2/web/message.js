@@ -50,7 +50,7 @@ exports.search_user_message = function (req, res, next) {
         }, {
           cell: 1,
           basic_address: 1,
-          section: 1,
+          sections: 1,
         }, function (err, process) {
           message.process = process;
           callback(err, message);
@@ -319,7 +319,7 @@ exports.search_designer_message = function (req, res, next) {
         }, {
           cell: 1,
           basic_address: 1,
-          section: 1,
+          sections: 1,
         }, function (err, process) {
           message.process = process;
           callback(err, message);
