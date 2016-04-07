@@ -4,7 +4,7 @@ const Designer = require('../../proxy').Designer;
 const type = require('../../type');
 const async = require('async');
 
-var designers = [];
+var designerNames = ['吴蒙', '江尚飞', '向鑫', '吴海华', '李耀强', '黄赞', '柯志林', '邓扬旭', '朱亚琴', '邹航', '方建军', '胡亮', '赖从伟'];
 Designer.count({}, function (err, count) {
   if (err) {
     return console.log('err = ' + err);
@@ -22,9 +22,11 @@ Designer.count({}, function (err, count) {
         next(err);
       } else {
         let designer = designers[0];
-        if (designers.indexOf(designer)) {
+        let index = designerNames.indexOf(designer.username)
+        if (index > -1) {
           designer.package_types = ['0', '1'];
           console.log(designer.username + ' 支持365基础包');
+          designerNames.splice(index, 1);
         } else {
           designer.package_types = ['0'];
         }
@@ -39,6 +41,7 @@ Designer.count({}, function (err, count) {
       process.exit();
     } else {
       console.log('complete designer ok');
+      console.log(designerNames + 'are wrong designer name');
       process.exit();
     }
   });

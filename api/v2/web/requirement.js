@@ -256,6 +256,7 @@ exports.user_add_requirement = function (req, res, next) {
     authed_product_count: {
       $gte: 3
     },
+    package_types: requirement.package_type,
     // uid_auth_type: type.designer_auth_type_done,
     // work_auth_type: type.designer_auth_type_done,
   }, {
@@ -312,6 +313,7 @@ exports.user_update_requirement = function (req, res, next) {
     authed_product_count: {
       $gte: 3
     },
+    package_types: requirement.package_type,
     // uid_auth_type: type.designer_auth_type_done,
     // work_auth_type: type.designer_auth_type_done,
   }, {
