@@ -35,12 +35,12 @@ Requirement.count({}, function (err, count) {
         }
 
         requirement.package_type = requirement.package_type || type.requirement_package_type_default;
-        requirement.cell = undefined;
-        requirement.cell_phase = undefined;
-        requirement.cell_building = undefined;
-        requirement.cell_unit = undefined;
-        requirement.cell_detail_number = undefined;
-        requirement.street = undefined;
+        // requirement.cell = undefined;
+        // requirement.cell_phase = undefined;
+        // requirement.cell_building = undefined;
+        // requirement.cell_unit = undefined;
+        // requirement.cell_detail_number = undefined;
+        // requirement.street = undefined;
 
         requirement.save(function (err) {
           next(err);

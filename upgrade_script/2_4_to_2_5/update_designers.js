@@ -4,7 +4,7 @@ const Designer = require('../../proxy').Designer;
 const type = require('../../type');
 const async = require('async');
 
-var designerNames = ['吴蒙', '江尚飞', '向鑫', '吴海华', '李耀强', '黄赞', '柯志林', '邓扬旭', '朱亚琴', '邹航', '方建军', '胡亮', '赖从伟'];
+var designerNames = ['吴蒙', '江尚飞', '向鑫', '吴海华', '李耀强', '黄赞', '柯志林', '邓扬超', '朱亚琴', '邹航', '方建军', '胡亮', '赖从伟', '胡世民', '刘智', '彭虎', '陈永生', '戴涛', '张高源'];
 Designer.count({}, function (err, count) {
   if (err) {
     return console.log('err = ' + err);
