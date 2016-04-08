@@ -51,6 +51,7 @@ exports.search_user_comment = function (req, res, next) {
             _id: result.plan.requirementid,
           }, {
             cell: 1,
+            basic_address: 1,
             status: 1,
             dec_type: 1,
             cell_phase: 1,
@@ -79,6 +80,7 @@ exports.search_user_comment = function (req, res, next) {
               _id: message.topicid,
             }, {
               cell: 1,
+              basic_address: 1,
               sections: 1,
             }, callback);
           }
@@ -143,6 +145,7 @@ exports.search_designer_comment = function (req, res, next) {
             _id: result.plan.requirementid,
           }, {
             cell: 1,
+            basic_address: 1,
             status: 1,
             dec_type: 1,
             cell_phase: 1,
@@ -171,6 +174,7 @@ exports.search_designer_comment = function (req, res, next) {
               _id: message.topicid,
             }, {
               cell: 1,
+              basic_address: 1,
               sections: 1,
             }, callback);
           }

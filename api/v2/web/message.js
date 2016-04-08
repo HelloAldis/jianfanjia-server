@@ -49,6 +49,8 @@ exports.search_user_message = function (req, res, next) {
           _id: message.processid,
         }, {
           cell: 1,
+          basic_address: 1,
+          sections: 1,
         }, function (err, process) {
           message.process = process;
           callback(err, message);
@@ -63,6 +65,7 @@ exports.search_user_message = function (req, res, next) {
           _id: message.requirementid
         }, {
           cell: 1,
+          basic_address: 1,
         }, function (err, requirement) {
           message.requirement = requirement;
           callback(err, message);
@@ -163,6 +166,7 @@ exports.user_message_detail = function (req, res, next) {
         _id: message.processid,
       }, {
         cell: 1,
+        basic_address: 1,
         sections: 1,
       }, ep.done(function (process) {
         message = message.toObject();
@@ -177,6 +181,7 @@ exports.user_message_detail = function (req, res, next) {
         _id: message.requirementid,
       }, {
         cell: 1,
+        basic_address: 1,
         status: 1,
       }, ep.done(function (requirement) {
         message = message.toObject();
@@ -190,6 +195,8 @@ exports.user_message_detail = function (req, res, next) {
             _id: message.processid,
           }, {
             cell: 1,
+            basic_address: 1,
+            sections: 1,
           }, callback);
         },
         reschedule: function (callback) {
@@ -212,6 +219,7 @@ exports.user_message_detail = function (req, res, next) {
             _id: message.requirementid,
           }, {
             cell: 1,
+            basic_address: 1,
             status: 1,
             dec_type: 1,
             cell_phase: 1,
@@ -310,6 +318,8 @@ exports.search_designer_message = function (req, res, next) {
           _id: message.processid,
         }, {
           cell: 1,
+          basic_address: 1,
+          sections: 1,
         }, function (err, process) {
           message.process = process;
           callback(err, message);
@@ -324,6 +334,7 @@ exports.search_designer_message = function (req, res, next) {
           _id: message.requirementid
         }, {
           cell: 1,
+          basic_address: 1,
         }, function (err, requirement) {
           message.requirement = requirement;
           callback(err, message);
@@ -358,6 +369,8 @@ exports.designer_message_detail = function (req, res, next) {
         _id: message.processid,
       }, {
         cell: 1,
+        basic_address: 1,
+        sections: 1,
       }, ep.done(function (process) {
         message = message.toObject();
         message.process = process;
@@ -370,6 +383,7 @@ exports.designer_message_detail = function (req, res, next) {
         _id: message.requirementid,
       }, {
         cell: 1,
+        basic_address: 1,
         status: 1,
       }, ep.done(function (requirement) {
         message = message.toObject();
@@ -383,6 +397,8 @@ exports.designer_message_detail = function (req, res, next) {
             _id: message.processid,
           }, {
             cell: 1,
+            basic_address: 1,
+            sections: 1,
           }, callback);
         },
         reschedule: function (callback) {
@@ -434,6 +450,7 @@ exports.designer_message_detail = function (req, res, next) {
             _id: message.requirementid,
           }, {
             cell: 1,
+            basic_address: 1,
             status: 1,
             dec_type: 1,
             cell_phase: 1,

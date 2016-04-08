@@ -204,6 +204,10 @@ exports.findOne = function (query, project, callback) {
   Process.findOne(query, project, callback);
 }
 
+exports.count = function (query, callback) {
+  Process.count(query, callback);
+}
+
 exports.paginate = function (query, project, option, callback) {
   Process.count(query, function (err, count) {
     if (err) {

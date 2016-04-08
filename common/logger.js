@@ -1,10 +1,13 @@
-var winston = require('winston');
-var Rotate = require('winston-daily-rotate-file');
-var path = require('path');
+'use strict'
 
-var logDirectory = path.normalize(__dirname + '/../log');
+const winston = require('winston');
+const Rotate = require('winston-daily-rotate-file');
+const path = require('path');
+const date_util = require('./date_util');
 
-var logger = new winston.Logger({
+const logDirectory = path.normalize(__dirname + '/../log');
+
+const logger = new winston.Logger({
   transports: [
     new Rotate({
       level: 'debug',
@@ -15,7 +18,10 @@ var logger = new winston.Logger({
       // maxsize: 5242880, //5MB
       // maxFiles: 5,
       json: false,
-      colorize: false
+      colorize: false,
+      timestamp: function () {
+        return date_util.YYYY_MM_DD_HH_mm_ss_SSS();
+      }
     }),
     new winston.transports.File({
       level: 'error',
@@ -25,7 +31,10 @@ var logger = new winston.Logger({
       maxsize: 5242880, //5MB
       maxFiles: 5,
       json: false,
-      colorize: false
+      colorize: false,
+      timestamp: function () {
+        return date_util.YYYY_MM_DD_HH_mm_ss_SSS();
+      }
     }),
     new winston.transports.Console({
       level: 'debug',
@@ -33,7 +42,10 @@ var logger = new winston.Logger({
       humanReadableUnhandledException: true,
       timestamp: true,
       json: false,
-      colorize: true
+      colorize: true,
+      timestamp: function () {
+        return date_util.YYYY_MM_DD_HH_mm_ss_SSS();
+      }
     }),
   ],
   exitOnError: false,

@@ -27,6 +27,12 @@ var ProcessSchema = new Schema({
   cell: {
     type: String
   },
+  basic_address: {
+    type: String
+  },
+  detail_address: {
+    type: String
+  },
   house_type: {
     type: String
   },
@@ -43,6 +49,12 @@ var ProcessSchema = new Schema({
   total_price: {
     type: Number,
     default: 0
+  },
+  business_house_type: {
+    type: String
+  },
+  dec_type: {
+    type: String
   },
   start_at: {
     type: Number,
@@ -64,6 +76,9 @@ var ProcessSchema = new Schema({
     name: {
       type: String
     },
+    label: {
+      type: String
+    },
     start_at: {
       type: Number
     },
@@ -76,6 +91,9 @@ var ProcessSchema = new Schema({
     },
     items: [{
       name: {
+        type: String
+      },
+      label: {
         type: String
       },
       date: {
@@ -92,22 +110,6 @@ var ProcessSchema = new Schema({
         type: Number,
         default: 0,
       },
-      // comments: {
-      //   type: [{
-      //     by: {
-      //       type: ObjectId
-      //     },
-      //     usertype: {
-      //       type: String,
-      //     },
-      //     content: {
-      //       type: String
-      //     },
-      //     date: {
-      //       type: Number,
-      //     },
-      //   }]
-      // },
     }],
     ys: {
       date: {

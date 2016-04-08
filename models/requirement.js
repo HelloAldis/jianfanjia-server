@@ -15,10 +15,14 @@ var RequirementSchema = new Schema({
   district: {
     type: String
   },
-  street: {
+  basic_address: {
     type: String
   },
-  address: {
+  detail_address: {
+    type: String
+  },
+
+  street: {
     type: String
   },
   cell: {
@@ -36,6 +40,8 @@ var RequirementSchema = new Schema({
   cell_detail_number: {
     type: String,
   },
+
+
   house_type: {
     type: String
   },
@@ -62,9 +68,6 @@ var RequirementSchema = new Schema({
     type: Number,
     default: 0
   },
-  // designerids: {
-  //   type: [ObjectId]
-  // },
   rec_designerids: {
     type: [ObjectId]
   },
@@ -99,6 +102,10 @@ var RequirementSchema = new Schema({
   },
   last_status_update_time: {
     type: Number,
+  },
+  package_type: {
+    type: String,
+    default: '0'
   },
 });
 

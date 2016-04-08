@@ -248,29 +248,38 @@ exports.user_add_requirement = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  Designer.find({
-    city: requirement.city,
-    auth_type: type.designer_auth_type_done,
-    agreee_license: type.designer_agree_type_yes,
-    online_status: type.online_status_on,
-    authed_product_count: {
-      $gte: 3
-    },
-    // uid_auth_type: type.designer_auth_type_done,
-    // work_auth_type: type.designer_auth_type_done,
+  User.findOne({
+    _id: userid,
   }, {
-    pass: 0,
-    accessToken: 0
-  }, {
-    sort: {
-      order_count: 1,
-      authed_product_count: -1,
-      login_count: -1,
+    phone: 1
+  }, ep.done(function (user) {
+    if (user.phone) {
+      Designer.find({
+        city: requirement.city,
+        auth_type: type.designer_auth_type_done,
+        agreee_license: type.designer_agree_type_yes,
+        online_status: type.online_status_on,
+        authed_product_count: {
+          $gte: 3
+        },
+        package_types: requirement.package_type,
+        // uid_auth_type: type.designer_auth_type_done,
+        // work_auth_type: type.designer_auth_type_done,
+      }, {
+        pass: 0,
+        accessToken: 0
+      }, {
+        sort: {
+          order_count: 1,
+          authed_product_count: -1,
+          login_count: -1,
+        }
+      }, ep.done(function (designers) {;
+        ep.emit('final', designer_match_util.top_designers(designers, requirement));
+      }));
+    } else {
+      res.sendErrMsg('请先绑定手机号!');
     }
-  }, ep.done(function (designers) {;
-    ep.emit('final', designer_match_util.top_designers(
-      designers,
-      requirement));
   }));
 
   ep.on('final', function (designers) {
@@ -312,6 +321,7 @@ exports.user_update_requirement = function (req, res, next) {
     authed_product_count: {
       $gte: 3
     },
+    package_types: requirement.package_type,
     // uid_auth_type: type.designer_auth_type_done,
     // work_auth_type: type.designer_auth_type_done,
   }, {

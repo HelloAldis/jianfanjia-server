@@ -74,6 +74,9 @@ var PlanSchema = new Schema({
   get_phone_time: {
     type: Number,
   },
+  create_at: {
+    type: Number,
+  },
 });
 
 PlanSchema.index({

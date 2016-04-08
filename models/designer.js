@@ -74,6 +74,9 @@ var DesignerSchema = new Schema({
   dec_house_types: {
     type: [String]
   },
+  package_types: {
+    type: [String]
+  },
   design_fee_range: {
     type: String
   },
