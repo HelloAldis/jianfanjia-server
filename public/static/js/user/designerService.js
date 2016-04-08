@@ -166,7 +166,7 @@ angular.module('services', [])
                     'id' : 1,
                     'msg' : '时间忙，接不过来',
                     'cur' : false
-                },
+                }
             ],
             priceDetail : [
                 {
@@ -238,6 +238,68 @@ angular.module('services', [])
                     "description": "",
                     "price": undefined,
                     "item": "安装工程"
+                }
+            ],
+            priceDetail365 : [
+                {
+                    "description": "“365基础包”包含以下项目：1､基础工程；2､水电工程；3､泥工工程；4､墙面工程；5､其它费用。",
+                    "price": undefined,
+                    "item": "365基础包"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "客餐厅及走道"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "主卧"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "次卧"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "客卧"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "衣帽间"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "书房"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "厨房"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "主卫"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "客卫"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "阳台一"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "阳台二"
                 }
             ],
             userSex : [

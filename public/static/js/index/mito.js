@@ -27,13 +27,14 @@ define(['jquery'], function($){
 						li = '<li class="center">';
 						var a = '';
 						for (var j = 0; j < 2; j++) {
-							a += '<a href="/tpl/mito/detail.html?'+data[i+j]._id+'"><img src="/api/v2/web/thumbnail2/390/185/'+data[i+j].images[0].imageid+'" alt="'+data[i+j].title+'"><span>'+data[i+j].title+'</span></a>'
+
+							a += '<a href="/tpl/mito/detail.html?pid='+data[i+j]._id+'&imgid='+data[i+j].images[0].imageid+'&imgw='+data[i+j].images[0].width+'&imgh='+data[i+j].images[0].height+'"><img src="/api/v2/web/thumbnail2/390/185/'+data[i+j].images[0].imageid+'" alt="'+data[i+j].title+'"><span>'+data[i+j].title+'</span></a>'
 						};
                         li += a + '</li>';
 					}else if(i == 2){
 						continue;
 					}else{
-						li = '<li><a href="/tpl/mito/detail.html?'+data[i]._id+'"><img src="/api/v2/web/thumbnail2/395/380/'+data[i].images[0].imageid+'" alt="'+data[i].title+'"><span>'+data[i].title+'</span></a></li>'
+						li = '<li><a href="/tpl/mito/detail.html?pid='+data[i]._id+'&imgid='+data[i].images[0].imageid+'&imgw='+data[i].images[0].width+'&imgh='+data[i].images[0].height+'"><img src="/api/v2/web/thumbnail2/395/380/'+data[i].images[0].imageid+'" alt="'+data[i].title+'"><span>'+data[i].title+'</span></a></li>'
 					}
 					templates.push(li)
 

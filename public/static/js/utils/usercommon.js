@@ -84,7 +84,10 @@ var Search = function(){}
       });
     },
     getInputVal : function(){
-      return $.trim(this.input.val())
+      return this.nohtml($.trim(this.input.val()));
+    },
+    nohtml : function(value){
+      return value.replace(/({|})/g,'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     },
     inputFocus : function(){
       var inputBox = this.container.find('.u-sch-inp'),
@@ -103,6 +106,9 @@ var Search = function(){}
           $(this).val('');
         }
       }).on('blur',function(){
+        if(self.getInputVal()){
+          $(this).val(self.getInputVal());
+        }
         if(!self.getInputVal() || self.getInputVal() == '搜索'+oSapn.html()){
           $(this).val('搜索'+oSapn.html());
           inputBox.removeClass('u-sch-inp-focus');
@@ -116,7 +122,7 @@ var Search = function(){}
         self = this;
       submitBtn.on('submit',function(){
         if(!!self.getInputVal() && self.getInputVal() != '搜索'+oSapn.html()){
-          self.ajax(self.getInputVal())
+          self.ajax(self.nohtml(self.getInputVal()));
         }
         return false;
       })
@@ -492,7 +498,7 @@ var Search = function(){}
         sUl = ['<ul>'],
         str;
         for (var i = 0, len = data.length; i < len; i++) {
-          var sLi = '<li><a class="" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+data[i].cell+'小区'+data[i].cell_phase+'期'+data[i].cell_building+'栋'+data[i].cell_unit+'单元'+data[i].cell_detail_number+'室</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
+          var sLi = '<li><a class="" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+(!!data[i].detail_address ? data[i].detail_address : '')+(!!data[i].basic_address ? data[i].basic_address : '')+'</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
           sUl.push(sLi);
         }
         sUl.push('<ul>');

@@ -208,9 +208,14 @@ angular.module('controllers', [])
                     var This = this;
                     This.motaiDone = false;
                     $state.go('requirement.booking',{id:This.requirementid});
-                }
+                },
+                costserror : false,
+                costsbasis : 0,
+                costsdiy : 0,
+                coststotal : 0
             }
             $scope.requiremtne = {
+                package_type : '0',
                 business_house_type : '0',
                 dec_type : '0',
                 work_type : '0',
@@ -222,21 +227,52 @@ angular.module('controllers', [])
             }
             function setAddress(data){
                 if(!!data.province){
-                    $scope.requiremtne.province = data.province;
-                    $scope.requiremtne.city = data.city;
-                    $scope.requiremtne.district = data.district;
+                    $scope.requiremtne.province = data.province === '湖北省' ? data.province : '湖北省';
+                    $scope.requiremtne.city = data.city === '武汉市' ? data.city : '武汉市';
+                    $scope.requiremtne.district = data.province === '湖北省' && data.city === '武汉市' ? data.district : '江岸区';
                 }else{
-                    $scope.requiremtne.province = '请选择省份';
-                    $scope.requiremtne.city = '请选择市';
-                    $scope.requiremtne.district = '请选择县/区';
+                    $scope.requiremtne.province = '湖北省';
+                    $scope.requiremtne.city = '武汉市';
+                    $scope.requiremtne.district = '江岸区';
                 }
                 if(data.phone == undefined){
                     $state.go('phone');
                 }
             }
+            $scope.$watch('requiremtne.house_area',function(newValue){
+                if(!!newValue && !/[^0-9.]/.test(newValue) && (newValue >= 80 && newValue <= 120) && ($scope.requiremtne.work_type == 0 || $scope.requiremtne.work_type == 1)){
+                    $scope.userRelease.costsbasis = parseFloat($filter('number')(newValue*365/10000, 2));
+                    if($scope.userRelease.coststotal >= $scope.userRelease.costsbasis){
+                        $scope.userRelease.costsdiy = parseFloat($filter('number')($scope.userRelease.coststotal - $scope.userRelease.costsbasis, 2));
+                        console.log($scope.userRelease.costsdiy)
+                    }else{
+                        $scope.userRelease.costsdiy = 0;
+                    }
+                    console.log($scope.userRelease.costsbasis)
+                }else{
+                    $scope.userRelease.costsbasis = 0;
+                    $scope.userRelease.costsdiy = 0;
+                }
+            });
+            $scope.$watch('requiremtne.total_price',function(newValue){
+                if(!!newValue && !/[^0-9.]/.test(newValue) && ($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120) && ($scope.requiremtne.work_type == 0 || $scope.requiremtne.work_type == 1)){
+                    $scope.userRelease.coststotal = parseFloat($filter('number')(newValue, 2));
+                    console.log($scope.userRelease.coststotal)
+                    if($scope.userRelease.coststotal >= $scope.userRelease.costsbasis){
+                        $scope.userRelease.costserror = false;
+                        $scope.userRelease.costsdiy = parseFloat($filter('number')($scope.userRelease.coststotal - $scope.userRelease.costsbasis, 2));
+                        console.log($scope.userRelease.costsdiy)
+                    }else{
+                        $scope.userRelease.costserror = true;
+                        $scope.userRelease.costsdiy = 0;
+                    }
+                }else{
+                    $scope.userRelease.coststotal = 0;
+                    $scope.userRelease.costsdiy = 0;
+                }
+            });
             if($scope.userRelease.isRelease){        //发布新需求
                 if(userInfo.storage){    //获取个人资料
-
                     userInfo.get().then(function(res){
                         if(res.data.data !== null){
                             userInfo.save(res.data.data);
@@ -264,13 +300,12 @@ angular.module('controllers', [])
                 if(type == 0){
                     $scope.requiremtne.street = undefined;
                     $scope.requiremtne.business_house_type = undefined;
+                    if($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120 && $scope.requiremtne.work_type != 2){
+                        $scope.requiremtne.package_type = 1
+                    }
                 }
                 //商装
                 if(type == 1){
-                    $scope.requiremtne.cell_phase = undefined;
-                    $scope.requiremtne.cell_building = undefined;
-                    $scope.requiremtne.cell_unit = undefined;
-                    $scope.requiremtne.cell_detail_number = undefined;
                     $scope.requiremtne.house_type = undefined;
                     $scope.requiremtne.family_description = undefined;
                 }

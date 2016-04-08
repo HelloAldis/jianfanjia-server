@@ -211,46 +211,58 @@ angular.module('directives', [])
                 myQuery : "="
             },
             restrict: 'A',
-            template: '<div class="stylePic"><div class="pic"><ul></ul></div><div class="toggle"><a href="javascript:;" class="btns prev"><i class="iconfont2">&#xe611;</i><span></span></a><a href="javascript:;" class="btns next"><i class="iconfont2">&#xe617;</i><span></span></a></div><p class="text">正在加载中。。。</p></div>',
+            template: '<div class="stylePic"><div class="pic"><ul></ul></div><div class="toggle"><a href="javascript:;" class="btns prev"><i class="iconfont2">&#xe611;</i><span></span></a><a href="javascript:;" class="btns next"><i class="iconfont2">&#xe617;</i><span></span></a></div></div>',
             link: function($scope, iElm, iAttrs, controller) {
                 var obj = angular.element(iElm),
                     oUl = obj.find('ul'),
                     oPrev = obj.find('.prev'),
                     oNext = obj.find('.next'),
-                    oText = obj.find('.text'),
                     arr = $scope.myList,
+                    i = $scope.myQuery,
                     len = arr.length,
-                    picWidth = obj.width(),
+                    picWidth = 156,
                     str = '',
-                    iNum = parseInt($scope.myQuery);
+                    iNum = i < 3 ? 0 : i >= len - 3 ? len - 3 : i;
                 angular.forEach(arr,function(value, key){
-                    str += '<li><img src="'+value.url+'" alt="'+value.txt+'" /></li>'
-                })
-                oUl.html(str)
-                oUl.css({left:-$scope.myQuery*picWidth})
-                oText.html(arr[$scope.myQuery].txt)
-                var aLi = oUl.find('li');
-                oUl.width(len*picWidth)
+                    str += '<li class="'+(i == key ? 'active' : '')+'"><img src="'+value.url+'" alt="'+value.txt+'" /><p>'+value.txt+'</p><span><i class="iconfont">&#xe608;</i></span></li>'
+                });
+                oUl.html(str);
+                if(iNum == 0){
+                    oPrev.hide();
+                }
+                if(iNum == len - 3){
+                    oNext.hide();
+                }
+                oUl.css({left:-iNum*picWidth});
+                oUl.width(len*picWidth);
                 oPrev.on('click',function(){
                     if(iNum == 0){
-                        iNum = len
+                        iNum = 0
+                    }else{
+                        iNum--;
                     }
-                    iNum--;
-                    fnMove(iNum)
-                })
+                    fnMove()
+                });
                 oNext.on('click',function(){
-                    if(iNum == len-1){
-                        iNum = -1
+                    if(iNum == len-3){
+                        iNum = len-3
+                    }else{
+                        iNum++;
                     }
-                    iNum++;
-                    fnMove(iNum)
-                })
-                function fnMove(iNum){
-                    oUl.stop().animate({left:-iNum*picWidth})
-                    oText.html(arr[iNum].txt)
+                    fnMove()
+                });
+                obj.on('click','li',function(){
+                    var index = $(this).index();
+                    $(this).addClass('active').siblings().removeClass('active');
                     $scope.$apply(function(){
-                        $scope.myQuery = iNum;
+                        $scope.myQuery = index;
+                        console.log($scope.myQuery)
                     });
+                });
+                function fnMove(){
+                    oUl.stop().animate({left:-iNum*picWidth});
+                    oPrev.toggle(iNum !== 0);
+                    oNext.toggle(iNum !== len-3);
                 }
             }
         };
@@ -292,7 +304,7 @@ angular.module('directives', [])
                             num : '0'
                         }
                     ];
-                setInitData()  //初始化数据
+                setInitData();  //初始化数据
                 var province,city,district;
                 function findIndex(str,pid,aid){
                     var typeArr = ['province','city','district'];
@@ -339,7 +351,7 @@ angular.module('directives', [])
                         for (var j = 0; j < 1; j++) {
                             selectDataInput += '<input type="hidden" name="'+Default[i].en+'" value="'+Default[i].num+'" />';
                             selectDataOption += '<div class="option"><span class="value">'+Default[i].cn+'</span><span class="arrow"><em></em><i></i></span></div>';
-                        };
+                        }
                         selectData += '<div class="list '+Default[i].en+'">'+selectDataInput+selectDataOption+'</div>';
                     }
                     oBox.html(selectData);
@@ -407,10 +419,10 @@ angular.module('directives', [])
                         if(obj == province){
                             $scope.myProvince = value;
                             city.find('.select').remove();
-                            createList(city,val)
-                            selectShow(city)
-                            selectHide(district)
-                            selectHide(province)
+                            createList(city,val);
+                            selectShow(city);
+                            selectHide(district);
+                            selectHide(province);
                             clearValue(city);
                             clearValue(district);
                         }
@@ -418,17 +430,17 @@ angular.module('directives', [])
                             $scope.myCity = value;
                             district.find('.select').remove();
                             createList(district,val[1],val[0])
-                            selectShow(district)
-                            selectHide(city)
+                            selectShow(district);
+                            selectHide(city);
                             clearValue(district);
                         }
                         if(obj == district){
                             $scope.myDistrict = value;
-                            selectHide(district)
+                            selectHide(district);
                         }
                     });
                 }
-                body.on('click', function(ev){
+                body.on('click', function(){
                     selectHide();
                 });
                 function clearValue(obj){
@@ -454,7 +466,7 @@ angular.module('directives', [])
                 }
                 function selectShow(obj){
                     obj.find('.select').show();
-                    oBox.css('zIndex',20)
+                    oBox.css('zIndex',20);
                 }
             }
         };
@@ -1555,10 +1567,16 @@ angular.module('directives', [])
             require : 'ngModel',
             restrict: 'A',
             link: function($scope, iElm, iAttrs, controller) {
-                var res = /^[1-9]*[1-9][0-9]*$/;
+                var res;
+                var type = iAttrs.checkNumberType == undefined ? 'int' : iAttrs.checkNumberType;
+                if(type === 'int'){
+                    res = /[^0-9]/;
+                }else if(type === 'float'){
+                    res = /[^0-9.]/;
+                }
                 $scope.$watch(iAttrs.ngModel, function(newValue, oldValue, scope){
                     if(!!newValue){
-                        if(res.test(newValue)){
+                        if(!res.test(newValue)){
                             controller.$setValidity('number', true)
                         }else{
                             controller.$setValidity('number', false)
@@ -1900,3 +1918,5 @@ angular.module('directives', [])
             }
         };
     }]);
+
+

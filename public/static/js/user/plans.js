@@ -264,8 +264,11 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             if(!!data.requirement.cell){
                 h3.append('<span><i>'+data.requirement.cell+'</i><i style="display:'+(data.requirement.dec_type == 0 ? 'inline':'none')+'">小区</i></span>');
             }
-            if(!!data.requirement.cell_phase){
-                h3.append('<span><i>'+data.requirement.cell_phase+'</i>期</span>')
+            if(!!data.requirement.detail_address){
+                h3.append('<span><i>'+data.requirement.detail_address+'</i></span>')
+            }
+            if(!!data.requirement.basic_address){
+                h3.append('<span><i>'+data.requirement.basic_address+'</i></span>')
             }
             if(data.status == 5){
                 h3.append('<span style="color: #fe7004"><i>（已中标）</i></span>')
@@ -354,7 +357,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                 ul.append('<li>工期：<i>'+data.duration+'</i>天</li>')
             }
             if(data.requirement.dec_type == 0){
-                ul.append('<li>空间：<i>'+globalData.house_type(data.requirement.house_type)+'</i></li>')
+                ul.append('<li>户型：<i>'+globalData.house_type(data.requirement.house_type)+'</i></li>')
             }
             if(data.requirement.house_area >= 0){
                 ul.append('<li>面积：<i>'+data.requirement.house_area+'</i>m&sup2;</li>')
@@ -401,15 +404,24 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             table.append(thead);
             var tbody = $('<tbody></tbody>');
             data.price_detail.length && _.forEach(data.price_detail,function(k,v){
-                tbody.append('<tr class="'+(v%2 == 1 ? 'even' : '')+'"><td class="td1"><span>'+k.item+'</span></td> <td class="td2"><span>'+k.description+'</span></td> <td class="td3"><span>'+k.price+'</span></td></tr>');
+                tbody.append('<tr class="'+(v%2 == 0 ? 'even' : '')+'"><td class="td1"><span>'+k.item+'</span></td> <td class="td2"><p>'+k.description+'</p></td> <td class="td3"><span>'+commaNumber(k.price)+'</span></td></tr>');
             });
             table.append(tbody);
             tableDiv.append(table);
+            var packagetype = $('<div class="package_type"></div>');
+            packagetype.html('<a href="/zt/365package/index.html" target="_blank"><i class="iconfont">&#xe612;</i>点击此处了解更多关于‘简繁家365基础包’</a>')
+            if(data.requirement.package_type === '1'){
+                tableDiv.append(packagetype);
+            }
             quote.append(tableDiv);
             var price = $('<div class="price f-fl"></div>');
             var after = data.project_price_after_discount ? '<li>工程折后价<span>&yen;<i>'+commaNumber(data.project_price_after_discount)+'</i></span></li>' : '';
+            var costs = data.requirement.package_type === '1' && data.price_detail.length && data.price_detail[0] && data.price_detail[0].item === '365基础包';
+            var costsbasis = costs ? '<li>基础费用<span>&yen;<i>'+commaNumber( data.price_detail[0].price )+'</i></span></li>' : '';
+            var costsdiy = costs ? '<li>个性化费用<span>&yen;<i>'+commaNumber( data.project_price_before_discount - data.price_detail[0].price )+'</i></span></li>' : '';
             price.html(
                 '<ul>' +
+                costsbasis + costsdiy +
                 '<li>工程总造价<span>&yen;<s class="'+(!data.project_price_after_discount ? 'notproject' : '')+'">'+commaNumber(data.project_price_before_discount)+'</s></span></li>'+
                 after+
                 '<li>设计费<span>&yen;<i>'+commaNumber(data.total_design_fee)+'</i></span></li>' +

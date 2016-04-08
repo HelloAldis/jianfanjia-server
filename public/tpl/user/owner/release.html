@@ -12,7 +12,7 @@
 				<div class="m-boxs">
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-name"><i>*</i>装修城市</label>
+							<label class="u-lab"><i>*</i>装修城市</label>
 							<div class="u-inp">
 								<input type="hidden" ng-model="requiremtne.province" check-province required />
 								<input type="hidden" ng-model="requiremtne.city" check-city required />
@@ -24,48 +24,104 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab"><i>*</i>详细地址</label>
+							<label class="u-lab"><i>*</i>小区名称</label>
 							<div class="u-inp">
-								<ul class="mark">
-									<li>
-										<div class="f-fl">
-											<input type="text" class="input short" ng-model="requiremtne.cell" placeholder="不能为空" my-placeholder required />
-										</div>
-										<span>小区</span>
-									</li>
-									<li>
-										<div class="f-fl">
-											<input type="text" class="input mini" ng-model="requiremtne.cell_phase" placeholder="不能为空" my-placeholder required />
-										</div>
-										<span>期</span>
-									</li>
-									<li>
-										<div class="f-fl">
-											<input type="text" class="input mini" ng-model="requiremtne.cell_building" placeholder="不能为空" my-placeholder required />
-										</div>
-										<span>栋</span>
-									</li>
-									<li>
-										<div class="f-fl">
-											<input type="text" class="input mini" ng-model="requiremtne.cell_unit" placeholder="不能为空" my-placeholder required />
-										</div>
-										<span>单元</span>
-									</li>
-									<li>
-										<div class="f-fl">
-											<input type="text" class="input mini" ng-model="requiremtne.cell_detail_number" placeholder="不能为空" my-placeholder required />
-										</div>
-										<span>室</span>
-									</li>
-								</ul>
+								<input type="text" class="input" ng-model="requiremtne.detail_address" required name="detail_address" />
+								<span ng-show="release.detail_address.$invalid && !release.detail_address.$pristine" class="has-error">不能为空</span>
+								<div class="work-tips">
+									<p>例： 简繁家小区五期</p>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-email"><i>*</i>装修户型</label>
+							<label class="u-lab"><i>*</i>门牌号码</label>
+							<div class="u-inp">
+								<input type="text" class="input" ng-model="requiremtne.basic_address" required name="basic_address" />
+								<span ng-show="release.basic_address.$invalid && !release.basic_address.$pristine" class="has-error">不能为空</span>
+								<div class="work-tips">
+									<p>例： 一栋二单元301室</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i>*</i>装修户型</label>
 							<div class="u-inp">
 								<div my-select my-list="userRelease.houseType" my-query="requiremtne.house_type"></div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i>*</i>装修面积</label>
+							<div class="u-inp">
+								<div class="inp">
+									<input type="text" class="input" ng-model="requiremtne.house_area" placeholder="只能填整数" my-placeholder check-number check-number-type="int" required name="house_area" />
+									<span class="unit">m&sup2;</span>
+									<span ng-show="release.house_area.$invalid && !release.house_area.$pristine" class="has-error">所填内容必须为整数</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i>*</i>包工类型</label>
+							<div class="u-inp">
+								<div my-select my-list="userRelease.workType" my-query="requiremtne.work_type"></div>
+								<div class="work-tips">
+									<p><strong>半包</strong>是指装修工程中，施工方提供人员施工及辅材供应的承包形式；</p>
+									<p><strong>全包</strong>是指装修工程中，施工方提供装修所涉所有项目的承包形式。</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i>*</i>装修预算</label>
+							<div class="u-inp">
+								<div class="inp">
+									<input type="text" class="input" ng-model="requiremtne.total_price" name="total_price" placeholder="只能填整数" check-number check-number-type="int" my-placeholder required />
+									<span class="unit">万元</span>
+									<span ng-show="release.total_price.$invalid && !release.total_price.$pristine" class="has-error">只能填整数</span>
+									<span ng-show="(requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120) && userRelease.costserror && (release.total_price.$valid && !release.total_price.$pristine)" class="has-error">您的装修总预算不能低于基础费用</span>
+									<div class="total-price" ng-if="(requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120)">
+										<div class="work-tips">
+											<p>为了让您的装修预算更准确，特为您提供以下公式</p>
+										</div>
+										<div class="formula">
+											<div class="box">
+												<h3><strong ng-bind="userRelease.costsbasis"></strong><span>万元</span></h3>
+												<p>基础费用</p>
+											</div>
+											<div class="sign">&#43;</div>
+											<div class="box">
+												<h3><span ng-if="userRelease.costsdiy > 0 && (release.total_price.$valid && !release.total_price.$pristine)"><strong ng-bind="userRelease.costsdiy"></strong><span>万元</span></span><i ng-if="userRelease.costsdiy == 0 || (release.total_price.$invalid && !release.total_price.$pristine)"></i></h3>
+												<p>个性化费用</p>
+											</div>
+											<div class="sign">&#61;</div>
+											<div class="box">
+												<h3><span ng-if="userRelease.coststotal > 0 && (release.total_price.$valid && !release.total_price.$pristine)"><strong ng-bind="userRelease.coststotal"></strong><span>万元</span></span><i ng-if="userRelease.coststotal == 0 || (release.total_price.$invalid && !release.total_price.$pristine)"></i></h3>
+												<p>装修总预算</p>
+											</div>
+										</div>
+										<p class="link">
+											<a href="/zt/365package/index.html" target="_blank"><i class="iconfont">&#xe612;</i>点击此处了解更多关于‘简繁家365基础包’</a>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i>*</i>风格喜好</label>
+							<div class="u-inp">
+								<div class="k-stylePic">
+									<div my-stylepic my-list="userRelease.decStyle" my-query="requiremtne.dec_style"></div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -79,53 +135,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr"><i>*</i>装修面积</label>
-							<div class="u-inp">
-								<div class="inp">
-									<input type="text" class="input" ng-model="requiremtne.house_area" placeholder="只能填整数" my-placeholder check-number required name="house_area" />
-									<span class="unit">m&sup2;</span>
-									<span ng-show="release.house_area.$invalid && !release.house_area.$pristine" class="has-error">所填内容必须为整数</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-addr"><i>*</i>包工类型</label>
-							<div class="u-inp">
-								<div my-select my-list="userRelease.workType" my-query="requiremtne.work_type"></div>
-								<div class="work-tips">
-									<p><strong>半包</strong>是指装修工程中，施工方提供人员施工及辅材供应的承包形式；</p>
-									<p><strong>全包</strong>是指装修工程中，施工方提供装修所涉所有项目的承包形式。</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-addr"><i>*</i>装修预算</label>
-							<div class="u-inp">
-								<div class="inp">
-									<input type="text" class="input" ng-model="requiremtne.total_price" name="total_price" placeholder="只能填整数" my-placeholder check-number required />
-									<span class="unit">万元</span>
-									<span ng-show="release.total_price.$invalid && !release.total_price.$pristine" class="has-error">所填内容必须为整数</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-addr"><i>*</i>风格喜好</label>
-							<div class="u-inp">
-								<div class="k-stylePic">
-									<div my-stylepic my-list="userRelease.decStyle" my-query="requiremtne.dec_style"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-addr">偏好设计师性别</label>
+							<label class="u-lab">偏好设计师性别</label>
 							<div class="u-inp">
 								<div my-select my-list="userRelease.preferSex" my-query="requiremtne.prefer_sex"></div>
 							</div>
@@ -133,7 +143,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr">偏好设计师类型</label>
+							<label class="u-lab">偏好设计师类型</label>
 							<div class="u-inp">
 								<div my-select my-list="userRelease.communicationType" my-query="requiremtne.communication_type"></div>
 							</div>

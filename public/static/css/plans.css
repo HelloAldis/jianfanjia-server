@@ -98,7 +98,7 @@ body{
 	font-size: 14px;
 	line-height: 40px;
 	text-align: left;
-	color: #5e6474;
+	color: #61687a;
 }
 .plans-ct .table th{
 	color: #343740;
@@ -112,12 +112,15 @@ body{
 }
 .plans-ct .table .td2{
 	width: 50%;
-	line-height: 20px;
+}
+.plans-ct .table .td2 p{
+	padding: 10px 0;
+	line-height: 22px;
 }
 .plans-ct .table .td3{
 	width: 18%;
 }
-.plans-ct .table span{
+.plans-ct .table span,.plans-ct .table .td2 p{
 	padding-left: 20px;
 }
 .plans-ct .table .even{
@@ -660,4 +663,13 @@ body{
 .m-lightBox .imgTab .tab li.active span{
 	display: block;
 
+}
+.package_type{
+	line-height: 30px;
+}
+.package_type a{
+	color: #fe7004;
+}
+.package_type a i{
+	margin-right: 5px;
 }

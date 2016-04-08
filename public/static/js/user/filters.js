@@ -405,4 +405,9 @@ angular.module('filters', [])
             var num = (+input)/(+str)+'';
             return parseFloat(num);
         }
-    });
+    })
+    .filter('to_trusted', ['$sce', function ($sce) {   //格式化标签显示
+        return function (text) {
+            return $sce.trustAsHtml(text);
+        }
+    }]);

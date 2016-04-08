@@ -1,12 +1,8 @@
 <div class="main m-requirement" bindonce="requirement" ng-controller="requirementCtrl">
 	<div class="m-tt">
 		<h2 class="f-fl">
-			<span bo-if="requirement.street && requirement.dec_type == 1" bo-text="requirement.street"></span>
-			<span bo-if="requirement.cell"><i bo-text="requirement.cell"></i><i bo-if="requirement.dec_type == 0">小区</i></span>
-			<span bo-if="requirement.street && requirement.dec_type == 0"><i bo-text="requirement.cell_phase"></i>期</span>
-			<span bo-if="requirement.street && requirement.dec_type == 0"><i bo-text="requirement.cell_building"></i>栋</span>
-			<span bo-if="requirement.street && requirement.dec_type == 0"><i bo-text="requirement.cell_unit"></i>单元</span>
-			<span bo-if="requirement.street && requirement.dec_type == 0"><i bo-text="requirement.cell_detail_number"></i>室</span>
+			<span bo-if="requirement.dec_type == 0 && requirement.detail_address" bo-text="requirement.detail_address"></span>
+			<span bo-if="requirement.basic_address" bo-text="requirement.basic_address"></span>
 		</h2>
 		<a ui-sref="requirementList" class="f-fr u-btns u-btns-revise returnList">返回需求列表</a>
 	</div>

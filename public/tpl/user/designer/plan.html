@@ -1,7 +1,7 @@
 <div class="plans">
 	<div class="plans-tips">
 		<p class="f-fl">装修方案摘要</p>
-		<a bo-if="requirement.plan.status == 6 || requirement.plan.status == 3" ui-sref="createPlan({id:requirement._id+'&'+requirement.user._id+'&'+requirement.user.username+'&'+requirement.work_type})" class="u-btns f-fr">提交新方案</a>
+		<a bo-if="requirement.plan.status == 6 || requirement.plan.status == 3" ui-sref="createPlan({id:requirement._id,userid:requirement.user._id,username:requirement.user.username,worktype:requirement.work_type,packagetype:requirement.package_type,baseprice:requirement.house_area*365})" class="u-btns f-fr">提交新方案</a>
 	</div>
 	<ul class="m-plans" ng-if="plans.length == 0 || plans">
 		<li bindonce="plans" ng-repeat="data in plans">

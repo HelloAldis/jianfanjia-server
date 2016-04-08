@@ -59,7 +59,7 @@
                     templateUrl: url+'fulfill.html'
                 })
                 .state('createPlan', {     //需求详情--提交方案/修改方案
-                    url: '/create/:id',
+                    url: '/create/:id?userid&username&worktype&packagetype&baseprice',
                     templateUrl: url+'create.html',
                     controller : 'createCtrl'
                 })

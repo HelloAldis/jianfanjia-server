@@ -27,8 +27,8 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             init : function(pos){
                 this.doc = $(document);
                 this.arr = pos.arr || [];
-                this.select = pos.select || '.lightBox';
-                this.parent = pos.parent || this.doc;
+                this.sClass = pos.sClsss || 'lightBox';
+                this.parent = pos.parent || $();
                 if(this.arr.length){
                     this.lightBoxAjax(this.arr);
                 }
@@ -55,16 +55,17 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             lightBoxBindEvent : function(arr){
                 var _this = this;
                 var lightBox = $('<div class="m-lightBox"></div>');
-                this.parent.find(this.select).css('cursor','pointer');
-                this.parent.on('click',this.select,function(ev) {
+                var img = '.'+this.sClass;
+                this.detail.on('click',img,function(ev) {
                     ev.preventDefault();
+                    $(this).css('cursor','pointer');
                     _this.lightBoxShow(lightBox,arr,$(this).data('index')*1);
-                });
+                })
             },
             lightBoxShow : function(obj,arr,index){
                 var timer = null;
                 var win = $(window).width();
-                var doc = this.doc;
+                var doc = $(document);
                 var maxLen = ~~((win-200)/76);
                 var len = arr.length;
                 var isMove = len > maxLen;
@@ -89,7 +90,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                 var tab = $('<div class="tab"></div>');
                 var str = '<ul style="left:'+(isMove ? -76*k : 0)+'px;width:'+(len*76)+'px">';
                 _.forEach(arr,function(k,v){
-                    str += '<li class="'+(v===index ? 'active' : '')+'"><span></span><img src="/api/v2/web/thumbnail2/66/66/'+k._id+'" /></li>'
+                    str += '<li class="'+(v===index ? 'active' : '')+'"><img src="/api/v2/web/thumbnail2/66/66/'+k._id+'" /></li>'
                 });
                 str += '</div>';
                 tab.html(str);
@@ -102,7 +103,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                 if(obj.css('display') === 'none'){
                     obj.show();
                 }else{
-                    $('body').append(obj);
+                    this.body.append(obj);
                 }
                 close.on('click',function(){
                     _this.lightBoxHide(obj);
@@ -145,7 +146,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                             --i;
                         }
                         if(k == 0){
-                            k == 0;
+                            k = 0;
                         }else{
                             --k;
                         }
@@ -156,7 +157,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                             ++i;
                         }
                         if(k == len - maxLen){
-                            k == len - maxLen;
+                            k = len - maxLen;
                         }else{
                             ++k;
                         }
@@ -221,15 +222,15 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             init  : function(){
                 this.body = $('body');
                 this.modalStatus = false;
-                var winHash = window.location.search.substring(1);
+                this.winHash = window.location.search.substring(1);
                 this.detail = $("#j-detail");
                 this.main = this.detail.find('.g-mn');
                 this.side = this.detail.find('.g-sd');
                 this.loading = this.detail.find('.k-loading');
                 this.usertype = $.cookie("usertype");
-                this.loadList(winHash);
+                this.loadList();
             },
-            loadList : function(id){
+            loadList : function(){
                 var self = this;
                 $.ajax({
                     url:RootUrl+'api/v2/web/product_home_page',
@@ -237,7 +238,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                     contentType : 'application/json; charset=utf-8',
                     dataType: 'json',
                     data : JSON.stringify({
-                        "_id": id
+                        "_id": self.winHash
                     }),
                     processData : false
                 })
@@ -286,7 +287,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                     this.favorite(data._id);
                     lightBox.init({
                         arr : img,
-                        select : '.lightBox',
+                        sClass : 'lightBox',
                         parent : this.detail
                     });
             },

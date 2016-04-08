@@ -1,5 +1,5 @@
 define(['jquery','lib/jquery.cookie'], function($){
-  var Search = function(){}
+  var Search = function(){};
   Search.prototype = {
     init : function(options){
       var self = this;
@@ -45,7 +45,7 @@ define(['jquery','lib/jquery.cookie'], function($){
           strArr.push('<ul class="u-sch-ds-sel">')
           for (var i = 0,len = data.length; i < len; i++) {
             strArr.push('<li data-uid="'+i+'">'+data[i].title+'</li>');
-          };
+          }
           strArr.push('</ul>');
         }
         strArr.push('</div>');
@@ -69,8 +69,7 @@ define(['jquery','lib/jquery.cookie'], function($){
       var self = this,
         downSelect = this.container.find('.u-sch-ds'),
         oUl = downSelect.find('ul'),
-        oSapn = downSelect.find('.u-sch-ds-txt span'),
-        aLi = oUl.find('li');
+        oSapn = downSelect.find('.u-sch-ds-txt span');
       downSelect.on('click',function(){
         if(!$(this).hasClass('u-sch-us')){
           $(this).addClass('u-sch-us');
@@ -81,11 +80,11 @@ define(['jquery','lib/jquery.cookie'], function($){
         event.preventDefault();
         oSapn.html($(this).html());
         self.iNum = $(this).data('uid');
-        self.input.val('搜索'+$(this).html())
+        self.input.val('搜索'+$(this).html());
       });
     },
     getInputVal : function(){
-      return $.trim(this.input.val())
+      return this.nohtml($.trim(this.input.val()));
     },
     inputFocus : function(){
       var inputBox = this.container.find('.u-sch-inp'),
@@ -104,11 +103,17 @@ define(['jquery','lib/jquery.cookie'], function($){
           $(this).val('');
         }
       }).on('blur',function(){
+        if(self.getInputVal()){
+          $(this).val(self.getInputVal());
+        }
         if(!self.getInputVal() || self.getInputVal() == '搜索'+oSapn.html()){
           $(this).val('搜索'+oSapn.html());
           inputBox.removeClass('u-sch-inp-focus');
         }
       })
+    },
+    nohtml : function(value){
+      return value.replace(/({|})/g,'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     },
     submitBtn : function(){  //生成按钮
       var submitBtn = this.container.find('form'),
@@ -117,7 +122,7 @@ define(['jquery','lib/jquery.cookie'], function($){
         self = this;
       submitBtn.on('submit',function(){
         if(!!self.getInputVal() && self.getInputVal() != '搜索'+oSapn.html()){
-          self.ajax(self.getInputVal())
+          self.ajax(self.nohtml(self.getInputVal()));
         }
         return false;
       })
@@ -128,8 +133,8 @@ define(['jquery','lib/jquery.cookie'], function($){
         window.location.href = url+'?page=1&query='+input
       }
     }
-  }
-  var User = function(){}
+  };
+  var User = function(){};
   User.prototype = {
     init : function(options){
       var self = this;
@@ -160,7 +165,7 @@ define(['jquery','lib/jquery.cookie'], function($){
       this.bindEvent();
       this.bindQuit();
     },
-    createAdmin : function(data){
+    createAdmin : function(){
       var arr = [
           '<ul>',
             '<li>'+this.del+'</li>',
@@ -504,9 +509,9 @@ define(['jquery','lib/jquery.cookie'], function($){
         str;
         for (var i = 0, len = data.length; i < len; i++) {
           if(data[i].dec_type == 0){
-            str = '<li><a class="" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+data[i].cell+'小区'+data[i].cell_phase+'期'+data[i].cell_building+'栋'+data[i].cell_unit+'单元'+data[i].cell_detail_number+'室</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
+            str = '<li><a class="" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+(!!data[i].detail_address ? data[i].detail_address : '')+(!!data[i].basic_address ? data[i].basic_address : '')+'</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
           }else{
-            str = '<li><a class="" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+data[i].cell+'</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
+            str = '<li><a class="" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+(!!data[i].basic_address ? data[i].basic_address : '')+'</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
           }
           sUl.push(str);
         }

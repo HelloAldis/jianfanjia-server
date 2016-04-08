@@ -14,15 +14,9 @@
 			<li>
 				<div class="span">
 					<strong>详细地址</strong>
-					<span bo-if="requirement.dec_type == 1">
-						<span bo-text="requirement.street"></span>
-					</span>
-					<span bo-if="requirement.dec_type == 0">
-						<span bo-if="requirement.cell"><i bo-text="requirement.cell"></i>小区</span>
-						<span bo-if="requirement.cell_phase"><i bo-text="requirement.cell_phase"></i>期</span>
-						<span bo-if="requirement.cell_building"><i bo-text="requirement.cell_building"></i>栋</span>
-						<span bo-if="requirement.cell_unit"><i bo-text="requirement.cell_unit"></i>单元</span>
-						<span bo-if="requirement.cell_detail_number"><i bo-text="requirement.cell_detail_number"></i>室</span>
+					<span>
+						<span bo-if="requirement.detail_address" bo-text="requirement.detail_address"></span>
+						<span bo-if="requirement.basic_address && requirement.dec_type == 0" bo-text="requirement.basic_address"></span>
 					</span>
 				</div>
 			</li>
@@ -30,7 +24,7 @@
 				<div class="span">
 					<strong>项目名称</strong>
 					<span>
-						<span bo-text="requirement.cell"></span>
+						<span bo-if="requirement.basic_address" bo-text="requirement.basic_address"></span>
 					</span>
 				</div>
 			</li>

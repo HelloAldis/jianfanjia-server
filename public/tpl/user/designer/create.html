@@ -81,7 +81,7 @@
 				</div>
 			</form>
 		</div>
-		<div class="boxs quotes" class="hide" ng-show="!designerPlan.tab">
+		<div class="boxs quotes" class="hide" ng-if="!designerPlan.tab">
 			<form name="quote" novalidate>
 				<div class="table">
 					<table>
@@ -94,10 +94,22 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="tbody">
+							<tr class="tbody" ng-if="designerPlan.packagetype == 0">
 								<td>&nbsp;&nbsp;&nbsp;</td>
 							</tr>
-							<tr ng-repeat="list in plan.price_detail">
+							<tr ng-repeat="list in plan.price_detail" ng-if="designerPlan.packagetype == 0">
+								<td class="td1"><span bo-text="list.item"></span></td>
+								<td class="td2"><input type="text" class="input" placeholder="请输入8位以内整数" my-placeholder ng-model="list.price" ng-blur="designerPlan.computePrice()" model-format="int" /></td>
+								<td class="td3"><input type="text" ng-model="list.description" /></td>
+								<td class="td4"><a href="javascript:;" ng-click="designerPlan.remove_price_detail($index)"><i class="iconfont2">&#xe619;</i></a></td>
+							</tr>
+							<tr class="packagetype" ng-repeat="list in plan.price_detail" ng-if="designerPlan.packagetype == 1 && $index == 0">
+								<td class="td1"><span bo-text="list.item"></span></td>
+								<td class="td2"><strong bo-text="list.price | number"></strong></td>
+								<td class="td3"><p ng-bind-html="list.description | to_trusted"></p></td>
+								<td class="td4">&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr ng-repeat="list in plan.price_detail" ng-if="designerPlan.packagetype == 1 && $index > 0">
 								<td class="td1"><span bo-text="list.item"></span></td>
 								<td class="td2"><input type="text" class="input" placeholder="请输入8位以内整数" my-placeholder ng-model="list.price" ng-blur="designerPlan.computePrice()" model-format="int" /></td>
 								<td class="td3"><input type="text" ng-model="list.description" /></td>
@@ -123,6 +135,14 @@
 					</table>
 				</div>
 				<div class="price f-cb">
+					<dl class="f-fl" ng-if="designerPlan.packagetype == 1">
+						<dt>基础费用</dt>
+						<dd><span ng-if="designerPlan.baseprice"><em ng-bind="designerPlan.baseprice | number"></em>元</span></dd>
+					</dl>
+					<dl class="f-fl" ng-if="designerPlan.packagetype == 1">
+						<dt>个性化费用</dt>
+						<dd><span ng-if="plan.project_price_before_discount > designerPlan.baseprice"><em ng-bind="(plan.project_price_before_discount - designerPlan.baseprice) | number"></em>元</span></dd>
+					</dl>
 					<dl class="f-fl">
 						<dt>工程总造价</dt>
 						<dd><span ng-if="plan.project_price_before_discount"><s ng-bind="plan.project_price_before_discount | number"></s>元</span></dd>

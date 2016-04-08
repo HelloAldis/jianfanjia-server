@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>365package</title>
+</head>
+<body>
+365package
+</body>
+</html>
+<script>
+
+
+    function htmlfilter(value,parameter){
+        var setthe = {};
+        if(parameter != undefined){
+            setthe.fhtml = parameter.fhtml || true;
+            setthe.fjs = parameter.fjs || false;
+            setthe.fcss = parameter.fcss || false;
+            setthe.fself = parameter.fself || false;
+        }else{
+            setthe.fhtml = true;
+            setthe.fjs = true;
+            setthe.fcss = false;
+            setthe.fself = false;
+        }
+        if(typeof value === 'string'){
+            var s = value;
+        }else if(typeof value === 'object'){
+            var s = value.value;
+            var p = value.preplace;
+            var n = value.nextplace;
+        }
+        if(!s){
+            return s;
+        }
+        if (!setthe.fhtml && !setthe.fjs && !setthe.fcss && !setthe.fself)
+            setthe.fhtml = true;
+        if (setthe.fjs)
+            s = s.replace(/<\s*script[^>]*>(.|[\r\n])*?<\s*\/script[^>]*>/gi, '');
+        if (setthe.fcss)
+            s = s.replace(/<\s*style[^>]*>(.|[\r\n])*?<\s*\/style[^>]*>/gi, '');
+        if (setthe.fhtml) {
+            s = s.replace(/<\/?[^>]+>/g, '');
+            s = s.replace(/\&[a-z]+;/gi, '');
+            s = s.replace(/\s+/g, '\n');
+        }
+        if (setthe.fself && typeof value === 'object'){
+            s = s.replace(new RegExp(p, 'g'), n);
+        }
+        return s;
+    }
+
+</script>
+<script>alert('ok')</script>
