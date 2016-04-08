@@ -58,6 +58,7 @@ exports.search_user_comment = function (req, res, next) {
             house_area: 1,
             work_type: 1,
             house_type: 1,
+            package_type: 1,
           }, function (err, requirement) {
             message.requirement = requirement;
             message.designer = result.designer;
@@ -152,6 +153,7 @@ exports.search_designer_comment = function (req, res, next) {
             house_area: 1,
             work_type: 1,
             house_type: 1,
+            package_type: 1,
           }, function (err, requirement) {
             message.requirement = requirement;
             message.user = result.user;
