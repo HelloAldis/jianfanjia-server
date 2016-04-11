@@ -27,8 +27,8 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             init : function(pos){
                 this.doc = $(document);
                 this.arr = pos.arr || [];
-                this.sClass = pos.sClsss || 'lightBox';
-                this.parent = pos.parent || $();
+                this.select = pos.select || '.lightBox';
+                this.parent = pos.parent || this.doc;
                 if(this.arr.length){
                     this.lightBoxAjax(this.arr);
                 }
@@ -55,17 +55,16 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             lightBoxBindEvent : function(arr){
                 var _this = this;
                 var lightBox = $('<div class="m-lightBox"></div>');
-                var img = '.'+this.sClass;
-                this.detail.on('click',img,function(ev) {
+                this.parent.find(this.select).css('cursor','pointer');
+                this.parent.on('click',this.select,function(ev) {
                     ev.preventDefault();
-                    $(this).css('cursor','pointer');
                     _this.lightBoxShow(lightBox,arr,$(this).data('index')*1);
-                })
+                });
             },
             lightBoxShow : function(obj,arr,index){
                 var timer = null;
                 var win = $(window).width();
-                var doc = $(document);
+                var doc = this.doc;
                 var maxLen = ~~((win-200)/76);
                 var len = arr.length;
                 var isMove = len > maxLen;
@@ -90,7 +89,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                 var tab = $('<div class="tab"></div>');
                 var str = '<ul style="left:'+(isMove ? -76*k : 0)+'px;width:'+(len*76)+'px">';
                 _.forEach(arr,function(k,v){
-                    str += '<li class="'+(v===index ? 'active' : '')+'"><img src="/api/v2/web/thumbnail2/66/66/'+k._id+'" /></li>'
+                    str += '<li class="'+(v===index ? 'active' : '')+'"><span></span><img src="/api/v2/web/thumbnail2/66/66/'+k._id+'" /></li>'
                 });
                 str += '</div>';
                 tab.html(str);
@@ -103,7 +102,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                 if(obj.css('display') === 'none'){
                     obj.show();
                 }else{
-                    this.body.append(obj);
+                    $('body').append(obj);
                 }
                 close.on('click',function(){
                     _this.lightBoxHide(obj);
@@ -146,7 +145,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                             --i;
                         }
                         if(k == 0){
-                            k = 0;
+                            k == 0;
                         }else{
                             --k;
                         }
@@ -157,7 +156,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                             ++i;
                         }
                         if(k == len - maxLen){
-                            k = len - maxLen;
+                            k == len - maxLen;
                         }else{
                             ++k;
                         }
@@ -215,7 +214,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             lightBoxHide : function(obj){
                 obj.hide().html('');
             }
-        }
+        };
         var lightBox = new LightBox();
         var Detail = function(){};
         Detail.prototype = {

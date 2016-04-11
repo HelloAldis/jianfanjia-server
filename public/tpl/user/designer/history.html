@@ -22,12 +22,8 @@
 								<span bo-if="data.province"><i bo-text="data.province"></i></span>
 								<span bo-if="data.city"><i bo-text="data.city"></i></span>
 								<span bo-if="data.district"><i bo-text="data.district"></i></span>
-								<span bo-if="data.street && data.dec_type == '商装'"><i bo-text="data.street"></i></span>
-								<span bo-if="data.cell"><i bo-text="data.cell"></i><i bo-if="requirement.dec_type == '家装'">小区</i></span>
-								<span bo-if="data.cell_phase && requirement.dec_type == '家装'"><i bo-text="data.cell_phase"></i>期</span>
-								<span bo-if="data.cell_building && requirement.dec_type == '家装'"><i bo-text="data.cell_building"></i>栋</span>
-								<span bo-if="data.cell_unit && requirement.dec_type == '家装'"><i bo-text="data.cell_unit"></i>单元</span>
-								<span bo-if="data.cell_detail_number && requirement.dec_type == '家装'"><i bo-text="data.cell_detail_number"></i>室</span>
+								<span bo-if="requirement.dec_type == '家装' && data.detail_address" bo-text="data.detail_address"></span>
+								<span bo-if="data.basic_address" bo-text="data.basic_address"></span>
 							</h4>
 						</div>
 						<div class="tag">

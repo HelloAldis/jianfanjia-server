@@ -89,7 +89,6 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             imgBox.append(toggleNext);
             var imgTab = $('<div class="imgTab"></div>');
             obj.append(imgBox);
-            console.log(viewW - uiWidth,isMove)
             var tabPrev = $('<span class="toggle prev" style="display: '+(isMove && (m === 0 && n ==! 0) ? 'block' : 'none')+'"><i class="iconfont">&#xe611;</i></span>');
             var tabNext = $('<span class="toggle next" style="display: '+(isMove && (m === len-1 && n === arr[m].length - 1)  ? 'none' : 'block')+'"><i class="iconfont">&#xe617;</i></span>');
             imgTab.append(tabPrev);
@@ -102,7 +101,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                 var subL = [];
                 var sList = '<li data-index="'+k.index+'" class="father" data-width="'+width+'"><h4>'+k.name+'</h4><ul>';
                     _.forEach(arr[v].images,function(i,s){
-                        var sl = left + 56+76*s;
+                        var sl = left + 76*s;
                         subL.push(sl);
                         if(uiWidth - viewW >= 0){
                             if(uiWidth - viewW + 76 > sl && sl > uiWidth - viewW){
@@ -174,7 +173,6 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                         }else{
                             m--;
                             n = arr[m].length -1;
-                            console.log('prev2:'+m,n)
                         }
                     }else{
                         n--;
@@ -189,7 +187,6 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                             m++;
                             n = 0;
                             toggleNext.show();
-                            console.log('next2:'+m,n)
                         }
                     }else{
                         n++;
@@ -299,12 +296,13 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                 var process = data.process[data.process.length-1].name,
                     arr = [
                         '<div class="covers f-fl">',
-                            '<img src="/api/v2/web/thumbnail2/320/206/'+data.cover_imageid+'" alt="'+data.cell+'">',
+                            '<img src="/api/v2/web/thumbnail2/370/206/'+data.cover_imageid+'" alt="'+data.cell+'">',
                         '</div>',
                         '<div class="info f-fl">',
                             ''+(process == 7 && data.progress == 1 ? '<span class="end-icon"></span>' : "")+'',
                             '<h3>'+data.cell+(data.dec_type ? '<small>（'+globalData.dec_type(data.dec_type)+'）</small>':'')+'</h3>',
-                            '<p><span>参考造价：'+data.total_price+'万元</span><span>包工类型：'+globalData.work_type(data.work_type)+'</span><span>户型：'+globalData.house_type(data.house_type)+'</span><span>面积：'+data.house_area+'m&sup2;</span></p>',
+                            '<p><span>参考造价：'+data.total_price+'万元</span><span>包工类型：'+globalData.work_type(data.work_type)+'</span><span>户型：'+globalData.house_type(data.house_type)+'</span></p>',
+                            '<p><span>面积：'+data.house_area+'m&sup2;</span></p>',
                             '<div class="step step'+process+'">',
                                 '<div class="line"><div class="in"></div></div>',
                                 '<ul class="status">'

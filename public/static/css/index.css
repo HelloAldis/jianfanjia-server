@@ -1215,3 +1215,54 @@ transform: scale(1.15);
 .g-links p a:hover{
 	color: #333;
 }
+.g-media .tab{
+	height: 60px;
+	padding-bottom: 50px;
+}
+.g-media .tab ul{
+	width: 212px;
+	margin: 0 auto;
+}
+.g-media .tab li{
+	float: left;
+	width: 212px;
+	height: 60px;
+	text-align: center;
+	line-height: 60px;
+}
+.g-media .tab li img{
+	width: 170px;
+	vertical-align: middle;
+}
+.g-media .list h4{
+	padding-bottom: 15px;
+	font-size: 20px;
+	line-height: 26px;
+	font-weight: bold;
+	color: #383d48;
+	text-align: center;
+}
+.g-media .list p{
+	width: 832px;
+	margin: 0 auto;
+	font-size: 14px;
+	line-height: 22px;
+	color: #999;
+}
+.g-media .list .more{
+	padding-top: 50px;
+	text-align: center;
+}
+.g-media .list .more a{
+	display: inline-block;
+	padding:0 25px;
+	font-size: 14px;
+	line-height: 30px;
+	color: #fe7004;
+	border: 1px solid #fe7004;
+	border-radius: 30px;
+}
+.g-media .list .more a:hover{
+	color: #fff;
+	background-color: #fe7004;
+}

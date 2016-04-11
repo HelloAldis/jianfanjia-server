@@ -80,13 +80,13 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab"><i>*</i>装修预算</label>
+							<label class="u-lab"><i>*</i>装修总预算</label>
 							<div class="u-inp">
 								<div class="inp">
 									<input type="text" class="input" ng-model="requiremtne.total_price" name="total_price" placeholder="只能填整数" check-number check-number-type="int" my-placeholder required />
 									<span class="unit">万元</span>
 									<span ng-show="release.total_price.$invalid && !release.total_price.$pristine" class="has-error">只能填整数</span>
-									<span ng-show="(requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120) && userRelease.costserror && (release.total_price.$valid && !release.total_price.$pristine)" class="has-error">您的装修总预算不能低于基础费用</span>
+									<span ng-show="(requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120) && userRelease.costserror" class="has-error">您的装修总预算不能低于基础费用</span>
 									<div class="total-price" ng-if="(requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120)">
 										<div class="work-tips">
 											<p>为了让您的装修预算更准确，特为您提供以下公式</p>
@@ -98,12 +98,12 @@
 											</div>
 											<div class="sign">&#43;</div>
 											<div class="box">
-												<h3><span ng-if="userRelease.costsdiy > 0 && (release.total_price.$valid && !release.total_price.$pristine)"><strong ng-bind="userRelease.costsdiy"></strong><span>万元</span></span><i ng-if="userRelease.costsdiy == 0 || (release.total_price.$invalid && !release.total_price.$pristine)"></i></h3>
+												<h3><span ng-if="userRelease.costsdiy > 0 && !userRelease.costserror"><strong ng-bind="userRelease.costsdiy"></strong><span>万元</span></span><i ng-if="userRelease.costsdiy == 0 || userRelease.costserror"></i></h3>
 												<p>个性化费用</p>
 											</div>
 											<div class="sign">&#61;</div>
 											<div class="box">
-												<h3><span ng-if="userRelease.coststotal > 0 && (release.total_price.$valid && !release.total_price.$pristine)"><strong ng-bind="userRelease.coststotal"></strong><span>万元</span></span><i ng-if="userRelease.coststotal == 0 || (release.total_price.$invalid && !release.total_price.$pristine)"></i></h3>
+												<h3><span ng-if="userRelease.coststotal > 0 && !userRelease.costserror"><strong ng-bind="userRelease.coststotal"></strong><span>万元</span></span><i ng-if="userRelease.coststotal == 0 || userRelease.costserror"></i></h3>
 												<p>装修总预算</p>
 											</div>
 										</div>
@@ -152,7 +152,8 @@
 					<div class="m-item m-error-info hide" id="error-info"></div>
 				</div>
 				<div class="m-btns">
-					<input type="submit" class="u-btns" ng-class="{'u-btns-disabled':release.$invalid || userRelease.disabled}" ng-disabled="release.$invalid || userRelease.disabled" ng-value="userRelease.releaseValue" />
+					<input type="submit" class="u-btns" ng-if="userRelease.costsbasis" ng-class="{'u-btns-disabled':(release.$invalid || !(requiremtne.total_price >= userRelease.costsbasis)) || userRelease.disabled}" ng-disabled="(release.$invalid || !(requiremtne.total_price >= userRelease.costsbasis)) || userRelease.disabled" ng-value="userRelease.releaseValue" />
+					<input type="submit" class="u-btns" ng-if="!userRelease.costsbasis" ng-class="{'u-btns-disabled':release.$invalid || userRelease.disabled}" ng-disabled="release.$invalid || userRelease.disabled" ng-value="userRelease.releaseValue" />
 				</div>
 			</div>
 		</form>

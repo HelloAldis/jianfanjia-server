@@ -244,24 +244,36 @@ angular.module('controllers', [])
                     $scope.userRelease.costsbasis = parseFloat($filter('number')(newValue*365/10000, 2));
                     if($scope.userRelease.coststotal >= $scope.userRelease.costsbasis){
                         $scope.userRelease.costsdiy = parseFloat($filter('number')($scope.userRelease.coststotal - $scope.userRelease.costsbasis, 2));
-                        console.log($scope.userRelease.costsdiy)
                     }else{
                         $scope.userRelease.costsdiy = 0;
                     }
-                    console.log($scope.userRelease.costsbasis)
                 }else{
                     $scope.userRelease.costsbasis = 0;
+                    $scope.userRelease.costsdiy = 0;
+                }
+            });
+            $scope.$watch('requiremtne.work_type',function(newValue){
+                if((newValue == 0 || newValue == 1) && ($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120)){
+                    $scope.userRelease.costsbasis = !!$scope.requiremtne.house_area ? parseFloat($filter('number')($scope.requiremtne.house_area*365/10000, 2)) : 0;
+                    $scope.userRelease.coststotal = !!$scope.requiremtne.total_price ? parseFloat($filter('number')($scope.requiremtne.total_price, 2)) : 0;
+                    if($scope.userRelease.coststotal >= $scope.userRelease.costsbasis){
+                        $scope.userRelease.costserror = false;
+                        $scope.userRelease.costsdiy = parseFloat($filter('number')($scope.userRelease.coststotal - $scope.userRelease.costsbasis, 2));
+                    }else{
+                        $scope.userRelease.costserror = true;
+                        $scope.userRelease.costsdiy = 0;
+                    }
+                }else{
+                    $scope.userRelease.coststotal = 0;
                     $scope.userRelease.costsdiy = 0;
                 }
             });
             $scope.$watch('requiremtne.total_price',function(newValue){
                 if(!!newValue && !/[^0-9.]/.test(newValue) && ($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120) && ($scope.requiremtne.work_type == 0 || $scope.requiremtne.work_type == 1)){
                     $scope.userRelease.coststotal = parseFloat($filter('number')(newValue, 2));
-                    console.log($scope.userRelease.coststotal)
                     if($scope.userRelease.coststotal >= $scope.userRelease.costsbasis){
                         $scope.userRelease.costserror = false;
                         $scope.userRelease.costsdiy = parseFloat($filter('number')($scope.userRelease.coststotal - $scope.userRelease.costsbasis, 2));
-                        console.log($scope.userRelease.costsdiy)
                     }else{
                         $scope.userRelease.costserror = true;
                         $scope.userRelease.costsdiy = 0;
@@ -301,7 +313,7 @@ angular.module('controllers', [])
                     $scope.requiremtne.street = undefined;
                     $scope.requiremtne.business_house_type = undefined;
                     if($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120 && $scope.requiremtne.work_type != 2){
-                        $scope.requiremtne.package_type = 1
+                        $scope.requiremtne.package_type = 1;
                     }
                 }
                 //商装
@@ -309,7 +321,9 @@ angular.module('controllers', [])
                     $scope.requiremtne.house_type = undefined;
                     $scope.requiremtne.family_description = undefined;
                 }
-                $scope.requiremtne.dec_type = type;
+                $scope.requiremtne.dec_type = type+"";
+                $scope.requiremtne.total_price = $scope.requiremtne.total_price*1;
+                $scope.requiremtne.house_area = $scope.requiremtne.house_area*1;
                 if($scope.requiremtne.province === "湖北省" && $scope.requiremtne.city === "武汉市"){
                     This.disabled = true;
                     if($scope.userRelease.isRelease){

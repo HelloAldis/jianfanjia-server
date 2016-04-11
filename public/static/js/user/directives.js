@@ -256,7 +256,6 @@ angular.module('directives', [])
                     $(this).addClass('active').siblings().removeClass('active');
                     $scope.$apply(function(){
                         $scope.myQuery = index;
-                        console.log($scope.myQuery)
                     });
                 });
                 function fnMove(){
@@ -273,7 +272,9 @@ angular.module('directives', [])
             scope: {
                 myProvince : "=",
                 myCity : "=",
-                myDistrict : "="
+                myDistrict : "=",
+                myGetDistrict : "=",
+                mySetDistrict : "="
             },
             restrict: 'A',
             template: '<div class="k-cities" ng-click="openSelect($event)" ng-mouseout="closeSelect()"><ul class="select" ng-mouseover="closeTimer()"><li ng-repeat="d in myList"><a href="javascript:;" ng-click="select(d.name,$event)">{{d.name}}</a></li></ul><div class="editor"><input class="value" ng-model="myQuery" /><span class="arrow"><em></em><i></i></span></div></div>',
@@ -282,6 +283,8 @@ angular.module('directives', [])
                     oProvince = $scope.myProvince,
                     oCity = $scope.myCity,
                     oDistrict = $scope.myDistrict,
+                    getDistrict = $scope.myGetDistrict,
+                    setDistrict = $scope.mySetDistrict,
                     body = angular.element(document),
                     oBox = angular.element(iElm),
                     bOFF = false,
@@ -362,15 +365,27 @@ angular.module('directives', [])
                     createList(city,iProvince);
                     createList(district,iCity,iProvince);
                 }
+                if(getDistrict !== undefined){
+                    district.hide();
+                }
                 // 渲染城市数据
                 function createList(obj,pid,aid){
                     var typeArr = ['province','city','district'];
                     obj.find('.select').remove();
                     var dataArr = aid != undefined ? areaJson[typeArr[2]][aid][pid] : pid != undefined ? areaJson[typeArr[1]][pid] : areaJson[typeArr[0]];
                     var sHtml = '<ul class="select">';
+                    if(getDistrict !== undefined){
+                        $scope.myGetDistrict.length = 0;
+                    }
                     for(var i=0,len=dataArr.length;i<len;i++){
                         var val = aid != undefined ? aid+'-'+pid+'-'+ i : pid != undefined ? pid+'-'+ i : i;
                         sHtml += '<li data-val="'+val+'"><a>'+dataArr[i].name+'</a></li>';
+                        if(obj === district && getDistrict !== undefined){
+                            $scope.myGetDistrict.push({
+                                cur : _.indexOf(setDistrict,dataArr[i].name) !== -1 ? 'active' : '',
+                                name : dataArr[i].name
+                            });
+                        }
                     }
                     sHtml += '</ul>';
                     obj.append(sHtml);
@@ -429,7 +444,7 @@ angular.module('directives', [])
                         if(obj == city){
                             $scope.myCity = value;
                             district.find('.select').remove();
-                            createList(district,val[1],val[0])
+                            createList(district,val[1],val[0]);
                             selectShow(district);
                             selectHide(city);
                             clearValue(district);
@@ -467,191 +482,6 @@ angular.module('directives', [])
                 function selectShow(obj){
                     obj.find('.select').show();
                     oBox.css('zIndex',20);
-                }
-            }
-        };
-    }])
-    .directive('myCitiesdec',['$timeout',function($timeout){     //自定义地区选择控件
-        return {
-            replace : true,
-            scope: {
-                myList : "=",
-                myProvince : "=",
-                myCity : "=",
-                myDistrict : "=",
-                myDecdistricts : "="
-            },
-            restrict: 'A',
-            template: '<div class="k-cities" ng-click="openSelect($event)" ng-mouseout="closeSelect()"><ul class="select" ng-mouseover="closeTimer()"><li ng-repeat="d in myList"><a href="javascript:;" ng-click="select(d.name,$event)">{{d.name}}</a></li></ul><div class="editor"><input class="value" ng-model="myQuery" /><span class="arrow"><em></em><i></i></span></div></div>',
-            link: function($scope, iElm, iAttrs, controller) {
-                var areaJson = $scope.myList,
-                    oProvince = $scope.myProvince,
-                    oCity = $scope.myCity,
-                    oDistrict = $scope.myDistrict,
-                    oDecdistricts = $scope.myDecdistricts,
-                    oBox = angular.element(iElm),
-                    bOFF = false,
-                    bOff = false,
-                    DefaultLen = 3,
-                    Default = [
-                        {
-                            en : 'province',
-                            cn : '请选择省',
-                            num : '1'
-                        },
-                        {
-                            en : 'city',
-                            cn : '请选择市',
-                            num : '110000'
-                        },
-                        {
-                            en : 'district',
-                            cn : '请选择县/区',
-                            num : '110100'
-                        }
-                    ];
-                // 渲染dom
-                Default[0].cn = oProvince;
-                Default[1].cn = oCity;
-                Default[2].cn = oDistrict;
-                var selectData = '';
-                for (var i = 0; i < DefaultLen; i++) {
-                    var selectDataInput = '';
-                    var selectDataOption = '';
-                    for (var j = 0; j < 1; j++) {
-                        selectDataInput += '<input type="hidden" name="'+Default[i].en+'" value="" />';
-                        selectDataOption += '<div class="option"><span class="value">'+Default[i].cn+'</span><span class="arrow"><em></em><i></i></span></div>'
-                    };
-                    selectData += '<div class="list '+Default[i].en+'">'+selectDataInput+selectDataOption+'</div>';
-                    if(Default[0].cn != '请选择省'){
-                        for(var attr in areaJson){
-                            if(Default[i].cn == areaJson[attr][0]){
-                                Default[i].num = areaJson[attr][1];
-
-                            }
-                        }
-                    }
-                };
-                oBox.html(selectData)
-                var province = oBox.find('.province'),
-                    city = oBox.find('.city'),
-                    district = oBox.find('.district'),
-                    body = angular.element(document),
-                    listArr = [province,city,district];
-
-                for(var i = 0; i < DefaultLen; i++) {
-                    createList(Default[i].num,listArr[i]);
-                    selectEvent(listArr[i]);
-                    optionEvevt(listArr[i]);
-                };
-                district.hide();
-                // 渲染城市数据
-                function createList(id,obj){
-                    obj.find('.select').remove();
-                    var sHtml = '<ul class="select">';
-                    var sDec = [];
-                    for (var i in areaJson) {
-                        if (areaJson[i][1] == id) {
-                            sHtml += '<li data-val="'+i+'"><a>'+areaJson[i][0]+'</a></li>';
-                            sDec.push(areaJson[i][0])
-                        }
-                    }
-                    sHtml += '</ul>';
-                    if(obj == district){
-                        $scope.myDecdistricts = sDec;
-                    }
-                    obj.append(sHtml)
-                }
-                function optionEvevt(obj){
-                    var self = this;
-                    var option = obj.find('.option');
-                    var value = option.find('.value').html();
-                    option.on('click' , function(ev){
-                        body.click();
-                        if(value != "请选择省" && obj == province){
-                            bOFF = true;
-                            bOff = false;
-                        }
-                        if(obj == city && value != "请选择市"){
-                            bOff = true;
-                        }
-                        if(!bOFF && obj == city){
-                            if(province.find('.value').html() == "请选择省"){
-                                alert('请先选择省');
-                                return false;
-                            }
-                        }
-                        if(!bOFF && !bOff){
-                            if(obj == district && city.find('.value').html() == "请选择市"){
-                                alert('请先选择市');
-                                return false;
-                            }
-                        }
-                        selectShow(obj);
-                        return false;
-                    });
-                }
-                function selectEvent(obj){
-                    var  oInput = obj.find('input'),
-                        oOption = obj.find('.option').find('.value');
-                    body.click();
-                    obj.delegate('li', 'click' , function(ev){
-                        ev.stopPropagation();
-                        var dataVal = $(this).data('val'),
-                            value = $(this).find('a').text();
-                        oInput.val(value).data("val",dataVal);
-                        oOption.html(value);
-                        if(obj == province){
-                            $scope.myProvince = value;
-                            city.find('.select').remove();
-                            createList(dataVal,city)
-                            selectShow(city)
-                            selectHide(district)
-                            selectHide(province)
-                            clearValue(city);
-                            clearValue(district);
-                        }
-                        if(obj == city){
-                            $scope.myCity = value;
-                            district.find('.select').remove();
-                            createList(dataVal,district)
-                            selectShow(district)
-                            selectHide(city)
-                            clearValue(district);
-                        }
-                        if(obj == district){
-                            $scope.myDistrict = value;
-                            selectHide(district)
-                        }
-                    });
-                }
-                body.on('click', function(ev){
-                    selectHide();
-                });
-                function clearValue(obj){
-                    var oInput = obj.find('input'),
-                        oOption = obj.find('.option').find('.value');
-                    if(obj == city){
-                        oInput.val('市');
-                        oOption.html('请选择市');
-                    }
-                    if(obj == district){
-                        oInput.val('县/区');
-                        oOption.html('请选择县/区');
-                    }
-                }
-                function selectHide(obj){
-                    oBox.each(function(index, el) {
-                        if(obj){
-                            $(el).find(obj).find('.select').hide();
-                        }else{
-                            $(el).css('zIndex',5).find('.select').hide();
-                        }
-                    });
-                }
-                function selectShow(obj){
-                    obj.find('.select').show();
-                    oBox.css('zIndex',20)
                 }
             }
         };
@@ -1917,6 +1747,6 @@ angular.module('directives', [])
                 }
             }
         };
-    }]);
+    }])
 
 

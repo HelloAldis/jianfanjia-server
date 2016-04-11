@@ -35,11 +35,11 @@
 						<div class="item">
 							<label class="u-lab" for="dec_area">接单区域</label>
 							<div class="u-inp">
-								<div my-citiesdec my-list="service.address" my-province="designerService.province" my-city="designerService.city" my-district="designerService.district" my-decDistricts="service.dec_districts"></div>
+								<div my-cities my-province="designerService.province" my-city="designerService.city" my-district="designerService.district" my-get-district="service.dec_districtsArr" my-set-district="designerService.dec_districts" ng-if="designerService.province"></div>
 								<p class="alert">目前装修城市仅支持湖北省武汉市</p>
-								<div style="width:670px" ng-if="service.dec_districts">
+								<div style="width:670px" ng-if="service.dec_districtsArr">
 									<div class="radio">
-										<label ng-repeat="list in service.dec_districtsArr" bindonce="service.dec_districtsArr" class="{{list.cur}}" ng-click="service.dec_districtsBtn($index,list.name)"><span></span><i bo-text="list.name"></i></label>
+										<label ng-repeat="list in service.dec_districtsArr" bindonce="service.dec_districts" class="{{list.cur}}" ng-click="service.dec_districtsBtn($index,list.name)"><span></span><i bo-text="list.name"></i></label>
 									</div>
 									<p ng-if="service.dec_districtsArr.length == 0">
 										该市下面没有县或区

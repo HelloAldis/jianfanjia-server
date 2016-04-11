@@ -84,10 +84,50 @@ var Search = function(){}
       });
     },
     getInputVal : function(){
-      return this.nohtml($.trim(this.input.val()));
+      return this.htmlfilter($.trim(this.input.val()));
     },
-    nohtml : function(value){
-      return value.replace(/({|})/g,'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    htmlfilter : function(value,parameter){
+      var setthe = {},s,p,n;
+      if(parameter != undefined){
+        setthe.fhtml = parameter.fhtml || true;
+        setthe.fjs = parameter.fjs || false;
+        setthe.fcss = parameter.fcss || false;
+        setthe.fself = parameter.fself || false;
+      }else{
+        setthe.fhtml = true;
+        setthe.fjs = false;
+        setthe.fcss = false;
+        setthe.fself = false;
+      }
+      if(typeof value === 'string'){
+        s = value;
+      }else if(typeof value === 'object'){
+        s = value.value;
+        p = value.preplace;
+        n = value.nextplace;
+      }
+      if(!s){
+        return s;
+      }
+      if (!setthe.fhtml && !setthe.fjs && !setthe.fcss && !setthe.fself){
+        setthe.fhtml = true;
+      }
+      if (setthe.fjs){
+        s = s.replace(/<\s*script[^>]*>(.|[\r\n])*?<\s*\/script[^>]*>/gi, '');
+      }
+      if (setthe.fcss){
+        s = s.replace(/<\s*style[^>]*>(.|[\r\n])*?<\s*\/style[^>]*>/gi, '');
+      }
+      if (setthe.fhtml) {
+        s = s.replace(/<\/?[^>]+>/g, '');
+        s = s.replace(/\&[a-z]+;/gi, '');
+        s = s.replace(/\s+/g, '\n');
+      }
+
+      if (setthe.fself && typeof value === 'object'){
+        s = s.replace(new RegExp(p, 'g'), n);
+      }
+      return s;
     },
     inputFocus : function(){
       var inputBox = this.container.find('.u-sch-inp'),
@@ -122,7 +162,7 @@ var Search = function(){}
         self = this;
       submitBtn.on('submit',function(){
         if(!!self.getInputVal() && self.getInputVal() != '搜索'+oSapn.html()){
-          self.ajax(self.nohtml(self.getInputVal()));
+          self.ajax(self.getInputVal());
         }
         return false;
       })
@@ -355,6 +395,10 @@ var Search = function(){}
       if(this.settings.shop && this.usertype == 1){
         this.getRequirement();
         this.addDesigners();
+
+      }
+      if(this.usertype == 1){
+        $('#j-release').show();
       }
       //this.supervision();
     },
@@ -375,35 +419,35 @@ var Search = function(){}
             'sclass' : 'add',
             'url'  : '/tpl/user/owner.html#/designer',
             'icon' : '&#xe614;',
-            'hover' : '',
+            'hover' : ''
           },
           {
             'name' : '装修保障',
             'sclass' : 'protect',
             'url'  : '/tpl/merit/index.html',
             'icon' : '&#xe639;',
-            'hover' : '',
+            'hover' : ''
           },
           {
             'name' : '关注微信',
             'sclass' : 'weixin',
             'url'  : '',
             'icon' : '&#xe633;',
-            'hover' : '<img src="/static/img/public/erweima.jpg" width="160" height="160" />',
+            'hover' : '<img src="/static/img/public/erweima.jpg" width="160" height="160" />'
           },
           {
             'name' : '联系客服',
             'sclass' : 'kefu',
             'url'  : 'http://chat16.live800.com/live800/chatClient/chatbox.jsp?companyID=611886&configID=139921&jid=3699665419',
             'icon' : '&#xe63a;',
-            'hover' : '',
+            'hover' : ''
           },
           {
             'name' : '回到顶部',
             'sclass' : 'goto',
             'url'  : '',
             'icon' : '&#xe632;',
-            'hover' : '',
+            'hover' : ''
           }
         ],
         templates = ['<ul>'],

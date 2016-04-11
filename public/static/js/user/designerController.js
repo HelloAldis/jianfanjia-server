@@ -121,7 +121,7 @@ angular.module('controllers', [])
                         minute=checkTime(Math.floor((t-day*24*60*60-hour*3600)/60)),
                         second=checkTime(Math.floor(t-day*24*60*60-hour*3600-minute*60));
                     if(intervalDate <= 0){
-                        $interval.cancel(timer)
+                        $interval.cancel(timer);
                         value.countdown = '已经过期';
                     }
                     if(day == 0){
@@ -132,7 +132,7 @@ angular.module('controllers', [])
                 }, 1000);
             }
             function checkTime(i){
-                return  i < 10 ?  "0" + i : "" + i
+                return  i < 10 ?  "0" + i : "" + i;
             }
     }])
     .controller('requirementCtrl', [     //装修需求详情配置
@@ -752,17 +752,16 @@ angular.module('controllers', [])
             }
     }])
     .controller('serviceCtrl', [     //接单服务设置
-        '$scope','$rootScope','$http','$filter','$location','userInfo','initData',
-        function($scope, $rootScope,$http,$filter,$location,userInfo,initData){
+        '$scope','$rootScope','$http','$filter','$state','userInfo','initData',
+        function($scope, $rootScope,$http,$filter,$state,userInfo,initData){
             $scope.service = {
                 motaiDone : false,
                 scoreDefineBtn : function(){
                     this.motaiDone = false;
                     this.disabled = false;
-                    $location.path('index');
+                    $state.go('index');
                 },
                 disabled : false,
-                address : initData.tdist,
                 dec_districts : [],
                 dec_districtsArr : [],
                 dec_districtsBtn : function(i,name){
@@ -783,8 +782,8 @@ angular.module('controllers', [])
                 decStyle : initData.decStyle,
                 houseType : initData.houseType,
                 designFee : initData.designFee,
-                communicationType : initData.designType,
-            }
+                communicationType : initData.designType
+            };
             userInfo.get().then(function(res){
                 $scope.designerService = res.data.data;
                 //设置默认值
@@ -801,26 +800,9 @@ angular.module('controllers', [])
                     $scope.designerService.dec_fee_all = ''
                 }
                 if(!$scope.designerService.province){
-                    $scope.designerService.province = '请选择省份';
-                    $scope.designerService.city = '请选择市';
+                    $scope.designerService.province = '湖北省';
+                    $scope.designerService.city = '武汉市';
                 }
-                $scope.$watch('service.dec_districts', function(newValue, oldValue, scope) {
-                     if(newValue.length != 0){
-                        $scope.service.dec_districtsArr = [];
-                        for (var i = 0; i < newValue.length; i++){
-                            var cur = ''
-                            if(_.indexOf($scope.designerService.dec_districts,newValue[i]) != -1){
-                                cur = 'active'
-                            }else{
-                                cur = ''
-                            }
-                            $scope.service.dec_districtsArr.push({
-                                name : newValue[i],
-                                cur : cur
-                            })
-                        };
-                     }
-                });
             },function(res){
                 console.log(res)
             });

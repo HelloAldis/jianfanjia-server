@@ -42,7 +42,7 @@ define(['jquery','lib/jquery.cookie'], function($){
               '</div>'
               ];
         if(data.length > 1){
-          strArr.push('<ul class="u-sch-ds-sel">')
+          strArr.push('<ul class="u-sch-ds-sel">');
           for (var i = 0,len = data.length; i < len; i++) {
             strArr.push('<li data-uid="'+i+'">'+data[i].title+'</li>');
           }
@@ -84,7 +84,7 @@ define(['jquery','lib/jquery.cookie'], function($){
       });
     },
     getInputVal : function(){
-      return this.nohtml($.trim(this.input.val()));
+      return this.htmlfilter($.trim(this.input.val()));
     },
     inputFocus : function(){
       var inputBox = this.container.find('.u-sch-inp'),
@@ -112,8 +112,48 @@ define(['jquery','lib/jquery.cookie'], function($){
         }
       })
     },
-    nohtml : function(value){
-      return value.replace(/({|})/g,'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    htmlfilter : function(value,parameter){
+        var setthe = {},s,p,n;
+        if(parameter != undefined){
+          setthe.fhtml = parameter.fhtml || true;
+          setthe.fjs = parameter.fjs || false;
+          setthe.fcss = parameter.fcss || false;
+          setthe.fself = parameter.fself || false;
+        }else{
+          setthe.fhtml = true;
+          setthe.fjs = false;
+          setthe.fcss = false;
+          setthe.fself = false;
+        }
+        if(typeof value === 'string'){
+          s = value;
+        }else if(typeof value === 'object'){
+          s = value.value;
+          p = value.preplace;
+          n = value.nextplace;
+        }
+        if(!s){
+          return s;
+        }
+        if (!setthe.fhtml && !setthe.fjs && !setthe.fcss && !setthe.fself){
+          setthe.fhtml = true;
+        }
+        if (setthe.fjs){
+          s = s.replace(/<\s*script[^>]*>(.|[\r\n])*?<\s*\/script[^>]*>/gi, '');
+        }
+        if (setthe.fcss){
+          s = s.replace(/<\s*style[^>]*>(.|[\r\n])*?<\s*\/style[^>]*>/gi, '');
+        }
+        if (setthe.fhtml) {
+          s = s.replace(/<\/?[^>]+>/g, '');
+          s = s.replace(/\&[a-z]+;/gi, '');
+          s = s.replace(/\s+/g, '\n');
+        }
+
+        if (setthe.fself && typeof value === 'object'){
+          s = s.replace(new RegExp(p, 'g'), n);
+        }
+        return s;
     },
     submitBtn : function(){  //生成按钮
       var submitBtn = this.container.find('form'),
@@ -122,7 +162,7 @@ define(['jquery','lib/jquery.cookie'], function($){
         self = this;
       submitBtn.on('submit',function(){
         if(!!self.getInputVal() && self.getInputVal() != '搜索'+oSapn.html()){
-          self.ajax(self.nohtml(self.getInputVal()));
+          self.ajax(self.getInputVal());
         }
         return false;
       })
@@ -247,9 +287,9 @@ define(['jquery','lib/jquery.cookie'], function($){
       var arr = [
           '<span class="arrow"><i></i></span><ul>',
           '<li><a href="/tpl/user/designer.html#/requirementList">装修需求列表<i>'+data.requirement_count+'</i></a></li>',
-          '<li><a href="/tpl/user/designer.html#/products">我的作品<i>'+data.product_count+'</i></a></li>',
+          '<li><a href="/tpl/user/designer.html#/products/1">我的作品<i>'+data.product_count+'</i></a></li>',
           '<li><a href="/tpl/user/designer.html#/favorite/1">收藏作品<i>'+data.favorite_product_count+'</i></a></li>',
-          '<li><a href="/tpl/user/designer.html#/authHeart/1">认证中心</a></li>',
+          '<li><a href="/tpl/user/designer.html#/authHeart">认证中心</a></li>',
           '<li><a href="javascript:;" class="quit">退出登录</a></li>',
           '</ul>'
         ];
@@ -363,6 +403,9 @@ define(['jquery','lib/jquery.cookie'], function($){
         this.getRequirement();
         this.addDesigners();
       }
+      if(this.usertype == 1){
+        $('#j-release').show();
+      }
       //this.supervision();
     },
     create : function(){
@@ -384,35 +427,35 @@ define(['jquery','lib/jquery.cookie'], function($){
             'sclass' : 'add',
             'url'  : '/tpl/user/owner.html#/designer/1',
             'icon' : '&#xe614;',
-            'hover' : '',
+            'hover' : ''
           },
           {
             'name' : '装修保障',
             'sclass' : 'protect',
             'url'  : '/tpl/merit/index.html',
             'icon' : '&#xe639;',
-            'hover' : '',
+            'hover' : ''
           },
           {
             'name' : '关注微信',
             'sclass' : 'weixin',
             'url'  : '',
             'icon' : '&#xe633;',
-            'hover' : '<img src="/static/img/public/erweima.jpg" width="160" height="160" />',
+            'hover' : '<img src="/static/img/public/erweima.jpg" width="160" height="160" />'
           },
           {
             'name' : '联系客服',
             'sclass' : 'kefu',
             'url'  : 'http://chat16.live800.com/live800/chatClient/chatbox.jsp?companyID=611886&configID=139921&jid=3699665419',
             'icon' : '&#xe63a;',
-            'hover' : '',
+            'hover' : ''
           },
           {
             'name' : '回到顶部',
             'sclass' : 'goto',
             'url'  : '',
             'icon' : '&#xe632;',
-            'hover' : '',
+            'hover' : ''
           }
         ],
         templates = ['<ul>'],

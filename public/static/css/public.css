@@ -913,6 +913,7 @@ a.m-head:hover{
 	-moz-transition: 0.2s ease all;
 	-o-transition: 0.2s ease all;
 	transition: 0.2s ease all;
+	display: none;
 }
 .m-release:hover{
 	background-color: #fe5c04;
