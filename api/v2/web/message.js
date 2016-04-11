@@ -226,6 +226,7 @@ exports.user_message_detail = function (req, res, next) {
             house_area: 1,
             work_type: 1,
             house_type: 1,
+            package_type: 1,
           }, callback);
         },
         plan: function (callback) {
@@ -457,6 +458,7 @@ exports.designer_message_detail = function (req, res, next) {
             house_area: 1,
             work_type: 1,
             house_type: 1,
+            package_type: 1,
           }, callback);
         },
         plan: function (callback) {
