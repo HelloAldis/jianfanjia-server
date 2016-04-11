@@ -546,15 +546,20 @@ exports.doneSection = function (req, res, next) {
             }));
           }));
         } else {
-          Process.updateStatus(_id, next, null, type.process_item_status_going,
-            ep.done(function () {
+          if (process.sections[index].status === type.process_item_status_done) {
+            // 如果下个工序已完工 ＝，就不开工它
+            res.sendSuccessMsg();
+          } else {
+            Process.updateStatus(_id, next, null, type.process_item_status_going, ep.done(function () {
               res.sendSuccessMsg();
-              if (process.work_type === type.work_type_half && [type.process_section_shui_dian, type.process_section_ni_mu,
-                  type.process_section_you_qi, type.process_section_an_zhuang
-                ].indexOf(next) > -1) {
-                message_util.user_message_type_procurement(process, next);
-              }
             }));
+          }
+
+          if (process.work_type === type.work_type_half && [type.process_section_shui_dian, type.process_section_ni_mu,
+              type.process_section_you_qi, type.process_section_an_zhuang
+            ].indexOf(next) > -1) {
+            message_util.user_message_type_procurement(process, next);
+          }
         }
       } else {
         res.sendSuccessMsg();
