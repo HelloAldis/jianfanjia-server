@@ -42,7 +42,8 @@ exports.user_my_requirement_list = function (req, res, next) {
                 designerid: designer._id,
                 requirementid: requirement._id,
               }, {
-                status: 1
+                status: 1,
+                house_check_time: 1,
               }, {
                 skip: 0,
                 limit: 1,
@@ -70,8 +71,7 @@ exports.user_my_requirement_list = function (req, res, next) {
             auth_type: 1,
           }, null, ep.done(function (designers) {
             requirement.rec_designers = designers;
-            _.forEach(requirement.rec_designers, function (
-              designer) {
+            _.forEach(requirement.rec_designers, function (designer) {
               designer_match_util.designer_match(designer,
                 requirement);
             });
