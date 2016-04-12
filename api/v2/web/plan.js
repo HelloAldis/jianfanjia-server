@@ -288,7 +288,7 @@ exports.finalPlan = function (req, res, next) {
                         username: 1,
                       }, function (err, designer) {
                         if (plans[0].status === type.plan_status_user_final) {
-                          message_util.designer_message_type_user_final_plan(user, designer, plans[0]);
+                          message_util.designer_message_type_user_final_plan(user, designer, plans[0], requirement.work_type);
                           sms.sendDesignerPlanFinaled(
                             designer.phone, [user.username, user.phone]);
                         } else if (plans[0].status === type.plan_status_user_not_final) {
