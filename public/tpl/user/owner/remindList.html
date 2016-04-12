@@ -5,10 +5,12 @@
             <h4>
                 <span  bo-if="data.message_type == 7">【响应提醒】</span>
                 <span  bo-if="data.message_type == 8">【拒绝提醒】</span>
+                <span  bo-if="data.message_type == 13">【确认量房】</span>
                 <span  bo-if="data.message_type == 9">【方案提醒】</span>
                 <span  bo-if="data.message_type == 10">【合同提醒】</span>
                 <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 7" ui-sref="requirement.score({id:data.requirementid})"></a>
                 <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 8" ui-sref="requirement.score({id:data.requirementid})"></a>
+                <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 13" ui-sref="requirement.score({id:data.requirementid})"></a>
                 <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 9" ui-sref="requirement.plan({id:data.requirementid})"></a>
                 <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 10" ui-sref="requirement.contract({id:data.requirementid})"></a>
                 <i bo-if="data.status == 0">[未读]</i>
@@ -19,6 +21,7 @@
         </div>
         <a class="u-btns u-btns-revise f-fr" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 7" ui-sref="requirement.score({id:data.requirementid})">查看详情</a>
         <a class="u-btns u-btns-revise f-fr" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 8" ui-sref="requirement.score({id:data.requirementid})">查看详情</a>
+        <a class="u-btns u-btns-revise f-fr" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 13" ui-sref="requirement.score({id:data.requirementid})">查看详情</a>
         <a class="u-btns u-btns-revise f-fr" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 9" ui-sref="requirement.plan({id:data.requirementid})">查看详情</a>
         <a class="u-btns u-btns-revise f-fr" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 10" ui-sref="requirement.contract({id:data.requirementid})">查看详情</a>
     </li>

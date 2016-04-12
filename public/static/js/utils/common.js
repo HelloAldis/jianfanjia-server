@@ -373,7 +373,7 @@ define(['jquery','lib/jquery.cookie'], function($){
         default : this.createDefault();
       }
     }
-  }
+  };
   var Goto = function(){};
   Goto.prototype = {
     init : function(options){
@@ -403,7 +403,7 @@ define(['jquery','lib/jquery.cookie'], function($){
         this.getRequirement();
         this.addDesigners();
       }
-      if(this.usertype == 1){
+      if(this.usertype == 1 || this.usertype == undefined){
         $('#j-release').show();
       }
       //this.supervision();
@@ -477,32 +477,27 @@ define(['jquery','lib/jquery.cookie'], function($){
         this.container.html(template);
     },
     setTop : function(){
-      var winheight = this.win.height(),
-        eleheight = this.container.height(),
-        top = (winheight - eleheight)/2;
-        this.container.css({'top':top});
+      var top = (this.win.height() - this.container.height())/2;
+          this.container.css({'top':top});
     },
     getPosition : function(){
-      var self = this,
-        left,
-        right,
-        width = this.win.width();
-        if(width > 1280){
-          left = (width - 1200)/2 + 1200 +20;
-          right = 'auto';
-        }else{
-          right = 0;
-          left = 'auto';
-        }
-      this.container.css({
-        left : left,
-        right : right
-      });
+      var left,
+          right,
+          width = this.win.width();
+          if(width > 1280){
+            left = (width - 1200)/2 + 1200 +20;
+            right = 'auto';
+          }else{
+            right = 0;
+            left = 'auto';
+          }
+        this.container.css({
+          left : left,
+          right : right
+        });
     },
     goto : function(){
-      var self = this,
-        $goto = this.container.find('.goto');
-        $goto.on('click',function(){
+      this.container.find('.goto').on('click',function(){
           $('html,body').animate({scrollTop: 0}, 500);
           return false;
         });
@@ -512,7 +507,7 @@ define(['jquery','lib/jquery.cookie'], function($){
       if(this.settings.scroll){
         self.container.show();
       }else{
-        var height = 800//this.win.height();
+        var height = 800 //this.win.height();
         $(window).on('scroll',function(){
           if($(this).scrollTop() > height){
             self.container.fadeIn(500);
@@ -552,9 +547,9 @@ define(['jquery','lib/jquery.cookie'], function($){
         str;
         for (var i = 0, len = data.length; i < len; i++) {
           if(data[i].dec_type == 0){
-            str = '<li><a class="" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+(!!data[i].detail_address ? data[i].detail_address : '')+(!!data[i].basic_address ? data[i].basic_address : '')+'</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
+            str = '<li><a href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+(!!data[i].detail_address ? data[i].detail_address : '')+(!!data[i].basic_address ? data[i].basic_address : '')+'</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
           }else{
-            str = '<li><a class="" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+(!!data[i].basic_address ? data[i].basic_address : '')+'</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
+            str = '<li><a href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+(!!data[i].basic_address ? data[i].basic_address : '')+'</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
           }
           sUl.push(str);
         }
@@ -607,20 +602,6 @@ define(['jquery','lib/jquery.cookie'], function($){
         }
       }
       return format;
-      /*
-      //使用方法
-        var now = new Date();
-        var nowStr = now.format("yyyy-MM-dd hh:mm:ss");
-        //使用方法2:
-        var testDate = new Date();
-        var testStr = testDate.format("YYYY年MM月dd日hh小时mm分ss秒");
-        alert(testStr);
-        //示例：
-        alert(new Date().Format("yyyy年MM月dd日"));
-        alert(new Date().Format("MM/dd/yyyy"));
-        alert(new Date().Format("yyyyMMdd"));
-        alert(new Date().Format("yyyy-MM-dd hh:mm:ss"));
-       */
     },
     hover : function(obj,top){
       var self = this,
@@ -647,14 +628,6 @@ define(['jquery','lib/jquery.cookie'], function($){
       });
     },
     addkefu : function(){
-      // (function(){
-      //  var chat = document.createElement('script');
-      //  chat.type = 'text/javascript';
-      //  chat.async = true;
-      //  chat.src = 'http://chat16.live800.com/live800/chatClient/monitor.js?jid=3699665419&companyID=611886&configID=139920&codeType=custom';
-      //  var s = document.body;
-      //  s.appendChild(chat)
-      // })();
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-45900898-17']);
        _gaq.push(['_trackPageview']);

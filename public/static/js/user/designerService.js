@@ -64,7 +64,8 @@ angular.module('services', [])
 			history : function(data){return doRequest('designer_my_requirement_history_list',data)},
 			addPlan : function(data){return doRequest('designer/plan/add',data)},
 			update : function(data){return doRequest('designer/plan/update',data)},
-			getPlan : function(data){return doRequest('one_plan',data)}
+			getPlan : function(data){return doRequest('one_plan',data)},
+            checkHouse : function(data){return doRequest('designer_remind_user_house_check',data)}
 		}
 	}])
 	.factory('userTeam', ['$http', function($http){     //获取设计师施工团队 list列表 get获取单个 add添加 remove删除 update更新
@@ -469,4 +470,4 @@ angular.module('services', [])
             goodAtList : ['水电','木工','油工','泥工'],
             bankList : ['中国工商银行','招商银行','中国农业银行','中国建设银行','中国银行','中国民生银行','中国光大银行','中信银行','交通银行','兴业银行','上海浦东发展银行','中国人民银行','华夏银行','国家开发银行','中国进出口银行','中国农业发展银行','北京银行','上海银行','中国邮政储蓄银行'],
             section : [{"name":"客厅"},{"name":"卧室"},{"name":"卫生间"},{"name":"餐厅"},{"name":"书房"},{"name":"厨房"},{"name":"儿童房"},{"name":"阳台"},{"name":"衣帽间"},{"name":"玄关"},{"name":"过道"},{"name":"休闲区"},{"name":"花园"},{"name":"地下室"},{"name":"窗台"},{"name":"楼梯"},{"name":"阁楼"},{"name":"商装"},{"name":"平面图"}]
-		})
+		});

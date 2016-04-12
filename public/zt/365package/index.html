@@ -1,55 +1,683 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>365package</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <!--[if lt IE 8]>
+    <script type="text/javascript">if(!-[1,]){window.location.href = "/tpl/other/error.html";}</script>
+    <![endif]-->
+    <title>主材火热招商--平台成就共赢</title>
+    <meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
+    <meta name="keywords" content="互联网装修,武汉装修,设计师平台,简繁家互联网装修平台,家装施工监理">
+    <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+    <script type="text/javascript" src="/static/js/lib/public.js"></script>
+    <script type="text/javascript" src="/static/js/lib/jquery.js"></script>
+    <script type="text/javascript" src="/static/js/lib/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/static/js/lib/lodash.js"></script>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/static/js/lib/ie8.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        .g-banner{
+            height: 80px;
+            padding-top: 400px;
+            background:url(img/banner.jpg) no-repeat center top;
+        }
+        .g-banner .release{
+            display: block;
+            width: 145px;
+            margin: 0 auto;
+            font-size: 18px;
+            line-height: 40px;
+            color: #fff;
+            text-align: center;
+            background-color: #fe7004;
+            border-radius: 3px;
+            -webkit-transition:all 0.5s;
+            -moz-transition:all 0.5s;
+            -o-transition:all 0.5s;
+            transition:all 0.5s;
+        }
+        .g-banner .release:hover{
+            color: #fff;
+            background-color: #fe4504;
+        }
+        .m-tt{
+            position: relative;
+            width: 930px;
+            height: 31px;
+            padding-top: 109px;
+            padding-bottom: 60px;
+            margin: 0 auto;
+        }
+        .m-tt h3{
+            position: absolute;
+            z-index: 2;
+            left:50%;
+            top:80px;
+            padding:0 50px;
+            margin-left: -319px;
+            font-size: 30px;
+            line-height: 60px;
+            font-weight: bold;
+            text-align: center;
+            color: #383d48;
+            background-color: #fff;
+            white-space:nowrap;
+        }
+        .m-tt span{
+            display: block;
+            width: 100%;
+            height: 1px;
+            overflow: hidden;
+            background-color: #ccc;
+        }
+        .g-include .m-tt h3{
+            margin-left: -224px;
+        }
+        .g-include ul{
+            position: relative;
+            width: 970px;
+            height: 380px;
+            margin: 0 auto;
+        }
+        .g-include ul li{
+            position: absolute;
+            width: 180px;
+            height: 208px;
+            overflow: hidden;
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+            background: url(img/include.png) 0 0 no-repeat;
+        }
+        .g-include ul li.list2{
+            left:198px;
+            top:0;
+            background-position: -180px 0;
+        }
+        .g-include ul li.list3{
+            left:395px;
+            top:0;
+            background-position: -360px 0;
+        }
+        .g-include ul li.list4{
+            left:593px;
+            top:0;
+            background-position: -540px 0;
+        }
+        .g-include ul li.list5{
+            left:790px;
+            top:0;
+            background-position: -720px 0;
+        }
+        .g-include ul li.list6{
+            left:100px;
+            top:172px;
+            background-position: -900px 0;
+        }
+        .g-include ul li.list7{
+            left:297px;
+            top:172px;
+            background-position: -1080px 0;
+        }
+        .g-include ul li.list8{
+            left:495px;
+            top:172px;
+            background-position: -1260px 0;
+        }
+        .g-include ul li.list9{
+            left:692px;
+            top:172px;
+            background-position: -1440px 0;
+        }
+        .g-include ul li h4{
+            padding-top: 65px;
+            font-size: 16px;
+            line-height: 30px;
+        }
+        .g-include ul li p{
+            font-size: 30px;
+            line-height: 40px;
+            font-weight: bold;
+        }
+        .g-include ul li:hover{
+            background-position:right 0;
+        }
+        .g-include .m-ct{
+            padding-bottom: 130px;
+        }
+        .g-condition{
+            height: 700px;
+            background:url(img/condition.jpg) no-repeat center top;
+        }
+        .g-condition .m-tt h3{
+            margin-left: -304px;
+            color: #fff;
+            background:url(img/condition.jpg) no-repeat center -80px;
+        }
+        .g-condition .circle{
+            position: relative;
+            width: 244px;
+            height: 244px;
+            margin: 25px auto 0;
+            padding: 4px;
+            background:url(img/circle.png) no-repeat center top;
+        }
+        .g-condition .circle .home-icon{
+            position: absolute;
+            left:50%;
+            top:50%;
+            width: 60px;
+            height: 59px;
+            margin-left: -30px;
+            margin-top: -30px;
+            background:url(img/home-icon.png) no-repeat;
+        }
+        .g-condition .circle .dot{
+            position: absolute;
+            width: 31px;
+            height: 31px;
+            overflow: hidden;
+            background:url(img/circle.png) no-repeat left bottom;
+        }
+        .g-condition .circle .dot1{
+            left:4px;
+            top:50px;
+        }
+        .g-condition .circle .dot2{
+            left:219px;
+            top:50px;
+        }
+        .g-condition .circle .dot3{
+            left:111px;
+            top:233px;
+        }
+        .g-condition .circle .txt{
+            position: absolute;
+            width: 380px;
+            font-size: 18px;
+            line-height: 27px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(0,0,0,.63);
+        }
+        .g-condition .circle .txt1{
+            left:-275px;
+            top:35px;
+        }
+        .g-condition .circle .txt2{
+            left:295px;
+            top:35px;
+        }
+        .g-condition .circle .txt3{
+            left:2px;
+            top:295px;
+        }
+        .g-content{
+            background-color: #f9f9f9;
+            padding-bottom: 85px;
+        }
+        .g-content h3{
+            background-color: #f9f9f9;
+        }
+        .g-content dl{
+            width: 968px;
+            margin: 0 auto 20px;
+            border: 1px solid #fe7004;
+            border-radius: 3px;
+            background-color: #fff;
+        }
+        .g-content dl dt{
+            padding-left: 19px;
+            font-size: 16px;
+            line-height: 39px;
+            color: #fff;
+            background-color: #fe7004;
+        }
+        .g-content dl table{
+            width: 100%;
+        }
+        .g-content dl td{
+            border: 1px solid #ccc;
+            border-left: none;
+        }
+        .g-content dl .first td{
+            border-top: none;
+        }
+        .g-content dl .last td{
+            border-bottom: none;
+        }
+        .g-content dl .td1{
+            width: 130px;
+            padding-left: 19px;
+            font-size: 14px;
+            color: #61687a;
+        }
+        .g-content dl .td2{
+            padding: 10px 28px 10px 21px;
+            line-height: 22px;
+            font-size: 14px;
+            color: #999;
+            border-right: none;
+        }
+        .g-content h4{
+            padding-left: 19px;
+            font-size: 14px;
+            line-height: 37px;
+            color: #999;
+            background-color: #f0f8fb;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+        }
+        .g-content h4.firsth4{
+            border-top: none;
+        }
+        .g-content h4 strong{
+            margin-right: 20px;
+            color: #383d48;
+        }
+        .g-material{
+            padding-bottom: 100px;
+        }
+        .g-material ul{
+            width: 975px;
+            margin: 0 auto;
+        }
+        .g-material ul li{
+            float: left;
+            margin: 0 10px 35px;
+            width: 175px;
+            height: 62px;
+            background-color: #ccc;
+        }
+        .g-material ul li img{
+            width: 175px;
+            height: 62px;
+        }
+        .apply{
+            position: fixed;
+            left:0;
+            bottom: 0;
+            z-index: 10;
+            width: 100%;
+            min-width:1200px;
+            height: 60px;
+            font-size: 24px;
+            line-height: 60px;
+            border-bottom: 1px solid #fe7004;
+            background-color: #000;
+            filter: alpha(opacity=70);
+            opacity: 1;
+            background-color: rgba(0,0,0,.7);
+        }
+        .apply h3{
+            position: relative;
+            color: #fff;
+            padding-left: 120px;
+        }
+        .apply a{
+            position: relative;
+            width: 334px;
+            text-align: center;
+            color: #fff;
+            background-color: #fe7004;
+        }
+        .apply a:hover{
+            background-color: #fe5c04;
+        }
+    </style>
 </head>
 <body>
-365package
+<div class="g-tb g-wa">
+    <div class="g-wp f-cb">
+        <a href="/tpl/download/index.html" class="m-app f-fl"><span>APP下载</span></a>
+        <a href="/zt/merchants/index.html" class="m-events f-fr">简繁家主材火热招商中</a>
+        <div class="m-user f-fr" id="j-user"></div>
+    </div>
+</div>
+<header class="g-hd g-wa" id="j-hd">
+    <div class="g-wp f-cb">
+        <hgroup class="m-logo f-fl">
+            <h1><a href="/">简繁家</a></h1>
+            <h2>我的设计师专单平台</h2>
+        </hgroup>
+        <div class="m-sch f-fl" id="j-sch"></div>
+        <div class="m-slogan f-fr" id="j-slogan">
+            <h3>简繁家实力保障</h3>
+            <p>知名风投投资</p>
+        </div>
+    </div>
+</header>
+<nav class="g-nav g-wa">
+    <div class="g-wp">
+        <ul class="m-nav f-cb">
+            <li class="active"><a href="/">首页</a></li>
+            <li><a href="/tpl/design/index.html">设计师</a></li>
+            <li><a href="/tpl/mito/index.html">装修美图 </a></li>
+            <li><a href="/tpl/live/index.html">装修直播</a></li>
+            <li><a href="/tpl/article/index.html">装修攻略</a></li>
+            <li><a href="/tpl/help/index.html">你问我答</a></li>
+        </ul>
+        <a href="/tpl/user/owner.html#release" class="m-release bounce" id="j-release"><span><i></i></span>免费获取三套方案</a>
+    </div>
+</nav>
+<div class="g-banner g-wa">
+    <div class="g-wp">
+        <a href="/tpl/user/owner.html#/release" class="release submitBtn">我要装修</a>
+    </div>
+</div>
+<main>
+    <section class="g-itme g-include">
+        <div class="g-wp">
+            <header class="m-tt">
+                <h3>9大“不限”具体指的什么</h3>
+                <span></span>
+            </header>
+            <article class="m-ct">
+                <ul>
+                    <li class="list1">
+                        <h4>地面找平面积</h4>
+                        <p>不限</p>
+                    </li>
+                    <li class="list2">
+                        <h4>墙皮铲除面积</h4>
+                        <p>不限</p>
+                    </li>
+                    <li class="list3">
+                        <h4>墙皮铲除面积</h4>
+                        <p>不限</p>
+                    </li>
+                    <li class="list4">
+                        <h4>厨卫墙地砖面积</h4>
+                        <p>不限</p>
+                    </li>
+                    <li class="list5">
+                        <h4>卫生间回填面积</h4>
+                        <p>不限</p>
+                    </li>
+                    <li class="list6">
+                        <h4>防水施工面积</h4>
+                        <p>不限</p>
+                    </li>
+                    <li class="list7">
+                        <h4>排水包管面积</h4>
+                        <p>不限</p>
+                    </li>
+                    <li class="list8">
+                        <h4>门槛石铺贴面积</h4>
+                        <p>不限</p>
+                    </li>
+                    <li class="list9">
+                        <h4>墙面乳胶漆施工面积</h4>
+                        <p>不限</p>
+                    </li>
+                </ul>
+            </article>
+        </div>
+    </section>
+    <section class="g-itme g-condition g-wa">
+        <div class="g-wp">
+            <header class="m-tt">
+                <h3>“365元/m2基础装修包”的使用条件</h3>
+                <span></span>
+            </header>
+            <article class="m-ct">
+                <div class="circle">
+                    <span class="home-icon"></span>
+                    <span class="dot dot1"></span>
+                    <span class="dot dot2"></span>
+                    <span class="dot dot3"></span>
+                    <p class="txt txt1">报价基于建筑面积为标准来计<br />算，每平米价格为365元。</p>
+                    <p class="txt txt2">只适用于建筑面积在80至120<br />平米内户型。</p>
+                    <p class="txt txt3">内的所有标配项目不能抵现金或<br />转化为工程其它项目金额使用。</p>
+                </div>
+            </article>
+        </div>
+    </section>
+    <section class="g-itme g-content">
+        <div class="g-wp">
+            <header class="m-tt">
+                <h3>“365元/m2基础装修包”包括哪些内容</h3>
+                <span></span>
+            </header>
+            <article class="m-ct">
+                <dl>
+                    <dt>基础工程</dt>
+                    <dd>
+                        <table>
+                            <tr class="first">
+                                <td class="td1">全房找平</td>
+                                <td class="td2">自流平工艺（5mm）、水泥沙浆工艺（20-30mm）</td>
+                            </tr>
+                            <tr>
+                                <td class="td1">全房墙皮铲除</td>
+                                <td class="td2">不含外墙墙皮铲除</td>
+                            </tr>
+                            <tr class="last">
+                                <td class="td1">工程量要求</td>
+                                <td class="td2">面积不限</td>
+                            </tr>
+                        </table>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>水电工程</dt>
+                    <dd>
+                        <h4 class="firsth4"><strong>水路改造</strong><span>（全房给排水改造）</span></h4>
+                        <table>
+                            <tr class="first">
+                                <td class="td1">材料</td>
+                                <td class="td2">爱康”白色给（热）水管材及管件；“联塑”排水管材及管件；“爱康”入户水阀；水泥、沙石等相关辅材</td>
+                            </tr>
+                            <tr>
+                                <td class="td1">工艺</td>
+                                <td class="td2">水路走顶或走地</td>
+                            </tr>
+                            <tr class="last">
+                                <td class="td1">工程量要求</td>
+                                <td class="td2">卫生间、厨房冷热水点位不限，阳台冷水点位最多2 个</td>
+                            </tr>
+                        </table>
+                        <h4><strong>电路改造</strong><span>（全房强弱电改造）</span></h4>
+                        <table>
+                            <tr class="first">
+                                <td class="td1">材料</td>
+                                <td class="td2">武汉二厂“飞鹤”牌单芯强电线；“秋叶原”牌超五类网线、160网电视线及四芯单股电话线；“爱康”牌线管； 水泥、沙石
+                                    等相关辅材；（不含强弱电箱、不含柜机用保护开关）</td>
+                            </tr>
+                            <tr>
+                                <td class="td1">工艺</td>
+                                <td class="td2">通行标准工艺</td>
+                            </tr>
+                            <tr class="last">
+                                <td class="td1">工程量要求</td>
+                                <td class="td2">开关、插座点位不限</td>
+                            </tr>
+                        </table>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>泥工工程</dt>
+                    <dd>
+                        <h4 class="firsth4"><strong>墙地砖工程</strong><span>（厨卫、阳台墙地砖铺贴）</span></h4>
+                        <table>
+                            <tr class="first">
+                                <td class="td1">材料</td>
+                                <td class="td2">武汉二厂“飞鹤”牌单芯强电线；“秋叶原”牌超五类网线、160网电视线及四芯单股电话线；“爱康”牌线管； 水泥、沙石
+                                    等相关辅材；（不含强弱电箱、不含柜机用保护开关）</td>
+                            </tr>
+                            <tr>
+                                <td class="td1">工艺</td>
+                                <td class="td2">通行标准工艺</td>
+                            </tr>
+                            <tr class="last">
+                                <td class="td1">工程量要求</td>
+                                <td class="td2">开关、插座点位不限</td>
+                            </tr>
+                        </table>
+                        <h4><strong>卫生间回填</strong></h4>
+                        <table>
+                            <tr class="first">
+                                <td class="td1">材料</td>
+                                <td class="td2">水泥、沙石；建筑渣土</td>
+                            </tr>
+                            <tr>
+                                <td class="td1">工艺</td>
+                                <td class="td2">渣土回填及沙浆找平</td>
+                            </tr>
+                            <tr class="last">
+                                <td class="td1">工程量要求</td>
+                                <td class="td2">卫生间回填面积不限，并包括卫生间地漏及蹲便器安装</td>
+                            </tr>
+                        </table>
+                        <h4><strong>排水包管</strong></h4>
+                        <table>
+                            <tr class="first">
+                                <td class="td1">材料</td>
+                                <td class="td2">水泥、沙以及轻质墙砖或水泥板</td>
+                            </tr>
+                            <tr>
+                                <td class="td1">工艺</td>
+                                <td class="td2">通用包管工艺</td>
+                            </tr>
+                            <tr class="last">
+                                <td class="td1">工程量要求</td>
+                                <td class="td2">包管数量不限</td>
+                            </tr>
+                        </table>
+                        <h4><strong>门槛石铺贴</strong></h4>
+                        <table>
+                            <tr class="first">
+                                <td class="td1">材料</td>
+                                <td class="td2">水泥沙浆等辅材；不含门槛石等主材</td>
+                            </tr>
+                            <tr>
+                                <td class="td1">工艺</td>
+                                <td class="td2">水泥沙浆湿贴</td>
+                            </tr>
+                            <tr class="last">
+                                <td class="td1">工程量要求</td>
+                                <td class="td2">铺贴量不限</td>
+                            </tr>
+                        </table>
+                        <h4><strong>防水工程</strong></h4>
+                        <table>
+                            <tr class="first">
+                                <td class="td1">材料</td>
+                                <td class="td2">东方雨虹防水涂料；其它相关辅材</td>
+                            </tr>
+                            <tr>
+                                <td class="td1">工艺</td>
+                                <td class="td2">交叉涂刷两遍，地面防水涂刷至地面以上300mm，淋浴区防水涂刷至地面以上1800mm</td>
+                            </tr>
+                            <tr class="last">
+                                <td class="td1">工程量要求</td>
+                                <td class="td2">厨卫、阳台全防水工程量不限</td>
+                            </tr>
+                        </table>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>墙面工程</dt>
+                    <dd>
+                        <h4 class="firsth4"><strong>墙顶面工程</strong></h4>
+                        <table>
+                            <tr class="first">
+                                <td class="td1">材料</td>
+                                <td class="td2">多乐士乳胶漆面漆；优力邦胶水、腻子粉；膏灰等其它辅材</td>
+                            </tr>
+                            <tr>
+                                <td class="td1">工艺</td>
+                                <td class="td2">腻子两遍，乳胶漆面漆两遍</td>
+                            </tr>
+                            <tr class="last">
+                                <td class="td1">工程量要求</td>
+                                <td class="td2">工程施工面积不限量，乳胶漆颜色三色以内</td>
+                            </tr>
+                        </table>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>其它费用</dt>
+                    <dd>
+                        <table>
+                            <tr class="first">
+                                <td class="td2">部分洁具及五金挂件安装费</td>
+                            </tr>
+                            <tr class="last">
+                                <td class="td2">垃圾清运、材料运输、材料搬运</td>
+                            </tr>
+                        </table>
+                    </dd>
+                </dl>
+            </article>
+        </div>
+    </section>
+    <section class="g-itme g-material">
+        <div class="g-wp">
+            <header class="m-tt">
+                <h3>“365元/m2基础装修包”辅材品牌介绍</h3>
+                <span></span>
+            </header>
+            <article class="m-ct">
+                <ul class="f-cb">
+                    <li><img src="img/material1.jpg" alt=""></li>
+                    <li><img src="img/material2.jpg" alt=""></li>
+                    <li><img src="img/material3.jpg" alt=""></li>
+                    <li><img src="img/material4.jpg" alt=""></li>
+                    <li><img src="img/material5.jpg" alt=""></li>
+                    <li><img src="img/material6.jpg" alt=""></li>
+                    <li><img src="img/material7.jpg" alt=""></li>
+                    <li><img src="img/material8.jpg" alt=""></li>
+                    <li><img src="img/material9.jpg" alt=""></li>
+                    <li><img src="img/material10.jpg" alt=""></li>
+            </article>
+        </div>
+    </section>
+</main>
+<div class="apply">
+    <div class="g-wp">
+        <h3 class="f-fl">简繁家365核心装修包不限量首发</h3>
+        <a href="/tpl/user/owner.html#/release" class="f-fr submitBtn">我要装修</a>
+    </div>
+</div>
+<footer class="g-ft g-wa">
+    <div class="g-wp">
+        <ul>
+            <li class="first"><a href="/tpl/about/owenr.html"><strong>业主指南</strong><em>业主指南</em></a></li>
+            <li><a href="/tpl/about/design.html"><strong>设计师指南</strong><em>设计师指南</em></a></li>
+            <li><a href="/tpl/article/index.html"><strong>装修攻略</strong><em>装修攻略</em></a></li>
+            <li><a href="/tpl/about/index.html"><strong>关于我们</strong><em>关于我们</em></a></li>
+            <li class="last"><a href="/tpl/about/contact.html"><strong>联系我们</strong><em>联系我们</em></a></li>
+        </ul>
+        <p>免责声明：本网站部分内容由用户自行上传，如权利人发现存在误传其作品情形，请及时与本站联系。</p>
+        <p>Copyright © 2015-2016 jianfanjia.com   All Rights Reserved   武汉家易装科技有限公司   隐私权政策 鄂ICP备15014103号</p>
+    </div>
+</footer>
+<script type="text/javascript" src="/static/js/utils/usercommon.js"></script>
+<script>
+    $(function(){
+        var type = $.cookie('usertype');
+        var link = $('.submitBtn');
+        if(type === '1'){
+            link.attr('href','/tpl/user/owner.html#/release');
+        }else if(type === '2'){
+            link.attr('href','javascript:;');
+        }else{
+            link.attr('href','/tpl/user/login.html?'+window.location.origin+'/tpl/user/owner.html#/release');
+        }
+    })
+</script>
 </body>
 </html>
 <script>
-
-
-    function htmlfilter(value,parameter){
-        var setthe = {};
-        if(parameter != undefined){
-            setthe.fhtml = parameter.fhtml || true;
-            setthe.fjs = parameter.fjs || false;
-            setthe.fcss = parameter.fcss || false;
-            setthe.fself = parameter.fself || false;
-        }else{
-            setthe.fhtml = true;
-            setthe.fjs = true;
-            setthe.fcss = false;
-            setthe.fself = false;
-        }
-        if(typeof value === 'string'){
-            var s = value;
-        }else if(typeof value === 'object'){
-            var s = value.value;
-            var p = value.preplace;
-            var n = value.nextplace;
-        }
-        if(!s){
-            return s;
-        }
-        if (!setthe.fhtml && !setthe.fjs && !setthe.fcss && !setthe.fself)
-            setthe.fhtml = true;
-        if (setthe.fjs)
-            s = s.replace(/<\s*script[^>]*>(.|[\r\n])*?<\s*\/script[^>]*>/gi, '');
-        if (setthe.fcss)
-            s = s.replace(/<\s*style[^>]*>(.|[\r\n])*?<\s*\/style[^>]*>/gi, '');
-        if (setthe.fhtml) {
-            s = s.replace(/<\/?[^>]+>/g, '');
-            s = s.replace(/\&[a-z]+;/gi, '');
-            s = s.replace(/\s+/g, '\n');
-        }
-        if (setthe.fself && typeof value === 'object'){
-            s = s.replace(new RegExp(p, 'g'), n);
-        }
-        return s;
-    }
-
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?66d38d3af612ed7c0979211372aa9682";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
 </script>
-<script>alert('ok')</script>

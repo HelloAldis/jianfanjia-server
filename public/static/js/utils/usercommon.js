@@ -395,9 +395,8 @@ var Search = function(){}
       if(this.settings.shop && this.usertype == 1){
         this.getRequirement();
         this.addDesigners();
-
       }
-      if(this.usertype == 1){
+      if(this.usertype == 1 || this.usertype == undefined){
         $('#j-release').show();
       }
       //this.supervision();

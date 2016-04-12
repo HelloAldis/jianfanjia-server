@@ -4,7 +4,7 @@ angular.module('controllers', [])
         function($scope, $rootScope ,userMessage){
             $scope.count = {};
             userMessage.count({
-                "query_array":[["4"], ["7", "8","9","10"],["5"]]
+                "query_array":[["4"], ["7", "8","13","9","10"],["5"]]
             }).then(function(res){
                 $scope.count.notice = res.data.data[0];
                 $scope.count.remind = res.data.data[1];
@@ -789,7 +789,7 @@ angular.module('controllers', [])
             });
         };
     }])
-   .controller('favoriteProductCtrl', [     //作品收藏列表
+    .controller('favoriteProductCtrl', [     //作品收藏列表
         '$scope','$state','$filter','userFavoriteProduct',function($scope,$state,$filter,userFavoriteProduct){
             $scope.designers = undefined;
             var _index = parseInt($state.params.id) !== NaN ? parseInt($state.params.id) - 1 : 0,
@@ -908,19 +908,19 @@ angular.module('controllers', [])
         '$scope','$state','userMessage',function($scope,$state,userMessage){
             $scope.notice = {
                 name : '',
-                "arr" : "4-13",
+                "arr" : "4-99",
                 tab : [
                     {
                         id : 0,
                         name : '全部',
                         cur : true,
-                        arr : "4-13"
+                        arr : "4-99"
                     },
                     {
                         id : 1,
                         name : '官方公告',
                         cur : false,
-                        arr : "13"
+                        arr : "99"
                     },
                     {
                         id : 2,
@@ -959,13 +959,13 @@ angular.module('controllers', [])
                         },
                         "status": status
                     },
-                    "from": _index*3,
-                    "limit":3
+                    "from": _index*10,
+                    "limit":10
                 },
                 current = _index,
                 url = {
                     '4' : 'index'
-                }
+                };
             $scope.noticeList = {
                 "list" : undefined,
                 read : function(id,status){
@@ -995,7 +995,7 @@ angular.module('controllers', [])
             };
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userMessage.count({
-                    "query_array":[["4"], ["7", "8","9","10"],["5"]]
+                    "query_array":[["4"], ["7", "8","13","9","10"],["5"]]
                 }).then(function(res){
                     $scope.count.notice = res.data.data[0];
                     $scope.count.remind = res.data.data[1];
@@ -1049,7 +1049,7 @@ angular.module('controllers', [])
             }
             laod();
         }])
-        .controller('noticeDetailCtrl', [     //系统通知详情
+    .controller('noticeDetailCtrl', [     //系统通知详情
             '$scope','$state','userMessage',function($scope,$state,userMessage){
             var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
                 message_type = ChangeArray($state.params.type),
@@ -1061,8 +1061,8 @@ angular.module('controllers', [])
                         },
                         "status": status
                     },
-                    "from": _index*3,
-                    "limit":3
+                    "from": _index*10,
+                    "limit":10
                 },
                 current = _index;
             $scope.remindList = {
@@ -1079,7 +1079,7 @@ angular.module('controllers', [])
             };
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userMessage.count({
-                    "query_array":[["4"], ["7", "8","9","10"],["5"]]
+                    "query_array":[["4"], ["7", "8","13","9","10"],["5"]]
                 }).then(function(res){
                     $scope.count.notice = res.data.data[0];
                     $scope.count.remind = res.data.data[1];
@@ -1103,13 +1103,13 @@ angular.module('controllers', [])
         '$scope','$state','userMessage',function($scope,$state,userMessage){
             $scope.remind = {
                 "name" : '',
-                "arr" : "7-8-9-10",
+                "arr" : "7-8-13-9-10",
                 "tab" : [
                     {
                         "id" : 0,
                         "name" : '全部',
                         "cur" : false,
-                        "arr" : "7-8-9-10"
+                        "arr" : "7-8-13-9-10"
                     },
                     {
                         "id" : 1,
@@ -1125,12 +1125,18 @@ angular.module('controllers', [])
                     },
                     {
                         "id" : 3,
+                        "name" : '确认量房',
+                        "cur" : false,
+                        "arr" : "13"
+                    },
+                    {
+                        "id" : 4,
                         "name" : '方案提醒',
                         "cur" : false,
                         "arr" : "9"
                     },
                     {
-                        "id" : 4,
+                        "id" : 5,
                         "name" : '合同提醒',
                         "cur" : false,
                         "arr" : "10"
@@ -1166,8 +1172,8 @@ angular.module('controllers', [])
                         },
                         "status": status
                     },
-                    "from": _index*3,
-                    "limit":3
+                    "from": _index*10,
+                    "limit":10
                 },
                 current = _index;
             $scope.remindList = {
@@ -1183,7 +1189,7 @@ angular.module('controllers', [])
             };
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userMessage.count({
-                    "query_array":[["4"], ["7", "8","9","10"],["5"]]
+                    "query_array":[["4"], ["7", "8","9","10","13"],["5"]]
                 }).then(function(res){
                     $scope.count.notice = res.data.data[0];
                     $scope.count.remind = res.data.data[1];
@@ -1241,8 +1247,8 @@ angular.module('controllers', [])
         '$scope','$state','userMessage',function($scope,$state,userMessage){
             var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
                 dataPage = {
-                    "from": _index*5,
-                    "limit":5
+                    "from": _index*10,
+                    "limit":10
                 },
                 current = _index,
                 status = undefined;

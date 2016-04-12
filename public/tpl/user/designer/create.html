@@ -97,19 +97,19 @@
 							<tr class="tbody" ng-if="designerPlan.packagetype == 0">
 								<td>&nbsp;&nbsp;&nbsp;</td>
 							</tr>
-							<tr ng-repeat="list in plan.price_detail" ng-if="designerPlan.packagetype == 0">
+							<tr ng-repeat="list in plan.price_detail" ng-if="designerPlan.packagetype == 0 && plan.price_detail">
 								<td class="td1"><span bo-text="list.item"></span></td>
 								<td class="td2"><input type="text" class="input" placeholder="请输入8位以内整数" my-placeholder ng-model="list.price" ng-blur="designerPlan.computePrice()" model-format="int" /></td>
 								<td class="td3"><input type="text" ng-model="list.description" /></td>
 								<td class="td4"><a href="javascript:;" ng-click="designerPlan.remove_price_detail($index)"><i class="iconfont2">&#xe619;</i></a></td>
 							</tr>
-							<tr class="packagetype" ng-repeat="list in plan.price_detail" ng-if="designerPlan.packagetype == 1 && $index == 0">
+							<tr class="packagetype" ng-repeat="list in plan.price_detail" ng-if="designerPlan.packagetype == 1 && $index == 0  && plan.price_detail">
 								<td class="td1"><span bo-text="list.item"></span></td>
 								<td class="td2"><strong bo-text="list.price | number"></strong></td>
 								<td class="td3"><p ng-bind-html="list.description | to_trusted"></p></td>
 								<td class="td4">&nbsp;&nbsp;&nbsp;</td>
 							</tr>
-							<tr ng-repeat="list in plan.price_detail" ng-if="designerPlan.packagetype == 1 && $index > 0">
+							<tr ng-repeat="list in plan.price_detail" ng-if="designerPlan.packagetype == 1 && $index > 0  && plan.price_detail">
 								<td class="td1"><span bo-text="list.item"></span></td>
 								<td class="td2"><input type="text" class="input" placeholder="请输入8位以内整数" my-placeholder ng-model="list.price" ng-blur="designerPlan.computePrice()" model-format="int" /></td>
 								<td class="td3"><input type="text" ng-model="list.description" /></td>

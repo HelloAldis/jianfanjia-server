@@ -185,6 +185,7 @@ angular.module('controllers', [])
                 console.log(res)
             });
         }
+        var owenrTimer = null;
         $scope.owenr = {
             startDate : '',
             motaiReject : false,
@@ -222,7 +223,10 @@ angular.module('controllers', [])
                 $scope.owenr.response = true;
                 $scope.owenr.motaiAnswer = false;
             },
-            answerOwenr : function(){    //响应业主提交
+            /**
+             * 响应业主提交
+             */
+            answerOwenr : function(){
                 if(!$scope.owenr.startDate){
                     alert('请设置量房时间')
                 }else if($scope.owenr.startDate < (new Date()).getTime()){
@@ -239,25 +243,62 @@ angular.module('controllers', [])
                     });
                 }
             },
-            rejectOwenr : function(){    //拒绝业主提交
+            /**
+             * 拒绝业主提交
+             */
+            rejectOwenr : function(){
                 if(!$scope.owenr.rejectMessage && !$scope.owenr.message){
                     alert('请填写拒绝接单原因')
                 }else{
                      userRequiremtne.reject({
                       "requirementid": requiremtneId,
                       "reject_respond_msg": $scope.owenr.rejectMessage +" "+ $scope.owenr.message
-                    }).then(function(res){    //获取我的方案列表
+                    }).then(function(res){
                         $scope.owenr.motaiReject = false;
                     },function(res){
                         console.log(res)
                     });
                 }
             },
-            rejectCancelBtn : function(){  //取消拒绝业主
+            /**
+             * 取消拒绝业主
+             */
+            rejectCancelBtn : function(){
                 $scope.owenr.response = true;
                 $scope.owenr.motaiReject = false;
-            }
-        }
+            },
+            /**
+             * 提醒业主确认量房
+             * @param planid  设计师标识id
+             * @param userid  业主id
+             */
+            checkHouse : function(planid,userid){
+                var _this = this;
+                $timeout.cancel(owenrTimer);
+                userRequiremtne.checkHouse({
+                    "planid": planid,
+                    "userid": userid
+                }).then(function(res){
+                    if(!!res.data.err_msg && res.data.err_msg === "ratelimit forbidden. limit is 1 per day."){
+                        _this.checkHouseError = true;
+                        owenrTimer = $timeout(function(){
+                            _this.checkHouseError = false;
+                            $timeout.cancel(owenrTimer);
+                        },3000);
+                    }else if(!!res.data.msg && res.data.msg === "success"){
+                        _this.checkHouseSuccess = true;
+                        owenrTimer = $timeout(function(){
+                            _this.checkHouseSuccess = false;
+                            $timeout.cancel(owenrTimer);
+                        },3000);
+                    }
+                },function(res){
+                    console.log(res)
+                });
+            },
+            checkHouseSuccess : false,
+            checkHouseError : false
+        };
         // 三方合同
         function myContract(){   //获取我的第三方合同
             userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){
@@ -343,7 +384,7 @@ angular.module('controllers', [])
                 "total_design_fee":undefined,
                 "project_price_after_discount":undefined,
                 "project_price_before_discount":undefined,
-                "price_detail":undefined,
+                "price_detail": [],
                 "description":"",
                 "manager": "",
                 "images" : []
@@ -352,7 +393,7 @@ angular.module('controllers', [])
                 angular.forEach(res.data.data, function(value, key){
                     $scope.designerPlan.managers.push(value.manager)
                 });
-                $scope.designerPlan.addteam = !$scope.designerPlan.managers.length
+                $scope.designerPlan.addteam = !$scope.designerPlan.managers.length;
                 if(!$scope.designerPlan.isCreate){
                     $scope.plan.manager = $scope.designerPlan.managers[0];
                 }
@@ -384,15 +425,16 @@ angular.module('controllers', [])
                $scope.plan.userid = $state.params.userid;
                $scope.plan.requirementid = $scope.designerPlan.requiremtneId;
                 if($scope.designerPlan.packagetype === '1'){
-                    $scope.plan.price_detail = initData.priceDetail365;
+                    $scope.plan.price_detail = initData.priceDetail365.slice(0);
                     $scope.plan.price_detail[0].price = $scope.designerPlan.baseprice;
                 }else{
-                    $scope.plan.price_detail = initData.priceDetail;
+                    $scope.plan.price_detail = initData.priceDetail.slice(0);
                 }
+                console.log($scope.plan.price_detail);
             }
             $scope.designerPlan.remove_price_detail = function(id){
                 if(confirm('您确定要删除吗？')){
-                    $scope.plan.price_detail.splice(id,1)
+                    $scope.plan.price_detail.splice(id,1);
                     this.computePrice()
                 }
             };
@@ -460,7 +502,7 @@ angular.module('controllers', [])
                     return ;
                 }
                 if($scope.designerPlan.worktype == 2){
-                    $scope.plan.manager == ''
+                    $scope.plan.manager = ''
                     $scope.plan.duration = 0;
                     $scope.plan.total_price = 0;
                 }
@@ -472,11 +514,32 @@ angular.module('controllers', [])
                         console.log(res)
                     });
                 }else{
+                    /**
+                     * 清除未填写项目
+                     */
                     _.remove($scope.plan.price_detail, function(n) {
                        return n.price == undefined;
                     });
+                    /**
+                     * ng bug 自定义服务数据会被覆盖，还原数据初始化，以免引起bug
+                     */
+                    _.forEach(initData.priceDetail365, function(value, key){
+                        value.price = undefined;
+                        if(key > 0){
+                            value.description = "";
+                        }
+                    });
+                    /**
+                     * ng bug 自定义服务数据会被覆盖，还原数据初始化，以免引起bug
+                     */
+                    _.forEach(initData.priceDetail, function(value){
+                        value.price = undefined;
+                        value.description = "";
+                    });
                     userRequiremtne.addPlan($scope.plan).then(function(res){  //提交方案到业主的需求
-                        $state.go('requirement.plan',{id:This.requiremtneId});
+                        if(!!res.data.msg && res.data.msg === "success"){
+                            $state.go('requirement.plan',{id:This.requiremtneId});
+                        }
                     },function(res){
                         console.log(res)
                     });
@@ -1142,8 +1205,8 @@ angular.module('controllers', [])
                         },
                         "status": status
                     },
-                    "from": _index*3,
-                    "limit":3
+                    "from": _index*10,
+                    "limit":10
                 },
                 current = _index,
                 url = {
@@ -1258,8 +1321,8 @@ angular.module('controllers', [])
                         },
                         "status": status
                     },
-                    "from": _index*3,
-                    "limit":3
+                    "from": _index*10,
+                    "limit":10
                 },
                 current = _index;
             $scope.remindList = {
@@ -1369,8 +1432,8 @@ angular.module('controllers', [])
                         },
                         "status": status
                     },
-                    "from": _index*3,
-                    "limit":3
+                    "from": _index*10,
+                    "limit":10
                 },
                 current = _index;
             $scope.remindList = {
@@ -1445,8 +1508,8 @@ angular.module('controllers', [])
         '$scope','$state','userMessage',function($scope,$state,userMessage){
             var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
                 dataPage = {
-                    "from": _index*5,
-                    "limit":5
+                    "from": _index*10,
+                    "limit":10
                 },
                 current = _index,
                 status = undefined;
