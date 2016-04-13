@@ -187,6 +187,7 @@ angular.module('controllers', [])
         }
         var owenrTimer = null;
         $scope.owenr = {
+            newDate : +new Date(),
             startDate : '',
             motaiReject : false,
             motaiAnswer : false,
@@ -347,6 +348,140 @@ angular.module('controllers', [])
     .controller('createCtrl', [     //方案创建和更新
         '$scope','$rootScope','$http','$filter','$state','$stateParams','$timeout','userRequiremtne','userTeam','initData',
         function($scope, $rootScope,$http,$filter,$state,$stateParams,$timeout,userRequiremtne,userTeam,initData) {
+            var priceDetail = [
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "基础工程"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "水电工程"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "客餐厅及走道"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "主卧"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "次卧"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "客卧"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "衣帽间"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "书房"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "厨房"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "主卫"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "客卫"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "阳台一"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "阳台二"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "安装工程"
+                }
+            ],
+            priceDetail365 = [
+                {
+                    "description": "“365基础包”包含以下项目：1､基础工程；2､水电工程；3､泥工工程；4､墙面工程；5､其它费用。",
+                    "price": undefined,
+                    "item": "365基础包"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "客餐厅及走道"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "主卧"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "次卧"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "客卧"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "衣帽间"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "书房"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "厨房"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "主卫"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "客卫"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "阳台一"
+                },
+                {
+                    "description": "",
+                    "price": undefined,
+                    "item": "阳台二"
+                }
+            ];
             $scope.designerPlan = {
                 tab : true,
                 addteam : false,
@@ -354,6 +489,7 @@ angular.module('controllers', [])
                 tabBtn : function(i){
                     this.tab = i;
                     this.totalprice = !i;
+                    this.computePrice();
                 },
                 isCreate : $state.params.username === undefined ? true : false,
                 disabled : false,
@@ -368,13 +504,8 @@ angular.module('controllers', [])
                 packagetype : $state.params.packagetype,
                 baseprice : $state.params.baseprice
             };
-            console.log($state.params)
-            $scope.$watch('designerPlan.add_price_detail_name', function(newValue, oldValue, scope){
-                if(!!newValue){
-                    $scope.designerPlan.add_price_detail_ok = true;
-                }else{
-                    $scope.designerPlan.add_price_detail_ok = false;
-                }
+            $scope.$watch('designerPlan.add_price_detail_name', function(newValue){
+                $scope.designerPlan.add_price_detail_ok = !!newValue
             });
             $scope.plan = {
                 "userid": undefined,
@@ -388,7 +519,7 @@ angular.module('controllers', [])
                 "description":"",
                 "manager": "",
                 "images" : []
-            }
+            };
             userTeam.list().then(function(res){  //获取该设计师施工团队
                 angular.forEach(res.data.data, function(value, key){
                     $scope.designerPlan.managers.push(value.manager)
@@ -425,12 +556,11 @@ angular.module('controllers', [])
                $scope.plan.userid = $state.params.userid;
                $scope.plan.requirementid = $scope.designerPlan.requiremtneId;
                 if($scope.designerPlan.packagetype === '1'){
-                    $scope.plan.price_detail = initData.priceDetail365.slice(0);
+                    $scope.plan.price_detail = priceDetail365.slice(0);
                     $scope.plan.price_detail[0].price = $scope.designerPlan.baseprice;
                 }else{
-                    $scope.plan.price_detail = initData.priceDetail.slice(0);
+                    $scope.plan.price_detail = priceDetail.slice(0);
                 }
-                console.log($scope.plan.price_detail);
             }
             $scope.designerPlan.remove_price_detail = function(id){
                 if(confirm('您确定要删除吗？')){
@@ -519,22 +649,6 @@ angular.module('controllers', [])
                      */
                     _.remove($scope.plan.price_detail, function(n) {
                        return n.price == undefined;
-                    });
-                    /**
-                     * ng bug 自定义服务数据会被覆盖，还原数据初始化，以免引起bug
-                     */
-                    _.forEach(initData.priceDetail365, function(value, key){
-                        value.price = undefined;
-                        if(key > 0){
-                            value.description = "";
-                        }
-                    });
-                    /**
-                     * ng bug 自定义服务数据会被覆盖，还原数据初始化，以免引起bug
-                     */
-                    _.forEach(initData.priceDetail, function(value){
-                        value.price = undefined;
-                        value.description = "";
                     });
                     userRequiremtne.addPlan($scope.plan).then(function(res){  //提交方案到业主的需求
                         if(!!res.data.msg && res.data.msg === "success"){
@@ -1154,19 +1268,19 @@ angular.module('controllers', [])
         '$scope','$state','userMessage',function($scope,$state,userMessage){
             $scope.notice = {
                 name : '',
-                "arr" : "2-5-6-7-8-9-10-11-12-13-21",
+                "arr" : "2-5-6-7-8-9-10-11-12-13-99",
                 tab : [
                     {
                         id : 0,
                         name : '全部',
                         cur : true,
-                        arr : "2-5-6-7-8-9-10-11-12-13-21"
+                        arr : "2-5-6-7-8-9-10-11-12-13-99"
                     },
                     {
                         id : 1,
                         name : '官方公告',
                         cur : false,
-                        arr : "21"
+                        arr : "99"
                     },
                     {
                         id : 2,
@@ -1177,7 +1291,7 @@ angular.module('controllers', [])
                 ],
                 goto : function(id){
                     var _this = this;
-                    angular.forEach(this.tab,function(v,k){
+                    angular.forEach(this.tab,function(v){
                         v.cur = false;
                         _this.tab[id].cur = true;
                         _this.name = _this.tab[id].name;
@@ -1185,12 +1299,8 @@ angular.module('controllers', [])
                     });
                 }
             };
-            angular.forEach($scope.notice.tab,function(v,k){
-                if(v.arr == $state.params.type){
-                    v.cur = true;
-                }else{
-                    v.cur = false;
-                }
+            angular.forEach($scope.notice.tab,function(v){
+                v.cur = v.arr == $state.params.type
             });
         }])
     .controller('noticeListCtrl', [     //系统通知列表
@@ -1220,7 +1330,7 @@ angular.module('controllers', [])
                     '11': 'products.list',
                     '12': 'products.list',
                     '13': 'products.list',
-                    '21': ''
+                    '99': ''
                 };
             $scope.noticeList = {
                 "list" : undefined,

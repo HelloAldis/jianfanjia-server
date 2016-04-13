@@ -415,7 +415,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             }
             quote.append(tableDiv);
             var price = $('<div class="price f-fl"></div>');
-            var after = data.project_price_after_discount ? '<li>工程折后价<span>&yen;<i>'+commaNumber(data.project_price_after_discount)+'</i></span></li>' : '';
+            var after = !!data.project_price_after_discount ? '<li>工程折后价<span>&yen;<i>'+commaNumber(data.project_price_after_discount)+'</i></span></li>' : '';
             var costs = data.requirement.package_type === '1' && data.price_detail.length && data.price_detail[0] && data.price_detail[0].item === '365基础包';
             var costsbasis = costs ? '<li>基础费用<span>&yen;<i>'+commaNumber( data.price_detail[0].price )+'</i></span></li>' : '';
             var costsdiy = costs ? '<li>个性化费用<span>&yen;<i>'+commaNumber( data.project_price_before_discount - data.price_detail[0].price )+'</i></span></li>' : '';

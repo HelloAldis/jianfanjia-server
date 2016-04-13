@@ -1,8 +1,8 @@
 <div class="main m-requirement" bindonce="requirement" ng-controller="requirementCtrl">
 	<div class="m-tt">
 		<h2 class="f-fl">
-			<span bo-if="requirement.dec_type == 0 && requirement.detail_address" bo-text="requirement.detail_address"></span>
 			<span bo-if="requirement.basic_address" bo-text="requirement.basic_address"></span>
+			<span bo-if="requirement.detail_address" bo-text="requirement.detail_address"></span>
 		</h2>
 		<a ui-sref="history" ng-if="requirement.plan.status == 1 || requirement.plan.status == 7 || requirement.plan.status == 8 || requirement.plan.status == 4" class="f-fr u-btns u-btns-revise returnList">返回历史装修列表</a>
 		<a ui-sref="requirementList" ng-if="requirement.plan.status == 0 || requirement.plan.status == 2 || requirement.plan.status == 2 || requirement.plan.status == 5 || requirement.plan.status == 6"  class="f-fr u-btns u-btns-revise returnList">返回装修需求列表</a>

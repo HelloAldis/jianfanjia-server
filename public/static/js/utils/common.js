@@ -546,11 +546,7 @@ define(['jquery','lib/jquery.cookie'], function($){
         sUl = ['<ul>'],
         str;
         for (var i = 0, len = data.length; i < len; i++) {
-          if(data[i].dec_type == 0){
-            str = '<li><a href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+(!!data[i].detail_address ? data[i].detail_address : '')+(!!data[i].basic_address ? data[i].basic_address : '')+'</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
-          }else{
-            str = '<li><a href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+(!!data[i].basic_address ? data[i].basic_address : '')+'</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
-          }
+          str = '<li><a title="'+(!!data[i].basic_address ? data[i].basic_address : '')+(!!data[i].detail_address ? data[i].detail_address : '')+'" href="/tpl/user/owner.html#/requirement/'+data[i]._id+'/booking"><span><i class="iconfont2">&#xe61f;</i><strong>'+(!!data[i].basic_address ? data[i].basic_address : '')+(!!data[i].detail_address ? data[i].detail_address : '')+'</strong></span><span><time>'+this.format(data[i].create_at,'yyyy/MM/dd hh:mm:ss')+'</time><span></a></li>';
           sUl.push(str);
         }
         sUl.push('</ul>');

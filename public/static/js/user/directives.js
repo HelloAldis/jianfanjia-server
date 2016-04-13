@@ -685,7 +685,7 @@ angular.module('directives', [])
                 myQuery : "="
             },
             restrict: 'A',
-            template: '<div class="k-uploadbox f-cb"><div class="pic" id="create"><div class="fileBtn"><input class="hide" id="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_create"></div><div class="tips"><span><em></em><i></i></span><p>作品上传每张3M以内jpg</p></div></div><div class="item" ng-repeat="img in myQuery"><span class="close" ng-click="removeImg($index,myQuery)"></span><div class="img"><img ng-src="/api/v2/web/thumbnail/168/{{img}}" /></div></div></div>',
+            template: '<div class="k-uploadbox f-cb"><div class="pic" id="create"><div class="fileBtn"><input class="hide" id="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_create"></div><div class="tips"><span><em></em><i></i></span><p>平面图上传每张3M以内jpg/png格式</p></div></div><div class="item" ng-repeat="img in myQuery"><span class="close" ng-click="removeImg($index,myQuery)"></span><div class="img"><img ng-src="/api/v2/web/thumbnail/168/{{img}}" /></div></div></div>',
             link: function($scope, iElm, iAttrs, controller){
                 function loadImg(){
                     var uploaderUrl = RootUrl+'api/v2/web/image/upload',
@@ -1031,7 +1031,8 @@ angular.module('directives', [])
                     '</div>',
                     '<div class="tips">',
                     '<span><em></em><i></i></span>',
-                    '<p>作品上传每张3M以内jpg<strong ng-if="myType == &#39;edit&#39;">作品/照片/平面图上均不能放置个人电话号码或违反法律法规的信息。</strong></p>',
+                    '<p ng-if="myType == &#39;default&#39;">平面图上传每张3M以内<br />jpg/png格式</p>',
+                    '<p ng-if="myType == &#39;edit&#39;">作品上传每张3M以内<br />jpg/png格式<br /><br /><strong>作品/照片/平面图上均不能放置个人电话号码或违反法律法规的信息。</strong></p>',
                     '</div>',
                     '</div>',
                     '<div class="item" ng-repeat="img in myQuery">',

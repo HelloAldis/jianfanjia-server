@@ -22,8 +22,8 @@
 								<span bo-if="data.province"><i bo-text="data.province"></i></span>
 								<span bo-if="data.city"><i bo-text="data.city"></i></span>
 								<span bo-if="data.district"><i bo-text="data.district"></i></span>
-								<span bo-if="requirement.dec_type == '家装' && data.detail_address" bo-text="data.detail_address"></span>
 								<span bo-if="data.basic_address" bo-text="data.basic_address"></span>
+								<span bo-if="data.detail_address" bo-text="data.detail_address"></span>
 							</h4>
 						</div>
 						<div class="tag">
@@ -34,15 +34,15 @@
 							<span bo-if="data.house_area"><i bo-text="data.house_area"></i>m&sup2;</span>
 							<span bo-if="data.total_price"><i bo-text="data.total_price"></i>万元</span>
 						</div>
-						<div class="status" ng-switch="data.plan.status" bo-if="data.plan.status != 5">
-							<i ng-switch-when="1">已拒绝</i>
-							<i ng-switch-when="4">未中标</i>
-							<i ng-switch-when="7">未响应</i>
-							<i ng-switch-when="8">未出方案</i>
+						<div class="status" bo-switch="data.plan.status" bo-if="data.plan.status != 5">
+							<i bo-switch-when="1">已拒绝</i>
+							<i bo-switch-when="4">未中标</i>
+							<i bo-switch-when="7">未响应</i>
+							<i bo-switch-when="8">未出方案</i>
 						</div>
-						<div class="status" ng-switch="data.status" bo-if="data.plan.status == 5">
-							<i ng-switch-when="4" class="ok">已完成</i>
-							<i ng-switch-when="8" class="ok">已竣工</i>
+						<div class="status" bo-switch="data.status" bo-if="data.plan.status == 5">
+							<i bo-switch-when="4" class="ok">已完成</i>
+							<i bo-switch-when="8" class="ok">已竣工</i>
 						</div>
 					</div>
 				</li>

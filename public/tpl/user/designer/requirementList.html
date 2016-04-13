@@ -20,55 +20,55 @@
 								<span bo-if="data.province"><i bo-text="data.province"></i></span>
 								<span bo-if="data.city"><i bo-text="data.city"></i></span>
 								<span bo-if="data.district"><i bo-text="data.district"></i></span>
-								<span bo-if="data.detail_address && data.dec_type == '家装'" bo-text="data.detail_address"></span>
 								<span bo-if="data.basic_address" bo-text="data.basic_address"></span>
+								<span bo-if="data.detail_address" bo-text="data.detail_address"></span>
 							</h4>
 							<div class="progress f-fr" bo-if="data.work_type != '纯设计'">
 								<div class="bar">
 									<div class="in in{{data.plan.status}}" ng-if="data.plan.status && (data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 6)"></div>
 									<div class="in in{{data.status}}" ng-if="data.plan.status == 5 && (data.status == 4 || data.status == 5 || data.status == 7 || data.status == 8) && data.work_type != '纯设计'"></div>
 								</div>
-								<p ng-switch="data.plan.status" ng-if="data.plan.status && (data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 6)">
-									<i ng-switch-when="0">
+								<p bo-switch="data.plan.status" bo-if="data.plan.status && (data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 6)">
+									<i bo-switch-when="0">
 										<i bo-if="!!data.plan.get_phone_time">等待设置量房时间</i>
 										<i bo-if="!data.plan.get_phone_time">等待响应预约</i>
 									</i>
-									<i ng-switch-when="1">已拒绝业主</i>
-									<i ng-switch-when="2">等待业主确认量房</i>
-									<i ng-switch-when="3">等待业主选择方案</i>
-									<i ng-switch-when="4">方案未选中</i>
-									<i ng-switch-when="5">生成第三方合同</i>
-									<i ng-switch-when="6">提交方案中</i>
-									<i ng-switch-when="7">未响应业主</i>
-									<i ng-switch-when="8">未上传方案</i>
+									<i bo-switch-when="1">已拒绝业主</i>
+									<i bo-switch-when="2">等待业主确认量房</i>
+									<i bo-switch-when="3">等待业主选择方案</i>
+									<i bo-switch-when="4">方案未选中</i>
+									<i bo-switch-when="5">生成第三方合同</i>
+									<i bo-switch-when="6">提交方案中</i>
+									<i bo-switch-when="7">未响应业主</i>
+									<i bo-switch-when="8">未上传方案</i>
 								</p>
-								<p ng-switch="data.status" ng-if="data.plan.status == 5 && (data.status == 4 || data.status == 5 || data.status == 7 || data.status == 8) && data.work_type != '纯设计'">
-									<i ng-switch-when="4">前往配置合同</i>
-									<i ng-switch-when="5">APP管理工地</i>
-									<i ng-switch-when="7">查看合同</i>
-									<i ng-switch-when="8">已竣工</i>
+								<p bo-switch="data.status" bo-if="data.plan.status == 5 && (data.status == 4 || data.status == 5 || data.status == 7 || data.status == 8) && data.work_type != '纯设计'">
+									<i bo-switch-when="4">前往配置合同</i>
+									<i bo-switch-when="5">APP管理工地</i>
+									<i bo-switch-when="7">查看合同</i>
+									<i bo-switch-when="8">已竣工</i>
 								</p>
 							</div>
 							<div class="progress f-fr" bo-if="data.work_type == '纯设计'">
 								<div class="bar">
-									<div class="in in{{data.status}}" ng-class="{'in8':data.status == 4}"></div>
+									<div class="in in{{data.status}}" bo-class="{'in8':data.status == 4}"></div>
 								</div>
-								<p ng-switch="data.plan.status" ng-if="data.plan.status && (data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 6)">
-									<i ng-switch-when="0">
+								<p bo-switch="data.plan.status" bo-if="data.plan.status && (data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 6)">
+									<i bo-switch-when="0">
 										<i bo-if="!!data.plan.get_phone_time">等待设置量房时间</i>
 										<i bo-if="!data.plan.get_phone_time">等待响应预约</i>
 									</i>
-									<i ng-switch-when="1">已拒绝业主</i>
-									<i ng-switch-when="2">等待业主确认量房</i>
-									<i ng-switch-when="3">等待业主选择方案</i>
-									<i ng-switch-when="4">方案未选中</i>
-									<i ng-switch-when="5">生成第三方合同</i>
-									<i ng-switch-when="6">提交方案中</i>
-									<i ng-switch-when="7">未响应业主</i>
-									<i ng-switch-when="8">未上传方案</i>
+									<i bo-switch-when="1">已拒绝业主</i>
+									<i bo-switch-when="2">等待业主确认量房</i>
+									<i bo-switch-when="3">等待业主选择方案</i>
+									<i bo-switch-when="4">方案未选中</i>
+									<i bo-switch-when="5">生成第三方合同</i>
+									<i bo-switch-when="6">提交方案中</i>
+									<i bo-switch-when="7">未响应业主</i>
+									<i bo-switch-when="8">未上传方案</i>
 								</p>
-								<p ng-switch="data.status" ng-if="data.plan.status == 5 && data.status == 4 && data.work_type == '纯设计'">
-									<i ng-switch-when="4">已完成</i>
+								<p bo-switch="data.status" bo-if="data.plan.status == 5 && data.status == 4 && data.work_type == '纯设计'">
+									<i bo-switch-when="4">已完成</i>
 								</p>
 							</div>
 						</div>

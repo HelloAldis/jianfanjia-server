@@ -11,20 +11,30 @@
 					</span>
 				</div>
 			</li>
-			<li>
+			<li bo-if="requirement.dec_type == 0 || requirement.dec_type == 1">
 				<div class="span">
-					<strong>详细地址</strong>
+					<strong bo-if="requirement.dec_type == 0">小区名称</strong>
+					<strong bo-if="requirement.dec_type == 1">项目名称</strong>
 					<span>
-						<span bo-if="requirement.basic_address && requirement.dec_type == 0" bo-text="requirement.basic_address"></span>
+						<span bo-if="requirement.basic_address" bo-text="requirement.basic_address"></span>
+					</span>
+				</div>
+			</li>
+			<li bo-if="requirement.dec_type == 0 || requirement.dec_type == 1">
+				<div class="span">
+					<strong bo-if="requirement.dec_type == 0">门牌号码</strong>
+					<strong bo-if="requirement.dec_type == 1">详细地址</strong>
+					<span>
 						<span bo-if="requirement.detail_address" bo-text="requirement.detail_address"></span>
 					</span>
 				</div>
 			</li>
-			<li bo-if="requirement.dec_type == 1">
+			<li bo-if="requirement.dec_type == 2 || !requirement.dec_type">
 				<div class="span">
-					<strong>项目名称</strong>
+					<strong>详细地址</strong>
 					<span>
 						<span bo-if="requirement.basic_address" bo-text="requirement.basic_address"></span>
+						<span bo-if="requirement.detail_address" bo-text="requirement.detail_address"></span>
 					</span>
 				</div>
 			</li>

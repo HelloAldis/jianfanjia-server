@@ -28,29 +28,29 @@
 								<div class="bar">
 									<div class="in in{{data.status}}"></div>
 								</div>
-								<p ng-switch="data.status">
-									<i ng-switch-when="0">需要预约设计师</i>
-									<i ng-switch-when="1">设计师正在响应中</i>
-									<i ng-switch-when="2">确认设计师上门量房</i>
-									<i ng-switch-when="3">选择设计师方案</i>
-									<i ng-switch-when="4">等待设计师生成合同</i>
-									<i ng-switch-when="5">正在装修中</i>
-									<i ng-switch-when="6">设计师提交方案中</i>
-									<i ng-switch-when="7">确定合同开启工地</i>
-									<i ng-switch-when="8">已竣工</i>
+								<p bo-switch="data.status">
+									<i bo-switch-when="0">需要预约设计师</i>
+									<i bo-switch-when="1">设计师正在响应中</i>
+									<i bo-switch-when="2">确认设计师上门量房</i>
+									<i bo-switch-when="3">选择设计师方案</i>
+									<i bo-switch-when="4">等待设计师生成合同</i>
+									<i bo-switch-when="5">正在装修中</i>
+									<i bo-switch-when="6">设计师提交方案中</i>
+									<i bo-switch-when="7">确定合同开启工地</i>
+									<i bo-switch-when="8">已竣工</i>
 								</p>
 							</div>
 							<div class="progress f-fr" bo-if="data.work_type == '纯设计'">
 								<div class="bar">
-									<div class="in in{{data.status}}" ng-class="{'in8':data.status == 4}"></div>
+									<div class="in in{{data.status}}" bo-class="{'in8':data.status == 4}"></div>
 								</div>
-								<p ng-switch="data.status">
-									<i ng-switch-when="0">需要预约设计师</i>
-									<i ng-switch-when="1">设计师正在响应中</i>
-									<i ng-switch-when="2">确认设计师上门量房</i>
-									<i ng-switch-when="3">选择设计师方案</i>
-									<i ng-switch-when="4">已完成</i>
-									<i ng-switch-when="6">设计师提交方案中</i>
+								<p bo-switch="data.status">
+									<i bo-switch-when="0">需要预约设计师</i>
+									<i bo-switch-when="1">设计师正在响应中</i>
+									<i bo-switch-when="2">确认设计师上门量房</i>
+									<i bo-switch-when="3">选择设计师方案</i>
+									<i bo-switch-when="4">已完成</i>
+									<i bo-switch-when="6">设计师提交方案中</i>
 								</p>
 							</div>
 						</div>
