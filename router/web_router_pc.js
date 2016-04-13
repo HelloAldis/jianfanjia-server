@@ -1,9 +1,9 @@
 var express = require('express');
-var config = require('./apiconfig');
-var sign = require('./controllers/sign');
-var site = require('./controllers/site');
-var wechat = require('./controllers/wechat');
-var dec_strategy = require('./controllers/dec_strategy');
+var config = require('../apiconfig');
+var sign = require('../controllers/sign');
+var site = require('../controllers/site');
+var wechat = require('../controllers/wechat');
+var dec_strategy = require('../controllers/dec_strategy');
 
 var router = express.Router();
 

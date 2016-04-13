@@ -1,35 +1,35 @@
 var express = require('express');
 
-var sign = require('./api/v2/app/sign');
-var user = require('./api/v2/app/user');
-var requirement = require('./api/v2/app/requirement');
-// var plan = require('./api/v2/app/plan');
-// var favorite = require('./api/v2/app/favorite');
-// var team = require('./api/v2/app/team');
-// var share = require('./api/v2/app/share');
-var designer = require('./api/v2/app/designer');
-var process = require('./api/v2/app/process');
-var device = require('./api/v2/app/device');
-var feedback = require('./api/v2/app/feedback');
-var beautiful_image = require('./api/v2/app/beautiful_image');
-var message = require('./api/v2/app/message');
+var sign = require('../api/v2/app/sign');
+var user = require('../api/v2/app/user');
+var requirement = require('../api/v2/app/requirement');
+// var plan = require('../api/v2/app/plan');
+// var favorite = require('../api/v2/app/favorite');
+// var team = require('../api/v2/app/team');
+// var share = require('../api/v2/app/share');
+var designer = require('../api/v2/app/designer');
+var process = require('../api/v2/app/process');
+var device = require('../api/v2/app/device');
+var feedback = require('../api/v2/app/feedback');
+var beautiful_image = require('../api/v2/app/beautiful_image');
+var message = require('../api/v2/app/message');
 
-var signWeb = require('./api/v2/web/sign');
-var imageWeb = require('./api/v2/web/image');
-var commentWeb = require('./api/v2/web/comment');
-var requirementWeb = require('./api/v2/web/requirement');
-var planWeb = require('./api/v2/web/plan');
-var userWeb = require('./api/v2/web/user');
-var designerWeb = require('./api/v2/web/designer');
-var favoriteWeb = require('./api/v2/web/favorite');
-var productWeb = require('./api/v2/web/product');
-var beautiful_imageWeb = require('./api/v2/web/beautiful_image');
-var messageWeb = require('./api/v2/web/message');
-var shareWeb = require('./api/v2/web/share');
+var signWeb = require('../api/v2/web/sign');
+var imageWeb = require('../api/v2/web/image');
+var commentWeb = require('../api/v2/web/comment');
+var requirementWeb = require('../api/v2/web/requirement');
+var planWeb = require('../api/v2/web/plan');
+var userWeb = require('../api/v2/web/user');
+var designerWeb = require('../api/v2/web/designer');
+var favoriteWeb = require('../api/v2/web/favorite');
+var productWeb = require('../api/v2/web/product');
+var beautiful_imageWeb = require('../api/v2/web/beautiful_image');
+var messageWeb = require('../api/v2/web/message');
+var shareWeb = require('../api/v2/web/share');
 
-var config = require('./apiconfig');
-var auth = require('./middlewares/auth');
-var limit = require('./middlewares/limit');
+var config = require('../apiconfig');
+var auth = require('../middlewares/auth');
+var limit = require('../middlewares/limit');
 
 var router = express.Router();
 

@@ -1,7 +1,7 @@
 var express = require('express');
-var config = require('./apiconfig');
-var dec_strategy = require('./controllers/dec_strategy');
-var share = require('./controllers/share');
+var config = require('../apiconfig');
+var dec_strategy = require('../controllers/dec_strategy');
+var share = require('../controllers/share');
 
 var router = express.Router();
 
