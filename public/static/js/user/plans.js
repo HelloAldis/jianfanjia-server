@@ -258,17 +258,13 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             }
         },
         title : function(data){
-            var _this = this;
             var title = $('<div class="plans-tt f-cb"></div>');
             var h3 = $('<h3 class="f-fl"></h3>');
-            if(!!data.requirement.cell){
-                h3.append('<span><i>'+data.requirement.cell+'</i><i style="display:'+(data.requirement.dec_type == 0 ? 'inline':'none')+'">小区</i></span>');
+            if(!!data.requirement.basic_address){
+                h3.append('<span><i>'+data.requirement.basic_address+'</i></span>')
             }
             if(!!data.requirement.detail_address){
                 h3.append('<span><i>'+data.requirement.detail_address+'</i></span>')
-            }
-            if(!!data.requirement.basic_address){
-                h3.append('<span><i>'+data.requirement.basic_address+'</i></span>')
             }
             if(data.status == 5){
                 h3.append('<span style="color: #fe7004"><i>（已中标）</i></span>')
