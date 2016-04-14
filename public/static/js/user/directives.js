@@ -505,7 +505,7 @@ angular.module('directives', [])
                     $winH = $(window).height(),
                     uploaderUrl = RootUrl+'api/v2/web/image/upload',
                     croploaderUrl = RootUrl+'api/v2/web/image/crop',
-                    fileTypeExts = '*.jpg;*.png',
+                    fileTypeExts = '*.jpeg;*.jpg;*.png',
                     fileSizeLimit = 1024,
                     destroy = true,
                     moveout = false,
@@ -689,7 +689,7 @@ angular.module('directives', [])
             link: function($scope, iElm, iAttrs, controller){
                 function loadImg(){
                     var uploaderUrl = RootUrl+'api/v2/web/image/upload',
-                        fileTypeExts = '*.jpg;*.png',
+                        fileTypeExts = '*.jpeg;*.jpg;*.png',
                         fileSizeLimit = 3072,
                         multi = false,
                         auto = true,
@@ -784,7 +784,7 @@ angular.module('directives', [])
             },
             link: function($scope, iElm, iAttrs, controller){
                 var uploaderUrl = '/api/v2/web/image/upload',
-                    fileTypeExts = '*.jpg;*.png',
+                    fileTypeExts = '*.jpeg;*.jpg;*.png',
                     fileSizeLimit = 3072,
                     obj = $(iElm).parent(),
                     create = $('.create'),
@@ -872,7 +872,7 @@ angular.module('directives', [])
             },
             link: function(scope, iElm, iAttrs, controller){
                 var uploaderUrl = '/api/v2/web/image/upload',
-                    fileTypeExts = '*.jpg;*.png',
+                    fileTypeExts = '*.jpeg;*.jpg;*.png',
                     fileSizeLimit = 3072,
                     obj = $(iElm).parent(),
                     create = obj.find('.create'),
@@ -948,7 +948,7 @@ angular.module('directives', [])
             template: '<div class="k-otheruploade"><div class="create"><div class="fileBtn"><input class="hide" class="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" class="id_create"></div><img ng-src="/api/v2/web/thumbnail/250/{{myQuery}}" ng-if="myQuery" /><div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div></div></div>',
             link: function($scope, iElm, iAttrs, controller){
                 var uploaderUrl = RootUrl+'api/v2/web/image/upload',
-                    fileTypeExts = '*.jpg;*.png',
+                    fileTypeExts = '*.jpeg;*.jpg;*.png',
                     fileSizeLimit = 3072,
                     obj = $(iElm).parent(),
                     create = obj.find('.create'),
@@ -1047,7 +1047,7 @@ angular.module('directives', [])
                 var obj = angular.element(iElm);
                 function loadImg(){
                     var uploaderUrl = RootUrl+'api/v2/web/image/upload',
-                        fileTypeExts = '*.jpg;*.png',
+                        fileTypeExts = '*.jpeg;*.jpg;*.png',
                         fileSizeLimit = 3072,
                         multi = false,
                         auto = true,
