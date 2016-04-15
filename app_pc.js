@@ -8,16 +8,15 @@ var session = require('express-session');
 var timeout = require('connect-timeout');
 // var passport = require('passport');
 var req_res_log = require('./middlewares/req_res_log');
-var router_web = require('./router_web');
-var apiRouterV1 = require('./api_router_v1');
-var api_router_app_v2 = require('./api_router_app_v2');
-var api_router_web_v2 = require('./api_router_web_v2');
+var web_router_pc = require('./router/web_router_pc');
+var apiRouterV1 = require('./router/api_router_v1');
+var api_router_app_v2 = require('./router/api_router_app_v2');
+var api_router_web_v2 = require('./router/api_router_web_v2');
 var auth = require('./middlewares/auth');
 var responseUtil = require('./middlewares/response_util');
 var RedisStore = require('connect-redis')(session);
 var _ = require('lodash');
 var bodyParser = require('body-parser');
-// var cookieParser = require('cookie-parser');
 var cors = require('cors');
 var logger = require('./common/logger');
 var helmet = require('helmet');
@@ -25,15 +24,10 @@ var helmet = require('helmet');
 //var csurf = require('csurf');
 var api_statistic = require('./middlewares/api_statistic');
 
-
 //config the web app
 var app = express();
 // configuration in all env
 app.enable('trust proxy');
-
-// if (!config.debug) {
-//   app.use(require('prerender-node').set('prerenderToken', 'ECav3XjGcRGdN9q0EtF1'));
-// }
 
 //config view engine
 app.set('views', path.join(__dirname, 'views'));
@@ -120,7 +114,7 @@ app.use('/download', req_res_log);
 app.use('/api/v1', cors(), api_statistic.api_statistic, apiRouterV1);
 app.use('/api/v2/app', cors(), api_statistic.api_statistic, api_router_app_v2);
 app.use('/api/v2/web', cors(), api_statistic.api_statistic, api_router_web_v2);
-app.use('/', router_web);
+app.use('/', web_router_pc);
 
 // error handler
 app.use(function (err, req, res, next) {
