@@ -12,9 +12,9 @@ var config = {
   port: 80,
 
   //电脑版web domain RegExp
-  www_web_domain_regex: /dev.jianfanjia.com/,
+  www_web_domain_regex: /dev.jianfanjia.com|www.jianfj.com/,
   //移动端web domain RegExp
-  m_web_domain_regex: /devm.jianfanjia.com/,
+  m_web_domain_regex: /devm.jianfanjia.com|m.jianfj.com/,
 
   // mongodb 配置
   db: 'mongodb://127.0.0.1/jianfanjia',
