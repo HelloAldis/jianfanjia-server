@@ -40,6 +40,7 @@ var type = {
   role_admin: '0',
   role_user: '1',
   role_designer: '2',
+  role_supervisor: '3',
 
   work_type_half: '0',
   work_type_all: '1',

@@ -90,12 +90,9 @@ router.post('/process/reschedule/reject', auth.normalUserRequired, process.rejec
 router.post('/favorite/product/list', auth.normalUserRequired, favoriteWeb.list_product); //收藏列表
 router.post('/favorite/product/add', auth.normalUserRequired, favoriteWeb.add_product); //收藏作品
 router.post('/favorite/product/delete', auth.normalUserRequired, favoriteWeb.delete_product); //删除收藏作品
-router.post('/favorite/beautiful_image/list', auth.normalUserRequired,
-  favoriteWeb.list_beautiful_image); //收藏美图列表
-router.post('/favorite/beautiful_image/add', auth.normalUserRequired,
-  favoriteWeb.add_beautiful_image); //收藏美图
-router.post('/favorite/beautiful_image/delete', auth.normalUserRequired,
-  favoriteWeb.delete_beautiful_image); //删除收藏美图
+router.post('/favorite/beautiful_image/list', auth.normalUserRequired, favoriteWeb.list_beautiful_image); //收藏美图列表
+router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favoriteWeb.add_beautiful_image); //收藏美图
+router.post('/favorite/beautiful_image/delete', auth.normalUserRequired, favoriteWeb.delete_beautiful_image); //删除收藏美图
 //设备使用
 // router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定cid
 
@@ -144,5 +141,8 @@ router.post('/unread_designer_message_count', auth.designerRequired, messageWeb.
 router.post('/search_designer_comment', auth.designerRequired, message.search_designer_comment); //获取设计师评论通知
 router.post('/designer_remind_user_house_check', auth.designerRequired, limit.peruserplanperday('designer_remind_user_house_check', config.designer_remind_user_house_check_time_one_day),
   designerWeb.designer_remind_user_house_check); //设计师提醒业主确认量房
+
+//监理独有功能
+router.post('/supervisor_login', sign.supervisor_login);
 
 module.exports = router;

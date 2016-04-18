@@ -32,6 +32,7 @@ require('./beautiful_image');
 require('./answer');
 require('./designer_message');
 require('./user_message');
+require('./supervisor');
 
 exports.User = mongoose.model('User');
 exports.Designer = mongoose.model('Designer');
@@ -56,3 +57,4 @@ exports.BeautifulImage = mongoose.model('BeautifulImage');
 exports.Answer = mongoose.model('Answer');
 exports.UserMessage = mongoose.model('UserMessage');
 exports.DesignerMessage = mongoose.model('DesignerMessage');
+exports.Supervisor = mongoose.model('Supervisor');

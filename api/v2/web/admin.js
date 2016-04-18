@@ -15,6 +15,7 @@ const Process = require('../../../proxy').Process;
 const Image = require('../../../proxy').Image;
 const Plan = require('../../../proxy').Plan;
 const Answer = require('../../../proxy').Answer;
+const Supervisor = require('../../../proxy').Supervisor;
 const tools = require('../../../common/tools');
 const _ = require('lodash');
 const ue_config = require('../../../ueditor/ue_config');
@@ -28,6 +29,7 @@ const utility = require('utility');
 const imageUtil = require('../../../common/image_util');
 const message_util = require('../../../common/message_util');
 const reg_util = require('../../../common/reg_util');
+const validator = require('validator');
 
 exports.login = function (req, res, next) {
   if (req.body.username === 'sunny' && req.body.pass === '!@Jyz20150608#$') {
@@ -943,5 +945,37 @@ exports.count_answer = function (req, res, next) {
     }
 
     res.sendData(result);
+  }));
+}
+
+exports.add_supervisor = function (req, res, next) {
+  let phone = validator.trim(req.body.phone);
+  let pass = validator.trim(req.body.pass);
+  let username = validator.trim(req.body.username);
+  let ep = eventproxy();
+  ep.fail(next);
+
+  async.parallel({
+    supervisor: function (callback) {
+      Supervisor.findOne({
+        phone: phone,
+      }, null, callback);
+    }
+  }, ep.done(function (result) {
+    if (result.supervisor) {
+      res.sendErrMsg('手机号已经存在！');
+      return;
+    }
+
+    tools.bhash(pass, ep.done(function (passhash) {
+      Supervisor.newAndSave({
+        phone: phone,
+        pass: passhash,
+        username: username,
+        auth_type: type.designer_auth_type_done,
+      }, ep.done(function (supervisor_indb) {
+        res.sendData(supervisor_indb);
+      }));
+    }));
   }));
 }

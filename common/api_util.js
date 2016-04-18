@@ -335,7 +335,9 @@ exports.buildComment = function (req) {
   comment.item = req.body.item;
   comment.topictype = req.body.topictype;
   comment.content = req.body.content;
-  comment.to = req.body.to ? new ObjectId(req.body.to) : undefined;
+  // comment.to = req.body.to ? new ObjectId(req.body.to) : undefined;
+  comment.to_userid = tools.convert2ObjectId(req.body.to_userid);
+  comment.to_designerid = tools.convert2ObjectId(req.body.to_designerid);
 
   return tools.deleteUndefinedAndNullThenFilterXss(comment);
 }

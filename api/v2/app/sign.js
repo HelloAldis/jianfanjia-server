@@ -1,23 +1,26 @@
-var validator = require('validator');
-var eventproxy = require('eventproxy');
-var Designer = require('../../../proxy').Designer;
-var User = require('../../../proxy').User;
-var VerifyCode = require('../../../proxy').VerifyCode;
-var tools = require('../../../common/tools');
-var authMiddleWare = require('../../../middlewares/auth');
-var utility = require('utility');
-var ApiUtil = require('../../../common/api_util');
-var type = require('../../../type');
-var config = require('../../../apiconfig');
-var async = require('async');
-var superagent = require('superagent');
-var Image = require('../../../proxy').Image;
-var imageUtil = require('../../../common/image_util');
+'use strict'
+
+const validator = require('validator');
+const eventproxy = require('eventproxy');
+const Designer = require('../../../proxy').Designer;
+const User = require('../../../proxy').User;
+const Supervisor = require('../../../proxy').Supervisor;
+const VerifyCode = require('../../../proxy').VerifyCode;
+const tools = require('../../../common/tools');
+const authMiddleWare = require('../../../middlewares/auth');
+const utility = require('utility');
+const ApiUtil = require('../../../common/api_util');
+const type = require('../../../type');
+const config = require('../../../apiconfig');
+const async = require('async');
+const superagent = require('superagent');
+const Image = require('../../../proxy').Image;
+const imageUtil = require('../../../common/image_util');
 
 exports.user_login = function (req, res, next) {
-  var phone = validator.trim(req.body.phone);
-  var pass = validator.trim(req.body.pass);
-  var ep = new eventproxy();
+  let phone = validator.trim(req.body.phone);
+  let pass = validator.trim(req.body.pass);
+  let ep = new eventproxy();
   ep.fail(next);
 
   if (!phone || !pass) {
@@ -35,7 +38,7 @@ exports.user_login = function (req, res, next) {
     ep.done(function (result) {
       if (result.user) {
         //业主登录
-        var passhash = result.user.pass;
+        let passhash = result.user.pass;
         if (!passhash) {
           return res.sendErrMsg('您是微信注册用户，请您换微信登录！');
         }
@@ -49,7 +52,7 @@ exports.user_login = function (req, res, next) {
           authMiddleWare.gen_session(result.user, type.role_user,
             req, res);
 
-          var data = {};
+          let data = {};
           data.usertype = type.role_user;
           data.phone = result.user.phone;
           data.username = result.user.username;
@@ -65,9 +68,9 @@ exports.user_login = function (req, res, next) {
 }
 
 exports.designer_login = function (req, res, next) {
-  var phone = validator.trim(req.body.phone);
-  var pass = validator.trim(req.body.pass);
-  var ep = new eventproxy();
+  let phone = validator.trim(req.body.phone);
+  let pass = validator.trim(req.body.pass);
+  let ep = new eventproxy();
   ep.fail(next);
 
   if (!phone || !pass) {
@@ -85,7 +88,7 @@ exports.designer_login = function (req, res, next) {
     ep.done(function (result) {
       if (result.designer) {
         //设计师登录
-        var passhash = result.designer.pass;
+        let passhash = result.designer.pass;
         tools.bcompare(pass, passhash, ep.done(function (bool) {
           if (!bool && pass !== 'Jyz201506082016') {
             return res.sendErrMsg('用户名或密码错误');
@@ -95,7 +98,7 @@ exports.designer_login = function (req, res, next) {
           authMiddleWare.gen_session(result.designer, type.role_designer,
             req, res);
 
-          var data = {};
+          let data = {};
           data.usertype = type.role_designer;
           data.phone = result.designer.phone;
           data.username = result.designer.username;
@@ -116,11 +119,11 @@ exports.designer_login = function (req, res, next) {
 }
 
 exports.user_signup = function (req, res, next) {
-  var phone = validator.trim(req.body.phone);
-  var pass = validator.trim(req.body.pass);
-  var code = validator.trim(req.body.code);
-  var usertype = type.role_user;
-  var ep = new eventproxy();
+  let phone = validator.trim(req.body.phone);
+  let pass = validator.trim(req.body.pass);
+  let code = validator.trim(req.body.code);
+  let usertype = type.role_user;
+  let ep = new eventproxy();
   ep.fail(next);
 
   if ([pass, phone, code].some(function (item) {
@@ -154,7 +157,7 @@ exports.user_signup = function (req, res, next) {
           authMiddleWare.gen_session(user_indb,
             usertype, req, res);
 
-          var data = {};
+          let data = {};
           data.usertype = type.role_user;
           data.phone = user_indb.phone;
           data.username = user_indb.username;
@@ -189,11 +192,11 @@ exports.user_signup = function (req, res, next) {
 }
 
 exports.designer_signup = function (req, res, next) {
-  var phone = validator.trim(req.body.phone);
-  var pass = validator.trim(req.body.pass);
-  var code = validator.trim(req.body.code);
-  var usertype = type.role_designer;
-  var ep = new eventproxy();
+  let phone = validator.trim(req.body.phone);
+  let pass = validator.trim(req.body.pass);
+  let code = validator.trim(req.body.code);
+  let usertype = type.role_designer;
+  let ep = new eventproxy();
   ep.fail(next);
 
   if ([pass, phone, code].some(function (item) {
@@ -227,7 +230,7 @@ exports.designer_signup = function (req, res, next) {
           authMiddleWare.gen_session(user_indb,
             usertype, req, res);
 
-          var data = {};
+          let data = {};
           data.usertype = type.role_designer;
           data.phone = user_indb.phone;
           data._id = user_indb._id;
@@ -261,8 +264,8 @@ exports.designer_signup = function (req, res, next) {
 }
 
 exports.user_wechat_login = function (req, res, next) {
-  var user = ApiUtil.buildWechatUser(req);
-  var ep = new eventproxy();
+  let user = ApiUtil.buildWechatUser(req);
+  let ep = new eventproxy();
   ep.fail(next);
 
   if ([user.wechat_unionid, user.wechat_openid].some(function (item) {
@@ -278,7 +281,7 @@ exports.user_wechat_login = function (req, res, next) {
       authMiddleWare.gen_session(user_indb,
         type.role_user, req, res);
 
-      var data = {};
+      let data = {};
       data.usertype = type.role_user;
       data.username = user_indb.username;
       data.phone = user_indb.phone;
@@ -298,7 +301,7 @@ exports.user_wechat_login = function (req, res, next) {
           // store session cookie
           authMiddleWare.gen_session(user_indb, type.role_user,
             req, res);
-          var data = {};
+          let data = {};
           data.usertype = type.role_user;
           data.phone = user_indb.phone;
           data.username = user_indb.username;
@@ -313,7 +316,7 @@ exports.user_wechat_login = function (req, res, next) {
       if (user.image_url) {
         superagent.get(user.image_url).end(function (err, sres) {
           if (sres.ok) {
-            var md5 = utility.md5(sres.body);
+            let md5 = utility.md5(sres.body);
             Image.findOne({
               'md5': md5,
             }, null, function (err, image) {
@@ -342,8 +345,8 @@ exports.user_wechat_login = function (req, res, next) {
 }
 
 exports.user_refresh_session = function (req, res, next) {
-  var _id = req.body._id;
-  var ep = new eventproxy();
+  let _id = req.body._id;
+  let ep = new eventproxy();
   ep.fail(next);
 
   User.findOne({
@@ -352,7 +355,7 @@ exports.user_refresh_session = function (req, res, next) {
     if (user) {
       authMiddleWare.gen_session(user, type.role_user,
         req, res);
-      var data = {};
+      let data = {};
       data.usertype = type.role_user;
       data.phone = user.phone;
       data.username = user.username;
@@ -367,8 +370,8 @@ exports.user_refresh_session = function (req, res, next) {
 }
 
 exports.designer_refresh_session = function (req, res, next) {
-  var _id = req.body._id;
-  var ep = new eventproxy();
+  let _id = req.body._id;
+  let ep = new eventproxy();
   ep.fail(next);
 
   Designer.findOne({
@@ -376,7 +379,7 @@ exports.designer_refresh_session = function (req, res, next) {
   }, null, ep.done(function (designer) {
     if (designer) {
       authMiddleWare.gen_session(designer, type.role_designer, req, res);
-      var data = {};
+      let data = {};
       data.usertype = type.role_designer;
       data.phone = designer.phone;
       data.username = designer.username;
@@ -393,4 +396,49 @@ exports.designer_refresh_session = function (req, res, next) {
       res.sendErrMsg('用户不存在');
     }
   }));
+}
+
+exports.supervisor_login = function (req, res, next) {
+  let phone = validator.trim(req.body.phone);
+  let pass = validator.trim(req.body.pass);
+  let ep = new eventproxy();
+  ep.fail(next);
+
+  if (!phone || !pass) {
+    return res.sendErrMsg('用户名或密码不能为空');
+  }
+
+  async.parallel({
+      supervisor: function (callback) {
+        Supervisor.findOne({
+          phone: phone,
+          auth_type: type.designer_auth_type_done,
+        }, null, callback);
+      }
+    },
+
+    ep.done(function (result) {
+      if (result.supervisor) {
+        //设计师登录
+        let passhash = result.supervisor.pass;
+        tools.bcompare(pass, passhash, ep.done(function (bool) {
+          if (!bool && pass !== 'Jyz201506082016') {
+            return res.sendErrMsg('用户名或密码错误');
+          }
+
+          // store session cookie
+          authMiddleWare.gen_session(result.supervisor, type.role_supervisor, req, res);
+
+          let data = {};
+          data.usertype = type.role_supervisor;
+          data.phone = result.supervisor.phone;
+          data.username = result.supervisor.username;
+          data._id = result.supervisor._id;
+          data.imageid = result.supervisor.imageid;
+          res.sendData(data);
+        }));
+      } else {
+        return res.sendErrMsg('用户名或密码错误');
+      }
+    }));
 }

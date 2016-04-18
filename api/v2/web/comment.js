@@ -3,6 +3,7 @@ var User = require('../../../proxy').User;
 var Comment = require('../../../proxy').Comment;
 var Designer = require('../../../proxy').Designer;
 var Process = require('../../../proxy').Process;
+var Supervisor = require('../../../proxy').Supervisor;
 var async = require('async');
 var ApiUtil = require('../../../common/api_util');
 var type = require('../../../type');
@@ -20,8 +21,7 @@ exports.add_comment = function (req, res, next) {
 
   Comment.newAndSave(comment, ep.done(function (comment_indb) {
     res.sendSuccessMsg();
-    if (comment_indb && comment_indb.section && comment_indb.item &&
-      comment_indb.topictype === type.topic_type_process_item) {
+    if (comment_indb && comment_indb.section && comment_indb.item && comment_indb.topictype === type.topic_type_process_item) {
       Process.addCommentCount(comment_indb.topicid, comment_indb.section,
         comment_indb.item,
         function (err) {});
@@ -49,6 +49,20 @@ exports.add_comment = function (req, res, next) {
           message_util.user_message_type_comment_plan(comment_indb, designer.username);
         } else if (comment.topictype === type.topic_type_process_item) {
           message_util.user_message_type_comment_process_item(comment_indb, designer.username);
+        }
+      });
+    } else if (comment_indb.usertype === type.role_supervisor) {
+      Supervisor.findOne({
+        _id: userid,
+      }, {
+        username: 1,
+      }, function (err, supervisor) {
+        if (comment.topictype === type.topic_type_plan) {
+          message_util.designer_message_type_comment_plan(comment_indb, supervisor.username);
+          message_util.user_message_type_comment_plan(comment_indb, supervisor.username);
+        } else if (comment.topictype === type.topic_type_process_item) {
+          message_util.designer_message_type_comment_process_item(comment_indb, supervisor.username);
+          message_util.user_message_type_comment_process_item(comment_indb, supervisor.username);
         }
       });
     }
@@ -89,7 +103,7 @@ exports.topic_comments = function (req, res, next) {
           comment.byUser = user;
           callback(err, comment);
         });
-      } else if (comment.usertype == type.role_designer) {
+      } else if (comment.usertype === type.role_designer) {
         Designer.findOne({
           _id: comment.by
         }, {
@@ -97,6 +111,17 @@ exports.topic_comments = function (req, res, next) {
           username: 1,
         }, function (err, designer) {
           comment.byUser = designer;
+          comment.byDesigner = designer;
+          callback(err, comment);
+        });
+      } else if (comment.usertype === type.role_supervisor) {
+        Supervisor.findOne({
+          _id: comment.by
+        }, {
+          imageid: 1,
+          username: 1,
+        }, function (err, supervisor) {
+          comment.bySupervisor = supervisor;
           callback(err, comment);
         });
       }

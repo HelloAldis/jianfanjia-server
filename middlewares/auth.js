@@ -41,6 +41,17 @@ exports.designerRequired = function (req, res, next) {
 };
 
 /**
+ * 需要监理登录
+ */
+exports.supervisorRequired = function (req, res, next) {
+  if (ApiUtil.getUsertype(req) !== type.role_supervisor) {
+    return res.status(403).send('forbidden!');
+  }
+
+  next();
+};
+
+/**
  * 需要admin登录
  */
 exports.adminRequired = function (req, res, next) {

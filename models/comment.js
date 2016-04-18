@@ -21,6 +21,12 @@ var CommentSchema = new Schema({
   to: {
     type: ObjectId
   },
+  to_userid: {
+    type: ObjectId
+  },
+  to_designerid: {
+    type: ObjectId
+  },
   usertype: {
     type: String,
   },
