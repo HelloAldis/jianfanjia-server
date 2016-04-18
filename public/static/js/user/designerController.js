@@ -784,7 +784,7 @@ angular.module('controllers', [])
             }
             laod()
     }])
-   .controller('favoriteProductCtrl', [     //作品收藏列表
+    .controller('favoriteProductCtrl', [     //作品收藏列表
         '$scope','$state','$filter','userFavoriteProduct',function($scope,$state,$filter,userFavoriteProduct){
             $scope.designers = undefined;
             var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
@@ -928,6 +928,10 @@ angular.module('controllers', [])
                 });
             }
     }])
+    .controller('infoshowCtrl', [     //基本资料审核期查看
+        '$scope','$rootScope',
+        function($scope, $rootScope){
+        }])
     .controller('serviceCtrl', [     //接单服务设置
         '$scope','$rootScope','$http','$filter','$state','userInfo','initData',
         function($scope, $rootScope,$http,$filter,$state,userInfo,initData){

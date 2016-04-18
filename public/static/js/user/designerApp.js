@@ -25,6 +25,11 @@
                     templateUrl: url+'infor.html',
                     controller : 'inforCtrl'
                 })
+                .state('infoshow', {     //设计师资料审核期查看
+                    url: '/infoshow',
+                    templateUrl: url+'infoshow.html',
+                    controller : 'infoshowCtrl'
+                })
                 .state('requirementList', {   //需求列表
                     url: '/requirementList',
                     templateUrl: url+'requirementList.html',
