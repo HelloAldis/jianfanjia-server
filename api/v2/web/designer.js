@@ -7,6 +7,7 @@ const User = require('../../../proxy').User;
 const Requirement = require('../../../proxy').Requirement;
 const Favorite = require('../../../proxy').Favorite;
 const Evaluation = require('../../../proxy').Evaluation;
+const DesignerMessage = require('../../../proxy').DesignerMessage;
 const tools = require('../../../common/tools');
 const _ = require('lodash');
 const async = require('async');
@@ -700,6 +701,9 @@ exports.designer_statistic_info = function (req, res, next) {
       product_count: result.designer.product_count,
       requirement_count: result.requirement_count,
       favorite_product_count: favorite_product_count,
+      platform_message_count: result.DesignerMessage,
+      requirement_message_count: result.requirement_message_count,
+      comment_message_count: result.comment_message_count,
     });
   }));
 }
