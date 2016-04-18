@@ -646,6 +646,39 @@ exports.designer_statistic_info = function (req, res, next) {
         userid: _id,
       }, callback);
     },
+    comment_message_count: function (callback) {
+      DesignerMessage.count({
+        designerid: _id,
+        status: type.message_status_unread,
+        message_type: {
+          $in: [type.designer_message_type_comment_plan, type.designer_message_type_comment_process_item]
+        }
+      }, callback);
+    },
+    requirement_message_count: function (callback) {
+      DesignerMessage.count({
+        designerid: _id,
+        status: type.message_status_unread,
+        message_type: {
+          $in: [type.designer_message_type_user_order, type.designer_message_type_user_ok_house_checked, type.designer_message_type_user_final_plan,
+            type.designer_message_type_user_unfinal_plan, type.designer_message_type_user_ok_contract
+          ]
+        }
+      }, callback);
+    },
+    platform_message_count: function (callback) {
+      DesignerMessage.count({
+        designerid: _id,
+        status: type.message_status_unread,
+        message_type: {
+          $in: [type.designer_message_type_platform_notification, type.designer_message_type_basic_auth_done, type.designer_message_type_basic_auth_reject,
+            type.designer_message_type_uid_auth_done, type.designer_message_type_uid_auth_reject, type.designer_message_type_work_auth_done,
+            type.designer_message_type_work_auth_reject, type.designer_message_type_product_auth_done, type.designer_message_type_product_auth_reject,
+            type.designer_message_type_product_auth_illegal
+          ]
+        }
+      }, callback);
+    },
     designer: function (callback) {
       Designer.findOne({
         _id: _id,

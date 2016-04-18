@@ -14,6 +14,24 @@ let SupervisorSchema = new Schema({
   pass: {
     type: String
   },
+  sex: {
+    type: String
+  },
+  province: {
+    type: String
+  },
+  city: {
+    type: String
+  },
+  district: {
+    type: String
+  },
+  address: {
+    type: String
+  },
+  imageid: {
+    type: ObjectId
+  },
   create_at: {
     type: Number
   },

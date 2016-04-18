@@ -442,3 +442,26 @@ exports.supervisor_login = function (req, res, next) {
       }
     }));
 }
+
+exports.supervisor_refresh_session = function (req, res, next) {
+  let _id = req.body._id;
+  let ep = new eventproxy();
+  ep.fail(next);
+
+  Supervisor.findOne({
+    _id: _id,
+  }, null, ep.done(function (supervisor) {
+    if (supervisor) {
+      authMiddleWare.gen_session(supervisor, type.role_supervisor, req, res);
+      let data = {};
+      data.usertype = type.role_supervisor;
+      data.phone = supervisor.phone;
+      data.username = supervisor.username;
+      data._id = supervisor._id;
+      data.imageid = supervisor.imageid;
+      res.sendData(data);
+    } else {
+      res.sendErrMsg('用户不存在');
+    }
+  }));
+}

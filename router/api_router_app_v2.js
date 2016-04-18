@@ -13,6 +13,7 @@ var device = require('../api/v2/app/device');
 var feedback = require('../api/v2/app/feedback');
 var beautiful_image = require('../api/v2/app/beautiful_image');
 var message = require('../api/v2/app/message');
+var supervisor = require('../api/v2/app/supervisor');
 
 var signWeb = require('../api/v2/web/sign');
 var imageWeb = require('../api/v2/web/image');
@@ -144,5 +145,8 @@ router.post('/designer_remind_user_house_check', auth.designerRequired, limit.pe
 
 //监理独有功能
 router.post('/supervisor_login', sign.supervisor_login);
+router.post('/supervisor_refresh_session', sign.supervisor_refresh_session);
+router.post('/supervisor/info/get', supervisor.supervisor_my_info);
+router.post('/supervisor/info/update', supervisor.supervisor_update_info);
 
 module.exports = router;

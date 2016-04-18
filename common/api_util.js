@@ -395,3 +395,17 @@ exports.buildBeautifulImage = function (req) {
 exports.buildAnswers = function (req) {
   return tools.deleteUndefinedAndNullThenFilterXss(req.answers);
 }
+
+exports.buildSupervisor = function (req) {
+  let supervisor = {};
+
+  supervisor.username = req.body.supervisor.username;
+  supervisor.sex = req.body.supervisor.sex;
+  supervisor.province = req.body.supervisor.province;
+  supervisor.city = req.body.supervisor.city;
+  supervisor.district = req.body.supervisor.district;
+  supervisor.address = req.body.supervisor.address;
+  supervisor.imageid = tools.convert2ObjectId(req.body.supervisor.imageid);
+
+  return tools.deleteUndefinedAndNullThenFilterXss(supervisor);
+}
