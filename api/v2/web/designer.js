@@ -701,7 +701,7 @@ exports.designer_statistic_info = function (req, res, next) {
       product_count: result.designer.product_count,
       requirement_count: result.requirement_count,
       favorite_product_count: favorite_product_count,
-      platform_message_count: result.DesignerMessage,
+      platform_message_count: result.platform_message_count,
       requirement_message_count: result.requirement_message_count,
       comment_message_count: result.comment_message_count,
     });

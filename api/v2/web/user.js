@@ -396,7 +396,7 @@ exports.user_statistic_info = function (req, res, next) {
       requirement_count: result.requirement_count,
       favorite_product_count: favorite_product_count,
       favorite_designer_count: favorite_designer_count,
-      platform_message_count: result.DesignerMessage,
+      platform_message_count: result.platform_message_count,
       requirement_message_count: result.requirement_message_count,
       comment_message_count: result.comment_message_count,
     });
