@@ -226,7 +226,33 @@ exports.finalPlan = function (req, res, next) {
     status: type.requirement_status_final_plan,
   }, null, ep.done(function (requirement) {
     if (requirement) {
-      //标记其他方案为未中标
+      plan_status_not_respond: '0',
+      plan_status_designer_reject: '1',
+      plan_status_designer_no_respond_expired: '7',
+      plan_status_designer_respond_no_housecheck: '2',
+      plan_status_designer_housecheck_no_plan: '6',
+      plan_status_designer_no_plan_expired: '8',
+      plan_status_designer_upload: '3',
+      plan_status_user_not_final: '4',
+      plan_status_user_final: '5',
+      plan_status_designer_expired: '9', //业主选定方案后，未上传方案的设计师都是过期状态
+      // 标记未上传方案的设计师都是过期状态
+      Plan.update({
+        requirementid: requirement._id,
+        _id: {
+          $ne: planid
+        },
+        status: {
+          $in: [type.plan_status_not_respond, type.plan_status_designer_respond_no_housecheck, type.plan_status_designer_housecheck_no_plan]
+        },
+      }, {
+        status: type.plan_status_designer_expired,
+        last_status_update_time: new Date().getTime(),
+      }, {
+        multi: true
+      }, function () {});
+
+      // 标记其他方案为未中标
       Plan.update({
         requirementid: requirement._id,
         _id: {
