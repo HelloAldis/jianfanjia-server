@@ -116,7 +116,7 @@ exports.add = function (req, res, next) {
 
           }));
         } else {
-          res.sendErrMsg('数据错误');
+          res.sendErrMsg('上传方案失败！');
         }
       }));
     }

@@ -96,7 +96,7 @@ exports.designer_my_requirement_history_list = function (req, res, next) {
           designerid: designerid,
           status: {
             $in: [type.plan_status_designer_no_respond_expired, type.plan_status_designer_no_plan_expired,
-              type.plan_status_user_not_final, type.plan_status_designer_reject
+              type.plan_status_user_not_final, type.plan_status_designer_reject, type.plan_status_designer_expired
             ],
           },
         }, null, ep.done(function (plans) {
