@@ -9,14 +9,7 @@ const gt = require('../../../getui/gt.js');
 
 const apkDir = path.normalize(__dirname + '/../../../public/user_build');
 const designerApkDir = path.normalize(__dirname + '/../../../public/designer_build');
-
-exports.bindCid = function (req, res, next) {
-  let userid = ApiUtil.getUserid(req);
-  let cid = tools.trim(req.body.cid);
-
-  gt.aliasBind(userid, cid);
-  res.sendSuccessMsg();
-}
+const supervisorApkDir = path.normalize(__dirname + '/../../../public/supervisor_build');
 
 exports.android_build_version = function (req, res, next) {
   // gt.pushMessageToUser('568494454ade4cb02eeff7c5', {
@@ -74,6 +67,34 @@ exports.designer_android_build_version = function (req, res, next) {
           updatetype: arr[2],
           download_url: 'http://' + req.headers.host +
             '/designer_build/' + apk,
+        });
+      } else {
+        res.sendErrMsg('bad apk');
+      }
+    } else {
+      res.sendErrMsg('no apk');
+    }
+  }));
+}
+
+exports.supervisor_android_build_version = function (req, res, next) {
+  let ep = eventproxy();
+  ep.fail(next);
+
+  fs.readdir(supervisorApkDir, ep.done(function (apks) {
+    apks.sort();
+    let apk = apks.pop();
+    if (apk) {
+      let arr = apk.split('_');
+
+      if (arr.length === 5) {
+        let version_name = arr[4].replace(/.apk/g, '');
+        res.sendData({
+          version_name: version_name,
+          version_code: arr[3],
+          updatetype: arr[2],
+          download_url: 'http://' + req.headers.host +
+            '/supervisor_build/' + apk,
         });
       } else {
         res.sendErrMsg('bad apk');
