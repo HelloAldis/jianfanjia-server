@@ -1,31 +1,30 @@
-//load configuration
-var config = require('./apiconfig');
+'use strict'
 
-var express = require('express');
-var path = require('path');
-var compression = require('compression');
-var session = require('express-session');
-var timeout = require('connect-timeout');
-var req_res_log = require('./middlewares/req_res_log');
-var api_router_app_v2 = require('./api_router_app_v2');
-var api_router_web_v2 = require('./api_router_web_v2');
-var auth = require('./middlewares/auth');
-var responseUtil = require('./middlewares/response_util');
-// var RedisStore = require('connect-redis')(session);
-var bodyParser = require('body-parser');
-var cors = require('cors');
-var logger = require('./common/logger');
-var helmet = require('helmet');
-var api_statistic = require('./middlewares/api_statistic');
-var router_mobile = require('./router_mobile');
+//load configuration
+const config = require('./apiconfig');
+
+const express = require('express');
+const path = require('path');
+const compression = require('compression');
+const session = require('express-session');
+const timeout = require('connect-timeout');
+const req_res_log = require('./middlewares/req_res_log');
+const api_router_app_v2 = require('./router/api_router_app_v2');
+const api_router_web_v2 = require('./router/api_router_web_v2');
+const auth = require('./middlewares/auth');
+const responseUtil = require('./middlewares/response_util');
+// const RedisStore = require('connect-redis')(session);
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const logger = require('./common/logger');
+const helmet = require('helmet');
+const api_statistic = require('./middlewares/api_statistic');
+const web_router_mobile = require('./router/web_router_mobile');
 
 //config the web app
-var app = express();
+const app = express();
 // configuration in all env
 app.enable('trust proxy');
-// if (!config.debug) {
-//   app.use(require('prerender-node').set('prerenderToken', 'ECav3XjGcRGdN9q0EtF1'));
-// }
 
 //config view engine
 app.set('views', path.join(__dirname, 'mobile_views'));
@@ -73,7 +72,7 @@ app.use('/api/v2', function (req, res, next) {
 app.use('/api', req_res_log);
 app.use('/api/v2/app', cors(), api_statistic.api_statistic, api_router_app_v2);
 app.use('/api/v2/web', cors(), api_statistic.api_statistic, api_router_web_v2);
-app.use('/', router_mobile);
+app.use('/', web_router_mobile);
 
 // error handler
 app.use(function (err, req, res, next) {

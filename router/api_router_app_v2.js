@@ -1,35 +1,36 @@
 var express = require('express');
 
-var sign = require('./api/v2/app/sign');
-var user = require('./api/v2/app/user');
-var requirement = require('./api/v2/app/requirement');
-// var plan = require('./api/v2/app/plan');
-// var favorite = require('./api/v2/app/favorite');
-// var team = require('./api/v2/app/team');
-// var share = require('./api/v2/app/share');
-var designer = require('./api/v2/app/designer');
-var process = require('./api/v2/app/process');
-var device = require('./api/v2/app/device');
-var feedback = require('./api/v2/app/feedback');
-var beautiful_image = require('./api/v2/app/beautiful_image');
-var message = require('./api/v2/app/message');
+var sign = require('../api/v2/app/sign');
+var user = require('../api/v2/app/user');
+var requirement = require('../api/v2/app/requirement');
+// var plan = require('../api/v2/app/plan');
+// var favorite = require('../api/v2/app/favorite');
+// var team = require('../api/v2/app/team');
+// var share = require('../api/v2/app/share');
+var designer = require('../api/v2/app/designer');
+var process = require('../api/v2/app/process');
+var device = require('../api/v2/app/device');
+var feedback = require('../api/v2/app/feedback');
+var beautiful_image = require('../api/v2/app/beautiful_image');
+var message = require('../api/v2/app/message');
+var supervisor = require('../api/v2/app/supervisor');
 
-var signWeb = require('./api/v2/web/sign');
-var imageWeb = require('./api/v2/web/image');
-var commentWeb = require('./api/v2/web/comment');
-var requirementWeb = require('./api/v2/web/requirement');
-var planWeb = require('./api/v2/web/plan');
-var userWeb = require('./api/v2/web/user');
-var designerWeb = require('./api/v2/web/designer');
-var favoriteWeb = require('./api/v2/web/favorite');
-var productWeb = require('./api/v2/web/product');
-var beautiful_imageWeb = require('./api/v2/web/beautiful_image');
-var messageWeb = require('./api/v2/web/message');
-var shareWeb = require('./api/v2/web/share');
+var signWeb = require('../api/v2/web/sign');
+var imageWeb = require('../api/v2/web/image');
+var commentWeb = require('../api/v2/web/comment');
+var requirementWeb = require('../api/v2/web/requirement');
+var planWeb = require('../api/v2/web/plan');
+var userWeb = require('../api/v2/web/user');
+var designerWeb = require('../api/v2/web/designer');
+var favoriteWeb = require('../api/v2/web/favorite');
+var productWeb = require('../api/v2/web/product');
+var beautiful_imageWeb = require('../api/v2/web/beautiful_image');
+var messageWeb = require('../api/v2/web/message');
+var shareWeb = require('../api/v2/web/share');
 
-var config = require('./apiconfig');
-var auth = require('./middlewares/auth');
-var limit = require('./middlewares/limit');
+var config = require('../apiconfig');
+var auth = require('../middlewares/auth');
+var limit = require('../middlewares/limit');
 
 var router = express.Router();
 
@@ -68,6 +69,7 @@ router.post('/search_share', shareWeb.search_share); //获取装修直播分享
 //设备使用
 router.get('/device/android_build_version', device.android_build_version); //获取android信息
 router.get('/device/designer_android_build_version', device.designer_android_build_version); //获取designer android 信息
+router.get('/device/supervisor_android_build_version', device.supervisor_android_build_version); //获取supervisor android 信息
 
 //通用用户功能
 router.get('/signout', auth.normalUserRequired, signWeb.signout); //登出
@@ -90,12 +92,9 @@ router.post('/process/reschedule/reject', auth.normalUserRequired, process.rejec
 router.post('/favorite/product/list', auth.normalUserRequired, favoriteWeb.list_product); //收藏列表
 router.post('/favorite/product/add', auth.normalUserRequired, favoriteWeb.add_product); //收藏作品
 router.post('/favorite/product/delete', auth.normalUserRequired, favoriteWeb.delete_product); //删除收藏作品
-router.post('/favorite/beautiful_image/list', auth.normalUserRequired,
-  favoriteWeb.list_beautiful_image); //收藏美图列表
-router.post('/favorite/beautiful_image/add', auth.normalUserRequired,
-  favoriteWeb.add_beautiful_image); //收藏美图
-router.post('/favorite/beautiful_image/delete', auth.normalUserRequired,
-  favoriteWeb.delete_beautiful_image); //删除收藏美图
+router.post('/favorite/beautiful_image/list', auth.normalUserRequired, favoriteWeb.list_beautiful_image); //收藏美图列表
+router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favoriteWeb.add_beautiful_image); //收藏美图
+router.post('/favorite/beautiful_image/delete', auth.normalUserRequired, favoriteWeb.delete_beautiful_image); //删除收藏美图
 //设备使用
 // router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定cid
 
@@ -144,5 +143,11 @@ router.post('/unread_designer_message_count', auth.designerRequired, messageWeb.
 router.post('/search_designer_comment', auth.designerRequired, message.search_designer_comment); //获取设计师评论通知
 router.post('/designer_remind_user_house_check', auth.designerRequired, limit.peruserplanperday('designer_remind_user_house_check', config.designer_remind_user_house_check_time_one_day),
   designerWeb.designer_remind_user_house_check); //设计师提醒业主确认量房
+
+//监理独有功能
+router.post('/supervisor_login', sign.supervisor_login);
+router.post('/supervisor_refresh_session', sign.supervisor_refresh_session);
+router.post('/supervisor/info/get', supervisor.supervisor_my_info);
+router.post('/supervisor/info/update', supervisor.supervisor_update_info);
 
 module.exports = router;

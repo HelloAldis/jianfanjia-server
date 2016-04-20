@@ -9,6 +9,9 @@ var DesignerMessageSchema = new Schema({
   userid: {
     type: ObjectId
   },
+  supervisorid: {
+    type: ObjectId
+  },
   requirementid: {
     type: ObjectId
   },

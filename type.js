@@ -36,10 +36,12 @@ var type = {
   plan_status_designer_upload: '3',
   plan_status_user_not_final: '4',
   plan_status_user_final: '5',
+  plan_status_designer_expired: '9', //业主选定方案后，未上传方案的设计师都是过期状态
 
   role_admin: '0',
   role_user: '1',
   role_designer: '2',
+  role_supervisor: '3',
 
   work_type_half: '0',
   work_type_all: '1',

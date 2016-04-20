@@ -77,3 +77,7 @@ exports.xss = function (html) {
     return xss_util(html);
   }
 }
+
+exports.convert2ObjectId = function (str) {
+  return str ? new ObjectId(str) : undefined;
+}

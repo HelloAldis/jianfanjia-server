@@ -335,7 +335,9 @@ exports.buildComment = function (req) {
   comment.item = req.body.item;
   comment.topictype = req.body.topictype;
   comment.content = req.body.content;
-  comment.to = req.body.to ? new ObjectId(req.body.to) : undefined;
+  // comment.to = req.body.to ? new ObjectId(req.body.to) : undefined;
+  comment.to_userid = tools.convert2ObjectId(req.body.to_userid);
+  comment.to_designerid = tools.convert2ObjectId(req.body.to_designerid);
 
   return tools.deleteUndefinedAndNullThenFilterXss(comment);
 }
@@ -392,4 +394,18 @@ exports.buildBeautifulImage = function (req) {
 
 exports.buildAnswers = function (req) {
   return tools.deleteUndefinedAndNullThenFilterXss(req.answers);
+}
+
+exports.buildSupervisor = function (req) {
+  let supervisor = {};
+
+  supervisor.username = req.body.supervisor.username;
+  supervisor.sex = req.body.supervisor.sex;
+  supervisor.province = req.body.supervisor.province;
+  supervisor.city = req.body.supervisor.city;
+  supervisor.district = req.body.supervisor.district;
+  supervisor.address = req.body.supervisor.address;
+  supervisor.imageid = tools.convert2ObjectId(req.body.supervisor.imageid);
+
+  return tools.deleteUndefinedAndNullThenFilterXss(supervisor);
 }

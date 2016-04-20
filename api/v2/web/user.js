@@ -8,6 +8,7 @@ const Designer = require('../../../proxy').Designer;
 const Evaluation = require('../../../proxy').Evaluation;
 const Favorite = require('../../../proxy').Favorite;
 const VerifyCode = require('../../../proxy').VerifyCode;
+const UserMessage = require('../../../proxy').UserMessage;
 const config = require('../../../apiconfig');
 const ApiUtil = require('../../../common/api_util');
 const mongoose = require('mongoose');
@@ -335,6 +336,35 @@ exports.user_statistic_info = function (req, res, next) {
         userid: _id,
       }, callback);
     },
+    comment_message_count: function (callback) {
+      UserMessage.count({
+        userid: _id,
+        status: type.message_status_unread,
+        message_type: {
+          $in: [type.user_message_type_comment_plan, type.user_message_type_comment_process_item]
+        }
+      }, callback);
+    },
+    requirement_message_count: function (callback) {
+      UserMessage.count({
+        userid: _id,
+        status: type.message_status_unread,
+        message_type: {
+          $in: [type.user_message_type_designer_respond, type.user_message_type_designer_reject, type.user_message_type_designer_upload_plan,
+            type.user_message_type_designer_config_contract, type.user_message_type_designer_remind_ok_house_checked
+          ]
+        }
+      }, callback);
+    },
+    platform_message_count: function (callback) {
+      UserMessage.count({
+        userid: _id,
+        status: type.message_status_unread,
+        message_type: {
+          $in: [type.user_message_type_platform_notification]
+        }
+      }, callback);
+    },
     user: function (callback) {
       User.findOne({
         _id: _id,
@@ -366,6 +396,9 @@ exports.user_statistic_info = function (req, res, next) {
       requirement_count: result.requirement_count,
       favorite_product_count: favorite_product_count,
       favorite_designer_count: favorite_designer_count,
+      platform_message_count: result.platform_message_count,
+      requirement_message_count: result.requirement_message_count,
+      comment_message_count: result.comment_message_count,
     });
   }));
 }

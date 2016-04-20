@@ -259,7 +259,7 @@ exports.user_message_type_pay = function (process, section) {
 
 exports.user_message_type_comment_plan = function (comment, username) {
   let user_message = {
-    userid: comment.to,
+    userid: comment.to_userid,
     designerid: comment.by,
     topicid: comment.topicid,
     commentid: comment._id,
@@ -274,8 +274,9 @@ exports.user_message_type_comment_plan = function (comment, username) {
 
 exports.user_message_type_comment_process_item = function (comment, username) {
   let user_message = {
-    userid: comment.to,
-    designerid: comment.by,
+    userid: comment.to_userid,
+    designerid: comment.usertype === type.role_designer ? comment.by : undefined, //如果留言的人是设计师，存设计师id
+    supervisorid: comment.usertype === type.role_supervisor ? comment.by : undefined, //如果留言的人是监理，存监理id
     topicid: comment.topicid,
     commentid: comment._id,
     section: comment.section,
@@ -565,31 +566,10 @@ exports.designer_message_type_user_ok_process_section = function (user, process,
   saveDesignerMessageAndPush(designer_message);
 }
 
-// exports.designer_message_type_procurement = function (process, section) {
-//   let index = _.indexOf(type.process_work_flow, section);
-//   let message = type.procurement_notification_message[index];
-//   let next = type.process_work_flow[index + 1];
-//
-//   let designer_message = {
-//     userid: process.userid,
-//     designerid: process.final_designerid,
-//     processid: process._id,
-//     requirementid: process.requirementid,
-//     planid: process.final_planid,
-//     section: next,
-//     title: '采购提醒',
-//     content: '简繁家温馨提示您即将进入下一轮建材购买阶段，您需要购买的是：' + message,
-//     message_type: type.designer_message_type_procurement,
-//     status: type.message_status_unread,
-//   };
-//
-//   saveDesignerMessageAndPush(designer_message);
-// }
-
 exports.designer_message_type_comment_plan = function (comment, username) {
   let designer_message = {
     userid: comment.by,
-    designerid: comment.to,
+    designerid: comment.to_designerid,
     topicid: comment.topicid,
     commentid: comment._id,
     title: '方案留言',
@@ -603,8 +583,9 @@ exports.designer_message_type_comment_plan = function (comment, username) {
 
 exports.designer_message_type_comment_process_item = function (comment, username) {
   let designer_message = {
-    userid: comment.by,
-    designerid: comment.to,
+    userid: comment.usertype === type.role_user ? comment.by : undefined, // 如果留言的人是业主，存业主id
+    designerid: comment.to_designerid,
+    supervisorid: comment.usertype === type.role_supervisor ? comment.by : undefined, //如果留言的人是监理，存监理id
     topicid: comment.topicid,
     commentid: comment._id,
     section: comment.section,

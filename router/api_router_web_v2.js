@@ -1,28 +1,28 @@
-var tempUserApi = require('./api/v2/web/temp_user');
-var sign = require('./api/v2/web/sign');
-var image = require('./api/v2/web/image');
-var user = require('./api/v2/web/user');
-var requirement = require('./api/v2/web/requirement');
-var plan = require('./api/v2/web/plan');
-var product = require('./api/v2/web/product');
-var favorite = require('./api/v2/web/favorite');
-var team = require('./api/v2/web/team');
-var share = require('./api/v2/web/share');
-var designer = require('./api/v2/web/designer');
-var comment = require('./api/v2/web/comment');
-var admin = require('./api/v2/web/admin');
-var feedback = require('./api/v2/web/feedback');
-var wechat = require('./api/v2/web/wechat');
-var dec_strategy = require('./api/v2/web/dec_strategy');
-var beautiful_image = require('./api/v2/web/beautiful_image');
-var answer = require('./api/v2/web/answer');
-var message = require('./api/v2/web/message');
+var tempUserApi = require('../api/v2/web/temp_user');
+var sign = require('../api/v2/web/sign');
+var image = require('../api/v2/web/image');
+var user = require('../api/v2/web/user');
+var requirement = require('../api/v2/web/requirement');
+var plan = require('../api/v2/web/plan');
+var product = require('../api/v2/web/product');
+var favorite = require('../api/v2/web/favorite');
+var team = require('../api/v2/web/team');
+var share = require('../api/v2/web/share');
+var designer = require('../api/v2/web/designer');
+var comment = require('../api/v2/web/comment');
+var admin = require('../api/v2/web/admin');
+var feedback = require('../api/v2/web/feedback');
+var wechat = require('../api/v2/web/wechat');
+var dec_strategy = require('../api/v2/web/dec_strategy');
+var beautiful_image = require('../api/v2/web/beautiful_image');
+var answer = require('../api/v2/web/answer');
+var message = require('../api/v2/web/message');
 
-var processApp = require('./api/v2/app/process');
+var processApp = require('../api/v2/app/process');
 
-var config = require('./apiconfig');
-var auth = require('./middlewares/auth');
-var limit = require('./middlewares/limit');
+var config = require('../apiconfig');
+var auth = require('../middlewares/auth');
+var limit = require('../middlewares/limit');
 
 var express = require('express');
 var router = express.Router();
@@ -191,5 +191,6 @@ router.post('/admin/update_beautiful_image', auth.adminRequired, admin.update_be
 router.post('/admin/search_beautiful_image', auth.adminRequired, admin.search_beautiful_image); //搜索文章
 router.post('/admin/search_answer', auth.adminRequired, admin.search_answer); //搜索问卷答案
 router.post('/admin/count_answer', auth.adminRequired, admin.count_answer); //统计问卷答案
+router.post('/admin/add_supervisor', auth.adminRequired, admin.add_supervisor); //添加监理
 
 module.exports = router;

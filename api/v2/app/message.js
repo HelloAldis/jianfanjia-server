@@ -6,6 +6,7 @@ var DesignerMessage = require('../../../proxy').DesignerMessage;
 var Plan = require('../../../proxy').Plan;
 var Process = require('../../../proxy').Process;
 var Requirement = require('../../../proxy').Requirement;
+var Supervisor = require('../../../proxy').Supervisor;
 var async = require('async');
 var ApiUtil = require('../../../common/api_util');
 var type = require('../../../type');
@@ -68,13 +69,29 @@ exports.search_user_comment = function (req, res, next) {
         }));
       } else {
         async.parallel({
+          supervisor: function (callback) {
+            if (message.supervisorid) {
+              Supervisor.findOne({
+                _id: message.supervisorid,
+              }, {
+                username: 1,
+                imageid: 1,
+              }, callback);
+            } else {
+              callback(null);
+            }
+          },
           designer: function (callback) {
-            Designer.findOne({
-              _id: message.designerid,
-            }, {
-              username: 1,
-              imageid: 1,
-            }, callback);
+            if (message.designerid) {
+              Designer.findOne({
+                _id: message.designerid,
+              }, {
+                username: 1,
+                imageid: 1,
+              }, callback);
+            } else {
+              callback(null);
+            }
           },
           process: function (callback) {
             Process.findOne({
@@ -83,11 +100,14 @@ exports.search_user_comment = function (req, res, next) {
               cell: 1,
               basic_address: 1,
               sections: 1,
+              userid: 1,
+              final_designerid: 1,
             }, callback);
           }
         }, function (err, result) {
           message.process = result.process;
           message.designer = result.designer;
+          message.supervisor = result.supervisor;
           callback(err, message);
         });
       }
@@ -163,13 +183,29 @@ exports.search_designer_comment = function (req, res, next) {
         }));
       } else {
         async.parallel({
+          supervisor: function (callback) {
+            if (message.supervisorid) {
+              Supervisor.findOne({
+                _id: message.supervisorid,
+              }, {
+                username: 1,
+                imageid: 1,
+              }, callback);
+            } else {
+              callback(null);
+            }
+          },
           user: function (callback) {
-            User.findOne({
-              _id: message.userid,
-            }, {
-              username: 1,
-              imageid: 1,
-            }, callback);
+            if (message.userid) {
+              User.findOne({
+                _id: message.userid,
+              }, {
+                username: 1,
+                imageid: 1,
+              }, callback);
+            } else {
+              callback(null);
+            }
           },
           process: function (callback) {
             Process.findOne({
@@ -183,6 +219,7 @@ exports.search_designer_comment = function (req, res, next) {
         }, function (err, result) {
           message.process = result.process;
           message.user = result.user;
+          message.supervisor = result.supervisor;
           callback(err, message);
         });
       }

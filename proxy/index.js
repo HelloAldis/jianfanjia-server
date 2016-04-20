@@ -23,3 +23,4 @@ exports.BeautifulImage = require('./beautiful_image');
 exports.Answer = require('./answer');
 exports.UserMessage = factory.create_proxy(require('../models').UserMessage);
 exports.DesignerMessage = factory.create_proxy(require('../models').DesignerMessage);
+exports.Supervisor = factory.create_proxy(require('../models').Supervisor);

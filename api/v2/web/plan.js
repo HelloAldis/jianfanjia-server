@@ -116,7 +116,7 @@ exports.add = function (req, res, next) {
 
           }));
         } else {
-          res.sendErrMsg('数据错误');
+          res.sendErrMsg('上传方案失败！');
         }
       }));
     }
@@ -226,7 +226,23 @@ exports.finalPlan = function (req, res, next) {
     status: type.requirement_status_final_plan,
   }, null, ep.done(function (requirement) {
     if (requirement) {
-      //标记其他方案为未中标
+      // 标记未上传方案的设计师都是过期状态
+      Plan.update({
+        requirementid: requirement._id,
+        _id: {
+          $ne: planid
+        },
+        status: {
+          $in: [type.plan_status_not_respond, type.plan_status_designer_respond_no_housecheck, type.plan_status_designer_housecheck_no_plan]
+        },
+      }, {
+        status: type.plan_status_designer_expired,
+        last_status_update_time: new Date().getTime(),
+      }, {
+        multi: true
+      }, function () {});
+
+      // 标记其他方案为未中标
       Plan.update({
         requirementid: requirement._id,
         _id: {
