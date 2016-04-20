@@ -214,6 +214,8 @@ exports.search_designer_comment = function (req, res, next) {
               cell: 1,
               basic_address: 1,
               sections: 1,
+              userid: 1,
+              final_designerid: 1,
             }, callback);
           }
         }, function (err, result) {
