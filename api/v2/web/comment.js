@@ -58,8 +58,8 @@ exports.add_comment = function (req, res, next) {
         username: 1,
       }, function (err, supervisor) {
         if (comment.topictype === type.topic_type_plan) {
-          message_util.designer_message_type_comment_plan(comment_indb, supervisor.username);
-          message_util.user_message_type_comment_plan(comment_indb, supervisor.username);
+          // message_util.designer_message_type_comment_plan(comment_indb, supervisor.username);
+          // message_util.user_message_type_comment_plan(comment_indb, supervisor.username);
         } else if (comment.topictype === type.topic_type_process_item) {
           message_util.designer_message_type_comment_process_item(comment_indb, supervisor.username);
           message_util.user_message_type_comment_process_item(comment_indb, supervisor.username);

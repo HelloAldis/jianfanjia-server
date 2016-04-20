@@ -275,7 +275,8 @@ exports.user_message_type_comment_plan = function (comment, username) {
 exports.user_message_type_comment_process_item = function (comment, username) {
   let user_message = {
     userid: comment.to_userid,
-    designerid: comment.by,
+    designerid: comment.usertype === type.role_designer ? comment.by : undefined, //如果留言的人是设计师，存设计师id
+    supervisorid: comment.usertype === type.role_supervisor ? comment.by : undefined, //如果留言的人是监理，存监理id
     topicid: comment.topicid,
     commentid: comment._id,
     section: comment.section,
@@ -582,8 +583,9 @@ exports.designer_message_type_comment_plan = function (comment, username) {
 
 exports.designer_message_type_comment_process_item = function (comment, username) {
   let designer_message = {
-    userid: comment.by,
+    userid: comment.usertype === type.role_user ? comment.by : undefined, // 如果留言的人是业主，存业主id
     designerid: comment.to_designerid,
+    supervisorid: comment.usertype === type.role_supervisor ? comment.by : undefined, //如果留言的人是监理，存监理id
     topicid: comment.topicid,
     commentid: comment._id,
     section: comment.section,

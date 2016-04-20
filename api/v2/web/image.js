@@ -24,8 +24,7 @@ exports.add = function (req, res, next) {
         }
       } else {
         imageUtil.jpgbuffer(data, ep.done(function (buf) {
-          Image.newAndSave(md5, buf, userid, ep.done(function (
-            savedImage) {
+          Image.newAndSave(md5, buf, userid, ep.done(function (savedImage) {
             if (!req.timedout) {
               res.sendData(savedImage._id);
             }
