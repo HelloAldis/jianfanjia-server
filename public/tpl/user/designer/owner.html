@@ -5,7 +5,7 @@
 	<div class="owenr-boxs" bindonce="requirement" ng-if="requirement">
 		<div class="info">
 			<span class="head">
-				<img bo-if="requirement.user.imageid" bo-src-i="/api/v2/web/thumbnail/70/{{requirement.user.imageid}}" bo-alt="requirement.user.username" />
+				<img bo-if="requirement.user.imageid" bo-src-i="/api/v2/web/thumbnail2/70/70/{{requirement.user.imageid}}" bo-alt="requirement.user.username" />
 			</span>
 			<h3><strong bo-text="requirement.user.username"></strong><span ng-if="requirement.plan.status == 2 || requirement.plan.status == 6 || requirement.plan.status == 3 || requirement.plan.status == 4 || requirement.plan.status == 5 || requirement.plan.status == 8">(<i class="iconfont2">&#xe625;</i><i bo-text="requirement.user.phone"></i>)</span></h3>
 			<div class="detail f-cb">
@@ -67,6 +67,12 @@
 				<button class="u-btns" ng-click="owenr.rejectOwenr()">&nbsp;&nbsp;提交&nbsp;&nbsp;</button>
 			</div>
 		</div>
+		<div class="response expired" ng-if="requirement.plan.status == 9">
+			<h4>该业主已选中其他设计师的方案，感谢您的配合。</h4>
+			<div class="btns">
+				<a ui-sref="index" class="u-btns u-btns-revise">确定</a>
+			</div>
+		</div>
 		<div class="response reject answerOk" ng-if="requirement.plan.status == 2">
 			<div class="tips">
 				<h4>您已响应业主</h4>
@@ -79,7 +85,7 @@
 				<button ng-if="requirement.plan.status == 2 && requirement.plan.house_check_time <= owenr.newDate" class="u-btns" ng-click="owenr.checkHouse(requirement.plan._id,requirement.user._id)">提醒业主确认量房</button>
 			</div>
 		</div>
-		<div class="select" ng-if="owenr.response && !(requirement.plan.status == 5 || requirement.plan.status == 1 || requirement.plan.status == 2 )">
+		<div class="select" ng-if="owenr.response && !(requirement.plan.status == 5 || requirement.plan.status == 1 || requirement.plan.status == 2) && requirement.plan.status != 9">
 			<div ng-if="requirement.plan.status == 0 && !requirement.plan.get_phone_time">
 				<p>请24小时内与业主沟通量房时间，并响应业主预约，过期视为放弃。</p>
 				<div class="btns">

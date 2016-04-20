@@ -480,94 +480,6 @@ body{
 	margin: 0 auto;
 	border-radius: 120px;
 }
-.k-cropBox{
-	position: fixed;
-	left:50%;
-	z-index: 1001;
-	top:-100%;
-	width:500px;
-	padding: 20px;
-	margin-left: -250px;
-	background-color: #fff;
-	border-radius: 5px;
-	display: none;
-	opacity: 0;
-	filter: alpha(opacity=0);
-}
-.k-cropBox .cropBox{
-	position:relative;
-	background-color: #bababa;
-}
-.k-cropBox img{
-	width: 100%;
-}
-.k-cropBox .img1{
-	opacity: 0.5;
-	filter: alpha(opacity=50);
-}
-.k-cropBox .img2{
-	position: absolute;
-	left:0;
-	top:0;
-	clip:rect(0px 300px 300px 0px);
-}
-.k-cropBox .cropBorder{
-	position: absolute;
-	left:-1px;
-	top:-1px;
-	z-index: 2;
-	width: 300px;
-	height: 300px;
-	border: 1px solid #fff;
-}
-.k-cropBox .cropBorder span{
-	position: absolute;
-	left:0;
-	top:0;
-	width: 4px;
-	height:4px;
-	background-color: #fff;
-	margin-left: -2px;
-	margin-top: -2px;
-}
-.k-cropBox .cropBorder div{
-	width: 100%;
-	height: 100%;
-	background-color: #fff;
-	opacity: 0;
-	filter: alpha(opacity=0);
-}
-.k-cropBox .cropBorder .dot2{
-	left:50%;
-}
-.k-cropBox .cropBorder .dot3{
-	left:100%;
-}
-.k-cropBox .cropBorder .dot4{
-	top:50%;
-	left:100%;
-}
-.k-cropBox .cropBorder .dot5{
-	top:100%;
-	left:100%;
-}
-.k-cropBox .cropBorder .dot6{
-	top:100%;
-	left:50%;
-}
-.k-cropBox .cropBorder .dot7{
-	top:100%;
-}
-.k-cropBox .cropBorder .dot8{
-	top:50%;
-}
-.k-cropBox .btns{
-	padding: 34px 0 12px;
-	text-align: center;
-}
-.k-cropBox .btns .u-btns{
-	line-height: 38px;
-}
 /*下拉选择框*/
 .k-select{
 	position: relative;
@@ -2126,5 +2038,186 @@ body{
 	margin-left: 12px;
 	color: #fe7004
 }
-
+/*头像图片裁剪*/
+.k-cropBox{
+	position: fixed;
+	left:50%;
+	z-index: 1001;
+	top:-100%;
+	width:500px;
+	padding: 20px;
+	margin-left: -250px;
+	background-color: #fff;
+	border-radius: 5px;
+	display: none;
+}
+.k-cropBox .cropBox{
+	position:relative;
+	background-color: #fff;
+}
+.k-cropBox .btns{
+	padding: 34px 0 12px;
+	text-align: center;
+}
+.k-cropBox .btns .u-btns{
+	line-height: 38px;
+}
+.jcrop-holder {
+	direction: ltr;
+	text-align: left;
+	/* IE10 touch compatibility */
+	-ms-touch-action: none;
+	background-color: #fff;
+}
+/* Selection Border */
+.jcrop-vline,
+.jcrop-hline {
+	background: #ffffff url("Jcrop.gif");
+	font-size: 0;
+	position: absolute;
+}
+.jcrop-vline {
+	height: 100%;
+	width: 1px !important;
+}
+.jcrop-vline.right {
+	right: 0;
+}
+.jcrop-hline {
+	height: 1px !important;
+	width: 100%;
+}
+.jcrop-hline.bottom {
+	bottom: 0;
+}
+/* Invisible click targets */
+.jcrop-tracker {
+	height: 100%;
+	width: 100%;
+	/* "turn off" link highlight */
+	-webkit-tap-highlight-color: transparent;
+	/* disable callout, image save panel */
+	-webkit-touch-callout: none;
+	/* disable cut copy paste */
+	-webkit-user-select: none;
+}
+/* Selection Handles */
+.jcrop-handle {
+	background-color: #333333;
+	border: 1px #eeeeee solid;
+	width: 7px;
+	height: 7px;
+	font-size: 1px;
+}
+.jcrop-handle.ord-n {
+	left: 50%;
+	margin-left: -4px;
+	margin-top: -4px;
+	top: 0;
+}
+.jcrop-handle.ord-s {
+	bottom: 0;
+	left: 50%;
+	margin-bottom: -4px;
+	margin-left: -4px;
+}
+.jcrop-handle.ord-e {
+	margin-right: -4px;
+	margin-top: -4px;
+	right: 0;
+	top: 50%;
+}
+.jcrop-handle.ord-w {
+	left: 0;
+	margin-left: -4px;
+	margin-top: -4px;
+	top: 50%;
+}
+.jcrop-handle.ord-nw {
+	left: 0;
+	margin-left: -4px;
+	margin-top: -4px;
+	top: 0;
+}
+.jcrop-handle.ord-ne {
+	margin-right: -4px;
+	margin-top: -4px;
+	right: 0;
+	top: 0;
+}
+.jcrop-handle.ord-se {
+	bottom: 0;
+	margin-bottom: -4px;
+	margin-right: -4px;
+	right: 0;
+}
+.jcrop-handle.ord-sw {
+	bottom: 0;
+	left: 0;
+	margin-bottom: -4px;
+	margin-left: -4px;
+}
+/* Dragbars */
+.jcrop-dragbar.ord-n,
+.jcrop-dragbar.ord-s {
+	height: 7px;
+	width: 100%;
+}
+.jcrop-dragbar.ord-e,
+.jcrop-dragbar.ord-w {
+	height: 100%;
+	width: 7px;
+}
+.jcrop-dragbar.ord-n {
+	margin-top: -4px;
+}
+.jcrop-dragbar.ord-s {
+	bottom: 0;
+	margin-bottom: -4px;
+}
+.jcrop-dragbar.ord-e {
+	margin-right: -4px;
+	right: 0;
+}
+.jcrop-dragbar.ord-w {
+	margin-left: -4px;
+}
+/* The "jcrop-light" class/extension */
+.jcrop-light .jcrop-vline,
+.jcrop-light .jcrop-hline {
+	background: #ffffff;
+	/*filter: alpha(opacity=70) !important;*/
+	opacity: .70!important;
+}
+.jcrop-light .jcrop-handle {
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	background-color: #000000;
+	border-color: #ffffff;
+	border-radius: 3px;
+}
+/* The "jcrop-dark" class/extension */
+.jcrop-dark .jcrop-vline,
+.jcrop-dark .jcrop-hline {
+	background: #000000;
+	/*filter: alpha(opacity=70) !important;*/
+	opacity: 0.7 !important;
+}
+.jcrop-dark .jcrop-handle {
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	background-color: #ffffff;
+	border-color: #000000;
+	border-radius: 3px;
+}
+/* Simple macro to turn off the antlines */
+.solid-line .jcrop-vline,
+.solid-line .jcrop-hline {
+	background: #ffffff;
+}
+/* Fix for twitter bootstrap et al. */
+.jcrop-holder img,
+img.jcrop-preview {
+	max-width: none;
+}
 

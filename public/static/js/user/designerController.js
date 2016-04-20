@@ -422,7 +422,7 @@ angular.module('controllers', [])
             ],
             priceDetail365 = [
                 {
-                    "description": "“365基础包”包含以下项目：1､基础工程；2､水电工程；3､泥工工程；4､墙面工程；5､其它费用。",
+                    "description": "“365基础包”包含以下项目：1､基础工程；2､水电工程；3､泥工工程；4､墙面工程；5､其它工程。",
                     "price": undefined,
                     "item": "365基础包"
                 },
@@ -483,6 +483,7 @@ angular.module('controllers', [])
                 }
             ];
             $scope.designerPlan = {
+                loading : false,
                 tab : true,
                 addteam : false,
                 totalprice : false,
@@ -547,6 +548,7 @@ angular.module('controllers', [])
                         if($scope.designerPlan.packagetype === '1' && $scope.plan.price_detail[0].item === '365基础包'){
                             $scope.designerPlan.baseprice = $scope.plan.price_detail[0].price;
                         }
+                        $scope.designerPlan.loading = true;
                     }
                 },function(res){
                     console.log(res)
@@ -561,6 +563,7 @@ angular.module('controllers', [])
                 }else{
                     $scope.plan.price_detail = priceDetail.slice(0);
                 }
+                $scope.designerPlan.loading = true;
             }
             $scope.designerPlan.remove_price_detail = function(id){
                 if(confirm('您确定要删除吗？')){
@@ -640,6 +643,7 @@ angular.module('controllers', [])
                 if($scope.designerPlan.isCreate){
                     userRequiremtne.update($scope.plan).then(function(res){  //修改方案到业主的需求
                         $state.go('requirement.plan',{id:This.requiremtneId});
+                        $scope.designerPlan.loading = false;
                     },function(res){
                         console.log(res)
                     });
@@ -653,6 +657,7 @@ angular.module('controllers', [])
                     userRequiremtne.addPlan($scope.plan).then(function(res){  //提交方案到业主的需求
                         if(!!res.data.msg && res.data.msg === "success"){
                             $state.go('requirement.plan',{id:This.requiremtneId});
+                            $scope.designerPlan.loading = false;
                         }
                     },function(res){
                         console.log(res)
@@ -728,7 +733,7 @@ angular.module('controllers', [])
     .controller('productsListCtrl', [     //我的作品列表
         '$scope','$state','$filter','userProduct',function($scope,$state,$filter,userProduct){
             $scope.productList = undefined;
-            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
                 dataPage = {
                   "from": _index*6,
                   "limit":6
@@ -760,7 +765,7 @@ angular.module('controllers', [])
                         ellipseText:"...",
                         showUbwz : false,
                         pageInfo : false,
-                        callback : function (i,obj) {
+                        callback : function (i) {
                             dataPage.from = i*this.itemPage;
                             current = i;
                             $state.go('products.list', { id: parseInt(i,10)+1 });
@@ -787,7 +792,7 @@ angular.module('controllers', [])
     .controller('favoriteProductCtrl', [     //作品收藏列表
         '$scope','$state','$filter','userFavoriteProduct',function($scope,$state,$filter,userFavoriteProduct){
             $scope.designers = undefined;
-            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
                 dataPage = {
                   "from": _index*4,
                   "limit":4
@@ -802,11 +807,11 @@ angular.module('controllers', [])
                         current = 0;
                         $state.go('favorite.list', { id: 1 });
                     }
-                    angular.forEach($scope.favoriteProduct, function(value, key){
+                    angular.forEach($scope.favoriteProduct, function(value){
                         value.house_type = $filter('houseTypeFilter')(value.house_type);
                         value.dec_style = $filter('decStyleFilter')(value.dec_style);
                         value.description = $filter('limitTo')(value.description,100);
-                    })
+                    });
                     $scope.pageing = {
                         allNumPage : res.data.data.total,
                         itemPage : dataPage.limit,
@@ -819,10 +824,10 @@ angular.module('controllers', [])
                         ellipseText:"...",
                         showUbwz : false,
                         pageInfo : false,
-                        callback : function (i,obj) {
+                        callback : function (i) {
                             dataPage.from = i*this.itemPage;
                             current = i;
-                            $state.go('favorite.list', { id: parseInt(i)+1 });
+                            $state.go('favorite.list', { id: parseInt(i,10)+1 });
                             return false;
                         }
                     }
@@ -841,7 +846,7 @@ angular.module('controllers', [])
                         console.log(res)
                     });
                 }
-            }
+            };
             laod()
     }])
     .controller('inforCtrl', [     //基本资料认证
@@ -868,7 +873,7 @@ angular.module('controllers', [])
                         console.log(res)
                     });
                 }
-            }
+            };
             $scope.designer = {
                 username : '',
                 sex : '',
@@ -884,8 +889,8 @@ angular.module('controllers', [])
                 diploma_imageid : '',
                 award_details : [],
                 imageid : ''
-            }
-            uploadDesignerInfo()
+            };
+            uploadDesignerInfo();
             function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userInfo.get().then(function(res){
                     $scope.designer = _.assign($scope.designer, res.data.data);
@@ -920,7 +925,7 @@ angular.module('controllers', [])
                 }
                 userInfo.update($scope.designer).then(function(res){
                     if(res.data.msg === "success"){
-                        $('#j-userLogin').find('a').eq(0).html('设计师 '+$scope.designer.username);
+                        user.updateInfo();
                         This.motaiDone = true;
                     }
                 },function(res){
@@ -1309,7 +1314,7 @@ angular.module('controllers', [])
         }])
     .controller('noticeListCtrl', [     //系统通知列表
         '$scope','$state','userMessage',function($scope,$state,userMessage){
-            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
                 message_type = ChangeArray($state.params.type),
                 status = $state.params.status,
                 dataPage = {
@@ -1375,6 +1380,7 @@ angular.module('controllers', [])
                     $scope.count.remind = res.data.data[1];
                     $scope.count.comment = res.data.data[2];
                     $scope.$emit('userMessageParent', $scope.count);   //父级传递
+                    user.updateData();   //更新右上角显示下拉菜单
                 },function(err){
                     console.log(err);
                 });
@@ -1410,10 +1416,10 @@ angular.module('controllers', [])
                         ellipseText:"...",
                         showUbwz : false,
                         pageInfo : false,
-                        callback : function (i,obj) {
+                        callback : function (i) {
                             dataPage.from = i*this.itemPage;
                             current = i;
-                            $state.go('notice.list.type', {id:parseInt(i)+1,type:$state.params.type,status:$state.params.status});
+                            $state.go('notice.list.type', {id:parseInt(i,10)+1,type:$state.params.type,status:$state.params.status});
                             return false;
                         }
                     }
@@ -1425,7 +1431,7 @@ angular.module('controllers', [])
         }])
     .controller('noticeDetailCtrl', [     //系统通知详情
             '$scope','$state','userMessage',function($scope,$state,userMessage){
-            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
                 message_type = ChangeArray($state.params.type),
                 status = $state.params.status,
                 dataPage = {
@@ -1459,6 +1465,7 @@ angular.module('controllers', [])
                     $scope.count.remind = res.data.data[1];
                     $scope.count.comment = res.data.data[2];
                     $scope.$emit('userMessageParent', $scope.count);   //父级传递
+                    user.updateData();   //更新右上角显示下拉菜单
                 },function(err){
                     console.log(err);
                 });
@@ -1474,7 +1481,7 @@ angular.module('controllers', [])
             }
         }])
     .controller('remindCtrl', [     //需求提醒列表
-        '$scope','$state','userMessage',function($scope,$state,userMessage){
+        '$scope','$state',function($scope,$state){
             $scope.remind = {
                 "name" : '',
                 "arr" : "14-15-16-17-18",
@@ -1518,7 +1525,7 @@ angular.module('controllers', [])
                 ],
                 goto : function(id){
                     var _this = this;
-                    angular.forEach(this.tab,function(v,k){
+                    angular.forEach(this.tab,function(v){
                         v.cur = false;
                         _this.tab[id].cur = true;
                         _this.name = _this.tab[id].name;
@@ -1526,7 +1533,7 @@ angular.module('controllers', [])
                     });
                 }
             };
-            angular.forEach($scope.remind.tab,function(v,k){
+            angular.forEach($scope.remind.tab,function(v){
                 if(v.arr == $state.params.type){
                     v.cur = true;
                 }else{
@@ -1536,7 +1543,7 @@ angular.module('controllers', [])
         }])
     .controller('remindListCtrl', [     //需求提醒列表
         '$scope','$state','userMessage',function($scope,$state,userMessage){
-            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
                 message_type = ChangeArray($state.params.type),
                 status = $state.params.status,
                 dataPage = {
@@ -1570,6 +1577,7 @@ angular.module('controllers', [])
                     $scope.count.remind = res.data.data[1];
                     $scope.count.comment = res.data.data[2];
                     $scope.$emit('userMessageParent', $scope.count);   //父级传递
+                    user.updateData();   //更新右上角显示下拉菜单
                 },function(err){
                     console.log(err)
                 });
@@ -1605,10 +1613,10 @@ angular.module('controllers', [])
                         ellipseText:"...",
                         showUbwz : false,
                         pageInfo : false,
-                        callback : function (i,obj) {
+                        callback : function (i) {
                             dataPage.from = i*this.itemPage;
                             current = i;
-                            $state.go('remind.list.type', {id:parseInt(i)+1,type:$state.params.type,status:$state.params.status});
+                            $state.go('remind.list.type', {id:parseInt(i,10)+1,type:$state.params.type,status:$state.params.status});
                             return false;
                         }
                     }
@@ -1620,13 +1628,12 @@ angular.module('controllers', [])
         }])
     .controller('commentCtrl', [     //评论列表
         '$scope','$state','userMessage',function($scope,$state,userMessage){
-            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
                 dataPage = {
                     "from": _index*10,
                     "limit":10
                 },
-                current = _index,
-                status = undefined;
+                current = _index;
                 $scope.count = {};
             $scope.comment = {
                 "name" : '',
@@ -1639,11 +1646,10 @@ angular.module('controllers', [])
                 ],
                 goto : function(id){
                     var _this = this;
-                    angular.forEach(this.tab,function(v,k){
+                    angular.forEach(this.tab,function(v){
                         v.cur = false;
                         _this.tab[id].cur = true;
                         _this.name = _this.tab[id].name;
-                        loadList(id);
                     });
                 },
                 "list" : undefined
@@ -1669,10 +1675,10 @@ angular.module('controllers', [])
                         ellipseText:"...",
                         showUbwz : false,
                         pageInfo : false,
-                        callback : function (i,obj) {
+                        callback : function (i) {
                             dataPage.from = i*this.itemPage;
                             current = i;
-                            $state.go('comment.list', { id: parseInt(i)+1 });
+                            $state.go('comment.list', { id: parseInt(i,10)+1 });
                             return false;
                         }
                     }

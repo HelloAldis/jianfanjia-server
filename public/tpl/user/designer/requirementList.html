@@ -51,7 +51,7 @@
 							</div>
 							<div class="progress f-fr" bo-if="data.work_type == '纯设计'">
 								<div class="bar">
-									<div class="in in{{data.status}}" bo-class="{'in8':data.status == 4}"></div>
+									<div class="in in{{data.status}}" ng-class="{'in8':data.status == 4}"></div>
 								</div>
 								<p bo-switch="data.plan.status" bo-if="data.plan.status && (data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 6)">
 									<i bo-switch-when="0">

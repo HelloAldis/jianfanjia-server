@@ -96,7 +96,7 @@ angular.module('controllers', [])
                 userInfo.update($scope.user).then(function(res){
                     if(res.data.msg == "success"){
                         userInfo.save($scope.user);
-                        $('#j-userLogin').find('a').eq(0).html('业主 '+$scope.user.username);
+                        user.updateInfo();
                         $state.go('index');
                     }
                 },function(err){
@@ -702,10 +702,10 @@ angular.module('controllers', [])
                     This.anonymity = false;
                     This.scoreRespond = "0";
                     This.scoreService = "0";
-                    angular.forEach(initData.scorea, function(value, key){
+                    angular.forEach(initData.scorea, function(value){
                         value.cur = '';
                     });
-                    angular.forEach(initData.scoreb, function(value, key){
+                    angular.forEach(initData.scoreb, function(value){
                         value.cur = '';
                     });
                 },
@@ -792,7 +792,7 @@ angular.module('controllers', [])
     .controller('favoriteProductCtrl', [     //作品收藏列表
         '$scope','$state','$filter','userFavoriteProduct',function($scope,$state,$filter,userFavoriteProduct){
             $scope.designers = undefined;
-            var _index = parseInt($state.params.id) !== NaN ? parseInt($state.params.id) - 1 : 0,
+            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
                 dataPage = {
                   "from": _index*4,
                   "limit":4
@@ -807,11 +807,11 @@ angular.module('controllers', [])
                         current = 0;
                         $state.go('favorite.list', { id: 1 });
                     }
-                    angular.forEach($scope.favoriteProduct, function(value, key){
+                    angular.forEach($scope.favoriteProduct, function(value){
                         value.house_type = $filter('houseTypeFilter')(value.house_type);
                         value.dec_style = $filter('decStyleFilter')(value.dec_style);
                         value.description = $filter('limitTo')(value.description,100);
-                    })
+                    });
                     $scope.pageing = {
                         allNumPage : res.data.data.total,
                         itemPage : dataPage.limit,
@@ -824,10 +824,10 @@ angular.module('controllers', [])
                         ellipseText:"...",
                         showUbwz : false,
                         pageInfo : false,
-                        callback : function (i,obj) {
+                        callback : function (i) {
                             dataPage.from = i*this.itemPage;
                             current = i;
-                            $state.go('favorite.list', { id: parseInt(i)+1 });
+                            $state.go('favorite.list', { id: parseInt(i,10)+1 });
                             return false;
                         }
                     }
@@ -852,7 +852,7 @@ angular.module('controllers', [])
     .controller('favoriteDesignerCtrl', [     //意向设计师列表
         '$scope','$state','userFavoriteDesigner',function($scope,$state,userFavoriteDesigner){
             $scope.designers = undefined;
-            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
                 dataPage = {
                   "from": _index*5,
                   "limit":5
@@ -879,10 +879,10 @@ angular.module('controllers', [])
                         ellipseText:"...",
                         showUbwz : false,
                         pageInfo : false,
-                        callback : function (i,obj) {
+                        callback : function (i) {
                             dataPage.from = i*this.itemPage;
                             current = i;
-                            $state.go('designer.list', { id: parseInt(i)+1 });
+                            $state.go('designer.list', { id: parseInt(i,10)+1 });
                             return false;
                         }
                     }
@@ -905,7 +905,7 @@ angular.module('controllers', [])
             laod()
     }])
     .controller('noticeCtrl', [     //系统通知
-        '$scope','$state','userMessage',function($scope,$state,userMessage){
+        '$scope','$state',function($scope,$state){
             $scope.notice = {
                 name : '',
                 "arr" : "4-99",
@@ -931,7 +931,7 @@ angular.module('controllers', [])
                 ],
                 goto : function(id){
                     var _this = this;
-                    angular.forEach(this.tab,function(v,k){
+                    angular.forEach(this.tab,function(v){
                         v.cur = false;
                         _this.tab[id].cur = true;
                         _this.name = _this.tab[id].name;
@@ -939,7 +939,7 @@ angular.module('controllers', [])
                     });
                 }
             };
-            angular.forEach($scope.notice.tab,function(v,k){
+            angular.forEach($scope.notice.tab,function(v){
                 if(v.arr == $state.params.type){
                     v.cur = true;
                 }else{
@@ -949,7 +949,7 @@ angular.module('controllers', [])
         }])
     .controller('noticeListCtrl', [     //系统通知列表
         '$scope','$state','userMessage',function($scope,$state,userMessage){
-            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
                 message_type = ChangeArray($state.params.type),
                 status = $state.params.status,
                 dataPage = {
@@ -1001,6 +1001,7 @@ angular.module('controllers', [])
                     $scope.count.remind = res.data.data[1];
                     $scope.count.comment = res.data.data[2];
                     $scope.$emit('userMessageParent', $scope.count);   //父级传递
+                    user.updateData(); //更新右上角显示下拉菜单
                 },function(err){
                     console.log(err)
                 });
@@ -1036,7 +1037,7 @@ angular.module('controllers', [])
                         ellipseText:"...",
                         showUbwz : false,
                         pageInfo : false,
-                        callback : function (i,obj) {
+                        callback : function (i) {
                             dataPage.from = i*this.itemPage;
                             current = i;
                             $state.go('notice.list.type', {id:parseInt(i)+1,type:$state.params.type,status:$state.params.status});
@@ -1051,7 +1052,7 @@ angular.module('controllers', [])
         }])
     .controller('noticeDetailCtrl', [     //系统通知详情
             '$scope','$state','userMessage',function($scope,$state,userMessage){
-            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
                 message_type = ChangeArray($state.params.type),
                 status = $state.params.status,
                 dataPage = {
@@ -1085,6 +1086,7 @@ angular.module('controllers', [])
                     $scope.count.remind = res.data.data[1];
                     $scope.count.comment = res.data.data[2];
                     $scope.$emit('userMessageParent', $scope.count);   //父级传递
+                    user.updateData();
                 },function(err){
                     console.log(err);
                 });
@@ -1162,7 +1164,7 @@ angular.module('controllers', [])
         }])
     .controller('remindListCtrl', [     //需求提醒列表
         '$scope','$state','userMessage',function($scope,$state,userMessage){
-            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
                 message_type = ChangeArray($state.params.type),
                 status = $state.params.status,
                 dataPage = {
@@ -1195,6 +1197,7 @@ angular.module('controllers', [])
                     $scope.count.remind = res.data.data[1];
                     $scope.count.comment = res.data.data[2];
                     $scope.$emit('userMessageParent', $scope.count);   //父级传递
+                    user.updateData(); //更新右上角显示下拉菜单
                 },function(err){
                     console.log(err)
                 });
@@ -1245,13 +1248,12 @@ angular.module('controllers', [])
         }])
     .controller('commentCtrl', [     //评论列表
         '$scope','$state','userMessage',function($scope,$state,userMessage){
-            var _index = parseInt($state.params.id) != NaN ? parseInt($state.params.id) - 1 : 0,
+            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
                 dataPage = {
                     "from": _index*10,
                     "limit":10
                 },
-                current = _index,
-                status = undefined;
+                current = _index;
                 $scope.count = {};
             $scope.comment = {
                 "name" : '',
@@ -1264,11 +1266,10 @@ angular.module('controllers', [])
                 ],
                 goto : function(id){
                     var _this = this;
-                    angular.forEach(this.tab,function(v,k){
+                    angular.forEach(this.tab,function(v){
                         v.cur = false;
                         _this.tab[id].cur = true;
                         _this.name = _this.tab[id].name;
-                        loadList(id);
                     });
                 },
                 "list" : undefined
@@ -1294,7 +1295,7 @@ angular.module('controllers', [])
                         ellipseText:"...",
                         showUbwz : false,
                         pageInfo : false,
-                        callback : function (i,obj) {
+                        callback : function (i) {
                             dataPage.from = i*this.itemPage;
                             current = i;
                             $state.go('comment.list', { id: parseInt(i)+1 });

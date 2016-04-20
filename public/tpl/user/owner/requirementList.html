@@ -42,7 +42,7 @@
 							</div>
 							<div class="progress f-fr" bo-if="data.work_type == '纯设计'">
 								<div class="bar">
-									<div class="in in{{data.status}}" bo-class="{'in8':data.status == 4}"></div>
+									<div class="in in{{data.status}}" ng-class="{'in8':data.status == 4}"></div>
 								</div>
 								<p bo-switch="data.status">
 									<i bo-switch-when="0">需要预约设计师</i>

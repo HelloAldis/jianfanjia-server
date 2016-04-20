@@ -78,7 +78,17 @@
 							<label class="u-lab" for="dec_area">上传身份证正面照</label>
 							<div class="u-inp">
 								<div class="uid_image1" data-boxData="{'width':'250px','height':'120px'}">
-									<div my-simpleupload my-id="uid_image1" my-query="team.uid_image1"></div>
+									<div class="k-otheruploade">
+										<div class="create">
+											<div class="fileBtn">
+												<input class="hide" id="fileToUpload1" my-simpleupload my-query="team.uid_image1" type="file" name="Filedata">
+												<input type="hidden" id="sessionId2" value="${pageContext.session.id}" />
+												<input type="hidden" value="1215154565" name="tmpdir" id="id_file2">
+											</div>
+											<img class="img" ng-src="/api/v2/web/thumbnail/250/{{team.uid_image1}}" ng-if="team.uid_image1" alt="" />
+											<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -87,8 +97,18 @@
 						<div class="item">
 							<label class="u-lab" for="owner-addr">上传身份证反面照</label>
 							<div class="u-inp">
-								<div class="uid_image2" data-boxData="{'width':'250px','height':'120px'}">
-									<div my-simpleupload my-id="uid_image2" my-query="team.uid_image2"></div>
+								<div class="uid_image2">
+									<div class="k-otheruploade">
+										<div class="create">
+											<div class="fileBtn">
+												<input class="hide" id="fileToUpload2" my-simpleupload my-query="team.uid_image2" type="file" name="Filedata">
+												<input type="hidden" id="sessionId2" value="${pageContext.session.id}" />
+												<input type="hidden" value="1215154565" name="tmpdir" id="id_file2">
+											</div>
+											<img class="img" ng-src="/api/v2/web/thumbnail/250/{{team.uid_image2}}" ng-if="team.uid_image2" alt="" />
+											<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

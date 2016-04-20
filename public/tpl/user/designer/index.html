@@ -1,11 +1,3 @@
-<div class="message f-cb {{messageClass ? 'message-more' : ''}}" ng-if="notMessages">
-	<span class="num f-fl">{{messages.length}}</span>
-	<ul class="list f-fl">
-		<li bindonce="messages" ng-repeat="data in messages"><a bo-href-i="/tpl/user/plans.html?pid={{data.topicid}}"><time bo-text="data.date"></time>&nbsp;&nbsp;&nbsp;业主<mark bo-text="data.byUser.username">milk</mark>给您方案留了言，点击查看留言</a></li>
-	</ul>
-	<a class="more f-fr" href="javascript:;" ng-show="{{messages.length > 1}}" ng-click="messageToggle(true)">更多</a>
-	<a class="upper f-fr" href="javascript:;" ng-click="messageToggle(false)">收起</a>
-</div>
 <div class="main">
 	<div class="m-index" bindonce="designer" ng-if="designer">
 		<div class="info f-cb">
@@ -15,7 +7,7 @@
 			</div>
 			<dl>
 				<dt>
-					<a ui-sref="infor" class="head"><img bo-src-i="/api/v2/web/thumbnail/120/{{designer.imageid}}" bo-alt="designer.username" bo-if="designer.imageid" /></a>
+					<a ui-sref="infor" class="head"><img bo-src-i="/api/v2/web/thumbnail2/120/120/{{designer.imageid}}" bo-alt="designer.username" bo-if="designer.imageid" /></a>
 					<h3><a ui-sref="infor" bo-text="designer.username" bo-if="designer.username"></a></h3>
 				</dt>
 				<dd class="f-cb">
@@ -156,7 +148,7 @@
 					</div>
 					<div class="progress f-fr" bo-if="data.work_type == 2">
 						<div class="bar">
-							<div class="in in{{data.status}}" bo-class="{'in8':data.status == 4}"></div>
+							<div class="in in{{data.status}}" ng-class="{'in8':data.status == 4}"></div>
 						</div>
 						<p bo-switch="data.plan.status" bo-if="data.plan.status != 5">
 							<i bo-switch-when="0">
@@ -209,11 +201,14 @@
 					</p>
 				</div>
 				<div class="ct" bo-switch="data.status" bo-if="data.plan.status == 5 && data.work_type != 2">
+					<p bo-switch-when="4">
+						业主已选定您的装修方案，请前往配置合同
+					</p>
 					<p bo-switch-when="5">
 						您的工地已经配置，前往APP实时掌控最新进度
 					</p>
 					<p bo-switch-when="7">
-						业主已选定您的装修方案，请下载 <br />简繁家APP，掌上管控装修工地。
+						业主已选定您的装修合同，请下载 <br />简繁家APP，掌上管控装修工地。
 					</p>
 					<p bo-switch-when="8">
 						您已完成业主工地需求
@@ -239,6 +234,7 @@
 					<a class="u-btns" bo-switch-when="8" bo-href-i="designer.html#/requirement/{{data._id}}/contract">方案过期</a>
 				</div>
 				<div class="btns" bo-switch="data.status" bo-if="data.plan.status == 5 && data.work_type != 2">
+					<a class="u-btns" bo-switch-when="4" bo-href-i="designer.html#/requirement/{{data._id}}/contract">配置合同</a>
 					<a class="u-btns" bo-switch-when="5" bo-href-i="designer.html#/requirement/{{data._id}}/field">工地管理</a>
 					<a class="u-btns" bo-switch-when="7" bo-href-i="designer.html#/requirement/{{data._id}}/contract">等待业主确认合同</a>
 					<a class="u-btns" bo-switch-when="8" bo-href-i="designer.html#/requirement/{{data._id}}/fulfill">工地已竣工</a>

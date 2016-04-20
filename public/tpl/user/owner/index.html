@@ -3,7 +3,7 @@
 		<div class="info f-cb" bindonce="user">
 			<dl>
 				<dt>
-					<a ui-sref="infor" class="head"><img bo-src-i="/api/v2/web/thumbnail/120/{{user.imageid}}" bo-alt="user.username" bo-if="user.imageid" /></a>
+					<a ui-sref="infor" class="head"><img bo-src-i="/api/v2/web/thumbnail2/120/120/{{user.imageid}}" bo-alt="user.username" bo-if="user.imageid" /></a>
 					<h3><a ui-sref="infor" bo-text="user.username" bo-if="user.username"></a></h3>
 				</dt>
 				<dd bo-if="user.province && user.province != '请选择省份'">
@@ -100,7 +100,7 @@
 					</div>
 					<div class="progress f-fr" bo-if="data.work_type == '纯设计'">
 						<div class="bar">
-							<div class="in in{{data.status}}" bo-class="{'in8':data.status == 4}"></div>
+							<div class="in in{{data.status}}" ng-class="{'in8':data.status == 4}"></div>
 						</div>
 						<p bo-switch="data.status">
 							<i bo-switch-when="0">需要预约设计师</i>

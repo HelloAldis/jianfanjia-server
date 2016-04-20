@@ -312,182 +312,6 @@ body{
 .k-form .u-inp .radio .active span{
 	background-position: 0 -14px;
 }
-/*头像上传裁切*/
-.k-uppicbox{
-	position: absolute;
-	top:30px;
-	right:30px;
-}
-.k-uppicbox #upload{
-	position: relative;
-    width: 180px;
-	height: auto;
-    overflow: visible;
-    background:none;
-    text-align: center;
-}
-.k-uppicbox #upload .fileBtn,.k-uppicbox #upload .uploadify-button{
-	position: absolute;
-    z-index: 1;
-    left:50%;
-    top: 0;
-    width: 120px;
-    height: 120px;
-    margin-left: -60px;
-}
-.k-uppicbox #upload .uploadify-button{
-    z-index: 10;
-}
-.k-uppicbox #upload .uploadify-queue,.k-uppicbox .uploadify-queue{
-	display: block;
-}
-.k-uppicbox p{
-	padding-top: 10px;
-	text-align: center;
-}
-.k-cropMask{
-	position:fixed;
-	z-index: 1000;
-	left:0;
-	top:0;
-	background-color: #000;
-	display: none;
-}
-.k-uppicbox .uploadify-queue-item {
-    background-color: #F5F5F5;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    font: 11px Verdana,Geneva,sans-serif;
-    margin-top: 5px;
-    max-width: 350px;
-    padding: 10px
-}
-
-.k-uppicbox .uploadify-error {
-    background-color: #FDE5DD!important
-}
-
-.k-uppicbox .uploadify-queue-item.completed{
-    background-color: #E5E5E5
-}
-
-.k-uppicbox .uploadify-progress {
-    background-color: #E5E5E5;
-    margin-top: 10px;
-    width: 100%
-}
-
-.k-uppicbox .uploadify-progress-bar {
-    background-color: #09F;
-    height: 3px;
-    width: 1px
-}
-.k-uppicbox .up_filename,.k-uppicbox .delfilebtn,.k-uppicbox .progressnum{
-	display: none;
-}
-.k-uppicbox #upload .img{
-	width: 120px;
-	height: 120px;
-	margin: 0 auto;
-	border-radius: 120px;
-}
-.k-cropBox{
-	position: fixed;
-	left:50%;
-	z-index: 1001;
-	top:-100%;
-	width:500px;
-	padding: 20px;
-	margin-left: -250px;
-	background-color: #fff;
-	border-radius: 5px;
-	display: none;
-	opacity: 0;
-	filter: alpha(opacity=0);
-}
-.k-cropBox .cropBox{
-	position:relative;
-}
-.k-cropBox img{
-	width: 100%;
-}
-.k-cropBox .img1{
-
-}
-.k-cropBox .mask{
-	position: absolute;
-	left:0;
-	top:0;
-	bottom:0;
-	right: 0;
-	background-color: #000;
-	opacity: 0.5;
-	filter: alpha(opacity=50);
-}
-.k-cropBox .img2{
-	position: absolute;
-	left:0;
-	top:0;
-	clip:rect(0px 300px 300px 0px);
-}
-.k-cropBox .cropBorder{
-	position: absolute;
-	left:-1px;
-	top:-1px;
-	z-index: 2;
-	width: 300px;
-	height: 300px;
-	border: 1px solid #fff;
-}
-.k-cropBox .cropBorder span{
-	position: absolute;
-	left:0;
-	top:0;
-	width: 4px;
-	height:4px;
-	background-color: #fff;
-	margin-left: -2px;
-	margin-top: -2px;
-}
-.k-cropBox .cropBorder div{
-	width: 100%;
-	height: 100%;
-	background-color: #fff;
-	opacity: 0;
-	filter: alpha(opacity=0);
-}
-.k-cropBox .cropBorder .dot2{
-	left:50%;
-}
-.k-cropBox .cropBorder .dot3{
-	left:100%;
-}
-.k-cropBox .cropBorder .dot4{
-	top:50%;
-	left:100%;
-}
-.k-cropBox .cropBorder .dot5{
-	top:100%;
-	left:100%;
-}
-.k-cropBox .cropBorder .dot6{
-	top:100%;
-	left:50%;
-}
-.k-cropBox .cropBorder .dot7{
-	top:100%;
-}
-.k-cropBox .cropBorder .dot8{
-	top:50%;
-}
-.k-cropBox .btns{
-	padding: 34px 0 12px;
-	text-align: center;
-}
-.k-cropBox .btns .u-btns{
-	line-height: 38px;
-}
 /*下拉选择框*/
 .k-select{
 	position: relative;
@@ -1394,6 +1218,15 @@ body{
 	padding: 30px 0;
 	margin-top: 34px;
 	border-top: 1px dashed #e6e6e6;
+}
+.owenr-boxs .expired .btns{
+	margin-top: 0;
+	border-top: none;
+}
+.owenr-boxs .expired h4{
+	padding-top: 10px;
+	font-size: 14px;
+	color: #ccc;
 }
 .owenr-boxs .response .btns .u-btns{
 	margin: 0 13px;
@@ -2465,6 +2298,28 @@ body{
 	background-color: #000;
 	display: none;
 }
+.k-otheruploade .swfupload{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 25!important;
+}
+.k-otheruploade .fileName{
+	display: none;
+}
+.k-otheruploade .cancel{
+	height: 30px;
+}
+.k-otheruploade .cancel a{
+	float: right;
+}
+.k-otheruploade .uploadify-queue {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 250px;
+	height: 120px;
+}
 .k-otheruploade .uploadify-queue-item {
     background-color: #F5F5F5;
     -webkit-border-radius: 3px;
@@ -2682,7 +2537,7 @@ body{
 	top: 0;
 	right: 0;
 	bottom: 0;
-	z-index: 10000;
+	z-index: 100;
 	background-color: #fff;
 	opacity: 0;
 	filter: alpha(opacity=0);
@@ -2774,12 +2629,12 @@ body{
 	height: 2px;
 	background-color: #c3c3c3;
 }
-.insertimage .pic .uploadify-queue,.insertimage .uploadify-queue{
+.insertimage .uploadify-queue{
 	position: absolute;
 	left:0;
 	top:0;
-	z-index: 11;
-	width: 166px;
+	width: 168px;
+	height: 168px;
 }
 .insertimage p{
 	padding-top: 10px;
@@ -2814,12 +2669,21 @@ body{
     margin-top: 10px;
     width: 100%
 }
+.insertimage .swfupload{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 25!important;
+}
+.insertimage .fileName{
+	display: none;
+}
 .insertimage .uploadify-progress-bar {
     background-color: #09F;
     height: 3px;
     width: 1px
 }
-.insertimage .up_filename,.insertimage .delfilebtn,.insertimage .progressnum{
+.insertimage .progressnum{
 	display: none;
 }
 .insertimage .pic .img{
@@ -3082,4 +2946,308 @@ body{
 .g-mn .m-message .m-tt h2 span{
 	margin-left: 12px;
 	color: #fe7004
+}
+/*基本资料审核期查看*/
+.infoshow .m-tt span{
+	padding-right: 30px;
+	font-size: 14px;
+	color: #fe7004
+}
+.infoshow .m-tt span i{
+	margin-right: 15px;
+}
+.infoshow .u-txt{
+	font-size: 14px;
+	line-height: 30px;
+	color: #999;
+}
+.infoshow .u-head{
+	position: absolute;
+	right: 64px;
+	top: 30px;
+	width: 120px;
+	height: 120px;
+	overflow: hidden;
+	border-radius: 120px;
+}
+.infoshow .u-img2 img{
+	float: left;
+}
+.infoshow .u-img2 p{
+	float: left;
+	padding-left: 20px;
+	font-size: 14px;
+	line-height: 26px;
+	color: #999;
+}
+/*头像上传裁切*/
+.k-uppicbox{
+	position: absolute;
+	top:30px;
+	right:30px;
+}
+.k-uppicbox #upload{
+	position: relative;
+	width: 180px;
+	height: auto;
+	overflow: visible;
+	background:none;
+	text-align: center;
+}
+.k-uppicbox #upload .fileBtn,.k-uppicbox #upload .uploadify-button{
+	position: absolute;
+	z-index: 1;
+	left:50%;
+	top: 0;
+	width: 120px;
+	height: 120px;
+	margin-left: -60px;
+}
+.k-uppicbox #upload .uploadify-button{
+	z-index: 10;
+}
+.k-uppicbox p{
+	padding-top: 10px;
+	text-align: center;
+}
+.k-cropMask{
+	position:fixed;
+	z-index: 1000;
+	left:0;
+	top:0;
+	background-color: #000;
+	display: none;
+}
+.uploadify-queue{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 11;
+	width: 250px;
+}
+.uploadify-queue .uploadify-queue-item {
+	background-color: #F5F5F5;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font: 11px Verdana,Geneva,sans-serif;
+	margin-top: 5px;
+	max-width: 350px;
+	padding: 10px
+}
+.uploadify-queue .uploadify-error {
+	background-color: #FDE5DD!important
+}
+.uploadify-queue .uploadify-queue-item.completed{
+	background-color: #E5E5E5
+}
+.uploadify-queue .uploadify-progress {
+	background-color: #E5E5E5;
+	margin-top: 10px;
+	width: 100%
+}
+.uploadify-queue .uploadify-progress-bar {
+	background-color: #09F;
+	height: 3px;
+	width: 1px
+}
+.uploadify-queue .up_filename,.uploadify-queue .progressnum{
+	display: none;
+}
+.k-uppicbox #upload .img{
+	width: 120px;
+	height: 120px;
+	margin: 0 auto;
+	border-radius: 120px;
+}
+.k-cropBox{
+	position: fixed;
+	left:50%;
+	z-index: 1001;
+	top:-100%;
+	width:500px;
+	padding: 20px;
+	margin-left: -250px;
+	background-color: #fff;
+	border-radius: 5px;
+	display: none;
+}
+.k-cropBox .cropBox{
+	position:relative;
+	background-color: #fff;
+}
+.k-cropBox .mask{
+	position: absolute;
+	left:0;
+	top:0;
+	bottom:0;
+	right: 0;
+	background-color: #000;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.k-cropBox .btns{
+	padding: 34px 0 12px;
+	text-align: center;
+}
+.k-cropBox .btns .u-btns{
+	line-height: 38px;
+}
+.jcrop-holder {
+	direction: ltr;
+	text-align: left;
+	/* IE10 touch compatibility */
+	-ms-touch-action: none;
+	background-color: #fff;
+}
+/* Selection Border */
+.jcrop-vline,
+.jcrop-hline {
+	background: #ffffff url("Jcrop.gif");
+	font-size: 0;
+	position: absolute;
+}
+.jcrop-vline {
+	height: 100%;
+	width: 1px !important;
+}
+.jcrop-vline.right {
+	right: 0;
+}
+.jcrop-hline {
+	height: 1px !important;
+	width: 100%;
+}
+.jcrop-hline.bottom {
+	bottom: 0;
+}
+/* Invisible click targets */
+.jcrop-tracker {
+	height: 100%;
+	width: 100%;
+	/* "turn off" link highlight */
+	-webkit-tap-highlight-color: transparent;
+	/* disable callout, image save panel */
+	-webkit-touch-callout: none;
+	/* disable cut copy paste */
+	-webkit-user-select: none;
+}
+/* Selection Handles */
+.jcrop-handle {
+	background-color: #333333;
+	border: 1px #eeeeee solid;
+	width: 7px;
+	height: 7px;
+	font-size: 1px;
+}
+.jcrop-handle.ord-n {
+	left: 50%;
+	margin-left: -4px;
+	margin-top: -4px;
+	top: 0;
+}
+.jcrop-handle.ord-s {
+	bottom: 0;
+	left: 50%;
+	margin-bottom: -4px;
+	margin-left: -4px;
+}
+.jcrop-handle.ord-e {
+	margin-right: -4px;
+	margin-top: -4px;
+	right: 0;
+	top: 50%;
+}
+.jcrop-handle.ord-w {
+	left: 0;
+	margin-left: -4px;
+	margin-top: -4px;
+	top: 50%;
+}
+.jcrop-handle.ord-nw {
+	left: 0;
+	margin-left: -4px;
+	margin-top: -4px;
+	top: 0;
+}
+.jcrop-handle.ord-ne {
+	margin-right: -4px;
+	margin-top: -4px;
+	right: 0;
+	top: 0;
+}
+.jcrop-handle.ord-se {
+	bottom: 0;
+	margin-bottom: -4px;
+	margin-right: -4px;
+	right: 0;
+}
+.jcrop-handle.ord-sw {
+	bottom: 0;
+	left: 0;
+	margin-bottom: -4px;
+	margin-left: -4px;
+}
+/* Dragbars */
+.jcrop-dragbar.ord-n,
+.jcrop-dragbar.ord-s {
+	height: 7px;
+	width: 100%;
+}
+.jcrop-dragbar.ord-e,
+.jcrop-dragbar.ord-w {
+	height: 100%;
+	width: 7px;
+}
+.jcrop-dragbar.ord-n {
+	margin-top: -4px;
+}
+.jcrop-dragbar.ord-s {
+	bottom: 0;
+	margin-bottom: -4px;
+}
+.jcrop-dragbar.ord-e {
+	margin-right: -4px;
+	right: 0;
+}
+.jcrop-dragbar.ord-w {
+	margin-left: -4px;
+}
+/* The "jcrop-light" class/extension */
+.jcrop-light .jcrop-vline,
+.jcrop-light .jcrop-hline {
+	background: #ffffff;
+	filter: alpha(opacity=70) !important;
+	opacity: .70!important;
+}
+.jcrop-light .jcrop-handle {
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	background-color: #000000;
+	border-color: #ffffff;
+	border-radius: 3px;
+}
+/* The "jcrop-dark" class/extension */
+.jcrop-dark .jcrop-vline,
+.jcrop-dark .jcrop-hline {
+	background: #000000;
+	filter: alpha(opacity=70) !important;
+	opacity: 0.7 !important;
+}
+.jcrop-dark .jcrop-handle {
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	background-color: #ffffff;
+	border-color: #000000;
+	border-radius: 3px;
+}
+/* Simple macro to turn off the antlines */
+.solid-line .jcrop-vline,
+.solid-line .jcrop-hline {
+	background: #ffffff;
+}
+/* Fix for twitter bootstrap et al. */
+.jcrop-holder img,
+img.jcrop-preview {
+	max-width: none;
 }

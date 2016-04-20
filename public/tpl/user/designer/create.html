@@ -2,7 +2,7 @@
 	<div class="plans-tt f-cb">
 		<h3 class="f-fl">提交装修方案</h3>
 	</div>
-	<div class="plans-ct" bindonce="plan" ng-if="plan">
+	<div class="plans-ct" bindonce="plan" ng-if="designerPlan.loading">
 		<div class="boxs detail" ng-show="designerPlan.tab">
 			<form name="create" ng-submit="designerPlan.submit()" novalidate>
 				<div class="k-form release">
@@ -15,7 +15,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb" ng-if="designerPlan.worktype != 2">
+						<div class="m-item f-cb" bo-if="(designerPlan.worktype != undefined && designerPlan.worktype != 2) || plan.requirement.work_type != 2">
 							<div class="item">
 								<label class="u-lab" for="owner-sex">工期</label>
 								<div class="u-inp">
@@ -24,7 +24,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb" ng-if="designerPlan.worktype == 2">
+						<div class="m-item f-cb" bo-if="(designerPlan.worktype != undefined && designerPlan.worktype == 2) || plan.requirement.work_type == 2">
 							<div class="item">
 								<label class="u-lab" for="owner-sex">设计费</label>
 								<div class="u-inp">
@@ -33,7 +33,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb" ng-if="designerPlan.worktype != 2">
+						<div class="m-item f-cb" bo-if="(designerPlan.worktype != undefined && designerPlan.worktype != 2) || plan.requirement.work_type != 2">
 							<div class="item">
 								<label class="u-lab" for="owner-email">报价</label>
 								<div class="u-inp">
@@ -53,7 +53,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb" ng-if="designerPlan.worktype != 2">
+						<div class="m-item f-cb" bo-if="(designerPlan.worktype != undefined && designerPlan.worktype != 2) || plan.requirement.work_type != 2">
 							<div class="item">
 								<label class="u-lab">项目经理</label>
 								<div class="u-inp" style="z-index:100">
@@ -166,5 +166,5 @@
 			</form>
 		</div>
 	</div>
-	<div class="pageLoading" ng-hide="!!plan"></div>
+	<div class="pageLoading" ng-hide="designerPlan.loading"></div>
 </div>

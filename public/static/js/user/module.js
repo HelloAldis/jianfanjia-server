@@ -311,7 +311,6 @@
         }
     })
     angular.module("jyz/template/alert/alert.html", []).run(["$templateCache", function($templateCache) {
-      var icon =
       $templateCache.put("jyz/template/alert/alert.html",
         "<div class=\"k-alert\" ng-class=\"['k-alert-' + (type || 'warning'), closeable ? 'alert-dismissible' : null]\" role=\"alert\">\n" +
         "    <button ng-show=\"closeable\" type=\"button\" class=\"close\" ng-click=\"close({$event: $event})\">\n" +

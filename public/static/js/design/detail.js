@@ -272,7 +272,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                                     '</ul>',
                                     '<div class="description">',
                                         '<span class="sub"></span><span class="sup"></span>',
-                                        '<p>设计思路：'+data.description+'</p>',
+                                        '<p>'+data.description+'</p>',
                                     '</div>',
                                 '</div>',
                                 '<div class="images">'

@@ -452,10 +452,10 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             var cMgs = $('#contentMsg');
             var addMsg = this.plansMsg.find('.addPlansMsg');
             var oUl = list.find('ul');
-            cMgs.on('focus input propertychange',function(){
+            cMgs.on('focus',function(){
                 label.hide();
                 $(this).parent().addClass('focus');
-            }).on('blur input propertychange',function(){
+            }).on('blur',function(){
                 if(_.trim($(this).val())){
                     addMsg.attr({'class':'u-btns addPlansMsg'});
                 }else{
@@ -487,7 +487,8 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                     "topicid":data._id,
                     "topictype" : '0',
                     "content": _.trim(cMgs.val()),
-                    "to":_this.usertype == 1 ? data.designer._id : _this.usertype == 2 ? data.user._id : undefined
+                    "to_userid" : data.user._id,
+                    "to_designerid" : data.designer._id
                 };
                 reset();
                 _this.commentSubmit(addData,function(res){
