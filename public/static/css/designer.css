@@ -231,6 +231,9 @@ body{
 	font-size: 14px;
 	color: #61687a;
 }
+.k-form .u-lab i{
+	color: #ff4a4a;
+}
 .k-form .u-lab span{
 	font-size: 12px;
 	color: #999;
@@ -2079,9 +2082,6 @@ body{
 	padding-right: 19px;
 }
 /*作品列表*/
-.m-productList{
-
-}
 .m-productList li{
 	height: 94px;
 	padding: 0 19px;
@@ -2188,8 +2188,9 @@ body{
 	display: inline-block;
 }
 .m-phone .todo p{
-	font-size: 14px;
-	line-height: 52px;
+	font-size: 12px;
+	line-height: 16px;
+	color: #999;
 }
 .m-phone .email .iconfont2{
 	position: absolute;
@@ -2260,150 +2261,6 @@ body{
 .m-info .todo p{
 	line-height: 30px;
 }
-/*其他图片上传*/
-.k-otheruploade{
-	position: relative;
-	width: 250px;
-	height: 120px;
-	overflow: hidden;
-}
-.k-otheruploade .create{
-	position: absolute;
-	width: 250px;
-	height: 120px;
-	overflow: visible;
-	background:none;
-	text-align: center;
-}
-.k-otheruploade .create .fileBtn,.k-otheruploade .create .uploadify-button{
-	position: absolute;
-    z-index: 15;
-    left:0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-}
-.k-otheruploade .create .uploadify-queue,.k-otheruploade .uploadify-queue{
-	display: block;
-}
-.k-otheruploade p{
-	padding-top: 10px;
-	text-align: center;
-}
-.k-cropMask{
-	position:fixed;
-	z-index: 1000;
-	left:0;
-	top:0;
-	background-color: #000;
-	display: none;
-}
-.k-otheruploade .swfupload{
-	position: absolute;
-	left:0;
-	top:0;
-	z-index: 25!important;
-}
-.k-otheruploade .fileName{
-	display: none;
-}
-.k-otheruploade .cancel{
-	height: 30px;
-}
-.k-otheruploade .cancel a{
-	float: right;
-}
-.k-otheruploade .uploadify-queue {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 250px;
-	height: 120px;
-}
-.k-otheruploade .uploadify-queue-item {
-    background-color: #F5F5F5;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    font: 11px Verdana,Geneva,sans-serif;
-    margin-top: 5px;
-    max-width: 350px;
-    padding: 10px
-}
-
-.k-otheruploade .uploadify-error {
-    background-color: #FDE5DD!important
-}
-
-.k-otheruploade .uploadify-queue-item.completed{
-    background-color: #E5E5E5
-}
-
-.k-otheruploade .uploadify-progress {
-    background-color: #E5E5E5;
-    margin-top: 10px;
-    width: 100%
-}
-
-.k-otheruploade .uploadify-progress-bar {
-    background-color: #09F;
-    height: 3px;
-    width: 1px
-}
-.k-otheruploade .up_filename,.k-otheruploade .delfilebtn,.k-otheruploade .progressnum{
-	display: none;
-}
-.k-otheruploade .create img{
-	position: absolute;
-	left:0;
-	top:0;
-	z-index: 6;
-	min-width: 100%;
-	min-height: 100%;
-}
-.k-otheruploade .tips{
-	position: absolute;
-	left:0;
-	top:0;
-	z-index: 5;
-	width: 248px;
-    height: 118px;
-	background-color: #f9f9f9;
-    border: 1px solid #d2d2d2;
-    border-radius: 2px;
-	text-align: center;
-}
-.k-otheruploade .tips p{
-	padding-top: 70px;
-	line-height: 50px;
-	color: #999;
-}
-.k-otheruploade .tips span{
-	position: absolute;
-	width: 32px;
-	height: 32px;
-	left:50%;
-	top:50%;
-	margin-top: -16px;
-	margin-left: -16px;
-}
-.k-otheruploade .tips span em{
-	position: absolute;
-	left:15px;
-	top:0;
-	width: 2px;
-	height: 32px;
-	background-color: #c3c3c3;
-}
-.k-otheruploade .tips span i{
-	position: absolute;
-	left:0;
-	top:15px;
-	width: 32px;
-	height: 2px;
-	background-color: #c3c3c3;
-}
-
 /*施工团队*/
 .m-team{
 
@@ -3043,7 +2900,7 @@ body{
 }
 .uploadify-queue .uploadify-progress {
 	background-color: #E5E5E5;
-	margin-top: 10px;
+	margin-top: 25px;
 	width: 100%
 }
 .uploadify-queue .uploadify-progress-bar {
@@ -3250,4 +3107,157 @@ body{
 .jcrop-holder img,
 img.jcrop-preview {
 	max-width: none;
+}
+/*单图上传 主要身份证和银行卡*/
+.simpleupload{
+
+}
+.simpleupload .swfupload{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 25!important;
+}
+.simpleupload .cancel a{
+	float: right;
+	width: 16px;
+	height: 16px;
+	text-indent: -9999px;
+	overflow: hidden;
+	background:url(../img/user/uploadify-cancel.png) 0 0 no-repeat;
+}
+.simpleupload .data{
+	float: left;
+	font-size: 12px;
+	color: #333;
+}
+.simpleupload .uploadify-queue{
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 0;
+}
+.simpleupload .disable{
+	position: absolute;
+	left:0;
+	top:48px;
+	z-index: 100;
+	background-color: #fff;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.simpleupload .fileName{
+	display: none;
+}
+.simpleupload .create{
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.simpleupload .fileBtn{
+	position: absolute;
+	z-index: 10;
+}
+.simpleupload .img{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 6;
+	min-width: 100%;
+	min-height: 100%;
+}
+.simpleupload .tips{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 5;
+	text-align: center;
+}
+.simpleupload .tips p{
+	padding-top: 70px;
+	line-height: 50px;
+	color: #999;
+}
+.simpleupload .tips span{
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	left:50%;
+	top:50%;
+	margin-top: -16px;
+	margin-left: -16px;
+}
+.simpleupload .tips span em{
+	position: absolute;
+	left:15px;
+	top:0;
+	width: 2px;
+	height: 32px;
+	background-color: #c3c3c3;
+}
+.simpleupload .tips span i{
+	position: absolute;
+	left:0;
+	top:15px;
+	width: 32px;
+	height: 2px;
+	background-color: #c3c3c3;
+}
+.card-upload .fileBtn,.card-upload .uploadify-queue,.simpleupload .tips{
+	width: 248px;
+	height: 156px;
+}
+.card-upload .tips p{
+	padding-top: 90px;
+}
+.uid_image{
+	width: 248px;
+	height: 156px;
+	background: #f9f9f9 url(../img/user/uid-image-bg.png) no-repeat center 0;
+	border: 1px solid #d2d2d2;
+	border-radius: 2px;
+	overflow: hidden;
+}
+.uid_image2{
+	background-position: center -156px;
+}
+.uid_image3{
+	background-position: center -312px;
+}
+.card-upload{
+	width: 248px;
+	height: 156px;
+}
+.uid_example h4{
+	width: 43px;
+	padding-left: 35px;
+	font-size: 14px;
+	line-height: 34px;
+	color: #61687a;
+}
+.uid_example img{
+	width: 190px;
+	height: 120px;
+}
+.uid_example p{
+	padding-top: 10px;
+	padding-left: 15px;
+	font-size: 14px;
+	line-height: 27px;
+	color: #999;
+}
+.k-uppicbox .simpleupload .img{
+	position: static;
+	min-width: 120px;
+	min-height: 120px;
+}
+.k-uppicbox .simpleupload .uploadify-queue{
+	width: 120px;
+	height: 120px;
+}
+.k-uppicbox .simpleupload .disable{
+	left:50%;
+	width: 120px;
+	height: 72px;
+	margin-left: -60px;
 }

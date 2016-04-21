@@ -267,6 +267,11 @@ angular.module('controllers', [])
                     $scope.userRelease.coststotal = 0;
                     $scope.userRelease.costsdiy = 0;
                 }
+                if(newValue == 2){
+                    $scope.userRelease.costsbasis = 0;
+                    $scope.userRelease.coststotal = 0;
+                    $scope.userRelease.costsdiy = 0;
+                }
             });
             $scope.$watch('requiremtne.total_price',function(newValue){
                 if(!!newValue && !/[^0-9.]/.test(newValue) && ($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120) && ($scope.requiremtne.work_type == 0 || $scope.requiremtne.work_type == 1)){
@@ -716,8 +721,6 @@ angular.module('controllers', [])
                     $location.path('requirement/'+requiremtneId+"/booking");
                 }
             };
-
-
         // 方案列表
         function myPlan(){
             userRequiremtne.plans({"requirementid":requiremtneId}).then(function(res){    //获取我的方案列表
@@ -762,6 +765,9 @@ angular.module('controllers', [])
                 planData = {};
                 if(data.work_type == 2){
                     $location.path('requirement/'+requiremtneId+"/fulfill");
+                }
+                if(data.work_type != 2){
+                    $location.path('requirement/'+requiremtneId+"/contract");
                 }
             }
         };

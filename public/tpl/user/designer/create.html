@@ -15,7 +15,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb" bo-if="(designerPlan.worktype != undefined && designerPlan.worktype != 2) || plan.requirement.work_type != 2">
+						<div class="m-item f-cb" bo-if="(plan.requirement.work_type == 0 || plan.requirement.work_type == 1) || (designerPlan.worktype == 0 || designerPlan.worktype == 1)">
 							<div class="item">
 								<label class="u-lab" for="owner-sex">工期</label>
 								<div class="u-inp">
@@ -24,7 +24,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb" bo-if="(designerPlan.worktype != undefined && designerPlan.worktype == 2) || plan.requirement.work_type == 2">
+						<div class="m-item f-cb" bo-if="designerPlan.worktype == 2 || plan.requirement.work_type == 2">
 							<div class="item">
 								<label class="u-lab" for="owner-sex">设计费</label>
 								<div class="u-inp">
@@ -33,7 +33,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb" bo-if="(designerPlan.worktype != undefined && designerPlan.worktype != 2) || plan.requirement.work_type != 2">
+						<div class="m-item f-cb" bo-if="(plan.requirement.work_type == 0 || plan.requirement.work_type == 1) || (designerPlan.worktype == 0 || designerPlan.worktype == 1)">
 							<div class="item">
 								<label class="u-lab" for="owner-email">报价</label>
 								<div class="u-inp">
@@ -53,13 +53,13 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb" bo-if="(designerPlan.worktype != undefined && designerPlan.worktype != 2) || plan.requirement.work_type != 2">
+						<div class="m-item f-cb" bo-if="(plan.requirement.work_type == 0 || plan.requirement.work_type == 1) || (designerPlan.worktype == 0 || designerPlan.worktype == 1)">
 							<div class="item">
 								<label class="u-lab">项目经理</label>
 								<div class="u-inp" style="z-index:100">
-										<input type="hidden" ng-model="plan.manager" required />
-										<div my-selectn my-list="designerPlan.managers" my-query="plan.manager" ng-if="plan.manager && designerPlan.managers.length"></div>
-										<a ui-sref="addteam" class="u-btns" style="display:node;" ng-show="designerPlan.addteam">请先添加一名项目经理再提交方案</a>
+									<input type="hidden" ng-model="plan.manager" required />
+									<div my-selectn my-list="designerPlan.managers" my-query="plan.manager" ng-if="plan.manager && designerPlan.managers.length"></div>
+									<a ui-sref="addteam" class="u-btns" style="display:node;" ng-show="designerPlan.addteam">请先添加一名项目经理再提交方案</a>
 								</div>
 							</div>
 						</div>

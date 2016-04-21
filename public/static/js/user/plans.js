@@ -591,7 +591,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                 '<span class="done-icon"></span>' +
                 '<h3>选定成功！</h3>' +
                 '<p>'+(data.requirement.work_type != 2 ? '设计师将在近期内生成第三方合同，请保持紧密沟通。' : '简繁家将在近期内与您第三方合同，请保持紧密沟通。')+'</p>' +
-                '<a href="owner.html#/requirement/'+data.requirementid+'/plan" class=u-btns jumping">&nbsp;&nbsp;确定&nbsp;&nbsp;</a>'
+                '<a href="owner.html#/requirement/'+data.requirementid+'/contract" class=u-btns jumping">&nbsp;&nbsp;确定&nbsp;&nbsp;</a>'
                 '</div>';
             motai.html(confirm);
             $('body').append(motai);

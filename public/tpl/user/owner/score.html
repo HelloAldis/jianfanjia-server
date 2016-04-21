@@ -15,16 +15,16 @@
 							<span><i>V</i>认证设计师</span>
 						</dt>
 						<dd><i bo-text="data.city"></i><i bo-text="data.district"></i></dd>
-						<dd ng-switch="data.plan.status">
-							<span ng-switch-when="0">作品数<strong bo-text="data.authed_product_count"></strong><em>|</em>预约数<strong bo-text="data.order_count"></strong><span bo-if="data.deal_done_count"><em>|</em>成交数<strong bo-text="data.deal_done_count"></strong></span></span>
-							<span ng-switch-when="1">作品数<strong bo-text="data.authed_product_count"></strong><em>|</em>预约数<strong bo-text="data.order_count"></strong><span bo-if="data.deal_done_count"><em>|</em>成交数<strong bo-text="data.deal_done_count"></strong></span></span>
-							<span ng-switch-when="2"><i class="iconfont2">&#xe625;</i><span bo-text="data.phone"></span></span>
-							<span ng-switch-when="3"><i class="iconfont2">&#xe625;</i><span bo-text="data.phone"></span></span>
-							<span ng-switch-when="4"><i class="iconfont2">&#xe625;</i><span bo-text="data.phone"></span></span>
-							<span ng-switch-when="5"><i class="iconfont2">&#xe625;</i><span bo-text="data.phone"></span></span>
-							<span ng-switch-when="6"><i class="iconfont2">&#xe625;</i><span bo-text="data.phone"></span></span>
-							<span ng-switch-when="7">作品数<strong bo-text="data.authed_product_count"></strong><em>|</em>预约数<strong bo-text="data.order_count"></strong><span bo-if="data.deal_done_count"><em>|</em>成交数<strong bo-text="data.deal_done_count"></strong></span></span>
-							<span ng-switch-when="8"><i class="iconfont2">&#xe625;</i><span bo-text="data.phone"></span></span>
+						<dd bo-switch="data.plan.status">
+							<span bo-switch-when="0">作品数<strong bo-text="data.authed_product_count"></strong><em>|</em>预约数<strong bo-text="data.order_count"></strong><span bo-if="data.deal_done_count"><em>|</em>成交数<strong bo-text="data.deal_done_count"></strong></span></span>
+							<span bo-switch-when="1">作品数<strong bo-text="data.authed_product_count"></strong><em>|</em>预约数<strong bo-text="data.order_count"></strong><span bo-if="data.deal_done_count"><em>|</em>成交数<strong bo-text="data.deal_done_count"></strong></span></span>
+							<span bo-switch-when="2"><i class="iconfont2">&#xe625;</i><span bo-text="data.phone"></span></span>
+							<span bo-switch-when="3"><i class="iconfont2">&#xe625;</i><span bo-text="data.phone"></span></span>
+							<span bo-switch-when="4"><i class="iconfont2">&#xe625;</i><span bo-text="data.phone"></span></span>
+							<span bo-switch-when="5"><i class="iconfont2">&#xe625;</i><span bo-text="data.phone"></span></span>
+							<span bo-switch-when="6"><i class="iconfont2">&#xe625;</i><span bo-text="data.phone"></span></span>
+							<span bo-switch-when="7">作品数<strong bo-text="data.authed_product_count"></strong><em>|</em>预约数<strong bo-text="data.order_count"></strong><span bo-if="data.deal_done_count"><em>|</em>成交数<strong bo-text="data.deal_done_count"></strong></span></span>
+							<span bo-switch-when="8"><i class="iconfont2">&#xe625;</i><span bo-text="data.phone"></span></span>
 						</dd>
 					</dl>
 				</div>
@@ -52,11 +52,14 @@
 					</div>
 					<!-- 需求完结状态 -->
 					<div ng-if="requirement.status == 4 || requirement.status == 5 || requirement.status == 7">
-						<p class="f-tar" ng-if="data.plan.status == 5">已中标</p>
-						<p class="f-tar" ng-if="data.plan.status == 4">未中标</p>
-						<p class="f-tar" ng-if="data.plan.status == 7">设计师无响应导致响应过期</p>
-						<p class="f-tar" ng-if="data.plan.status == 8">设计师规定时间内没有上传方案已过期</p>
-						<p class="f-tar" ng-if="data.plan.status == 1">设计师正在忙，暂时无法为您服务</p>
+						<p class="f-tar" bo-switch="data.plan.status">
+							<i bo-switch-when="5">已中标</i>
+							<i bo-switch-when="4">未中标</i>
+							<i bo-switch-when="7">设计师无响应导致响应过期</i>
+							<i bo-switch-when="8">设计师规定时间内没有上传方案已过期</i>
+							<i bo-switch-when="1">设计师正在忙，暂时无法为您服务</i>
+							<i bo-switch-when="9">已过期</i>
+						</p>
 					</div>
 				</div>
 			</div>

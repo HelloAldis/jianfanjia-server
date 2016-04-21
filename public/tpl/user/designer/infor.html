@@ -117,10 +117,20 @@
 							</div>
 							<div class="m-item f-cb">
 								<div class="item">
-									<label class="u-lab" for="owner-name">上传学历图片</label>
+									<label class="u-lab">上传学历图片</label>
 									<div class="u-inp">
-										<div class="" data-boxData="{'width':'250px','height':'120px'}">
-											<div my-otheruploade my-query="designer.diploma_imageid"></div>
+										<div class="uid_image" style="background: #f9f9f9">
+											<div class="simpleupload card-upload">
+												<div class="create">
+													<div class="fileBtn">
+														<input class="hide" id="fileToUpload1" my-simpleupload my-query="designer.diploma_imageid" data-width="248" data-height="156" type="file" name="Filedata">
+														<input type="hidden" id="sessionId1" value="${pageContext.session.id}" />
+														<input type="hidden" value="1215154565" name="tmpdir" id="id_file1">
+													</div>
+													<img class="img" ng-src="/api/v2/web/thumbnail/248/{{designer.diploma_imageid}}" ng-if="designer.diploma_imageid" alt="" />
+													<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -134,8 +144,8 @@
 								</div>
 							</div>
 							<div class="k-uppicbox">
-								<div my-upload my-query="designer.imageid"></div>
-								<p>请上传大于300*300头像照片<br />1M以内jpg/png格式</p>
+								<div my-upload my-query="designer.imageid" class="simpleupload"></div>
+								<p>请上传大于300*300头像照片<br />3M以内jpg/png格式</p>
 							</div>
 							<div class="m-item m-error-info hide" id="error-info"></div>
 						</div>

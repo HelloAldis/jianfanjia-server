@@ -544,6 +544,7 @@ angular.module('directives', [])
                     'uploader' : RootUrl+'api/v2/web/image/upload',  //上传的api
                     'method'   : 'post',
                     'buttonText' : '',
+                    'fileObjName':'Filedata',
                     'multi'    : false,  //一次只能选择一个文件
                     'queueSizeLimit' : 1,
                     'width' : 120,
@@ -554,18 +555,23 @@ angular.module('directives', [])
                     'fileSizeLimit' : 3072+'KB',  //上传最大文件限制
                     'onUploadStart' : function(){
                         $('.uploadify-queue').css('zIndex','110');
+                        $('#upload').append('<div class="disable"></div>')
                     },
                     'onUploadSuccess' : function(file, data, response) {
                         callbackImg(data);
+                        $('.uploadify-queue').css('zIndex','0');
+                        $('#upload').find('.disable').remove();
                     },
                     'onUploadError' : function(file, errorCode, errorMsg, errorString) {
                         if(errorMsg === '500' && errorCode === -200){
                             alert('上传超时，请重新上传');
                         }
                         $('.uploadify-queue').css('zIndex','0');
+                        $('#upload').find('.disable').remove();
                     },
                     'onCancel' : function(){
                         $('.uploadify-queue').css('zIndex','0');
+                        $('#upload').find('.disable').remove();
                     }
                 });
                 var jcrop_api;
@@ -617,7 +623,7 @@ angular.module('directives', [])
                         });
                     };
                     img.onerror=function(){alert("error!")};
-                    img.src = RootUrl+'api/v1/image/'+data.data;
+                    img.src = RootUrl+'api/v2/web/image/'+data.data;
                     $cropCancel.on('click',function(){
                         clearData();
                         data.data = null;
@@ -661,176 +667,6 @@ angular.module('directives', [])
             }
         };
     }])
-    .directive('myUploade',['$timeout',function($timeout){     //方案图片上传
-        return {
-            replace : true,
-            scope: {
-                myQuery : "="
-            },
-            restrict: 'A',
-            template: '<div class="k-uploadbox f-cb"><div class="pic" id="create"><div class="fileBtn"><input class="hide" id="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_create"></div><div class="tips"><span><em></em><i></i></span><p>平面图上传每张3M以内jpg/png格式</p></div></div><div class="item" ng-repeat="img in myQuery"><span class="close" ng-click="removeImg($index,myQuery)"></span><div class="img"><img ng-src="/api/v2/web/thumbnail/168/{{img}}" /></div></div></div>',
-            link: function($scope, iElm, iAttrs, controller){
-                function loadImg(){
-                    var uploaderUrl = RootUrl+'api/v2/web/image/upload',
-                        fileTypeExts = '*.jpeg;*.jpg;*.png',
-                        fileSizeLimit = 3072,
-                        multi = false,
-                        auto = true,
-                        removeTimeout = 1;
-                    if(checkSupport() === "html5"){
-                        $('#create').Huploadify({
-                            auto:auto,
-                            fileTypeExts:fileTypeExts,
-                            multi:multi,
-                            formData:{},
-                            fileSizeLimit:fileSizeLimit,
-                            showUploadedPercent:true,
-                            showUploadedSize:true,
-                            removeTimeout:removeTimeout,
-                            fileObjName:'Filedata',
-                            buttonText : "",
-                            uploader:uploaderUrl,
-                            onUploadStart : function(){
-                                $('#create').append('<div class="mask"></div>');
-                            },
-                            onUploadSuccess:function(file, data, response){
-                                callbackImg(data)
-                            }
-                        });
-                    }else{
-                        $('#createUpload').uploadify({
-                            'auto'     : auto,
-                            'removeTimeout' : removeTimeout,
-                            'swf'      : 'uploadify.swf',
-                            'uploader' : uploaderUrl,
-                            'method'   : 'post',
-                            'buttonText' : '',
-                            'multi'    : multi,
-                            'uploadLimit' : 10,
-                            'width' : 168,
-                            'height' : 168,
-                            'fileTypeDesc' : 'Image Files',
-                            'fileTypeExts' : fileTypeExts,
-                            'fileSizeLimit' : fileSizeLimit+'KB',
-                            'onUploadStart' : function(){
-                                $('#create').append('<div class="mask"></div>');
-                            },
-                            'onUploadSuccess' : function(file, data, response) {
-                                callbackImg(data)
-                            }
-                        });
-                    }
-                }
-                loadImg();
-                function callbackImg(arr){
-                    var data = $.parseJSON(arr);
-                    var img = new Image();
-                    if(_.indexOf($scope.myQuery,data.data) == -1){
-                        img.onload=function(){
-                            $scope.$apply(function(){
-                                $scope.myQuery.push(data.data);
-                            });
-                        }
-                        img.onerror=function(){alert("error!");$('#create').find('.mask').remove();};
-                        img.src=RootUrl+'api/v2/web/thumbnail/168/'+data.data;
-                    }else{
-                        alert('已经上传过了')
-                    }
-                    $('#create').find('.mask').remove();
-                }
-                $scope.removeImg = function(i,arr){
-                    if(arr.length < 2){
-                        alert('至少保留一张图片');
-                        return ;
-                    }
-                    if(confirm("你确定要删除吗？删除不能恢复")){
-                        arr.splice(i,1)
-                        $timeout(function () {
-                            $scope.myQuery = arr
-                        }, 0, false);
-                    }
-                }
-            }
-        };
-    }])
-    .directive('myOtheruploade',['$timeout',function($timeout){     //其他图片上传
-        return {
-            replace : true,
-            scope: {
-                myQuery : "="
-            },
-            restrict: 'A',
-            template: function(){
-                return [
-                    '<div class="k-otheruploade"><div class="create"><div class="fileBtn"><input class="hide" class="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" class="id_create1"></div><img ng-src="/api/v2/web/thumbnail/250/{{myQuery}}" ng-if="myQuery" /><div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div></div></div>',
-                ].join('');
-            },
-            link: function($scope, iElm, iAttrs, controller){
-                var uploaderUrl = '/api/v2/web/image/upload',
-                    fileTypeExts = '*.jpeg;*.jpg;*.png',
-                    fileSizeLimit = 3072,
-                    obj = $(iElm).parent(),
-                    create = $('.create'),
-                    createUpload = $('.createUpload'),
-                    boxData = obj.data('boxData');
-                if(checkSupport() === "html5"){
-                    $('.create').Huploadify({
-                        auto:true,
-                        fileTypeExts:fileTypeExts,
-                        multi:false,
-                        formData:{},
-                        fileSizeLimit:fileSizeLimit,
-                        showUploadedPercent:true,//是否实时显示上传的百分比，如20%
-                        showUploadedSize:true,
-                        removeTimeout:1,
-                        fileObjName:'Filedata',
-                        buttonText : "",
-                        uploader:uploaderUrl,
-                        onUploadComplete:function(file, data, response){
-                            callbackImg(data)
-                        }
-                    });
-                }else{
-                    $('.createUpload').uploadify({
-                        'auto'     : true,
-                        'removeTimeout' : 1,
-                        'swf'      : 'uploadify.swf',
-                        'uploader' : uploaderUrl,
-                        'method'   : 'post',
-                        'buttonText' : '',
-                        'multi'    : false,
-                        'uploadLimit' : 10,
-                        'width' : 250,
-                        'height' : 120,
-                        'fileTypeDesc' : 'Image Files',
-                        'fileTypeExts' : fileTypeExts,
-                        'fileSizeLimit' : fileSizeLimit+'KB',
-                        'onUploadSuccess' : function(file, data, response) {
-                            callbackImg(data)
-                        }
-                    });
-                }
-                function callbackImg(arr){
-                    var data = $.parseJSON(arr);
-                    var img = new Image();
-                    img.onload=function(){
-                        // if(img.width < 300){
-                        //   alert('图片宽度小于300，请重新上传');
-                        //   return false;
-                        // }else if(img.height < 300){
-                        //   alert('图片高度小于300，请重新上传');
-                        //   return false;
-                        // }
-                        $scope.$apply(function(){
-                            $scope.myQuery = data.data
-                        });
-                    };
-                    img.onerror=function(){alert("error!")};
-                    img.src=RootUrl+'api/v1/image/'+data.data;
-                }
-            }
-        };
-    }])
     .directive('mySimpleupload', function() { //单个图片上传
         return {
             restrict: 'A',
@@ -838,6 +674,14 @@ angular.module('directives', [])
                 myQuery : "="
             },
             link: function(scope, iElm, iAttrs, controller){
+                var $cropMask = $('#j-cropMask'),
+                    $cropBox = $('#j-cropBox'),
+                    $cropCancel = $('#crop-cancel'),
+                    $target = $('#target'),
+                    scale = 0,
+                    $winW = 0,
+                    $winH = 0,
+                    imgW,imgH,w,h;
                 iElm.uploadify({
                     'auto'     : true, //自动上传
                     'removeTimeout' : 1,
@@ -845,10 +689,11 @@ angular.module('directives', [])
                     'uploader' : RootUrl+'api/v2/web/image/upload',  //上传的api
                     'method'   : 'post',
                     'buttonText' : '',
+                    'fileObjName':'Filedata',
                     'multi'    : false,  //一次只能选择一个文件
                     'queueSizeLimit' : 2,
-                    'width' : 250,
-                    'height' : 120,
+                    'width' : iAttrs.width,
+                    'height' : iAttrs.height,
                     'successTimeout':10,
                     'fileTypeDesc' : 'Image Files',
                     'fileTypeExts' : '*.jpeg;*.jpg;*.png', //文件类型选择限制
@@ -857,7 +702,12 @@ angular.module('directives', [])
                         $('.uploadify-queue').css('zIndex','110');
                     },
                     'onUploadSuccess' : function(file, data, response) {
-                        callbackImg(data);
+                        if(iAttrs.scale === undefined){
+                            callbackImg(data);
+                        }else{
+                            callbackCropImg(data);
+                        }
+                        $('.uploadify-queue').css('zIndex','0');
                     },
                     'onUploadError' : function(file, errorCode, errorMsg, errorString) {
                         if(errorMsg === '500' && errorCode === -200){
@@ -878,7 +728,96 @@ angular.module('directives', [])
                         });
                     };
                     img.onerror=function(){alert("error!")};
-                    img.src=RootUrl+'api/v1/image/'+data.data;
+                    img.src=RootUrl+'api/v2/web/image/'+data.data;
+                }
+                var jcrop_api;
+                var jcrop_data;
+                function callbackCropImg(arr){
+                    var data = $.parseJSON(arr);
+                    var img = new Image();
+                    $winW = $(window).width();
+                    $winH = $(window).height();
+                    img.onload=function(){
+                        imgW = img.width;
+                        imgH = img.height;
+                        if(imgW < 300){
+                            alert('图片宽度小于300，请重新上传');
+                            return false;
+                        }else if(imgH < 300){
+                            alert('图片高度小于300，请重新上传');
+                            return false;
+                        }
+                        scale = ($winH - 286)/imgH;
+                        w = imgH > $winH - 286 ? imgW*scale : imgW;
+                        h = imgH > $winH - 286 ? imgH*scale : imgH;
+                        var boxSize = iAttrs.width;
+                        $target.attr('src',img.src).Jcrop({
+                            boxWidth : w,
+                            boxHeight : h,
+                            keySupport :true,
+                            bgFade:     true,
+                            bgOpacity: .2,
+                            setSelect: [ 0, 0, iAttrs.width, iAttrs.height],   //裁剪框初始位置和初始大小
+                            minSize: [ iAttrs.width, iAttrs.height ], //最小裁切框大小 注0,0表示不限
+                            maxSize: [ 0, 0 ], //最大裁切框大小 注0,0表示不限
+                            aspectRatio: iAttrs.scale, //最大裁切宽高比 注0表示不限
+                            onChange : function(c){    //拖拽时候函数，返回位置和宽高
+                                jcrop_data = c;
+                            }
+                        },function(){
+                            jcrop_api = this;   //返回对象，供销毁操作
+                        });
+                        $cropMask.css({
+                            width:$winW,
+                            height:$winH
+                        }).fadeTo("slow", 0.3);
+                        $cropBox.css({
+                            width:w,
+                            marginLeft:-(w/2)
+                        }).show().animate({
+                            top: 100
+                        });
+                    };
+                    img.onerror=function(){alert("error!")};
+                    img.src = RootUrl+'api/v2/web/image/'+data.data;
+                    $cropCancel.on('click',function(){
+                        clearData();
+                        data.data = null;
+                    });
+                    $('#crop-submit').on('click',function(){
+                        if(data.data != null){
+                            $.ajax({
+                                    url: RootUrl+'api/v2/web/image/crop',
+                                    type: "post",
+                                    contentType : 'application/json; charset=utf-8',
+                                    dataType: 'json',
+                                    data : JSON.stringify({
+                                        "_id":data.data,
+                                        "x":jcrop_data.x,
+                                        "y":jcrop_data.y,
+                                        "width":jcrop_data.w,
+                                        "height":jcrop_data.h
+                                    }),
+                                    processData : false
+                                })
+                                .done(function(res){
+                                    scope.$apply(function(){
+                                        scope.myQuery = res.data;
+                                    });
+                                    clearData();
+                                    data.data = null;
+                                })
+                                .fail(function(){
+                                    console.log("error");
+                                })
+                        }
+                    })
+                }
+                function clearData(){
+                    $cropMask.hide();
+                    $cropBox.hide();
+                    jcrop_api.destroy();
+                    $target.attr('src','');
                 }
             }
         };
@@ -928,6 +867,7 @@ angular.module('directives', [])
                             'queueSizeLimit' : 1,
                             'width' : 168,
                             'height' : 168,
+                            'fileObjName':'Filedata',
                             'successTimeout':10,
                             'fileTypeDesc' : 'Image Files',
                             'fileTypeExts' : '*.jpeg;*.jpg;*.png', //文件类型选择限制
@@ -937,6 +877,7 @@ angular.module('directives', [])
                             },
                             'onUploadSuccess' : function(file, data, response) {
                                 callbackImg(data);
+                                $('.uploadify-queue').css('zIndex','0');
                             },
                             'onUploadError' : function(file, errorCode, errorMsg, errorString) {
                                 if(errorMsg === '500' && errorCode === -200){
@@ -973,10 +914,6 @@ angular.module('directives', [])
                     $('#create').find('.mask').remove();
                 }
                 $scope.removeImg = function(i,arr){
-                    if(arr.length < 2){
-                        alert('至少保留一张图片');
-                        return ;
-                    }
                     if(confirm("您确定要删除吗？删除不能恢复")){
                         arr.splice(i,1)
                         $timeout(function () {
@@ -1284,6 +1221,53 @@ angular.module('directives', [])
             }
         };
     }])
+    .directive('casualVerify',function(){
+        var StrategyMode = {
+            'image' : {
+                validity : function(value,msg){
+                    return !!value;
+                }
+            },
+            'images' : {
+                validity : function(value,msg){
+                    return value && value.length > 0;
+                }
+            },
+            'number' : {
+                validity : function(value,msg){
+                    var res;
+                    if(msg === 'int'){
+                        res = /[^0-9]/;
+                    }else if(msg === 'float'){
+                        res = /[^0-9.]/;
+                    }
+                    return !res.test(value);
+                }
+            },
+            'province' : {
+                validity : function(value,msg){
+                    return value != msg;
+                }
+            },
+            'city' : {
+                validity : function(value,msg){
+                    return value != msg;
+                }
+            }
+        }
+        return {
+            replace : true,
+            require : 'ngModel',
+            restrict: 'A',
+            link: function(scope, iElm, iAttrs, controller) {
+                var type = iAttrs.type;
+                var msg = iAttrs.msg;
+                $scope.$watch(iAttrs.ngModel, function(newValue, oldValue, scope){
+                    controller.$setValidity(type, StrategyMode[type].validity(newValue,msg));
+                });
+            }
+        };
+    })
     .directive('checkProvince',['$timeout',function($timeout){     //检测省份
         return {
             replace : true,

@@ -9,15 +9,15 @@
 				<div class="m-boxs">
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-name">项目经理</label>
+							<label class="u-lab" for="owner-name"><i>*</i>项目经理</label>
 							<div class="u-inp">
-								<input type="text" class="input" ng-model="team.manager" required />
+								<input type="text" class="input" ng-model="team.manager" placeholder="不能为空" my-placeholder required />
 							</div>
 						</div>
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-sex">性别</label>
+							<label class="u-lab" for="owner-sex"><i>*</i>性别</label>
 							<div class="u-inp">
 								<div class="radio">
 									<div my-radio my-list="designerTeam.userSex" my-query="team.sex" my-selects="1"></div>
@@ -27,7 +27,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="dec_area">所在地区</label>
+							<label class="u-lab" for="dec_area"><i>*</i>所在地区</label>
 							<div class="u-inp">
 								<div my-cities my-province="team.province" my-city="team.city" my-district="team.district" ng-if="team.province"></div>
 							</div>
@@ -35,7 +35,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-email">身份证号</label>
+							<label class="u-lab" for="owner-email"><i>*</i>身份证号</label>
 							<div class="u-inp">
 								<input type="text" class="input" ng-model="team.uid" placeholder="请输入15位或者18位或带X身份证号码" my-placeholder ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" />
 							</div>
@@ -43,7 +43,57 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab">曾就职装饰公司</label>
+							<label class="u-lab"><i>*</i>上传身份证正面照</label>
+							<div class="u-inp">
+								<div class="uid_image uid_image1 f-fl">
+									<div class="simpleupload card-upload">
+										<div class="create">
+											<div class="fileBtn">
+												<input class="hide" id="fileToUpload1" my-simpleupload my-query="team.uid_image1" data-width="248" data-height="156" data-scale="1.585" type="file" name="Filedata">
+												<input type="hidden" id="sessionId1" value="${pageContext.session.id}" />
+												<input type="hidden" value="1215154565" name="tmpdir" id="id_file1">
+											</div>
+											<img class="img" ng-src="/api/v2/web/thumbnail/248/{{team.uid_image1}}" ng-if="team.uid_image1" alt="" />
+											<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
+										</div>
+									</div>
+								</div>
+								<div class="uid_example f-fl">
+									<h4 class="f-fl">示例</h4>
+									<img class="f-fl" src="/static/img/user/uid_example1.jpg" alt="身份证正面示例图片">
+									<p class="f-fl">证件上文字清晰可见</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i>*</i>上传身份证反面照</label>
+							<div class="u-inp">
+								<div class="uid_image uid_image2 f-fl">
+									<div class="simpleupload card-upload">
+										<div class="create">
+											<div class="fileBtn">
+												<input class="hide" id="fileToUpload2" my-simpleupload my-query="team.uid_image2" data-width="248" data-height="156" data-scale="1.585" type="file" name="Filedata">
+												<input type="hidden" id="sessionId2" value="${pageContext.session.id}" />
+												<input type="hidden" value="1215154565" name="tmpdir" id="id_file2">
+											</div>
+											<img class="img" ng-src="/api/v2/web/thumbnail/248/{{team.uid_image2}}" ng-if="team.uid_image2" alt="" />
+											<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
+										</div>
+									</div>
+								</div>
+								<div class="uid_example f-fl">
+									<h4 class="f-fl">示例</h4>
+									<img class="f-fl" src="/static/img/user/uid_example2.jpg" alt="身份证反面示例图片">
+									<p class="f-fl">证件全部信息清晰无遮挡<br />有效期在一个月以上</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i>*</i>曾就职装饰公司</label>
 							<div class="u-inp">
 								<input type="text" class="input" ng-model="team.company" />
 							</div>
@@ -59,7 +109,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr">擅长工种</label>
+							<label class="u-lab" for="owner-addr"><i>*</i>擅长工种</label>
 							<div class="u-inp">
 								<div my-selectn my-list="designerTeam.goodAtList" my-query="team.good_at"></div>
 							</div>
@@ -67,49 +117,9 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr">正在施工工地</label>
+							<label class="u-lab" for="owner-addr"><i>*</i>正在施工工地</label>
 							<div class="u-inp">
 								<input type="text" class="input" ng-model="team.working_on" />
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="dec_area">上传身份证正面照</label>
-							<div class="u-inp">
-								<div class="uid_image1" data-boxData="{'width':'250px','height':'120px'}">
-									<div class="k-otheruploade">
-										<div class="create">
-											<div class="fileBtn">
-												<input class="hide" id="fileToUpload1" my-simpleupload my-query="team.uid_image1" type="file" name="Filedata">
-												<input type="hidden" id="sessionId2" value="${pageContext.session.id}" />
-												<input type="hidden" value="1215154565" name="tmpdir" id="id_file2">
-											</div>
-											<img class="img" ng-src="/api/v2/web/thumbnail/250/{{team.uid_image1}}" ng-if="team.uid_image1" alt="" />
-											<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-addr">上传身份证反面照</label>
-							<div class="u-inp">
-								<div class="uid_image2">
-									<div class="k-otheruploade">
-										<div class="create">
-											<div class="fileBtn">
-												<input class="hide" id="fileToUpload2" my-simpleupload my-query="team.uid_image2" type="file" name="Filedata">
-												<input type="hidden" id="sessionId2" value="${pageContext.session.id}" />
-												<input type="hidden" value="1215154565" name="tmpdir" id="id_file2">
-											</div>
-											<img class="img" ng-src="/api/v2/web/thumbnail/250/{{team.uid_image2}}" ng-if="team.uid_image2" alt="" />
-											<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
-										</div>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -121,5 +131,15 @@
 			</div>
 		</form>
 		<div class="pageLoading" ng-hide="designerTeam.isLoading"></div>
+	</div>
+</div>
+<div class="k-cropMask" id="j-cropMask"></div>
+<div class="k-cropBox" id="j-cropBox">
+	<div class="cropBox">
+		<img id="target" alt="Jcrop Image" />
+	</div>
+	<div class="btns">
+		<input type="button" class="u-btns u-btns-revise" id="crop-cancel" value="取消" />
+		<input type="button" class="u-btns" id="crop-submit" value="确定" />
 	</div>
 </div>

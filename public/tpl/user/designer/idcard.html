@@ -24,7 +24,7 @@
 					<div class="m-boxs">
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="owner-name">真实姓名</label>
+								<label class="u-lab"><i>*</i>真实姓名</label>
 								<div class="u-inp">
 									<input type="text" class="input" ng-model="designerUId.username" required />
 									<p>收款用，一定填写真实的姓名</p>
@@ -33,7 +33,7 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="owner-sex">身份证号<span>15或18位</span></label>
+								<label class="u-lab"><i>*</i>身份证号<span>15或18位</span></label>
 								<div class="u-inp">
 									<input type="text" class="input" ng-model="designerUId.uid" required placeholder="请输入15位或者18位或17位带X身份证号码" my-placeholder ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" name="uid" />
 									<span ng-show="idcard.uid.$invalid && !idcard.uid.$pristine" class="has-error">不是15位或者18位或17位带X身份证号码</span>
@@ -42,15 +42,59 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="owner-email">开户银行</label>
+								<label class="u-lab"><i>*</i>上传身份证正面照</label>
 								<div class="u-inp">
-									<div my-selectn my-list="designerIdcard.bankList" my-query="designerUId.bank"></div>
+									<input type="hidden" ng-model="designerUId.uid_image1" check-image required />
+									<div class="uid_image uid_image1 f-fl">
+										<div class="simpleupload card-upload">
+											<div class="create">
+												<div class="fileBtn">
+													<input class="hide" id="fileToUpload1" my-simpleupload my-query="designerUId.uid_image1" data-width="248" data-height="156" data-scale="1.585" type="file" name="Filedata">
+													<input type="hidden" id="sessionId1" value="${pageContext.session.id}" />
+													<input type="hidden" value="1215154565" name="tmpdir" id="id_file1">
+												</div>
+												<img class="img" ng-src="/api/v2/web/thumbnail/248/{{designerUId.uid_image1}}" ng-if="designerUId.uid_image1" alt="" />
+												<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
+											</div>
+										</div>
+									</div>
+									<div class="uid_example f-fl">
+										<h4 class="f-fl">示例</h4>
+										<img class="f-fl" src="/static/img/user/uid_example1.jpg" alt="身份证正面示例图片">
+										<p class="f-fl">证件上文字清晰可见</p>
+									</div>
 								</div>
 							</div>
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab">银行卡号<span>16或19位</span></label>
+								<label class="u-lab"><i>*</i>上传身份证反面照</label>
+								<div class="u-inp">
+									<input type="hidden" ng-model="designerUId.uid_image2" check-image required />
+									<div class="uid_image uid_image2 f-fl">
+										<div class="simpleupload card-upload">
+											<div class="create">
+												<div class="fileBtn">
+													<input class="hide" id="fileToUpload2" my-simpleupload my-query="designerUId.uid_image2" data-width="248" data-height="156" data-scale="1.585" type="file" name="Filedata">
+													<input type="hidden" id="sessionId2" value="${pageContext.session.id}" />
+													<input type="hidden" value="1215154565" name="tmpdir" id="id_file2">
+												</div>
+												<img class="img" ng-src="/api/v2/web/thumbnail/248/{{designerUId.uid_image2}}" ng-if="designerUId.uid_image2" alt="" />
+												<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
+											</div>
+										</div>
+									</div>
+									<div class="uid_example f-fl">
+										<h4 class="f-fl">示例</h4>
+										<img class="f-fl" src="/static/img/user/uid_example2.jpg" alt="身份证反面示例图片">
+										<p class="f-fl">证件全部信息清晰无遮挡<br />有效期在一个月以上</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab"><i>*</i>银行卡号<span>16或19位</span></label>
 								<div class="u-inp">
 									<input type="text" class="input" ng-model="designerUId.bank_card" required placeholder="请输入16或19位银行卡号" my-placeholder ng-pattern="/^(\d{16}|\d{19})$/" name="bank_card" />
 									<span ng-show="idcard.bank_card.$invalid && !idcard.bank_card.$pristine" class="has-error">不是16或19位银行卡号</span>
@@ -59,60 +103,34 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="dec_area">上传身份证正面照</label>
+								<label class="u-lab"><i>*</i>开户银行</label>
 								<div class="u-inp">
-									<div class="uid_image1" data-boxData="{'width':'250px','height':'120px'}">
-										<div class="k-otheruploade">
-											<div class="create">
-												<div class="fileBtn">
-													<input class="hide" id="fileToUpload1" my-simpleupload my-query="designerUId.uid_image1" type="file" name="Filedata">
-													<input type="hidden" id="sessionId2" value="${pageContext.session.id}" />
-													<input type="hidden" value="1215154565" name="tmpdir" id="id_file2">
-												</div>
-												<img class="img" ng-src="/api/v2/web/thumbnail/250/{{designerUId.uid_image1}}" ng-if="designerUId.uid_image1" alt="" />
-												<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
-											</div>
-										</div>
-									</div>
+									<div my-selectn my-list="designerIdcard.bankList" my-query="designerUId.bank"></div>
 								</div>
 							</div>
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="owner-addr">上传身份证反面照</label>
+								<label class="u-lab"><i>*</i>银行卡正面照片</label>
 								<div class="u-inp">
-									<div class="uid_image2">
-										<div class="k-otheruploade">
+									<input type="hidden" ng-model="designerUId.bank_card_image1" check-image required />
+									<div class="uid_image uid_image3 f-fl">
+										<div class="simpleupload card-upload">
 											<div class="create">
 												<div class="fileBtn">
-													<input class="hide" id="fileToUpload2" my-simpleupload my-query="designerUId.uid_image2" type="file" name="Filedata">
-													<input type="hidden" id="sessionId2" value="${pageContext.session.id}" />
-													<input type="hidden" value="1215154565" name="tmpdir" id="id_file2">
+													<input class="hide" id="fileToUpload3" my-simpleupload my-query="designerUId.bank_card_image1" data-width="248" data-height="156" type="file" data-scale="1.585" name="Filedata">
+													<input type="hidden" id="sessionId3" value="${pageContext.session.id}" />
+													<input type="hidden" value="1215154565" name="tmpdir" id="id_file3">
 												</div>
-												<img class="img" ng-src="/api/v2/web/thumbnail/250/{{designerUId.uid_image2}}" ng-if="designerUId.uid_image2" alt="" />
+												<img class="img" ng-src="/api/v2/web/thumbnail/248/{{designerUId.bank_card_image1}}" ng-if="designerUId.bank_card_image1" alt="" />
 												<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
 											</div>
 										</div>
 									</div>
-								</div>
-							</div>
-						</div>
-						<div class="m-item f-cb">
-							<div class="item">
-								<label class="u-lab" for="owner-addr">银行卡正面照片</label>
-								<div class="u-inp">
-									<div class="uid_image3">
-										<div class="k-otheruploade">
-											<div class="create">
-												<div class="fileBtn">
-													<input class="hide" id="fileToUpload3" my-simpleupload my-query="designerUId.bank_card_image1" type="file" name="Filedata">
-													<input type="hidden" id="sessionId2" value="${pageContext.session.id}" />
-													<input type="hidden" value="1215154565" name="tmpdir" id="id_file2">
-												</div>
-												<img class="img" ng-src="/api/v2/web/thumbnail/250/{{designerUId.bank_card_image1}}" ng-if="designerUId.bank_card_image1" alt="" />
-												<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
-											</div>
-										</div>
+									<div class="uid_example f-fl">
+										<h4 class="f-fl">示例</h4>
+										<img class="f-fl" src="/static/img/user/uid_example3.jpg" alt="银行卡正面示例图片">
+										<p class="f-fl">银行卡上文字清晰可见</p>
 									</div>
 								</div>
 							</div>
@@ -126,5 +144,15 @@
 			</form>
 		</div>
 		<div class="pageLoading" ng-hide="!!designerUId"></div>
+	</div>
+</div>
+<div class="k-cropMask" id="j-cropMask"></div>
+<div class="k-cropBox" id="j-cropBox">
+	<div class="cropBox">
+		<img id="target" alt="Jcrop Image" />
+	</div>
+	<div class="btns">
+		<input type="button" class="u-btns u-btns-revise" id="crop-cancel" value="取消" />
+		<input type="button" class="u-btns" id="crop-submit" value="确定" />
 	</div>
 </div>
