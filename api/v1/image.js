@@ -20,8 +20,7 @@ exports.add = function (req, res, next) {
     var md5 = utility.md5(data);
 
     Image.findOne({
-      'md5': md5,
-      'userid': userid
+      md5: md5
     }, null, function (err, image) {
       if (err) {
         return next(err);

@@ -11,6 +11,12 @@ var ImageSchema = new Schema({
   userid: {
     type: String
   },
+  ip: {
+    type: String
+  },
+  create_at: {
+    type: Number
+  }
 });
 
 ImageSchema.index({

@@ -16,7 +16,6 @@ exports.add = function (req, res, next) {
 
     Image.findOne({
       md5: md5,
-      userid: userid
     }, null, ep.done(function (image) {
       if (image) {
         if (!req.timedout) {
@@ -190,7 +189,6 @@ exports.crop = function (req, res, next) {
 
     Image.findOne({
       md5: md5,
-      userid: userid
     }, null, ep.done(function (image) {
       if (image) {
         res.sendData(image._id);

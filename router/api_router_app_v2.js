@@ -70,11 +70,11 @@ router.post('/search_share', shareWeb.search_share); //获取装修直播分享
 router.get('/device/android_build_version', device.android_build_version); //获取android信息
 router.get('/device/designer_android_build_version', device.designer_android_build_version); //获取designer android 信息
 router.get('/device/supervisor_android_build_version', device.supervisor_android_build_version); //获取supervisor android 信息
+router.post('/image/upload', upload.single('Filedata'), imageWeb.add); //上传图片
 
 //通用用户功能
 router.get('/signout', auth.normalUserRequired, signWeb.signout); //登出
-router.post('/image/upload', auth.normalUserRequired, upload.single('Filedata'),
-  imageWeb.add); //上传图片
+// router.post('/image/upload', auth.normalUserRequired, upload.single('Filedata'), imageWeb.add); //上传图片
 router.post('/add_comment', auth.normalUserRequired, commentWeb.add_comment); //添加评论
 router.post('/topic_comments', auth.normalUserRequired, commentWeb.topic_comments); //获取评论并标记为已读
 router.post('/one_plan', auth.normalUserRequired, planWeb.getOne); //获取某个方案信息

@@ -50,8 +50,7 @@ router.post('/add_angel_user', tempUserApi.add); //提交天使用户
 router.get('/device/android_build_version', device.android_build_version); //获取android信息
 
 //通用用户功能
-router.post('/image/upload', auth.normalUserRequired, upload.single('Filedata'),
-  image.add); //上传图片
+// router.post('/image/upload', auth.normalUserRequired, upload.single('Filedata'),image.add); //上传图片
 router.get('/favorite/product', auth.normalUserRequired, favorite.list); //收藏列表
 router.post('/favorite/product', auth.normalUserRequired, favorite.add); //收藏作品
 router.delete('/favorite/product', auth.normalUserRequired, favorite.delete); //删除收藏作品
