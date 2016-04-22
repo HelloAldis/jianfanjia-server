@@ -166,6 +166,7 @@ exports.buildProduct = function (req) {
   product.district = req.body.district;
   product.cell = req.body.cell;
   product.house_type = req.body.house_type;
+  product.business_house_type = req.body.business_house_type;
   product.house_area = req.body.house_area;
   product.dec_style = req.body.dec_style;
   product.dec_type = req.body.dec_type;

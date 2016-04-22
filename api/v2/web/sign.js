@@ -20,7 +20,7 @@ exports.login = function (req, res, next) {
   ep.fail(next);
 
   if (!phone || !pass) {
-    return res.sendErrMsg('信息不完整');
+    return res.sendErrMsg('用户名或密码为空');
   }
 
   async.parallel({
