@@ -456,10 +456,17 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                 label.hide();
                 $(this).parent().addClass('focus');
             }).on('blur',function(){
-                if(_.trim($(this).val())){
+                if(!_.trim($(this).val())){
+                    reset();
+                }
+            }).on('input propertychange',function(){
+                $(this).parent().addClass('focus');
+                if(!!_.trim($(this).val())){
+                    label.hide();
                     addMsg.attr({'class':'u-btns addPlansMsg'});
                 }else{
-                    reset();
+                    label.show();
+                    addMsg.attr({'class':'u-btns addPlansMsg u-btns-disabled'});
                 }
             });
             addMsg.on('click',function(){

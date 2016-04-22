@@ -1348,6 +1348,19 @@ body{
 .k-motai .score .btns .u-btns{
 	margin: 0 10px;
 }
+.k-motai .early{
+	top:50%;
+	height: 330px;
+	margin-top: -165px;
+}
+.k-motai .txt{
+	height: 125px;
+	padding-bottom: 20px;
+	font-size: 16px;
+	line-height: 125px;
+	color: #61687a;
+	text-align: center;
+}
 .k-motai .done{
 	top:50%;
 	height: 348px;

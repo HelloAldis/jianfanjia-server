@@ -15,7 +15,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb" bo-if="(plan.requirement.work_type == 0 || plan.requirement.work_type == 1) || (designerPlan.worktype == 0 || designerPlan.worktype == 1)">
+						<div class="m-item f-cb" ng-if="designerPlan.tab && ((plan.requirement.work_type == 0 || plan.requirement.work_type == 1) || (designerPlan.worktype == 0 || designerPlan.worktype == 1))">
 							<div class="item">
 								<label class="u-lab" for="owner-sex">工期</label>
 								<div class="u-inp">

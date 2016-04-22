@@ -197,45 +197,45 @@ angular.module('services', [])
         scoreb : [{'id':"1",'cur':''},{'id':"2",'cur':''},{'id':"3",'cur':''},{'id':"4",'cur':''},{'id':"5",'cur':''}],
         weeksData : {"Monday":"星期一","Tuesday":"星期二","Wednesday":"星期三","Thursday":"星期四","Friday":"星期五","Saturday":"星期六","Sunday":"星期日"},
         houseType : [
-            {"id" :0,"name":'一室'},
-            {"id" :1,"name":'二室'},
-            {"id" :2,"name":'三室'},
-            {"id" :3,"name":'四室'},
-            {"id" :4,"name":'复式'},
-            {"id" :5,"name":'别墅'},
-            {"id" :6,"name":'LOFT'},
-            {"id" :7,"name":'其他'}
+            {"id" :'0',"name":'一室'},
+            {"id" :'1',"name":'二室'},
+            {"id" :'2',"name":'三室'},
+            {"id" :'3',"name":'四室'},
+            {"id" :'4',"name":'复式'},
+            {"id" :'5',"name":'别墅'},
+            {"id" :'6',"name":'LOFT'},
+            {"id" :'7',"name":'其他'}
         ],
         workType : [
-            {"id" :0,"name":'设计＋施工(半包)'},
-            {"id" :1,"name":'设计＋施工(全包)'},
-            {"id" :2,"name":'纯设计'}
+            {"id" :'0',"name":'设计＋施工(半包)'},
+            {"id" :'1',"name":'设计＋施工(全包)'},
+            {"id" :'2',"name":'纯设计'}
         ],
         communicationType : [
-            {"id" :0,"name":'不限'},
-            {"id" :1,"name":'表达型'},
-            {"id" :2,"name":'倾听型'}
+            {"id" :'0',"name":'不限'},
+            {"id" :'1',"name":'表达型'},
+            {"id" :'2',"name":'倾听型'}
         ],
         decType : [
-            {"id" :0,"name":'家装'},
-            {"id" :1,"name":'商装'},
-            {"id" :2,"name":'软装'}
+            {"id" :'0',"name":'家装'},
+            {"id" :'1',"name":'商装'},
+            {"id" :'2',"name":'软装'}
         ],
         designSex : [
-            {"id" :0,"name":'男'},
-            {"id" :1,"name":'女'},
-            {"id" :2,"name":'不限'}
+            {"id" :'0',"name":'男'},
+            {"id" :'1',"name":'女'},
+            {"id" :'2',"name":'不限'}
         ],
         familyDescription : ['单身','幸福小两口','三口之家','三代同堂','其它'],
         businessHouseType : [
-            {"id" :0,"name":'餐厅'},
-            {"id" :1,"name":'服装店'},
-            {"id" :2,"name":'酒吧'},
-            {"id" :3,"name":'美容院'},
-            {"id" :4,"name":'办公室'},
-            {"id" :5,"name":'美发店'},
-            {"id" :6,"name":'幼儿园'},
-            {"id" :7,"name":'酒店'},
-            {"id" :9999,"name":'其他'}
+            {"id" :'0',"name":'餐厅'},
+            {"id" :'1',"name":'服装店'},
+            {"id" :'2',"name":'酒吧'},
+            {"id" :'3',"name":'美容院'},
+            {"id" :'4',"name":'办公室'},
+            {"id" :'5',"name":'美发店'},
+            {"id" :'6',"name":'幼儿园'},
+            {"id" :'7',"name":'酒店'},
+            {"id" :'9999',"name":'其他'}
         ]
     })

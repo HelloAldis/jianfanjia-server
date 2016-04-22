@@ -42,7 +42,7 @@
 							<a href="javascript:;" class="u-btns" ng-click="score.confirmBtn(data)">已上门量房</a>
 						</div>
 						<div class="btns" ng-if="data.plan.status == 2 && data.plan.house_check_time > score.newDate">
-							<button type="button" class="u-btns u-btns-disabled">量房时间未到</button>
+							<button type="button" class="u-btns" ng-click="score.earlyConfirmBtn(data)">已上门量房</button>
 						</div>
 						<div class="btns" ng-if="(data.plan.status == 6 || data.evaluation) && data.plan.status != 8">
 							<span>已确认<i ng-if="data.evaluation">并已评价</i></span>
@@ -66,6 +66,16 @@
 		</li>
 	</ul>
 	<div class="pageLoading" ng-hide="!!ordersData"></div>
+</div>
+<div class="k-motai" ng-if="score.motaiEarly">
+	<div class="motai score early">
+		<h3>提示</h3>
+		<div class="txt">您的量房时间还未到，是否需要确认量房？</div>
+		<div class="btns">
+			<a href="javascript:;" class="u-btns u-btns-revise" ng-click="score.earlyCancelBtn()">&nbsp;&nbsp;取消&nbsp;&nbsp;</a>
+			<a href="javascript:;" class="u-btns" ng-click="score.confirmBtn()">&nbsp;&nbsp;确认&nbsp;&nbsp;</a>
+		</div>
+	</div>
 </div>
 <div class="k-motai" ng-if="score.motaiDone">
 	<div class="motai done">

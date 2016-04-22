@@ -9,7 +9,7 @@
 				<div class="m-boxs">
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-name"><i>*</i>项目经理</label>
+							<label class="u-lab"><i>*</i>项目经理</label>
 							<div class="u-inp">
 								<input type="text" class="input" ng-model="team.manager" placeholder="不能为空" my-placeholder required />
 							</div>
@@ -17,8 +17,9 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-sex"><i>*</i>性别</label>
+							<label class="u-lab"><i>*</i>性别</label>
 							<div class="u-inp">
+								<input type="hidden" ng-model="team.sex" casual-verify data-type="value" required />
 								<div class="radio">
 									<div my-radio my-list="designerTeam.userSex" my-query="team.sex" my-selects="1"></div>
 								</div>
@@ -27,15 +28,17 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="dec_area"><i>*</i>所在地区</label>
+							<label class="u-lab"><i>*</i>所在地区</label>
 							<div class="u-inp">
+								<input type="hidden" ng-model="team.province" casual-verify data-type="province" data-msg="请选择省份" required />
+								<input type="hidden" ng-model="team.city" casual-verify data-type="province" data-msg="请选择市" required />
 								<div my-cities my-province="team.province" my-city="team.city" my-district="team.district" ng-if="team.province"></div>
 							</div>
 						</div>
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-email"><i>*</i>身份证号</label>
+							<label class="u-lab"><i>*</i>身份证号</label>
 							<div class="u-inp">
 								<input type="text" class="input" ng-model="team.uid" placeholder="请输入15位或者18位或带X身份证号码" my-placeholder ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" />
 							</div>
@@ -45,6 +48,7 @@
 						<div class="item">
 							<label class="u-lab"><i>*</i>上传身份证正面照</label>
 							<div class="u-inp">
+								<input type="hidden" ng-model="team.uid_image1" casual-verify data-type="image" required />
 								<div class="uid_image uid_image1 f-fl">
 									<div class="simpleupload card-upload">
 										<div class="create">
@@ -54,7 +58,7 @@
 												<input type="hidden" value="1215154565" name="tmpdir" id="id_file1">
 											</div>
 											<img class="img" ng-src="/api/v2/web/thumbnail/248/{{team.uid_image1}}" ng-if="team.uid_image1" alt="" />
-											<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
+											<div class="tips"><span><em></em><i></i></span><p>请上传3M以内jpg/png格式的图片</p></div>
 										</div>
 									</div>
 								</div>
@@ -70,6 +74,7 @@
 						<div class="item">
 							<label class="u-lab"><i>*</i>上传身份证反面照</label>
 							<div class="u-inp">
+								<input type="hidden" ng-model="team.uid_image2" casual-verify data-type="image" required />
 								<div class="uid_image uid_image2 f-fl">
 									<div class="simpleupload card-upload">
 										<div class="create">
@@ -79,7 +84,7 @@
 												<input type="hidden" value="1215154565" name="tmpdir" id="id_file2">
 											</div>
 											<img class="img" ng-src="/api/v2/web/thumbnail/248/{{team.uid_image2}}" ng-if="team.uid_image2" alt="" />
-											<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
+											<div class="tips"><span><em></em><i></i></span><p>请上传3M以内jpg/png格式的图片</p></div>
 										</div>
 									</div>
 								</div>
@@ -95,13 +100,13 @@
 						<div class="item">
 							<label class="u-lab"><i>*</i>曾就职装饰公司</label>
 							<div class="u-inp">
-								<input type="text" class="input" ng-model="team.company" />
+								<input type="text" class="input" ng-model="team.company" placeholder="不能为空" my-placeholder />
 							</div>
 						</div>
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr">从业年限</label>
+							<label class="u-lab"><i>*</i>从业年限</label>
 							<div class="u-inp">
 								<input type="text" class="input" ng-model="team.work_year" placeholder="请输入整数" my-placeholder check-number />
 							</div>
@@ -109,7 +114,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr"><i>*</i>擅长工种</label>
+							<label class="u-lab"><i>*</i>擅长工种</label>
 							<div class="u-inp">
 								<div my-selectn my-list="designerTeam.goodAtList" my-query="team.good_at"></div>
 							</div>
@@ -117,9 +122,9 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr"><i>*</i>正在施工工地</label>
+							<label class="u-lab"><i>*</i>正在施工工地</label>
 							<div class="u-inp">
-								<input type="text" class="input" ng-model="team.working_on" />
+								<input type="text" class="input" ng-model="team.working_on" placeholder="不能为空" my-placeholder />
 							</div>
 						</div>
 					</div>

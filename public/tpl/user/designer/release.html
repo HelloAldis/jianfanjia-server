@@ -9,12 +9,11 @@
 				<div class="m-boxs">
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-name">所在城市</label>
+							<label class="u-lab"><i>*</i>所在城市</label>
 							<div class="u-inp">
 								<div class="u-inp">
 									<input type="hidden" ng-model="product.province" check-province required />
 									<input type="hidden" ng-model="product.city" check-city required />
-									<input type="hidden" ng-model="product.district" required />
 									<div my-cities my-list="designerProduct.address" my-province="product.province" my-city="product.city" my-district="product.district" ng-if="product.province"></div>
 								</div>
 							</div>
@@ -22,34 +21,50 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-sex">小区名称</label>
-							<div class="u-inp">
-								<input type="text" class="input" ng-model="product.cell" placeholder="不能为空" my-placeholder required />
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab" for="owner-email">装修类型</label>
+							<label class="u-lab"><i>*</i>装修类型</label>
 							<div class="u-inp">
 								<div my-select my-list="designerProduct.decType" my-query="product.dec_type"></div>
 							</div>
 						</div>
 					</div>
-					<div class="m-item f-cb">
+					<div class="m-item f-cb" ng-if="product.dec_type != 1">
 						<div class="item">
-							<label class="u-lab" for="owner-email">户型</label>
+							<label class="u-lab"><i>*</i>小区名称</label>
+							<div class="u-inp">
+								<input type="text" class="input" ng-model="product.cell" placeholder="不能为空" my-placeholder required />
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb" ng-if="product.dec_type == 1">
+						<div class="item">
+							<label class="u-lab"><i>*</i>项目名称</label>
+							<div class="u-inp">
+								<input type="text" class="input" ng-model="product.cell" placeholder="不能为空" my-placeholder required />
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb" ng-if="product.dec_type != 1">
+						<div class="item">
+							<label class="u-lab"><i>*</i>装修户型</label>
 							<div class="u-inp">
 								<div my-select my-list="designerProduct.houseType" my-query="product.house_type"></div>
 							</div>
 						</div>
 					</div>
+					<div class="m-item f-cb" ng-if="product.dec_type == 1">
+						<div class="item">
+							<label class="u-lab"><i>*</i>商装类型</label>
+							<div class="u-inp">
+								<div my-select my-list="designerProduct.businessHouseType" my-query="product.business_house_type"></div>
+							</div>
+						</div>
+					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr">装修面积</label>
+							<label class="u-lab"><i>*</i>装修面积</label>
 							<div class="u-inp">
 								<div class="inp">
-									<input type="text" class="input" ng-model="product.house_area" model-format="int" placeholder="请输入整数" my-placeholder required />
+									<input type="text" class="input" ng-model="product.house_area" check-number model-format="int" placeholder="请输入整数" my-placeholder required />
 									<span class="unit">m&sup2;</span>
 								</div>
 							</div>
@@ -57,7 +72,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr">装修风格</label>
+							<label class="u-lab"><i>*</i>装修风格</label>
 							<div class="u-inp">
 								<div my-select my-list="designerProduct.decStyle" my-query="product.dec_style"></div>
 							</div>
@@ -65,7 +80,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr">包工类型</label>
+							<label class="u-lab"><i>*</i>包工类型</label>
 							<div class="u-inp">
 								<div my-select my-list="designerProduct.workType" my-query="product.work_type"></div>
 							</div>
@@ -73,10 +88,10 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr">装修造价</label>
+							<label class="u-lab"><i>*</i>装修造价</label>
 							<div class="u-inp">
 								<div class="inp">
-									<input type="text" class="input" ng-model="product.total_price" check-number required model-format="float" placeholder="请输入数字" my-placeholder />
+									<input type="text" class="input" ng-model="product.total_price" check-number check-number-type="float" required model-format="float" placeholder="请输入数字" my-placeholder />
 									<span class="unit">万元</span>
 								</div>
 							</div>
@@ -84,7 +99,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr">作品引言</label>
+							<label class="u-lab"><i>*</i>作品引言</label>
 							<div class="u-inp">
 								<textarea class="input long textarea" rows="10" ng-model="product.description" required placeholder="不能为空" my-placeholder></textarea>
 							</div>
@@ -92,7 +107,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-addr">上传作品图片</label>
+							<label class="u-lab"><i>*</i>上传作品图片</label>
 							<div class="u-inp insertimage">
 								<input type="hidden" ng-model="product.images.length" check-images required />
 								<div my-insertimage my-query="product.images" my-section="designerProduct.section" ng-if="product" my-type="edit"></div>

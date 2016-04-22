@@ -3,7 +3,7 @@
 	<h2>{{user.user.username}} <small>业主 (手机号码：{{user.user.phone}})</small></h2>
 	<h4>{{user.cell}} <small> 装修需求（需求编号{{user._id}}）</small></h4>
 	<p>装修城市：{{user.province}} {{user.city}} {{user.district}}</p>
-	<p>详细地址：{{user.street}} 街道 {{user.cell_phase}} 期 {{user.cell_building}} 栋 {{user.cell_unit}} 单元 {{user.cell_detail_number}} 室/号</p>
+	<p>详细地址：{{user.basic_address}} {{user.detail_address}}</p>
 	<p>装修类别：{{user.dec_type | decTypeFilter}}</p>
 	<p>计划常住成员：{{user.family_description}}</p>
 	<p>风格喜好：{{user.dec_style | decStyleFilter}}</p>

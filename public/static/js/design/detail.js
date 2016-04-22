@@ -254,6 +254,12 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             },
             createProduct : function(data){
                 var img = [];
+                var msg = '';
+                if(data.dec_type == 0){
+                    msg = '装修户型：'+globalData.house_type(data.house_type);
+                }else if(data.dec_type == 1){
+                    msg = '商装类型：'+globalData.business_house_type(data.business_house_type === undefined ? 9999 : data.business_house_type);
+                }
                 var arr = [
                         '<div class="m-detail-product">',
                             '<div class="m-tt">',
@@ -264,8 +270,9 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                                 '<div class="info">',
                                     '<ul>',
                                         '<li>参考造价：'+data.total_price+'万</li>',
+                                        '<li>装修类型：'+globalData.dec_type(data.dec_type)+'</li>',
                                         '<li>包工类型：'+globalData.work_type(data.work_type)+'</li>',
-                                        '<li>空间：'+globalData.house_type(data.house_type)+'</li>',
+                                        '<li>'+msg+'</li>',
                                         '<li>面积：'+data.house_area+'平米</li>',
                                         '<li>设计风格：'+globalData.dec_style(data.dec_style)+'</li>',
                                         '<li class="last">浏览数：'+data.view_count+'</li>',

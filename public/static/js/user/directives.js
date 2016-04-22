@@ -552,7 +552,7 @@ angular.module('directives', [])
                     'successTimeout':10,
                     'fileTypeDesc' : 'Image Files',
                     'fileTypeExts' : '*.jpeg;*.jpg;*.png', //文件类型选择限制
-                    'fileSizeLimit' : 3072+'KB',  //上传最大文件限制
+                    'fileSizeLimit' : '3MB',  //上传最大文件限制
                     'onUploadStart' : function(){
                         $('.uploadify-queue').css('zIndex','110');
                         $('#upload').append('<div class="disable"></div>')
@@ -560,7 +560,6 @@ angular.module('directives', [])
                     'onUploadSuccess' : function(file, data, response) {
                         callbackImg(data);
                         $('.uploadify-queue').css('zIndex','0');
-                        $('#upload').find('.disable').remove();
                     },
                     'onUploadError' : function(file, errorCode, errorMsg, errorString) {
                         if(errorMsg === '500' && errorCode === -200){
@@ -621,6 +620,7 @@ angular.module('directives', [])
                         }).show().animate({
                             top: 100
                         });
+                        $('#upload').find('.disable').remove();
                     };
                     img.onerror=function(){alert("error!")};
                     img.src = RootUrl+'api/v2/web/image/'+data.data;
@@ -697,7 +697,7 @@ angular.module('directives', [])
                     'successTimeout':10,
                     'fileTypeDesc' : 'Image Files',
                     'fileTypeExts' : '*.jpeg;*.jpg;*.png', //文件类型选择限制
-                    'fileSizeLimit' : 3072+'KB',  //上传最大文件限制
+                    'fileSizeLimit' : '3MB',  //上传最大文件限制
                     'onUploadStart' : function(){
                         $('.uploadify-queue').css('zIndex','110');
                     },
@@ -871,7 +871,7 @@ angular.module('directives', [])
                             'successTimeout':10,
                             'fileTypeDesc' : 'Image Files',
                             'fileTypeExts' : '*.jpeg;*.jpg;*.png', //文件类型选择限制
-                            'fileSizeLimit' : 3072+'KB',  //上传最大文件限制
+                            'fileSizeLimit' : '3MB',  //上传最大文件限制
                             'onUploadStart' : function(){
                                 $('.uploadify-queue').css('zIndex','110');
                             },
@@ -1224,13 +1224,18 @@ angular.module('directives', [])
     .directive('casualVerify',function(){
         var StrategyMode = {
             'image' : {
-                validity : function(value,msg){
-                    return !!value;
+                validity : function(value){
+                    return value !== undefined;
+                }
+            },
+            'value' : {
+                validity : function(value){
+                    return value !== undefined;
                 }
             },
             'images' : {
-                validity : function(value,msg){
-                    return value && value.length > 0;
+                validity : function(value){
+                    return value.length > 0;
                 }
             },
             'number' : {
@@ -1254,16 +1259,14 @@ angular.module('directives', [])
                     return value != msg;
                 }
             }
-        }
+        };
         return {
             replace : true,
             require : 'ngModel',
             restrict: 'A',
             link: function(scope, iElm, iAttrs, controller) {
-                var type = iAttrs.type;
-                var msg = iAttrs.msg;
-                $scope.$watch(iAttrs.ngModel, function(newValue, oldValue, scope){
-                    controller.$setValidity(type, StrategyMode[type].validity(newValue,msg));
+                scope.$watch(iAttrs.ngModel, function(newValue){
+                    controller.$setValidity(type, StrategyMode[iAttrs.type].validity(newValue,iAttrs.msg));
                 });
             }
         };

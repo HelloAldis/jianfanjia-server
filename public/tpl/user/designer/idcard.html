@@ -44,7 +44,7 @@
 							<div class="item">
 								<label class="u-lab"><i>*</i>上传身份证正面照</label>
 								<div class="u-inp">
-									<input type="hidden" ng-model="designerUId.uid_image1" check-image required />
+									<input type="hidden" ng-model="designerUId.uid_image1" casual-verify data-type="image" required />
 									<div class="uid_image uid_image1 f-fl">
 										<div class="simpleupload card-upload">
 											<div class="create">
@@ -54,7 +54,7 @@
 													<input type="hidden" value="1215154565" name="tmpdir" id="id_file1">
 												</div>
 												<img class="img" ng-src="/api/v2/web/thumbnail/248/{{designerUId.uid_image1}}" ng-if="designerUId.uid_image1" alt="" />
-												<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
+												<div class="tips"><span><em></em><i></i></span><p>请上传3M以内jpg/png格式的图片</p></div>
 											</div>
 										</div>
 									</div>
@@ -70,7 +70,7 @@
 							<div class="item">
 								<label class="u-lab"><i>*</i>上传身份证反面照</label>
 								<div class="u-inp">
-									<input type="hidden" ng-model="designerUId.uid_image2" check-image required />
+									<input type="hidden" ng-model="designerUId.uid_image2" casual-verify data-type="image" required />
 									<div class="uid_image uid_image2 f-fl">
 										<div class="simpleupload card-upload">
 											<div class="create">
@@ -80,7 +80,7 @@
 													<input type="hidden" value="1215154565" name="tmpdir" id="id_file2">
 												</div>
 												<img class="img" ng-src="/api/v2/web/thumbnail/248/{{designerUId.uid_image2}}" ng-if="designerUId.uid_image2" alt="" />
-												<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
+												<div class="tips"><span><em></em><i></i></span><p>请上传3M以内jpg/png格式的图片</p></div>
 											</div>
 										</div>
 									</div>
@@ -113,7 +113,7 @@
 							<div class="item">
 								<label class="u-lab"><i>*</i>银行卡正面照片</label>
 								<div class="u-inp">
-									<input type="hidden" ng-model="designerUId.bank_card_image1" check-image required />
+									<input type="hidden" ng-model="designerUId.bank_card_image1" casual-verify data-type="image" required />
 									<div class="uid_image uid_image3 f-fl">
 										<div class="simpleupload card-upload">
 											<div class="create">
@@ -123,7 +123,7 @@
 													<input type="hidden" value="1215154565" name="tmpdir" id="id_file3">
 												</div>
 												<img class="img" ng-src="/api/v2/web/thumbnail/248/{{designerUId.bank_card_image1}}" ng-if="designerUId.bank_card_image1" alt="" />
-												<div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg</p></div>
+												<div class="tips"><span><em></em><i></i></span><p>请上传3M以内jpg/png格式的图片</p></div>
 											</div>
 										</div>
 									</div>

@@ -625,6 +625,7 @@ angular.module('controllers', [])
                 }
             };
             $scope.score = {
+                motaiEarly : false,
                 newDate : +new Date(),
                 designerScore : {},
                 scoreComment : '',
@@ -645,6 +646,14 @@ angular.module('controllers', [])
                 motaiScore : false,
                 anonymity : false,
                 motaiDone : false,
+                earlyConfirmBtn : function(data){  //提前量房
+                    this.motaiEarly = true;
+                    this.designerScore = data;
+                },
+                earlyCancelBtn : function(){
+                    this.motaiEarly = false;
+                    scoreDesignerid = "";
+                },
                 anonymityBtn : function(){   //匿名评价
                     this.anonymity = !this.anonymity;
                 },
@@ -682,15 +691,19 @@ angular.module('controllers', [])
                 },
                 confirmBtn : function(data){  //确认量房
                     var This = this;
+                    if(data !== undefined){
+                        this.designerScore = data;
+                    }
                     userRequiremtne.checked({
                       "requirementid":requiremtneId,
-                      "designerid":data._id
+                      "designerid":this.designerScore._id
                     }).then(function(res){
                         if(res.data.msg == "success"){
                             uploadParent();
                             myBooking();
                             This.motaiDone = true;
                             This.designerScore = data;
+                            scoreDesignerid = "";
                         }
                     },function(err){
                         console.log(err);

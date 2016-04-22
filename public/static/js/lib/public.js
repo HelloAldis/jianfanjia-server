@@ -59,6 +59,19 @@ var globalData = {
 			"7" : "其他"
 		}[input]
 	},
+    business_house_type : function(input){
+        return {
+            "0":'餐厅',
+            "1":'服装店',
+            "2":'酒吧',
+            "3":'美容院',
+            "4":'办公室',
+            "5":'美发店',
+            "6":'幼儿园',
+            "7":'酒店',
+            "9999":'其他'
+        }[input]
+    },
 	dec_flow : function(input){
 		return {
 			"0" : "量房",

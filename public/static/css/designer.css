@@ -553,15 +553,15 @@ body{
 	line-height: 32px;
 	font-size: 14px;
 	text-align: center;
-	color: #60636a;
-	border: 1px solid #e5e5e5;
-	background-color: #f6f6f6;
+	color: #fff;
+	border: 1px solid #e75812;
+	background-color: #fe7004;
 	border-radius: 3px;
 }
 .m-index .info .editor:hover{
-	color: #383d48;
-	background-color: #f6f6f6;
-	border-color: #ccc;
+	color: #fff;
+	background-color: #e75812;
+	border-color:  #fe4504;
 }
 .m-index .onlineSetting{
 	position: absolute;
@@ -2535,6 +2535,34 @@ body{
 .insertimage .fileName{
 	display: none;
 }
+.insertimage .cancel a{
+	float: right;
+	width: 16px;
+	height: 16px;
+	text-indent: -9999px;
+	overflow: hidden;
+	background:url(../img/user/uploadify-cancel.png) 0 0 no-repeat;
+}
+.insertimage .data{
+	float: left;
+	font-size: 12px;
+	color: #333;
+}
+.insertimage .uploadify-queue{
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 0;
+}
+.insertimage .disable{
+	position: absolute;
+	left:0;
+	top:48px;
+	z-index: 100;
+	background-color: #fff;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
 .insertimage .uploadify-progress-bar {
     background-color: #09F;
     height: 3px;
@@ -2888,7 +2916,6 @@ body{
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	font: 11px Verdana,Geneva,sans-serif;
-	margin-top: 5px;
 	max-width: 350px;
 	padding: 10px
 }

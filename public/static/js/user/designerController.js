@@ -1202,6 +1202,7 @@ angular.module('controllers', [])
               "district":undefined,
               "cell": undefined,
               "house_type":"0",
+              "business_house_type" : "0",
               "house_area": undefined,
               "dec_style":"0",
               "dec_type": "0",
@@ -1209,7 +1210,7 @@ angular.module('controllers', [])
               "total_price":undefined,
               "description":undefined,
               "images":[]
-            }
+            };
             $scope.designerProduct = {
                 isRelease : $stateParams.id == undefined ? true : false,
                 address : initData.tdist,
@@ -1220,8 +1221,9 @@ angular.module('controllers', [])
                 disabled : false,
                 motaiDone : false,
                 section : initData.section,
-                isLoading : true
-            }
+                isLoading : true,
+                businessHouseType : initData.businessHouseType
+            };
             if($scope.designerProduct.isRelease){
                 $scope.product = _.assign($scope.product,{province:'请选择省份',city:'请选择市',district:'请选择县/区'});
             }else{
