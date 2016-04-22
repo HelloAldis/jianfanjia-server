@@ -24,7 +24,7 @@ exports.user_login = function (req, res, next) {
   ep.fail(next);
 
   if (!phone || !pass) {
-    return res.sendErrMsg('信息不完整');
+    return res.sendErrMsg('用户名或密码为空');
   }
 
   async.parallel({
@@ -74,7 +74,7 @@ exports.designer_login = function (req, res, next) {
   ep.fail(next);
 
   if (!phone || !pass) {
-    return res.sendErrMsg('信息不完整');
+    return res.sendErrMsg('用户名或密码为空');
   }
 
   async.parallel({
@@ -318,7 +318,7 @@ exports.user_wechat_login = function (req, res, next) {
           if (sres.ok) {
             let md5 = utility.md5(sres.body);
             Image.findOne({
-              'md5': md5,
+              md5: md5,
             }, null, function (err, image) {
               if (image) {
                 ep.emit('imageid', image._id);

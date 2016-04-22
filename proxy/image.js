@@ -10,6 +10,7 @@ exports.newAndSave = function (md5, data, userid, callback) {
   image.md5 = md5;
   image.data = data;
   image.userid = userid;
+  image.create_at = new Date().getTime();
   image.save(callback);
 };
 

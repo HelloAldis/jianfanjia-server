@@ -21,6 +21,9 @@ var ProductSchema = new Schema({
   house_type: {
     type: String
   },
+  business_house_type: {
+    type: String
+  },
   dec_type: {
     type: String,
   },
