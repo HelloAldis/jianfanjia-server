@@ -447,6 +447,19 @@ exports.user_message_type_designer_remind_ok_house_checked = function (user, des
   saveUserMessageAndPush(user_message);
 }
 
+exports.designer_message_type_platform_notification = function (designer, content, html) {
+  let designer_message = {
+    designerid: designer._id,
+    title: '官方公告',
+    content: content,
+    html: html,
+    message_type: type.designer_message_type_platform_notification,
+    status: type.message_status_unread,
+  }
+
+  saveDesignerMessageAndPush(designer_message);
+}
+
 let designer_message_type_user_reschedule_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
