@@ -421,7 +421,7 @@ angular.module('controllers', [])
                 if((data.status == 8 || data.status == 7 || data.status == 4 || data.status == 5) && data.work_type != 2){   //生成合同
                     myContract()
                 }
-            })
+            });
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userRequiremtne.get({"_id":$stateParams.id}).then(function(res){
                     $scope.$emit('requirementChildren', res.data.data);
@@ -432,7 +432,7 @@ angular.module('controllers', [])
             var statusUrl = initData.statusUrl;
             $scope.goTo = function(id,status){
                 $location.path('requirement/'+id+"/"+statusUrl[status]);
-            }
+            };
             var weeksData = initData.weeksData;
             var newDesignerid = undefined;
             function myBooking(status){
@@ -458,7 +458,7 @@ angular.module('controllers', [])
                                         times = $filter('date')(value.plan.house_check_time , 'hh:mm');
                                         value.house_check_time = dates + days + times + ' ( '+ weeks + ' )';
                                     }
-                                })
+                                });
                                 $scope.bookingSuccess = true;
                                 if(status == 0 || status == 1 || status == 2 || status == 6 || status == 3){
                                     angular.forEach($scope.matchs, function(value1, key1){
@@ -469,19 +469,19 @@ angular.module('controllers', [])
                                                 value1.active = false;
                                             }
                                         })
-                                    })
+                                    });
                                     angular.forEach($scope.ordersData, function(value2, key2){
                                         angular.forEach($scope.matchs, function(value1, key1){
                                             if(value1._id == value2._id){
                                                 value1.active = true;
                                             }
-                                        })
+                                        });
                                         angular.forEach($scope.favorites, function(value1, key1){
                                             if(value1._id == value2._id){
                                                 value1.active = true;
                                             }
                                         })
-                                    })
+                                    });
                                     //检测是否可以点击
                                     $scope.bookingSuccess = false;
                                     // 点击设计师
@@ -504,7 +504,7 @@ angular.module('controllers', [])
                                                 $scope.selectDesignOff = true;
                                                 return false;
                                             }
-                                        })
+                                        });
                                         if($scope.selectDesignOff){
                                             return ;
                                         }
@@ -549,7 +549,7 @@ angular.module('controllers', [])
                 bookingChangeStatus : false,
                 bookingCancelBtn : function(){
                     if(!this.isReplace){
-                        myBooking()
+                        myBooking();
                         this.motaiDone = false;
                         $location.url('requirement/'+requiremtneId+"/score");
                     }
@@ -652,7 +652,6 @@ angular.module('controllers', [])
                 },
                 earlyCancelBtn : function(){
                     this.motaiEarly = false;
-                    scoreDesignerid = "";
                 },
                 anonymityBtn : function(){   //匿名评价
                     this.anonymity = !this.anonymity;
@@ -703,7 +702,6 @@ angular.module('controllers', [])
                             myBooking();
                             This.motaiDone = true;
                             This.designerScore = data;
-                            scoreDesignerid = "";
                         }
                     },function(err){
                         console.log(err);
@@ -956,14 +954,23 @@ angular.module('controllers', [])
                         _this.name = _this.tab[id].name;
                         _this.arr = _this.tab[id].arr;
                     });
-                }
+                },
+                status : undefined,
+                setread :function(){
+                    if($state.params.status === '0'){
+                        $state.go('notice.list.type', {id:1,type:$state.params.type,status:undefined});
+                        this.getread = false;
+                        this.status = undefined;
+                    }else if($state.params.status === undefined){
+                        $state.go('notice.list.type', {id:1,type:$state.params.type,status:0});
+                        this.getread = true;
+                        this.status = 0;
+                    }
+                },
+                getread : false
             };
             angular.forEach($scope.notice.tab,function(v){
-                if(v.arr == $state.params.type){
-                    v.cur = true;
-                }else{
-                    v.cur = false;
-                }
+                v.cur = v.arr == $state.params.type;
             });
         }])
     .controller('noticeListCtrl', [     //系统通知列表
@@ -1171,14 +1178,23 @@ angular.module('controllers', [])
                         _this.name = _this.tab[id].name;
                         _this.arr = _this.tab[id].arr;
                     });
-                }
+                },
+                status : undefined,
+                setread :function(){
+                    if($state.params.status === '0'){
+                        $state.go('remind.list.type', {id:1,type:$state.params.type,status:undefined});
+                        this.getread = false;
+                        this.status = undefined;
+                    }else if($state.params.status === undefined){
+                        $state.go('remind.list.type', {id:1,type:$state.params.type,status:0});
+                        this.getread = true;
+                        this.status = 0;
+                    }
+                },
+                getread : false
             };
-            angular.forEach($scope.remind.tab,function(v,k){
-                if(v.arr == $state.params.type){
-                    v.cur = true;
-                }else{
-                    v.cur = false;
-                }
+            angular.forEach($scope.remind.tab,function(v){
+                v.cur = v.arr == $state.params.type;
             });
         }])
     .controller('remindListCtrl', [     //需求提醒列表
@@ -1204,7 +1220,7 @@ angular.module('controllers', [])
                         userMessage.read({
                             "messageid":id
                         });
-                        uploadParent()
+                        uploadParent();
                     }
                 }
             };
@@ -1252,7 +1268,7 @@ angular.module('controllers', [])
                         ellipseText:"...",
                         showUbwz : false,
                         pageInfo : false,
-                        callback : function (i,obj) {
+                        callback : function (i) {
                             dataPage.from = i*this.itemPage;
                             current = i;
                             $state.go('remind.list.type', {id:parseInt(i)+1,type:$state.params.type,status:$state.params.status});
