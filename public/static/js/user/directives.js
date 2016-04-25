@@ -35,18 +35,18 @@ angular.module('directives', [])
                             if(list[i].id == query[j]){
                                 list[i].cur = 'active';
                             }
-                        };
-                    };
+                        }
+                    }
                 }else{
                     for (var i = 0,len = list.length; i < len; i++) {
                         if(list[i].id == query){
                             list[i].cur = 'active';
                         }
-                    };
+                    }
                 }
                 for (var i = 0,len = list.length; i < len; i++) {
                     str += '<label class="'+list[i].cur+'" data-id="'+list[i].id+'"><span></span>'+list[i].name+'</label>'
-                };
+                }
                 obj.html(str);
                 obj.on('click', 'label' ,function(){
                     var id = $(this).data('id')+'',
@@ -101,24 +101,24 @@ angular.module('directives', [])
                     oUl = obj.find('ul');
                 angular.element(document).on('click',function(){
                     oUl.css('display','none');
-                })
+                });
                 var timer = null;
                 $scope.openSelect = function($event){
-                    $event.stopPropagation()
+                    $event.stopPropagation();
                     oUl.css('display','block');
                     obj.css('zIndex',20);
                     clearTimeout(timer)
-                }
+                };
                 $scope.closeSelect = function(){
-                    clearTimeout(timer)
+                    clearTimeout(timer);
                     timer = setTimeout(function(){
                         oUl.css('display','none');
                         obj.css('zIndex',10);
                     },500)
-                }
+                };
                 $scope.closeTimer = function(){
                     clearTimeout(timer)
-                }
+                };
                 $scope.select = function(id,$event){
                     $scope.myQuery = id;
                     $event.stopPropagation()
@@ -142,21 +142,21 @@ angular.module('directives', [])
                     oUl = obj.find('ul');
                 angular.element(document).on('click',function(){
                     oUl.css('display','none');
-                })
+                });
                 var timer = null;
                 $scope.openSelect = function($event){
                     $event.stopPropagation()
                     oUl.css('display','block');
                     obj.css('zIndex',20);
                     clearTimeout(timer)
-                }
+                };
                 $scope.closeSelect = function(){
                     clearTimeout(timer)
                     timer = setTimeout(function(){
                         oUl.css('display','none');
                         obj.css('zIndex',10);
                     },500)
-                }
+                };
                 $scope.closeTimer = function(){
                     clearTimeout(timer)
                 }
@@ -195,13 +195,13 @@ angular.module('directives', [])
                 })
                 var timer = null;
                 $scope.openSelect = function($event){
-                    $event.stopPropagation()
+                    $event.stopPropagation();
                     oUl.css('display','block');
                     obj.css('zIndex',20);
                     clearTimeout(timer)
                 }
                 $scope.closeSelect = function(){
-                    clearTimeout(timer)
+                    clearTimeout(timer);
                     timer = setTimeout(function(){
                         oUl.css('display','none');
                         obj.css('zIndex',10);
@@ -212,14 +212,14 @@ angular.module('directives', [])
                 }
                 $scope.select = function(name,$event){
                     $scope.myQuery = name;
-                    $event.stopPropagation()
+                    $event.stopPropagation();
                     oUl.css('display','none');
                     obj.css('zIndex',10);
                 }
             }
         };
     }])
-    .directive('myStylepic',['$timeout',function($timeout){     //装修风格
+    .directive('myStylepic',function(){     //装修风格
         return {
             replace : true,
             scope: {
@@ -227,52 +227,58 @@ angular.module('directives', [])
                 myQuery : "="
             },
             restrict: 'A',
-            template: '<div class="stylePic"><div class="pic"><ul></ul></div><div class="toggle"><a href="javascript:;" class="btns prev"><i class="iconfont2">&#xe611;</i><span></span></a><a href="javascript:;" class="btns next"><i class="iconfont2">&#xe617;</i><span></span></a></div></div>',
-            link: function($scope, iElm, iAttrs, controller) {
+            template: function(){
+                return [
+                    '<div class="stylePic">',
+                        '<div class="pic">',
+                            '<ul>',
+                                '<li bindonce="myList" ng-repeat="value in myList" ng-class="{\'active\':myQuery == $index}" ng-click="select($index)">',
+                                    '<img bo-src-i="{{ value.url }}" bo-alt="value.txt" />' ,
+                                    '<p bo-text="value.txt"></p>',
+                                    '<span><i class="iconfont">&#xe608;</i></span>' ,
+                                '</li>',
+                            '</ul>',
+                        '</div>',
+                        '<div class="toggle"><a href="javascript:;" class="btns prev">',
+                            '<a href="javascript:;" class="btns prev"><i class="iconfont2">&#xe611;</i><span></span></a>',
+                            '<a href="javascript:;" class="btns next"><i class="iconfont2">&#xe617;</i><span></span></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+            },
+            controller : ['$scope',function($scope){
+                $scope.select = function(index){
+                    $scope.myQuery = index+"";
+                }
+            }],
+            link: function($scope, iElm) {
                 var obj = angular.element(iElm),
                     oUl = obj.find('ul'),
                     oPrev = obj.find('.prev'),
                     oNext = obj.find('.next'),
-                    arr = $scope.myList,
                     i = $scope.myQuery,
-                    len = arr.length,
+                    len = $scope.myList.length,
                     picWidth = 156,
-                    str = '',
                     iNum = i < 3 ? 0 : i >= len - 3 ? len - 3 : i;
-                angular.forEach(arr,function(value, key){
-                    str += '<li class="'+(i == key ? 'active' : '')+'"><img src="'+value.url+'" alt="'+value.txt+'" /><p>'+value.txt+'</p><span><i class="iconfont">&#xe608;</i></span></li>'
-                });
-                oUl.html(str);
-                if(iNum == 0){
-                    oPrev.hide();
-                }
-                if(iNum == len - 3){
-                    oNext.hide();
-                }
+                if(iNum == 0){oPrev.hide();}
+                if(iNum == len - 3){oNext.hide();}
                 oUl.css({left:-iNum*picWidth});
                 oUl.width(len*picWidth);
                 oPrev.on('click',function(){
                     if(iNum == 0){
-                        iNum = 0
+                        iNum = 0;
                     }else{
                         iNum--;
                     }
-                    fnMove()
+                    fnMove();
                 });
                 oNext.on('click',function(){
                     if(iNum == len-3){
-                        iNum = len-3
+                        iNum = len-3;
                     }else{
                         iNum++;
                     }
-                    fnMove()
-                });
-                obj.on('click','li',function(){
-                    var index = $(this).index();
-                    $(this).addClass('active').siblings().removeClass('active');
-                    $scope.$apply(function(){
-                        $scope.myQuery = index;
-                    });
+                    fnMove();
                 });
                 function fnMove(){
                     oUl.stop().animate({left:-iNum*picWidth});
@@ -281,7 +287,7 @@ angular.module('directives', [])
                 }
             }
         };
-    }])
+    })
     .directive('myCities',['$timeout','initData',function($timeout,initData){     //自定义地区选择控件
         return {
             replace : true,
@@ -293,7 +299,11 @@ angular.module('directives', [])
                 mySetDistrict : "="
             },
             restrict: 'A',
-            template: '<div class="k-cities" ng-click="openSelect($event)" ng-mouseout="closeSelect()"><ul class="select" ng-mouseover="closeTimer()"><li ng-repeat="d in myList"><a href="javascript:;" ng-click="select(d.name,$event)">{{d.name}}</a></li></ul><div class="editor"><input class="value" ng-model="myQuery" /><span class="arrow"><em></em><i></i></span></div></div>',
+            template: function(){
+                return [
+                    '<div class="k-cities"></div>'
+                ].join('');
+            },
             link: function($scope, iElm, iAttrs, controller) {
                 var areaJson = initData.tdist,
                     oProvince = $scope.myProvince,
@@ -413,21 +423,19 @@ angular.module('directives', [])
                     var value = option.find('.value').html();
                     option.on('click' , function(ev){
                         body.click();
-                        if(value != "请选择省" && obj == province){
+                        if(value !== "请选择省份" && obj.hasClass('province')){
                             bOFF = true;
                             bOff = false;
                         }
-                        if(obj == city && value != "请选择市"){
+                        if(obj.hasClass('city') && value !== "请选择市"){
                             bOff = true;
                         }
-                        if(!bOFF && obj == city){
-                            if(province.find('.value').html() == "请选择省"){
-                                alert('请先选择省');
-                                return false;
-                            }
+                        if(!bOFF && obj.hasClass('city') && province.find('.value').html() === "请选择省份"){
+                            alert('请先选择省份');
+                            return false;
                         }
                         if(!bOFF && !bOff){
-                            if(obj == district && city.find('.value').html() == "请选择市"){
+                            if(obj.hasClass('district') && city.find('.value').html() === "请选择市"){
                                 alert('请先选择市');
                                 return false;
                             }
@@ -500,7 +508,7 @@ angular.module('directives', [])
                     oBox.css('zIndex',20);
                 }
             }
-        };
+        }
     }])
     .directive('myUpload',['$timeout',function($timeout){     //头像裁切上传
         var template = [
@@ -527,9 +535,6 @@ angular.module('directives', [])
                     $target = $('#target'),
                     $winW = 0,
                     $winH = 0,
-                    uploaderUrl = RootUrl+'api/v2/web/image/upload',
-                    fileTypeExts = '*.jpeg;*.jpg;*.png',
-                    fileSizeLimit = 1024,
                     scale = 0,
                     imgW,imgH,w,h;
                 if(!$scope.myQuery){
@@ -555,7 +560,7 @@ angular.module('directives', [])
                     'fileSizeLimit' : '3MB',  //上传最大文件限制
                     'onUploadStart' : function(){
                         $('.uploadify-queue').css('zIndex','110');
-                        $('#upload').append('<div class="disable"></div>')
+                        $('#upload').append('<div class="disable"></div>');
                     },
                     'onUploadSuccess' : function(file, data, response) {
                         callbackImg(data);
@@ -622,7 +627,10 @@ angular.module('directives', [])
                         });
                         $('#upload').find('.disable').remove();
                     };
-                    img.onerror=function(){alert("error!")};
+                    img.onerror=function(){
+                        alert("error!");
+                        $('#upload').find('.disable').remove();
+                    };
                     img.src = RootUrl+'api/v2/web/image/'+data.data;
                     $cropCancel.on('click',function(){
                         clearData();
@@ -681,7 +689,9 @@ angular.module('directives', [])
                     scale = 0,
                     $winW = 0,
                     $winH = 0,
-                    imgW,imgH,w,h;
+                    imgW,imgH,w,h,
+                    parent = angular.element(iElm).parent();
+
                 iElm.uploadify({
                     'auto'     : true, //自动上传
                     'removeTimeout' : 1,
@@ -700,6 +710,7 @@ angular.module('directives', [])
                     'fileSizeLimit' : '3MB',  //上传最大文件限制
                     'onUploadStart' : function(){
                         $('.uploadify-queue').css('zIndex','110');
+                        parent.append('<div class="disable"></div>');
                     },
                     'onUploadSuccess' : function(file, data, response) {
                         if(iAttrs.scale === undefined){
@@ -714,9 +725,11 @@ angular.module('directives', [])
                             alert('上传超时，请重新上传');
                         }
                         $('.uploadify-queue').css('zIndex','0');
+                        parent.find('.disable').remove();
                     },
                     'onCancel' : function(){
                         $('.uploadify-queue').css('zIndex','0');
+                        parent.find('.disable').remove();
                     }
                 });
                 function callbackImg(arr){
@@ -726,8 +739,12 @@ angular.module('directives', [])
                         scope.$apply(function(){
                             scope.myQuery = data.data
                         });
+                        parent.find('.disable').remove();
                     };
-                    img.onerror=function(){alert("error!")};
+                    img.onerror=function(){
+                        alert("error!");
+                        parent.find('.disable').remove();
+                    };
                     img.src=RootUrl+'api/v2/web/image/'+data.data;
                 }
                 var jcrop_api;
@@ -777,8 +794,12 @@ angular.module('directives', [])
                         }).show().animate({
                             top: 100
                         });
+                        iElm.parent().parent().find('.disable').remove();
                     };
-                    img.onerror=function(){alert("error!")};
+                    img.onerror=function(){
+                        alert("error!");
+                        iElm.parent().parent().find('.disable').remove();
+                    };
                     img.src = RootUrl+'api/v2/web/image/'+data.data;
                     $cropCancel.on('click',function(){
                         clearData();
@@ -874,6 +895,7 @@ angular.module('directives', [])
                             'fileSizeLimit' : '3MB',  //上传最大文件限制
                             'onUploadStart' : function(){
                                 $('.uploadify-queue').css('zIndex','110');
+                                obj.find('.pic').append('<div class="disable"></div>');
                             },
                             'onUploadSuccess' : function(file, data, response) {
                                 callbackImg(data);
@@ -884,13 +906,15 @@ angular.module('directives', [])
                                     alert('上传超时，请重新上传');
                                 }
                                 $('.uploadify-queue').css('zIndex','0');
+                                obj.find('.pic').find('.disable').remove();
                             },
                             'onCancel' : function(){
                                 $('.uploadify-queue').css('zIndex','0');
+                                obj.find('.pic').find('.disable').remove();
                             }
                         });
                 }
-                loadImg()
+                loadImg();
                 function callbackImg(arr){
                     var data = $.parseJSON(arr);
                     var img = new Image();
@@ -905,8 +929,12 @@ angular.module('directives', [])
                                     $scope.myQuery.push(data.data);
                                 }
                             });
-                        }
-                        img.onerror=function(){alert("error!");$('#create').find('.mask').remove();};
+                            obj.find('.pic').find('.disable').remove();
+                        };
+                        img.onerror=function(){
+                            alert("error!");
+                            obj.find('.pic').find('.disable').remove();
+                        };
                         img.src=RootUrl+'api/v2/web/thumbnail2/168/168/'+data.data;
                     }else{
                         alert('已经上传过了')
@@ -1266,7 +1294,7 @@ angular.module('directives', [])
             restrict: 'A',
             link: function(scope, iElm, iAttrs, controller) {
                 scope.$watch(iAttrs.ngModel, function(newValue){
-                    controller.$setValidity(type, StrategyMode[iAttrs.type].validity(newValue,iAttrs.msg));
+                    controller.$setValidity(iAttrs.type, StrategyMode[iAttrs.type].validity(newValue,iAttrs.msg));
                 });
             }
         };

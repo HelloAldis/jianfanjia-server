@@ -111,7 +111,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             $getVerifyCode.on('click',function(){
                 if(VerifyCodeOff && self.verify.isMobile(self.mobile.val())){
                     VerifyCodeOff = false;
-                    countdown($(this),60)
+                    countdown($(this),60);
                     var userName = self.mobile.val();
                     $.ajax({
                         url:RootUrl+'api/v2/web/send_verify_code',
@@ -128,22 +128,22 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                     self.mobile.parents('.item').addClass('error');
                     return false;
                 }
-            })
+            });
             function countdown(obj,num){
-                if(!obj){return false};
+                if(!obj){return false}
                 var count = num || 60;
                 var timer = null;
-                clearInterval(timer)
+                clearInterval(timer);
                 timer = setInterval(function(){
                     count--;
-                    obj.attr('class','f-fr vcode disabled').html(count+'s后重新获取')
+                    obj.attr('class','f-fr vcode disabled').html(count+'s后重新获取');
                     if(count <= 0){
-                        clearInterval(timer)
+                        clearInterval(timer);
                         count = num;
                         VerifyCodeOff = true;
-                        obj.attr('class','f-fr vcode').html('重新获取')
+                        obj.attr('class','f-fr vcode').html('重新获取');
                     }
-                }, 1000)
+                }, 1000);
             }
         },
         focus : function(obj){
@@ -212,7 +212,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                 })
                 .done(function(res) {
                     if(res["msg"] == "success"){
-                        $('#error-info').html('保存成功').removeClass('hide');
+                        $('#error-info').html('密码修改成功').removeClass('hide');
                         setTimeout(function(){
                             window.location.href = self.successUrl;
                             self.error.html('').addClass('hide');

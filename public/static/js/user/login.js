@@ -66,8 +66,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
         errmsg : {
             'mobile'  : '手机号不正确',
             'password' : '密码需为6~30个字母或数字',
-            'smscode'  : '短信验证码不正确',
-            'submit'   : '信息不完整',
+            'submit'   : '手机号或者密码不正确',
             'tips'     : '请勿在网吧或公用电脑上使用此功能！',
             'save'     : '请先填写账号密码'
         },
@@ -146,16 +145,16 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
         		}else{
         			code += str.charCodeAt(i)+this.time+'%'
         		}
-        	};
+        	}
         	return code;
         },
         fromCharCode : function(code){
         	var str = '';
         		code = code.split("%");
         	for (var i = 0,len = code.length; i < len; i++) {
-        		code[i] = code[i]-this.time
+        		code[i] = code[i]-this.time;
         		str += String.fromCharCode(code[i])
-        	};
+        	}
         	return str;
         },
         focus : function(obj){
@@ -197,10 +196,16 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                 return false;
             });
             function submitfn(){
-                self.check().mobile();
-                self.check().pass();
-                if(self.checkStep > 0){
+                if(!self.check().mobile() && !self.check().pass()){
                     self.error.html(self.errmsg.submit).removeClass('hide');
+                    return false;
+                }
+                if(!self.check().mobile()){
+                    self.error.html(self.errmsg.mobile).removeClass('hide');
+                    return false;
+                }
+                if(!self.check().pass()){
+                    self.error.html(self.errmsg.password).removeClass('hide');
                     return false;
                 }
                 var serialize = self.strToJson(self.form.serialize());
@@ -236,14 +241,14 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                 for (var i = 0,len = arr.length; i < len; i++) {
                     var  temp = arr[i].split("=");
                     json[temp[0]] = temp[1]
-                };
+                }
             }else{
                 var  temp = str.split("=");
                 json[temp[0]] = temp[1]
             }
             return json;
         }
-    }
+    };
     var login = new Login();
     login.init();
 })

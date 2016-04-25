@@ -2562,6 +2562,8 @@ body{
 	background-color: #fff;
 	opacity: 0;
 	filter: alpha(opacity=0);
+	width: 168px;
+	height: 120px;
 }
 .insertimage .uploadify-progress-bar {
     background-color: #09F;
@@ -2698,7 +2700,7 @@ body{
 	-o-transition:background 0.5s;
 	transition:background 0.5s;
 }
-.m-message .tabs-box .unread:hover{
+.m-message .tabs-box .read{
 	background-color: #7b808c;
 }
 .m-commentList{
@@ -2860,10 +2862,13 @@ body{
 }
 .infoshow .u-img2 p{
 	float: left;
+	width: 520px;
 	padding-left: 20px;
 	font-size: 14px;
 	line-height: 26px;
 	color: #999;
+	word-break:break-all;
+	word-wrap:break-word;
 }
 /*头像上传裁切*/
 .k-uppicbox{
@@ -3172,6 +3177,8 @@ img.jcrop-preview {
 	background-color: #fff;
 	opacity: 0;
 	filter: alpha(opacity=0);
+	width: 248px;
+	height: 108px;
 }
 .simpleupload .fileName{
 	display: none;

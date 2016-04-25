@@ -1308,10 +1308,23 @@ angular.module('controllers', [])
                         _this.name = _this.tab[id].name;
                         _this.arr = _this.tab[id].arr;
                     });
-                }
+                },
+                status : undefined,
+                setread :function(){
+                    if($state.params.status === '0'){
+                        $state.go('notice.list.type', {id:1,type:$state.params.type,status:undefined});
+                        this.getread = false;
+                        this.status = undefined;
+                    }else if($state.params.status === undefined){
+                        $state.go('notice.list.type', {id:1,type:$state.params.type,status:0});
+                        this.getread = true;
+                        this.status = 0;
+                    }
+                },
+                getread : false
             };
             angular.forEach($scope.notice.tab,function(v){
-                v.cur = v.arr == $state.params.type
+                v.cur = v.arr == $state.params.type;
             });
         }])
     .controller('noticeListCtrl', [     //系统通知列表
@@ -1533,14 +1546,23 @@ angular.module('controllers', [])
                         _this.name = _this.tab[id].name;
                         _this.arr = _this.tab[id].arr;
                     });
-                }
+                },
+                status : undefined,
+                setread :function(){
+                    if($state.params.status === '0'){
+                        $state.go('remind.list.type', {id:1,type:$state.params.type,status:undefined});
+                        this.getread = false;
+                        this.status = undefined;
+                    }else if($state.params.status === undefined){
+                        $state.go('remind.list.type', {id:1,type:$state.params.type,status:0});
+                        this.getread = true;
+                        this.status = 0;
+                    }
+                },
+                getread : false
             };
             angular.forEach($scope.remind.tab,function(v){
-                if(v.arr == $state.params.type){
-                    v.cur = true;
-                }else{
-                    v.cur = false;
-                }
+                v.cur = v.arr == $state.params.type;
             });
         }])
     .controller('remindListCtrl', [     //需求提醒列表
