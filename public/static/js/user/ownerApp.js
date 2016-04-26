@@ -5,6 +5,12 @@
         .run(['$rootScope','$state','$stateParams',function($rootScope,$state,$stateParams) {
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
+            $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+                document.documentElement.scrollTop = document.body.scrollTop = 0;
+            });
+            $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
+                alert('An error occurred while changing states: ' + error);
+            });
         }])
         .config(function($stateProvider, $urlRouterProvider) {
             var url = RootUrl + 'tpl/user/owner/';
@@ -56,31 +62,38 @@
                 })
                 .state('requirement.detail', {
                     url: '/detail',
-                    templateUrl: url+'detail.html'
+                    templateUrl: url+'detail.html',
+                    controller : 'requirementDetailCtrl'
                 })
                 .state('requirement.booking', {
                     url: '/booking',
-                    templateUrl: url+'booking.html'
-                })
-                .state('requirement.plan', {
-                    url: '/plan',
-                    templateUrl: url+'plan.html'
-                })
-                .state('requirement.contract', {
-                    url: '/contract',
-                    templateUrl: url+'contract.html'
-                })
-                .state('requirement.field', {
-                    url: '/field',
-                    templateUrl: url+'field.html'
-                })
-                .state('requirement.fulfill', {
-                    url: '/fulfill',
-                    templateUrl: url+'fulfill.html'
+                    templateUrl: url+'booking.html',
+                    controller : 'requirementBookingCtrl'
                 })
                 .state('requirement.score', {
                     url: '/score',
-                    templateUrl: url+'score.html'
+                    templateUrl: url+'score.html',
+                    controller : 'requirementScoreCtrl'
+                })
+                .state('requirement.plan', {
+                    url: '/plan',
+                    templateUrl: url+'plan.html',
+                    controller : 'requirementPlanCtrl'
+                })
+                .state('requirement.contract', {
+                    url: '/contract',
+                    templateUrl: url+'contract.html',
+                    controller : 'requirementContractCtrl'
+                })
+                .state('requirement.field', {
+                    url: '/field',
+                    templateUrl: url+'field.html',
+                    controller : 'requirementFieldCtrl'
+                })
+                .state('requirement.fulfill', {
+                    url: '/fulfill',
+                    templateUrl: url+'fulfill.html',
+                    controller : 'requirementfulfillCtrl'
                 })
                 .state('favorite', {
                     url: '/favorite',

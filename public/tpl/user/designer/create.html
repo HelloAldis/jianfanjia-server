@@ -38,7 +38,6 @@
 								<label class="u-lab" for="owner-email">报价</label>
 								<div class="u-inp">
 									<div class="input quote" ng-click="designerPlan.tabBtn(false)">
-										<input type="hidden" ng-model="plan.total_price" required />
 										<div ng-bind="plan.total_price | number"></div>
 										<span class="unit">元</span>
 									</div>
@@ -57,7 +56,6 @@
 							<div class="item">
 								<label class="u-lab">项目经理</label>
 								<div class="u-inp" style="z-index:100">
-									<input type="hidden" ng-model="plan.manager" required />
 									<div my-selectn my-list="designerPlan.managers" my-query="plan.manager" ng-if="plan.manager && designerPlan.managers.length"></div>
 									<a ui-sref="addteam" class="u-btns" style="display:node;" ng-show="designerPlan.addteam">请先添加一名项目经理再提交方案</a>
 								</div>
@@ -67,13 +65,12 @@
 							<div class="item">
 								<label class="u-lab" for="owner-addr">上传平面图</label>
 								<div class="u-inp insertimage">
-									<input type="hidden" ng-model="plan.images.length" check-images required />
 									<div my-insertimage my-query="plan.images" ng-if="plan" my-type="default"></div>
 								</div>
 							</div>
 						</div>
-						<div class="m-item m-error-info" ng-if="error_info" ng-bind="error_info"></div>
 					</div>
+					<div my-alert type="warning" ng-show="designerPlan.error" text="{{designerPlan.errormsg}}"></div>
 					<div class="m-btns">
 						<input type="submit" class="u-btns" ng-if="!designerPlan.isCreate" ng-class="{'u-btns-disabled':create.$invalid || designerPlan.disabled}" ng-disabled="create.$invalid || designerPlan.disabled" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
 						<input type="submit" class="u-btns" ng-if="designerPlan.isCreate" ng-class="{'u-btns-disabled':create.$invalid || designerPlan.disabled}" ng-disabled="create.$invalid || designerPlan.disabled" value="&nbsp;&nbsp;修改&nbsp;&nbsp;">

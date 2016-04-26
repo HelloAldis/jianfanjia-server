@@ -17,7 +17,7 @@
 			<li ng-class="{active: tab==&quot;fulfill&quot;}" ng-if="requirement.status == 8 && requirement.work_type != 2"><a ui-sref="requirement.fulfill({id:requiremtneId})">完成</a></li>
 			<li ng-class="{active: tab==&quot;fulfill&quot;}" ng-if="requirement.status == 4 && requirement.work_type == 2"><a ui-sref="requirement.fulfill({id:requiremtneId})">完成</a></li>
 		</ul>
-		<div class="requirement" ng-controller="requirementDetailCtrl">
+		<div class="requirement" ng-controller="requirementDetailsCtrl">
 			<!--视图模板容器 start-->
 			<div ui-view></div>
 			<!--视图模板容器 end-->

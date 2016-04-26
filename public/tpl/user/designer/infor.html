@@ -1,9 +1,5 @@
-<div class="main">
-	<div class="m-tt">
-		<h2>基本资料认证</h2>
-	</div>
-	<div class="m-ct m-phone m-info">
-		<div ng-if="designerInfo.isLoading">
+<div class="main m-phone m-info">
+	<div ng-if="designerInfo.isLoading">
 			<div class="done" ng-if="designer.auth_type == 2 && !designerInfo.status">
 				<p class="success"><i class="iconfont2">&#xe60d;</i></p>
 				<h3>您的基本资料已通过认证</h3>
@@ -62,7 +58,7 @@
 								<div class="item">
 									<label class="u-lab" for="dec_area"><i>*</i>所在地区</label>
 									<div class="u-inp">
-										<div my-cities my-list="designerInfo.cities_list" my-province="designer.province" my-city="designer.city" my-district="designer.district" ng-if="designer.province"></div>
+										<div my-cities my-province="designer.province" my-city="designer.city" my-district="designer.district" ng-if="designer.province"></div>
 									</div>
 								</div>
 							</div>
@@ -149,6 +145,7 @@
 							</div>
 							<div class="m-item m-error-info hide" id="error-info"></div>
 						</div>
+						<div my-alert type="warning" ng-show="designerInfo.error" text="{{designerInfo.errormsg}}"></div>
 						<div class="m-btns">
 							<input type="submit" class="u-btns" ng-class="{'u-btns-disabled':designerinfo.$invalid || designerInfo.disabled}" ng-disabled="designerinfo.$invalid || designerInfo.disabled" value="&nbsp;&nbsp;保存&nbsp;&nbsp;" />
 						</div>
@@ -157,7 +154,6 @@
 			</div>
 		</div>
 		<div class="pageLoading" ng-hide="designerInfo.isLoading"></div>
-	</div>
 </div>
 <div class="k-cropMask" id="j-cropMask"></div>
 <div class="k-cropBox" id="j-cropBox">
@@ -173,7 +169,7 @@
 	<div class="motai done">
 		<span class="done-icon"></span>
 		<h3>保存成功！</h3>
-		<p>等待管理员审核，才能在网站页面上面显示。</p>
+		<p>请耐心等待管理员审核。</p>
 		<input class="u-btns" type="button" value="&nbsp;&nbsp;提交认证&nbsp;&nbsp;" ng-click="designerInfo.defineBtn()" />
 	</div>
 </div>

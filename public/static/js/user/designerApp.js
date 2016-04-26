@@ -5,6 +5,14 @@
         .run(['$rootScope','$state','$stateParams',function($rootScope,$state,$stateParams) {
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
+            $rootScope.$on('$stateChangeStart',function(){
+            })
+            $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+                document.documentElement.scrollTop = document.body.scrollTop = 0;
+            });
+            $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
+                alert('An error occurred while changing states: ' + error);
+            });
         }])
         .config(function($stateProvider, $urlRouterProvider) {
             var url = RootUrl + 'tpl/user/designer/';
@@ -18,17 +26,20 @@
                 .state('service', {     //设计师接单服务设置
                     url: '/service',
                     templateUrl: url+'service.html',
-                    controller : 'serviceCtrl'
+                    controller : 'serviceCtrl',
+                    title : "接单资料"
                 })
                 .state('infor', {     //设计师编辑资料和提交认证
                     url: '/infor',
                     templateUrl: url+'infor.html',
-                    controller : 'inforCtrl'
+                    controller : 'inforCtrl',
+                    title : "基本资料认证"
                 })
                 .state('infoshow', {     //设计师资料审核期查看
                     url: '/infoshow',
                     templateUrl: url+'infoshow.html',
-                    controller : 'infoshowCtrl'
+                    controller : 'infoshowCtrl',
+                    title : "基本资料认证"
                 })
                 .state('requirementList', {   //需求列表
                     url: '/requirementList',
@@ -102,6 +113,7 @@
                     templateUrl: url+'fulfill.html'
                 })
                 .state('products', {      //作品列表
+                    abstract: true,
                     url: '/products',
                     template: '<div ui-view></div>'
                 })
@@ -122,6 +134,7 @@
                 })
                 .state('favorite', {      //收藏作品
                     url: '/favorite',
+                    abstract: true,
                     template: '<div ui-view></div>'
                 })
                 .state('favorite.list', {      //收藏作品
@@ -141,27 +154,32 @@
                 .state('addteam', {      //编辑施工团队
                     url: '/team',
                     templateUrl: url+'team.html',
-                    controller : 'teamCtrl'
+                    controller : 'teamCtrl',
+                    title : "添加施工团队"
                 })
                 .state('updateteam', {      //编辑施工团队
                     url: '/team/:id',
                     templateUrl: url+'team.html',
-                    controller : 'teamCtrl'
+                    controller : 'teamCtrl',
+                    title : "编辑施工团队"
                 })
                 .state('teamList', {      //施工团队认证
                     url: '/teamList',
                     templateUrl: url+'teamList.html',
-                    controller : 'teamCtrl'
+                    controller : 'teamCtrl',
+                    title : "我的施工团队"
                 })
                 .state('phone', {      //手机修改
                     url: '/phone',
                     templateUrl: url+'phone.html',
-                    controller : 'phoneCtrl'
+                    controller : 'phoneCtrl',
+                    title : "手机认证"
                 })
                 .state('email', {      //邮箱认证
                     url: '/email',
                     templateUrl: url+'email.html',
-                    controller : 'emailCtrl'
+                    controller : 'emailCtrl',
+                    title : "邮箱认证"
                 })
                 .state('notice', {      //系统公告
                     url: '/notice',

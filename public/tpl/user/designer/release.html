@@ -12,8 +12,6 @@
 							<label class="u-lab"><i>&#42;</i>所在城市</label>
 							<div class="u-inp">
 								<div class="u-inp">
-									<input type="hidden" ng-model="product.province" check-province required />
-									<input type="hidden" ng-model="product.city" check-city required />
 									<div my-cities my-list="designerProduct.address" my-province="product.province" my-city="product.city" my-district="product.district" ng-if="product.province"></div>
 								</div>
 							</div>
@@ -109,13 +107,12 @@
 						<div class="item">
 							<label class="u-lab"><i>*</i>上传作品图片</label>
 							<div class="u-inp insertimage">
-								<input type="hidden" ng-model="product.images.length" check-images required />
 								<div my-insertimage my-query="product.images" my-section="designerProduct.section" ng-if="product" my-type="edit"></div>
 							</div>
 						</div>
 					</div>
-					<div class="m-item m-error-info hide" id="error-info"></div>
 				</div>
+				<div my-alert type="warning" ng-show="designerProduct.error" text="{{designerProduct.errormsg}}"></div>
 				<div class="m-btns">
 					<input type="submit" class="u-btns" ng-class="{'u-btns-disabled':myRelease.$invalid || designerProduct.disabled}" ng-disabled="myRelease.$invalid || designerProduct.disabled" value="&nbsp;申请认证&nbsp;" />
 				</div>
