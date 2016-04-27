@@ -344,8 +344,8 @@ angular.module('controllers', [])
         }
     }])
     .controller('createCtrl', [     //方案创建和更新
-        '$scope','$rootScope','$timeout','$filter','$state','$stateParams','$timeout','userRequiremtne','userTeam','initData',
-        function($scope, $rootScope,$timeout,$filter,$state,$stateParams,$timeout,userRequiremtne,userTeam,initData) {
+        '$scope','$rootScope','$filter','$state','$stateParams','$timeout','userRequiremtne','userTeam','initData',
+        function($scope, $rootScope,$filter,$state,$stateParams,$timeout,userRequiremtne,userTeam,initData) {
             var priceDetail = [
                 {
                     "description": "",
