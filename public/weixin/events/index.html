@@ -7,7 +7,7 @@
         !function (a, b) { function c() { var b = f.getBoundingClientRect().width; b / i > 540 && (b = 540 * i); var c = b / 10; f.style.fontSize = c + "px", k.rem = a.rem = c } var d, e = a.document, f = e.documentElement, g = e.querySelector('meta[name="viewport"]'), h = e.querySelector('meta[name="flexible"]'), i = 0, j = 0, k = b.flexible || (b.flexible = {}); if (g) { console.warn("将根据已有的meta标签来设置缩放比例"); var l = g.getAttribute("content").match(/initial\-scale=([\d\.]+)/); l && (j = parseFloat(l[1]), i = parseInt(1 / j)) } else if (h) { var m = h.getAttribute("content"); if (m) { var n = m.match(/initial\-dpr=([\d\.]+)/), o = m.match(/maximum\-dpr=([\d\.]+)/); n && (i = parseFloat(n[1]), j = parseFloat((1 / i).toFixed(2))), o && (i = parseFloat(o[1]), j = parseFloat((1 / i).toFixed(2))) } } if (!i && !j) { var p = a.navigator.userAgent, q = (!!p.match(/android/gi), !!p.match(/iphone/gi)), r = q && !!p.match(/OS 9_3/), s = a.devicePixelRatio; i = q && !r ? s >= 3 && (!i || i >= 3) ? 3 : s >= 2 && (!i || i >= 2) ? 2 : 1 : 1, j = 1 / i } if (f.setAttribute("data-dpr", i), !g)if (g = e.createElement("meta"), g.setAttribute("name", "viewport"), g.setAttribute("content", "initial-scale=" + j + ", maximum-scale=" + j + ", minimum-scale=" + j + ", user-scalable=no"), f.firstElementChild)f.firstElementChild.appendChild(g); else { var t = e.createElement("div"); t.appendChild(g), e.write(t.innerHTML) } a.addEventListener("resize", function () { clearTimeout(d), d = setTimeout(c, 300) }, !1), a.addEventListener("pageshow", function (a) { a.persisted && (clearTimeout(d), d = setTimeout(c, 300)) }, !1), "complete" === e.readyState ? e.body.style.fontSize = 12 * i + "px" : e.addEventListener("DOMContentLoaded", function () { e.body.style.fontSize = 12 * i + "px" }, !1), c(), k.dpr = a.dpr = i, k.refreshRem = c, k.rem2px = function (a) { var b = parseFloat(a) * this.rem; return "string" == typeof a && a.match(/rem$/) && (b += "px"), b }, k.px2rem = function (a) { var b = parseFloat(a) / this.rem; return "string" == typeof a && a.match(/px$/) && (b += "rem"), b } }(window, window.lib || (window.lib = {}));
     </script>
     <style>
-        body,h1,h2,p{
+        body,h1,h2,h3,p{
             margin: 0;
             padding: 0;
         }
@@ -16,13 +16,16 @@
             height: 100vh;
         }
         body{
+            position: relative;
             font-family:Helvetica;
+            -webkit-text-size-adjust: none;
             background:url(bg.jpg) 0 0 no-repeat;
             -webkit-background-size: cover;
             background-size: cover;
         }
         header{
-            padding-top: 1.8rem;
+            padding-top: 1rem;
+            padding-bottom: 0.6rem;
             text-align: center;
         }
         .logo{
@@ -48,6 +51,108 @@
             color: #7c8389;
             font-weight: normal;
         }
+        input::-webkit-input-placeholder {
+            font-size:0.5rem;
+            line-height: 1.1755233494363928rem;
+            text-align: center;
+        }
+        input::input-placeholder {
+            font-size:0.5rem;
+            line-height: 1.1755233494363928rem;
+            text-align: center;
+        }
+        .item{
+            padding: 0 1.53rem 0.25rem;
+        }
+        input{
+            width: 100%;
+            padding: 0 10px;
+            font-size:0.5rem;
+            line-height: 1.1755233494363928rem;
+            box-sizing: border-box;
+            background-color: #fff;
+            color: #7c8389;
+            border: 2px solid #7c8389;
+            border-radius:0.1610305958132045rem;
+            -webkit-appearance: none;
+            outline:0;
+        }
+        input:focus{
+            border-color: #00a2ff;
+        }
+        input.error{
+            border-color: #ff0042;
+        }
+        .btn{
+            width: 100%;
+            font-size:0.5rem;
+            line-height: 1.1755233494363928rem;
+            border: none;
+            color: #fff;
+            background-color: #fe7004;
+            border-radius:0.1610305958132045rem;
+        }
+        footer{
+            padding-top: 0.34rem;
+            text-align: center;
+        }
+        .link i{
+            display: inline-block;
+            width: 1rem;
+            height: 1.6747181964573268rem;
+            background:url(data:image/png;base64,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) 0 0 no-repeat;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+        .link{
+            display: block;
+            width: 7rem;
+            margin: 0 auto;
+            text-decoration: none;
+        }
+        .link span{
+            display: block;
+            font-size:0.5rem;
+            line-height: 0.8rem;
+            color: #7c8389;
+        }
+        .url{
+            padding-top: 0.2rem;
+            font-size: 0.3rem;
+            line-height: 0.4rem;
+            color: #b5b9bc;
+        }
+        .msg{
+            font-size: 0.3rem;
+            color: #ff0042;
+        }
+        .tips{
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            display: none;
+            padding-top: 2rem;
+            text-align: center;
+            background-color: #fff;
+        }
+        .tips svg{
+            width:2.8985rem;
+            height:2.8985rem;
+        }
+        .tips h3{
+            padding-top: 1rem;
+            font-size: 0.7729rem;
+            line-height: 1.5056rem;
+            color: #2dbf38;
+        }
+        .tips .txt{
+            padding-bottom: 2rem;
+            font-size: 0.4rem;
+            line-height: 1.3365rem;
+            color: #62697b;
+        }
     </style>
 </head>
 <body>
@@ -62,18 +167,131 @@
         </hgroup>
     </header>
     <main>
-        <form>
-            <input />
-            <input />
-            <button></button>
-        </form>
+        <div class="item">
+            <input type="text" id="j-name" placeholder="请输入姓名" />
+        </div>
+        <div class="item">
+            <input type="tel" id="j-phone" placeholder="请输入手机" />
+        </div>
+        <div class="item">
+            <p id="j-error" class="msg"></p>
+        </div>
+        <div class="item">
+            <button class="btn" id="j-btn">提交申请</button>
+        </div>
     </main>
     <footer>
-        <div class="icon">
+        <a class="link" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.jianfanjia.cn.activity">
             <i></i>
-        </div>
-        <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.jianfanjia.cn.activity">简繁家App 下载</a>
-        <p>https://www.jianfanjia.com</p>
+            <span>简繁家App 下载</span>
+        </a>
+        <p class="url">www.jianfanjia.com</p>
     </footer>
+    <div id="j-tips" class="tips">
+        <div>
+            <svg version="1.1" id="图形" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve">
+			  <path fill="#31be31" d="M512-144.11489c-245.277286 0-444.11489 198.838627-444.11489 444.115913 0 245.278309 198.837604 444.11489 444.11489 444.11489s444.11489-198.836581 444.11489-444.11489C956.11489 54.722714 757.277286-144.11489 512-144.11489zM717.38574 457.744697c-14.361079 10.298554-34.509978 7.264451-47.026036-5.192256L458.015482 241.181383c-7.767917-7.730055-20.3597-7.730055-28.127617 0l-79.408561 79.046311c-12.515035 12.458753-32.663934 15.490809-47.029106 5.198395-18.299785-13.120832-19.821441-38.685068-4.560876-53.874001l130.898259-130.299625c7.798617-7.829316 20.440541-7.829316 28.240181-0.002047l263.920902 262.622326C737.205135 419.057583 735.685525 444.627958 717.38574 457.744697z" transform="translate(0, 812) scale(1, -1)"/>
+			</svg>
+        </div>
+        <h3>感谢提交！</h3>
+        <p class="txt">我们的工作人员会尽快与您联系</p>
+        <a class="link" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.jianfanjia.cn.activity">
+            <i></i>
+            <span>简繁家App 下载</span>
+        </a>
+        <p class="url">www.jianfanjia.com</p>
+    </div>
 </body>
 </html>
+<script>
+    function ajax(options) {
+        options = options || {};
+        options.type = (options.type || "GET").toUpperCase();
+        options.dataType = options.dataType || "json";
+        options.contentType = options.contentType || "application/x-www-form-urlencoded";
+        var params = options.dataType === "json" ? options.data : formatParams(options.data);
+        if (window.XMLHttpRequest) {
+            var xhr = new XMLHttpRequest();
+        } else {
+            var xhr = new ActiveXObject('Microsoft.XMLHTTP');
+        }
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                var status = xhr.status;
+                if (status >= 200 && status < 300) {
+                    options.success && options.success(xhr.responseText, xhr.responseXML);
+                } else {
+                    options.fail && options.fail(status);
+                }
+            }
+        };
+        if (options.type == "GET") {
+            xhr.open("GET", options.url + "?" + params, true);
+            xhr.send(null);
+        } else if (options.type == "POST") {
+            xhr.open("POST", options.url, true);
+            xhr.setRequestHeader("Content-Type", options.contentType);
+            xhr.send(params);
+        }
+    }
+    function formatParams(data) {
+        var arr = [];
+        for (var name in data) {
+            arr.push(encodeURIComponent(name) + "=" + encodeURIComponent(data[name]));
+        }
+        arr.push(("v=" + Math.random()).replace("."));
+        return arr.join("&");
+    }
+</script>
+<script>
+    var oName = document.getElementById('j-name');
+    var oPhone = document.getElementById('j-phone');
+    var oBtn = document.getElementById('j-btn');
+    var oError = document.getElementById('j-error');
+    var oTips = document.getElementById('j-tips');
+    function isMobile(mobile){
+        return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile);
+    }
+    oBtn.addEventListener('click',function(){
+        if(!oName.value.trim()){
+            oError.innerHTML = '姓名不能为空';
+            oName.className = 'error';
+            return false;
+        }else if(!isMobile(oPhone.value)){
+            oError.innerHTML = '手机号不正确';
+            oPhone.className = 'error';
+            return false;
+        }else if(!oName.value.trim() && !isMobile(oPhone.value)){
+            oError.innerHTML = '姓名和手机号不正确';
+            oPhone.className = 'error';
+            oName.className = 'error';
+            return false;
+        }else{
+            oError.innerHTML = '';
+            oPhone.className = '';
+            oName.className = '';
+        }
+        ajax({
+            url: "/api/v2/web/add_angel_user",              //请求地址
+            type: "POST",                       //请求方式
+            data: JSON.stringify({
+                "phone":oPhone.value,
+                "name":oName.value.trim(),
+                "district":'201604微信推广',
+                "house_area":undefined,
+                "total_price":undefined
+            }),        //请求参数
+            dataType: "json",
+            contentType : "application/json; charset=utf-8",
+            success: function (response) {
+                if(JSON.parse(response).msg === "success"){
+                    oTips.style.display = 'block';
+                }
+            },
+            fail: function (status) {
+                alert('网络不给力');
+            }
+        });
+        return false;
+    },false);
+</script>

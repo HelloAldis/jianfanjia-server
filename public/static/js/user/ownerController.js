@@ -402,26 +402,9 @@ angular.module('controllers', [])
                 $scope.requirement = data;
             });
     }])
-    .controller('requirementDetailCtrl', [     //装修需求详情
+    .controller('requirementDetailsCtrl', [     //装修需求详情
         '$scope','$rootScope','$timeout','$filter','$location','$stateParams','$interval','userRequiremtne','initData',
         function($scope, $rootScope,$timeout,$filter,$location,$stateParams,$interval,userRequiremtne,initData){
-            var requiremtneId = $stateParams.id;
-            var timer = null;
-            var timerScore = null;
-            $scope.$on('requirementParent',function(event, data){    //子级接收
-                if(data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 4 || data.status == 5 || data.status == 6 || data.status == 7 || data.status == 8){  //预约量房、确认量房
-                    myBooking(data.status)
-                    timerScore = $interval(function(){
-                        $scope.score.newDate = +new Date();
-                    },1000);
-                }
-                if(data.status == 8 || data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5){  //选择方案
-                    myPlan()
-                }
-                if((data.status == 8 || data.status == 7 || data.status == 4 || data.status == 5) && data.work_type != 2){   //生成合同
-                    myContract()
-                }
-            });
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userRequiremtne.get({"_id":$stateParams.id}).then(function(res){
                     $scope.$emit('requirementChildren', res.data.data);
@@ -433,10 +416,28 @@ angular.module('controllers', [])
             $scope.goTo = function(id,status){
                 $location.path('requirement/'+id+"/"+statusUrl[status]);
             };
+    }])
+    .controller('requirementDetailCtrl', [     //装修需求详情
+        '$scope',function($scope){}])
+    .controller('requirementBookingCtrl', [     //装修需求详情
+        '$scope','$rootScope','$timeout','$filter','$location','$stateParams','$interval','userRequiremtne','initData',
+        function($scope, $rootScope,$timeout,$filter,$location,$stateParams,$interval,userRequiremtne,initData){
+            var requiremtneId = $stateParams.id;
+            var timer = null;
+            function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+                userRequiremtne.get({"_id":$stateParams.id}).then(function(res){
+                    $scope.$emit('requirementChildren', res.data.data);
+                },function(res){
+                    console.log(res)
+                });
+            }
+            $scope.$on('requirementParent', function(event, data) {   //父级接收 如果业主操作就需要改变状态
+                $scope.requirement = data;
+            });
             var weeksData = initData.weeksData;
             var newDesignerid = undefined;
-            function myBooking(status){
-                userRequiremtne.designers({"requirementid":requiremtneId}).then(function(res){    //可以预约设计师列表
+                function myBooking(){
+                    userRequiremtne.designers({"requirementid":requiremtneId}).then(function(res){    //可以预约设计师列表
                         // 匹配的设计师
                         $scope.matchs = res.data.data.rec_designer;
                         angular.forEach($scope.matchs, function(value, key){
@@ -450,17 +451,8 @@ angular.module('controllers', [])
                         $scope.orderDesigns = [];
                         userRequiremtne.order({"requirementid":requiremtneId}).then(function(res){    //已经预约设计师列表
                                 $scope.ordersData = res.data.data;
-                                angular.forEach($scope.ordersData, function(value, key){
-                                    if(value.plan.house_check_time){
-                                        var dates = $filter('date')(value.plan.house_check_time , 'yyyy年MM月dd日'),
-                                        days = $filter('date')(value.plan.house_check_time , 'a') == 'AM' ? '上午' : '下午',
-                                        weeks = weeksData[$filter('date')(value.plan.house_check_time , 'EEEE')],
-                                        times = $filter('date')(value.plan.house_check_time , 'hh:mm');
-                                        value.house_check_time = dates + days + times + ' ( '+ weeks + ' )';
-                                    }
-                                });
                                 $scope.bookingSuccess = true;
-                                if(status == 0 || status == 1 || status == 2 || status == 6 || status == 3){
+                                if( $scope.requirement.status == 0 || $scope.requirement.status == 1 || $scope.requirement.status == 2 || $scope.requirement.status == 6 || $scope.requirement.status == 3){
                                     angular.forEach($scope.matchs, function(value1, key1){
                                         angular.forEach($scope.ordersData, function(value2, key2){
                                             if(value1._id == value2._id){
@@ -539,7 +531,8 @@ angular.module('controllers', [])
                     },function(res){
                         console.log(res)
                     });
-            }
+                }
+                myBooking();
             //预约量房
             $scope.booking = {
                 isReplace : false,
@@ -606,6 +599,33 @@ angular.module('controllers', [])
                     });
                 }
             }
+    }])
+    .controller('requirementScoreCtrl', [     //装修需求详情
+        '$scope','$rootScope','$timeout','$filter','$location','$stateParams','$interval','userRequiremtne','initData',
+        function($scope, $rootScope,$timeout,$filter,$location,$stateParams,$interval,userRequiremtne,initData){
+            var requiremtneId = $stateParams.id;
+            var timer = null;
+            var timerScore = null;
+            var weeksData = initData.weeksData;
+            function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+                userRequiremtne.get({"_id":$stateParams.id}).then(function(res){
+                    $scope.$emit('requirementChildren', res.data.data);
+                },function(res){
+                    console.log(res)
+                });
+            }
+            userRequiremtne.order({"requirementid":requiremtneId}).then(function(res){    //已经预约设计师列表
+                $scope.ordersData = res.data.data;
+                angular.forEach($scope.ordersData, function(value, key){
+                    if(value.plan.house_check_time){
+                        var dates = $filter('date')(value.plan.house_check_time , 'yyyy年MM月dd日'),
+                        days = $filter('date')(value.plan.house_check_time , 'a') == 'AM' ? '上午' : '下午',
+                        weeks = weeksData[$filter('date')(value.plan.house_check_time , 'EEEE')],
+                        times = $filter('date')(value.plan.house_check_time , 'hh:mm');
+                        value.house_check_time = dates + days + times + ' ( '+ weeks + ' )';
+                    }
+                });
+            });
             //匿名评价
             var scoreEvent = {
                 over : function(arr,i){
@@ -624,10 +644,10 @@ angular.module('controllers', [])
                     });
                 }
             };
+            var designerScore = "";
             $scope.score = {
                 motaiEarly : false,
                 newDate : +new Date(),
-                designerScore : {},
                 scoreComment : '',
                 scoreRespond : '0',
                 scoreService : '0',
@@ -648,7 +668,8 @@ angular.module('controllers', [])
                 motaiDone : false,
                 earlyConfirmBtn : function(data){  //提前量房
                     this.motaiEarly = true;
-                    this.designerScore = data;
+                    designerScore = data._id;
+                    console.log(designerScore)
                 },
                 earlyCancelBtn : function(){
                     this.motaiEarly = false;
@@ -661,10 +682,11 @@ angular.module('controllers', [])
                     this.clear();
                 },
                 scoreSubmitBtn : function(){    //提交评价
+                    console.log(designerScore)
                     var This = this;
                     userRequiremtne.score({
                       "requirementid": requiremtneId,
-                      "designerid" :This.designerScore._id,
+                      "designerid" :designerScore,
                       "service_attitude":This.scoreService,
                       "respond_speed":This.scoreRespond,
                       "comment":This.scoreComment,
@@ -672,8 +694,6 @@ angular.module('controllers', [])
                     }).then(function(res){
                         if(res.data.msg == "success"){
                             uploadParent();
-                            myBooking();
-                            myPlan();
                             This.motaiScore = false;
                             This.clear();
                             $location.path('requirement/'+requiremtneId+"/plan");
@@ -687,21 +707,21 @@ angular.module('controllers', [])
                     $interval.cancel(timerScore);
                     this.motaiDone = false;
                     this.motaiScore = true;
+                    this.motaiEarly = false;
                 },
                 confirmBtn : function(data){  //确认量房
                     var This = this;
+                    console.log(designerScore)
                     if(data !== undefined){
-                        this.designerScore = data;
+                        designerScore = data._id;
                     }
                     userRequiremtne.checked({
                       "requirementid":requiremtneId,
-                      "designerid":this.designerScore._id
+                      "designerid":designerScore
                     }).then(function(res){
                         if(res.data.msg == "success"){
                             uploadParent();
-                            myBooking();
                             This.motaiDone = true;
-                            This.designerScore = data;
                         }
                     },function(err){
                         console.log(err);
@@ -710,7 +730,7 @@ angular.module('controllers', [])
                 scoreBtn : function(data){
                     this.clear();
                     this.motaiScore = true;
-                    this.designerScore = data;
+                    designerScore = data;
                 },
                 clear : function(){
                     var This = this;
@@ -727,10 +747,21 @@ angular.module('controllers', [])
                 },
                 bookingChange : function(id){
                     $scope.bookingSuccess = true;
-                    $scope.booking.bookingChangeStatus = true;
                     userRequiremtne.changeUId = id;
                     $location.path('requirement/'+requiremtneId+"/booking");
                 }
+            };
+    }])
+    .controller('requirementPlanCtrl', [     //装修需求详情
+        '$scope','$rootScope','$location','$stateParams','userRequiremtne',
+        function($scope, $rootScope,$location,$stateParams,userRequiremtne){
+            var requiremtneId = $stateParams.id;
+            function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+                userRequiremtne.get({"_id":$stateParams.id}).then(function(res){
+                    $scope.$emit('requirementChildren', res.data.data);
+                },function(res){
+                    console.log(res)
+                });
             };
         // 方案列表
         function myPlan(){
@@ -739,7 +770,8 @@ angular.module('controllers', [])
             },function(err){
                 console.log(err);
             });
-        }
+        };
+        myPlan();
         var planData = {
             "planid": '',
             "designerid": '',
@@ -782,14 +814,24 @@ angular.module('controllers', [])
                 }
             }
         };
+    }])
+    .controller('requirementContractCtrl', [     //装修需求详情
+        '$scope','$rootScope','$location','$stateParams','userRequiremtne',
+        function($scope, $rootScope,$location,$stateParams,userRequiremtne){
+            var requiremtneId = $stateParams.id;
+            function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+                userRequiremtne.get({"_id":$stateParams.id}).then(function(res){
+                    $scope.$emit('requirementChildren', res.data.data);
+                },function(res){
+                    console.log(res)
+                });
+            }
         // 三方合同
-        function myContract(){   //获取我的第三方合同
-            userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){
-                $scope.contract = res.data.data;
-            },function(err){
-                console.log(err);
-            });
-        }
+        userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){
+            $scope.contract = res.data.data;
+        },function(err){
+            console.log(err);
+        });
         $scope.contractSuccess = true;
         $scope.contractSuccessBtn = function(){
             $scope.contractSuccess = !$scope.contractSuccess;
@@ -806,6 +848,10 @@ angular.module('controllers', [])
             });
         };
     }])
+    .controller('requirementFieldCtrl', [     //装修需求详情
+        '$scope',function($scope){}])
+    .controller('requirementfulfillCtrl', [     //装修需求详情
+        '$scope',function($scope){}])
     .controller('favoriteProductCtrl', [     //作品收藏列表
         '$scope','$state','$filter','userFavoriteProduct',function($scope,$state,$filter,userFavoriteProduct){
             $scope.designers = undefined;

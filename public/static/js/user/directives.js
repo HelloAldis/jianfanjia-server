@@ -295,8 +295,190 @@ angular.module('directives', [])
                 myProvince : "=",
                 myCity : "=",
                 myDistrict : "=",
+                myDistrictarr : "="
+            },
+            restrict: 'A',
+            template: function(){
+                return [
+                    '<div>',
+                        '<div class="k-cities">',
+                            '<div class="list province" ng-mouseout="closeSelect()">',
+                                '<div class="option" ng-click="open.province()">',
+                                    '<span class="value" ng-bind="myProvince"></span><span class="arrow"><em></em><i></i></span>',
+                                '</div>',
+                                '<ul class="select" ng-class="{\'open\':select.provinceShow}" ng-mouseover="closeTimer()">',
+                                    '<li data-val="{{ p.pid }}" ng-repeat="p in tdist.province" bindonce="tdist.province" ng-click="select.province($index,p.name)"><a bo-text="p.name"></a></li>',
+                                '</ul>',
+                            '</div>',
+                            '<div class="list city" ng-mouseout="closeSelect()">',
+                                '<div class="option" ng-click="open.city()">',
+                                '<span class="value" ng-bind="myCity"></span><span class="arrow"><em></em><i></i></span>',
+                                '</div>',
+                                '<ul class="select" ng-class="{\'open\':select.cityShow && myProvince !== \'请选择省份\'}" ng-mouseover="closeTimer()">',
+                                    '<li data-val="0" ng-repeat="c in tdist.city[index.province]" bindonce="tdist.city[index.province]"  ng-click="select.city($index,c.name)"><a bo-text="c.name"></a></li>',
+                                '</ul>',
+                            '</div>',
+                            '<div class="list district" ng-mouseout="closeSelect()" ng-if="!!myDistrict">',
+                                '<div class="option" ng-click="open.district()">',
+                                '<span class="value" ng-bind="myDistrict"></span><span class="arrow"><em></em><i></i></span>',
+                                '</div>',
+                                '<ul class="select" ng-class="{\'open\':select.districtShow && myCity !== \'请选择市\'}" ng-mouseover="closeTimer()">',
+                                    '<li data-val="0" ng-repeat="d in tdist.district[index.province][index.city]" bindonce="tdist.district[index.province][index.city]"  ng-click="select.district($index,d.name)"><a bo-text="d.name"></a></li>',
+                                '</ul>',
+                            '</div>',
+                        '</div>',
+                        '<div ng-if="!myDistrict">',
+                            '<p class="alert">目前装修城市仅支持湖北省武汉市</p>',
+                            '<div style="width:670px" ng-if="!!districtsArr.length">',
+                                '<div class="radio">',
+                                    '<label ng-repeat="list in districtsArr" bindonce="districtsArr" ng-class="{\'active\':list.cur}" ng-click="dec_districtsBtn($index,list.cur,list.name)"><span></span><i bo-text="list.name"></i></label>',
+                                '</div>',
+                            '<p ng-if="districtsArr.length == 0">该市下面没有县或区</p>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+            },
+            controller : ['$scope','$timeout',function($scope,$timeout){
+                var timer = null;
+                $scope.myProvince = $scope.myProvince == undefined ? '请选择省份' : $scope.myProvince;
+                $scope.myCity = $scope.myCity == undefined ? '请选择市' : $scope.myCity;
+                $scope.myDistrict = $scope.myDistrict == undefined ? '请选择县/区' : $scope.myDistrict;
+                $scope.districtsArr = [];
+                $scope.closeTimer = function(){
+                    $timeout.cancel(timer);
+                };
+                $scope.closeSelect = function(){
+                    $timeout.cancel(timer);
+                    timer = $timeout(function(){
+                        $scope.select.provinceShow = false;
+                        $scope.select.cityShow = false;
+                        $scope.select.districtShow =false;
+                    },1000);
+                };
+                $scope.tdist = initData.tdist;
+                $scope.index = {
+                    province : 0,
+                    city : 0,
+                    district : 0
+                };
+                if($scope.myProvince !== '请选择省份'){
+                    $scope.index.province = findIndex($scope.tdist.province,$scope.myProvince) < 0 ? 0 : findIndex($scope.tdist.province,$scope.myProvince);
+                }
+                if($scope.myCity !== '请选择市'){
+                    $scope.index.city =  findIndex($scope.tdist.city[$scope.index.province],$scope.myCity) < 0 ? 0 : findIndex($scope.tdist.city[$scope.index.province],$scope.myCity);
+                }
+                if($scope.myDistrict !== '请选择县/区'){
+                    $scope.index.district = findIndex($scope.tdist.district[$scope.index.province][$scope.index.city],$scope.myDistrict) < 0 ? 0 : findIndex($scope.tdist.district[$scope.index.province][$scope.index.city],$scope.myDistrict);
+                }
+
+                function findIndex(arr,name){
+                    var len=arr.length;
+                    if(!len){
+                        return 0;
+                    }
+                    for(var i=0; i<len; i++){
+                        if(arr[i].name === name){
+                            return i;
+                        }
+                    }
+                    return -1;
+                }
+                if($scope.myDistrictarr != undefined){
+                    var districts = $scope.tdist.district[$scope.index.province][$scope.index.city];
+                    angular.forEach(districts,function(v){
+                        for(var i=0,len=$scope.myDistrictarr.length; i<len; i++){
+                            if(v.name === $scope.myDistrictarr[i]){
+                                v.cur = true;
+                                break;
+                            }
+                            v.cur = false;
+                        }
+                        $scope.districtsArr.push(v);
+                    });
+                }
+
+                $scope.dec_districtsBtn =function(index,off,name){
+                    if(!off){  //添加
+                        $scope.myDistrictarr.push(name);
+                    }else{ //删除
+                        $scope.myDistrictarr = _.remove($scope.myDistrictarr, function(n) {
+                            return n !== name;
+                        });
+                    };
+                    $scope.districtsArr[index].cur = !$scope.districtsArr[index].cur;
+                };
+                $scope.select = {
+                    provinceShow : false,
+                    province : function(index,name){
+                        $scope.index.province = index;
+                        this.provinceShow = false;
+                        $scope.myProvince = name;
+                        $scope.myCity = "请选择市";
+                        if(!!$scope.myDistrict) {
+                            $scope.myDistrict = "请选择县/区";
+                        }
+                        if(!$scope.myDistrict){
+                            $scope.myDistrictarr = [];
+                        }
+                        $scope.select.cityShow = true;
+                    },
+                    cityShow : false,
+                    city :function(index,name){
+                        $scope.index.city = index;
+                        this.cityShow = false;
+                        $scope.myCity = name;
+                        if(!!$scope.myDistrict) {
+                            $scope.myDistrict = "请选择县/区";
+                        }
+                        $scope.select.districtShow = true;
+                        if(!$scope.myDistrict){
+                            $scope.myDistrictarr = [];
+                            $scope.districtsArr = [];
+                            angular.forEach($scope.tdist.district[$scope.index.province][$scope.index.city],function(v){
+                                v.cur = false;
+                                $scope.districtsArr.push(v);
+                            });
+                        }
+                    },
+                    districtShow : false,
+                    district :function(index,name){
+                        this.districtShow = false;
+                        $scope.myDistrict = name;
+                    }
+                };
+                $scope.open = {
+                    province : function(){
+                        hide();
+                        $scope.select.provinceShow = true;
+                    },
+                    city : function(){
+                        hide();
+                        $scope.select.cityShow = true;
+                    },
+                    district : function(){
+                        hide();
+                        $scope.select.districtShow = true;
+                    }
+                };
+                function hide(){
+                    $timeout.cancel(timer);
+                    $scope.select.districtShow = false;
+                    $scope.select.provinceShow = false;
+                    $scope.select.cityShow = false;
+                };
+            }]
+        }
+    }])
+    .directive('myCities2',['$timeout','initData',function($timeout,initData){     //自定义地区选择控件
+        return {
+            replace : true,
+            scope: {
+                myProvince : "=",
+                myCity : "=",
+                myDistrict : "=",
                 myGetDistrict : "=",
-                mySetDistrict : "="
+                mySetDistrict : "=",
+                mySelectfn : "&"
             },
             restrict: 'A',
             template: function(){
@@ -464,6 +646,7 @@ angular.module('directives', [])
                             selectHide(province);
                             clearValue(city);
                             clearValue(district);
+                            return ;
                         }
                         if(obj == city){
                             $scope.myCity = value;
@@ -472,10 +655,14 @@ angular.module('directives', [])
                             selectShow(district);
                             selectHide(city);
                             clearValue(district);
+                            console.log(2)
+                            $scope.mySelectfn && $scope.mySelectfn();
+                            return ;
                         }
                         if(obj == district){
                             $scope.myDistrict = value;
                             selectHide(district);
+                            return ;
                         }
                     });
                 }
@@ -956,14 +1143,19 @@ angular.module('directives', [])
         return {
             replace : true,
             scope: {
-                myQuery : "=",
-                mySet : "@"
+                myQuery : "="
             },
             restrict: 'A',
-            template: '<div class="m-date"></div>',
+            template: function(){
+                return [
+                    '<div class="m-date">',
+
+                    '</div>'
+                ].join('');
+            },
             link: function($scope, iElm, iAttrs, controller) {
                 var query = $scope.myQuery,
-                    select = $scope.mySet.split('-'),
+                    select = iAttrs.myDateSet.split('-'),
                     oBox = angular.element(iElm),
                     yearData = [],
                     monthData = [],
@@ -972,6 +1164,12 @@ angular.module('directives', [])
                     minuteData = [],
                     secondData = [],
                     newDate = new Date(),
+                    iYear = newDate.getFullYear(),
+                    iMonth = newDate.getMonth()+1,
+                    iDays = newDate.getDate(),
+                    iHour = newDate.getHours(),
+                    iMinute = newDate.getMinutes(),
+                    iSecond = newDate.getSeconds(),
                     sYear = '',
                     sMonth = '',
                     sDays = '',
@@ -1002,7 +1200,7 @@ angular.module('directives', [])
                     }
                 }
                 for (var i = 0; i < 20; i++) {
-                    yearData[i] = newDate.getFullYear()+i+'年'
+                    yearData[i] = iYear+i+'年'
                 }
                 for (var i = 0; i < 24; i++) {
                     hourData[i] = i + '时'
@@ -1021,13 +1219,13 @@ angular.module('directives', [])
                     switch (select[i]){
                         case 'year' :
                             createList(yearData,oYear);
-                            sYear = setDate(oYear,newDate.getFullYear());
+                            sYear = setDate(oYear,iYear);
                             optionEvevt(oYear);
                             fnDays();
                             break;
                         case 'month' :
                             createList(monthData,oMonth);
-                            sMonth = setDate(oMonth,newDate.getMonth()+1);
+                            sMonth = setDate(oMonth,newDate.getMonth());
                             optionEvevt(oMonth);
                             break;
                         case 'days' :
@@ -1058,7 +1256,7 @@ angular.module('directives', [])
                 function createList(arr,obj){
                     obj.find('select').remove();
                     var sHtml = '<ul class="select">',
-                        len = obj == oDays ? arr[sMonth] : arr.length;
+                        len = obj == oDays ? arr[sMonth*1-1] : arr.length;
                     for (var i = 0; i < len; i++) {
                         if(obj == oDays){
                             sHtml += '<li data-val="'+(i+1)+'"><a>'+(i+1)+'日</a></li>';
@@ -1077,12 +1275,19 @@ angular.module('directives', [])
                     }
                     if(obj == oMonth){
                         str2 = '月';
+                        str = iMonth;
                     }
                     if(obj == oDays){
                         str2 = '日';
+                        if(select.length == 3){
+                            str = iDays+1;
+                        }
                     }
                     if(obj == oHour){
                         str2 = '时';
+                        if(iMinute > 50){
+                            str = iHour+1;
+                        }
                     }
                     if(obj == oMinute){
                         str = str+'';
@@ -1117,18 +1322,6 @@ angular.module('directives', [])
                     var value = option.find('.value').html();
                     option.on('click' , function(ev){
                         body.click();
-                        if(obj == oDays){
-                            sMonth = parseInt(oMonth.find('.value').html()) - 1;
-                            createList(daysData,oDays);
-                        }
-                        if(obj == oHour){
-                            sMonth = parseInt(oMonth.find('.value').html()) - 1;
-                            createList(daysData,oDays);
-                        }
-                        if(obj == oMinute){
-                            sMonth = parseInt(oMonth.find('.value').html()) - 1;
-                            createList(daysData,oDays);
-                        }
                         selectShow(obj);
                         return false;
                     });
@@ -1147,7 +1340,7 @@ angular.module('directives', [])
                             fnDays();
                         }
                         if(obj == oMonth){
-                            sMonth = dataVal-1;
+                            sMonth = dataVal;
                             createList(daysData,oDays);
                         }
                         if(obj == oDays){
@@ -1185,18 +1378,29 @@ angular.module('directives', [])
                 function getDate(){
                     var s;
                     $scope.$apply(function(){
+                        var date = new Date();
                         if(_.indexOf(select,'hour') == -1){
-                            s = sYear +"/"+ (sMonth+1) +"/"+ sDays +" "+ "00:00:00";
+                            sHour = 0;
+                            sHour = 0;
+                            sSecond = 0;
                         }else if(_.indexOf(select,'minute') == -1){
-                            s = sYear +"/"+ (sMonth+1) +"/"+ sDays +" "+ sHour +":00:00";
+                            sHour = 0;
+                            sSecond = 0;
                         }else if(_.indexOf(select,'second') == -1){
-                            s = sYear +"/"+ (sMonth+1) +"/"+ sDays +" "+ sHour +":"+ sMinute+ ":00";
-                        }else{
-                            s = sYear +"/"+ (sMonth+1) +"/"+ sDays +" "+ sHour +":"+ sMinute +":"+ sSecond;
+                            sSecond = 0;
                         }
-                        $scope.myQuery = (new Date(s)).getTime();
+                        date.setFullYear(sYear);
+                        date.setMonth(sMonth*1 -1);
+                        date.setDate(sDays);
+                        date.setHours(sHour);
+                        date.setMinutes(sMinute);
+                        date.setSeconds(sSecond);
+                        $scope.myQuery = Date.parse(date);
                     });
                 }
+                $timeout(function(){
+                    getDate();
+                },0)
             }
         };
     }])

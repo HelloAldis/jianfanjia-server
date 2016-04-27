@@ -8,12 +8,12 @@ angular.module('controllers', [])
             },function(res){
                 console.log(res)
             });
-            $scope.$on('designerChildren', function(event, data) {   //父级接收 如果业主操作就需要改变状态
+            $scope.$on('designerChildren', function(event, data) {   //父级接收 如果设计师操作就需要改变状态
                 $scope.designer = data;
             });
             $scope.count = {};
             userMessage.count({
-                "query_array":[["2","4","5","6","7","8","9","10","11","12","13"], ["14", "15","16","17","18"],["3"]]
+                "query_array":[["2","5","6","7","8","9","10","11","12","13"], ["14", "15","16","17","18"],["3"]]
             }).then(function(res){
                 $scope.count.notice = res.data.data[0];
                 $scope.count.remind = res.data.data[1];
@@ -22,7 +22,7 @@ angular.module('controllers', [])
             },function(err){
                 console.log(err);
             });
-            $scope.$on('userMessageChildren', function(event, data) {   //父级接收 如果业主操作就需要改变状态
+            $scope.$on('userMessageChildren', function(event, data) {   //父级接收 如果设计师操作就需要改变状态
                 $scope.count = data;
             });
         }
@@ -55,7 +55,7 @@ angular.module('controllers', [])
                 }else if(i == 0){
                     onelineStatus(i)
                 }
-            }
+            };
             function onelineStatus(i){
                 userInfo.online({"new_oneline_status":i}).then(function(res){
                     if(res.data.msg == "success"){
@@ -64,7 +64,7 @@ angular.module('controllers', [])
                 },function(res){
                     console.log(res)
                 });
-            }
+            };
     }])
     .controller('requirementListCtrl', [     //装修需求列表
         '$scope','$rootScope','$http','$filter','$location','$stateParams','$interval','userRequiremtne','initData',
@@ -323,9 +323,7 @@ angular.module('controllers', [])
                 $scope.contracts.motaiStartDate = false;
             },
             setDefineBtn : function(){
-                if(!$scope.contracts.startDate){
-                    alert('请设置开工时间')
-                }else if($scope.contracts.startDate < (new Date()).getTime()){
+                if($scope.contracts.startDate < (new Date()).getTime()){
                     alert('设置开工时间不能小于当前时间')
                 }else{
                     userRequiremtne.config({
@@ -346,8 +344,8 @@ angular.module('controllers', [])
         }
     }])
     .controller('createCtrl', [     //方案创建和更新
-        '$scope','$rootScope','$http','$filter','$state','$stateParams','$timeout','userRequiremtne','userTeam','initData',
-        function($scope, $rootScope,$http,$filter,$state,$stateParams,$timeout,userRequiremtne,userTeam,initData) {
+        '$scope','$rootScope','$timeout','$filter','$state','$stateParams','$timeout','userRequiremtne','userTeam','initData',
+        function($scope, $rootScope,$timeout,$filter,$state,$stateParams,$timeout,userRequiremtne,userTeam,initData) {
             var priceDetail = [
                 {
                     "description": "",
@@ -503,7 +501,9 @@ angular.module('controllers', [])
                 username : $state.params.username,
                 worktype : $state.params.worktype,
                 packagetype : $state.params.packagetype,
-                baseprice : $state.params.baseprice
+                baseprice : $state.params.baseprice,
+                error : false,
+                errormsg : ''
             };
             $scope.$watch('designerPlan.add_price_detail_name', function(newValue){
                 $scope.designerPlan.add_price_detail_ok = !!newValue
@@ -624,18 +624,32 @@ angular.module('controllers', [])
                 this.tabBtn(true);
                 this.total_price_discount_ok = true;
             };
+            function hidemsg(){
+                $timeout(function(){
+                    $scope.designerPlan.error = false;
+                },3000)
+            }
+            function showmsg(msg){
+                $scope.designerPlan.error = true;
+                $scope.designerPlan.errormsg = msg;
+                hidemsg();
+            }
             $scope.designerPlan.submit = function(){
                 var This = this;
                 if($scope.plan.images.length == 0){
-                    alert('请至少上传一张平面图');
+                    showmsg('请至少上传一张平面图');
                     return ;
                 }
                 if($scope.designerPlan.worktype != 2 && $scope.plan.manager == ''){
-                    alert('您没有选择项目经理');
+                    showmsg('您没有选择项目经理');
+                    return ;
+                }
+                if($scope.plan.total_price == undefined){
+                    showmsg('请填写报价');
                     return ;
                 }
                 if($scope.designerPlan.worktype == 2){
-                    $scope.plan.manager = ''
+                    $scope.plan.manager = '';
                     $scope.plan.duration = 0;
                     $scope.plan.total_price = 0;
                 }
@@ -850,8 +864,8 @@ angular.module('controllers', [])
             laod()
     }])
     .controller('inforCtrl', [     //基本资料认证
-        '$scope','$rootScope','$http','$filter','$location','userInfo','initData',
-        function($scope, $rootScope,$http,$filter,$location,userInfo,initData){
+        '$scope','$rootScope','$timeout','$filter','$location','userInfo','initData',
+        function($scope, $rootScope,$timeout,$filter,$location,userInfo,initData){
             $scope.designerInfo = {
                 status : false,
                 change : function(){
@@ -872,7 +886,9 @@ angular.module('controllers', [])
                     },function(res){
                         console.log(res)
                     });
-                }
+                },
+                error : false,
+                errormsg : ''
             };
             $scope.designer = {
                 username : '',
@@ -891,6 +907,16 @@ angular.module('controllers', [])
                 imageid : ''
             };
             uploadDesignerInfo();
+            function hidemsg(){
+                $timeout(function(){
+                    $scope.designerInfo.error = false;
+                },3000)
+            }
+            function showmsg(msg){
+                $scope.designerInfo.error = true;
+                $scope.designerInfo.errormsg = msg;
+                hidemsg();
+            }
             function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userInfo.get().then(function(res){
                     $scope.designer = _.assign($scope.designer, res.data.data);
@@ -908,25 +934,26 @@ angular.module('controllers', [])
             $scope.designerInfo.submit = function(){
                 var This = this;
                 if($scope.designer.province == "请选择省份"){
-                    alert('请选择省份');
+                    showmsg('请选择省份');
                     return ;
                 }
                 if($scope.designer.city == "请选择市"){
-                    alert('请选择市');
-                    return ;
-                }
-                if($scope.designer.district == "请选择县/区"){
-                    alert('请选择县/区');
+                    showmsg('请选择市');
                     return ;
                 }
                 if($scope.designer.imageid == ""){
-                    alert('请上传头像');
+                    showmsg('请上传头像');
+                    return ;
+                }
+                if($scope.designer.sex == ""){
+                    showmsg('请选择性别');
                     return ;
                 }
                 userInfo.update($scope.designer).then(function(res){
                     if(res.data.msg === "success"){
                         user.updateInfo();
                         This.motaiDone = true;
+                        $scope.$emit('designerChildren', res.data.data);
                     }
                 },function(res){
                     console.log(res)
@@ -968,7 +995,9 @@ angular.module('controllers', [])
                 decStyle : initData.decStyle,
                 houseType : initData.houseType,
                 designFee : initData.designFee,
-                communicationType : initData.designType
+                communicationType : initData.designType,
+                province : '',
+                city : ''
             };
             userInfo.get().then(function(res){
                 $scope.designerService = res.data.data;
@@ -985,16 +1014,14 @@ angular.module('controllers', [])
                 if($scope.designerService.dec_fee_all == 0){
                     $scope.designerService.dec_fee_all = ''
                 }
-                if(!$scope.designerService.province){
-                    $scope.designerService.province = '湖北省';
-                    $scope.designerService.city = '武汉市';
-                }
+                $scope.service.province = '湖北省';
+                $scope.service.city = '武汉市';
             },function(res){
                 console.log(res)
             });
             $scope.service.submit = function(){
                 var This = this;
-                if($scope.designerService.province === "湖北省" && $scope.designerService.city === "武汉市"){
+                if($scope.service.province === "湖北省" && $scope.service.city === "武汉市"){
                     This.disabled = true;
                     userInfo.service($scope.designerService).then(function(res){
                         if(res.data.msg === "success"){
@@ -1060,8 +1087,8 @@ angular.module('controllers', [])
         }
     }])
     .controller('idcardCtrl', [     //身份证认证修改
-        '$scope','$rootScope','$http','$filter','$location','userInfo','initData',
-        function($scope, $rootScope,$http,$filter,$location,userInfo,initData){
+        '$scope','$rootScope','$timeout','$filter','$location','userInfo','initData',
+        function($scope, $rootScope,$timeout,$filter,$location,userInfo,initData){
         $scope.designerIdcard = {
             status : false,
             waiting : true,
@@ -1070,7 +1097,19 @@ angular.module('controllers', [])
                 this.waiting = false;
             },
             bankList : initData.bankList,
-            disabled : false
+            disabled : false,
+            error : false,
+            errormsg : ''
+        }
+        function hidemsg(){
+            $timeout(function(){
+                $scope.designerIdcard.error = false;
+            },3000)
+        }
+        function showmsg(msg){
+            $scope.designerIdcard.error = true;
+            $scope.designerIdcard.errormsg = msg;
+            hidemsg();
         }
         function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
             userInfo.get().then(function(res){
@@ -1086,15 +1125,15 @@ angular.module('controllers', [])
         uploadDesignerInfo();
         $scope.designerIdcard.send = function(){
             if(!$scope.designerUId.uid_image1){
-                alert('您没有上传身份证正面照片');
+                showmsg('您没有上传身份证正面照片');
                 return ;
             }
             if(!$scope.designerUId.uid_image2){
-                alert('您没有上传身份证反面照片');
+                showmsg('您没有上传身份证反面照片');
                 return ;
             }
             if(!$scope.designerUId.bank_card_image1){
-                alert('您没有上传银行卡正面照片');
+                showmsg('您没有上传银行卡正面照片');
                 return ;
             }
             userInfo.bank({
@@ -1116,8 +1155,8 @@ angular.module('controllers', [])
         }
     }])
     .controller('teamCtrl', [     //施工团队认证修改
-        '$scope','$rootScope','$http','$filter','$location','$stateParams','userTeam','initData',
-        function($scope, $rootScope,$http,$filter,$location,$stateParams,userTeam,initData){
+        '$scope','$rootScope','$http','$filter','$location','$stateParams','$timeout','userTeam','initData',
+        function($scope, $rootScope,$http,$filter,$location,$stateParams,$timeout,userTeam,initData){
         function load(){
             userTeam.list().then(function(res){
                 $scope.teamList = res.data.data
@@ -1143,7 +1182,9 @@ angular.module('controllers', [])
             cities_list : initData.tdist,
             goodAtList : initData.goodAtList,
             userSex : initData.userSex,
-            isLoading : true
+            isLoading : true,
+            errormsg : '',
+            errotr : false
         }
         $scope.team = {
             province : '',
@@ -1172,7 +1213,37 @@ angular.module('controllers', [])
         }else{
             $scope.team = _.assign($scope.team,{province:'请选择省份',city:'请选择市',district:'请选择县/区',});
         }
+        function hidemsg(){
+            $timeout(function(){
+                $scope.designerTeam.error = false;
+            },3000)
+        }
+        function showmsg(msg){
+            $scope.designerTeam.error = true;
+            $scope.designerTeam.errormsg = msg;
+            hidemsg();
+        }
         $scope.designerTeam.submit = function(){
+             if($scope.team.province == "请选择省份"){
+                    showmsg('请选择省份');
+                    return ;
+                }
+                if($scope.team.city == "请选择市"){
+                    showmsg('请选择市');
+                    return ;
+                }
+                if($scope.team.uid_image1 == ""){
+                    showmsg('请上传身份证正面照');
+                    return ;
+                }
+                if($scope.team.uid_image2 == ""){
+                    showmsg('请上传身份证反面照');
+                    return ;
+                }
+                if($scope.team.sex == ""){
+                    showmsg('请选择性别');
+                    return ;
+                }
             this.disabled = true;
             if($stateParams.id){
                 userTeam.update($scope.team).then(function(res){
@@ -1194,8 +1265,8 @@ angular.module('controllers', [])
         }
     }])
     .controller('releaseCtrl', [     //作品上传
-        '$scope','$state','$filter','$stateParams','userProduct','initData',
-        function($scope,$state,$filter,$stateParams,userProduct,initData){
+        '$scope','$state','$filter','$stateParams','$timeout','userProduct','initData',
+        function($scope,$state,$filter,$stateParams,$timeout,userProduct,initData){
             $scope.product = {
               "province":undefined,
               "city":undefined,
@@ -1213,7 +1284,6 @@ angular.module('controllers', [])
             };
             $scope.designerProduct = {
                 isRelease : $stateParams.id == undefined ? true : false,
-                address : initData.tdist,
                 decType : initData.decType,
                 workType : initData.workType,
                 decStyle : initData.decStyle,
@@ -1222,7 +1292,9 @@ angular.module('controllers', [])
                 motaiDone : false,
                 section : initData.section,
                 isLoading : true,
-                businessHouseType : initData.businessHouseType
+                businessHouseType : initData.businessHouseType,
+                error : false,
+                errormsg : ''
             };
             if($scope.designerProduct.isRelease){
                 $scope.product = _.assign($scope.product,{province:'请选择省份',city:'请选择市',district:'请选择县/区'});
@@ -1237,22 +1309,28 @@ angular.module('controllers', [])
                     console.log(res)
                 });
             }
+            function hidemsg(){
+                $timeout(function(){
+                    $scope.designerProduct.error = false;
+                },3000)
+            }
+            function showmsg(msg){
+                $scope.designerProduct.error = true;
+                $scope.designerProduct.errormsg = msg;
+                hidemsg();
+            }
             $scope.designerProduct.submit = function(){
                 var This = this;
                 if($scope.product.province == "请选择省份"){
-                    alert('请选择省份');
+                    showmsg('请选择省份');
                     return ;
                 }
                 if($scope.product.city == "请选择市"){
-                    alert('请选择市');
-                    return ;
-                }
-                if($scope.product.district == "请选择县/区"){
-                    alert('请选择县/区');
+                    showmsg('请选择市');
                     return ;
                 }
                 if($scope.product.images.length == 0){
-                    alert('请至少上传一张作品图片');
+                    showmsg('请至少上传一张作品图片');
                     return ;
                 }
                 this.disabled = true;
@@ -1474,7 +1552,7 @@ angular.module('controllers', [])
             };
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userMessage.count({
-                    "query_array":[["2","4","5","6","7","8","9","10","11","12","13"], ["14", "15","16","17","18"],["3"]]
+                    "query_array":[["2","5","6","7","8","9","10","11","12","13"], ["14", "15","16","17","18"],["3"]]
                 }).then(function(res){
                     $scope.count.notice = res.data.data[0];
                     $scope.count.remind = res.data.data[1];
@@ -1595,7 +1673,7 @@ angular.module('controllers', [])
             };
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userMessage.count({
-                    "query_array":[["2","4","5","6","7","8","9","10","11","12","13"], ["14", "15","16","17","18"],["3"]]
+                    "query_array":[["2","5","6","7","8","9","10","11","12","13"], ["14", "15","16","17","18"],["3"]]
                 }).then(function(res){
                     $scope.count.notice = res.data.data[0];
                     $scope.count.remind = res.data.data[1];

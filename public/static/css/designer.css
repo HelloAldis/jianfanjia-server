@@ -43,6 +43,12 @@ body{
 	color: #999;
 }
 /*侧边栏导航*/
+.g-sd{
+	position: relative;
+	float:left;
+	width:260px;
+	margin-right:-260px;
+}
 .g-sd .m-sdc{
 	width: 258px;
 	margin-bottom: 10px;
@@ -104,9 +110,8 @@ body{
 	color: #888;
 }
 .g-mn{
-	width: 920px;
-}
-.g-mn .main{
+	float: right;
+	width: 918px;
 	background-color: #fff;
 	border: 1px solid #e5e5e5;
 	border-radius: 3px;
@@ -137,6 +142,16 @@ body{
 .g-mn a.head:hover{
 	opacity: 0.8;
 	filter: alpha(opacity=80);
+}
+.m-ct {
+	position: relative;
+}
+.m-ct .m-breadbtns{
+	position: absolute;
+	right: 19px;
+	top:-52px;
+	height: 38px;
+	line-height: 38px;
 }
 /*留言*/
 .message{
@@ -393,7 +408,7 @@ body{
 /*城市插件*/
 .k-cities{
 	position: relative;
-	z-index: 2;
+	z-index: 20;
 	height: 30px;
 }
 .k-cities .tipsinfo{
@@ -469,6 +484,10 @@ body{
 	color: #fff;
 	text-decoration: none;
 	background-color: #ccc;
+}
+.k-cities .open{
+	display: block;
+	z-index: 20;
 }
 /*日历控件*/
 .m-date{

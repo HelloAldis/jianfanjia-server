@@ -44,7 +44,6 @@
 							<div class="item">
 								<label class="u-lab"><i>*</i>上传身份证正面照</label>
 								<div class="u-inp">
-									<input type="hidden" ng-model="designerUId.uid_image1" casual-verify data-type="image" required />
 									<div class="uid_image uid_image1 f-fl">
 										<div class="simpleupload card-upload">
 											<div class="create">
@@ -70,7 +69,6 @@
 							<div class="item">
 								<label class="u-lab"><i>*</i>上传身份证反面照</label>
 								<div class="u-inp">
-									<input type="hidden" ng-model="designerUId.uid_image2" casual-verify data-type="image" required />
 									<div class="uid_image uid_image2 f-fl">
 										<div class="simpleupload card-upload">
 											<div class="create">
@@ -113,7 +111,6 @@
 							<div class="item">
 								<label class="u-lab"><i>*</i>银行卡正面照片</label>
 								<div class="u-inp">
-									<input type="hidden" ng-model="designerUId.bank_card_image1" casual-verify data-type="image" required />
 									<div class="uid_image uid_image3 f-fl">
 										<div class="simpleupload card-upload">
 											<div class="create">
@@ -135,8 +132,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item m-error-info hide" id="error-info"></div>
 					</div>
+					<div my-alert type="warning" ng-show="designerIdcard.error" text="{{designerIdcard.errormsg}}"></div>
 					<div class="m-btns">
 						<input type="submit" class="u-btns" ng-class="{'u-btns-disabled':idcard.$invalid || designerIdcard.disabled}" ng-disabled="idcard.$invalid || designerIdcard.disabled" value="提交认证" />
 					</div>
