@@ -1347,18 +1347,18 @@ angular.module('controllers', [])
                 if(this.isRelease){
                     userProduct.add($scope.product).then(function(res){
                         if(res.data.msg === "success"){
-                            $state.go('products.list', { id: 1 });
+                            $state.go('products.list', { 'id' : 1 });
                         }
                     },function(res){
-                        console.log(res)
+                        console.log(res);
                     });
                 }else{
                     userProduct.update($scope.product).then(function(res){
                         if(res.data.msg === "success"){
-                            $state.go('products.list', { id: 1 });
+                            $state.go('products.list', { 'id' : 1 });
                         }
                     },function(res){
-                        console.log(res)
+                        console.log(res);
                     });
                 }
             }

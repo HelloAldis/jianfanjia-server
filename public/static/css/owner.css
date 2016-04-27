@@ -286,7 +286,6 @@ body{
 	position: relative;
 	float: left;
 	display:table;
-  word-spacing:-1em;
 }
 .k-form .u-inp .input{
 	width: 230px;

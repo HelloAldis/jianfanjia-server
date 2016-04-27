@@ -113,7 +113,6 @@
                     templateUrl: url+'fulfill.html'
                 })
                 .state('products', {      //作品列表
-                    abstract: true,
                     url: '/products',
                     template: '<div ui-view></div>'
                 })

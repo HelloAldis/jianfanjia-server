@@ -614,18 +614,21 @@ angular.module('controllers', [])
                     console.log(res)
                 });
             }
-            userRequiremtne.order({"requirementid":requiremtneId}).then(function(res){    //已经预约设计师列表
-                $scope.ordersData = res.data.data;
-                angular.forEach($scope.ordersData, function(value, key){
-                    if(value.plan.house_check_time){
-                        var dates = $filter('date')(value.plan.house_check_time , 'yyyy年MM月dd日'),
-                        days = $filter('date')(value.plan.house_check_time , 'a') == 'AM' ? '上午' : '下午',
-                        weeks = weeksData[$filter('date')(value.plan.house_check_time , 'EEEE')],
-                        times = $filter('date')(value.plan.house_check_time , 'hh:mm');
-                        value.house_check_time = dates + days + times + ' ( '+ weeks + ' )';
-                    }
+            function orderUpload(){
+                userRequiremtne.order({"requirementid":requiremtneId}).then(function(res){    //已经预约设计师列表
+                    $scope.ordersData = res.data.data;
+                    angular.forEach($scope.ordersData, function(value, key){
+                        if(value.plan.house_check_time){
+                            var dates = $filter('date')(value.plan.house_check_time , 'yyyy年MM月dd日'),
+                            days = $filter('date')(value.plan.house_check_time , 'a') == 'AM' ? '上午' : '下午',
+                            weeks = weeksData[$filter('date')(value.plan.house_check_time , 'EEEE')],
+                            times = $filter('date')(value.plan.house_check_time , 'hh:mm');
+                            value.house_check_time = dates + days + times + ' ( '+ weeks + ' )';
+                        }
+                    });
                 });
-            });
+            }
+            orderUpload();
             //匿名评价
             var scoreEvent = {
                 over : function(arr,i){
@@ -669,7 +672,6 @@ angular.module('controllers', [])
                 earlyConfirmBtn : function(data){  //提前量房
                     this.motaiEarly = true;
                     designerScore = data._id;
-                    console.log(designerScore)
                 },
                 earlyCancelBtn : function(){
                     this.motaiEarly = false;
@@ -682,7 +684,6 @@ angular.module('controllers', [])
                     this.clear();
                 },
                 scoreSubmitBtn : function(){    //提交评价
-                    console.log(designerScore)
                     var This = this;
                     userRequiremtne.score({
                       "requirementid": requiremtneId,
@@ -711,7 +712,6 @@ angular.module('controllers', [])
                 },
                 confirmBtn : function(data){  //确认量房
                     var This = this;
-                    console.log(designerScore)
                     if(data !== undefined){
                         designerScore = data._id;
                     }
@@ -721,6 +721,7 @@ angular.module('controllers', [])
                     }).then(function(res){
                         if(res.data.msg == "success"){
                             uploadParent();
+                            orderUpload();
                             This.motaiDone = true;
                         }
                     },function(err){
@@ -730,7 +731,7 @@ angular.module('controllers', [])
                 scoreBtn : function(data){
                     this.clear();
                     this.motaiScore = true;
-                    designerScore = data;
+                    designerScore = data._id;
                 },
                 clear : function(){
                     var This = this;

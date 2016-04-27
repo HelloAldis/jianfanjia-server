@@ -815,7 +815,7 @@ angular.module('directives', [])
                         $('#upload').find('.disable').remove();
                     };
                     img.onerror=function(){
-                        alert("error!");
+                        alert("图片加载错误");
                         $('#upload').find('.disable').remove();
                     };
                     img.src = RootUrl+'api/v2/web/image/'+data.data;
@@ -929,7 +929,7 @@ angular.module('directives', [])
                         parent.find('.disable').remove();
                     };
                     img.onerror=function(){
-                        alert("error!");
+                        alert("图片加载错误");
                         parent.find('.disable').remove();
                     };
                     img.src=RootUrl+'api/v2/web/image/'+data.data;
@@ -938,6 +938,7 @@ angular.module('directives', [])
                 var jcrop_data;
                 function callbackCropImg(arr){
                     var data = $.parseJSON(arr);
+                    alert(data.data)
                     var img = new Image();
                     $winW = $(window).width();
                     $winH = $(window).height();
@@ -981,11 +982,11 @@ angular.module('directives', [])
                         }).show().animate({
                             top: 100
                         });
-                        iElm.parent().parent().find('.disable').remove();
+                        parent.find('.disable').remove();
                     };
-                    img.onerror=function(){
-                        alert("error!");
-                        iElm.parent().parent().find('.disable').remove();
+                    img.onerror = function(){
+                        alert("图片加载错误");
+                        parent.find('.disable').remove();
                     };
                     img.src = RootUrl+'api/v2/web/image/'+data.data;
                     $cropCancel.on('click',function(){
@@ -1119,7 +1120,7 @@ angular.module('directives', [])
                             obj.find('.pic').find('.disable').remove();
                         };
                         img.onerror=function(){
-                            alert("error!");
+                            alert("图片加载错误");
                             obj.find('.pic').find('.disable').remove();
                         };
                         img.src=RootUrl+'api/v2/web/thumbnail2/168/168/'+data.data;
