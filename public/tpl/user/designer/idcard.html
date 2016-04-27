@@ -29,6 +29,9 @@
 									<input type="text" class="input" ng-model="designerUId.username" required />
 									<p>收款用，一定填写真实的姓名</p>
 								</div>
+								<div class="u-error">
+									<span ng-show="idcard.uid.$dirty && idcard.uid.$error.required" class="has-error">不能为空</span>
+								</div>
 							</div>
 						</div>
 						<div class="m-item f-cb">
@@ -36,7 +39,10 @@
 								<label class="u-lab"><i>*</i>身份证号<span>15或18位</span></label>
 								<div class="u-inp">
 									<input type="text" class="input" ng-model="designerUId.uid" required placeholder="请输入15位或者18位或17位带X身份证号码" my-placeholder ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" name="uid" />
-									<span ng-show="idcard.uid.$invalid && !idcard.uid.$pristine" class="has-error">不是15位或者18位或17位带X身份证号码</span>
+								</div>
+								<div class="u-error">
+									<span ng-show="idcard.uid.$dirty && idcard.uid.$error.pattern" class="has-error">必须为15位或者18位或带X身份证号码</span>
+									<span ng-show="idcard.uid.$dirty && idcard.uid.$error.required" class="has-error">不能为空</span>
 								</div>
 							</div>
 						</div>
@@ -95,7 +101,10 @@
 								<label class="u-lab"><i>*</i>银行卡号<span>16或19位</span></label>
 								<div class="u-inp">
 									<input type="text" class="input" ng-model="designerUId.bank_card" required placeholder="请输入16或19位银行卡号" my-placeholder ng-pattern="/^(\d{16}|\d{19})$/" name="bank_card" />
-									<span ng-show="idcard.bank_card.$invalid && !idcard.bank_card.$pristine" class="has-error">不是16或19位银行卡号</span>
+								</div>
+								<div class="u-error">
+									<span ng-show="idcard.bank_card.$dirty && idcard.bank_card.$error.pattern" class="has-error">必须为16或19位银行卡号</span>
+									<span ng-show="idcard.bank_card.$dirty && idcard.bank_card.$error.required" class="has-error">不能为空</span>
 								</div>
 							</div>
 						</div>

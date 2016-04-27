@@ -9,7 +9,10 @@
 					<div class="item">
 						<label class="u-lab"><i>*</i>项目经理</label>
 						<div class="u-inp">
-							<input type="text" class="input" ng-model="team.manager" placeholder="不能为空" my-placeholder required />
+							<input type="text" class="input" ng-model="team.manager" name="manager" placeholder="不能为空" my-placeholder required />
+						</div>
+						<div class="u-error">
+							<span ng-show="myTeam.manager.$dirty && myTeam.manager.$error.required" class="has-error">不能为空</span>
 						</div>
 					</div>
 				</div>
@@ -35,7 +38,11 @@
 					<div class="item">
 						<label class="u-lab"><i>*</i>身份证号</label>
 						<div class="u-inp">
-							<input type="text" class="input" ng-model="team.uid" placeholder="请输入15位或者18位或带X身份证号码" my-placeholder ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" required />
+							<input type="text" class="input" name="uid" ng-model="team.uid" placeholder="请输入15位或者18位或带X身份证号码" my-placeholder ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" required />
+						</div>
+						<div class="u-error">
+							<span ng-show="myTeam.uid.$dirty && myTeam.uid.$error.pattern" class="has-error">必须为15位或者18位或带X身份证号码</span>
+							<span ng-show="myTeam.uid.$dirty && myTeam.uid.$error.required" class="has-error">不能为空</span>
 						</div>
 					</div>
 				</div>
@@ -93,7 +100,10 @@
 					<div class="item">
 						<label class="u-lab"><i>*</i>曾就职装饰公司</label>
 						<div class="u-inp">
-							<input type="text" class="input" ng-model="team.company" placeholder="不能为空" my-placeholder required />
+							<input type="text" class="input" name="company" ng-model="team.company" placeholder="不能为空" my-placeholder required />
+						</div>
+						<div class="u-error">
+							<span ng-show="myTeam.company.$dirty && myTeam.company.$error.required" class="has-error">不能为空</span>
 						</div>
 					</div>
 				</div>
@@ -101,7 +111,11 @@
 					<div class="item">
 						<label class="u-lab"><i>*</i>从业年限</label>
 						<div class="u-inp">
-							<input type="text" class="input" ng-model="team.work_year" placeholder="请输入整数" my-placeholder check-number />
+							<input type="text" class="input" name="work_year" ng-model="team.work_year" placeholder="请输入整数" my-placeholder ng-pattern="/^[1-9]\d*$/" required />
+						</div>
+						<div class="u-error">
+							<span ng-show="myTeam.work_year.$dirty && myTeam.work_year.$error.pattern" class="has-error">必须为整数</span>
+							<span ng-show="myTeam.work_year.$dirty && myTeam.work_year.$error.required" class="has-error">不能为空</span>
 						</div>
 					</div>
 				</div>
@@ -117,7 +131,10 @@
 					<div class="item">
 						<label class="u-lab"><i>*</i>正在施工工地</label>
 						<div class="u-inp">
-							<input type="text" class="input" ng-model="team.working_on" placeholder="不能为空" my-placeholder required />
+							<input type="text" class="input" name="working_on" ng-model="team.working_on" placeholder="不能为空" my-placeholder required />
+						</div>
+						<div class="u-error">
+							<span ng-show="myTeam.working_on.$dirty && myTeam.working_on.$error.required" class="has-error">不能为空</span>
 						</div>
 					</div>
 				</div>

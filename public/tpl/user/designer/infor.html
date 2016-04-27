@@ -24,7 +24,10 @@
 								<div class="item">
 									<label class="u-lab" for="owner-name"><i>*</i>姓名</label>
 									<div class="u-inp">
-										<input type="text" class="input" ng-model="designer.username" required placeholder="不能为空" my-placeholder />
+										<input type="text" class="input" name="username" ng-model="designer.username" required placeholder="不能为空" my-placeholder />
+									</div>
+									<div class="u-error">
+										<span ng-show="designerinfo.username.$dirty && designerinfo.username.$error.required" class="has-error">不能为空</span>
 									</div>
 								</div>
 							</div>
@@ -66,7 +69,10 @@
 								<div class="item">
 									<label class="u-lab" for="owner-addr"><i>*</i>邮寄详细地址</label>
 									<div class="u-inp">
-										<input type="text" class="input long" ng-model="designer.address" required placeholder="不能为空" my-placeholder />
+										<input type="text" class="input long" name="address" ng-model="designer.address" required placeholder="不能为空" my-placeholder />
+									</div>
+									<div class="u-error">
+										<span ng-show="designerinfo.address.$dirty && designerinfo.address.$error.required" class="has-error">不能为空</span>
 									</div>
 								</div>
 							</div>
@@ -74,7 +80,10 @@
 								<div class="item">
 									<label class="u-lab" for="owner-name"><i>*</i>毕业院校</label>
 									<div class="u-inp">
-										<input type="text" class="input" ng-model="designer.university" required placeholder="不能为空" my-placeholder />
+										<input type="text" class="input" name="university" ng-model="designer.university" required placeholder="不能为空" my-placeholder />
+									</div>
+									<div class="u-error">
+										<span ng-show="designerinfo.university.$dirty && designerinfo.university.$error.required" class="has-error">不能为空</span>
 									</div>
 								</div>
 							</div>
@@ -82,8 +91,11 @@
 								<div class="item">
 									<label class="u-lab" for="owner-name"><i>*</i>工作年限</label>
 									<div class="u-inp">
-										<input type="text" class="input" ng-model="designer.work_year" name="work_year" check-number required placeholder="只能为整数" my-placeholder />
-										<span ng-show="designerinfo.work_year.$invalid && !designerinfo.work_year.$pristine" class="has-error">不是整数</span>
+										<input type="text" class="input" ng-model="designer.work_year" name="work_year" ng-pattern="/^[1-9]\d*$/" required placeholder="只能为整数" my-placeholder />
+									</div>
+									<div class="u-error">
+										<span ng-show="designerinfo.work_year.$dirty && designerinfo.work_year.$error.pattern" class="has-error">必须为整数</span>
+										<span ng-show="designerinfo.work_year.$dirty && designerinfo.work_year.$error.required" class="has-error">不能为空</span>
 									</div>
 								</div>
 							</div>
@@ -91,7 +103,10 @@
 								<div class="item">
 									<label class="u-lab" for="owner-name"><i>*</i>曾就职装饰公司</label>
 									<div class="u-inp">
-										<input type="text" class="input" ng-model="designer.company" required placeholder="不能为空" my-placeholder />
+										<input type="text" class="input" name="company" ng-model="designer.company" required placeholder="不能为空" my-placeholder />
+									</div>
+									<div class="u-error">
+										<span ng-show="designerinfo.company.$dirty && designerinfo.company.$error.required" class="has-error">不能为空</span>
 									</div>
 								</div>
 							</div>
@@ -99,7 +114,10 @@
 								<div class="item">
 									<label class="u-lab" for="owner-name"><i>*</i>设计成就</label>
 									<div class="u-inp">
-										<textarea class="input long textarea" rows="10" ng-model="designer.achievement" required placeholder="不能为空" my-placeholder></textarea>
+										<textarea class="input long textarea" name="achievement" rows="10" ng-model="designer.achievement" required placeholder="不能为空" my-placeholder></textarea>
+									</div>
+									<div class="u-error">
+										<span ng-show="designerinfo.achievement.$dirty && designerinfo.achievement.$error.required" class="has-error">不能为空</span>
 									</div>
 								</div>
 							</div>
@@ -107,7 +125,10 @@
 								<div class="item">
 									<label class="u-lab" for="owner-name"><i>*</i>设计理念</label>
 									<div class="u-inp">
-										<textarea class="input long textarea" rows="10" ng-model="designer.philosophy" required placeholder="不能为空" my-placeholder></textarea>
+										<textarea class="input long textarea" name="philosophy" rows="10" ng-model="designer.philosophy" required placeholder="不能为空" my-placeholder></textarea>
+									</div>
+									<div class="u-error">
+										<span ng-show="designerinfo.philosophy.$dirty && designerinfo.philosophy.$error.required" class="has-error">不能为空</span>
 									</div>
 								</div>
 							</div>
@@ -143,7 +164,6 @@
 								<div my-upload my-query="designer.imageid" class="simpleupload"></div>
 								<p>请上传大于300*300头像照片<br />3M以内jpg/png格式</p>
 							</div>
-							<div class="m-item m-error-info hide" id="error-info"></div>
 						</div>
 						<div my-alert type="warning" ng-show="designerInfo.error" text="{{designerInfo.errormsg}}"></div>
 						<div class="m-btns">

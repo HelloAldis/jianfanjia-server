@@ -282,6 +282,16 @@ body{
 .k-form .u-inp .input:focus{
 	border-color: #00a0e9;
 }
+.k-form .u-error{
+	float: left;
+	margin-left: 20px;
+	word-spacing:0;
+	line-height: 30px;
+}
+.k-form .u-error .has-error{
+	color: #ff6a6a;
+	font-size: 12px;
+}
 .k-form .u-inp .input.ng-dirty.ng-invalid-number,.k-form .u-inp .input.ng-dirty.ng-invalid-pattern,.k-form .u-inp .input.ng-dirty.ng-invalid-required{
 	border-color: #ff6a6a;
 }

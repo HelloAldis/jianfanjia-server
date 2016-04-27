@@ -29,7 +29,10 @@
 						<div class="item">
 							<label class="u-lab"><i>*</i>小区名称</label>
 							<div class="u-inp">
-								<input type="text" class="input" ng-model="product.cell" placeholder="不能为空" my-placeholder required />
+								<input type="text" class="input" ng-model="product.cell" name="cellname" placeholder="不能为空" my-placeholder required />
+							</div>
+							<div class="u-error">
+								<span ng-show="myRelease.cellname.$dirty && myRelease.cellname.$error.required" class="has-error">不能为空</span>
 							</div>
 						</div>
 					</div>
@@ -37,7 +40,10 @@
 						<div class="item">
 							<label class="u-lab"><i>*</i>项目名称</label>
 							<div class="u-inp">
-								<input type="text" class="input" ng-model="product.cell" placeholder="不能为空" my-placeholder required />
+								<input type="text" class="input" name="itemname" ng-model="product.cell" placeholder="不能为空" my-placeholder required />
+							</div>
+							<div class="u-error">
+								<span ng-show="myRelease.itemname.$dirty && myRelease.itemname.$error.required" class="has-error">不能为空</span>
 							</div>
 						</div>
 					</div>
@@ -62,9 +68,13 @@
 							<label class="u-lab"><i>*</i>装修面积</label>
 							<div class="u-inp">
 								<div class="inp">
-									<input type="text" class="input" ng-model="product.house_area" check-number model-format="int" placeholder="请输入整数" my-placeholder required />
+									<input type="text" class="input" name="house_area" ng-model="product.house_area" ng-pattern="/^[1-9]\d*$/" placeholder="请输入整数" my-placeholder required />
 									<span class="unit">m&sup2;</span>
 								</div>
+							</div>
+							<div class="u-error">
+								<span ng-show="myRelease.house_area.$dirty && myRelease.house_area.$error.pattern" class="has-error">必须为整数</span>
+								<span ng-show="myRelease.house_area.$dirty && myRelease.house_area.$error.required" class="has-error">不能为空</span>
 							</div>
 						</div>
 					</div>
@@ -89,9 +99,13 @@
 							<label class="u-lab"><i>*</i>装修造价</label>
 							<div class="u-inp">
 								<div class="inp">
-									<input type="text" class="input" ng-model="product.total_price" check-number check-number-type="float" required model-format="float" placeholder="请输入数字" my-placeholder />
+									<input type="text" class="input" name="total_price" ng-model="product.total_price" ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/" required placeholder="请输入数字" my-placeholder />
 									<span class="unit">万元</span>
 								</div>
+							</div>
+							<div class="u-error">
+								<span ng-show="myRelease.total_price.$dirty && myRelease.total_price.$error.pattern" class="has-error">必须为整数或者小数</span>
+								<span ng-show="myRelease.total_price.$dirty && myRelease.total_price.$error.required" class="has-error">不能为空</span>
 							</div>
 						</div>
 					</div>
@@ -99,7 +113,10 @@
 						<div class="item">
 							<label class="u-lab"><i>*</i>作品引言</label>
 							<div class="u-inp">
-								<textarea class="input long textarea" rows="10" ng-model="product.description" required placeholder="不能为空" my-placeholder></textarea>
+								<textarea class="input long textarea" name="description" rows="10" ng-model="product.description" required placeholder="不能为空" my-placeholder></textarea>
+							</div>
+							<div class="u-error">
+								<span ng-show="myRelease.description.$dirty && myRelease.description.$error.required" class="has-error">不能为空</span>
 							</div>
 						</div>
 					</div>

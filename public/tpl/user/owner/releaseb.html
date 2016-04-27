@@ -27,7 +27,9 @@
 							<label class="u-lab" for="owner-sex"><i>*</i>详细地址</label>
 							<div class="u-inp">
 								<input type="text" class="input long" ng-model="requiremtne.detail_address" name="detail_address" placeholder="不能为空" my-placeholder required />
-								<span ng-show="release.detail_address.$invalid && !release.detail_address.$pristine" class="has-error">所填内容不能为空</span>
+							</div>
+							<div class="u-error">
+								<span ng-show="release.detail_address.$dirty && release.detail_address.$error.required" class="has-error">不能为空</span>
 							</div>
 						</div>
 					</div>
@@ -36,7 +38,9 @@
 							<label class="u-lab"><i>*</i>项目名称</label>
 							<div class="u-inp">
 								<input type="text" class="input" ng-model="requiremtne.basic_address" name="basic_address" placeholder="不能为空" my-placeholder required />
-								<span ng-show="release.basic_address.$invalid && !release.basic_address.$pristine" class="has-error">所填内容不能为空</span>
+							</div>
+							<div class="u-error">
+								<span ng-show="release.basic_address.$dirty && release.basic_address.$error.required" class="has-error">不能为空</span>
 							</div>
 						</div>
 					</div>
@@ -53,10 +57,13 @@
 							<label class="u-lab"><i>*</i>装修面积</label>
 							<div class="u-inp">
 								<div class="inp">
-									<input type="text" class="input" ng-model="requiremtne.house_area" placeholder="只能填纯数字" my-placeholder check-number required name="house_area" />
+									<input type="text" class="input" ng-model="requiremtne.house_area" placeholder="只能填纯数字" my-placeholder check-number required name="house_area" ng-pattern="/^[1-9]\d*$/" />
 									<span class="unit">m&sup2;</span>
-									<span ng-show="release.house_area.$invalid && !release.house_area.$pristine" class="has-error">所填内容必须为数字</span>
 								</div>
+							</div>
+							<div class="u-error">
+								<span ng-show="release.house_area.$dirty && release.house_area.$error.pattern" class="has-error">必须为整数</span>
+								<span ng-show="release.house_area.$dirty && release.house_area.$error.required" class="has-error">不能为空</span>
 							</div>
 						</div>
 					</div>
@@ -77,10 +84,13 @@
 							<label class="u-lab"><i>*</i>装修预算</label>
 							<div class="u-inp">
 								<div class="inp">
-									<input type="text" class="input" ng-model="requiremtne.total_price" name="total_price" placeholder="只能填纯数字" my-placeholder check-number required />
+									<input type="text" class="input" ng-model="requiremtne.total_price" name="total_price" placeholder="只能填纯数字" my-placeholder ng-pattern="/^[1-9]\d*$/" required />
 									<span class="unit">万元</span>
-									<span ng-show="release.total_price.$invalid && !release.total_price.$pristine" class="has-error">所填内容必须为数字</span>
 								</div>
+							</div>
+							<div class="u-error">
+								<span ng-show="release.total_price.$dirty && release.total_price.$error.pattern" class="has-error">必须为整数</span>
+								<span ng-show="release.total_price.$dirty && release.total_price.$error.required" class="has-error">不能为空</span>
 							</div>
 						</div>
 					</div>
@@ -110,7 +120,6 @@
 							</div>
 						</div>
 					</div>
-					<div class="m-item m-error-info hide" id="error-info"></div>
 				</div>
 				<div class="m-btns">
 					<input type="submit" class="u-btns" ng-class="{'u-btns-disabled':release.$invalid || userRelease.disabled}" ng-disabled="release.$invalid || userRelease.disabled" ng-value="userRelease.releaseValue" />

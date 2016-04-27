@@ -644,7 +644,7 @@ angular.module('controllers', [])
                     showmsg('您没有选择项目经理');
                     return ;
                 }
-                if($scope.plan.total_price == undefined){
+                if($scope.designerPlan.worktype != 2 && $scope.plan.total_price == undefined){
                     showmsg('请填写报价');
                     return ;
                 }
@@ -941,6 +941,10 @@ angular.module('controllers', [])
                     showmsg('请选择市');
                     return ;
                 }
+                if($scope.designer.district == "请选择县/区"){
+                    showmsg('请选择县/区');
+                    return ;
+                }
                 if($scope.designer.imageid == ""){
                     showmsg('请上传头像');
                     return ;
@@ -961,9 +965,7 @@ angular.module('controllers', [])
             }
     }])
     .controller('infoshowCtrl', [     //基本资料审核期查看
-        '$scope','$rootScope',
-        function($scope, $rootScope){
-        }])
+        '$scope','$rootScope',function($scope, $rootScope){}])
     .controller('serviceCtrl', [     //接单服务设置
         '$scope','$rootScope','$http','$filter','$state','userInfo','initData',
         function($scope, $rootScope,$http,$filter,$state,userInfo,initData){
@@ -1232,6 +1234,10 @@ angular.module('controllers', [])
                     showmsg('请选择市');
                     return ;
                 }
+                if($scope.team.district == "请选择县/区"){
+                    showmsg('请选择县/区');
+                    return ;
+                }
                 if($scope.team.uid_image1 == ""){
                     showmsg('请上传身份证正面照');
                     return ;
@@ -1327,6 +1333,10 @@ angular.module('controllers', [])
                 }
                 if($scope.product.city == "请选择市"){
                     showmsg('请选择市');
+                    return ;
+                }
+                if($scope.product.district == "请选择县/区"){
+                    showmsg('请选择县/区');
                     return ;
                 }
                 if($scope.product.images.length == 0){
