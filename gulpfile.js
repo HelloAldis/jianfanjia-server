@@ -9,6 +9,7 @@ var bump = require('gulp-bump');
 var gutil = require('gulp-util');
 var git = require('gulp-git');
 var fs = require('fs');
+var concat = require('gulp-concat');
 
 gulp.task('default', function () {
   console.log('hello gulp');
@@ -76,4 +77,10 @@ gulp.task('release', function (callback) {
       }
       callback(error);
     });
+});
+
+gulp.task('sourcecode', function () {
+  return gulp.src(['api/**/*.js'])
+    .pipe(concat('code.txt'))
+    .pipe(gulp.dest('./'));
 });
