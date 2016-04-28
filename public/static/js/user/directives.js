@@ -878,7 +878,6 @@ angular.module('directives', [])
                     $winH = 0,
                     imgW,imgH,w,h,
                     parent = angular.element(iElm).parent();
-
                 iElm.uploadify({
                     'auto'     : true, //自动上传
                     'removeTimeout' : 1,
@@ -938,11 +937,10 @@ angular.module('directives', [])
                 var jcrop_data;
                 function callbackCropImg(arr){
                     var data = $.parseJSON(arr);
-                    alert(data.data)
                     var img = new Image();
                     $winW = $(window).width();
                     $winH = $(window).height();
-                    img.onload=function(){
+                    img.onload = function(){
                         imgW = img.width;
                         imgH = img.height;
                         if(imgW < 300){
@@ -1106,7 +1104,7 @@ angular.module('directives', [])
                 function callbackImg(arr){
                     var data = $.parseJSON(arr);
                     var img = new Image();
-                    if(_.indexOf($scope.myQuery,data.data) == -1){
+                    if(findIndex($scope.myQuery,data.data) == -1){
                         img.onload=function(){
                             $scope.$apply(function(){
                                 if($scope.myType == 'edit'){
@@ -1125,15 +1123,41 @@ angular.module('directives', [])
                         };
                         img.src=RootUrl+'api/v2/web/thumbnail2/168/168/'+data.data;
                     }else{
-                        alert('已经上传过了')
+                        alert('已经上传过了');
+                        obj.find('.pic').find('.disable').remove();
                     }
-                    $('#create').find('.mask').remove();
+                }
+                function findIndex(arr,name){
+                    var len=arr.length;
+                    if(!len){
+                        return -1;
+                    }
+                    if(!!arr[0].imageid){
+                        for(var i=0; i<len; i++){
+                            if(arr[i].imageid === name){
+                                return i;
+                            }
+                        }
+                    }else if(!!arr[0].award_imageid){
+                        for(var i=0; i<len; i++){
+                            if(arr[i].award_imageid === name){
+                                return i;
+                            }
+                        }
+                    }else{
+                        for(var i=0; i<len; i++){
+                            if(arr[i] === name){
+                                return i;
+                            }
+                        }
+                    }
+                    return -1;
                 }
                 $scope.removeImg = function(i,arr){
                     if(confirm("您确定要删除吗？删除不能恢复")){
                         arr.splice(i,1)
                         $timeout(function () {
-                            $scope.myQuery = arr
+                            $scope.myQuery = arr;
                         }, 0, false);
                     }
                 }
