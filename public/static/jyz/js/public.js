@@ -305,7 +305,7 @@ $(function(){
 	//退出操作
 	$(document.body).delegate('#signout','click',function(ev){
 		ev.preventDefault();
-		var url = RootUrl+'api/v1/signout';
+		var url = RootUrl+'api/v2/web/signout';
 		$.ajax({
 			url:url,
 			type: 'GET',

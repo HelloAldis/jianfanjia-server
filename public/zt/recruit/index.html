@@ -15,7 +15,7 @@
     <![endif]-->
      <!--[if lt IE 8]>
       <script type="text/javascript">
-      	if(!-[1,]){window.location.href = "/tpl/other/error.html";} 
+      	if(!-[1,]){window.location.href = "/tpl/other/error.html";}
       </script>
     <![endif]-->
     <style type="text/css">
@@ -235,14 +235,14 @@
 			background:url(img/sprite.png) no-repeat -99px -272px;
 		}
 		.line{
-			background: #2e2b25; 
+			background: #2e2b25;
 			background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzJlMmIyNSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2VkZTc3MCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijk5JSIgc3RvcC1jb2xvcj0iIzJlMmIyNSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-			background: -moz-linear-gradient(left,  #2e2b25 0%, #ede770 50%, #2e2b25 99%); 
-			background: -webkit-gradient(linear, left top, right top, color-stop(0%,#2e2b25), color-stop(50%,#ede770), color-stop(99%,#2e2b25)); 
+			background: -moz-linear-gradient(left,  #2e2b25 0%, #ede770 50%, #2e2b25 99%);
+			background: -webkit-gradient(linear, left top, right top, color-stop(0%,#2e2b25), color-stop(50%,#ede770), color-stop(99%,#2e2b25));
 			background: -webkit-linear-gradient(left,  #2e2b25 0%,#ede770 50%,#2e2b25 99%);
-			background: -o-linear-gradient(left,  #2e2b25 0%,#ede770 50%,#2e2b25 99%); 
-			background: -ms-linear-gradient(left,  #2e2b25 0%,#ede770 50%,#2e2b25 99%); 
-			background: linear-gradient(to right,  #2e2b25 0%,#ede770 50%,#2e2b25 99%); 
+			background: -o-linear-gradient(left,  #2e2b25 0%,#ede770 50%,#2e2b25 99%);
+			background: -ms-linear-gradient(left,  #2e2b25 0%,#ede770 50%,#2e2b25 99%);
+			background: linear-gradient(to right,  #2e2b25 0%,#ede770 50%,#2e2b25 99%);
 			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e2b25', endColorstr='#2e2b25',GradientType=1 );
 		}
 		.share{
@@ -525,7 +525,7 @@
 			<p>获得福利：50英寸互联网4K超高清电视（乐视超3 X50）一台<br />
 	            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以及四大贴心装修服务</p>
 		</div>
-		
+
 	</div>
 	<div class="g-wp section service">
 		<h2><span>四重专享服务</span></h2>
@@ -671,7 +671,7 @@
 				optionEvevt : function(){
 					var self = this;
 					self.option.on('click' , function(ev){
-						self.body.click(); 
+						self.body.click();
 						self.selectShow();
 						return false;
 					});
@@ -679,7 +679,7 @@
 				selectEvent : function(){
 					var self = this;
 					this.body.on('click' , function(ev){
-						self.selectHide(); 
+						self.selectHide();
 					});
 					this.select.delegate('li', 'click' , function(ev){
 						ev.stopPropagation();
@@ -701,7 +701,7 @@
 				editorEvent : function(){
 					var self = this;
 					this.editor.on('click' , function(ev){
-						self.body.click(); 
+						self.body.click();
 						self.selectShow();
 						return false;
 					});
@@ -716,7 +716,7 @@
 					});
 				},
 				selectShow : function(){
-					this.select.show(); 
+					this.select.show();
 					this.selectBox.css('zIndex',20)
 				}
 			}
@@ -737,14 +737,14 @@
 			$btn.on('click',function(){
 				$mask.fadeTo('500', 0.5);
 				$motai.show().stop().animate({top:'50%',opacity:1})
-				return false;	
+				return false;
 			})
 			$mask.on('click',function(){
 				$mask.fadeTo('500', 0).hide();
-				$motai.fadeTo('500', 0).hide().css('top','-50%');	
+				$motai.fadeTo('500', 0).hide().css('top','-50%');
 			})
 			$close.on('click',function(){
-				$mask.click();	
+				$mask.click();
 			})
 		    var check_step = 4;
 		    //获取对象
@@ -810,7 +810,7 @@
 			$('#info-submit').on('click',function(){
 				if(!$(this).hasClass('disabled')){
 					$.ajax({
-						url : RootUrl+'api/v1/add_angel_user',
+						url : RootUrl+'api/v2/web/add_angel_user',
 						type: 'post',
 						contentType : 'application/json; charset=utf-8',
 						dataType: 'json',
@@ -843,7 +843,7 @@
 	(function() {
 	  var hm = document.createElement("script");
 	  hm.src = "//hm.baidu.com/hm.js?66d38d3af612ed7c0979211372aa9682";
-	  var s = document.getElementsByTagName("script")[0]; 
+	  var s = document.getElementsByTagName("script")[0];
 	  s.parentNode.insertBefore(hm, s);
 	})();
 </script>
