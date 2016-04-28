@@ -38,6 +38,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             this.submit();
             this.setType();
             this.agreement();
+            this.off = false;
         },
         verify : {
             isMobile : function(mobile){
@@ -55,7 +56,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             'password' : '密码需为6~30个字母或数字',
             'password_confirm' : '两次输入的密码不一样',
             'smscode'  : '短信验证码不正确',
-            'submit'   : '信息不完整',
+            'submit'   : '注册信息填写不完整',
             'agree'    : '请先同意注册协议'
         },
         check : function(){
@@ -101,7 +102,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                     }
                 },
                 pass2  :  function(){
-                    if(self.pass.val() === self.pass2.val() && !self.verify.isPassword(self.pass2.val())){
+                    if(self.pass.val() !== self.pass2.val() && !!self.verify.isPassword(self.pass2.val())){
                         self.error.html(self.errmsg.password_confirm).removeClass('hide');
                         self.pass2.parents('.item').addClass('error');
                         self.checkStep++;
@@ -242,10 +243,18 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             var self = this;
             $(document).on('keydown',function(e){
                 if(e.which == 13){
+                    if(self.off){
+                        return ;
+                    }
+                    self.off = true;
                     submitfn();
                 }
             });
             this.form.on('click','#reg-submit',function(){
+                if(self.off){
+                    return ;
+                }
+                self.off = true;
                 submitfn();
                 return false;
             });
@@ -253,6 +262,13 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                 if(self.isMobile){
                     self.mobile.parents('.item').addClass('error');
                     self.error.html('手机号码已被使用').removeClass('hide');
+                    self.off = false;
+                    return false;
+                }
+                if(self.pass.val() !== self.pass2.val()){
+                    self.error.html(self.errmsg.password_confirm).removeClass('hide');
+                    self.pass2.parents('.item').addClass('error');
+                    self.off = false;
                     return false;
                 }
                 self.check().mobile();
@@ -261,9 +277,11 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                 self.check().pass2();
                 if(self.checkStep > 0 ){
                     self.error.html(self.errmsg.submit).removeClass('hide');
+                    self.off = false;
                     return false;
                 }
                 if(!self.check().agree()){
+                    self.off = false;
                    return false;
                 }
                 var serialize = self.strToJson(self.form.serialize());
@@ -279,6 +297,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                     if(res.data !== null){
                         window.location.href = res.data.url;
                     }else{
+                        self.off = false;
                         self.error.html(res.err_msg).removeClass('hide');
                     }
                 });

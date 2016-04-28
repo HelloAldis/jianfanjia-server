@@ -40,6 +40,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             this.bindsave();
             this.getCookie();
             this.tabsfn();
+            this.off = false;
         },
         verify : {
             isMobile : function(mobile){
@@ -188,24 +189,35 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             var self = this;
             $(document).on('keydown',function(e){
                 if(e.which == 13){
+                    if(self.off){
+                        return ;
+                    }
+                    self.off = true;
                     submitfn();
                 }
             });
             this.form.on('click','#login-submit',function(){
+                if(self.off){
+                    return ;
+                }
+                self.off = true;
                 submitfn();
                 return false;
             });
             function submitfn(){
                 if(!self.check().mobile() && !self.check().pass()){
                     self.error.html(self.errmsg.submit).removeClass('hide');
+                    self.off = false;
                     return false;
                 }
                 if(!self.check().mobile()){
                     self.error.html(self.errmsg.mobile).removeClass('hide');
+                    self.off = false;
                     return false;
                 }
                 if(!self.check().pass()){
                     self.error.html(self.errmsg.password).removeClass('hide');
+                    self.off = false;
                     return false;
                 }
                 var serialize = self.strToJson(self.form.serialize());
@@ -225,9 +237,11 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                             window.location.href = res.data.url+self.winHash;
                         }
                     }else{
+                        self.off = false;
                         self.error.html(res['err_msg']).removeClass('hide');
                     }
                     if(res['err_msg']){
+                        self.off = false;
                         self.checkStep = 2;
                         self.error.html(res['err_msg']).removeClass('hide');
                     }

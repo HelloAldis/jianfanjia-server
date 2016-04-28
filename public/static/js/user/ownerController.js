@@ -150,8 +150,6 @@ angular.module('controllers', [])
                         _this.verifyCodeOff = false;
                         countdown();
                         userRequiremtne.code({'phone':phone}).then(function(res){  //提交手机
-                            console.log(res)
-                           //$location.path('release');
                         },function(err){
                             console.log(err);
                         });
@@ -236,14 +234,15 @@ angular.module('controllers', [])
                     $scope.requiremtne.district = '江岸区';
                 }
                 if(data.phone == undefined){
-                    $state.go('phone');
+                    $state.go('bindPhone');
                 }
             }
             $scope.$watch('requiremtne.house_area',function(newValue){
                 if(!!newValue && !/[^0-9.]/.test(newValue) && (newValue >= 80 && newValue <= 120) && ($scope.requiremtne.work_type == 0 || $scope.requiremtne.work_type == 1)){
-                    $scope.userRelease.costsbasis = parseFloat($filter('number')(newValue*365/10000, 2));
+                    $scope.userRelease.costsbasis = +($scope.requiremtne.house_area*365/10000).toFixed(2);
+                    $scope.userRelease.coststotal = !!$scope.requiremtne.total_price ? +(+$scope.requiremtne.total_price).toFixed(2) : 0;
                     if($scope.userRelease.coststotal >= $scope.userRelease.costsbasis){
-                        $scope.userRelease.costsdiy = parseFloat($filter('number')($scope.userRelease.coststotal - $scope.userRelease.costsbasis, 2));
+                        $scope.userRelease.costsdiy = +($scope.userRelease.coststotal - $scope.userRelease.costsbasis).toFixed(2);
                     }else{
                         $scope.userRelease.costsdiy = 0;
                     }
@@ -254,11 +253,11 @@ angular.module('controllers', [])
             });
             $scope.$watch('requiremtne.work_type',function(newValue){
                 if((newValue == 0 || newValue == 1) && ($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120)){
-                    $scope.userRelease.costsbasis = !!$scope.requiremtne.house_area ? parseFloat($filter('number')($scope.requiremtne.house_area*365/10000, 2)) : 0;
-                    $scope.userRelease.coststotal = !!$scope.requiremtne.total_price ? parseFloat($filter('number')($scope.requiremtne.total_price, 2)) : 0;
+                    $scope.userRelease.costsbasis = !!$scope.requiremtne.house_area ? +($scope.requiremtne.house_area*365/10000).toFixed(2) : 0;
+                    $scope.userRelease.coststotal = !!$scope.requiremtne.total_price ? +(+$scope.requiremtne.total_price).toFixed(2) : 0;
                     if($scope.userRelease.coststotal >= $scope.userRelease.costsbasis){
                         $scope.userRelease.costserror = false;
-                        $scope.userRelease.costsdiy = parseFloat($filter('number')($scope.userRelease.coststotal - $scope.userRelease.costsbasis, 2));
+                        $scope.userRelease.costsdiy = +($scope.userRelease.coststotal - $scope.userRelease.costsbasis).toFixed(2);
                     }else{
                         $scope.userRelease.costserror = true;
                         $scope.userRelease.costsdiy = 0;
@@ -275,10 +274,10 @@ angular.module('controllers', [])
             });
             $scope.$watch('requiremtne.total_price',function(newValue){
                 if(!!newValue && !/[^0-9.]/.test(newValue) && ($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120) && ($scope.requiremtne.work_type == 0 || $scope.requiremtne.work_type == 1)){
-                    $scope.userRelease.coststotal = parseFloat($filter('number')(newValue, 2));
+                    $scope.userRelease.coststotal = !/[^0-9]/.test(newValue) ? newValue : +(+newValue).toFixed(2);
                     if($scope.userRelease.coststotal >= $scope.userRelease.costsbasis){
                         $scope.userRelease.costserror = false;
-                        $scope.userRelease.costsdiy = parseFloat($filter('number')($scope.userRelease.coststotal - $scope.userRelease.costsbasis, 2));
+                        $scope.userRelease.costsdiy = +($scope.userRelease.coststotal - $scope.userRelease.costsbasis).toFixed(2);
                     }else{
                         $scope.userRelease.costserror = true;
                         $scope.userRelease.costsdiy = 0;

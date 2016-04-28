@@ -90,7 +90,7 @@
 							<label class="u-lab"><i>*</i>装修总预算</label>
 							<div class="u-inp">
 								<div class="inp">
-									<input type="text" class="input" ng-model="requiremtne.total_price" name="total_price" placeholder="只能填整数" ng-pattern="/^[1-9]\d*$/" my-placeholder required />
+									<input type="text" class="input" ng-model="requiremtne.total_price" name="total_price" placeholder="只能填整数" ng-pattern="/^[1-9]\d*$/" my-placeholder required ng-maxlength="5" />
 									<span class="unit">万元</span>
 									<div class="total-price" ng-if="(requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120)">
 										<div class="work-tips">
@@ -118,7 +118,8 @@
 									</div>
 								</div>
 							</div>
-							<div class="u-error">
+							<div class="u-error" ng-class="{'error365':(requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120)}">
+								<span ng-show="release.total_price.$dirty && release.total_price.$error.maxlength" class="has-error">长度超过5位</span>
 								<span ng-show="release.total_price.$dirty && release.total_price.$error.pattern" class="has-error">必须为整数</span>
 								<span ng-show="release.total_price.$dirty && release.total_price.$error.required" class="has-error">不能为空</span>
 								<span ng-show="(requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120) && userRelease.costserror" class="has-error">您的装修总预算不能低于基础费用</span>
