@@ -332,11 +332,14 @@ body{
 	word-spacing:0;
 	line-height: 30px;
 }
+.k-form .u-error.error365{
+	margin-left: -186px;
+}
 .k-form .u-error .has-error{
 	color: #ff6a6a;
 	font-size: 12px;
 }
-.k-form .u-inp .input.ng-dirty.ng-invalid-number,.k-form .u-inp .input.ng-dirty.ng-invalid-pattern,.k-form .u-inp .input.ng-dirty.ng-invalid-required{
+.k-form .u-inp .input.ng-dirty.ng-invalid-number,.k-form .u-inp .input.ng-dirty.ng-invalid-pattern,.k-form .u-inp .input.ng-dirty.ng-invalid-maxlength,.k-form .u-inp .input.ng-dirty.ng-invalid-required{
 	border-color: #ff6a6a;
 }
 .k-form .u-inp .input:focus{

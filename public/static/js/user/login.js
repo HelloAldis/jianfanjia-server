@@ -40,6 +40,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             this.bindsave();
             this.getCookie();
             this.tabsfn();
+            this.off = false;
         },
         verify : {
             isMobile : function(mobile){
@@ -188,10 +189,18 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             var self = this;
             $(document).on('keydown',function(e){
                 if(e.which == 13){
+                    if(self.off){
+                        return ;
+                    }
+                    self.off = true;
                     submitfn();
                 }
             });
             this.form.on('click','#login-submit',function(){
+                if(self.off){
+                    return ;
+                }
+                self.off = true;
                 submitfn();
                 return false;
             });
