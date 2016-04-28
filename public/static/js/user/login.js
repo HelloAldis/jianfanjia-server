@@ -207,14 +207,17 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             function submitfn(){
                 if(!self.check().mobile() && !self.check().pass()){
                     self.error.html(self.errmsg.submit).removeClass('hide');
+                    self.off = false;
                     return false;
                 }
                 if(!self.check().mobile()){
                     self.error.html(self.errmsg.mobile).removeClass('hide');
+                    self.off = false;
                     return false;
                 }
                 if(!self.check().pass()){
                     self.error.html(self.errmsg.password).removeClass('hide');
+                    self.off = false;
                     return false;
                 }
                 var serialize = self.strToJson(self.form.serialize());
@@ -234,9 +237,11 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                             window.location.href = res.data.url+self.winHash;
                         }
                     }else{
+                        self.off = false;
                         self.error.html(res['err_msg']).removeClass('hide');
                     }
                     if(res['err_msg']){
+                        self.off = false;
                         self.checkStep = 2;
                         self.error.html(res['err_msg']).removeClass('hide');
                     }
