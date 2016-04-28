@@ -310,7 +310,7 @@
       function ($scope, $rootScope, $stateParams, $http, $filter, $location) {
         $http({ //获取数据
           method: "POST",
-          url: RootUrl + 'api/v2/admin/search_team',
+          url: RootUrl + 'api/v2/web/admin/search_team',
           data: {
             "query": {
               "designerid": $stateParams.id
@@ -351,7 +351,7 @@
         $scope.userUid = $stateParams.id.split("?")[1];
         $http({ //获取数据
           method: "POST",
-          url: RootUrl + 'api/v2/admin/search_team',
+          url: RootUrl + 'api/v2/web/admin/search_team',
           data: {
             "query": {
               "_id": $scope.teamid,
@@ -440,7 +440,7 @@
               removeTimeout: 1,
               fileObjName: 'Filedata',
               buttonText: "",
-              uploader: RootUrl + 'api/v2/image/upload',
+              uploader: RootUrl + 'api/v2/web/image/upload',
               onUploadComplete: function (file, data, response) {
                 var data = $.parseJSON(data);
                 if (off) {
@@ -459,7 +459,7 @@
             console.log($scope.team)
             $http({ //获取数据
               method: "POST",
-              url: RootUrl + 'api/v2/admin/update_team',
+              url: RootUrl + 'api/v2/web/admin/update_team',
               data: $scope.team
             }).then(function (resp) {
               //返回信息
@@ -519,7 +519,7 @@
           }, data)
           $http({
             method: "POST",
-            url: RootUrl + 'api/v2/admin/product/search',
+            url: RootUrl + 'api/v2/web/admin/product/search',
             data: data
           }).then(function (resp) {
             //返回信息
@@ -643,15 +643,15 @@
       function ($scope, $rootScope, $http, $stateParams) {
         $http({ //获取数据
           method: "GET",
-          url: RootUrl + 'api/v2/admin/designer/' + $stateParams.id
+          url: RootUrl + 'api/v2/web/admin/designer/' + $stateParams.id
         }).then(function (resp) {
           //返回信息
           $scope.user = resp.data.data;
-          $scope.head_img1 = $scope.user.imageid ? RootUrl + 'api/v2/thumbnail/200/' + $scope.user.imageid : 'jyz/img/headpic.jpg';
-          $scope.head_img2 = $scope.user.big_imageid ? RootUrl + 'api/v2/thumbnail/500/' + $scope.user.big_imageid : 'jyz/img/headpic.jpg';
-          $scope.uid_img1 = $scope.user.uid_image1 ? RootUrl + 'api/v2/thumbnail/800/' + $scope.user.uid_image1 : "";
-          $scope.uid_img2 = $scope.user.uid_image2 ? RootUrl + 'api/v2/thumbnail/800/' + $scope.user.uid_image2 : "";
-          $scope.bank_img1 = $scope.user.bank_card_image1 ? RootUrl + 'api/v2/thumbnail/800/' + $scope.user.bank_card_image1 : "";
+          $scope.head_img1 = $scope.user.imageid ? RootUrl + 'api/v2/web/thumbnail/200/' + $scope.user.imageid : 'jyz/img/headpic.jpg';
+          $scope.head_img2 = $scope.user.big_imageid ? RootUrl + 'api/v2/web/thumbnail/500/' + $scope.user.big_imageid : 'jyz/img/headpic.jpg';
+          $scope.uid_img1 = $scope.user.uid_image1 ? RootUrl + 'api/v2/web/thumbnail/800/' + $scope.user.uid_image1 : "";
+          $scope.uid_img2 = $scope.user.uid_image2 ? RootUrl + 'api/v2/web/thumbnail/800/' + $scope.user.uid_image2 : "";
+          $scope.bank_img1 = $scope.user.bank_card_image1 ? RootUrl + 'api/v2/web/thumbnail/800/' + $scope.user.bank_card_image1 : "";
           console.log($scope.user);
         }, function (resp) {
           //返回错误信息
@@ -665,12 +665,12 @@
       function ($scope, $rootScope, $http, $stateParams, $location) {
         $http({ //获取数据
           method: "GET",
-          url: RootUrl + 'api/v2/admin/designer/' + $stateParams.id
+          url: RootUrl + 'api/v2/web/admin/designer/' + $stateParams.id
         }).then(function (resp) {
           //返回信息
           $scope.user = resp.data.data;
-          $scope.head_img1 = $scope.user.imageid ? RootUrl + 'api/v2/thumbnail/200/' + $scope.user.imageid : 'jyz/img/headpic.jpg';
-          $scope.head_img2 = $scope.user.big_imageid ? RootUrl + 'api/v2/thumbnail/500/' + $scope.user.big_imageid : 'jyz/img/headpic.jpg';
+          $scope.head_img1 = $scope.user.imageid ? RootUrl + 'api/v2/web/thumbnail/200/' + $scope.user.imageid : 'jyz/img/headpic.jpg';
+          $scope.head_img2 = $scope.user.big_imageid ? RootUrl + 'api/v2/web/thumbnail/500/' + $scope.user.big_imageid : 'jyz/img/headpic.jpg';
           console.log($scope.user);
         }, function (resp) {
           //返回错误信息
@@ -714,14 +714,14 @@
       function ($scope, $rootScope, $http, $stateParams, $location) {
         $http({ //获取数据
           method: "GET",
-          url: RootUrl + 'api/v2/admin/designer/' + $stateParams.id
+          url: RootUrl + 'api/v2/web/admin/designer/' + $stateParams.id
         }).then(function (resp) {
           //返回信息
           console.log(resp);
           $scope.user = resp.data.data;
-          $scope.uid_img1 = $scope.user.uid_image1 ? RootUrl + 'api/v2/thumbnail/800/' + $scope.user.uid_image1 : "";
-          $scope.uid_img2 = $scope.user.uid_image2 ? RootUrl + 'api/v2/thumbnail/800/' + $scope.user.uid_image2 : "";
-          $scope.bank_img1 = $scope.user.bank_card_image1 ? RootUrl + 'api/v2/thumbnail/800/' + $scope.user.bank_card_image1 : "";
+          $scope.uid_img1 = $scope.user.uid_image1 ? RootUrl + 'api/v2/web/thumbnail/800/' + $scope.user.uid_image1 : "";
+          $scope.uid_img2 = $scope.user.uid_image2 ? RootUrl + 'api/v2/web/thumbnail/800/' + $scope.user.uid_image2 : "";
+          $scope.bank_img1 = $scope.user.bank_card_image1 ? RootUrl + 'api/v2/web/thumbnail/800/' + $scope.user.bank_card_image1 : "";
         }, function (resp) {
           //返回错误信息
           console.log(resp);

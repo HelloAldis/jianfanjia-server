@@ -198,7 +198,7 @@
 		            }else{
 		            	$http({
 		            		method : "POST",
-		            		url : RootUrl+'api/v2/admin/search_designer',
+		            		url : RootUrl+'api/v2/web/admin/search_designer',
 		            		headers: {
 								'Content-Type': 'application/json; charset=utf-8'
 						    },
@@ -404,7 +404,7 @@
 		            }else{
 		            	$http({
 		            		method : "POST",
-		            		url : RootUrl+'api/v2/admin/search_designer',
+		            		url : RootUrl+'api/v2/web/admin/search_designer',
 		            		headers: {
 								'Content-Type': 'application/json; charset=utf-8'
 						    },
@@ -604,7 +604,7 @@
                        });
                     };
                     img.onerror=function(){alert("error!")};
-                    img.src=RootUrl+'api/v2/image/'+data.data;
+                    img.src=RootUrl+'api/v2/web/image/'+data.data;
                   }
 
               }

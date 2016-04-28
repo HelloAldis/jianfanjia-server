@@ -147,7 +147,7 @@ $(function(){
     removeTimeout:1,
     fileObjName:'Filedata',
     buttonText : "",
-    uploader:RootUrl+'api/v2/image/upload',
+    uploader:RootUrl+'api/v2/web/image/upload',
     onUploadComplete:function(file, data, response){
        var data = $.parseJSON(data);
       var str = '<div class="previews-item" data-imgid="'+data.data+'">'

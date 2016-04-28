@@ -244,7 +244,7 @@
                        });
                     };
                     img.onerror=function(){alert("error!")};
-                    img.src=RootUrl+'api/v2/image/'+data.data;
+                    img.src=RootUrl+'api/v2/web/image/'+data.data;
                   }
               }
           };

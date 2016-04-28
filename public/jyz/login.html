@@ -179,14 +179,14 @@
 		if(check_step > 0){
 			return false;
 		}
-		$.postJSON(RootUrl+'api/v1/admin/login', {
+		$.postJSON(RootUrl+'api/v2/web/admin/login', {
 				"username" : username.val(),
 				"pass"  : password.val()
 			},function(res){
 				if(res["msg"] == "success"){
                     window.location.href = "index.html";
 				}else{
-					$('#error-info').html(res['err_msg']).removeClass('hide');	
+					$('#error-info').html(res['err_msg']).removeClass('hide');
 				}
 				if(res['err_msg']){
 					$('#error-info').html(res['err_msg']).removeClass('hide');

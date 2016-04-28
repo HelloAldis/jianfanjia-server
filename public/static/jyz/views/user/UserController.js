@@ -145,7 +145,7 @@
                 }).then(function(resp){
                     if(resp.data.data.total === 1){
                         $scope.user = resp.data.data.users[0];
-                        $scope.head = !!$scope.user.imageid ? RootUrl+'api/v2/thumbnail/200/'+resp.data.data.imageid : 'jyz/img/headpic.jpg';
+                        $scope.head = !!$scope.user.imageid ? RootUrl+'api/v2/web/thumbnail/200/'+resp.data.data.imageid : 'jyz/img/headpic.jpg';
                     }
                 },function(resp){
                     //返回错误信息
