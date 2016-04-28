@@ -17,7 +17,7 @@ var config = {
   m_web_domain_regex: /devm.jianfanjia.com|m.jianfj.com/,
 
   // mongodb 配置
-  db: 'mongodb://127.0.0.1/jianfanjia',
+  db: 'mongodb://127.0.0.1/phase2-dev',
 
   // redis 配置，默认是本地
   redis_host: '127.0.0.1',
@@ -26,7 +26,7 @@ var config = {
   redis_pass: 'Jyz20150608',
 
   //Session 配置
-  session_secret: 'jiayizhuang_jianfanjia_secret', // 务必保密
+  session_secret: 'jiayizhuang_jianfanjia_secret_dev', // 务必保密
   auth_cookie_name: 'jianfanjia',
   session_time: 1000 * 60 * 60 * 24 * 2,
 
@@ -52,8 +52,8 @@ var config = {
   interval_get_wechat_token: 90,
 
   //微信开放平台设置
-  wechat_open_web_appid: 'wxb7a170c2e0792072',
-  wechat_open_web_appsecret: '1f7fd458aa22ef8758f370c225d38cdc',
+  wechat_open_web_appid: 'wx14191b66b0620773',
+  wechat_open_web_appsecret: '8f5fc31a670b9067d51422cef2df643b',
 
   //微米短信配置
   sms_uid: 'S9w4LEmiYSgR',
