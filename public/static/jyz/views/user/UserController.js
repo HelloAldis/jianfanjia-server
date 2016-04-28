@@ -4,7 +4,7 @@
             '$scope','$rootScope','adminUser',
             function($scope, $rootScope,adminUser) {
                 //全局标识，解决筛选和分页问题
-                $scope.phone = undefined; 
+                $scope.phone = undefined;
                 $scope.createAt = undefined;
                 $scope.searchUser = undefined;
                 //数据加载显示状态
@@ -13,7 +13,7 @@
                     notData : false
                 };
                 //分页控件
-                $scope.pagination = {      
+                $scope.pagination = {
                     currentPage : 1,
                     totalItems : 0,
                     maxSize : 5,
@@ -113,7 +113,7 @@
                 //初始化
                 loadList(1,10);
                 //搜索业主
-                $scope.searchBtn = function(){ 
+                $scope.searchBtn = function(){
                     $scope.phone = $scope.searchUser;
                     $scope.userList = undefined;
                     $scope.pagination.currentPage = 1;
@@ -130,7 +130,7 @@
                     $scope.startTime.time = '';
                     $scope.endTime.time = '';
                     loadList(1);
-                }  
+                }
             }
         ])
         .controller('UserInfoController', [
@@ -145,7 +145,7 @@
                 }).then(function(resp){
                     if(resp.data.data.total === 1){
                         $scope.user = resp.data.data.users[0];
-                        $scope.head = !!$scope.user.imageid ? RootUrl+'api/v1/thumbnail/200/'+resp.data.data.imageid : 'jyz/img/headpic.jpg';
+                        $scope.head = !!$scope.user.imageid ? RootUrl+'api/v2/thumbnail/200/'+resp.data.data.imageid : 'jyz/img/headpic.jpg';
                     }
                 },function(resp){
                     //返回错误信息
@@ -245,7 +245,7 @@
                            });
                        }
                        //最后成交设计师
-                       if($scope.user.final_designerid){                            
+                       if($scope.user.final_designerid){
                            adminDesigner.search({
                                "query":{
                                   "_id": $scope.user.final_designerid

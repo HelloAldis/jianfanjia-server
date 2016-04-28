@@ -259,7 +259,7 @@
                       }
                     };
                     img.onerror=function(){alert("error!")};
-                    img.src=RootUrl+'api/v1/image/'+data.data;
+                    img.src=RootUrl+'api/v2/image/'+data.data;
                   }
                   $scope.removeImg = function(i,arr){
                     if(arr.length < 2){

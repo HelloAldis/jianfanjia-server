@@ -61,7 +61,7 @@
             	    notData : false
             	};
             	//分页控件
-            	$scope.pagination = {      
+            	$scope.pagination = {
             	    currentPage : 1,
             	    totalItems : 0,
             	    maxSize : 5,
@@ -198,7 +198,7 @@
 		            }else{
 		            	$http({
 		            		method : "POST",
-		            		url : RootUrl+'api/v1/admin/search_designer',
+		            		url : RootUrl+'api/v2/admin/search_designer',
 		            		headers: {
 								'Content-Type': 'application/json; charset=utf-8'
 						    },
@@ -307,7 +307,7 @@
             		}
             		$http({
 	            		method : "POST",
-	            		url : RootUrl+'api/v1/share',
+	            		url : RootUrl+'api/v2/share',
 	            		headers: {
 							'Content-Type': 'application/json; charset=utf-8'
 					    },
@@ -404,7 +404,7 @@
 		            }else{
 		            	$http({
 		            		method : "POST",
-		            		url : RootUrl+'api/v1/admin/search_designer',
+		            		url : RootUrl+'api/v2/admin/search_designer',
 		            		headers: {
 								'Content-Type': 'application/json; charset=utf-8'
 						    },
@@ -440,7 +440,7 @@
 		            		console.log(resp);
 		            	})
 		            }
-            	} 
+            	}
 	            $scope.editorLive = function(){   //编辑资料
 	            	$scope.dataMapped.province = desArea.find('input[name=province]').val() || $scope.dataMapped.province;
 	            	$scope.dataMapped.city = desArea.find('input[name=city]').val() || $scope.dataMapped.city;
@@ -502,7 +502,7 @@
             			$scope.shares = resp.data.data.shares[0];
             			var curId = parseInt($scope.shares.process[$scope.shares.process.length - 1].name);
             			$scope.process.processName = curId > $scope.shares.process.length-1 ? curId : curId + 1;
-            			$scope.process.processDate = $filter('date')($scope.shares.process[$scope.shares.process.length - 1].date, 'yyyy-MM-dd'); 
+            			$scope.process.processDate = $filter('date')($scope.shares.process[$scope.shares.process.length - 1].date, 'yyyy-MM-dd');
             		}
             	},function(resp){
             		//返回错误信息
@@ -602,11 +602,11 @@
                       $scope.$apply(function(){
                           $scope.myQuery = data.data
                        });
-                    };  
-                    img.onerror=function(){alert("error!")};  
-                    img.src=RootUrl+'api/v1/image/'+data.data;
+                    };
+                    img.onerror=function(){alert("error!")};
+                    img.src=RootUrl+'api/v2/image/'+data.data;
                   }
-        
+
               }
           };
       }]);

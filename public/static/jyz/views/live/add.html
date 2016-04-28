@@ -122,7 +122,7 @@
   <button type="button" class="btn btn-success" ng-click="addLive()">创建装修直播</button>
 </form>
 <script type="text/javascript">
-$(function(){    
+$(function(){
   //删除作品列表图片
   $('#j-file-list').delegate('.close','click',function(ev){
     ev.preventDefault();
@@ -147,7 +147,7 @@ $(function(){
     removeTimeout:1,
     fileObjName:'Filedata',
     buttonText : "",
-    uploader:RootUrl+'api/v1/image/upload',
+    uploader:RootUrl+'api/v2/image/upload',
     onUploadComplete:function(file, data, response){
        var data = $.parseJSON(data);
       var str = '<div class="previews-item" data-imgid="'+data.data+'">'
@@ -256,7 +256,7 @@ $(function(){
   }
     .k-uploadbox .create-item,  .k-uploadbox .previews-item{
     width: 168px;
-    height: 168px;  
+    height: 168px;
     padding: 0;
         margin: 0 20px 20px 0;
   }

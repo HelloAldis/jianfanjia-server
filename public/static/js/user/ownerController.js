@@ -112,7 +112,7 @@ angular.module('controllers', [])
                 "code":undefined
             };
             $scope.phone = {
-                phoneMsg : "手机号码不正确",
+                phoneMsg : "",
                 disabled : false,
                 codeValue : '获取验证码',
                 verifyCodeOff : true,
@@ -129,9 +129,10 @@ angular.module('controllers', [])
                         userRequiremtne.verify({'phone':phone}).then(function(res){  //提交手机
                             if(res.data.msg === "success"){
                                 _this.phoneMsg = "";
+                            }
+                            if(res.data.err_msg){
                                 _this.verifyPhoneOff = true;
-                            }else{
-                                _this.phoneMsg = res.data.msg;
+                                _this.phoneMsg = res.data.err_msg;
                             }
                         },function(res){
                             console.log(res)
@@ -174,7 +175,7 @@ angular.module('controllers', [])
                 submit : function(){
                     userRequiremtne.phone($scope.user).then(function(res){  //提交手机
                         if(res.data.msg === "success"){
-                            $state.go('release');
+                            $state.go('addRequirement');
                         }
                     },function(res){
                         console.log(res)
@@ -235,6 +236,8 @@ angular.module('controllers', [])
                 }
                 if(data.phone == undefined){
                     $state.go('bindPhone');
+                }else{
+                    $scope.loadData = true;
                 }
             }
             $scope.$watch('requiremtne.house_area',function(newValue){
@@ -288,18 +291,14 @@ angular.module('controllers', [])
                 }
             });
             if($scope.userRelease.isRelease){        //发布新需求
-                if(userInfo.storage){    //获取个人资料
-                    userInfo.get().then(function(res){
-                        if(res.data.data !== null){
-                            userInfo.save(res.data.data);
-                            setAddress(res.data.data);
-                        }
-                    },function(err){
-                        console.log(err);
-                    });
-                }else{
-                    setAddress(userInfo.pull);
-                }
+                userInfo.get().then(function(res){
+                    if(res.data.data !== null){
+                        userInfo.save(res.data.data);
+                        setAddress(res.data.data);
+                    }
+                },function(err){
+                    console.log(err);
+                });
             }else{   //修改某条需求
                 userRequiremtne.get({'_id':$stateParams.id}).then(function(res){  //获取需求列表
                     if(res.data.data != null){
@@ -326,7 +325,6 @@ angular.module('controllers', [])
                     $scope.requiremtne.family_description = undefined;
                 }
                 $scope.requiremtne.dec_type = type+"";
-                $scope.requiremtne.total_price = $scope.requiremtne.total_price*1;
                 $scope.requiremtne.house_area = $scope.requiremtne.house_area*1;
                 if($scope.requiremtne.province === "湖北省" && $scope.requiremtne.city === "武汉市"){
                     This.disabled = true;

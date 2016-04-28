@@ -2,7 +2,7 @@
     angular.module('controllers')
         .controller('NewsController', ['$scope','$rootScope','adminArticle',function($scope, $rootScope,adminArticle){
             //全局标识，解决筛选和分页问题
-            $scope.phone = undefined; 
+            $scope.phone = undefined;
             $scope.createAt = undefined;
             //数据加载显示状态
             $scope.loading = {
@@ -10,7 +10,7 @@
                 notData : false
             };
             //分页控件
-            $scope.pagination = {      
+            $scope.pagination = {
                 currentPage : 1,
                 totalItems : 0,
                 maxSize : 5,
@@ -196,7 +196,7 @@
                           console.log(resp);
                      });
                   }
-              }            
+              }
         }])
         .directive('myNewsuploade',['$timeout',function($timeout){     //封面图片上传
           return {
@@ -242,9 +242,9 @@
                       $scope.$apply(function(){
                           $scope.myQuery = data.data
                        });
-                    };  
-                    img.onerror=function(){alert("error!")};  
-                    img.src=RootUrl+'api/v1/image/'+data.data;
+                    };
+                    img.onerror=function(){alert("error!")};
+                    img.src=RootUrl+'api/v2/image/'+data.data;
                   }
               }
           };
