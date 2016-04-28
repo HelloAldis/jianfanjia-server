@@ -17,7 +17,7 @@ exports.crop2buffer = function (buffer, width, hight, x, y, callback) {
 }
 
 exports.jpgbuffer = function (buffer, callback) {
-  gm(buffer).density(72, 72).quality(80).compress('JPEG').interlace('Line').toBuffer('JPEG', callback);
+  gm(buffer).density(72, 72).quality(80).bitdepth(8).compress('JPEG').interlace('Line').toBuffer('JPEG', callback);
 }
 
 exports.watermark = function (buffer, callback) {
