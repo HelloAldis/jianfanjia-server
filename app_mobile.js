@@ -27,7 +27,7 @@ const app = express();
 app.enable('trust proxy');
 
 //config view engine
-app.set('views', path.join(__dirname, 'mobile_views'));
+app.set('views', path.join(__dirname, 'web/mobile/template'));
 app.set('view engine', 'html');
 app.engine('html', require('ejs').__express);
 app.set('view cache', !config.debug);
@@ -54,7 +54,7 @@ app.use(bodyParser.raw({
 }));
 
 // 静态资源
-app.use('/', express.static(path.join(__dirname, 'mobile')));
+app.use('/', express.static(path.join(__dirname, 'web/mobile/res')));
 
 //api response util middleware
 app.use(responseUtil);

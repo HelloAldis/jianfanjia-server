@@ -76,7 +76,7 @@ exports.dec_strategy_homepage = function (req, res, next) {
           }, callback);
         },
       }, ep.done(function (result) {
-        res.render('dec_strategy', {
+        res.render('page/dec_strategy', {
           dec_strategy: dec_strategy,
           previous_article: result.previous_article,
           next_article: result.next_article,
