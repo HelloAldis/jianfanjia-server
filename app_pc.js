@@ -121,7 +121,14 @@ app.use('/api/v2/web', cors(), api_statistic.api_statistic, api_router_web_v2);
 // error handler
 app.use(function (err, req, res, next) {
   logger.error('server 500 error: %s, %s', err.stack, err.errors);
-  return res.status(500).send('500 status');
+  if (config.debug) {
+    return res.status(500).send({
+      stack: err.stack,
+      errors: err.errors
+    });
+  } else {
+    return res.status(500).send('500 status');
+  }
 });
 
 app.get('*', function (req, res) {
