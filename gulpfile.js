@@ -79,8 +79,10 @@ gulp.task('release', function (callback) {
     });
 });
 
-gulp.task('sourcecode', function () {
-  return gulp.src(['api/**/*.js'])
+gulp.task('code', function () {
+  return gulp.src(['/Users/jyz/Documents/ios/jianfanjia-ios/jianfanjia-designer/jianfanjia-designer/**/*.m',
+      '/Users/jyz/Documents/ios/jianfanjia-ios/jianfanjia-designer/jianfanjia-designer/**/*.h'
+    ])
     .pipe(concat('code.txt'))
     .pipe(gulp.dest('./'));
 });

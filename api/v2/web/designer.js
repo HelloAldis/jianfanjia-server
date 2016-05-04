@@ -8,6 +8,7 @@ const Requirement = require('../../../proxy').Requirement;
 const Favorite = require('../../../proxy').Favorite;
 const Evaluation = require('../../../proxy').Evaluation;
 const DesignerMessage = require('../../../proxy').DesignerMessage;
+const Product = require('../../../proxy').Product;
 const tools = require('../../../common/tools');
 const _ = require('lodash');
 const async = require('async');
@@ -424,111 +425,163 @@ exports.designers_user_can_order = function (req, res, next) {
     },
 
     ep.done(function (result) {
-      let can_order_rec = [];
-      if (result.requirement && result.requirement.rec_designerids) {
-        can_order_rec = _.filter(result.requirement.rec_designerids,
-          function (oid) {
-            return tools.findIndexObjectId(result.requirement.order_designerids,
-              oid) < 0 && tools.findIndexObjectId(result.requirement.obsolete_designerids,
-              oid) < 0;;
-          });
-      }
-
-      let can_order_fav = [];
-      if (result.requirement && result.favorite && result.favorite.favorite_designer) {
-        can_order_fav = _.filter(result.favorite.favorite_designer,
-          function (oid) {
-            return tools.findIndexObjectId(result.requirement.order_designerids,
-              oid) < 0 && tools.findIndexObjectId(result.requirement.rec_designerids,
-              oid) < 0 && tools.findIndexObjectId(result.requirement.obsolete_designerids,
-              oid) < 0;
-          });
-      }
-
-      async.parallel({
-        rec_designer: function (callback) {
-          Designer.find({
-            _id: {
-              $in: can_order_rec
-            },
-            auth_type: type.designer_auth_type_done,
-            agreee_license: type.designer_agree_type_yes,
-            online_status: type.online_status_on,
-            authed_product_count: {
-              $gte: 3
-            },
-          }, {
-            username: 1,
-            imageid: 1,
-            dec_districts: 1,
-            dec_fee_all: 1,
-            dec_fee_half: 1,
-            dec_styles: 1,
-            communication_type: 1,
-            dec_house_types: 1,
-            province: 1,
-            city: 1,
-            district: 1,
-            authed_product_count: 1,
-            order_count: 1,
-            deal_done_count: 1,
-            auth_type: 1,
-            uid_auth_type: 1,
-            work_auth_type: 1,
-            email_auth_type: 1,
-            service_attitude: 1,
-            respond_speed: 1,
-          }, {
-            lean: true
-          }, function (err, designers) {
-            _.forEach(designers, function (designer) {
-              designer_match_util.designer_match(designer,
-                result.requirement);
+      if (result.requirement.package_type === type.requirement_paclage_type_jiangxin) {
+        Designer.find({
+          auth_type: type.designer_auth_type_done,
+          agreee_license: type.designer_agree_type_yes,
+          online_status: type.online_status_on,
+          authed_product_count: {
+            $gte: 3
+          },
+          package_types: type.requirement_paclage_type_jiangxin
+        }, {
+          username: 1,
+          imageid: 1,
+          dec_districts: 1,
+          dec_fee_all: 1,
+          dec_fee_half: 1,
+          dec_styles: 1,
+          communication_type: 1,
+          dec_house_types: 1,
+          province: 1,
+          city: 1,
+          district: 1,
+          authed_product_count: 1,
+          order_count: 1,
+          deal_done_count: 1,
+          auth_type: 1,
+          uid_auth_type: 1,
+          work_auth_type: 1,
+          email_auth_type: 1,
+          service_attitude: 1,
+          respond_speed: 1,
+        }, {
+          lean: true
+        }, ep.done(function (designers) {
+          async.mapLimit(designers, 3, function (designer, callback) {
+            Product.find({
+              designerid: designer._id,
+              auth_type: type.product_auth_type_done
+            }, null, {
+              skip: 0,
+              limit: 1,
+            }, function (err, products) {
+              designer.products = products;
+              callback(err, designer);
             });
-            callback(err, designers)
-          });
-        },
-        favorite_designer: function (callback) {
-          Designer.find({
-            _id: {
-              $in: can_order_fav
-            },
-            auth_type: type.designer_auth_type_done,
-            agreee_license: type.designer_agree_type_yes,
-            online_status: type.online_status_on,
-            authed_product_count: {
-              $gte: 3
-            },
-          }, {
-            username: 1,
-            imageid: 1,
-            dec_districts: 1,
-            dec_fee_all: 1,
-            dec_fee_half: 1,
-            dec_styles: 1,
-            communication_type: 1,
-            dec_house_types: 1,
-            province: 1,
-            city: 1,
-            district: 1,
-            authed_product_count: 1,
-            order_count: 1,
-            deal_done_count: 1,
-            auth_type: 1,
-            uid_auth_type: 1,
-            work_auth_type: 1,
-            email_auth_type: 1,
-            service_attitude: 1,
-            respond_speed: 1,
-          }, {
-            lean: true
-          }, function (err, designers) {
-            callback(err, designers)
-          });
-        },
-      }, ep.done(function (result) {
-        res.sendData(result);
-      }));
+          }, ep.done(function (designers) {
+            res.sendData({
+              rec_designer: designers
+            });
+          }));
+        }));
+      } else {
+        let can_order_rec = [];
+        if (result.requirement && result.requirement.rec_designerids) {
+          can_order_rec = _.filter(result.requirement.rec_designerids,
+            function (oid) {
+              return tools.findIndexObjectId(result.requirement.order_designerids,
+                oid) < 0 && tools.findIndexObjectId(result.requirement.obsolete_designerids,
+                oid) < 0;;
+            });
+        }
+
+        let can_order_fav = [];
+        if (result.requirement && result.favorite && result.favorite.favorite_designer) {
+          can_order_fav = _.filter(result.favorite.favorite_designer,
+            function (oid) {
+              return tools.findIndexObjectId(result.requirement.order_designerids,
+                oid) < 0 && tools.findIndexObjectId(result.requirement.rec_designerids,
+                oid) < 0 && tools.findIndexObjectId(result.requirement.obsolete_designerids,
+                oid) < 0;
+            });
+        }
+
+        async.parallel({
+          rec_designer: function (callback) {
+            Designer.find({
+              _id: {
+                $in: can_order_rec
+              },
+              auth_type: type.designer_auth_type_done,
+              agreee_license: type.designer_agree_type_yes,
+              online_status: type.online_status_on,
+              authed_product_count: {
+                $gte: 3
+              },
+            }, {
+              username: 1,
+              imageid: 1,
+              dec_districts: 1,
+              dec_fee_all: 1,
+              dec_fee_half: 1,
+              dec_styles: 1,
+              communication_type: 1,
+              dec_house_types: 1,
+              province: 1,
+              city: 1,
+              district: 1,
+              authed_product_count: 1,
+              order_count: 1,
+              deal_done_count: 1,
+              auth_type: 1,
+              uid_auth_type: 1,
+              work_auth_type: 1,
+              email_auth_type: 1,
+              service_attitude: 1,
+              respond_speed: 1,
+            }, {
+              lean: true
+            }, function (err, designers) {
+              _.forEach(designers, function (designer) {
+                designer_match_util.designer_match(designer,
+                  result.requirement);
+              });
+              callback(err, designers)
+            });
+          },
+          favorite_designer: function (callback) {
+            Designer.find({
+              _id: {
+                $in: can_order_fav
+              },
+              auth_type: type.designer_auth_type_done,
+              agreee_license: type.designer_agree_type_yes,
+              online_status: type.online_status_on,
+              authed_product_count: {
+                $gte: 3
+              },
+            }, {
+              username: 1,
+              imageid: 1,
+              dec_districts: 1,
+              dec_fee_all: 1,
+              dec_fee_half: 1,
+              dec_styles: 1,
+              communication_type: 1,
+              dec_house_types: 1,
+              province: 1,
+              city: 1,
+              district: 1,
+              authed_product_count: 1,
+              order_count: 1,
+              deal_done_count: 1,
+              auth_type: 1,
+              uid_auth_type: 1,
+              work_auth_type: 1,
+              email_auth_type: 1,
+              service_attitude: 1,
+              respond_speed: 1,
+            }, {
+              lean: true
+            }, function (err, designers) {
+              callback(err, designers)
+            });
+          },
+        }, ep.done(function (result) {
+          res.sendData(result);
+        }));
+      }
     }));
 }
 
