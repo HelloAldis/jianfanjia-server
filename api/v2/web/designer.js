@@ -425,7 +425,6 @@ exports.designers_user_can_order = function (req, res, next) {
     },
 
     ep.done(function (result) {
-      console.log(result.requirement);
       if (result.requirement.package_type === type.requirement_paclage_type_jiangxin) {
         Designer.find({
           auth_type: type.designer_auth_type_done,
@@ -456,6 +455,7 @@ exports.designers_user_can_order = function (req, res, next) {
           email_auth_type: 1,
           service_attitude: 1,
           respond_speed: 1,
+          view_count: 1,
         }, {
           lean: true
         }, ep.done(function (designers) {
