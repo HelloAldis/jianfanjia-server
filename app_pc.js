@@ -86,6 +86,9 @@ app.use('/tpl/user', auth.authWeb);
 app.use('/jyz', auth.authAdminWeb);
 //拦截微信页面
 app.use('/weixin', auth.authWechat);
+
+//后台渲染的页面
+app.use('/', web_router_pc);
 // 静态资源
 app.use('/', express.static(path.join(__dirname, 'web/pc/res')));
 
@@ -114,7 +117,6 @@ app.use('/download', req_res_log);
 app.use('/api/v1', cors(), api_statistic.api_statistic, apiRouterV1);
 app.use('/api/v2/app', cors(), api_statistic.api_statistic, api_router_app_v2);
 app.use('/api/v2/web', cors(), api_statistic.api_statistic, api_router_web_v2);
-app.use('/', web_router_pc);
 
 // error handler
 app.use(function (err, req, res, next) {

@@ -4,11 +4,14 @@ var sign = require('../controllers/sign');
 var site = require('../controllers/site');
 var wechat = require('../controllers/wechat');
 var dec_strategy = require('../controllers/dec_strategy');
+var home = require('../controllers/pc/home');
 
 var router = express.Router();
 
 // home page
 // router.get('/', site.index);
+router.get('/', home.index);
+// router.get('/index.html', home.index);
 router.get('/tpl/user/', site.homePage);
 router.get('/download/user/app', site.download_user_app);
 router.get('/download/user/apk', site.download_user_apk);
