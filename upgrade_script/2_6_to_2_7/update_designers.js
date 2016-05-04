@@ -13,8 +13,8 @@ var luanDesignerNames = ['杨斌', '柯志林', '陈涛', '周德義', '陈洋',
   '黄磊', '王皓', '陈孟', '戴涛', '周志文', '罗业瑜'
 ];
 
-var jiangDesignerNames = ['李禹锋', '侯玮', '王岚', '叶明', '袁磊'];
-
+var jiangDesignerNames = ['李禹锋', '侯玮', '王岚', '袁磊'];
+// var jiangDesignerNames = ['李禹锋', '侯玮', '王岚', '叶明', '袁磊'];
 
 Designer.count({}, function (err, count) {
   if (err) {

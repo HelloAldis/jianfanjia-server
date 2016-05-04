@@ -80,9 +80,7 @@ gulp.task('release', function (callback) {
 });
 
 gulp.task('code', function () {
-  return gulp.src(['/Users/jyz/Documents/ios/jianfanjia-ios/jianfanjia-designer/jianfanjia-designer/**/*.m',
-      '/Users/jyz/Documents/ios/jianfanjia-ios/jianfanjia-designer/jianfanjia-designer/**/*.h'
-    ])
+  return gulp.src(['api/**/*.js'])
     .pipe(concat('code.txt'))
     .pipe(gulp.dest('./'));
 });
