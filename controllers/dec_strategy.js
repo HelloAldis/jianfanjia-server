@@ -76,14 +76,13 @@ exports.dec_strategy_homepage = function (req, res, next) {
           }, callback);
         },
       }, ep.done(function (result) {
-        res.render('page/dec_strategy', {
+        res.ejs('page/dec_strategy', {
           dec_strategy: dec_strategy,
           previous_article: result.previous_article,
           next_article: result.next_article,
           associate_articles: result.associate_articles[0],
-        });
+        }, req);
       }));
-
 
       limit.perwhatperdaydo('dec_strategy_homepage', req.ip + _id,
         1,

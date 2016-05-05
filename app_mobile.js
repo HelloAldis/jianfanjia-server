@@ -56,9 +56,6 @@ app.use(bodyParser.raw({
 // 静态资源
 app.use('/', express.static(path.join(__dirname, 'web/mobile/res')));
 
-//api response util middleware
-app.use(responseUtil);
-
 // routes
 app.use('/api/v2', function (req, res, next) {
   if (!(req.body instanceof Buffer)) {
@@ -68,6 +65,8 @@ app.use('/api/v2', function (req, res, next) {
   next();
 });
 
+//api response util middleware
+app.use('/api', responseUtil);
 //API Request logger
 app.use('/api', req_res_log);
 app.use('/api/v2/app', cors(), api_statistic.api_statistic, api_router_app_v2);
