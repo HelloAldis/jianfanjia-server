@@ -19,6 +19,7 @@ const cors = require('cors');
 const logger = require('./common/logger');
 const helmet = require('helmet');
 const api_statistic = require('./middlewares/api_statistic');
+const mobile_mark = require('./middlewares/mobile_mark');
 const web_router_mobile = require('./router/web_router_mobile');
 
 //config the web app
@@ -65,6 +66,7 @@ app.use('/api/v2', function (req, res, next) {
   next();
 });
 
+app.use('/', mobile_mark);
 //api response util middleware
 app.use('/api', responseUtil);
 //API Request logger
@@ -76,7 +78,14 @@ app.use('/', web_router_mobile);
 // error handler
 app.use(function (err, req, res, next) {
   logger.error('server 500 error: %s, %s', err.stack, err.errors);
-  return res.status(500).send('500 status');
+  if (config.debug) {
+    return res.status(500).send({
+      stack: err.stack,
+      errors: err.errors
+    });
+  } else {
+    return res.status(500).send('500 status');
+  }
 });
 
 app.get('*', function (req, res) {

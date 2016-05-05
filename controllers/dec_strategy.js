@@ -1,9 +1,12 @@
-var eventproxy = require('eventproxy');
-var DecStrategy = require('../proxy').DecStrategy;
-var _ = require('lodash');
-var async = require('async');
-var type = require('../type');
-var limit = require('../middlewares/limit');
+'use strict'
+
+const eventproxy = require('eventproxy');
+const DecStrategy = require('../proxy').DecStrategy;
+const _ = require('lodash');
+const async = require('async');
+const type = require('../type');
+const limit = require('../middlewares/limit');
+const pc_web_header = require('../business/pc_web_header');
 
 exports.dec_strategy_homepage = function (req, res, next) {
   var _id = req.query.pid;
@@ -75,12 +78,20 @@ exports.dec_strategy_homepage = function (req, res, next) {
             limit: 4,
           }, callback);
         },
+        header_info: function (callback) {
+          if (req.isMobile) {
+            callback(null, undefined);
+          } else {
+            pc_web_header.statistic_info(_id, usertype, callback);
+          }
+        }
       }, ep.done(function (result) {
         res.ejs('page/dec_strategy', {
           dec_strategy: dec_strategy,
           previous_article: result.previous_article,
           next_article: result.next_article,
           associate_articles: result.associate_articles[0],
+          header_info: result.header_info
         }, req);
       }));
 
