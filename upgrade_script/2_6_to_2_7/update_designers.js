@@ -9,11 +9,11 @@ var xinDesignerNames = ['吴蒙', '雷浩', '黄俊超', '陈忠', '江尚飞', 
   '张韶佳', '黄赞', '杨航', '谈有缘', '姚坤'
 ];
 
-var luanDesignerNames = ['杨斌', '柯志林', '陈涛', '周德義', '陈洋', '柯志成', '胡亮', '田江玲', '李进生', '方建军', '刘自章', '赖从伟', '徐伟', '朱亚琴', '梅志强', '彭虎', '吴风华', '陈丹', '陈永生',
-  '黄磊', '王皓', '陈孟', '戴涛', '周志文', '罗业瑜'
+var luanDesignerNames = ['杨斌', '柯志林', '陈涛', '周德義', '陈洋', '柯志成', '18627023637', '田江玲', '李进生', '方建军', '刘自章', '赖从伟', '徐伟', '朱亚琴', '梅志强', '彭虎', '吴风华',
+  '陈丹', '陈永生', '黄磊', '王皓', '陈孟', '戴涛', '周志文', '罗业瑜'
 ];
 
-var jiangDesignerNames = ['李禹锋', '侯玮', '王岚', '袁磊'];
+var jiangDesignerNames = ['李禹锋', '侯玮', '王岚', '袁磊', '13036166667'];
 // var jiangDesignerNames = ['李禹锋', '侯玮', '王岚', '叶明', '袁磊'];
 
 Designer.count({}, function (err, count) {
@@ -49,6 +49,12 @@ Designer.count({}, function (err, count) {
           console.log(designer.username + ' 支持暖暖走心');
           luanDesignerNames.splice(index, 1);
         }
+        index = luanDesignerNames.indexOf(designer.phone);
+        if (index > -1) {
+          set.add('暖暖走心');
+          console.log(designer.username + ' 支持暖暖走心');
+          luanDesignerNames.splice(index, 1);
+        }
 
         index = jiangDesignerNames.indexOf(designer.username);
         if (index > -1) {
@@ -57,6 +63,14 @@ Designer.count({}, function (err, count) {
           designer.package_types = ['2'];
           jiangDesignerNames.splice(index, 1);
         }
+        index = jiangDesignerNames.indexOf(designer.phone);
+        if (index > -1) {
+          set.add('匠心定制');
+          console.log(designer.username + ' 支持匠心定制');
+          designer.package_types = ['2'];
+          jiangDesignerNames.splice(index, 1);
+        }
+
         designer.tags = Array.from(set);
 
         designer.save(function (err) {
