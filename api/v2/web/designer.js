@@ -554,6 +554,9 @@ exports.designers_user_can_order = function (req, res, next) {
               authed_product_count: {
                 $gte: 3
               },
+              package_types: {
+                $ne: type.requirement_paclage_type_jiangxin
+              },
             }, {
               username: 1,
               imageid: 1,
