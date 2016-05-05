@@ -802,3 +802,34 @@ exports.designer_remind_user_house_check = function (req, res, next) {
     }
   }));
 }
+
+const DAYS = ['1', '2', '3', '4', '5'];
+const ACTIVITYS = ['天前加入了简繁家', '天前与业主签订了合同', '天前去业主家上门量房', '天前上传了新案例'];
+exports.top_designer_activity = function (req, res, next) {
+  const query = {
+    auth_type: type.designer_auth_type_done,
+    authed_product_count: {
+      $gte: 3
+    },
+  };
+  const ep = eventproxy();
+  const limit = req.body.limit || 10;
+  ep.fail(next);
+
+  Designer.find(query, {
+    username: 1,
+    imageid: 1
+  }, {
+    lean: 1,
+  }, ep.done(function (designers) {
+    const designer_sample = _.sample(designers, limit);
+    for (let d of designer_sample) {
+      d.activity = _.sample(DAYS, 1) + _.sample(ACTIVITYS, 1);
+    }
+    const sorted = designer_sample.sort(function (a, b) {
+      return a.activity.localeCompare(b.activity);
+    });
+
+    res.sendData(sorted);
+  }));
+}
