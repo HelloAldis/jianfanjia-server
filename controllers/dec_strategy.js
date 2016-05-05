@@ -7,9 +7,12 @@ const async = require('async');
 const type = require('../type');
 const limit = require('../middlewares/limit');
 const pc_web_header = require('../business/pc_web_header');
+const ApiUtil = require('../common/api_util');
 
 exports.dec_strategy_homepage = function (req, res, next) {
-  var _id = req.query.pid;
+  const _id = req.query.pid;
+  const userid = ApiUtil.getUserid(req);
+  const usertype = ApiUtil.getUsertype(req);
   var ep = eventproxy();
   ep.fail(next);
 
@@ -82,7 +85,7 @@ exports.dec_strategy_homepage = function (req, res, next) {
           if (req.isMobile) {
             callback(null, undefined);
           } else {
-            pc_web_header.statistic_info(_id, usertype, callback);
+            pc_web_header.statistic_info(userid, usertype, callback);
           }
         }
       }, ep.done(function (result) {
