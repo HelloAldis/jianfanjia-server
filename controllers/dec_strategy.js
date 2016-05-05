@@ -10,7 +10,7 @@ const pc_web_header = require('../business/pc_web_header');
 const ApiUtil = require('../common/api_util');
 
 exports.dec_strategy_homepage = function (req, res, next) {
-  const _id = req.query.pid;
+  const _id = req.query.pid || req.params._id;
   const userid = ApiUtil.getUserid(req);
   const usertype = ApiUtil.getUsertype(req);
   var ep = eventproxy();
