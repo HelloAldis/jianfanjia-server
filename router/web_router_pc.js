@@ -5,12 +5,13 @@ var site = require('../controllers/site');
 var wechat = require('../controllers/wechat');
 var dec_strategy = require('../controllers/dec_strategy');
 var home = require('../controllers/pc/home');
+var response_util = require('../middlewares/response_util');
 
 var router = express.Router();
 
 // home page
 // router.get('/', site.index);
-router.get('/', home.index);
+router.get('/', response_util, home.index);
 // router.get('/index.html', home.index);
 router.get('/tpl/user/', site.homePage);
 router.get('/download/user/app', site.download_user_app);

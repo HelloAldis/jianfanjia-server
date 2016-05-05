@@ -92,7 +92,7 @@ app.use('/', web_router_pc);
 // 静态资源
 app.use('/', express.static(path.join(__dirname, 'web/pc/res')));
 
-app.use(responseUtil);
+app.use('/api', responseUtil);
 
 // routes
 app.use('/api/v1', function (req, res, next) {

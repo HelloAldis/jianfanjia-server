@@ -164,9 +164,7 @@ exports.index = function (req, res, next) {
       }, callback);
     }
   }, ep.done(function (results) {
-    res.render('page/home', {
-      data: results
-    });
+    res.ejs('page/home', results, req);
   }));
 }
 
