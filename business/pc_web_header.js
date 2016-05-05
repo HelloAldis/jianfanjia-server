@@ -200,7 +200,7 @@ exports.statistic_info = function (_id, usertype, callback) {
         designer_statistic_info: designer_statistic_info
       });
     });
-  } else if (usertype === type.role_ad) {
+  } else if (usertype === type.role_admin) {
     callback(null, {
       admin_statistic_info: {}
     });
