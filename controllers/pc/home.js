@@ -18,7 +18,7 @@ exports.index = function (req, res, next) {
   const share_limit = 6;
   const latest_scenes_limit = 30;
   const dec_strategies_limit = 5;
-  const designer_limit = 10;
+  const designer_limit = 20;
   const ep = eventproxy();
   ep.fail(next);
 
