@@ -721,7 +721,7 @@ exports.designer_remind_user_house_check = function (req, res, next) {
 }
 
 const DAYS = ['1', '2', '3', '4', '5'];
-const ACTIVITYS = ['天前加入了简繁家', '天前与业主签订了合同', '天前去业主家上门量房', '天前上传了新案例'];
+const ACTIVITYS = ['天前加入了简繁家', '天前与业主签订了合同', '天前去业主家上门量房', '天前上传了新案例', '天前上传了方案'];
 exports.top_designer_activity = function (req, res, next) {
   const query = {
     auth_type: type.designer_auth_type_done,
