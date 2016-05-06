@@ -138,13 +138,9 @@ exports.index = function (req, res, next) {
         description: 1,
         cover_imageid: 1,
         articletype: 1,
-      }, {
-        sort: {
-          create_at: -1,
-        },
-        skip: 0,
-        limit: dec_strategies_limit,
-      }, callback);
+      }, null, function (err, dec_strategies) {
+        callback(err, _.sample(dec_strategies, dec_strategies_limit));
+      });
     },
     dec_tips: function (callback) {
       DecStrategy.find({
@@ -155,13 +151,9 @@ exports.index = function (req, res, next) {
         description: 1,
         cover_imageid: 1,
         articletype: 1,
-      }, {
-        sort: {
-          create_at: -1,
-        },
-        skip: 0,
-        limit: dec_strategies_limit,
-      }, callback);
+      }, null, function (err, dec_tips) {
+        callback(err, _.sample(dec_tips, dec_strategies_limit));
+      });
     }
   }, ep.done(function (results) {
     res.ejs('page/home', results, req);
