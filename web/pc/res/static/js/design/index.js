@@ -19,6 +19,18 @@ require.config({
         }
     }
 });
+require(['design/potter'],function(Potter){
+    var potter = new Potter("#j-potter");
+    potter.init()
+})
+require(['design/dynamic'],function(Dynamic){
+    var dynamic = new Dynamic("#j-dynamic");
+    dynamic.init()
+})
+require(['design/interviews'],function(Interviews){
+    var interviews = new Interviews("#j-interviews");
+    interviews.init()
+})
 require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/common','utils/page','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,history,common,Pageing){
     var search = new common.Search();
     search.init();
@@ -119,22 +131,32 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
 				],
 				numStar = Math.round((data.respond_speed ? data.respond_speed : 0 + data.service_attitude ? data.service_attitude : 0)/2),
 				numStar = numStar >= 5 ? 5 : numStar,
-				strStar = '<span class="star">',
 				houseType = '',
 				style = '<dd class="f-cb">',
 				product = '<ul>';
 				arr.push('<a href="/tpl/design/home.html?'+data._id+'" class="head"><img src="/api/v2/web/thumbnail2/90/90/'+data.imageid+'" alt="'+data.username+'"></a>');
 				arr.push('<dl><dt>');
 				arr.push('<a href="/tpl/design/home.html?'+data._id+'"><strong>'+data.username+'</strong></a>');
+                if(data.tags[0] === '暖暖走心'){
+                   arr.push('<span class="tag tag-0">暖暖走心</span>');
+                }else if(data.tags[0] === '新锐先锋'){
+                   arr.push('<span class="tag tag-1">新锐先锋</span>');
+                }else if(data.tags[0] === '匠心定制'){
+                   arr.push('<span class="tag tag-2">匠心定制</span>');
+                }
 				arr.push('<span class="auth"><i class="iconfont" title="实名认证">&#xe634;</i><i class="iconfont" title="认证设计师">&#xe62a;</i></span>');
-				for (var i = 0; i < 5; i++) {
+                if(data.tags[0] === '匠心定制'){
+                   arr.push('<span class="tag-icon"></span>');
+                }
+                strStar = '<dd class="f-cb"><div class="star"><strong>综合评价</strong>';
+				for (var i = 0; i < 5; i++){
 					if(i < numStar){
 						strStar += '<i class="iconfont">&#xe604;</i>'
 					}else{
 						strStar += '<i class="iconfont">&#xe62b;</i>'
 					}
 				};
-				strStar += '</span>';
+				strStar += '</div></dd>';
 				arr.push(strStar);
 				for (var i = 0 , len = data.dec_styles.length; i < len; i++) {
 					style += '<span class="style" data-style="'+data.dec_styles[i]+'">'+ globalData.dec_style(data.dec_styles[i])+'</span>'
@@ -527,46 +549,4 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
 	var design = new Designer();
 	design.init();
 })
-require(['utils/designers'],function(Designers){
-	var designers = new Designers();
-	designers.init({
-		id       : '#j-featured .m-ct',
-		template : [
-			'<%_.forEach(datas, function(item) {%>',
-		    '<li>',
-		    '<a href="/tpl/design/home.html?<%=item._id%>">',
-		    '<span class="arrow">',
-		    '<em></em>',
-		    '<i class="iconfont2">&#xe604;</i>',
-		    '</span>',
-		    '<img src="/api/v2/web/thumbnail2/258/258/<%=item.imageid%>" alt="">',
-		    '<span class="txt"><%=item.username%></span>',
-		    '</a>',
-		    '</li>',
-		    '<%});%>'
-		],
-		limit : 5
-	})
-})
 
-
-// require(['utils/raiders'],function(Raiders){
-// 	var raiders = new Raiders;
-
-// 	var template = [
-// 	        '<ul>',
-// 	            '<%_.forEach(datas, function(item) {%>',
-// 				    '<li>',
-// 				    '<h4><a href="tpl/design/home.html?<%=item._id%>"><%=item.title%></a></h4>',
-// 				    '<p></p>',
-// 				    '</li>',
-// 			    '<%});%>',
-// 	        '</ul>'
-// 		]
-// 	raiders.init({
-// 		id       : '#j-raiders .m-ct',
-// 		templatebk : template,
-// 		templatets : [],
-// 		limit : 3
-// 	})
-// })

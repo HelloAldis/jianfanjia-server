@@ -1,41 +1,87 @@
-define(['jquery'], function($){
-	var Banner = function(){};
+define(['jquery','utils/loadImg'], function($,loadImg){
+	var Banner = function(id){
+		this.id = id;
+	};
 	Banner.prototype = {
-		init : function(options){
-			var self = this;
-			this.win = $(window);
-			this.doc = $(document);
-			this.body = $(document.body);
-			$.extend(self.settings = {
-				id : null,
-				templatebk : [],
-				templatets : [],
-				limit : 5,
-				callback : function(){}
-			},options || {});
-			this.container = $(this.settings.id);
+		init : function(){
+			this.container = $(this.id);
 			this.bind();
 		},
 		bind : function(){
 			var oUl = this.container.find('ul'),
 				aUlLi = oUl.find('li'),
-				oOl = this.container.find('ol'),
-				aOlLi = oOl.find('li');
-				aOlLi.each(function(index, el) {
-					$(el).on('mouseenter',function(){
-						var This = $(this);
-						setTimeout(function(){
-							var index = This.index()+1;
-							This.addClass('active').siblings().removeClass('active');
-							aUlLi.attr('zIndex',0);
-							aUlLi.eq(index).attr('zIndex',10).stop().fadeTo(500,1).siblings().stop().fadeTo(500,0);
-						}, 300);
-					});
+				oToggle = this.container.find('.toggle'),
+				oPrev = this.container.find('.prev'),
+				sBtns = '',
+				aBtns = null,
+				len = aUlLi.size(),
+				oNext = this.container.find('.next'),
+				oBtns = this.container.find('.btns'),
+				iNow = 0,
+				itmer = null,
+				imgArr = [];
+			oUl.find('img').each(function(index, el) {
+				imgArr.push($(el).data('src'));
+				$(el).attr('src', $(el).data('src'));
+			});
+			oToggle.hide();
+			loadImg({
+				arr : imgArr,
+				admissionfn : function(){
+					for(var i= 0; i < len; i++){
+						sBtns += '<span class="'+( i==0 ? 'active' : '' )+'"></span>'
+					}
+					oBtns.html(sBtns);
+					aBtns = oBtns.find('span');
+					move();
+				}
+			})
+			function move(){
+				aUlLi.css('zIndex',0);
+				aUlLi.eq(iNow).css('zIndex',10).stop().fadeTo(500,1).siblings().stop().fadeTo(500,0);
+				aBtns.eq(iNow).addClass('active').siblings().removeClass('active');
+			}
+			aBtns.each(function(index, el){
+				$(el).on('click',function(){
+					iNow = $(this).index();
+					move();
 				});
-				oOl.on('mouseleave',function(){
-					aOlLi.removeClass('active');
-					aUlLi.eq(0).attr('zIndex',10).stop().fadeTo(500,1).siblings().stop().fadeTo(500,0);
-				});
+			})
+			function next(){
+				if(iNow == len -1){
+					iNow = 0;
+				}else{
+					iNow++;
+				}
+				move();
+			}
+			function prev(){
+				if(iNow == 0){
+					iNow = len -1;
+				}else{
+					iNow--;
+				}
+				move();
+			}
+			oPrev.on('click',function(){
+				prev()
+			});
+			oNext.on('click',function(){
+				next()
+			});
+			itmer = setInterval(function(){
+				next()
+			},5000);
+			this.container.hover(function(){
+				clearInterval(itmer);
+				oToggle.show();
+			},function(){
+				oToggle.hide();
+				clearInterval(itmer);
+				itmer = setInterval(function(){
+					next()
+				},5000);
+			})
 		}
 	};
 	return Banner;

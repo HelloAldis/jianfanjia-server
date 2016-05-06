@@ -8,7 +8,7 @@ blockquote,body,button,dd,dl,dt,fieldset,form,h1,h2,h3,h4,h5,h6,hr,input,legend,
 body,button,input,select,textarea{font:12px/1.5 "Microsoft YaHei",\5FAE\8F6F\96C5\9ED1, "微软雅黑","MicrosoftJhengHei","华文细黑","STHeiti","MingLiu","SimHei","黑体", \5b8b\4f53,"SimSun", "宋体",sans-serif; color: #666;}
 h1,h2,h3,h4,h5,h6,button,input,select,textarea{font-size:100%;}
 h1,h2,h3,h4,h5,h6{font-weight: normal;}
-em,i{font-style:normal;}
+em,i,address{font-style:normal;}
 sup{vertical-align:text-top}
 sub{vertical-align:text-bottom}
 ol,ul{list-style:none;}
@@ -19,7 +19,7 @@ a,input,button,select,textarea{outline:none;}
 a,button{cursor:pointer;}
 table{border-collapse:collapse;border-spacing:0}
 /*html5 新标签*/
-article,aside,dialog,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}
+article,aside,dialog,figcaption,figure,footer,header,hgroup,main,nav,section,address{display:block}
 mark{background:#FF0;color:#000}
 template{display:none}
 /*布局  grid***********************************************************/
@@ -1277,7 +1277,7 @@ a.m-head:hover{
 	overflow-y: auto;
 }
 .g-goto li .add + .hover ul{
-	
+
 }
 .g-goto li .add + .hover li{
 	border-top: 1px solid #e5e5e5;

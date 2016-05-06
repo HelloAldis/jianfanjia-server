@@ -16,7 +16,7 @@ require.config({
         }
     }
 });
-require(['jquery','lib/jquery.cookie','utils/common','utils/page','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,cookie,common,Page){
+require(['jquery','lib/jquery.cookie','utils/common','utils/page','design/addIntent'],function($,cookie,common,Page,AddIntent){
         var user = new common.User();
         user.init();
         var search = new common.Search();
@@ -94,6 +94,8 @@ require(['jquery','lib/jquery.cookie','utils/common','utils/page','lib/jquery.re
                         }else{
                             arr.push('<div class="btns"><a href="javascript:;" class="u-btns addIntent" data-uid="'+data._id+'">添加意向</a></div>');
                         }
+                        var addIntent = new AddIntent(this.info);
+                        addIntent.init();
                     }
                     arr.push('</div><div class="service f-cb"><div class="f-fl">');
                     arr.push('<dl><dt>'+data.authed_product_count+'</dt><dd>作品</dd></dl>');
