@@ -35,6 +35,7 @@ exports.user_my_requirement_list = function (req, res, next) {
             username: 1,
             imageid: 1,
             auth_type: 1,
+            tags: 1,
           }, null, ep.done(function (designers) {
             async.mapLimit(designers, 3, function (designer, callback) {
               Plan.find({
@@ -68,6 +69,7 @@ exports.user_my_requirement_list = function (req, res, next) {
             username: 1,
             imageid: 1,
             auth_type: 1,
+            tags: 1,
           }, null, ep.done(function (designers) {
             requirement.rec_designers = designers;
             _.forEach(requirement.rec_designers, function (designer) {
