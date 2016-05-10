@@ -19,6 +19,12 @@ function getPackageJsonVersion() {
   // 这里我们直接解析 json 文件而不是使用 require，这是因为 require 会缓存多次调用，这会导致版本号不会被更新掉
   return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
 };
+
+function getMajor_Minor(version) {
+  let arr = version.split('.');
+  arr.pop();
+  return arr.join('_');
+}
 // -------------------------------- End Common Function ----------------------------------------
 
 gulp.task('default', function () {
@@ -108,6 +114,6 @@ gulp.task('cp-config', function () {
 });
 
 gulp.task('upgrade', function () {
-
+  require('./upgrade_script/2_6_to_2_7/update_designers.js')
 });
 // -------------------------------- End Deploy Function ----------------------------------------
