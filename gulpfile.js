@@ -1,3 +1,5 @@
+'use strict'
+
 /**
   Release build as command  gulp release (-a|-b|-c)
 */
@@ -11,10 +13,25 @@ var git = require('gulp-git');
 var fs = require('fs');
 var concat = require('gulp-concat');
 
+
+// -------------------------------- Common Function ----------------------------------------
+function getPackageJsonVersion() {
+  // 这里我们直接解析 json 文件而不是使用 require，这是因为 require 会缓存多次调用，这会导致版本号不会被更新掉
+  return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
+};
+// -------------------------------- End Common Function ----------------------------------------
+
 gulp.task('default', function () {
-  console.log('hello gulp');
+  console.log('please use command "gulp release (-a|-b|-c)" or "gulp deploy (-pro|-test|-dev)"');
 });
 
+gulp.task('code', function () {
+  return gulp.src(['api/**/*.js'])
+    .pipe(concat('code.txt'))
+    .pipe(gulp.dest('./'));
+});
+
+// -------------------------------- Release Function ----------------------------------------
 gulp.task('bump-version', function () {
   var argv = minimist(process.argv.slice(3));
   var type = {
@@ -30,14 +47,8 @@ gulp.task('bump-version', function () {
     };
   }
 
-  return gulp.src(['./package.json'])
-    .pipe(bump(type).on('error', gutil.log)).pipe(gulp.dest('./'));
+  return gulp.src(['./package.json']).pipe(bump(type).on('error', gutil.log)).pipe(gulp.dest('./'));
 });
-
-function getPackageJsonVersion() {
-  // 这里我们直接解析 json 文件而不是使用 require，这是因为 require 会缓存多次调用，这会导致版本号不会被更新掉
-  return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
-};
 
 gulp.task('commit-changes', function () {
   return gulp.src('.')
@@ -62,7 +73,6 @@ gulp.task('create-new-tag', function (cb) {
     });
 });
 
-
 gulp.task('release', function (callback) {
   runSequence(
     'bump-version',
@@ -78,9 +88,26 @@ gulp.task('release', function (callback) {
       callback(error);
     });
 });
+// -------------------------------- End Release Function ----------------------------------------
 
-gulp.task('code', function () {
-  return gulp.src(['api/**/*.js'])
-    .pipe(concat('code.txt'))
-    .pipe(gulp.dest('./'));
+// -------------------------------- Deploy Function ----------------------------------------
+gulp.task('deploy', function (callback) {
+
 });
+
+gulp.task('cp-config', function () {
+  const argv = minimist(process.argv.slice(3));
+  var path = './apiconfig.dev.js';
+  if (argv.test) {
+    path = './apiconfig.test.js';
+  } else if (argv.pro) {
+    path = './apiconfig.pro.js';
+  }
+
+  gulp.src(path).pipe(gulp.dest('./apiconfig.js'));
+});
+
+gulp.task('upgrade', function () {
+
+});
+// -------------------------------- End Deploy Function ----------------------------------------
