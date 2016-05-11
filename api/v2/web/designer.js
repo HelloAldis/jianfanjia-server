@@ -429,7 +429,7 @@ exports.designers_user_can_order = function (req, res, next) {
       if (result.requirement.package_type === type.requirement_package_type_jiangxin) {
         Designer.find({
           _id: {
-            $nin: result.requirement.order_designerids.concat(esult.requirement.obsolete_designerids)
+            $nin: result.requirement.order_designerids.concat(result.requirement.obsolete_designerids)
           },
           auth_type: type.designer_auth_type_done,
           agreee_license: type.designer_agree_type_yes,
