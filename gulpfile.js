@@ -4,14 +4,15 @@
   Release build as command  gulp release (-a|-b|-c)
 */
 
-var gulp = require('gulp');
-var minimist = require('minimist')
-var runSequence = require('run-sequence');
-var bump = require('gulp-bump');
-var gutil = require('gulp-util');
-var git = require('gulp-git');
-var fs = require('fs');
-var concat = require('gulp-concat');
+const gulp = require('gulp');
+const minimist = require('minimist')
+const runSequence = require('run-sequence');
+const bump = require('gulp-bump');
+const gutil = require('gulp-util');
+const git = require('gulp-git');
+const fs = require('fs');
+const concat = require('gulp-concat');
+const through2 = require('through2')
 
 
 // -------------------------------- Common Function ----------------------------------------
@@ -20,15 +21,22 @@ function getPackageJsonVersion() {
   return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
 };
 
-function getMajor_Minor(version) {
+function getUpgradeDir(version) {
   let arr = version.split('.');
   arr.pop();
-  return arr.join('_');
+  let end = arr.join('_');
+
+  let b = arr.pop();
+  b = parseInt(b) - 1;
+  arr.push(b);
+  let start = arr.join('_');
+
+  return start + '_to_' + end;
 }
 // -------------------------------- End Common Function ----------------------------------------
 
 gulp.task('default', function () {
-  console.log('please use command "gulp release (-a|-b|-c)" or "gulp deploy (-pro|-test|-dev)"');
+  console.log('please use command "gulp release [-a|-b|-c]" or "gulp deploy [-p|-t|-d] [-n]"');
 });
 
 gulp.task('code', function () {
@@ -98,22 +106,43 @@ gulp.task('release', function (callback) {
 
 // -------------------------------- Deploy Function ----------------------------------------
 gulp.task('deploy', function (callback) {
-
+  runSequence(
+    'cp-config',
+    'upgrade',
+    function (error) {
+      if (error) {
+        console.log(error.message);
+      } else {
+        console.log('Deploy FINISHED SUCCESSFULLY');
+      }
+      callback(error);
+    });
 });
 
 gulp.task('cp-config', function () {
   const argv = minimist(process.argv.slice(3));
+  console.log(argv);
   var path = './apiconfig.dev.js';
-  if (argv.test) {
+  if (argv.t) {
     path = './apiconfig.test.js';
-  } else if (argv.pro) {
+  } else if (argv.p) {
     path = './apiconfig.pro.js';
   }
 
+  console.log('cp ' + path + ' to ./apiconfig.js');
   gulp.src(path).pipe(gulp.dest('./apiconfig.js'));
 });
 
 gulp.task('upgrade', function () {
-  require('./upgrade_script/2_6_to_2_7/update_designers.js')
+  const argv = minimist(process.argv.slice(3));
+  const v = getUpgradeDir(getPackageJsonVersion());
+
+  if (!argv.noupgrade) {
+    gulp.src('./upgrade_script/' + v + '/*.js').pipe(through2.obj(function (file, enc, cb) {
+      console.log('runing script ' + file.path);
+      require(file.path)
+    }));
+  }
+
 });
 // -------------------------------- End Deploy Function ----------------------------------------

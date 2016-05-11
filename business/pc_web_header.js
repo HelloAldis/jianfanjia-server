@@ -9,6 +9,7 @@ const UserMessage = require('../proxy').UserMessage;
 const User = require('../proxy').User;
 const type = require('../type');
 const async = require('async');
+const _ = require('lodash');
 
 function designer_statistic_info(_id, callback) {
   async.parallel({
