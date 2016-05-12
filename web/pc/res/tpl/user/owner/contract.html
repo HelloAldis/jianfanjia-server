@@ -6,12 +6,12 @@
 		<div ng-if="requirement.status != 4">
 			<div class="contract-main" ng-if="contract._id || requirement._id">
 				<div class="info f-cb">
-					<a bo-href-i="/tpl/design/home.html?{{contract.designer._id}}" class="head f-fl" target="_blank" bo-if="contract.designer._id">
+					<a bo-href-i="/tpl/designer/{{contract.designer._id}}" class="head f-fl" target="_blank" bo-if="contract.designer._id">
 						<img bo-src-i="/api/v2/web/thumbnail2/70/70/{{contract.designer.imageid}}" bo-alt="contract.designer.username">
 					</a>
 					<dl class="f-fl">
 						<dt>
-							<a bo-href-i="/tpl/design/home.html?{{contract.designer._id}}" bo-text="contract.designer.username" target="_blank" bo-if="contract.designer._id"></a>
+							<a bo-href-i="/tpl/designer/{{contract.designer._id}}" bo-text="contract.designer.username" target="_blank" bo-if="contract.designer._id"></a>
 							<span><i>V</i>认证设计师</span>
 						</dt>
 						<dd>

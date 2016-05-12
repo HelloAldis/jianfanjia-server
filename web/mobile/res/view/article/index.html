@@ -1974,7 +1974,7 @@
         var _this = this;
         $.ajax({
             type: 'POST',
-            url: 'http://devm.jianfanjia.com/api/v2/web/top_articles',
+            url: '/api/v2/web/top_articles',
             data: JSON.stringify({
                 limit: 4
             }),
@@ -1998,8 +1998,8 @@
             for (var i = 0; i < dataLength; i++) {
                 str += [
                     '<div>' +
-                    '<a href="/view/article/detail.html?pid=' + dataList[i]._id + '">' +
-                    '<img src="http://devm.jianfanjia.com/api/v2/web/image/' + dataList[i].cover_imageid + '" >' +
+                    '<a href="/tpl/article/strategy/' + dataList[i]._id + '">' +
+                    '<img src="/api/v2/web/image/' + dataList[i].cover_imageid + '" >' +
                     '<span>' + dataList[i].title + '</span>' +
                     '</a>' +
                     '</div>'
@@ -2097,7 +2097,7 @@
     function updateContent(data) {
         var str = '';
         data.forEach(function (el, i) {
-            str += '<li><a href="/view/article/detail.html?pid=' + el._id + '"><img src="/api/v2/web/thumbnail2/220/140/' + el.cover_imageid + '" alt="' + el.title + '"><div><h4>' + el.title + '</h4><p>' + el.description + '</p></div></a></li>';
+            str += '<li><a href="/tpl/article/strategy/' + el._id + '"><img src="/api/v2/web/thumbnail2/220/140/' + el.cover_imageid + '" alt="' + el.title + '"><div><h4>' + el.title + '</h4><p>' + el.description + '</p></div></a></li>';
         })
         oUl.innerHTML += str;
     }

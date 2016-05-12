@@ -95,16 +95,16 @@
             <ul>
               <% for(var i=0; i < data.jxdz_designers.length; i++){%>
               <li>
-                <a href="/tpl/design/home.html?<%= data.jxdz_designers[i]._id %>">
-                <img class="lazyimg" data-original="/api/v2/web/thumbnail2/200/200/<%= data.jxdz_designers[i].imageid %>" alt="<%= data.jxdz_designers[i].username %>">
+                <a href="/tpl/designer/<%= data.jxdz_designers[i]._id %>">
+                <img  data-src="/api/v2/web/thumbnail2/200/200/<%= data.jxdz_designers[i].imageid %>" alt="<%= data.jxdz_designers[i].username %>" src="/static/img/public/load.gif">
                 <span><%= data.jxdz_designers[i].username %></span></a>
               </li>
               <%}%>
               <% if(data.jxdz_designers.length <= 5){%>
                 <% for(var i=0; i < data.jxdz_designers.length; i++){%>
                 <li>
-                  <a href="/tpl/design/home.html?<%= data.jxdz_designers[i]._id %>">
-                  <img class="lazyimg" data-original="/api/v2/web/thumbnail2/200/200/<%= data.jxdz_designers[i].imageid %>" alt="<%= data.jxdz_designers[i].username %>">
+                  <a href="/tpl/designer/<%= data.jxdz_designers[i]._id %>">
+                  <img  data-src="/api/v2/web/thumbnail2/200/200/<%= data.jxdz_designers[i].imageid %>" alt="<%= data.jxdz_designers[i].username %>" src="/static/img/public/load.gif">
                   <span><%= data.jxdz_designers[i].username %></span></a>
                 </li>
                 <%}%>
@@ -130,8 +130,8 @@
               <ul>
                 <% for(var i=0; i < data.xrxf_designers.length; i++){%>
                 <li>
-                  <a href="/tpl/design/home.html?<%= data.xrxf_designers[i]._id %>">
-                  <img class="lazyimg" data-original="/api/v2/web/thumbnail2/95/95/<%= data.xrxf_designers[i].imageid %>" alt="<%= data.xrxf_designers[i].username %>">
+                  <a href="/tpl/designer/<%= data.xrxf_designers[i]._id %>">
+                  <img  data-src="/api/v2/web/thumbnail2/95/95/<%= data.xrxf_designers[i].imageid %>" alt="<%= data.xrxf_designers[i].username %>" src="/static/img/public/load.gif">
                   <span><%= data.xrxf_designers[i].username %></span></a>
                 </li>
                 <%}%>
@@ -147,8 +147,8 @@
               <ul>
                 <% for(var i=0; i < data.llzx_designers.length; i++){%>
                 <li>
-                  <a href="/tpl/design/home.html?<%= data.llzx_designers[i]._id %>">
-                  <img class="lazyimg" data-original="/api/v2/web/thumbnail2/95/95/<%= data.llzx_designers[i].imageid %>" alt="<%= data.llzx_designers[i].username %>">
+                  <a href="/tpl/designer/<%= data.llzx_designers[i]._id %>">
+                  <img  data-src="/api/v2/web/thumbnail2/95/95/<%= data.llzx_designers[i].imageid %>" alt="<%= data.llzx_designers[i].username %>" src="/static/img/public/load.gif">
                   <span><%= data.llzx_designers[i].username %></span></a>
                 </li>
                 <%}%>
@@ -254,13 +254,13 @@
           <% if (i == 1) { %>
             <li class="center">
             <% for(var j=0; j < 2; j++){%>
-              <a href="/tpl/mito/detail.html?pid='+<%= data.top_beautiful_images[i+j]._id %>+'&imgid='+<%= data.top_beautiful_images[i+j].images[0].imageid %>+'&imgw='+<%= data.top_beautiful_images[i+j].images[0].width %>+'&imgh='+<%= data.top_beautiful_images[i+j].images[0].height %>+'"><img class="lazyimg" data-original="/api/v2/web/thumbnail2/390/185/<%= data.top_beautiful_images[i+j].images[0].imageid %>" alt="<%= data.top_beautiful_images[i+j].title %>"><span><%= data.top_beautiful_images[i+j].title %></span></a>
+              <a href="/tpl/mito/detail.html?pid='+<%= data.top_beautiful_images[i+j]._id %>+'&imgid='+<%= data.top_beautiful_images[i+j].images[0].imageid %>+'&imgw='+<%= data.top_beautiful_images[i+j].images[0].width %>+'&imgh='+<%= data.top_beautiful_images[i+j].images[0].height %>+'"><img class="lazyimg" data-original="/api/v2/web/thumbnail2/390/185/<%= data.top_beautiful_images[i+j].images[0].imageid %>" src="/static/img/public/load.gif" alt="<%= data.top_beautiful_images[i+j].title %>"><span><%= data.top_beautiful_images[i+j].title %></span></a>
             <%}%>
             </li>
           <% }else if(i == 2){ %>
             <% continue %>
           <% }else{ %>
-            <li><a href="/tpl/mito/detail.html?pid='+<%= data.top_beautiful_images[i]._id %>+'&imgid='+<%= data.top_beautiful_images[i].images[0].imageid %>+'&imgw='+<%= data.top_beautiful_images[i].images[0].width %>+'&imgh='+<%= data.top_beautiful_images[i].images[0].height %>+'"><img class="lazyimg" data-original="/api/v2/web/thumbnail2/395/380/<%= data.top_beautiful_images[i].images[0].imageid %>" alt="<%= data.top_beautiful_images[i].title %>"><span><%= data.top_beautiful_images[i].title %></span></a></li>
+            <li><a href="/tpl/mito/detail.html?pid='+<%= data.top_beautiful_images[i]._id %>+'&imgid='+<%= data.top_beautiful_images[i].images[0].imageid %>+'&imgw='+<%= data.top_beautiful_images[i].images[0].width %>+'&imgh='+<%= data.top_beautiful_images[i].images[0].height %>+'"><img class="lazyimg" data-original="/api/v2/web/thumbnail2/395/380/<%= data.top_beautiful_images[i].images[0].imageid %>" src="/static/img/public/load.gif" alt="<%= data.top_beautiful_images[i].title %>"><span><%= data.top_beautiful_images[i].title %></span></a></li>
           <% } %>
         <%}%>
       </ul>
@@ -283,12 +283,12 @@
           <ul>
             <% for(var i=0; i < data.top_shares.length; i++){%>
                 <li>
-                  <a href="/tpl/live/detail.html?<%= data.top_shares[i]._id %>" class="img"><img class="lazyimg" data-original="/api/v2/web/thumbnail2/285/262/<%= data.top_shares[i].cover_imageid %>" alt="<%= data.top_shares[i].cell %>"></a>
+                  <a href="/tpl/live/detail.html?<%= data.top_shares[i]._id %>" class="img"><img data-src="/api/v2/web/thumbnail2/285/262/<%= data.top_shares[i].cover_imageid %>" src="/static/img/public/load.gif" alt="<%= data.top_shares[i].cell %>"></a>
                   <div class="txt">
                     <h4><a href="/tpl/live/detail.html?<%= data.top_shares[i]._id %>"><%= data.top_shares[i].cell %></a></h4>
                     <p><span><%= data.top_shares[i].house_area %>m&sup2;</span><i>|</i><span><%= house_type(data.top_shares[i].house_type) %></span><i>|</i><span><%= dec_style(data.top_shares[i].dec_style) %></span></p>
                   </div>
-                  <a href="/tpl/design/home.html?<%= data.top_shares[i].designer._id %>" class="head"><img class="lazyimg" data-original="/api/v2/web/thumbnail2/80/80/<%= data.top_shares[i].designer.imageid %>" alt="<%= data.top_shares[i].designer.username %>"></a>
+                  <a href="/tpl/designer/<%= data.top_shares[i].designer._id %>" class="head"><img data-src="/api/v2/web/thumbnail2/80/80/<%= data.top_shares[i].designer.imageid %>" src="/static/img/public/load.gif" alt="<%= data.top_shares[i].designer.username %>"></a>
                 </li>
             <%}%>
           </ul>
@@ -324,8 +324,8 @@
         </dt>
         <dd>
           <% for(var i=0; i < data.dec_strategies.length; i++){%>
-              <a href="/tpl/article/detail.html?pid=<%= data.dec_strategies[i]._id %>">
-                <img class="lazyimg" data-original="/api/v2/web/thumbnail2/212/200/<%= data.dec_strategies[i].cover_imageid %>" alt="<%= data.dec_strategies[i].title %>"><span><%= data.dec_strategies[i].title %></span></a>
+              <a href="/tpl/article/strategy/<%= data.dec_strategies[i]._id %>">
+                <img class="lazyimg" data-original="/api/v2/web/thumbnail2/212/200/<%= data.dec_strategies[i].cover_imageid %>" alt="<%= data.dec_strategies[i].title %>" src="/static/img/public/load.gif"><span><%= data.dec_strategies[i].title %></span></a>
           <%}%>
         </dd>
       </dl>
@@ -335,8 +335,8 @@
         </dt>
         <dd>
           <% for(var i=0; i < data.dec_tips.length; i++){%>
-              <a href="/tpl/article/detail.html?pid=<%= data.dec_tips[i]._id %>">
-                <img class="lazyimg" data-original="/api/v2/web/thumbnail2/212/200/<%= data.dec_tips[i].cover_imageid %>" alt="<%= data.dec_tips[i].title %>"><span><%= data.dec_tips[i].title %></span></a>
+              <a href="/tpl/article/strategy/<%= data.dec_tips[i]._id %>">
+                <img class="lazyimg" data-original="/api/v2/web/thumbnail2/212/200/<%= data.dec_tips[i].cover_imageid %>" alt="<%= data.dec_tips[i].title %>" src="/static/img/public/load.gif"><span><%= data.dec_tips[i].title %></span></a>
           <%}%>
         </dd>
       </dl>

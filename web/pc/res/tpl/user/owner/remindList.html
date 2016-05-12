@@ -1,6 +1,6 @@
 <div ng-if="remindList.list && remindList.list.length != 0">
     <ul class="m-remindList">
-    <li bindonce="remindList.list" class="f-cb" ng-repeat="data in remindList.list">
+    <li bindonce="remindList.list" class="f-cb" ng-repeat="data in remindList.list track by $index">
         <div class="info f-fl">
             <h4>
                 <span  bo-if="data.message_type == 7">【响应提醒】</span>

@@ -1,0 +1,153 @@
+<%- include('../module/head.html') -%>
+  <title>其他设计师</title>
+  <meta name="description" content="description">
+  <meta name="keywords" content="keywords">
+  <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/design.css" />
+<%- include('../module/header.html') -%>
+    <%
+    function price_area(input){ return { "0" : "50-100", "1" : "100-200", "2" : "200-300", "3" : "300以上"}[input] }
+    function house_type(input){ return { "0" : "一室", "1" : "二室", "2" : "三室", "3" : "四室", "4" : "复式", "5" : "别墅", "6" : "LOFT", "7" : "其他" }[input] }
+    function dec_style(input){ return { "0" : "欧式", "1" : "中式", "2" : "现代", "3" : "地中海", "4" : "美式", "5" : "东南亚", "6" : "田园" }[input] }
+    function dec_type(input){ return {"0" : "家装","1" : "商装","2" : "软装"}[input]}
+    numStar = Math.round(((data.designer.respond_speed ? data.designer.respond_speed : 0) + (data.designer.service_attitude ? data.designer.service_attitude : 0))/2);
+    numStar = numStar >= 5 ? 5 : numStar;
+    %>
+  <main class="g-bd g-wp f-cb" id="j-home">
+    <section class="g-item m-home-info">
+      <div class="banner">
+        <div class="not">
+          <h3>简繁家</h3>
+          <p>让装修变简单</p>
+        </div>
+      </div>
+      <div class="info">
+        <div class="head addIntentHead"><span><img src="/api/v2/web/thumbnail2/140/140/<%= data.designer.imageid %>" alt="<%= data.designer.username %>"></span></div>
+        <dl>
+          <dt>
+            <strong><%= data.designer.username %></strong>
+            <span class="auth"><i class="iconfont" title="实名认证"></i><i class="iconfont" title="认证设计师"></i></span>
+            <span class="star">
+            <% for(var i=0; i < 5; i++) {%>
+              <% if(i < numStar){%>
+                  <i class="iconfont">&#xe604;</i>
+              <% }else{%>
+                  <i class="iconfont">&#xe62b;</i>
+              <% }%>
+            <% } %>
+            </span>
+          </dt>
+          <dd class="f-cb">
+            <address><i class="iconfont2">&#xe61f;</i><%= data.designer.province %>&nbsp;&nbsp;&nbsp;<%= data.designer.city %></address>
+          </dd>
+          <dd class="f-cb">
+            <p><%= data.designer.philosophy %></p>
+          </dd>
+        </dl>
+        <% if (data.header_info.admin_statistic_info == undefined || data.header_info.user_statistic_info == undefined || data.header_info.designer_statistic_info == undefined) { %>
+        <div class="btns">
+            <a href="/tpl/user/login.html?/tpl/designer/<%= data.designer._id %>" class="u-btns addIntent">添加意向</a>
+        </div>
+        <% }else if(data.header_info.user_statistic_info != undefined){ %>
+        <div class="btns">
+          <% if(data.designer.is_my_favorite){ %>
+            <a href="/tpl/user/owner.html#/designer/1" class="u-btns u-btns-revise">已添加</a>
+          <% }else{ %>
+            <a href="javascript:;" class="u-btns addIntent" data-uid="<%= data.designer._id %>">添加意向</a>
+          <% } %>
+        </div>
+        <% } %>
+      </div>
+      <div class="service f-cb">
+        <div class="f-fl">
+          <dl>
+            <dt>19</dt>
+            <dd>作品</dd>
+          </dl>
+          <dl>
+            <dt>8</dt>
+            <dd>预约</dd>
+          </dl>
+        </div>
+        <h4 class="f-fr"><em>设计费</em><strong><%= price_area(data.designer.design_fee_range) %></strong>元/m&sup2;</h4>
+      </div>
+    </section>
+    <section class="g-item m-home-service">
+      <ul class="f-cb">
+        <li class="half">
+          <strong>接单类型：</strong>
+          <div>
+            <% data.designer.dec_types.forEach(v => {%>
+            <span><%= dec_type(v) %></span>
+            <%})%>
+          </div>
+        </li>
+        <li class="half">
+          <strong>设计风格：</strong>
+          <div>
+            <% data.designer.dec_styles.forEach(v => {%>
+            <span><%= dec_style(v) %></span>
+            <%})%>
+          </div>
+        </li>
+        <li class="half">
+          <strong>接单户型：</strong>
+          <div>
+            <% data.designer.dec_house_types.forEach(v => {%>
+            <span><%= house_type(v) %></span>
+            <%})%>
+          </div>
+        </li>
+        <li class="half">
+          <strong>施工团队：</strong>
+          <div><p><%= data.designer.team_count %>个施工队</p></div>
+        </li>
+        <li class="half">
+          <strong>毕业院校：</strong>
+          <div><p><%= data.designer.university %></p></div>
+        </li>
+        <li class="half">
+          <strong>工作年限：</strong>
+          <div><p><%= data.designer.work_year %>年</p></div>
+        </li>
+        <li class="">
+          <strong>曾就职装饰公司：</strong>
+          <div><p><%= data.designer.company %></p></div>
+        </li>
+        <li class="">
+          <strong>设计成就：</strong>
+          <div><p><%- data.designer.achievement %></p></div>
+        </li>
+      </ul>
+    </section>
+    <section class="g-item m-home-product">
+      <div class="list">
+        <ul class="f-cb">
+          <% data.products.forEach((v,k) => { %>
+          <% if (k > 5) { %>
+          <li class="hide">
+          <% }else{ %>
+          <li>
+          <% } %>
+            <a href="/tpl/design/detail.html?<%= v._id %>" class="img">
+              <% if (k > 5) { %>
+              <img data-src="/api/v2/web/thumbnail2/388/289/<%= v.images[0].imageid %>" alt="<%= v.cell %>" src="/static/img/public/load.gif">
+              <% }else{ %>
+              <img class="lazyimg" data-original="/api/v2/web/thumbnail2/388/289/<%= v.images[0].imageid %>" alt="<%= v.cell %>" src="/static/img/public/load.gif">
+              <% } %>
+            </a>
+            <div class="txt">
+              <h4><a href="/tpl/design/detail.html?<%= v._id %>"><%= v.cell %></a></h4>
+              <p><span><%= v.house_area %>m&sup2;</span><span><%= house_type(v.house_type) %></span><span><%= dec_style(v.dec_style) %></span><span><%= dec_type(v.dec_type) %></span></p>
+            </div>
+          </li>
+          <% }) %>
+        </ul>
+      </div>
+      <% if (data.products.length > 5) { %>
+      <a href="javascript:;" class="loadmore">查看更多</a>
+      <% } %>
+    </section>
+  </main>
+  <script type="text/javascript" data-main="/static/js/design/home" src="/static/js/lib/require.js"></script>
+<%- include('../module/footer.html') -%>

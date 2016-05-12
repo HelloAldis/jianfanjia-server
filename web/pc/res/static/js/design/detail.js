@@ -319,10 +319,10 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             createInfo  :  function(data){
                 var arr = [
                         '<div class="m-detail-info f-tac">',
-                            '<a class="head" href="/tpl/design/home.html?'+ data._id +'">',
+                            '<a class="head" href="/tpl/designer/'+ data._id +'">',
                                 '<img src="/api/v2/web/thumbnail/96/'+ data.imageid +'" alt="'+ data.username +'">',
                             '</a>',
-                            '<h4><a href="/tpl/design/home.html?'+ data._id +'">'+ data.username +'</a></h4>',
+                            '<h4><a href="/tpl/designer/'+ data._id +'">'+ data.username +'</a></h4>',
                             '<div class="auth">',
                                 '<i class="iconfont" title="实名认证">&#xe634;</i><i class="iconfont" title="认证设计师">&#xe62a;</i>',
                             '</div>',

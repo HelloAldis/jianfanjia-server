@@ -2,22 +2,23 @@
 	<div ng-if="matchs.length == 0 || favorites.length == 0 || matchs || favorites">
 		<div class="booking-tips">
 			<p class="f-fl">
-				<span ng-if="(requirement.status == 0 || requirement.status == 1 || requirement.status == 2 || requirement.status == 3 || requirement.status == 6) && ordersData.length < 3">您还可以预约<i ng-bind="3 - ordersData.length"></i>名设计师</span>
+				<span ng-if="(requirement.status == 0 || requirement.status == 1 || requirement.status == 2 || requirement.status == 3 || requirement.status == 6) && ordersData.length < 3 && (favorites != undefined && favorites.length >= 0)">您还可以预约<i ng-bind="3 - ordersData.length"></i>名设计师</span>
 				<span ng-if="booking.bookingChangeStatus">您可以重新预约1名设计师</span>
+				<span ng-if="favorites == undefined">您可以立即预约一名匠心定制设计师</span>
 			</p>
-			<a href="/tpl/design/index.html" class="f-fr u-btns" target="_blank">更多选择</a>
+			<a ng-if="favorites != undefined && favorites.length >= 0" href="/tpl/design/index.html" class="f-fr u-btns" target="_blank">更多选择</a>
 		</div>
-		<h3>匹配的设计师</h3>
+		<h3 ng-if="favorites != undefined && favorites.length >= 0">匹配的设计师</h3>
 		<ul class="m-designerList">
-			<li bindonce="matchs" ng-repeat="data in matchs" ng-click="selectDesign(data)" class="{{data.active ? 'active' : ''}}">
+			<li bindonce="matchs" ng-repeat="data in matchs track by $index" ng-click="selectDesign(data)" class="{{data.active ? 'active' : ''}}">
 				<div class="designer f-cb">
 					<div class="info f-fl">
-						<a bo-href-i="/tpl/design/home.html?{{data._id}}" class="head f-fl" target="_blank">
+						<a bo-href-i="/tpl/designer/{{data._id}}" class="head f-fl" target="_blank">
 							<img bo-src-i="/api/v2/web/thumbnail2/70/70/{{data.imageid}}" bo-if="data.imageid" />
 						</a>
 						<dl class="f-fl">
 							<dt>
-								<a bo-href-i="/tpl/design/home.html?{{data._id}}" bo-text="data.username" target="_blank"></a>
+								<a bo-href-i="/tpl/designer/{{data._id}}" bo-text="data.username" target="_blank"></a>
 								<span><i>V</i>认证设计师</span>
 							</dt>
 							<dd><i bo-text="data.city" bo-if="data.district != '请选择市'"></i><i bo-text="data.district" bo-if="data.district != '请选择县/区'"></i></dd>
@@ -25,23 +26,23 @@
 						</dl>
 					</div>
 					<div class="select f-fr">
-						<span class="match">匹配度 <i bo-text="data.match"></i>%</span>
+						<span class="match" bo-if="favorites != undefined && favorites.length >= 0">匹配度 <i bo-text="data.match"></i>%</span>
 						<span class="status"></span>
 					</div>
 				</div>
 			</li>
 		</ul>
-		<h3>自选的设计师</h3>
+		<h3 ng-if="favorites != undefined && favorites.length >= 0">自选的设计师</h3>
 		<ul class="m-designerList">
-			<li bindonce="favorites" ng-repeat="data in favorites" ng-click="selectDesign(data)" class="{{data.active ? 'active' : ''}}">
+			<li bindonce="favorites" ng-repeat="data in favorites track by $index" ng-click="selectDesign(data)" class="{{data.active ? 'active' : ''}}">
 				<div class="designer f-cb">
 					<div class="info f-fl">
-						<a bo-href-i="/tpl/design/home.html?{{data._id}}" class="head f-fl" target="_blank">
+						<a bo-href-i="/tpl/designer/{{data._id}}" class="head f-fl" target="_blank">
 							<img bo-src-i="/api/v2/web/thumbnail2/70/70/{{data.imageid}}" bo-if="data.imageid" />
 						</a>
 						<dl class="f-fl">
 							<dt>
-								<a bo-href-i="/tpl/design/home.html?{{data._id}}" bo-text="data.username" target="_blank"></a>
+								<a bo-href-i="/tpl/designer/{{data._id}}" bo-text="data.username" target="_blank"></a>
 								<span><i>V</i>认证设计师</span>
 							</dt>
 							<dd><i bo-text="data.city" bo-if="data.district != '请选择市'"></i><i bo-text="data.district" bo-if="data.district != '请选择县/区'"></i></dd>
@@ -78,7 +79,7 @@
 	</div>
 </div>
 <div class="alert-tips">
-	<div my-alert type="warning" ng-show="bookingPrompt" text="您已经预约了3名设计师"></div>
+	<div my-alert type="warning" ng-show="bookingPrompt" text="{{bookingTips}}"></div>
 </div>
 <div class="k-motai" ng-if="booking.motaiDone">
 	<div class="motai done">

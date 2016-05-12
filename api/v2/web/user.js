@@ -19,6 +19,7 @@ const _ = require('lodash');
 const sms = require('../../../common/sms');
 const authMiddleWare = require('../../../middlewares/auth');
 const message_util = require('../../../common/message_util');
+const pc_web_header = require('../../../business/pc_web_header');
 
 exports.user_my_info = function (req, res, next) {
   let userid = req.params._id || ApiUtil.getUserid(req);
@@ -321,85 +322,13 @@ exports.user_evaluate_designer = function (req, res, next) {
 }
 
 exports.user_statistic_info = function (req, res, next) {
-  let _id = ApiUtil.getUserid(req);
-  let ep = eventproxy();
+  const _id = ApiUtil.getUserid(req);
+  const usertype = ApiUtil.getUsertype(req);
+  const ep = eventproxy();
   ep.fail(next);
 
-  async.parallel({
-    requirement_count: function (callback) {
-      Requirement.count({
-        userid: _id,
-      }, callback);
-    },
-    favorite: function (callback) {
-      Favorite.findOne({
-        userid: _id,
-      }, callback);
-    },
-    comment_message_count: function (callback) {
-      UserMessage.count({
-        userid: _id,
-        status: type.message_status_unread,
-        message_type: {
-          $in: [type.user_message_type_comment_plan, type.user_message_type_comment_process_item]
-        }
-      }, callback);
-    },
-    requirement_message_count: function (callback) {
-      UserMessage.count({
-        userid: _id,
-        status: type.message_status_unread,
-        message_type: {
-          $in: [type.user_message_type_designer_respond, type.user_message_type_designer_reject, type.user_message_type_designer_upload_plan,
-            type.user_message_type_designer_config_contract, type.user_message_type_designer_remind_ok_house_checked
-          ]
-        }
-      }, callback);
-    },
-    platform_message_count: function (callback) {
-      UserMessage.count({
-        userid: _id,
-        status: type.message_status_unread,
-        message_type: {
-          $in: [type.user_message_type_platform_notification]
-        }
-      }, callback);
-    },
-    user: function (callback) {
-      User.findOne({
-        _id: _id,
-      }, {
-        username: 1,
-        imageid: 1,
-      }, callback);
-    },
-  }, ep.done(function (result) {
-    if (!result.user) {
-      return res.sendErrMsg('没有登录');
-    }
-
-    let favorite_product_count = 0;
-    let favorite_designer_count = 0;
-    if (result.favorite) {
-      if (result.favorite.favorite_product) {
-        favorite_product_count = result.favorite.favorite_product.length;
-      }
-
-      if (result.favorite.favorite_designer) {
-        favorite_designer_count = result.favorite.favorite_designer.length;
-      }
-    }
-
-    res.sendData({
-      username: result.user.username,
-      imageid: result.user.imageid,
-      requirement_count: result.requirement_count,
-      favorite_product_count: favorite_product_count,
-      favorite_designer_count: favorite_designer_count,
-      platform_message_count: result.platform_message_count,
-      requirement_message_count: result.requirement_message_count,
-      comment_message_count: result.comment_message_count,
-    });
+  pc_web_header.statistic_info(_id, usertype, ep.done(function (data) {
+    res.sendData(data.user_statistic_info);
   }));
 }
 

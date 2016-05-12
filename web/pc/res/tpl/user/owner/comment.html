@@ -10,8 +10,8 @@
         </div>
         <div ng-if="comment.list && comment.list.length != 0">
             <ul class="m-commentList">
-                <li bindonce="comment.list" ng-repeat="data in comment.list">
-                    <a bo-href-i="/tpl/design/home.html?{{data.designer._id}}" class="head">
+                <li bindonce="comment.list" ng-repeat="data in comment.list track by $index">
+                    <a bo-href-i="/tpl/designer/{{data.designer._id}}" class="head">
                         <img bo-src-i="/api/v2/web/thumbnail2/40/40/{{data.designer.imageid}}" bo-if="data.designer.imageid" />
                     </a>
                     <div class="panel">

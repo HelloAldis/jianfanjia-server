@@ -1,6 +1,6 @@
 <div ng-if="noticeList.list && noticeList.list.length != 0">
     <ul class="m-remindList noticeList">
-        <li bindonce="noticeList.list" ng-repeat="data in noticeList.list">
+        <li bindonce="noticeList.list" ng-repeat="data in noticeList.list track by $index">
             <div class="content f-cb">
                 <div class="info f-fl" ng-click="noticeList.goto(data)">
                     <h4>

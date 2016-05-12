@@ -41,7 +41,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
             this.setfilter();
             this.getfilter();
             goto.init();
-            this.top = this.list.offset().top;
+            this.top = this.article.offset().top+20;
         },
         hot : function(){
             var self = this;
@@ -150,8 +150,8 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
         createList  :  function(data,i){
             return arr = [
                    ' <li '+(i%3 == 0 ? 'class="first"' : '')+'>',
-                        '<a href="/tpl/article/detail.html?pid='+data._id+'" class="img" target="_blank"><img src="/api/v2/web/thumbnail2/388/165/'+data.cover_imageid+'" alt="'+data.title+'"></a>',
-                        '<h4><a href="/tpl/article/detail.html?pid='+data._id+'" target="_blank" title="'+data.title+'">'+data.title+'</a></h4>',
+                        '<a href="/tpl/article/strategy/'+data._id+'" class="img" target="_blank"><img src="/api/v2/web/thumbnail2/388/165/'+data.cover_imageid+'" alt="'+data.title+'"></a>',
+                        '<h4><a href="/tpl/article/strategy/'+data._id+'" target="_blank" title="'+data.title+'">'+data.title+'</a></h4>',
                         '<p>'+_.trunc(data.description, {'length': 40})+'</p>',
                     '</li>'
                 ].join('');
@@ -207,7 +207,6 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                         if($(this).hasClass('current')){
                             return ;
                         }
-                        self.top = self.list.offset().top;
                         var index = $(this).attr("href").match(/\d+(\.\d+)?/g)[0]
                         self.toFrom = (index-1)*9;
                         History.pushState({state:index}, "装修攻略--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第 "+index+" 页", "?page="+index+'&status='+self.status);

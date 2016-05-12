@@ -33,14 +33,27 @@ require(['jquery','index/user'],function($,User){
 require(['jquery','index/tabs','index/Scrollswitch'],function($,Tabs,Scrollswitch){
     var $designers = $('#j-designers');
     var $designersList = $designers.find('.list');
-    var list = new Scrollswitch($('#j-potter'),5);
+    var list = new Scrollswitch({
+            id : '#j-potter',
+            count : 5,
+            offset : $('#j-potter').offset().top
+        });
         list.init();
-    var list = new Scrollswitch($designersList.eq(0),10);
+    var list = new Scrollswitch({
+            id : $designersList.eq(0),
+            count : 10,
+            offset : $designers.offset().top
+        });
         list.init();
     var designer = new Tabs('#j-designers','click',function(index){
         list.stop();
-        list = new Scrollswitch($designersList.eq(index),10);
+        list = new Scrollswitch({
+            id : $designersList.eq(index),
+            count : 10,
+            offset : $designers.offset().top
+        });
         list.init();
+        list.loadimg();
     });
     designer.init();
 });

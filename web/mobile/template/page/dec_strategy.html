@@ -5,9 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
   <meta name="renderer" content="webkit" />
-  <title><%= dec_strategy.title %>--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家</title>
-  <meta name="description" content="<%= dec_strategy.description %>">
-  <meta name="keywords" content="<%= dec_strategy.keywords %>">
+  <title><%= data.dec_strategy.title %>--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家</title>
+  <meta name="description" content="<%= data.dec_strategy.description %>">
+  <meta name="keywords" content="<%= data.dec_strategy.keywords %>">
   <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
   <script>
     var Dpr = 1, uAgent = window.navigator.userAgent;
@@ -164,21 +164,20 @@
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 2; /* number of lines to show */
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
-
   </style>
 </head>
 <body>
 <main>
   <article>
     <header>
-      <h1><%= dec_strategy.title %></h1>
+      <h1><%= data.dec_strategy.title %></h1>
     </header>
     <section>
       <div class="content" id="content">
-        <%- dec_strategy.content %>
+        <%- data.dec_strategy.content %>
       </div>
     </section>
     <footer>
@@ -190,11 +189,11 @@
     <div id="text"></div>
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <% for(var i=0; i < associate_articles.length; i++){%>
+        <% for(var i=0; i < data.associate_articles.length; i++){%>
         <section class="swiper-slide">
-          <a href="/view/article/detail.html?pid=<%= associate_articles[i]._id %>">
-            <img src="/api/v2/web/thumbnail2/220/140/<%= associate_articles[i].cover_imageid %>">
-            <span><%= associate_articles[i].title %></span>
+          <a href="/tpl/article/strategy/<%= data.associate_articles[i]._id %>">
+            <img src="/api/v2/web/thumbnail2/220/140/<%= data.associate_articles[i].cover_imageid %>">
+            <span><%= data.associate_articles[i].title %></span>
           </a>
         </section>
         <%}%>

@@ -2,7 +2,8 @@ require.config({
     baseUrl: '/static/js/',
     paths  : {
         jquery: 'lib/jquery',
-        lodash : 'lib/lodash'
+        lodash : 'lib/lodash',
+        lazyload : 'lib/lazyload'
     },
     shim   : {
         'jquery.cookie': {
@@ -18,6 +19,13 @@ require.config({
             deps: ['jquery']
         }
     }
+});
+require(['jquery','lazyload'],function($){
+    $(function(){
+        $("img.lazyimg").lazyload({
+            effect : "fadeIn"
+        });
+    });
 });
 require(['design/potter'],function(Potter){
     var potter = new Potter("#j-potter");
@@ -72,7 +80,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
             this.defaultSort();   //默认排序操作
             this.filterfn();     //筛选操作
             this.submitBtn();    //搜索按钮操作
-            this.top = this.list.offset().top;   //获取列表top，供分页切换跳转列表顶部位置
+            this.top = this.design.offset().top+20;   //获取列表top，供分页切换跳转列表顶部位置
 		},
         submitBtn : function(){     //搜索按钮
             var submitBtn = this.search.find('form'),
@@ -134,9 +142,9 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
 				houseType = '',
 				style = '<dd class="f-cb">',
 				product = '<ul>';
-				arr.push('<a href="/tpl/design/home.html?'+data._id+'" class="head"><img src="/api/v2/web/thumbnail2/90/90/'+data.imageid+'" alt="'+data.username+'"></a>');
+				arr.push('<a href="/tpl/designer/'+data._id+'" class="u-head u-head-w90 u-head-radius"><img src="/api/v2/web/thumbnail2/90/90/'+data.imageid+'" alt="'+data.username+'" src="../../static/img/public/load.gif"></a>');
 				arr.push('<dl><dt>');
-				arr.push('<a href="/tpl/design/home.html?'+data._id+'"><strong>'+data.username+'</strong></a>');
+				arr.push('<a href="/tpl/designer/'+data._id+'"><strong>'+data.username+'</strong></a>');
                 if(data.tags[0] === '暖暖走心'){
                    arr.push('<span class="tag tag-0">暖暖走心</span>');
                 }else if(data.tags[0] === '新锐先锋'){
@@ -181,14 +189,14 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
 				arr.push('<dl><dt>'+( data.design_fee_range == undefined ? '0' : globalData.price_area(data.design_fee_range))+'</dt><dd>设计费(元/m&sup2;)</dd></dl>');
 				arr.push('</div></div></div><div class="product">');
 				for (var i = 0; i < 3; i++) {
-					product += '<li><a class="loadImg" href="javascript:;"><img src="../../static/img/public/load.gif" alt="'+data.username+'的作品" /></a></li>'
+					product += '<li><a class="loadImg" href="javascript:;"><img class="lazyimg" data-original="" src="../../static/img/public/load.gif" alt="'+data.username+'的作品" /></a></li>'
 				};
 				product += '</ul>';
 				arr.push(product);
 				arr.push('</div></li>');
 				return arr.join('');
 		},
-		loadImg   :  function(li){      //利用缓存加载作品图片
+		cacheImg   :  function(li){      //利用缓存加载作品图片
 			var self = this;
 			li.each(function(index, el) {
 				var uid = $(el).data('uid');
@@ -221,7 +229,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
 			});
 			function eachImg(obj,arr){
 				$.each(arr,function(i,v){
-					obj.find('a').eq(i).attr('href',"detail.html?"+v._id).removeClass('.loadImg').find('img').attr({'src' : '/api/v2/web/thumbnail2/280/220/'+v.images[0].imageid , 'alt' : v.cell});
+					obj.find('a').eq(i).attr('href',"detail.html?"+v._id).removeClass('.loadImg').find('img').attr('src' , '/api/v2/web/thumbnail2/280/220/'+v.images[0].imageid).attr('alt',v.cell);
 				})
 			}
 		},
@@ -252,11 +260,10 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                         dataArr.push(self.createList(arr.designers[i]));
                     }
                     self.list.html(dataArr);
-                    self.loadImg(self.list.find('li'));
+                    self.cacheImg(self.list.find('li'));
                     self.listTab(self.toQuery);
                     obj.find('.btns').on('click',function(ev){
                         ev.preventDefault();
-                        self.top = self.list.offset().top;
                         if($(this).hasClass('current')){
                             return ;
                         }

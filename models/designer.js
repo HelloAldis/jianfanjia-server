@@ -216,6 +216,9 @@ var DesignerSchema = new Schema({
     type: Number,
     default: 1,
   },
+  tags: {
+    type: [String]
+  },
 });
 
 DesignerSchema.index({

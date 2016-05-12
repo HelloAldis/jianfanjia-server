@@ -4,10 +4,6 @@ var eventproxy = require('eventproxy');
 var fs = require('fs');
 var path = require('path');
 
-exports.index = function (req, res, next) {
-  res.redirect('/tpl/index/index.html');
-}
-
 exports.homePage = function (req, res, next) {
   var usertype = ApiUtil.getUsertype(req);
 

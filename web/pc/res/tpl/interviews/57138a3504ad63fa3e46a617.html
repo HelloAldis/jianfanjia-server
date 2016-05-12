@@ -1,0 +1,297 @@
+<!DOCTYPE HTML>
+    <html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+        <meta name="renderer" content="webkit" />
+        <!--[if lt IE 9]>
+              <script type="text/javascript">
+                  var isIE = window.navigator.userAgent.toLocaleLowerCase().indexOf('msie') !== -1,
+                        isLteIE8 = isIE && !+[1,],
+                        dm = document.documentMode,
+                        isIE5, isIE6, isIE7;
+                  if (dm){
+                      isIE5 = dm === 5;
+                      isIE6 = dm === 6;
+                      isIE7 = dm === 7;
+                  }else{
+                      isIE5 = (isLteIE8 && (!document.compatMode || document.compatMode === 'BackCompat'));
+                      isIE6 = isLteIE8 && !isIE5 && !XMLHttpRequest;
+                      isIE7 = isLteIE8 && !isIE6 && !document.documentMode;
+                  }
+                  if(isIE5 || isIE6 || isIE7){window.location.href = "/tpl/other/error.html";}
+              </script>
+        <![endif]-->
+        <title>首页--互联网装修|武汉装修|设计师平台|简繁家互联网装修平台</title>
+        <meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
+        <meta name="keywords" content="互联网装修,武汉装修,设计师平台,简繁家互联网装修平台,家装施工监理">
+        <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+        <!--[if lt IE 9]>
+          <script type="text/javascript" src="/static/js/lib/ie8.js"></script>
+        <![endif]-->
+        <style type="text/css">
+            .g-interviews{
+                padding-top: 0;
+                background-color: #ebeced;
+            }
+            .g-interviews .banner{
+                position: relative;
+                height: 320px;
+                background:url(/static/img/interviews/banner-57138a3504ad63fa3e46a617.jpg) 0 0 no-repeat;
+            }
+            .g-interviews .banner .mask{
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                z-index: 0;
+                background-color: #000;
+                opacity: 0.4;
+                filter: alpha(opacity=40);
+            }
+            .g-interviews .banner hgroup{
+                position: relative;
+                z-index: 10;
+                padding-top: 110px;
+                color: #fff;
+            }
+            .g-interviews .banner h2{
+                font-size: 28px;
+                line-height: 34px;
+            }
+            .g-interviews .banner h2 mark{
+                font-size: 18px;
+                color: #000;
+                line-height: 28px;
+                padding: 0 8px;
+                border-radius: 6px;
+                background: #fff;
+                margin: 3px 0 0 20px;
+            }
+            .g-interviews .banner h3{
+                font-size: 48px;
+                line-height: 80px;
+                font-weight: bold;
+            }
+            .g-interviews .main{
+                padding: 20px 0 50px;
+            }
+            .g-interviews .m-sd,.g-interviews .m-mn{
+                width: 258px;
+                min-height: 600px;
+                background-color: #fff;
+                border: 1px solid #e5e5e5;
+            }
+            .g-interviews .m-mn{
+                width: 898px;
+            }
+            .g-interviews .m-mn ul{
+                padding: 40px;
+            }
+            .g-interviews .m-mn li{
+                position: relative;
+                padding-left: 80px;
+                min-height: 90px;
+            }
+            .g-interviews .m-mn .u-head{
+                position: absolute;
+                left:0;
+                top:5px;
+            }
+            .g-interviews .m-mn li p{
+                padding-bottom: 20px;
+                font-size: 14px;
+                line-height: 22px;
+                color: #999;
+            }
+            .g-interviews .m-mn .reply p{
+                color: #61687a;
+            }
+            .g-interviews .m-sd .u-head{
+                display: block;
+                width: 128px;
+                height: 128px;
+                margin: 0 auto;
+                border: 4px solid #ededed;
+            }
+            .g-interviews .m-sd .u-head:hover{
+                border-color: #fe7004;
+            }
+            .g-interviews .m-sdc{
+                padding-top: 40px;
+            }
+            .g-interviews .m-sd h3{
+                padding-top: 20px;
+                font-size: 24px;
+                line-height: 42px;
+                font-weight: bold;
+                color: #383d48;
+            }
+            .g-interviews .m-sd address{
+                z-index: 14;
+                line-height: 22px;
+                color: #61687a;
+            }
+            .g-interviews .m-sd dt{
+                padding-top: 30px;
+                font-size: 14px;
+                line-height: 26px;
+                color: #383d48;
+            }
+            .g-interviews .m-sd dd{
+                width: 170px;
+                margin: 0 auto;
+                font-size: 0;
+                line-height: 22px;
+                color: #999;
+            }
+            .g-interviews .m-sd dd span{
+                margin-right: 12px;
+                font-size: 14px;
+            }
+            .g-interviews .m-sd address .iconfont2{
+                margin-right: 10px;
+            }
+            .g-interviews .m-sd .btns{
+                margin-top: 30px;
+                padding: 30px 0;
+                text-align: center;
+                border-top: 1px dashed #e5e5e5;
+            }
+            .g-interviews .m-sd .loadData{
+                font-size: 14px;
+                color: #999;
+                line-height:100px;
+            }
+        </style>
+</head>
+<body>
+    <div class="g-tb g-wa">
+        <div class="g-wp f-cb">
+            <a href="/tpl/download/index.html" class="m-app f-fl"><span>APP下载</span></a>
+            <a href="/zt/merchants/index.html" class="m-events f-fr">简繁家主材火热招商中</a>
+            <div class="m-user f-fr" id="j-user"></div>
+        </div>
+    </div>
+    <header class="g-hd g-wa" id="j-hd">
+        <div class="g-wp f-cb">
+            <hgroup class="m-logo f-fl">
+                <h1><a href="/">简繁家</a></h1>
+                <h2>我的设计师专单平台</h2>
+            </hgroup>
+            <div class="m-sch f-fl" id="j-sch"></div>
+            <div class="m-slogan f-fr" id="j-slogan">
+                <h3>简繁家实力保障</h3>
+                <p>知名风投投资</p>
+            </div>
+        </div>
+    </header>
+    <nav class="g-nav g-wa">
+        <div class="g-wp">
+            <ul class="m-nav f-cb">
+                <li class="active"><a href="/">首页</a></li>
+                <li><a href="/tpl/design/index.html">设计师</a></li>
+                <li><a href="/tpl/mito/index.html">装修美图 </a></li>
+                <li><a href="/tpl/live/index.html">装修直播</a></li>
+                <li><a href="/tpl/article/index.html">装修攻略</a></li>
+                <li><a href="/tpl/help/index.html">你问我答</a></li>
+            </ul>
+            <a href="/tpl/user/owner.html#release" class="m-release bounce" id="j-release"><span><i></i></span>免费获取三套方案</a>
+        </div>
+    </nav>
+    <main class="g-bd g-wa g-interviews">
+        <header class="banner">
+            <hgroup class="g-wp">
+                <h2>简繁家设计师专访<mark>01期</mark></h2>
+                <h3>优秀的设计师要充分发挥客户每一分预算的价值</h3>
+            </hgroup>
+            <span class="mask"></span>
+        </header>
+        <section class="g-wp main f-cb">
+            <article class="f-fl m-mn">
+                <ul>
+                    <li class="issue">
+                        <img src="/static/img/design/head.jpg" alt="简繁家" class="u-head u-head-w60">
+                        <p>作为入行15年的“大咖”级设计师，胡亮第一眼看起来并不会给人难以接近的感觉，直爽、健谈、认真是他的标签。在访谈过程中，提到有关设计专业方面的内容时，他就会显得非常严肃，可以看出对工作他是非常认真、负责的。通过这次的专访，我们可以全面了解这样一位行业资深设计师的故事。</p>
+                    </li>
+                    <li class="reply">
+                        <img src="/api/v2/web/thumbnail2/60/60/57159a3e04ad63fa3e46a680" alt="胡亮" class="u-head u-head-w60">
+                        <p>大家好，我是胡亮，非常开心来简繁家跟大家分享我的经历。</p>
+                    </li>
+                    <li class="issue">
+                        <img src="/static/img/design/head.jpg" alt="简繁家" class="u-head u-head-w60">
+                        <p>您是如何走上设计师之路的，获得过哪些重量级的奖项？</p>
+                    </li>
+                    <li class="reply">
+                        <img src="/api/v2/web/thumbnail2/60/60/57159a3e04ad63fa3e46a680" alt="胡亮" class="u-head u-head-w60">
+                        <p>与很多设计师不同，我之所以从事室内设计师行业，更多的还是受到家庭的影响。我的爷爷辈开始就进入了建筑、设计行业，这也对我产生了重要的影响，早早就进入了这一领域。我从14岁时就开始入行，经过了15年的摸爬滚打，设计的很多作品都获得了行业内的各种重要奖项与肯定。相对而言工装设计更多，如湖北省档案馆、湖北省电影总公司电影院等等，都获得了设计工程类一等奖，这是对我能力和工作态度的最好肯定。</p>
+                    </li>
+                    <li class="issue">
+                        <img src="/static/img/design/head.jpg" alt="简繁家" class="u-head u-head-w60">
+                        <p>您的设计理念是怎样的，相对更喜欢、或更擅长哪一类设计风格？</p>
+                    </li>
+                    <li class="reply">
+                        <img src="/api/v2/web/thumbnail2/60/60/57159a3e04ad63fa3e46a680" alt="胡亮" class="u-head u-head-w60">
+                        <p>每一位设计师都有自己最擅长的装饰风格，我也是如此。相对而言古典、纯中式的装修风格，此外现代中式、极简风格也是我 的强项。目前很多消费者都喜欢以点和面结合的极简元素。</p>
+                    </li>
+                    <li class="issue">
+                        <img src="/static/img/design/head.jpg" alt="简繁家" class="u-head u-head-w60">
+                        <p>“简繁家”互联网装修平台的哪些特点吸引了您？</p>
+                    </li>
+                    <li class="reply">
+                        <img src="/api/v2/web/thumbnail2/60/60/57159a3e04ad63fa3e46a680" alt="胡亮" class="u-head u-head-w60">
+                        <p>“简繁家”互联网装修平台则为设计师们提供了一个广阔的平台，充分发挥设计师自己的价值，同时也可以帮助年轻设计师成长，这也是胡亮选择与“简繁家”合作的重要原因。</p>
+                    </li>
+                    <li class="issue">
+                        <img src="/static/img/design/head.jpg" alt="简繁家" class="u-head u-head-w60">
+                        <p>从业这么多年的装修设计，过去的装修行业跟现在有什么变化，未来有哪些怎样的趋势？</p>
+                    </li>
+                    <li class="reply">
+                        <img src="/api/v2/web/thumbnail2/60/60/57159a3e04ad63fa3e46a680" alt="胡亮" class="u-head u-head-w60">
+                        <p>我认为最近这么多年中，中式装饰设计风格改变并不大，进行的只是一些微创新，不过由于装饰材料有些新的变化，因此他可以将这些新的材料使用在最新的作品中，给消费者不同的感受，不过在大体风格与趋势方面暂时不会有太多的革新。<br />
+                        <br />
+                        对于目前的室内设计行业，胡亮也发表了些自己的看法，他认为很多设计师水平比较有限，当客户提出一些需求和想法时，这些设计师只能被动的去接受和修改，并且过于被客户的预算所限制。实际上在预算方面，设计师应该与客户是对等的，优秀的设计师应该充分利用每一分钱预算的价值，如果有些设计师认为无法接受客户的预算，那么只能说明他的水平还不够。所以我始终认为设计是有生命的，设计师必须加入自己的思考与想法，才能充分满足客户的需求，为他们提供更完美的方案。</p>
+                    </li>
+                    <li class="issue">
+                        <img src="/static/img/design/head.jpg" alt="简繁家" class="u-head u-head-w60">
+                        <p>对新入行、想成就一番大事业的室内设计师，您有哪些建议？</p>
+                    </li>
+                    <li class="reply">
+                        <img src="/api/v2/web/thumbnail2/60/60/57159a3e04ad63fa3e46a680" alt="胡亮" class="u-head u-head-w60">
+                        <p>对于刚刚走向工作岗位，并渴望成就一番事业的年轻设计师们而言，我认为最重要的就是吃苦耐劳。我刚入行时的前两年做的工作就是从事技术工种的实践以及一些纯体力劳动，但从这些劳动中我也学到了不少东西，对于我自己今后的设计生涯也提供了不少宝贵的经验。年轻设计师应该善于学习，并且要多听、多问，主动去改进自身的不足，这样才能不断增加经验和能力，成为业内尊重的设计师。</p>
+                    </li>
+                </ul>
+            </article>
+            <aside class="f-fr m-sd f-tac">
+                <div class="m-sdc" id="j-interviews">
+                    <p class="loadData">正在加载数据。。。。</p>
+                </div>
+            </aside>
+        </section>
+    </main>
+    <footer class="g-ft g-wa">
+        <div class="g-wp">
+            <ul>
+                <li class="first"><a href="/tpl/about/owner.html"><strong>业主指南</strong><em>业主指南</em></a></li>
+                <li><a href="/tpl/about/design.html"><strong>设计师指南</strong><em>设计师指南</em></a></li>
+                <li><a href="/tpl/article/index.html"><strong>装修攻略</strong><em>装修攻略</em></a></li>
+                <li><a href="/tpl/about/index.html"><strong>关于我们</strong><em>关于我们</em></a></li>
+                <li class="last"><a href="/tpl/about/contact.html"><strong>联系我们</strong><em>联系我们</em></a></li>
+            </ul>
+            <p>免责声明：本网站部分内容由用户自行上传，如权利人发现存在误传其作品情形，请及时与本站联系。</p>
+            <p>Copyright © 2015-2016 jianfanjia.com   All Rights Reserved   武汉家易装科技有限公司   隐私权政策 鄂ICP备15014103号</p>
+        </div>
+    </footer>
+    <script type="text/javascript" data-main="/static/js/interviews/index" src="/static/js/lib/require.js"></script>
+</body>
+</html>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?66d38d3af612ed7c0979211372aa9682";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>

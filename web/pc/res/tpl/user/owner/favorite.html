@@ -5,7 +5,7 @@
 	<div class="m-ct">
 		<div ng-if="favoriteProduct && favoriteProduct.length != 0">
 			<ul class="list f-cb">
-				<li ng-repeat="list in favoriteProduct" bindonce="favoriteProduct">
+				<li ng-repeat="list in favoriteProduct track by $index" bindonce="favoriteProduct">
 					<div class="deleted" bo-if="list.is_deleted">
 						<span><i class="iconfont2">&#xe626;</i></span>
 						<p>原内容已被作者删除</p>
@@ -13,7 +13,7 @@
 					</div>
 					<div class="boxs" bo-if="!list.is_deleted">
 						<a target="_blank" bo-href-i="/tpl/design/detail.html?{{list._id}}" class="img">
-							<img bo-src-i="/api/v2/web/thumbnail/448/{{list.images[0].imageid}}" bo-alt="list.cell">
+							<img bo-src-i="/api/v2/web/thumbnail2/448/270/{{list.images[0].imageid}}" bo-alt="list.cell">
 						</a>
 						<h4><a bo-href-i="/tpl/design/detail.html?{{list._id}}"  target="_blank" bo-text="list.cell"></a><span bo-if="list.province">(<i bo-text="list.province"></i> <i bo-text="list.city"></i>
 							<i bo-text="list.district"></i>)</span></h4>

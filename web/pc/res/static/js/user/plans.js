@@ -364,12 +364,12 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             detail.append(ul);
             var description = $('<div class="description f-cb"></div>');
             description.html(
-                '<a href="/tpl/design/home.html?'+data.designer._id+'" class="head f-fl">' +
+                '<a href="/tpl/designer/'+data.designer._id+'" class="head f-fl">' +
                 (data.designer.imageid ? '<img src="/api/v2/web/thumbnail2/50/50/'+data.designer.imageid+'" alt="" />' : '')+
                 '</a>' +
                 '<dl class="f-fl">' +
                 '<dt>' +
-                '<a href="/tpl/design/home.html?'+data.designer._id+'">'+data.designer.username+'</a><span><i>v</i>认证设计师</span>' +
+                '<a href="/tpl/designer/'+data.designer._id+'">'+data.designer.username+'</a><span><i>v</i>认证设计师</span>' +
                 '</dt>' +
                 '<dd>' +
                 '<span class="sub"></span>' +

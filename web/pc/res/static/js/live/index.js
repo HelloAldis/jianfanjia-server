@@ -40,7 +40,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
             this.setfilter();
             this.getfilter();
             goto.init();
-            this.top = this.list.offset().top;
+            this.top = this.live.offset().top+20;
         },
         loadList : function(){
             var self = this;
@@ -85,7 +85,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                                 '<span>直播时间</span><time>'+this.format(data.start_at , 'yyyy年MM月dd日')+'</time>',
                             '</div><div class="f-cb"></div>',
                             '<div class="info">',
-                                '<a href="/tpl/design/home.html?'+data.designer._id+'" class="head"><img src="/api/v2/web/thumbnail2/40/40/'+data.designer.imageid+'" alt="'+data.designer.username+'"></a>',
+                                '<a href="/tpl/designer/'+data.designer._id+'" class="f-fl u-head u-head-w40 u-head-radius u-head-hover"><img src="/api/v2/web/thumbnail2/40/40/'+data.designer.imageid+'" alt="'+data.designer.username+'"></a>',
                                 '<a href="/tpl/design/home.html?'+data.designer._id+'" class="name"><strong>'+data.designer.username+'</strong></a>',
                                 '<span class="auth"><i class="iconfont" title="实名认证">&#xe634;</i><i class="iconfont" title="认证设计师">&#xe62a;</i></span>',
                             '</div>',
@@ -148,7 +148,6 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                         if($(this).hasClass('current')){
                             return ;
                         }
-                        self.top = self.list.offset().top;
                         var index = $(this).attr("href").match(/\d+(\.\d+)?/g)[0]
                         self.toFrom = (index-1)*5;
                         History.pushState({state:index}, "装修直播--互联网设计师专单平台|装修效果图|装修流程|施工监理_简繁家 第 "+index+" 页", "?page="+index+'&status='+self.status);

@@ -79,7 +79,7 @@ gulp.task('release', function (callback) {
     });
 });
 
-gulp.task('sourcecode', function () {
+gulp.task('code', function () {
   return gulp.src(['api/**/*.js'])
     .pipe(concat('code.txt'))
     .pipe(gulp.dest('./'));

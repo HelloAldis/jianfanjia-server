@@ -307,7 +307,7 @@
             		}
             		$http({
 	            		method : "POST",
-	            		url : RootUrl+'api/v2/share',
+	            		url : '/api/v2/web/share/add',
 	            		headers: {
 							'Content-Type': 'application/json; charset=utf-8'
 					    },

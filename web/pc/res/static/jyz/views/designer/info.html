@@ -59,11 +59,13 @@
 	</div>
 	<div class="form-group">
 		<label for="">小头像</label>
-		<img src="{{head_img1}}" class="img-responsive" alt="暂无图片">
+		<img ng-if="!user.imageid" src="jyz/img/headpic.jpg" class="img-responsive" alt="暂无图片">
+		<img ng-if="user.imageid" ng-src="/api/v2/web/thumbnail/200/{{user.imageid}}" err-src="jyz/img/headpic.jpg" class="img-responsive" alt="暂无图片">
 	</div>
 	<div class="form-group">
 		<label for="">大头像</label>
-		<img src="{{head_img2}}" class="img-responsive" alt="暂无图片">
+		<img ng-if="!user.big_imageid" src="jyz/img/headpic.jpg" class="img-responsive" alt="暂无图片">
+		<img ng-if="user.big_imageid" ng-src="/api/v2/web/thumbnail/500/{{user.big_imageid}}" class="img-responsive" alt="暂无图片">
 	</div>
 	<div class="form-group">
 		<label for="">认证时间</label>
@@ -85,19 +87,19 @@
 	<div class="form-group">
 		<label for="">装修类别（最少1项）</label>
 		<p class="lead">
-			<span ng-repeat="k in user.dec_types"> {{ k | decTypeFilter}} </span>
+			<span ng-repeat="m in user.dec_types track by $index"> {{ m | decTypeFilter}} </span>
 		</p>
 	</div>
 	<div class="form-group">
 		<label for="">擅长风格（最多3项）</label>
 		<p class="lead">
-			<span ng-repeat="k in user.dec_styles"> {{ k | decStyleFilter}} </span>
+			<span ng-repeat="n in user.dec_styles track by $index"> {{ n | decStyleFilter}} </span>
 		</p>
 	</div>
 	<div class="form-group">
 		<label for="">接单区域（最少1项）</label>
 		<p class="lead">
-			<span ng-repeat="k in user.dec_districts"> {{ k }} </span>
+			<span ng-repeat="k in user.dec_districts track by $index"> {{ k }} </span>
 		</p>
 	</div>
 	<div class="form-group">

@@ -211,7 +211,8 @@ angular.module('controllers', [])
                 costserror : false,
                 costsbasis : 0,
                 costsdiy : 0,
-                coststotal : 0
+                coststotal : 0,
+                potter : false
             }
             $scope.requiremtne = {
                 package_type : '0',
@@ -253,6 +254,9 @@ angular.module('controllers', [])
                     $scope.userRelease.costsbasis = 0;
                     $scope.userRelease.costsdiy = 0;
                 }
+                if(!!newValue && !/[^0-9.]/.test(newValue)){
+                    potter();
+                }
             });
             $scope.$watch('requiremtne.work_type',function(newValue){
                 if((newValue == 0 || newValue == 1) && ($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120)){
@@ -274,6 +278,7 @@ angular.module('controllers', [])
                     $scope.userRelease.coststotal = 0;
                     $scope.userRelease.costsdiy = 0;
                 }
+                potter();
             });
             $scope.$watch('requiremtne.total_price',function(newValue){
                 if(!!newValue && !/[^0-9.]/.test(newValue) && ($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120) && ($scope.requiremtne.work_type == 0 || $scope.requiremtne.work_type == 1)){
@@ -289,7 +294,28 @@ angular.module('controllers', [])
                     $scope.userRelease.coststotal = 0;
                     $scope.userRelease.costsdiy = 0;
                 }
+                if(!!newValue && !/[^0-9.]/.test(newValue)){
+                    potter();
+                }
             });
+            function potter(){
+                var work_type = $scope.requiremtne.work_type,
+                    potter,
+                    house_area = $scope.requiremtne.house_area,
+                    total_price = $scope.requiremtne.total_price*10000;
+                switch($scope.requiremtne.work_type){
+                    case '0': //半包  1000
+                        potter = total_price/house_area >= 1000;
+                    break;
+                    case '1': //全包  2500
+                        potter = total_price/house_area >= 2500;
+                    break;
+                    case '2': //纯设计  200
+                        potter = total_price/house_area >= 200;
+                    break;
+                }
+                $scope.userRelease.potter = potter;
+            }
             if($scope.userRelease.isRelease){        //发布新需求
                 userInfo.get().then(function(res){
                     if(res.data.data !== null){
@@ -318,6 +344,10 @@ angular.module('controllers', [])
                     if($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120 && $scope.requiremtne.work_type != 2){
                         $scope.requiremtne.package_type = 1;
                     }
+                }
+                //匠心定制
+                if($scope.userRelease.potter){
+                    $scope.requiremtne.package_type = 2;
                 }
                 //商装
                 if(type == 1){
@@ -386,7 +416,7 @@ angular.module('controllers', [])
                 if(bookingReg.test(url.split('/')[3])){
                     $scope.tab = 'booking';
                 }else{
-                    $scope.tab = url.split('/')[3]
+                    $scope.tab = url.split('/')[3];
                 }
             });
             userRequiremtne.get({"_id":$stateParams.id}).then(function(res){
@@ -476,6 +506,9 @@ angular.module('controllers', [])
                                     // 点击设计师
                                     $scope.selectDesignOff = false;
                                     $scope.selectDesign = function(data){
+                                        //清除定时器，防止重复开启，产生bug
+                                        $timeout.cancel(timer);
+                                        $scope.bookingPrompt = false;
                                         var len = $scope.ordersData.length;
                                         if(userRequiremtne.changeUId){
                                             data.active = true;
@@ -499,9 +532,20 @@ angular.module('controllers', [])
                                         }
                                         if(!data.active){
                                             if(($scope.orderDesigns.length+len) > 2){
-                                                //清除定时器，防止重复开启，产生bug
-                                                $timeout.cancel(timer);
                                                 //弹出超过三个设计师提示信息
+                                                $scope.bookingTips = "您已经预约了3名设计师";
+                                                $scope.bookingPrompt = true;
+                                                //3s后提示信息消失
+                                                timer = $timeout(function(){
+                                                    $scope.bookingPrompt = false;
+                                                    $timeout.cancel(timer);
+                                                },3000);
+                                                return ;
+                                            }
+                                            if(($scope.orderDesigns.length+len) == 1 && $scope.favorites === undefined){
+                                                //清除定时器，防止重复开启，产生bug
+                                                //弹出超过三个设计师提示信息
+                                                $scope.bookingTips = "您已经预约了一名匠心定制设计师";
                                                 $scope.bookingPrompt = true;
                                                 //3s后提示信息消失
                                                 timer = $timeout(function(){

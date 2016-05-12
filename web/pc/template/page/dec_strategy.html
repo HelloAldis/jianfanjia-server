@@ -18,7 +18,7 @@
               <p>
                 上一条：
                 <% if(data.previous_article.length == 1){%>
-                   <a href="/tpl/article/detail.html?pid=<%= previous_article[0]._id %>"><%= previous_article[0].title %></a>
+                   <a href="/tpl/article/strategy/<%= previous_article[0]._id %>"><%= previous_article[0].title %></a>
                 <%} else {%>
                    <span>这是第一条，没有上一条了</span>
                 <%}%>
@@ -26,7 +26,7 @@
               <p>
                 下一条：
                 <% if(data.next_article.length == 1){%>
-                  <a href="/tpl/article/detail.html?pid=<%= next_article[0]._id %>"><%= next_article[0].title %></a>
+                  <a href="/tpl/article/strategy/<%= next_article[0]._id %>"><%= next_article[0].title %></a>
                 <%} else {%>
                    <span>这是最后一条，没有下一条了</span>
                 <%}%>
@@ -39,7 +39,7 @@
           <h3>相关推荐</h3>
           <ul>
             <% for(var i=0; i < data.associate_articles.length; i++){%>
-              <li><a href="/tpl/article/detail.html?pid=<%= data.associate_articles[i]._id %>"><img src="/api/v2/web/thumbnail2/220/140/<%= data.associate_articles[i].cover_imageid %>" alt="<%= data.associate_articles[i].title %>"><span><%= data.associate_articles[i].title %></span></a></li>
+              <li><a href="/tpl/article/strategy/<%= data.associate_articles[i]._id %>"><img src="/api/v2/web/thumbnail2/220/140/<%= data.associate_articles[i].cover_imageid %>" alt="<%= data.associate_articles[i].title %>"><span><%= data.associate_articles[i].title %></span></a></li>
             <%}%>
           </ul>
         </div>

@@ -11,9 +11,9 @@ define(['jquery','index/Scrollswitch'], function($,Scrollswitch){
 		},
 		livebindEvent : function(){
 			var roll = new Scrollswitch({
-				id : this.id,
+				id : this.live,
 				count : 3,
-				offset : this.id.offset().top
+				offset : this.live.offset().top
 			});
 			roll.init();
 		},

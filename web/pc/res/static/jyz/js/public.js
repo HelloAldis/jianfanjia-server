@@ -308,10 +308,9 @@ $(function(){
 		var url = RootUrl+'api/v2/web/signout';
 		$.ajax({
 			url:url,
-			type: 'GET',
+			type: 'POST',
 			contentType : 'application/json; charset=utf-8',
 			dataType: 'json',
-			cache : false,
 			success: function(res){
 				if(res["msg"] === "success"){
 					$.removeCookie("username");
@@ -321,7 +320,6 @@ $(function(){
 				}else{
 					alert('提交失败')
 				}
-
 		   	}
 		});
 	});

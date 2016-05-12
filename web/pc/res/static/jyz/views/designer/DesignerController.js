@@ -482,30 +482,27 @@
       '$scope', '$rootScope', '$http', '$stateParams', '$modal',
       function ($scope, $rootScope, $http, $stateParams, $modal) {
         $scope.authType = "1" //全局标识，解决筛选和分页问题
-          /*
-                参数
-                 pageNo为页码
-                 itemsCount为记录的数量
-                 pageSize为每页显示数量
-                 */
-        function setPage(p, i, s) {
-          $scope.pageing = {
-            pageNo: p,
-            itemsCount: i,
-            pageSize: s
-          };
-        }
-        setPage(1, 0, 10)
+        //数据加载显示状态
+        $scope.loading = {
+          loadData: false,
+          notData: false
+        };
+        //分页控件
+        $scope.pagination = {
+          currentPage: 1,
+          totalItems: 0,
+          maxSize: 5,
+          pageChanged: function () {
+            loadList(this.currentPage, 10);
+          }
+        };
         $scope.list = function () {
           $scope.userList = [];
-          $scope.loadData = false;
-          loadList({
-            "from": (this.page.pageNo - 1) * 10,
-          })
+          $scope.loading.loadData = false;
+          loadList((this.page.pageNo - 1) * 10)
         };
-        $scope.loadData = false;
-
-        function loadList(data) {
+        loadList(1)
+        function loadList(from,limit,data) {
           var data = angular.extend({
             "query": {
               "auth_type": $scope.authType,
@@ -514,8 +511,8 @@
             "sort": {
               "_id": 1
             },
-            "from": 0,
-            "limit": 10
+            "from": (limit === undefined ? 0 : limit) * (from - 1),
+            "limit": (limit === undefined ? undefined : limit)
           }, data)
           $http({
             method: "POST",
@@ -523,13 +520,14 @@
             data: data
           }).then(function (resp) {
             //返回信息
-            $scope.userList = resp.data.data.products;
-            $scope.loadData = true;
-            setPage(1, resp.data.data.total, data.limit);
-            $scope.pagination = {
-              pageSize: 1,
-              pageSize: data.limit,
-              articleList: resp.data.data.total
+            if (resp.data.data.total === 0) {
+              $scope.loading.loadData = true;
+              $scope.loading.notData = true;
+            } else {
+              $scope.userList = resp.data.data.products;
+              $scope.pagination.totalItems = resp.data.data.total;
+              $scope.loading.loadData = true;
+              $scope.loading.notData = false;
             }
           }, function (resp) {
             //返回错误信息
@@ -642,13 +640,11 @@
       '$scope', '$rootScope', '$http', '$stateParams',
       function ($scope, $rootScope, $http, $stateParams) {
         $http({ //获取数据
-          method: "GET",
+          method: "POST",
           url: RootUrl + 'api/v2/web/admin/designer/' + $stateParams.id
         }).then(function (resp) {
           //返回信息
           $scope.user = resp.data.data;
-          $scope.head_img1 = $scope.user.imageid ? RootUrl + 'api/v2/web/thumbnail/200/' + $scope.user.imageid : 'jyz/img/headpic.jpg';
-          $scope.head_img2 = $scope.user.big_imageid ? RootUrl + 'api/v2/web/thumbnail/500/' + $scope.user.big_imageid : 'jyz/img/headpic.jpg';
           $scope.uid_img1 = $scope.user.uid_image1 ? RootUrl + 'api/v2/web/thumbnail/800/' + $scope.user.uid_image1 : "";
           $scope.uid_img2 = $scope.user.uid_image2 ? RootUrl + 'api/v2/web/thumbnail/800/' + $scope.user.uid_image2 : "";
           $scope.bank_img1 = $scope.user.bank_card_image1 ? RootUrl + 'api/v2/web/thumbnail/800/' + $scope.user.bank_card_image1 : "";

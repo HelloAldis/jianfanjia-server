@@ -1,12 +1,18 @@
-var eventproxy = require('eventproxy');
-var DecStrategy = require('../proxy').DecStrategy;
-var _ = require('lodash');
-var async = require('async');
-var type = require('../type');
-var limit = require('../middlewares/limit');
+'use strict'
+
+const eventproxy = require('eventproxy');
+const DecStrategy = require('../proxy').DecStrategy;
+const _ = require('lodash');
+const async = require('async');
+const type = require('../type');
+const limit = require('../middlewares/limit');
+const pc_web_header = require('../business/pc_web_header');
+const ApiUtil = require('../common/api_util');
 
 exports.dec_strategy_homepage = function (req, res, next) {
-  var _id = req.query.pid;
+  const _id = req.query.pid || req.params._id;
+  const userid = ApiUtil.getUserid(req);
+  const usertype = ApiUtil.getUsertype(req);
   var ep = eventproxy();
   ep.fail(next);
 
@@ -75,15 +81,22 @@ exports.dec_strategy_homepage = function (req, res, next) {
             limit: 4,
           }, callback);
         },
+        header_info: function (callback) {
+          if (req.isMobile) {
+            callback(null, undefined);
+          } else {
+            pc_web_header.statistic_info(userid, usertype, callback);
+          }
+        }
       }, ep.done(function (result) {
-        res.render('page/dec_strategy', {
+        res.ejs('page/dec_strategy', {
           dec_strategy: dec_strategy,
           previous_article: result.previous_article,
           next_article: result.next_article,
           associate_articles: result.associate_articles[0],
-        });
+          header_info: result.header_info
+        }, req);
       }));
-
 
       limit.perwhatperdaydo('dec_strategy_homepage', req.ip + _id,
         1,

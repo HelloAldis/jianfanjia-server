@@ -319,7 +319,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                         }
                     }
                     arr.push('</ul></div></div>');
-                    arr.push('<dl class="people f-fr"><dt>设计师</dt><dd><a href="/tpl/design/home.html?'+data.designer._id+'"><img src="/api/v2/web/thumbnail2/40/40/'+data.designer.imageid+'" alt="'+data.designer.username+'"><strong>'+data.designer.username+'</strong></a></dd>');
+                    arr.push('<dl class="people f-fr"><dt>设计师</dt><dd><a href="/tpl/designer/'+data.designer._id+'"><img class="u-head u-head-w40 u-head-radius" src="/api/v2/web/thumbnail2/40/40/'+data.designer.imageid+'" alt="'+data.designer.username+'"><strong>'+data.designer.username+'</strong></a></dd>');
                     arr.push('<dt>项目经理</dt><dd><span><i class="iconfont">&#xe602;</i><strong>'+data.manager+'</strong></span></dd></dl>');
                     this.info.html(arr.join('')).removeClass('hide');
                     this.createStep(data.process,process,data.progress);

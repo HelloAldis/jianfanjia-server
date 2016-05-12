@@ -346,33 +346,33 @@ var Search = function(){}
     },
     createOwnerPulldown : function(data){
       var arr = [
-            '<span class="arrow"><i></i></span><ul>',
-            '<li><a href="/tpl/user/owner.html#/release">免费发布装修需求</a></li>',
-            '<li><a href="/tpl/user/owner.html#/requirementList">装修需求列表<i>'+data.requirement_count+'</i></a></li>',
-            '<li><a href="/tpl/user/owner.html#/designer/1">我的意向设计师<i>'+data.favorite_designer_count+'</i></a></li>',
-            '<li><a href="/tpl/user/owner.html#/favorite/1">收藏作品<i>'+data.favorite_product_count+'</i></a></li>',
-            '<li><a href="/tpl/user/owner.html#/notice/list/1?type=4-99">系统通知<i>'+data.platform_message_count+'</i></a></li>',
-            '<li><a href="/tpl/user/owner.html#/remind/list/1?type=7-8-13-9-10">需求提醒<i>'+data.requirement_message_count+'</i></a></li>',
-            '<li><a href="/tpl/user/owner.html#/comment/1">评论<i>'+data.comment_message_count+'</i></a></li>',
-            '<li><a href="javascript:;" class="quit">退出登录</a></li>',
-            '</ul>'
-          ];
-        this.container.find('.user').html(arr.join(''));
+        '<span class="arrow"><i></i></span><ul>',
+        '<li><a href="/tpl/user/owner.html#/release">免费发布装修需求</a></li>',
+        '<li><a href="/tpl/user/owner.html#/requirementList">装修需求列表'+(!!data.requirement_count ? '<i>'+data.requirement_count+'</i>' : '')+'</a></li>',
+        '<li><a href="/tpl/user/owner.html#/designer/1">我的意向设计师'+(!!data.favorite_designer_count ? '<i>'+data.favorite_designer_count+'</i>' : '')+'</a></li>',
+        '<li><a href="/tpl/user/owner.html#/favorite/1">收藏作品'+(!!data.favorite_product_count ? '<i>'+data.favorite_product_count+'</i>' : '')+'</a></li>',
+        '<li><a href="/tpl/user/owner.html#/notice/list/1?type=4-99">系统通知'+(!!data.platform_message_count ? '<i>'+data.platform_message_count+'</i>' : '')+'</a></li>',
+        '<li><a href="/tpl/user/owner.html#/remind/list/1?type=7-8-13-9-10">需求提醒'+(!!data.requirement_message_count ? '<i>'+data.requirement_message_count+'</i>' : '')+'</a></li>',
+        '<li><a href="/tpl/user/owner.html#/comment/1">评论'+(!!data.comment_message_count ? '<i>'+data.comment_message_count+'</i>' : '')+'</a></li>',
+        '<li><a href="javascript:;" class="quit">退出登录</a></li>',
+        '</ul>'
+      ];
+      this.container.find('.user').html(arr.join(''));
     },
     createDesignPulldown : function(data){
       var arr = [
-          '<span class="arrow"><i></i></span><ul>',
-          '<li><a href="/tpl/user/designer.html#/requirementList">装修需求列表<i>'+data.requirement_count+'</i></a></li>',
-          '<li><a href="/tpl/user/designer.html#/products/1">我的作品<i>'+data.product_count+'</i></a></li>',
-          '<li><a href="/tpl/user/designer.html#/favorite/1">收藏作品<i>'+data.favorite_product_count+'</i></a></li>',
-          '<li><a href="/tpl/user/designer.html#/authHeart">认证中心</a></li>',
-          '<li><a href="/tpl/user/designer.html#/notice/list/1?type=2-5-6-7-8-9-10-11-12-13-99">系统通知<i>'+data.platform_message_count+'</i></a></li>',
-          '<li><a href="/tpl/user/designer.html#/remind/list/1?type=14-15-16-17-18">需求提醒<i>'+data.requirement_message_count+'</i></a></li>',
-          '<li><a href="/tpl/user/designer.html#/comment/1">评论<i>'+data.comment_message_count+'</i></a></li>',
-          '<li><a href="javascript:;" class="quit">退出登录</a></li>',
-          '</ul>'
-        ];
-        this.container.find('.user').html(arr.join(''));
+        '<span class="arrow"><i></i></span><ul>',
+        '<li><a href="/tpl/user/designer.html#/requirementList">装修需求列表'+(!!data.requirement_count ? '<i>'+data.requirement_count+'</i>' : '')+'</a></li>',
+        '<li><a href="/tpl/user/designer.html#/products/1">我的作品'+(!!data.product_count ? '<i>'+data.product_count+'</i>' : '')+'</a></li>',
+        '<li><a href="/tpl/user/designer.html#/favorite/1">收藏作品'+(!!data.favorite_product_count ? '<i>'+data.favorite_product_count+'</i>' : '')+'</a></li>',
+        '<li><a href="/tpl/user/designer.html#/authHeart">认证中心</a></li>',
+        '<li><a href="/tpl/user/designer.html#/notice/list/1?type=2-5-6-7-8-9-10-11-12-13-99">系统通知'+(!!data.platform_message_count ? '<i>'+data.platform_message_count+'</i>' : '')+'</a></li>',
+        '<li><a href="/tpl/user/designer.html#/remind/list/1?type=14-15-16-17-18">需求提醒'+(!!data.requirement_message_count ? '<i>'+data.requirement_message_count+'</i>' : '')+'</a></li>',
+        '<li><a href="/tpl/user/designer.html#/comment/1">评论'+(!!data.comment_message_count ? '<i>'+data.comment_message_count+'</i>' : '')+'</a></li>',
+        '<li><a href="javascript:;" class="quit">退出登录</a></li>',
+        '</ul>'
+      ];
+      this.container.find('.user').html(arr.join(''));
     },
     createDefault : function(){
       var arr = [

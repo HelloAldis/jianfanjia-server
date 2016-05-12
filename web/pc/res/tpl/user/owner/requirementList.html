@@ -12,7 +12,7 @@
 						<a ui-sref="addRequirement" class="u-btns">发布装修需求</a>
 					</div>
 				</li>
-				<li bindonce="requirementList" ng-repeat="data in requirementList" ng-click="goTo(data)">
+				<li bindonce="requirementList" ng-repeat="data in requirementList track by $index" ng-click="goTo(data)">
 					<div class="boxs">
 						<div class="tt f-cb">
 							<h4 class="f-fl">
