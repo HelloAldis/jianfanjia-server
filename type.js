@@ -175,7 +175,7 @@ var type = {
 
   requirement_package_type_default: '0',
   requirement_package_type_365: '1',
-  requirement_paclage_type_jiangxin: '2',
+  requirement_package_type_jiangxin: '2',
 }
 
 module.exports = type;

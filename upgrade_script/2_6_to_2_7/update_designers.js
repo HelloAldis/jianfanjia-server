@@ -42,6 +42,12 @@ Designer.count({}, function (err, count) {
           console.log(designer.username + ' 支持新锐先锋');
           xinDesignerNames.splice(index, 1);
         }
+        index = xinDesignerNames.indexOf(designer.phone);
+        if (index > -1) {
+          set.add('新锐先锋');
+          console.log(designer.username + ' 支持新锐先锋');
+          xinDesignerNames.splice(index, 1);
+        }
 
         index = luanDesignerNames.indexOf(designer.username);
         if (index > -1) {

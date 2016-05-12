@@ -135,6 +135,7 @@ exports.list_designer = function (req, res, next) {
           email_auth_type: 1,
           service_attitude: 1,
           respond_speed: 1,
+          tags: 1,
         }, function (err, designer) {
           if (!designer) {
             designer = {
@@ -267,8 +268,7 @@ exports.add_designer = function (req, res, next) {
       }, {
         favorite_designer: designerid
       }, null, ep.done(function () {
-        var result = _.find(favorite.favorite_designer, function (
-          o) {
+        var result = _.find(favorite.favorite_designer, function (o) {
           return o.toString() === designerid.toString();
         });
 

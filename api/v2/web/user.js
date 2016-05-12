@@ -78,7 +78,10 @@ exports.order_designer = function (req, res, next) {
     }
 
     if (requirement.order_designerids.length + designerids.length > 3) {
-      res.sendErrMsg('最多预约3个设计师');
+      res.sendErrMsg('最多预约3位设计师');
+    } else if (requirement.package_type === type.requirement_package_type_jiangxin &&
+      requirement.order_designerids.length + designerids.length > 1) {
+      res.sendErrMsg('最多预约1位匠心定制设计师');
     } else {
       _.forEach(designerids, function (designerid) {
         let json = {};

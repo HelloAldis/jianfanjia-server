@@ -426,15 +426,18 @@ exports.designers_user_can_order = function (req, res, next) {
     },
 
     ep.done(function (result) {
-      if (result.requirement.package_type === type.requirement_paclage_type_jiangxin) {
+      if (result.requirement.package_type === type.requirement_package_type_jiangxin) {
         Designer.find({
+          _id: {
+            $nin: result.requirement.order_designerids.concat(result.requirement.obsolete_designerids)
+          },
           auth_type: type.designer_auth_type_done,
           agreee_license: type.designer_agree_type_yes,
           online_status: type.online_status_on,
           authed_product_count: {
             $gte: 3
           },
-          package_types: type.requirement_paclage_type_jiangxin
+          package_types: type.requirement_package_type_jiangxin
         }, {
           username: 1,
           imageid: 1,
@@ -556,7 +559,7 @@ exports.designers_user_can_order = function (req, res, next) {
                 $gte: 3
               },
               package_types: {
-                $ne: type.requirement_paclage_type_jiangxin
+                $ne: type.requirement_package_type_jiangxin
               },
             }, {
               username: 1,

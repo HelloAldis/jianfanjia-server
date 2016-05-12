@@ -26,9 +26,9 @@ exports.share_process_homepage = function (req, res, next) {
         imageid: 1
       }, ep.done(function (designer_indb) {
         share.designer = designer_indb;
-        res.render('page/share_process', {
+        res.ejs('page/share_process', {
           share: share
-        });
+        }, req);
       }));
     } else {
       next();
