@@ -52,24 +52,9 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab"><i>*</i>装修户型</label>
+							<label class="u-lab"><i>*</i>户型</label>
 							<div class="u-inp">
 								<div my-select my-list="userRelease.houseType" my-query="requiremtne.house_type"></div>
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab"><i>*</i>装修面积</label>
-							<div class="u-inp">
-								<div class="inp">
-									<input type="text" class="input" ng-model="requiremtne.house_area" placeholder="只能填整数" my-placeholder required name="house_area" ng-pattern="/^[1-9]\d*$/" />
-									<span class="unit">m&sup2;</span>
-								</div>
-							</div>
-							<div class="u-error">
-								<span ng-show="release.house_area.$dirty && release.house_area.$error.pattern" class="has-error">必须为整数</span>
-								<span ng-show="release.house_area.$dirty && release.house_area.$error.required" class="has-error">不能为空</span>
 							</div>
 						</div>
 					</div>
@@ -87,10 +72,25 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
+							<label class="u-lab"><i>*</i>建筑面积</label>
+							<div class="u-inp">
+								<div class="inp">
+									<input type="text" class="input" ng-model="requiremtne.house_area" placeholder="只能填整数" my-placeholder required name="house_area" ng-pattern="/^[1-9]\d*$/" />
+									<span class="unit">m&sup2;</span>
+								</div>
+							</div>
+							<div class="u-error">
+								<span ng-show="release.house_area.$dirty && release.house_area.$error.pattern" class="has-error">必须为整数</span>
+								<span ng-show="release.house_area.$dirty && release.house_area.$error.required" class="has-error">不能为空</span>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
 							<label class="u-lab"><i>*</i>装修总预算</label>
 							<div class="u-inp">
 								<div class="inp">
-									<input type="text" class="input" ng-model="requiremtne.total_price" name="total_price" placeholder="只能填整数" ng-pattern="/^[1-9]\d*$/" my-placeholder required ng-maxlength="5" />
+									<input type="text" class="input" ng-model="requiremtne.total_price" name="total_price" placeholder="只能填整数" ng-pattern="/^[1-9][0-9]{0,4}$/" my-placeholder required />
 									<span class="unit">万元</span>
 									<div class="total-price" ng-if="(requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120) && !userRelease.potter">
 										<div class="work-tips">
@@ -122,11 +122,10 @@
 									</p>
 								</div>
 							</div>
-							<div class="u-error" ng-class="{'error365':(requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120)}">
-								<span ng-show="release.total_price.$dirty && release.total_price.$error.maxlength" class="has-error">长度超过5位</span>
-								<span ng-show="release.total_price.$dirty && release.total_price.$error.pattern" class="has-error">必须为整数</span>
+							<div class="u-error" ng-class="{'error365':(requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120),'errorjxdz':userRelease.potter}">
+								<span ng-show="release.total_price.$dirty && release.total_price.$error.pattern" class="has-error">必须小于6位以内整数</span>
 								<span ng-show="release.total_price.$dirty && release.total_price.$error.required" class="has-error">不能为空</span>
-								<span ng-show="(requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120) && userRelease.costserror" class="has-error">您的装修总预算不能低于基础费用</span>
+								<span ng-show="release.total_price.$dirty && !release.total_price.$error.required && !release.total_price.$error.pattern && (requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120) && userRelease.costserror" class="has-error">您的装修总预算不能低于基础费用</span>
 							</div>
 						</div>
 					</div>

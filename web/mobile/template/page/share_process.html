@@ -275,6 +275,7 @@ function zeroFill(num){ return num < 10 ? '0' + num : ''+num; }
         return arr;
     }
     Slider.prototype.setIndex = function(){
+        this.p.innerHTML = '';
         this.p.innerHTML = this.idx+1 + '/' + this.list.length;
     }
     Slider.prototype.goIndex = function (n) {

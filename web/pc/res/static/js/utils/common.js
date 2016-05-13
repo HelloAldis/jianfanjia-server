@@ -1,4 +1,4 @@
-define(['jquery','lib/jquery.cookie'], function($){
+define(['jquery','cookie'], function($){
   var Search = function(){};
   Search.prototype = {
     init : function(options){
@@ -266,7 +266,7 @@ define(['jquery','lib/jquery.cookie'], function($){
     createInfo : function(data,type){
       var arr = [
             '<ul><li>'+this.del+'</li><li class="line"></li><li class="login">',
-            '<a href="'+(type ? '/tpl/user/designer.html#/index' : '/tpl/user/owner.html#/index')+'"><span class="u-head">'+(!!data.imageid ? '<img src="/api/v2/web/thumbnail2/24/24/'+data.imageid+'" alt="'+data.username+'">' : '')+'</span>'+data.username+'</a>',
+            '<a href="'+(type ? '/tpl/user/designer.html#/index' : '/tpl/user/owner.html#/index')+'"><span class="u-head u-head-radius">'+(!!data.imageid ? '<img src="/api/v2/web/thumbnail2/24/24/'+data.imageid+'" alt="'+data.username+'">' : '')+'</span>'+data.username+'</a>',
             '<div class="user"></div></li></ul>'
         ];
         this.container.html(arr.join(''));
@@ -412,19 +412,9 @@ define(['jquery','lib/jquery.cookie'], function($){
       if(this.usertype == 1 || this.usertype == undefined){
         $('#j-release').show();
       }
-      //this.supervision();
     },
     create : function(){
       this.container.empty();
-      /*
-      {
-        'name' : '监理服务',
-        'sclass' : 'supervise',
-        'url'  : '/tpl/merit/supervision.html',
-        'icon' : '&#xe635;',
-        'hover' : '',
-      },
-       */
       var self = this,
         template,
         data = [
@@ -434,6 +424,13 @@ define(['jquery','lib/jquery.cookie'], function($){
             'url'  : '/tpl/user/owner.html#/designer/1',
             'icon' : '&#xe614;',
             'hover' : ''
+          },
+          {
+            'name' : '监理服务',
+            'sclass' : 'supervise',
+            'url'  : '/zt/supervision/index.html',
+            'icon' : '&#xe635;',
+            'hover' : '',
           },
           {
             'name' : '装修保障',
@@ -557,13 +554,6 @@ define(['jquery','lib/jquery.cookie'], function($){
         }
         sUl.push('</ul>');
         sibling.html(sUl.join(''));
-    },
-    supervision : function(){
-      if(this.usertype == undefined){
-        this.container.find('.supervise').attr('href','/tpl/user/login.html?/tpl/merit/supervision.html');
-      }else if(this.usertype == 2){
-        this.container.find('.supervise').attr('href','/tpl/merit/index.html');
-      }
     },
     addDesigners : function(){
       var self = this,

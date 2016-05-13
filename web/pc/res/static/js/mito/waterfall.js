@@ -1,4 +1,4 @@
-define(['jquery','lodash','lib/jquery.cookie'],function($,_){
+define(['jquery','lodash'],function($,_){
     var createCellLoader = function(){};
     createCellLoader.prototype.init = function(josn , page, fn, tpl,query) {
         if(!josn){

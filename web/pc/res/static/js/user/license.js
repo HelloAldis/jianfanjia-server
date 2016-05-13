@@ -2,15 +2,11 @@ require.config({
     baseUrl: '/static/js/',
     paths  : {
         jquery: 'lib/jquery',
-        lodash : 'lib/lodash'
-    },
-    shim   : {
-        'jquery.cookie': {
-            deps: ['jquery']
-        }
+        lodash : 'lib/lodash',
+        cookie : 'lib/jquery.cookie'
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
+require(['jquery','lodash','cookie','utils/common'],function($,_,cookie,common){
     var user = new common.User();
     user.init();
     var search = new common.Search();
@@ -18,7 +14,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cook
     var goto = new common.Goto();
     goto.init();
 });
-require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
+require(['jquery','lodash','cookie'],function($,_,cookie){
     var $apply = $('#apply'),
         $agree = $('#agree');
     function loadList(url){

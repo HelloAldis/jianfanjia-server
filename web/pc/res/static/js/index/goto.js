@@ -28,7 +28,6 @@ define(['jquery','cookie'], function($,cookie){
 				this.getRequirement();
 				this.addDesigners();
 			}
-			this.supervision();
 		},
 		create : function(){
 			this.container.empty();
@@ -52,7 +51,7 @@ define(['jquery','cookie'], function($,cookie){
 					{
 						'name' : '监理服务',
 						'sclass' : 'supervise',
-						'url'  : '/tpl/merit/supervision.html',
+						'url'  : '/zt/supervision/index.html',
 						'icon' : '&#xe635;',
 						'hover' : '',
 					},
@@ -176,13 +175,6 @@ define(['jquery','cookie'], function($,cookie){
 				sUl.push('<ul>');
 				str = sUl.join('');
 				sibling.html(sUl);
-		},
-		supervision : function(){
-			if(this.usertype == undefined){
-				this.container.find('.supervise').attr('href','/tpl/user/login.html?/tpl/merit/supervision.html');
-			}else if(this.usertype == 2){
-				this.container.find('.supervise').attr('href','/tpl/merit/index.html');
-			}
 		},
 		addDesigners : function(){
 			var self = this,

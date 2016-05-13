@@ -2,12 +2,10 @@ require.config({
     baseUrl: '/static/js/',
     paths  : {
         jquery: 'lib/jquery',
-        lodash : 'lib/lodash'
+        lodash : 'lib/lodash',
+        cookie : 'lib/jquery.cookie'
     },
     shim   : {
-        'jquery.cookie': {
-            deps: ['jquery']
-        },
         'jquery.requestAnimationFrame.min': {
             deps: ['jquery']
         },
@@ -16,7 +14,7 @@ require.config({
         }
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousewheel.min','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,common){
+require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,common){
         var user = new common.User();
         user.init();
         var search = new common.Search();

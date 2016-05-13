@@ -3,12 +3,8 @@ require.config({
     paths  : {
         jquery: 'lib/jquery',
         lodash : 'lib/lodash',
-        lazyload : 'lib/lazyload'
-    },
-    shim   : {
-        'jquery.cookie': {
-            deps: ['jquery']
-        }
+        lazyload : 'lib/lazyload',
+        cookie : 'lib/jquery.cookie'
     }
 });
 require(['jquery','index/search'],function($,Search){
@@ -22,7 +18,7 @@ require(['jquery','lazyload'],function($){
         });
     });
 });
-require(['jquery','lib/jquery.cookie'],function($,cookie){
+require(['jquery','cookie'],function($,cookie){
     var Home = function(){};
     Home.prototype = {
         init  : function(){
@@ -30,21 +26,23 @@ require(['jquery','lib/jquery.cookie'],function($,cookie){
             this.product = this.home.find('.m-home-product');
             this.toFrom = 0;
             this.toPage = 1;
+            if($.cookie("usertype") !== undefined){
+                require(['jquery','index/user'],function($,User){
+                    (new User('#j-user')).init();
+                });
+            }
             if($.cookie("usertype") === '1'){
                 require(['design/addIntent'],function(AddIntent){
-                    var add = new AddIntent(this.home);
-                    add.init();
+                    (new AddIntent(this.home)).init();
                 });
             }else{
                 if($.cookie("usertype") !== undefined){
                     require(['jquery','index/user'],function($,User){
-                        var user = new User('#j-user');
-                            user.init();
+                        (new User('#j-user')).init();
                     });
                 }
-                require(['jquery',"index/goto"],function($,Goto){
-                    var goto = new Goto();
-                        goto.init();
+                require(['jquery','cookie',"index/goto"],function($,cookie,Goto){
+                    (new Goto()).init();
                 });
             }
             this.loadmore();

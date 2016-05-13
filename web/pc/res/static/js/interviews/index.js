@@ -2,15 +2,11 @@ require.config({
     baseUrl: '/static/js/',
     paths  : {
         jquery: 'lib/jquery',
-        lodash : 'lib/lodash'
-    },
-    shim   : {
-        'jquery.cookie': {
-            deps: ['jquery']
-        }
+        lodash : 'lib/lodash',
+        cookie : 'lib/jquery.cookie'
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common','utils/globalData'],function($,_,cookie,common,globalData){
+require(['jquery','lodash','cookie','utils/common','utils/globalData'],function($,_,cookie,common,globalData){
         var user = new common.User();
         user.init();
         var search = new common.Search();
@@ -24,7 +20,6 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','utils/globalData'
                 var filename = pathname.indexOf('/tpl/interviews/') != -1 ? pathname.substring(pathname.lastIndexOf('/') + 1) : undefined;
                 this.cacheData = {}; //全局数据缓存
                 this.winHash = !!filename && filename.indexOf('.html') != -1 ? filename.split(".html")[0] : undefined;
-                console.log(this.winHash)
                 this.detail = $("#j-interviews");
                 this.loadList();
             },

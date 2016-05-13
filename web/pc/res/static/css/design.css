@@ -345,7 +345,7 @@ body{
 	color: #999;
 }
 .m-filter.toggle .list{
-	height: 156px;
+	height: 195px;
 }
 .m-filter .list dl{
 	width: 100%;
@@ -424,10 +424,10 @@ body{
 	position: absolute;
 	left:0;
 	top:0;
+	width: 20000px;
 	height: 176px;
 	padding: 34px 0 19px;
 }
-.m-potter .list .toggle{display: none;}
 .m-potter .list .toggle a{
 	position: absolute;
 	top:50%;
@@ -451,7 +451,7 @@ body{
 .m-potter li{
 	float: left;
 	width: 130px;
-	margin-left: 19px;
+	margin-left: 20px;
 }
 .m-potter li a{
 	position: relative;
@@ -836,6 +836,25 @@ body{
 	font-size: 20px;
 	color: #fe7004;
 }
+.m-home-info .info dt .tag{
+	display: inline-block;
+	vertical-align: top;
+	padding: 0 3px;
+	margin-top: 13px;
+	font-size: 12px;
+	font-family: "SimSun","宋体";
+	line-height: 18px;
+	color: #fff;
+}
+.m-home-info .info dt .tag-0{
+	background-color: #f86b6b;
+}
+.m-home-info .info dt .tag-1{
+	background-color: #04bafe;
+}
+.m-home-info .info dt .tag-2{
+	background-color: #fe7004;
+}
 .m-home-info .info dd{
 	font-size: 14px;
 	line-height: 26px;
@@ -868,10 +887,15 @@ body{
 	min-height: 100%;
 	background:url(../img/user/loading.gif) center center no-repeat;
 }
-.m-home-info .info .u-btns{
+.m-home-info .info .btns{
 	position: absolute;
 	right: 19px;
-	top:26px;
+	top:10px;
+	text-align: right;
+}
+.m-home-info .info .btns p{
+	padding-bottom: 9px;
+	line-height: 37px;
 }
 .m-home-info .service{
 	height: 58px;
@@ -1345,7 +1369,7 @@ body{
 .m-lightBox .imgTab .tab li.active span{
 	display: block;
 }
-#j-potter{
+.g-potter{
 	padding-top: 0;
 }
 .m-potter-banner{
@@ -1486,12 +1510,13 @@ body{
 	border-left: 1px solid #f0f0f0;
 }
 .m-potter-info .m-mnc dl{
-	padding: 30px 0 35px;
+	padding: 10px 0 35px;
 	font-size: 14px;
 	line-height: 22px;
 	color: #999;
 }
 .m-potter-info .m-mnc dt{
+	padding-top: 20px;
 	line-height: 32px;
 	color: #383d48;
 }

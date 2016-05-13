@@ -41,7 +41,7 @@
 										<div ng-bind="plan.total_price | number"></div>
 										<span class="unit">元</span>
 									</div>
-								</div>-
+								</div>
 							</div>
 						</div>
 						<div class="m-item f-cb">
@@ -91,10 +91,10 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="tbody" ng-if="designerPlan.packagetype == 0">
+							<tr class="tbody" ng-if="designerPlan.packagetype != 1">
 								<td>&nbsp;&nbsp;&nbsp;</td>
 							</tr>
-							<tr ng-repeat="list in plan.price_detail" ng-if="designerPlan.packagetype == 0 && plan.price_detail">
+							<tr ng-repeat="list in plan.price_detail" ng-if="designerPlan.packagetype != 1 && plan.price_detail">
 								<td class="td1"><span bo-text="list.item"></span></td>
 								<td class="td2"><input type="text" class="input" placeholder="请输入8位以内整数" my-placeholder ng-model="list.price" ng-blur="designerPlan.computePrice()" model-format="int" /></td>
 								<td class="td3"><input type="text" ng-model="list.description" /></td>

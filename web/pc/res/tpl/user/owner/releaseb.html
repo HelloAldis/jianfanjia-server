@@ -54,6 +54,18 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
+							<label class="u-lab"><i>*</i>包工类型</label>
+							<div class="u-inp">
+								<div my-select my-list="userRelease.workType" my-query="requiremtne.work_type"></div>
+								<div class="work-tips">
+									<p><strong>半包</strong>是指装修工程中，施工方提供人员施工及辅材供应的承包形式；</p>
+									<p><strong>全包</strong>是指装修工程中，施工方提供装修所涉所有项目的承包形式。</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
 							<label class="u-lab"><i>*</i>装修面积</label>
 							<div class="u-inp">
 								<div class="inp">
@@ -64,18 +76,6 @@
 							<div class="u-error">
 								<span ng-show="release.house_area.$dirty && release.house_area.$error.pattern" class="has-error">必须为整数</span>
 								<span ng-show="release.house_area.$dirty && release.house_area.$error.required" class="has-error">不能为空</span>
-							</div>
-						</div>
-					</div>
-					<div class="m-item f-cb">
-						<div class="item">
-							<label class="u-lab"><i>*</i>包工类型</label>
-							<div class="u-inp">
-								<div my-select my-list="userRelease.workType" my-query="requiremtne.work_type"></div>
-								<div class="work-tips">
-									<p><strong>半包</strong>是指装修工程中，施工方提供人员施工及辅材供应的承包形式；</p>
-									<p><strong>全包</strong>是指装修工程中，施工方提供装修所涉所有项目的承包形式。</p>
-								</div>
 							</div>
 						</div>
 					</div>

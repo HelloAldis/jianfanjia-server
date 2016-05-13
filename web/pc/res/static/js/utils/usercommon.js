@@ -339,7 +339,7 @@ var Search = function(){}
     createInfo : function(data,type){
       var arr = [
             '<ul><li>'+this.del+'</li><li class="line"></li><li class="login">',
-            '<a href="'+(type ? '/tpl/user/designer.html#/index' : '/tpl/user/owner.html#/index')+'"><span>'+(!!data.imageid ? '<img src="/api/v2/web/thumbnail/24/'+data.imageid+'" alt="">' : '<i class="iconfont">&#xe602;</i>')+'</span>'+data.username+'</a>',
+            '<a href="'+(type ? '/tpl/user/designer.html#/index' : '/tpl/user/owner.html#/index')+'"><span class="u-head u-head-radius">'+(!!data.imageid ? '<img src="/api/v2/web/thumbnail2/24/24/'+data.imageid+'" alt="'+data.username+'">' : '')+'</span>'+data.username+'</a>',
             '<div class="user"></div></li></ul>'
         ];
         this.container.html(arr.join(''));
@@ -484,17 +484,9 @@ var Search = function(){}
       if(this.usertype == 1 || this.usertype == undefined){
         $('#j-release').show();
       }
-      //this.supervision();
     },
     create : function(){
       this.container.empty();
-      /*{
-            'name' : '监理服务',
-            'sclass' : 'supervise',
-            'url'  : '/tpl/merit/supervision.html',
-            'icon' : '&#xe635;',
-            'hover' : '',
-          },*/
       var self = this,
         template,
         data = [
@@ -511,6 +503,13 @@ var Search = function(){}
             'url'  : '/tpl/merit/index.html',
             'icon' : '&#xe639;',
             'hover' : ''
+          },
+          {
+            'name' : '监理服务',
+            'sclass' : 'supervise',
+            'url'  : '/zt/supervision/index.html',
+            'icon' : '&#xe635;',
+            'hover' : '',
           },
           {
             'name' : '关注微信',
@@ -632,13 +631,6 @@ var Search = function(){}
         sUl.push('<ul>');
         str = sUl.join('');
         sibling.html(sUl);
-    },
-    supervision : function(){
-      if(this.usertype == undefined){
-        this.container.find('.supervise').attr('href','/tpl/user/login.html?/tpl/merit/supervision.html');
-      }else if(this.usertype == 2){
-        this.container.find('.supervise').attr('href','/tpl/merit/index.html');
-      }
     },
     addDesigners : function(){
       var self = this,

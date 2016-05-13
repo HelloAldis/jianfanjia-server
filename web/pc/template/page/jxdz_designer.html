@@ -13,34 +13,42 @@
     numStar = Math.round(((data.designer.respond_speed ? data.designer.respond_speed : 0) + (data.designer.service_attitude ? data.designer.service_attitude : 0))/2);
     numStar = numStar >= 5 ? 5 : numStar;
     %>
-  <main class="g-bd f-cb" id="j-potter">
+  <main class="g-bd f-cb g-potter" id="j-home">
     <section class="m-potter-banner g-wa" style="background-image:url(/static/img/design/potterhome-banner.jpg);">
         <div class="mask"></div>
         <div class="info">
             <div class="head addIntentHead"><img src="/api/v2/web/thumbnail2/130/130/<%= data.designer.imageid %>" alt="<%= data.designer.username %>"></div>
             <h2><%= data.designer.username %></h2>
-            <address><i class="iconfont2">&#xe61f;</i><%= data.designer.province %>&nbsp;&nbsp;&nbsp;<%= data.designer.city %></address>
+            <address><i class="iconfont2">&#xe61f;</i><% if (!!data.designer.province) { %><%= data.designer.province %><% } %>&nbsp;&nbsp;&nbsp;<% if (!!data.designer.city) { %><%= data.designer.province %><% } %></address>
+            <% if (!!data.designer.philosophy) { %>
             <p><%= data.designer.philosophy %></p>
+            <% } %>
         </div>
     </section>
     <section class="m-potter-service g-wa">
         <div class="g-wp f-cb">
             <div class="f-fl">
+                <% if (!!data.designer.authed_product_count) { %>
                 <dl>
                     <dt>作品</dt>
                     <dd><strong><%= data.designer.authed_product_count %></strong></dd>
                 </dl>
                 <span class="line"></span>
+                <% } %>
+                <% if (!!data.designer.order_count) { %>
                 <dl>
                     <dt>预约</dt>
                     <dd><strong><%= data.designer.order_count %></strong></dd>
                 </dl>
                 <span class="line"></span>
+                <% } %>
+                <% if (data.designer.design_fee_range != undefined) { %>
                 <dl>
                     <dt>设计费</dt>
                     <dd><strong class="star"><%= price_area(data.designer.design_fee_range) %></strong>元/m&sup2;</dd>
                 </dl>
                 <span class="line"></span>
+                <% } %>
                 <dl>
                     <dt>综合评价</dt>
                     <dd><span class="star">
@@ -54,7 +62,7 @@
                     </span></dd>
                 </dl>
             </div>
-            <% if (data.header_info.admin_statistic_info == undefined || data.header_info.user_statistic_info == undefined || data.header_info.designer_statistic_info == undefined) { %>
+            <% if (data.header_info.admin_statistic_info == undefined && data.header_info.user_statistic_info == undefined && data.header_info.designer_statistic_info == undefined) { %>
             <div class="btns f-fr">
                 <a href="/tpl/user/login.html?/tpl/designer/<%= data.designer._id %>" class="u-btns addIntent">添加意向</a>
             </div>
@@ -99,44 +107,62 @@
     </section>
     <section class="g-item g-wp m-potter-info f-cb">
         <div class="m-sdc f-fl">
-            <div class="head"><img src="/api/v2/web/thumbnail2/130/130/<%= data.designer.imageid %>" alt="<%= data.designer.username %>"></div>
+            <div class="head"><img src="/api/v2/web/thumbnail2/110/110/<%= data.designer.imageid %>" alt="<%= data.designer.username %>"></div>
             <h3><%= data.designer.username %></h3>
             <address><i class="iconfont2">&#xe61f;</i><%= data.designer.province %>&nbsp;&nbsp;&nbsp;<%= data.designer.city %></address>
             <dl>
+                <% if (data.designer.dec_types != undefined && data.designer.dec_types.length > 0) { %>
                 <dt>接单类型</dt>
                 <dd>
                   <% data.designer.dec_types.forEach(v => {%>
                   <span><%= dec_type(v) %></span>
                   <%})%>
                 </dd>
+                <% } %>
+                <% if (data.designer.dec_house_types != undefined && data.designer.dec_house_types.length > 0) { %>
                 <dt>接单户型</dt>
                 <dd>
                   <% data.designer.dec_house_types.forEach(v => {%>
                   <span><%= house_type(v) %></span>
                   <%})%>
                 </dd>
+                <% } %>
+                <% if (data.designer.dec_styles != undefined && data.designer.dec_styles.length > 0) { %>
                 <dt>设计风格</dt>
                 <dd>
                   <% data.designer.dec_styles.forEach(v => {%>
                   <span><%= dec_style(v) %></span>
                   <%})%>
                 </dd>
+                <% } %>
             </dl>
         </div>
         <div class="m-mnc f-fl">
             <dl>
+                <% if (!!data.designer.philosophy) { %>
                 <dt>个人简介</dt>
                 <dd><%= data.designer.philosophy %></dd>
+                <% } %>
+                <% if (!!data.designer.university) { %>
                 <dt>毕业院校</dt>
                 <dd><%= data.designer.university %></dd>
+                <% } %>
+                <% if (!!data.designer.work_year) { %>
                 <dt>工作年限</dt>
                 <dd><%= data.designer.work_year %>年</dd>
+                <% } %>
+                <% if (!!data.designer.company) { %>
                 <dt>曾就职装饰公司</dt>
                 <dd><%= data.designer.company %></dd>
+                <% } %>
+                <% if (!!data.designer.team_count) { %>
                 <dt>施工团队</dt>
                 <dd><%= data.designer.team_count %>个施工队</dd>
+                <% } %>
+                <% if (!!data.designer.achievement) { %>
                 <dt>设计成就</dt>
                 <dd><%- data.designer.achievement %></dd>
+                <% } %>
             </dl>
         </div>
     </section>

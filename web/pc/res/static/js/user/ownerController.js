@@ -245,11 +245,7 @@ angular.module('controllers', [])
                 if(!!newValue && !/[^0-9.]/.test(newValue) && (newValue >= 80 && newValue <= 120) && ($scope.requiremtne.work_type == 0 || $scope.requiremtne.work_type == 1)){
                     $scope.userRelease.costsbasis = +($scope.requiremtne.house_area*365/10000).toFixed(2);
                     $scope.userRelease.coststotal = !!$scope.requiremtne.total_price ? +(+$scope.requiremtne.total_price).toFixed(2) : 0;
-                    if($scope.userRelease.coststotal >= $scope.userRelease.costsbasis){
-                        $scope.userRelease.costsdiy = +($scope.userRelease.coststotal - $scope.userRelease.costsbasis).toFixed(2);
-                    }else{
-                        $scope.userRelease.costsdiy = 0;
-                    }
+                    costserror();
                 }else{
                     $scope.userRelease.costsbasis = 0;
                     $scope.userRelease.costsdiy = 0;
@@ -262,13 +258,7 @@ angular.module('controllers', [])
                 if((newValue == 0 || newValue == 1) && ($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120)){
                     $scope.userRelease.costsbasis = !!$scope.requiremtne.house_area ? +($scope.requiremtne.house_area*365/10000).toFixed(2) : 0;
                     $scope.userRelease.coststotal = !!$scope.requiremtne.total_price ? +(+$scope.requiremtne.total_price).toFixed(2) : 0;
-                    if($scope.userRelease.coststotal >= $scope.userRelease.costsbasis){
-                        $scope.userRelease.costserror = false;
-                        $scope.userRelease.costsdiy = +($scope.userRelease.coststotal - $scope.userRelease.costsbasis).toFixed(2);
-                    }else{
-                        $scope.userRelease.costserror = true;
-                        $scope.userRelease.costsdiy = 0;
-                    }
+                    costserror();
                 }else{
                     $scope.userRelease.coststotal = 0;
                     $scope.userRelease.costsdiy = 0;
@@ -283,13 +273,7 @@ angular.module('controllers', [])
             $scope.$watch('requiremtne.total_price',function(newValue){
                 if(!!newValue && !/[^0-9.]/.test(newValue) && ($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120) && ($scope.requiremtne.work_type == 0 || $scope.requiremtne.work_type == 1)){
                     $scope.userRelease.coststotal = !/[^0-9]/.test(newValue) ? newValue : +(+newValue).toFixed(2);
-                    if($scope.userRelease.coststotal >= $scope.userRelease.costsbasis){
-                        $scope.userRelease.costserror = false;
-                        $scope.userRelease.costsdiy = +($scope.userRelease.coststotal - $scope.userRelease.costsbasis).toFixed(2);
-                    }else{
-                        $scope.userRelease.costserror = true;
-                        $scope.userRelease.costsdiy = 0;
-                    }
+                    costserror();
                 }else{
                     $scope.userRelease.coststotal = 0;
                     $scope.userRelease.costsdiy = 0;
@@ -298,6 +282,15 @@ angular.module('controllers', [])
                     potter();
                 }
             });
+            function costserror(){
+                if($scope.userRelease.coststotal >= $scope.userRelease.costsbasis){
+                    $scope.userRelease.costserror = false;
+                    $scope.userRelease.costsdiy = +($scope.userRelease.coststotal - $scope.userRelease.costsbasis).toFixed(2);
+                }else{
+                    $scope.userRelease.costserror = true;
+                    $scope.userRelease.costsdiy = 0;
+                }
+            }
             function potter(){
                 var work_type = $scope.requiremtne.work_type,
                     potter,
@@ -507,8 +500,6 @@ angular.module('controllers', [])
                                     $scope.selectDesignOff = false;
                                     $scope.selectDesign = function(data){
                                         //清除定时器，防止重复开启，产生bug
-                                        $timeout.cancel(timer);
-                                        $scope.bookingPrompt = false;
                                         var len = $scope.ordersData.length;
                                         if(userRequiremtne.changeUId){
                                             data.active = true;
@@ -533,25 +524,13 @@ angular.module('controllers', [])
                                         if(!data.active){
                                             if(($scope.orderDesigns.length+len) > 2){
                                                 //弹出超过三个设计师提示信息
-                                                $scope.bookingTips = "您已经预约了3名设计师";
-                                                $scope.bookingPrompt = true;
-                                                //3s后提示信息消失
-                                                timer = $timeout(function(){
-                                                    $scope.bookingPrompt = false;
-                                                    $timeout.cancel(timer);
-                                                },3000);
+                                                bookingText("您已经预约了3名设计师");
                                                 return ;
                                             }
                                             if(($scope.orderDesigns.length+len) == 1 && $scope.favorites === undefined){
                                                 //清除定时器，防止重复开启，产生bug
                                                 //弹出超过三个设计师提示信息
-                                                $scope.bookingTips = "您已经预约了一名匠心定制设计师";
-                                                $scope.bookingPrompt = true;
-                                                //3s后提示信息消失
-                                                timer = $timeout(function(){
-                                                    $scope.bookingPrompt = false;
-                                                    $timeout.cancel(timer);
-                                                },3000);
+                                                bookingText("您已经预约了一名匠心定制设计师");
                                                 return ;
                                             }
                                             data.active = true;
@@ -592,7 +571,7 @@ angular.module('controllers', [])
                     var This = this;
                     //被废弃，不要删除，以防万一，做一个保险
                     if(!$scope.orderDesigns.length){
-                        alert('您至少要预约1名设计师');
+                        bookingText("您至少要预约1名设计师");
                         return ;
                     }
                     userRequiremtne.booking({
@@ -639,6 +618,17 @@ angular.module('controllers', [])
                         value1.active = false;
                     });
                 }
+            }
+            function bookingText(text){
+                $scope.bookingPrompt = false;
+                $timeout.cancel(timer);
+                $scope.bookingTips = text;
+                $scope.bookingPrompt = true;
+                //3s后提示信息消失
+                timer = $timeout(function(){
+                    $scope.bookingPrompt = false;
+                    $timeout.cancel(timer);
+                },3000,false);
             }
     }])
     .controller('requirementScoreCtrl', [     //装修需求详情

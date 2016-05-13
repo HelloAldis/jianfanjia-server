@@ -27,7 +27,26 @@
           <dt>
             <strong><%= data.designer.username %></strong>
             <span class="auth"><i class="iconfont" title="实名认证"></i><i class="iconfont" title="认证设计师"></i></span>
-            <span class="star">
+            <% if (data.designer.tags[0] === '暖暖走心') { %>
+            <span class="tag tag-0">暖暖走心</span>
+            <% }else if(data.designer.tags[0]=== '新锐先锋'){ %>
+            <span class="tag tag-1">新锐先锋</span>
+            <% }else if(data.designer.tags[0] === '匠心定制'){ %>
+            <span class="tag tag-2">匠心定制</span>
+            <% } %>
+          </dt>
+          <dd class="f-cb">
+            <address><i class="iconfont2">&#xe61f;</i><% if (!!data.designer.province) { %><%= data.designer.province %><% } %>&nbsp;&nbsp;&nbsp;<% if (!!data.designer.city) { %><%= data.designer.province %><% } %></address>
+          </dd>
+          <% if (!!data.designer.philosophy) { %>
+          <dd class="f-cb">
+            <p><%= data.designer.philosophy %></p>
+          </dd>
+          <% } %>
+        </dl>
+        <% if (data.header_info.admin_statistic_info == undefined && data.header_info.user_statistic_info == undefined && data.header_info.designer_statistic_info == undefined) { %>
+        <div class="btns">
+          <p><span class="star">
             <% for(var i=0; i < 5; i++) {%>
               <% if(i < numStar){%>
                   <i class="iconfont">&#xe604;</i>
@@ -35,21 +54,20 @@
                   <i class="iconfont">&#xe62b;</i>
               <% }%>
             <% } %>
-            </span>
-          </dt>
-          <dd class="f-cb">
-            <address><i class="iconfont2">&#xe61f;</i><%= data.designer.province %>&nbsp;&nbsp;&nbsp;<%= data.designer.city %></address>
-          </dd>
-          <dd class="f-cb">
-            <p><%= data.designer.philosophy %></p>
-          </dd>
-        </dl>
-        <% if (data.header_info.admin_statistic_info == undefined || data.header_info.user_statistic_info == undefined || data.header_info.designer_statistic_info == undefined) { %>
-        <div class="btns">
+            </span></p>
             <a href="/tpl/user/login.html?/tpl/designer/<%= data.designer._id %>" class="u-btns addIntent">添加意向</a>
         </div>
         <% }else if(data.header_info.user_statistic_info != undefined){ %>
         <div class="btns">
+          <p><span class="star">
+            <% for(var i=0; i < 5; i++) {%>
+              <% if(i < numStar){%>
+                  <i class="iconfont">&#xe604;</i>
+              <% }else{%>
+                  <i class="iconfont">&#xe62b;</i>
+              <% }%>
+            <% } %>
+            </span></p>
           <% if(data.designer.is_my_favorite){ %>
             <a href="/tpl/user/owner.html#/designer/1" class="u-btns u-btns-revise">已添加</a>
           <% }else{ %>
@@ -60,20 +78,27 @@
       </div>
       <div class="service f-cb">
         <div class="f-fl">
+          <% if (!!data.designer.authed_product_count) { %>
           <dl>
-            <dt>19</dt>
-            <dd>作品</dd>
+              <dt><%= data.designer.authed_product_count %></dt>
+              <dd>作品</dd>
           </dl>
+          <% } %>
+          <% if (!!data.designer.order_count) { %>
           <dl>
-            <dt>8</dt>
-            <dd>预约</dd>
+              <dt><%= data.designer.order_count %></dt>
+              <dd>预约</dd>
           </dl>
+          <% } %>
         </div>
+        <% if (data.designer.design_fee_range != undefined) { %>
         <h4 class="f-fr"><em>设计费</em><strong><%= price_area(data.designer.design_fee_range) %></strong>元/m&sup2;</h4>
+        <% } %>
       </div>
     </section>
     <section class="g-item m-home-service">
       <ul class="f-cb">
+        <% if (data.designer.dec_types != undefined && data.designer.dec_types.length > 0) { %>
         <li class="half">
           <strong>接单类型：</strong>
           <div>
@@ -82,6 +107,8 @@
             <%})%>
           </div>
         </li>
+        <% } %>
+        <% if (data.designer.dec_styles != undefined && data.designer.dec_styles.length > 0) { %>
         <li class="half">
           <strong>设计风格：</strong>
           <div>
@@ -90,6 +117,8 @@
             <%})%>
           </div>
         </li>
+        <% } %>
+        <% if (data.designer.dec_house_types != undefined && data.designer.dec_house_types.length > 0) { %>
         <li class="half">
           <strong>接单户型：</strong>
           <div>
@@ -98,26 +127,37 @@
             <%})%>
           </div>
         </li>
+        <% } %>
+        <% if (!!data.designer.team_count) { %>
         <li class="half">
           <strong>施工团队：</strong>
           <div><p><%= data.designer.team_count %>个施工队</p></div>
         </li>
+        <% } %>
+        <% if (!!data.designer.university) { %>
         <li class="half">
           <strong>毕业院校：</strong>
           <div><p><%= data.designer.university %></p></div>
         </li>
+        <% } %>
+        <% if (!!data.designer.work_year) { %>
         <li class="half">
           <strong>工作年限：</strong>
           <div><p><%= data.designer.work_year %>年</p></div>
         </li>
-        <li class="">
+        <% } %>
+        <% if (!!data.designer.company) { %>
+        <li>
           <strong>曾就职装饰公司：</strong>
           <div><p><%= data.designer.company %></p></div>
         </li>
-        <li class="">
+        <% } %>
+        <% if (!!data.designer.achievement) { %>
+        <li>
           <strong>设计成就：</strong>
           <div><p><%- data.designer.achievement %></p></div>
         </li>
+        <% } %>
       </ul>
     </section>
     <section class="g-item m-home-product">

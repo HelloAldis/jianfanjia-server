@@ -3,12 +3,10 @@ require.config({
     paths  : {
         jquery: 'lib/jquery',
         lodash : 'lib/lodash',
-        lazyload : 'lib/lazyload'
+        lazyload : 'lib/lazyload',
+        cookie : 'lib/jquery.cookie'
     },
     shim   : {
-        'jquery.cookie': {
-            deps: ['jquery']
-        },
         'jquery.history': {
             deps: ['jquery']
         },
@@ -39,7 +37,7 @@ require(['design/interviews'],function(Interviews){
     var interviews = new Interviews("#j-interviews");
     interviews.init()
 })
-require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/common','utils/page','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,history,common,Pageing){
+require(['jquery','lodash','cookie','lib/jquery.history','utils/common','utils/page','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,history,common,Pageing){
     var search = new common.Search();
     search.init();
     var user = new common.User();
@@ -469,7 +467,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
     			if(self.usertype === '1'){
     				var parent = $(this).closest('li'),
     					uidname = parent.data('uid'),
-    					head = parent.find('.head'),
+    					head = parent.find('.u-head'),
     					img = head.find('img').attr('src')
     					state = head.offset(),
     					scrollTop = $(document).scrollTop();

@@ -254,13 +254,13 @@
           <% if (i == 1) { %>
             <li class="center">
             <% for(var j=0; j < 2; j++){%>
-              <a href="/tpl/mito/detail.html?pid='+<%= data.top_beautiful_images[i+j]._id %>+'&imgid='+<%= data.top_beautiful_images[i+j].images[0].imageid %>+'&imgw='+<%= data.top_beautiful_images[i+j].images[0].width %>+'&imgh='+<%= data.top_beautiful_images[i+j].images[0].height %>+'"><img class="lazyimg" data-original="/api/v2/web/thumbnail2/390/185/<%= data.top_beautiful_images[i+j].images[0].imageid %>" src="/static/img/public/load.gif" alt="<%= data.top_beautiful_images[i+j].title %>"><span><%= data.top_beautiful_images[i+j].title %></span></a>
+              <a href="/tpl/mito/detail.html?pid=<%=data.top_beautiful_images[i+j]._id%>&imgid=<%=data.top_beautiful_images[i+j].images[0].imageid%>&imgw=<%=data.top_beautiful_images[i+j].images[0].width%>&imgh=<%=data.top_beautiful_images[i+j].images[0].height%>"><img class="lazyimg" data-original="/api/v2/web/thumbnail2/390/185/<%=data.top_beautiful_images[i+j].images[0].imageid%>" src="/static/img/public/load.gif" alt="<%=data.top_beautiful_images[i+j].title%>"><span><%=data.top_beautiful_images[i+j].title%></span></a>
             <%}%>
             </li>
           <% }else if(i == 2){ %>
             <% continue %>
           <% }else{ %>
-            <li><a href="/tpl/mito/detail.html?pid='+<%= data.top_beautiful_images[i]._id %>+'&imgid='+<%= data.top_beautiful_images[i].images[0].imageid %>+'&imgw='+<%= data.top_beautiful_images[i].images[0].width %>+'&imgh='+<%= data.top_beautiful_images[i].images[0].height %>+'"><img class="lazyimg" data-original="/api/v2/web/thumbnail2/395/380/<%= data.top_beautiful_images[i].images[0].imageid %>" src="/static/img/public/load.gif" alt="<%= data.top_beautiful_images[i].title %>"><span><%= data.top_beautiful_images[i].title %></span></a></li>
+            <li><a href="/tpl/mito/detail.html?pid=<%= data.top_beautiful_images[i]._id %>&imgid=<%= data.top_beautiful_images[i].images[0].imageid %>&imgw=<%= data.top_beautiful_images[i].images[0].width %>&imgh=<%= data.top_beautiful_images[i].images[0].height %>"><img class="lazyimg" data-original="/api/v2/web/thumbnail2/395/380/<%= data.top_beautiful_images[i].images[0].imageid %>" src="/static/img/public/load.gif" alt="<%= data.top_beautiful_images[i].title %>"><span><%= data.top_beautiful_images[i].title %></span></a></li>
           <% } %>
         <%}%>
       </ul>

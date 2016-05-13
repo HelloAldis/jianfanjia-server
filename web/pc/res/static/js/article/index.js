@@ -2,24 +2,22 @@ require.config({
     baseUrl: '/static/js/',
     paths  : {
         jquery: 'lib/jquery',
-        lodash : 'lib/lodash'
+        lodash : 'lib/lodash',
+        cookie : 'lib/jquery.cookie'
     },
     shim   : {
-        'jquery.cookie': {
-            deps: ['jquery']
-        },
         'jquery.history': {
             deps: ['jquery']
         }
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
+require(['jquery','lodash','cookie','utils/common'],function($,_,cookie,common){
     var user = new common.User();
     user.init();
     var search = new common.Search();
     search.init();
 })
-require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/common','utils/page'],function($,_,cookie,history,common,Pageing){
+require(['jquery','lodash','cookie','lib/jquery.history','utils/common','utils/page'],function($,_,cookie,history,common,Pageing){
     var goto = new common.Goto();
     var page = new Pageing();
     var Article = function(){};
@@ -74,7 +72,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                 iTimer = null;
                 arr = ['<div class="pic"><ul>'];
                 for (var i = 0; i < len; i++) {
-                    arr.push('<li><a href="/tpl/article/detail.html?pid='+data[i]._id+'" target="_blank"><div><strong>'+data[i].title+'</strong><span>'+_.trunc(data[i].description, {'length': 45})+'</span></div><img src="/api/v2/web/thumbnail2/820/348/'+data[i].cover_imageid+'" alt="'+data[i].title+'"></li>');
+                    arr.push('<li><a href="/tpl/article/strategy/'+data[i]._id+'" target="_blank"><div><strong>'+data[i].title+'</strong><span>'+_.trunc(data[i].description, {'length': 45})+'</span></div><img src="/api/v2/web/thumbnail2/820/348/'+data[i].cover_imageid+'" alt="'+data[i].title+'"></li>');
                 };
                 arr.push('</ul></div><ol>');
                 for (var i = 0; i < len; i++) {
@@ -110,7 +108,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                 $hotposts = this.article.find('.hotposts'),
                 arr = ['<ul>'];
                 for (var i = 0,len = data.length; i < len; i++) {
-                    arr.push('<li '+(i == 2 ? 'class="last"' : '')+'><h4><a href="/tpl/article/detail.html?pid='+data[i]._id+'" target="_blank" title="'+data.title+'">'+data[i].title+'</a></h4><p>'+data[i].description+'</p></li>');
+                    arr.push('<li '+(i == 2 ? 'class="last"' : '')+'><h4><a href="/tpl/article/strategy/'+data[i]._id+'" target="_blank" title="'+data.title+'">'+data[i].title+'</a></h4><p>'+data[i].description+'</p></li>');
                 };
                 arr.push('</ul>');
                 $hotposts.html(arr.join(''));

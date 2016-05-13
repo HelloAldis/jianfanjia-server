@@ -24,24 +24,22 @@ require(['jquery','index/banner'],function($,Banner){
         banner.init();
     });
 });
-require(['jquery','index/user'],function($,User){
-    var user = new User('#j-user');
-    $(function(){
-        user.init();
-    })
-});
 require(['jquery','index/tabs','index/Scrollswitch'],function($,Tabs,Scrollswitch){
     var $designers = $('#j-designers');
     var $designersList = $designers.find('.list');
     var list = new Scrollswitch({
             id : '#j-potter',
             count : 5,
+            auto : false,
+            hover : true,
             offset : $('#j-potter').offset().top
         });
         list.init();
     var list = new Scrollswitch({
             id : $designersList.eq(0),
             count : 10,
+            auto : false,
+            hover : true,
             offset : $designers.offset().top
         });
         list.init();
@@ -50,6 +48,8 @@ require(['jquery','index/tabs','index/Scrollswitch'],function($,Tabs,Scrollswitc
         list = new Scrollswitch({
             id : $designersList.eq(index),
             count : 10,
+            auto : false,
+            hover : true,
             offset : $designers.offset().top
         });
         list.init();
@@ -74,4 +74,12 @@ require(['jquery','cookie','index/goto'],function($,cookie,Goto){
     $(function(){
         goto.init({scroll : false});
     })
+    if($.cookie("usertype") !== undefined){
+        require(['jquery','index/user'],function($,User){
+            var user = new User('#j-user');
+            $(function(){
+                user.init();
+            })
+        });
+    }
 });
