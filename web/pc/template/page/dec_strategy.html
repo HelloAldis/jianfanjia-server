@@ -18,7 +18,7 @@
               <p>
                 上一条：
                 <% if(data.previous_article.length == 1){%>
-                   <a href="/tpl/article/strategy/<%= previous_article[0]._id %>"><%= previous_article[0].title %></a>
+                   <a href="/tpl/article/strategy/<%= data.previous_article[0]._id %>"><%= data.previous_article[0].title %></a>
                 <%} else {%>
                    <span>这是第一条，没有上一条了</span>
                 <%}%>
@@ -26,7 +26,7 @@
               <p>
                 下一条：
                 <% if(data.next_article.length == 1){%>
-                  <a href="/tpl/article/strategy/<%= next_article[0]._id %>"><%= next_article[0].title %></a>
+                  <a href="/tpl/article/strategy/<%= data.next_article[0]._id %>"><%= data.next_article[0].title %></a>
                 <%} else {%>
                    <span>这是最后一条，没有下一条了</span>
                 <%}%>
