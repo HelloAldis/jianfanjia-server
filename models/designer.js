@@ -37,6 +37,10 @@ var DesignerSchema = new Schema({
     type: Number,
     default: 0
   },
+  score: {
+    type: Number,
+    default: 0
+  },
   accessToken: {
     type: String
   },

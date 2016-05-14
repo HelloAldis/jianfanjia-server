@@ -185,7 +185,7 @@ exports.search = function (req, res, next) {
   let usertype = ApiUtil.getUsertype(req);
   let query = req.body.query || {};
   let sort = req.body.sort || {
-    authed_product_count: -1,
+    score: -1,
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
