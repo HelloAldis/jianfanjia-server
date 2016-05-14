@@ -13,6 +13,7 @@ exports.dec_strategy_homepage = function (req, res, next) {
   const _id = req.query.pid || req.params._id;
   const userid = ApiUtil.getUserid(req);
   const usertype = ApiUtil.getUsertype(req);
+  const associate_limit = 4;
   var ep = eventproxy();
   ep.fail(next);
 
@@ -27,21 +28,7 @@ exports.dec_strategy_homepage = function (req, res, next) {
       async.parallel({
         previous_article: function (callback) {
           DecStrategy.find({
-            articletype: dec_strategy.articletype,
-            status: type.article_status_public,
-            create_at: {
-              $lt: dec_strategy.create_at
-            },
-          }, {
-            title: 1
-          }, {
-            skip: 0,
-            limit: 1,
-          }, callback);
-        },
-        next_article: function (callback) {
-          DecStrategy.find({
-            articletype: dec_strategy.articletype,
+            // articletype: dec_strategy.articletype,
             status: type.article_status_public,
             create_at: {
               $gt: dec_strategy.create_at
@@ -51,6 +38,26 @@ exports.dec_strategy_homepage = function (req, res, next) {
           }, {
             skip: 0,
             limit: 1,
+            sort: {
+              create_at: 1
+            }
+          }, callback);
+        },
+        next_article: function (callback) {
+          DecStrategy.find({
+            // articletype: dec_strategy.articletype,
+            status: type.article_status_public,
+            create_at: {
+              $lt: dec_strategy.create_at
+            },
+          }, {
+            title: 1
+          }, {
+            skip: 0,
+            limit: 1,
+            sort: {
+              create_at: -1
+            }
           }, callback);
         },
         associate_articles: function (callback) {
@@ -68,7 +75,7 @@ exports.dec_strategy_homepage = function (req, res, next) {
           query._id = {
             $ne: _id
           };
-          console.log(query);
+
           DecStrategy.find(query, {
             title: 1,
             cover_imageid: 1,
@@ -78,8 +85,25 @@ exports.dec_strategy_homepage = function (req, res, next) {
               create_at: -1,
             },
             skip: 0,
-            limit: 4,
-          }, callback);
+            limit: associate_limit,
+          }, function (err, arr) {
+            if (arr.length < associate_limit) {
+              DecStrategy.find({
+                _id: {
+                  $ne: _id
+                },
+                status: type.article_status_public,
+              }, {
+                title: 1,
+                cover_imageid: 1,
+                articletype: 1,
+              }, null, function (err, dec_strategies) {
+                callback(err, arr.concat(_.sample(dec_strategies, 4 - arr.length)));
+              });
+            } else {
+              callback(err, arr);
+            }
+          });
         },
         header_info: function (callback) {
           if (req.isMobile) {
