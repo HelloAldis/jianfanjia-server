@@ -31,11 +31,11 @@ require(['design/potter'],function(Potter){
 })
 require(['design/dynamic'],function(Dynamic){
     var dynamic = new Dynamic("#j-dynamic");
-    dynamic.init()
+    dynamic.init();
 })
-require(['design/interviews'],function(Interviews){
-    var interviews = new Interviews("#j-interviews");
-    interviews.init()
+require(['design/featured'],function(Featured){
+    var featured = new Featured("#j-featured");
+    featured.init();
 })
 require(['jquery','lodash','cookie','lib/jquery.history','utils/common','utils/page','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,history,common,Pageing){
     var search = new common.Search();
@@ -331,7 +331,7 @@ require(['jquery','lodash','cookie','lib/jquery.history','utils/common','utils/p
                     '<dd>'+(query.dec_house_types == undefined ? '不限' : globalData.house_type(query.dec_house_types))+'</dd>',
                 '</dl>',
                 '<dl>',
-                    '<dt>擅长风格</dt>',
+                    '<dt>装修风格</dt>',
                     '<dd>'+(query.dec_styles == undefined ? '不限' : globalData.dec_style(query.dec_styles))+'</dd>',
                 '</dl>',
                 '<div class="minbtns">',
@@ -512,7 +512,7 @@ require(['jquery','lodash','cookie','lib/jquery.history','utils/common','utils/p
     		});
         },
         schmsg  : function(input,size){    //显示搜索消息
-        	var str = '<strong>搜索内容</strong><i class="f-st">&gt;</i><span class="tags">'+input+'<i>X</i></span><span class="result">共<i>'+size+'</i>结果</span>'+(!size ? '<span class="tips">以下是根据您搜索的设计师</span>' : '');
+        	var str = '<strong>搜索内容</strong><i class="f-st">&gt;</i><span class="tags">'+input+'<i>X</i></span><span class="result">共<i>'+size+'</i>结果</span>'+(!size ? '<span class="tips">以下是根据您搜索内容推荐的设计师</span>' : '');
         	this.schInfo.html(str).removeClass('hide');
             this.clearTags();
         },

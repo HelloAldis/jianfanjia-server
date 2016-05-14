@@ -23,7 +23,7 @@
 						</div>
 						<div class="select f-fr">
 							<div class="btns">
-								<a href="javascript:;" class="u-btns u-btns-revise" ng-click="cancelBtn(data._id)">取消意向</a>
+								<button type="button" class="u-btns u-btns-revise" ng-click="modal.remove(data._id)">取消意向</button>
 							</div>
 						</div>
 					</div>
@@ -39,5 +39,19 @@
 	<p>您还没有添加意向设计师</p>
 	<div class="btns">
 		<a href="../design/index.html" class="u-btns" target="_blank">前往添加意向设计师</a>
+	</div>
+</div>
+<div class="k-modal dialog" id="j-modal" ng-class="{'show':modal.show}">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="icon"><i class="iconfont">&#xe619;</i></div>
+				<p>您确定要取消收藏吗？</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="u-btns u-btns-revise cancel" ng-click="modal.cancel()">取消</button>
+				<button type="button" class="u-btns define" ng-click="modal.define()">确定</button>
+			</div>
+		</div>
 	</div>
 </div>

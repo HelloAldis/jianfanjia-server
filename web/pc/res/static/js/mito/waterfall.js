@@ -22,7 +22,7 @@ define(['jquery','lodash'],function($,_){
             return compiled({ 'data': d });
         }
         function schmsg(input,size){    //显示搜索消息
-          var str = '<strong>搜索内容</strong><i class="f-st">&gt;</i><span class="tags">'+input+'<i>X</i></span><span class="result">共<i>'+size+'</i>结果</span>'+(!size ? '<span class="tips">以下是根据您搜索的装修美图</span>' : '');
+          var str = '<strong>搜索内容</strong><i class="f-st">&gt;</i><span class="tags">'+input+'<i>X</i></span><span class="result">共<i>'+size+'</i>结果</span>'+(!!size ? '<span class="tips">以下是根据您搜索的装修美图</span>' : '');
           query.info.html(str).removeClass('hide');
         }
         var off = false, o = false, u = [];
@@ -206,7 +206,7 @@ define(['jquery','lodash'],function($,_){
       },
       stopLoader: function(e,p) {   //停止加载
         console.log(e,p)
-        var str = this.options.endEl || p === 0 ? '<div class="k-notData search" id="k-notData"><h4><i class="iconfont">&#xe626;</i></h4><p>很抱歉您匹配的内容暂时无法提供，请更改匹配。</p></div>' : '<div class="k-notData k-notData2" id="k-notData2"><p>更多内容正在装修中...</p></div>';
+        var str = this.options.endEl || p === 0 ? '<div class="k-notData search" id="k-notData"><h4><i class="iconfont">&#xe626;</i></h4><p>很抱歉您搜索的内容暂时无法提供。</p></div>' : '<div class="k-notData k-notData2" id="k-notData2"><p>更多内容正在装修中...</p></div>';
         return this._stopLoading = true, e && this._indicator && this._indicator.html(str).show(), this.options.paddingBottom && this._equalise(), this
       },
       startLoader: function() {   //开始加载

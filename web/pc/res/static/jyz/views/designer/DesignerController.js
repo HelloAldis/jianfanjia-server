@@ -660,7 +660,7 @@
       '$scope', '$rootScope', '$http', '$stateParams', '$location',
       function ($scope, $rootScope, $http, $stateParams, $location) {
         $http({ //获取数据
-          method: "GET",
+          method: "POST",
           url: RootUrl + 'api/v2/web/admin/designer/' + $stateParams.id
         }).then(function (resp) {
           //返回信息
@@ -709,7 +709,7 @@
       '$scope', '$rootScope', '$http', '$stateParams', '$location',
       function ($scope, $rootScope, $http, $stateParams, $location) {
         $http({ //获取数据
-          method: "GET",
+          method: "POST",
           url: RootUrl + 'api/v2/web/admin/designer/' + $stateParams.id
         }).then(function (resp) {
           //返回信息

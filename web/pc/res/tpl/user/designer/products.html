@@ -6,22 +6,22 @@
 	<div class="m-ct m-productList">
 		<div ng-if="productList && productList.length != 0">
 			<ul class="list f-cb">
-				<li ng-repeat="list in productList" bindonce="productList">
+				<li ng-repeat="list in productList track by $index" bindonce="productList">
 					<div class="boxs f-fl">
 						<h4>
 							<a bo-href-i="/tpl/design/detail.html?{{list._id}}"  target="_blank">
 								<span bo-if="list.province">
-									<i bo-text="list.province"></i> 
+									<i bo-text="list.province"></i>
 									<i bo-text="list.city"></i>
 									<i bo-text="list.district"></i>
 								</span>
 								<span bo-if="list.cell"><i bo-text="list.cell"></i></span>
 							</a>
-							<span class="status" ng-switch="list.auth_type">
-								<i ng-switch-when="0" class="authStatus0 iconfont2">&#xe60b;</i>
-								<i ng-switch-when="1" class="authStatus2 iconfont2">&#xe608;</i>
-								<i ng-switch-when="2" class="authStatus3 iconfont2">&#xe61d;</i>
-								<i ng-switch-when="3" class="authStatus4 iconfont2">&#xe612;</i>
+							<span class="status" bo-switch="list.auth_type">
+								<i bo-switch-when="0" class="authStatus0 iconfont2">&#xe60b;</i>
+								<i bo-switch-when="1" class="authStatus2 iconfont2">&#xe608;</i>
+								<i bo-switch-when="2" class="authStatus3 iconfont2">&#xe61d;</i>
+								<i bo-switch-when="3" class="authStatus4 iconfont2">&#xe612;</i>
 							</span>
 						</h4>
 						<div class="tag">
@@ -29,7 +29,7 @@
 						</div>
 					</div>
 					<div class="select f-fr">
-						<a ui-sref="updateProduct({id:list._id})" class="editor"><i class="iconfont2">&#xe627;</i></a><a href="javascript:;" class="remove" ng-click="deleteProduct(list._id)"><i class="iconfont2">&#xe619;</i></a>
+						<a ui-sref="updateProduct({id:list._id})" class="editor"><i class="iconfont2">&#xe627;</i></a><button type="button" class="remove" ng-click="modal.remove(list._id)"><i class="iconfont2">&#xe619;</i></button>
 					</div>
 				</li>
 			</ul>
@@ -45,5 +45,18 @@
 		<a ui-sref="addProduct" class="u-btns">前往添加作品</a>
 	</div>
 </div>
-
+<div class="k-modal dialog" id="j-modal" ng-class="{'show':modal.show}">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="icon"><i class="iconfont">&#xe619;</i></div>
+				<p>您确定要删除吗？删除不能恢复</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="u-btns u-btns-revise cancel" ng-click="modal.cancel()">取消</button>
+				<button type="button" class="u-btns define" ng-click="modal.define()">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
 

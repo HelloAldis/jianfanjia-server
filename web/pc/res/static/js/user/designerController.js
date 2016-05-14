@@ -790,15 +790,29 @@ angular.module('controllers', [])
                     console.log(res)
                 });
             }
-            $scope.deleteProduct = function(id){
-                if(confirm('您确定要删除吗？删除不能恢复')){
-                    userProduct.remove({'_id':id}).then(function(res){
+            $scope.modal = {
+                id : '',
+                show : false,
+                cancel : function(){
+                    this.show = false;
+                    this.id = '';
+                },
+                define : function(){
+                    var _this = this;
+                    this.show = false;
+                    userProduct.remove({'_id':this.id}).then(function(res){  //获取意向设计师列表
                         if(res.data.msg === "success"){
-                           laod();
+                            $scope.productList = undefined;
+                            _this.id = '';
+                            laod();
                         }
                     },function(res){
                         console.log(res)
                     });
+                },
+                remove :function(id){
+                    this.show = true;
+                    this.id = id;
                 }
             }
             laod()
@@ -849,18 +863,31 @@ angular.module('controllers', [])
                     console.log(res)
                 });
             }
-            $scope.deleteFavorite = function(id){
-                if(confirm('您确定要删除吗？')){
-                    userFavoriteProduct.remove({'_id':id}).then(function(res){
+            $scope.modal = {
+                id : '',
+                show : false,
+                cancel : function(){
+                    this.show = false;
+                    this.id = '';
+                },
+                define : function(){
+                    var _this = this;
+                    this.show = false;
+                    userFavoriteProduct.remove({'_id':this.id}).then(function(res){  //获取意向设计师列表
                         if(res.data.msg === "success"){
                             $scope.favoriteProduct = undefined;
+                            _this.id = '';
                             laod();
                         }
                     },function(res){
                         console.log(res)
                     });
+                },
+                remove :function(id){
+                    this.show = true;
+                    this.id = id;
                 }
-            };
+            }
             laod()
     }])
     .controller('inforCtrl', [     //基本资料认证
