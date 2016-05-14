@@ -89,6 +89,9 @@ exports.dec_strategy_homepage = function (req, res, next) {
           }, function (err, arr) {
             if (arr.length < associate_limit) {
               DecStrategy.find({
+                _id: {
+                  $ne: _id
+                },
                 status: type.article_status_public,
               }, {
                 title: 1,
