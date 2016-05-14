@@ -27,7 +27,7 @@ exports.dec_strategy_homepage = function (req, res, next) {
       async.parallel({
         previous_article: function (callback) {
           DecStrategy.find({
-            articletype: dec_strategy.dec_strategy,
+            articletype: dec_strategy.articletype,
             status: type.article_status_public,
             create_at: {
               $lt: dec_strategy.create_at
@@ -41,7 +41,7 @@ exports.dec_strategy_homepage = function (req, res, next) {
         },
         next_article: function (callback) {
           DecStrategy.find({
-            articletype: dec_strategy.dec_strategy,
+            articletype: dec_strategy.articletype,
             status: type.article_status_public,
             create_at: {
               $gt: dec_strategy.create_at
@@ -55,7 +55,7 @@ exports.dec_strategy_homepage = function (req, res, next) {
         },
         associate_articles: function (callback) {
           var query = {};
-          var keywords = dec_strategy.keywords.split(/,|，/);
+          var keywords = dec_strategy.keywords.split(/[,，\|｜]/);
           _.remove(keywords, function (k) {
             return k.trim().length === 0;
           });
@@ -68,8 +68,8 @@ exports.dec_strategy_homepage = function (req, res, next) {
           query._id = {
             $ne: _id
           };
-
-          DecStrategy.paginate(query, {
+          console.log(query);
+          DecStrategy.find(query, {
             title: 1,
             cover_imageid: 1,
             articletype: 1,
@@ -93,20 +93,18 @@ exports.dec_strategy_homepage = function (req, res, next) {
           dec_strategy: dec_strategy,
           previous_article: result.previous_article,
           next_article: result.next_article,
-          associate_articles: result.associate_articles[0],
+          associate_articles: result.associate_articles,
           header_info: result.header_info
         }, req);
       }));
 
-      limit.perwhatperdaydo('dec_strategy_homepage', req.ip + _id,
-        1,
-        function () {
-          DecStrategy.incOne({
-            _id: _id
-          }, {
-            view_count: 1
-          });
+      limit.perwhatperdaydo('dec_strategy_homepage', req.ip + _id, 1, function () {
+        DecStrategy.incOne({
+          _id: _id
+        }, {
+          view_count: 1
         });
+      });
     } else {
       next();
     }
