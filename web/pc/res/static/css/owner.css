@@ -1139,7 +1139,10 @@ body{
 	cursor: pointer;
 }
 .booking.disabled .m-designerList li,.score .m-designerList li{
-	cursor:default
+	cursor:default;
+}
+.booking.disabled .m-designerList li.active,.score .m-designerList li.active{
+	cursor: pointer;
 }
 .booking .m-designerList .notdesigner{
 	text-align: center;
@@ -1254,6 +1257,19 @@ body{
 }
 .score .m-designerList .select{
 	padding-top: 0;
+}
+/* 需求完结状态 */
+.score .victory i{
+	display: inline-block;
+	line-height: 36px;
+	padding: 0 17px;
+	color: #999;
+	border: 1px solid #cdcdcd;
+	border-radius: 3px;
+}
+.score .victory i.winning{
+	color: #fe7004;
+	border-color: #fe7004;
 }
 /*模态窗口*/
 .k-motai{

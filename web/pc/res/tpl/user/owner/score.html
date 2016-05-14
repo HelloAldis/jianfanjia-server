@@ -44,16 +44,16 @@
 						<div class="btns" ng-if="data.plan.status == 2 && data.plan.house_check_time > score.newDate">
 							<button type="button" class="u-btns" ng-click="score.earlyConfirmBtn(data)">已上门量房</button>
 						</div>
-						<div class="btns" ng-if="(data.plan.status == 6 || data.evaluation) && data.plan.status != 8">
+						<div class="btns" ng-if="(data.plan.status == 6 || data.plan.status == 3 || data.evaluation) && data.plan.status != 8">
 							<span>已确认<i ng-if="data.evaluation">并已评价</i></span>
 							<a href="javascript:;" class="u-btns u-btns-revise" ng-click="score.scoreBtn(data)" ng-if="!data.evaluation">&nbsp;评价&nbsp;</a>
 						</div>
-						<p ng-class="{cur:data.plan.status == 2}" ng-if="(data.plan.status == 2 || data.plan.status == 6 || data.evaluation) && data.plan.status != 8">量房时间：<i bo-text="data.house_check_time"></i></p>
+						<p ng-class="{cur:data.plan.status == 2}" ng-if="(data.plan.status == 2 || data.plan.status == 6 || data.plan.status == 3 || data.evaluation) && data.plan.status != 8">量房时间：<i bo-text="data.house_check_time"></i></p>
 					</div>
 					<!-- 需求完结状态 -->
 					<div ng-if="requirement.status == 4 || requirement.status == 5 || requirement.status == 7">
-						<p class="f-tar" bo-switch="data.plan.status">
-							<i bo-switch-when="5">已中标</i>
+						<p class="f-tar victory" bo-switch="data.plan.status">
+							<i bo-switch-when="5" class="winning">已中标</i>
 							<i bo-switch-when="4">未中标</i>
 							<i bo-switch-when="7">设计师无响应导致响应过期</i>
 							<i bo-switch-when="8">设计师规定时间内没有上传方案已过期</i>

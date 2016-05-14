@@ -335,12 +335,12 @@ angular.module('controllers', [])
                     $scope.requiremtne.street = undefined;
                     $scope.requiremtne.business_house_type = undefined;
                     if($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120 && $scope.requiremtne.work_type != 2){
-                        $scope.requiremtne.package_type = 1;
+                        $scope.requiremtne.package_type = '1';
                     }
                 }
                 //匠心定制
                 if($scope.userRelease.potter){
-                    $scope.requiremtne.package_type = 2;
+                    $scope.requiremtne.package_type = '2';
                 }
                 //商装
                 if(type == 1){
@@ -349,6 +349,7 @@ angular.module('controllers', [])
                 }
                 $scope.requiremtne.dec_type = type+"";
                 $scope.requiremtne.house_area = $scope.requiremtne.house_area*1;
+                $scope.requiremtne.total_price = $scope.requiremtne.total_price*1;
                 if($scope.requiremtne.province === "湖北省" && $scope.requiremtne.city === "武汉市"){
                     This.disabled = true;
                     if($scope.userRelease.isRelease){
@@ -380,7 +381,7 @@ angular.module('controllers', [])
                     timer = $timeout(function(){
                         $scope.bookingPrompt = false;
                         $timeout.cancel(timer);
-                    },3000);
+                    },3000,false);
                     return ;
                 }
             }
@@ -471,7 +472,6 @@ angular.module('controllers', [])
                         $scope.orderDesigns = [];
                         userRequiremtne.order({"requirementid":requiremtneId}).then(function(res){    //已经预约设计师列表
                                 $scope.ordersData = res.data.data;
-                                $scope.bookingSuccess = true;
                                 if( $scope.requirement.status == 0 || $scope.requirement.status == 1 || $scope.requirement.status == 2 || $scope.requirement.status == 6 || $scope.requirement.status == 3){
                                     angular.forEach($scope.matchs, function(value1, key1){
                                         angular.forEach($scope.ordersData, function(value2, key2){
@@ -494,23 +494,22 @@ angular.module('controllers', [])
                                             }
                                         })
                                     });
+
                                     //检测是否可以点击
-                                    $scope.bookingSuccess = false;
+                                    $scope.bookingSuccess = $scope.requirement.package_type === '2' ? $scope.ordersData.length === 1 : $scope.ordersData.length > 0 && $scope.ordersData.length < 4;
+                                    //点击设计师手型
+                                    $scope.selectDesignActive =  $scope.ordersData.length === 0 || !$scope.bookingSuccess;
+                                    console.log($scope.selectDesignActive)
                                     // 点击设计师
                                     $scope.selectDesignOff = false;
-                                    $scope.selectDesign = function(data){
-                                        //清除定时器，防止重复开启，产生bug
-                                        var len = $scope.ordersData.length;
+                                    $scope.selectDesign = function(data,package_type){
+                                        var len = $scope.ordersData.length + $scope.orderDesigns.length;
                                         if(userRequiremtne.changeUId){
                                             data.active = true;
                                             $scope.booking.motaiDoneb = true;
                                             $scope.booking.isReplace = true;
                                             newDesignerid = data._id;
                                             $scope.selectDesignOff = true;
-                                        }
-                                        $scope.bookingSuccess = (len > 1 || len < 4);
-                                        if(len > 2){
-                                            return ;
                                         }
                                         angular.forEach($scope.ordersData, function(value, key){
                                             if(value._id == data._id){
@@ -522,26 +521,30 @@ angular.module('controllers', [])
                                             return ;
                                         }
                                         if(!data.active){
-                                            if(($scope.orderDesigns.length+len) > 2){
+                                            if(len > 2){
+                                                $scope.selectDesignActive = false;
                                                 //弹出超过三个设计师提示信息
-                                                bookingText("您已经预约了3名设计师");
+                                                //bookingText("您已经预约了3名设计师");
                                                 return ;
                                             }
-                                            if(($scope.orderDesigns.length+len) == 1 && $scope.favorites === undefined){
-                                                //清除定时器，防止重复开启，产生bug
-                                                //弹出超过三个设计师提示信息
-                                                bookingText("您已经预约了一名匠心定制设计师");
+                                            if(len == 1 && package_type === '2'){
+                                                $scope.selectDesignActive = false;
+                                                //弹出超过1个设计师提示信息
+                                                //bookingText("您已经预约了一名匠心定制设计师");
                                                 return ;
                                             }
                                             data.active = true;
-                                            $scope.orderDesigns.push(data._id)
+                                            $scope.orderDesigns.push(data._id);
                                         }else{
                                             data.active = false;
                                             var index = _.indexOf($scope.orderDesigns,data._id);
                                             $scope.orderDesigns.splice(index, 1);
-                                            console.log($scope.orderDesigns.length)
-                                            console.log($scope.orderDesigns.length+len)
-                                            $scope.bookingSuccess = ($scope.orderDesigns.length+len) === 0 ? false : true;
+                                        }
+                                        $scope.bookingSuccess = package_type === '2' ? $scope.orderDesigns.length === 1 : $scope.orderDesigns.length > 0 && $scope.orderDesigns.length < 4;
+                                        if($scope.orderDesigns.length > 0 && (package_type === '2' && $scope.orderDesigns.length === 1 || package_type !== '2' && $scope.orderDesigns.length === 3)){
+                                            $scope.selectDesignActive = false;
+                                        }else{
+                                            $scope.selectDesignActive = true;
                                         }
                                     }
                                 }
@@ -628,7 +631,7 @@ angular.module('controllers', [])
                 timer = $timeout(function(){
                     $scope.bookingPrompt = false;
                     $timeout.cancel(timer);
-                },3000,false);
+                },3000);
             }
     }])
     .controller('requirementScoreCtrl', [     //装修需求详情
@@ -930,16 +933,29 @@ angular.module('controllers', [])
                     console.log(res)
                 });
             }
-            $scope.deleteFavorite = function(id){
-                if(confirm('您确定要删除吗？')){
-                    userFavoriteProduct.remove({'_id':id}).then(function(res){
+            $scope.modal = {
+                id : '',
+                show : false,
+                cancel : function(){
+                    this.show = false;
+                    this.id = '';
+                },
+                define : function(){
+                    var _this = this;
+                    this.show = false;
+                    userFavoriteProduct.remove({'_id':this.id}).then(function(res){  //获取意向设计师列表
                         if(res.data.msg === "success"){
                             $scope.favoriteProduct = undefined;
+                            _this.id = '';
                             laod();
                         }
                     },function(res){
                         console.log(res)
                     });
+                },
+                remove :function(id){
+                    this.show = true;
+                    this.id = id;
                 }
             }
             laod()
@@ -985,16 +1001,29 @@ angular.module('controllers', [])
                     console.log(res)
                 });
             }
-            $scope.cancelBtn = function(id){
-                if(confirm('您确定要删除吗？')){
-                    userFavoriteDesigner.remove({'_id':id}).then(function(res){  //获取意向设计师列表
+            $scope.modal = {
+                id : '',
+                show : false,
+                cancel : function(){
+                    this.show = false;
+                    this.id = '';
+                },
+                define : function(){
+                    var _this = this;
+                    this.show = false;
+                    userFavoriteDesigner.remove({'_id':this.id}).then(function(res){  //获取意向设计师列表
                         if(res.data.msg === "success"){
                             $scope.designers = undefined;
+                            _this.id = '';
                             laod();
                         }
                     },function(res){
                         console.log(res)
                     });
+                },
+                remove :function(id){
+                    this.show = true;
+                    this.id = id;
                 }
             }
             laod()

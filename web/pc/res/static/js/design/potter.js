@@ -38,10 +38,10 @@ define(['jquery','index/Scrollswitch'], function($,Scrollswitch){
                         </a>\
                     </li>';
         }
-        if(data.total < 10){
+        if(data.total < 20){
             str += '<li class="not addJoin">\
                         <strong>等待加入</strong>\
-                    </li>'
+                    </li>';
         }
         $(this.id).find('.roll ul').html(str);
         this.bindEvent(data.total);
@@ -51,7 +51,7 @@ define(['jquery','index/Scrollswitch'], function($,Scrollswitch){
         this.roll = new Scrollswitch({
             id :  $(this.id),
             count : 6,
-            auto : total > 5,
+            auto : false,
             hover : true,
             offset :  $(this.id).offset().top
         });

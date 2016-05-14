@@ -23,7 +23,7 @@
 							<span><i bo-text="list.dec_style"></i></span>
 						</div>
 						<p bo-text="list.description"></p>
-						<a href="javascript:;" class="u-btns" ng-click="deleteFavorite(list._id)"><i class="iconfont2">&#xe619;</i>&nbsp;&nbsp;删除</a>
+						<button type="button" class="u-btns" ng-click="modal.remove(list._id)"><i class="iconfont2">&#xe619;</i>&nbsp;&nbsp;删除</button>
 					</div>
 				</li>
 			</ul>
@@ -37,5 +37,19 @@
 	<p>您还没有收藏设计师作品</p>
 	<div class="btns">
 		<a href="../design/index.html" class="u-btns" target="_blank">前往收藏设计师作品</a>
+	</div>
+</div>
+<div class="k-modal dialog" id="j-modal" ng-class="{'show':modal.show}">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="icon"><i class="iconfont">&#xe619;</i></div>
+				<p>您确定要取消收藏吗？</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="u-btns u-btns-revise cancel" ng-click="modal.cancel()">取消</button>
+				<button type="button" class="u-btns define" ng-click="modal.define()">确定</button>
+			</div>
+		</div>
 	</div>
 </div>

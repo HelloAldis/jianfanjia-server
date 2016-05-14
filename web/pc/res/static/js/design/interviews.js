@@ -7,7 +7,7 @@ define(['jquery','design/interviewsData'],function($,data){
     };
     Interviews.prototype.createList = function(data) {
         var str = '<div class="sidepic">\
-                        <span class="arrow"><em></em><i class="iconfont2"></i></span>\
+                        <span class="arrow"><em></em><i class="iconfont2">&#xe604;</i></span>\
                         <ul>';
         var btn = '<div class="btns">';
             for (var i = 0,len = data.length; i < len; i++) {

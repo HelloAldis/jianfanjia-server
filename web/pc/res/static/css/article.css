@@ -336,5 +336,15 @@ body{
 	max-width: 100%;
 }
 .g-mn .m-ct .toggle{
-	display: none;
+	padding-top: 30px;
+}
+.g-mn .m-ct .toggle p{
+	font-size: 14px;
+	line-height: 30px;
+}
+.g-mn .m-ct .toggle p a{
+	color: #383d48;
+}
+.g-mn .m-ct .toggle p a:hover{
+	color: #fe7004;
 }
