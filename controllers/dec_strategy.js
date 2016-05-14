@@ -37,6 +37,9 @@ exports.dec_strategy_homepage = function (req, res, next) {
           }, {
             skip: 0,
             limit: 1,
+            sort: {
+              create_at: -1
+            }
           }, callback);
         },
         next_article: function (callback) {
@@ -51,6 +54,9 @@ exports.dec_strategy_homepage = function (req, res, next) {
           }, {
             skip: 0,
             limit: 1,
+            sort: {
+              create_at: 1
+            }
           }, callback);
         },
         associate_articles: function (callback) {
