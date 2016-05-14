@@ -68,7 +68,7 @@ exports.dec_strategy_homepage = function (req, res, next) {
           query._id = {
             $ne: _id
           };
-
+          console.log(query);
           DecStrategy.find(query, {
             title: 1,
             cover_imageid: 1,
