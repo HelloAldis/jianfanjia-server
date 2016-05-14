@@ -28,24 +28,7 @@ exports.dec_strategy_homepage = function (req, res, next) {
       async.parallel({
         previous_article: function (callback) {
           DecStrategy.find({
-            articletype: dec_strategy.articletype,
-            status: type.article_status_public,
-            create_at: {
-              $lt: dec_strategy.create_at
-            },
-          }, {
-            title: 1
-          }, {
-            skip: 0,
-            limit: 1,
-            sort: {
-              create_at: -1
-            }
-          }, callback);
-        },
-        next_article: function (callback) {
-          DecStrategy.find({
-            articletype: dec_strategy.articletype,
+            // articletype: dec_strategy.articletype,
             status: type.article_status_public,
             create_at: {
               $gt: dec_strategy.create_at
@@ -57,6 +40,23 @@ exports.dec_strategy_homepage = function (req, res, next) {
             limit: 1,
             sort: {
               create_at: 1
+            }
+          }, callback);
+        },
+        next_article: function (callback) {
+          DecStrategy.find({
+            // articletype: dec_strategy.articletype,
+            status: type.article_status_public,
+            create_at: {
+              $lt: dec_strategy.create_at
+            },
+          }, {
+            title: 1
+          }, {
+            skip: 0,
+            limit: 1,
+            sort: {
+              create_at: -1
             }
           }, callback);
         },
