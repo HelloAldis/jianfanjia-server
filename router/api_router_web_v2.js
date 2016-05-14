@@ -59,7 +59,7 @@ router.post('/search_beautiful_image', beautiful_image.search_beautiful_image); 
 router.post('/top_articles', dec_strategy.top_articles); //top文章
 router.post('/search_article', dec_strategy.search_article); //搜索文章
 //router.post('/associate_article', dec_strategy.associate_article); //相关文章
-// router.post('/top_designers', designer.top_designers); //top设计师
+router.post('/top_designers', designer.top_designers); //top设计师
 // router.post('/top_shares', share.top_shares); //top工地直播
 // router.post('/top_beautiful_images', beautiful_image.top_beautiful_images); //top美图
 router.post('/top_designer_activity', designer.top_designer_activity);
