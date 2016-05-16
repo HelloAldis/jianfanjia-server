@@ -1038,6 +1038,9 @@ body{
 .m-home-service li.half{
 	width: 50%;
 }
+.m-home-service li.half div{
+	width: 84%;
+}
 .m-home-service li strong{
 	float: left;
 	font-size: 14px;
@@ -1046,6 +1049,7 @@ body{
 }
 .m-home-service li div{
 	float: left;
+	width: 90%;
 	font-size: 14px;
 	color: #999;
 }

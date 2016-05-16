@@ -656,6 +656,7 @@ angular.module('controllers', [])
                 this.disabled = true;
                 if($scope.designerPlan.isCreate){
                     userRequiremtne.update($scope.plan).then(function(res){  //修改方案到业主的需求
+                        $('#createUpload').uploadify('destroy');
                         $state.go('requirement.plan',{id:This.requiremtneId});
                         $scope.designerPlan.loading = false;
                     },function(res){
@@ -670,6 +671,7 @@ angular.module('controllers', [])
                     });
                     userRequiremtne.addPlan($scope.plan).then(function(res){  //提交方案到业主的需求
                         if(!!res.data.msg && res.data.msg === "success"){
+                            $('#createUpload').uploadify('destroy');
                             $state.go('requirement.plan',{id:This.requiremtneId});
                             $scope.designerPlan.loading = false;
                         }
@@ -985,6 +987,9 @@ angular.module('controllers', [])
                         user.updateInfo();
                         This.motaiDone = true;
                         $scope.$emit('designerChildren', res.data.data);
+                        $('#fileToUpload').uploadify('destroy');
+                        $('#fileToUpload1').uploadify('destroy');
+                        $('#createUpload').uploadify('destroy');
                     }
                 },function(res){
                     console.log(res)
@@ -1117,7 +1122,7 @@ angular.module('controllers', [])
     }])
     .controller('idcardCtrl', [     //身份证认证修改
         '$scope','$rootScope','$timeout','$filter','$location','userInfo','initData',
-        function($scope, $rootScope,$timeout,$filter,$location,userInfo,initData){
+        function($scope,$rootScope, $timeout,$filter,$location,userInfo,initData){
         $scope.designerIdcard = {
             status : false,
             waiting : true,
@@ -1178,14 +1183,17 @@ angular.module('controllers', [])
                 $scope.designerIdcard.status = false;
                 $scope.designerUId = undefined;
                 uploadDesignerInfo();
+                $('#fileToUpload1').uploadify('destroy');
+                $('#fileToUpload2').uploadify('destroy');
+                $('#fileToUpload3').uploadify('destroy');
             },function(res){
                 console.log(res)
             });
         }
     }])
     .controller('teamCtrl', [     //施工团队认证修改
-        '$scope','$rootScope','$http','$filter','$location','$stateParams','$timeout','userTeam','initData',
-        function($scope, $rootScope,$http,$filter,$location,$stateParams,$timeout,userTeam,initData){
+        '$scope','$rootScope','$stateParams','$location','$timeout','userTeam','initData',
+        function($scope,$rootScope,$stateParams,$location,$timeout,userTeam,initData){
         function load(){
             userTeam.list().then(function(res){
                 $scope.teamList = res.data.data
@@ -1278,10 +1286,13 @@ angular.module('controllers', [])
                     return ;
                 }
             this.disabled = true;
+            $scope.designerTeam.destroyDt = false;
             if($stateParams.id){
                 userTeam.update($scope.team).then(function(res){
                     if(res.data.msg === "success"){
-                        $location.path('teamList')
+                        $('#fileToUpload1').uploadify('destroy');
+                        $('#fileToUpload2').uploadify('destroy');
+                        $location.path('teamList');
                     }
                 },function(res){
                     console.log(res)
@@ -1289,7 +1300,9 @@ angular.module('controllers', [])
             }else{
                 userTeam.add($scope.team).then(function(res){
                     if(res.data.msg === "success"){
-                        $location.path('teamList')
+                        $('#fileToUpload1').uploadify('destroy');
+                        $('#fileToUpload2').uploadify('destroy');
+                        $location.path('teamList');
                     }
                 },function(res){
                     console.log(res)
@@ -1374,6 +1387,7 @@ angular.module('controllers', [])
                 if(this.isRelease){
                     userProduct.add($scope.product).then(function(res){
                         if(res.data.msg === "success"){
+                            $('#createUpload').uploadify('destroy');
                             $state.go('products.list', { 'id' : 1 });
                         }
                     },function(res){
@@ -1382,6 +1396,7 @@ angular.module('controllers', [])
                 }else{
                     userProduct.update($scope.product).then(function(res){
                         if(res.data.msg === "success"){
+                            $('#createUpload').uploadify('destroy');
                             $state.go('products.list', { 'id' : 1 });
                         }
                     },function(res){

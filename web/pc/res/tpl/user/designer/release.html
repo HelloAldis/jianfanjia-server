@@ -99,13 +99,12 @@
 							<label class="u-lab"><i>*</i>装修造价</label>
 							<div class="u-inp">
 								<div class="inp">
-									<input type="text" class="input" name="total_price" ng-model="product.total_price" ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/" ng-maxlength="5" required placeholder="请输入数字" my-placeholder />
+									<input type="text" class="input" name="total_price" ng-model="product.total_price" ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/" required placeholder="请输入数字" my-placeholder />
 									<span class="unit">万元</span>
 								</div>
 							</div>
 							<div class="u-error">
 								<span ng-show="myRelease.total_price.$dirty && myRelease.total_price.$error.pattern" class="has-error">必须为整数</span>
-								<span ng-show="myRelease.total_price.$dirty && myRelease.total_price.$error.maxlength" class="has-error">长度超过5位</span>
 								<span ng-show="myRelease.total_price.$dirty && myRelease.total_price.$error.required" class="has-error">不能为空</span>
 							</div>
 						</div>

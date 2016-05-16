@@ -152,17 +152,17 @@
 									</div>
 								</div>
 							</div>
-							<div class="m-item f-cb">
-								<div class="item">
-									<label class="u-lab" for="owner-name">获奖照片及描述</label>
-									<div class="u-inp insertimage">
-										<div my-insertimage my-query="designer.award_details" my-type="write" ng-if="designer"></div>
-									</div>
-								</div>
-							</div>
 							<div class="k-uppicbox">
 								<div my-upload my-query="designer.imageid" class="simpleupload"></div>
 								<p>请上传大于300*300头像照片<br />3M以内jpg/png格式</p>
+							</div>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="owner-name">获奖照片及描述</label>
+								<div class="u-inp insertimage">
+									<div my-insertimage my-query="designer.award_details" my-type="write" ng-if="designer"></div>
+								</div>
 							</div>
 						</div>
 						<div my-alert type="warning" ng-show="designerInfo.error" text="{{designerInfo.errormsg}}"></div>

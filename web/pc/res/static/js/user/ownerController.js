@@ -89,9 +89,7 @@ angular.module('controllers', [])
                 $scope.userInfo.isLoading = true;
             }
             $scope.userInfo.submit = function(){     //修改个人资料
-                if(checkSupport() !== "html5"){
-                    $('#fileToUpload').uploadify('destroy');
-                }
+                $('#fileToUpload').uploadify('destroy');
                 $scope.userInfo.disabled = true;
                 userInfo.update($scope.user).then(function(res){
                     if(res.data.msg == "success"){

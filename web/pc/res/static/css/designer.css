@@ -2127,7 +2127,7 @@ body{
 .m-productList li .select{
 	padding: 32px 0;
 }
-.m-productList li .select a{
+.m-productList li .select .btns{
 	display: inline-block;
 	width: 28px;
 	height: 28px;
@@ -2138,7 +2138,7 @@ body{
 	background-color: #f6f6f6;
 	border: 1px solid #ccc;
 }
-.m-productList li .select a:hover{
+.m-productList li .select .btns:hover{
 	color: #545968;
 	background-color: #f0f0f0;
 	border-color: #c5c5c5;

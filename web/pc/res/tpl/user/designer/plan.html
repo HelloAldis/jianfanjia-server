@@ -4,7 +4,7 @@
 		<a bo-if="requirement.plan.status == 6 || requirement.plan.status == 3" ui-sref="createPlan({id:requirement._id,userid:requirement.user._id,username:requirement.user.username,worktype:requirement.work_type,packagetype:requirement.package_type,baseprice:requirement.house_area*365})" class="u-btns f-fr">提交新方案</a>
 	</div>
 	<ul class="m-plans" ng-if="plans.length == 0 || plans">
-		<li bindonce="plans" ng-repeat="data in plans">
+		<li bindonce="plans" ng-repeat="data in plans track by $index">
 			<div class="boxs">
 				<div class="info f-cb">
 					<span class="head f-fl">
@@ -24,10 +24,10 @@
 							<span><i class="iconfont2">&#xe625;</i><em bo-text="data.user.phone"></em></span>
 						</dd>
 					</dl>
-					<span ng-class="{'status status4 f-fr':data.status == 4,'status status5 f-fr':data.status == 5,'status status3 f-fr':data.status == 3}" ng-switch="data.status">
-						<i ng-switch-when="4">未中标</i>
-						<i ng-switch-when="5">已中标</i>
-						<i ng-switch-when="3">沟通中</i>
+					<span bo-class="{'status status4 f-fr':data.status == 4,'status status5 f-fr':data.status == 5,'status status3 f-fr':data.status == 3}" bo-switch="data.status">
+						<i bo-switch-when="4">未中标</i>
+						<i bo-switch-when="5">已中标</i>
+						<i bo-switch-when="3">沟通中</i>
 					</span>
 				</div>
 				<div class="profile f-cb">
@@ -35,7 +35,7 @@
 					<p class="f-fl" bo-text="data.description"></p>
 				</div>
 				<ul class="images">
-					<li ng-repeat="img in data.images | limitTo : 3"><img bo-src-i="/api/v2/web/thumbnail2/280/180/{{img}}" alt=""></li>
+					<li ng-repeat="img in data.images | limitTo : 3 track by $index"><img bo-src-i="/api/v2/web/thumbnail2/280/180/{{img}}" alt=""></li>
 				</ul>
 				<div class="select">
 					<a bo-href-i="plans.html?pid={{data._id}}#plansMsg" class="u-btns u-btns-revise msg f-fl" target="_blank">留言 (<i bo-text="data.comment_count"></i>)</a>
