@@ -108,7 +108,6 @@ gulp.task('release', function (callback) {
 gulp.task('deploy', function (callback) {
   runSequence(
     'cp-config',
-    'upgrade',
     function (error) {
       if (error) {
         console.log(error.message);

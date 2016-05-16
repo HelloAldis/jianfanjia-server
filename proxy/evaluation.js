@@ -37,3 +37,7 @@ exports.setOne = function (query, update, option, callback) {
     $set: update
   }, option, callback)
 }
+
+exports.group = function (group, match, callback) {
+  Evaluation.aggregate().match(match).group(group).exec(callback);
+}
