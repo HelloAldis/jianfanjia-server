@@ -13,7 +13,9 @@ var router = express.Router();
 // home page
 // router.get('/', site.index);
 router.get('/', response_util, home.index);
-// router.get('/index.html', home.index);
+router.get('/index.html|/index.htm', function (req, res, next) {
+  res.redirect('/');
+});
 router.get('/tpl/user/', site.homePage);
 router.get('/download/user/app', site.download_user_app);
 router.get('/download/user/apk', site.download_user_apk);

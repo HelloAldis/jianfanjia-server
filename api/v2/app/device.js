@@ -7,9 +7,9 @@ const fs = require('fs');
 const path = require('path');
 const gt = require('../../../getui/gt.js');
 
-const apkDir = path.normalize(__dirname + '/../../../public/user_build');
-const designerApkDir = path.normalize(__dirname + '/../../../public/designer_build');
-const supervisorApkDir = path.normalize(__dirname + '/../../../public/supervisor_build');
+const apkDir = path.normalize(__dirname + '/../../../web/pc/res/user_build');
+const designerApkDir = path.normalize(__dirname + '/../../../web/pc/res/designer_build');
+const supervisorApkDir = path.normalize(__dirname + '/../../../web/pc/res/supervisor_build');
 
 exports.android_build_version = function (req, res, next) {
   // gt.pushMessageToUser('568494454ade4cb02eeff7c5', {

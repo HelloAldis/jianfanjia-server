@@ -14,8 +14,8 @@ exports.homePage = function (req, res, next) {
   }
 }
 
-var apkDir = path.normalize(__dirname + '/../public/user_build');
-var designerApkDir = path.normalize(__dirname + '/../public/designer_build');
+var apkDir = path.normalize(__dirname + '/../web/pc/res/user_build');
+var designerApkDir = path.normalize(__dirname + '/../web/pc/res/designer_build');
 
 exports.download_user_app = function (req, res, next) {
   var ep = eventproxy();
