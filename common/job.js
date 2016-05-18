@@ -1,10 +1,13 @@
-var config = require('../apiconfig');
-var Agenda = require('agenda');
-var Plan = require('../proxy').Plan;
-var type = require('../type');
-var request = require('superagent');
-var cache = require('../common/cache');
-var logger = require('./logger');
+'use strict'
+
+const config = require('../apiconfig');
+const Agenda = require('agenda');
+const Plan = require('../proxy').Plan;
+const type = require('../type');
+const request = require('superagent');
+const cache = require('../common/cache');
+const logger = require('./logger');
+const score_business = require('../business/score_business');
 
 var agenda = new Agenda({
   db: {
@@ -53,6 +56,16 @@ agenda.define('expire_designer_upload_plan', function (job, done) {
   });
 });
 
+agenda.define('refresh_designer_score', function (job, done) {
+  score_business.refresh_all_designer_score(function (err) {
+    if (err) {
+      logger.error('refresh designer score finished with error: ' + err);
+    } else {
+      logger.debug('refresh designer score finished successfully');
+    }
+  })
+});
+
 agenda.define('get_wechat_token', function (job, done) {
   request.get('https://api.weixin.qq.com/cgi-bin/token').query({
     grant_type: 'client_credential',
@@ -73,8 +86,8 @@ agenda.define('get_wechat_token', function (job, done) {
 agenda.on('ready', function () {
   // agenda.every(config.interval_scan_expired_respond + ' minutes',
   //   'expire_designer_respond');
-  agenda.every(config.interval_scan_expired_upload_plan + ' minutes',
-    'expire_designer_upload_plan');
+  agenda.every(config.interval_scan_expired_upload_plan + ' minutes', 'expire_designer_upload_plan');
+  agenda.every('00 00 3 * * *', 'refresh_designer_score');
 
   if (config.open_weixin_token) {
     agenda.every(config.interval_get_wechat_token + ' minutes',

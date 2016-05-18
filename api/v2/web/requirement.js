@@ -5,6 +5,7 @@ var Requirement = require('../../../proxy').Requirement;
 var Designer = require('../../../proxy').Designer;
 var _ = require('lodash');
 var ApiUtil = require('../../../common/api_util');
+var tools = require('../../../common/tools');
 var type = require('../../../type');
 var async = require('async');
 var sms = require('../../../common/sms');
@@ -476,6 +477,7 @@ exports.one_contract = function (req, res, next) {
 
 exports.config_contract = function (req, res, next) {
   var requirementid = req.body.requirementid;
+  var manager = tools.trim(req.body.manager);
   var start_at = req.body.start_at;
   var ep = eventproxy();
   ep.fail(next);
@@ -506,6 +508,13 @@ exports.config_contract = function (req, res, next) {
           }, {
             username: 1,
           }, callback);
+        },
+        set_manager: function () {
+          Plan.setOne({
+            _id: requirement.final_planid
+          }, {
+            manager: manager
+          }, null, callback);
         }
       }, function (err, result) {
         if (!err && result.user && result.designer) {
