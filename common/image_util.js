@@ -54,3 +54,18 @@ exports.resizeThenWatermark2stream = function (buffer, width, callback) {
 
   gm(buffer).resize(width).draw(command).interlace('Line').stream(callback);
 }
+
+exports.compare = function (file1, file2, callback) {
+  gm.compare(file1, file2, callback);
+}
+
+exports.isPlanImage = function (buffer, callback) {
+  gm(buffer).fuzz('5%').fill('white').opaque('black').write('temp.jpeg', function (err) {
+    if (err) {
+      callback(err);
+      return;
+    }
+
+    exports.compare('./res/plan.jpeg', './temp.jpeg', callback);
+  });
+}

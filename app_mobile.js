@@ -29,8 +29,8 @@ app.enable('trust proxy');
 
 //config view engine
 app.set('views', path.join(__dirname, 'web/mobile/template'));
-app.set('view engine', 'html');
-app.engine('html', require('ejs').__express);
+app.set('view engine', 'ejs');
+app.engine('ejs', require('ejs').__express);
 app.set('view cache', !config.debug);
 
 app.use(compression());

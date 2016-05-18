@@ -16,6 +16,12 @@ var ImageSchema = new Schema({
   },
   create_at: {
     type: Number
+  },
+  width: {
+    type: Number
+  },
+  height: {
+    type: Number
   }
 });
 

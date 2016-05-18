@@ -64,33 +64,27 @@ exports.buildWechatUser = function (req) {
 
 exports.buildDesinger = function (req) {
   let designer = {};
-  designer.username = req.body.username;
-  designer.sex = req.body.sex;
-  designer.province = req.body.province;
-  designer.city = req.body.city;
-  designer.district = req.body.district;
-  designer.address = req.body.address;
-  designer.company = req.body.company;
-  designer.achievement = req.body.achievement;
-  designer.philosophy = req.body.philosophy;
-  designer.work_year = req.body.work_year;
-  designer.university = req.body.university;
+  let input = req.body.designer || req.body;
 
-  if (req.body.diploma_imageid) {
-    designer.diploma_imageid = new ObjectId(req.body.diploma_imageid);
-  }
+  designer.username = input.username;
+  designer.sex = input.sex;
+  designer.province = input.province;
+  designer.city = input.city;
+  designer.district = input.district;
+  designer.address = input.address;
+  designer.company = input.company;
+  designer.achievement = input.achievement;
+  designer.philosophy = input.philosophy;
+  designer.work_year = input.work_year;
+  designer.university = input.university;
 
-  if (req.body.imageid) {
-    designer.imageid = new ObjectId(req.body.imageid);
-  }
+  designer.diploma_imageid = tools.convert2ObjectId(input.diploma_imageid);
+  designer.imageid = tools.convert2ObjectId(input.imageid);
+  designer.big_imageid = tools.convert2ObjectId(input.big_imageid);
 
-  if (req.body.big_imageid) {
-    designer.big_imageid = new ObjectId(req.body.big_imageid);
-  }
-
-  if (req.body.award_details) {
-    designer.award_details = _.map(req.body.award_details, function (i) {
-      i.award_imageid = new ObjectId(i.award_imageid);
+  if (input.award_details) {
+    designer.award_details = _.map(input.award_details, function (i) {
+      i.award_imageid = tools.convert2ObjectId(i.award_imageid);
       return i;
     });
   }
@@ -100,83 +94,86 @@ exports.buildDesinger = function (req) {
 
 exports.buildDesignerBusinessInfo = function (req) {
   let designer = {};
-  designer.dec_types = req.body.dec_types;
-  designer.work_types = req.body.work_types;
-  designer.dec_styles = req.body.dec_styles;
-  designer.dec_districts = req.body.dec_districts;
-  designer.dec_house_types = req.body.dec_house_types;
-  designer.design_fee_range = req.body.design_fee_range;
-  designer.dec_fee_half = req.body.dec_fee_half;
-  designer.dec_fee_all = req.body.dec_fee_all;
-  designer.communication_type = req.body.communication_type;
+  let input = req.body.designer || req.body;
+
+  designer.dec_types = input.dec_types;
+  designer.work_types = input.work_types;
+  designer.dec_styles = input.dec_styles;
+  designer.dec_districts = input.dec_districts;
+  designer.dec_house_types = input.dec_house_types;
+  designer.design_fee_range = input.design_fee_range;
+  designer.dec_fee_half = input.dec_fee_half;
+  designer.dec_fee_all = input.dec_fee_all;
+  designer.communication_type = input.communication_type;
 
   return tools.deleteUndefinedAndNullThenFilterXss(designer);
 }
 
 exports.buildUidBank = function (req) {
   let designer = {};
-  designer.username = req.body.username;
-  designer.uid = req.body.uid;
-  designer.bank_card = req.body.bank_card;
-  designer.bank = req.body.bank;
+  let input = req.body.designer || req.body;
 
-  if (req.body.uid_image1) {
-    designer.uid_image1 = new ObjectId(req.body.uid_image1);
-  }
+  designer.realname = input.realname;
+  designer.uid = input.uid;
+  designer.bank_card = input.bank_card;
+  designer.bank = input.bank;
 
-  if (req.body.uid_image2) {
-    designer.uid_image2 = new ObjectId(req.body.uid_image2);
-  }
-
-  if (req.body.bank_card_image1) {
-    designer.bank_card_image1 = new ObjectId(req.body.bank_card_image1);
-  }
+  designer.uid_image1 = tools.convert2ObjectId(input.uid_image1);
+  designer.uid_image2 = tools.convert2ObjectId(input.uid_image2);
+  designer.bank_card_image1 = tools.convert2ObjectId(input.bank_card_image1);
 
   return tools.deleteUndefinedAndNullThenFilterXss(designer);
 }
 
 exports.buildTeam = function (req) {
   let team = {};
-  team.manager = req.body.manager;
-  team.uid = req.body.uid;
-  team.company = req.body.company;
-  team.work_year = req.body.work_year;
-  team.good_at = req.body.good_at;
-  team.working_on = req.body.working_on;
-  team.sex = req.body.sex;
-  team.province = req.body.province;
-  team.city = req.body.city;
-  team.district = req.body.district;
+  let input = req.body.team || req.body;
 
-  if (req.body.uid_image1) {
-    team.uid_image1 = new ObjectId(req.body.uid_image1);
-  }
+  team.manager = input.manager;
+  team.uid = input.uid;
+  team.company = input.company;
+  team.work_year = input.work_year;
+  team.good_at = input.good_at;
+  team.working_on = input.working_on;
+  team.sex = input.sex;
+  team.province = input.province;
+  team.city = input.city;
+  team.district = input.district;
 
-  if (req.body.uid_image2) {
-    team.uid_image2 = new ObjectId(req.body.uid_image2);
-  }
+  team.uid_image1 = tools.convert2ObjectId(input.uid_image1);
+  team.uid_image2 = tools.convert2ObjectId(input.uid_image2);
 
   return tools.deleteUndefinedAndNullThenFilterXss(team);
 }
 
 exports.buildProduct = function (req) {
   let product = {};
-  product.province = req.body.province;
-  product.city = req.body.city;
-  product.district = req.body.district;
-  product.cell = req.body.cell;
-  product.house_type = req.body.house_type;
-  product.business_house_type = req.body.business_house_type;
-  product.house_area = req.body.house_area;
-  product.dec_style = req.body.dec_style;
-  product.dec_type = req.body.dec_type;
-  product.work_type = req.body.work_type;
-  product.total_price = req.body.total_price;
-  product.description = req.body.description;
+  let input = req.body.product || req.body;
 
-  if (req.body.images) {
-    product.images = _.map(req.body.images, function (i) {
-      i.imageid = new ObjectId(i.imageid);
+  product.province = input.province;
+  product.city = input.city;
+  product.district = input.district;
+  product.cell = input.cell;
+  product.house_type = input.house_type;
+  product.business_house_type = input.business_house_type;
+  product.house_area = input.house_area;
+  product.dec_style = input.dec_style;
+  product.dec_type = input.dec_type;
+  product.work_type = input.work_type;
+  product.total_price = input.total_price;
+  product.description = input.description;
+  product.cover_imageid = tools.convert2ObjectId(input.cover_imageid);
+
+  if (input.images) {
+    product.images = _.map(input.images, function (i) {
+      i.imageid = tools.convert2ObjectId(i.imageid);
+      return i;
+    });
+  }
+
+  if (input.plan_images) {
+    product.plan_images = _.map(input.plan_images, function (i) {
+      i.imageid = tools.convert2ObjectId(i.imageid);
       return i;
     });
   }

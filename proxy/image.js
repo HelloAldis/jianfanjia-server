@@ -14,6 +14,12 @@ exports.newAndSave = function (md5, data, userid, callback) {
   image.save(callback);
 };
 
+exports.newAndSave2 = function (json, callback) {
+  var image = new Image(json);
+  image.create_at = new Date().getTime();
+  image.save(callback);
+};
+
 exports.find = function (query, project, option, callback) {
   Image.find(query, project, option, callback);
 }

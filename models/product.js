@@ -55,6 +55,22 @@ var ProductSchema = new Schema({
       },
     }]
   },
+  plan_images: {
+    type: [{
+      section: {
+        type: String
+      },
+      imageid: {
+        type: ObjectId
+      },
+      description: {
+        type: String
+      },
+    }]
+  },
+  cover_imageid: {
+    type: ObjectId
+  },
 
   view_count: {
     type: Number,

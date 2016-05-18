@@ -20,3 +20,20 @@ exports.is_favorite_designer = function (userid, usertype, designerid, callback)
     callback(null, undefined);
   }
 }
+
+exports.is_favorite_product = function (userid, usertype, productid, callback) {
+  if (userid && usertype === type.role_user) {
+    Favorite.findOne({
+      userid: userid,
+      favorite_product: productid,
+    }, null, function (err, favorite) {
+      if (favorite) {
+        callback(err, true);
+      } else {
+        callback(err, false);
+      }
+    });
+  } else {
+    callback(null, undefined);
+  }
+}

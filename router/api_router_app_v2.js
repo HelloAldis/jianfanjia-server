@@ -27,6 +27,7 @@ var productWeb = require('../api/v2/web/product');
 var beautiful_imageWeb = require('../api/v2/web/beautiful_image');
 var messageWeb = require('../api/v2/web/message');
 var shareWeb = require('../api/v2/web/share');
+var teamWeb = require('../api/v2/web/team');
 
 var config = require('../apiconfig');
 var auth = require('../middlewares/auth');
@@ -127,6 +128,11 @@ router.post('/unread_user_message_count', auth.userRequired, messageWeb.unread_u
 router.post('/search_user_comment', auth.userRequired, message.search_user_comment); //获取业主评论通知
 
 //设计师独有功能
+router.post('/designer/agree', auth.designerRequired, designerWeb.agree); //同意条款
+router.post('/designer/info', auth.designerRequired, designerWeb.updateInfo); //修改设计师个人资料
+router.post('/designer/update_business_info', auth.designerRequired, designerWeb.update_business_info); //修改设计师接单资料
+router.post('/designer/uid_bank_info', auth.designerRequired, designerWeb.uid_bank_info); //更新银行卡信息
+router.post('/designer/email_info', auth.designerRequired, designerWeb.email_info); //更新邮箱信息
 router.get('/designer/info', auth.designerRequired, designerWeb.getInfo); //获取设计师自己个人资料
 router.post('/process/ysimage', auth.designerRequired, process.addYsImage); //提交验收照片
 router.post('/process/ysimage/delete', auth.designerRequired, process.deleteYsImage); //删除验收照片
@@ -143,6 +149,16 @@ router.post('/unread_designer_message_count', auth.designerRequired, messageWeb.
 router.post('/search_designer_comment', auth.designerRequired, message.search_designer_comment); //获取设计师评论通知
 router.post('/designer_remind_user_house_check', auth.designerRequired, limit.peruserplanperday('designer_remind_user_house_check', config.designer_remind_user_house_check_time_one_day),
   designerWeb.designer_remind_user_house_check); //设计师提醒业主确认量房
+router.post('/designer/product', auth.designerRequired, productWeb.designer_my_products); //设计师获取自己的作品列表
+router.post('/designer/product/one', auth.designerRequired, productWeb.designer_one_product); //设计师获取自己的某个作品
+router.post('/designer/product/add', auth.designerRequired, productWeb.add); //上传作品
+router.post('/designer/product/update', auth.designerRequired, productWeb.update); //更新作品
+router.post('/designer/product/delete', auth.designerRequired, productWeb.delete); //删除作品
+router.post('/designer/team/get', auth.designerRequired, teamWeb.list); //获取施工队伍
+router.post('/designer/team/one', auth.designerRequired, teamWeb.designer_one_team); //设计师获取自己的某个施工队伍
+router.post('/designer/team/add', auth.designerRequired, teamWeb.add); //添加施工队伍
+router.post('/designer/team/update', auth.designerRequired, teamWeb.update); //更新施工队伍
+router.post('/designer/team/delete', auth.designerRequired, teamWeb.delete); //删除施工队伍
 
 //监理独有功能
 router.post('/supervisor_login', sign.supervisor_login);

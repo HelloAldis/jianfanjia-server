@@ -1,10 +1,10 @@
-<%- include('../module/head.html') -%>
+<%- include('../module/head') -%>
   <title>装修设计师－<%=data.designer.username%></title>
   <meta name="description" content="<%= data.designer.philosophy %>">
   <meta name="keywords" content="装修,设计师">
   <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
   <link rel="stylesheet" type="text/css" href="/static/css/design.css" />
-<%- include('../module/header.html') -%>
+<%- include('../module/header') -%>
     <%
     function price_area(input){ return { "0" : "50-100", "1" : "100-200", "2" : "200-300", "3" : "300以上"}[input] }
     function house_type(input){ return { "0" : "一室", "1" : "二室", "2" : "三室", "3" : "四室", "4" : "复式", "5" : "别墅", "6" : "LOFT", "7" : "其他" }[input] }
@@ -190,4 +190,4 @@
     </section>
   </main>
   <script type="text/javascript" data-main="/static/js/design/home" src="/static/js/lib/require.js"></script>
-<%- include('../module/footer.html') -%>
+<%- include('../module/footer') -%>

@@ -9,6 +9,9 @@ var DesignerSchema = new Schema({
   username: {
     type: String
   },
+  realname: {
+    type: String
+  },
   sex: {
     type: String
   },

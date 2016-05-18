@@ -23,11 +23,20 @@ exports.add = function (req, res, next) {
         }
       } else {
         imageUtil.jpgbuffer(data, ep.done(function (buf) {
-          Image.newAndSave(md5, buf, userid, ep.done(function (savedImage) {
-            if (!req.timedout) {
-              res.sendData(savedImage._id);
-            }
+          imageUtil.meta(buf, ep.done(function (size) {
+            Image.newAndSave2({
+              md5: md5,
+              data: buf,
+              userid: userid,
+              width: size.width,
+              height: size.height,
+            }, ep.done(function (savedImage) {
+              if (!req.timedout) {
+                res.sendData(savedImage._id);
+              }
+            }));
           }));
+
         }));
       }
     }));
@@ -210,23 +219,12 @@ exports.imagemeta = function (req, res, next) {
   async.mapLimit(_ids, 3, function (_id, callback) {
     Image.findOne({
       _id: _id,
-    }, null, function (err, image) {
-      if (err || !image) {
-        callback(null, {
-          _id: _id
-        });
-      } else {
-        imageUtil.meta(image.data, function (err, value) {
-          if (err || !value) {
-            callback(null, {
-              _id: _id
-            });
-          } else {
-            value._id = _id;
-            callback(null, value);
-          }
-        });
-      }
+    }, {
+      _id: 1,
+      width: 1,
+      height: 1
+    }, function (err, image) {
+      callback(err, image);
     });
   }, ep.done(function (metas) {
     res.sendData(metas);
