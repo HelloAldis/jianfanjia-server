@@ -30,6 +30,7 @@ const imageUtil = require('../../../common/image_util');
 const message_util = require('../../../common/message_util');
 const reg_util = require('../../../common/reg_util');
 const validator = require('validator');
+const push_url = require('../../../business/push_url');
 
 exports.login = function (req, res, next) {
   if (req.body.username === 'sunny' && req.body.pass === '!@Jyz20150608#$') {
@@ -62,6 +63,7 @@ exports.update_basic_auth = function (req, res, next) {
       if (new_auth_type === type.designer_auth_type_done) {
         message_util.designer_message_type_basic_auth_done(designer);
         sms.sendYzxAuthSuccess(designer.phone, [designer.username]);
+        push_url.push_designer_url(designer._id);
       } else if (new_auth_type === type.designer_auth_type_reject) {
         message_util.designer_message_type_basic_auth_reject(designer, auth_message);
       }
@@ -149,6 +151,7 @@ exports.update_product_auth = function (req, res, next) {
             upsert: true
           });
         }
+        push_url.push_product_url(productid);
       } else if (new_auth_type !== type.product_auth_type_done) {
         if (product.auth_type === type.product_auth_type_done) {
           Designer.incOne({
@@ -736,6 +739,7 @@ exports.update_article = function (req, res, next) {
     _id: _id
   }, article, null, ep.done(function (dec_strategy) {
     res.sendSuccessMsg();
+    push_url.push_strategy_url(dec_strategy._id);
   }));
 }
 
