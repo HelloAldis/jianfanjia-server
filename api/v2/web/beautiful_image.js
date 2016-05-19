@@ -10,6 +10,7 @@ const ApiUtil = require('../../../common/api_util');
 const type = require('../../../type');
 const limit = require('../../../middlewares/limit');
 const reg_util = require('../../../common/reg_util');
+const user_habit_collect = require('../../../business/user_habit_collect');
 
 exports.beautiful_image_homepage = function (req, res, next) {
   let _id = req.body._id;
@@ -66,7 +67,7 @@ exports.beautiful_image_homepage = function (req, res, next) {
             section: beautiful_image.section,
             status: type.beautiful_image_status_public,
             lastupdate: {
-              $lt: beautiful_image.lastupdate,
+              $gt: beautiful_image.lastupdate,
             },
           }, null, {
             sort: {
@@ -86,7 +87,7 @@ exports.beautiful_image_homepage = function (req, res, next) {
             section: beautiful_image.section,
             status: type.beautiful_image_status_public,
             lastupdate: {
-              $gt: beautiful_image.lastupdate,
+              $lt: beautiful_image.lastupdate,
             },
           }, null, {
             sort: {
@@ -129,15 +130,15 @@ exports.beautiful_image_homepage = function (req, res, next) {
         }
       }));
 
-      limit.perwhatperdaydo('beautiful_image_homepage', req.ip + _id,
-        1,
-        function () {
-          BeautifulImage.incOne({
-            _id: _id
-          }, {
-            view_count: 1
-          });
+      limit.perwhatperdaydo('beautiful_image_homepage', req.ip + _id, 1, function () {
+        BeautifulImage.incOne({
+          _id: _id
+        }, {
+          view_count: 1
         });
+      });
+
+      user_habit_collect.add_beautiful_image_history(userid, usertype, _id);
     } else {
       res.sendData({});
     }

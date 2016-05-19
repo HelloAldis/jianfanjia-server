@@ -22,6 +22,7 @@ const authMiddleWare = require('../../../middlewares/auth');
 const message_util = require('../../../common/message_util');
 const reg_util = require('../../../common/reg_util');
 const pc_web_header = require('../../../business/pc_web_header');
+const user_habit_collect = require('../../../business/user_habit_collect');
 
 let noPassAndToken = {
   pass: 0,
@@ -144,14 +145,15 @@ exports.designer_home_page = function (req, res, next) {
         res.sendData(designer);
       }
 
-      limit.perwhatperdaydo('designergetone', req.ip + designerid, 1,
-        function () {
-          Designer.incOne({
-            _id: designerid
-          }, {
-            view_count: 1
-          }, {});
-        });
+      limit.perwhatperdaydo('designergetone', req.ip + designerid, 1, function () {
+        Designer.incOne({
+          _id: designerid
+        }, {
+          view_count: 1
+        }, {});
+      });
+
+      user_habit_collect.add_designer_history(userid, usertype, designerid);
     } else {
       res.sendData(null);
     }

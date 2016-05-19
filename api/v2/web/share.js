@@ -1,8 +1,12 @@
-var eventproxy = require('eventproxy');
-var Designer = require('../../../proxy').Designer;
-var Share = require('../../../proxy').Share;
-var _ = require('lodash');
-var async = require('async');
+'use strict'
+
+const eventproxy = require('eventproxy');
+const Designer = require('../../../proxy').Designer;
+const Share = require('../../../proxy').Share;
+const _ = require('lodash');
+const async = require('async');
+const ApiUtil = require('../../../common/api_util');
+const user_habit_collect = require('../../../business/user_habit_collect');
 
 exports.search_share = function (req, res, next) {
   var query = req.body.query || {};
@@ -11,6 +15,8 @@ exports.search_share = function (req, res, next) {
   };
   var skip = req.body.from || 0;
   var limit = req.body.limit || 10;
+  const userid = ApiUtil.getUserid(req);
+  const usertype = ApiUtil.getUsertype(req);
   var ep = new eventproxy();
   ep.fail(next);
 
@@ -38,6 +44,10 @@ exports.search_share = function (req, res, next) {
           total: totals
         });
       }));
+
+      if (query._id && shares.length > 0) {
+        user_habit_collect.add_share_history(userid, usertype, shares[0]._id);
+      }
     }));
 }
 

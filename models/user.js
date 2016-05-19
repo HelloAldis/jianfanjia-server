@@ -69,6 +69,21 @@ var UserSchema = new Schema({
   family_description: {
     type: String,
   },
+  product_view_history: {
+    type: [ObjectId]
+  },
+  designer_view_history: {
+    type: [ObjectId]
+  },
+  beautiful_image_view_history: {
+    type: [ObjectId]
+  },
+  share_view_history: {
+    type: [ObjectId]
+  },
+  strategy_view_history: {
+    type: [ObjectId]
+  },
 });
 
 UserSchema.index({

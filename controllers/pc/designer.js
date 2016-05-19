@@ -10,9 +10,10 @@ const ApiUtil = require('../../common/api_util');
 const Designer = require('../../proxy').Designer;
 const Product = require('../../proxy').Product;
 const limit = require('../../middlewares/limit')
+const user_habit_collect = require('../../business/user_habit_collect');
 
 exports.designer_page = function (req, res, next) {
-  const _id = ApiUtil.getUserid(req);
+  const userid = ApiUtil.getUserid(req);
   const usertype = ApiUtil.getUsertype(req);
   const designerid = req.params.designerid;
   const ep = eventproxy();
@@ -20,7 +21,7 @@ exports.designer_page = function (req, res, next) {
 
   async.parallel({
     header_info: function (callback) {
-      pc_web_header.statistic_info(_id, usertype, callback);
+      pc_web_header.statistic_info(userid, usertype, callback);
     },
     designer: function (callback) {
       Designer.findOne({
@@ -40,29 +41,72 @@ exports.designer_page = function (req, res, next) {
         designerid: designerid,
         auth_type: type.product_auth_type_done,
       }, null, {
+        sort: {
+          create_at: -1
+        },
         lean: true
       }, callback);
     },
     is_my_favorite: function (callback) {
-      favorite_business.is_favorite_designer(_id, usertype, designerid, callback);
+      favorite_business.is_favorite_designer(userid, usertype, designerid, callback);
     }
   }, ep.done(function (results) {
     if (results.designer) {
       results.designer.is_my_favorite = results.is_my_favorite;
-      if (results.designer.tags.indexOf('匠心定制') > -1) {
-        res.ejs('page/jxdz_designer', results, req);
-      } else {
-        res.ejs('page/other_designer', results, req);
-      }
+      res.ejs('page/jxdz_designer', results, req);
 
-      limit.perwhatperdaydo('designergetone', req.ip + designerid, 1,
-        function () {
-          Designer.incOne({
-            _id: designerid
-          }, {
-            view_count: 1
-          }, {});
-        });
+      limit.perwhatperdaydo('designergetone', req.ip + designerid, 1, function () {
+        Designer.incOne({
+          _id: designerid
+        }, {
+          view_count: 1
+        }, {});
+      });
+
+      user_habit_collect.add_designer_history(userid, usertype, designerid);
+    } else {
+      next();
+    }
+  }));
+}
+
+exports.designer_my_homepage = function (req, res, next) {
+  const designerid = ApiUtil.getUserid(req);
+  const usertype = ApiUtil.getUsertype(req);
+  const ep = eventproxy();
+  ep.fail(next);
+
+  async.parallel({
+    header_info: function (callback) {
+      pc_web_header.statistic_info(designerid, usertype, callback);
+    },
+    designer: function (callback) {
+      Designer.findOne({
+        _id: designerid
+      }, {
+        pass: 0,
+        accessToken: 0,
+        uid: 0,
+        phone: 0,
+        email: 0,
+        bank: 0,
+        bank_card: 0,
+      }, callback);
+    },
+    products: function (callback) {
+      Product.find({
+        designerid: designerid,
+        auth_type: type.product_auth_type_done,
+      }, null, {
+        sort: {
+          create_at: -1
+        },
+        lean: true
+      }, callback);
+    }
+  }, ep.done(function (results) {
+    if (results.designer) {
+      res.ejs('page/other_designer', results, req);
     } else {
       next();
     }

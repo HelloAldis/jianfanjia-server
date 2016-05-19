@@ -10,9 +10,10 @@ const ApiUtil = require('../../common/api_util');
 const Designer = require('../../proxy').Designer;
 const Product = require('../../proxy').Product;
 const limit = require('../../middlewares/limit')
+const user_habit_collect = require('../../business/user_habit_collect');
 
 exports.product_page = function (req, res, next) {
-  const _id = ApiUtil.getUserid(req);
+  const userid = ApiUtil.getUserid(req);
   const usertype = ApiUtil.getUsertype(req);
   const productid = req.params.productid;
   const ep = eventproxy();
@@ -20,7 +21,7 @@ exports.product_page = function (req, res, next) {
 
   async.parallel({
     header_info: function (callback) {
-      pc_web_header.statistic_info(_id, usertype, callback);
+      pc_web_header.statistic_info(userid, usertype, callback);
     },
     product: function (callback) {
       Product.findOne({
@@ -29,7 +30,7 @@ exports.product_page = function (req, res, next) {
       }, null, callback);
     },
     is_my_favorite: function (callback) {
-      favorite_business.is_favorite_product(_id, usertype, productid, callback);
+      favorite_business.is_favorite_product(userid, usertype, productid, callback);
     }
   }, ep.done(function (results) {
     if (results.product) {
@@ -48,7 +49,7 @@ exports.product_page = function (req, res, next) {
           }, callback);
         },
         is_my_favorite: function (callback) {
-          favorite_business.is_favorite_designer(_id, usertype, results.product.designerid, callback);
+          favorite_business.is_favorite_designer(userid, usertype, results.product.designerid, callback);
         }
       }, ep.done(function (temp) {
         results.product = results.product.toObject();
@@ -66,6 +67,8 @@ exports.product_page = function (req, res, next) {
           view_count: 1
         });
       });
+
+      user_habit_collect.add_product_history(userid, usertype, productid);
     } else {
       next();
     }

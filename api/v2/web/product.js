@@ -13,6 +13,7 @@ const ObjectId = mongoose.Types.ObjectId;
 const limit = require('../../../middlewares/limit');
 const type = require('../../../type');
 const reg_util = require('../../../common/reg_util');
+const user_habit_collect = require('../../../business/user_habit_collect');
 
 exports.add = function (req, res, next) {
   let product = ApiUtil.buildProduct(req);
@@ -207,14 +208,15 @@ exports.product_home_page = function (req, res, next) {
         }
       }));
 
-      limit.perwhatperdaydo('productgetone', req.ip + productid, 1,
-        function () {
-          Product.incOne({
-            _id: productid
-          }, {
-            view_count: 1
-          });
+      limit.perwhatperdaydo('productgetone', req.ip + productid, 1, function () {
+        Product.incOne({
+          _id: productid
+        }, {
+          view_count: 1
         });
+      });
+
+      user_habit_collect.add_product_history(userid, usertype, productid);
     } else {
       res.sendData({});
     }

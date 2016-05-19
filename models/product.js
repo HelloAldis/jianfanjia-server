@@ -4,94 +4,94 @@ var ObjectId = Schema.ObjectId;
 
 var ProductSchema = new Schema({
   designerid: {
-    type: ObjectId
+    type: ObjectId // 设计师id
   },
   province: {
-    type: String
+    type: String // 省
   },
   city: {
-    type: String
+    type: String // 市
   },
   district: {
-    type: String
+    type: String // 区
   },
   cell: {
-    type: String
+    type: String // 小区
   },
   house_type: {
-    type: String
+    type: String // 户型
   },
   business_house_type: {
-    type: String
+    type: String // 商装户型
   },
   dec_type: {
-    type: String,
+    type: String, // 装修类型
   },
   house_area: {
-    type: Number
+    type: Number // 面积
   },
   dec_style: {
-    type: String
+    type: String // 装修风格
   },
   work_type: {
-    type: String
+    type: String // 包工类型
   },
   total_price: {
-    type: Number
+    type: Number // 总价
   },
   description: {
-    type: String
+    type: String // 描述
   },
-  images: {
+  images: { // 效果图
     type: [{
       section: {
-        type: String
+        type: String // 空间
       },
       imageid: {
-        type: ObjectId
+        type: ObjectId // 图片
       },
       description: {
-        type: String
+        type: String // 描述
       },
     }]
   },
-  plan_images: {
+  plan_images: { // 平面图
     type: [{
       section: {
-        type: String
+        type: String // 空间
       },
       imageid: {
-        type: ObjectId
+        type: ObjectId // 图片
       },
       description: {
-        type: String
+        type: String // 描述
       },
     }]
   },
   cover_imageid: {
-    type: ObjectId
+    type: ObjectId // 封面
   },
 
   view_count: {
-    type: Number,
+    type: Number, // 浏览数
     default: 0
   },
   favorite_count: {
-    type: Number,
+    type: Number, // 收藏数
     default: 0
   },
   auth_type: {
-    type: String,
+    type: String, // 审核类型
     default: '0',
   },
   auth_date: {
-    type: Number,
+    type: Number, // 审核时间
   },
   auth_message: {
-    type: String,
+    type: String, // 审核信息
   },
   create_at: {
-    type: Number
+    type: Number // 创建时间
   },
 });
 
