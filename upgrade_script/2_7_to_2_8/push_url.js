@@ -6,7 +6,7 @@ const DecStrategy = require('../../proxy').DecStrategy;
 const type = require('../../type');
 const async = require('async');
 
-const url = 'http://data.zz.baidu.com/urls?site=www.jianfanjia.com&token=AdJDVvWm7HkKpnHw';
+const url = 'http://data.zz.baidu.com/urls?site=www.jianfanjia.com&token=AdJDVvWm7HkKpnHw&type=original';
 const designer_url = 'http://www.jianfanjia.com/tpl/designer/'
 const strategy_url = 'http://www.jianfanjia.com/tpl/article/strategy/'
 
@@ -46,7 +46,7 @@ async.parallel({
   console.log(urls);
   console.log(`push ${urls.length} url to baidu`);
 
-  request.post(url).send(urls).end(function (err, res) {
+  request.post(url).send(urls.join('\n')).end(function (err, res) {
     if (err) {
       console.log(err);
     }

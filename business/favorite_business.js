@@ -22,7 +22,7 @@ exports.is_favorite_designer = function (userid, usertype, designerid, callback)
 }
 
 exports.is_favorite_product = function (userid, usertype, productid, callback) {
-  if (userid && usertype === type.role_user) {
+  if (userid && usertype !== type.role_admin) {
     Favorite.findOne({
       userid: userid,
       favorite_product: productid,
