@@ -9,6 +9,7 @@ const type = require('../../type');
 const ApiUtil = require('../../common/api_util');
 const Designer = require('../../proxy').Designer;
 const Product = require('../../proxy').Product;
+const Image = require('../../proxy').Image;
 const limit = require('../../middlewares/limit')
 const user_habit_collect = require('../../business/user_habit_collect');
 
@@ -34,6 +35,7 @@ exports.product_page = function (req, res, next) {
     }
   }, ep.done(function (results) {
     if (results.product) {
+      results.product = results.product.toObject();
       async.parallel({
         designer: function (callback) {
           Designer.findOne({
@@ -50,9 +52,36 @@ exports.product_page = function (req, res, next) {
         },
         is_my_favorite: function (callback) {
           favorite_business.is_favorite_designer(userid, usertype, results.product.designerid, callback);
-        }
+        },
+        fill_images_size: function (callback) {
+          async.mapLimit(results.product.images, 3, function (image, callback) {
+            Image.findOne({
+              _id: image.imageid
+            }, {
+              width: 1,
+              height: 1,
+            }, function (err, image_size) {
+              image.width = image_size.width;
+              image.height = image_size.height;
+              callback(err, image);
+            });
+          }, callback)
+        },
+        fill_plan_images_size: function (callback) {
+          async.mapLimit(results.product.plan_images, 3, function (image, callback) {
+            Image.findOne({
+              _id: image.imageid
+            }, {
+              width: 1,
+              height: 1,
+            }, function (err, image_size) {
+              image.width = image_size.width;
+              image.height = image_size.height;
+              callback(err, image);
+            });
+          }, callback)
+        },
       }, ep.done(function (temp) {
-        results.product = results.product.toObject();
         results.product.is_my_favorite = results.is_my_favorite;
         delete results.is_my_favorite;
         results.designer = temp.designer.toObject();
