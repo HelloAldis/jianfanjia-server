@@ -45,12 +45,13 @@ async.parallel({
 
   console.log(urls);
   console.log(`push ${urls.length} url to baidu`);
+  process.exit();
 
-  request.post(url).send(urls.join('\n')).end(function (err, res) {
-    if (err) {
-      console.log(err);
-    }
-
-    console.log(res.body);
-  });
+  // request.post(url).send(urls.join('\n')).end(function (err, res) {
+  //   if (err) {
+  //     console.log(err);
+  //   }
+  //
+  //   console.log(res.body);
+  // });
 })

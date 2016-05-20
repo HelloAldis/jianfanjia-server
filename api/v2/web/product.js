@@ -148,7 +148,7 @@ exports.search_designer_product = function (req, res, next) {
 
 exports.designer_my_products = function (req, res, next) {
   let sort = req.body.sort || {
-    create_at: 1
+    create_at: -1
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;

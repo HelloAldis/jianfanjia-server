@@ -7,7 +7,7 @@ const type = require('../../type');
 const async = require('async');
 
 Product.count({
-  auth_type: type.product_auth_type_done,
+  // auth_type: type.product_auth_type_done,
 }, function (err, count) {
   if (err) {
     return console.log('err = ' + err);
@@ -15,7 +15,7 @@ Product.count({
 
   async.timesSeries(count, function (n, next) {
     Product.find({
-      auth_type: type.product_auth_type_done,
+      // auth_type: type.product_auth_type_done,
     }, null, {
       skip: n,
       limit: 1,
