@@ -12,6 +12,7 @@ const Product = require('../../proxy').Product;
 const Image = require('../../proxy').Image;
 const limit = require('../../middlewares/limit')
 const user_habit_collect = require('../../business/user_habit_collect');
+const tools = require('../../common/api_util');
 
 exports.product_page = function (req, res, next) {
   const userid = ApiUtil.getUserid(req);
@@ -19,6 +20,10 @@ exports.product_page = function (req, res, next) {
   const productid = req.params.productid;
   const ep = eventproxy();
   ep.fail(next);
+
+  if (!tools.isValidObjectId(productid)) {
+    return next();
+  }
 
   async.parallel({
     header_info: function (callback) {

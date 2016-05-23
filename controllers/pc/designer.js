@@ -11,6 +11,7 @@ const Designer = require('../../proxy').Designer;
 const Product = require('../../proxy').Product;
 const limit = require('../../middlewares/limit')
 const user_habit_collect = require('../../business/user_habit_collect');
+const tools = require('../../common/tools');
 
 exports.designer_page = function (req, res, next) {
   const userid = ApiUtil.getUserid(req);
@@ -18,6 +19,10 @@ exports.designer_page = function (req, res, next) {
   const designerid = req.params.designerid;
   const ep = eventproxy();
   ep.fail(next);
+
+  if (!tools.isValidObjectId(designerid)) {
+    return next();
+  }
 
   async.parallel({
     header_info: function (callback) {

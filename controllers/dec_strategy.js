@@ -8,6 +8,7 @@ const type = require('../type');
 const limit = require('../middlewares/limit');
 const pc_web_header = require('../business/pc_web_header');
 const ApiUtil = require('../common/api_util');
+const tools = require('../common/tools');
 const user_habit_collect = require('../business/user_habit_collect');
 
 exports.dec_strategy_homepage = function (req, res, next) {
@@ -18,7 +19,7 @@ exports.dec_strategy_homepage = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  if (!_id) {
+  if (!tools.isValidObjectId(_id)) {
     return next();
   }
 
