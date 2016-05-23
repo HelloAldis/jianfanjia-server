@@ -95,8 +95,7 @@ exports.designer_my_homepage = function (req, res, next) {
     },
     products: function (callback) {
       Product.find({
-        designerid: designerid,
-        auth_type: type.product_auth_type_done,
+        designerid: designerid
       }, null, {
         sort: {
           create_at: -1
