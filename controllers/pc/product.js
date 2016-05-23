@@ -12,7 +12,7 @@ const Product = require('../../proxy').Product;
 const Image = require('../../proxy').Image;
 const limit = require('../../middlewares/limit')
 const user_habit_collect = require('../../business/user_habit_collect');
-const tools = require('../../common/api_util');
+const tools = require('../../common/tools');
 
 exports.product_page = function (req, res, next) {
   const userid = ApiUtil.getUserid(req);
