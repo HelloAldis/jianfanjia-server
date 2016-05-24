@@ -129,6 +129,7 @@
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
               $scope.loading.notData = true;
+              $scope.userList = [];
             } else {
               $scope.userList = resp.data.data.articles;
               $scope.pagination.totalItems = resp.data.data.total;
@@ -155,7 +156,7 @@
             "status": status
           }).then(function (resp) {
             if (resp.data.msg === "success") {
-              article.status = status;
+              loadList(getDetailFromUI());
             }
           }, function (resp) {
             //返回错误信息

@@ -287,6 +287,7 @@
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
               $scope.loading.notData = true;
+              $scope.userList = [];
             } else {
               $scope.userList = resp.data.data.designers;
               // angular.forEach($scope.userList, function (value, key) {
@@ -355,12 +356,22 @@
             }).then(function (resp) {
               if (resp.data.msg === "success") {
                 tipsMsg('操作成功');
-                designer.online_status = status;
+                // designer.online_status = status;
+                loadList(getDetailFromUI());
               }
             }, function (resp) {
               console.log(resp);
             });
           }
+        };
+
+        $scope.getProductDetail = function (designer) {
+          var detail = {
+            detail: JSON.stringify({
+              designerid: designer._id
+            })
+          };
+          return detail;
         };
       }
     ])
@@ -392,7 +403,7 @@
             if (confirm("你确定要删除吗？删除不能恢复")) {
               alert('你没有权限删除');
             } else {
-              alert(id);
+              // alert(id);
             }
           }
         }, function (resp) {
@@ -529,171 +540,16 @@
               console.log(resp);
               promptMessage('获取数据失败', resp.data.msg)
             });
-          }
+          };
         }, function (resp) {
           //返回错误信息
           console.log(resp);
           promptMessage('获取数据失败', resp.data.msg)
         });
-      }
-    ])
-    .controller('DesignerProductController', [ //设计师作品集
-      '$scope', '$rootScope', '$http', '$stateParams', '$modal',
-      function ($scope, $rootScope, $http, $stateParams, $modal) {
-        $scope.authType = "1" //全局标识，解决筛选和分页问题
-          //数据加载显示状态
-        $scope.loading = {
-          loadData: false,
-          notData: false
-        };
-        //分页控件
-        $scope.pagination = {
-          currentPage: 1,
-          totalItems: 0,
-          maxSize: 5,
-          pageChanged: function () {
-            loadList(this.currentPage, 10);
-          }
-        };
-        $scope.list = function () {
-          $scope.userList = [];
-          $scope.loading.loadData = false;
-          loadList((this.page.pageNo - 1) * 10)
-        };
-        loadList(1)
 
-        function loadList(from, limit, data) {
-          var data = angular.extend({
-            "query": {
-              "auth_type": $scope.authType,
-              "designerid": $stateParams.id
-            },
-            "sort": {
-              "_id": 1
-            },
-            "from": (limit === undefined ? 0 : limit) * (from - 1),
-            "limit": (limit === undefined ? undefined : limit)
-          }, data)
-          $http({
-            method: "POST",
-            url: RootUrl + 'api/v2/web/admin/product/search',
-            data: data
-          }).then(function (resp) {
-            //返回信息
-            if (resp.data.data.total === 0) {
-              $scope.loading.loadData = true;
-              $scope.loading.notData = true;
-            } else {
-              $scope.userList = resp.data.data.products;
-              $scope.pagination.totalItems = resp.data.data.total;
-              $scope.loading.loadData = true;
-              $scope.loading.notData = false;
-            }
-          }, function (resp) {
-            //返回错误信息
-            $scope.loadData = false;
-            console.log(resp);
-          })
-        };
-        loadList()
-        $scope.productAuth = function (pid, uid) {
-          if (confirm("你确定该作品合格")) {
-            $http({
-              method: "POST",
-              url: RootUrl + 'api/v2/web/admin/update_product_auth',
-              data: {
-                "_id": pid,
-                "new_auth_type": '1',
-                "designerid": uid,
-                "auth_message": '审核通过，作品合格'
-              }
-            }).then(function (resp) {
-              //返回信息
-              console.log(resp);
-              promptMessage('审核成功', "success");
-              loadList()
-            }, function (resp) {
-              //返回错误信息
-              console.log(resp);
-            })
-          }
+        $scope.close = function () {
+          window.history.back();
         }
-        $scope.authList = [{
-          id: "1",
-          name: '审核通过',
-          cur: true
-        }, {
-          id: "0",
-          name: '未审核',
-          cur: false
-        }, {
-          id: "2",
-          name: '审核不通过',
-          cur: false
-        }, {
-          id: "3",
-          name: '违规下线',
-          cur: false
-        }, ]
-        $scope.authBtn = function (id) {
-          $scope.userList = [];
-          $scope.loadData = false;
-          angular.forEach($scope.authList, function (value, key) {
-            if (value.id == id) {
-              value.cur = true;
-            } else {
-              value.cur = false;
-            }
-          });
-          $scope.authType = id;
-          loadList({
-            "query": {
-              "auth_type": id,
-              "designerid": $stateParams.id
-            }
-          })
-        }
-        $scope.open = function (tips, pid, type, uid) {
-          var modalInstance = $modal.open({
-            template: '<div class="modal-header"><h3>' + tips +
-              '</h3></div><div class="modal-body"><div class="form-group"><label for="">填写' + tips +
-              '原因</label><textarea class="form-control" ng-model="errorMsg" rows="3"></textarea></div></div><div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
-              tips + '</button><button class="btn btn-warning" ng-click="cancel()">取消操作</button></div>',
-            controller: function ($scope, $modalInstance) {
-              $scope.ok = function () {
-                $http({
-                  method: "POST",
-                  url: RootUrl + 'api/v2/web/admin/update_product_auth',
-                  data: {
-                    "_id": pid,
-                    "new_auth_type": type,
-                    "designerid": uid,
-                    "auth_message": $scope.errorMsg
-                  }
-                }).then(function (resp) {
-                  //返回信息
-                  console.log(resp);
-                  $modalInstance.dismiss(tips);
-                  loadList()
-                }, function (resp) {
-                  //返回错误信息
-                  console.log(resp);
-                })
-              };
-              $scope.cancel = function () {
-                $modalInstance.dismiss('取消操作');
-              };
-            }
-          });
-          modalInstance.opened.then(function () { //模态窗口打开之后执行的函数
-            console.log('modal is opened');
-          });
-          modalInstance.result.then(function (result) {
-            console.log(result);
-          }, function (reason) {
-            console.log(reason); //点击空白区域，总会输出backdrop click，点击取消，则会暑促cancel
-          });
-        };
       }
     ])
     .controller('DesignerInfoController', [ //设计师个人信息
@@ -726,8 +582,9 @@
           //返回信息
           $scope.user = resp.data.data;
           $scope.head_img1 = $scope.user.imageid ? RootUrl + 'api/v2/web/thumbnail/200/' + $scope.user.imageid : 'jyz/img/headpic.jpg';
-          $scope.head_img2 = $scope.user.big_imageid ? RootUrl + 'api/v2/web/thumbnail/500/' + $scope.user.big_imageid :
+          $scope.head_img2 = $scope.user.big_imageid ? RootUrl + 'api/v2/web/thumbnail/800/' + $scope.user.big_imageid :
             'jyz/img/headpic.jpg';
+          $scope.diploma_image = $scope.user.diploma_imageid ? RootUrl + 'api/v2/web/thumbnail/800/' + $scope.user.diploma_imageid : '';
           console.log($scope.user);
         }, function (resp) {
           //返回错误信息

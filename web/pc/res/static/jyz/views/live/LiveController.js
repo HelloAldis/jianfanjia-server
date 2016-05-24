@@ -102,6 +102,7 @@
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
               $scope.loading.notData = true;
+              $scope.userList = [];
             } else {
               $scope.liveList = resp.data.data.shares;
               $scope.pagination.totalItems = resp.data.data.total;
@@ -126,7 +127,7 @@
             }).then(function (resp) {
               //返回信息
               if (resp.data.msg === "success") {
-                loadList();
+                loadList(getDetailFromUI());
               }
             }, function (resp) {
               //返回错误信息
@@ -587,7 +588,7 @@
           adminShare.update($scope.dataMapped).then(function (resp) {
             //返回信息
             if (resp.data.msg === "success") {
-              $location.path('live');
+              window.history.back()
             }
           }, function (resp) {
             //返回错误信息

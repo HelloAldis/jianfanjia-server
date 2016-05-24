@@ -66,11 +66,6 @@ var globalUrl = 'http://101.200.191.159/';
           templateUrl: RootURl + 'views/designer/teamEditor.html',
           controller: 'DesignerEditorTeamController'
         })
-        .state('designerProduct', {
-          url: '/designer/product/:id',
-          templateUrl: RootURl + 'views/designer/product.html',
-          controller: 'DesignerProductController'
-        })
         .state('designerInfo', {
           url: '/designer/info/:id',
           templateUrl: RootURl + 'views/designer/info.html',

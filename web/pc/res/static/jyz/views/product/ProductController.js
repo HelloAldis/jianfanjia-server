@@ -112,6 +112,7 @@
 					return {
 						currentPage: $scope.pagination.currentPage,
 						authType: authType,
+						designerid: $stateParams.detail.designerid,
 						createAt: createAt
 					}
 				}
@@ -196,6 +197,7 @@
 					$scope.pagination.currentPage = 1;
 					$scope.startTime.time = '';
 					$scope.endTime.time = '';
+					$stateParams.detail = {};
 					clearCur($scope.authList);
 					refreshPage(getDetailFromUI());
 				};
@@ -221,6 +223,7 @@
 				function loadList(detail) {
 					var data = {
 						"query": {
+							designerid: detail.designerid,
 							auth_type: detail.authType,
 							create_at: detail.createAt
 						},
@@ -231,6 +234,7 @@
 						if (resp.data.data.total === 0) {
 							$scope.loading.loadData = true;
 							$scope.loading.notData = true;
+							$scope.userList = [];
 						} else {
 							$scope.userList = resp.data.data.products;
 							$scope.pagination.totalItems = resp.data.data.total;
@@ -259,7 +263,7 @@
 						}).then(function (resp) {
 							if (resp.data.msg === "success") {
 								tipsMsg('审核成功');
-								product.auth_type = '1';
+								loadList(getDetailFromUI());
 							}
 						}, function (resp) {
 							//返回错误信息
@@ -294,8 +298,7 @@
 									console.log(resp);
 									$modalInstance.close();
 									tipsMsg('操作成功');
-									product.auth_type = type;
-									console.log(product);
+									loadList(getDetailFromUI());
 								}, function (resp) {
 									//返回错误信息
 									console.log(resp);

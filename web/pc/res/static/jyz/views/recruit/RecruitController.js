@@ -145,6 +145,7 @@
             if (resp.data.data.total == 0) {
               $scope.loading.loadData = true;
               $scope.loading.notData = true;
+              $scope.userList = [];
             } else {
               $scope.userList = resp.data.data.users;
               $scope.pagination.totalItems = resp.data.data.total;

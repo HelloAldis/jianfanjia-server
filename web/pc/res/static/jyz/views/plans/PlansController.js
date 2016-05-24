@@ -201,7 +201,7 @@
           var data = {
             "query": {
               status: detail.authType,
-              request_date: detail.createAt
+              last_status_update_time: detail.createAt
             },
             "from": ($scope.pagination.pageSize) * (detail.currentPage - 1),
             "limit": $scope.pagination.pageSize
@@ -210,6 +210,7 @@
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
               $scope.loading.notData = true;
+              $scope.userList = [];
             } else {
               $scope.userList = resp.data.data.requirements;
               angular.forEach($scope.userList, function (value, key) {

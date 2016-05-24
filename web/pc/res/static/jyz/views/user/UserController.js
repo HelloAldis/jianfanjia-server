@@ -143,6 +143,7 @@
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
               $scope.loading.notData = true;
+              $scope.userList = [];
             } else {
               $scope.userList = resp.data.data.users;
               $scope.pagination.totalItems = resp.data.data.total;
@@ -174,7 +175,7 @@
         }).then(function (resp) {
           if (resp.data.data.total === 1) {
             $scope.user = resp.data.data.users[0];
-            $scope.head = !!$scope.user.imageid ? RootUrl + 'api/v2/web/thumbnail/200/' + resp.data.data.imageid : 'jyz/img/headpic.jpg';
+            $scope.head = !!$scope.user.imageid ? RootUrl + 'api/v2/web/thumbnail/200/' + $scope.user.imageid : 'jyz/img/headpic.jpg';
           }
         }, function (resp) {
           //返回错误信息

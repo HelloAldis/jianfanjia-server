@@ -50,6 +50,7 @@
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
               $scope.loading.notData = true;
+              $scope.userList = [];
             } else {
               $scope.processes = resp.data.data.processes;
               $scope.pagination.totalItems = resp.data.data.total;
