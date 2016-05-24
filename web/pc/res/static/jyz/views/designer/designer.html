@@ -74,7 +74,7 @@
 					<a ui-sref="designerInfoAuth({id:user._id})">信息认证</a> |
 					<a ui-sref="designerIdAuth({id:user._id})">身份认证</a> |
 					<a ui-sref="designerFieldAuth({id:user._id})">实地认证</a> |
-					<a href="javascript:;" ng-click="forcedOffline(user._id,user.online_status)">{{user.online_status == 0 ? '强制离线' : '开启在线'}}</a>
+					<a href="javascript:;" ng-click="forcedOffline(user._id, user.online_status, user)">{{user.online_status == 0 ? '强制离线' : '开启在线'}}</a>
 				</td>
 			</tr>
 		</tbody>

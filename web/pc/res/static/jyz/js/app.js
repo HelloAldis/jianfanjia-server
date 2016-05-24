@@ -97,7 +97,7 @@ var globalUrl = 'http://101.200.191.159/';
           controller: 'ProductController'
         })
         .state('live', {
-          url: '/live',
+          url: '/live/:detail',
           templateUrl: RootURl + 'views/live/live.html',
           controller: 'LiveController'
         })
@@ -127,17 +127,17 @@ var globalUrl = 'http://101.200.191.159/';
           controller: 'FieldDetailController'
         })
         .state('feedback', {
-          url: '/feedback',
+          url: '/feedback/:detail',
           templateUrl: RootURl + 'views/feedback/feedback.html',
           controller: 'FeedbackController'
         })
         .state('recruit', {
-          url: '/recruit',
+          url: '/recruit/:detail',
           templateUrl: RootURl + 'views/recruit/recruit.html',
           controller: 'RecruitController'
         })
         .state('news', {
-          url: '/news',
+          url: '/news/:detail',
           templateUrl: RootURl + 'views/news/new.html',
           controller: 'NewsController'
         })
@@ -147,7 +147,7 @@ var globalUrl = 'http://101.200.191.159/';
           controller: 'NewsAddController'
         })
         .state('pictures', {
-          url: '/pictures',
+          url: '/pictures/:detail',
           templateUrl: RootURl + 'views/pictures/pictures.html',
           controller: 'PicturesListController'
         })

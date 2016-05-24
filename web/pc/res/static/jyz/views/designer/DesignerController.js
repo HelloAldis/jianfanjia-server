@@ -320,7 +320,6 @@
         //初始化数据
         loadList($stateParams.detail);
 
-
         //搜索设计师
         $scope.searchBtn = function () {
           $scope.pagination.currentPage = 1;
@@ -347,7 +346,7 @@
           refreshPage(getDetailFromUI());
         };
         //设计师强制下线
-        $scope.forcedOffline = function (id, status) {
+        $scope.forcedOffline = function (id, status, designer) {
           status = status == 0 ? "1" : "0"
           if (confirm("你确定该设计师强制下线吗？")) {
             adminDesigner.online({
@@ -356,7 +355,7 @@
             }).then(function (resp) {
               if (resp.data.msg === "success") {
                 tipsMsg('操作成功');
-                loadList(1, 10);
+                designer.online_status = status;
               }
             }, function (resp) {
               console.log(resp);
