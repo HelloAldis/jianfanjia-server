@@ -1,6 +1,6 @@
 <ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">方案列表</li></ol>
 <form name="recruit" ng-submit="searchTimeBtn()" novalidate>
-	<p>[注意] 如果搜索当前的信息，开始时间为当天日期，结束时间为第二天日期</p>
+	<p>业主预约时间过滤</p>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-1">开始时间</div>
@@ -27,7 +27,7 @@
 </form>
 <br />
 <ul class="list-inline">
-	<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id)">{{auth.name}}</button></li>
+	方案状态：<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id)">{{auth.name}}</button></li>
 </ul>
 <br />
 <div>
@@ -39,7 +39,7 @@
 		<tbody>
 			<tr class="info thead">
 				<th>方案ID</th>
-				<th>提交时间</th>
+				<th>预约时间</th>
 				<th>响应时间</th>
 				<th>量房时间</th>
 				<th>当前状态</th>

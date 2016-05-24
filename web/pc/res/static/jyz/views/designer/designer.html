@@ -1,38 +1,41 @@
 <ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">设计师列表</li></ol>
-<form name="recruit" ng-submit="searchTimeBtn()" novalidate>
-	<p>[注意] 如果搜索当前的信息，开始时间为当天日期，结束时间为第二天日期</p>
+<br />
+<ul class="list-inline">
+	基本认证状态：<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, authList)">{{auth.name}}</button></li>
+</ul>
+<ul class="list-inline">
+	身份认证状态：<li ng-repeat="auth in uidAuthList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, uidAuthList)">{{auth.name}}</button></li>
+</ul>
+<ul class="list-inline">
+	工地认证状态：<li ng-repeat="auth in workAuthList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, workAuthList)">{{auth.name}}</button></li>
+</ul>
+<ul class="list-inline">
+	邮箱认证状态：<li ng-repeat="auth in emailAuthList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, emailAuthList)">{{auth.name}}</button></li>
+</ul>
+<form name="search" class="form-inline" ng-submit="searchBtn()" novalidate>
+	<p>设计师注册时间过滤</p>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-1">开始时间</div>
 			<div class="col-md-3">
 				<p class="input-group">
-				  	<input type="text" class="form-control" uib-datepicker-popup ng-model="startTime.time" is-open="startTime.status.opened" datepicker-options="startTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
-				  	<span class="input-group-btn">
-				  		<button type="button" class="btn btn-default" ng-click="startTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-				  	</span>
-			  	</p>
+						<input type="text" class="form-control" uib-datepicker-popup ng-model="startTime.time" is-open="startTime.status.opened" datepicker-options="startTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="startTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+					</p>
 			</div>
 			<div class="col-md-1">--结束时间</div>
 			<div class="col-md-3">
 				<p class="input-group">
-				  	<input type="text" class="form-control" uib-datepicker-popup ng-model="endTime.time" is-open="endTime.status.opened" datepicker-options="endTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
-				  	<span class="input-group-btn">
-				  		<button type="button" class="btn btn-default" ng-click="endTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-				  	</span>
+						<input type="text" class="form-control" uib-datepicker-popup ng-model="endTime.time" is-open="endTime.status.opened" datepicker-options="endTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="endTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
 				</p>
 			</div>
-			<div class="col-md-2"><button type="submit" class="btn btn-info" ng-disabled="recruit.$invalid" ng-class="">搜索</button></div>
 		</div>
 	</div>
-</form>
-<br />
-<ul class="list-inline">
-	<li ng-repeat="auth in authStatusList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authStatusBtn(auth.id)">{{auth.name}}</button></li>
-</ul>
-<ul class="list-inline">
-	<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id)">{{auth.name}}</button></li>
-</ul>
-<form name="search" class="form-inline" ng-submit="searchBtn()" novalidate>
 	<div class="form-group">
 		<label for="inputPassword2" class="sr-only">搜索设计师</label>
 		<input type="text" class="form-control" placeholder="手机号码/设计师名字" ng-model="searchDesigner" required />
@@ -68,9 +71,9 @@
 				<td><a ui-sref="designerProduct({id:user._id})">查看({{user.authed_product_count}})</td>
 				<td><a ui-sref="designerTeam({id:user._id})">查看({{user.team_count}})</td>
 				<td>
-					<a ui-sref="designerInfoAuth({id:user._id})">信息认证</a> | 
-					<a ui-sref="designerIdAuth({id:user._id})">身份认证</a> | 
-					<a ui-sref="designerFieldAuth({id:user._id})">实地认证</a> | 
+					<a ui-sref="designerInfoAuth({id:user._id})">信息认证</a> |
+					<a ui-sref="designerIdAuth({id:user._id})">身份认证</a> |
+					<a ui-sref="designerFieldAuth({id:user._id})">实地认证</a> |
 					<a href="javascript:;" ng-click="forcedOffline(user._id,user.online_status)">{{user.online_status == 0 ? '强制离线' : '开启在线'}}</a>
 				</td>
 			</tr>

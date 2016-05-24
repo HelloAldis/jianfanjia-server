@@ -1,6 +1,6 @@
 <ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">设计师作品列表</li></ol>
 <form name="recruit" ng-submit="searchTimeBtn()" novalidate>
-	<p>[注意] 如果搜索当前的信息，开始时间为当天日期，结束时间为第二天日期</p>
+	<p>作品创建时间过滤</p>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-1">开始时间</div>
@@ -27,7 +27,7 @@
 </form>
 <br />
 <ul class="list-inline">
-	<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id)">{{auth.name}}</button></li>
+	作品状态：<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id)">{{auth.name}}</button></li>
 </ul>
 <br />
 <div>
@@ -57,11 +57,11 @@
 				<td>{{user.designer.phone}}</td>
 				<td>
 					<a href="../tpl/design/detail.html?{{user._id}}" target="_blank">点击查看</a>
-					<span ng-hide="{{user.auth_type == '1'}}"> | 
+					<span ng-hide="{{user.auth_type == '1'}}"> |
 					<a href="javascript:;" ng-click="productAuth(user._id,user.designerid)">认证通过</a></span>
-					<span ng-hide="{{user.auth_type == '2'}}"> | 
+					<span ng-hide="{{user.auth_type == '2'}}"> |
 					<a href="javascript:;" ng-click="open('审核失败',user._id,'2',user.designerid)">审核失败</a></span>
-					<span ng-hide="{{user.auth_type == '3'}}"> | 
+					<span ng-hide="{{user.auth_type == '3'}}"> |
 					<a href="javascript:;" ng-click="open('违规下线',user._id,'3',user.designerid)">违规下线</a>
 					</span>
 				</td>

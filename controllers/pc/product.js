@@ -30,10 +30,16 @@ exports.product_page = function (req, res, next) {
       pc_web_header.statistic_info(userid, usertype, callback);
     },
     product: function (callback) {
-      Product.findOne({
-        _id: productid,
-        auth_type: type.product_auth_type_done,
-      }, null, callback);
+      if (usertype === type.role_user) {
+        Product.findOne({
+          _id: productid,
+          auth_type: type.product_auth_type_done,
+        }, null, callback);
+      } else {
+        Product.findOne({
+          _id: productid
+        }, null, callback);
+      }
     },
     is_my_favorite: function (callback) {
       favorite_business.is_favorite_product(userid, usertype, productid, callback);
