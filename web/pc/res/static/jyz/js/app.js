@@ -112,7 +112,7 @@ var globalUrl = 'http://101.200.191.159/';
           controller: 'UpdataController'
         })
         .state('field', {
-          url: '/field',
+          url: '/field/:detail',
           templateUrl: RootURl + 'views/field/field.html',
           controller: 'FieldController'
         })

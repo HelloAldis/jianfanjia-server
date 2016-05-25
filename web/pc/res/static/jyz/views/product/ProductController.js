@@ -4,7 +4,7 @@
 		.filter('authFilter', function () {
 			return function (input) {
 				return {
-					"0": "未通过",
+					"0": "未审核",
 					"1": "审核通过",
 					"2": "审核不通过",
 					"3": "违规下线"
@@ -40,6 +40,10 @@
 				}
 
 				function initList(list, id) {
+					if (!list || !id) {
+						return;
+					}
+
 					angular.forEach(list, function (value, key) {
 						if (value.id == id) {
 							if (value.cur) {
@@ -81,40 +85,41 @@
 
 				//从url详情中初始化页面
 				function initUI(detail) {
-					if (detail.createAt) {
-						if (detail.createAt["$gte"]) {
-							$scope.startTime.time = new Date(detail.createAt["$gte"]);
-						}
+					if (detail.query) {
+						if (detail.query.create_at) {
+							if (detail.query.create_at["$gte"]) {
+								$scope.startTime.time = new Date(detail.query.create_at["$gte"]);
+							}
 
-						if (detail.createAt["$lte"]) {
-							$scope.endTime.time = new Date(detail.createAt["$lte"]);
+							if (detail.query.create_at["$lte"]) {
+								$scope.endTime.time = new Date(detail.query.create_at["$lte"]);
+							}
 						}
+						initList($scope.authList, detail.query.auth_type);
 					}
 
-					if (detail.authType) {
-						initList($scope.authList, detail.authType);
-					}
-
-					detail.currentPage = detail.currentPage || 1;
-					$scope.pagination.currentPage = detail.currentPage;
+					detail.from = detail.from || 0;
+					detail.limit = detail.limit || 10;
+					$scope.pagination.pageSize = detail.limit;
+					$scope.pagination.currentPage = (detail.from / detail.limit) + 1;
 				}
 
 				//从页面获取详情
-				function getDetailFromUI() {
+				function refreshDetailFromUI(detail) {
 					var gte = $scope.startTime.time ? $scope.startTime.time.getTime() : undefined;
 					var lte = $scope.endTime.time ? $scope.endTime.time.getTime() : undefined;
-					var authType = getCurId($scope.authList);
+
 					var createAt = gte && lte ? {
 						"$gte": gte,
 						"$lte": lte
 					} : undefined;
 
-					return {
-						currentPage: $scope.pagination.currentPage,
-						authType: authType,
-						designerid: $stateParams.detail.designerid,
-						createAt: createAt
-					}
+					detail.query = detail.query || {};
+					detail.query.auth_type = getCurId($scope.authList);
+					detail.query.create_at = createAt;
+					detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
+					detail.limit = $scope.pagination.pageSize;
+					return detail;
 				}
 
 				//数据加载显示状态
@@ -129,7 +134,7 @@
 					maxSize: 5,
 					pageSize: 10,
 					pageChanged: function () {
-						refreshPage(getDetailFromUI());
+						refreshPage(refreshDetailFromUI($stateParams.detail));
 					}
 				};
 				//时间筛选控件
@@ -184,13 +189,13 @@
 					}
 
 					$scope.pagination.currentPage = 1;
-					refreshPage(getDetailFromUI());
+					refreshPage(refreshDetailFromUI($stateParams.detail));
 				};
 				//认证筛选
 				$scope.authBtn = function (id) {
 					$scope.pagination.currentPage = 1;
 					curList($scope.authList, id);
-					refreshPage(getDetailFromUI());
+					refreshPage(refreshDetailFromUI($stateParams.detail));
 				};
 				//重置清空状态
 				$scope.clearStatus = function () {
@@ -199,7 +204,7 @@
 					$scope.endTime.time = '';
 					$stateParams.detail = {};
 					clearCur($scope.authList);
-					refreshPage(getDetailFromUI());
+					refreshPage(refreshDetailFromUI($stateParams.detail));
 				};
 
 				//提示消息
@@ -221,16 +226,7 @@
 				}
 				//加载数据
 				function loadList(detail) {
-					var data = {
-						"query": {
-							designerid: detail.designerid,
-							auth_type: detail.authType,
-							create_at: detail.createAt
-						},
-						"from": ($scope.pagination.pageSize) * (detail.currentPage - 1),
-						"limit": $scope.pagination.pageSize
-					};
-					adminProduct.search(data).then(function (resp) {
+					adminProduct.search(detail).then(function (resp) {
 						if (resp.data.data.total === 0) {
 							$scope.loading.loadData = true;
 							$scope.loading.notData = true;
@@ -245,7 +241,6 @@
 						//返回错误信息
 						$scope.loadData = false;
 						console.log(resp);
-
 					});
 				}
 				//初始化UI
@@ -263,7 +258,7 @@
 						}).then(function (resp) {
 							if (resp.data.msg === "success") {
 								tipsMsg('审核成功');
-								loadList(getDetailFromUI());
+								loadList(refreshDetailFromUI($stateParams.detail));
 							}
 						}, function (resp) {
 							//返回错误信息
@@ -298,7 +293,7 @@
 									console.log(resp);
 									$modalInstance.close();
 									tipsMsg('操作成功');
-									loadList(getDetailFromUI());
+									loadList(refreshDetailFromUI($stateParams.detail));
 								}, function (resp) {
 									//返回错误信息
 									console.log(resp);

@@ -98,6 +98,10 @@
         }
 
         function initList(list, id) {
+          if (!list || !id) {
+            return;
+          }
+
           angular.forEach(list, function (value, key) {
             if (value.id == id) {
               if (value.cur) {
@@ -139,39 +143,33 @@
 
         //从url详情中初始化页面
         function initUI(detail) {
-          if (detail.createAt) {
-            if (detail.createAt["$gte"]) {
-              $scope.startTime.time = new Date(detail.createAt["$gte"]);
+          if (detail.query) {
+            if (detail.query.create_at) {
+              if (detail.query.create_at["$gte"]) {
+                $scope.startTime.time = new Date(detail.query.create_at["$gte"]);
+              }
+
+              if (detail.query.create_at["$lte"]) {
+                $scope.endTime.time = new Date(detail.query.create_at["$lte"]);
+              }
             }
 
-            if (detail.createAt["$lte"]) {
-              $scope.endTime.time = new Date(detail.createAt["$lte"]);
-            }
+            initList($scope.authList, detail.query.auth_type);
+            initList($scope.uidAuthList, detail.query.uid_auth_type);
+            initList($scope.workAuthList, detail.query.work_auth_type);
+            initList($scope.emailAuthList, detail.query.email_auth_type);
+
+            $scope.searchDesigner = detail.query.phone;
           }
 
-          if (detail.authType) {
-            initList($scope.authList, detail.authType);
-          }
-
-          if (detail.uidAuthType) {
-            initList($scope.uidAuthList, detail.uidAuthType);
-          }
-
-          if (detail.workAuthType) {
-            initList($scope.workAuthList, detail.workAuthType);
-          }
-
-          if (detail.emailAuthType) {
-            initList($scope.emailAuthList, detail.emailAuthType);
-          }
-
-          detail.currentPage = detail.currentPage || 1;
-          $scope.pagination.currentPage = detail.currentPage;
-          $scope.searchDesigner = detail.searchDesigner;
+          detail.from = detail.from || 0;
+          detail.limit = detail.limit || 10;
+          $scope.pagination.pageSize = detail.limit;
+          $scope.pagination.currentPage = (detail.from / detail.limit) + 1;
         }
 
         //从页面获取详情
-        function getDetailFromUI() {
+        function refreshDetailFromUI(detail) {
           var gte = $scope.startTime.time ? $scope.startTime.time.getTime() : undefined;
           var lte = $scope.endTime.time ? $scope.endTime.time.getTime() : undefined;
 
@@ -180,20 +178,16 @@
             "$lte": lte
           } : undefined;
 
-          var authType = getCurId($scope.authList);
-          var uidAuthType = getCurId($scope.uidAuthList);
-          var workAuthType = getCurId($scope.workAuthList);
-          var emailAuthType = getCurId($scope.emailAuthList);
-
-          return {
-            currentPage: $scope.pagination.currentPage,
-            authType: authType,
-            uidAuthType: uidAuthType,
-            workAuthType: workAuthType,
-            emailAuthType: emailAuthType,
-            searchDesigner: $scope.searchDesigner || undefined,
-            createAt: createAt
-          }
+          detail.query = detail.query || {};
+          detail.query.phone = $scope.searchDesigner || undefined;
+          detail.query.auth_type = getCurId($scope.authList);
+          detail.query.uid_auth_type = getCurId($scope.uidAuthList);
+          detail.query.work_auth_type = getCurId($scope.workAuthList);
+          detail.query.email_auth_type = getCurId($scope.emailAuthList);
+          detail.query.create_at = createAt;
+          detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
+          detail.limit = $scope.pagination.pageSize;
+          return detail;
         }
 
         //数据加载显示状态
@@ -208,7 +202,7 @@
           maxSize: 5,
           pageSize: 10,
           pageChanged: function () {
-            refreshPage(getDetailFromUI());
+            refreshPage(refreshDetailFromUI($stateParams.detail));
           }
         };
         //时间筛选控件
@@ -270,20 +264,7 @@
         //加载数据
         function loadList(detail) {
           console.log(detail);
-          var data = {
-            "query": {
-              phone: detail.searchDesigner,
-              auth_type: detail.authType,
-              uid_auth_type: detail.uidAuthType,
-              work_auth_type: detail.workAuthType,
-              email_auth_type: detail.emailAuthType,
-              create_at: detail.createAt
-            },
-            "from": ($scope.pagination.pageSize) * (detail.currentPage - 1),
-            "limit": $scope.pagination.pageSize
-          };
-
-          adminDesigner.search(data).then(function (resp) {
+          adminDesigner.search(detail).then(function (resp) {
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
               $scope.loading.notData = true;
@@ -324,16 +305,14 @@
         //搜索设计师
         $scope.searchBtn = function () {
           $scope.pagination.currentPage = 1;
-          refreshPage(getDetailFromUI());
+          refreshPage(refreshDetailFromUI($stateParams.detail));
         }
 
         $scope.authBtn = function (id, list) {
-          console.log(id);
-          console.log(list);
           curList(list, id);
 
           $scope.pagination.currentPage = 1;
-          refreshPage(getDetailFromUI());
+          refreshPage(refreshDetailFromUI($stateParams.detail));
         };
         //重置清空状态
         $scope.clearStatus = function () {
@@ -344,7 +323,9 @@
           $scope.pagination.currentPage = 1;
           $scope.startTime.time = '';
           $scope.endTime.time = '';
-          refreshPage(getDetailFromUI());
+          $scope.searchDesigner = undefined;
+          $stateParams.detail = {};
+          refreshPage(refreshDetailFromUI($stateParams.detail));
         };
         //设计师强制下线
         $scope.forcedOffline = function (id, status, designer) {
@@ -357,7 +338,7 @@
               if (resp.data.msg === "success") {
                 tipsMsg('操作成功');
                 // designer.online_status = status;
-                loadList(getDetailFromUI());
+                loadList(refreshDetailFromUI($stateParams.detail));
               }
             }, function (resp) {
               console.log(resp);
@@ -368,7 +349,9 @@
         $scope.getProductDetail = function (designer) {
           var detail = {
             detail: JSON.stringify({
-              designerid: designer._id
+              query: {
+                designerid: designer._id
+              }
             })
           };
           return detail;

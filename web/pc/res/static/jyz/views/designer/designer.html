@@ -66,8 +66,8 @@
 				<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 				<td><a ui-sref="designerInfo({id:user._id})">{{user.username}}</a></td>
 				<td>{{user.phone}}</td>
-				<td>{{user.authDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-				<td>{{user.status | authTypeFilter}}</td>
+				<td>{{user.auth_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.auth_type | authTypeFilter}}</td>
 				<td><a ui-sref="product(getProductDetail(user))">查看({{user.authed_product_count}})</td>
 				<td><a ui-sref="designerTeam({id:user._id})">查看({{user.team_count}})</td>
 				<td>

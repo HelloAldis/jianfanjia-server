@@ -74,30 +74,27 @@
           maxSize: 5,
           pageSize: 10,
           pageChanged: function () {
-            refreshPage(getDetailFromUI());
+            refreshPage(refreshDetailFromUI($stateParams.detail));
           }
         };
 
         //从url详情中初始化页面
         function initUI(detail) {
-          detail.currentPage = detail.currentPage || 1;
-          $scope.pagination.currentPage = detail.currentPage;
+          detail.from = detail.from || 0;
+          detail.limit = detail.limit || 10;
+          $scope.pagination.pageSize = detail.limit;
+          $scope.pagination.currentPage = (detail.from / detail.limit) + 1;
         }
 
         //从页面获取详情
-        function getDetailFromUI() {
-          return {
-            currentPage: $scope.pagination.currentPage,
-          }
+        function refreshDetailFromUI(detail) {
+          detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
+          detail.limit = $scope.pagination.pageSize;
+          return detail;
         }
 
         function loadList(detail) {
-          var data = {
-            "query": {},
-            "from": ($scope.pagination.pageSize) * (detail.currentPage - 1),
-            "limit": $scope.pagination.pageSize
-          };
-          adminShare.search(data).then(function (resp) {
+          adminShare.search(detail).then(function (resp) {
             //返回信息
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
@@ -127,7 +124,7 @@
             }).then(function (resp) {
               //返回信息
               if (resp.data.msg === "success") {
-                loadList(getDetailFromUI());
+                loadList(refreshDetailFromUI($stateParams.detail));
               }
             }, function (resp) {
               //返回错误信息

@@ -23,28 +23,32 @@
           maxSize: 5,
           pageSize: 10,
           pageChanged: function () {
-            refreshPage(getDetailFromUI());
+            refreshPage(refreshDetailFromUI($stateParams.detail));
           }
         };
 
         //从url详情中初始化页面
         function initUI(detail) {
-          if (detail.createAt) {
-            if (detail.createAt["$gte"]) {
-              $scope.startTime.time = new Date(detail.createAt["$gte"]);
-            }
+          if (detail.query) {
+            if (detail.query.create_at) {
+              if (detail.query.create_at["$gte"]) {
+                $scope.startTime.time = new Date(detail.query.create_at["$gte"]);
+              }
 
-            if (detail.createAt["$lte"]) {
-              $scope.endTime.time = new Date(detail.createAt["$lte"]);
+              if (detail.query.create_at["$lte"]) {
+                $scope.endTime.time = new Date(detail.query.create_at["$lte"]);
+              }
             }
           }
 
-          detail.currentPage = detail.currentPage || 1;
-          $scope.pagination.currentPage = detail.currentPage;
+          detail.from = detail.from || 0;
+          detail.limit = detail.limit || 10;
+          $scope.pagination.pageSize = detail.limit;
+          $scope.pagination.currentPage = (detail.from / detail.limit) + 1;
         }
 
         //从页面获取详情
-        function getDetailFromUI() {
+        function refreshDetailFromUI(detail) {
           var gte = $scope.startTime.time ? $scope.startTime.time.getTime() : undefined;
           var lte = $scope.endTime.time ? $scope.endTime.time.getTime() : undefined;
           var createAt = gte && lte ? {
@@ -52,10 +56,11 @@
             "$lte": lte
           } : undefined;
 
-          return {
-            currentPage: $scope.pagination.currentPage,
-            createAt: createAt
-          }
+          detail.query = detail.query || {};
+          detail.query.create_at = createAt;
+          detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
+          detail.limit = $scope.pagination.pageSize;
+          return detail;
         }
 
         //时间筛选控件
@@ -110,26 +115,20 @@
           }
 
           $scope.pagination.currentPage = 1;
-          refreshPage(getDetailFromUI());
+          refreshPage(refreshDetailFromUI($stateParams.detail));
         };
         //重置清空状态
         $scope.clearStatus = function () {
           $scope.pagination.currentPage = 1;
           $scope.startTime.time = '';
           $scope.endTime.time = '';
-          refreshPage(getDetailFromUI());
+          $stateParams.detail = {}
+          refreshPage(refreshDetailFromUI($stateParams.detail));
         };
 
         //加载数据
         function loadList(detail) {
-          var data = {
-            "query": {
-              create_at: detail.createAt
-            },
-            "from": ($scope.pagination.pageSize) * (detail.currentPage - 1),
-            "limit": $scope.pagination.pageSize
-          }
-          adminApp.feedback(data).then(function (resp) {
+          adminApp.feedback(detail).then(function (resp) {
             if (resp.data.data.total == 0) {
               $scope.loading.loadData = true;
               $scope.loading.notData = true;

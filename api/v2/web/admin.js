@@ -278,7 +278,7 @@ exports.listAuthingDesigner = function (req, res, next) {
 };
 
 exports.searchDesigner = function (req, res, next) {
-  let query = req.body.query;
+  let query = req.body.query || {};
   let phone = tools.trim(query.phone);
   let phoneReg = reg_util.reg(tools.trim(phone));
   let skip = req.body.from || 0;
@@ -313,7 +313,7 @@ exports.searchDesigner = function (req, res, next) {
 }
 
 exports.searchUser = function (req, res, next) {
-  let query = req.body.query;
+  let query = req.body.query || {};
   let phone = tools.trim(query.phone);
   let phoneReg = reg_util.reg(tools.trim(phone));
   let skip = req.body.from || 0;
@@ -395,7 +395,7 @@ exports.searchProduct = function (req, res, next) {
 }
 
 exports.search_plan = function (req, res, next) {
-  let query = req.body.query;
+  let query = req.body.query || {};
   let sort = req.body.sort || {
     request_date: 1
   };
