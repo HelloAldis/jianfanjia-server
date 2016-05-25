@@ -45,6 +45,10 @@
           detail.limit = detail.limit || 10;
           $scope.pagination.pageSize = detail.limit;
           $scope.pagination.currentPage = (detail.from / detail.limit) + 1;
+          detail.sort = detail.sort || {
+            create_at: -1
+          };
+          $scope.sort = detail.sort;
         }
 
         //从页面获取详情
@@ -60,6 +64,7 @@
           detail.query.create_at = createAt;
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
+          detail.sort = $scope.sort;
           return detail;
         }
 
@@ -114,6 +119,17 @@
             return;
           }
 
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        };
+        //排序
+        $scope.sortData = function (sortby) {
+          if ($scope.sort[sortby]) {
+            $scope.sort[sortby] = -$scope.sort[sortby];
+          } else {
+            $scope.sort = {};
+            $scope.sort[sortby] = -1;
+          }
           $scope.pagination.currentPage = 1;
           refreshPage(refreshDetailFromUI($stateParams.detail));
         };

@@ -3,7 +3,7 @@
 	<table class="table table-bordered">
 		<tbody>
 			<tr class="info thead">
-				<th>直播时间</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.start_at]" ng-click="sortData('start_at')">直播时间</th>
 				<th>项目名称</th>
 				<th>当前状态</th>
 				<th>设计师</th>
@@ -18,7 +18,7 @@
 				<td>{{live.manager}}</td>
 				<td class="td-opt">
 					<a href="../tpl/live/detail.html?{{live._id}}" target="_blank">查看</a> |
-					<a ui-sref="liveEditor({id:live._id})">编辑</a> | 
+					<a ui-sref="liveEditor({id:live._id})">编辑</a> |
 					<a ui-sref="liveUpdata({id:live._id})">更新</a> |
 					<a ng-click="deleteLive(live._id)">删除</a>
 				</td>

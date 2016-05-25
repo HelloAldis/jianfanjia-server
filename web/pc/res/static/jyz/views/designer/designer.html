@@ -52,13 +52,13 @@
 		<tbody>
 			<tr class="info thead">
 				<th>设计师ID</th>
-				<th>注册时间</th>
-				<th>设计师姓名</th>
-				<th>设计师电话</th>
-				<th>认证申请时间</th>
-				<th>认证状态</th>
-				<th>已审核作品数</th>
-				<th>施工团队</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">注册时间</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.username]" ng-click="sortData('username')">设计师姓名</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.phone]" ng-click="sortData('phone')">设计师电话</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.auth_date]" ng-click="sortData('auth_date')">认证申请时间</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.auth_type]" ng-click="sortData('auth_type')">认证状态</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.authed_product_count]" ng-click="sortData('authed_product_count')">已审核作品数</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.team_count]" ng-click="sortData('team_count')">施工团队</th>
 				<th>管理员认证操作</th>
 			</tr>
 			<tr ng-repeat="user in userList">

@@ -6,7 +6,6 @@
 
         //刷新页面公共方法
         function refreshPage(detail) {
-          console.log(detail);
           $location.path('/pictures/' + JSON.stringify(detail));
         }
 
@@ -44,6 +43,10 @@
           detail.limit = detail.limit || 10;
           $scope.pagination.pageSize = detail.limit;
           $scope.pagination.currentPage = (detail.from / detail.limit) + 1;
+          detail.sort = detail.sort || {
+            create_at: -1
+          };
+          $scope.sort = detail.sort;
         }
 
         //从页面获取详情
@@ -59,6 +62,7 @@
           detail.query.create_at = createAt;
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
+          detail.sort = $scope.sort;
           return detail;
         }
 
@@ -111,6 +115,17 @@
           if (end - start < 86400000) {
             alert('结束时间必须必比开始时间大一天，请重新选择');
             return;
+          }
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        };
+        //排序
+        $scope.sortData = function (sortby) {
+          if ($scope.sort[sortby]) {
+            $scope.sort[sortby] = -$scope.sort[sortby];
+          } else {
+            $scope.sort = {};
+            $scope.sort[sortby] = -1;
           }
           $scope.pagination.currentPage = 1;
           refreshPage(refreshDetailFromUI($stateParams.detail));

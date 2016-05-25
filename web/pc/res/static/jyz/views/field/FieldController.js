@@ -7,7 +7,7 @@
 
         //刷新页面公共方法
         function refreshPage(detail) {
-          $location.path('/live/' + JSON.stringify(detail));
+          $location.path('/field/' + JSON.stringify(detail));
         }
 
         //数据加载显示状态
@@ -32,12 +32,17 @@
           detail.limit = detail.limit || 10;
           $scope.pagination.pageSize = detail.limit;
           $scope.pagination.currentPage = (detail.from / detail.limit) + 1;
+          detail.sort = detail.sort || {
+            create_at: -1
+          };
+          $scope.sort = detail.sort;
         }
 
         //从页面获取详情
         function refreshDetailFromUI(detail) {
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
+          detail.sort = $scope.sort;
           return detail;
         }
 
@@ -59,6 +64,19 @@
             console.log(resp);
           })
         };
+
+        //排序
+        $scope.sortData = function (sortby) {
+          if ($scope.sort[sortby]) {
+            $scope.sort[sortby] = -$scope.sort[sortby];
+          } else {
+            $scope.sort = {};
+            $scope.sort[sortby] = -1;
+          }
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        };
+
         //初始化UI
         initUI($stateParams.detail);
         //初始化数据

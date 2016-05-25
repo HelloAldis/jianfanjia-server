@@ -39,9 +39,9 @@
 		<tbody>
 			<tr class="info thead">
 				<th>案例编号ID</th>
-				<th>提交时间</th>
+				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">提交时间</th>
 				<th>案例名称</th>
-				<th>认证时间</th>
+				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.auth_date]" ng-click="sortData('auth_date')">认证时间</th>
 				<th>当前状态</th>
 				<th>设计师</th>
 				<th>电话</th>

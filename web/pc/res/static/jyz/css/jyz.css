@@ -570,3 +570,29 @@ body{
 .ng-valid-required.ng-invalid-ellipsis{
     border-color: #be0000;
 }
+
+/* table sorter */
+.tablesorter-header {
+    background-image: url(../img/sort-default.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+}
+
+.tablesorter-headerNone {
+    background-image: none;
+}
+
+.tablesorter-headerAsc {
+    background-image: url(../img/sort-asc.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+}
+
+.tablesorter-headerDesc {
+    background-image: url(../img/sort-desc.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+}

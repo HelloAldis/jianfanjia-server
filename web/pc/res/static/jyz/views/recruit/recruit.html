@@ -35,12 +35,12 @@
 		<tbody>
 			<tr class="info thead">
 				<th>提交ID</th>
-				<th>注册时间</th>
+				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">注册时间</th>
 				<th>业主姓名</th>
-				<th>业主电话</th>
+				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.phone]" ng-click="sortData('phone')">业主电话</th>
 				<th>装修区域</th>
-				<th>装修面积</th>
-				<th>装修预算</th>
+				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.district]" ng-click="sortData('district')">装修面积</th>
+				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.total_price]" ng-click="sortData('total_price')">装修预算</th>
 			</tr>
 			<tr ng-repeat="user in userList">
 				<td>{{user._id}}</td>

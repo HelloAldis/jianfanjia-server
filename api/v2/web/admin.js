@@ -186,13 +186,14 @@ exports.search_share = function (req, res, next) {
   let query = req.body.query;
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let sort = req.body.sort || {
+    create_at: -1,
+  };
   let ep = eventproxy();
   ep.fail(next);
 
   Share.paginate(query, null, {
-    sort: {
-      create_at: -1,
-    },
+    sort: sort,
     skip: skip,
     limit: limit,
   }, ep.done(function (shares, totals) {
@@ -283,6 +284,9 @@ exports.searchDesigner = function (req, res, next) {
   let phoneReg = reg_util.reg(tools.trim(phone));
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let sort = req.body.sort || {
+    create_at: 1
+  };
   let ep = eventproxy();
   ep.fail(next);
 
@@ -299,9 +303,7 @@ exports.searchDesigner = function (req, res, next) {
     pass: 0,
     accessToken: 0
   }, {
-    sort: {
-      create_at: 1
-    },
+    sort: sort,
     skip: skip,
     limit: limit
   }, ep.done(function (designers, total) {
@@ -318,6 +320,9 @@ exports.searchUser = function (req, res, next) {
   let phoneReg = reg_util.reg(tools.trim(phone));
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let sort = req.body.sort || {
+    create_at: 1
+  };
   let ep = eventproxy();
   ep.fail(next);
 
@@ -334,9 +339,7 @@ exports.searchUser = function (req, res, next) {
     pass: 0,
     accessToken: 0
   }, {
-    sort: {
-      create_at: 1
-    },
+    sort: sort,
     skip: skip,
     limit: limit
   }, ep.done(function (users, total) {

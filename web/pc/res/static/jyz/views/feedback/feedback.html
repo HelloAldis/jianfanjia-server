@@ -35,7 +35,7 @@
 		<tbody>
 			<tr class="info thead">
 				<th>提交ID</th>
-				<th>提交时间</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">提交时间</th>
 				<th>提交者身份</th>
 				<th>提交者姓名</th>
 				<th>提交者手机</th>

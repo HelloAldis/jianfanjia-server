@@ -35,12 +35,12 @@
 		<tbody>
 			<tr class="info thead">
 				<th>文章ID</th>
-				<th>创建时间</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">创建时间</th>
 				<th>文章分类</th>
 				<th>美图标题</th>
 				<th>当前状态</th>
 				<th>状态操作</th>
-				<th>更新时间</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.lastupdate]" ng-click="sortData('lastupdate')">更新时间</th>
 				<th>修改操作</th>
 				<th>预览操作</th>
 			</tr>
