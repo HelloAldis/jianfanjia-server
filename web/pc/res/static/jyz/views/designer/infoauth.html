@@ -38,7 +38,7 @@
 	</div>
 	<div class="form-group">
 		<label for="">学历照片</label>
-		<img src="{{diploma_image}}" class="img-responsive" alt="暂无图片">
+		<img src="{{user.diploma_imageid ? '/api/v2/web/thumbnail/800/' + user.diploma_imageid : ''}}" class="img-responsive" alt="暂无图片">
 	</div>
 	<div class="form-group">
 		<label for="">工作年限</label>
@@ -58,6 +58,10 @@
 	</div>
 	<div class="form-group">
 		<label for="">获奖照片和描述：</label>
+		<div ng-repeat="image in user.award_details">
+			<img src="{{'/api/v2/web/thumbnail/800/' + image.award_imageid}}" class="img-responsive" alt="暂无图片">
+			<p class="lead">{{image.description}}</p>
+		</div>
 	</div>
 	<div class="form-group">
 		<label for="">小头像</label>
