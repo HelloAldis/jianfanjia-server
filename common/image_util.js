@@ -1,4 +1,9 @@
-var gm = require('gm');
+'use strict'
+
+const gm = require('gm');
+const path = require('path');
+
+const plan_image = path.resolve(__dirname, '../res/plan.jpeg');
 
 exports.resize2stream = function (buffer, width, callback) {
   gm(buffer).resize(width).interlace('Line').stream(callback);
@@ -66,6 +71,6 @@ exports.isPlanImage = function (buffer, callback) {
       return;
     }
 
-    exports.compare('./res/plan.jpeg', './temp.jpeg', callback);
+    exports.compare(plan_image, './temp.jpeg', callback);
   });
 }
