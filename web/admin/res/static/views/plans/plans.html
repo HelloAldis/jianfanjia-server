@@ -1,6 +1,6 @@
-<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">设计师作品列表</li></ol>
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">方案列表</li></ol>
 <form name="recruit" ng-submit="searchTimeBtn()" novalidate>
-	<p>作品创建时间过滤</p>
+	<p>方案最后更新时间过滤</p>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-1">开始时间</div>
@@ -27,44 +27,41 @@
 </form>
 <br />
 <ul class="list-inline">
-	作品状态：<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id)">{{auth.name}}</button></li>
+	方案状态：<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id)">{{auth.name}}</button></li>
 </ul>
 <br />
 <div>
 	<button type="button" class="btn btn-danger" ng-click="clearStatus()">重置清空还原</button>
 </div>
 <br />
-<div class="panel panel-info" ng-if="loading.loadData">
+<div class="panel panel-info ng-scope">
 	<table class="table table-bordered">
 		<tbody>
 			<tr class="info thead">
-				<th>案例编号ID</th>
-				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">提交时间</th>
-				<th>案例名称</th>
-				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.auth_date]" ng-click="sortData('auth_date')">认证时间</th>
+				<th>方案ID</th>
+				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.request_date]" ng-click="sortData('request_date')">预约时间</th>
+				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.get_phone_time]" ng-click="sortData('get_phone_time')">获取电话时间</th>
+				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.house_check_time]" ng-click="sortData('house_check_time')">量房时间</th>
 				<th>当前状态</th>
-				<th>设计师</th>
-				<th>电话</th>
-				<th>管理员操作</th>
+				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.last_status_update_time]" ng-click="sortData('last_status_update_time')">状态更新时间</th>
+				<th>设计师姓名</th>
+				<th>设计师电话</th>
+				<th>业主姓名</th>
+				<th>业主电话</th>
+				<th>查看方案</th>
 			</tr>
 			<tr ng-repeat="user in userList">
 				<td>{{user._id}}</td>
-				<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-				<td>{{user.cell}}</td>
-				<td>{{user.auth_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-				<td>{{user.auth_type | authFilter}}</td>
-				<td>{{user.designer.username}}</td>
+				<td>{{user.request_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.get_phone_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.house_check_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.status | planFilter}}</td>
+				<td>{{user.last_status_update_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.designer.username}}({{user.biaoshi}})</td>
 				<td>{{user.designer.phone}}</td>
-				<td>
-					<a href="/tpl/product/{{user._id}}" target="_blank">点击查看</a>
-					<span ng-hide="user.auth_type == '1'"> |
-					<a href="javascript:;" ng-click="productAuth(user._id,user.designerid, user)">认证通过</a></span>
-					<span ng-hide="user.auth_type == '2'"> |
-					<a href="javascript:;" ng-click="open('审核失败',user._id,'2',user.designerid, user)">审核失败</a></span>
-					<span ng-hide="user.auth_type == '3'"> |
-					<a href="javascript:;" ng-click="open('违规下线',user._id,'3',user.designerid, user)">违规下线</a>
-					</span>
-				</td>
+				<td>{{user.user.username}}</td>
+				<td>{{user.user.phone}}</td>
+				<td><a target="_blank" href="{{getPcUrl('/tpl/user/plans.html?pid=' + user._id)}}" class="btns browse">预览方案</a></td>
 			</tr>
 		</tbody>
 	</table>

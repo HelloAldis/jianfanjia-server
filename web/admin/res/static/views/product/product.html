@@ -1,6 +1,6 @@
-<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">装修美图</li></ol>
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">设计师作品列表</li></ol>
 <form name="recruit" ng-submit="searchTimeBtn()" novalidate>
-	<p>美图创建时间过滤</p>
+	<p>作品创建时间过滤</p>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-1">开始时间</div>
@@ -21,37 +21,50 @@
 				  	</span>
 				</p>
 			</div>
-			<div class="col-md-2"><button type="submit" class="btn btn-info" ng-disabled="recruit.$invalid">搜索</button></div>
+			<div class="col-md-2"><button type="submit" class="btn btn-info" ng-disabled="recruit.$invalid" ng-class="">搜索</button></div>
 		</div>
 	</div>
 </form>
 <br />
+<ul class="list-inline">
+	作品状态：<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id)">{{auth.name}}</button></li>
+</ul>
+<br />
 <div>
-	<a ui-sref="picturesAdd()" class="btn btn-success">添加装修美图</a>
+	<button type="button" class="btn btn-danger" ng-click="clearStatus()">重置清空还原</button>
 </div>
 <br />
-<div class="panel panel-info">
+<div class="panel panel-info" ng-if="loading.loadData">
 	<table class="table table-bordered">
 		<tbody>
 			<tr class="info thead">
-				<th>美图ID</th>
-				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">创建时间</th>
-				<th>美图标题</th>
+				<th>案例编号ID</th>
+				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">提交时间</th>
+				<th>案例名称</th>
+				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.auth_date]" ng-click="sortData('auth_date')">认证时间</th>
 				<th>当前状态</th>
-				<th>状态操作</th>
-				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.lastupdate]" ng-click="sortData('lastupdate')">更新时间</th>
-				<th>修改操作</th>
-				<th>预览操作</th>
+				<th>设计师</th>
+				<th>电话</th>
+				<th>管理员操作</th>
 			</tr>
 			<tr ng-repeat="user in userList">
 				<td>{{user._id}}</td>
 				<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-				<td>{{user.title}}</td>
-				<td>{{user.status == 1 ? "页面显示" : "页面隐藏"}}</td>
-				<td><button type="button" class="btn btn-danger" ng-click="changeStatus(user._id,user.status, user)">更改状态</button></td>
-				<td>{{user.lastupdate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-				<td><a ui-sref="picturesAdd({id:user._id})">修改更新</a></td>
-				<td><a ng-href="/tpl/mito/detail.html?pid={{ user._id }}&imgid={{user.images[0].imageid}}&imgw={{ user.images[0].width }}&imgh={{ user.images[0].height }}" target="_blank">点击查看</a></td>
+				<td>{{user.cell}}</td>
+				<td>{{user.auth_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.auth_type | authFilter}}</td>
+				<td>{{user.designer.username}}</td>
+				<td>{{user.designer.phone}}</td>
+				<td>
+					<a href="{{getPcUrl('/tpl/product/' + user._id)}}" target="_blank">点击查看</a>
+					<span ng-hide="user.auth_type == '1'"> |
+					<a href="javascript:;" ng-click="productAuth(user._id,user.designerid, user)">认证通过</a></span>
+					<span ng-hide="user.auth_type == '2'"> |
+					<a href="javascript:;" ng-click="open('审核失败',user._id,'2',user.designerid, user)">审核失败</a></span>
+					<span ng-hide="user.auth_type == '3'"> |
+					<a href="javascript:;" ng-click="open('违规下线',user._id,'3',user.designerid, user)">违规下线</a>
+					</span>
+				</td>
 			</tr>
 		</tbody>
 	</table>

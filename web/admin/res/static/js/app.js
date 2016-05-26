@@ -1,14 +1,22 @@
 'use strict';
-var globalUrl = 'http://101.200.191.159/';
 (function () {
   // load modules
   angular.module('myJyzApp', ['ui.router', 'ui.bootstrap', 'ng.ueditor', 'controllers', 'services', 'filters'])
     .run(function ($rootScope, $state, $stateParams) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
+      $rootScope.getPcUrl = function (url) {
+        if (window.location.hostname == 'localhost') {
+          return 'http://127.0.0.1' + window.location.port + url;
+        } else if (window.location.hostname == 'devgod.jianfanjia.com') {
+          return 'http://dev.jianfanjia.com' + window.location.port + url;
+        } else {
+          return 'http://www.jianfanjia.com' + window.location.port + url;
+        }
+      }
     })
     .config(function ($stateProvider, $urlRouterProvider) {
-      var RootURl = '../../../static/jyz/';
+      var RootURl = '../static/';
       $urlRouterProvider.otherwise('/index');
       $stateProvider
         .state('index', {

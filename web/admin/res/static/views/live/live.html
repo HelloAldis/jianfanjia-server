@@ -17,7 +17,7 @@
 				<td>{{live.designer.username}}</td>
 				<td>{{live.manager}}</td>
 				<td class="td-opt">
-					<a href="../tpl/live/detail.html?{{live._id}}" target="_blank">查看</a> |
+					<a href="{{getPcUrl('/tpl/live/detail.html?' + live._id)}}" target="_blank">查看</a> |
 					<a ui-sref="liveEditor({id:live._id})">编辑</a> |
 					<a ui-sref="liveUpdata({id:live._id})">更新</a> |
 					<a ng-click="deleteLive(live._id)">删除</a>

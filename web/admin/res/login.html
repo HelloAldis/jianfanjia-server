@@ -3,9 +3,9 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>简繁家-登陆</title>
-	<link rel="stylesheet" type="text/css" href="../static/css/public.css" />
-	<script type="text/javascript" src="../static/js/lib/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../static/js/lib/public.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+	<script type="text/javascript" src="/static/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="/static/js/public.js"></script>
 </head>
 <body>
 	<style type="text/css">
@@ -101,7 +101,7 @@
 </head>
 <body>
 	<main class="g-sign">
-		<a href="../tpl/index/index.html" title="返回首页" class="m-head"><img src="../static/jyz/img/login-logo.png" alt="简繁家logo" ></a>
+		<a href="" title="返回首页" class="m-head"><img src="/static/img/login-logo.png" alt="简繁家logo" ></a>
 		<h2>简繁家管理员登录</h2>
 		<div class="sign">
 			<div class="m-item">
@@ -184,7 +184,7 @@
 				"pass"  : password.val()
 			},function(res){
 				if(res["msg"] == "success"){
-                    window.location.href = "index.html";
+                    window.location.href = "/";
 				}else{
 					$('#error-info').html(res['err_msg']).removeClass('hide');
 				}

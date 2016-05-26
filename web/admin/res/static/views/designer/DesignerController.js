@@ -568,7 +568,17 @@
           //返回错误信息
           console.log(resp);
           promptMessage('获取数据失败', resp.data.msg)
-        })
+        });
+        $scope.getProductDetail = function (designer) {
+          var detail = {
+            detail: JSON.stringify({
+              query: {
+                designerid: designer._id
+              }
+            })
+          };
+          return detail;
+        };
       }
     ])
     .controller('DesignerInfoAuthController', [ //设计师信息认证

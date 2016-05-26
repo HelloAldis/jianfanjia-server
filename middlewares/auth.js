@@ -206,6 +206,7 @@ exports.authWechat = function (req, res, next) {
 }
 
 var adminLoginPages = ['/login.html'];
+var adminPages = ['/index.html']
 
 exports.authAdminWeb = function (req, res, next) {
   var url = req.path;
@@ -214,15 +215,17 @@ exports.authAdminWeb = function (req, res, next) {
 
   if (_.indexOf(adminLoginPages, url) >= 0) {
     if (userid && usertype === type.role_admin) {
-      res.redirect('index.html');
+      res.redirect('/');
     } else {
       next();
     }
-  } else {
+  } else if (_.indexOf(adminPages, url) >= 0) {
     if (userid && usertype === type.role_admin) {
       next();
     } else {
       res.status(403).send('forbidden!');
     }
+  } else {
+    next();
   }
 }
