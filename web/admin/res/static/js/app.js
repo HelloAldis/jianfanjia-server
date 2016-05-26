@@ -6,12 +6,14 @@
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
       $rootScope.getPcUrl = function (url) {
+
+        var port = window.location.port ? ':' + window.location.port : '';
         if (window.location.hostname == 'localhost') {
-          return 'http://127.0.0.1' + window.location.port + url;
+          return 'http://127.0.0.1' + port + url;
         } else if (window.location.hostname == 'devgod.jianfanjia.com') {
-          return 'http://dev.jianfanjia.com' + window.location.port + url;
+          return 'http://dev.jianfanjia.com' + port + url;
         } else {
-          return 'http://www.jianfanjia.com' + window.location.port + url;
+          return 'http://www.jianfanjia.com' + port + url;
         }
       }
     })

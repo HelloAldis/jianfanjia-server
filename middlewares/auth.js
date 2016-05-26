@@ -206,7 +206,7 @@ exports.authWechat = function (req, res, next) {
 }
 
 var adminLoginPages = ['/login.html'];
-var adminPages = ['/index.html']
+var adminPages = ['/index.html', '/'];
 
 exports.authAdminWeb = function (req, res, next) {
   var url = req.path;
