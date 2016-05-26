@@ -205,6 +205,22 @@ define(['jquery','cookie'], function($){
       this.bindEvent();
       this.bindQuit();
     },
+    init2 : function(options){
+      var self = this;
+      this.win = $(window);
+      this.doc = $(document);
+      this.body = $(document.body);
+      this.usertype = $.cookie("usertype");
+      $.extend(self.settings = {
+        id : '#j-user',
+        callback : function(){}
+      },options || {});
+      this.del = '咨询热线：400-8515-167';
+      this.container = $(this.settings.id);
+      //绑定事件
+      this.bindEvent();
+      this.bindQuit();
+    },
     createAdmin : function(){
       var arr = [
           '<ul>',

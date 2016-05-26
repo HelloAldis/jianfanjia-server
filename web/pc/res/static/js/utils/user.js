@@ -51,7 +51,7 @@ define(['jquery','lib/cookie'], function($){
 		createOwner : function(off){
 			var self = this;
 			$.ajax({
-				url: RootUrl + 'api/v2/web/user_statistic_info',
+				url: '/api/v2/web/user_statistic_info',
 				type: 'POST',
 				dataType: 'json',
 				contentType : 'application/json; charset=utf-8'
@@ -68,7 +68,7 @@ define(['jquery','lib/cookie'], function($){
 		createDesign : function(off){
 			var self = this;
 			$.ajax({
-				url: RootUrl + 'api/v2/web/designer_statistic_info',
+				url: '/api/v2/web/designer_statistic_info',
 				type: 'POST',
 				dataType: 'json',
 				contentType : 'application/json; charset=utf-8'
@@ -131,7 +131,7 @@ define(['jquery','lib/cookie'], function($){
 			this.container.delegate('.quit','click',function(ev){
 				ev.preventDefault();
 				$.ajax({
-					url: RootUrl + 'api/v2/web/signout',
+					url: '/api/v2/web/signout',
 					type: 'POST',
 					dataType: 'json',
 					contentType : 'application/json; charset=utf-8'

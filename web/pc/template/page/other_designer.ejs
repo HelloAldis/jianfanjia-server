@@ -9,184 +9,208 @@
     function price_area(input){ return { "0" : "50-100", "1" : "100-200", "2" : "200-300", "3" : "300以上"}[input] }
     function house_type(input){ return { "0" : "一室", "1" : "二室", "2" : "三室", "3" : "四室", "4" : "复式", "5" : "别墅", "6" : "LOFT", "7" : "其他" }[input] }
     function dec_style(input){ return { "0" : "欧式", "1" : "中式", "2" : "现代", "3" : "地中海", "4" : "美式", "5" : "东南亚", "6" : "田园" }[input] }
+    function businessHouseType(input){ return { "0" : "餐厅", "1" : "服装店", "2" : "酒吧", "3" : "美容院", "4" : "办公室", "5" : "美发店", "6" : "幼儿园", "7" : "酒店" ,"9999" : "其他" }[input] }
     function dec_type(input){ return {"0" : "家装","1" : "商装","2" : "软装"}[input]}
     numStar = Math.round(((data.designer.respond_speed ? data.designer.respond_speed : 0) + (data.designer.service_attitude ? data.designer.service_attitude : 0))/2);
     numStar = numStar >= 5 ? 5 : numStar;
-    %>
-  <main class="g-bd g-wp f-cb" id="j-home">
-    <section class="g-item m-home-info">
-      <div class="banner">
-        <div class="not">
-          <h3>简繁家</h3>
-          <p>让装修变简单</p>
-        </div>
-      </div>
-      <div class="info">
-        <div class="head addIntentHead"><span><img src="/api/v2/web/thumbnail2/140/140/<%= data.designer.imageid %>" alt="<%= data.designer.username %>"></span></div>
-        <dl>
-          <dt>
-            <strong><%= data.designer.username %></strong>
-            <span class="auth"><i class="iconfont" title="实名认证"></i><i class="iconfont" title="认证设计师"></i></span>
-            <% if (data.designer.tags[0] === '暖暖走心') { %>
-            <span class="tag tag-0">暖暖走心</span>
-            <% }else if(data.designer.tags[0]=== '新锐先锋'){ %>
-            <span class="tag tag-1">新锐先锋</span>
-            <% }else if(data.designer.tags[0] === '匠心定制'){ %>
-            <span class="tag tag-2">匠心定制</span>
-            <% } %>
-          </dt>
-          <dd class="f-cb">
-            <address><i class="iconfont2">&#xe61f;</i><% if (!!data.designer.province) { %><%= data.designer.province %><% } %>&nbsp;&nbsp;&nbsp;<% if (!!data.designer.city) { %><%= data.designer.province %><% } %></address>
-          </dd>
-          <% if (!!data.designer.philosophy) { %>
-          <dd class="f-cb">
+    function textareaEscaped(value){
+      return value.toString().replace(/(\r)*\n/g,"<br />").replace(/\s/g," ");
+    }
+%>
+  <main class="g-bd f-cb g-potter" id="j-home">
+    <% if(!!data.designer.big_imageid){%>
+    <section class="m-potter-banner g-wa" style="background-image:url(/api/v2/web/thumbnail2/130/130/<%= data.designer.big_imageid %>);">
+    <% }else{%>
+    <section class="m-potter-banner g-wa" style="background-image:url(/static/img/design/potterhome-banner.jpg);">
+    <% }%>
+        <div class="mask"></div>
+        <div class="info">
+            <a href="/tpl/user/designer.html#/infor" class="add-bg tooltip" data-placement="left" data-viewport-padding="5px 8px" data-title="点此上传背景"></a>
+            <div class="head addIntentHead">
+              <% if (data.designer.auth_type === '1') { %>
+              <a href="/tpl/user/designer.html#/infoshow">
+              <% }else{ %>
+              <a href="/tpl/user/designer.html#/infor">
+              <% } %>
+              <img src="/api/v2/web/thumbnail2/130/130/<%= data.designer.imageid %>" alt="<%= data.designer.username %>">
+              <span><i class="iconfont">&#xe61a;</i></span>
+              </a>
+            </div>
+            <h2><%= data.designer.username %></h2>
+            <address><i class="iconfont">&#xe61f;</i>&nbsp;<% if (!!data.designer.province) { %><%= data.designer.province %><% } %>&nbsp;&nbsp;&nbsp;<% if (!!data.designer.city) { %><%= data.designer.city %><% } %></address>
+            <% if (!!data.designer.philosophy) { %>
             <p><%= data.designer.philosophy %></p>
-          </dd>
-          <% } %>
-        </dl>
-        <% if (data.header_info.admin_statistic_info == undefined && data.header_info.user_statistic_info == undefined && data.header_info.designer_statistic_info == undefined) { %>
-        <div class="btns">
-          <p><span class="star">
-            <% for(var i=0; i < 5; i++) {%>
-              <% if(i < numStar){%>
-                  <i class="iconfont">&#xe604;</i>
-              <% }else{%>
-                  <i class="iconfont">&#xe62b;</i>
-              <% }%>
             <% } %>
-            </span></p>
-            <a href="/tpl/user/login.html?/tpl/designer/<%= data.designer._id %>" class="u-btns addIntent">添加意向</a>
         </div>
-        <% }else if(data.header_info.user_statistic_info != undefined){ %>
-        <div class="btns">
-          <p><span class="star">
-            <% for(var i=0; i < 5; i++) {%>
-              <% if(i < numStar){%>
-                  <i class="iconfont">&#xe604;</i>
-              <% }else{%>
-                  <i class="iconfont">&#xe62b;</i>
-              <% }%>
-            <% } %>
-            </span></p>
-          <% if(data.designer.is_my_favorite){ %>
-            <a href="/tpl/user/owner.html#/designer/1" class="u-btns u-btns-revise">已添加</a>
-          <% }else{ %>
-            <a href="javascript:;" class="u-btns addIntent" data-uid="<%= data.designer._id %>">添加意向</a>
-          <% } %>
-        </div>
-        <% } %>
-      </div>
-      <div class="service f-cb">
-        <div class="f-fl">
-          <% if (!!data.designer.authed_product_count) { %>
-          <dl>
-              <dt><%= data.designer.authed_product_count %></dt>
-              <dd>作品</dd>
-          </dl>
-          <% } %>
-          <% if (!!data.designer.order_count) { %>
-          <dl>
-              <dt><%= data.designer.order_count %></dt>
-              <dd>预约</dd>
-          </dl>
-          <% } %>
-        </div>
-        <% if (data.designer.design_fee_range != undefined) { %>
-        <h4 class="f-fr"><em>设计费</em><strong><%= price_area(data.designer.design_fee_range) %></strong>元/m&sup2;</h4>
-        <% } %>
-      </div>
     </section>
-    <section class="g-item m-home-service">
-      <ul class="f-cb">
-        <% if (data.designer.dec_types != undefined && data.designer.dec_types.length > 0) { %>
-        <li class="half">
-          <strong>接单类型：</strong>
-          <div>
-            <% data.designer.dec_types.forEach(v => {%>
-            <span><%= dec_type(v) %></span>
-            <%})%>
+        <section class="m-potter-service g-wa">
+        <div class="m-follow">
+          <div class="g-wp f-cb">
+              <div class="f-fl">
+                  <% if (!!data.designer.authed_product_count) { %>
+                  <dl>
+                      <dt>作品</dt>
+                      <dd><strong><%= data.designer.authed_product_count %></strong></dd>
+                  </dl>
+                  <span class="line"></span>
+                  <% } %>
+                  <% if (!!data.designer.order_count) { %>
+                  <dl>
+                      <dt>预约</dt>
+                      <dd><strong><%= data.designer.order_count %></strong></dd>
+                  </dl>
+                  <span class="line"></span>
+                  <% } %>
+                  <% if (data.designer.design_fee_range != undefined) { %>
+                  <dl>
+                      <dt>设计费</dt>
+                      <dd><strong class="star"><%= price_area(data.designer.design_fee_range) %></strong>元/m&sup2;</dd>
+                  </dl>
+                  <span class="line"></span>
+                  <% } %>
+                  <dl>
+                      <dt>设计师等级</dt>
+                      <dd>
+                          <span class="auth"><% if (data.designer.uid_auth_type === '2') { %><i class="iconfont tooltip" data-title="实名认证">&#xe634;</i><% } %><% if (data.designer.auth_type === '2') { %><i class="iconfont tooltip" data-title="认证设计师">&#xe62a;</i><% } %></span>
+                          <% if (data.designer.tags[0] === '暖暖走心') { %>
+                          <span class="tag tag-0">暖暖走心</span>
+                          <% }else if(data.designer.tags[0]=== '新锐先锋'){ %>
+                          <span class="tag tag-1">新锐先锋</span>
+                          <% }else if(data.designer.tags[0] === '匠心定制'){ %>
+                          <span class="tag tag-2">匠心定制</span>
+                          <% } %>
+                      </dd>
+                  </dl>
+                  <span class="line"></span>
+                  <dl>
+                      <dt>综合评价</dt>
+                      <dd><span class="star">
+                          <% for(var i=0; i < 5; i++) {%>
+                            <% if(i < numStar){%>
+                                <i class="iconfont">&#xe604;</i>
+                            <% }else{%>
+                                <i class="iconfont">&#xe62b;</i>
+                            <% }%>
+                          <% } %>
+                      </span></dd>
+                  </dl>
+              </div>
+              <div class="btns f-fr">
+                <% if (data.designer.auth_type === '1') { %>
+                <a href="/tpl/user/designer.html#/infoshow" class="u-btns">查看资料</a>
+                <% }else{ %>
+                <a href="/tpl/user/designer.html#/infor" class="u-btns">编辑资料</a>
+                <% } %>
+              </div>
           </div>
-        </li>
-        <% } %>
-        <% if (data.designer.dec_styles != undefined && data.designer.dec_styles.length > 0) { %>
-        <li class="half">
-          <strong>设计风格：</strong>
-          <div>
-            <% data.designer.dec_styles.forEach(v => {%>
-            <span><%= dec_style(v) %></span>
-            <%})%>
-          </div>
-        </li>
-        <% } %>
-        <% if (data.designer.dec_house_types != undefined && data.designer.dec_house_types.length > 0) { %>
-        <li class="half">
-          <strong>接单户型：</strong>
-          <div>
-            <% data.designer.dec_house_types.forEach(v => {%>
-            <span><%= house_type(v) %></span>
-            <%})%>
-          </div>
-        </li>
-        <% } %>
-        <% if (!!data.designer.team_count) { %>
-        <li class="half">
-          <strong>施工团队：</strong>
-          <div><p><%= data.designer.team_count %>个施工队</p></div>
-        </li>
-        <% } %>
-        <% if (!!data.designer.university) { %>
-        <li class="half">
-          <strong>毕业院校：</strong>
-          <div><p><%= data.designer.university %></p></div>
-        </li>
-        <% } %>
-        <% if (!!data.designer.work_year) { %>
-        <li class="half">
-          <strong>工作年限：</strong>
-          <div><p><%= data.designer.work_year %>年</p></div>
-        </li>
-        <% } %>
-        <% if (!!data.designer.company) { %>
-        <li>
-          <strong>曾就职装饰公司：</strong>
-          <div><p><%= data.designer.company %></p></div>
-        </li>
-        <% } %>
-        <% if (!!data.designer.achievement) { %>
-        <li>
-          <strong>设计成就：</strong>
-          <div><p><%- data.designer.achievement %></p></div>
-        </li>
-        <% } %>
-      </ul>
+        </div>
     </section>
-    <section class="g-item m-home-product">
+        <section class="g-item g-wp m-home-product m-potter-product">
       <div class="list">
         <ul class="f-cb">
-          <% data.products.forEach((v,k) => { %>
-          <% if (k > 5) { %>
+          <li class="add-product">
+            <a href="/tpl/user/designer.html#/release">
+              <span class="add">
+                <i class="iconfont">&#xe603;</i>
+              </span>
+              添加新的作品
+            </a>
+          </li>
+        <% data.products.forEach((v,k) => { %>
+          <% if (k > 4) { %>
           <li class="hide">
           <% }else{ %>
           <li>
           <% } %>
-            <a href="/tpl/design/detail.html?<%= v._id %>" class="img">
-              <% if (k > 5) { %>
-              <img data-src="/api/v2/web/thumbnail2/388/289/<%= v.images[0].imageid %>" alt="<%= v.cell %>" src="/static/img/public/load.gif">
-              <% }else{ %>
-              <img class="lazyimg" data-original="/api/v2/web/thumbnail2/388/289/<%= v.images[0].imageid %>" alt="<%= v.cell %>" src="/static/img/public/load.gif">
-              <% } %>
+            <a href="/tpl/product/<%= v._id %>" class="img">
+              <img data-src="/api/v2/web/thumbnail2/388/289/<%= v.cover_imageid %>" alt="<%= v.cell %>" src="/static/img/public/load.gif">
             </a>
             <div class="txt">
-              <h4><a href="/tpl/design/detail.html?<%= v._id %>"><%= v.cell %></a></h4>
-              <p><span><%= v.house_area %>m&sup2;</span><span><%= house_type(v.house_type) %></span><span><%= dec_style(v.dec_style) %></span><span><%= dec_type(v.dec_type) %></span></p>
+              <h4><a class="tooltip" data-title="<%= v.cell %>" href="/tpl/product/<%= v._id %>"><%= v.cell %></a></h4>
+              <p><span><%= v.house_area %>m&sup2;</span><span><% if (v.dec_type == 1 && v.business_house_type) { %><%= businessHouseType(v.business_house_type) %><% }else{ %><%= house_type(v.house_type) %><% } %></span><span><%= dec_style(v.dec_style) %></span><span><%= dec_type(v.dec_type) %></span></p>
+              <% if(v.auth_type  == 0){%>
+              <span class="product—auth product—auth0">认证中</span>
+              <% } %>
+              <% if(v.auth_type  == 1){%>
+              <span class="product—auth product—auth1">认证成功</span>
+              <% } %>
+              <% if(v.auth_type  == 2){%>
+              <span class="product—auth product—auth2">认证失败</span>
+              <% } %>
+              <% if(v.auth_type  == 3){%>
+              <span class="product—auth product—auth3">违规下线</span>
+              <% } %>
             </div>
+            <a href="/tpl/user/designer.html#/release/<%= v._id %>" class="edit btns tooltip" data-title="编辑作品"><i class="iconfont">&#xe627;</i></a>
+            <span class="remove btns tooltip" data-title="删除作品" data-uid="<%= v._id %>"><i class="iconfont">&#xe619;</i></span>
           </li>
-          <% }) %>
+        <% }) %>
         </ul>
       </div>
       <% if (data.products.length > 5) { %>
       <a href="javascript:;" class="loadmore">查看更多</a>
       <% } %>
+    </section>
+    <section class="g-item g-wp m-potter-info f-cb">
+        <div class="m-sdc f-fl">
+            <div class="head"><img src="/api/v2/web/thumbnail2/110/110/<%= data.designer.imageid %>" alt="<%= data.designer.username %>"></div>
+            <h3><%= data.designer.username %></h3>
+            <address><i class="iconfont">&#xe61f;</i>&nbsp;<% if (!!data.designer.province) { %><%= data.designer.province %><% } %>&nbsp;&nbsp;&nbsp;<% if (!!data.designer.city) { %><%= data.designer.city %><% } %></address>
+            <dl>
+                <% if (data.designer.dec_types != undefined && data.designer.dec_types.length > 0) { %>
+                <dt>接单类型</dt>
+                <dd>
+                  <% data.designer.dec_types.forEach(v => {%>
+                  <span><%= dec_type(v) %></span>
+                  <%})%>
+                </dd>
+                <% } %>
+                <% if (data.designer.dec_house_types != undefined && data.designer.dec_house_types.length > 0) { %>
+                <dt>接单户型</dt>
+                <dd>
+                  <% data.designer.dec_house_types.forEach(v => {%>
+                  <span><%= house_type(v) %></span>
+                  <%})%>
+                </dd>
+                <% } %>
+                <% if (data.designer.dec_styles != undefined && data.designer.dec_styles.length > 0) { %>
+                <dt>设计风格</dt>
+                <dd>
+                  <% data.designer.dec_styles.forEach(v => {%>
+                  <span><%= dec_style(v) %></span>
+                  <%})%>
+                </dd>
+                <% } %>
+            </dl>
+        </div>
+        <div class="m-mnc f-fl">
+            <dl>
+                <% if (!!data.designer.philosophy) { %>
+                <dt>设计理念</dt>
+                <dd><%= data.designer.philosophy %></dd>
+                <% } %>
+                <% if (!!data.designer.university) { %>
+                <dt>毕业院校</dt>
+                <dd><%= data.designer.university %></dd>
+                <% } %>
+                <% if (!!data.designer.company) { %>
+                <dt>曾就职装饰公司</dt>
+                <dd><%= data.designer.company %></dd>
+                <% } %>
+                <% if (!!data.designer.work_year) { %>
+                <dt>工作年限</dt>
+                <dd><%= data.designer.work_year %>年</dd>
+                <% } %>
+                <% if (!!data.designer.team_count) { %>
+                <dt>施工团队</dt>
+                <dd><%= data.designer.team_count %>个施工队</dd>
+                <% } %>
+                <% if (!!data.designer.achievement) { %>
+                <dt>设计成就</dt>
+                <dd><%- textareaEscaped(data.designer.achievement) %></dd>
+                <% } %>
+            </dl>
+        </div>
     </section>
   </main>
   <script type="text/javascript" data-main="/static/js/design/home" src="/static/js/lib/require.js"></script>

@@ -12,14 +12,16 @@
 						<a href="javascript:;" class="u-btns" ng-click="deleteFavorite(list._id)"><i class="iconfont2">&#xe619;</i>&nbsp;&nbsp;删除</a>
 					</div>
 					<div class="boxs" bo-if="!list.is_deleted">
-						<a target="_blank" bo-href-i="/tpl/design/detail.html?{{list._id}}" class="img">
-							<img bo-src-i="/api/v2/web/thumbnail2/448/270/{{list.images[0].imageid}}" bo-alt="list.cell">
+						<a target="_blank" bo-href-i="/tpl/product/{{list._id}}" class="img">
+							<img bo-src-i="/api/v2/web/thumbnail2/448/270/{{list.cover_imageid}}" bo-alt="list.cell">
 						</a>
-						<h4><a bo-href-i="/tpl/design/detail.html?{{list._id}}"  target="_blank" bo-text="list.cell"></a><span bo-if="list.province">(<i bo-text="list.province"></i> <i bo-text="list.city"></i>
+						<h4><a bo-href-i="/tpl/product/{{list._id}}"  target="_blank" bo-text="list.cell"></a><span bo-if="list.province">(<i bo-text="list.province"></i> <i bo-text="list.city"></i>
 							<i bo-text="list.district"></i>)</span></h4>
 						<div class="tag">
 							<span><i bo-text="list.house_area"></i>m&sup2;</span>
-							<span><i bo-text="list.house_type"></i></span>
+							<span><i bo-text="list.dec_type"></i></span>
+							<span bo-if="list.dec_type != '商装'"><i bo-text="list.house_type"></i></span>
+							<span bo-if="list.dec_type == '商装'"><i bo-text="list.business_house_type"></i></span>
 							<span><i bo-text="list.dec_style"></i></span>
 						</div>
 						<p bo-text="list.description"></p>

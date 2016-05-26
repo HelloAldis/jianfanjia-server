@@ -1,144 +1,144 @@
-<div class="m-breadbtns">
-    <span><i class="iconfont2">&#xe60b;</i>您的基本资料认证已提交，请耐心等待审核</span>
+<div class="m-breadbtns" bindonce="designer" bo-switch="designer.auth_type">
+    <p class="s-auth-waiting" bo-switch-when="1"><i class="iconfont">&#xe60b;</i>&nbsp;&nbsp;&nbsp;您的基本资料认证已经提交，请耐心等待审核</p>
+    <p class="s-auth-done" bo-switch-when="2"><i class="iconfont">&#xe608;</i>&nbsp;&nbsp;&nbsp;您的基本资料认证已通过审核</p>
+    <p class=".s-auth-fail" bo-switch-when="3"><i class="iconfont">&#xe607;</i>&nbsp;&nbsp;&nbsp;您的基本资料认证失败，请重新提交</p>
+    <p class="s-auth-offline" bo-switch-when="4"><i class="iconfont">&#xe612;</i>&nbsp;&nbsp;&nbsp;您的基本资料认证内容违规，请重新提交</p>
 </div>
-<div class="main infoshow">
-    <div class="m-ct m-info">
-        <div class="k-form release" bindonce="designer">
-            <div class="m-boxs">
-                <div class="m-item f-cb">
-                    <div class="item">
-                        <label class="u-lab">姓名</label>
-                        <div class="u-inp">
-                            <p class="u-txt">
-                                <span bo-text="designer.username"></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-item f-cb">
-                    <div class="item">
-                        <label class="u-lab">性别</label>
-                        <div class="u-inp">
-                            <p class="u-txt">
-                                <span bo-text="designer.sex | sexFilter"></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-item f-cb">
-                    <div class="item">
-                        <label class="u-lab">手机号码</label>
-                        <div class="u-inp">
-                            <p class="u-txt">
-                                <span bo-text="designer.phone"></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-item f-cb">
-                    <div class="item">
-                        <label class="u-lab">所在地区</label>
-                        <div class="u-inp">
-                            <p class="u-txt">
-                                <span bo-text="designer.province"></span>
-                                <span bo-text="designer.city"></span>
-                                <span bo-text="designer.district"></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-item f-cb">
-                    <div class="item">
-                        <label class="u-lab">邮寄详细地址</label>
-                        <div class="u-inp">
-                            <p class="u-txt">
-                                <span bo-text="designer.address"></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-item f-cb">
-                    <div class="item">
-                        <label class="u-lab">毕业院校</label>
-                        <div class="u-inp">
-                            <p class="u-txt">
-                                <span bo-text="designer.university"></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-item f-cb">
-                    <div class="item">
-                        <label class="u-lab">工作年限</label>
-                        <div class="u-inp">
-                            <p class="u-txt">
-                                <span bo-text="designer.work_year"></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-item f-cb">
-                    <div class="item">
-                        <label class="u-lab">曾就职装饰公司</label>
-                        <div class="u-inp">
-                            <p class="u-txt">
-                                <span bo-text="designer.company"></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-item f-cb">
-                    <div class="item">
-                        <label class="u-lab">设计成就</label>
-                        <div class="u-inp">
-                            <p class="u-txt">
-                                <span bo-text="designer.achievement"></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-item f-cb">
-                    <div class="item">
-                        <label class="u-lab">设计理念</label>
-                        <div class="u-inp">
-                            <p class="u-txt">
-                                <span bo-text="designer.philosophy"></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-item f-cb">
-                    <div class="item">
-                        <label class="u-lab">学历图片</label>
-                        <div class="u-inp">
-                            <div class="u-img1" bo-if="designer.diploma_imageid">
-                                <img bo-src-i="/api/v2/web/thumbnail2/168/168/{{ designer.diploma_imageid }}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-item f-cb">
-                    <div class="item">
-                        <label class="u-lab">获奖照片及描述</label>
-                        <div class="u-inp">
-                            <div class="u-img2" bo-if="designer.award_details.length">
-                                <ul>
-                                    <li ng-repeat="item in designer.award_details" class="f-cb">
-                                        <img bo-src-i="/api/v2/web/thumbnail2/168/168/{{ item.award_imageid }}" alt="">
-                                        <p bo-text="item.description"></p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="u-head">
-                    <img bo-src-i="/api/v2/web/thumbnail2/120/120/{{ designer.imageid }}" alt="">
+<div class="main m-viewinfo" bindonce="designer">
+    <div class="k-form release" bindonce="designer">
+        <div class="u-head">
+            <img bo-src-i="/api/v2/web/thumbnail2/120/120/{{ designer.imageid }}" alt="">
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">姓名</label>
+                <div class="u-inp">
+                    <p class="u-txt">
+                        <span bo-text="designer.username"></span>
+                    </p>
                 </div>
             </div>
-            <div class="m-btns">
-                <a ui-sref="authHeart" class="u-btns u-btns-revise">返回认证中心</a>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">性别</label>
+                <div class="u-inp">
+                    <p class="u-txt">
+                        <span bo-text="designer.sex | sexFilter"></span>
+                    </p>
+                </div>
             </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">手机号码</label>
+                <div class="u-inp">
+                    <p class="u-txt">
+                        <span bo-text="designer.phone"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">所在地区</label>
+                <div class="u-inp">
+                    <p class="u-txt">
+                        <span bo-text="designer.province"></span>
+                        <span bo-text="designer.city"></span>
+                        <span bo-text="designer.district"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">邮寄详细地址</label>
+                <div class="u-inp">
+                    <p class="u-txt">
+                        <span bo-text="designer.address"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">设计理念</label>
+                <div class="u-inp">
+                    <p class="u-txt">
+                        <span bo-text="designer.philosophy"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">毕业院校</label>
+                <div class="u-inp">
+                    <p class="u-txt">
+                        <span bo-text="designer.university"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">学历图片</label>
+                <div class="u-inp">
+                    <div class="u-img1" bo-if="designer.diploma_imageid">
+                        <img bo-src-i="/api/v2/web/thumbnail2/168/168/{{ designer.diploma_imageid }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">曾就职装饰公司</label>
+                <div class="u-inp">
+                    <p class="u-txt">
+                        <span bo-text="designer.company"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">工作年限</label>
+                <div class="u-inp">
+                    <p class="u-txt">
+                        <span bo-text="designer.work_year"></span>&nbsp;&nbsp;年
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">设计成就</label>
+                <div class="u-inp">
+                    <p class="u-txt">
+                        <span bo-html="designer.achievement"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">获奖照片及描述</label>
+                <div class="u-inp">
+                    <div class="u-img2" bo-if="designer.award_details.length">
+                        <ul>
+                            <li ng-repeat="item in designer.award_details" class="f-cb">
+                                <img bo-src-i="/api/v2/web/thumbnail2/168/168/{{ item.award_imageid }}" alt="">
+                                <p bo-text="item.description"></p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="m-btns">
+            <a ui-sref="infor" class="u-btns" bo-if="designer.auth_type != 1">&nbsp;&nbsp;修改&nbsp;&nbsp;</a>
+            <button class="u-btns u-btns-disabled" bo-if="designer.auth_type == 1">&nbsp;&nbsp;修改&nbsp;&nbsp;</button>
         </div>
     </div>
 </div>

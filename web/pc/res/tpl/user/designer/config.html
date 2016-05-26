@@ -1,0 +1,104 @@
+<div class="m-plan">
+    <div class="plans-tt f-cb">
+        <h3 class="f-fl">提交装修方案</h3>
+    </div>
+    <div class="plans-ct" bindonce="plan" ng-if="designerPlan.loading">
+        <div class="boxs quotes">
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr class="title">
+                                <th class="td1"><span>项目</span></th>
+                                <th class="td2"><span>项目总价(元)</span></th>
+                                <th class="td3"><span>备注说明</span></th>
+                                <th class="td4">&nbsp;&nbsp;&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-if="plan.price_detail.length">
+                            <tr class="tbody" ng-if="designerPlan.packagetype != 1">
+                                <td>&nbsp;&nbsp;&nbsp;</td>
+                            </tr>
+                            <tr ng-repeat="list in plan.price_detail" ng-if="designerPlan.packagetype != 1 && plan.price_detail">
+                                <td class="td1"><span bo-text="list.item"></span></td>
+                                <td class="td2"><input type="text" class="input" placeholder="请输入8位以内整数" my-placeholder ng-model="list.price" ng-blur="designerPlan.computePrice()" model-format="int" /></td>
+                                <td class="td3"><input type="text" ng-model="list.description" /></td>
+                                <td class="td4"><button ng-click="designerPlan.remove_price_detail($index)"><i class="iconfont2">&#xe619;</i></button></td>
+                            </tr>
+                            <tr class="packagetype" ng-repeat="list in plan.price_detail" ng-if="designerPlan.packagetype == 1 && $index == 0  && plan.price_detail">
+                                <td class="td1"><span bo-text="list.item"></span></td>
+                                <td class="td2"><strong bo-text="list.price | number"></strong></td>
+                                <td class="td3"><p ng-bind-html="list.description | to_trusted"></p></td>
+                                <td class="td4">&nbsp;&nbsp;&nbsp;</td>
+                            </tr>
+                            <tr ng-repeat="list in plan.price_detail track by $index" ng-if="designerPlan.packagetype == 1 && $index > 0  && plan.price_detail">
+                                <td class="td1"><span bo-text="list.item"></span></td>
+                                <td class="td2"><input type="text" class="input" placeholder="请输入8位以内整数" my-placeholder ng-model="list.price" ng-blur="designerPlan.computePrice()" model-format="int" /></td>
+                                <td class="td3"><input type="text" ng-model="list.description" /></td>
+                                <td class="td4"><button ng-click="designerPlan.remove_price_detail($index)"><i class="iconfont2">&#xe619;</i></button></td>
+                            </tr>
+                            <tr class="tbody">
+                                <td>&nbsp;&nbsp;&nbsp;</td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-if="!plan.price_detail.length">
+                            <tr class="no-tbody">
+                                <td class="td1">&nbsp;&nbsp;&nbsp;</td>
+                                <td class="td2">您没有添加项目</td>
+                                <td class="td3">&nbsp;&nbsp;&nbsp;</td>
+                                <td class="td4">&nbsp;&nbsp;&nbsp;</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="create">
+                                <td>&nbsp;&nbsp;&nbsp;</td>
+                                <td colspan="2">
+                                    <form name="quote" novalidate>
+                                        <span class="new"><input type="text" ng-model="designerPlan.add_price_detail_name" placeholder="请输入新添加项目名称" my-placeholder /></span><button ng-click="designerPlan.add_price_detail()"><i class="iconfont2">&#xe603;</i></button>
+                                    </form>
+                                </td>
+                                <td>&nbsp;&nbsp;&nbsp;</td>
+                            </tr>
+                            <tr class="footer">
+                                <td class="td1"><span>工程折后价(元)</span></td>
+                                <td class="td2"><input type="text" placeholder="请输入8位以内整数" my-placeholder ng-model="plan.project_price_after_discount" ng-change="designerPlan.computeTotalprice()" model-format="int" /></td>
+                                <td class="td3"><span>设计费(元)</span><span class="designFee"><input type="text" placeholder="请输入8位以内整数" my-placeholder ng-change="designerPlan.computeTotalprice()" ng-model="plan.total_design_fee" model-format="int" /></span></td>
+                                <td class="td4">&nbsp;&nbsp;&nbsp;</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div my-alert type="warning" ng-if="designerPlan.error" close="designerPlan.close()" data-dismiss-on-timeout="3000" text="{{designerPlan.errormsg}}"></div>
+                <div class="price f-cb">
+                    <dl class="f-fl" ng-if="designerPlan.packagetype == 1">
+                        <dt>基础费用</dt>
+                        <dd><span ng-if="designerPlan.baseprice != undefined"><em ng-bind="designerPlan.baseprice | number"></em>元</span></dd>
+                    </dl>
+                    <dl class="f-fl" ng-if="designerPlan.packagetype == 1">
+                        <dt>个性化费用</dt>
+                        <dd><span ng-if="plan.project_price_before_discount > designerPlan.baseprice"><em ng-bind="(plan.project_price_before_discount - designerPlan.baseprice) | number"></em>元</span></dd>
+                    </dl>
+                    <dl class="f-fl">
+                        <dt>工程总造价</dt>
+                        <dd><span ng-if="plan.project_price_before_discount != undefined && plan.project_price_after_discount != undefined"><s ng-bind="plan.project_price_before_discount | number"></s>元</span><span ng-if="plan.project_price_before_discount != undefined && plan.project_price_after_discount == undefined"><em ng-bind="plan.project_price_before_discount | number"></em>元</span>
+                        </dd>
+                    </dl>
+                    <dl class="f-fl">
+                        <dt>工程折后价</dt>
+                        <dd><span ng-if="plan.project_price_after_discount != undefined"><em ng-bind="plan.project_price_after_discount | number"></em>元</span></dd>
+                    </dl>
+                    <dl class="f-fl">
+                        <dt>设计费</dt>
+                        <dd><span ng-if="plan.total_design_fee != undefined"><em ng-bind="plan.total_design_fee | number"></em>元</span></dd>
+                    </dl>
+                    <dl class="f-fr">
+                        <dt>折后总价</dt>
+                        <dd><span ng-if="plan.total_price != undefined"><strong ng-bind="plan.total_price | number"></strong>元</span></dd>
+                    </dl>
+                </div>
+                <div class="btns">
+                    <input type="button" value="&nbsp;&nbsp;创建报价&nbsp;&nbsp;" class="u-btns" ng-class="{'u-btns-disabled':quote.$invalid}" ng-disabled="quote.$invalid" ng-click="designerPlan.createQuote()">
+                </div>
+        </div>
+    </div>
+    <div class="pageLoading" ng-if="!designerPlan.loading"></div>
+</div>

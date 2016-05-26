@@ -1,0 +1,84 @@
+<div class="m-breadbtns" bindonce="designer" bo-switch="designer.uid_auth_type">
+    <p class="s-auth-waiting" bo-switch-when="1"><i class="iconfont">&#xe60b;</i>&nbsp;&nbsp;&nbsp;您的身份认证已经提交，请耐心等待审核</p>
+    <p class="s-auth-done" bo-switch-when="2"><i class="iconfont">&#xe608;</i>&nbsp;&nbsp;&nbsp;您的身份认证已通过审核</p>
+    <p class=".s-auth-fail" bo-switch-when="3"><i class="iconfont">&#xe607;</i>&nbsp;&nbsp;&nbsp;您的身份认证失败，请重新提交</p>
+    <p class="s-auth-offline" bo-switch-when="4"><i class="iconfont">&#xe612;</i>&nbsp;&nbsp;&nbsp;您的身份认证内容违规，请重新提交</p>
+</div>
+<div class="main m-viewinfo" bindonce="designer">
+    <div class="k-form">
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">真实姓名</label>
+                <div class="u-inp">
+                    <p class="u-txt">
+                        <span bo-text="designer.username"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">身份证号</label>
+                <div class="u-inp">
+                    <p class="u-txt">
+                        <span bo-text="designer.uid"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">上传身份证正面照</label>
+                <div class="u-inp">
+                    <div class="u-img1" bo-if="designer.uid_image1">
+                        <img bo-src-i="/api/v2/web/thumbnail2/248/156/{{ designer.uid_image1 }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">上传身份证反面照</label>
+                <div class="u-inp">
+                    <div class="u-img1" bo-if="designer.uid_image2">
+                        <img bo-src-i="/api/v2/web/thumbnail2/248/156/{{ designer.uid_image2 }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">银行卡号</label>
+                <div class="u-inp">
+                    <p class="u-txt">
+                        <span bo-text="designer.bank_card"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">开户银行</label>
+                <div class="u-inp">
+                    <p class="u-txt">
+                        <span bo-text="designer.bank"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="m-item f-cb">
+            <div class="item">
+                <label class="u-lab">银行卡正面照片</label>
+                <div class="u-inp">
+                    <div class="u-img1" bo-if="designer.bank_card_image1">
+                        <img bo-src-i="/api/v2/web/thumbnail2/248/156/{{ designer.bank_card_image1 }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="m-btns">
+            <a ui-sref="idcard" class="u-btns" bo-if="designer.uid_auth_type != 1">&nbsp;&nbsp;修改&nbsp;&nbsp;</a>
+            <button class="u-btns u-btns-disabled" bo-if="designer.uid_auth_type == 1">&nbsp;&nbsp;修改&nbsp;&nbsp;</button>
+        </div>
+    </div>
+</div>

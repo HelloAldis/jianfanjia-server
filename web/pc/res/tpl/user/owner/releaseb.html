@@ -12,7 +12,7 @@
 				<div class="m-boxs">
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab"><i>*</i>装修城市</label>
+							<label class="u-lab"><i class="required-icon"></i>装修城市</label>
 							<div class="u-inp">
 								<input type="hidden" ng-model="requiremtne.province" check-province required />
 								<input type="hidden" ng-model="requiremtne.city" check-city required />
@@ -24,7 +24,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab" for="owner-sex"><i>*</i>详细地址</label>
+							<label class="u-lab" for="owner-sex"><i class="required-icon"></i>详细地址</label>
 							<div class="u-inp">
 								<input type="text" class="input long" ng-model="requiremtne.detail_address" name="detail_address" placeholder="不能为空" my-placeholder required />
 							</div>
@@ -35,7 +35,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab"><i>*</i>项目名称</label>
+							<label class="u-lab"><i class="required-icon"></i>项目名称</label>
 							<div class="u-inp">
 								<input type="text" class="input" ng-model="requiremtne.basic_address" name="basic_address" placeholder="不能为空" my-placeholder required />
 							</div>
@@ -46,7 +46,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab"><i>*</i>商装类型</label>
+							<label class="u-lab"><i class="required-icon"></i>商装类型</label>
 							<div class="u-inp">
 								<div my-select my-list="userRelease.businessType" my-query="requiremtne.business_house_type"></div>
 							</div>
@@ -54,7 +54,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab"><i>*</i>包工类型</label>
+							<label class="u-lab"><i class="required-icon"></i>包工类型</label>
 							<div class="u-inp">
 								<div my-select my-list="userRelease.workType" my-query="requiremtne.work_type"></div>
 								<div class="work-tips">
@@ -66,7 +66,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab"><i>*</i>装修面积</label>
+							<label class="u-lab"><i class="required-icon"></i>装修面积</label>
 							<div class="u-inp">
 								<div class="inp">
 									<input type="text" class="input" ng-model="requiremtne.house_area" placeholder="只能填纯数字" my-placeholder check-number required name="house_area" ng-pattern="/^[1-9]\d*$/" />
@@ -81,7 +81,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab"><i>*</i>装修预算</label>
+							<label class="u-lab"><i class="required-icon"></i>装修预算</label>
 							<div class="u-inp">
 								<div class="inp">
 									<input type="text" class="input" ng-model="requiremtne.total_price" name="total_price" placeholder="只能填纯数字" my-placeholder ng-pattern="/^[1-9]\d*$/" required />
@@ -96,7 +96,7 @@
 					</div>
 					<div class="m-item f-cb">
 						<div class="item">
-							<label class="u-lab"><i>*</i>风格喜好</label>
+							<label class="u-lab"><i class="required-icon"></i>风格喜好</label>
 							<div class="u-inp">
 								<div class="k-stylePic">
 									<div my-stylepic my-list="userRelease.decStyle" my-query="requiremtne.dec_style"></div>

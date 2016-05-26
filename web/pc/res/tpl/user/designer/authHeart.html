@@ -19,9 +19,9 @@
 					<span class="error" bo-if="designer.auth_type == 3 || designer.auth_type == 4" bo-if="designer.auth_message">（<i bo-text="designer.auth_message"></i>）</span>
 				</span>
 				<span class="select">
-					<a ui-sref="infor" class="u-btns u-btns-revise" bo-if="designer.auth_type == 0 || designer.auth_type == 3 || designer.auth_type == 4">提交基本资料认证信息</a>
-					<a ui-sref="infor" class="u-btns u-btns-revise" bo-if="designer.auth_type == 2">查看</a>
-					<a ui-sref="infor" class="u-btns u-btns-revise" bo-if="designer.auth_type == 1">查看基本资料认证信息</a>
+					<a ui-sref="infor" class="u-btns u-btns-revise" bo-if="designer.auth_type == 0">填写并认证</a>
+					<a ui-sref="infoshow" class="u-btns u-btns-revise" bo-if="designer.auth_type != 0">查看</a>
+					<a ui-sref="infor" class="u-btns u-btns-revise" bo-if="designer.auth_type != 1">修改</a>
 				</span>
 			</li>
 			<li>
@@ -38,9 +38,9 @@
 					<span class="error" bo-if="designer.uid_auth_type == 3 || designer.uid_auth_type == 4" bo-if="designer.uid_auth_message">（<i bo-text="designer.uid_auth_message"></i>）</span>
 				</span>
 				<span class="select">
-					<a ui-sref="idcard" class="u-btns u-btns-revise" bo-if="designer.uid_auth_type == 0 || designer.uid_auth_type == 3 || designer.uid_auth_type == 4">提交身份认证信息</a>
-					<a ui-sref="idcard" class="u-btns u-btns-revise" bo-if="designer.uid_auth_type == 2">查看</a>
-					<a ui-sref="idcard" class="u-btns u-btns-revise" bo-if="designer.uid_auth_type == 1">查看身份认证信息</a>
+					<a ui-sref="idcard" class="u-btns u-btns-revise" bo-if="designer.uid_auth_type == 0">填写并认证</a>
+					<a ui-sref="idcardshow" class="u-btns u-btns-revise" bo-if="designer.auth_type != 0">查看</a>
+					<a ui-sref="idcard" class="u-btns u-btns-revise" bo-if="designer.uid_auth_type != 1">修改</a>
 				</span>
 			</li>
 			<li>

@@ -59,8 +59,11 @@
     </div>
 	<main class="g-wp g-user f-cb" ng-controller="designerController">
 		<aside class="g-sd">
+            <div class="m-sdc homePage">
+                <h2><a href="/tpl/user/designer/homepage"><i class="iconfont">&#xe646;</i><strong>我的主页</strong></a></h2>
+            </div>
 			<div class="m-sdc">
-				<h2 ng-class="{active: $state.includes('index')}"><a ui-sref="index"><i class="iconfont2">&#xe610;</i>个人中心</a></h2>
+				<h2 ng-class="{active: $state.includes('index')}"><a ui-sref="index"><i class="iconfont">&#xe610;</i><strong>个人中心</strong></a></h2>
 	            <dl>
 	                <dt>业主装修需求</dt>
 	                <dd ng-class="{active: $state.includes('requirementList') || $state.includes('requirement')}"><a ui-sref="requirementList">装修需求列表</a></dd>
@@ -86,58 +89,61 @@
                 </dl>
             </div>
             <div class="m-sdc authHeart">
-	            <h2 ng-class="{active: $state.includes('authHeart')}"><a ui-sref="authHeart"><i class="iconfont2">&#xe62c;</i>认证中心</a></h2>
+               <h2 ng-class="{active: $state.includes('authHeart')}"><a ui-sref="authHeart"><i class="iconfont">&#xe62c;</i><strong>认证中心</strong></a></h2>
 	            <dl>
-	                <dd ng-class="{active: $state.includes('infor')}">
-                        <a ui-sref="infor">基本资料认证</a>
+	                <dd ng-class="{active: $state.includes('infor') || $state.includes('infoshow')}">
+                        <a ui-sref="infoshow" ng-if="designer.auth_type == 1">基本资料认证</a>
+                        <a ui-sref="infor" ng-if="designer.auth_type != 1">基本资料认证</a>
                         <span ng-class="{show:designer}" ng-switch="designer.auth_type">
-                            <i ng-switch-when="1" class="authStatus0 iconfont2">&#xe60b;</i>
-                            <i ng-switch-when="2" class="authStatus2 iconfont2">&#xe608;</i>
-                            <i ng-switch-when="3" class="authStatus3 iconfont2">&#xe61d;</i>
-                            <i ng-switch-when="4" class="authStatus4 iconfont2">&#xe612;</i>
+                            <i ng-switch-when="1" my-tooltip data-title="认证中" class="authStatus0 iconfont">&#xe60b;</i>
+                            <i ng-switch-when="2" my-tooltip data-title="认证成功" class="authStatus2 iconfont">&#xe608;</i>
+                            <i ng-switch-when="3" my-tooltip data-title="认证失败" class="authStatus3 iconfont">&#xe61d;</i>
+                            <i ng-switch-when="4" my-tooltip data-title="违规下线" class="authStatus4 iconfont">&#xe612;</i>
                         </span>
                     </dd>
-	                <dd ng-class="{active: $state.includes('idcard')}">
-                        <a ui-sref="idcard">身份认证</a>
+	                <dd ng-class="{active: $state.includes('idcard') || $state.includes('idcardshow')}">
+                        <a ui-sref="idcardshow" ng-if="designer.uid_auth_type == 1">身份认证</a>
+                        <a ui-sref="idcard" ng-if="designer.uid_auth_type != 1">身份认证</a>
                         <span ng-class="{show:designer}" ng-switch="designer.uid_auth_type">
-                            <i ng-switch-when="1" class="authStatus0 iconfont2">&#xe60b;</i>
-                            <i ng-switch-when="2" class="authStatus2 iconfont2">&#xe608;</i>
-                            <i ng-switch-when="3" class="authStatus3 iconfont2">&#xe61d;</i>
-                            <i ng-switch-when="4" class="authStatus4 iconfont2">&#xe612;</i>
+                            <i ng-switch-when="1" my-tooltip data-title="认证中" class="authStatus0 iconfont">&#xe60b;</i>
+                            <i ng-switch-when="2" my-tooltip data-title="认证成功" class="authStatus2 iconfont">&#xe608;</i>
+                            <i ng-switch-when="3" my-tooltip data-title="认证失败" class="authStatus3 iconfont">&#xe61d;</i>
+                            <i ng-switch-when="4" my-tooltip data-title="违规下线" class="authStatus4 iconfont">&#xe612;</i>
                         </span>
                     </dd>
 	                <dd ng-class="{active: $state.includes('products.list')}">
                         <a ui-sref="products.list({id:1})">作品认证</a>
                         <span ng-class="{show:designer}">
-                            <i ng-if="designer.authed_product_count > 2" class="authStatus2 iconfont2">&#xe608;</i>
+                            <i ng-if="designer.authed_product_count < 3 && designer.authed_product_count > 0" my-tooltip data-title="认证中" class="authStatus0 iconfont">&#xe60b;</i>
+                            <i ng-if="designer.authed_product_count > 2" my-tooltip data-title="认证成功" class="authStatus2 iconfont">&#xe608;</i>
                         </span>
                     </dd>
 	                <dd ng-class="{active: $state.includes('teamList')}">
                         <a ui-sref="teamList">施工团队</a>
                         <span ng-class="{show:designer}" ng-switch="designer.work_auth_type">
-                            <i ng-switch-when="1" class="authStatus0 iconfont2">&#xe60b;</i>
-                            <i ng-switch-when="2" class="authStatus2 iconfont2">&#xe608;</i>
-                            <i ng-switch-when="3" class="authStatus3 iconfont2">&#xe61d;</i>
-                            <i ng-switch-when="4" class="authStatus4 iconfont2">&#xe612;</i>
+                            <i ng-switch-when="1" my-tooltip data-title="认证中" class="authStatus0 iconfont">&#xe60b;</i>
+                            <i ng-switch-when="2" my-tooltip data-title="认证成功" class="authStatus2 iconfont">&#xe608;</i>
+                            <i ng-switch-when="3" my-tooltip data-title="认证失败" class="authStatus3 iconfont">&#xe61d;</i>
+                            <i ng-switch-when="4" my-tooltip data-title="违规下线" class="authStatus4 iconfont">&#xe612;</i>
                         </span>
                     </dd>
 	                <dd ng-class="{active: $state.includes('phone')}">
                         <a ui-sref="phone">手机认证</a>
-                        <span ng-class="{show:designer}"><i class="authStatus2 iconfont2">&#xe608;</i></span>
+                        <span ng-class="{show:designer}"><i class="authStatus2 iconfont">&#xe608;</i></span>
                     </dd>
 	                <dd ng-class="{active: $state.includes('email')}">
                         <a ui-sref="email">邮箱认证</a>
                         <span ng-class="{show:designer}" ng-switch="designer.email_auth_type">
-                            <i ng-switch-when="1" class="authStatus0 iconfont2">&#xe60b;</i>
-                            <i ng-switch-when="2" class="authStatus2 iconfont2">&#xe608;</i>
-                            <i ng-switch-when="3" class="authStatus3 iconfont2">&#xe61d;</i>
-                            <i ng-switch-when="4" class="authStatus4 iconfont2">&#xe612;</i>
+                            <i ng-switch-when="1" my-tooltip data-title="认证中" class="authStatus0 iconfont">&#xe60b;</i>
+                            <i ng-switch-when="2" my-tooltip data-title="认证成功" class="authStatus2 iconfont">&#xe608;</i>
+                            <i ng-switch-when="3" my-tooltip data-title="认证失败" class="authStatus3 iconfont">&#xe61d;</i>
+                            <i ng-switch-when="4" my-tooltip data-title="违规下线" class="authStatus4 iconfont">&#xe612;</i>
                         </span>
                     </dd>
 	            </dl>
 	        </div>
 		</aside>
-		<article class="g-mn">
+		<article class="g-mn" ng-class="{'noBackdrop': $state.includes('products.list') || $state.includes('favorite.list')}">
             <div class="m-tt" ng-if="$state.current.title">
                 <h2 ng-bind="$state.current.title"></h2>
             </div>

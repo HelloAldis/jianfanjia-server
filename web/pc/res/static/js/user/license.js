@@ -19,7 +19,7 @@ require(['jquery','lodash','cookie'],function($,_,cookie){
         $agree = $('#agree');
     function loadList(url){
         $.ajax({
-            url:RootUrl+'api/v2/web/designer/agree',
+            url:'/api/v2/web/designer/agree',
             type: 'POST',
             contentType : 'application/json; charset=utf-8',
             dataType: 'json'
