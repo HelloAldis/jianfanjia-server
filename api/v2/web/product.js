@@ -40,7 +40,7 @@ exports.add = function (req, res, next) {
 
 exports.update = function (req, res, next) {
   let product = ApiUtil.buildProduct(req);
-  let oid = tools.trim(req.body._id);
+  let oid = tools.trim(req.body._id) || tools.trim(req.body.product._id);
   let designerid = ApiUtil.getUserid(req);
   product.auth_type = type.product_auth_type_new;
   product.auth_date = new Date().getTime();
