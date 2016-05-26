@@ -37,7 +37,7 @@ require(['design/featured'],function(Featured){
     var featured = new Featured("#j-featured");
     featured.init();
 })
-require(['jquery','lodash','cookie','lib/jquery.history','utils/common','utils/page','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,history,common,Pageing){
+require(['jquery','lodash','cookie','lib/jquery.history','utils/common','utils/page','utils/tooltip','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,history,common,Pageing,Tooltip){
     var search = new common.Search();
     search.init();
     var user = new common.User();
@@ -150,9 +150,16 @@ require(['jquery','lodash','cookie','lib/jquery.history','utils/common','utils/p
                 }else if(data.tags[0] === '匠心定制'){
                    arr.push('<span class="tag tag-2">匠心定制</span>');
                 }
-				arr.push('<span class="auth"><i class="iconfont" title="实名认证">&#xe634;</i><i class="iconfont" title="认证设计师">&#xe62a;</i></span>');
+                arr.push('<span class="auth">');
+                if(data.uid_auth_type === '2'){
+                    arr.push('<i class="iconfont tooltip" data-title="实名认证">&#xe634;</i>');
+                }
+                if(data.auth_type === '2'){
+                    arr.push('<i class="iconfont tooltip" data-title="认证设计师">&#xe62a;</i>');
+                }
+                arr.push('</span>');
                 if(data.tags[0] === '匠心定制'){
-                   arr.push('<span class="tag-icon"></span>');
+                   arr.push('<span class="tag-icon tooltip" data-title="匠心定制设计师"></span>');
                 }
                 strStar = '<dd class="f-cb"><div class="star"><strong>综合评价</strong>';
 				for (var i = 0; i < 5; i++){
@@ -227,7 +234,7 @@ require(['jquery','lodash','cookie','lib/jquery.history','utils/common','utils/p
 			});
 			function eachImg(obj,arr){
 				$.each(arr,function(i,v){
-					obj.find('a').eq(i).attr('href',"detail.html?"+v._id).removeClass('.loadImg').find('img').attr('src' , '/api/v2/web/thumbnail2/280/220/'+v.images[0].imageid).attr('alt',v.cell);
+					obj.find('a').eq(i).attr('href',"/tpl/product/"+v._id).removeClass('.loadImg').find('img').attr('src' , '/api/v2/web/thumbnail2/280/220/'+v.cover_imageid).attr('alt',v.cell);
 				})
 			}
 		},
@@ -258,6 +265,7 @@ require(['jquery','lodash','cookie','lib/jquery.history','utils/common','utils/p
                         dataArr.push(self.createList(arr.designers[i]));
                     }
                     self.list.html(dataArr);
+                    new Tooltip('.tooltip');
                     self.cacheImg(self.list.find('li'));
                     self.listTab(self.toQuery);
                     obj.find('.btns').on('click',function(ev){

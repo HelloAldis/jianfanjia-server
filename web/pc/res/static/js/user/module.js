@@ -270,13 +270,14 @@
     angular.module("my.jyz.tpls", ["jyz/template/alert/alert.html"]);
     angular.module('my.jyz.alert', [])
     .controller('myAlertController', ['$scope', '$attrs', '$interpolate', '$timeout', function($scope, $attrs, $interpolate, $timeout) {
-      $scope.closeable = !!$attrs.close;
+      $scope.closeable = !!$attrs.close && !!$attrs.closeButton;
+      var timer = null;
       var dismissOnTimeout = angular.isDefined($attrs.dismissOnTimeout) ?
         $interpolate($attrs.dismissOnTimeout)($scope.$parent) : null;
-
       if (dismissOnTimeout) {
-        $timeout(function() {
+        timer = $timeout(function() {
           $scope.close();
+          $timeout.cancel(timer);
         }, parseInt(dismissOnTimeout, 10));
       }
     }])
@@ -312,7 +313,7 @@
     })
     angular.module("jyz/template/alert/alert.html", []).run(["$templateCache", function($templateCache) {
       $templateCache.put("jyz/template/alert/alert.html",
-        "<div class=\"k-alert\" ng-class=\"['k-alert-' + (type || 'warning'), closeable ? 'alert-dismissible' : null]\" role=\"alert\">\n" +
+        "<div class=\"k-alert\" ng-class=\"['k-alert-' + (type || 'warning'), closeable ? 'k-alert-dismissible' : null]\" role=\"alert\">\n" +
         "    <button ng-show=\"closeable\" type=\"button\" class=\"close\" ng-click=\"close({$event: $event})\">\n" +
         "        <span aria-hidden=\"true\">&times;</span>\n" +
         "        <span class=\"sr-only\">Close</span>\n" +
@@ -323,4 +324,4 @@
         "</div>\n" +
         "");
     }]);
-})(angular)
+})(angular);

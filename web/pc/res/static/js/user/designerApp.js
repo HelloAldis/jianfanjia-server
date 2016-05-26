@@ -79,6 +79,11 @@
                     templateUrl: url+'create.html',
                     controller : 'createCtrl'
                 })
+                .state('configPlan', {     //需求详情--提交方案/修改方案
+                    url: '/config/:id?userid&username&worktype&packagetype&baseprice',
+                    templateUrl: url+'config.html',
+                    controller : 'configCtrl'
+                })
                 .state('history', {      //历史订单列表
                     url: '/history',
                     templateUrl: url+'history.html',
@@ -119,7 +124,8 @@
                 .state('products.list', {      //作品列表
                     url: '/{id:[0-9]{1,6}}',
                     templateUrl: url+'products.html',
-                    controller : 'productsListCtrl'
+                    controller : 'productsListCtrl',
+                    title : '我的作品'
                 })
                 .state('addProduct', {    //发布作品
                     url: '/release',
@@ -145,13 +151,20 @@
                     url: '/authHeart',
                     templateUrl: url+'authHeart.html'
                 })
-                .state('idcard', {      //基本资料认证
+                .state('idcard', {      //身份认证
                     url: '/idcard',
                     templateUrl: url+'idcard.html',
-                    controller : 'idcardCtrl'
+                    controller : 'idcardCtrl',
+                    title : "身份证认证"
                 })
-                .state('addteam', {      //编辑施工团队
-                    url: '/team',
+                .state('idcardshow', {      //查看身份认证
+                    url: '/idcardshow',
+                    templateUrl: url+'idcardshow.html',
+                    controller : 'idcardShowCtrl',
+                    title : "身份证认证"
+                })
+                .state('addteam', {      //添加施工团队
+                    url: '/team?contract',
                     templateUrl: url+'team.html',
                     controller : 'teamCtrl',
                     title : "添加施工团队"

@@ -60,34 +60,22 @@ angular.module('controllers', [])
     .controller('inforCtrl', [     //业主资料
         '$scope','$rootScope','$state','userInfo','initData',
         function($scope, $rootScope,$state,userInfo,initData){
-            $scope.user = {
-                province : '请选择省份',
-                city : '请选择市',
-                district : '请选择县/区',
-                sex : "",
-                email : "",
-                address : ""
-            };
+            $scope.user = {};
             $scope.userInfo = {
                 disabled : false,
                 citiesList : initData.tdist,
                 userSex : initData.userSex,
                 isLoading : false
             };
-            if(userInfo.storage){    //获取个人资料
-                userInfo.get().then(function(res){
-                    if(res.data.data !== null){
-                        $scope.user = _.assign($scope.user, res.data.data);
-                        $scope.userInfo.isLoading = true;
-                        userInfo.save(res.data.data);
-                    }
-                },function(err){
-                    console.log(err);
-                });
-            }else{
-                $scope.user = userInfo.pull;
-                $scope.userInfo.isLoading = true;
-            }
+            userInfo.get().then(function(res){
+                if(res.data.data !== null){
+                    angular.extend($scope.user, res.data.data);
+                    $scope.userInfo.isLoading = true;
+                    userInfo.save(res.data.data);
+                }
+            },function(err){
+                console.log(err);
+            });
             $scope.userInfo.submit = function(){     //修改个人资料
                 $('#fileToUpload').uploadify('destroy');
                 $scope.userInfo.disabled = true;
@@ -497,7 +485,6 @@ angular.module('controllers', [])
                                     $scope.bookingSuccess = $scope.requirement.package_type === '2' ? $scope.ordersData.length === 1 : $scope.ordersData.length > 0 && $scope.ordersData.length < 4;
                                     //点击设计师手型
                                     $scope.selectDesignActive =  $scope.ordersData.length === 0 || !$scope.bookingSuccess;
-                                    console.log($scope.selectDesignActive)
                                     // 点击设计师
                                     $scope.selectDesignOff = false;
                                     $scope.selectDesign = function(data,package_type){
@@ -904,7 +891,13 @@ angular.module('controllers', [])
                         $state.go('favorite.list', { id: 1 });
                     }
                     angular.forEach($scope.favoriteProduct, function(value){
-                        value.house_type = $filter('houseTypeFilter')(value.house_type);
+                        value.dec_type = $filter('decTypeFilter')(value.dec_type);
+                        if(value.business_house_type != undefined){
+                            value.business_house_type = $filter('businessHouseTypeFilter')(value.business_house_type);
+                        }
+                        if(value.house_type != undefined){
+                            value.house_type = $filter('houseTypeFilter')(value.house_type);
+                        }
                         value.dec_style = $filter('decStyleFilter')(value.dec_style);
                         value.description = $filter('limitTo')(value.description,100);
                     });
@@ -931,6 +924,22 @@ angular.module('controllers', [])
                     console.log(res)
                 });
             }
+            function remove(id){
+                userFavoriteProduct.remove({'_id':id}).then(function(res){  //获取意向设计师列表
+                    if(res.data.msg === "success"){
+                        $scope.favoriteProduct = undefined;
+                        if(!!$scope.modal.id){
+                            $scope.modal.id = '';
+                        }
+                        laod();
+                    }
+                },function(res){
+                    console.log(res)
+                });
+            }
+            $scope.deleteFavorite = function(id){
+                remove(id);
+            }
             $scope.modal = {
                 id : '',
                 show : false,
@@ -939,24 +948,15 @@ angular.module('controllers', [])
                     this.id = '';
                 },
                 define : function(){
-                    var _this = this;
                     this.show = false;
-                    userFavoriteProduct.remove({'_id':this.id}).then(function(res){  //获取意向设计师列表
-                        if(res.data.msg === "success"){
-                            $scope.favoriteProduct = undefined;
-                            _this.id = '';
-                            laod();
-                        }
-                    },function(res){
-                        console.log(res)
-                    });
+                    remove(this.id);
                 },
                 remove :function(id){
                     this.show = true;
                     this.id = id;
                 }
             }
-            laod()
+            laod();
     }])
     .controller('favoriteDesignerCtrl', [     //意向设计师列表
         '$scope','$state','userFavoriteDesigner',function($scope,$state,userFavoriteDesigner){

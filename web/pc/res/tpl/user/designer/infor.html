@@ -1,28 +1,13 @@
 <div class="main m-phone m-info">
 	<div ng-if="designerInfo.isLoading">
-			<div class="done" ng-if="designer.auth_type == 2 && !designerInfo.status">
-				<p class="success"><i class="iconfont2">&#xe60d;</i></p>
-				<h3>您的基本资料已通过认证</h3>
-				<div class="btns">
-					<a href="javascript:;" class="u-btns u-btns-revise" ng-click="designerInfo.change()">修改</a>
-				</div>
-			</div>
-			<div class="pending" ng-if="designer.auth_type == 1">
-				<p class="success"><i class="iconfont2">&#xe60b;</i></p>
-				<h3>您的基本资料认证已提交，请耐心等待审核</h3>
-				<div class="btns">
-					<a ui-sref="infoshow" class="u-btns u-btns-revise">查看提交资料</a>
-					<a ui-sref="authHeart" class="u-btns u-btns-revise">返回认证中心</a>
-				</div>
-			</div>
-			<div class="todo" ng-if="(designer.auth_type == 0 || designer.auth_type == 3 || designer.auth_type == 4) || designerInfo.status">
+			<div class="todo">
 				<div class="inofTips"><i class="iconfont2">&#xe612;</i>修改个人资料需重新认证，才能生效</div>
 				<form name="designerinfo" ng-submit="designerInfo.submit()" novalidate>
 					<div class="k-form">
 						<div class="m-boxs">
 							<div class="m-item f-cb">
 								<div class="item">
-									<label class="u-lab" for="owner-name"><i>*</i>姓名</label>
+									<label class="u-lab" for="owner-name"><i class="required-icon"></i>姓名</label>
 									<div class="u-inp">
 										<input type="text" class="input" name="username" ng-model="designer.username" required placeholder="不能为空" my-placeholder />
 									</div>
@@ -33,22 +18,12 @@
 							</div>
 							<div class="m-item f-cb">
 								<div class="item">
-									<label class="u-lab" for="owner-sex"><i>*</i>性别</label>
+									<label class="u-lab" for="owner-sex"><i class="required-icon"></i>性别</label>
 									<div class="u-inp">
-										<div my-radio my-list="designerInfo.userSex" my-query="designer.sex" my-selects="1"></div>
+										<div my-radio data-type="userSex" my-query="designer.sex"></div>
 									</div>
 								</div>
 							</div>
-							<!-- <div class="m-item f-cb">
-								<div class="item">
-									<label class="u-lab" for="owner-email">电子邮箱</label>
-									<div class="u-inp">
-										<div class="inp">
-											<input type="text" class="input" ng-model="designer.email" ng-pattern="/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/" />
-										</div>
-									</div>
-								</div>
-							</div> -->
 							<div class="m-item f-cb">
 								<div class="item">
 									<label class="u-lab">手机号码</label>
@@ -59,7 +34,7 @@
 							</div>
 							<div class="m-item f-cb">
 								<div class="item">
-									<label class="u-lab" for="dec_area"><i>*</i>所在地区</label>
+									<label class="u-lab" for="dec_area"><i class="required-icon"></i>所在地区</label>
 									<div class="u-inp">
 										<div my-cities my-province="designer.province" my-city="designer.city" my-district="designer.district" ng-if="designer.province"></div>
 									</div>
@@ -67,7 +42,7 @@
 							</div>
 							<div class="m-item f-cb">
 								<div class="item">
-									<label class="u-lab" for="owner-addr"><i>*</i>邮寄详细地址</label>
+									<label class="u-lab" for="owner-addr"><i class="required-icon"></i>邮寄详细地址</label>
 									<div class="u-inp">
 										<input type="text" class="input long" name="address" ng-model="designer.address" required placeholder="不能为空" my-placeholder />
 									</div>
@@ -78,57 +53,23 @@
 							</div>
 							<div class="m-item f-cb">
 								<div class="item">
-									<label class="u-lab" for="owner-name"><i>*</i>毕业院校</label>
-									<div class="u-inp">
-										<input type="text" class="input" name="university" ng-model="designer.university" required placeholder="不能为空" my-placeholder />
-									</div>
-									<div class="u-error">
-										<span ng-show="designerinfo.university.$dirty && designerinfo.university.$error.required" class="has-error">不能为空</span>
-									</div>
-								</div>
-							</div>
-							<div class="m-item f-cb">
-								<div class="item">
-									<label class="u-lab" for="owner-name"><i>*</i>工作年限</label>
-									<div class="u-inp">
-										<input type="text" class="input" ng-model="designer.work_year" name="work_year" ng-pattern="/^[1-9]\d*$/" required placeholder="只能为整数" my-placeholder />
-									</div>
-									<div class="u-error">
-										<span ng-show="designerinfo.work_year.$dirty && designerinfo.work_year.$error.pattern" class="has-error">必须为整数</span>
-										<span ng-show="designerinfo.work_year.$dirty && designerinfo.work_year.$error.required" class="has-error">不能为空</span>
-									</div>
-								</div>
-							</div>
-							<div class="m-item f-cb">
-								<div class="item">
-									<label class="u-lab" for="owner-name"><i>*</i>曾就职装饰公司</label>
-									<div class="u-inp">
-										<input type="text" class="input" name="company" ng-model="designer.company" required placeholder="不能为空" my-placeholder />
-									</div>
-									<div class="u-error">
-										<span ng-show="designerinfo.company.$dirty && designerinfo.company.$error.required" class="has-error">不能为空</span>
-									</div>
-								</div>
-							</div>
-							<div class="m-item f-cb">
-								<div class="item">
-									<label class="u-lab" for="owner-name"><i>*</i>设计成就</label>
-									<div class="u-inp">
-										<textarea class="input long textarea" name="achievement" rows="10" ng-model="designer.achievement" required placeholder="不能为空" my-placeholder></textarea>
-									</div>
-									<div class="u-error">
-										<span ng-show="designerinfo.achievement.$dirty && designerinfo.achievement.$error.required" class="has-error">不能为空</span>
-									</div>
-								</div>
-							</div>
-							<div class="m-item f-cb">
-								<div class="item">
-									<label class="u-lab" for="owner-name"><i>*</i>设计理念</label>
+									<label class="u-lab" for="owner-name"><i class="required-icon"></i>设计理念</label>
 									<div class="u-inp">
 										<textarea class="input long textarea" name="philosophy" rows="10" ng-model="designer.philosophy" required placeholder="不能为空" my-placeholder></textarea>
 									</div>
 									<div class="u-error">
 										<span ng-show="designerinfo.philosophy.$dirty && designerinfo.philosophy.$error.required" class="has-error">不能为空</span>
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-name"><i class="required-icon"></i>毕业院校</label>
+									<div class="u-inp">
+										<input type="text" class="input" name="university" ng-model="designer.university" required placeholder="不能为空" my-placeholder />
+									</div>
+									<div class="u-error">
+										<span ng-show="designerinfo.university.$dirty && designerinfo.university.$error.required" class="has-error">不能为空</span>
 									</div>
 								</div>
 							</div>
@@ -152,22 +93,56 @@
 									</div>
 								</div>
 							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-name"><i class="required-icon"></i>曾就职装饰公司</label>
+									<div class="u-inp">
+										<input type="text" class="input" name="company" ng-model="designer.company" required placeholder="不能为空" my-placeholder />
+									</div>
+									<div class="u-error">
+										<span ng-show="designerinfo.company.$dirty && designerinfo.company.$error.required" class="has-error">不能为空</span>
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-name"><i class="required-icon"></i>工作年限</label>
+									<div class="u-inp">
+										<input type="text" class="input" ng-model="designer.work_year" name="work_year" ng-pattern="/^[1-9]\d*$/" required placeholder="只能为整数" my-placeholder />
+									</div>
+									<div class="u-error">
+										<span ng-show="designerinfo.work_year.$dirty && designerinfo.work_year.$error.pattern" class="has-error">必须为整数</span>
+										<span ng-show="designerinfo.work_year.$dirty && designerinfo.work_year.$error.required" class="has-error">不能为空</span>
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-name"><i class="required-icon"></i>设计成就</label>
+									<div class="u-inp">
+										<textarea class="input long textarea" name="achievement" rows="10" ng-model="designer.achievement" required placeholder="不能为空" my-placeholder></textarea>
+									</div>
+									<div class="u-error">
+										<span ng-show="designerinfo.achievement.$dirty && designerinfo.achievement.$error.required" class="has-error">不能为空</span>
+									</div>
+								</div>
+							</div>
+							<div class="m-item f-cb">
+								<div class="item">
+									<label class="u-lab" for="owner-name">获奖照片及描述</label>
+									<div class="u-inp insertimage">
+										<div my-insertimage2 my-query="designer.award_details" my-type="write" ng-if="designer"></div>
+									</div>
+								</div>
+							</div>
 							<div class="k-uppicbox">
 								<div my-upload my-query="designer.imageid" class="simpleupload"></div>
 								<p>请上传大于300*300头像照片<br />3M以内jpg/png格式</p>
 							</div>
 						</div>
-						<div class="m-item f-cb">
-							<div class="item">
-								<label class="u-lab" for="owner-name">获奖照片及描述</label>
-								<div class="u-inp insertimage">
-									<div my-insertimage my-query="designer.award_details" my-type="write" ng-if="designer"></div>
-								</div>
-							</div>
-						</div>
 						<div my-alert type="warning" ng-show="designerInfo.error" text="{{designerInfo.errormsg}}"></div>
 						<div class="m-btns">
-							<input type="submit" class="u-btns" ng-class="{'u-btns-disabled':designerinfo.$invalid || designerInfo.disabled}" ng-disabled="designerinfo.$invalid || designerInfo.disabled" value="&nbsp;&nbsp;保存&nbsp;&nbsp;" />
+							<input type="submit" class="u-btns" ng-class="{'u-btns-disabled':designerinfo.$invalid || designerInfo.disabled}" ng-disabled="designerinfo.$invalid || designerInfo.disabled" value="&nbsp;&nbsp;申请认证&nbsp;&nbsp;" />
 						</div>
 					</div>
 				</form>
@@ -188,8 +163,9 @@
 <div class="k-motai" ng-if="designerInfo.motaiDone">
 	<div class="motai done">
 		<span class="done-icon"></span>
-		<h3>保存成功！</h3>
+		<h3>提交成功！</h3>
 		<p>请耐心等待管理员审核。</p>
-		<input class="u-btns" type="button" value="&nbsp;&nbsp;提交认证&nbsp;&nbsp;" ng-click="designerInfo.defineBtn()" />
+		<button class="u-btns" type="button" ng-if="designer.auth_type == 0" ng-click="designerInfo.defineBtn()">&nbsp;&nbsp;前往下一步&nbsp;&nbsp;</button>
+		<button class="u-btns" type="button" ng-if="designer.auth_type != 0" ng-click="designerInfo.defineBtn()">&nbsp;&nbsp;提交认证&nbsp;&nbsp;</button>
 	</div>
 </div>

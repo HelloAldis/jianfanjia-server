@@ -31,7 +31,8 @@
 			</dl>
 		</div>
 	</div>
-	<div my-alert type="success" ng-show="contracts.success || contract.status == 7" text="设置合同成功，等候业主确认合同开启工地"></div>
+	<div my-alert type="success" ng-if="contracts.success || contract.status == 7" text="设置合同成功，等候业主确认合同开启工地"></div>
+	<div my-alert type="warning" ng-if="contracts.startDateError" text="设置开工时间不能小于当前时间"></div>
 	<div class="contract-btns" ng-if="contracts.btnsBox">
 		<a href="agreement.html" target="_blank" class="u-btns u-btns-revise">查看第三方合同</a>
 		<a href="javascript:;" class="u-btns" ng-click="contracts.setStartDate()" ng-if="contract.status == 4">设置开工日期</a>
@@ -42,6 +43,13 @@
 			<dt>请设置开工日期</dt>
 			<dd>
 				<div my-date my-query="contracts.startDate" my-date-set="year-month-days"></div>
+			</dd>
+		</dl>
+		<dl>
+			<dt>请选择施工团队</dt>
+			<dd>
+				<div my-selectn my-list="contracts.managers" my-query="contracts.manager" ng-if="contracts.managers.length"></div>
+				<a ui-sref="addteam({contract:contract._id})" class="u-btns u-btns-revise" ng-if="!contracts.managers.length">&nbsp;&nbsp;添加施工团队&nbsp;&nbsp;</a>
 			</dd>
 		</dl>
 		<div class="btns">

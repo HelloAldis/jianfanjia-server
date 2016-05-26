@@ -2,11 +2,15 @@
 	<div class="m-index" bindonce="designer" ng-if="designer">
 		<div class="info f-cb">
 			<div class="onlineSetting" ng-class="{onlineShow : designer.online_status == 0 && designer.auth_type == 2 && designer.authed_product_count > 2,onlineHide : designer.online_status == 1}">
-				<h4 class="online" ng-click="onlineSetting(1)"><i class="iconfont2">&#xe62d;</i><span>在线</span></h4>
-				<h4 class="busy" ng-click="onlineSetting(0)"><i class="iconfont2">&#xe62e;</i><span>离线</span></h4>
+				<h4 class="online" ng-click="onlineSetting(1)"><i class="iconfont">&#xe62d;</i><span>在线</span></h4>
+				<h4 class="busy" ng-click="onlineSetting(0)"><i class="iconfont">&#xe62e;</i><span>离线</span></h4>
 			</div>
 			<dl>
-				<dt>
+				<dt ng-if="designer.auth_type == 1">
+					<a ui-sref="infoshow" class="head"><img bo-src-i="/api/v2/web/thumbnail2/120/120/{{designer.imageid}}" bo-alt="designer.username" bo-if="designer.imageid" /></a>
+					<h3><a ui-sref="infoshow" bo-text="designer.username" bo-if="designer.username"></a></h3>
+				</dt>
+				<dt ng-if="designer.auth_type != 1">
 					<a ui-sref="infor" class="head"><img bo-src-i="/api/v2/web/thumbnail2/120/120/{{designer.imageid}}" bo-alt="designer.username" bo-if="designer.imageid" /></a>
 					<h3><a ui-sref="infor" bo-text="designer.username" bo-if="designer.username"></a></h3>
 				</dt>
@@ -25,7 +29,7 @@
 					</span>
 				</dd>
 			</dl>
-			<a ui-sref="service" class="editor"><i class="iconfont2">&#xe627;</i>&nbsp;&nbsp;接单资料</a>
+			<a ui-sref="service" class="editor"><i class="iconfont">&#xe627;</i>&nbsp;&nbsp;接单资料</a>
 		</div>
 		<div class="flow">
 			<ul>
@@ -87,13 +91,12 @@
 			</p>
 			<div class="btns">
 				<a class="u-btns" ng-if="designer.auth_type == 0" ui-sref="infor">提交资料</a>
-				<a class="u-btns u-btns-revise" ng-if="designer.auth_type == 1" ui-sref="infor">&nbsp;&nbsp;&nbsp;查看&nbsp;&nbsp;&nbsp;</a>
 				<a class="u-btns u-btns-revise" ng-if="designer.auth_type == 3" ui-sref="infor">重新提交</a>
 				<a class="u-btns u-btns-revise" ng-if="designer.auth_type == 4" ui-sref="infor">重新提交</a>
-				<a class="u-btns" ng-if="designer.auth_type == 2 && designer.authed_product_count == 0" ui-sref="addProduct">发布作品</a>
+				<a class="u-btns" ng-if="(designer.auth_type == 1 || designer.auth_type == 2) && designer.authed_product_count == 0" ui-sref="addProduct">发布作品</a>
 			</div>
 		</div>
-		<div class="authen" ng-if="(designer.auth_type == 2) && designer.authed_product_count < 3">
+		<div class="authen" ng-if="designer.auth_type == 2 && designer.authed_product_count < 3">
 			<div class="inofTips"><i class="iconfont2">&#xe612;</i>作品认证（至少3套）的设计师才可以接单</div>
 			<p>
 				<span ng-if="designer.authed_product_count == 0">您还没有作品通过认证，请您前往发布</span>
@@ -103,12 +106,21 @@
 				<a class="u-btns" ui-sref="addProduct">发布作品</a>
 			</div>
 		</div>
+		<div class="authen" ng-if="designer.auth_type == 1 && designer.authed_product_count >= 3">
+			<div class="inofTips"><i class="iconfont2">&#xe612;</i>完成基本资料认证及作品认证（至少3套）的设计师才可以接单</div>
+			<p>
+				您的基本资料已经提交，等待管理员审核。
+			</p>
+			<div class="btns">
+				<a class="u-btns" ui-sref="infoshow">&nbsp;&nbsp;查看&nbsp;&nbsp;</a>
+			</div>
+		</div>
 		<ul class="list">
-			<li ng-if="requirementList.length == 0 && (designer.auth_type == 2 && designer.authed_product_count > 2)">
-				<div class="ct">您还没有装修需求哟，修改接单资料和上传更多作品，更容易获得业主预约</div>
+			<li ng-if="requirementList.length == 0 && designer.auth_type == 2 && designer.authed_product_count >= 3">
+				<div class="ct">您还没有装修需求哟，修改接单资料和发布更多作品，更容易获得业主预约</div>
 				<div class="btns">
 					<a ui-sref="service" class="u-btns">前往修改</a>
-					<a ui-sref="addProduct" class="u-btns">上传作品</a>
+					<a ui-sref="addProduct" class="u-btns">发布作品</a>
 				</div>
 			</li>
 			<li bindonce="requirementList" ng-repeat="data in requirementList | limitTo : 3">
