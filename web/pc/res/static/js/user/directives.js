@@ -2028,7 +2028,13 @@ angular.module('directives', [])
             template: function (obj, attr) {
                 var template = [
                     '<div class="k-uploadbox f-cb ' + attr.myType + '">',
-                    '<div class="item" ng-repeat="img in myQuery">'
+                    '<div class="item" ng-repeat="img in myQuery">',
+                    '<div class="queue-item" ng-if="img.loading >= 0">',
+                    '<span class="">{{img.loading}}%</span>',
+                    '<span ng-click="cancel(img.uploadid)"><i class="iconfont">&#xe642;</i></span>',
+                    '<span class="progress"><span style="width:{{img.loading}}px;"></span></span>',
+                    '</div>',
+                    '<div ng-if="img.loading == undefined">'
                 ];
                 template.push('<span class="mask"></span>');
                 if (attr.myType == 'default') {
@@ -2043,6 +2049,7 @@ angular.module('directives', [])
                 } else if (attr.myType == 'write') {
                     template.push('<img ng-src="/api/v2/web/thumbnail2/168/168/{{img.imageid}}" />');
                 }
+                template.push('</div>');
                 template.push('</div>');
                 template.push('</div>');
                 template.push('<div class="pic" id="create">');
@@ -2075,9 +2082,16 @@ angular.module('directives', [])
                     'fileTypeDesc': 'Image Files',
                     'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
                     'fileSizeLimit': '3MB',  //上传最大文件限制
+                    'onSelect': function (file) {
+                        $timeout(function () {
+                            scope.myQuery.push({
+                                uploadid: file.id,
+                                loading: 0,
+                            })
+                        }, 0);
+                    },
                     'onUploadStart': function () {
                         $('.uploadify-queue').css('zIndex', '110');
-                        obj.find('.pic').append('<div class="disable"></div>');
                     },
                     'onUploadSuccess': function (file, data, response) {
                         callbackImg(data);
@@ -2088,11 +2102,16 @@ angular.module('directives', [])
                             alert('上传超时，请重新上传');
                         }
                         $('.uploadify-queue').css('zIndex', '0');
-                        obj.find('.pic').find('.disable').remove();
                     },
                     'onCancel': function () {
                         $('.uploadify-queue').css('zIndex', '0');
-                        obj.find('.pic').find('.disable').remove();
+                    },
+                    'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
+                        $timeout(function () {
+                            if (findIndex(scope.myQuery, file.id, 'uploadid') >= 0) {
+                                scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].loading = parseInt(bytesUploaded / bytesTotal * 100, 10);
+                            }
+                        }, 0);
                     }
                 });
 
@@ -2121,20 +2140,26 @@ angular.module('directives', [])
                     }
                 }
 
-                function findIndex(arr, name) {
+                function findIndex(arr, name, type) {
                     var len = arr.length;
                     if (!len) {
                         return -1;
                     }
-                    if (!!arr[0].imageid) {
+                    if (type === 'imageid') {
                         for (var i = 0; i < len; i++) {
                             if (arr[i].imageid === name) {
                                 return i;
                             }
                         }
-                    } else if (!!arr[0].award_imageid) {
+                    } else if (type === 'award_imageid') {
                         for (var i = 0; i < len; i++) {
                             if (arr[i].award_imageid === name) {
+                                return i;
+                            }
+                        }
+                    } else if (type === 'uploadid') {
+                        for (var i = 0; i < len; i++) {
+                            if (arr[i].uploadid === name) {
                                 return i;
                             }
                         }
@@ -2156,6 +2181,12 @@ angular.module('directives', [])
                         }, 0);
                     }
                 };
+                scope.cancel = function (id) {
+                    $('#createUpload1').uploadify('cancel', id);
+                    $timeout(function () {
+                        scope.myQuery.splice(findIndex(scope.myQuery, id, 'uploadid'), 1);
+                    }, 0);
+                }
                 scope.viewImg = function (id) {
                     bigImg(id)
                 };
