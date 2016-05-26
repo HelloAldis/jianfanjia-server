@@ -30,6 +30,7 @@ const imageUtil = require('../../../common/image_util');
 const message_util = require('../../../common/message_util');
 const reg_util = require('../../../common/reg_util');
 const validator = require('validator');
+const push_url = require('../../../business/push_url');
 
 exports.login = function (req, res, next) {
   if (req.body.username === 'sunny' && req.body.pass === '!@Jyz20150608#$') {
@@ -62,6 +63,7 @@ exports.update_basic_auth = function (req, res, next) {
       if (new_auth_type === type.designer_auth_type_done) {
         message_util.designer_message_type_basic_auth_done(designer);
         sms.sendYzxAuthSuccess(designer.phone, [designer.username]);
+        push_url.push_designer_url(designer._id);
       } else if (new_auth_type === type.designer_auth_type_reject) {
         message_util.designer_message_type_basic_auth_reject(designer, auth_message);
       }
@@ -149,6 +151,7 @@ exports.update_product_auth = function (req, res, next) {
             upsert: true
           });
         }
+        push_url.push_product_url(productid);
       } else if (new_auth_type !== type.product_auth_type_done) {
         if (product.auth_type === type.product_auth_type_done) {
           Designer.incOne({
@@ -183,13 +186,14 @@ exports.search_share = function (req, res, next) {
   let query = req.body.query;
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let sort = req.body.sort || {
+    create_at: -1,
+  };
   let ep = eventproxy();
   ep.fail(next);
 
   Share.paginate(query, null, {
-    sort: {
-      create_at: -1,
-    },
+    sort: sort,
     skip: skip,
     limit: limit,
   }, ep.done(function (shares, totals) {
@@ -275,11 +279,14 @@ exports.listAuthingDesigner = function (req, res, next) {
 };
 
 exports.searchDesigner = function (req, res, next) {
-  let query = req.body.query;
+  let query = req.body.query || {};
   let phone = tools.trim(query.phone);
   let phoneReg = reg_util.reg(tools.trim(phone));
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let sort = req.body.sort || {
+    create_at: 1
+  };
   let ep = eventproxy();
   ep.fail(next);
 
@@ -296,9 +303,7 @@ exports.searchDesigner = function (req, res, next) {
     pass: 0,
     accessToken: 0
   }, {
-    sort: {
-      create_at: 1
-    },
+    sort: sort,
     skip: skip,
     limit: limit
   }, ep.done(function (designers, total) {
@@ -310,11 +315,14 @@ exports.searchDesigner = function (req, res, next) {
 }
 
 exports.searchUser = function (req, res, next) {
-  let query = req.body.query;
+  let query = req.body.query || {};
   let phone = tools.trim(query.phone);
   let phoneReg = reg_util.reg(tools.trim(phone));
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let sort = req.body.sort || {
+    create_at: 1
+  };
   let ep = eventproxy();
   ep.fail(next);
 
@@ -331,9 +339,7 @@ exports.searchUser = function (req, res, next) {
     pass: 0,
     accessToken: 0
   }, {
-    sort: {
-      create_at: 1
-    },
+    sort: sort,
     skip: skip,
     limit: limit
   }, ep.done(function (users, total) {
@@ -392,7 +398,7 @@ exports.searchProduct = function (req, res, next) {
 }
 
 exports.search_plan = function (req, res, next) {
-  let query = req.body.query;
+  let query = req.body.query || {};
   let sort = req.body.sort || {
     request_date: 1
   };
@@ -736,6 +742,7 @@ exports.update_article = function (req, res, next) {
     _id: _id
   }, article, null, ep.done(function (dec_strategy) {
     res.sendSuccessMsg();
+    push_url.push_strategy_url(dec_strategy._id);
   }));
 }
 

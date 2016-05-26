@@ -20,6 +20,12 @@ exports.setOne = function (query, update, option, callback) {
   }, option, callback)
 }
 
+exports.push = function (query, push, option, callback) {
+  User.findOneAndUpdate(query, {
+    $push: push
+  }, option, callback)
+}
+
 exports.find = function (query, project, option, callback) {
   User.find(query, project, option, callback);
 }

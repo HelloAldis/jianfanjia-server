@@ -1,37 +1,35 @@
 <ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">业主列表</li></ol>
-<form name="recruit" ng-submit="searchTimeBtn()" novalidate>
-	<p>[注意] 如果搜索当前的信息，开始时间为当天日期，结束时间为第二天日期</p>
+<br />
+<form name="search" class="form-inline" ng-submit="searchBtn()" novalidate>
+	<p>业主注册时间过滤</p>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-1">开始时间</div>
 			<div class="col-md-3">
 				<p class="input-group">
-				  	<input type="text" class="form-control" uib-datepicker-popup ng-model="startTime.time" is-open="startTime.status.opened" datepicker-options="startTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
-				  	<span class="input-group-btn">
-				  		<button type="button" class="btn btn-default" ng-click="startTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-				  	</span>
-			  	</p>
+						<input type="text" name="startTime" class="form-control" uib-datepicker-popup ng-model="startTime.time" is-open="startTime.status.opened" datepicker-options="startTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="startTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+					</p>
 			</div>
 			<div class="col-md-1">--结束时间</div>
 			<div class="col-md-3">
 				<p class="input-group">
-				  	<input type="text" class="form-control" uib-datepicker-popup ng-model="endTime.time" is-open="endTime.status.opened" datepicker-options="endTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
-				  	<span class="input-group-btn">
-				  		<button type="button" class="btn btn-default" ng-click="endTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-				  	</span>
+						<input type="text" name="endTime" class="form-control" uib-datepicker-popup ng-model="endTime.time" is-open="endTime.status.opened" datepicker-options="endTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="endTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
 				</p>
 			</div>
-			<div class="col-md-2"><button type="submit" class="btn btn-info" ng-disabled="recruit.$invalid">搜索</button></div>
 		</div>
 	</div>
-</form>
-<br />
-<form name="search" class="form-inline" ng-submit="searchBtn()" novalidate>
+
 	<div class="form-group">
 		<label class="sr-only">搜索业主</label>
-		<input type="text" class="form-control" placeholder="手机号码/用户业主" ng-model="searchUser" required />
+		<input type="text" name="searchUser" class="form-control" placeholder="手机号码/用户业主" ng-model="searchUser" required />
 	</div>
-	<button type="submit" class="btn btn-info" ng-disabled="search.$invalid">搜索业主</button>
+	<button type="submit" class="btn btn-info" ng-disabled="search.searchUser.$invalid && (search.startTime.$invalid  || search.endTime.$invalid)">搜索业主</button>
 </form>
 <br />
 <div>
@@ -43,9 +41,9 @@
 		<tbody>
 			<tr class="info thead">
 				<th>业主ID</th>
-				<th>注册时间</th>
-				<th>业主姓名</th>
-				<th>业主电话</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">注册时间</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.username]" ng-click="sortData('username')">业主姓名</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.phone]" ng-click="sortData('phone')">业主电话</th>
 				<th>业主性别</th>
 				<th>查看详细资料</th>
 				<th>查看需求列表</th>

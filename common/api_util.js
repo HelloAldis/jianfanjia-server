@@ -259,6 +259,7 @@ exports.buildShare = function (req) {
   share.start_at = req.body.start_at;
   share.status = req.body.status;
   share.progress = req.body.progress;
+  share.designerid = tools.convert2ObjectId(req.body.designerid);
 
   _.forEach(share.process, function (p) {
     p.images = _.map(p.images, function (i) {

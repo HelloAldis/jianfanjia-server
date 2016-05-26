@@ -8,6 +8,8 @@ const type = require('../type');
 const limit = require('../middlewares/limit');
 const pc_web_header = require('../business/pc_web_header');
 const ApiUtil = require('../common/api_util');
+const tools = require('../common/tools');
+const user_habit_collect = require('../business/user_habit_collect');
 
 exports.dec_strategy_homepage = function (req, res, next) {
   const _id = req.query.pid || req.params._id;
@@ -17,7 +19,7 @@ exports.dec_strategy_homepage = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  if (!_id) {
+  if (!tools.isValidObjectId(_id)) {
     return next();
   }
 
@@ -129,6 +131,8 @@ exports.dec_strategy_homepage = function (req, res, next) {
           view_count: 1
         });
       });
+
+      user_habit_collect.add_strategy_history(userid, usertype, _id);
     } else {
       next();
     }

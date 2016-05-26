@@ -8,6 +8,7 @@ var home = require('../controllers/pc/home');
 var designer = require('../controllers/pc/designer');
 var product = require('../controllers/pc/product');
 var response_util = require('../middlewares/response_util');
+var auth = require('../middlewares/auth');
 
 var router = express.Router();
 
@@ -27,6 +28,7 @@ router.get('/download/designer/apk', site.download_designer_apk);
 router.get('/tpl/article/strategy/:_id', response_util, dec_strategy.dec_strategy_homepage);
 router.get('/tpl/designer/:designerid', response_util, designer.designer_page);
 router.get('/tpl/product/:productid', response_util, product.product_page);
+router.get('/tpl/user/designer/homepage', auth.designerRequired, response_util, designer.designer_my_homepage);
 
 router.get('/wechat/user_login_callback', sign.wechat_user_login_callback);
 router.get('/wechat/user_login', sign.wechat_user_login);

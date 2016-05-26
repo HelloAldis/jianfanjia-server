@@ -13,6 +13,7 @@ const ObjectId = mongoose.Types.ObjectId;
 const limit = require('../../../middlewares/limit');
 const type = require('../../../type');
 const reg_util = require('../../../common/reg_util');
+const user_habit_collect = require('../../../business/user_habit_collect');
 
 exports.add = function (req, res, next) {
   let product = ApiUtil.buildProduct(req);
@@ -39,7 +40,7 @@ exports.add = function (req, res, next) {
 
 exports.update = function (req, res, next) {
   let product = ApiUtil.buildProduct(req);
-  let oid = tools.trim(req.body._id);
+  let oid = tools.trim(req.body._id) || tools.trim(req.body.product._id);
   let designerid = ApiUtil.getUserid(req);
   product.auth_type = type.product_auth_type_new;
   product.auth_date = new Date().getTime();
@@ -147,7 +148,7 @@ exports.search_designer_product = function (req, res, next) {
 
 exports.designer_my_products = function (req, res, next) {
   let sort = req.body.sort || {
-    create_at: 1
+    create_at: -1
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
@@ -207,14 +208,15 @@ exports.product_home_page = function (req, res, next) {
         }
       }));
 
-      limit.perwhatperdaydo('productgetone', req.ip + productid, 1,
-        function () {
-          Product.incOne({
-            _id: productid
-          }, {
-            view_count: 1
-          });
+      limit.perwhatperdaydo('productgetone', req.ip + productid, 1, function () {
+        Product.incOne({
+          _id: productid
+        }, {
+          view_count: 1
         });
+      });
+
+      user_habit_collect.add_product_history(userid, usertype, productid);
     } else {
       res.sendData({});
     }

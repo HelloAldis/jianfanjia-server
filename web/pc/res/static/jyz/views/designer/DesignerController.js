@@ -1,16 +1,200 @@
 (function () {
   angular.module('controllers')
     .controller('DesignerController', [ //设计师列表
-      '$scope', '$rootScope', '$uibModal', 'adminDesigner',
-      function ($scope, $rootScope, $uibModal, adminDesigner) {
-        //全局标识，解决筛选和分页问题
-        $scope.authType = undefined;
-        $scope.uidAuthType = undefined;
-        $scope.workAuthType = undefined;
-        $scope.emailAuthType = undefined;
-        $scope.authStatus = undefined;
-        $scope.phone = undefined;
-        $scope.createAt = undefined;
+      '$scope', '$rootScope', '$uibModal', 'adminDesigner', '$stateParams', '$location',
+      function ($scope, $rootScope, $uibModal, adminDesigner, $stateParams, $location) {
+        $scope.authList = [{
+          id: "0",
+          name: '未提交认证',
+          cur: false
+        }, {
+          id: "1",
+          name: '审核中',
+          cur: false
+        }, {
+          id: "2",
+          name: '审核通过',
+          cur: false
+        }, {
+          id: "3",
+          name: '审核不通过',
+          cur: false
+        }, {
+          id: "4",
+          name: '违规下线',
+          cur: false
+        }];
+
+        $scope.uidAuthList = [{
+          id: "0",
+          name: '未提交认证',
+          cur: false
+        }, {
+          id: "1",
+          name: '审核中',
+          cur: false
+        }, {
+          id: "2",
+          name: '审核通过',
+          cur: false
+        }, {
+          id: "3",
+          name: '审核不通过',
+          cur: false
+        }, {
+          id: "4",
+          name: '违规下线',
+          cur: false
+        }];
+
+        $scope.workAuthList = [{
+          id: "0",
+          name: '未提交认证',
+          cur: false
+        }, {
+          id: "1",
+          name: '审核中',
+          cur: false
+        }, {
+          id: "2",
+          name: '审核通过',
+          cur: false
+        }, {
+          id: "3",
+          name: '审核不通过',
+          cur: false
+        }, {
+          id: "4",
+          name: '违规下线',
+          cur: false
+        }];
+
+        $scope.emailAuthList = [{
+          id: "0",
+          name: '未提交认证',
+          cur: false
+        }, {
+          id: "1",
+          name: '审核中',
+          cur: false
+        }, {
+          id: "2",
+          name: '审核通过',
+          cur: false
+        }, {
+          id: "3",
+          name: '审核不通过',
+          cur: false
+        }, {
+          id: "4",
+          name: '违规下线',
+          cur: false
+        }];
+
+        $stateParams.detail = JSON.parse($stateParams.detail || '{}');
+        //刷新页面公共方法
+        function refreshPage(detail) {
+          $location.path('/designer/' + JSON.stringify(detail));
+        }
+
+        function initList(list, id) {
+          if (!list || !id) {
+            return;
+          }
+
+          angular.forEach(list, function (value, key) {
+            if (value.id == id) {
+              if (value.cur) {
+                value.cur = false;
+              } else {
+                value.cur = true;
+              }
+            } else {
+              value.cur = false;
+            }
+          });
+        }
+
+        function getCurId(list) {
+          for (var value of list) {
+            if (value.cur) {
+              return value.id;
+            }
+          }
+
+          return undefined;
+        }
+
+        function curList(list, id) {
+          angular.forEach(list, function (value, key) {
+            if (value.id == id) {
+              value.cur = !value.cur;
+            } else {
+              value.cur = false;
+            }
+          });
+        }
+
+        function clearCur(list) {
+          angular.forEach(list, function (value, key) {
+            value.cur = false;
+          });
+        }
+
+        //从url详情中初始化页面
+        function initUI(detail) {
+          if (detail.query) {
+            if (detail.query.create_at) {
+              if (detail.query.create_at["$gte"]) {
+                $scope.startTime.time = new Date(detail.query.create_at["$gte"]);
+              }
+
+              if (detail.query.create_at["$lte"]) {
+                $scope.endTime.time = new Date(detail.query.create_at["$lte"]);
+              }
+            }
+
+            initList($scope.authList, detail.query.auth_type);
+            initList($scope.uidAuthList, detail.query.uid_auth_type);
+            initList($scope.workAuthList, detail.query.work_auth_type);
+            initList($scope.emailAuthList, detail.query.email_auth_type);
+
+            $scope.searchDesigner = detail.query.phone;
+          }
+
+          detail.from = detail.from || 0;
+          detail.limit = detail.limit || 10;
+          $scope.pagination.pageSize = detail.limit;
+          $scope.pagination.currentPage = (detail.from / detail.limit) + 1;
+          detail.sort = detail.sort || {
+            create_at: -1
+          };
+          $scope.sort = detail.sort;
+        }
+
+        //从页面获取详情
+        function refreshDetailFromUI(detail) {
+          var gte = $scope.startTime.time ? $scope.startTime.time.getTime() : undefined;
+          var lte = $scope.endTime.time ? $scope.endTime.time.getTime() : undefined;
+
+          var createAt = gte && lte ? {
+            "$gte": gte,
+            "$lte": lte
+          } : undefined;
+
+          detail.query = detail.query || {};
+          detail.query.phone = $scope.searchDesigner || undefined;
+          detail.query.auth_type = getCurId($scope.authList);
+          detail.query.uid_auth_type = getCurId($scope.uidAuthList);
+          detail.query.work_auth_type = getCurId($scope.workAuthList);
+          detail.query.email_auth_type = getCurId($scope.emailAuthList);
+          detail.query.create_at = createAt;
+          detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
+          detail.limit = $scope.pagination.pageSize;
+          detail.sort = $scope.sort;
+          return detail;
+        }
+
         //数据加载显示状态
         $scope.loading = {
           loadData: false,
@@ -21,8 +205,9 @@
           currentPage: 1,
           totalItems: 0,
           maxSize: 5,
+          pageSize: 10,
           pageChanged: function () {
-            loadList(this.currentPage, 10);
+            refreshPage(refreshDetailFromUI($stateParams.detail));
           }
         };
         //时间筛选控件
@@ -64,27 +249,6 @@
           }
         };
         $scope.endTime.today();
-        $scope.searchTimeBtn = function () {
-          var start = new Date($scope.startTime.time).getTime();
-          var end = new Date($scope.endTime.time).getTime();
-          if (start > end) {
-            alert('开始时间比结束时间大，请重新选择');
-            return;
-          }
-          if (end - start < 86400000) {
-            alert('结束时间必须必比开始时间大一天，请重新选择');
-            return;
-          }
-          $scope.loading.notData = false;
-          $scope.loading.loadData = false;
-          $scope.userList = undefined;
-          $scope.pagination.currentPage = 1;
-          $scope.createAt = {
-            "$gte": start,
-            "$lte": end
-          };
-          loadList(1);
-        };
         //提示消息
         function tipsMsg(msg, time) {
           time = time || 2000;
@@ -103,48 +267,30 @@
           });
         }
         //加载数据
-        function loadList(from, limit, date) {
-          var data = {
-            "query": {
-              phone: $scope.phone,
-              create_at: $scope.createAt
-            },
-            "from": (limit === undefined ? 0 : limit) * (from - 1),
-            "limit": (limit === undefined ? undefined : limit)
-          };
-          if (!!$scope.authType && !!$scope.authStatus) {
-            data.query.auth_type = $scope.authStatus;
-          }
-          if (!!$scope.uidAuthType && !!$scope.authStatus) {
-            data.query.uid_auth_type = $scope.authStatus;
-          }
-          if (!!$scope.workAuthType && !!$scope.authStatus) {
-            data.query.work_auth_type = $scope.authStatus;
-          }
-          if (!!$scope.emailAuthType && !!$scope.authStatus) {
-            data.query.email_auth_type = $scope.authStatus;
-          }
-          adminDesigner.search(data).then(function (resp) {
+        function loadList(detail) {
+          console.log(detail);
+          adminDesigner.search(detail).then(function (resp) {
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
               $scope.loading.notData = true;
+              $scope.userList = [];
             } else {
               $scope.userList = resp.data.data.designers;
-              angular.forEach($scope.userList, function (value, key) {
-                if ($scope.authType) {
-                  value.authDate = value.auth_date;
-                  value.status = value.auth_type;
-                } else if ($scope.uidAuthType) {
-                  value.authDate = value.uid_auth_date;
-                  value.status = value.uid_auth_type;
-                } else if ($scope.workAuthType) {
-                  value.authDate = value.work_auth_date;
-                  value.status = value.work_auth_type;
-                } else if ($scope.emailAuthType) {
-                  value.authDate = value.email_auth_date;
-                  value.status = value.email_auth_type;
-                }
-              });
+              // angular.forEach($scope.userList, function (value, key) {
+              //   if ($scope.authType) {
+              //     value.authDate = value.auth_date;
+              //     value.status = value.auth_type;
+              //   } else if ($scope.uidAuthType) {
+              //     value.authDate = value.uid_auth_date;
+              //     value.status = value.uid_auth_type;
+              //   } else if ($scope.workAuthType) {
+              //     value.authDate = value.work_auth_date;
+              //     value.status = value.work_auth_type;
+              //   } else if ($scope.emailAuthType) {
+              //     value.authDate = value.email_auth_date;
+              //     value.status = value.email_auth_type;
+              //   }
+              // });
               $scope.pagination.totalItems = resp.data.data.total;
               $scope.loading.loadData = true;
               $scope.loading.notData = false;
@@ -156,138 +302,49 @@
 
           });
         }
-        //初始化
-        loadList(1, 10);
+        //初始化UI
+        initUI($stateParams.detail);
+        //初始化数据
+        loadList($stateParams.detail);
+
         //搜索设计师
         $scope.searchBtn = function () {
-          $scope.phone = $scope.searchDesigner;
-          $scope.userList = undefined;
           $scope.pagination.currentPage = 1;
-          loadList(1);
+          refreshPage(refreshDetailFromUI($stateParams.detail));
         }
-        $scope.authList = [{
-          id: "0",
-          name: '未提交认证',
-          cur: false
-        }, {
-          id: "1",
-          name: '审核中',
-          cur: false
-        }, {
-          id: "2",
-          name: '审核通过',
-          cur: false
-        }, {
-          id: "3",
-          name: '审核不通过',
-          cur: false
-        }, {
-          id: "4",
-          name: '违规下线',
-          cur: false
-        }]
-        $scope.authStatusList = [{
-          id: "0",
-          name: '个人资料认证',
-          cur: false,
-          auth: 'auth_type'
-        }, {
-          id: "1",
-          name: '身份证认证',
-          cur: false,
-          auth: 'uid_auth_type'
-        }, {
-          id: "2",
-          name: '实地认证',
-          cur: false,
-          auth: 'work_auth_type'
-        }, {
-          id: "3",
-          name: '邮箱认证',
-          cur: false,
-          auth: 'email_auth_type'
-        }]
-        $scope.authStatusBtn = function (id) {
-          if (!!$scope.authStatus) {
-            $scope.userList = [];
-            $scope.loadData = false;
+
+        $scope.authBtn = function (id, list) {
+          curList(list, id);
+
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        };
+        //排序
+        $scope.sortData = function (sortby) {
+          if ($scope.sort[sortby]) {
+            $scope.sort[sortby] = -$scope.sort[sortby];
+          } else {
+            $scope.sort = {};
+            $scope.sort[sortby] = -1;
           }
-          angular.forEach($scope.authStatusList, function (value, key) {
-            if (value.id == id) {
-              if (value.cur) {
-                value.cur = false;
-                if (id == 0) {
-                  $scope.authType = false;
-                } else if (id == 1) {
-                  $scope.uidAuthType = false;
-                } else if (id == 2) {
-                  $scope.workAuthType = false;
-                } else if (id == 3) {
-                  $scope.emailAuthType = false;
-                }
-              } else {
-                value.cur = true;
-                if (id == 0) {
-                  $scope.authType = true;
-                } else if (id == 1) {
-                  $scope.uidAuthType = true;
-                } else if (id == 2) {
-                  $scope.workAuthType = true;
-                } else if (id == 3) {
-                  $scope.emailAuthType = true;
-                }
-              }
-            }
-          });
-          if (!!$scope.authStatus) {
-            $scope.pagination.currentPage = 1;
-            loadList(1)
-          }
-        }
-        $scope.authBtn = function (id) {
-            $scope.userList = [];
-            $scope.loadData = false;
-            $scope.pagination.currentPage = 1;
-            angular.forEach($scope.authList, function (value, key) {
-              if (value.id == id) {
-                if (value.cur) {
-                  value.cur = false;
-                  $scope.authStatus = undefined;
-                  loadList(1, 10);
-                } else {
-                  value.cur = true;
-                  $scope.authStatus = id;
-                  loadList(1)
-                }
-              } else {
-                value.cur = false;
-              }
-            });
-          }
-          //重置清空状态
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        };
+        //重置清空状态
         $scope.clearStatus = function () {
-            $scope.userList = [];
-            $scope.loadData = false;
-            $scope.authType = undefined;
-            $scope.uidAuthType = undefined;
-            $scope.workAuthType = undefined;
-            $scope.emailAuthType = undefined;
-            $scope.authStatus = undefined;
-            $scope.phone = undefined;
-            $scope.createAt = undefined;
-            angular.forEach($scope.authList, function (value, key) {
-              value.cur = false;
-            });
-            angular.forEach($scope.authStatusList, function (value, key) {
-              value.cur = false;
-            });
-            $scope.pagination.currentPage = 1;
-            $scope.startTime.time = '';
-            $scope.endTime.time = '';
-            loadList(1, 10);
-          }
-          //设计师强制下线
-        $scope.forcedOffline = function (id, status) {
+          clearCur($scope.authList);
+          clearCur($scope.uidAuthList);
+          clearCur($scope.workAuthList);
+          clearCur($scope.emailAuthList);
+          $scope.pagination.currentPage = 1;
+          $scope.startTime.time = '';
+          $scope.endTime.time = '';
+          $scope.searchDesigner = undefined;
+          $stateParams.detail = {};
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        };
+        //设计师强制下线
+        $scope.forcedOffline = function (id, status, designer) {
           status = status == 0 ? "1" : "0"
           if (confirm("你确定该设计师强制下线吗？")) {
             adminDesigner.online({
@@ -296,12 +353,24 @@
             }).then(function (resp) {
               if (resp.data.msg === "success") {
                 tipsMsg('操作成功');
-                loadList(1, 10);
+                // designer.online_status = status;
+                loadList(refreshDetailFromUI($stateParams.detail));
               }
             }, function (resp) {
               console.log(resp);
             });
           }
+        };
+
+        $scope.getProductDetail = function (designer) {
+          var detail = {
+            detail: JSON.stringify({
+              query: {
+                designerid: designer._id
+              }
+            })
+          };
+          return detail;
         };
       }
     ])
@@ -333,7 +402,7 @@
             if (confirm("你确定要删除吗？删除不能恢复")) {
               alert('你没有权限删除');
             } else {
-              alert(id);
+              // alert(id);
             }
           }
         }, function (resp) {
@@ -470,170 +539,16 @@
               console.log(resp);
               promptMessage('获取数据失败', resp.data.msg)
             });
-          }
+          };
         }, function (resp) {
           //返回错误信息
           console.log(resp);
           promptMessage('获取数据失败', resp.data.msg)
         });
-      }
-    ])
-    .controller('DesignerProductController', [ //设计师作品集
-      '$scope', '$rootScope', '$http', '$stateParams', '$modal',
-      function ($scope, $rootScope, $http, $stateParams, $modal) {
-        $scope.authType = "1" //全局标识，解决筛选和分页问题
-        //数据加载显示状态
-        $scope.loading = {
-          loadData: false,
-          notData: false
-        };
-        //分页控件
-        $scope.pagination = {
-          currentPage: 1,
-          totalItems: 0,
-          maxSize: 5,
-          pageChanged: function () {
-            loadList(this.currentPage, 10);
-          }
-        };
-        $scope.list = function () {
-          $scope.userList = [];
-          $scope.loading.loadData = false;
-          loadList((this.page.pageNo - 1) * 10)
-        };
-        loadList(1)
-        function loadList(from,limit,data) {
-          var data = angular.extend({
-            "query": {
-              "auth_type": $scope.authType,
-              "designerid": $stateParams.id
-            },
-            "sort": {
-              "_id": 1
-            },
-            "from": (limit === undefined ? 0 : limit) * (from - 1),
-            "limit": (limit === undefined ? undefined : limit)
-          }, data)
-          $http({
-            method: "POST",
-            url: RootUrl + 'api/v2/web/admin/product/search',
-            data: data
-          }).then(function (resp) {
-            //返回信息
-            if (resp.data.data.total === 0) {
-              $scope.loading.loadData = true;
-              $scope.loading.notData = true;
-            } else {
-              $scope.userList = resp.data.data.products;
-              $scope.pagination.totalItems = resp.data.data.total;
-              $scope.loading.loadData = true;
-              $scope.loading.notData = false;
-            }
-          }, function (resp) {
-            //返回错误信息
-            $scope.loadData = false;
-            console.log(resp);
-          })
-        };
-        loadList()
-        $scope.productAuth = function (pid, uid) {
-          if (confirm("你确定该作品合格")) {
-            $http({
-              method: "POST",
-              url: RootUrl + 'api/v2/web/admin/update_product_auth',
-              data: {
-                "_id": pid,
-                "new_auth_type": '1',
-                "designerid": uid,
-                "auth_message": '审核通过，作品合格'
-              }
-            }).then(function (resp) {
-              //返回信息
-              console.log(resp);
-              promptMessage('审核成功', "success");
-              loadList()
-            }, function (resp) {
-              //返回错误信息
-              console.log(resp);
-            })
-          }
+
+        $scope.close = function () {
+          window.history.back();
         }
-        $scope.authList = [{
-          id: "1",
-          name: '审核通过',
-          cur: true
-        }, {
-          id: "0",
-          name: '未审核',
-          cur: false
-        }, {
-          id: "2",
-          name: '审核不通过',
-          cur: false
-        }, {
-          id: "3",
-          name: '违规下线',
-          cur: false
-        }, ]
-        $scope.authBtn = function (id) {
-          $scope.userList = [];
-          $scope.loadData = false;
-          angular.forEach($scope.authList, function (value, key) {
-            if (value.id == id) {
-              value.cur = true;
-            } else {
-              value.cur = false;
-            }
-          });
-          $scope.authType = id;
-          loadList({
-            "query": {
-              "auth_type": id,
-              "designerid": $stateParams.id
-            }
-          })
-        }
-        $scope.open = function (tips, pid, type, uid) {
-          var modalInstance = $modal.open({
-            template: '<div class="modal-header"><h3>' + tips +
-              '</h3></div><div class="modal-body"><div class="form-group"><label for="">填写' + tips +
-              '原因</label><textarea class="form-control" ng-model="errorMsg" rows="3"></textarea></div></div><div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
-              tips + '</button><button class="btn btn-warning" ng-click="cancel()">取消操作</button></div>',
-            controller: function ($scope, $modalInstance) {
-              $scope.ok = function () {
-                $http({
-                  method: "POST",
-                  url: RootUrl + 'api/v2/web/admin/update_product_auth',
-                  data: {
-                    "_id": pid,
-                    "new_auth_type": type,
-                    "designerid": uid,
-                    "auth_message": $scope.errorMsg
-                  }
-                }).then(function (resp) {
-                  //返回信息
-                  console.log(resp);
-                  $modalInstance.dismiss(tips);
-                  loadList()
-                }, function (resp) {
-                  //返回错误信息
-                  console.log(resp);
-                })
-              };
-              $scope.cancel = function () {
-                $modalInstance.dismiss('取消操作');
-              };
-            }
-          });
-          modalInstance.opened.then(function () { //模态窗口打开之后执行的函数
-            console.log('modal is opened');
-          });
-          modalInstance.result.then(function (result) {
-            console.log(result);
-          }, function (reason) {
-            console.log(reason); //点击空白区域，总会输出backdrop click，点击取消，则会暑促cancel
-          });
-        };
       }
     ])
     .controller('DesignerInfoController', [ //设计师个人信息
@@ -666,7 +581,9 @@
           //返回信息
           $scope.user = resp.data.data;
           $scope.head_img1 = $scope.user.imageid ? RootUrl + 'api/v2/web/thumbnail/200/' + $scope.user.imageid : 'jyz/img/headpic.jpg';
-          $scope.head_img2 = $scope.user.big_imageid ? RootUrl + 'api/v2/web/thumbnail/500/' + $scope.user.big_imageid : 'jyz/img/headpic.jpg';
+          $scope.head_img2 = $scope.user.big_imageid ? RootUrl + 'api/v2/web/thumbnail/800/' + $scope.user.big_imageid :
+            'jyz/img/headpic.jpg';
+          $scope.diploma_image = $scope.user.diploma_imageid ? RootUrl + 'api/v2/web/thumbnail/800/' + $scope.user.diploma_imageid : '';
           console.log($scope.user);
         }, function (resp) {
           //返回错误信息

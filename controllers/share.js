@@ -1,14 +1,17 @@
-var eventproxy = require('eventproxy');
-var Share = require('../proxy').Share;
-var Designer = require('../proxy').Designer;
-var async = require('async');
+'use strict'
+
+const eventproxy = require('eventproxy');
+const Share = require('../proxy').Share;
+const Designer = require('../proxy').Designer;
+const async = require('async');
+const ApiUtil = require('../common/api_util');
 
 exports.share_process_homepage = function (req, res, next) {
-  var _id = req.query.pid;
-  var ep = eventproxy();
+  const _id = req.query.pid;
+  const ep = eventproxy();
   ep.fail(next);
 
-  if (!_id) {
+  if (!tools.isValidObjectId(_id)) {
     return next();
   }
 

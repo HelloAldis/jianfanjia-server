@@ -4,8 +4,8 @@
     <tbody>
       <tr class="info thead">
         <th>工地ID</th>
-        <th>创建时间</th>
-        <th>开始时间</th>
+        <th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">创建时间</th>
+        <th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.start_at]" ng-click="sortData('start_at')">开始时间</th>
         <th>工地名称</th>
         <th>当前状态</th>
         <th>业主</th>

@@ -14,7 +14,7 @@ exports.add = function (req, res, next) {
 
 exports.search_temp_user = function (req, res, next) {
   var query = req.body.query || {};
-  var sort = {
+  var sort = req.body.sort || {
     create_at: 1
   };
   var skip = req.body.from || 0;

@@ -89,6 +89,7 @@ var config = {
   designer_upload_plan_expired: 60 * 24 * 5, //分钟，设计师多久内必须上传方案
   interval_scan_expired_upload_plan: 60, //分钟, 扫描过期上传方案间隔
   designer_remind_user_house_check_time_one_day: 1, //设计师一天最多可以提醒业主几次量房
+  is_push_url: true, // 是否推送url给百度
 
   duration_60: 60, //装修流程60天模版
   duration_60_kai_gong: 1, //开工

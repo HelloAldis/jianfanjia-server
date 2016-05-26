@@ -7,7 +7,7 @@ const type = require('../../type');
 const async = require('async');
 
 Product.count({
-  auth_type: type.product_auth_type_done,
+  // auth_type: type.product_auth_type_done,
 }, function (err, count) {
   if (err) {
     return console.log('err = ' + err);
@@ -15,7 +15,7 @@ Product.count({
 
   async.timesSeries(count, function (n, next) {
     Product.find({
-      auth_type: type.product_auth_type_done,
+      // auth_type: type.product_auth_type_done,
     }, null, {
       skip: n,
       limit: 1,
@@ -45,7 +45,6 @@ Product.count({
           });
         }, function (err, images) {
           let plan_images = images.filter(function (image) {
-            console.log(`productid:${product._id} imageid: ${image.imageid} is plan image, equality: ${image.equality}`);
             if (image.equality <= 0.03) {
               console.log(`productid:${product._id} imageid: ${image.imageid} is plan image, equality: ${image.equality}`);
               return true;
