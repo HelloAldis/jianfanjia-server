@@ -622,7 +622,7 @@
               }
             }).then(function (resp) {
               //返回信息
-              $location.path('designer'); //设置路由跳转
+              window.history.back();
             }, function (resp) {
               //返回错误信息
               console.log(resp);
