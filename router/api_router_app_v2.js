@@ -96,7 +96,7 @@ router.post('/favorite/product/delete', auth.normalUserRequired, favoriteWeb.del
 router.post('/favorite/beautiful_image/list', auth.normalUserRequired, favoriteWeb.list_beautiful_image); //收藏美图列表
 router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favoriteWeb.add_beautiful_image); //收藏美图
 router.post('/favorite/beautiful_image/delete', auth.normalUserRequired, favoriteWeb.delete_beautiful_image); //删除收藏美图
-router.post('/send_verify_email', auth.normalUserRequired, sign.send_verify_email); //发送验证邮箱邮件
+router.post('/send_verify_email', auth.normalUserRequired, signWeb.send_verify_email); //发送验证邮箱邮件
 //设备使用
 // router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定cid
 

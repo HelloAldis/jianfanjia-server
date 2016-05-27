@@ -1,7 +1,7 @@
 <ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li><a ui-sref="requirement">业务需求列表</a></li><li class="active">匹配设计师</li></ol>
 <div class="breadcrumb">
 	<h2>{{user.user.username}} <small>业主 (手机号码：{{user.user.phone}})</small></h2>
-	<h4>{{user.cell}} <small> 装修需求（需求编号{{user._id}}）</small></h4>
+	<h4>{{user.basic_address}} <small> 装修需求（需求编号{{user._id}}）</small></h4>
 	<p>装修城市：{{user.province}} {{user.city}} {{user.district}}</p>
 	<p>详细地址：{{user.basic_address}} {{user.detail_address}}</p>
 	<p>装修类别：{{user.dec_type | decTypeFilter}}</p>
@@ -46,7 +46,7 @@
 			<tr class="info thead">
 				<th>方案Id</th>
 				<th>提交时间</th>
-				<th>响应时间</th>
+				<th>获取电话时间</th>
 				<th>量房时间</th>
 				<th>设计师姓名</th>
 				<th>设计师电话</th>
@@ -63,7 +63,7 @@
 				<td>{{user.designer.phone}}</td>
 				<td>{{user.manager}}</td>
 				<td>{{user.status | planFilter}}</td>
-				<td><a target="_blank" href="../tpl/user/plans.html?pid={{user._id}}" class="btns browse">预览方案</a></td>
+				<td><a target="_blank" href="{{getPcUrl('/tpl/user/plans.html?pid=' + user._id)}}" class="btns browse">预览方案</a></td>
 			</tr>
 		</tbody>
 	</table>

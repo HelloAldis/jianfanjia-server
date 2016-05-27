@@ -44,3 +44,7 @@ exports.paginate = function (query, project, option, callback) {
     });
   });
 }
+
+exports.count = function (query, callback) {
+  BeautifulImage.count(query, callback);
+}

@@ -30,6 +30,10 @@ exports.find = function (query, project, option, callback) {
   User.find(query, project, option, callback);
 }
 
+exports.count = function (query, callback) {
+  User.count(query, callback);
+}
+
 exports.paginate = function (query, project, option, callback) {
   User.count(query, function (err, count) {
     if (err) {

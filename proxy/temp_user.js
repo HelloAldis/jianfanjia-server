@@ -23,3 +23,7 @@ exports.paginate = function (query, project, option, callback) {
     });
   });
 };
+
+exports.count = function (query, callback) {
+  TempUser.count(query, callback);
+}

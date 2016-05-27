@@ -43,3 +43,7 @@ exports.paginate = function (query, project, option, callback) {
     });
   });
 }
+
+exports.count = function (query, callback) {
+  DecStrategy.count(query, callback);
+}
