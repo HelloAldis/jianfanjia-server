@@ -1,0 +1,35 @@
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">工地管理后台</li></ol>
+<div class="panel panel-info ng-scope" ng-if="loading.loadData">
+  <table class="table table-bordered">
+    <tbody>
+      <tr class="info thead">
+        <th>工地ID</th>
+        <th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">创建时间</th>
+        <th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.start_at]" ng-click="sortData('start_at')">开始时间</th>
+        <th>工地名称</th>
+        <th>当前状态</th>
+        <th>业主</th>
+        <th>设计师</th>
+        <th>操作</th>
+      </tr>
+      <tr ng-repeat="list in processes">
+        <td>{{list._id}}</td>
+        <td>{{list.create_at | date:'yyyy-MM-dd'}}</td>
+        <td>{{list.start_at | date:'yyyy-MM-dd'}}</td>
+        <td>{{list.basic_address}}</td>
+        <td>{{list.going_on | fieldsNameFilter}}</td>
+        <td>{{list.user.username}}</td>
+        <td>{{list.designer.username}}</td>
+        <td class="td-opt">
+          <a ui-sref="fieldMore({id:list._id})">查看</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="loadData" ng-hide="loading.loadData"></div>
+<div class="loadData notData" ng-show="loading.notData"></div>
+<div class="text-center" ng-if="loading.loadData && !loading.notData">
+  <uib-pagination total-items="pagination.totalItems" first-text="首页" next-text="下一页" previous-text="上一页" last-text="尾页" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-links="true" num-pages="numPages" rotate="false" ng-change="pagination.pageChanged()"></uib-pagination>
+  <span class="pagecode">当前：{{pagination.currentPage}} / {{numPages}} 页 总共 {{pagination.totalItems}} 条数据</span>
+</div>

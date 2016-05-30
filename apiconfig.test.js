@@ -15,6 +15,8 @@ var config = {
   www_web_domain_regex: /dev.jianfanjia.com|www.jianfj.com/,
   //移动端web domain RegExp
   m_web_domain_regex: /devm.jianfanjia.com|m.jianfj.com/,
+  //管理员web domain RegExp
+  admin_web_domain_regex: /devgod.jianfanjia.com/,
 
   // mongodb 配置
   db: 'mongodb://127.0.0.1/phase2-testing',

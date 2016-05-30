@@ -1,0 +1,21 @@
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li><a ui-sref="user">业主列表</a></li><li class="active">业主需求列表</li></ol>
+<div class="panel panel-info ng-scope">
+	<table class="table table-bordered">
+		<tbody>
+			<tr class="info thead">
+				<th>装修需求ID</th>
+				<th>提交时间</th>
+				<th>当前状态</th>
+				<th>业主姓名</th>
+				<th>匹配设计师及方案列表</th>
+			</tr>
+			<tr ng-repeat="user in userList">
+				<td>{{user._id}}</td>
+				<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.status | requirementFilter}}</td>
+				<td>{{user.user.username}}</td>
+				<td><a ui-sref="requirementDesigner({id:user._id})">点击查看</a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

@@ -16,6 +16,7 @@ const Image = require('../../../proxy').Image;
 const Plan = require('../../../proxy').Plan;
 const Answer = require('../../../proxy').Answer;
 const Supervisor = require('../../../proxy').Supervisor;
+const TempUser = require('../../../proxy').TempUser;
 const tools = require('../../../common/tools');
 const _ = require('lodash');
 const ue_config = require('../../../ueditor/ue_config');
@@ -983,5 +984,32 @@ exports.add_supervisor = function (req, res, next) {
         res.sendData(supervisor_indb);
       }));
     }));
+  }));
+}
+
+exports.statistic_info = function (req, res, next) {
+  const querys = req.body.querys;
+  const ep = eventproxy();
+  ep.fail(next);
+
+  const map = {
+    requirement: Requirement.count,
+    user: User.count,
+    designer: Designer.count,
+    plans: Plan.count,
+    product: Product.count,
+    live: Share.count,
+    field: Process.count,
+    recruit: TempUser.count,
+    news: DecStrategy.count,
+    pictures: BeautifulImage.count,
+  }
+
+  async.mapLimit(querys, 3, function (q, callback) {
+    async.mapLimit(q.querys, 3, function (query, callback) {
+      map[q.key](query, callback);
+    }, callback);
+  }, ep.done(function (statistic) {
+    res.sendData(statistic);
   }));
 }

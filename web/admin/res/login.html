@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>简繁家-登陆</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+	<script type="text/javascript" src="/static/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="/static/js/public.js"></script>
+</head>
+<body>
+	<style type="text/css">
+		body{
+			background-color: #bdc3c7;
+		}
+		.g-sign{
+			position: absolute;
+			left: 50%;
+    		top: 50%;
+			width: 300px;
+			padding: 20px;
+			margin: 0 auto;
+			background-color: #ecf0f1;
+			border-radius: 10px;
+			-moz-box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+			-webkit-box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+			box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+		    -moz-transform: translate(-50%,-50%);
+		    -webkit-transform: translate(-50%,-50%);
+		    -o-transform: translate(-50%,-50%);
+		    -ms-transform: translate(-50%,-50%);
+		    transform:translate(-50%,-50%);
+		}
+		.g-sign h2{
+			padding-bottom: 15px;
+			margin-bottom: 15px;
+			font-size: 24px;
+			line-height: 40px;
+			text-align: center;
+			color: #2d3e4f;
+			font-weight: bold;
+			font-family: "微软雅黑";
+			border-bottom: 2px solid #e5e5e5;
+		}
+		.g-sign .btn{
+			width: 100%;
+			font-size: 16px;
+			line-height: 36px;
+		}
+		.g-sign .m-head{
+			margin: 0 auto 15px;
+		}
+		.g-sign .proper{
+			border-color: #5cb85c;
+		}
+		.g-sign .error{
+			border-color: #d9534f;
+		}
+		.error-info{
+			line-height: 40px;
+			color: #d9534f;
+		}
+		.m-item{margin-bottom: 10px;}
+		.input{
+			-webkit-box-sizing: border-box;
+    		-moz-box-sizing: border-box;
+    		box-sizing: border-box;
+			display: block;
+		    width: 100%;
+		    height: 34px;
+		    padding: 6px 12px;
+		    font-size: 14px;
+		    line-height: 1.42857143;
+		    color: #555;
+		    background-color: #fff;
+		    background-image: none;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+		    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+		    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+		    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+		    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+		}
+		.input:focus{
+			border-color: #66afe9;
+		    outline: 0;
+		    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+		    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+		}
+		.g-sign label{
+			display: inline-block;
+		    max-width: 100%;
+		    margin-bottom: 5px;
+		    font-weight: 700;
+		}
+		.g-sign label span{
+			margin-left: 10px;
+			color: #d9534f;
+		}
+	</style>
+</head>
+<body>
+	<main class="g-sign">
+		<a href="" title="返回首页" class="m-head"><img src="/static/img/login-logo.png" alt="简繁家logo" ></a>
+		<h2>简繁家管理员登录</h2>
+		<div class="sign">
+			<div class="m-item">
+			    <label for="username">用户名<span id="username-info"></span></label>
+			    <input type="text" class="input" id="username" placeholder="用户名">
+			</div>
+			<div class="m-item">
+			    <label for="password">密码<span id="password-info"></span></label>
+			    <input type="password" class="input" id="password" placeholder="密码">
+			</div>
+			<div class="error-info" id="error-info">
+			</div>
+			<button type="button" class="btn login-btn" id="login-btn">登陆</button>
+		</div>
+	</main>
+</body>
+</html>
+<script type="text/javascript">
+	$('.goto').hide();
+	function isMobile(mobile){
+		return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile);
+	}
+	function isPassword(str){
+	   return (/^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,30}$/.test(str));
+	}
+    var check_step = 0;
+    //获取对象
+	var username = $("#username");
+    var password = $("#password");
+    //验证函数
+    function checkMobile(){    //手机验证
+     	var id = "username";
+        if (!!$.trim(username.val())) {
+            return showOk(username,id);
+        }
+        return showError(username,id);
+    }
+    function checkPassword() {    //密码验证
+        var id = "password";
+        if (!!$.trim(password.val())) {
+            return showOk(password,id);
+        }
+        return showError(password,id);
+    }
+    //显示验证信息
+   	function showError(obj,msg) {
+        obj.addClass('error');
+        $('#'+msg+'-info').html({
+	        "username": "账号不正确",
+	        "password": "密码需为6~30个字母或数字"
+	    }[msg])
+        return false;
+    }
+    function showOk(obj){
+    	var parent = obj.closest('.m-item');
+    	if(!!$.trim(obj.val())){
+    		parent.find('span').html('');
+	        obj.addClass('proper');
+	        obj.removeClass('error');
+    	}
+        check_step--;
+        return true;
+    }
+    //事件操作
+    username.on('blur',function(){
+        checkMobile();
+    });
+    password.on('blur',function(){
+        checkPassword();
+    });
+	$('#login-btn').on('click',function(){
+		check_step = 2;
+		checkMobile();
+		checkPassword();
+		if(check_step > 0){
+			return false;
+		}
+		$.postJSON(RootUrl+'api/v2/web/admin/login', {
+				"username" : username.val(),
+				"pass"  : password.val()
+			},function(res){
+				if(res["msg"] == "success"){
+                    window.location.href = "/";
+				}else{
+					$('#error-info').html(res['err_msg']).removeClass('hide');
+				}
+				if(res['err_msg']){
+					$('#error-info').html(res['err_msg']).removeClass('hide');
+				}
+		   	})
+		return false;
+	})
+</script>

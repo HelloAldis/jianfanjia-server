@@ -67,6 +67,7 @@ router.post('/top_designer_activity', designer.top_designer_activity);
 router.post('/wechat/receive', wechat.receive); //接收微信平台消息
 router.get('/wechat/receive', wechat.signature); //认证微信平台
 router.post('/image/upload', upload.single('Filedata'), image.add); //上传图片
+router.post('/one_plan', plan.getOne); //获取某个方案信息
 
 //通用用户功能
 router.post('/signout', auth.normalUserRequired, sign.signout); //登出
@@ -75,15 +76,12 @@ router.post('/image/crop', auth.normalUserRequired, image.crop); //上传图片
 router.post('/favorite/product/list', auth.normalUserRequired, favorite.list_product); //收藏列表
 router.post('/favorite/product/add', auth.normalUserRequired, favorite.add_product); //收藏作品
 router.post('/favorite/product/delete', auth.normalUserRequired, favorite.delete_product); //删除收藏作品
-router.post('/favorite/beautiful_image/list', auth.normalUserRequired, favorite
-  .list_beautiful_image); //收藏美图列表
+router.post('/favorite/beautiful_image/list', auth.normalUserRequired, favorite.list_beautiful_image); //收藏美图列表
 router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favorite.add_beautiful_image); //收藏美图
-router.post('/favorite/beautiful_image/delete', auth.normalUserRequired,
-  favorite.delete_beautiful_image); //删除收藏美图
+router.post('/favorite/beautiful_image/delete', auth.normalUserRequired, favorite.delete_beautiful_image); //删除收藏美图
 router.post('/add_comment', auth.normalUserRequired, comment.add_comment); //添加评论
 // router.post('/unread_comment', auth.normalUserRequired, comment.unread_comment); //获取未读评论
 router.post('/topic_comments', auth.normalUserRequired, comment.topic_comments); //获取评论并标记为已读
-router.post('/one_plan', auth.normalUserRequired, plan.getOne); //获取某个方案信息
 router.post('/one_contract', auth.normalUserRequired, requirement.one_contract); //获取某个合同信息
 router.post('/send_verify_email', auth.normalUserRequired, sign.send_verify_email); //发送验证邮箱邮件
 router.get('/download_contract/:_id', auth.normalUserRequired, requirement.download_contract); //下载合同
@@ -193,5 +191,6 @@ router.post('/admin/search_beautiful_image', auth.adminRequired, admin.search_be
 router.post('/admin/search_answer', auth.adminRequired, admin.search_answer); //搜索问卷答案
 router.post('/admin/count_answer', auth.adminRequired, admin.count_answer); //统计问卷答案
 router.post('/admin/add_supervisor', auth.adminRequired, admin.add_supervisor); //添加监理
+router.post('/admin/statistic_info', auth.adminRequired, admin.statistic_info); //数据统计
 
 module.exports = router;

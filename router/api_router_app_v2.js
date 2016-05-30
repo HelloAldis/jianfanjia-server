@@ -72,13 +72,13 @@ router.get('/device/android_build_version', device.android_build_version); //获
 router.get('/device/designer_android_build_version', device.designer_android_build_version); //获取designer android 信息
 router.get('/device/supervisor_android_build_version', device.supervisor_android_build_version); //获取supervisor android 信息
 router.post('/image/upload', upload.single('Filedata'), imageWeb.add); //上传图片
+router.post('/one_plan', planWeb.getOne); //获取某个方案信息
 
 //通用用户功能
 router.get('/signout', auth.normalUserRequired, signWeb.signout); //登出
 // router.post('/image/upload', auth.normalUserRequired, upload.single('Filedata'), imageWeb.add); //上传图片
 router.post('/add_comment', auth.normalUserRequired, commentWeb.add_comment); //添加评论
 router.post('/topic_comments', auth.normalUserRequired, commentWeb.topic_comments); //获取评论并标记为已读
-router.post('/one_plan', auth.normalUserRequired, planWeb.getOne); //获取某个方案信息
 router.post('/one_contract', auth.normalUserRequired, requirementWeb.one_contract); //获取某个方案信息
 router.get('/process/list', auth.normalUserRequired, process.list); //获取装修工地列表
 router.get('/process/:_id', auth.normalUserRequired, process.getOne); //获取装修进度
@@ -96,6 +96,7 @@ router.post('/favorite/product/delete', auth.normalUserRequired, favoriteWeb.del
 router.post('/favorite/beautiful_image/list', auth.normalUserRequired, favoriteWeb.list_beautiful_image); //收藏美图列表
 router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favoriteWeb.add_beautiful_image); //收藏美图
 router.post('/favorite/beautiful_image/delete', auth.normalUserRequired, favoriteWeb.delete_beautiful_image); //删除收藏美图
+router.post('/send_verify_email', auth.normalUserRequired, signWeb.send_verify_email); //发送验证邮箱邮件
 //设备使用
 // router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定cid
 

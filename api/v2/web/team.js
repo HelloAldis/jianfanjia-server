@@ -26,7 +26,7 @@ exports.add = function (req, res, next) {
 
 exports.update = function (req, res, next) {
   var team = ApiUtil.buildTeam(req);
-  var oid = tools.trim(req.body._id);
+  var oid = tools.trim(req.body._id) || tools.trim(req.body.team._id);
   var designerid = ApiUtil.getUserid(req);
   var ep = new eventproxy();
   ep.fail(next);
