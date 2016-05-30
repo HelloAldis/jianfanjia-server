@@ -120,6 +120,7 @@ router.post('/read_user_message', auth.userRequired, message.read_user_message);
 //设计师独有功能
 router.post('/designer/agree', auth.designerRequired, designer.agree); //同意条款
 router.post('/designer/info', auth.designerRequired, designer.updateInfo); //修改设计师个人资料
+router.post('/designer/no_review_info', auth.designerRequired, designer.updateNoReviewInfo); //修改设计师个人资料
 router.post('/designer/update_business_info', auth.designerRequired, designer.update_business_info); //修改设计师个人资料
 router.post('/designer/info/get', auth.designerRequired, designer.getInfo); //获取设计师自己个人资料
 router.post('/designer/uid_bank_info', auth.designerRequired, designer.uid_bank_info); //更新银行卡信息

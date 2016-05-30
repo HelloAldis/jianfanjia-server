@@ -70,6 +70,19 @@ exports.updateInfo = function (req, res, next) {
   }));
 };
 
+exports.updateNoReviewInfo = function (req, res, next) {
+  let userid = ApiUtil.getUserid(req);
+  let designer = ApiUtil.buildDesingerNoReviewInfo(req);
+  let ep = new eventproxy();
+  ep.fail(next);
+
+  Designer.setOne({
+    _id: userid
+  }, designer, null, ep.done(function (designer) {
+    res.sendSuccessMsg();
+  }));
+};
+
 exports.update_business_info = function (req, res, next) {
   let userid = ApiUtil.getUserid(req);
   let designer = ApiUtil.buildDesignerBusinessInfo(req);
