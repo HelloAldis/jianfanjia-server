@@ -116,9 +116,6 @@ body{
 	float: right;
 	width: 918px;
 	min-height: 600px;
-	background-color: #fff;
-	border: 1px solid #e5e5e5;
-	border-radius: 3px;
 }
 .g-mn .m-tt{
 	height: 65px;
@@ -126,12 +123,14 @@ body{
 	font-size: 16px;
 	line-height: 65px;
 	color: #383d48;
-	border-bottom: 1px solid #eee;
 }
-.g-mn.noBackdrop{
-	background: none;
-	border:none;
-	border-radius: 0;
+.g-mn.Backdrop{
+	background-color: #fff;
+	border: 1px solid #e5e5e5;
+	border-radius: 3px;
+}
+.g-mn.Backdrop .m-tt{
+	border-bottom: 1px solid #eee;
 }
 .g-mn.noBackdrop .m-tt{
 	background-color: #fff;

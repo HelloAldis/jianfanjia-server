@@ -9,7 +9,7 @@
 					<div class="m-boxs">
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="owner-name">业主姓名</label>
+								<label class="u-lab">业主姓名</label>
 								<div class="u-inp">
 									<div class="input disabled" ng-bind="designerPlan.username"></div>
 								</div>
@@ -17,7 +17,7 @@
 						</div>
 						<div class="m-item f-cb" ng-if="designerPlan.tab && ((plan.requirement.work_type == 0 || plan.requirement.work_type == 1) || (designerPlan.worktype == 0 || designerPlan.worktype == 1))">
 							<div class="item">
-								<label class="u-lab" for="owner-sex">工期</label>
+								<label class="u-lab">工期</label>
 								<div class="u-inp">
 									<input type="text" class="input" ng-model="plan.duration" model-format="int" placeholder="请输入整数" my-placeholder required />
 									<span class="unit">天</span>
@@ -26,16 +26,16 @@
 						</div>
 						<div class="m-item f-cb" bo-if="designerPlan.worktype == 2 || plan.requirement.work_type == 2">
 							<div class="item">
-								<label class="u-lab" for="owner-sex">设计费</label>
+								<label class="u-lab">设计费</label>
 								<div class="u-inp">
 									<input type="text" class="input" ng-model="plan.total_design_fee" model-format="int" placeholder="请输入整数" my-placeholder required />
 									<span class="unit">元</span>
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb" >
+						<div class="m-item f-cb" bo-if="designerPlan.worktype != 2 || plan.requirement.work_type != 2">
 							<div class="item">
-								<label class="u-lab" for="owner-email">报价</label>
+								<label class="u-lab">报价</label>
 								<div class="u-inp">
 									<div class="input quote" ng-click="designerPlan.tabBtn()">
 										<div ng-bind="plan.total_price | number"></div>
@@ -46,7 +46,7 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="owner-email">方案说明</label>
+								<label class="u-lab">方案说明</label>
 								<div class="u-inp">
 									<textarea class="input long textarea" rows="10" ng-model="plan.description" ng-focus="comment.focus()" ng-blur="comment.blur()" required></textarea>
 								</div>
@@ -54,17 +54,17 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab" for="owner-addr">上传平面图</label>
+								<label class="u-lab">上传平面图</label>
 								<div class="u-inp insertimage">
-									<div my-insertimage my-query="plan.images" ng-if="plan" my-type="default"></div>
+									<div my-insertimage my-query="plan.images" ng-if="plan" my-type="default" my-complete="designerPlan.images_complete"></div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div my-alert type="warning" ng-if="designerPlan.error" close="designerPlan.close()" data-dismiss-on-timeout="3000" text="{{designerPlan.errormsg}}"></div>
 					<div class="m-btns">
-						<input type="submit" class="u-btns" ng-if="!designerPlan.isCreate" ng-class="{'u-btns-disabled':create.$invalid || designerPlan.disabled}" ng-disabled="create.$invalid || designerPlan.disabled" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
-						<input type="submit" class="u-btns" ng-if="designerPlan.isCreate" ng-class="{'u-btns-disabled':create.$invalid || designerPlan.disabled}" ng-disabled="create.$invalid || designerPlan.disabled" value="&nbsp;&nbsp;修改&nbsp;&nbsp;">
+						<input type="submit" class="u-btns" ng-if="!designerPlan.isCreate" ng-class="{'u-btns-disabled':create.$invalid || designerPlan.disabled || designerPlan.images_complete}" ng-disabled="create.$invalid || designerPlan.disabled || designerPlan.images_complete" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+						<input type="submit" class="u-btns" ng-if="designerPlan.isCreate" ng-class="{'u-btns-disabled':create.$invalid || designerPlan.disabled || designerPlan.images_complete}" ng-disabled="create.$invalid || designerPlan.disabled || designerPlan.images_complete" value="&nbsp;&nbsp;修改&nbsp;&nbsp;">
 					</div>
 				</div>
 			</form>

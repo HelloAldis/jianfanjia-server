@@ -124,7 +124,7 @@
 						<div class="item">
 							<label class="u-lab"><i class="required-icon"></i>上传平面图</label>
 							<div class="u-inp insertimage">
-								<div my-insertimage my-query="product.plan_images" ng-if="product" my-type="write"></div>
+								<div my-insertimage my-query="product.plan_images" my-complete="designerProduct.plan_images_complete" ng-if="product" my-type="write"></div>
 							</div>
 						</div>
 					</div>
@@ -132,14 +132,14 @@
 						<div class="item">
 							<label class="u-lab"><i class="required-icon"></i>上传作品图片</label>
 							<div class="u-inp insertimage">
-								<div my-insertimage2 my-query="product.images" my-section="designerProduct.section" ng-if="product" my-type="edit" my-cover="product.cover_imageid"></div>
+								<div my-insertimage2 my-query="product.images" my-section="designerProduct.section" ng-if="product" my-type="edit" my-cover="product.cover_imageid"  my-complete="designerProduct.images_complete"></div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div my-alert type="warning" ng-show="designerProduct.error" text="{{designerProduct.errormsg}}"></div>
 				<div class="m-btns">
-					<input type="submit" class="u-btns" ng-class="{'u-btns-disabled':myRelease.$invalid || designerProduct.disabled}" ng-disabled="myRelease.$invalid || designerProduct.disabled" value="&nbsp;申请认证&nbsp;" />
+					<input type="submit" class="u-btns" ng-class="{'u-btns-disabled':myRelease.$invalid || designerProduct.disabled || designerProduct.plan_images_complete || designerProduct.images_complete}" ng-disabled="myRelease.$invalid || designerProduct.disabled || designerProduct.plan_images_complete || designerProduct.images_complete" value="&nbsp;申请认证&nbsp;" />
 				</div>
 			</div>
 		</form>
