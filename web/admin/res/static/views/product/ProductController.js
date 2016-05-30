@@ -12,8 +12,8 @@
 			};
 		})
 		.controller('ProductController', [
-			'$scope', '$rootScope', '$http', '$uibModal', '$filter', 'adminProduct', '$stateParams', '$location',
-			function ($scope, $rootScope, $http, $uibModal, $filter, adminProduct, $stateParams, $location) {
+			'$scope', '$rootScope', '$http', '$uibModal', '$filter', 'adminProduct', '$stateParams', '$location', 'mutiSelected',
+			function ($scope, $rootScope, $http, $uibModal, $filter, adminProduct, $stateParams, $location, mutiSelected) {
 				$scope.authList = [{
 					id: "0",
 					name: '未审核',
@@ -39,50 +39,6 @@
 					$location.path('/product/' + JSON.stringify(detail));
 				}
 
-				function initList(list, id) {
-					if (!list || !id) {
-						return;
-					}
-
-					angular.forEach(list, function (value, key) {
-						if (value.id == id) {
-							if (value.cur) {
-								value.cur = false;
-							} else {
-								value.cur = true;
-							}
-						} else {
-							value.cur = false;
-						}
-					});
-				}
-
-				function getCurId(list) {
-					for (var value of list) {
-						if (value.cur) {
-							return value.id;
-						}
-					}
-
-					return undefined;
-				}
-
-				function curList(list, id) {
-					angular.forEach(list, function (value, key) {
-						if (value.id == id) {
-							value.cur = !value.cur;
-						} else {
-							value.cur = false;
-						}
-					});
-				}
-
-				function clearCur(list) {
-					angular.forEach(list, function (value, key) {
-						value.cur = false;
-					});
-				}
-
 				//从url详情中初始化页面
 				function initUI(detail) {
 					if (detail.query) {
@@ -95,7 +51,7 @@
 								$scope.endTime.time = new Date(detail.query.create_at["$lte"]);
 							}
 						}
-						initList($scope.authList, detail.query.auth_type);
+						mutiSelected.initMutiSelected($scope.authList, detail.query.auth_type);
 					}
 
 					detail.from = detail.from || 0;
@@ -119,7 +75,7 @@
 					} : undefined;
 
 					detail.query = detail.query || {};
-					detail.query.auth_type = getCurId($scope.authList);
+					detail.query.auth_type = mutiSelected.getInQueryFormMutilSelected($scope.authList);
 					detail.query.create_at = createAt;
 					detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
 					detail.limit = $scope.pagination.pageSize;
@@ -199,7 +155,7 @@
 				//认证筛选
 				$scope.authBtn = function (id) {
 					$scope.pagination.currentPage = 1;
-					curList($scope.authList, id);
+					mutiSelected.curList($scope.authList, id);
 					refreshPage(refreshDetailFromUI($stateParams.detail));
 				};
 				//排序
@@ -219,7 +175,7 @@
 					$scope.startTime.time = '';
 					$scope.endTime.time = '';
 					$stateParams.detail = {};
-					clearCur($scope.authList);
+					mutiSelected.clearCur($scope.authList);
 					refreshPage(refreshDetailFromUI($stateParams.detail));
 				};
 

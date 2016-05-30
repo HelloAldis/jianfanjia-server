@@ -4,16 +4,11 @@ const Designer = require('../../proxy').Designer;
 const type = require('../../type');
 const async = require('async');
 
-var xinDesignerNames = ['吴蒙', '雷浩', '黄俊超', '陈忠', '江尚飞', '邹春', '邹龙', '刘祥', '刘智', '刘亮亮', '向鑫', '胡世民', '鲁义涛', '吴玉纯', '姜再香', '杨莹莹', '张高源', '彭畅', '刘杰',
-  '夏雨婷', '胡玉龙', '邹航', '李耀强', '陈婷婷', '高原', '方梦婷', '张浩', '陶小敏', '汪敏', '吴江', '唐冕', '徐胜贤', '叶志文', '吴军锴', '黄露', '邓杨超', '张聪', '何升', '段佳琪',
-  '张韶佳', '黄赞', '杨航', '谈有缘', '姚坤'
-];
+var xinDesignerNames = [];
 
-var luanDesignerNames = ['杨斌', '柯志林', '陈涛', '周德義', '陈洋', '柯志成', '18627023637', '田江玲', '李进生', '方建军', '刘自章', '赖从伟', '徐伟', '朱亚琴', '梅志强', '彭虎', '吴风华',
-  '陈丹', '陈永生', '黄磊', '王皓', '陈孟', '戴涛', '周志文', '罗业瑜'
-];
+var luanDesignerNames = [];
 
-var jiangDesignerNames = ['李禹锋', '侯玮', '王岚', '袁磊', '肖啸'];
+var jiangDesignerNames = ['吴鹏'];
 // var jiangDesignerNames = ['李禹锋', '侯玮', '王岚', '叶明', '袁磊'];
 
 Designer.count({}, function (err, count) {

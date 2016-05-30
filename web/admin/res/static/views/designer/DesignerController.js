@@ -1,8 +1,8 @@
 (function () {
   angular.module('controllers')
     .controller('DesignerController', [ //设计师列表
-      '$scope', '$rootScope', '$uibModal', 'adminDesigner', '$stateParams', '$location',
-      function ($scope, $rootScope, $uibModal, adminDesigner, $stateParams, $location) {
+      '$scope', '$rootScope', '$uibModal', 'adminDesigner', '$stateParams', '$location', 'mutiSelected',
+      function ($scope, $rootScope, $uibModal, adminDesigner, $stateParams, $location, mutiSelected) {
         $scope.authList = [{
           id: "0",
           name: '未提交认证',
@@ -97,50 +97,6 @@
           $location.path('/designer/' + JSON.stringify(detail));
         }
 
-        function initList(list, id) {
-          if (!list || !id) {
-            return;
-          }
-
-          angular.forEach(list, function (value, key) {
-            if (value.id == id) {
-              if (value.cur) {
-                value.cur = false;
-              } else {
-                value.cur = true;
-              }
-            } else {
-              value.cur = false;
-            }
-          });
-        }
-
-        function getCurId(list) {
-          for (var value of list) {
-            if (value.cur) {
-              return value.id;
-            }
-          }
-
-          return undefined;
-        }
-
-        function curList(list, id) {
-          angular.forEach(list, function (value, key) {
-            if (value.id == id) {
-              value.cur = !value.cur;
-            } else {
-              value.cur = false;
-            }
-          });
-        }
-
-        function clearCur(list) {
-          angular.forEach(list, function (value, key) {
-            value.cur = false;
-          });
-        }
-
         //从url详情中初始化页面
         function initUI(detail) {
           if (detail.query) {
@@ -154,10 +110,10 @@
               }
             }
 
-            initList($scope.authList, detail.query.auth_type);
-            initList($scope.uidAuthList, detail.query.uid_auth_type);
-            initList($scope.workAuthList, detail.query.work_auth_type);
-            initList($scope.emailAuthList, detail.query.email_auth_type);
+            mutiSelected.initMutiSelected($scope.authList, detail.query.auth_type);
+            mutiSelected.initMutiSelected($scope.uidAuthList, detail.query.uid_auth_type);
+            mutiSelected.initMutiSelected($scope.workAuthList, detail.query.work_auth_type);
+            mutiSelected.initMutiSelected($scope.emailAuthList, detail.query.email_auth_type);
 
             $scope.searchDesigner = detail.query.phone;
           }
@@ -184,10 +140,10 @@
 
           detail.query = detail.query || {};
           detail.query.phone = $scope.searchDesigner || undefined;
-          detail.query.auth_type = getCurId($scope.authList);
-          detail.query.uid_auth_type = getCurId($scope.uidAuthList);
-          detail.query.work_auth_type = getCurId($scope.workAuthList);
-          detail.query.email_auth_type = getCurId($scope.emailAuthList);
+          detail.query.auth_type = mutiSelected.getInQueryFormMutilSelected($scope.authList);
+          detail.query.uid_auth_type = mutiSelected.getInQueryFormMutilSelected($scope.uidAuthList);
+          detail.query.work_auth_type = mutiSelected.getInQueryFormMutilSelected($scope.workAuthList);
+          detail.query.email_auth_type = mutiSelected.getInQueryFormMutilSelected($scope.emailAuthList);
           detail.query.create_at = createAt;
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
@@ -314,8 +270,7 @@
         }
 
         $scope.authBtn = function (id, list) {
-          curList(list, id);
-
+          mutiSelected.curList(list, id);
           $scope.pagination.currentPage = 1;
           refreshPage(refreshDetailFromUI($stateParams.detail));
         };
@@ -332,10 +287,10 @@
         };
         //重置清空状态
         $scope.clearStatus = function () {
-          clearCur($scope.authList);
-          clearCur($scope.uidAuthList);
-          clearCur($scope.workAuthList);
-          clearCur($scope.emailAuthList);
+          mutiSelected.clearCur($scope.authList);
+          mutiSelected.clearCur($scope.uidAuthList);
+          mutiSelected.clearCur($scope.workAuthList);
+          mutiSelected.clearCur($scope.emailAuthList);
           $scope.pagination.currentPage = 1;
           $scope.startTime.time = '';
           $scope.endTime.time = '';

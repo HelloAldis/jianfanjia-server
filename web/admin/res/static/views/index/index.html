@@ -9,7 +9,7 @@
 					{{range.range['$gte'] | date:'yy/MM/dd' }}-{{range.range['$lte'] | date:'yy/MM/dd' }}
 				</th>
 			</tr>
-			<tr ng-repeat="row in querys">
+			<tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="row in querys">
 				<td>{{row.name}}</td>
 				<td ng-repeat="num in statistic[$index] track by $index">
 					<a ui-sref="{{querys[$parent.$index].key}}(getDetail(querys[$parent.$index].querys[$index]))">{{num}}</a>

@@ -596,3 +596,7 @@ body{
     background-position: center right;
     cursor: pointer;
 }
+
+.tr-odd {
+  background-color: #d9edfc;
+}
