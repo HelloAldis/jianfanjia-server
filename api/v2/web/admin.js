@@ -992,8 +992,6 @@ exports.statistic_info = function (req, res, next) {
   const ep = eventproxy();
   ep.fail(next);
 
-  console.log(querys);
-
   const map = {
     requirement: Requirement.count,
     user: User.count,
