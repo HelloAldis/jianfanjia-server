@@ -50,7 +50,7 @@
 				<th>业主电话</th>
 				<th>查看方案</th>
 			</tr>
-			<tr ng-repeat="user in userList">
+			<tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="user in userList">
 				<td>{{user._id}}</td>
 				<td>{{user.request_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 				<td>{{user.get_phone_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>

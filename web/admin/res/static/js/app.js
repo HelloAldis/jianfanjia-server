@@ -13,7 +13,7 @@
         } else if (window.location.hostname == 'devgod.jianfanjia.com') {
           return 'http://dev.jianfanjia.com' + port + url;
         } else {
-          return 'http://www.jianfanjia.com' + port + url;
+          return 'http://www.jianfanjia.com' + url;
         }
       }
     })

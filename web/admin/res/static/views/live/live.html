@@ -10,7 +10,7 @@
 				<th>项目经理</th>
 				<th>管理员操作</th>
 			</tr>
-			<tr ng-repeat="live in liveList">
+			<tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="live in liveList">
 				<td>{{live.start_at | date:'yyyy-MM-dd'}}</td>
 				<td>{{live.cell}}</td>
 				<td>{{live.process[live.process.length-1].name | processFilter}}</td>

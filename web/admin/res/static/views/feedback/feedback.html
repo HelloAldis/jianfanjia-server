@@ -42,7 +42,7 @@
 				<th>手机类型</th>
 				<th>留言内容</th>
 			</tr>
-			<tr ng-repeat="user in userList">
+			<tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="user in userList">
 				<td>{{user._id}}</td>
 				<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 				<td>{{user.usertype | userFilter}}</td>

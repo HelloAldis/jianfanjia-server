@@ -61,7 +61,7 @@
 				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.team_count]" ng-click="sortData('team_count')">施工团队</th>
 				<th>管理员认证操作</th>
 			</tr>
-			<tr ng-repeat="user in userList">
+			<tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="user in userList">
 				<td>{{user._id}}</td>
 				<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 				<td><a ui-sref="designerInfo({id:user._id})">{{user.username}}</a></td>

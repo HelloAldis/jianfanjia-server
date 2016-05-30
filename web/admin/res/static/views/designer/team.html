@@ -13,7 +13,7 @@
 				<th>正在施工工地</th>
 				<th>操作</th>
 			</tr>
-			<tr ng-repeat="user in userList">
+			<tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="user in userList">
 				<td>{{user.manager}}</td>
 				<td>{{user.uid}}</td>
 				<td>{{user.sex | sexFilter}}</td>
