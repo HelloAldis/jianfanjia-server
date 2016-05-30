@@ -18,10 +18,11 @@
         function getNWeek0Clock(n, date) {
           var time = getNDay0Clock(0, date);
           var diff = date.getDay() - 1;
+          diff = diff == -1 ? 6 : diff;
           return new Date(time.setDate(time.getDate() - diff + (n * 7)));
         }
 
-        var now = new Date();
+        var now = new Date('2016-05-29 GMT+0800');
         var nowTime = now.getTime();
         var today0Clock = getNDay0Clock(0, now).getTime();
         var yesterday0Clock = getNDay0Clock(-1, now).getTime();
@@ -35,8 +36,8 @@
         var lastMonth0Clock = getNMonth0Clock(-1, now).getTime();
         var lastlastMonth0Clock = getNMonth0Clock(-2, now).getTime();
 
-        var startDay = new Date('2015-06-01 GMT+0800').getTime();
-        var endDay = new Date('2025-06-01 GMT+0800').getTime();
+        var startDay = 1433088000000;
+        var endDay = 1748707200000;
 
         $scope.timeRanges = [{
           name: '今天',
