@@ -22,7 +22,7 @@
           return new Date(time.setDate(time.getDate() - diff + (n * 7)));
         }
 
-        var now = new Date('2016-05-29 GMT+0800');
+        var now = new Date();
         var nowTime = now.getTime();
         var today0Clock = getNDay0Clock(0, now).getTime();
         var yesterday0Clock = getNDay0Clock(-1, now).getTime();
