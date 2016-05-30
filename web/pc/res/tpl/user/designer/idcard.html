@@ -1,32 +1,15 @@
 <div class="main">
-	<div class="m-tt">
-		<h2>身份认证</h2>
-	</div>
 	<div class="m-ct m-phone m-info">
-		<div class="done" ng-if="designerUId.uid_auth_type == 2 && designerIdcard.waiting">
-			<p class="success"><i class="iconfont2">&#xe60d;</i></p>
-			<h3>您的身份已通过认证</h3>
-			<div class="btns">
-				<a href="javascript:;" class="u-btns u-btns-revise" ng-click="designerIdcard.change()">修改</a>
-			</div>
-		</div>
-		<div class="pending" ng-if="designerUId.uid_auth_type == 1">
-			<p class="success"><i class="iconfont2">&#xe60b;</i></p>
-			<h3>您的身份认证已提交，请耐心等待审核</h3>
-			<div class="btns">
-				<a ui-sref="authHeart" class="u-btns u-btns-revise">返回认证中心</a>
-			</div>
-		</div>
-		<div class="todo" ng-if="(designerUId.uid_auth_type == 0 || designerUId.uid_auth_type == 3 || designerUId.uid_auth_type == 4) || designerIdcard.status">
-			<div class="inofTips"><i class="iconfont2">&#xe612;</i>仅通过身份认证的设计师才能收款</div>
+		<div class="todo">
+			<div class="inofTips"><i class="iconfont">&#xe612;</i>仅通过身份认证的设计师才能收款</div>
 			<form name="idcard" ng-submit="designerIdcard.send(idcard.$valid)" novalidate>
 				<div class="k-form">
 					<div class="m-boxs">
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab"><i>*</i>真实姓名</label>
+								<label class="u-lab"><i class="required-icon"></i>真实姓名</label>
 								<div class="u-inp">
-									<input type="text" class="input" ng-model="designerUId.username" required />
+									<input type="text" class="input" ng-model="designerUId.realname" required />
 									<p>收款用，一定填写真实的姓名</p>
 								</div>
 								<div class="u-error">
@@ -36,7 +19,7 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab"><i>*</i>身份证号<span>15或18位</span></label>
+								<label class="u-lab"><i class="required-icon"></i>身份证号<span>15或18位</span></label>
 								<div class="u-inp">
 									<input type="text" class="input" ng-model="designerUId.uid" required placeholder="请输入15位或者18位或17位带X身份证号码" my-placeholder ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" name="uid" />
 								</div>
@@ -48,7 +31,7 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab"><i>*</i>上传身份证正面照</label>
+								<label class="u-lab"><i class="required-icon"></i>上传身份证正面照</label>
 								<div class="u-inp">
 									<div class="uid_image uid_image1 f-fl">
 										<div class="simpleupload card-upload">
@@ -73,7 +56,7 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab"><i>*</i>上传身份证反面照</label>
+								<label class="u-lab"><i class="required-icon"></i>上传身份证反面照</label>
 								<div class="u-inp">
 									<div class="uid_image uid_image2 f-fl">
 										<div class="simpleupload card-upload">
@@ -98,7 +81,7 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab"><i>*</i>银行卡号<span>16或19位</span></label>
+								<label class="u-lab"><i class="required-icon"></i>银行卡号<span>16或19位</span></label>
 								<div class="u-inp">
 									<input type="text" class="input" ng-model="designerUId.bank_card" required placeholder="请输入16或19位银行卡号" my-placeholder ng-pattern="/^(\d{16}|\d{19})$/" name="bank_card" />
 								</div>
@@ -110,7 +93,7 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab"><i>*</i>开户银行</label>
+								<label class="u-lab"><i class="required-icon"></i>开户银行</label>
 								<div class="u-inp">
 									<div my-selectn my-list="designerIdcard.bankList" my-query="designerUId.bank"></div>
 								</div>
@@ -118,7 +101,7 @@
 						</div>
 						<div class="m-item f-cb">
 							<div class="item">
-								<label class="u-lab"><i>*</i>银行卡正面照片</label>
+								<label class="u-lab"><i class="required-icon"></i>银行卡正面照片</label>
 								<div class="u-inp">
 									<div class="uid_image uid_image3 f-fl">
 										<div class="simpleupload card-upload">

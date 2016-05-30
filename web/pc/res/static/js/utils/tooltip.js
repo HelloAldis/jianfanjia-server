@@ -246,7 +246,7 @@ define(['jquery'], function($){
      */
     Tooltip.prototype.destroy = function(){
         this.$element.removeClass('tooltip-toggle');
-        this.$tip.remove();
+        this.$tip && this.$tip.remove();
     }
     return Tooltip;
 })

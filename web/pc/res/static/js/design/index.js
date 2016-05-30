@@ -4,16 +4,19 @@ require.config({
         jquery: 'lib/jquery',
         lodash : 'lib/lodash',
         lazyload : 'lib/lazyload',
-        cookie : 'lib/jquery.cookie'
+        cookie : 'lib/jquery.cookie',
+        history : 'lib/jquery.history',
+        requestAnimationFrame : 'lib/jquery.requestAnimationFrame.min',
+        fly : 'lib/jquery.fly.min'
     },
     shim   : {
-        'jquery.history': {
+        'history': {
             deps: ['jquery']
         },
-        'jquery.requestAnimationFrame.min': {
+        'requestAnimationFrame': {
             deps: ['jquery']
         },
-        'jquery.fly.min': {
+        'fly': {
             deps: ['jquery']
         }
     }
@@ -33,11 +36,15 @@ require(['design/dynamic'],function(Dynamic){
     var dynamic = new Dynamic("#j-dynamic");
     dynamic.init();
 })
-require(['design/featured'],function(Featured){
+/*require(['design/featured'],function(Featured){
     var featured = new Featured("#j-featured");
     featured.init();
+})*/
+require(['design/interviews'],function(Interviews){
+    var interviews = new Interviews("#j-interviews");
+    interviews.init();
 })
-require(['jquery','lodash','cookie','lib/jquery.history','utils/common','utils/page','utils/tooltip','lib/jquery.requestAnimationFrame.min','lib/jquery.fly.min'],function($,_,cookie,history,common,Pageing,Tooltip){
+require(['jquery','lodash','cookie','history','utils/common','utils/page','utils/tooltip','requestAnimationFrame','fly'],function($,_,cookie,history,common,Pageing,Tooltip){
     var search = new common.Search();
     search.init();
     var user = new common.User();

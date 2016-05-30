@@ -14,7 +14,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/designer.css" />
     <script type="text/javascript" src="/static/js/lib/public.js"></script>
     <script type="text/javascript" src="/static/js/ng/version.min.js"></script>
-    <script type="text/javascript" src="/static/js/ng/angular-cookies.js"></script>
     <script type="text/javascript" src="/static/js/lib/jquery.uploadify.min.js"></script>
     <!--[if lt IE 9]>
         <script type="text/javascript" src="/static/js/lib/ie8.js"></script>
@@ -92,8 +91,8 @@
                <h2 ng-class="{active: $state.includes('authHeart')}"><a ui-sref="authHeart"><i class="iconfont">&#xe62c;</i><strong>认证中心</strong></a></h2>
 	            <dl>
 	                <dd ng-class="{active: $state.includes('infor') || $state.includes('infoshow')}">
-                        <a ui-sref="infoshow" ng-if="designer.auth_type == 1">基本资料认证</a>
-                        <a ui-sref="infor" ng-if="designer.auth_type != 1">基本资料认证</a>
+                        <a ui-sref="infor" ng-if="designer.auth_type == 0">基本资料认证</a>
+                        <a ui-sref="infoshow" ng-if="designer.auth_type != 0">基本资料认证</a>
                         <span ng-class="{show:designer}" ng-switch="designer.auth_type">
                             <i ng-switch-when="1" my-tooltip data-title="认证中" class="authStatus0 iconfont">&#xe60b;</i>
                             <i ng-switch-when="2" my-tooltip data-title="认证成功" class="authStatus2 iconfont">&#xe608;</i>
@@ -102,8 +101,8 @@
                         </span>
                     </dd>
 	                <dd ng-class="{active: $state.includes('idcard') || $state.includes('idcardshow')}">
-                        <a ui-sref="idcardshow" ng-if="designer.uid_auth_type == 1">身份认证</a>
-                        <a ui-sref="idcard" ng-if="designer.uid_auth_type != 1">身份认证</a>
+                        <a ui-sref="idcardshow" ng-if="designer.uid_auth_type != 0">身份认证</a>
+                        <a ui-sref="idcard" ng-if="designer.uid_auth_type == 0">身份认证</a>
                         <span ng-class="{show:designer}" ng-switch="designer.uid_auth_type">
                             <i ng-switch-when="1" my-tooltip data-title="认证中" class="authStatus0 iconfont">&#xe60b;</i>
                             <i ng-switch-when="2" my-tooltip data-title="认证成功" class="authStatus2 iconfont">&#xe608;</i>
@@ -143,7 +142,7 @@
 	            </dl>
 	        </div>
 		</aside>
-		<article class="g-mn" ng-class="{'noBackdrop': $state.includes('products.list') || $state.includes('favorite.list')}">
+        <article class="g-mn" ng-class="{true : 'noBackdrop',false : 'Backdrop'}[$state.includes('products.list') || $state.includes('favorite.list')]">
             <div class="m-tt" ng-if="$state.current.title">
                 <h2 ng-bind="$state.current.title"></h2>
             </div>

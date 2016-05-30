@@ -1053,7 +1053,7 @@ Tooltip.prototype.setContent = function (tip, options) {
 };
 Tooltip.prototype.hide = function () {
     this.$element.removeClass('tooltip-toggle');
-    this.$tip.remove();
+    this.$tip && this.$tip.remove();
     this.$tip = null;
 };
 /**
@@ -1236,7 +1236,7 @@ angular.module('directives', [])
             '<li ng-repeat="d in myList">',
             '<a href="javascript:;" ng-click="select(d.name,$event)">{{d.name}}</a>',
             '</li></ul>',
-            '<div class="editor"><input class="value" ng-model="myQuery"><span class="arrow"><em></em><i></i></span></div>',
+            '<div class="editor"><input class="value" ng-model="myQuery" ng-blur="blur($event)"><span class="arrow"><em></em><i></i></span></div>',
             '</div>'
         ];
         return {
@@ -1249,7 +1249,8 @@ angular.module('directives', [])
             template: template.join(''),
             link: function ($scope, iElm, iAttrs, controller) {
                 var obj = angular.element(iElm),
-                    oUl = obj.find('ul');
+                    oUl = obj.find('ul'),
+                    oldName = $scope.myQuery;
                 angular.element(document).on('click', function () {
                     oUl.css('display', 'none');
                 })
@@ -1272,9 +1273,15 @@ angular.module('directives', [])
                 }
                 $scope.select = function (name, $event) {
                     $scope.myQuery = name;
+                    oldName = name;
                     $event.stopPropagation();
                     oUl.css('display', 'none');
                     obj.css('zIndex', 10);
+                }
+                $scope.blur = function () {
+                    if(_.trim($scope.myQuery)){
+                        $scope.myQuery = oldName;
+                    }
                 }
             }
         };
@@ -1857,7 +1864,8 @@ angular.module('directives', [])
                     $winW = 0,
                     $winH = 0,
                     imgW, imgH, w, h,
-                    parent = angular.element(iElm).parent();
+                    parent = angular.element(iElm).parent(),
+                    recordImgId = scope.myQuery;
                     iElm.uploadify({
                         'auto': true, //自动上传
                         'removeTimeout': 1,
@@ -1879,6 +1887,9 @@ angular.module('directives', [])
                             parent.append('<div class="disable"></div>');
                         },
                         'onUploadSuccess': function (file, data, response) {
+                            scope.$apply(function () {
+                                scope.myQuery = '';
+                            });
                             if (iAttrs.scale === undefined) {
                                 callbackImg(data);
                             } else {
@@ -2022,11 +2033,13 @@ angular.module('directives', [])
             replace: true,
             scope: {
                 myQuery: "=",
-                myType: '@'
+                myType: '@',
+                myComplete : "="
             },
             restrict: 'A',
             template: function (obj, attr) {
                 var template = [
+                    '<div class="k-uploadbox f-' + attr.myType + '">',
                     '<div class="k-uploadbox f-cb ' + attr.myType + '">',
                     '<div class="item" ng-repeat="img in myQuery">',
                     '<div class="queue-item" ng-if="img.loading >= 0">',
@@ -2086,16 +2099,23 @@ angular.module('directives', [])
                         $timeout(function () {
                             scope.myQuery.push({
                                 uploadid: file.id,
-                                loading: 0,
-                            })
+                                loading: 0
+                            });
+                            scope.myComplete = true;
                         }, 0);
                     },
                     'onUploadStart': function () {
                         $('.uploadify-queue').css('zIndex', '110');
                     },
                     'onUploadSuccess': function (file, data, response) {
-                        callbackImg(data);
+                        callbackImg(data,file.id);
                         $('.uploadify-queue').css('zIndex', '0');
+                    },
+                    'onQueueComplete' : function(queueData){
+                        //console.log(queueData)
+                        $timeout(function () {
+                            scope.myComplete = false;
+                        }, 0);
                     },
                     'onUploadError': function (file, errorCode, errorMsg, errorString) {
                         if (errorMsg === '500' && errorCode === -200) {
@@ -2105,6 +2125,7 @@ angular.module('directives', [])
                     },
                     'onCancel': function () {
                         $('.uploadify-queue').css('zIndex', '0');
+                        count--;
                     },
                     'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
                         $timeout(function () {
@@ -2114,17 +2135,20 @@ angular.module('directives', [])
                         }, 0);
                     }
                 });
-
-                function callbackImg(arr) {
+                function callbackImg(arr,id) {
                     var data = $.parseJSON(arr);
                     var img = new Image();
                     if (findIndex(scope.myQuery, data.data) == -1) {
                         img.onload = function () {
                             scope.$apply(function () {
                                 if (scope.myType == 'default') {
-                                    scope.myQuery.push(data.data);
+                                    scope.myQuery[findIndex(scope.myQuery, id, 'uploadid')] = data.data;
                                 } else {
-                                    scope.myQuery.push({'imageid': data.data});
+                                    scope.myQuery[findIndex(scope.myQuery, id, 'uploadid')] = {
+                                        "imageid": data.data,
+                                        "uploadid": undefined,
+                                        "loading": undefined
+                                    };
                                 }
                             });
                             obj.find('.pic').find('.disable').remove();
@@ -2214,21 +2238,34 @@ angular.module('directives', [])
                         $img.attr('src', '');
                     });
                     var w = winW > 1200 ? 1200 : winW <= 1200 ? 1000 : winW;
+                    var h = winH - 100;
                     var img = new Image();
                     $backdrop.fadeIn();
                     img.onload = function () {
-                        w = this.width <= w ? this.width : w;
-                        var h = this.width <= w ? this.height : (w / this.width) * this.height;
-                        h = h > winH - 100 ? winH - 100 : h;
-                        w = h > winH - 100 ? ((winH - 100) / h) * w : w;
+                        this.onload = this.onerror = null;
+                        var imgW,imgH;
+                        if(this.height > h || this.width > w){
+                            if(this.width > this.height){
+                                imgW = w;
+                                imgH =  w/this.width*this.height;
+                                console.log(this.height,this.width)
+                            }else if(this.width < this.height){
+                                imgH = h;
+                                imgW =  h/this.height*this.width;
+                                console.log(this.height,this.width)
+                            }
+                        }else{
+                            imgW = this.width;
+                            imgH =  this.height;
+                        }
                         $img.css({
-                            width: w,
-                            height: h
+                            width: imgW,
+                            height: imgH
                         }).attr('src', this.src);
                         $modal.find('.modal-dialog').css({
-                            width: w,
-                            height: h,
-                            marginTop: (winH - h) / 2
+                            width: imgW,
+                            height: imgH,
+                            marginTop: (winH - imgH) / 2
                         });
                         $modal.fadeIn();
                     };
@@ -2244,7 +2281,8 @@ angular.module('directives', [])
                 myQuery: "=",
                 mySection: "=",
                 myType: '@',
-                myCover: "="
+                myCover: "=",
+                myComplete : "="
             },
             restrict: 'A',
             template: function (obj, attr) {
@@ -2253,6 +2291,7 @@ angular.module('directives', [])
                     '<div class="item" ng-repeat="img in myQuery" bindonce="scope.myQuery">',
                     '<div class="queue-item" ng-if="img.loading >= 0">',
                     '<span class="">{{img.loading}}%</span>',
+                    '<span class="error" ng-if="img.error">上传超时，请重新上传</span>',
                     '<span ng-click="cancel(img.uploadid)"><i class="iconfont">&#xe642;</i></span>',
                     '<span class="progress"><span style="width:{{img.loading}}px;"></span></span>',
                     '</div>',
@@ -2260,7 +2299,7 @@ angular.module('directives', [])
                 ];
                 if (attr.myType == 'edit') {
                     template.push('<span class="cover" ng-if="myCover == img.imageid">封面</span>');
-                    template.push('<span class="settes" ng-click="setImg(img.imageid)">设为封面</span>');
+                    template.push('<span class="settes" ng-if="myCover != img.imageid" ng-click="setImg(img.imageid)">设为封面</span>');
                     template.push('<span class="view" ng-click="viewImg(img.imageid)"><i class="iconfont">&#xe645;</i></span>');
                 }
                 if (attr.myType == 'write') {
@@ -2301,6 +2340,7 @@ angular.module('directives', [])
             },
             link: function (scope, iElm, iAttrs, controller) {
                 var obj = angular.element(iElm);
+                var loadDate = 0;
                 $('#createUpload2').uploadify({
                     'auto': true, //自动上传
                     'removeTimeout': 1,
@@ -2313,21 +2353,34 @@ angular.module('directives', [])
                     'width': 168,
                     'height': 168,
                     'fileObjName': 'Filedata',
-                    'successTimeout': 10,
+                    'successTimeout': 5, //
                     'fileTypeDesc': 'Image Files',
                     'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
                     'fileSizeLimit': '3MB',  //上传最大文件限制
                     'onSelect': function (file) {
                         $timeout(function () {
-                            scope.myQuery.push({
-                                uploadid: file.id,
-                                loading: 0,
-                                description: "",
-                                section: "客厅"
-                            })
+
+                            if (scope.myType == 'edit') {
+                                scope.myQuery.push({
+                                    uploadid: file.id,
+                                    error : false,
+                                    loading: 0,
+                                    description: "",
+                                    section: "客厅"
+                                });
+                            } else if (scope.myType == 'write') {
+                                scope.myQuery.push({
+                                    uploadid: file.id,
+                                    error : false,
+                                    loading: 0,
+                                    description: ""
+                                });
+                            }
+                            scope.myComplete = true;
                         }, 0);
                     },
                     'onUploadStart': function (file) {
+                        loadDate = +new Date();
                         $('.uploadify-queue').css('zIndex', '110');
                     },
                     'onUploadSuccess': function (file, data, response) {
@@ -2340,10 +2393,28 @@ angular.module('directives', [])
                         }
                         $('.uploadify-queue').css('zIndex', '0');
                     },
+                    'onQueueComplete' : function(queueData){
+                        //console.log(queueData)
+                        $timeout(function () {
+                            scope.myComplete = false;
+                        }, 0);
+                    },
                     'onCancel': function () {
                         $('.uploadify-queue').css('zIndex', '0');
                     },
                     'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
+                         //153600
+                        /*if((+new Date() - loadDate) >= 10000){
+                            $('#createUpload2').uploadify('stop');
+                            console.log('上传超时，请重新上传');
+                            loadDate = 0;
+                            $timeout(function () {
+                                if (findIndex(scope.myQuery, file.id, 'uploadid') >= 0) {
+                                    scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].error = true;
+                                }
+                            }, 0);
+                            return ;
+                        }*/
                         $timeout(function () {
                             if (findIndex(scope.myQuery, file.id, 'uploadid') >= 0) {
                                 scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].loading = parseInt(bytesUploaded / bytesTotal * 100, 10);
@@ -2367,14 +2438,16 @@ angular.module('directives', [])
                                         "imageid": data.data,
                                         "description": "",
                                         "uploadid": undefined,
-                                        "loading": undefined
+                                        "loading": undefined,
+                                        "error" : undefined
                                     };
                                 } else if (scope.myType == 'write') {
                                     scope.myQuery[findIndex(scope.myQuery, id, 'uploadid')] = {
                                         "award_imageid": data.data,
                                         "description": "",
                                         "uploadid": undefined,
-                                        "loading": undefined
+                                        "loading": undefined,
+                                        "error" : undefined
                                     };
                                 }
                             });
@@ -2468,7 +2541,7 @@ angular.module('directives', [])
                         if (id === scope.myCover) {
                             modat += '<span class="settes" style="cursor:default;">已设为封面</span>';
                         } else {
-                            modat += '<span class="settes">设为封面</span>';
+                            modat += '<span class="settes" style="color: #fff">设为封面</span>';
                         }
                     }
                     modat += '<img class="img" src="" /></div>';
@@ -2489,33 +2562,43 @@ angular.module('directives', [])
                     });
                     $settes.on('click', function () {
                         if ($(this).html() === '设为封面') {
-                            $(this).html('已设为封面');
+                            $(this).html('已设为封面').css('color','#ccc');
                             $timeout(function () {
                                 scope.myCover = id;
                             }, 0);
                             $modal.remove();
                             $backdrop.remove();
                             $img.attr('src', '');
-                        } else {
-                            return;
                         }
+                        return ;
                     });
                     var w = winW > 1200 ? 1200 : winW <= 1200 ? 1000 : winW;
+                    var h = winH - 100;
                     var img = new Image();
                     $backdrop.fadeIn();
                     img.onload = function () {
-                        w = this.width <= w ? this.width : w;
-                        var h = this.width <= w ? this.height : (w / this.width) * this.height;
-                        h = h > winH - 100 ? winH - 100 : h;
-                        w = h > winH - 100 ? ((winH - 100) / h) * w : w;
+                        this.onload = this.onerror = null;
+                        var imgW,imgH;
+                        if(this.height > h || this.width > w){
+                            if(this.width > this.height){
+                                imgW = w;
+                                imgH =  w/this.width*this.height;
+                            }else if(this.width < this.height){
+                                imgH = h;
+                                imgW =  h/this.height*this.width;
+                            }
+                        }else{
+                            imgW = this.width;
+                            imgH =  this.height;
+                        }
                         $img.css({
-                            width: w,
-                            height: h
+                            width: imgW,
+                            height: imgH
                         }).attr('src', this.src);
                         $modal.find('.modal-dialog').css({
-                            width: w,
-                            height: h,
-                            marginTop: (winH - h) / 2
+                            width: imgW,
+                            height: imgH,
+                            marginTop: (winH - imgH) / 2
                         });
                         $modal.fadeIn();
                     }
@@ -3227,7 +3310,10 @@ angular.module('directives', [])
                 }
                 obj.title = attr.title;
                 obj.delay = attr.delay;
-                new Tooltip(ele, obj);
+                var tips = new Tooltip(ele, obj);
+                scope.$on('$destroy', function () {
+                    tips.hide();   //销毁上传的插件，避免ie报错
+                });
             }
         };
     });

@@ -375,6 +375,7 @@ angular.module('controllers', [])
                 totalprice : false,
                 tabBtn : function(){
                     $state.go('configPlan',$stateParams);
+                    configPlan.update($scope.plan);
                 },
                 isCreate : $state.params.username === undefined ? true : false,
                 disabled : false,
@@ -391,7 +392,8 @@ angular.module('controllers', [])
                 errormsg : '',
                 close : function(){
                     this.error = false;
-                }
+                },
+                images_complete : true
             };
             $scope.$watch('designerPlan.add_price_detail_name', function(newValue){
                 $scope.designerPlan.add_price_detail_ok = !!newValue
@@ -431,6 +433,7 @@ angular.module('controllers', [])
                                 "price_detail": $scope.plan.price_detail
                             });
                         }
+                        $scope.designerPlan.images_complete = false;
                         $scope.designerPlan.loading = true;
                     }
                 },function(res){
@@ -827,10 +830,16 @@ angular.module('controllers', [])
                 userProduct.list(dataPage).then(function(res){  //获取作品收藏列表
                     $scope.productList = res.data.data.products;
                     angular.forEach($scope.productList, function(value, key){
-                        value.house_type = $filter('houseTypeFilter')(value.house_type);
+                        value.dec_type = $filter('decTypeFilter')(value.dec_type);
+                        if(value.business_house_type != undefined){
+                            value.business_house_type = $filter('businessHouseTypeFilter')(value.business_house_type);
+                        }
+                        if(value.house_type != undefined){
+                            value.house_type = $filter('houseTypeFilter')(value.house_type);
+                        }
                         value.dec_style = $filter('decStyleFilter')(value.dec_style);
                         value.work_type = $filter('workTypeFilter')(value.work_type);
-                    })
+                    });
                     if($scope.productList.length == 0 && res.data.data.total != 0){
                         $scope.productList = undefined;
                         dataPage.from = current*dataPage.limit;
@@ -992,7 +1001,7 @@ angular.module('controllers', [])
                         if(res.data.msg === "success"){
                             This.motaiDone = true;
                             if(off){
-                                $state.go('index');
+                                $state.go('infoshow');
                             }else{
                                 $state.go('addProduct');
                             }
@@ -1002,7 +1011,8 @@ angular.module('controllers', [])
                     });
                 },
                 error : false,
-                errormsg : ''
+                errormsg : '',
+                award_details_complete : true
             };
             $scope.designer = {
                 username : '',
@@ -1047,6 +1057,10 @@ angular.module('controllers', [])
             }
             $scope.designerInfo.submit = function(){
                 var This = this;
+                if($scope.designerInfo.award_details_complete){
+                    showmsg('您的获奖照片及描述图片还未上传完成，请上传完成以后再提交申请');
+                    return ;
+                }
                 if($scope.designer.province == "请选择省份"){
                     showmsg('请选择省份');
                     return ;
@@ -1233,7 +1247,7 @@ angular.module('controllers', [])
                 return ;
             }
             userInfo.bank({
-              "username":$scope.designerUId.username,
+              "realname":$scope.designerUId.realname,
               "uid":$scope.designerUId.uid,
               "bank": $scope.designerUId.bank,
               "bank_card": $scope.designerUId.bank_card,
@@ -1477,7 +1491,9 @@ angular.module('controllers', [])
                 isLoading : true,
                 businessHouseType : initData.businessHouseType,
                 error : false,
-                errormsg : ''
+                errormsg : '',
+                plan_images_complete : true,
+                images_complete : true
             };
             if($scope.designerProduct.isRelease){
                 $scope.product = _.assign($scope.product,{province:'请选择省份',city:'请选择市',district:'请选择县/区'});
@@ -1487,6 +1503,8 @@ angular.module('controllers', [])
                     if(res.data.data != null){
                         $scope.product = _.assign($scope.product,res.data.data);
                         $scope.designerProduct.isLoading = true;
+                        $scope.designerProduct.plan_images_complete = true,
+                        $scope.designerProduct.images_complete = true
                     }
                 },function(res){
                     console.log(res)

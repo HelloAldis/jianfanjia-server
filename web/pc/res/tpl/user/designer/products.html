@@ -16,14 +16,20 @@
 	            </a>
 	            <div class="txt">
 	              <h4><a bo-href-i="/tpl/product/{{list._id}}" bo-text="list.cell"></a></h4>
-	              <p><span bo-if="list.house_area"><i bo-text="list.house_area"></i>m&sup2;</span><span bo-if="list.dec_type == 1 && list.business_house_type" bo-text="list.business_house_type"></span><span bo-if="list.dec_type != 1" bo-text="list.house_type"></span><span bo-text="list.dec_style"></span></p>
+	              <p>
+					  <span bo-if="list.house_area"><i bo-text="list.house_area"></i>m&sup2;</span>
+					  <span bo-text="list.dec_type"></span>
+					  <span bo-if="list.dec_type != '商装'" bo-text="list.house_type"></span>
+					  <span bo-if="list.dec_type == '商装'" bo-text="list.business_house_type"></span>
+					  <span bo-text="list.dec_style"></span>
+				  </p>
 	              <span bo-if="list.auth_type == 0" class="product—auth product—auth0">认证中</span>
 	              <span bo-if="list.auth_type == 1" class="product—auth product—auth1">认证成功</span>
 	              <span bo-if="list.auth_type == 2" class="product—auth product—auth2">认证失败</span>
-	              <span bo-if="list.auth_type == 3" class="product—auth product—auth3">违规下线</span>
+	              <span bo-if="list.auth_type == 3" class="product—auth product—auth2">违规下线</span>
 	            </div>
-	            <a ui-sref="updateProduct({id:list._id})" my-tooltip class="edit btns tooltip" data-delay="500" data-title="编辑作品"><i class="iconfont">&#xe627;</i></a>
-	            <span class="remove btns tooltip" my-tooltip data-delay="500" data-title="删除作品" ng-click="modal.remove(list._id)"><i class="iconfont">&#xe619;</i></span>
+	            <a ui-sref="updateProduct({id:list._id})" bo-if="list.auth_type != 0" my-tooltip class="edit btns tooltip" data-delay="500" data-title="编辑作品"><i class="iconfont">&#xe627;</i></a>
+	            <span class="remove btns tooltip" bo-if="list.auth_type != 0" my-tooltip data-delay="500" data-title="删除作品" ng-click="modal.remove(list._id)"><i class="iconfont">&#xe619;</i></span>
 			</li>
 		</ul>
 		<div my-pageing page-object="pageing" page-callback="callback" ng-if="productList"></div>

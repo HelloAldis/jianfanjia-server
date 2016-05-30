@@ -1762,7 +1762,14 @@ body{
 	top: -51px;
 	width: 36px;
 	height: 36px;
-	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAA+VBMVEX////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////r1CuUAAAAUnRSTlMABAUGBwoLDA0PFxgZGhwdHiIqKywtL0hJTE9QUlNUVVlbYGRmaHB0d3mPnJ+gpKWoqaqsr7CyxsfJzc7P0NHS1dbX2Nna29zf4OHk5ev09ff47BrltQAAASpJREFUOMuN1NlSwkAQBdCLUQQXFBW3uKHGKCpuiYqYKCCERSL0/3+MD5kpsk2a+zTVOZVKdXcGCKVs1JvjyXTcfDDKSE3u7I1Cea/mkmavS7H09mNk6ZZScpcPm5VPSo27NjOrHinirUuTd0iZr2WB7ikj9cAcRIp9XW9ECocAsNCP1BzAjhQGGoBzykZ0AeCDQw6wRRyiHVzxyITFIxstHnXhy/44QZ6AmjjK3kwguZ7cHl0+mw/9iUPDDlIDbsRRjmeKH/7DvXla8AqTR9eo8GgXcDn0DcDgkAFAG2aj30UAOM5e39Ogs49ZP8KLaH+hpTadohxSaaQyo83ZKEuKd7U3wgMvpH7XczG2F0eDOBmeJLdHu4xcCa6hpV9226bV9on8jmVWwvV/qX8ouhXccAMAAAAASUVORK5CYII=) 0 0 no-repeat;
+	line-height: 36px;
+	text-align: center;
+	color: #fff;
+	border: none;
+	background: none;
+}
+.m-potter-banner .add-bg .iconfont{
+	font-size: 36px;
 }
 .m-potter-service{
 	height: 81px;
@@ -1917,4 +1924,117 @@ body{
 	font-size: 18px;
 	line-height: 132px;
 	color: #383d48;
+}
+.k-modal.addbg .modal-dialog{
+	width: 524px;
+}
+.k-modal.addbg .modal-title{
+	height: 45px;
+	padding: 0 20px;
+	font-size: 16px;
+	line-height: 45px;
+	text-align: left;
+	color: #383d48;
+	border-bottom: 1px solid #e5e5e5;
+}
+.k-modal.addbg .modal-title .close{
+	width: 20px;
+	height: 20px;
+	margin-top: 12px;
+	text-align: center;
+	line-height: 20px;
+	color: #a4a4a4;
+	cursor: pointer;
+}
+.k-modal.addbg .modal-title .close:hover{
+	color: #666;
+}
+.k-modal.addbg .modal-footer{
+	padding: 20px 0;
+	border-top: 1px dashed #e5e5e5;
+}
+.k-modal.addbg .modal-footer .u-btns{
+	margin: 0 10px;
+}
+.k-modal.addbg .modal-body{
+	padding: 30px 20px 20px;
+}
+.k-modal.addbg .modal-body .text{
+	line-height: 30px;
+	text-align: left;
+	color: #999;
+}
+.k-modal.addbg .upload{
+	position: relative;
+	border: 1px solid #d2d2d2;
+}
+.k-modal.addbg .upload .swfupload{
+	left: 0;
+	top:0;
+}
+.k-modal.addbg .upload .file{
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 395px;
+	height: 28px;
+	padding-left: 10px;
+	line-height: 28px;
+	color: #61687a;
+	text-align: left;
+	background-color: #f9f9f9;
+	border-left: 1px solid #d2d2d2;
+}
+.k-modal.addbg .upload .disable{
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 10;
+	width: 76px;
+	height: 28px;
+	cursor: default;
+}
+.k-modal.addbg .progress{
+	position: relative;
+	margin: 5px 0;
+	width: 100%;
+	background-color: #61687b;
+	display: none;
+}
+.k-modal.addbg .progress .progress-in{
+	width: 0;
+	height: 14px;
+	background-color: #fe7004;
+}
+.k-modal.addbg .progress span{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	line-height: 14px;
+	color: #fff;
+}
+.k-modal.addbg .error {
+	margin: 5px 0;
+	line-height: 20px;
+	display: none;
+}
+.k-modal.addbg .error p{
+	padding-right: 15px;
+	color: #ff4a4a;
+}
+.k-modal.addbg .error .cancelupload{
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	line-height: 20px;
+	color: #a4a4a4;
+	cursor: pointer;
+}
+.k-modal.addbg .error .cancelupload:hover{
+	color: #666;
+}
+.k-modal.addbg .uploadify-queue{
+	display: none;
 }

@@ -144,14 +144,27 @@ angular.module('services', [])
         var config = {};
         return {
             get : function(){
-                return config;
+                if('localStorage' in window) {
+                    var collection = window.localStorage.getItem("configpaln");
+                    if (collection != null) {
+                        return JSON.parse(collection);
+                    } else {
+                        return config;
+                    }
+                }
             },
             update : function(data){
                 config = angular.extend(config,data);
+                if('localStorage' in window){
+                    window.localStorage.setItem('configpaln',JSON.stringify(config));
+                }
             },
             remove : function(){
                 config = {};
                 this.noload = false;
+                if('localStorage' in window){
+                    window.localStorage.removeItem('configpaln');
+                }
             },
             noload : false
         }

@@ -7,7 +7,7 @@
 <div class="main m-viewinfo" bindonce="designer">
     <div class="k-form release" bindonce="designer">
         <div class="u-head">
-            <img bo-src-i="/api/v2/web/thumbnail2/120/120/{{ designer.imageid }}" alt="">
+            <img ng-src="/api/v2/web/thumbnail2/120/120/{{ designer.imageid }}" alt="">
         </div>
         <div class="m-item f-cb">
             <div class="item">
@@ -86,7 +86,7 @@
                 <label class="u-lab">学历图片</label>
                 <div class="u-inp">
                     <div class="u-img1" bo-if="designer.diploma_imageid">
-                        <img bo-src-i="/api/v2/web/thumbnail2/168/168/{{ designer.diploma_imageid }}" alt="">
+                        <img ng-src="/api/v2/web/thumbnail2/168/168/{{ designer.diploma_imageid }}" alt="">
                     </div>
                 </div>
             </div>
@@ -128,7 +128,7 @@
                     <div class="u-img2" bo-if="designer.award_details.length">
                         <ul>
                             <li ng-repeat="item in designer.award_details" class="f-cb">
-                                <img bo-src-i="/api/v2/web/thumbnail2/168/168/{{ item.award_imageid }}" alt="">
+                                <img ng-src="/api/v2/web/thumbnail2/168/168/{{ item.award_imageid }}" alt="">
                                 <p bo-text="item.description"></p>
                             </li>
                         </ul>
