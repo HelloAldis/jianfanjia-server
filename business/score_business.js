@@ -67,6 +67,7 @@ exports.refresh_score = function (designer, callback) {
     let duration = 1000 * 60 * 60 * 24 * new_designer_duration;
     let day60Before = new Date().getTime() - duration;
     let diff = designer.create_at - day60Before;
+    diff = diff < 0 ? 0 : diff;
     score += (diff / duration) * new_designer_score;
 
     score += result.reject_count * reject_user_score;
