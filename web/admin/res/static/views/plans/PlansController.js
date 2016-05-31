@@ -1,8 +1,8 @@
 (function () {
   angular.module('controllers')
     .controller('PlansController', [
-      '$scope', '$rootScope', 'adminPlan', '$stateParams', '$location',
-      function ($scope, $rootScope, adminPlan, $stateParams, $location) {
+      '$scope', '$rootScope', 'adminPlan', '$stateParams', '$location', 'mutiSelected',
+      function ($scope, $rootScope, adminPlan, $stateParams, $location, mutiSelected) {
         $scope.authList = [{
           id: "0",
           name: '已预约无响应',
@@ -49,50 +49,6 @@
           $location.path('/plans/' + JSON.stringify(detail));
         }
 
-        function initList(list, id) {
-          if (!list || !id) {
-            return;
-          }
-
-          angular.forEach(list, function (value, key) {
-            if (value.id == id) {
-              if (value.cur) {
-                value.cur = false;
-              } else {
-                value.cur = true;
-              }
-            } else {
-              value.cur = false;
-            }
-          });
-        }
-
-        function getCurId(list) {
-          for (var value of list) {
-            if (value.cur) {
-              return value.id;
-            }
-          }
-
-          return undefined;
-        }
-
-        function curList(list, id) {
-          angular.forEach(list, function (value, key) {
-            if (value.id == id) {
-              value.cur = !value.cur;
-            } else {
-              value.cur = false;
-            }
-          });
-        }
-
-        function clearCur(list) {
-          angular.forEach(list, function (value, key) {
-            value.cur = false;
-          });
-        }
-
         //从url详情中初始化页面
         function initUI(detail) {
           if (detail.query) {
@@ -106,7 +62,7 @@
               }
             }
 
-            initList($scope.authList, detail.query.status);
+            mutiSelected.initMutiSelected($scope.authList, detail.query.status);
           }
 
           detail.from = detail.from || 0;
@@ -130,7 +86,7 @@
           } : undefined;
 
           detail.query = detail.query || {};
-          detail.query.status = getCurId($scope.authList);
+          detail.query.status = mutiSelected.getInQueryFormMutilSelected($scope.authList);
           detail.query.last_status_update_time = last_status_update_time;
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
@@ -209,7 +165,7 @@
         };
         $scope.authBtn = function (id) {
           $scope.pagination.currentPage = 1;
-          curList($scope.authList, id);
+          mutiSelected.curList($scope.authList, id);
           refreshPage(refreshDetailFromUI($stateParams.detail));
         };
         //排序
@@ -229,7 +185,7 @@
           $scope.pagination.currentPage = 1;
           $scope.startTime.time = '';
           $scope.endTime.time = '';
-          clearCur($scope.authList);
+          mutiSelected.clearCur($scope.authList);
           $stateParams.detail = {};
           refreshPage(refreshDetailFromUI($stateParams.detail));
         }

@@ -12,7 +12,7 @@
         <th>设计师</th>
         <th>操作</th>
       </tr>
-      <tr ng-repeat="list in processes">
+      <tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="list in processes">
         <td>{{list._id}}</td>
         <td>{{list.create_at | date:'yyyy-MM-dd'}}</td>
         <td>{{list.start_at | date:'yyyy-MM-dd'}}</td>

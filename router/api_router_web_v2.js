@@ -120,6 +120,7 @@ router.post('/read_user_message', auth.userRequired, message.read_user_message);
 //设计师独有功能
 router.post('/designer/agree', auth.designerRequired, designer.agree); //同意条款
 router.post('/designer/info', auth.designerRequired, designer.updateInfo); //修改设计师个人资料
+router.post('/designer/no_review_info', auth.designerRequired, designer.updateNoReviewInfo); //修改设计师个人资料
 router.post('/designer/update_business_info', auth.designerRequired, designer.update_business_info); //修改设计师个人资料
 router.post('/designer/info/get', auth.designerRequired, designer.getInfo); //获取设计师自己个人资料
 router.post('/designer/uid_bank_info', auth.designerRequired, designer.uid_bank_info); //更新银行卡信息
@@ -134,7 +135,6 @@ router.post('/designer/team/one', auth.designerRequired, team.designer_one_team)
 router.post('/designer/team/add', auth.designerRequired, team.add); //添加施工队伍
 router.post('/designer/team/update', auth.designerRequired, team.update); //更新施工队伍
 router.post('/designer/team/delete', auth.designerRequired, team.delete); //删除施工队伍
-router.post('/designer/auth', auth.designerRequired, designer.auth); //提交认证申请
 router.post('/designer/update_online_status', auth.designerRequired, designer.update_online_status); //更改在线状态
 router.post('/designer_my_requirement_list', auth.designerRequired, requirement.designer_my_requirement_list); //设计获取和自己相关的需求列表
 router.post('/designer_my_requirement_history_list', auth.designerRequired, requirement.designer_my_requirement_history_list); //设计获取和自己相关的放弃的历史需求列表

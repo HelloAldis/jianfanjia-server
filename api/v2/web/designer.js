@@ -54,7 +54,7 @@ exports.getInfo = function (req, res, next) {
 exports.updateInfo = function (req, res, next) {
   let userid = ApiUtil.getUserid(req);
   let designer = ApiUtil.buildDesinger(req);
-  designer.auth_type = type.designer_auth_type_new;
+  designer.auth_type = type.designer_auth_type_processing;
   designer.auth_date = new Date().getTime();
   designer.auth_message = '';
   let ep = new eventproxy();
@@ -66,6 +66,19 @@ exports.updateInfo = function (req, res, next) {
     new: true,
   }, ep.done(function (designer) {
     authMiddleWare.gen_session(designer, type.role_designer, req, res);
+    res.sendSuccessMsg();
+  }));
+};
+
+exports.updateNoReviewInfo = function (req, res, next) {
+  let userid = ApiUtil.getUserid(req);
+  let designer = ApiUtil.buildDesingerNoReviewInfo(req);
+  let ep = new eventproxy();
+  ep.fail(next);
+
+  Designer.setOne({
+    _id: userid
+  }, designer, null, ep.done(function (designer) {
     res.sendSuccessMsg();
   }));
 };
@@ -359,21 +372,6 @@ exports.rejectUser = function (req, res, next) {
         message_util.user_message_type_designer_reject(result.user, result.designer, plan);
       }
     });
-  }));
-}
-
-exports.auth = function (req, res, next) {
-  let designerid = ApiUtil.getUserid(req);
-  let ep = eventproxy();
-  ep.fail(next);
-
-  Designer.setOne({
-    _id: designerid
-  }, {
-    auth_type: type.designer_auth_type_processing,
-    auth_date: new Date().getTime(),
-  }, {}, ep.done(function () {
-    res.sendSuccessMsg();
   }));
 }
 

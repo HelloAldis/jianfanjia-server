@@ -80,7 +80,6 @@ exports.buildDesinger = function (req) {
 
   designer.diploma_imageid = tools.convert2ObjectId(input.diploma_imageid);
   designer.imageid = tools.convert2ObjectId(input.imageid);
-  designer.big_imageid = tools.convert2ObjectId(input.big_imageid);
 
   if (input.award_details) {
     designer.award_details = _.map(input.award_details, function (i) {
@@ -88,6 +87,15 @@ exports.buildDesinger = function (req) {
       return i;
     });
   }
+
+  return tools.deleteUndefinedAndNullThenFilterXss(designer);
+}
+
+exports.buildDesingerNoReviewInfo = function (req) {
+  let designer = {};
+  let input = req.body.designer || req.body;
+
+  designer.big_imageid = tools.convert2ObjectId(input.big_imageid);
 
   return tools.deleteUndefinedAndNullThenFilterXss(designer);
 }

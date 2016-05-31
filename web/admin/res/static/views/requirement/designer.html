@@ -54,7 +54,7 @@
 				<th>当前状态</th>
 				<th>方案查看</th>
 			</tr>
-			<tr ng-repeat="user in plans">
+			<tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="user in plans">
 				<td>{{user._id}}</td>
 				<td>{{user.request_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 				<td>{{user.get_phone_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>

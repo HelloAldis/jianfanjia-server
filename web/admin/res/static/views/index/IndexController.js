@@ -3,6 +3,7 @@
     .controller('IndexController', [
       '$scope', '$rootScope', '$state', 'adminStatistic', '$filter',
       function ($scope, $rootScope, $state, adminStatistic, $filter) {
+        console.log($('#dataTable'));
 
         function getNDay0Clock(n, date) {
           var time = date.getTime() + (n * 1000 * 60 * 60 * 24);
@@ -101,10 +102,16 @@
           }
         }];
 
-        function genQuerys(timeRanges, name) {
+        function genQuerys(timeRanges, name, obj) {
           var querys = timeRanges.map(function (o) {
             var query = {};
             query[name] = o.range;
+            for (var variable in obj) {
+              if (obj.hasOwnProperty(variable)) {
+                query[variable] = obj[variable];
+              }
+            }
+
             return query;
           });
 
@@ -123,15 +130,23 @@
         }
 
         $scope.querys = [{
-          name: '新需求数',
+          name: '新增需求数',
           key: 'requirement',
           querys: genQuerys($scope.timeRanges, 'create_at')
         }, {
-          name: '新业主数',
+          name: '新增成交数',
+          key: 'requirement',
+          querys: genQuerys($scope.timeRanges, 'create_at', {
+            status: {
+              $in: ['4', '5', '7', '8']
+            }
+          })
+        }, {
+          name: '新增业主数',
           key: 'user',
           querys: genQuerys($scope.timeRanges, 'create_at')
         }, {
-          name: '新设计师数',
+          name: '新增设计师数',
           key: 'designer',
           querys: genQuerys($scope.timeRanges, 'create_at')
         }, {
@@ -139,27 +154,27 @@
           key: 'plans',
           querys: genQuerys($scope.timeRanges, 'last_status_update_time')
         }, {
-          name: '新作品数',
+          name: '新增作品数',
           key: 'product',
           querys: genQuerys($scope.timeRanges, 'create_at')
         }, {
-          name: '新直播数',
+          name: '新增直播数',
           key: 'live',
           querys: genQuerys($scope.timeRanges, 'create_at')
         }, {
-          name: '新工地数',
+          name: '新增工地数',
           key: 'field',
           querys: genQuerys($scope.timeRanges, 'create_at')
         }, {
-          name: '新天使用户数',
+          name: '新增天使用户数',
           key: 'recruit',
           querys: genQuerys($scope.timeRanges, 'create_at')
         }, {
-          name: '新攻略数',
+          name: '新增攻略数',
           key: 'news',
           querys: genQuerys($scope.timeRanges, 'create_at')
         }, {
-          name: '新美图数',
+          name: '新增美图数',
           key: 'pictures',
           querys: genQuerys($scope.timeRanges, 'create_at')
         }];

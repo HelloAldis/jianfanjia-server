@@ -9,6 +9,8 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
 moment.locale('zh-cn'); // 使用中文
+const DELETE_KEY = 'delete_key';
+
 
 // 格式化时间
 exports.formatDate = function (date, friendly) {
@@ -49,7 +51,11 @@ exports.deleteUndefinedAndNullThenFilterXss = function (obj) {
     if (obj[p] === null || obj[p] === undefined) {
       delete obj[p];
     } else if (typeof obj[p] === 'string') {
-      obj[p] = xss_util(obj[p]);
+      if (obj[p] === DELETE_KEY) {
+        obj[p] = undefined; //删除这个值
+      } else {
+        obj[p] = xss_util(obj[p]);
+      }
     } else if (typeof obj[p] === 'object' && !(obj[p] instanceof ObjectId)) {
       exports.deleteUndefinedAndNullThenFilterXss(obj[p]);
     }
@@ -79,5 +85,9 @@ exports.xss = function (html) {
 }
 
 exports.convert2ObjectId = function (str) {
+  if (str === '') {
+    return 'delete_key';
+  }
+
   return str ? new ObjectId(str) : undefined;
 }
