@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   // load modules
-  angular.module('myJyzApp', ['ui.router', 'ui.bootstrap', 'ng.ueditor', 'controllers', 'services', 'filters'])
+  angular.module('myJyzApp', ['ui.router', 'ui.bootstrap', 'ng.ueditor', 'controllers', 'services', 'filters', 'directives'])
     .run(function ($rootScope, $state, $stateParams) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
