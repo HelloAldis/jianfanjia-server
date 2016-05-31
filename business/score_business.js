@@ -66,7 +66,7 @@ exports.refresh_score = function (designer, callback) {
     score += designer.email_auth_type === type.designer_auth_type_done ? email_auth_score : 0;
     let duration = 1000 * 60 * 60 * 24 * new_designer_duration;
     let day60Before = new Date().getTime() - duration;
-    let diff = designer.create_at.getTime() - day60Before;
+    let diff = designer.create_at - day60Before;
     score += (diff / duration) * new_designer_score;
 
     score += result.reject_count * reject_user_score;
