@@ -1,6 +1,6 @@
 jQuery.fn.table2CSV = function (options) {
   var options = jQuery.extend({
-      separator: ',',
+      separator: '\t',
       header: [],
       delivery: 'popup' // popup, value
     },
@@ -23,7 +23,6 @@ jQuery.fn.table2CSV = function (options) {
       if ($(this).css('display') != 'none') tmpRow[tmpRow.length] = formatData($(this).html());
     });
   }
-  console.log(tmpRow);
   row2CSV(tmpRow);
 
   // actual data
@@ -34,12 +33,11 @@ jQuery.fn.table2CSV = function (options) {
     });
     row2CSV(tmpRow);
   });
-  console.log(csvData[0]);
 
   if (options.delivery == 'popup') {
     var mydata = csvData.join('\n');
-    // return popup(mydata);
-    downloadCSVFile(mydata);
+    return popup(mydata);
+    // downloadCSVFile(mydata);
   } else {
     var mydata = csvData.join('\n');
     return mydata;
