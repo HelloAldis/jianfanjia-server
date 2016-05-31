@@ -2454,12 +2454,72 @@ body{
 	background:url(../img/user/loading.gif) center center no-repeat;
 }
 .insertimage .item .queue-item{
+	position: relative;
 	width: 168px;
 	height: 168px;
 	overflow: hidden;
 	margin-bottom: 10px;
 	border-radius: 2px;
 	background:url(../img/user/waiting.png) 0 0 no-repeat;
+}
+.insertimage .item .queue-item .progress{
+	display: block;
+	width: 100%;
+	height: 14px;
+	background-color: #61687a;
+}
+.insertimage .item .queue-item .progress span{
+	display: block;
+	width: 0;
+	height: 14px;
+	background-color: #fe7004;
+}
+.insertimage .item .queue-item .cancel{
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	line-height: 20px;
+	color: #a4a4a4;
+	cursor: pointer;
+}
+.insertimage .item .queue-item .cancel:hover{
+	color: #666;
+}
+.insertimage .item .queue-item .loading{
+	position: absolute;
+	width: 100%;
+	height: 14px;
+	line-height: 14px;
+	text-align: center;
+	color: #fff;
+}
+.insertimage .item .queue-item .filename{
+	position: absolute;
+	left:50%;
+	top:64px;
+	width: 120px;
+	height: 20px;
+	line-height: 20px;
+	margin-left: -60px;
+	text-align: center;
+	color: #999;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow:hidden;
+}
+.insertimage .item .queue-item .uploading{
+	position: absolute;
+	left:0;
+	top:83px;
+	width: 100%;
+	font-size: 14px;
+	line-height: 20px;
+	text-align: center;
+	color: #383d48;
+}
+.insertimage .item .queue-item .uploading .ing{
+	color: #fe7004;
 }
 .insertimage .default .item .img{
 	margin-bottom: 0;
@@ -2593,13 +2653,13 @@ body{
 .insertimage .disable{
 	position: absolute;
 	left:0;
-	top:48px;
+	top:0;
 	z-index: 100;
 	background-color: #fff;
 	opacity: 0;
 	filter: alpha(opacity=0);
 	width: 168px;
-	height: 120px;
+	height: 168px;
 }
 .insertimage .uploadify-progress-bar {
     background-color: #09F;

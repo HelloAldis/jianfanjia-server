@@ -209,10 +209,15 @@
         <li><a href="/tpl/help/index.html">你问我答</a></li>
         <% } %>
       </ul>
-      <% if (data.header_info.admin_statistic_info == undefined || data.header_info.user_statistic_info == undefined || data.header_info.designer_statistic_info == undefined) { %>
+      <% if (data.header_info.admin_statistic_info === undefined || data.header_info.user_statistic_info === undefined || data.header_info.designer_statistic_info === undefined) { %>
+      <% if(data.header_info.designer_statistic_info != undefined){ %>
+      <% }else if(data.header_info.admin_statistic_info != undefined){ %>
+      <% }else{%>
       <a href="/tpl/user/owner.html#release" class="m-release bounce show" id="j-release"><span><i></i></span>免费获取三套方案</a>
-      <% }else if(data.header_info.user_statistic_info != undefined){ %>
-      <a href="/tpl/user/owner.html#release" class="m-release bounce show" id="j-release"><span><i></i></span>免费获取三套方案</a>
-      <% } %>
+      <%}%>
+      <% }%>
     </div>
   </nav>
+<script>
+  console.log(<%- JSON.stringify(data) %>)
+</script>

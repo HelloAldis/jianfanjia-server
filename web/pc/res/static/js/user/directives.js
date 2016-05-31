@@ -1196,7 +1196,7 @@ angular.module('directives', [])
                 myQuery: "="
             },
             restrict: 'A',
-            template: '<div class="k-select" ng-click="openSelect($event)" ng-mouseout="closeSelect()"><ul class="select" ng-mouseover="closeTimer()"><li ng-repeat="d in myList"><a href="javascript:;" ng-click="select(d,$event)">{{d}}</a></li></ul><div class="option"><span class="value">{{myQuery}}</span><span class="arrow"><em></em><i></i></span></div></div>',
+            template: '<div class="k-select" ng-click="openSelect($event)" ng-mouseout="closeSelect()"><ul class="select" ng-mouseover="closeTimer()"><li ng-repeat="d in myList track by $index"><a href="javascript:;" ng-click="select(d,$event)">{{d}}</a></li></ul><div class="option"><span class="value">{{myQuery}}</span><span class="arrow"><em></em><i></i></span></div></div>',
             link: function ($scope, iElm, iAttrs, controller) {
                 var obj = angular.element(iElm),
                     oUl = obj.find('ul');
@@ -1211,14 +1211,14 @@ angular.module('directives', [])
                     clearTimeout(timer)
                 };
                 $scope.closeSelect = function () {
-                    clearTimeout(timer)
-                    timer = setTimeout(function () {
+                    $timeout.cancel(timer)
+                    timer = $timeout(function () {
                         oUl.css('display', 'none');
                         obj.css('zIndex', 10);
-                    }, 500)
+                    }, 500,false);
                 };
                 $scope.closeTimer = function () {
-                    clearTimeout(timer)
+                    $timeout.cancel(timer)
                 }
                 $scope.select = function (name, $event) {
                     $scope.myQuery = name;
@@ -1865,8 +1865,9 @@ angular.module('directives', [])
                     $winH = 0,
                     imgW, imgH, w, h,
                     parent = angular.element(iElm).parent(),
-                    recordImgId = scope.myQuery;
-                    iElm.uploadify({
+                    recordImgId = scope.myQuery,
+                    isStart = false;
+                    $(iElm).uploadify({
                         'auto': true, //自动上传
                         'removeTimeout': 1,
                         'swf': 'uploadify.swf',
@@ -1883,6 +1884,7 @@ angular.module('directives', [])
                         'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
                         'fileSizeLimit': '3MB',  //上传最大文件限制
                         'onUploadStart': function () {
+                            isStart = true;
                             $('.uploadify-queue').css('zIndex', '110');
                             parent.append('<div class="disable"></div>');
                         },
@@ -1935,6 +1937,7 @@ angular.module('directives', [])
                     $winW = $(window).width();
                     $winH = $(window).height();
                     img.onload = function () {
+                        this.onload = this.error = null;
                         imgW = img.width;
                         imgH = img.height;
                         if (imgW < 300) {
@@ -2023,7 +2026,9 @@ angular.module('directives', [])
                 }
 
                 scope.$on('$destroy', function () {
-                    iElm.uploadify('destroy');   //销毁上传的插件，避免ie报错
+                    if(isStart){
+                        $(iElm).uploadify('destroy');  //销毁上传的插件，避免ie报错
+                    }
                 });
             }
         };
@@ -2043,9 +2048,12 @@ angular.module('directives', [])
                     '<div class="k-uploadbox f-cb ' + attr.myType + '">',
                     '<div class="item" ng-repeat="img in myQuery">',
                     '<div class="queue-item" ng-if="img.loading >= 0">',
-                    '<span class="">{{img.loading}}%</span>',
-                    '<span ng-click="cancel(img.uploadid)"><i class="iconfont">&#xe642;</i></span>',
-                    '<span class="progress"><span style="width:{{img.loading}}px;"></span></span>',
+                    '<span class="loading">{{img.loading}}%</span>',
+                    '<span class="uploading"><i ng-if="img.loading > 0" class="ing">正在上传中</i><i ng-if="img.loading == 0">等待上传中</i></span>',
+                    '<span class="filename" ng-bind="img.filename"></span>',
+                    '<span class="error" ng-if="img.error" ng-bind="img.errorMsg"></span>',
+                    '<span class="progress"><span style="width:{{img.loading}}%;"></span></span>',
+                    '<span class="cancel" ng-click="cancel(img.uploadid)"><i class="iconfont">&#xe642;</i></span>',
                     '</div>',
                     '<div ng-if="img.loading == undefined">'
                 ];
@@ -2099,12 +2107,19 @@ angular.module('directives', [])
                         $timeout(function () {
                             scope.myQuery.push({
                                 uploadid: file.id,
-                                loading: 0
+                                loading: 0,
+                                filename : file.name,
+                                error : false,
+                                errorMsg : ''
                             });
                             scope.myComplete = true;
                         }, 0);
                     },
+                    'onSelectError':function(file,errorCode, errorMsg){
+                        console.log(file,errorCode, errorMsg)
+                    },
                     'onUploadStart': function () {
+                        obj.find('.pic').append('<div class="disable"></div>');
                         $('.uploadify-queue').css('zIndex', '110');
                     },
                     'onUploadSuccess': function (file, data, response) {
@@ -2119,13 +2134,17 @@ angular.module('directives', [])
                     },
                     'onUploadError': function (file, errorCode, errorMsg, errorString) {
                         if (errorMsg === '500' && errorCode === -200) {
-                            alert('上传超时，请重新上传');
+                            $timeout(function () {
+                                if (findIndex(scope.myQuery, file.id, 'uploadid') >= 0) {
+                                    scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].error = true;
+                                    scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].errorMsg = '上传超时，请重新选择上传';
+                                }
+                            }, 0);
                         }
                         $('.uploadify-queue').css('zIndex', '0');
                     },
                     'onCancel': function () {
                         $('.uploadify-queue').css('zIndex', '0');
-                        count--;
                     },
                     'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
                         $timeout(function () {
@@ -2140,6 +2159,7 @@ angular.module('directives', [])
                     var img = new Image();
                     if (findIndex(scope.myQuery, data.data) == -1) {
                         img.onload = function () {
+                            this.onload = this.error = null;
                             scope.$apply(function () {
                                 if (scope.myType == 'default') {
                                     scope.myQuery[findIndex(scope.myQuery, id, 'uploadid')] = data.data;
@@ -2147,7 +2167,10 @@ angular.module('directives', [])
                                     scope.myQuery[findIndex(scope.myQuery, id, 'uploadid')] = {
                                         "imageid": data.data,
                                         "uploadid": undefined,
-                                        "loading": undefined
+                                        "loading": undefined,
+                                        "filename" : undefined,
+                                        "error" : undefined,
+                                        "errorMsg" : undefined
                                     };
                                 }
                             });
@@ -2248,11 +2271,9 @@ angular.module('directives', [])
                             if(this.width > this.height){
                                 imgW = w;
                                 imgH =  w/this.width*this.height;
-                                console.log(this.height,this.width)
                             }else if(this.width < this.height){
                                 imgH = h;
                                 imgW =  h/this.height*this.width;
-                                console.log(this.height,this.width)
                             }
                         }else{
                             imgW = this.width;
@@ -2290,10 +2311,12 @@ angular.module('directives', [])
                     '<div class="k-uploadbox f-cb ' + attr.myType + '">',
                     '<div class="item" ng-repeat="img in myQuery" bindonce="scope.myQuery">',
                     '<div class="queue-item" ng-if="img.loading >= 0">',
-                    '<span class="">{{img.loading}}%</span>',
-                    '<span class="error" ng-if="img.error">上传超时，请重新上传</span>',
-                    '<span ng-click="cancel(img.uploadid)"><i class="iconfont">&#xe642;</i></span>',
-                    '<span class="progress"><span style="width:{{img.loading}}px;"></span></span>',
+                    '<span class="loading">{{img.loading}}%</span>',
+                    '<span class="uploading"><i ng-if="img.loading > 0" class="ing">正在上传中</i><i ng-if="img.loading == 0">等待上传中</i></span>',
+                    '<span class="filename" ng-bind="img.filename"></span>',
+                    '<span class="error" ng-if="img.error" ng-bind="img.errorMsg"></span>',
+                    '<span class="progress"><span style="width:{{img.loading}}%;"></span></span>',
+                    '<span class="cancel" ng-click="cancel(img.uploadid)"><i class="iconfont">&#xe642;</i></span>',
                     '</div>',
                     '<div ng-if="img.loading == undefined">'
                 ];
@@ -2359,11 +2382,12 @@ angular.module('directives', [])
                     'fileSizeLimit': '3MB',  //上传最大文件限制
                     'onSelect': function (file) {
                         $timeout(function () {
-
                             if (scope.myType == 'edit') {
                                 scope.myQuery.push({
                                     uploadid: file.id,
+                                    filename : file.name,
                                     error : false,
+                                    errorMsg : '',
                                     loading: 0,
                                     description: "",
                                     section: "客厅"
@@ -2371,13 +2395,16 @@ angular.module('directives', [])
                             } else if (scope.myType == 'write') {
                                 scope.myQuery.push({
                                     uploadid: file.id,
+                                    filename : file.name,
                                     error : false,
+                                    errorMsg : '',
                                     loading: 0,
                                     description: ""
                                 });
                             }
                             scope.myComplete = true;
                         }, 0);
+                        $('#createUpload2').uploadify('disable',true);
                     },
                     'onUploadStart': function (file) {
                         loadDate = +new Date();
@@ -2389,7 +2416,11 @@ angular.module('directives', [])
                     },
                     'onUploadError': function (file, errorCode, errorMsg, errorString) {
                         if (errorMsg === '500' && errorCode === -200) {
-                            alert('上传超时，请重新上传');
+                            $timeout(function () {
+                                if (findIndex(scope.myQuery, file.id, 'uploadid') >= 0) {
+                                    scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].errorMsg = '上传超时，请重新上传';
+                                }
+                            }, 0);
                         }
                         $('.uploadify-queue').css('zIndex', '0');
                     },
@@ -2398,6 +2429,7 @@ angular.module('directives', [])
                         $timeout(function () {
                             scope.myComplete = false;
                         }, 0);
+                        $('#createUpload2').uploadify('disable',false);
                     },
                     'onCancel': function () {
                         $('.uploadify-queue').css('zIndex', '0');
@@ -2428,6 +2460,7 @@ angular.module('directives', [])
                     var img = new Image();
                     if (findIndex(scope.myQuery, data.data) == -1) {
                         img.onload = function () {
+                            this.onload = this.error = null;
                             scope.$apply(function () {
                                 if (scope.myType == 'edit') {
                                     if (!scope.myCover) {
@@ -2439,7 +2472,9 @@ angular.module('directives', [])
                                         "description": "",
                                         "uploadid": undefined,
                                         "loading": undefined,
-                                        "error" : undefined
+                                        "error" : undefined,
+                                        "errorMsg" : undefined,
+                                        "filename" : undefined
                                     };
                                 } else if (scope.myType == 'write') {
                                     scope.myQuery[findIndex(scope.myQuery, id, 'uploadid')] = {
@@ -2447,7 +2482,9 @@ angular.module('directives', [])
                                         "description": "",
                                         "uploadid": undefined,
                                         "loading": undefined,
-                                        "error" : undefined
+                                        "error" : undefined,
+                                        "errorMsg" : undefined,
+                                        "filename" : undefined
                                     };
                                 }
                             });

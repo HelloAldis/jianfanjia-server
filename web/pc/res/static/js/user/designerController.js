@@ -1,7 +1,7 @@
 'use strict';
 angular.module('controllers', [])
     .controller('designerController', [    //所有设计师资料
-        '$scope','$location','userInfo','userMessage',function($scope, $location,userInfo,userMessage) {
+        '$scope','$location','$state','userInfo','userMessage',function($scope, $location,$state,userInfo,userMessage) {
             userInfo.get().then(function(res){
                 $scope.designer = res.data.data;
                 $scope.$broadcast('designerParent', res.data.data);   //父级传递
@@ -25,6 +25,25 @@ angular.module('controllers', [])
             $scope.$on('userMessageChildren', function(event, data) {   //父级接收 如果设计师操作就需要改变状态
                 $scope.count = data;
             });
+            $scope.goLink = function(type,id){
+                var data = {
+                    info : {
+                        '0' : 'infor',
+                        '1' : 'infoshow',
+                        '2' : 'infoshow',
+                        '3' : 'infoshow',
+                        '4' : 'infoshow'
+                    },
+                    idcard : {
+                        '0' : 'idcard',
+                        '1' : 'idcardshow',
+                        '2' : 'idcardshow',
+                        '3' : 'idcardshow',
+                        '4' : 'idcardshow'
+                    }
+                };
+                $state.go(data[type][id]);
+            }
         }
     ])
 	.controller('indexCtrl', [     //设计师首页
@@ -156,18 +175,21 @@ angular.module('controllers', [])
             });
     }])
     .controller('requirementDetailCtrl', [     //装修需求详情
-        '$scope','$rootScope','$timeout','$filter','$location','$stateParams','userRequiremtne','initData','userTeam',
-        function($scope, $rootScope,$timeout,$filter,$location,$stateParams,userRequiremtne,initData,userTeam){
+        '$scope','$rootScope','$timeout','$filter','$state','$stateParams','userRequiremtne','userTeam','initData',
+        function($scope, $rootScope,$timeout,$filter,$state,$stateParams,userRequiremtne,userTeam,initData){
             var requiremtneId = $stateParams.id;
             $scope.$on('requirementParent',function(event, data){    //子级接收
                 setPrivileges(data);
-            })
+            });
             function setPrivileges(data){    //设置显示权限
                 if((data.plan.status == 3 || data.plan.status == 6 || data.plan.status == 4 || data.plan.status == 5) && (data.status == 6 || data.status == 3 || data.status == 7 || data.status == 4 || data.status == 5 || data.status == 8)){  //选择方案
                     myPlan()
                 }
+                if(data.status == 4 && data.work_type != 2){
+                    $state.go('requirement.contract',{id:requiremtneId});
+                }
                 if((data.status == 7 || data.status == 4 || data.status == 5 || data.status == 8) && data.work_type != 2){   //生成合同
-                    myContract()
+                    myContract();
                 }
             }
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
@@ -300,14 +322,6 @@ angular.module('controllers', [])
             checkHouseSuccess : false,
             checkHouseError : false
         };
-        // 三方合同
-        function myContract(){   //获取我的第三方合同
-            userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){
-                $scope.contract = res.data.data;
-            },function(res){
-                console.log(res)
-            });
-        }
         var contractsTimer = null;
         $scope.contracts = {
             managers : [],
@@ -355,26 +369,42 @@ angular.module('controllers', [])
                 }
             }
         }
-        userTeam.list().then(function(res){  //获取该设计师施工团队
-            angular.forEach(res.data.data, function(value, key){
-                if(key === 0){
-                    $scope.contracts.manager = value.manager;
-                }
-                $scope.contracts.managers.push(value.manager)
+        // 三方合同
+        function myContract(){   //获取我的第三方合同
+            userTeam.list().then(function(res){  //获取该设计师施工团队
+                angular.forEach(res.data.data, function(value, key){
+                    if(key === 0){
+                        $scope.contracts.manager = value.manager;
+                    }
+                    $scope.contracts.managers.push(value.manager)
+                });
+            },function(res){
+                console.log(res);
             });
-        },function(res){
-            console.log(res);
-        });
+            userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){
+                $scope.contract = res.data.data;
+            },function(res){
+                console.log(res)
+            });
+        }
     }])
     .controller('createCtrl', [     //方案创建和更新
         '$scope','$rootScope','$filter','$state','$stateParams','$timeout','userRequiremtne','initData','configPlan',
         function($scope, $rootScope,$filter,$state,$stateParams,$timeout,userRequiremtne,initData,configPlan) {
+            var configData = {};
+            if($stateParams.storage != undefined && $stateParams.storage){
+                configPlan.remove();
+                configData = $stateParams;
+                configData.storage = undefined;
+            }else{
+                configData = $stateParams;
+            }
             $scope.designerPlan = {
                 loading : true,
                 tab : true,
                 totalprice : false,
                 tabBtn : function(){
-                    $state.go('configPlan',$stateParams);
+                    $state.go('configPlan',configData);
                     configPlan.update($scope.plan);
                 },
                 isCreate : $state.params.username === undefined ? true : false,
@@ -475,9 +505,9 @@ angular.module('controllers', [])
                 if($scope.designerPlan.isCreate){
                     userRequiremtne.update($scope.plan).then(function(res){  //修改方案到业主的需求
                         if(!!res.data.msg && res.data.msg === "success"){
+                            configPlan.remove();
                             $state.go('requirement.plan',{id:This.requiremtneId});
                             $scope.designerPlan.loading = false;
-                            configPlan.remove();
                         }
                     },function(res){
                         console.log(res)
@@ -485,9 +515,9 @@ angular.module('controllers', [])
                 }else{
                     userRequiremtne.addPlan($scope.plan).then(function(res){  //提交方案到业主的需求
                         if(!!res.data.msg && res.data.msg === "success"){
+                            configPlan.remove();
                             $state.go('requirement.plan',{id:This.requiremtneId});
                             $scope.designerPlan.loading = false;
-                            configPlan.remove();
                         }
                     },function(res){
                         console.log(res)
@@ -635,7 +665,7 @@ angular.module('controllers', [])
             $scope.designerPlan = {
                 loading : false,
                 packagetype : $stateParams.packagetype,  //判断不同包类型
-                baseprice : undefined,   //365包基础费用
+                baseprice : $stateParams.baseprice,   //365包基础费用
                 totalprice : false,
                 add_price_detail_name : "",   //新增项目名称
                 add_price_detail_ok : false,  //
@@ -996,23 +1026,16 @@ angular.module('controllers', [])
                 isLoading : false,
                 motaiDone : false,
                 defineBtn : function(off){
-                    var This = this;
-                    userInfo.auth().then(function(res){
-                        if(res.data.msg === "success"){
-                            This.motaiDone = true;
-                            if(off){
-                                $state.go('infoshow');
-                            }else{
-                                $state.go('addProduct');
-                            }
-                        }
-                    },function(res){
-                        console.log(res);
-                    });
+                    this.motaiDone = true;
+                    if(off){
+                        $state.go('infoshow');
+                    }else{
+                        $state.go('addProduct');
+                    }
                 },
                 error : false,
                 errormsg : '',
-                award_details_complete : true
+                award_details_complete : false //监听获奖照片及描述图片有没有上传完成
             };
             $scope.designer = {
                 username : '',
@@ -1093,7 +1116,17 @@ angular.module('controllers', [])
             }
     }])
     .controller('infoshowCtrl', [     //基本资料审核期查看
-        '$scope','$rootScope',function($scope, $rootScope){}])
+        '$scope','userInfo',function($scope,userInfo){
+            $scope.isLoading = false;
+            $scope.designer = {};
+            userInfo.get().then(function(res){
+                $scope.designer = res.data.data;
+                $scope.isLoading = true;
+                $scope.$emit('designerChildren', res.data.data);
+            },function(res){
+                console.log(res)
+            });
+        }])
     .controller('serviceCtrl', [     //接单服务设置
         '$scope','$rootScope','$http','$filter','$state','userInfo',
         function($scope, $rootScope,$http,$filter,$state,userInfo){
@@ -1269,75 +1302,16 @@ angular.module('controllers', [])
         }
     }])
     .controller('idcardShowCtrl', [     //身份证认证修改
-        '$scope','$rootScope','$timeout','$filter','$location','userInfo','initData',
-        function($scope,$rootScope, $timeout,$filter,$location,userInfo,initData){
-        $scope.designerIdcard = {
-            status : false,
-            waiting : true,
-            change : function(){
-                this.status = true;
-                this.waiting = false;
-            },
-            bankList : initData.bankList,
-            disabled : false,
-            error : false,
-            errormsg : ''
-        }
-        function hidemsg(){
-            $timeout(function(){
-                $scope.designerIdcard.error = false;
-            },3000)
-        }
-        function showmsg(msg){
-            $scope.designerIdcard.error = true;
-            $scope.designerIdcard.errormsg = msg;
-            hidemsg();
-        }
-        function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
-            userInfo.get().then(function(res){
-                $scope.designerUId = res.data.data;
-                if(!$scope.designerUId.bank){
-                    $scope.designerUId.bank = $scope.designerIdcard.bankList[0];
-                }
-                $scope.$emit('designerChildren', res.data.data);
-            },function(res){
-                console.log(res)
-            });
-        }
-        uploadDesignerInfo();
-        $scope.designerIdcard.send = function(){
-            if(!$scope.designerUId.uid_image1){
-                showmsg('您没有上传身份证正面照片');
-                return ;
-            }
-            if(!$scope.designerUId.uid_image2){
-                showmsg('您没有上传身份证反面照片');
-                return ;
-            }
-            if(!$scope.designerUId.bank_card_image1){
-                showmsg('您没有上传银行卡正面照片');
-                return ;
-            }
-            userInfo.bank({
-              "username":$scope.designerUId.username,
-              "uid":$scope.designerUId.uid,
-              "bank": $scope.designerUId.bank,
-              "bank_card": $scope.designerUId.bank_card,
-              "uid_image1":$scope.designerUId.uid_image1,
-              "uid_image2":$scope.designerUId.uid_image2,
-              "bank_card_image1":$scope.designerUId.bank_card_image1
-            }).then(function(res){
-                $scope.designerIdcard.change = false;
-                $scope.designerIdcard.status = false;
-                $scope.designerUId = undefined;
-                uploadDesignerInfo();
-                $('#fileToUpload1').uploadify('destroy');
-                $('#fileToUpload2').uploadify('destroy');
-                $('#fileToUpload3').uploadify('destroy');
-            },function(res){
-                console.log(res)
-            });
-        }
+        '$scope','userInfo', function($scope,userInfo){
+        $scope.isLoading = false;
+        $scope.designer = {};
+        userInfo.get().then(function(res){
+            $scope.designer = res.data.data;
+            $scope.isLoading = true;
+            $scope.$emit('designerChildren', res.data.data);
+        },function(res){
+            console.log(res)
+        });
     }])
     .controller('teamCtrl', [     //施工团队认证修改
         '$scope','$rootScope','$stateParams','$state','$timeout','userTeam','initData',
@@ -1462,6 +1436,10 @@ angular.module('controllers', [])
     .controller('releaseCtrl', [     //作品上传
         '$scope','$state','$filter','$stateParams','$timeout','userProduct','initData',
         function($scope,$state,$filter,$stateParams,$timeout,userProduct,initData){
+            /**
+             * 默认数据
+             * @type {{province: undefined, city: undefined, district: undefined, cell: undefined, house_type: string, business_house_type: string, house_area: undefined, dec_style: string, dec_type: string, work_type: string, total_price: undefined, description: undefined, images: Array, plan_images: Array, cover_imageid: undefined}}
+             */
             $scope.product = {
               "province":undefined,
               "city":undefined,
@@ -1492,19 +1470,26 @@ angular.module('controllers', [])
                 businessHouseType : initData.businessHouseType,
                 error : false,
                 errormsg : '',
-                plan_images_complete : true,
-                images_complete : true
+                plan_images_complete : false,
+                images_complete : false
             };
             if($scope.designerProduct.isRelease){
-                $scope.product = _.assign($scope.product,{province:'请选择省份',city:'请选择市',district:'请选择县/区'});
+                $scope.product = angular.extend($scope.product,{province:'请选择省份',city:'请选择市',district:'请选择县/区'});
             }else{
                 $scope.designerProduct.isLoading = false;
                 userProduct.get({"_id": $stateParams.id}).then(function(res){
                     if(res.data.data != null){
-                        $scope.product = _.assign($scope.product,res.data.data);
+                        $scope.product = angular.extend($scope.product,res.data.data);
+                        if(!$scope.product.province){
+                            $scope.product.province = '请选择省份';
+                        }
+                        if(!$scope.product.city){
+                            $scope.product.province = '请选择市';
+                        }
+                        if(!$scope.product.district){
+                            $scope.product.province = '请选择县/区';
+                        }
                         $scope.designerProduct.isLoading = true;
-                        $scope.designerProduct.plan_images_complete = true,
-                        $scope.designerProduct.images_complete = true
                     }
                 },function(res){
                     console.log(res)
@@ -1532,6 +1517,10 @@ angular.module('controllers', [])
                 }
                 if($scope.product.district == "请选择县/区"){
                     showmsg('请选择县/区');
+                    return ;
+                }
+                if($scope.product.plan_images.length == 0){
+                    showmsg('请至少上传一张平面图片');
                     return ;
                 }
                 if($scope.product.images.length == 0){

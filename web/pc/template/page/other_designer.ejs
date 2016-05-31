@@ -46,7 +46,7 @@ function textareaEscaped(value) {
     <% } %>
         <div class="mask"></div>
         <div class="info">
-            <button type="button" class="add-bg tooltip" data-placement="left" data-viewport-padding="5px 8px" data-title="点此上传背景"><i class="iconfont">&#xe648;</i></button>
+            <button type="button" class="add-bg tooltip" data-placement="left" data-viewport-padding="5px 8px" data-title="点此上传背景"></button>
             <div class="head addIntentHead">
                 <% if (data.designer.auth_type === '0') { %>
                 <a href="/tpl/user/designer.html#/infor">
@@ -123,21 +123,21 @@ function textareaEscaped(value) {
                     <dl>
                         <dt>综合评价</dt>
                         <dd><span class="star">
-                                <% for(var i = 0; i < 5; i++) { %>
-                                <% if(i < numStar){ %>
-                                <i class="iconfont">&#xe604;</i>
-                                <% }else{ %>
-                                <i class="iconfont">&#xe62b;</i>
-                                <% } %>
-                                <% } %>
-                            </span></dd>
+                            <% for(var i = 0; i < 5; i++) { %>
+                            <% if(i < numStar){ %>
+                            <i class="iconfont">&#xe604;</i>
+                            <% }else{ %>
+                            <i class="iconfont">&#xe62b;</i>
+                            <% } %>
+                            <% } %>
+                        </span></dd>
                     </dl>
                 </div>
                 <div class="btns f-fr">
                     <% if (data.designer.auth_type === '0') { %>
-                    <a href="/tpl/user/designer.html#/infor" class="u-btns">查看资料</a>
+                    <a href="/tpl/user/designer.html#/infor" class="u-btns">编辑资料</a>
                     <% }else{ %>
-                    <a href="/tpl/user/designer.html#/infoshow" class="u-btns">编辑资料</a>
+                    <a href="/tpl/user/designer.html#/infoshow" class="u-btns">查看资料</a>
                     <% } %>
                 </div>
             </div>

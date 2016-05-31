@@ -1759,17 +1759,15 @@ body{
 .m-potter-banner .add-bg{
 	position: absolute;
 	right: -110px;
-	top: -51px;
-	width: 36px;
-	height: 36px;
-	line-height: 36px;
+	top: -50px;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
 	text-align: center;
 	color: #fff;
 	border: none;
 	background: none;
-}
-.m-potter-banner .add-bg .iconfont{
-	font-size: 36px;
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAA+VBMVEX////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////r1CuUAAAAUnRSTlMABAUGBwoLDA0PFxgZGhwdHiIqKywtL0hJTE9QUlNUVVlbYGRmaHB0d3mPnJ+gpKWoqaqsr7CyxsfJzc7P0NHS1dbX2Nna29zf4OHk5ev09ff47BrltQAAASpJREFUOMuN1NlSwkAQBdCLUQQXFBW3uKHGKCpuiYqYKCCERSL0/3+MD5kpsk2a+zTVOZVKdXcGCKVs1JvjyXTcfDDKSE3u7I1Cea/mkmavS7H09mNk6ZZScpcPm5VPSo27NjOrHinirUuTd0iZr2WB7ikj9cAcRIp9XW9ECocAsNCP1BzAjhQGGoBzykZ0AeCDQw6wRRyiHVzxyITFIxstHnXhy/44QZ6AmjjK3kwguZ7cHl0+mw/9iUPDDlIDbsRRjmeKH/7DvXla8AqTR9eo8GgXcDn0DcDgkAFAG2aj30UAOM5e39Ogs49ZP8KLaH+hpTadohxSaaQyo83ZKEuKd7U3wgMvpH7XczG2F0eDOBmeJLdHu4xcCa6hpV9226bV9on8jmVWwvV/qX8ouhXccAMAAAAASUVORK5CYII=) 0 0 no-repeat;
 }
 .m-potter-service{
 	height: 81px;
