@@ -38,7 +38,8 @@ jQuery.fn.table2CSV = function (options) {
 
   if (options.delivery == 'popup') {
     var mydata = csvData.join('\n');
-    return popup(mydata);
+    // return popup(mydata);
+    downloadCSVFile(mydata);
   } else {
     var mydata = csvData.join('\n');
     return mydata;
@@ -74,6 +75,17 @@ jQuery.fn.table2CSV = function (options) {
     generator.document.write('</textArea>');
     generator.document.write('</body></html>');
     generator.document.close();
+    return true;
+  }
+
+  function downloadCSVFile(content) {
+    var aLink = document.createElement('a');
+    var blob = new Blob([content]);
+    var evt = document.createEvent("HTMLEvents");
+    evt.initEvent("click", false, false); //initEvent 不加后两个参数在FF下会报错, 感谢 Barret Lee 的反馈
+    aLink.download = 'data.csv';
+    aLink.href = URL.createObjectURL(blob);
+    aLink.dispatchEvent(evt);
     return true;
   }
 };
