@@ -1,6 +1,6 @@
 <ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">统计总览</li></ol>
 <div class="panel panel-info ng-scope">
-	<table class="table table-bordered">
+	<table id= 'a' class="table table-bordered">
 		<tbody>
 			<tr class="info thead">
 				<th>项目</th>
@@ -20,3 +20,6 @@
 </div>
 <div class="loadData" ng-hide="loading.loadData"></div>
 <div class="loadData notData" ng-show="loading.notData"></div>
+<div>
+	<button type="button" class="btn btn-success" onclick="$('#a').table2CSV();console.log('hahaahha')">导出CSV</button>
+</div>

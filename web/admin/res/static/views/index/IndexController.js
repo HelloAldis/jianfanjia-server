@@ -3,6 +3,7 @@
     .controller('IndexController', [
       '$scope', '$rootScope', '$state', 'adminStatistic', '$filter',
       function ($scope, $rootScope, $state, adminStatistic, $filter) {
+        console.log($('#dataTable'));
 
         function getNDay0Clock(n, date) {
           var time = date.getTime() + (n * 1000 * 60 * 60 * 24);

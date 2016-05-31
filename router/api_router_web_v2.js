@@ -135,7 +135,6 @@ router.post('/designer/team/one', auth.designerRequired, team.designer_one_team)
 router.post('/designer/team/add', auth.designerRequired, team.add); //添加施工队伍
 router.post('/designer/team/update', auth.designerRequired, team.update); //更新施工队伍
 router.post('/designer/team/delete', auth.designerRequired, team.delete); //删除施工队伍
-router.post('/designer/auth', auth.designerRequired, designer.auth); //提交认证申请
 router.post('/designer/update_online_status', auth.designerRequired, designer.update_online_status); //更改在线状态
 router.post('/designer_my_requirement_list', auth.designerRequired, requirement.designer_my_requirement_list); //设计获取和自己相关的需求列表
 router.post('/designer_my_requirement_history_list', auth.designerRequired, requirement.designer_my_requirement_history_list); //设计获取和自己相关的放弃的历史需求列表
