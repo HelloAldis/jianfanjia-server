@@ -1,11 +1,11 @@
-<div class="m-breadbtns" bindonce="designer" bo-switch="designer.auth_type">
-    <p class="s-auth-waiting" bo-switch-when="1"><i class="iconfont">&#xe60b;</i>&nbsp;&nbsp;&nbsp;您的基本资料认证已经提交，请耐心等待审核</p>
-    <p class="s-auth-done" bo-switch-when="2"><i class="iconfont">&#xe608;</i>&nbsp;&nbsp;&nbsp;您的基本资料认证已通过审核</p>
-    <p class=".s-auth-fail" bo-switch-when="3"><i class="iconfont">&#xe607;</i>&nbsp;&nbsp;&nbsp;您的基本资料认证失败，请重新提交</p>
-    <p class="s-auth-offline" bo-switch-when="4"><i class="iconfont">&#xe612;</i>&nbsp;&nbsp;&nbsp;您的基本资料认证内容违规，请重新提交</p>
+<div class="m-breadbtns" ng-switch="designer.auth_type">
+    <p class="s-auth-waiting" ng-switch-when="1"><i class="iconfont">&#xe60b;</i>&nbsp;&nbsp;&nbsp;您的基本资料认证已经提交，请耐心等待审核</p>
+    <p class="s-auth-done" ng-switch-when="2"><i class="iconfont">&#xe608;</i>&nbsp;&nbsp;&nbsp;您的基本资料认证已通过审核</p>
+    <p class=".s-auth-fail" ng-switch-when="3"><i class="iconfont">&#xe607;</i>&nbsp;&nbsp;&nbsp;您的基本资料认证失败，请重新提交</p>
+    <p class="s-auth-offline" ng-switch-when="4"><i class="iconfont">&#xe612;</i>&nbsp;&nbsp;&nbsp;您的基本资料认证内容违规，请重新提交</p>
 </div>
-<div class="main m-viewinfo" bindonce="designer">
-    <div class="k-form release" bindonce="designer">
+<div class="main m-viewinfo" bindonce="designer" ng-if="isLoading">
+    <div class="k-form release">
         <div class="u-head">
             <img ng-src="/api/v2/web/thumbnail2/120/120/{{ designer.imageid }}" alt="">
         </div>
@@ -141,4 +141,5 @@
             <button class="u-btns u-btns-disabled" bo-if="designer.auth_type == 1">&nbsp;&nbsp;修改&nbsp;&nbsp;</button>
         </div>
     </div>
+    <div class="pageLoading" ng-if="!isLoading"></div>
 </div>

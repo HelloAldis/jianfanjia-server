@@ -15,7 +15,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb" ng-if="designerPlan.tab && ((plan.requirement.work_type == 0 || plan.requirement.work_type == 1) || (designerPlan.worktype == 0 || designerPlan.worktype == 1))">
+						<div class="m-item f-cb" ng-if="(plan.requirement.work_type == 0 || plan.requirement.work_type == 1) || (designerPlan.worktype == 0 || designerPlan.worktype == 1)">
 							<div class="item">
 								<label class="u-lab">工期</label>
 								<div class="u-inp">
@@ -24,7 +24,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb" bo-if="designerPlan.worktype == 2 || plan.requirement.work_type == 2">
+						<div class="m-item f-cb" ng-if="designerPlan.worktype == 2 || plan.requirement.work_type == 2">
 							<div class="item">
 								<label class="u-lab">设计费</label>
 								<div class="u-inp">
@@ -33,7 +33,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="m-item f-cb" bo-if="designerPlan.worktype != 2 || plan.requirement.work_type != 2">
+						<div class="m-item f-cb" ng-if="(plan.requirement.work_type == 0 || plan.requirement.work_type == 1) || (designerPlan.worktype == 0 || designerPlan.worktype == 1)">
 							<div class="item">
 								<label class="u-lab">报价</label>
 								<div class="u-inp">

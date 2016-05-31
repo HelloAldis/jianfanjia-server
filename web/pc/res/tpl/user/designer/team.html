@@ -7,7 +7,7 @@
 			<div class="m-boxs">
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab"><i>*</i>项目经理</label>
+						<label class="u-lab"><i class="required-icon"></i>项目经理</label>
 						<div class="u-inp">
 							<input type="text" class="input" ng-model="team.manager" name="manager" placeholder="不能为空" my-placeholder required />
 						</div>
@@ -18,7 +18,7 @@
 				</div>
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab"><i>*</i>性别</label>
+						<label class="u-lab"><i class="required-icon"></i>性别</label>
 						<div class="u-inp">
 							<div class="radio">
 								<div my-radio data-type="userSex" my-query="team.sex"></div>
@@ -28,7 +28,7 @@
 				</div>
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab"><i>*</i>所在地区</label>
+						<label class="u-lab"><i class="required-icon"></i>所在地区</label>
 						<div class="u-inp">
 							<div my-cities my-province="team.province" my-city="team.city" my-district="team.district" ng-if="team.province"></div>
 						</div>
@@ -36,7 +36,7 @@
 				</div>
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab"><i>*</i>身份证号</label>
+						<label class="u-lab"><i class="required-icon"></i>身份证号</label>
 						<div class="u-inp">
 							<input type="text" class="input" name="uid" ng-model="team.uid" placeholder="请输入15位或者18位或带X身份证号码" my-placeholder ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" required />
 						</div>
@@ -48,7 +48,7 @@
 				</div>
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab"><i>*</i>上传身份证正面照</label>
+						<label class="u-lab"><i class="required-icon"></i>上传身份证正面照</label>
 						<div class="u-inp">
 							<div class="uid_image uid_image1 f-fl">
 								<div class="simpleupload card-upload">
@@ -73,7 +73,7 @@
 				</div>
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab"><i>*</i>上传身份证反面照</label>
+						<label class="u-lab"><i class="required-icon"></i>上传身份证反面照</label>
 						<div class="u-inp">
 							<div class="uid_image uid_image2 f-fl">
 								<div class="simpleupload card-upload">
@@ -98,7 +98,7 @@
 				</div>
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab"><i>*</i>曾就职装饰公司</label>
+						<label class="u-lab"><i class="required-icon"></i>曾就职装饰公司</label>
 						<div class="u-inp">
 							<input type="text" class="input" name="company" ng-model="team.company" placeholder="不能为空" my-placeholder required />
 						</div>
@@ -109,7 +109,7 @@
 				</div>
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab"><i>*</i>从业年限</label>
+						<label class="u-lab"><i class="required-icon"></i>从业年限</label>
 						<div class="u-inp">
 							<input type="text" class="input" name="work_year" ng-model="team.work_year" placeholder="请输入整数" my-placeholder ng-pattern="/^[1-9]\d*$/" required />
 						</div>
@@ -121,7 +121,7 @@
 				</div>
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab"><i>*</i>擅长工种</label>
+						<label class="u-lab"><i class="required-icon"></i>擅长工种</label>
 						<div class="u-inp">
 							<div my-selectn my-list="designerTeam.goodAtList" my-query="team.good_at"></div>
 						</div>
@@ -129,7 +129,7 @@
 				</div>
 				<div class="m-item f-cb">
 					<div class="item">
-						<label class="u-lab"><i>*</i>正在施工工地</label>
+						<label class="u-lab"><i class="required-icon"></i>正在施工工地</label>
 						<div class="u-inp">
 							<input type="text" class="input" name="working_on" ng-model="team.working_on" placeholder="不能为空" my-placeholder required />
 						</div>

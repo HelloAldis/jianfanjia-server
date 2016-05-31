@@ -31,11 +31,13 @@
             <% if(data.product.is_my_favorite == undefined){%>
                 <a href="/tpl/user/login.html?/tpl/product/<%=data.product._id%>" class="u-btns u-btns-hollow">收藏作品</a>
             <% }else{%>
+                <% if(data.product.auth_type == 1){%>
                 <% if(data.product.is_my_favorite){%>
                 <button class="u-btns u-btns-hollow favorite  u-btns-revise" data-uid="<%=data.product._id%>">取消收藏</button>
                 <% }else{%>
                 <button class="u-btns u-btns-hollow favorite" data-uid="<%=data.product._id%>">收藏作品</button>
                 <% }%>
+                <%}%>
             <% }%>
             </div>
             <div class="m-ct">
@@ -130,7 +132,7 @@
             <a href="javascript:;" class="u-btns addIntent" data-uid="<%= data.designer._id %>">添加意向</a>
             <% } %>
             </div>
-            <% }else if(data.header_info.designer_statistic_info != undefined && data.header_info.designer_statistic_info.username === data.designer.username){ %>
+            <% }else if(data.header_info.designer_statistic_info != undefined && data.header_info.designer_statistic_info.username === data.designer.username && data.product.auth_type != 0){ %>
             <div class="btns">
             <a href="/tpl/user/designer.html#/release/<%=data.product._id%>" class="u-btns">编辑作品</a>
             </div>

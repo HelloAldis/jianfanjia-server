@@ -12,12 +12,6 @@ require.config({
     shim   : {
         'history': {
             deps: ['jquery']
-        },
-        'requestAnimationFrame': {
-            deps: ['jquery']
-        },
-        'fly': {
-            deps: ['jquery']
         }
     }
 });
@@ -44,7 +38,7 @@ require(['design/interviews'],function(Interviews){
     var interviews = new Interviews("#j-interviews");
     interviews.init();
 })
-require(['jquery','lodash','cookie','history','utils/common','utils/page','utils/tooltip','requestAnimationFrame','fly'],function($,_,cookie,history,common,Pageing,Tooltip){
+require(['jquery','lodash','cookie','history','utils/common','utils/page','utils/tooltip','fly'],function($,_,cookie,history,common,Pageing,Tooltip){
     var search = new common.Search();
     search.init();
     var user = new common.User();

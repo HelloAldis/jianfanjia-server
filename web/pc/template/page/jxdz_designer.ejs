@@ -42,7 +42,12 @@ function textareaEscaped(value) {
 }
 %>
 <main class="g-bd f-cb g-potter" id="j-home">
-    <section class="m-potter-banner g-wa" style="background-image:url(/static/img/design/potterhome-banner.jpg);">
+    <% if(!!data.designer.big_imageid){ %>
+    <section class="m-potter-banner g-wa"
+             style="background-image:url(/api/v2/web/thumbnail2/1920/420/<%= data.designer.big_imageid %>);">
+        <% }else{ %>
+        <section class="m-potter-banner g-wa" style="background-image:url(/static/img/design/potterhome-banner.jpg);">
+            <% } %>
         <div class="mask"></div>
         <div class="info">
             <div class="head addIntentHead"><img src="/api/v2/web/thumbnail2/130/130/<%= data.designer.imageid %>"

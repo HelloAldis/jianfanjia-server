@@ -161,10 +161,10 @@ angular.module('services', [])
             },
             remove : function(){
                 config = {};
-                this.noload = false;
                 if('localStorage' in window){
-                    window.localStorage.removeItem('configpaln');
+                    window.localStorage.setItem('configpaln',JSON.stringify({}));
                 }
+                this.noload = false;
             },
             noload : false
         }

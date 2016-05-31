@@ -29,7 +29,7 @@ require(['jquery', 'cookie', 'utils/common', 'utils/tooltip','uploadify'], funct
             this.user = new common.User();
             this.goto = new common.Goto();
             this.user.init2();
-            this.goto.init();
+            this.goto.init({scroll : false});
             this.addBg();
             this.loadmore();
             this.fixed();
@@ -243,7 +243,7 @@ require(['jquery', 'cookie', 'utils/common', 'utils/tooltip','uploadify'], funct
                 $('#fileToUpload').uploadify('destroy');
                 _this.home.find('.m-potter-banner').css('backgroundImage','url(/api/v2/web/thumbnail2/1920/420/'+data.data+')');
                 $.ajax({
-                    url:'/api/v2/web/designer/info',
+                    url:'/api/v2/web/designer/no_review_info',
                     type: 'POST',
                     contentType : 'application/json; charset=utf-8',
                     dataType: 'json',
