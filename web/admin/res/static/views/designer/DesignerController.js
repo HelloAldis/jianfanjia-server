@@ -5,7 +5,7 @@
       function ($scope, $rootScope, $uibModal, adminDesigner, $stateParams, $location, mutiSelected) {
         $scope.authList = [{
           id: "0",
-          name: '未提交认证',
+          name: '未提交',
           cur: false
         }, {
           id: "1",
@@ -13,21 +13,21 @@
           cur: false
         }, {
           id: "2",
-          name: '审核通过',
+          name: '已通过',
           cur: false
         }, {
           id: "3",
-          name: '审核不通过',
+          name: '不通过',
           cur: false
         }, {
           id: "4",
-          name: '违规下线',
+          name: '已违规',
           cur: false
         }];
 
         $scope.uidAuthList = [{
           id: "0",
-          name: '未提交认证',
+          name: '未提交',
           cur: false
         }, {
           id: "1",
@@ -35,21 +35,21 @@
           cur: false
         }, {
           id: "2",
-          name: '审核通过',
+          name: '已通过',
           cur: false
         }, {
           id: "3",
-          name: '审核不通过',
+          name: '不通过',
           cur: false
         }, {
           id: "4",
-          name: '违规下线',
+          name: '已违规',
           cur: false
         }];
 
         $scope.workAuthList = [{
           id: "0",
-          name: '未提交认证',
+          name: '未提交',
           cur: false
         }, {
           id: "1",
@@ -57,21 +57,21 @@
           cur: false
         }, {
           id: "2",
-          name: '审核通过',
+          name: '已通过',
           cur: false
         }, {
           id: "3",
-          name: '审核不通过',
+          name: '不通过',
           cur: false
         }, {
           id: "4",
-          name: '违规下线',
+          name: '已违规',
           cur: false
         }];
 
         $scope.emailAuthList = [{
           id: "0",
-          name: '未提交认证',
+          name: '未提交',
           cur: false
         }, {
           id: "1",
@@ -79,15 +79,15 @@
           cur: false
         }, {
           id: "2",
-          name: '审核通过',
+          name: '已通过',
           cur: false
         }, {
           id: "3",
-          name: '审核不通过',
+          name: '不通过',
           cur: false
         }, {
           id: "4",
-          name: '违规下线',
+          name: '已违规',
           cur: false
         }];
 
@@ -662,7 +662,7 @@
               }
             }).then(function (resp) {
               //返回信息
-              $location.path('designer'); //设置路由跳转
+              window.history.back();
             }, function (resp) {
               //返回错误信息
               console.log(resp);
