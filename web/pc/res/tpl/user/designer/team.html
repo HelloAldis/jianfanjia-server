@@ -1,152 +1,157 @@
-<div class="m-breadbtns">
-	<a ui-sref="teamList" class="u-btns u-btns-revise f-fr">返回施工团队列表</a>
+<div class="m-tt">
+    <h2 class="title" ng-bind="$state.current.title"></h2>
+    <div class="m-breadbtns">
+        <a ui-sref="teamList" class="u-btns u-btns-revise f-fr">返回施工团队列表</a>
+    </div>
 </div>
-<div class="main m-team">
-	<form name="myTeam" ng-if="designerTeam.isLoading" ng-submit="designerTeam.submit()" novalidate>
-		<div class="k-form">
-			<div class="m-boxs">
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab"><i class="required-icon"></i>项目经理</label>
-						<div class="u-inp">
-							<input type="text" class="input" ng-model="team.manager" name="manager" placeholder="不能为空" my-placeholder required />
-						</div>
-						<div class="u-error">
-							<span ng-show="myTeam.manager.$dirty && myTeam.manager.$error.required" class="has-error">不能为空</span>
-						</div>
-					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab"><i class="required-icon"></i>性别</label>
-						<div class="u-inp">
-							<div class="radio">
-								<div my-radio data-type="userSex" my-query="team.sex"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab"><i class="required-icon"></i>所在地区</label>
-						<div class="u-inp">
-							<div my-cities my-province="team.province" my-city="team.city" my-district="team.district" ng-if="team.province"></div>
-						</div>
-					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab"><i class="required-icon"></i>身份证号</label>
-						<div class="u-inp">
-							<input type="text" class="input" name="uid" ng-model="team.uid" placeholder="请输入15位或者18位或带X身份证号码" my-placeholder ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" required />
-						</div>
-						<div class="u-error">
-							<span ng-show="myTeam.uid.$dirty && myTeam.uid.$error.pattern" class="has-error">必须为15位或者18位或带X身份证号码</span>
-							<span ng-show="myTeam.uid.$dirty && myTeam.uid.$error.required" class="has-error">不能为空</span>
-						</div>
-					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab"><i class="required-icon"></i>上传身份证正面照</label>
-						<div class="u-inp">
-							<div class="uid_image uid_image1 f-fl">
-								<div class="simpleupload card-upload">
-									<div class="create">
-										<div class="fileBtn">
-											<input class="hide" id="fileToUpload1" my-simpleupload my-query="team.uid_image1" data-width="248" data-height="156" data-scale="1.585" type="file" name="Filedata" />
-											<input type="hidden" id="sessionId1" value="${pageContext.session.id}" />
-											<input type="hidden" value="1215154565" name="tmpdir" id="id_file1" />
-										</div>
-										<img class="img" ng-src="/api/v2/web/thumbnail/248/{{team.uid_image1}}" ng-if="team.uid_image1" alt="" />
-										<div class="tips"><span><em></em><i></i></span><p>请上传3M以内jpg/png格式的图片</p></div>
-									</div>
-								</div>
-							</div>
-							<div class="uid_example f-fl">
-								<h4 class="f-fl">示例</h4>
-								<img class="f-fl" src="/static/img/user/uid_example1.jpg" alt="身份证正面示例图片">
-								<p class="f-fl">证件上文字清晰可见</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab"><i class="required-icon"></i>上传身份证反面照</label>
-						<div class="u-inp">
-							<div class="uid_image uid_image2 f-fl">
-								<div class="simpleupload card-upload">
-									<div class="create">
-										<div class="fileBtn">
-											<input class="hide" id="fileToUpload2" my-simpleupload my-query="team.uid_image2" data-width="248" data-height="156" data-scale="1.585" type="file" name="Filedata" />
-											<input type="hidden" id="sessionId2" value="${pageContext.session.id}" />
-											<input type="hidden" value="1215154565" name="tmpdir" id="id_file2" />
-										</div>
-										<img class="img" ng-src="/api/v2/web/thumbnail/248/{{team.uid_image2}}" ng-if="team.uid_image2" alt="" />
-										<div class="tips"><span><em></em><i></i></span><p>请上传3M以内jpg/png格式的图片</p></div>
-									</div>
-								</div>
-							</div>
-							<div class="uid_example f-fl">
-								<h4 class="f-fl">示例</h4>
-								<img class="f-fl" src="/static/img/user/uid_example2.jpg" alt="身份证反面示例图片">
-								<p class="f-fl">证件全部信息清晰无遮挡<br />有效期在一个月以上</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab"><i class="required-icon"></i>曾就职装饰公司</label>
-						<div class="u-inp">
-							<input type="text" class="input" name="company" ng-model="team.company" placeholder="不能为空" my-placeholder required />
-						</div>
-						<div class="u-error">
-							<span ng-show="myTeam.company.$dirty && myTeam.company.$error.required" class="has-error">不能为空</span>
-						</div>
-					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab"><i class="required-icon"></i>从业年限</label>
-						<div class="u-inp">
-							<input type="text" class="input" name="work_year" ng-model="team.work_year" placeholder="请输入整数" my-placeholder ng-pattern="/^[1-9]\d*$/" required />
-						</div>
-						<div class="u-error">
-							<span ng-show="myTeam.work_year.$dirty && myTeam.work_year.$error.pattern" class="has-error">必须为整数</span>
-							<span ng-show="myTeam.work_year.$dirty && myTeam.work_year.$error.required" class="has-error">不能为空</span>
-						</div>
-					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab"><i class="required-icon"></i>擅长工种</label>
-						<div class="u-inp">
-							<div my-selectn my-list="designerTeam.goodAtList" my-query="team.good_at"></div>
-						</div>
-					</div>
-				</div>
-				<div class="m-item f-cb">
-					<div class="item">
-						<label class="u-lab"><i class="required-icon"></i>正在施工工地</label>
-						<div class="u-inp">
-							<input type="text" class="input" name="working_on" ng-model="team.working_on" placeholder="不能为空" my-placeholder required />
-						</div>
-						<div class="u-error">
-							<span ng-show="myTeam.working_on.$dirty && myTeam.working_on.$error.required" class="has-error">不能为空</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div my-alert type="warning" ng-show="designerTeam.error" text="{{designerTeam.errormsg}}"></div>
-			<div class="m-btns">
-				<input type="submit" class="u-btns" ng-class="{'u-btns-disabled':myTeam.$invalid || designerTeam.disabled}" ng-disabled="myTeam.$invalid || designerTeam.disabled" value="&nbsp;&nbsp;确定&nbsp;&nbsp;" />
-			</div>
-		</div>
-	</form>
-	<div class="pageLoading" ng-hide="designerTeam.isLoading"></div>
+<div class="m-ct" ng-if="isLoading">
+    <div class="main m-team">
+        <form name="myTeam" ng-submit="designerTeam.submit()" novalidate>
+            <div class="k-form">
+                <div class="m-boxs">
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>项目经理</label>
+                            <div class="u-inp">
+                                <input type="text" class="input" ng-model="team.manager" name="manager" placeholder="不能为空" my-placeholder required />
+                            </div>
+                            <div class="u-error">
+                                <span ng-show="myTeam.manager.$dirty && myTeam.manager.$error.required" class="has-error">不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>性别</label>
+                            <div class="u-inp">
+                                <div class="radio">
+                                    <div my-radio data-type="userSex" my-query="team.sex"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>所在地区</label>
+                            <div class="u-inp">
+                                <div my-cities my-province="team.province" my-city="team.city" my-district="team.district" ng-if="team.province"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>身份证号</label>
+                            <div class="u-inp">
+                                <input type="text" class="input" name="uid" ng-model="team.uid" placeholder="请输入15位或者18位或带X身份证号码" my-placeholder ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" required />
+                            </div>
+                            <div class="u-error">
+                                <span ng-show="myTeam.uid.$dirty && myTeam.uid.$error.pattern" class="has-error">必须为15位或者18位或带X身份证号码</span>
+                                <span ng-show="myTeam.uid.$dirty && myTeam.uid.$error.required" class="has-error">不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>上传身份证正面照</label>
+                            <div class="u-inp">
+                                <div class="uid_image uid_image1 f-fl">
+                                    <div class="simpleupload card-upload">
+                                        <div class="create">
+                                            <div class="fileBtn">
+                                                <input class="hide" id="fileToUpload1" my-simpleupload my-query="team.uid_image1" data-width="248" data-height="156" data-scale="1.585" type="file" name="Filedata" />
+                                                <input type="hidden" id="sessionId1" value="${pageContext.session.id}" />
+                                                <input type="hidden" value="1215154565" name="tmpdir" id="id_file1" />
+                                            </div>
+                                            <img class="img" ng-src="/api/v2/web/thumbnail/248/{{team.uid_image1}}" ng-if="team.uid_image1" alt="" />
+                                            <div class="tips"><span><em></em><i></i></span><p>请上传3M以内jpg/png格式的图片</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uid_example f-fl">
+                                    <h4 class="f-fl">示例</h4>
+                                    <img class="f-fl" src="/static/img/user/uid_example1.jpg" alt="身份证正面示例图片">
+                                    <p class="f-fl">证件上文字清晰可见</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>上传身份证反面照</label>
+                            <div class="u-inp">
+                                <div class="uid_image uid_image2 f-fl">
+                                    <div class="simpleupload card-upload">
+                                        <div class="create">
+                                            <div class="fileBtn">
+                                                <input class="hide" id="fileToUpload2" my-simpleupload my-query="team.uid_image2" data-width="248" data-height="156" data-scale="1.585" type="file" name="Filedata" />
+                                                <input type="hidden" id="sessionId2" value="${pageContext.session.id}" />
+                                                <input type="hidden" value="1215154565" name="tmpdir" id="id_file2" />
+                                            </div>
+                                            <img class="img" ng-src="/api/v2/web/thumbnail/248/{{team.uid_image2}}" ng-if="team.uid_image2" alt="" />
+                                            <div class="tips"><span><em></em><i></i></span><p>请上传3M以内jpg/png格式的图片</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uid_example f-fl">
+                                    <h4 class="f-fl">示例</h4>
+                                    <img class="f-fl" src="/static/img/user/uid_example2.jpg" alt="身份证反面示例图片">
+                                    <p class="f-fl">证件全部信息清晰无遮挡<br />有效期在一个月以上</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>曾就职装饰公司</label>
+                            <div class="u-inp">
+                                <input type="text" class="input" name="company" ng-model="team.company" placeholder="不能为空" my-placeholder required />
+                            </div>
+                            <div class="u-error">
+                                <span ng-show="myTeam.company.$dirty && myTeam.company.$error.required" class="has-error">不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>从业年限</label>
+                            <div class="u-inp">
+                                <input type="text" class="input" name="work_year" ng-model="team.work_year" placeholder="请输入整数" my-placeholder ng-pattern="/^[1-9]\d*$/" required />
+                            </div>
+                            <div class="u-error">
+                                <span ng-show="myTeam.work_year.$dirty && myTeam.work_year.$error.pattern" class="has-error">必须为整数</span>
+                                <span ng-show="myTeam.work_year.$dirty && myTeam.work_year.$error.required" class="has-error">不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>擅长工种</label>
+                            <div class="u-inp">
+                                <div my-selectn my-list="designerTeam.goodAtList" my-query="team.good_at"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>正在施工工地</label>
+                            <div class="u-inp">
+                                <input type="text" class="input" name="working_on" ng-model="team.working_on" placeholder="不能为空" my-placeholder required />
+                            </div>
+                            <div class="u-error">
+                                <span ng-show="myTeam.working_on.$dirty && myTeam.working_on.$error.required" class="has-error">不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div my-alert type="warning" ng-show="designerTeam.error" text="{{designerTeam.errormsg}}"></div>
+                <div class="m-btns">
+                    <input type="submit" class="u-btns" ng-class="{'u-btns-disabled':myTeam.$invalid || designerTeam.disabled}" ng-disabled="myTeam.$invalid || designerTeam.disabled" value="&nbsp;&nbsp;确定&nbsp;&nbsp;" />
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
+<div class="pageLoading" ng-if="!isLoading"></div>
 <div class="k-cropMask" id="j-cropMask"></div>
 <div class="k-cropBox" id="j-cropBox">
 	<div class="cropBox">

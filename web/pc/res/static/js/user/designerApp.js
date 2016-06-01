@@ -128,14 +128,16 @@
                     title : '我的作品'
                 })
                 .state('addProduct', {    //发布作品
-                    url: '/release',
+                    url: '/release?list',
                     templateUrl: url+'release.html',
-                    controller : 'releaseCtrl'
+                    controller : 'releaseCtrl',
+                    title : '发布作品'
                 })
                 .state('updateProduct', {     //修改作品
-                    url: '/release/:id',
+                    url: '/release/:id?list',
                     templateUrl: url+'release.html',
-                    controller : 'releaseCtrl'
+                    controller : 'releaseCtrl',
+                    title : '修改作品'
                 })
                 .state('favorite', {      //收藏作品
                     url: '/favorite',
@@ -145,11 +147,13 @@
                 .state('favorite.list', {      //收藏作品
                     url: '/{id:[0-9]{1,6}}',
                     templateUrl: url+'favorite.html',
-                    controller : 'favoriteProductCtrl'
+                    controller : 'favoriteProductCtrl',
+                    title : '收藏作品'
                 })
                 .state('authHeart', {      //认证中心
                     url: '/authHeart',
-                    templateUrl: url+'authHeart.html'
+                    templateUrl: url+'authHeart.html',
+                    title : '认证中心'
                 })
                 .state('idcard', {      //身份认证
                     url: '/idcard',
@@ -178,7 +182,7 @@
                 .state('teamList', {      //施工团队认证
                     url: '/teamList',
                     templateUrl: url+'teamList.html',
-                    controller : 'teamCtrl',
+                    controller : 'teamListCtrl',
                     title : "我的施工团队"
                 })
                 .state('phone', {      //手机修改

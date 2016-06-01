@@ -850,6 +850,7 @@ angular.module('controllers', [])
     .controller('productsListCtrl', [     //我的作品列表
         '$scope','$state','$filter','userProduct',function($scope,$state,$filter,userProduct){
             $scope.productList = undefined;
+            $scope.isLoading = false;
             var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
                 dataPage = {
                   "from": _index*8,
@@ -869,6 +870,7 @@ angular.module('controllers', [])
                         }
                         value.dec_style = $filter('decStyleFilter')(value.dec_style);
                         value.work_type = $filter('workTypeFilter')(value.work_type);
+                        $scope.isLoading = true;
                     });
                     if($scope.productList.length == 0 && res.data.data.total != 0){
                         $scope.productList = undefined;
@@ -1130,6 +1132,7 @@ angular.module('controllers', [])
     .controller('serviceCtrl', [     //接单服务设置
         '$scope','$rootScope','$http','$filter','$state','userInfo',
         function($scope, $rootScope,$http,$filter,$state,userInfo){
+            $scope.isLoading = false;
             $scope.service = {
                 motaiDone : false,
                 scoreDefineBtn : function(){
@@ -1156,6 +1159,7 @@ angular.module('controllers', [])
                 }
                 $scope.service.province = '湖北省';
                 $scope.service.city = '武汉市';
+                $scope.isLoading = true;
             },function(res){
                 console.log(res)
             });
@@ -1179,15 +1183,25 @@ angular.module('controllers', [])
                 }
             }
     }])
-    .controller('phoneCtrl', ['$scope','$rootScope','userInfo',function($scope, $rootScope,userInfo){  //手机认证修改
+    .controller('phoneCtrl', ['$scope','userInfo',function($scope, userInfo){  //手机认证修改
+        $scope.isLoading = false;
+        userInfo.get().then(function(res){
+            $scope.designer = res.data.data;
+            $scope.$emit('designerChildren', res.data.data);
+            $scope.isLoading = true;
+        },function(res){
+            console.log(res);
+        });
     }])
     .controller('emailCtrl', [     //邮箱认证修改
         '$scope','$rootScope','$http','$filter','$location','$timeout','userInfo',
         function($scope, $rootScope,$http,$filter,$location,$timeout,userInfo){
+            $scope.isLoading = false;
         function uploadDesignerInfo(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
             userInfo.get().then(function(res){
                 $scope.designeremail = res.data.data;
                 $scope.$emit('designerChildren', res.data.data);
+                $scope.isLoading = true;
             },function(res){
                 console.log(res);
             });
@@ -1230,6 +1244,7 @@ angular.module('controllers', [])
         '$scope','$rootScope','$timeout','$state','userInfo','initData',
         function($scope,$rootScope, $timeout,$state,userInfo,initData){
             var timer = null;
+        $scope.isLoading = false;
         $scope.designerIdcard = {
             status : false,
             waiting : true,
@@ -1260,6 +1275,7 @@ angular.module('controllers', [])
                 if(!$scope.designerUId.bank){
                     $scope.designerUId.bank = $scope.designerIdcard.bankList[0];
                 }
+                $scope.isLoading = true;
                 $scope.$emit('designerChildren', res.data.data);
             },function(res){
                 console.log(res)
@@ -1292,9 +1308,6 @@ angular.module('controllers', [])
                 $scope.designerIdcard.status = false;
                 $scope.designerUId = undefined;
                 uploadDesignerInfo();
-                $('#fileToUpload1').uploadify('destroy');
-                $('#fileToUpload2').uploadify('destroy');
-                $('#fileToUpload3').uploadify('destroy');
                 $state.go('idcardshow');
             },function(res){
                 console.log(res)
@@ -1313,17 +1326,21 @@ angular.module('controllers', [])
             console.log(res)
         });
     }])
+    .controller('teamListCtrl', [     //施工团队认证修改
+        '$scope','userTeam',
+        function($scope,userTeam){
+            $scope.isLoading = false;
+            userTeam.list().then(function(res){
+                $scope.teamList = res.data.data;
+                $scope.isLoading = true;
+            },function(res){
+                console.log(res);
+            });
+        }])
     .controller('teamCtrl', [     //施工团队认证修改
         '$scope','$rootScope','$stateParams','$state','$timeout','userTeam','initData',
         function($scope,$rootScope,$stateParams,$state,$timeout,userTeam,initData){
-        function load(){
-            userTeam.list().then(function(res){
-                $scope.teamList = res.data.data
-            },function(res){
-                console.log(res)
-            });
-        }
-        load()
+        $scope.isLoading = false;
         $scope.designerTeam = {
             disabled : false,
             remove : function(id){
@@ -1341,7 +1358,6 @@ angular.module('controllers', [])
             cities_list : initData.tdist,
             goodAtList : initData.goodAtList,
             userSex : initData.userSex,
-            isLoading : true,
             errormsg : '',
             errotr : false
         }
@@ -1360,22 +1376,22 @@ angular.module('controllers', [])
             uid_image2 : ''
         }
         if($stateParams.id){
-            $scope.designerTeam.isLoading = false;
             userTeam.get({"_id": $stateParams.id}).then(function(res){
                 if(res.data.data != null){
-                    $scope.team = _.assign($scope.team,res.data.data);
-                    $scope.designerTeam.isLoading = true;
+                    $scope.team = angular.extend($scope.team,res.data.data);
+                    $scope.isLoading = true;
                 }
             },function(res){
-                console.log(res)
+                console.log(res);
             });
         }else{
-            $scope.team = _.assign($scope.team,{province:'请选择省份',city:'请选择市',district:'请选择县/区',});
+            $scope.team = angular.extend($scope.team,{province:'请选择省份',city:'请选择市',district:'请选择县/区'});
+            $scope.isLoading = true;
         }
         function hidemsg(){
             $timeout(function(){
                 $scope.designerTeam.error = false;
-            },3000)
+            },3000);
         }
         function showmsg(msg){
             $scope.designerTeam.error = true;
@@ -1415,7 +1431,7 @@ angular.module('controllers', [])
                         $state.go('teamList');
                     }
                 },function(res){
-                    console.log(res)
+                    console.log(res);
                 })
             }else{
                 userTeam.add($scope.team).then(function(res){
@@ -1434,8 +1450,9 @@ angular.module('controllers', [])
         }
     }])
     .controller('releaseCtrl', [     //作品上传
-        '$scope','$state','$filter','$stateParams','$timeout','userProduct','initData',
-        function($scope,$state,$filter,$stateParams,$timeout,userProduct,initData){
+        '$scope','$state','$filter','$stateParams','$window','$timeout','userProduct','initData',
+        function($scope,$state,$filter,$stateParams,$window,$timeout,userProduct,initData){
+            $scope.isLoading = false;
             /**
              * 默认数据
              * @type {{province: undefined, city: undefined, district: undefined, cell: undefined, house_type: string, business_house_type: string, house_area: undefined, dec_style: string, dec_type: string, work_type: string, total_price: undefined, description: undefined, images: Array, plan_images: Array, cover_imageid: undefined}}
@@ -1475,6 +1492,7 @@ angular.module('controllers', [])
             };
             if($scope.designerProduct.isRelease){
                 $scope.product = angular.extend($scope.product,{province:'请选择省份',city:'请选择市',district:'请选择县/区'});
+                $scope.isLoading = true;
             }else{
                 $scope.designerProduct.isLoading = false;
                 userProduct.get({"_id": $stateParams.id}).then(function(res){
@@ -1489,7 +1507,7 @@ angular.module('controllers', [])
                         if(!$scope.product.district){
                             $scope.product.province = '请选择县/区';
                         }
-                        $scope.designerProduct.isLoading = true;
+                        $scope.isLoading = true;
                     }
                 },function(res){
                     console.log(res)
@@ -1534,8 +1552,11 @@ angular.module('controllers', [])
                 if(this.isRelease){
                     userProduct.add($scope.product).then(function(res){
                         if(res.data.msg === "success"){
-                            $('#createUpload').uploadify('destroy');
-                            $state.go('products.list', { 'id' : 1 });
+                            if($stateParams.list){
+                                $state.go('products.list', { 'id' : 1 });
+                            }else{
+                                $window.location.href = '/tpl/user/designer/homepage';
+                            }
                         }
                     },function(res){
                         console.log(res);
@@ -1543,8 +1564,11 @@ angular.module('controllers', [])
                 }else{
                     userProduct.update($scope.product).then(function(res){
                         if(res.data.msg === "success"){
-                            $('#createUpload').uploadify('destroy');
-                            $state.go('products.list', { 'id' : 1 });
+                            if($stateParams.list){
+                                $state.go('products.list', { 'id' : 1 });
+                            }else{
+                                $window.location.href = '/tpl/user/designer/homepage';
+                            }
                         }
                     },function(res){
                         console.log(res);

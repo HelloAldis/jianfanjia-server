@@ -72,7 +72,7 @@
 	            <dl>
 	                <dt>我的作品</dt>
 	                <dd ng-class="{active: $state.includes('products.list')}"><a ui-sref="products.list({id:1})">作品列表</a></dd>
-	                <dd ng-class="{active: $state.includes('addProduct')}"><a ui-sref="addProduct">发布作品</a></dd>
+	                <dd ng-class="{active: $state.includes('addProduct')}"><a ui-sref="addProduct({list:true})">发布作品</a></dd>
 	            </dl>
                 <div class="line"></div>
                 <dl>
@@ -140,12 +140,7 @@
 	            </dl>
 	        </div>
 		</aside>
-        <article class="g-mn" ng-class="{true : 'noBackdrop',false : 'Backdrop'}[$state.includes('products.list') || $state.includes('favorite.list')]">
-            <div class="m-tt" ng-if="$state.current.title">
-                <h2 ng-bind="$state.current.title"></h2>
-            </div>
-            <div class="m-ct" ui-view=""></div>
-		</article>
+        <article class="g-mn" ui-view="" ng-class="{true : 'noBackdrop',false : 'Backdrop'}[$state.includes('products.list') || $state.includes('favorite.list')]"></article>
 	</main>
     <footer class="g-ft g-wa">
         <div class="g-wp">
@@ -169,5 +164,13 @@
     <script type="text/javascript" src="/static/js/user/designerApp.js"></script>
 </body>
 </html>
+<div class="m-tt">
+    <h2 class="title" ng-bind="$state.current.title"></h2>
+    <div class="m-breadbtns">
 
+    </div>
+</div>
+<div class="m-ct" ng-if="isLoading">
 
+</div>
+<div class="pageLoading" ng-if="!isLoading"></div>

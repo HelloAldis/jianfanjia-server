@@ -1,7 +1,10 @@
-<div class="main m-phone m-info">
-	<div ng-if="designerInfo.isLoading">
-			<div class="todo">
-				<div class="inofTips"><i class="iconfont2">&#xe612;</i>修改个人资料需重新认证，才能生效</div>
+<div class="m-tt">
+	<h2 class="title" ng-bind="$state.current.title"></h2>
+</div>
+<div class="m-ct" ng-if="designerInfo.isLoading">
+	<div class="main m-phone m-info">
+        <div class="todo">
+				<div class="infoTips"><i class="iconfont">&#xe612;</i>修改个人资料需重新认证，才能生效</div>
 				<form name="designerinfo" ng-submit="designerInfo.submit()" novalidate>
 					<div class="k-form">
 						<div class="m-boxs">
@@ -147,9 +150,9 @@
 					</div>
 				</form>
 			</div>
-		</div>
-		<div class="pageLoading" ng-hide="designerInfo.isLoading"></div>
+	</div>
 </div>
+<div class="pageLoading" ng-hide="designerInfo.isLoading"></div>
 <div class="k-cropMask" id="j-cropMask"></div>
 <div class="k-cropBox" id="j-cropBox">
 	<div class="cropBox">
