@@ -323,10 +323,10 @@ angular.module('controllers', [])
                     if($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120 && $scope.requiremtne.work_type != 2){
                         $scope.requiremtne.package_type = '1';
                     }
-                }
-                //匠心定制
-                if($scope.userRelease.potter){
-                    $scope.requiremtne.package_type = '2';
+                    //匠心定制
+                    if($scope.userRelease.potter){
+                        $scope.requiremtne.package_type = '2';
+                    }
                 }
                 //商装
                 if(type == 1){

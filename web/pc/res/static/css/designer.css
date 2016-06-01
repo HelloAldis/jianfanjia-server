@@ -137,10 +137,6 @@ body{
     border: 1px solid #e5e5e5;
     border-radius: 3px;
 }
-.g-mn .m-tt .u-btns{
-	margin-top: 13px;
-	margin-right: 19px;
-}
 .g-mn .head{
 	display: inline-block;
 	width: 70px;
@@ -159,11 +155,13 @@ body{
 .m-ct {
 	position: relative;
 }
-.m-ct .m-breadbtns{
-	position: absolute;
-	right: 19px;
-	top:-52px;
+.m-tt .title{
+	float: left;
+}
+.m-tt .m-breadbtns{
+	float: right;
 	height: 38px;
+	padding: 13px 19px 0 0;
 	line-height: 38px;
 }
 /*留言*/
@@ -2091,7 +2089,7 @@ body{
 	text-align: center;
 }
 /*认证中心*/
-.inofTips{
+.infoTips{
 	margin: 20px 19px;
 	font-size: 14px;
 	line-height: 50px;
@@ -2100,11 +2098,20 @@ body{
 	background-color: #fffdf6;
 	border: 1px dashed #d2d2d2;
 }
-.inofTips i{
+.infoTips i{
 	display: inline-block;
 	width: 40px;
 	text-align: center;
 	margin-left: 6px;
+}
+.infoTips-error{
+	line-height: 26px;
+	padding: 7px 46px 7px 0;
+	margin-bottom: 0;
+	background-color: #ff4a4a;
+	border: none;
+	color: #fff;
+	border-radius: 3px;
 }
 .authHeart dd{
 	position: relative;
@@ -3645,6 +3652,7 @@ img.jcrop-preview {
 	margin-right: 14px;
 }
 .m-viewinfo{
+	position: relative;
 	padding-top: 30px;
 }
 .m-viewinfo .m-item{

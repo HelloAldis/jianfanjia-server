@@ -1279,7 +1279,7 @@ angular.module('directives', [])
                     obj.css('zIndex', 10);
                 }
                 $scope.blur = function () {
-                    if(_.trim($scope.myQuery)){
+                    if(!_.trim($scope.myQuery)){
                         $scope.myQuery = oldName;
                     }
                 }
@@ -1733,6 +1733,7 @@ angular.module('directives', [])
                     'onUploadSuccess': function (file, data, response) {
                         callbackImg(data);
                         $('.uploadify-queue').css('zIndex', '0');
+                        $('#upload').find('.disable').remove();
                     },
                     'onUploadError': function (file, errorCode, errorMsg, errorString) {
                         if (errorMsg === '500' && errorCode === -200) {

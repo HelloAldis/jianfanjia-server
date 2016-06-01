@@ -89,21 +89,21 @@
 				<a class="u-btns" ng-if="designer.auth_type == 0" ui-sref="infor">提交资料</a>
 				<a class="u-btns u-btns-revise" ng-if="designer.auth_type == 3" ui-sref="infor">重新提交</a>
 				<a class="u-btns u-btns-revise" ng-if="designer.auth_type == 4" ui-sref="infor">重新提交</a>
-				<a class="u-btns" ng-if="(designer.auth_type == 1 || designer.auth_type == 2) && designer.authed_product_count == 0" ui-sref="addProduct">发布作品</a>
+				<a class="u-btns" ng-if="(designer.auth_type == 1 || designer.auth_type == 2) && designer.authed_product_count == 0" ui-sref="addProduct({list:true})">发布作品</a>
 			</div>
 		</div>
 		<div class="authen" ng-if="designer.auth_type == 2 && designer.authed_product_count < 3">
-			<div class="inofTips"><i class="iconfont2">&#xe612;</i>作品认证（至少3套）的设计师才可以接单</div>
+			<div class="inofTips"><i class="iconfont">&#xe612;</i>作品认证（至少3套）的设计师才可以接单</div>
 			<p>
 				<span ng-if="designer.authed_product_count == 0">您还没有作品通过认证，请您前往发布</span>
 				<span ng-if="designer.authed_product_count > 0">恭喜您，您已有<strong bo-text="designer.authed_product_count"></strong>套作品通过认证，请再接再厉</span>
 			</p>
 			<div class="btns">
-				<a class="u-btns" ui-sref="addProduct">发布作品</a>
+				<a class="u-btns" ui-sref="addProduct({list:true})">发布作品</a>
 			</div>
 		</div>
 		<div class="authen" ng-if="designer.auth_type == 1 && designer.authed_product_count >= 3">
-			<div class="inofTips"><i class="iconfont2">&#xe612;</i>完成基本资料认证及作品认证（至少3套）的设计师才可以接单</div>
+			<div class="inofTips"><i class="iconfont">&#xe612;</i>完成基本资料认证及作品认证（至少3套）的设计师才可以接单</div>
 			<p>
 				您的基本资料已经提交，等待管理员审核。
 			</p>

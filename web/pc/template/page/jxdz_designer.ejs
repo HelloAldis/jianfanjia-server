@@ -71,20 +71,16 @@ function textareaEscaped(value) {
         <div class="m-follow">
             <div class="g-wp f-cb">
                 <div class="f-fl">
-                    <% if (!!data.designer.authed_product_count) { %>
                     <dl>
                         <dt>作品</dt>
                         <dd><strong><%= data.designer.authed_product_count %></strong></dd>
                     </dl>
                     <span class="line"></span>
-                    <% } %>
-                    <% if (!!data.designer.order_count) { %>
                     <dl>
                         <dt>预约</dt>
                         <dd><strong><%= data.designer.order_count %></strong></dd>
                     </dl>
                     <span class="line"></span>
-                    <% } %>
                     <% if (data.designer.design_fee_range != undefined) { %>
                     <dl>
                         <dt>设计费</dt>
