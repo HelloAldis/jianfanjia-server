@@ -67,7 +67,7 @@ jQuery.fn.table2CSV = function (options) {
   function popup(data) {
     var generator = window.open('', 'csv', 'height=400,width=600');
     generator.document.write('<html><head><title>CSV</title>');
-    generator.document.write('</head><body >');
+    generator.document.write('</head><body><h3>复制粘贴到excel</h3>');
     generator.document.write('<textArea cols=70 rows=15 wrap="off" >');
     generator.document.write(data);
     generator.document.write('</textArea>');

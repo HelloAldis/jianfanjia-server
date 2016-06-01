@@ -6,12 +6,19 @@ const type = require('../type');
 const async = require('async');
 const logger = require('../common/logger');
 
-const product_count_score = 2;
+const product_count_score = 3;
 const team_count_score = 1;
-const order_count_score = 3;
+const order_count_score = 2;
 const deal_done_count_score = 5;
-const service_attitude_score = 3;
-const respond_speed_score = 3;
+const service_attitude_score = 1;
+const respond_speed_score = 1;
+const basic_auth_score = 3;
+const uid_auth_score = 5;
+const work_auth_score = 10;
+const email_auth_score = 3;
+
+const new_designer_duration = 50;
+const new_designer_score = 100;
 
 const reject_user_score = -2;
 const no_respond_expired_score = -3;
@@ -53,6 +60,16 @@ exports.refresh_score = function (designer, callback) {
     score += designer.deal_done_count * deal_done_count_score;
     score += designer.service_attitude * service_attitude_score;
     score += designer.respond_speed * respond_speed_score;
+    score += designer.auth_type === type.designer_auth_type_done ? basic_auth_score : 0;
+    score += designer.uid_auth_type === type.designer_auth_type_done ? uid_auth_score : 0;
+    score += designer.work_auth_type === type.designer_auth_type_done ? work_auth_score : 0;
+    score += designer.email_auth_type === type.designer_auth_type_done ? email_auth_score : 0;
+    let duration = 1000 * 60 * 60 * 24 * new_designer_duration;
+    let day60Before = new Date().getTime() - duration;
+    let diff = designer.create_at - day60Before;
+    diff = diff < 0 ? 0 : diff;
+    score += (diff / duration) * new_designer_score;
+
     score += result.reject_count * reject_user_score;
     score += result.no_respond_expired_count * no_respond_expired_score;
     score += result.no_plan_expired_count * no_plan_expired_score;
