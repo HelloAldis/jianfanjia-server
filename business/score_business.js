@@ -8,8 +8,11 @@ const logger = require('../common/logger');
 
 const product_count_score = 3;
 const team_count_score = 1;
-const order_count_score = 2;
-const deal_done_count_score = 5;
+const order_count_score = 1;
+
+//接单满分
+const deal_done_count_score = 30;
+
 const service_attitude_score = 1;
 const respond_speed_score = 1;
 const basic_auth_score = 3;
@@ -57,7 +60,7 @@ exports.refresh_score = function (designer, callback) {
     score += designer.authed_product_count * product_count_score;
     score += designer.team_count * team_count_score;
     score += designer.order_count * order_count_score;
-    score += designer.deal_done_count * deal_done_count_score;
+    score += (designer.deal_done_count / designer.order_count) * deal_done_count_score;
     score += designer.service_attitude * service_attitude_score;
     score += designer.respond_speed * respond_speed_score;
     score += designer.auth_type === type.designer_auth_type_done ? basic_auth_score : 0;
