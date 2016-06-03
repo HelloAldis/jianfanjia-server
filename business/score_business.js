@@ -11,19 +11,21 @@ const team_count_score = 1;
 const order_count_score = 1;
 
 //接单满分
-const deal_done_count_score = 30;
+const deal_done_count_score = 40;
 
 const service_attitude_score = 1;
 const respond_speed_score = 1;
-const basic_auth_score = 3;
+
+//认证的分数
+const basic_auth_score = 5;
 const uid_auth_score = 5;
 const work_auth_score = 10;
-const email_auth_score = 3;
+const email_auth_score = 5;
 
 const new_designer_duration = 50;
-const new_designer_score = 100;
+const new_designer_score = 90;
 
-const reject_user_score = -8;
+const reject_user_score = -10;
 const no_respond_expired_score = -5;
 const no_plan_expired_score = -5;
 
