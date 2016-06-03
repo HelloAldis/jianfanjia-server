@@ -52,7 +52,7 @@
 				<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 				<td>{{user.cell}}</td>
 				<td>{{user.auth_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-				<td>{{user.auth_type | authFilter}}</td>
+				<td> <span ng-class="{'0':'auth-type-ing', '1':'auth-type-ok', '2':'auth-type-reject', '3':'auth-type-bad'}[user.auth_type]">{{user.auth_type | authFilter}}</span> </td>
 				<td>{{user.designer.username}}</td>
 				<td>{{user.designer.phone}}</td>
 				<td>
@@ -61,9 +61,6 @@
 					<a href="javascript:;" ng-click="productAuth(user._id,user.designerid, user)">认证通过</a></span>
 					<span ng-hide="user.auth_type == '2'"> |
 					<a href="javascript:;" ng-click="open('审核失败',user._id,'2',user.designerid, user)">审核失败</a></span>
-					<span ng-hide="user.auth_type == '3'"> |
-					<a href="javascript:;" ng-click="open('违规下线',user._id,'3',user.designerid, user)">违规下线</a>
-					</span>
 				</td>
 			</tr>
 		</tbody>

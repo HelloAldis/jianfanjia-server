@@ -8,21 +8,26 @@ const logger = require('../common/logger');
 
 const product_count_score = 3;
 const team_count_score = 1;
-const order_count_score = 2;
-const deal_done_count_score = 5;
+const order_count_score = 1;
+
+//接单满分
+const deal_done_count_score = 40;
+
 const service_attitude_score = 1;
 const respond_speed_score = 1;
-const basic_auth_score = 3;
-const uid_auth_score = 5;
+
+//认证的分数
+const basic_auth_score = 30;
+const uid_auth_score = 10;
 const work_auth_score = 10;
-const email_auth_score = 3;
+const email_auth_score = 5;
 
 const new_designer_duration = 50;
-const new_designer_score = 100;
+const new_designer_score = 50;
 
-const reject_user_score = -2;
-const no_respond_expired_score = -3;
-const no_plan_expired_score = -3;
+const reject_user_score = -10;
+const no_respond_expired_score = -5;
+const no_plan_expired_score = -5;
 
 exports.refresh_score = function (designer, callback) {
   const designerid = designer._id;
@@ -57,7 +62,7 @@ exports.refresh_score = function (designer, callback) {
     score += designer.authed_product_count * product_count_score;
     score += designer.team_count * team_count_score;
     score += designer.order_count * order_count_score;
-    score += designer.deal_done_count * deal_done_count_score;
+    score += ((designer.deal_done_count || 0) / (designer.order_count || 1)) * deal_done_count_score;
     score += designer.service_attitude * service_attitude_score;
     score += designer.respond_speed * respond_speed_score;
     score += designer.auth_type === type.designer_auth_type_done ? basic_auth_score : 0;

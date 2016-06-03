@@ -244,6 +244,7 @@ exports.top_products = function (req, res, next) {
     auth_type: type.product_auth_type_done,
   }, {
     images: 1,
+    cover_imageid: 1,
   }, {
     sort: {
       view_count: -1,

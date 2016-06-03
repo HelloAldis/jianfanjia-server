@@ -4,10 +4,10 @@
 		.filter('authFilter', function () {
 			return function (input) {
 				return {
-					"0": "未审核",
-					"1": "审核通过",
-					"2": "审核不通过",
-					"3": "违规下线"
+					"0": "审核中",
+					"1": "已通过",
+					"2": "不通过",
+					"3": "已违规"
 				}[input];
 			};
 		})
@@ -16,19 +16,19 @@
 			function ($scope, $rootScope, $http, $uibModal, $filter, adminProduct, $stateParams, $location, mutiSelected) {
 				$scope.authList = [{
 					id: "0",
-					name: '未审核',
+					name: '审核中',
 					cur: false
 				}, {
 					id: "1",
-					name: '审核通过',
+					name: '已通过',
 					cur: false
 				}, {
 					id: "2",
-					name: '审核不通过',
+					name: '不通过',
 					cur: false
 				}, {
 					id: "3",
-					name: '违规下线',
+					name: '已违规',
 					cur: false
 				}, ];
 
