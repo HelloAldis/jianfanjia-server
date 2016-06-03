@@ -60,7 +60,7 @@ exports.refresh_score = function (designer, callback) {
     score += designer.authed_product_count * product_count_score;
     score += designer.team_count * team_count_score;
     score += designer.order_count * order_count_score;
-    score += (designer.deal_done_count / designer.order_count) * deal_done_count_score;
+    score += ((designer.deal_done_count || 0) / (designer.order_count || 1)) * deal_done_count_score;
     score += designer.service_attitude * service_attitude_score;
     score += designer.respond_speed * respond_speed_score;
     score += designer.auth_type === type.designer_auth_type_done ? basic_auth_score : 0;
