@@ -17,7 +17,7 @@ const service_attitude_score = 1;
 const respond_speed_score = 1;
 
 //认证的分数
-const basic_auth_score = 5;
+const basic_auth_score = 40;
 const uid_auth_score = 5;
 const work_auth_score = 10;
 const email_auth_score = 5;
