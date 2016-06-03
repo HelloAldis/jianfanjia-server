@@ -1,16 +1,18 @@
-<div class="main m-requirement m-message">
-    <div class="m-tt">
-        <h2>需求提醒<span ng-if="count.remind">(<i ng-bind="count.remind"></i>)</span></h2>
-    </div>
-    <div class="m-ct">
-        <div class="tabs-box">
-            <ul class="tabs">
-                <li ng-class="{'active':item.cur}" ng-repeat="item in remind.tab"><a ng-click="remind.goto(item.id)" ui-sref="remind.list.type({id:1,type:item.arr,status:remind.status})" ng-bind="item.name"></a></li>
-            </ul>
-            <button type="button" ng-if="count.remind" ng-click="remind.setread()" class="unread" ng-class="{'read':remind.getread}">只看未读</button>
+<div class="Backdrop">
+    <div class="main m-requirement m-message">
+        <div class="m-tt">
+            <h2>需求提醒<span ng-if="count.remind">(<i ng-bind="count.remind"></i>)</span></h2>
         </div>
-        <!--视图模板容器 start-->
-        <div ui-view></div>
-        <!--视图模板容器 end-->
+        <div class="m-ct">
+            <div class="tabs-box">
+                <ul class="tabs">
+                    <li ng-class="{'active':item.cur}" ng-repeat="item in remind.tab"><a ng-click="remind.goto(item.id)" ui-sref="remind.list.type({id:1,type:item.arr,status:remind.status})" ng-bind="item.name"></a></li>
+                </ul>
+                <button type="button" ng-if="count.remind" ng-click="remind.setread()" class="unread" ng-class="{'read':remind.getread}">只看未读</button>
+            </div>
+            <!--视图模板容器 start-->
+            <div ui-view></div>
+            <!--视图模板容器 end-->
+        </div>
     </div>
 </div>

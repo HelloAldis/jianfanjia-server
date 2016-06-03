@@ -870,8 +870,8 @@ angular.module('controllers', [])
                         }
                         value.dec_style = $filter('decStyleFilter')(value.dec_style);
                         value.work_type = $filter('workTypeFilter')(value.work_type);
-                        $scope.isLoading = true;
                     });
+                    $scope.isLoading = true;
                     if($scope.productList.length == 0 && res.data.data.total != 0){
                         $scope.productList = undefined;
                         dataPage.from = current*dataPage.limit;
@@ -931,6 +931,7 @@ angular.module('controllers', [])
     .controller('favoriteProductCtrl', [     //作品收藏列表
         '$scope','$state','$filter','userFavoriteProduct',function($scope,$state,$filter,userFavoriteProduct){
             $scope.designers = undefined;
+            $scope.isLoading = false;
             var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
                 dataPage = {
                   "from": _index*4,
@@ -946,6 +947,7 @@ angular.module('controllers', [])
                         current = 0;
                         $state.go('favorite.list', { id: 1 });
                     }
+                    $scope.isLoading = true;
                     angular.forEach($scope.favoriteProduct, function(value){
                         value.dec_type = $filter('decTypeFilter')(value.dec_type);
                         if(value.business_house_type != undefined){
@@ -1017,6 +1019,7 @@ angular.module('controllers', [])
     .controller('inforCtrl', [     //基本资料认证
         '$scope','$rootScope','$timeout','$filter','$state','userInfo','initData',
         function($scope, $rootScope,$timeout,$filter,$state,userInfo,initData){
+            $scope.isLoading = false;
             $scope.designerInfo = {
                 status : false,
                 change : function(){
@@ -1025,14 +1028,13 @@ angular.module('controllers', [])
                 cities_list : initData.tdist,
                 disabled : false,
                 userSex : initData.userSex,
-                isLoading : false,
                 motaiDone : false,
                 defineBtn : function(off){
                     this.motaiDone = true;
                     if(off){
                         $state.go('infoshow');
                     }else{
-                        $state.go('addProduct');
+                        $state.go('addProduct',{list:true});
                     }
                 },
                 error : false,
@@ -1075,6 +1077,7 @@ angular.module('controllers', [])
                         $scope.designer.city = '请选择市';
                         $scope.designer.district = '请选择县/区';
                     }
+                    $scope.isLoading = true;
                     $scope.$emit('designerChildren', res.data.data);
                 },function(res){
                     console.log(res)
@@ -1453,10 +1456,6 @@ angular.module('controllers', [])
         '$scope','$state','$filter','$stateParams','$window','$timeout','userProduct','initData',
         function($scope,$state,$filter,$stateParams,$window,$timeout,userProduct,initData){
             $scope.isLoading = false;
-            /**
-             * 默认数据
-             * @type {{province: undefined, city: undefined, district: undefined, cell: undefined, house_type: string, business_house_type: string, house_area: undefined, dec_style: string, dec_type: string, work_type: string, total_price: undefined, description: undefined, images: Array, plan_images: Array, cover_imageid: undefined}}
-             */
             $scope.product = {
               "province":undefined,
               "city":undefined,
@@ -1494,7 +1493,6 @@ angular.module('controllers', [])
                 $scope.product = angular.extend($scope.product,{province:'请选择省份',city:'请选择市',district:'请选择县/区'});
                 $scope.isLoading = true;
             }else{
-                $scope.designerProduct.isLoading = false;
                 userProduct.get({"_id": $stateParams.id}).then(function(res){
                     if(res.data.data != null){
                         $scope.product = angular.extend($scope.product,res.data.data);
@@ -1535,10 +1533,6 @@ angular.module('controllers', [])
                 }
                 if($scope.product.district == "请选择县/区"){
                     showmsg('请选择县/区');
-                    return ;
-                }
-                if($scope.product.plan_images.length == 0){
-                    showmsg('请至少上传一张平面图片');
                     return ;
                 }
                 if($scope.product.images.length == 0){
@@ -1683,6 +1677,7 @@ angular.module('controllers', [])
                         "messageid":id
                     }).then(function(res){
                         laod();
+                        uploadParent();
                     },function(err){
                         console.log(err);
                     });

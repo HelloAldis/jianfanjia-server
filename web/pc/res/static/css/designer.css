@@ -62,14 +62,20 @@ body{
 }
 .g-sd h2 a{
 	display: block;
-	padding-left: 24px;
+	padding-left: 14px;
 	font-size: 16px;
 	line-height: 64px;
 	color: #383d48;
 }
 .g-sd h2 a .iconfont{
-	margin-right: 10px;
+	display: inline-block;
+	vertical-align: top;
+	width: 40px;
+	height: 40px;
+	margin-top: 11px;
+	line-height: 40px;
 	font-size: 20px;
+	text-align: center;
 	font-weight: normal;
 }
 .g-sd .active a{
@@ -112,10 +118,12 @@ body{
 	margin-bottom: 0;
 	border-bottom: none;
 }
+.g-sd .homePage .iconfont{
+	margin-top: 13px;
+}
 .g-mn{
 	float: right;
 	width: 918px;
-	min-height: 600px;
 }
 .g-mn .m-tt{
 	height: 65px;
@@ -124,15 +132,16 @@ body{
 	line-height: 65px;
 	color: #383d48;
 }
-.g-mn.Backdrop{
+.g-mn .Backdrop{
 	background-color: #fff;
 	border: 1px solid #e5e5e5;
 	border-radius: 3px;
+	min-height: 600px;
 }
-.g-mn.Backdrop .m-tt{
+.g-mn .Backdrop .m-tt{
 	border-bottom: 1px solid #eee;
 }
-.g-mn.noBackdrop .m-tt{
+.g-mn .noBackdrop .m-tt{
 	background-color: #fff;
     border: 1px solid #e5e5e5;
     border-radius: 3px;
@@ -1107,7 +1116,7 @@ body{
 	margin-right: 5px;
 }
 .m-requirement .tabs{
-	height: 46px;
+	height: 45px;
 	padding-left: 19px;
 	line-height: 46px;
 	background-color: #f1f1f1;
@@ -1610,7 +1619,7 @@ body{
 	width: 280px;
 	height: 180px;
 	overflow: hidden;
-	margin-left: 20px;
+	margin-left: 19px;
 	border-top: none;
 	border-radius: 2px;
 }

@@ -1,59 +1,66 @@
-<div class="m-tt">
-	<h2 class="title" ng-bind="$state.current.title"></h2>
-	<div class="m-breadbtns">
+<div class="Backdrop">
+    <div class="m-tt">
+        <h2 class="title" ng-bind="$state.current.title"></h2>
+        <div class="m-breadbtns">
 
-	</div>
-</div>
-<div class="m-ct" ng-if="isLoading">
-	<div class="main">
-		<div class="m-phone">
-			<div class="todo" ng-if="designeremail.email_auth_type == 0 || designerEmail.status">
-				<form name="email" ng-submit="designerEmail.send(email.$valid)" novalidate>
-					<div class="email">
-						<span><i class="iconfont2">&#xe615;</i><input type="text" ng-model="designeremail.email" required ng-pattern="/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/" /></span>
-					</div>
-					<div class="btns">
-						<input type="submit" class="u-btns"  ng-class="{'u-btns-disabled':email.$invalid || designerEmail.disabled}" ng-disabled="email.$invalid || designerEmail.disabled" value="发送验证邮件" />
-					</div>
-					<br />
-					<br />
-					<p>请点击验证邮件中的链接，以验证邮箱。</p>
-				</form>
-			</div>
-			<div class="pending" ng-if="designeremail.email_auth_type == 1">
-				<div>
-					<p class="success"><i class="iconfont2">&#xe60d;</i></p>
-					<h3>我们已向您的邮箱发送了一封验证邮件，请前往收信，完成验证。</h3>
-					<div class="num">
+        </div>
+    </div>
+    <div class="m-ct" ng-if="isLoading">
+        <div class="main">
+            <div class="m-phone">
+                <div class="todo" ng-if="designeremail.email_auth_type == 0 || designerEmail.status">
+                    <form name="email" ng-submit="designerEmail.send(email.$valid)" novalidate>
+                        <div class="email">
+                            <span><i class="iconfont2">&#xe615;</i><input type="text" ng-model="designeremail.email"
+                                                                          required
+                                                                          ng-pattern="/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/"/></span>
+                        </div>
+                        <div class="btns">
+                            <input type="submit" class="u-btns"
+                                   ng-class="{'u-btns-disabled':email.$invalid || designerEmail.disabled}"
+                                   ng-disabled="email.$invalid || designerEmail.disabled" value="发送验证邮件"/>
+                        </div>
+                        <br/>
+                        <br/>
+                        <p>请点击验证邮件中的链接，以验证邮箱。</p>
+                    </form>
+                </div>
+                <div class="pending" ng-if="designeremail.email_auth_type == 1">
+                    <div>
+                        <p class="success"><i class="iconfont2">&#xe60d;</i></p>
+                        <h3>我们已向您的邮箱发送了一封验证邮件，请前往收信，完成验证。</h3>
+                        <div class="num">
 					<span>
 						<i class="iconfont2">&#xe615;</i><em ng-bind="designeremail.email"></em>
 					</span>
-					</div>
-				</div>
-				<div class="alert-box">
-					<div my-alert type="warning" ng-show="designerEmail.again" text="已重新发送成功，前往邮箱查收"></div>
-					<div my-alert type="error" ng-show="designerEmail.prompt" text="您点的太快了，稍后再试"></div>
-				</div>
-				<div class="tips">
-					<h4>没收到邮件？</h4>
-					<p>查看邮箱的垃圾箱或广告箱，邮件有可能被误认为垃圾邮件</p>
-					<p>如果超过10分钟仍未收到验证邮件，请点击<a href="javascript:;" ng-click="designerEmail.send(true)">重新发送</a></p>
-				</div>
-			</div>
-			<div class="done" ng-if="designeremail.email_auth_type == 2 && !designerEmail.status">
-				<p class="success"><i class="iconfont2">&#xe60d;</i></p>
-				<h3>您的邮箱已通过认证</h3>
-				<div class="num">
+                        </div>
+                    </div>
+                    <div class="alert-box">
+                        <div my-alert type="warning" ng-show="designerEmail.again" text="已重新发送成功，前往邮箱查收"></div>
+                        <div my-alert type="error" ng-show="designerEmail.prompt" text="您点的太快了，稍后再试"></div>
+                    </div>
+                    <div class="tips">
+                        <h4>没收到邮件？</h4>
+                        <p>查看邮箱的垃圾箱或广告箱，邮件有可能被误认为垃圾邮件</p>
+                        <p>如果超过10分钟仍未收到验证邮件，请点击<a href="javascript:;" ng-click="designerEmail.send(true)">重新发送</a></p>
+                    </div>
+                </div>
+                <div class="done" ng-if="designeremail.email_auth_type == 2 && !designerEmail.status">
+                    <p class="success"><i class="iconfont2">&#xe60d;</i></p>
+                    <h3>您的邮箱已通过认证</h3>
+                    <div class="num">
 				<span>
 					<i class="iconfont2">&#xe615;</i><em ng-bind="designeremail.email"></em>
 				</span>
-				</div>
-				<div class="btns">
-					<a href="javascript:;" class="u-btns u-btns-revise" ng-click="designerEmail.change()">修改邮箱</a>
-				</div>
-			</div>
-		</div>
-	</div>
+                    </div>
+                    <div class="btns">
+                        <a href="javascript:;" class="u-btns u-btns-revise" ng-click="designerEmail.change()">修改邮箱</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pageLoading" ng-if="!isLoading"></div>
 </div>
-<div class="pageLoading" ng-if="!isLoading"></div>
+
 

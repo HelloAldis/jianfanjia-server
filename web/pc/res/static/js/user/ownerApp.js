@@ -5,6 +5,10 @@
         .run(['$rootScope','$state','$stateParams',function($rootScope,$state,$stateParams) {
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
+            $rootScope.$on('$stateChangeStart',function(){
+                //解决ie8 flash报错问题
+                $('#fileToUpload').uploadify('destroy');
+            });
             $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
                 document.documentElement.scrollTop = document.body.scrollTop = 0;
             });
@@ -13,7 +17,7 @@
             });
         }])
         .config(function($stateProvider, $urlRouterProvider) {
-            var url = RootUrl + 'tpl/user/owner/';
+            var url = '/tpl/user/owner/';
             $urlRouterProvider.otherwise('/index');
             $stateProvider
                 .state('index', {

@@ -1,9 +1,9 @@
-<div class="main favorite">
+<div class="noBackdrop">
 	<div class="m-tt">
-		<h2>收藏作品</h2>
+		<h2 class="title" ng-bind="$state.current.title"></h2>
 	</div>
-	<div class="m-ct">
-		<div ng-if="favoriteProduct && favoriteProduct.length != 0">
+	<div class="m-ct" ng-if="isLoading">
+		<div class="main favorite" ng-if="favoriteProduct && favoriteProduct.length != 0">
 			<ul class="list f-cb">
 				<li ng-repeat="list in favoriteProduct track by $index" bindonce="favoriteProduct">
 					<div class="deleted" bo-if="list.is_deleted">
@@ -31,15 +31,15 @@
 			</ul>
 			<div my-pageing page-object="pageing" ng-if="favoriteProduct"></div>
 		</div>
-		<div class="pageLoading" ng-hide="!!favoriteProduct"></div>
+		<div class="pageNotdate designer-pageNotdate" ng-if="favoriteProduct.length == 0">
+			<h3><i class="iconfont2">&#xe61b;</i></h3>
+			<p>您还没有收藏设计师作品</p>
+			<div class="btns">
+				<a href="../design/index.html" class="u-btns" target="_blank">前往收藏设计师作品</a>
+			</div>
+		</div>
 	</div>
-</div>
-<div class="pageNotdate designer-pageNotdate" ng-if="favoriteProduct.length == 0">
-	<h3><i class="iconfont2">&#xe61b;</i></h3>
-	<p>您还没有收藏设计师作品</p>
-	<div class="btns">
-		<a href="../design/index.html" class="u-btns" target="_blank">前往收藏设计师作品</a>
-	</div>
+	<div class="pageLoading" ng-if="!isLoading"></div>
 </div>
 <div class="k-modal dialog" id="j-modal" ng-class="{'show':modal.show}">
 	<div class="modal-dialog">

@@ -2,11 +2,18 @@
 (function() {
     // load modules
     angular.module('myJyzDesigner', ['ui.router','pasvaz.bindonce','controllers', 'services', 'filters' , 'directives','ngmodel.format','my.jyz'])
-        .run(['$rootScope','$state','$stateParams',function($rootScope,$state,$stateParams) {
+        .run(['$rootScope','$state','$stateParams', '$templateCache',function($rootScope,$state,$stateParams, $templateCache) {
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
             $rootScope.$on('$stateChangeStart',function(){
-            })
+                //解决ie8 flash报错问题
+                $('#createUpload1').uploadify('destroy');
+                $('#createUpload2').uploadify('destroy');
+                $('#fileToUpload').uploadify('destroy');
+                $('#fileToUpload1').uploadify('destroy');
+                $('#fileToUpload2').uploadify('destroy');
+                $('#fileToUpload3').uploadify('destroy');
+            });
             $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
                 document.documentElement.scrollTop = document.body.scrollTop = 0;
             });
@@ -15,7 +22,7 @@
             });
         }])
         .config(function($stateProvider, $urlRouterProvider) {
-            var url = RootUrl + 'tpl/user/designer/';
+            var url = '/tpl/user/designer/';
             $urlRouterProvider.otherwise('/index');
             $stateProvider
                 .state('index', {     //设计师首页
@@ -159,13 +166,13 @@
                     url: '/idcard',
                     templateUrl: url+'idcard.html',
                     controller : 'idcardCtrl',
-                    title : "身份证认证"
+                    title : "身份认证"
                 })
                 .state('idcardshow', {      //查看身份认证
                     url: '/idcardshow',
                     templateUrl: url+'idcardshow.html',
                     controller : 'idcardShowCtrl',
-                    title : "身份证认证"
+                    title : "身份认证"
                 })
                 .state('addteam', {      //添加施工团队
                     url: '/team?contract',
@@ -181,7 +188,7 @@
                 })
                 .state('teamList', {      //施工团队认证
                     url: '/teamList',
-                    templateUrl: url+'teamList.html',
+                    templateUrl:  url+'teamList.html',
                     controller : 'teamListCtrl',
                     title : "我的施工团队"
                 })

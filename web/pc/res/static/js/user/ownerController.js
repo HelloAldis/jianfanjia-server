@@ -77,7 +77,6 @@ angular.module('controllers', [])
                 console.log(err);
             });
             $scope.userInfo.submit = function(){     //修改个人资料
-                $('#fileToUpload').uploadify('destroy');
                 $scope.userInfo.disabled = true;
                 userInfo.update($scope.user).then(function(res){
                     if(res.data.msg == "success"){

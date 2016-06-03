@@ -140,7 +140,7 @@
 	            </dl>
 	        </div>
 		</aside>
-        <article class="g-mn" ui-view="" ng-class="{true : 'noBackdrop',false : 'Backdrop'}[$state.includes('products.list') || $state.includes('favorite.list')]"></article>
+        <article class="g-mn" ui-view=""></article>
 	</main>
     <footer class="g-ft g-wa">
         <div class="g-wp">
@@ -164,13 +164,3 @@
     <script type="text/javascript" src="/static/js/user/designerApp.js"></script>
 </body>
 </html>
-<div class="m-tt">
-    <h2 class="title" ng-bind="$state.current.title"></h2>
-    <div class="m-breadbtns">
-
-    </div>
-</div>
-<div class="m-ct" ng-if="isLoading">
-
-</div>
-<div class="pageLoading" ng-if="!isLoading"></div>

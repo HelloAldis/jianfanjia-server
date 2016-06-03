@@ -1,94 +1,96 @@
-<div class="m-tt">
-    <h2 class="title" ng-bind="$state.current.title"></h2>
-</div>
-<div class="m-ct" ng-if="isLoading">
-    <div class="main m-service">
-        <div class="infoTips"><i class="iconfont2">&#xe612;</i>接单资料修订后，保存即生效</div>
-        <form name="myService" ng-submit="service.submit(myService.$valid)" novalidate>
-            <div class="k-form">
-                <div class="m-boxs">
-                    <div class="m-item f-cb">
-                        <div class="item">
-                            <label class="u-lab"><i class="required-icon"></i>装修类型<span>最少1项</span></label>
-                            <div class="u-inp">
-                                <div my-checkbox data-type="decType" my-query="designerService.dec_types" data-min="1"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="m-item f-cb">
-                        <div class="item">
-                            <label class="u-lab"><i class="required-icon"></i>包工类型<span>最少1项</span></label>
-                            <div class="u-inp">
-                                <div my-checkbox data-type="workType" my-query="designerService.work_types" data-min="1"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="m-item f-cb">
-                        <div class="item">
-                            <label class="u-lab"><i class="required-icon"></i>擅长风格<span>最多3项</span></label>
-                            <div class="u-inp">
-                                <div my-checkbox data-type="decStyle" my-query="designerService.dec_styles" data-min="1" data-max="3"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="m-item f-cb">
-                        <div class="item">
-                            <label class="u-lab"><i class="required-icon"></i>接单区域<span>最少1项</span></label>
-                            <div class="u-inp">
-                                <div my-servicecities my-province="service.province" my-city="service.city" my-districtarr="designerService.dec_districts" ng-if="designerService.province"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="m-item f-cb">
-                        <div class="item">
-                            <label class="u-lab"><i class="required-icon"></i>意向接单户型<span>最少1项</span></label>
-                            <div class="u-inp">
-                                <div my-checkbox data-type="houseType" my-query="designerService.dec_house_types" data-min="1"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="m-item f-cb">
-                        <div class="item">
-                            <label class="u-lab"><i class="required-icon"></i>设计费报价<span>元/m&sup2;</span></label>
-                            <div class="u-inp">
-                                <div my-radio data-type="designFee" my-query="designerService.design_fee_range"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="m-item f-cb">
-                        <div class="item">
-                            <label class="u-lab"><i class="required-icon"></i>施工费报价<span>元/m&sup2;</span></label>
-                            <div class="u-inp">
-                                <ul class="dec-fee">
-                                    <li>半包<input type="text" class="input" check-number ng-model="designerService.dec_fee_half" required />元以上</li>
-                                    <li>全包<input type="text" class="input" check-number ng-model="designerService.dec_fee_all" required />元以上</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="m-item f-cb">
-                        <div class="item">
-                            <label class="u-lab"><i class="required-icon"></i>习惯沟通方式</label>
-                            <div class="u-inp">
-                                <div my-radio data-type="designType" my-query="designerService.communication_type"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="m-item m-error-info hide" id="error-info"></div>
-                </div>
-                <div class="m-btns">
-                    <input type="button" class="u-btns" ng-class="{'u-btns-disabled':myService.$invalid || service.disabled}" ng-disabled="myService.$invalid || service.disabled" ng-click="service.submit()" value="&nbsp;&nbsp;保存&nbsp;&nbsp;" />
-                </div>
-            </div>
-        </form>
+<div class="Backdrop">
+    <div class="m-tt">
+        <h2 class="title" ng-bind="$state.current.title"></h2>
     </div>
-</div>
-<div class="pageLoading" ng-if="!isLoading"></div>
-<div class="k-motai" ng-if="service.motaiDone">
-	<div class="motai done">
-		<span class="done-icon"></span>
-		<h3>设置成功！</h3>
-		<p>等候业主预约</p>
-		<a href="javascript:;" class="u-btns" ng-click="service.scoreDefineBtn()">&nbsp;确定&nbsp;</a>
-	</div>
+    <div class="m-ct" ng-if="isLoading">
+        <div class="main m-service">
+            <div class="infoTips"><i class="iconfont2">&#xe612;</i>接单资料修订后，保存即生效</div>
+            <form name="myService" ng-submit="service.submit(myService.$valid)" novalidate>
+                <div class="k-form">
+                    <div class="m-boxs">
+                        <div class="m-item f-cb">
+                            <div class="item">
+                                <label class="u-lab"><i class="required-icon"></i>装修类型<span>最少1项</span></label>
+                                <div class="u-inp">
+                                    <div my-checkbox data-type="decType" my-query="designerService.dec_types" data-min="1"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-item f-cb">
+                            <div class="item">
+                                <label class="u-lab"><i class="required-icon"></i>包工类型<span>最少1项</span></label>
+                                <div class="u-inp">
+                                    <div my-checkbox data-type="workType" my-query="designerService.work_types" data-min="1"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-item f-cb">
+                            <div class="item">
+                                <label class="u-lab"><i class="required-icon"></i>擅长风格<span>最多3项</span></label>
+                                <div class="u-inp">
+                                    <div my-checkbox data-type="decStyle" my-query="designerService.dec_styles" data-min="1" data-max="3"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-item f-cb">
+                            <div class="item">
+                                <label class="u-lab"><i class="required-icon"></i>接单区域<span>最少1项</span></label>
+                                <div class="u-inp">
+                                    <div my-servicecities my-province="service.province" my-city="service.city" my-districtarr="designerService.dec_districts" ng-if="designerService.province"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-item f-cb">
+                            <div class="item">
+                                <label class="u-lab"><i class="required-icon"></i>意向接单户型<span>最少1项</span></label>
+                                <div class="u-inp">
+                                    <div my-checkbox data-type="houseType" my-query="designerService.dec_house_types" data-min="1"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-item f-cb">
+                            <div class="item">
+                                <label class="u-lab"><i class="required-icon"></i>设计费报价<span>元/m&sup2;</span></label>
+                                <div class="u-inp">
+                                    <div my-radio data-type="designFee" my-query="designerService.design_fee_range"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-item f-cb">
+                            <div class="item">
+                                <label class="u-lab"><i class="required-icon"></i>施工费报价<span>元/m&sup2;</span></label>
+                                <div class="u-inp">
+                                    <ul class="dec-fee">
+                                        <li>半包<input type="text" class="input" check-number ng-model="designerService.dec_fee_half" required />元以上</li>
+                                        <li>全包<input type="text" class="input" check-number ng-model="designerService.dec_fee_all" required />元以上</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-item f-cb">
+                            <div class="item">
+                                <label class="u-lab"><i class="required-icon"></i>习惯沟通方式</label>
+                                <div class="u-inp">
+                                    <div my-radio data-type="designType" my-query="designerService.communication_type"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-item m-error-info hide" id="error-info"></div>
+                    </div>
+                    <div class="m-btns">
+                        <input type="button" class="u-btns" ng-class="{'u-btns-disabled':myService.$invalid || service.disabled}" ng-disabled="myService.$invalid || service.disabled" ng-click="service.submit()" value="&nbsp;&nbsp;保存&nbsp;&nbsp;" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="pageLoading" ng-if="!isLoading"></div>
+    <div class="k-motai" ng-if="service.motaiDone">
+        <div class="motai done">
+            <span class="done-icon"></span>
+            <h3>设置成功！</h3>
+            <p>等候业主预约</p>
+            <a href="javascript:;" class="u-btns" ng-click="service.scoreDefineBtn()">&nbsp;确定&nbsp;</a>
+        </div>
+    </div>
 </div>

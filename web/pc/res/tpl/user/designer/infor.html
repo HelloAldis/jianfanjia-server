@@ -1,9 +1,10 @@
-<div class="m-tt">
-	<h2 class="title" ng-bind="$state.current.title"></h2>
-</div>
-<div class="m-ct" ng-if="designerInfo.isLoading">
-	<div class="main m-phone m-info">
-        <div class="todo">
+<div class="Backdrop">
+	<div class="m-tt">
+		<h2 class="title" ng-bind="$state.current.title"></h2>
+	</div>
+	<div class="m-ct" ng-if="isLoading">
+		<div class="main m-phone m-info">
+			<div class="todo">
 				<div class="infoTips"><i class="iconfont">&#xe612;</i>修改个人资料需重新认证，才能生效</div>
 				<form name="designerinfo" ng-submit="designerInfo.submit()" novalidate>
 					<div class="k-form">
@@ -145,14 +146,15 @@
 						</div>
 						<div my-alert type="warning" ng-show="designerInfo.error" text="{{designerInfo.errormsg}}"></div>
 						<div class="m-btns">
-							<input type="submit" class="u-btns" ng-class="{'u-btns-disabled':designerinfo.$invalid || designerInfo.disabled}" ng-disabled="designerinfo.$invalid || designerInfo.disabled" value="&nbsp;&nbsp;申请认证&nbsp;&nbsp;" />
+							<input type="submit" class="u-btns" ng-class="{'u-btns-disabled':designerinfo.$invalid || designerInfo.disabled || designerInfo.award_details_complete}" ng-disabled="designerinfo.$invalid || designerInfo.disabled || designerInfo.award_details_complete" value="&nbsp;&nbsp;申请认证&nbsp;&nbsp;" />
 						</div>
 					</div>
 				</form>
 			</div>
+		</div>
 	</div>
+	<div class="pageLoading" ng-if="!isLoading"></div>
 </div>
-<div class="pageLoading" ng-hide="designerInfo.isLoading"></div>
 <div class="k-cropMask" id="j-cropMask"></div>
 <div class="k-cropBox" id="j-cropBox">
 	<div class="cropBox">

@@ -1612,7 +1612,7 @@ angular.module('directives', [])
                         $scope.myDistrictarr = _.remove($scope.myDistrictarr, function (n) {
                             return n !== name;
                         });
-                    };
+                    }
                     $scope.districtsArr[index].cur = !$scope.districtsArr[index].cur;
                 };
                 $scope.select = {
@@ -1689,7 +1689,6 @@ angular.module('directives', [])
             '<img class="img" id="userHead" alt="头像" /></div>'
         ];
         return {
-            replace: true,
             scope: {
                 myQuery: "="
             },
@@ -1801,7 +1800,7 @@ angular.module('directives', [])
                         alert("图片加载错误");
                         $('#upload').find('.disable').remove();
                     };
-                    img.src = RootUrl + 'api/v2/web/image/' + data.data;
+                    img.src = '/api/v2/web/image/' + data.data;
                     $cropCancel.on('click', function () {
                         clearData();
                         data.data = null;
@@ -1809,7 +1808,7 @@ angular.module('directives', [])
                     $('#crop-submit').on('click', function () {
                         if (data.data != null) {
                             $.ajax({
-                                url: RootUrl + 'api/v2/web/image/crop',
+                                url: '/api/v2/web/image/crop',
                                 type: "post",
                                 contentType: 'application/json; charset=utf-8',
                                 dataType: 'json',
@@ -1825,7 +1824,7 @@ angular.module('directives', [])
                                 .done(function (res) {
                                     scope.$apply(function () {
                                         scope.myQuery = res.data;
-                                        $userHead.attr('src', RootUrl + 'api/v2/web/thumbnail2/120/120/' + res.data)
+                                        $userHead.attr('src', '/api/v2/web/thumbnail2/120/120/' + res.data)
                                     });
                                     clearData();
                                     data.data = null;
@@ -1872,7 +1871,7 @@ angular.module('directives', [])
                         'auto': true, //自动上传
                         'removeTimeout': 1,
                         'swf': 'uploadify.swf',
-                        'uploader': RootUrl + 'api/v2/web/image/upload',  //上传的api
+                        'uploader': '/api/v2/web/image/upload',  //上传的api
                         'method': 'post',
                         'buttonText': '',
                         'fileObjName': 'Filedata',
@@ -1899,6 +1898,7 @@ angular.module('directives', [])
                                 callbackCropImg(data);
                             }
                             $('.uploadify-queue').css('zIndex', '0');
+                            parent.find('.disable').remove();
                         },
                         'onUploadError': function (file, errorCode, errorMsg, errorString) {
                             if (errorMsg === '500' && errorCode === -200) {
@@ -1926,7 +1926,7 @@ angular.module('directives', [])
                         alert("图片加载错误");
                         parent.find('.disable').remove();
                     };
-                    img.src = RootUrl + 'api/v2/web/image/' + data.data;
+                    img.src = '/api/v2/web/image/' + data.data;
                 }
 
                 var jcrop_api;
@@ -1984,7 +1984,7 @@ angular.module('directives', [])
                         alert("图片加载错误");
                         parent.find('.disable').remove();
                     };
-                    img.src = RootUrl + 'api/v2/web/image/' + data.data;
+                    img.src = '/api/v2/web/image/' + data.data;
                     $cropCancel.on('click', function () {
                         clearData();
                         data.data = null;
@@ -1992,7 +1992,7 @@ angular.module('directives', [])
                     $('#crop-submit').on('click', function () {
                         if (data.data != null) {
                             $.ajax({
-                                url: RootUrl + 'api/v2/web/image/crop',
+                                url: '/api/v2/web/image/crop',
                                 type: "post",
                                 contentType: 'application/json; charset=utf-8',
                                 dataType: 'json',
@@ -2036,7 +2036,6 @@ angular.module('directives', [])
     })
     .directive('myInsertimage', ['$timeout', function ($timeout) {     //多图片上传
         return {
-            replace: true,
             scope: {
                 myQuery: "=",
                 myType: '@',
@@ -2253,7 +2252,6 @@ angular.module('directives', [])
                     doc.append($modal);
                     var winW = $(window).width();
                     var winH = $(window).height();
-                    var $settes = $modal.find('.settes');
                     var $img = $modal.find('.img');
                     var $close = $modal.find('.close');
                     $close.on('click', function () {
@@ -2298,7 +2296,6 @@ angular.module('directives', [])
     }])
     .directive('myInsertimage2', ['$timeout', function ($timeout) {     //多图片上传
         return {
-            replace: true,
             scope: {
                 myQuery: "=",
                 mySection: "=",
@@ -2570,9 +2567,6 @@ angular.module('directives', [])
                         scope.myCover = id;
                     }, 0);
                 };
-                scope.$on('$destroy', function () {
-                    $('#createUpload2').uploadify('destroy');   //销毁上传的插件，避免ie报错
-                });
                 function bigImg(id) {
                     var modat = '<div class="modal-dialog"><span class="close"><i class="iconfont">&#xe642;</i></span>';
                     if (scope.myType == 'edit') {
@@ -3354,5 +3348,39 @@ angular.module('directives', [])
                 });
             }
         };
+    })
+    .directive('myAuthshow', function () {
+        return {
+            restrict: 'A',
+            scope: {
+                myType : '='
+            },
+            link: function (scope, ele, attr) {
+                var type = scope.myType;
+                var data = [
+                    {},
+                    {
+                        sClass : 's-auth-waiting',
+                        sIcon : '&#xe60b;',
+                        sText : '您的'+attr.msg+'已经提交，请耐心等待审核'
+                    },
+                    {
+                        sClass : 's-auth-done',
+                        sIcon : '&#xe608;',
+                        sText : '您的'+attr.msg+'已经提交，请耐心等待审核'
+                    },
+                    {
+                        sClass : 's-auth-fail',
+                        sIcon : '&#xe607;',
+                        sText : '您的'+attr.msg+'已经提交，请耐心等待审核'
+                    },
+                    {
+                        sClass : 's-auth-offline',
+                        sIcon : '&#xe612;',
+                        sText : '您的'+attr.msg+'已经提交，请耐心等待审核'
+                    }
+                ];
+                ele.addClass(data[type].sClass).html('<i class="iconfont">'+data[type].sIcon+'</i>&nbsp;&nbsp;&nbsp;'+data[type].sText);
+            }
+        };
     });
-

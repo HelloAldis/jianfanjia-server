@@ -69,25 +69,9 @@
 	</style>
 </head>
 <body>
-	<div class="g-error">
-		<img src="/static/img/other/404-icon.jpg" alt="404">
-		<h1>您查看的页面不存在</h1>
-		<p>您查看的页面已被删除或者您输入的地址有误</p>
-		<div id="error">10秒后，跳转到首页</div>
-		<a href="/">返回首页</a>
-	</div>
+	<div class="g-error"><img src="/static/img/other/404-icon.jpg" alt="404"><h1>您查看的页面不存在</h1><p>您查看的页面已被删除或者您输入的地址有误</p><div id="error">10秒后，跳转到首页</div><a href="/">返回首页</a></div>
 	<script type="text/javascript">
-		var oError = document.getElementById('error');
-		var iNum = 10;
-		var timer = null;
-		timer = setInterval(function(){
-			iNum--;
-			oError.innerHTML = iNum+'秒后，跳转到首页';
-			if(iNum == 0){
-				clearInterval(timer)
-				window.location.href = '/'
-			}
-		}, 1000)
+		var oError = document.getElementById('error'),iNum = 10,timer = null;timer=setInterval(function(){iNum--;oError.innerHTML = iNum+'秒后，跳转到首页';if(iNum == 0){clearInterval(timer);window.location.href = '/';}}, 1000)
 	</script>
 </body>
 </html>
