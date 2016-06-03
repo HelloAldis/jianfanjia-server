@@ -3367,17 +3367,17 @@ angular.module('directives', [])
                     {
                         sClass : 's-auth-done',
                         sIcon : '&#xe608;',
-                        sText : '您的'+attr.msg+'已经提交，请耐心等待审核'
+                        sText : '您的'+attr.msg+'已通过审核'
                     },
                     {
                         sClass : 's-auth-fail',
                         sIcon : '&#xe607;',
-                        sText : '您的'+attr.msg+'已经提交，请耐心等待审核'
+                        sText : '您的'+attr.msg+'失败，请重新提交'
                     },
                     {
                         sClass : 's-auth-offline',
                         sIcon : '&#xe612;',
-                        sText : '您的'+attr.msg+'已经提交，请耐心等待审核'
+                        sText : '您的'+attr.msg+'内容违规，请重新提交'
                     }
                 ];
                 ele.addClass(data[type].sClass).html('<i class="iconfont">'+data[type].sIcon+'</i>&nbsp;&nbsp;&nbsp;'+data[type].sText);
