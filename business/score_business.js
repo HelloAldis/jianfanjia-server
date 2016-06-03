@@ -20,9 +20,9 @@ const email_auth_score = 3;
 const new_designer_duration = 50;
 const new_designer_score = 100;
 
-const reject_user_score = -2;
-const no_respond_expired_score = -3;
-const no_plan_expired_score = -3;
+const reject_user_score = -8;
+const no_respond_expired_score = -5;
+const no_plan_expired_score = -5;
 
 exports.refresh_score = function (designer, callback) {
   const designerid = designer._id;

@@ -1,9 +1,11 @@
-var _ = require('lodash');
-var type = require('../type');
-var config = require('../apiconfig');
+'use strict'
+
+const _ = require('lodash');
+const type = require('../type');
+const config = require('../apiconfig');
 
 exports.designer_match = function (designer, requirement) {
-  var price_perm = requirement.total_price * 10000 / requirement.house_area;
+  let price_perm = requirement.total_price * 10000 / requirement.house_area;
   designer.match = 0;
 
   //匹配区域
@@ -52,7 +54,9 @@ exports.designer_match = function (designer, requirement) {
     designer.match++;
   }
 
-  designer.match = 50 + designer.match * 7;
+  let baseMatch = designer.score > 100 ? 50 : parseInt(designer.score / 2);
+
+  designer.match = baseMatch + designer.match * 7;
 }
 
 exports.top_designers = function (designers, requirement) {
@@ -62,10 +66,10 @@ exports.top_designers = function (designers, requirement) {
   });
 
   //找到3个最高匹配的设计师
-  var tops = [];
-  for (var i = 0; i < config.recommend_designer_count; i++) {
-    var topIndex = 0;
-    for (var j = 1; j < designers.length; j++) {
+  let tops = [];
+  for (let i = 0; i < config.recommend_designer_count; i++) {
+    let topIndex = 0;
+    for (let j = 1; j < designers.length; j++) {
       if (designers[j].match > designers[topIndex].match) {
         topIndex = j;
       }
