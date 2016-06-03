@@ -54,7 +54,7 @@ exports.designer_match = function (designer, requirement) {
     designer.match++;
   }
 
-  let baseMatch = designer.score > 100 ? 50 : parseInt(designer.score / 2);
+  let baseMatch = designer.score > 100 ? 50 : parseInt(designer.score / 1.5);
 
   designer.match = baseMatch + designer.match * 7;
 }
