@@ -23,7 +23,7 @@ const work_auth_score = 10;
 const email_auth_score = 5;
 
 const new_designer_duration = 50;
-const new_designer_score = 60;
+const new_designer_score = 50;
 
 const reject_user_score = -10;
 const no_respond_expired_score = -5;
