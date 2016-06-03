@@ -72,10 +72,6 @@ exports.user_my_requirement_list = function (req, res, next) {
             tags: 1,
           }, null, ep.done(function (designers) {
             requirement.rec_designers = designers;
-            _.forEach(requirement.rec_designers, function (designer) {
-              designer_match_util.designer_match(designer,
-                requirement);
-            });
             callback(null, requirement);
           }));
         } else {
