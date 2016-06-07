@@ -1,0 +1,25 @@
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">统计总览</li></ol>
+<div class="panel panel-info ng-scope">
+	<table id= 'a' class="table table-bordered">
+		<tbody>
+			<tr class="info thead">
+				<th>项目</th>
+				<th ng-repeat="range in timeRanges">
+					{{range.name}} <br/>
+					{{range.range['$gte'] | date:'yy/MM/dd' }}-{{range.range['$lte'] | date:'yy/MM/dd' }}
+				</th>
+			</tr>
+			<tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="row in querys">
+				<td>{{row.name}}</td>
+				<td ng-repeat="num in statistic[$index] track by $index">
+					<a ui-sref="{{querys[$parent.$index].key}}(getDetail(querys[$parent.$index].querys[$index]))">{{num}}</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="loadData" ng-hide="loading.loadData"></div>
+<div class="loadData notData" ng-show="loading.notData"></div>
+<div>
+	<button type="button" class="btn btn-success" onclick="$('#a').table2CSV()">导出数据</button>
+</div>
