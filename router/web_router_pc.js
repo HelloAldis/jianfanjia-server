@@ -18,10 +18,10 @@ router.get('/', response_util, home.index);
 router.get('/index.html|/index.htm', function (req, res, next) {
   res.redirect('/');
 });
-router.get('/tpl/user/', site.homePage);
-router.get('/download/user/app', site.download_user_app);
-router.get('/download/user/apk', site.download_user_apk);
-router.get('/download/designer/apk', site.download_designer_apk);
+router.get('/tpl/user/', response_util, site.homePage);
+router.get('/download/user/app', response_util, site.download_user_app);
+router.get('/download/user/apk', response_util, site.download_user_apk);
+router.get('/download/designer/apk', response_util, site.download_designer_apk);
 // router.post('/signup', sign.signup);
 // router.post('/login', sign.login);
 // router.get('/tpl/article/detail.html', response_util, dec_strategy.dec_strategy_homepage); //要被废弃掉 SEO不友好
