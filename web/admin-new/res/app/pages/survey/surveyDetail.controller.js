@@ -5,18 +5,6 @@
               return $sce.trustAsHtml(text);
           }
         }])
-        .controller('SurveyListController', [
-            '$scope','$rootScope','adminEvents',
-            function($scope, $rootScope,adminEvents) {
-                $scope.userList = [
-                  {
-                    "_id" : 1,
-                    "create_at" : +new Date(),
-                    "status" : false,
-                    "name" : "内部问卷调查"
-                  }
-                ]
-        }])
         .controller('SurveyDetailController', [
             '$scope','$rootScope','$sce','adminEvents',
             function($scope, $rootScope,$sce,adminEvents) {
