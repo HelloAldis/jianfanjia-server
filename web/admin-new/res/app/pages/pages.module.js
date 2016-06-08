@@ -11,6 +11,7 @@
       'JfjAdmin.pages.index',
       'JfjAdmin.pages.pictures',
       'JfjAdmin.pages.survey',
+      'JfjAdmin.pages.requirement'
     ])
     .config(routeConfig);
 

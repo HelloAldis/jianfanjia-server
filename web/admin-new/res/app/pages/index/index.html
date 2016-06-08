@@ -19,13 +19,7 @@
 	</table>
 </div>
 <load-data ng-hide="loading.loadData"></load-data>
-<no-data></no-data>
-<!-- <div class="loadData" ng-hide="loading.loadData"></div> -->
-
-<div class="notData" ng-show="loading.notData">
-	<img ng-src="{{:: ('Hacker' | kameleonImg )}}">
-	<span>没有数据</span>
-</div>
+<no-data ng-show="loading.notData"></no-data>
 
 <div>
 	<button type="button" class="btn btn-success" onclick="$('#a').table2CSV()">导出数据</button>

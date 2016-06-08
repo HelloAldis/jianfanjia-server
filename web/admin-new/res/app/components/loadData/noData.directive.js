@@ -6,14 +6,14 @@
   'use strict';
 
   angular.module('JfjAdmin.components')
-    .directive('loadData', loadData);
+    .directive('noData', noData);
 
   /** @ngInject */
-  function loadData() {
+  function noData() {
     return {
       restrict: 'E',
       replace: true,
-      templateUrl: 'app/components/loadData/loadData.html'
+      templateUrl: 'app/components/loadData/noData.html'
     };
   }
 

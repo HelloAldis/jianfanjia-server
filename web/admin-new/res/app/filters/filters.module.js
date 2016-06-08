@@ -4,6 +4,6 @@
 (function () {
   'use strict';
 
-  angular.module('JfjAdmin.components', []);
+  angular.module('JfjAdmin.filters', []);
 
 })();
