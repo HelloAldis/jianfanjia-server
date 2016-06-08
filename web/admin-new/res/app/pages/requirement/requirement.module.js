@@ -16,7 +16,7 @@
         title: '需求列表',
         controller: 'RequirementController',
         sidebarMeta: {
-          icon: 'ion-android-list',
+          icon: 'fa fa-wrench',
           order: 10,
         },
       }).state('requirementDetail', {

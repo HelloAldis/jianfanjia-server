@@ -1,6 +1,6 @@
-<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">装修美图</li></ol>
+<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">新闻编辑</li></ol>
 <form name="recruit" ng-submit="searchTimeBtn()" novalidate>
-	<p>美图创建时间过滤</p>
+	<p>文章创建时间过滤</p>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-1">开始时间</div>
@@ -21,21 +21,22 @@
 				  	</span>
 				</p>
 			</div>
-			<div class="col-md-2"><button type="submit" class="btn btn-info" ng-disabled="recruit.$invalid">搜索</button></div>
+			<div class="col-md-2"><button type="submit" class="btn btn-info">搜索</button></div>
 		</div>
 	</div>
 </form>
 <br />
 <div>
-	<a ui-sref="picturesAdd()" class="btn btn-success">添加装修美图</a>
+	<a ui-sref="newsAdd()" class="btn btn-success">添加新闻编辑</a>
 </div>
 <br />
 <div class="panel panel-info">
 	<table class="table table-bordered">
 		<tbody>
 			<tr class="info thead">
-				<th>美图ID</th>
-				<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">创建时间</th>
+				<th>文章ID</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">创建时间</th>
+				<th>文章分类</th>
 				<th>美图标题</th>
 				<th>当前状态</th>
 				<th>状态操作</th>
@@ -46,12 +47,13 @@
 			<tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="user in userList">
 				<td>{{user._id}}</td>
 				<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.articletype | articletypeFilter}}</td>
 				<td>{{user.title}}</td>
-				<td>{{user.status == 1 ? "页面显示" : "页面隐藏"}}</td>
+				<td>{{user.status | displayStateFilter}}</td>
 				<td><button type="button" class="btn btn-danger" ng-click="changeStatus(user._id,user.status, user)">更改状态</button></td>
 				<td>{{user.lastupdate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-				<td><a ui-sref="picturesAdd({id:user._id})">修改更新</a></td>
-				<td><a ng-href="{{'/tpl/mito/detail.html?pid=' + user._id + '&imgid=' + user.images[0].imageid + '&imgw=' + user.images[0].width + '&imgh=' + user.images[0].height | pcUrl}}" target="_blank">点击查看</a></td>
+				<td><a ui-sref="newsAdd({id:user._id})">修改更新</a></td>
+				<td><a ng-href="{{'/tpl/article/strategy/' + user._id | pcUrl}}" target="_blank">点击查看</a></td>
 			</tr>
 		</tbody>
 	</table>

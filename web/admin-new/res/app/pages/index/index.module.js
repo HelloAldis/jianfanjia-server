@@ -16,7 +16,7 @@
         title: '数据统计',
         controller: 'IndexController',
         sidebarMeta: {
-          icon: 'ion-android-home',
+          icon: 'fa fa-home',
           order: 0,
         },
       });
