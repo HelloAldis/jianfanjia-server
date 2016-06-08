@@ -17,14 +17,14 @@
         controller: 'SurveyListController',
         sidebarMeta: {
           icon: 'ion-clipboard',
-          order: 12,
+          order: 120,
         },
       })
       .state('surveyDetail', {
         url: '/survey/:id',
         templateUrl: 'app/pages/survey/surveyDetail.html',
         controller: 'SurveyDetailController'
-      });;
+      });
   }
 
 })();

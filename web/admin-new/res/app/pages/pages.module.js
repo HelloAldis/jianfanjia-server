@@ -9,6 +9,7 @@
       'ui.router',
 
       'JfjAdmin.pages.index',
+      'JfjAdmin.pages.pictures',
       'JfjAdmin.pages.survey',
     ])
     .config(routeConfig);
