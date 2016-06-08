@@ -13,7 +13,7 @@
       .state('index', {
         url: '/index',
         templateUrl: 'app/pages/index/index.html',
-        title: '仪表盘',
+        title: '数据统计',
         controller: 'IndexController',
         sidebarMeta: {
           icon: 'ion-android-home',
