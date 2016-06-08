@@ -9,6 +9,7 @@
       'ui.router',
 
       'JfjAdmin.pages.index',
+      'JfjAdmin.pages.survey',
     ])
     .config(routeConfig);
 
