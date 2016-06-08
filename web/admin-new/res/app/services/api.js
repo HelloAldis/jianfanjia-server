@@ -92,7 +92,7 @@
     .factory('adminRequirement', ['doRequest', function (doRequest) {
       return {
         search: function (data) {
-          return doRequest('search', data);
+          return doRequest('requirement/search', data);
         }
       };
     }])

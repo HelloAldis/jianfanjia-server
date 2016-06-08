@@ -10,6 +10,7 @@
 
       'JfjAdmin.pages.index',
       'JfjAdmin.pages.survey',
+      'JfjAdmin.pages.requirement'
     ])
     .config(routeConfig);
 
