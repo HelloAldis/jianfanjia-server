@@ -17,7 +17,7 @@
         controller: 'RequirementController',
         sidebarMeta: {
           icon: 'fa fa-wrench',
-          order: 1,
+          order: 10,
         },
       }).state('requirementDetail', {
         url: '/requirement/detail/:id',
