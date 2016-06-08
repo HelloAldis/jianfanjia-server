@@ -16,7 +16,7 @@
         title: '装修美图',
         controller: 'PicturesListController',
         sidebarMeta: {
-          icon: 'ion-images',
+          icon: 'fa fa-picture-o',
           order: 110,
         },
       })

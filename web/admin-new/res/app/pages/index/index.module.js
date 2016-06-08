@@ -16,7 +16,7 @@
         title: '仪表盘',
         controller: 'IndexController',
         sidebarMeta: {
-          icon: 'ion-android-home',
+          icon: 'fa fa-home',
           order: 0,
         },
       });

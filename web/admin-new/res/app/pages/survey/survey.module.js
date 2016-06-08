@@ -16,7 +16,7 @@
         title: '问卷调查',
         controller: 'SurveyListController',
         sidebarMeta: {
-          icon: 'ion-clipboard',
+          icon: 'fa fa-file-text-o',
           order: 120,
         },
       })
