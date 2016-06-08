@@ -16,10 +16,15 @@
         title: '问卷调查',
         controller: 'SurveyListController',
         sidebarMeta: {
-          icon: 'ion-android-home',
+          icon: 'ion-clipboard',
           order: 12,
         },
-      });
+      })
+      .state('surveyDetail', {
+        url: '/survey/:id',
+        templateUrl: 'app/pages/survey/surveyDetail.html',
+        controller: 'SurveyDetailController'
+      });;
   }
 
 })();
