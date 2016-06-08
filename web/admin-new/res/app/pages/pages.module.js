@@ -10,7 +10,8 @@
 
       'JfjAdmin.pages.index',
       'JfjAdmin.pages.survey',
-      'JfjAdmin.pages.requirement'
+      'JfjAdmin.pages.requirement',
+      'JfjAdmin.pages.plan'
     ])
     .config(routeConfig);
 

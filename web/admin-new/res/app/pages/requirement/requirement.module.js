@@ -17,7 +17,7 @@
         controller: 'RequirementController',
         sidebarMeta: {
           icon: 'ion-android-list',
-          order: 1,
+          order: 10,
         },
       }).state('requirementDetail', {
         url: '/requirement/detail/:id',
