@@ -15,6 +15,9 @@
       'JfjAdmin.pages.requirement',
       'JfjAdmin.pages.plan',
       'JfjAdmin.pages.user',
+      'JfjAdmin.pages.recruit',
+      'JfjAdmin.pages.feedback',
+      'JfjAdmin.pages.field',
       'JfjAdmin.pages.designer',
       'JfjAdmin.pages.product',
       'JfjAdmin.pages.live'
