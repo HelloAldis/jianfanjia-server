@@ -160,10 +160,10 @@ router.post('/admin/login', admin.login); //审核设计师
 router.post('/admin/update_basic_auth', auth.adminRequired, admin.update_basic_auth); //更改设计师基本信息认证
 router.post('/admin/update_uid_auth', auth.adminRequired, admin.update_uid_auth); //更改设计师身份证信息认证
 router.post('/admin/update_work_auth', auth.adminRequired, admin.update_work_auth); //更改设计师工地信息认证
-router.post('/share/search', auth.adminRequired, admin.search_share); //搜索分享
-router.post('/share/add', auth.adminRequired, admin.add); //创建直播分享
-router.post('/share/update', auth.adminRequired, admin.update); //更新直播分享
-router.post('/share/delete', auth.adminRequired, admin.delete); //删除直播分享
+router.post('/admin/share/search', auth.adminRequired, admin.search_share); //搜索分享
+router.post('/admin/share/add', auth.adminRequired, admin.add); //创建直播分享
+router.post('/admin/share/update', auth.adminRequired, admin.update); //更新直播分享
+router.post('/admin/share/delete', auth.adminRequired, admin.delete); //删除直播分享
 router.post('/admin/search_designer', auth.adminRequired, admin.searchDesigner); //搜索设计师
 router.post('/admin/search_user', auth.adminRequired, admin.searchUser); //搜索业主
 router.post('/admin/designer/:_id', auth.adminRequired, admin.getDesigner); //获取设计师信息

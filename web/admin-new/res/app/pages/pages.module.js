@@ -16,7 +16,8 @@
       'JfjAdmin.pages.plan',
       'JfjAdmin.pages.user',
       'JfjAdmin.pages.designer',
-      'JfjAdmin.pages.product'
+      'JfjAdmin.pages.product',
+      'JfjAdmin.pages.live'
     ])
     .config(routeConfig);
 

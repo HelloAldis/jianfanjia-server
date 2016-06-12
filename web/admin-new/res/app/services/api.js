@@ -27,16 +27,16 @@
   .factory('adminShare', ['doRequest', function (doRequest) {
       return {
         search: function (data) {
-          return doRequest('search', data);
+          return doRequest('share/search', data);
         },
         update: function (data) {
-          return doRequest('update', data);
+          return doRequest('share/update', data);
         },
         add: function (data) {
-          return doRequest('add', data);
+          return doRequest('share/add', data);
         },
         remove: function (data) {
-          return doRequest('delete', data);
+          return doRequest('share/delete', data);
         }
       };
     }])
