@@ -15,8 +15,8 @@ let main_app = express();
 main_app.use(vhost('jianfanjia.com', function (req, res, next) {
   res.redirect(301, 'http://www.jianfanjia.com' + req.url);
 }));
-// main_app.use(vhost(config.admin_web_domain_regex, require('./app_admin')));ß
-main_app.use(vhost(config.admin_web_domain_regex, require('./app_admin_new')));
+main_app.use(vhost(config.admin_web_domain_regex, require('./app_admin')));
+// main_app.use(vhost(config.admin_web_domain_regex, require('./app_admin_new')));
 main_app.use(vhost(config.m_web_domain_regex, require('./app_mobile')));
 main_app.use(vhost(config.www_web_domain_regex, require('./app_pc')));
 
