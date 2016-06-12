@@ -14,7 +14,8 @@
       'JfjAdmin.pages.survey',
       'JfjAdmin.pages.requirement',
       'JfjAdmin.pages.plan',
-      'JfjAdmin.pages.user'
+      'JfjAdmin.pages.user',
+      'JfjAdmin.pages.recruit'
     ])
     .config(routeConfig);
 
