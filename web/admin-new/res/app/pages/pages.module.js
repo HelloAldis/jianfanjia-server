@@ -17,6 +17,7 @@
       'JfjAdmin.pages.user',
       'JfjAdmin.pages.recruit',
       'JfjAdmin.pages.feedback',
+      'JfjAdmin.pages.field',
     ])
     .config(routeConfig);
 

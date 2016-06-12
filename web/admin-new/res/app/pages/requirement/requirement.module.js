@@ -16,7 +16,7 @@
         title: '需求列表',
         controller: 'RequirementController',
         sidebarMeta: {
-          icon: 'fa fa-wrench',
+          icon: 'fa fa-building',
           order: 10,
         },
       }).state('requirementDetail', {
