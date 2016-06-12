@@ -18,6 +18,8 @@
       'JfjAdmin.pages.recruit',
       'JfjAdmin.pages.feedback',
       'JfjAdmin.pages.field',
+      'JfjAdmin.pages.designer',
+      'JfjAdmin.pages.product'
     ])
     .config(routeConfig);
 
