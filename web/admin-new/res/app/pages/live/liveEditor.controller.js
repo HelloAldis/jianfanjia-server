@@ -3,6 +3,7 @@
     .controller('LiveEditorController', [ //编辑装修直播
       '$scope', '$rootScope', '$stateParams', '$http', '$filter', '$location', 'adminShare',
       function ($scope, $rootScope, $stateParams, $http, $filter, $location, adminShare) {
+        $scope.adf = 'Jani';
         //时间筛选控件
         $scope.startTime = {
           clear: function () {
