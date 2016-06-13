@@ -1,5 +1,3 @@
-<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">设计师列表</li></ol>
-<br />
 <ul class="list-inline">
 	基本认证状态：<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, authList)">{{auth.name}}</button></li>
 </ul>
@@ -48,7 +46,7 @@
 </div>
 <br />
 <div class="panel panel-info ng-scope">
-	<table class="table table-bordered">
+	<table class="table table-bordered table-striped">
 		<tbody>
 			<tr class="info thead">
 				<th>设计师ID</th>
@@ -61,7 +59,7 @@
 				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.team_count]" ng-click="sortData('team_count')">施工团队</th>
 				<th>管理员认证操作</th>
 			</tr>
-			<tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="user in userList">
+			<tr ng-repeat="user in userList">
 				<td>{{user._id}}</td>
 				<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 				<td><a ui-sref="designerInfo({id:user._id})">{{user.username}}</a></td>

@@ -16,7 +16,7 @@
         title: '装修直播列表',
         controller: 'LiveController',
         sidebarMeta: {
-          icon: 'ion-ios-videocam-outline',
+          icon: 'ion-ios-videocam',
           order: 60,
         },
       })

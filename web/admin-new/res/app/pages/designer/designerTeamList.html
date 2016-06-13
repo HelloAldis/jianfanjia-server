@@ -1,6 +1,5 @@
-<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li><a ui-sref="designer">设计师列表</a></li><li class="active">施工团队列表</li></ol>
 <div class="panel panel-info ng-scope">
-	<table class="table table-bordered">
+	<table class="table table-bordered table-striped">
 		<tbody>
 			<tr class="info thead">
 				<th>项目经理姓名</th>
@@ -13,7 +12,7 @@
 				<th>正在施工工地</th>
 				<th>操作</th>
 			</tr>
-			<tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="user in userList">
+			<tr ng-repeat="user in userList">
 				<td>{{user.manager}}</td>
 				<td>{{user.uid}}</td>
 				<td>{{user.sex | sexFilter}}</td>

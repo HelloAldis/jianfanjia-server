@@ -79,7 +79,7 @@
         restrict: 'A',
         template: '<div class="k-uploadbox clearfix"><div class="pic" id="create"><div class="fileBtn"><input class="hide" id="createUpload" type="file" name="upfile"><input type="hidden" id="sessionId" value="${pageContext.session.id}" /><input type="hidden" value="1215154" name="tmpdir" id="id_create"></div><div class="tips"><span><em></em><i></i></span><p>图片上传每张3M以内jpg<strong ng-if="mySection.length">作品/照片/平面图上均不能放置个人电话号码或违反法律法规的信息。</strong></p></div></div><div class="previews-item"><div class="img"><img class="img" src="/api/v2/web/thumbnail/168/{{myQuery}}" alt=""><div></div></div>',
         link: function ($scope, iElm, iAttrs, controller) {
-          var uploaderUrl = RootUrl + 'api/v2/web/image/upload',
+          var uploaderUrl = 'api/v2/web/image/upload',
             fileTypeExts = '*.jpg;*.png',
             fileSizeLimit = 3072,
             obj = angular.element(iElm);
@@ -119,7 +119,7 @@
             img.onerror = function () {
               alert("error!")
             };
-            img.src = RootUrl + 'api/v2/web/image/' + data.data;
+            img.src = 'api/v2/web/image/' + data.data;
           }
         }
       };

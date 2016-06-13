@@ -5,6 +5,7 @@ angular.module('JfjAdmin', [
   'ui.bootstrap',
   'ui.sortable',
   'ui.router',
+  'ng.ueditor',
   'ngTouch',
   'toastr',
   'smart-table',

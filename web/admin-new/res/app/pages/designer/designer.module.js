@@ -20,6 +20,7 @@
           order: 40,
         },
       }).state('designerTeamList', {
+        title: '施工团队列表',
         url: '/designer/team/:id',
         templateUrl: 'app/pages/designer/designerTeamList.html',
         controller: 'DesignerTeamListController'
