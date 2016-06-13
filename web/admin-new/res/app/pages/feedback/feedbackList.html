@@ -1,4 +1,3 @@
-<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">app用户反馈</li></ol>
 <form name="recruit" ng-submit="searchTimeBtn()" novalidate>
 	<p>反馈时间过滤</p>
 	<div class="container-fluid">
@@ -31,7 +30,7 @@
 </div>
 <br />
 <div class="panel panel-info">
-	<table class="table table-bordered table-break">
+	<table class="table table-bordered table-break table-striped">
 		<tbody>
 			<tr class="info thead">
 				<th>提交ID</th>
@@ -42,7 +41,7 @@
 				<th>手机类型</th>
 				<th>留言内容</th>
 			</tr>
-			<tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="user in userList">
+			<tr ng-repeat="user in userList">
 				<td>{{user._id}}</td>
 				<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 				<td>{{user.usertype | userFilter}}</td>

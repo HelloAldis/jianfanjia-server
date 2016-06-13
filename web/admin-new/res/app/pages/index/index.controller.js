@@ -163,7 +163,7 @@
       querys: genQuerys($scope.timeRanges, 'create_at')
     }, {
       name: '新增工地数',
-      key: 'field',
+      key: 'fieldList',
       querys: genQuerys($scope.timeRanges, 'create_at')
     }, {
       name: '新增天使用户数',

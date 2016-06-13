@@ -1,6 +1,5 @@
-<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">装修直播</li></ol>
 <div class="panel panel-info ng-scope" ng-if="loading.loadData">
-	<table class="table table-bordered">
+	<table class="table table-bordered table-striped">
 		<tbody>
 			<tr class="info thead">
 				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.start_at]" ng-click="sortData('start_at')">直播时间</th>
@@ -10,7 +9,7 @@
 				<th>项目经理</th>
 				<th>管理员操作</th>
 			</tr>
-			<tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="live in liveList">
+			<tr ng-repeat="live in liveList">
 				<td>{{live.start_at | date:'yyyy-MM-dd'}}</td>
 				<td>{{live.cell}}</td>
 				<td>{{live.process[live.process.length-1].name | processFilter}}</td>

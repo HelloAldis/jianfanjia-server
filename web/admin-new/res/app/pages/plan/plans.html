@@ -1,4 +1,3 @@
-<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li class="active">方案列表</li></ol>
 <form name="recruit" ng-submit="searchTimeBtn()" novalidate>
 	<p>方案最后更新时间过滤</p>
 	<div class="container-fluid">
@@ -35,7 +34,7 @@
 </div>
 <br />
 <div class="panel panel-info ng-scope">
-	<table class="table table-bordered">
+	<table class="table table-bordered table-striped">
 		<tbody>
 			<tr class="info thead">
 				<th>方案ID</th>
@@ -50,7 +49,7 @@
 				<th>业主电话</th>
 				<th>查看方案</th>
 			</tr>
-			<tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="user in userList">
+			<tr ng-repeat="user in userList">
 				<td>{{user._id}}</td>
 				<td>{{user.request_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 				<td>{{user.get_phone_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
