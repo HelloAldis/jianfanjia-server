@@ -101,20 +101,6 @@
           //返回信息
           if (resp.data.data.total === 1) {
             $scope.dataMapped = resp.data.data.shares[0];
-            desArea.empty();
-            if (!!$scope.dataMapped.province) {
-              var designAreaQuery = $scope.dataMapped.province + " " + $scope.dataMapped.city + " " + $scope.dataMapped.district;
-              desArea.find('input[name=where_area]').val(designAreaQuery)
-              var designArea = new CitySelect({
-                id: 'where_area',
-                "query": designAreaQuery
-              });
-            } else {
-              desArea.find('input[name=where_area]').val("")
-              var designArea = new CitySelect({
-                id: 'where_area'
-              });
-            }
           }
         }, function (resp) {
           //返回错误信息

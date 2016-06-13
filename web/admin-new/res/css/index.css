@@ -52,6 +52,101 @@
   white-space: nowrap;
 }
 
+.btn-group > .btn {
+    font-size: 13px;
+}
+
 .dropdown-menu > li > a:hover {
   background-color: #209e91;
+}
+
+/*城市插件*/
+.k-cities{
+	position: relative;
+	z-index: 20;
+	height: 34px;
+}
+.k-cities .tipsinfo{
+	line-height: 24px;
+    color: #d92222;
+}
+.k-cities .list{
+	position: relative;
+  z-index: 2;
+	float: left;
+	width: 230px;
+	margin-right: 15px;
+	text-align: left;
+}
+.k-cities .option{
+	overflow: hidden;
+	height: 32px;
+	line-height: 32px;
+	position: relative;
+	cursor: pointer;
+	padding:0 20px 0 10px;
+	background-color: #209e91;
+	border: 1px solid transparent;
+	border-radius: 5px;
+}
+.k-cities .option .value{
+	font-size: 13px;
+	color: #fff;
+}
+.k-cities .arrow{
+	position: absolute;
+	top:9px;
+	right:15px;
+	background-color: #fff;
+}
+.k-cities .arrow em,.k-cities .arrow i{
+	position: absolute;
+	left:0;
+	top:0;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	border-width: 5px;
+	border-color: transparent;
+	border-style: dashed;
+	border-top-style: solid;
+	border-top-color: #fff;
+}
+.k-cities .arrow em{
+	top:3px;
+	border-top-color: #aaa;
+}
+.k-cities .arrow i{display: none;}
+.k-cities .select{
+	position: absolute;
+	left:0px;
+	top:32px;
+	width: 100%;
+	height: 210px;
+  padding: 0;
+	overflow-y: auto;
+	background-color: #fff;
+	border: 1px solid #dcdcdc;
+	border-top: none;
+	display: none;
+}
+.k-cities .select li{
+  list-style: none;
+  padding-left: 30px;
+}
+.k-cities .select li span{
+  margin-left: -20px;
+}
+.k-cities .select a{
+	line-height: 30px;
+  padding-left: 10px;
+	color: #262626;
+}
+.k-cities .select li:hover{
+	color:#262626;
+	background-color: #209e91;
+}
+.k-cities .open{
+	display: block;
+	z-index: 20;
 }
