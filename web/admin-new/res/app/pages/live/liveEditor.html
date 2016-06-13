@@ -58,13 +58,8 @@
     <!-- <select class="form-control" ng-model="dataMapped.dec_type">
       <option ng-repeat="v in dec_type" ng-selected="dataMapped.dec_type == v.num" value="{{v.num}}">{{ v.name }}</option>
     </select> -->
-
-    <str-dropdown  curopt="adf" opts="['Jani','Hege','Kai']">
-    </str-dropdown>
-
-    <kv-dropdown  curkey="adf" keyval="name:country" opts="[{name:'Jani',country:'Norway'},{name:'Hege',country:'Sweden'},{name:'Kai',country:'Denmark'}]">
+    <kv-dropdown curkey="dataMapped.dec_type" keyval="num:name" opts="dec_type">
     </kv-dropdown>
-
   </div>
    <div class="form-group">
     <label for="exampleInputPassword1">包工类型：</label>
