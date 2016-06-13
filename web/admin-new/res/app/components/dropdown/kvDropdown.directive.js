@@ -14,8 +14,7 @@
       scope: {
         curkey: '=',
         opts: '=',
-        keyval: '@',
-        express: '@',
+        keyval: '@'
       },
       restrict: 'E',
       templateUrl: 'app/components/dropdown/kvDropdown.html',
@@ -25,9 +24,19 @@
         $scope.kvValName = keyValname[1];
 
         $scope.$watch('curkey', function (newVal, oldVal) {
-          $scope.kvCurOption = $scope.opts.find(function (option) {
-            return option[$scope.kvKeyName] == newVal;
-          });
+          if ($scope.opts !== undefined) {
+            $scope.kvCurOption = $scope.opts.find(function (option) {
+              return option[$scope.kvKeyName] == newVal;
+            });
+          }
+        });
+
+        $scope.$watchCollection('opts', function (newVal, oldVal, scope) {
+          if ($scope.curkey !== undefined) {
+            $scope.kvCurOption = newVal.find(function (option) {
+              return option[$scope.kvKeyName] == $scope.curkey;
+            });
+          }
         });
 
         $scope.selectAOption = function(choice){

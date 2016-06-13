@@ -6,7 +6,8 @@
   </div>
   <div class="form-group">
   	<label for="phone">设计师列表：</label>
-  	<select class="form-control" ng-model="dataMapped.designerid" ng-options="x.num as x.name for x in designer"></select>
+    <kv-dropdown curkey="dataMapped.designerid" keyval="num:name" opts="designer">
+    </kv-dropdown>
   </div>
   <div class="form-group">
      <label>上传封面图</label>
@@ -39,9 +40,8 @@
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">装修户型：</label>
-    <select class="form-control" ng-model="dataMapped.house_type">
-      <option ng-repeat="v in house_type" ng-selected="dataMapped.house_type == v.num" value="{{v.num}}">{{ v.name }}</option>
-    </select>
+    <kv-dropdown curkey="dataMapped.house_type" keyval="num:name" opts="house_type">
+    </kv-dropdown>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">装修面积：(m&sup2;)[注意：只能填数字]</label>
@@ -49,23 +49,18 @@
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">装修风格：</label>
-    <select class="form-control" ng-model="dataMapped.dec_style">
-      <option ng-repeat="v in dec_style" ng-selected="dataMapped.dec_style == v.num" value="{{v.num}}">{{ v.name }}</option>
-    </select>
+    <kv-dropdown curkey="dataMapped.dec_style" keyval="num:name" opts="dec_style">
+    </kv-dropdown>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">装修类型：</label>
-    <!-- <select class="form-control" ng-model="dataMapped.dec_type">
-      <option ng-repeat="v in dec_type" ng-selected="dataMapped.dec_type == v.num" value="{{v.num}}">{{ v.name }}</option>
-    </select> -->
     <kv-dropdown curkey="dataMapped.dec_type" keyval="num:name" opts="dec_type">
     </kv-dropdown>
   </div>
    <div class="form-group">
     <label for="exampleInputPassword1">包工类型：</label>
-    <select class="form-control" ng-model="dataMapped.work_type">
-      <option ng-repeat="v in work_type" ng-selected="dataMapped.work_type == v.num" value="{{v.num}}">{{ v.name }}</option>
-    </select>
+    <kv-dropdown curkey="dataMapped.work_type" keyval="num:name" opts="work_type">
+    </kv-dropdown>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">装修造价：(万元)[注意：只能填数字]</label>
