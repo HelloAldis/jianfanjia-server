@@ -24,7 +24,7 @@
         $scope.kvValName = keyValname[1];
 
         $scope.$watch('curkey', function (newVal, oldVal) {
-          if ($scope.opts !== undefined) {
+          if ($scope.opts !== undefined && $scope.opts['find'] !== undefined) {
             $scope.kvCurOption = $scope.opts.find(function (option) {
               return option[$scope.kvKeyName] == newVal;
             });
@@ -32,7 +32,7 @@
         });
 
         $scope.$watchCollection('opts', function (newVal, oldVal, scope) {
-          if ($scope.curkey !== undefined) {
+          if ($scope.curkey !== undefined && newVal['find'] !== undefined) {
             $scope.kvCurOption = newVal.find(function (option) {
               return option[$scope.kvKeyName] == $scope.curkey;
             });

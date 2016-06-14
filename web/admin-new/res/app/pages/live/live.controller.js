@@ -7,7 +7,7 @@
 
         //刷新页面公共方法
         function refreshPage(detail) {
-          $location.path('/live/' + JSON.stringify(detail));
+          $location.path('/liveList/' + JSON.stringify(detail));
         }
 
         //数据加载显示状态

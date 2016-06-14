@@ -22,33 +22,29 @@
 		<div class="form-group">
 		  <label for="inputEmail3" class="col-sm-1 control-label">装修户型：</label>
 		  <div class="col-sm-11">
-			  <select class="form-control" ng-model="images.house_type">
-			    <option ng-repeat="v in house_type" ng-selected="images.house_type == v.num" value="{{v.num}}">{{ v.name }}</option>
-			  </select>
+				<kv-dropdown curkey="images.house_type" keyval="num:name" opts="house_type">
+				</kv-dropdown>
 			</div>
 		</div>
 		<div class="form-group">
 		  <label for="inputEmail3" class="col-sm-1 control-label">装修风格：</label>
 		  <div class="col-sm-11">
-		  <select class="form-control" ng-model="images.dec_style">
-		    <option ng-repeat="v in dec_style" ng-selected="images.dec_style == v.num" value="{{v.num}}">{{ v.name }}</option>
-		  </select>
+			<kv-dropdown curkey="images.dec_style" keyval="num:name" opts="dec_style">
+			</kv-dropdown>
 		</div>
 		</div>
 		<div class="form-group">
 		  <label for="inputEmail3" class="col-sm-1 control-label">装修类型：</label>
 		  <div class="col-sm-11">
-			  <select class="form-control" ng-model="images.dec_type">
-			    <option ng-repeat="v in dec_type" ng-selected="images.dec_type == v.num" value="{{v.num}}">{{ v.name }}</option>
-			  </select>
+				<kv-dropdown curkey="images.dec_type" keyval="num:name" opts="dec_type">
+				</kv-dropdown>
 			</div>
 		</div>
 		<div class="form-group">
 		  <label for="inputEmail3" class="col-sm-1 control-label">空间：</label>
 		  <div class="col-sm-11">
-			  <select class="form-control" ng-model="images.section">
-			    <option ng-repeat="v in section" ng-selected="images.section == v" value="{{v}}">{{ v }}</option>
-			  </select>
+				<str-dropdown curopt="images.section" opts="section">
+				</str-dropdown>
 			</div>
 		</div>
 		<div class="form-group">

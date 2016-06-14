@@ -10,8 +10,8 @@
   /** @ngInject */
   function routeConfig($stateProvider) {
     $stateProvider
-      .state('live', {
-        url: '/live/:detail',
+      .state('liveList', {
+        url: '/liveList/:detail',
         templateUrl: 'app/pages/live/live.html',
         title: '装修直播列表',
         controller: 'LiveController',

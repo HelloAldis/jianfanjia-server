@@ -188,44 +188,7 @@
               })
             }
           }
-          //城市选择器
-        $scope.cities = [];
-        angular.forEach(tdist, function (value, key) {
-          this.push({
-            name: value[0],
-            parent: value[1],
-            id: key
-          });
-        }, $scope.cities);
-        // 让城市关联使用
-        this.findCityId = function (parent) {
-          var parentId;
-          angular.forEach($scope.cities, function (city) {
-            if (city.id === parent) {
-              parentId = city.parent;
-              return;
-            }
-          })
-          return parentId;
-        }
-        this.initCity = function () {
-            if ($scope.dataMapped.district !== undefined) {
-              $scope.dataMapped.city = this.findCityId($scope.dataMapped.district);
-              $scope.dataMapped.province = this.findCityId($scope.dataMapped.city);
-            }
-          }
-          // 第一次打开页面 需要初始化一下
-        this.initCity.call(this);
-        findCityName = function (id) {
-          var name;
-          angular.forEach($scope.cities, function (city) {
-            if (city.id == id) {
-              name = city.name;
-              return;
-            }
-          })
-          return name;
-        }
+
         $scope.addLive = function () { //提交按钮
           var process = [];
           var aPreviewsItem = $('#j-file-list').find('.previews-item');
@@ -243,9 +206,9 @@
             "designerid": $scope.dataMapped.designerid,
             "manager": $scope.dataMapped.manager,
             "start_at": (new Date($scope.dataMapped.start_at)).getTime(),
-            "province": findCityName($scope.dataMapped.province),
-            "city": findCityName($scope.dataMapped.city),
-            "district": findCityName($scope.dataMapped.district),
+            "province": $scope.dataMapped.province,
+            "city": $scope.dataMapped.city,
+            "district": $scope.dataMapped.district,
             "cell": $scope.dataMapped.cell,
             "house_type": $scope.dataMapped.house_type,
             "house_area": $scope.dataMapped.house_area,

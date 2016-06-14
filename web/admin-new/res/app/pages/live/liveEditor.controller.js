@@ -90,7 +90,7 @@
           "num": 2,
           "name": '纯设计'
         }];
-        var desArea = $('#where_area');
+
         adminShare.search({
           "query": {
             "_id": $stateParams.id
@@ -153,9 +153,6 @@
           }
         }
         $scope.editorLive = function () { //编辑资料
-          $scope.dataMapped.province = desArea.find('input[name=province]').val() || $scope.dataMapped.province;
-          $scope.dataMapped.city = desArea.find('input[name=city]').val() || $scope.dataMapped.city;
-          $scope.dataMapped.district = desArea.find('input[name=district]').val() || $scope.dataMapped.district;
           $scope.dataMapped.start_at = (new Date($scope.dataMapped.start_at)).getTime();
           adminShare.update($scope.dataMapped).then(function (resp) {
             //返回信息

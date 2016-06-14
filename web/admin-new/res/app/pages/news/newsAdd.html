@@ -3,9 +3,8 @@
 		<div class="form-group">
 		   <label for="inputEmail3" class="col-sm-1 control-label">文章分类</label>
 		   <div class="col-sm-11">
-		     	<select class="form-control" ng-model="news.articletype">
-			      	<option ng-repeat="v in article_type" ng-selected="news.articletype == v.num" value="{{v.num}}">{{ v.name }}</option>
-			    </select>
+					<kv-dropdown curkey="news.articletype" keyval="num:name" opts="article_type">
+			    </kv-dropdown>
 		   </div>
 		</div>
 		<div class="form-group">
