@@ -22,7 +22,7 @@ var DiarySchema = new Schema({
     type: [{
       imageid: {
         type: ObjectId // 图片id
-      }
+      },
       width: {
         type: Number
       },
