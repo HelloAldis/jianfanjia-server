@@ -4,6 +4,7 @@ var Comment = require('../../../proxy').Comment;
 var Designer = require('../../../proxy').Designer;
 var Process = require('../../../proxy').Process;
 var Supervisor = require('../../../proxy').Supervisor;
+var Diary = require('../../../proxy').Diary;
 var async = require('async');
 var ApiUtil = require('../../../common/api_util');
 var type = require('../../../type');
@@ -19,12 +20,29 @@ exports.add_comment = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
+
+  comment.topicid = req.body.topicid;
+  comment.section = req.body.section;
+  comment.item = req.body.item;
+  comment.topictype = req.body.topictype;
+  comment.content = req.body.content;
+  comment.to_userid = tools.convert2ObjectId(req.body.to_userid);
+  comment.to_designerid = tools.convert2ObjectId(req.body.to_designerid);
+
   Comment.newAndSave(comment, ep.done(function (comment_indb) {
     res.sendSuccessMsg();
     if (comment_indb && comment_indb.section && comment_indb.item && comment_indb.topictype === type.topic_type_process_item) {
       Process.addCommentCount(comment_indb.topicid, comment_indb.section,
         comment_indb.item,
         function (err) {});
+    }
+
+    if (comment_indb.topictype === type.topic_type_diary) {
+      Diary.incOne({
+        _id: comment_indb.topicid
+      }, {
+        comment_count: 1,
+      });
     }
 
     if (comment_indb.usertype === type.role_user) {
@@ -37,6 +55,10 @@ exports.add_comment = function (req, res, next) {
           message_util.designer_message_type_comment_plan(comment_indb, user.username);
         } else if (comment.topictype === type.topic_type_process_item) {
           message_util.designer_message_type_comment_process_item(comment_indb, user.username);
+        } else if (comment.topictype === type.topic_type_diary) {
+          if (comment.to_userid && comment.by.toString() !== comment.to_userid.toString()) {
+            message_util.user_message_type_comment_diary(comment_indb, user.username);
+          }
         }
       });
     } else if (comment_indb.usertype === type.role_designer) {

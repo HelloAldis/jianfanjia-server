@@ -69,8 +69,8 @@ router.post('/wechat/receive', wechat.receive); //接收微信平台消息
 router.get('/wechat/receive', wechat.signature); //认证微信平台
 router.post('/image/upload', upload.single('Filedata'), image.add); //上传图片
 router.post('/one_plan', plan.getOne); //获取某个方案信息
-router.post('/search_diary_set', auth.normalUserRequired, diary.search_diary_set); // 游客搜索日记集
-router.post('/search_diary', auth.normalUserRequired, diary.search_diary); // 游客搜索日记
+router.post('/search_diary_set', diary.search_diary_set); // 游客搜索日记集
+router.post('/search_diary', diary.search_diary); // 游客搜索日记
 
 //通用用户功能
 router.post('/signout', auth.normalUserRequired, sign.signout); //登出

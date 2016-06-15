@@ -75,11 +75,11 @@ router.get('/device/designer_android_build_version', device.designer_android_bui
 router.get('/device/supervisor_android_build_version', device.supervisor_android_build_version); //获取supervisor android 信息
 router.post('/image/upload', upload.single('Filedata'), imageWeb.add); //上传图片
 router.post('/one_plan', planWeb.getOne); //获取某个方案信息
-router.post('/search_diary_set', auth.normalUserRequired, diaryWeb.search_diary_set); // 游客搜索日记集
-router.post('/search_diary', auth.normalUserRequired, diaryWeb.search_diary); // 游客搜索日记
-router.post('/get_diary_changes', auth.normalUserRequired, diary.get_diary_changes); // 游客获取日记更新数据
-router.post('/diary_info', auth.normalUserRequired, diary.diary_info); // 游客获取日记详情
-router.post('/diary_set_info', auth.normalUserRequired, diary.diary_set_info); // 游客获取日记集详情
+router.post('/search_diary_set', diaryWeb.search_diary_set); // 游客搜索日记集
+router.post('/search_diary', diaryWeb.search_diary); // 游客搜索日记
+router.post('/get_diary_changes', diary.get_diary_changes); // 游客获取日记更新数据
+router.post('/diary_info', diary.diary_info); // 游客获取日记详情
+router.post('/diary_set_info', diary.diary_set_info); // 游客获取日记集详情
 
 //通用用户功能
 router.get('/signout', auth.normalUserRequired, signWeb.signout); //登出

@@ -263,7 +263,7 @@ exports.user_message_type_comment_plan = function (comment, username) {
     designerid: comment.by,
     topicid: comment.topicid,
     commentid: comment._id,
-    title: '方案留言',
+    title: '方案评论',
     content: comment.content,
     message_type: type.user_message_type_comment_plan,
     status: type.message_status_unread,
@@ -275,15 +275,31 @@ exports.user_message_type_comment_plan = function (comment, username) {
 exports.user_message_type_comment_process_item = function (comment, username) {
   let user_message = {
     userid: comment.to_userid,
-    designerid: comment.usertype === type.role_designer ? comment.by : undefined, //如果留言的人是设计师，存设计师id
-    supervisorid: comment.usertype === type.role_supervisor ? comment.by : undefined, //如果留言的人是监理，存监理id
+    designerid: comment.usertype === type.role_designer ? comment.by : undefined, //如果评论的人是设计师，存设计师id
+    supervisorid: comment.usertype === type.role_supervisor ? comment.by : undefined, //如果评论的人是监理，存监理id
     topicid: comment.topicid,
     commentid: comment._id,
     section: comment.section,
     item: comment.item,
-    title: '工地留言',
+    title: '工地评论',
     content: comment.content,
     message_type: type.user_message_type_comment_process_item,
+    status: type.message_status_unread,
+  };
+
+  saveUserCommentAndPush(user_message, username);
+}
+
+exports.user_message_type_comment_diary = function (comment, username) {
+  let user_message = {
+    userid: comment.to_userid,
+    designerid: comment.usertype === type.role_designer ? comment.by : undefined, //如果评论的人是设计师，存设计师id
+    byUserid: comment.usertype === type.role_user ? comment.by : undefined, //如果评论的人是业主，存业主id
+    topicid: comment.topicid,
+    commentid: comment._id,
+    title: '日记评论',
+    content: comment.content,
+    message_type: type.user_message_type_comment_diary,
     status: type.message_status_unread,
   };
 
@@ -585,7 +601,7 @@ exports.designer_message_type_comment_plan = function (comment, username) {
     designerid: comment.to_designerid,
     topicid: comment.topicid,
     commentid: comment._id,
-    title: '方案留言',
+    title: '方案评论',
     content: comment.content,
     message_type: type.designer_message_type_comment_plan,
     status: type.message_status_unread,
@@ -596,14 +612,14 @@ exports.designer_message_type_comment_plan = function (comment, username) {
 
 exports.designer_message_type_comment_process_item = function (comment, username) {
   let designer_message = {
-    userid: comment.usertype === type.role_user ? comment.by : undefined, // 如果留言的人是业主，存业主id
+    userid: comment.usertype === type.role_user ? comment.by : undefined, // 如果评论的人是业主，存业主id
     designerid: comment.to_designerid,
-    supervisorid: comment.usertype === type.role_supervisor ? comment.by : undefined, //如果留言的人是监理，存监理id
+    supervisorid: comment.usertype === type.role_supervisor ? comment.by : undefined, //如果评论的人是监理，存监理id
     topicid: comment.topicid,
     commentid: comment._id,
     section: comment.section,
     item: comment.item,
-    title: '工地留言',
+    title: '工地评论',
     content: comment.content,
     message_type: type.designer_message_type_comment_process_item,
     status: type.message_status_unread,

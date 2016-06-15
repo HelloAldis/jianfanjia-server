@@ -92,7 +92,7 @@ exports.search_user_comment = function (req, res, next) {
   }
   query.userid = ApiUtil.getUserid(req);
   query.message_type = {
-    $in: [type.user_message_type_comment_plan]
+    $in: [type.user_message_type_comment_plan, type.user_message_type_comment_diary]
   }
   var ep = eventproxy();
   ep.fail(next);
@@ -104,15 +104,29 @@ exports.search_user_comment = function (req, res, next) {
     lean: true,
   }, ep.done(function (messages, total) {
     async.mapLimit(messages, 3, function (message, callback) {
-      Designer.findOne({
-        _id: message.designerid,
-      }, {
-        username: 1,
-        imageid: 1,
-      }, function (err, designer) {
-        message.designer = designer;
+      if (message.designerid) {
+        Designer.findOne({
+          _id: message.designerid,
+        }, {
+          username: 1,
+          imageid: 1,
+        }, function (err, designer) {
+          message.designer = designer;
+          callback(err, message);
+        });
+      } else if (message.byUserid) {
+        User.findOne({
+          _id: message.byUserid,
+        }, {
+          username: 1,
+          imageid: 1,
+        }, function (err, user) {
+          message.user = user;
+          callback(err, message);
+        });
+      } else {
         callback(err, message);
-      });
+      }
     }, ep.done(function (messages) {
       res.sendData({
         list: messages,
