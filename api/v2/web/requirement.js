@@ -509,7 +509,7 @@ exports.config_contract = function (req, res, next) {
             username: 1,
           }, callback);
         },
-        set_manager: function () {
+        set_manager: function (callback) {
           Plan.setOne({
             _id: requirement.final_planid
           }, {

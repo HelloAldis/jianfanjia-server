@@ -15,6 +15,9 @@ var FavoriteSchema = new Schema({
   favorite_beautiful_image: {
     type: [ObjectId]
   },
+  favorite_diary: {
+    type: [ObjectId]
+  }
 });
 
 FavoriteSchema.index({

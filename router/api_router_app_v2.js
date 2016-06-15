@@ -14,6 +14,7 @@ var feedback = require('../api/v2/app/feedback');
 var beautiful_image = require('../api/v2/app/beautiful_image');
 var message = require('../api/v2/app/message');
 var supervisor = require('../api/v2/app/supervisor');
+var diary = require('../api/v2/app/diary');
 
 var signWeb = require('../api/v2/web/sign');
 var imageWeb = require('../api/v2/web/image');
@@ -28,6 +29,7 @@ var beautiful_imageWeb = require('../api/v2/web/beautiful_image');
 var messageWeb = require('../api/v2/web/message');
 var shareWeb = require('../api/v2/web/share');
 var teamWeb = require('../api/v2/web/team');
+var diaryWeb = require('../api/v2/web/diary');
 
 var config = require('../apiconfig');
 var auth = require('../middlewares/auth');
@@ -73,6 +75,11 @@ router.get('/device/designer_android_build_version', device.designer_android_bui
 router.get('/device/supervisor_android_build_version', device.supervisor_android_build_version); //获取supervisor android 信息
 router.post('/image/upload', upload.single('Filedata'), imageWeb.add); //上传图片
 router.post('/one_plan', planWeb.getOne); //获取某个方案信息
+router.post('/search_diary_set', auth.normalUserRequired, diaryWeb.search_diary_set); // 游客搜索日记集
+router.post('/search_diary', auth.normalUserRequired, diaryWeb.search_diary); // 游客搜索日记
+router.post('/get_diary_changes', auth.normalUserRequired, diary.get_diary_changes); // 游客获取日记更新数据
+router.post('/diary_info', auth.normalUserRequired, diary.diary_info); // 游客获取日记详情
+router.post('/diary_set_info', auth.normalUserRequired, diary.diary_set_info); // 游客获取日记集详情
 
 //通用用户功能
 router.get('/signout', auth.normalUserRequired, signWeb.signout); //登出
@@ -99,6 +106,11 @@ router.post('/favorite/beautiful_image/delete', auth.normalUserRequired, favorit
 router.post('/send_verify_email', auth.normalUserRequired, signWeb.send_verify_email); //发送验证邮箱邮件
 //设备使用
 // router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定cid
+router.post('/add_diary_set', auth.normalUserRequired, diaryWeb.add_diary_set); // 用户添加日记集
+router.post('/my_diary_set', auth.normalUserRequired, diaryWeb.my_diary_set); // 用户我的日记集
+router.post('/update_diary_set', auth.normalUserRequired, diaryWeb.update_diary_set); // 用户更新日记集
+router.post('/add_diary', auth.normalUserRequired, diaryWeb.add_diary); // 用户添加日记
+router.post('/delete_diary', auth.normalUserRequired, diaryWeb.delete_diary); // 用户删除日记
 
 //业主独有功能
 router.post('/user/info', auth.userRequired, userWeb.user_update_info); //修改业主个人资料

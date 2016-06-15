@@ -342,7 +342,6 @@ exports.buildComment = function (req) {
   comment.item = req.body.item;
   comment.topictype = req.body.topictype;
   comment.content = req.body.content;
-  // comment.to = req.body.to ? new ObjectId(req.body.to) : undefined;
   comment.to_userid = tools.convert2ObjectId(req.body.to_userid);
   comment.to_designerid = tools.convert2ObjectId(req.body.to_designerid);
 
@@ -415,4 +414,34 @@ exports.buildSupervisor = function (req) {
   supervisor.imageid = tools.convert2ObjectId(req.body.supervisor.imageid);
 
   return tools.deleteUndefinedAndNullThenFilterXss(supervisor);
+}
+
+exports.buildDiarySet = function (req) {
+  let diarySet = {};
+  let input = req.body.diary_set;
+
+  diarySet.cover_imageid = tools.convert2ObjectId(input.cover_imageid);
+  diarySet.title = input.title;
+  diarySet.house_area = input.house_area;
+  diarySet.house_type = input.house_type;
+  diarySet.dec_type = input.dec_type;
+
+  return tools.deleteUndefinedAndNullThenFilterXss(diarySet);
+}
+
+exports.buildDiary = function (req) {
+  let diary = {};
+  let input = req.body.diary;
+
+  diary.diarySetid = tools.convert2ObjectId(input.diarySetid);
+  diary.content = input.content;
+  diary.section_label = input.section_label;
+  if (input.images) {
+    diary.images = _.map(input.images, function (i) {
+      i.imageid = tools.convert2ObjectId(i.imageid);
+      return i;
+    });
+  }
+
+  return tools.deleteUndefinedAndNullThenFilterXss(diary);
 }
