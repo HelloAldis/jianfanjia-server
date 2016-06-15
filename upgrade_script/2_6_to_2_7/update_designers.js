@@ -6,9 +6,9 @@ const async = require('async');
 
 var xinDesignerNames = [];
 
-var luanDesignerNames = [];
+var luanDesignerNames = ['邹大峰', '易珍丽'];
 
-var jiangDesignerNames = ['吴鹏'];
+var jiangDesignerNames = [];
 // var jiangDesignerNames = ['李禹锋', '侯玮', '王岚', '叶明', '袁磊'];
 
 Designer.count({}, function (err, count) {

@@ -21,10 +21,14 @@ var DiarySchema = new Schema({
   images: { // 图
     type: [{
       imageid: {
-        type: ObjectId, // 图片id
-        width: Number,
-        height: Number,
+        type: ObjectId // 图片id
       }
+      width: {
+        type: Number
+      },
+      height: {
+        type: Number,
+      },
     }]
   },
   create_at: {

@@ -135,6 +135,7 @@ app.get('*', function (req, res) {
     res.end();
   } else {
     res.redirect('/404.html');
+    logger.info('url not found :' + req.originalUrl);
   }
 });
 

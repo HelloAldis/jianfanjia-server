@@ -24,7 +24,9 @@ router.get('/download/user/apk', response_util, site.download_user_apk);
 router.get('/download/designer/apk', response_util, site.download_designer_apk);
 // router.post('/signup', sign.signup);
 // router.post('/login', sign.login);
-// router.get('/tpl/article/detail.html', response_util, dec_strategy.dec_strategy_homepage); //要被废弃掉 SEO不友好
+router.get('/tpl/article/detail.html', response_util, function (req, res, next) {
+  res.redirect(301, '/tpl/article/strategy/' + req.query.pid);
+});
 router.get('/tpl/article/strategy/:_id', response_util, dec_strategy.dec_strategy_homepage);
 router.get('/tpl/designer/:designerid', response_util, designer.designer_page);
 router.get('/tpl/product/:productid', response_util, product.product_page);
