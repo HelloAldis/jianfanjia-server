@@ -20,15 +20,6 @@ exports.add_comment = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-
-  comment.topicid = req.body.topicid;
-  comment.section = req.body.section;
-  comment.item = req.body.item;
-  comment.topictype = req.body.topictype;
-  comment.content = req.body.content;
-  comment.to_userid = tools.convert2ObjectId(req.body.to_userid);
-  comment.to_designerid = tools.convert2ObjectId(req.body.to_designerid);
-
   Comment.newAndSave(comment, ep.done(function (comment_indb) {
     res.sendSuccessMsg();
     if (comment_indb && comment_indb.section && comment_indb.item && comment_indb.topictype === type.topic_type_process_item) {
@@ -45,48 +36,122 @@ exports.add_comment = function (req, res, next) {
       });
     }
 
-    if (comment_indb.usertype === type.role_user) {
-      User.findOne({
-        _id: userid
-      }, {
-        username: 1,
-      }, function (err, user) {
-        if (comment.topictype === type.topic_type_plan) {
-          message_util.designer_message_type_comment_plan(comment_indb, user.username);
-        } else if (comment.topictype === type.topic_type_process_item) {
-          message_util.designer_message_type_comment_process_item(comment_indb, user.username);
-        } else if (comment.topictype === type.topic_type_diary) {
-          if (comment.to_userid && comment.by.toString() !== comment.to_userid.toString()) {
+    if (comment.to_userid && comment.by.toString() !== comment.to_userid.toString()) {
+      // 评论给业主，而且不是给自己
+      if (comment_indb.usertype === type.role_user) {
+        // 发评论的是业主
+        User.findOne({
+          _id: userid
+        }, {
+          username: 1,
+        }, function (err, user) {
+          if (comment.topictype === type.topic_type_plan) {
+            // 方案里业主评论业主
+            // 暂时无此功能
+          } else if (comment.topictype === type.topic_type_process_item) {
+            // 工地里业主评论业主
+            // 暂时无此功能
+          } else if (comment.topictype === type.topic_type_diary) {
+            // 日记里业主评论业主
             message_util.user_message_type_comment_diary(comment_indb, user.username);
           }
-        }
-      });
-    } else if (comment_indb.usertype === type.role_designer) {
-      Designer.findOne({
-        _id: userid,
-      }, {
-        username: 1,
-      }, function (err, designer) {
-        if (comment.topictype === type.topic_type_plan) {
-          message_util.user_message_type_comment_plan(comment_indb, designer.username);
-        } else if (comment.topictype === type.topic_type_process_item) {
-          message_util.user_message_type_comment_process_item(comment_indb, designer.username);
-        }
-      });
-    } else if (comment_indb.usertype === type.role_supervisor) {
-      Supervisor.findOne({
-        _id: userid,
-      }, {
-        username: 1,
-      }, function (err, supervisor) {
-        if (comment.topictype === type.topic_type_plan) {
-          // message_util.designer_message_type_comment_plan(comment_indb, supervisor.username);
-          // message_util.user_message_type_comment_plan(comment_indb, supervisor.username);
-        } else if (comment.topictype === type.topic_type_process_item) {
-          message_util.designer_message_type_comment_process_item(comment_indb, supervisor.username);
-          message_util.user_message_type_comment_process_item(comment_indb, supervisor.username);
-        }
-      });
+        });
+      } else if (comment_indb.usertype === type.role_designer) {
+        // 发评论的是设计师
+        Designer.findOne({
+          _id: userid,
+        }, {
+          username: 1,
+        }, function (err, designer) {
+          if (comment.topictype === type.topic_type_plan) {
+            // 方案里设计师评论业主
+            message_util.user_message_type_comment_plan(comment_indb, designer.username);
+          } else if (comment.topictype === type.topic_type_process_item) {
+            // 工地里设计师评论业主
+            message_util.user_message_type_comment_process_item(comment_indb, designer.username);
+          } else if (comment.topictype === type.topic_type_diary) {
+            // 日记里设计师评论业主
+            // 暂时无此功能, 之后可以加上
+          }
+        });
+      } else if (comment_indb.usertype === type.role_supervisor) {
+        // 发评论的是监理
+        Supervisor.findOne({
+          _id: userid,
+        }, {
+          username: 1,
+        }, function (err, supervisor) {
+          if (comment.topictype === type.topic_type_plan) {
+            // 方案里监理评论业主
+            // 暂时无此功能
+          } else if (comment.topictype === type.topic_type_process_item) {
+            // 工地里监理评论业主
+            message_util.user_message_type_comment_process_item(comment_indb, supervisor.username);
+          } else if (comment.topictype === type.topic_type_diary) {
+            // 日记里监理评论业主
+            // 暂时无此功能
+          }
+        });
+      }
+    }
+
+    if (comment.to_designerid && comment.by.toString() !== comment.to_designerid.toString()) {
+      // 评论给设计师，而且不是给自己
+      if (comment_indb.usertype === type.role_user) {
+        // 发评论的是业主
+        User.findOne({
+          _id: userid
+        }, {
+          username: 1,
+        }, function (err, user) {
+          if (comment.topictype === type.topic_type_plan) {
+            // 方案里业主评论设计师
+            message_util.designer_message_type_comment_plan(comment_indb, user.username);
+          } else if (comment.topictype === type.topic_type_process_item) {
+            // 工地里业主评论设计师
+            message_util.designer_message_type_comment_process_item(comment_indb, user.username);
+          } else if (comment.topictype === type.topic_type_diary) {
+            // 日记里业主评论设计师
+            // 暂时无此功能，之后可以加上
+          }
+        });
+      } else if (comment_indb.usertype === type.role_designer) {
+        // 发评论的是设计师
+        Designer.findOne({
+          _id: userid,
+        }, {
+          username: 1,
+        }, function (err, designer) {
+          if (comment.topictype === type.topic_type_plan) {
+            // 方案里设计师评论设计师
+            // 暂时无此功能
+          } else if (comment.topictype === type.topic_type_process_item) {
+            // 工地里设计师评论设计师
+            // 暂时无此功能
+          } else if (comment.topictype === type.topic_type_diary) {
+            // 日记里设计师评论设计师
+            // 暂时无此功能
+          }
+        });
+      } else if (comment_indb.usertype === type.role_supervisor) {
+        // 发评论的是监理
+        Supervisor.findOne({
+          _id: userid,
+        }, {
+          username: 1,
+        }, function (err, supervisor) {
+          if (comment.topictype === type.topic_type_plan) {
+            // 方案里监理评论设计师
+            // 暂时无此功能
+          } else if (comment.topictype === type.topic_type_process_item) {
+            // 工地里监理评论设计师
+            message_util.designer_message_type_comment_process_item(comment_indb, supervisor.username);
+          } else if (comment.topictype === type.topic_type_diary) {
+            // 日记里监理评论设计师
+            // 暂时无此功能
+          }
+        });
+      }
     }
   }));
 }

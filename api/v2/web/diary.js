@@ -117,8 +117,19 @@ exports.delete_diary = function (req, res, next) {
     _id: diaryid,
     authorid: authorid,
     usertype: usertype
-  }, null, ep.done(function () {
+  }, null, ep.done(function (diary) {
     res.sendSuccessMsg();
+
+    if (diary) {
+      Comment.removeSome({
+        topicid: authorid
+      }, function () {});
+
+      UserMessage.removeSome({
+        topicid: authorid
+      }, function () {});
+    }
+
   }));
 }
 
