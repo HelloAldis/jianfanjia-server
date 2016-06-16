@@ -22,7 +22,7 @@ exports.add_diary_set = function (req, res, next) {
   ep.fail(next);
 
   DiarySet.newAndSave(diarySet, ep.done(function (diarySet) {
-    res.sendSuccessMsg();
+    res.sendSuccessMsg(diarySet);
   }));
 }
 
@@ -97,7 +97,7 @@ exports.add_diary = function (req, res, next) {
   ep.fail(next);
 
   Diary.newAndSave(diary, ep.done(function (diary) {
-    res.sendSuccessMsg();
+    res.sendData(diary);
   }));
 }
 
