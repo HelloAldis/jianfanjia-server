@@ -98,6 +98,12 @@ exports.add_diary = function (req, res, next) {
 
   Diary.newAndSave(diary, ep.done(function (diary) {
     res.sendData(diary);
+
+    DiarySet.setOne({
+      _id: diary.diarySetid
+    }, {
+      latest_section_label: diary.section_label
+    }, null, function () {});
   }));
 }
 

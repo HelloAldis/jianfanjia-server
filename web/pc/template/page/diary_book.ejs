@@ -1,0 +1,9 @@
+<%- include('../module/head') -%>
+  <title><%= data.diarySet.title %>--简繁家互联网装修平台|装修效果图|装修流程|施工监理</title>
+  <meta name="description" content="<%= data.diaries[0].content%>">
+  <meta name="keywords" content="简繁家，互联网装修平台，装修日记本">
+  <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/article.css" />
+<%- include('../module/header') -%>
+    <div><%= JSON.stringify(data) %><div>
+<%- include('../module/footer') -%>

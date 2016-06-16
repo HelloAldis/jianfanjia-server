@@ -28,6 +28,9 @@ var DiarySetSchema = new Schema({
   work_type: {
     type: String, //包工类型
   },
+  latest_section_label: {
+    type: String, // 最新阶段
+  },
   create_at: {
     type: Number // 创建时间
   },
