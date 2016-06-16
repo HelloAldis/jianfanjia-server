@@ -42,7 +42,14 @@ exports.diary_info = function (req, res, next) {
     comment_count: 1,
     diarySetid: 1,
   }, ep.done(function (diary) {
-    res.sendData(diary);
+    if (diary) {
+      res.sendData(diary);
+    } else {
+      res.sendData({
+        _id: diaryid,
+        is_deleted: true
+      });
+    }
 
     Diary.incOne({
       _id: diaryid
