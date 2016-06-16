@@ -16,14 +16,17 @@ var DiarySetSchema = new Schema({
     type: String, // 标题
   },
   house_area: {
-    type: Number,
+    type: Number, //面积
     default: 0
   },
   house_type: {
     type: String // 户型
   },
-  dec_type: {
+  dec_style: {
     type: String, //装修风格
+  },
+  work_type: {
+    type: String, //包工类型
   },
   create_at: {
     type: Number // 创建时间

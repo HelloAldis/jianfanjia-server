@@ -424,7 +424,8 @@ exports.buildDiarySet = function (req) {
   diarySet.title = input.title;
   diarySet.house_area = input.house_area;
   diarySet.house_type = input.house_type;
-  diarySet.dec_type = input.dec_type;
+  diarySet.dec_style = input.dec_style;
+  diarySet.work_type = input.work_type;
 
   return tools.deleteUndefinedAndNullThenFilterXss(diarySet);
 }
