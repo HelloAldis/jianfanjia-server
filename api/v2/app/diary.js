@@ -103,7 +103,14 @@ exports.diary_set_info = function (req, res, next) {
       }));
     }
   }, ep.done(function (result) {
-    res.sendData(result);
+    if (result.diarySet) {
+      result.diarySet = result.diarySet.toObject();
+      result.diarySet.diaries = result.diaries;
+      delete result.diaries;
+      res.sendData(result);
+    } else {
+      res.sendData({});
+    }
 
     DiarySet.incOne({
       _id: diarySetid
