@@ -95,6 +95,7 @@ function designer_statistic_info(_id, callback) {
     }
 
     callback(null, {
+      _id: result.designer._id,
       username: result.designer.username,
       imageid: result.designer.imageid,
       product_count: result.designer.product_count,
@@ -175,6 +176,7 @@ function user_statistic_info(_id, callback) {
     }
 
     callback(null, {
+      _id: result.user._id,
       username: result.user.username,
       imageid: result.user.imageid,
       requirement_count: result.requirement_count,
