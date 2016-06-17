@@ -5,14 +5,17 @@
   'use strict';
 
   angular.module('JfjAdmin.components')
-    .directive('noData', noData);
+    .directive('uploadImage', uploadImage);
 
   /** @ngInject */
-  function noData() {
+  function uploadImage() {
     return {
       restrict: 'E',
       replace: true,
-      templateUrl: 'app/components/loadData/noData.html'
+      templateUrl: 'app/components/uploadImage/uploadImage.html',
+      controller: function () {
+
+      }
     };
   }
 
