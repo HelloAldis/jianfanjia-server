@@ -106,8 +106,7 @@ exports.diary_set_info = function (req, res, next) {
     if (result.diarySet) {
       result.diarySet = result.diarySet.toObject();
       result.diarySet.diaries = result.diaries;
-      delete result.diaries;
-      res.sendData(result);
+      res.sendData(result.diarySet);
     } else {
       res.sendData({});
     }
@@ -118,6 +117,4 @@ exports.diary_set_info = function (req, res, next) {
       view_count: 1
     });
   }));
-
-
 }

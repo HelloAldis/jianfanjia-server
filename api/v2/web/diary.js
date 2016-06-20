@@ -188,3 +188,19 @@ exports.search_diary = function (req, res, next) {
     }));
   }));
 }
+
+exports.top_diary_set = function (req, res, next) {
+  const limit = req.body.limit || 5;
+  const ep = new eventproxy();
+  ep.fail(next);
+
+  DiarySet.find({}, null, {
+    sort: {
+      view_count: -1,
+    },
+    skip: 0,
+    limit: 30,
+  }, ep.done(function (diarySets) {
+    res.sendData(_.sample(diarySets, limit));
+  }));
+}

@@ -71,6 +71,7 @@ router.post('/image/upload', upload.single('Filedata'), image.add); //上传图�
 router.post('/one_plan', plan.getOne); //获取某个方案信息
 router.post('/search_diary_set', diary.search_diary_set); // 游客搜索日记集
 router.post('/search_diary', diary.search_diary); // 游客搜索日记
+router.post('/top_diary_set', diary.top_diary_set); // 游客热门日记集
 
 //通用用户功能
 router.post('/signout', auth.normalUserRequired, sign.signout); //登出

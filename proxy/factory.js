@@ -18,7 +18,7 @@ function DaoProxy(model) {
 DaoProxy.prototype.newAndSave = function (json, callback) {
   var o = new this.model(json);
   o.create_at = new Date().getTime();
-
+  o.lastupdate = o.create_at;
   o.save(callback);
 }
 

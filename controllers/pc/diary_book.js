@@ -41,6 +41,21 @@ exports.diary_book_page = function (req, res, next) {
         },
         lean: true
       }, callback);
+    },
+    top_diary_set: function (callback) {
+      DiarySet.find({
+        _id: {
+          $ne: diarySetid
+        }
+      }, null, {
+        sort: {
+          view_count: -1,
+        },
+        skip: 0,
+        limit: 30,
+      }, function (err, diarySets) {
+        callback(err, _.sample(diarySets, 5));
+      });
     }
   }, ep.done(function (result) {
     if (result.diarySet) {
