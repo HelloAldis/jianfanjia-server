@@ -143,51 +143,51 @@
           processName: "0"
         };
         $scope.phoneChange = function (name) {
-            if (!name) {
-              alert('请输入需要查找的设计师的手机号码或者名字');
-              return;
-            } else {
-              $http({
-                method: "POST",
-                url: 'api/v2/web/admin/search_designer',
-                headers: {
-                  'Content-Type': 'application/json; charset=utf-8'
+          if (!name) {
+            alert('请输入需要查找的设计师的手机号码或者名字');
+            return;
+          } else {
+            $http({
+              method: "POST",
+              url: 'api/v2/web/admin/search_designer',
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+              },
+              data: {
+                "query": {
+                  'phone': name
                 },
-                data: {
-                  "query": {
-                    'phone': name
-                  },
-                  "sort": {
-                    "_id": 1
-                  },
-                  "from": 0,
-                  "limit": 10000
-                }
-              }).then(function (resp) {
-                //返回信息
-                if (resp.data.data.total) {
-                  $scope.designer = [];
-                  angular.forEach(resp.data.data.designers, function (value, key) {
-                    this.push({
-                      "num": value._id,
-                      "name": value.username + " | " + value.phone
-                    });
-                  }, $scope.designer);
+                "sort": {
+                  "_id": 1
+                },
+                "from": 0,
+                "limit": 10000
+              }
+            }).then(function (resp) {
+              //返回信息
+              if (resp.data.data.total) {
+                $scope.designer = [];
+                angular.forEach(resp.data.data.designers, function (value, key) {
+                  this.push({
+                    "num": value._id,
+                    "name": value.username + " | " + value.phone
+                  });
+                }, $scope.designer);
 
-                } else {
-                  $scope.designer = [];
-                  $scope.designer.push({
-                    "num": '-1',
-                    "name": "暂无查询数据"
-                  })
-                }
-              }, function (resp) {
-                //返回错误信息
-                promptMessage('创建失败', resp.data.msg)
-                console.log(resp);
-              })
-            }
+              } else {
+                $scope.designer = [];
+                $scope.designer.push({
+                  "num": '-1',
+                  "name": "暂无查询数据"
+                })
+              }
+            }, function (resp) {
+              //返回错误信息
+              promptMessage('创建失败', resp.data.msg)
+              console.log(resp);
+            })
           }
+        };
 
         $scope.addLive = function () { //提交按钮
           var process = [];
@@ -237,7 +237,13 @@
             console.log(resp);
             promptMessage('创建失败', resp.data.msg)
           })
-        }
+        };
+
+        $scope.uploadPicture = function () {
+          var fileInput = document.getElementById('uploadFile');
+          fileInput.click();
+
+        };
       }
     ]);
 })();
