@@ -168,6 +168,7 @@ exports.search_diary = function (req, res, next) {
           User.findOne({
             _id: diary.authorid,
           }, {
+            username: 1,
             imageid: 1,
           }, callback);
         },
