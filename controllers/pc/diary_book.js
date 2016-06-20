@@ -37,7 +37,7 @@ exports.diary_book_page = function (req, res, next) {
         diarySetid: diarySetid
       }, null, {
         sort: {
-          create_at: 1
+          create_at: -1
         },
         lean: true
       }, callback);
