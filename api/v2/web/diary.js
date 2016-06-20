@@ -10,6 +10,7 @@ const _ = require('lodash');
 const async = require('async');
 const ApiUtil = require('../../../common/api_util');
 const favorite_business = require('../../../business/favorite_business');
+const push_url = require('../../../business/push_url');
 
 exports.add_diary_set = function (req, res, next) {
   const diarySet = ApiUtil.buildDiarySet(req);
@@ -23,6 +24,7 @@ exports.add_diary_set = function (req, res, next) {
 
   DiarySet.newAndSave(diarySet, ep.done(function (diarySet) {
     res.sendData(diarySet);
+    push_url.push_diary_set_url(diarySet._id);
   }));
 }
 
