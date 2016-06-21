@@ -13,8 +13,12 @@
     this.filePicker = this.container.find('div.filePicker');
     // 图片容器
     this.filelist = $('<ul class="filelist"></ul>').appendTo(this.queueList);
+    this.filelist.sortable();
 
     this.maxImageCount = obj.maxImageCount;
+
+    //现有的已经上传的图片
+    this.ids = obj.ids || [];
     // 优化retina, 在retina下这个值是2
     this.ratio = window.devicePixelRatio || 1;
     // 缩略图大小
@@ -63,7 +67,7 @@
     };
 
     this.webUploader.onFileDequeued = function (file) {
-      self.removeFile(file);
+      self.removeFile(file.id);
       self.updateState();
       self.updateInfo();
     };
@@ -90,15 +94,18 @@
       alert('Eroor: ' + code);
     };
 
-    this.info.on('click', '.retry', function () {
-      self.webUploader.retry();
-    });
+    this.webUploader.onUploadAccept = function (obj, res) {
+      if (obj.file && res.data) {
+        obj.file._id = res.data;
+      }
+    }
 
-    this.info.on('click', '.ignore', function () {
-      alert('todo');
-    });
-
+    console.log(this.ids);
+    for (let id of this.ids) {
+      this.addUploadedFile(id);
+    }
     this.updateState();
+    this.updateInfo();
   }
 
   // 当有文件添加进来时执行，负责view的创建
@@ -149,13 +156,11 @@
       }, this.thumbnailWidth, this.thumbnailHeight);
 
       this.percentages[file.id] = [file.size, 0];
-      file.rotation = 0;
     }
 
     let self = this;
     file.on('statuschange', function (cur, prev) {
       // inited -> queued -> progress -> complete
-      console.log('cur=' + cur + '   prev=' + prev);
 
       // 成功
       if (cur === 'error' || cur === 'invalid') {
@@ -193,10 +198,40 @@
 
     $btns.on('click', 'i', function () {
       var index = $(this).index();
-      console.log(index);
       switch (index) {
         case 0:
-          self.webUploader.removeFile(file);
+          self.webUploader.removeFile(file.id);
+          return;
+      }
+    });
+
+    $li.appendTo(this.filelist);
+  }
+
+  UploadImageClient.prototype.addUploadedFile = function (id) {
+    let $li = $('<li id="' + id + '"><p class="imgWrap"></p></li>');
+    let $btns = $('<div class="file-panel"><i class="ion-close-circled"></i></div>').appendTo($li);
+    let $wrap = $li.find('p.imgWrap');
+    let img = $('<img src="/api/image/thumbnail2/' + this.thumbnailWidth + '/' + this.thumbnailHeight + '/' + id + '">');
+    $wrap.empty().append(img);
+
+    $li.on('mouseenter', function () {
+      $btns.stop().animate({
+        height: 30
+      });
+    });
+
+    $li.on('mouseleave', function () {
+      $btns.stop().animate({
+        height: 0
+      });
+    });
+
+    $btns.on('click', 'i', function () {
+      var index = $(this).index();
+      switch (index) {
+        case 0:
+          self.webUploader.removeFile(id);
           return;
       }
     });
@@ -205,10 +240,10 @@
   }
 
   // 负责view的销毁
-  UploadImageClient.prototype.removeFile = function (file) {
-    var $li = $('#' + file.id);
+  UploadImageClient.prototype.removeFile = function (id) {
+    var $li = $('#' + id);
 
-    delete this.percentages[file.id];
+    delete this.percentages[id];
     $li.off().find('.file-panel').off().end().remove();
   }
 
@@ -274,13 +309,15 @@
       restrict: 'E',
       replace: true,
       scope: {
-        maxImageCount: '='
+        maxImageCount: '=',
+        ids: '='
       },
       templateUrl: 'app/components/uploadImage/uploadImage.html',
       link: function ($scope, $el, $att) {
         $scope.uploadImageClient = new UploadImageClient({
           id: $att.id,
-          maxImageCount: $scope.maxImageCount
+          maxImageCount: $scope.maxImageCount,
+          ids: $scope.ids
         });
       }
     };
