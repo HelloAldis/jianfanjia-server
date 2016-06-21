@@ -4,6 +4,7 @@ const eventproxy = require('eventproxy');
 const DiarySet = require('../../../proxy').DiarySet;
 const Diary = require('../../../proxy').Diary;
 const Favorite = require('../../../proxy').Favorite;
+const User = require('../../../proxy').User;
 const type = require('../../../type');
 const tools = require('../../../common/tools');
 const _ = require('lodash');
@@ -104,9 +105,17 @@ exports.diary_set_info = function (req, res, next) {
     }
   }, ep.done(function (result) {
     if (result.diarySet) {
-      result.diarySet = result.diarySet.toObject();
-      result.diarySet.diaries = result.diaries;
-      res.sendData(result.diarySet);
+      User.findOne({
+        _id: userid
+      }, {
+        username: 1,
+        imageid: 1
+      }, ep.done(function (author) {
+        result.diarySet = result.diarySet.toObject();
+        result.diarySet.diaries = result.diaries;
+        result.diarySet.author = author;
+        res.sendData(result.diarySet);
+      }));
     } else {
       res.sendData({});
     }
