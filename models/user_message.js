@@ -4,31 +4,34 @@ var ObjectId = Schema.ObjectId;
 
 var UserMessageSchema = new Schema({
   userid: {
-    type: ObjectId
+    type: ObjectId // 评论发给哪个业主
   },
   designerid: {
-    type: ObjectId
+    type: ObjectId // 发评论的设计师id
   },
   supervisorid: {
-    type: ObjectId
+    type: ObjectId // 发评论的监理id
+  },
+  byUserid: {
+    type: ObjectId // 发评论的业主id
   },
   requirementid: {
-    type: ObjectId
+    type: ObjectId // 相关的需求id
   },
   planid: {
-    type: ObjectId
+    type: ObjectId // 相关的方案id
   },
   processid: {
-    type: ObjectId
+    type: ObjectId // 相关的工地id
   },
   topicid: {
-    type: ObjectId
+    type: ObjectId // 相关的话题的id
   },
   rescheduleid: {
-    type: ObjectId
+    type: ObjectId // 相关的改期id
   },
   commentid: {
-    type: ObjectId
+    type: ObjectId // 相关的评论id
   },
   section: {
     type: String,

@@ -7,6 +7,7 @@ var dec_strategy = require('../controllers/dec_strategy');
 var home = require('../controllers/pc/home');
 var designer = require('../controllers/pc/designer');
 var product = require('../controllers/pc/product');
+var diary_book = require('../controllers/pc/diary_book');
 var response_util = require('../middlewares/response_util');
 var auth = require('../middlewares/auth');
 
@@ -18,17 +19,20 @@ router.get('/', response_util, home.index);
 router.get('/index.html|/index.htm', function (req, res, next) {
   res.redirect('/');
 });
-router.get('/tpl/user/', site.homePage);
-router.get('/download/user/app', site.download_user_app);
-router.get('/download/user/apk', site.download_user_apk);
-router.get('/download/designer/apk', site.download_designer_apk);
+router.get('/tpl/user/', response_util, site.homePage);
+router.get('/download/user/app', response_util, site.download_user_app);
+router.get('/download/user/apk', response_util, site.download_user_apk);
+router.get('/download/designer/apk', response_util, site.download_designer_apk);
 // router.post('/signup', sign.signup);
 // router.post('/login', sign.login);
-// router.get('/tpl/article/detail.html', response_util, dec_strategy.dec_strategy_homepage); //要被废弃掉 SEO不友好
+router.get('/tpl/article/detail.html', response_util, function (req, res, next) {
+  res.redirect(301, '/tpl/article/strategy/' + req.query.pid);
+});
 router.get('/tpl/article/strategy/:_id', response_util, dec_strategy.dec_strategy_homepage);
 router.get('/tpl/designer/:designerid', response_util, designer.designer_page);
 router.get('/tpl/product/:productid', response_util, product.product_page);
 router.get('/tpl/user/designer/homepage', auth.designerRequired, response_util, designer.designer_my_homepage);
+router.get('/tpl/diary/book/:diarySetid', response_util, diary_book.diary_book_page);
 
 router.get('/wechat/user_login_callback', sign.wechat_user_login_callback);
 router.get('/wechat/user_login', sign.wechat_user_login);

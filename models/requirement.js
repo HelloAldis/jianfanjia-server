@@ -23,22 +23,22 @@ var RequirementSchema = new Schema({
   },
 
   street: {
-    type: String
+    type: String // 废弃的
   },
   cell: {
-    type: String
+    type: String // 废弃的
   },
   cell_phase: {
-    type: String,
+    type: String, // 废弃的
   },
   cell_building: {
-    type: String,
+    type: String, // 废弃的
   },
   cell_unit: {
-    type: String,
+    type: String, // 废弃的
   },
   cell_detail_number: {
-    type: String,
+    type: String, // 废弃的
   },
 
 

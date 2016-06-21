@@ -37,3 +37,20 @@ exports.is_favorite_product = function (userid, usertype, productid, callback) {
     callback(null, undefined);
   }
 }
+
+exports.is_favorite_diary = function (userid, usertype, diaryid, callback) {
+  if (userid && usertype !== type.role_admin) {
+    Favorite.findOne({
+      userid: userid,
+      favorite_diary: diaryid,
+    }, null, function (err, favorite) {
+      if (favorite) {
+        callback(err, true);
+      } else {
+        callback(err, false);
+      }
+    });
+  } else {
+    callback(null, undefined);
+  }
+}

@@ -33,6 +33,8 @@ require('./answer');
 require('./designer_message');
 require('./user_message');
 require('./supervisor');
+require('./diary');
+require('./diary_set');
 
 exports.User = mongoose.model('User');
 exports.Designer = mongoose.model('Designer');
@@ -58,3 +60,5 @@ exports.Answer = mongoose.model('Answer');
 exports.UserMessage = mongoose.model('UserMessage');
 exports.DesignerMessage = mongoose.model('DesignerMessage');
 exports.Supervisor = mongoose.model('Supervisor');
+exports.Diary = mongoose.model('Diary');
+exports.DiarySet = mongoose.model('DiarySet');

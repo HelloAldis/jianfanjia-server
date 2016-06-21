@@ -45,3 +45,7 @@ exports.paginate = function (query, project, option, callback) {
 exports.count = function (query, callback) {
   Comment.count(query, callback);
 }
+
+exports.removeSome = function (query, callback) {
+  Comment.remove(query, callback);
+};

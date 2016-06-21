@@ -24,3 +24,5 @@ exports.Answer = require('./answer');
 exports.UserMessage = factory.create_proxy(require('../models').UserMessage);
 exports.DesignerMessage = factory.create_proxy(require('../models').DesignerMessage);
 exports.Supervisor = factory.create_proxy(require('../models').Supervisor);
+exports.Diary = factory.create_proxy(require('../models').Diary);
+exports.DiarySet = factory.create_proxy(require('../models').DiarySet);

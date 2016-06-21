@@ -18,7 +18,7 @@ var CommentSchema = new Schema({
   by: {
     type: ObjectId
   },
-  to: {
+  to: { //废弃的
     type: ObjectId
   },
   to_userid: {

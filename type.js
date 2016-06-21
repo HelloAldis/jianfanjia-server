@@ -91,6 +91,7 @@ var type = {
 
   topic_type_plan: '0',
   topic_type_process_item: '1',
+  topic_type_diary: '2',
 
   evaluation_is_anonymous_no: '0',
   evaluation_is_anonymous_yes: '1',
@@ -143,6 +144,7 @@ var type = {
   user_message_type_designer_reject_reschedule: '11',
   user_message_type_designer_ok_reschedule: '12',
   user_message_type_designer_remind_ok_house_checked: '13',
+  user_message_type_comment_diary: '14',
 
   designer_message_type_user_reschedule: '0',
   designer_message_type_procurement: '1',

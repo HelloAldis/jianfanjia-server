@@ -17,6 +17,7 @@ var dec_strategy = require('../api/v2/web/dec_strategy');
 var beautiful_image = require('../api/v2/web/beautiful_image');
 var answer = require('../api/v2/web/answer');
 var message = require('../api/v2/web/message');
+var diary = require('../api/v2/web/diary');
 
 var processApp = require('../api/v2/app/process');
 
@@ -68,6 +69,9 @@ router.post('/wechat/receive', wechat.receive); //接收微信平台消息
 router.get('/wechat/receive', wechat.signature); //认证微信平台
 router.post('/image/upload', upload.single('Filedata'), image.add); //上传图片
 router.post('/one_plan', plan.getOne); //获取某个方案信息
+router.post('/search_diary_set', diary.search_diary_set); // 游客搜索日记集
+router.post('/search_diary', diary.search_diary); // 游客搜索日记
+router.post('/top_diary_set', diary.top_diary_set); // 游客热门日记集
 
 //通用用户功能
 router.post('/signout', auth.normalUserRequired, sign.signout); //登出
@@ -79,6 +83,7 @@ router.post('/favorite/product/delete', auth.normalUserRequired, favorite.delete
 router.post('/favorite/beautiful_image/list', auth.normalUserRequired, favorite.list_beautiful_image); //收藏美图列表
 router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favorite.add_beautiful_image); //收藏美图
 router.post('/favorite/beautiful_image/delete', auth.normalUserRequired, favorite.delete_beautiful_image); //删除收藏美图
+router.post('/favorite/diary/add', auth.normalUserRequired, favorite.add_diary); //点赞日记
 router.post('/add_comment', auth.normalUserRequired, comment.add_comment); //添加评论
 // router.post('/unread_comment', auth.normalUserRequired, comment.unread_comment); //获取未读评论
 router.post('/topic_comments', auth.normalUserRequired, comment.topic_comments); //获取评论并标记为已读
@@ -87,6 +92,12 @@ router.post('/send_verify_email', auth.normalUserRequired, sign.send_verify_emai
 router.get('/download_contract/:_id', auth.normalUserRequired, requirement.download_contract); //下载合同
 router.post('/upload_wenjuan_answer', auth.normalUserRequired, answer.upload_wenjuan_answer); //提交问卷答案
 router.post('/check_wenjuan_answer', auth.normalUserRequired, answer.check_wenjuan_answer); //获取我的问卷状态
+router.post('/add_diary_set', auth.normalUserRequired, diary.add_diary_set); // 用户添加日记集
+router.post('/my_diary_set', auth.normalUserRequired, diary.my_diary_set); // 用户我的日记集
+router.post('/update_diary_set', auth.normalUserRequired, diary.update_diary_set); // 用户更新日记集
+router.post('/add_diary', auth.normalUserRequired, diary.add_diary); // 用户添加日记
+router.post('/delete_diary', auth.normalUserRequired, diary.delete_diary); // 用户删除日记
+
 
 //业主独有功能
 router.post('/user/info', auth.userRequired, user.user_update_info); //修改业主个人资料

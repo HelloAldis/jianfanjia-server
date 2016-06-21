@@ -5,6 +5,7 @@ const Share = require('../proxy').Share;
 const Designer = require('../proxy').Designer;
 const async = require('async');
 const ApiUtil = require('../common/api_util');
+const tools = require('../common/tools');
 
 exports.share_process_homepage = function (req, res, next) {
   const _id = req.query.pid;

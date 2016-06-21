@@ -537,6 +537,7 @@ exports.designers_user_can_order = function (req, res, next) {
               service_attitude: 1,
               respond_speed: 1,
               tags: 1,
+              score: 1
             }, {
               lean: true
             }, function (err, designers) {
