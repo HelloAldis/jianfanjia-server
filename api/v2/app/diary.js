@@ -80,6 +80,7 @@ exports.diary_set_info = function (req, res, next) {
       }, {
         favorite_count: 1,
         view_count: 1,
+        authorid: 1,
       }, callback);
     },
     diaries: function (callback) {
