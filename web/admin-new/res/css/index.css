@@ -343,7 +343,7 @@
     height: 40px;
     width: 100%;
     z-index: 200;
-    background: url(./success.png) no-repeat right bottom;
+    background: url(../assets/img/success.png) no-repeat right bottom;
 }
 
 .upload-image-container .filelist {
