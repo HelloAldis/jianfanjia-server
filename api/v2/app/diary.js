@@ -106,7 +106,7 @@ exports.diary_set_info = function (req, res, next) {
   }, ep.done(function (result) {
     if (result.diarySet) {
       User.findOne({
-        _id: userid
+        _id: result.diarySet.authorid
       }, {
         username: 1,
         imageid: 1
