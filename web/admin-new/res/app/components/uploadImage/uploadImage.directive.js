@@ -15,7 +15,6 @@
     this.filelist = $('<ul class="filelist"></ul>').appendTo(this.queueList);
 
     this.maxImageCount = obj.maxImageCount;
-    this.fileCount = 0;
     // 优化retina, 在retina下这个值是2
     this.ratio = window.devicePixelRatio || 1;
     // 缩略图大小
@@ -23,8 +22,8 @@
     this.thumbnailHeight = 110 * this.ratio;
     // 所有文件的进度信息，key为file id
     this.percentages = {};
-    // 可能有pedding, ready, confirm, finish.
-    this.state = 'pedding';
+    // 可能有 empty, notEmpty
+    this.state = 'empty';
     // 文件总体选择信息。
     this.info = this.statusBar.find('.info');
 
@@ -58,25 +57,15 @@
 
 
     this.webUploader.onFileQueued = function (file) {
-      self.fileCount++;
-      if (self.fileCount === 1) {
-        // queueList.remove('div.placeholder');
-        self.placeholder.addClass('element-invisible')
-        self.statusBar.removeClass('element-invisible');
-      }
-
       self.addFile(file);
-      self.setState('ready');
+      self.updateState();
+      self.updateInfo();
     };
 
     this.webUploader.onFileDequeued = function (file) {
-      self.fileCount--;
-
-      if (!self.fileCount) {
-        self.setState('pedding');
-      }
-
       self.removeFile(file);
+      self.updateState();
+      self.updateInfo();
     };
 
     this.webUploader.onUploadProgress = function (file, percentage) {
@@ -90,11 +79,9 @@
     this.webUploader.on('all', function (type) {
       switch (type) {
         case 'uploadFinished':
-          self.setState('confirm');
           break;
 
         case 'startUpload':
-          self.setState('uploading');
           break;
       }
     });
@@ -110,6 +97,8 @@
     this.info.on('click', '.ignore', function () {
       alert('todo');
     });
+
+    this.updateState();
   }
 
   // 当有文件添加进来时执行，负责view的创建
@@ -165,16 +154,11 @@
 
     let self = this;
     file.on('statuschange', function (cur, prev) {
-      if (prev === 'progress') {
-        $prgress.hide().width(0);
-      } else if (prev === 'queued') {
-        $li.off('mouseenter mouseleave');
-        $btns.remove();
-      }
+      // inited -> queued -> progress -> complete
+      console.log('cur=' + cur + '   prev=' + prev);
 
       // 成功
       if (cur === 'error' || cur === 'invalid') {
-        console.log(file.statusText);
         showError(file.statusText);
         self.percentages[file.id][1] = 1;
       } else if (cur === 'interrupt') {
@@ -188,6 +172,7 @@
         $prgress.css('display', 'block');
       } else if (cur === 'complete') {
         $prgress.hide().width(0);
+        $li.find('p.progress').hide().width(0);
         $li.append('<span class="success"></span>');
       }
 
@@ -228,70 +213,48 @@
   }
 
   UploadImageClient.prototype.setState = function (val) {
-    var file, stats;
-
     if (val === this.state) {
       return;
     }
 
     this.state = val;
     switch (this.state) {
-      case 'pedding':
+      case 'empty':
         this.placeholder.removeClass('element-invisible');
         this.filelist.hide();
         this.statusBar.addClass('element-invisible');
         this.webUploader.refresh();
         break;
 
-      case 'ready':
+      case 'notEmpty':
         this.placeholder.addClass('element-invisible');
         this.filelist.show();
         this.statusBar.removeClass('element-invisible');
         this.webUploader.refresh();
         break;
-
-      case 'confirm':
-        stats = this.webUploader.getStats();
-        if (stats.successNum && !stats.uploadFailNum) {
-          this.setState('finish');
-          return;
-        }
-        break;
-      case 'finish':
-        stats = this.webUploader.getStats();
-        if (stats.successNum) {
-          alert('上传成功');
-        } else {
-          // 没有成功的图片，重设
-          this.state = 'done';
-          location.reload();
-        }
-        break;
     }
-
-    this.updateStatus();
   }
 
-  UploadImageClient.prototype.updateStatus = function () {
-    let text = '';
-    let stats;
-
-    if (this.state === 'ready') {
-      text = '选中' + this.fileCount + '张图片。';
-    } else if (this.state === 'confirm') {
-      stats = this.webUploader.getStats();
-      if (stats.uploadFailNum) {
-        text = '已成功上传' + stats.successNum + '张照片至XX相册，' +
-          stats.uploadFailNum + '张照片上传失败，<a class="retry" href="#">重新上传</a>失败图片或<a class="ignore" href="#">忽略</a>'
-      }
-
+  UploadImageClient.prototype.updateState = function () {
+    let stats = this.webUploader.getStats();
+    console.log(this.webUploader.getFiles());
+    if (this.webUploader.getFiles().length) {
+      this.setState('notEmpty');
     } else {
-      stats = this.webUploader.getStats();
-      text = '共' + this.fileCount + '张，已上传' + stats.successNum + '张';
+      this.setState('empty');
+    }
+  }
 
-      if (stats.uploadFailNum) {
-        text += '，失败' + stats.uploadFailNum + '张';
-      }
+  UploadImageClient.prototype.updateInfo = function () {
+    let text = '';
+    let stats = this.webUploader.getStats();
+
+    let diff = this.maxImageCount - this.webUploader.getFiles().length;
+
+    if (diff > 0) {
+      text = '还可以添加' + diff + '张照片（可以拖图片到浏览器直接添加，或者粘贴剪贴板的图片）';
+    } else {
+      text = '最多上传' + this.maxImageCount + '张照片，点击删除可以去掉不想要的。'
     }
 
     this.info.html(text);

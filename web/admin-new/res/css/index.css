@@ -189,84 +189,10 @@
     position: relative;
 }
 
-.upload-image-container .statusBar .progress {
-    border: 1px solid #1483d8;
-    width: 198px;
-    background: #fff;
-    height: 18px;
-    position: relative;
-    display: inline-block;
-    text-align: center;
-    line-height: 20px;
-    color: #6dbfff;
-    position: relative;
-    margin-right: 10px;
-}
-.upload-image-container .statusBar .progress span.percentage {
-    width: 0;
-    height: 100%;
-    left: 0;
-    top: 0;
-    background: #1483d8;
-    position: absolute;
-}
-.upload-image-container .statusBar .progress span.text {
-    position: relative;
-    z-index: 10;
-}
-
 .upload-image-container .statusBar .info {
     display: inline-block;
     font-size: 14px;
     color: #666666;
-}
-
-.upload-image-container .statusBar .btns {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    line-height: 40px;
-}
-
-.filePicker2 {
-    display: inline-block;
-    float: left;
-}
-
-.upload-image-container .statusBar .btns .webuploader-pick,
-.upload-image-container .statusBar .btns .uploadBtn,
-.upload-image-container .statusBar .btns .uploadBtn.state-uploading,
-.upload-image-container .statusBar .btns .uploadBtn.state-paused {
-    background: #ffffff;
-    border: 1px solid #cfcfcf;
-    color: #565656;
-    padding: 0 18px;
-    display: inline-block;
-    border-radius: 3px;
-    margin-left: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    float: left;
-}
-.upload-image-container .statusBar .btns .webuploader-pick-hover,
-.upload-image-container .statusBar .btns .uploadBtn:hover,
-.upload-image-container .statusBar .btns .uploadBtn.state-uploading:hover,
-.upload-image-container .statusBar .btns .uploadBtn.state-paused:hover {
-    background: #f0f0f0;
-}
-
-.upload-image-container .statusBar .btns .uploadBtn {
-    background: #00b7ee;
-    color: #fff;
-    border-color: transparent;
-}
-.upload-image-container .statusBar .btns .uploadBtn:hover {
-    background: #00a2d4;
-}
-
-.upload-image-container .statusBar .btns .uploadBtn.disabled {
-    pointer-events: none;
-    opacity: 0.6;
 }
 
 .upload-image-container .filelist div.file-panel {
