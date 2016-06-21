@@ -14,7 +14,25 @@
     <link rel="stylesheet" type="text/css" href="/static/css/owner.css" />
     <script type="text/javascript" src="/static/js/lib/public.js"></script>
     <script type="text/javascript" src="/static/js/ng/version.min.js"></script>
-    <script type="text/javascript" src="/static/js/lib/jquery.uploadify.min.js"></script>
+    <script>
+        // 检测浏览器是否支持html5上传，来给低版本浏览器做优雅降级；
+        var checkSupport = function(){
+            var input = document.createElement('input');
+            var fileSupport = !!(window.File && window.FileList);
+            var xhr = new XMLHttpRequest();
+            var fd = !!window.FormData;
+            return 'multiple' in input && fileSupport && 'onprogress' in xhr && 'upload' in xhr && fd ? 'html5' : 'flash';
+        };
+        //动态加载图图片上传插件，避免浪费请求数
+        (function() {
+            if(checkSupport() === 'html5'){
+                _script = "/static/js/lib/jquery.uploadifive.min.js";
+            }else{
+               _script = "/static/js/lib/jquery.uploadify.min.js";
+            }
+            document.write('<script type="text/javascript" src="'+_script+'"><\/script>');
+        })();
+    </script>
     <!--[if lt IE 9]>
         <script type="text/javascript" src="/static/js/lib/ie8.js"></script>
     <![endif]-->
@@ -46,6 +64,7 @@
                 <li><a href="/">首页</a></li>
                 <li><a href="/tpl/design/index.html">设计师</a></li>
                 <li><a href="/tpl/mito/index.html">装修美图 </a></li>
+                <li><a href="/tpl/diary/index.html">装修日记</a></li>
                 <li><a href="/tpl/live/index.html">装修直播</a></li>
                 <li><a href="/tpl/article/index.html">装修攻略</a></li>
                 <li><a href="/tpl/help/index.html">你问我答</a></li>
@@ -70,6 +89,11 @@
                     <dt>我的收藏</dt>
                     <dd ng-class="{active: $state.includes('favorite.list')}"><a ui-sref="favorite.list({id:1})">作品收藏列表</a></dd>
                     <dd ng-class="{active: $state.includes('designer.list')}"><a ui-sref="designer.list({id:1})">意向设计师列表</a></dd>
+                </dl>
+                <div class="line"></div>
+                <dl>
+                    <dt>我的日记</dt>
+                    <dd ng-class="{active: $state.includes('diary')}"><a ui-sref="diary.list()">日记本</a></dd>
                 </dl>
                 <div class="line"></div>
                 <dl>

@@ -326,6 +326,7 @@ angular.module('controllers', [])
         $scope.contracts = {
             managers : [],
             manager : '',
+            startDateErrorText : '',
             timer : null,
             success : false,
             btnsBox : true,
@@ -345,17 +346,15 @@ angular.module('controllers', [])
                 $timeout.cancel(contractsTimer);
                 _this.startDateError = false;
                 if($scope.contracts.startDate < (new Date()).getTime()){
-                    _this.startDateError = true;
-                    contractsTimer = $timeout(function(){
-                        _this.startDateError = false;
-                        $timeout.cancel(contractsTimer);
-                    },3000);
+                    startError();
+                    return ;
+                }else if(!this.manager){
                     return ;
                 }else{
                     userRequiremtne.config({
-                      "requirementid":requiremtneId,
-                      "start_at":this.startDate,
-                      "manager" : this.manager
+                        "requirementid" : requiremtneId,
+                        "start_at"      : this.startDate,
+                        "manager"       : this.manager
                     }).then(function(res){
                         $timeout.cancel($scope.contracts.timer)
                         uploadParent();
@@ -368,6 +367,13 @@ angular.module('controllers', [])
                     });
                 }
             }
+        }
+        function startError(text){
+            $scope.contracts.startDateError = true;
+            contractsTimer = $timeout(function(){
+                $scope.contracts.startDateError = false;
+                $timeout.cancel(contractsTimer);
+            },3000);
         }
         // 三方合同
         function myContract(){   //获取我的第三方合同
@@ -423,7 +429,7 @@ angular.module('controllers', [])
                 close : function(){
                     this.error = false;
                 },
-                images_complete : true
+                images_complete : false
             };
             $scope.$watch('designerPlan.add_price_detail_name', function(newValue){
                 $scope.designerPlan.add_price_detail_ok = !!newValue
@@ -1039,6 +1045,7 @@ angular.module('controllers', [])
                 },
                 error : false,
                 errormsg : '',
+                images_loading  : false,
                 award_details_complete : false //监听获奖照片及描述图片有没有上传完成
             };
             $scope.designer = {
@@ -1258,7 +1265,8 @@ angular.module('controllers', [])
             bankList : initData.bankList,
             disabled : false,
             error : false,
-            errormsg : ''
+            errormsg : '',
+            images_loading  : false
         }
         function hidemsg(){
             timer = $timeout(function(){
@@ -1333,20 +1341,16 @@ angular.module('controllers', [])
         '$scope','userTeam',
         function($scope,userTeam){
             $scope.isLoading = false;
-            userTeam.list().then(function(res){
+            function load(){
+                userTeam.list().then(function(res){
                 $scope.teamList = res.data.data;
-                $scope.isLoading = true;
-            },function(res){
-                console.log(res);
-            });
-        }])
-    .controller('teamCtrl', [     //施工团队认证修改
-        '$scope','$rootScope','$stateParams','$state','$timeout','userTeam','initData',
-        function($scope,$rootScope,$stateParams,$state,$timeout,userTeam,initData){
-        $scope.isLoading = false;
-        $scope.designerTeam = {
-            disabled : false,
-            remove : function(id){
+                    $scope.isLoading = true;
+                },function(res){
+                    console.log(res);
+                });
+            };
+            load();
+            $scope.remove = function(id){
                 if(confirm('您确定要删除吗？')){
                     userTeam.remove({"_id": id}).then(function(res){
                         if(res.data.msg === "success"){
@@ -1357,12 +1361,20 @@ angular.module('controllers', [])
                         console.log(res)
                     });
                 }
-            },
+            }
+        }])
+    .controller('teamCtrl', [     //施工团队认证修改
+        '$scope','$stateParams','$state','$timeout','userTeam','initData',
+        function($scope,$stateParams,$state,$timeout,userTeam,initData){
+        $scope.isLoading = false;
+        $scope.designerTeam = {
+            disabled : false,
             cities_list : initData.tdist,
             goodAtList : initData.goodAtList,
             userSex : initData.userSex,
             errormsg : '',
-            errotr : false
+            errotr : false,
+            images_loading : false
         }
         $scope.team = {
             province : '',
@@ -1487,7 +1499,8 @@ angular.module('controllers', [])
                 error : false,
                 errormsg : '',
                 plan_images_complete : false,
-                images_complete : false
+                images_complete : false,
+                images_loading : false
             };
             if($scope.designerProduct.isRelease){
                 $scope.product = angular.extend($scope.product,{province:'请选择省份',city:'请选择市',district:'请选择县/区'});

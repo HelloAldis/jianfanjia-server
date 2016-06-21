@@ -6,13 +6,6 @@
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
             $rootScope.$on('$stateChangeStart',function(){
-                //解决ie8 flash报错问题
-                $('#createUpload1').uploadify('destroy');
-                $('#createUpload2').uploadify('destroy');
-                $('#fileToUpload').uploadify('destroy');
-                $('#fileToUpload1').uploadify('destroy');
-                $('#fileToUpload2').uploadify('destroy');
-                $('#fileToUpload3').uploadify('destroy');
             });
             $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
                 document.documentElement.scrollTop = document.body.scrollTop = 0;
@@ -40,7 +33,13 @@
                     url: '/infor',
                     templateUrl: url+'infor.html',
                     controller : 'inforCtrl',
-                    title : "基本资料认证"
+                    title : "基本资料认证",
+                    onExit :  function(){
+                        if(checkSupport() === 'flash'){
+                            $('#fileToUpload').uploadify('destroy');
+                            $('#createUpload2').uploadify('destroy');
+                        }
+                    }
                 })
                 .state('infoshow', {     //设计师资料审核期查看
                     url: '/infoshow',
@@ -138,13 +137,25 @@
                     url: '/release?list',
                     templateUrl: url+'release.html',
                     controller : 'releaseCtrl',
-                    title : '发布作品'
+                    title : '发布作品',
+                    onExit :  function(){
+                        if(checkSupport() === 'flash'){
+                            $('#createUpload1').uploadify('destroy');
+                            $('#createUpload2').uploadify('destroy');
+                        }
+                    }
                 })
                 .state('updateProduct', {     //修改作品
                     url: '/release/:id?list',
                     templateUrl: url+'release.html',
                     controller : 'releaseCtrl',
-                    title : '修改作品'
+                    title : '编辑作品',
+                    onExit :  function(){
+                        if(checkSupport() === 'flash'){
+                            $('#createUpload1').uploadify('destroy');
+                            $('#createUpload2').uploadify('destroy');
+                        }
+                    }
                 })
                 .state('favorite', {      //收藏作品
                     url: '/favorite',
@@ -166,7 +177,14 @@
                     url: '/idcard',
                     templateUrl: url+'idcard.html',
                     controller : 'idcardCtrl',
-                    title : "身份认证"
+                    title : "身份认证",
+                    onExit :  function(){
+                        if(checkSupport() === 'flash'){
+                            $('#fileToUpload1').uploadify('destroy');
+                            $('#fileToUpload2').uploadify('destroy');
+                            $('#fileToUpload3').uploadify('destroy');
+                        }
+                    }
                 })
                 .state('idcardshow', {      //查看身份认证
                     url: '/idcardshow',
@@ -178,13 +196,25 @@
                     url: '/team?contract',
                     templateUrl: url+'team.html',
                     controller : 'teamCtrl',
-                    title : "添加施工团队"
+                    title : "添加施工团队",
+                    onExit :  function(){
+                        if(checkSupport() === 'flash'){
+                            $('#fileToUpload1').uploadify('destroy');
+                            $('#fileToUpload2').uploadify('destroy');
+                        }
+                    }
                 })
                 .state('updateteam', {      //编辑施工团队
                     url: '/team/:id',
                     templateUrl: url+'team.html',
                     controller : 'teamCtrl',
-                    title : "编辑施工团队"
+                    title : "编辑施工团队",
+                    onExit :  function(){
+                        if(checkSupport() === 'flash'){
+                            $('#fileToUpload1').uploadify('destroy');
+                            $('#fileToUpload2').uploadify('destroy');
+                        }
+                    }
                 })
                 .state('teamList', {      //施工团队认证
                     url: '/teamList',
@@ -245,7 +275,7 @@
                     url: '/{id:[0-9]{1,6}}',
                     templateUrl: url+'comment.html',
                     controller : 'commentCtrl'
-                })
+                });
         });
     // angular bootstrap
     angular.bootstrap(document, ['myJyzDesigner']);

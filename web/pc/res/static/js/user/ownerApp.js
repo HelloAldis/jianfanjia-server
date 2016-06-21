@@ -7,7 +7,9 @@
             $rootScope.$stateParams = $stateParams;
             $rootScope.$on('$stateChangeStart',function(){
                 //解决ie8 flash报错问题
-                $('#fileToUpload').uploadify('destroy');
+                if(checkSupport() === 'flash'){
+                    $('#fileToUpload').uploadify('destroy');
+                }
             });
             $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
                 document.documentElement.scrollTop = document.body.scrollTop = 0;
@@ -158,6 +160,25 @@
                     url: '/{id:[0-9]{1,6}}',
                     templateUrl: url+'comment.html',
                     controller : 'commentCtrl'
+                })
+                .state('diary', {
+                    url: '/diary',
+                    template: '<div ui-view></div>',
+                })
+                .state('diary.list', {
+                    url: '/list',
+                    templateUrl: url+'diary.html',
+                    controller : 'diaryCtrl'
+                })
+                .state('diary.add', {
+                    url: '/add/:id',
+                    templateUrl: url+'addDiary.html',
+                    controller : 'addDiaryCtrl'
+                })
+                .state('diary.show', {
+                    url: '/show?_id&title&house_area&house_type&dec_style&work_type&cover_imageid',
+                    templateUrl: url+'showDiary.html',
+                    controller : 'showDiaryCtrl'
                 })
         });
     // angular bootstrap

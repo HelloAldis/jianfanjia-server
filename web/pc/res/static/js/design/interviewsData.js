@@ -34,6 +34,13 @@ define(function(){
             "imageid" : "573c0c335b23609e70011717",
             "number" : "五",
             "title" : "我的才华就是实现大家的梦想"
+        },
+        {
+            "_id" : "55ee94fa7af665101bf84e7c",
+            "username" : "袁磊",
+            "imageid" : "573a93e95b23609e7001163b",
+            "number" : "六",
+            "title" : "要用自己的专业来打动客户"
         }
-    ]
+    ];
 });

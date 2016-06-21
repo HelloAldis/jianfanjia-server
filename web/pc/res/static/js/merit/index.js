@@ -2,22 +2,25 @@ require.config({
     baseUrl: '/static/js/',
     paths  : {
         jquery: 'lib/jquery',
-        lodash : 'lib/lodash'
+        lodash : 'lib/lodash',
+        cookie : 'lib/jquery.cookie',
+        mousewheel : 'lib/jquery.mousewheel.min'
     },
     shim   : {
-        'jquery.cookie': {
+        'cookie': {
             deps: ['jquery']
         },
-        'jquery.mousewheel.min' : {
+        'mousewheel' : {
             deps: ['jquery']
         }
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
+require(['jquery','lodash','cookie','utils/common'],function($,_,cookie,common){
     var user = new common.User();
     user.init();
 });
-require(['jquery','lodash','lib/jquery.mousewheel.min'],function($,_){
+/*
+require(['jquery','lodash','mousewheel'],function($,_){
     var $content = $('#j-content');
     var $loading = $('#loading');
     var iNum = 0;
@@ -1781,33 +1784,53 @@ require(['jquery','lodash','lib/jquery.mousewheel.min'],function($,_){
         },
         imgLoading : function(){
             var _this = this;
-            /*var dirname = RootUrl+'/static/img/';
-            var arr = ['merit.png','bg.jpg','core-bg.png','core-ray.png','detail-bg.png','diff-bg.png','diff-edge.png','diff-main.png',
-                'dot.png','fee-bg.png','filter-bg.png','filter-ray.png','gem.png','light-circle.png','link1.jpg','link2.jpg','link3.jpg',
-                'link4.jpg','link5.jpg','link6.jpg','link7.jpg','link8.jpg','link9.jpg','link10.jpg','link11.jpg','link12.jpg','link13.jpg',
-                'link14.jpg','link15.jpg','link16.jpg','link17.jpg','link18.jpg','link19.jpg','link20.jpg','operate-daybg.png','operate-hover.png',
-                'operate-icon.png','optical.png','phone1.png','phone2.png','phone-shim.png','protect-bg.png','protect-ray.png','rule.png',
-                'screen1-bg.png','shield.png','step-circle.png','step-icon.png'
+            var arr = ['/static/img/merit/merit.png','/static/img/merit/core-bg.png','/static/img/merit/core-ray.png','/static/img/merit/detail-bg.png','/static/img/merit/diff-bg.png','/static/img/merit/diff-edge.png','/static/img/merit/diff-main.png',
+                'dot.png','/static/img/merit/fee-bg.png','/static/img/merit/filter-bg.png','/static/img/merit/filter-ray.png','/static/img/merit/gem.png','/static/img/merit/light-circle.png','/static/img/merit/link1.jpg','/static/img/merit/link2.jpg','/static/img/merit/link3.jpg',
+                'link4.jpg','/static/img/merit/link5.jpg','/static/img/merit/link6.jpg','/static/img/merit/link7.jpg','/static/img/merit/link8.jpg','/static/img/merit/link9.jpg','/static/img/merit/link10.jpg','/static/img/merit/link11.jpg','/static/img/merit/link12.jpg','/static/img/merit/link13.jpg',
+                'link14.jpg','/static/img/merit/link15.jpg','/static/img/merit/link16.jpg','/static/img/merit/link17.jpg','/static/img/merit/link18.jpg','/static/img/merit/link19.jpg','/static/img/merit/link20.jpg','/static/img/merit/operate-daybg.png','/static/img/merit/operate-hover.png',
+                'operate-icon.png','/static/img/merit/optical.png','/static/img/merit/phone1.png','/static/img/merit/phone2.png','/static/img/merit/phone-shim.png','/static/img/merit/protect-bg.png','/static/img/merit/protect-ray.png','/static/img/merit/rule.png',
+                'screen1-bg.png','/static/img/merit/shield.png','/static/img/merit/step-circle.png','/static/img/merit/step-icon.png'
             ];
-            var iNum = 0;
-            var oImg = new Image();
-                oImg.onload = function(){
-                    console.log(iNum)
-                    iNum++;
-                    console.log(iNum)
-                }
-                oImg.onerror = function(){
-                    iNum++;
-                }
-                oImg.src = dirname + arr[1];*/
-            setTimeout(function(){
+            this.loadImage(arr,function(success){
+                console.log(success)
                 _this.logingHide();
                 $('#j-sidenav').fadeIn();
-                bOff =true;
+                bOff = true;
                 _this.bindEvent();
-            }, 10000)
-        }
+            })
+        },
+        
     }
     var merit = new Merit();
     merit.init();
 });
+*/
+require(['jquery','lodash','merit/loadImage','merit/init','mousewheel'],function($,_,loadImage,init){
+    var arr = ['/static/img/merit/merit.png','/static/img/merit/core-bg.png','/static/img/merit/core-ray.png','/static/img/merit/detail-bg.png','/static/img/merit/diff-bg.png','/static/img/merit/diff-edge.png','/static/img/merit/diff-main.png',
+        'dot.png','/static/img/merit/fee-bg.png','/static/img/merit/filter-bg.png','/static/img/merit/filter-ray.png','/static/img/merit/gem.png','/static/img/merit/light-circle.png','/static/img/merit/link1.jpg','/static/img/merit/link2.jpg','/static/img/merit/link3.jpg',
+        'link4.jpg','/static/img/merit/link5.jpg','/static/img/merit/link6.jpg','/static/img/merit/link7.jpg','/static/img/merit/link8.jpg','/static/img/merit/link9.jpg','/static/img/merit/link10.jpg','/static/img/merit/link11.jpg','/static/img/merit/link12.jpg','/static/img/merit/link13.jpg',
+        'link14.jpg','/static/img/merit/link15.jpg','/static/img/merit/link16.jpg','/static/img/merit/link17.jpg','/static/img/merit/link18.jpg','/static/img/merit/link19.jpg','/static/img/merit/link20.jpg','/static/img/merit/operate-daybg.png','/static/img/merit/operate-hover.png',
+        'operate-icon.png','/static/img/merit/optical.png','/static/img/merit/phone1.png','/static/img/merit/phone2.png','/static/img/merit/phone-shim.png','/static/img/merit/protect-bg.png','/static/img/merit/protect-ray.png','/static/img/merit/rule.png',
+        'screen1-bg.png','/static/img/merit/shield.png','/static/img/merit/step-circle.png','/static/img/merit/step-icon.png'
+    ];
+    loadImage(arr,function(success){
+        console.log(success)
+        init();
+    });
+});
+/*
+doc.one('mousewheel',mousewheelFn);
+doc.on('mousewheel',function(ev){
+    ev.preventDefault();
+});
+function mousewheelFn(ev,direction){
+    if( direction < 1 ){  //向下滚动
+        oUl.trigger("move:next");
+    }else{  //向上滚动
+        oUl.trigger("move:prev");
+    }
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+        doc.one("mousewheel",mousewheelFn);
+    },1200);
+}*/

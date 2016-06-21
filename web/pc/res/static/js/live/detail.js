@@ -250,8 +250,8 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min'],
             obj.hide().html('');
         }
     };
-        var lightBox = new LightBox();
-        var Detail = function(){};
+    var lightBox = new LightBox();
+    var Detail = function(){};
         Detail.prototype = {
             init  : function(){
                 this.cacheData = {}; //全局数据缓存
@@ -265,7 +265,7 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min'],
             loadList : function(){
                 var self = this;
                 $.ajax({
-                    url:RootUrl+'api/v2/web/search_share',
+                    url:'/api/v2/web/search_share',
                     type: 'POST',
                     contentType : 'application/json; charset=utf-8',
                     dataType: 'json',
