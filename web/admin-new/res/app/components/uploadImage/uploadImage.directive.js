@@ -212,7 +212,7 @@
     let $li = $('<li id="' + id + '"><p class="imgWrap"></p></li>');
     let $btns = $('<div class="file-panel"><i class="ion-close-circled"></i></div>').appendTo($li);
     let $wrap = $li.find('p.imgWrap');
-    let img = $('<img src="/api/image/thumbnail2/' + this.thumbnailWidth + '/' + this.thumbnailHeight + '/' + id + '">');
+    let img = $('<img src="/api/v2/web/thumbnail2/' + this.thumbnailWidth + '/' + this.thumbnailHeight + '/' + id + '">');
     $wrap.empty().append(img);
 
     $li.on('mouseenter', function () {
