@@ -7,6 +7,8 @@ var Plan = require('../../../proxy').Plan;
 var Process = require('../../../proxy').Process;
 var Requirement = require('../../../proxy').Requirement;
 var Supervisor = require('../../../proxy').Supervisor;
+var Diary = require('../../../proxy').Diary;
+var DiarySet = require('../../../proxy').DiarySet;
 var async = require('async');
 var ApiUtil = require('../../../common/api_util');
 var type = require('../../../type');
@@ -20,7 +22,7 @@ exports.search_user_comment = function (req, res, next) {
   }
   query.userid = ApiUtil.getUserid(req);
   query.message_type = {
-    $in: [type.user_message_type_comment_plan, type.user_message_type_comment_process_item]
+    $in: [type.user_message_type_comment_plan, type.user_message_type_comment_process_item, type.user_message_type_comment_diary]
   }
   var ep = eventproxy();
   ep.fail(next);
@@ -67,7 +69,7 @@ exports.search_user_comment = function (req, res, next) {
             callback(err, message);
           });
         }));
-      } else {
+      } else if (message.message_type === type.user_message_type_comment_process_item) {
         async.parallel({
           supervisor: function (callback) {
             if (message.supervisorid) {
@@ -108,6 +110,60 @@ exports.search_user_comment = function (req, res, next) {
           message.process = result.process;
           message.designer = result.designer;
           message.supervisor = result.supervisor;
+          callback(err, message);
+        });
+      } else {
+        async.parallel({
+          user: function (callback) {
+            User.findOne({
+              _id: message.byUserid,
+            }, {
+              username: 1,
+              imageid: 1
+            }, callback);
+          },
+          diary: function (callback) {
+            Diary.findOne({
+              _id: message.topicid,
+            }, null, function (err, diary) {
+              if (err) {
+                callback(err);
+                return;
+              }
+
+              if (diary) {
+                async.parallel({
+                  diarySet: function (callback) {
+                    DiarySet.findOne({
+                      _id: diary.diarySetid
+                    }, null, callback);
+                  },
+                  author: function (callback) {
+                    User.findOne({
+                      _id: diary.authorid,
+                    }, {
+                      username: 1,
+                      imageid: 1
+                    }, callback);
+                  }
+                }, function (err, result) {
+                  diary = diary.toObject();
+                  diary.diarySet = result.diarySet;
+                  diary.author = result.author;
+
+                  callback(err, diary);
+                });
+              } else {
+                callback(null, {
+                  _id: message.topicid,
+                  is_deleted: true,
+                });
+              }
+            });
+          }
+        }, function (err, result) {
+          message.user = result.user;
+          message.diary = result.diary;
           callback(err, message);
         });
       }
