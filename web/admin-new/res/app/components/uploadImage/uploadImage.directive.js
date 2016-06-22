@@ -9,16 +9,14 @@
     this.queueList = this.container.find('div.queueList');
     this.statusBar = this.container.find('div.statusBar');
     this.placeholder = this.container.find('div.placeholder');
-    console.log(this.placeholder);
     this.filePicker = this.container.find('div.filePicker');
     // 图片容器
     this.filelist = $('<ul class="filelist"></ul>').appendTo(this.queueList);
     this.filelist.sortable();
 
+    this.ids = [];
     this.maxImageCount = obj.maxImageCount;
 
-    //现有的已经上传的图片
-    this.ids = obj.ids || [];
     // 优化retina, 在retina下这个值是2
     this.ratio = window.devicePixelRatio || 1;
     // 缩略图大小
@@ -100,10 +98,6 @@
       }
     }
 
-    console.log(this.ids);
-    for (let id of this.ids) {
-      this.addUploadedFile(id);
-    }
     this.updateState();
     this.updateInfo();
   }
@@ -214,6 +208,7 @@
     let $wrap = $li.find('p.imgWrap');
     let img = $('<img src="/api/v2/web/thumbnail2/' + this.thumbnailWidth + '/' + this.thumbnailHeight + '/' + id + '">');
     $wrap.empty().append(img);
+    $li.append('<span class="success"></span>');
 
     $li.on('mouseenter', function () {
       $btns.stop().animate({
@@ -237,6 +232,15 @@
     });
 
     $li.appendTo(this.filelist);
+  }
+
+  UploadImageClient.prototype.addUploadedFiles = function (ids) {
+    this.ids = ids;
+    for (let id of ids) {
+      this.addUploadedFile(id);
+    }
+    this.updateState();
+    this.updateInfo();
   }
 
   // 负责view的销毁
@@ -272,8 +276,7 @@
 
   UploadImageClient.prototype.updateState = function () {
     let stats = this.webUploader.getStats();
-    console.log(this.webUploader.getFiles());
-    if (this.webUploader.getFiles().length) {
+    if (this.webUploader.getFiles().length + this.ids.length) {
       this.setState('notEmpty');
     } else {
       this.setState('empty');
@@ -284,7 +287,7 @@
     let text = '';
     let stats = this.webUploader.getStats();
 
-    let diff = this.maxImageCount - this.webUploader.getFiles().length;
+    let diff = this.maxImageCount - this.webUploader.getFiles().length - this.ids.length;
 
     if (diff > 0) {
       text = '还可以添加' + diff + '张照片（可以拖图片到浏览器直接添加，或者粘贴剪贴板的图片）';
@@ -317,7 +320,13 @@
         $scope.uploadImageClient = new UploadImageClient({
           id: $att.id,
           maxImageCount: $scope.maxImageCount,
-          ids: $scope.ids
+        });
+
+        $scope.$watch('ids', function (newVal, oldVal) {
+          console.log('newVal = ' + newVal);
+          if (newVal !== oldVal) {
+            $scope.uploadImageClient.addUploadedFiles(newVal);
+          }
         });
       }
     };
