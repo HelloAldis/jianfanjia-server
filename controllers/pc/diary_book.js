@@ -46,6 +46,12 @@ exports.diary_book_page = function (req, res, next) {
       DiarySet.find({
         _id: {
           $ne: diarySetid
+        },
+        cover_imageid: {
+          $exists: true
+        },
+        latest_section_label: {
+          $exists: true
         }
       }, null, {
         sort: {

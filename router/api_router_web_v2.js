@@ -72,6 +72,7 @@ router.post('/one_plan', plan.getOne); //获取某个方案信息
 router.post('/search_diary_set', diary.search_diary_set); // 游客搜索日记集
 router.post('/search_diary', diary.search_diary); // 游客搜索日记
 router.post('/top_diary_set', diary.top_diary_set); // 游客热门日记集
+router.post('/topic_comments', comment.topic_comments); //获取评论并标记为已读
 
 //通用用户功能
 router.post('/signout', auth.normalUserRequired, sign.signout); //登出
@@ -85,8 +86,7 @@ router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favorite.a
 router.post('/favorite/beautiful_image/delete', auth.normalUserRequired, favorite.delete_beautiful_image); //删除收藏美图
 router.post('/favorite/diary/add', auth.normalUserRequired, favorite.add_diary); //点赞日记
 router.post('/add_comment', auth.normalUserRequired, comment.add_comment); //添加评论
-// router.post('/unread_comment', auth.normalUserRequired, comment.unread_comment); //获取未读评论
-router.post('/topic_comments', auth.normalUserRequired, comment.topic_comments); //获取评论并标记为已读
+// router.post('/topic_comments', auth.normalUserRequired, comment.topic_comments); //获取评论并标记为已读
 router.post('/one_contract', auth.normalUserRequired, requirement.one_contract); //获取某个合同信息
 router.post('/send_verify_email', auth.normalUserRequired, sign.send_verify_email); //发送验证邮箱邮件
 router.get('/download_contract/:_id', auth.normalUserRequired, requirement.download_contract); //下载合同

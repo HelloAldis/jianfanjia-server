@@ -80,12 +80,13 @@ router.post('/search_diary', diaryWeb.search_diary); // 游客搜索日记
 router.post('/get_diary_changes', diary.get_diary_changes); // 游客获取日记更新数据
 router.post('/diary_info', diary.diary_info); // 游客获取日记详情
 router.post('/diary_set_info', diary.diary_set_info); // 游客获取日记集详情
+router.post('/topic_comments', commentWeb.topic_comments); //获取评论并标记为已读
 
 //通用用户功能
 router.get('/signout', auth.normalUserRequired, signWeb.signout); //登出
 // router.post('/image/upload', auth.normalUserRequired, upload.single('Filedata'), imageWeb.add); //上传图片
 router.post('/add_comment', auth.normalUserRequired, commentWeb.add_comment); //添加评论
-router.post('/topic_comments', auth.normalUserRequired, commentWeb.topic_comments); //获取评论并标记为已读
+// router.post('/topic_comments', auth.normalUserRequired, commentWeb.topic_comments); //获取评论并标记为已读
 router.post('/one_contract', auth.normalUserRequired, requirementWeb.one_contract); //获取某个方案信息
 router.get('/process/list', auth.normalUserRequired, process.list); //获取装修工地列表
 router.get('/process/:_id', auth.normalUserRequired, process.getOne); //获取装修进度
