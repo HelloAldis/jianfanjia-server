@@ -30,7 +30,7 @@ async.timesSeries(phones.length, function (n, next) {
         userid: user._id
       }, null, null, function (err, requirements) {
         if (requirements.length == 0 || requirements.length > 1) {
-          console.log(phone[n] + ' phone has ' + requirements.length + ' requirement');
+          console.log(phones[n] + ' Error phone has ' + requirements.length + ' requirement');
           next();
         } else {
           let time = '2016-' + create_requirement_times[n] + ' ' + _.random(8, 23) + ':' + _.random(0, 59) + ':' + _.random(0, 59);
@@ -39,63 +39,52 @@ async.timesSeries(phones.length, function (n, next) {
           let request_date = new Date(create_at.getTime() + _.random(0, 3600000));
           let house_check_time = new Date(request_date.getTime() + (_.random(1, 5) * 86400000));
           let user_ok_house_check_time = new Date(house_check_time.getTime() + _.random(0, 3600000));
+          console.log('phone = ' + phones[n]);
           console.log('create_at = ' + create_at);
           console.log('request_date = ' + request_date);
           console.log('house_check_time = ' + house_check_time);
           console.log('user_ok_house_check_time = ' + user_ok_house_check_time);
-
-          Plan.find({
-            userid: user._id
-          }, null, null, function (err, plans) {
-            if (plans.length == 0 || plans.length > 1) {
-              console.log(phone[n] + ' phone has ' + plans.length + ' plan');
-              next();
+          requirements[0].create_at = create_at.getTime();
+          requirements[0].save(function (err) {
+            if (err) {
+              console.log('save requirement err');
             } else {
-              next();
+              Plan.find({
+                userid: user._id
+              }, null, null, function (err, plans) {
+                if (plans.length == 0 || plans.length > 1) {
+                  console.log(phones[n] + ' Error phone has ' + plans.length + ' plan');
+                  next();
+                } else {
+                  plans[0].request_date = request_date.getTime();
+                  plans[0].house_check_time = house_check_time.getTime();
+                  plans[0].user_ok_house_check_time = user_ok_house_check_time.getTime();
+                  plans[0].get_phone_time = plans[0].request_date;
+                  plans[0].create_at = plans[0].request_date;
+                  plans[0].save(function (err) {
+                    if (err) {
+                      console.log('save plan err');
+                    } else {
+                      next();
+                    }
+                  });
+                }
+              });
             }
           });
         }
       });
     } else {
-      console.log(phone[n] + ' phone is not exist');
+      console.log(phones[n] + ' Error phone is not exist');
       next();
     }
   });
 }, function (err) {
-
-});
-
-Designer.count({}, function (err, count) {
   if (err) {
-    return console.log('err = ' + err);
+    console.log('complete wit err =' + err);
+    process.exit();
+  } else {
+    console.log('complete ok');
+    process.exit();
   }
-
-  async.timesSeries(count, function (n, next) {
-    Designer.find({}, null, {
-      skip: n,
-      limit: 1,
-      sort: {
-        create_at: 1
-      }
-    }, function (err, designers) {
-      if (err) {
-        next(err);
-      } else {
-        let designer = designers[0];
-        designer.realname = designer.realname || designer.username;
-
-        designer.save(function (err) {
-          next(err);
-        });
-      }
-    });
-  }, function (err) {
-    if (err) {
-      console.log('complete wit err =' + err);
-      process.exit();
-    } else {
-      console.log('complete ok');
-      process.exit();
-    }
-  });
 });
