@@ -3,7 +3,9 @@
     .controller('LiveAddController', [ //创建装修直播
       '$scope', '$rootScope', '$http', '$location', '$filter',
       function ($scope, $rootScope, $http, $location, $filter) {
-        var that = this;
+        $scope.uploader1 = {};
+        $scope.uploader2 = {};
+
         //时间筛选控件
         $scope.startTime = {
           clear: function () {
@@ -190,6 +192,9 @@
         };
 
         $scope.addLive = function () { //提交按钮
+          console.log($scope.uploader1.uploadImageClient.getAllIds());
+          return;
+
           var process = [];
           var aPreviewsItem = $('#j-file-list').find('.previews-item');
           var images = []

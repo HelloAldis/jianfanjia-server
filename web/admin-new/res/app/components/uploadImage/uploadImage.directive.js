@@ -14,7 +14,8 @@
     this.filelist = $('<ul class="filelist"></ul>').appendTo(this.queueList);
     this.filelist.sortable();
 
-    this.ids = [];
+    this.uploadedCount = 0;
+    this.addedCount = 0;
     this.maxImageCount = obj.maxImageCount;
 
     // 优化retina, 在retina下这个值是2
@@ -60,14 +61,26 @@
 
     this.webUploader.onFileQueued = function (file) {
       self.addFile(file);
-      self.updateState();
-      self.updateInfo();
     };
+
+    this.webUploader.onDndAccept = function (items) {
+      if (self.maxImageCount === self.getTotalFileCount()) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    this.webUploader.onBeforeFileQueued = function (file) {
+      if (self.maxImageCount === self.getTotalFileCount()) {
+        return false;
+      } else {
+        return true;
+      }
+    }
 
     this.webUploader.onFileDequeued = function (file) {
       self.removeFile(file.id);
-      self.updateState();
-      self.updateInfo();
     };
 
     this.webUploader.onUploadProgress = function (file, percentage) {
@@ -100,6 +113,10 @@
 
     this.updateState();
     this.updateInfo();
+  }
+
+  UploadImageClient.prototype.getTotalFileCount = function () {
+    return this.addedCount + this.uploadedCount;
   }
 
   // 当有文件添加进来时执行，负责view的创建
@@ -200,6 +217,9 @@
     });
 
     $li.appendTo(this.filelist);
+    this.addedCount++;
+    this.updateState();
+    this.updateInfo();
   }
 
   UploadImageClient.prototype.addUploadedFile = function (id) {
@@ -222,11 +242,12 @@
       });
     });
 
+    let self = this;
     $btns.on('click', 'i', function () {
       var index = $(this).index();
       switch (index) {
         case 0:
-          self.webUploader.removeFile(id);
+          self.removeUploadedFile(id);
           return;
       }
     });
@@ -235,7 +256,7 @@
   }
 
   UploadImageClient.prototype.addUploadedFiles = function (ids) {
-    this.ids = ids;
+    this.uploadedCount += ids.length;
     for (let id of ids) {
       this.addUploadedFile(id);
     }
@@ -245,10 +266,20 @@
 
   // 负责view的销毁
   UploadImageClient.prototype.removeFile = function (id) {
+    this.addedCount--;
     var $li = $('#' + id);
-
     delete this.percentages[id];
     $li.off().find('.file-panel').off().end().remove();
+    this.updateState();
+    this.updateInfo();
+  }
+
+  UploadImageClient.prototype.removeUploadedFile = function (id) {
+    this.uploadedCount--;
+    var $li = $('#' + id);
+    $li.off().find('.file-panel').off().end().remove();
+    this.updateState();
+    this.updateInfo();
   }
 
   UploadImageClient.prototype.setState = function (val) {
@@ -276,7 +307,7 @@
 
   UploadImageClient.prototype.updateState = function () {
     let stats = this.webUploader.getStats();
-    if (this.webUploader.getFiles().length + this.ids.length) {
+    if (this.getTotalFileCount()) {
       this.setState('notEmpty');
     } else {
       this.setState('empty');
@@ -287,21 +318,32 @@
     let text = '';
     let stats = this.webUploader.getStats();
 
-    let diff = this.maxImageCount - this.webUploader.getFiles().length - this.ids.length;
+    let diff = this.maxImageCount - this.getTotalFileCount();
 
     if (diff > 0) {
       text = '还可以添加' + diff + '张照片（可以拖图片到浏览器直接添加，或者粘贴剪贴板的图片）';
     } else {
-      text = '最多上传' + this.maxImageCount + '张照片，点击删除可以去掉不想要的。'
+      text = '图片上传已满，点击删除可以去掉不想要的。'
     }
 
     this.info.html(text);
   };
 
-  UploadImageClient.prototype.fill = function () {
+  UploadImageClient.prototype.getAllIds = function () {
+    let ids = [];
+    let self = this;
+    this.filelist.children().each(function (i, li) {
+      let id = li.id.toString();
+      if (id.startsWith('WU_FILE_')) {
+        let file = self.webUploader.getFile(id);
+        ids.push(file._id);
+      } else {
+        ids.push(id);
+      }
+    });
 
+    return ids;
   };
-
 
   angular.module('JfjAdmin.components')
     .directive('uploadImage', uploadImage);
@@ -313,7 +355,8 @@
       replace: true,
       scope: {
         maxImageCount: '=',
-        ids: '='
+        ids: '=',
+        uploader: '='
       },
       templateUrl: 'app/components/uploadImage/uploadImage.html',
       link: function ($scope, $el, $att) {
@@ -322,8 +365,9 @@
           maxImageCount: $scope.maxImageCount,
         });
 
+        $scope.uploader.uploadImageClient = $scope.uploadImageClient;
+
         $scope.$watch('ids', function (newVal, oldVal) {
-          console.log('newVal = ' + newVal);
           if (newVal !== oldVal) {
             $scope.uploadImageClient.addUploadedFiles(newVal);
           }
