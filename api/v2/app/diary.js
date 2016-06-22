@@ -32,6 +32,8 @@ exports.get_diary_changes = function (req, res, next) {
 
 exports.diary_info = function (req, res, next) {
   const diaryid = req.body.diaryid;
+  const userid = ApiUtil.getUserid(req);
+  const usertype = ApiUtil.getUsertype(req);
   const ep = new eventproxy();
   ep.fail(next);
 
