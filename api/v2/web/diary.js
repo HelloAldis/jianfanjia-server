@@ -197,7 +197,14 @@ exports.top_diary_set = function (req, res, next) {
   const ep = new eventproxy();
   ep.fail(next);
 
-  DiarySet.find({}, null, {
+  DiarySet.find({
+    cover_imageid: {
+      $exists: true
+    },
+    latest_section_label: {
+      $exists: true
+    }
+  }, null, {
     sort: {
       view_count: -1,
     },
