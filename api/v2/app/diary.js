@@ -44,7 +44,11 @@ exports.diary_info = function (req, res, next) {
     diarySetid: 1,
   }, ep.done(function (diary) {
     if (diary) {
-      res.sendData(diary);
+      favorite_business.is_favorite_diary(userid, usertype, diaryid, function (err, is_my_favorite) {
+        diary = diary.toObject();
+        diary.is_my_favorite = is_my_favorite;
+        res.sendData(diary);
+      });
     } else {
       res.sendData({
         _id: diaryid,
