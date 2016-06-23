@@ -227,7 +227,7 @@
       };
     }])
     /**
-     * [管理员统计数据]
+     * [图片Api]
      */
     .factory('imageApi', ['doRequest', function (doRequest) {
       return {
@@ -235,5 +235,13 @@
           return doRequest('imagemeta', data);
         }
       };
+    }])
+    .factory('userApi', ['doRequest', function (doRequest) {
+      return {
+        signout: function (data) {
+          return doRequest('signout', data);
+        }
+      };
     }]);
+
 })();
