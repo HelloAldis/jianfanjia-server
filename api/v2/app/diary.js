@@ -83,11 +83,7 @@ exports.diary_set_info = function (req, res, next) {
     diarySet: function (callback) {
       DiarySet.findOne({
         _id: diarySetid
-      }, {
-        favorite_count: 1,
-        view_count: 1,
-        authorid: 1,
-      }, callback);
+      }, null, callback);
     },
     diaries: function (callback) {
       Diary.find({
