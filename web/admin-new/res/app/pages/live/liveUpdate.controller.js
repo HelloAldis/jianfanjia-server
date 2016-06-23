@@ -3,6 +3,8 @@
     .controller('LiveUpdateController', [ //更新装修直播
       '$scope', '$rootScope', '$stateParams', '$http', '$filter', '$location', 'adminShare',
       function ($scope, $rootScope, $stateParams, $http, $filter, $location, adminShare) {
+        $scope.uploader1 = {};
+
         $scope.processTime = {
           clear: function () {
             this.dt = null;
@@ -67,19 +69,13 @@
           console.log(resp);
         })
         $scope.upDataLive = function () {
-          var aPreviewsItem = $('#j-file-list').find('.previews-item');
-          var images = []
-          aPreviewsItem.each(function (i, el) {
-            images.push($(el).data('imgid'))
-          });
-
           for (var i = 0, len = $scope.shares.process.length; i < len; i++) {
             if (i != $scope.process.processName) {
               $scope.shares.process.push({
                 "name": $scope.process.processName,
                 "description": $scope.process.processDescription,
                 "date": (new Date($scope.process.processDate)).getTime(),
-                "images": images
+                "images": $scope.uploader1.uploadImageClient.getAllIds(),
               });
               break;
             } else {
@@ -109,7 +105,7 @@
         function submitData() {
           adminShare.update($scope.shares).then(function (resp) {
             //返回信息
-            $location.path('live');
+            window.history.back();
           }, function (resp) {
             //返回错误信息
             console.log(resp);

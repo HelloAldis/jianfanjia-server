@@ -3,6 +3,8 @@
     .controller('LiveEditorController', [ //编辑装修直播
       '$scope', '$rootScope', '$stateParams', '$http', '$filter', '$location', 'adminShare',
       function ($scope, $rootScope, $stateParams, $http, $filter, $location, adminShare) {
+        $scope.uploader1 = {};
+
         //时间筛选控件
         $scope.startTime = {
           clear: function () {
@@ -154,10 +156,11 @@
         }
         $scope.editorLive = function () { //编辑资料
           $scope.dataMapped.start_at = (new Date($scope.dataMapped.start_at)).getTime();
+          $scope.dataMapped.cover_imageid = $scope.uploader1.uploadImageClient.getAllIds()[0];
           adminShare.update($scope.dataMapped).then(function (resp) {
             //返回信息
             if (resp.data.msg === "success") {
-              window.history.back()
+              window.history.back();
             }
           }, function (resp) {
             //返回错误信息

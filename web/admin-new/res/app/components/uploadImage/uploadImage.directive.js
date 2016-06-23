@@ -369,6 +369,7 @@
 
         $scope.$watch('ids', function (newVal, oldVal) {
           if (newVal !== oldVal) {
+            console.log(newVal);
             $scope.uploadImageClient.addUploadedFiles(newVal);
           }
         });

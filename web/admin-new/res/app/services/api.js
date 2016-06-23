@@ -2,8 +2,8 @@
   'use strict';
 
   angular.module('JfjAdmin.services.api', [])
-    .factory('doRequest', ['$http', function ($http) {
-      var doRequest = function (url, data) {
+    .factory('doAdminRequest', ['$http', function ($http) {
+      var doAdminRequest = function (url, data) {
         return $http({
           method: 'POST',
           url: 'api/v2/web/admin/' + url,
@@ -13,7 +13,20 @@
           data: data
         });
       };
-      return doRequest;
+      return doAdminRequest;
+    }])
+    .factory('doRequest', ['$http', function ($http) {
+      var doAdminRequest = function (url, data) {
+        return $http({
+          method: 'POST',
+          url: 'api/v2/web/' + url,
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+          },
+          data: data
+        });
+      };
+      return doAdminRequest;
     }])
 
   /**
@@ -24,19 +37,19 @@
    * @param  {[add]} [新添加一条数据]
    * @param  {[remove]} [删除某一条数据]
    */
-  .factory('adminShare', ['doRequest', function (doRequest) {
+  .factory('adminShare', ['doAdminRequest', function (doAdminRequest) {
       return {
         search: function (data) {
-          return doRequest('share/search', data);
+          return doAdminRequest('share/search', data);
         },
         update: function (data) {
-          return doRequest('share/update', data);
+          return doAdminRequest('share/update', data);
         },
         add: function (data) {
-          return doRequest('share/add', data);
+          return doAdminRequest('share/add', data);
         },
         remove: function (data) {
-          return doRequest('share/delete', data);
+          return doAdminRequest('share/delete', data);
         }
       };
     }])
@@ -44,10 +57,10 @@
      * [管理员获取业主相关]
      * @param  {[search]} [搜索业主]
      */
-    .factory('adminUser', ['doRequest', function (doRequest) {
+    .factory('adminUser', ['doAdminRequest', function (doAdminRequest) {
       return {
         search: function (data) {
-          return doRequest('search_user', data);
+          return doAdminRequest('search_user', data);
         }
       };
     }])
@@ -60,28 +73,28 @@
      * @param  {[uidAuth]} [设计师身份证信息认证]
      * @param  {[infoAuth]} [设计师基本信息认证]
      */
-    .factory('adminDesigner', ['doRequest', function (doRequest) {
+    .factory('adminDesigner', ['doAdminRequest', function (doAdminRequest) {
       return {
         get: function (url) {
-          return doRequest('designer/' + url);
+          return doAdminRequest('designer/' + url);
         },
         search: function (data) {
-          return doRequest('search_designer', data);
+          return doAdminRequest('search_designer', data);
         },
         authing: function () {
-          return doRequest('authing_designer');
+          return doAdminRequest('authing_designer');
         },
         workAuth: function (data) {
-          return doRequest('update_work_auth', data);
+          return doAdminRequest('update_work_auth', data);
         },
         uidAuth: function (data) {
-          return doRequest('update_uid_auth', data);
+          return doAdminRequest('update_uid_auth', data);
         },
         infoAuth: function (data) {
-          return doRequest('update_basic_auth', data);
+          return doAdminRequest('update_basic_auth', data);
         },
         online: function (data) {
-          return doRequest('update_designer_online_status', data);
+          return doAdminRequest('update_designer_online_status', data);
         }
       };
     }])
@@ -89,10 +102,10 @@
      * [管理员获取需求相关]
      * @param  {[search]} [搜索需求]
      */
-    .factory('adminRequirement', ['doRequest', function (doRequest) {
+    .factory('adminRequirement', ['doAdminRequest', function (doAdminRequest) {
       return {
         search: function (data) {
-          return doRequest('requirement/search', data);
+          return doAdminRequest('requirement/search', data);
         }
       };
     }])
@@ -100,10 +113,10 @@
      * [管理员获取方案相关]
      * @param  {[search]} [搜索方案]
      */
-    .factory('adminPlan', ['doRequest', function (doRequest) {
+    .factory('adminPlan', ['doAdminRequest', function (doAdminRequest) {
       return {
         search: function (data) {
-          return doRequest('search_plan', data);
+          return doAdminRequest('search_plan', data);
         }
       };
     }])
@@ -112,13 +125,13 @@
      * @param  {[search]} [搜索作品]
      * @param  {[auth]} [作品审核认证]
      */
-    .factory('adminProduct', ['doRequest', function (doRequest) {
+    .factory('adminProduct', ['doAdminRequest', function (doAdminRequest) {
       return {
         search: function (data) {
-          return doRequest('product/search', data);
+          return doAdminRequest('product/search', data);
         },
         auth: function (data) {
-          return doRequest('update_product_auth', data);
+          return doAdminRequest('update_product_auth', data);
         }
       };
     }])
@@ -126,10 +139,10 @@
      * [管理员获取工地管理]
      * @param  {[list]} [获取列表]
      */
-    .factory('adminField', ['doRequest', function (doRequest) {
+    .factory('adminField', ['doAdminRequest', function (doAdminRequest) {
       return {
         search: function (data) {
-          return doRequest('search_process', data);
+          return doAdminRequest('search_process', data);
         }
       };
     }])
@@ -137,10 +150,10 @@
      * [管理员获取API相关]
      * @param  {[statistic]} [API数据统计]
      */
-    .factory('adminApi', ['doRequest', function (doRequest) {
+    .factory('adminApi', ['doAdminRequest', function (doAdminRequest) {
       return {
         statistic: function () {
-          return doRequest('api_statistic');
+          return doAdminRequest('api_statistic');
         }
       };
     }])
@@ -148,10 +161,10 @@
      * [管理员获取APP相关]
      * @param  {[feedback]} [用户反馈]
      */
-    .factory('adminApp', ['doRequest', function (doRequest) {
+    .factory('adminApp', ['doAdminRequest', function (doAdminRequest) {
       return {
         feedback: function (data) {
-          return doRequest('feedback/search', data);
+          return doAdminRequest('feedback/search', data);
         }
       };
     }])
@@ -159,13 +172,13 @@
      * [管理员获取专题活动相关]
      * @param  {[angel]} [天使用户招募活动]
      */
-    .factory('adminEvents', ['doRequest', function (doRequest) {
+    .factory('adminEvents', ['doAdminRequest', function (doAdminRequest) {
       return {
         angel: function (data) {
-          return doRequest('search_angel_user', data);
+          return doAdminRequest('search_angel_user', data);
         },
         answer: function (data) {
-          return doRequest('count_answer', data);
+          return doAdminRequest('count_answer', data);
         }
       };
     }])
@@ -173,16 +186,16 @@
      * [管理员获取文章]
      * @param  {[angel]} [装修攻略]
      */
-    .factory('adminArticle', ['doRequest', function (doRequest) {
+    .factory('adminArticle', ['doAdminRequest', function (doAdminRequest) {
       return {
         search: function (data) {
-          return doRequest('search_article', data);
+          return doAdminRequest('search_article', data);
         },
         add: function (data) {
-          return doRequest('add_article', data);
+          return doAdminRequest('add_article', data);
         },
         upload: function (data) {
-          return doRequest('update_article', data);
+          return doAdminRequest('update_article', data);
         }
       };
     }])
@@ -190,26 +203,36 @@
      * [管理员获取装修美图]
      * @param  {[image]} [天使用户招募活动]
      */
-    .factory('adminImage', ['doRequest', function (doRequest) {
+    .factory('adminImage', ['doAdminRequest', function (doAdminRequest) {
       return {
         search: function (data) {
-          return doRequest('search_beautiful_image', data);
+          return doAdminRequest('search_beautiful_image', data);
         },
         add: function (data) {
-          return doRequest('add_beautiful_image', data);
+          return doAdminRequest('add_beautiful_image', data);
         },
         upload: function (data) {
-          return doRequest('update_beautiful_image', data);
+          return doAdminRequest('update_beautiful_image', data);
         }
       };
     }])
     /**
      * [管理员统计数据]
      */
-    .factory('adminStatistic', ['doRequest', function (doRequest) {
+    .factory('adminStatistic', ['doAdminRequest', function (doAdminRequest) {
       return {
         statistic_info: function (data) {
-          return doRequest('statistic_info', data);
+          return doAdminRequest('statistic_info', data);
+        }
+      };
+    }])
+    /**
+     * [管理员统计数据]
+     */
+    .factory('imageApi', ['doRequest', function (doRequest) {
+      return {
+        imagemeta: function (data) {
+          return doRequest('imagemeta', data);
         }
       };
     }]);
