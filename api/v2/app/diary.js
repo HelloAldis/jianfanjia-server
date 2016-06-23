@@ -51,24 +51,24 @@ exports.diary_info = function (req, res, next) {
         diary.is_my_favorite = is_my_favorite;
         res.sendData(diary);
       });
+
+      Diary.incOne({
+        _id: diaryid
+      }, {
+        view_count: 1
+      });
+
+      DiarySet.incOne({
+        _id: diary.diarySetid
+      }, {
+        view_count: 1
+      });
     } else {
       res.sendData({
         _id: diaryid,
         is_deleted: true
       });
     }
-
-    Diary.incOne({
-      _id: diaryid
-    }, {
-      view_count: 1
-    });
-
-    DiarySet.incOne({
-      _id: diary.diarySetid
-    }, {
-      view_count: 1
-    });
   }));
 }
 
