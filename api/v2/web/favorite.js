@@ -316,7 +316,6 @@ exports.add_diary = function (req, res, next) {
       }, {
         favorite_diary: diaryid
       }, null, ep.done(function () {
-        res.sendSuccessMsg();
         let result = tools.findIndexObjectId(favorite.favorite_diary, diaryid);
 
         if (result < 0) {
@@ -325,6 +324,9 @@ exports.add_diary = function (req, res, next) {
           }, {
             favorite_count: 1
           });
+          res.sendSuccessMsg();
+        } else {
+          res.sendErrMsg('您已经赞过了！');
         }
       }));
     } else {
