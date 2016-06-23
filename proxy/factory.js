@@ -78,3 +78,7 @@ DaoProxy.prototype.incOne = function (query, update, option, callback) {
 DaoProxy.prototype.removeOne = function (query, option, callback) {
   this.model.findOneAndRemove(query, option, callback);
 }
+
+DaoProxy.prototype.removeSome = function (query, callback) {
+  this.model.remove(query, callback);
+};
