@@ -41,6 +41,7 @@ exports.add_comment = function (req, res, next) {
 
   ep.on('valid', function () {
     Comment.newAndSave(comment, ep.done(function (comment_indb) {
+      res.sendSuccessMsg();
       if (comment_indb && comment_indb.section && comment_indb.item && comment_indb.topictype === type.topic_type_process_item) {
         Process.addCommentCount(comment_indb.topicid, comment_indb.section,
           comment_indb.item,
