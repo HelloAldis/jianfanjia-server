@@ -331,7 +331,7 @@
     overflow: hidden;
     width: 0;
     height: 100%;
-    background: #1483d8 url(./progress.png) repeat-x;
+    background: #1483d8;
 
     -webit-transition: width 200ms linear;
     -moz-transition: width 200ms linear;

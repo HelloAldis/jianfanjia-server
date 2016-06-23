@@ -192,20 +192,20 @@
         };
 
         $scope.addLive = function () { //提交按钮
-          console.log($scope.uploader1.uploadImageClient.getAllIds());
-          return;
+          // console.log($scope.uploader1.uploadImageClient.getAllIds());
+          // return;
 
           var process = [];
-          var aPreviewsItem = $('#j-file-list').find('.previews-item');
-          var images = []
-          aPreviewsItem.each(function (i, el) {
-            images.push($(el).data('imgid'))
-          });
+          // var aPreviewsItem = $('#j-file-list').find('.previews-item');
+          // var images = []
+          // aPreviewsItem.each(function (i, el) {
+          //   images.push($(el).data('imgid'))
+          // });
           process.push({
             "name": $scope.dataMapped.processName,
             "description": $scope.dataMapped.processDescription,
             "date": (new Date($scope.dataMapped.processDate)).getTime(),
-            "images": images
+            "images": $scope.uploader2.uploadImageClient.getAllIds()
           });
           var data = {
             "designerid": $scope.dataMapped.designerid,
@@ -224,11 +224,11 @@
             "description": $scope.dataMapped.description,
             "process": process,
             "progress": "0",
-            "cover_imageid": $scope.dataMapped.cover_imageid
+            "cover_imageid": $scope.uploader1.uploadImageClient.getAllIds()[0]
           }
           $http({
             method: "POST",
-            url: '/api/v2/web/share/add',
+            url: '/api/v2/web/admin/share/add',
             headers: {
               'Content-Type': 'application/json; charset=utf-8'
             },
@@ -236,7 +236,7 @@
           }).then(function (resp) {
             //返回信息
             console.log(resp.data)
-            $location.path('live'); //设置路由跳转
+            $location.path('liveList'); //设置路由跳转
           }, function (resp) {
             //返回错误信息
             console.log(resp);
