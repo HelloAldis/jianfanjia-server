@@ -1,8 +1,8 @@
 (function () {
   angular.module('JfjAdmin.pages.live')
     .controller('LiveAddController', [ //创建装修直播
-      '$scope', '$rootScope', '$http', '$location', '$filter',
-      function ($scope, $rootScope, $http, $location, $filter) {
+      '$scope', '$rootScope', '$http', '$state', '$filter',
+      function ($scope, $rootScope, $http, $state, $filter) {
         $scope.uploader1 = {};
         $scope.uploader2 = {};
 
@@ -236,7 +236,7 @@
           }).then(function (resp) {
             //返回信息
             console.log(resp.data)
-            $location.path('liveList'); //设置路由跳转
+            $state.go('liveList'); //设置路由跳转
           }, function (resp) {
             //返回错误信息
             console.log(resp);

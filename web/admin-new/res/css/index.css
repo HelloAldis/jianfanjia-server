@@ -347,3 +347,29 @@
 
     -webkit-transform: translateZ(0);
 }
+
+/* table sorter */
+.tablesorter-header {
+    background-image: url(../assets/img/sort-default.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+}
+
+.tablesorter-headerNone {
+    background-image: none;
+}
+
+.tablesorter-headerAsc {
+    background-image: url(../assets/img/sort-asc.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+}
+
+.tablesorter-headerDesc {
+    background-image: url(../assets/img/sort-desc.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+}
