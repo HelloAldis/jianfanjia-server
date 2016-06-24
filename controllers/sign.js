@@ -75,6 +75,7 @@ exports.wechat_user_login_callback = function (req, res, next) {
         imageid: imageid,
         sex: sres.body.sex - 1 + '',
         username: sres.body.nickname,
+        platform_type: type.platform_wechat,
       }, ep.done(function (user_indb) {
         // store session cookie
         authMiddleWare.gen_session(user_indb,

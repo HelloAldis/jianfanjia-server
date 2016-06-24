@@ -8,6 +8,9 @@ var ApiStatisticSchema = new Schema({
   count: {
     type: Number,
     default: 0,
+  },
+  platform_type: {
+    type: String //平台
   }
 });
 

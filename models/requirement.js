@@ -107,6 +107,9 @@ var RequirementSchema = new Schema({
     type: String,
     default: '0'
   },
+  platform_type: {
+    type: String
+  }
 });
 
 RequirementSchema.index({

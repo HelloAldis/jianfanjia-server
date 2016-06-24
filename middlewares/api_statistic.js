@@ -8,7 +8,8 @@ exports.api_statistic = function (req, res, next) {
 
   if (req.route && req.route.path) {
     ApiStatistic.incOne({
-      api: req.route.path
+      api: req.route.path,
+      platform_type: req.platform_type
     }, {
       count: 1
     }, {

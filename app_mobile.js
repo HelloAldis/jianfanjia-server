@@ -13,6 +13,7 @@ const api_router_app_v2 = require('./router/api_router_app_v2');
 const api_router_web_v2 = require('./router/api_router_web_v2');
 const auth = require('./middlewares/auth');
 const responseUtil = require('./middlewares/response_util');
+const platform_check = require('./middlewares/platform_check');
 // const RedisStore = require('connect-redis')(session);
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -71,8 +72,8 @@ app.use('/', mobile_mark);
 app.use('/api', responseUtil);
 //API Request logger
 app.use('/api', req_res_log);
-app.use('/api/v2/app', cors(), api_statistic.api_statistic, api_router_app_v2);
-app.use('/api/v2/web', cors(), api_statistic.api_statistic, api_router_web_v2);
+app.use('/api/v2/app', cors(), platform_check, api_statistic.api_statistic, api_router_app_v2);
+app.use('/api/v2/web', cors(), platform_check, api_statistic.api_statistic, api_router_web_v2);
 app.use('/', web_router_mobile);
 
 // error handler

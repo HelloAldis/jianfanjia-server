@@ -14,6 +14,7 @@ var api_router_app_v2 = require('./router/api_router_app_v2');
 var api_router_web_v2 = require('./router/api_router_web_v2');
 var auth = require('./middlewares/auth');
 var responseUtil = require('./middlewares/response_util');
+var platform_check = require('./middlewares/platform_check');
 var RedisStore = require('connect-redis')(session);
 var _ = require('lodash');
 var bodyParser = require('body-parser');
@@ -112,9 +113,9 @@ app.use('/api/v2', function (req, res, next) {
 app.use('/api', req_res_log);
 app.use('/download', req_res_log);
 
-app.use('/api/v1', cors(), api_statistic.api_statistic, apiRouterV1);
-app.use('/api/v2/app', cors(), api_statistic.api_statistic, api_router_app_v2);
-app.use('/api/v2/web', cors(), api_statistic.api_statistic, api_router_web_v2);
+// app.use('/api/v1', cors(), api_statistic.api_statistic, apiRouterV1);
+app.use('/api/v2/app', cors(), platform_check, api_statistic.api_statistic, api_router_app_v2);
+app.use('/api/v2/web', cors(), platform_check, api_statistic.api_statistic, api_router_web_v2);
 
 // error handler
 app.use(function (err, req, res, next) {

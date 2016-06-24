@@ -1,28 +1,30 @@
 //load configuration
-var config = require('./apiconfig');
+'use strict'
+const config = require('./apiconfig');
 
-var express = require('express');
-var path = require('path');
-var compression = require('compression');
-var session = require('express-session');
-var timeout = require('connect-timeout');
-// var passport = require('passport');
-var req_res_log = require('./middlewares/req_res_log');
-var api_router_web_v2 = require('./router/api_router_web_v2');
-var auth = require('./middlewares/auth');
-var responseUtil = require('./middlewares/response_util');
-var RedisStore = require('connect-redis')(session);
-var _ = require('lodash');
-var bodyParser = require('body-parser');
-var cors = require('cors');
-var logger = require('./common/logger');
-var helmet = require('helmet');
+const express = require('express');
+const path = require('path');
+const compression = require('compression');
+const session = require('express-session');
+const timeout = require('connect-timeout');
+// const passport = require('passport');
+const req_res_log = require('./middlewares/req_res_log');
+const api_router_web_v2 = require('./router/api_router_web_v2');
+const auth = require('./middlewares/auth');
+const responseUtil = require('./middlewares/response_util');
+const platform_check = require('./middlewares/platform_check');
+const RedisStore = require('connect-redis')(session);
+const _ = require('lodash');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const logger = require('./common/logger');
+const helmet = require('helmet');
 //防治跨站请求伪造攻击
-//var csurf = require('csurf');
-var api_statistic = require('./middlewares/api_statistic');
+//const csurf = require('csurf');
+const api_statistic = require('./middlewares/api_statistic');
 
 //config the web app
-var app = express();
+const app = express();
 // configuration in all env
 app.enable('trust proxy');
 
@@ -87,7 +89,7 @@ app.use('/api/v2', function (req, res, next) {
 
 //API Request logger
 app.use('/api', req_res_log);
-app.use('/api/v2/web', cors(), api_statistic.api_statistic, api_router_web_v2);
+app.use('/api/v2/web', cors(), platform_check, api_statistic.api_statistic, api_router_web_v2);
 
 // error handler
 app.use(function (err, req, res, next) {
