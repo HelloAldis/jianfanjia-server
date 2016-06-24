@@ -84,3 +84,26 @@ exports.diary_book_page = function (req, res, next) {
     }
   }));
 }
+
+exports.go_diary = function (req, res, next) {
+  let diaryid = req.params.diaryid
+
+  const ep = eventproxy();
+  ep.fail(next);
+
+  if (!tools.isValidObjectId(diarySetid)) {
+    return next();
+  }
+
+  Diary.findOne({
+    _id: diaryid
+  }, {
+    diarySetid: 1,
+  }, ep.done(function (diary) {
+    if (diary) {
+      res.redirect(301, '/tpl/diary/book/' + diary.diarySetid);
+    } else {
+      next();
+    }
+  }));
+}
