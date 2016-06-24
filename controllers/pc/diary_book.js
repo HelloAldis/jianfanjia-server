@@ -91,7 +91,7 @@ exports.go_diary = function (req, res, next) {
   const ep = eventproxy();
   ep.fail(next);
 
-  if (!tools.isValidObjectId(diarySetid)) {
+  if (!tools.isValidObjectId(diaryid)) {
     return next();
   }
 
