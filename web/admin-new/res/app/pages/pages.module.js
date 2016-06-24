@@ -20,7 +20,8 @@
       'JfjAdmin.pages.field',
       'JfjAdmin.pages.designer',
       'JfjAdmin.pages.product',
-      'JfjAdmin.pages.live'
+      'JfjAdmin.pages.live',
+      'JfjAdmin.pages.chart'
     ])
     .config(routeConfig);
 

@@ -12,6 +12,7 @@ angular.module('JfjAdmin', [
   "xeditable",
   'ui.slimscroll',
   'angular-progress-button-styles',
+  'chart.js',
 
   'JfjAdmin.theme',
   'JfjAdmin.pages',

@@ -17,7 +17,7 @@
           $('table').table2CSV();
         }
       },
-      template: '<button type="button" class="btn btn-success" ng-click="exportCSV()">导出数据</button>'
+      template: '<button type="button" class="btn btn-primary" ng-click="exportCSV()">导出数据</button>'
     };
   }
 

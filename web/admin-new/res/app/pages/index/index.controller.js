@@ -118,17 +118,6 @@
       return querys;
     }
 
-    function getFullQuerys(querys) {
-      var querys = querys.map(function (o) {
-        var query = {};
-        query.key = o.key;
-        query.querys = o.querys;
-        return query;
-      });
-
-      return querys;
-    }
-
     $scope.querys = [{
       name: '新增需求数',
       key: 'requirement',

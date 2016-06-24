@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="bower_components/ionrangeslider/css/ion.rangeSlider.css" />
   <link rel="stylesheet" href="bower_components/ionrangeslider/css/ion.rangeSlider.skinFlat.css" />
   <link rel="stylesheet" href="bower_components/angular-xeditable/dist/css/xeditable.css" />
+  <link rel="stylesheet" href="bower_components/angular-chart.js/dist/angular-chart.min.css"></script>
   <link rel="stylesheet" href="lib/webuploader/webuploader.css" />
   <!-- endbower -->
   <!-- endbuild -->
@@ -37,7 +38,7 @@
 </head>
 <body>
 <div class="body-bg"></div>
-<main ng-if="$pageFinishedLoading" ng-class="{ 'menu-collapsed': $baSidebarService.isMenuCollapsed() }">
+<main ng-class="{ 'menu-collapsed': $baSidebarService.isMenuCollapsed() }">
 
   <ba-sidebar></ba-sidebar>
   <page-top></page-top>
@@ -50,15 +51,15 @@
   </div>
 
   <footer class="al-footer clearfix">
-    <div class="al-footer-right">简繁家 Admin 2016 Created by Aldis<i class="ion-nuclear"></i>, Karos<i class="ion-ios-flag"></i>, Test by Hank<i class="ion-ios-flag"></i></div>
+    <div class="al-footer-right">简繁家 Admin 2016 Created by Aldis<i class="ion-nuclear"></i>, Karos<i class="ion-ios-flag"></i>, Tested by Hank<i class="ion-ios-flag"></i></div>
   </footer>
 
   <back-top></back-top>
 </main>
 
-<div id="preloader" ng-show="!$pageFinishedLoading">
+<!-- <div id="preloader" ng-show="!$pageFinishedLoading">
   <div></div>
-</div>
+</div> -->
 
 <!-- build:js(src) scripts/vendor.js -->
 <!-- bower:js -->
@@ -85,6 +86,8 @@
 <script src="bower_components/angular-animate/angular-animate.js"></script>
 <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
 <script src="bower_components/angular-ueditor/dist/angular-ueditor.min.js"></script>
+<script src="bower_components/Chart.js/Chart.js"></script>
+<script src="bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -123,6 +126,9 @@
 <script src="app/pages/pages.module.js"></script>
 <script src="app/pages/index/index.module.js"></script>
 <script src="app/pages/index/index.controller.js"></script>
+<script src="app/pages/chart/chart.module.js"></script>
+<script src="app/pages/chart/requirementChart/requirementChart.module.js"></script>
+<script src="app/pages/chart/requirementChart/requirementChart.controller.js"></script>
 <script src="app/pages/requirement/requirement.module.js"></script>
 <script src="app/pages/requirement/requirement.controller.js"></script>
 <script src="app/pages/requirement/requirementDetail.controller.js"></script>

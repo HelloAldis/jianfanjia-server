@@ -373,3 +373,29 @@
     background-position: center right;
     cursor: pointer;
 }
+
+.auth-type-no {
+  color: #070707
+}
+.auth-type-ing {
+  color: #fe7004
+}
+.auth-type-ok {
+  color: #00cc00
+}
+.auth-type-reject {
+  color: #ff0000
+}
+.auth-type-bad {
+  color: #990000
+}
+
+/*分页*/
+.pagination{
+    vertical-align: middle;
+}
+.pagecode{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 20px;
+}
