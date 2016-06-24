@@ -1,0 +1,67 @@
+<form name="search" class="form-inline" ng-submit="searchBtn()" novalidate>
+	<p>业主注册时间过滤</p>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-1">开始时间</div>
+			<div class="col-md-3">
+				<p class="input-group">
+						<input type="text" name="startTime" class="form-control" uib-datepicker-popup ng-model="startTime.time" is-open="startTime.status.opened" datepicker-options="startTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="startTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+					</p>
+			</div>
+			<div class="col-md-1">--结束时间</div>
+			<div class="col-md-3">
+				<p class="input-group">
+						<input type="text" name="endTime" class="form-control" uib-datepicker-popup ng-model="endTime.time" is-open="endTime.status.opened" datepicker-options="endTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="endTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="sr-only">搜索业主</label>
+		<input type="text" name="searchUser" class="form-control" placeholder="手机号码/用户业主" ng-model="searchUser" required />
+	</div>
+	<button type="submit" class="btn btn-primary" ng-disabled="search.searchUser.$invalid && (search.startTime.$invalid  || search.endTime.$invalid)">搜索业主</button>
+</form>
+<br />
+<div>
+	<button type="button" class="btn btn-danger" ng-click="clearStatus()">重置清空还原</button>
+</div>
+<br />
+<div class="panel panel-info ng-scope">
+	<table class="table table-bordered table-striped">
+		<tbody>
+			<tr class="info thead">
+				<th>业主ID</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">注册时间</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.username]" ng-click="sortData('username')">业主姓名</th>
+				<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.phone]" ng-click="sortData('phone')">业主电话</th>
+				<th>业主性别</th>
+				<th>查看详细资料</th>
+				<th>查看需求列表</th>
+			</tr>
+			<tr ng-repeat="user in userList">
+				<td>{{user._id}}</td>
+				<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{user.username ? user.username : '未填写'}}</td>
+				<td>{{user.phone}}</td>
+				<td>{{user.sex ? (user.sex | sexFilter) : '未填写'}}</td>
+				<td><a ui-sref="userInfo({id:user._id})">点击查看</a></td>
+				<td><a ng-show="{{user.requirement.length > 0}}" ui-sref="userRequirement({id:user._id})">点击查看({{user.requirement.length}})</a><span ng-show="{{user.requirement.length == 0}}">暂无需求</span></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<load-data ng-hide="loading.loadData"></load-data>
+<no-data ng-show="loading.notData"></no-data>
+<div class="text-center" ng-if="loading.loadData && !loading.notData">
+	<uib-pagination total-items="pagination.totalItems" first-text="首页" next-text="下一页" previous-text="上一页" last-text="尾页" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-links="true" num-pages="numPages" rotate="false" ng-change="pagination.pageChanged()"></uib-pagination>
+	<span class="pagecode">当前：{{pagination.currentPage}} / {{numPages}} 页 总共 {{pagination.totalItems}} 条数据</span>
+</div>
+<div export-data></div>
