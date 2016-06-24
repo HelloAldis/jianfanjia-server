@@ -32,6 +32,8 @@ exports.get_diary_changes = function (req, res, next) {
 
 exports.diary_info = function (req, res, next) {
   const diaryid = req.body.diaryid;
+  const userid = ApiUtil.getUserid(req);
+  const usertype = ApiUtil.getUsertype(req);
   const ep = new eventproxy();
   ep.fail(next);
 
@@ -44,25 +46,29 @@ exports.diary_info = function (req, res, next) {
     diarySetid: 1,
   }, ep.done(function (diary) {
     if (diary) {
-      res.sendData(diary);
+      favorite_business.is_favorite_diary(userid, usertype, diaryid, function (err, is_my_favorite) {
+        diary = diary.toObject();
+        diary.is_my_favorite = is_my_favorite;
+        res.sendData(diary);
+      });
+
+      Diary.incOne({
+        _id: diaryid
+      }, {
+        view_count: 1
+      });
+
+      DiarySet.incOne({
+        _id: diary.diarySetid
+      }, {
+        view_count: 1
+      });
     } else {
       res.sendData({
         _id: diaryid,
         is_deleted: true
       });
     }
-
-    Diary.incOne({
-      _id: diaryid
-    }, {
-      view_count: 1
-    });
-
-    DiarySet.incOne({
-      _id: diary.diarySetid
-    }, {
-      view_count: 1
-    });
   }));
 }
 
@@ -77,11 +83,7 @@ exports.diary_set_info = function (req, res, next) {
     diarySet: function (callback) {
       DiarySet.findOne({
         _id: diarySetid
-      }, {
-        favorite_count: 1,
-        view_count: 1,
-        authorid: 1,
-      }, callback);
+      }, null, callback);
     },
     diaries: function (callback) {
       Diary.find({
