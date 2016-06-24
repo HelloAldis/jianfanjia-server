@@ -101,7 +101,7 @@ exports.go_diary = function (req, res, next) {
     diarySetid: 1,
   }, ep.done(function (diary) {
     if (diary) {
-      res.redirect(301, '/tpl/diary/book/' + diary.diarySetid);
+      res.redirect(301, '/tpl/diary/book/' + diary.diarySetid + '?diaryid=' + diary._id);
     } else {
       next();
     }
