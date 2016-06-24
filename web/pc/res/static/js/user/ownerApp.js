@@ -176,7 +176,7 @@
                     controller : 'addDiaryCtrl'
                 })
                 .state('diary.show', {
-                    url: '/show?_id&title&house_area&house_type&dec_style&work_type&cover_imageid',
+                    url: '/show?_id&title&house_area&house_type&dec_style&work_type&latest_section_label&cover_imageid',
                     templateUrl: url+'showDiary.html',
                     controller : 'showDiaryCtrl'
                 })

@@ -1507,7 +1507,7 @@ angular.module('controllers', [])
                     });
                 }else{
                     userDiary.update({"diary_set" : $scope.diarys}).then(function(res){
-                        if(res.data.data && !_.isEmpty(res.data.data)){
+                        if(res.data.msg && res.data.msg === "success"){
                             $state.go('diary.list');
                         }
                     });
@@ -1517,10 +1517,10 @@ angular.module('controllers', [])
     .controller('showDiaryCtrl', [     //一条日记集详情
         '$scope','$state','$stateParams','$timeout','userDiary',function($scope,$state,$stateParams,$timeout,userDiary){
             $scope.isLoading = false; //加载数据
-            $scope.isLoadingOut = false; //侧栏
             $scope.isReview = false;  //加载评论列表
             $scope.diarys = $stateParams;  //加载头部数据
             $scope.replyinfo = null;
+
             // userDiary.get({     //加载头部数据
             //   "query":{
             //         "_id" : $stateParams.id
@@ -1531,16 +1531,38 @@ angular.module('controllers', [])
 
             //     }
             // });
+            var section_label = [
+                    '准备',
+                    '开工',
+                    '拆改',
+                    '泥木',
+                    '水电',
+                    '油漆',
+                    '安装',
+                    '竣工',
+                    '软装',
+                    '入住'
+                ]
             $scope.write = {
+                'select' : true,
+                'size' : 9,
+                'loading' : false,
+                'complete' : false,
+                list : section_label,
                 'show' : false,
                 add : function(){
                     this.show = true;
                 },
                 'images' : [],
-                'section_label' : '',
+                'section_label' : getCurrentSectionlabel($stateParams.latest_section_label) || '时间节点选择',
                 'content' : '',
                 submit : function(){
+                    var _this = this;
                     if(!_.trim(this.content.length)){
+                        return ;
+                    }
+                    if(this.section_label === '时间节点选择'){
+                        alert('请选择时间节点');
                         return ;
                     }
                     userDiary.push({
@@ -1552,23 +1574,47 @@ angular.module('controllers', [])
                         }
                     }).then(function(res){
                         console.log(res);
+                        _this.content = '';
+                        _this.images = [];
+                        _this.select = false;
+                        pull();
                     },function(res){
-                    console.log(res)
+                        console.log(res);
                     })
                 }
             }
-            userDiary.pull({
-                "query":{
-                    "diarySetid" : $stateParams._id
+            pull();
+            function getCurrentSectionlabel(label){
+                if(!label){
+                    return ;
                 }
-            }).then(function(res){
-                $scope.diarylist = res.data.data.diaries;
-                $scope.isLoading = true;
-                timer = $timeout(function(){
-                    $scope.isLoadingOut = true;
-                    $timeout.cancel(timer);
-                },1000);
-            });
+                var index = _.indexOf(section_label,label);
+                if(index <= section_label.length - 2){
+                    return section_label[index + 1];
+                }else{
+                    return _.last(section_label);
+                }
+            }
+            function pull(){
+                $scope.diarylist = [];
+                $scope.isLoadingOut = false; //侧栏
+                userDiary.pull({
+                    "query":{
+                        "diarySetid" : $stateParams._id
+                    }
+                }).then(function(res){
+                    $scope.diarylist = res.data.data.diaries;
+                    if($scope.diarylist.length > 0){
+                        $scope.write.section_label = getCurrentSectionlabel($scope.diarylist[0].diarySet.latest_section_label);
+                    }
+                    $scope.write.select = true;
+                    $scope.isLoading = true;
+                    timer = $timeout(function(){
+                        $scope.isLoadingOut = true;
+                        $timeout.cancel(timer);
+                    },1000);
+                });
+            }
             var timer = null;
             $scope.like = function(is,id){
                 if(is){
@@ -1580,7 +1626,7 @@ angular.module('controllers', [])
                     $scope.diarylist[index].is_my_favorite = true;
                     $scope.diarylist[index].favorite_count += 1;
                     $scope.diarylist[index].likemove = true;
-                    userDiary.favorite({'diaryid':id}).then(function(res){  //获取意向设计师列表
+                    userDiary.favorite({'diaryid':id}).then(function(res){  //点赞
                         if(res.data.msg === "success"){
                             timer = $timeout(function(){
                                 $scope.diarylist[index].likemove = false;
@@ -1596,6 +1642,9 @@ angular.module('controllers', [])
             }
             $scope.comment = function(is,id){
                 var index = _.findIndex($scope.diarylist,{"_id":id});
+                $scope.diarylist[index].giveshow = undefined;
+                $scope.diarylist[index].givename = undefined;
+                $scope.diarylist[index].reviewContent = '';
                 if(index != -1){
                     $scope.diarylist[index].is_review = !is;
                     if($scope.diarylist[index].is_review){
@@ -1609,16 +1658,28 @@ angular.module('controllers', [])
             $scope.loadmore = function(id,size){
                 getComment(id,size,10);
             }
-            $scope.addCommentTo = function(data){
+            $scope.addCommentTo = function(data,authorid){
+                console.log(data,authorid)
+                var index = _.findIndex($scope.diarylist,{"_id":data.topicid});
+                var index2 = _.findIndex($scope.diarylist[index].review,{"_id":data._id});
+                console.log(index,index2)
                 $scope.replyinfo = data;
+                if(data.to_userid !== authorid){
+                    $scope.replyinfo.notfind = true;
+                    $scope.diarylist[index].giveshow = true;
+                    $scope.diarylist[index].review[index2].giveshow = true;
+                    $scope.diarylist[index].givename = data.byUser.username;
+                }
             }
             $scope.addComment = function(data){
                 console.log(data);
                 var index = _.findIndex($scope.diarylist,{"_id":data.topicid});
                 if($scope.replyinfo !== null){
-                    data.to_userid = $scope.replyinfo.byUser._id;
+                    if($scope.replyinfo.notfind){
+                        data.to_userid = $scope.replyinfo.byUser._id;
+                        data.content = '回复给&nbsp;&nbsp;'+$scope.replyinfo.byUser.username+"：&nbsp;&nbsp;&nbsp;"+_.trim(data.content);
+                    }
                 }
-                console.log(data);
                 userDiary.comment(data).then(function(res){  //获取意向设计师列表
                     if(res.data.msg === "success"){
                         getComment(data.topicid,0,10,true);
@@ -1636,7 +1697,6 @@ angular.module('controllers', [])
                   "from": form,
                   "limit":limit || 10
                 }).then(function(res){  //获取日记本下所有日志
-                    console.log(res)
                     if(index != -1){
                         if(dir){
                             $scope.diarylist[index].review.unshift(res.data.data.comments[0]);

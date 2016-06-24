@@ -12,245 +12,6 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
         var search = new common.Search();
         search.init();
         var goto = new common.Goto();
-        var LightBox = function(){};
-        LightBox.prototype = {
-        init : function(pos){
-            var _this = this;
-            this.doc = $(document);
-            this.arr = pos.arr || [];
-            this.select = pos.select || '.lightBox';
-            this.parent = pos.parent || this.doc;
-            this.images = [];
-            _.forEach(this.arr,function(k,v){
-                //_this.lightBoxAjax(globalData.dec_flow(k.name),k.images);
-                _this.images.push({
-                    'index' : k.name*1,
-                    'name' : globalData.dec_flow(k.name),
-                    'images' : k.images,
-                    'length' : k.images.length
-                })
-            });
-            _this.lightBoxBindEvent(this.images);
-        },
-        lightBoxAjax : function(name,arr){    //获取图片对象，供大图操作
-            var _this = this;
-            $.ajax({
-                url: '/api/v2/web/imagemeta',
-                type: 'POST',
-                dataType: 'json',
-                contentType : 'application/json; charset=utf-8',
-                data : JSON.stringify({
-                    _ids : arr
-                }),
-                processData : false
-            })
-            .done(function(res) {
-            })
-            .fail(function(error) {
-                console.log(error);
-            });
-        },
-        lightBoxBindEvent : function(arr){
-            var _this = this;
-            var lightBox = $('<div class="m-lightBox"></div>');
-            this.parent.find(this.select).css('cursor','pointer');
-            this.parent.on('click',this.select,function(ev) {
-                ev.preventDefault();
-                _this.lightBoxShow(lightBox,arr,$(this).data('group')*1,$(this).data('item')*1);
-            });
-        },
-        lightBoxShow : function(obj,arr,group,item){
-            var timer = null;
-            var win = $(window).width();
-            var doc = this.doc;
-            var viewW = win-200;
-            var maxLen = ~~(viewW/76);
-            var len = arr.length;
-            var uiWidth = 0;
-            _.forEach(arr,function(k,v){
-                uiWidth += 56+76*k.length;
-            });
-            var isMove =  viewW - uiWidth < 0;
-            var _this = this;
-            var m = group;
-            var n = item;
-            var subLeft = [];
-            var maxWidth = 0;
-            var close = $('<span class="close">&times;</span>');
-            obj.append(close);
-            var togglePrev = $('<span class="toggle prev" style="display: '+(m === 0 && n === 0 ? 'none' : 'block')+'"><i class="iconfont">&#xe611;</i></span>');
-            var toggleNext = $('<span class="toggle next" style="display: '+(m === len-1 && n === arr[m].length - 1 ? 'none' : 'block')+'"><i class="iconfont">&#xe617;</i></span>');
-            var imgBox = $('<div class="imgBox"><img class="imgBig" /></div>');
-            imgBox.append(togglePrev);
-            imgBox.append(toggleNext);
-            var imgTab = $('<div class="imgTab"></div>');
-            obj.append(imgBox);
-            var tabPrev = $('<span class="toggle prev" style="display: '+(isMove && (m === 0 && n ==! 0) ? 'block' : 'none')+'"><i class="iconfont">&#xe611;</i></span>');
-            var tabNext = $('<span class="toggle next" style="display: '+(isMove && (m === len-1 && n === arr[m].length - 1)  ? 'none' : 'block')+'"><i class="iconfont">&#xe617;</i></span>');
-            imgTab.append(tabPrev);
-            imgTab.append(tabNext);
-            var tab = $('<div class="tab"></div>');
-            var str = '<ul class="list" style="width:'+uiWidth+'px">';
-            _.forEach(arr,function(k,v){
-                var width = (56+76*k.length);
-                var left = v === 0 ? 0 : subLeft[subLeft.length-1].width + subLeft[subLeft.length-1].left;
-                var subL = [];
-                var sList = '<li data-index="'+k.index+'" class="father" data-width="'+width+'"><h4>'+k.name+'</h4><ul>';
-                    _.forEach(arr[v].images,function(i,s){
-                        var sl = left + 76*s;
-                        subL.push(sl);
-                        if(uiWidth - viewW >= 0){
-                            if(uiWidth - viewW + 76 > sl && sl > uiWidth - viewW){
-                                maxWidth = sl;
-                            }
-                        }
-                        sList += '<li class="sub sub'+(v+"-"+s)+'" data-mark="'+(v+"-"+s)+'"><span></span><img src="/api/v2/web/thumbnail2/66/66/'+arr[v].images[s]+'" /></li>'
-                    });
-                subLeft.push({
-                    width : width,
-                    left : left,
-                    subL : subL
-                });
-                str += sList +'</ul></li>';
-            });
-            str += '</ul>';
-            tab.html(str);
-            var imgBig = obj.find('.imgBig');
-            imgTab.append(tab);
-            obj.append(imgTab);
-            this.lightBoxToggle(imgTab,group,item);
-            this.lightBoxImgBig(imgBig,arr,group,item);
-            if(obj.css('display') === 'none'){
-                obj.show();
-            }else{
-                $('body').append(obj);
-            }
-            close.on('click',function(){
-                _this.lightBoxHide(obj);
-                doc.off('mousewheel');
-            });
-            imgTab.on('click','.sub',function(){
-                var index = $(this).data('mark').split("-");
-                var newArr = _.map(index, function(n){
-                    return n*1;
-                });
-                m = newArr[0];
-                n = newArr[1];
-                moveTo()
-            });
-            imgBox.on('click','.prev',function(){
-                moveTo('prev');
-            });
-            imgBox.on('click','.next',function(){
-                moveTo('next');
-            });
-            var oUl = obj.find('.list');
-            if(subLeft[m].subL[n] >= maxWidth){
-                tabNext.hide();
-                oUl.css({'left':-maxWidth});
-            }else{
-                if(isMove){
-                    oUl.css({'left':-subLeft[m].subL[n]});
-                }
-                tabNext.show();
-            }
-            imgTab.on('click','.prev',function(){
-                moveTo('prev');
-            });
-            imgTab.on('click','.next',function(){
-                moveTo('next');
-            });
-            function moveTo(me){
-                if(me === 'prev'){
-                    if(n === 0){
-                        if(m === 0){
-                            m = 0;
-                            n = 0;
-                        }else{
-                            m--;
-                            n = arr[m].length -1;
-                        }
-                    }else{
-                        n--;
-                    }
-                }else if(me === 'next'){
-                    if(n === arr[m].length -1){
-                        if(m === arr.length -1){
-                            m =  arr.length -1;
-                            n = arr[m].length -1;
-                            toggleNext.hide();
-                        }else{
-                            m++;
-                            n = 0;
-                            toggleNext.show();
-                        }
-                    }else{
-                        n++;
-                    }
-                }
-                if(subLeft[m].subL[n] >= maxWidth){
-                    tabNext.hide();
-                    oUl.stop().animate({
-                        left:-maxWidth
-                    })
-                }else{
-                    if(isMove){
-                        oUl.stop().animate({
-                            left:-subLeft[m].subL[n]
-                        });
-                    }
-                    tabNext.show();
-                }
-                togglePrev.toggle(m === 0 ? n !== 0 && m === 0 : m !== 0);
-                tabPrev.toggle(m === 0 && isMove ? n !== 0 && m === 0 : m !== 0);
-                toggleNext.toggle(m === len-1 ? n !== arr[m].length -1 && m === len-1 : m !== len-1);
-                _this.lightBoxImgBig(imgBig,arr,m,n);
-                _this.lightBoxToggle(imgTab,m,n);
-            }
-            doc.on('keydown',function(event){
-                switch (event.keyCode) {
-                    case 37:    //左
-                        moveTo('prev');
-                        break;
-                    case 38:    //上
-                        moveTo('prev');
-                        break;
-                    case 39:    //右
-                        moveTo('next');
-                        break;
-                    case 40:    //下
-                        moveTo('next');
-                        break;
-                }
-            });
-            doc.one('mousewheel',mousewheelFn);
-            doc.on('mousewheel',function(ev){
-                ev.preventDefault();
-            });
-            function mousewheelFn(ev,direction){
-                if( direction < 1 ){  //向下滚动
-                    moveTo('next');
-                }else{  //向上滚动
-                    moveTo('prev');
-                }
-                clearTimeout(timer);
-                timer = setTimeout(function(){
-                    doc.one("mousewheel",mousewheelFn);
-                },1200);
-            }
-        },
-        lightBoxToggle : function(obj,group,item){
-            obj.find('.sub').removeClass('active');
-            obj.find('.sub'+group+"-"+item).addClass('active');
-        },
-        lightBoxImgBig :function(obj,arr,k,v){
-            obj.attr('src','').attr('src','/api/v2/web/image/'+arr[k].images[v]);
-        },
-        lightBoxHide : function(obj){
-            obj.hide().html('');
-        }
-    };
-        var lightBox = new LightBox();
         var Detail = function(){};
         Detail.prototype = {
             init  : function(){
@@ -262,6 +23,7 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                 this.review();
                 this.remove();
                 this.sidenav();
+                this.lightBox();
                 goto.init();
             },
             sidenav : function(){
@@ -286,14 +48,14 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                 });
                 function highlight(top){
                     list.each(function(index, el) {
-                        if($(el).offset().top - top < 300){
+                        if($(el).offset().top - top < 150){
                             add(index);
                         }
                     });
                 }
                 function setTop(top){
                     var topic = 255 - top <= 100 ? 100 : 255 - top;
-                    $sidenav.stop().animate({'top':$sidenav});
+                    $sidenav.stop().animate({'top':topic});
                 }
                 function add(n){
                     aLi.eq(n).addClass('active').siblings().removeClass('active');
@@ -383,9 +145,6 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                 var addCommentTo = null;
                 this.detail.on('click','.click-review',function(event){    //打开评论列表
                     var id = $(this).data('diaryid');
-                    if(_this.cookie === undefined){
-                        return _this.prevent('您还没有登录，请登录后在评论',_this.urlid);
-                    }
                     var parent = $(this).parents('.m-list');
                     var review = parent.find('.m-review');
                     $(this).toggleClass('active');
@@ -399,14 +158,23 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                     }
                 });
                 this.detail.on('click','.reply',function(event){    //评论给谁
-                    $(this).addClass('active');
                     var parent = $(this).parents('.m-list');
                     var review = parent.find('.m-review');
                     addCommentTo = {};
                     addCommentTo.byuserid = $(this).data('byuserid');
                     addCommentTo.byusername = $(this).data('byusername');
-                    review.find('.find strong').html(addCommentTo.byusername);
-                    review.find('.find').show();
+                    addCommentTo.userid = review.data('userid');
+                    addCommentTo.authorid = review.data('authorid');
+                    if(addCommentTo.byuserid === addCommentTo.userid || addCommentTo.byuserid === addCommentTo.authorid){
+                        addCommentTo.notfind = true;
+                        addCommentTo.byusername = '';
+                    }else{
+                        $(this).addClass('active');
+                        addCommentTo.notfind = false;
+                        review.find('.find strong').html(addCommentTo.byusername);
+                        review.find('.find').show();
+                    }
+
                 });
                 function getComment(obj,id,form,limit,dir,fn){     //获取评论数据
                     var oUl = obj.find('.m-review .list ul');
@@ -427,36 +195,41 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                     .done(function(res) {
                         var total = res.data.total;
                         var szie = res.data.comments.length;
-                        if(!total || !szie){fn && fn();return ;}
-                        if(dir){
-                            oUl.prepend(createComment(res.data.comments[0]))
+                        if(total === 0){   //清空没有评论提示信息
+                            oUl.html('<li class="notList">暂无评论</li>');
                         }else{
-                            for(var i=0; i < szie; i++){
-                                oUl.append(createComment(res.data.comments[i]))
-                            }
-                            fn && fn();
-                            if(length+szie >= total){
-                                more.hide();
+                            if(dir){
+                                oUl.prepend(createComment(res.data.comments[0]))
                             }else{
-                                if(total > limit){
-                                    more.show();
+                                for(var i=0; i < szie; i++){
+                                    oUl.append(createComment(res.data.comments[i]))
+                                }
+                                fn && fn();
+                                if(length+szie >= total){
+                                    more.hide();
+                                }else{
+                                    if(total > limit){
+                                        more.show();
+                                    }
                                 }
                             }
                         }
+                        fn && fn();
                     })
                     .fail(function(error) {
                         console.log(error);
                     });
                 };
                 function createComment(data){    //生成评论列表
-                    var img = !!data.byUser.imageid ? '<img src="/api/v2/web/thumbnail2/50/50/'+data.byUser.imageid+'" alt="'+data.byUser.username+'">' : ''
+                    var img = !!data.byUser.imageid ? '<img src="/api/v2/web/thumbnail2/50/50/'+data.byUser.imageid+'" alt="'+data.byUser.username+'">' : '';
+                    var reply = _this.cookie === '1' ? '<i class="iconfont reply" data-byusername="'+data.byUser.username+'" data-byuserid="'+data.byUser._id+'">&#xe616;</i>' : '';
                     return arr = [
                         '<li>',
-                        '<div class="head">',
-                        img ,
+                        '<div class="u-head u-head-radius u-head-w50">',
+                        img,
                         '</div>',
                         '<h4><span>'+data.byUser.username+'</span><time>'+Date.timeAgo(data.date)+'</time></h4>',
-                        '<p><span>'+textareaEscaped(data.content)+'</span><i class="iconfont reply" data-byusername="'+data.byUser.username+'" data-byuserid="'+data.byUser._id+'">&#xe616;</i></p>',
+                        '<p><span>'+textareaEscaped(data.content)+'</span>'+reply+'</p>',
                         '</li>'
                     ].join('');
                 }
@@ -465,7 +238,7 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                 }
                 //输入框相关事件
                 this.detail.on('focus','.contentMsg',function(event){   //输入框获取焦点
-                    $(this).parent().addClass('focus');
+
                 }).on('blur','.contentMsg',function(event){   //输入框失去焦点
                     var parent = $(this).parents('.m-list');
                     if(!$.trim($(this).val())){
@@ -474,7 +247,6 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                 }).on('input propertychange','.contentMsg',function(event){   //输入框正在输入时候
                     var parent = $(this).parents('.m-list');
                     var addMsg = parent.find('.addComment');
-                    $(this).parent().addClass('focus');
                     if(!!_.trim($(this).val())){
                         addMsg.attr({'class':'u-btns addComment'});
                     }else{
@@ -495,10 +267,15 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                     var byuser,content;
                     if(addCommentTo !== null){
                         byuser = addCommentTo.byuserid;
-                        content = '回复给&nbsp;&nbsp;'+addCommentTo.byusername+"：&nbsp;&nbsp;&nbsp;"+contentMsg.val();
+                        if(addCommentTo.notfind){
+                            content = $.trim(contentMsg.val());
+                            byuser = $(this).data('topicid');
+                        }else{
+                            content = '回复给&nbsp;&nbsp;'+addCommentTo.byusername+"：&nbsp;&nbsp;&nbsp;"+$.trim(contentMsg.val());
+                        }
                     }else{
                         byuser = $(this).data('topicid');
-                        content = contentMsg.val();
+                        content = $.trim(contentMsg.val());
                     }
 
                     var strong = parent.find('.click-review strong');
@@ -539,7 +316,6 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                     var addMsg = parent.find('.addComment');
                     var contentMsg = parent.find('.contentMsg');
                     contentMsg.val('');
-                    contentMsg.parent().removeClass('focus');
                     addMsg.attr({'class':'u-btns addComment u-btns-disabled'});
                 }
                 this.detail.on('click','.more',function(event){    //加载更多评论
@@ -548,6 +324,163 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                     var id = $(this).data('topicid');
                     getComment(parent,id,length,10,false);
                 });
+            },
+            lightBox : function(){
+                var doc = $(document);
+                var timer = null;
+                var _this = this;
+                var images = [];
+                var iNum = 0;
+                var $section = this.detail.find('.m-list');
+                $section.on('click','.lightBox',function(){
+                    var parent = $(this).parents('.m-list');
+                    var title = parent.data('label');
+                    var img = parent.find('.lightBox');
+                    var length = img.size();
+                    setImgarr(img);
+                    lightBox(title,$(this).index(),length);
+                });
+                function setImgarr(arr){
+                    arr.each(function(index, el) {
+                        images.push({
+                            imageid : $(this).data('imageid'),
+                            width : $(this).data('width'),
+                            height : $(this).data('height'),
+                        });
+                    });
+                }
+                function lightBox(title,index,length){
+                    var winW = $(window).width();
+                    var winH = $(window).height();
+                    var str =   '<div class="lightBox-header f-cb">\
+                                    <h3 class="f-fl title">'+title+'阶段</h3>\
+                                    <span class="pagenum f-fl"></span>\
+                                    <span class="close f-fr"><i class="iconfont">&#xe642;</i></span>\
+                                </div>\
+                                <div class="lightBox-body">\
+                                    <div class="img">\
+                                        <img alt="" />\
+                                    </div>\
+                                    <div class="toggle">\
+                                      <span class="prev '+(index === 0 ? "hide" : '')+'"><i class="iconfont">&#xe611;</i></span>\
+                                      <span class="next '+(index === length-1 ? "hide" : '')+'"><i class="iconfont">&#xe617;</i></span>\
+                                    </div>\
+                                </div>';
+                    var lightBox = $('<div class="k-lightBox"><div class="lightBox-content">'+str+'</div></div>');
+                    var mask = $('<div class="k-lightBox-mask"></div>');
+                    _this.body.append(mask);
+                    mask.fadeIn();
+                    _this.body.append(lightBox);
+                    var content = lightBox.find('.lightBox-content');
+                    var body = content.find('.lightBox-body');
+                    var img = body.find('img');
+                    var pagenum = lightBox.find('.pagenum');
+                    lightBox.fadeIn();
+
+                    lightBox.on('click','.close',function(){
+                        mask.remove();
+                        lightBox.remove();
+                        images = [];
+                        doc.off('.moveTo');
+                    });
+                    var prev = content.find('.prev');
+                    var next = content.find('.next');
+                    lightBox.on('click','.prev',function(){
+                        moveTo('prev');
+                    });
+                    lightBox.on('click','.next',function(){
+                        moveTo('next');
+                    });
+                    function moveTo(me){
+                        if(me === 'prev'){
+                            if(iNum == 0){
+                                iNum = 0;
+                            }else{
+                                iNum--;
+                            }
+                        }else if(me === 'next'){
+                            if(iNum == length - 1){
+                                iNum = length - 1;
+                            }else{
+                                iNum++;
+                            }
+                        }
+                        prev.toggleClass('hide',iNum < 1);
+                        next.toggleClass('hide',iNum > length - 2);
+                        setImgSize(iNum);
+                    }
+                    doc.on('keydown.moveTo',function(event){
+                        switch (event.keyCode) {
+                            case 37:    //左
+                                moveTo('prev');
+                                break;
+                            case 38:    //上
+                                moveTo('prev');
+                                break;
+                            case 39:    //右
+                                moveTo('next');
+                                break;
+                            case 40:    //下
+                                moveTo('next');
+                                break;
+                        }
+                    });
+                    doc.one('mousewheel.moveTo',mousewheelFn);
+                    doc.on('mousewheel.moveTo',function(ev){
+                        ev.preventDefault();
+                    });
+                    function mousewheelFn(ev,direction){
+                        if( direction < 1 ){  //向下滚动
+                            moveTo('next');
+                        }else{  //向上滚动
+                            moveTo('prev');
+                        }
+                        clearTimeout(timer);
+                        timer = setTimeout(function(){
+                            doc.one("mousewheel.moveTo",mousewheelFn);
+                        },1200);
+                    }
+                    setImgSize(index);
+                    function setImgSize(index){
+                        var imgW,imgH;
+                        var iW = images[index].width;
+                        var iH = images[index].height;
+                        var w = winW > 1000 ? 1000 : winW <= 1000 ? 1000 : winW;
+                        var h = winH - 200;
+                        console.log(iW,iH,w,winH)
+                        if(iW >= w){
+                            if(iW > iH){
+                                imgW = w;
+                                imgH =  w/iW*iH;
+                            }else if(iW < iH){
+                                imgH = h;
+                                imgW =  h/iH*iW;
+                            }else{
+                                imgW = imgH = h;
+                            }
+                        }else if(iH >= h){
+                            imgH = h;
+                            imgW = h/iH*iW;
+                        }else{
+                            imgW = iW;
+                            imgH =  iH;
+                        }
+                        pagenum.html('<strong>'+(index+1)+'</strong>/'+length)
+                        body.css({
+                            'width': imgW,
+                            'height': imgH,
+                            'left' : (1000 - imgW)/2
+                        });
+                        img.css({
+                            'width': imgW,
+                            'height': imgH
+                        }).attr('src', '/api/v2/web/image/'+images[index].imageid);
+                        content.animate({
+                            'height'   : imgH + 86,
+                            'top': (h - imgH + 86) / 2
+                        });
+                    }
+                }
             },
             myConfirm : function(msg,callback){
                 var modat = '<div class="modal-dialog">\

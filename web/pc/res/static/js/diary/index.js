@@ -3,12 +3,20 @@ require.config({
     paths  : {
         jquery: 'lib/jquery',
         lodash : 'lib/lodash',
+        uploadify: 'lib/jquery.uploadify.min',
+        uploadifive: 'lib/jquery.uploadifive.min',
         lazyload : 'lib/lazyload',
         cookie : 'lib/jquery.cookie',
-        history : 'lib/jquery.history',
+        history : 'lib/jquery.history'
     },
     shim   : {
         'history': {
+            deps: ['jquery']
+        },
+        'uploadify': {
+            deps: ['jquery']
+        },
+        'uploadifive': {
             deps: ['jquery']
         }
     }
@@ -28,11 +36,9 @@ require(['jquery','lodash','cookie','utils/common'],function($,_,cookie,common){
     var goto = new common.Goto();
     goto.init();
 })
-require(['jquery','lodash','cookie','history','utils/common','utils/page','utils/globalData'],function($,_,cookie,history,common,Pageing,globalData){
+require(['jquery','lodash','cookie','history','utils/common','utils/page','utils/globalData','utils/select','utils/checkSupport','uploadify','uploadifive'],function($,_,cookie,history,common,Pageing,globalData,Select,checkSupport){
     var page = new Pageing();
-    var Diary = function(){
-
-    }
+    var Diary = function(){};
     Diary.prototype = {
         init : function(){
             var History = window.History;
@@ -58,15 +64,52 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
             this.hot(5);
         },
         addDiary : function(){
+            var diary = {
+                    "diarySetid": "",
+                    "content":"",
+                    "section_label":"",
+                    "images":[]
+                }
+            var section_label = [
+                '准备',
+                '开工',
+                '拆改',
+                '泥木',
+                '水电',
+                '油漆',
+                '安装',
+                '竣工',
+                '软装',
+                '入住'
+            ];
             var _this = this;
+            var $submit,$addContent;
             var $write = $('<div class="m-write"><i class="iconfont">&#xe629;</i>&nbsp;&nbsp;写日记</div>');
             var $edit = $('<div class="m-edit"></div>');
             var html = '<div class="m-edit-header">\
                             <textarea rows="10" name="content" class="addContent"></textarea>\
                         </div>\
-                        <div class="m-edit-body">\
+                        <div class="m-edit-body insertimage">\
+                            <div class="k-uploadbox f-cb">\
+                                <div class="list"></div>\
+                                <div class="pic" id="create">\
+                                    <div class="fileBtn">\
+                                        <input class="hide" id="createUpload2" type="file" name="upfile">\
+                                        <input type="hidden" id="sessionId" value="${pageContext.session.id}" />\
+                                        <input type="hidden" value="1215154" name="tmpdir" id="id_create">\
+                                    </div>\
+                                    <div class="tips">只能传9张图</div>\
+                                </div>\
+                            </div>\
                         </div>\
-                        <div class="m-edit-footer">\
+                        <div class="m-edit-footer f-cb">\
+                            <strong class="tilte f-fl">时间节点</strong>\
+                            <div class="k-select f-fl" id="section-label"></div>\
+                            <strong class="tilte f-fl">添加到</strong>\
+                            <div class="k-select f-fl" id="diary-setname"></div>\
+                            <div class="f-fr">\
+                                <button class="u-btns submit u-btns-disabled" disabled>&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;</button>\
+                            </div>\
                         </div>';
             $edit.html(html);
             var data = [];
@@ -86,15 +129,343 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
             .fail(function(error) {
                 console.log(error);
             });
-            this.add.on('click','.m-write',function(event){   //添加一条动态
+            var select1;
+            var setData = [];
+            this.add.on('click','.m-write',function(event){   //打开添加日志
                 if(!data.length){
                     window.location.href = '/tpl/user/owner.html#/diary/add/';
                 }else{
-                    console.log(data)
-                   $(this).hide();
+                    _.forEach(data,function(v){
+                        setData.push(v.title);
+                    })
+                    console.log(setData)
+                    $(this).hide();
                     _this.add.append($edit);
+                    upload(_this.add);
+                    $submit = _this.add.find('.submit');
+                    $addContent = _this.add.find('.addContent');
+                    diary.section_label = getCurrentSectionlabel(data[0].latest_section_label) || '准备';
+                    select1 = new Select('#section-label',{
+                        type : 'getValue',
+                        data : section_label,
+                        query : getCurrentSectionlabel(data[0].latest_section_label) || '时间节点选择',
+                        select : function(obj){
+                            diary.section_label = select1.returnValue();
+                        }
+                    });
+                    diary.diarySetid = data[0]._id;
+                    var select2 = new Select('#diary-setname',{
+                        type : 'getValue',
+                        data : setData,
+                        query : setData[0],
+                        select : function(obj){
+                            diary.diarySetid = data[obj.index()]._id;
+                            diary.section_label = getCurrentSectionlabel(data[obj.index()].latest_section_label) || '时间节点选择';
+                            select1.destroy();
+                            select1 = new Select('#section-label',{
+                                type : 'getValue',
+                                data : section_label,
+                                query : getCurrentSectionlabel(data[obj.index()].latest_section_label) || '时间节点选择',
+                                select : function(obj){
+                                    diary.section_label = select1.returnValue();
+                                }
+                            });
+                        }
+                    });
                 }
             });
+            function getCurrentSectionlabel(label){
+                if(!label){
+                    return ;
+                }
+                var index = _.indexOf(section_label,label);
+                if(index <= section_label.length - 2){
+                    return section_label[index + 1];
+                }else{
+                    return _.last(section_label);
+                }
+            }
+            this.add.on('input propertychange','.addContent',function(event){   //添加一条动态
+                console.log(!!$.trim($(this).val()))
+                if(!!$.trim($(this).val())){
+                    $submit.prop("disabled", false).removeClass('u-btns-disabled');
+                }else{
+                    $submit.prop("disabled", true).addClass('u-btns-disabled');
+                }
+            }).on('blur','.addContent',function(event){   //添加一条动态
+                diary.content = $.trim($(this).val());
+            })
+            this.add.on('click','.submit',function(event){   //添加一条动态
+                if($(this).attr('disabled')){
+                    return ;
+                }
+                if($(this).data('complete')){
+                    alert('图片还没有上传完成');
+                    return ;
+                }
+                if(diary.section_label === '时间节点选择'){
+                    alert('请选择时间节点');
+                    return ;
+                }
+                console.log(diary)
+                $.ajax({
+                    url: '/api/v2/web/add_diary',
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType : 'application/json; charset=utf-8',
+                    data : JSON.stringify({
+                        "diary" : diary
+                    }),
+                    processData : false
+                })
+                .done(function(res) {
+                    _this.loadList();    //加载数据
+                    $submit.prop({disabled : true}).addClass('u-btns-disabled');
+                    $addContent.val('');
+                    diary.images = [];
+                    _this.add.find('.k-uploadbox .list').empty();
+                    diary.section_label = getCurrentSectionlabel(diary.section_label);
+                    select1.destroy();
+                    select1 = new Select('#section-label',{
+                        type : 'getValue',
+                        data : section_label,
+                        query : diary.section_label,
+                        select : function(obj){
+                            diary.section_label = select1.returnValue();
+                        }
+                    });
+                })
+                .fail(function(error) {
+                    console.log(error);
+                });
+            });
+            function upload(o){
+                var obj = o.find('.k-uploadbox');
+                var $list = obj.find('.list');
+                if(checkSupport() === 'html5'){
+                    var GUID = 0;
+                    var queue = [];
+                    $('#createUpload2').uploadifive({
+                        'auto'  : true,
+                        'dnd'   : false,
+                        'buttonText' : '',
+                        'method'  : 'post',
+                        'queueID' : 'queue',
+                        'fileObjName': 'Filedata',
+                        'multi': true,  //一次只能选择一个文件
+                        'queueSizeLimit': 9,
+                        'width': 85,
+                        'height': 85,
+                        'fileType' : 'image/jpeg,image/png',  //允许上传文件类型
+                        'fileSizeLimit': 3072,  //上传最大文件限制
+                        'uploadScript' : '/api/v2/web/image/upload',  //上传的api
+                        'onAddQueueItem' : function(file){
+                            console.log(file)
+                            var upload = $('<div class="item" id="queue_upload_'+file.lastModified+'"></div>');
+                            var str =   '<div class="queue-item">\
+                                            <span class="loading"></span>\
+                                            <span class="uploading"><i class="ing">正在上传中</i></span>\
+                                            <span class="filename"></span>\
+                                            <span class="error" ></span>\
+                                            <span class="progress"><span style="0%"></span></span>\
+                                            <span class="cancel" ng-click="cancel(img.uploadid)"><i class="iconfont">&#xe642;</i></span>\
+                                        </div>\
+                                        <div class="queue-img hide">\
+                                            <span class="close"><i class="iconfont">&#xe642;</i></span>\
+                                            <div class="img">\
+                                                <img />\
+                                            </div>\
+                                        </div>';
+                            queue.push(file);
+                            upload.html(str);
+                            $list.append(upload);
+                        },
+                        'onProgress' : function(file, event) {
+                            setTimeout(function(){
+                                var item = $('#queue_upload_'+file.lastModified);
+                                var loading = parseInt(event.loaded/event.total*100,10);
+                                item.find('.loading').html(loading);
+                                item.find('.progress span').css('width',loading + '%');
+                            },0);
+                        },
+                        'onSelect'   : function(file) {
+                            obj.find('.pic').append('<div class="disable"></div>');
+                            $submit.data('complete',true);
+                            GUID = file.queued;
+                            console.log(file)
+                        },
+                        'onUploadComplete': function (file, data, response) {
+                            console.log('onUploadComplete',arguments);
+                            callbackImg(data,file.lastModified);
+                            if(GUID-- === 1){
+                                $('#createUpload2').uploadifive('clearQueue');
+                                obj.find('.disable').remove();
+                                $submit.data('complete',false);
+                                queue = [];  //清空上传队列
+                                console.log('全部上传完成');
+                            }
+                        },
+                        'onError': function (errorMsg, fileType, data) {
+                            console.log('onError',errorMsg, fileType, data);
+                            if(errorMsg === 'FILE_SIZE_LIMIT_EXCEEDED'){
+                                alert('文件大小超出3M限制，请重新上传');
+                            }
+                            if(errorMsg === 'Unknown Error'){
+                                 $timeout(function () {
+                                    var index = _.findIndex(scope.myQuery,{'fileid':fileType.queueItem[0].id});
+                                    scope.myQuery[index].errorMsg = '上传超时，请重新选择上传';
+                                }, 0);
+                            }
+                        },
+                        'onCancel': function () {
+                            if(GUID-- === 1){
+                                $('#createUpload1').uploadifive('clearQueue');
+                                obj.find('.disable').remove();
+                                console.log('全部取消完成');
+                            }
+                        }
+                    });
+                    $list.on('click','.cancel',function(){
+                        var parents = $(this).parents('.item');
+                        $('#createUpload2').uploadifive('cancel',queue[parents.index()]);
+                        queue.slice(parents.index(),1);
+                        parents.remove();
+                    });
+                }else{
+                    var loadDate = 0;
+                    console.log(scope.myQuery.length)
+                    $('#createUpload2').uploadify({
+                        'auto': true, //自动上传
+                        'removeTimeout': 1,
+                        'swf': 'uploadify.swf',
+                        'uploader': '/api/v2/web/image/upload',  //上传的api
+                        'method': 'post',
+                        'buttonText': '',
+                        'multi': true,  //一次只能选择一个文件
+                        'queueSizeLimit': 9,
+                        'width': 85,
+                        'height': 85,
+                        'fileObjName': 'Filedata',
+                        'successTimeout': 5, //
+                        'fileTypeDesc': 'Image Files',
+                        'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
+                        'fileSizeLimit': '3MB',  //上传最大文件限制
+                        'onSelect': function (file) {
+                            if(!obj.find('.disable').size()){
+                                obj.find('.pic').append('<div class="disable"></div>');
+                            }
+                            $timeout(function () {
+
+                                scope.myQuery.push({
+                                    fileid: file.id,
+                                    filename : file.name,
+                                    errorMsg : '',
+                                    loading: 0,
+                                    progress : '0%'
+                                });
+                                scope.myComplete = true;
+                                scope.myLoading = true;
+                                scope.mySize = 9 - scope.myQuery.length;
+                            }, 0);
+                        },
+                        'onUploadStart': function (file) {
+                            loadDate = +new Date();
+                            $('.uploadify-queue').css('zIndex', '110');
+                        },
+                        'onUploadSuccess': function (file, data, response) {
+                            callbackImg(data, file.id);
+                            $('.uploadify-queue').css('zIndex', '0');
+                        },
+                        'onUploadError': function (file, errorCode, errorMsg, errorString) {
+                            if (errorMsg === '500' && errorCode === -200) {
+                                $timeout(function () {
+                                    var index = _.findIndex(scope.myQuery,{'fileid':file.id});
+                                    if (index >= 0) {
+                                        scope.myQuery[index].errorMsg = '上传超时，请重新选择上传';
+                                    }
+                                }, 0);
+                            }
+                        },
+                        'onQueueComplete' : function(queueData){
+                            $timeout(function () {
+                                scope.myComplete = false;
+                                scope.myLoading = false;
+                            }, 0);
+                            obj.find('.disable').remove();
+                        },
+                        'onCancel': function () {
+                            $('.uploadify-queue').css('zIndex', '0');
+                        },
+                        'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
+                             //153600
+                            /*if((+new Date() - loadDate) >= 10000){
+                                $('#createUpload2').uploadify('stop');
+                                console.log('上传超时，请重新上传');
+                                loadDate = 0;
+                                $timeout(function () {
+                                    if (findIndex(scope.myQuery, file.id, 'uploadid') >= 0) {
+                                        scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].error = true;
+                                    }
+                                }, 0);
+                                return ;
+                            }*/
+                            $timeout(function () {
+                                var index = _.findIndex(scope.myQuery,{'fileid':file.id});
+                                if (index >= 0) {
+                                    scope.myQuery[index].loading = parseInt(bytesUploaded / bytesTotal * 100, 10);
+                                    scope.myQuery[index].progress = scope.myQuery[index].loading+'%';
+                                }
+                            }, 0);
+                        }
+                    });
+                }
+                function callbackImg(arr, id) {
+                    var data = $.parseJSON(arr);
+                    var img = new Image();
+                    img.onload = function () {
+                        var _this = this;
+                        this.onload = this.error = null;
+                        if(_.findIndex(diary.images,data.data) == -1){
+                            var item = $('#queue_upload_'+id);
+                            item.find('.queue-item').addClass('hide');
+                            item.find('.queue-img').removeClass('hide')
+                            item.find('.img img').attr('src','/api/v2/web/thumbnail2/85/85/'+data.data);
+                            diary.images.push({
+                                "width": _this.width,
+                                "imageid": data.data,
+                                "height": _this.height
+                            })
+                        }else{
+                            alert('已经上传过了');
+                            item.remove();
+                        }
+                    }
+                    img.onerror = function () {
+                        alert("图片加载错误");
+                        obj.find('.pic').find('.disable').remove();
+                    };
+                    img.src = '/api/v2/web/image/' + data.data;
+                }
+                // scope.cancel = function (file,fileid) {
+                //     if(checkSupport() === 'html5'){
+                //          $('#createUpload2').uploadifive('cancel',file);
+                //     }else{
+                //         $('#createUpload2').uploadify('cancel', fileid);
+                //     }
+                //     $timeout(function () {
+                //         scope.myQuery = _.remove(scope.myQuery, function(n) {
+                //             return n.fileid != fileid;
+                //         });
+                //     }, 0);
+                // }
+                $list.on('click','.close',function(){
+                    if (confirm("您确定要删除吗？删除不能恢复")) {
+                        var parents = $(this).parents('.item');
+                        diary.images.slice(parents.index(),1);
+                        parents.remove();
+                    }
+                });
+            }
         },
         setDefault : function(defaultData){     //设置url参数默认值
             var self = this,
@@ -190,7 +561,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
             return end ;
         },
         createList  : function(data){      //创建列表
-            var imgBox = '',title;
+            var imgBox = '',title,img;
             if(!!data.images.length){
                 var img = '';
                 var imgLen = data.images.length > 5 ? 5 : data.images.length;
@@ -202,11 +573,14 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
             }
             try{
                 title = data.diarySet.title;
-                imageid = '/api/v2/web/thumbnail2/34/34/'+data.author.imageid
                 username = data.author.username || '简繁家业主';
+                if(data.author.imageid != undefined){
+                    img = '<a href="/tpl/diary/book/'+data.diarySetid+'" class="u-head u-head-radius"><img src="/api/v2/web/thumbnail2/34/34/'+data.author.imageid+'" alt="'+username+'"></a>';
+                }else{
+                    img = '<a href="/tpl/diary/book/'+data.diarySetid+'" class="u-head u-head-radius"></a>';
+                }
             }catch(e){
-                imageid = '';
-                username = '简繁家业主';
+                img = '<a href="/tpl/diary/book/'+data.diarySetid+'" class="u-head u-head-w40 u-head-radius"></a>';
             }
             var arr = [
                 '<section class="m-list">',
@@ -222,7 +596,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                     '</section>',
                     '<footer class="m-footer f-cb">',
                         '<div class="f-fl author">',
-                            '<img src="'+imageid+'" alt="'+username+'">',
+                            img,
                             '<strong>'+username+'</strong>',
                             '<span>发布于</span>',
                             '<time>'+this.format(data.create_at,'yyyy年MM月dd日 hh:mm')+'</time>',

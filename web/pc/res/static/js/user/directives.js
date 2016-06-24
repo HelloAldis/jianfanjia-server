@@ -288,6 +288,252 @@ Tooltip.prototype.hide = function () {
 Tooltip.prototype.destroy = function () {
 };
 
+(function(){
+    var Select = function(element,options){
+        this.init(element,options);
+    }
+    Select.VERSION = '1.0.0';
+    Select.DEFAULTS = {
+        type : 'defaults',
+        selector : 'k-select',
+        animation: true,
+        query : '',
+        data : [],
+        trigger: 'hover focus',
+        delay: 500,
+        html: false,
+        select : function(){}
+    }
+    /**
+     * [init 初始化]
+     * @param  {[String]} element [选择器]
+     * @param  {[Object]} options [接收参数]
+     * @return {[type]}           [description]
+     */
+    Select.prototype.init = function(element,options) {
+        this.$element  = $(element);
+        this.options   = this._getOptions(this.$element,options);
+        this.$element.addClass(this.options.selector);
+        this.query = this.options.query;
+        this.oUl = null;
+        this._render(this.options);
+        this._bindEvent(this.options);
+    };
+    /**
+     * [getOptions 配置参数]
+     * @param  {[String]} options   [接收参数]
+     * @return {[Object]}           [配置参数]
+     */
+    Select.prototype._getOptions = function (element,option) {
+        return $.extend({}, this.getDefaults(), element.data(), option);
+    }
+    /**
+     * [getOptions 默认参数]
+     * @return {[Object]}           [默认参数]
+     */
+    Select.prototype.getDefaults = function () {
+        return Select.DEFAULTS;
+    }
+    Select.prototype._render = function(option){
+        this.oUl = $('<ul class="select"></ul>');
+        var length = option.data.length;
+        if(!!length){
+            var sLi = '';
+            switch(option.type){
+                case 'defaults' :
+                    for (var i = 0; i < length; i++) {
+                        sLi += '<li class="'+(option.query == option.data[i].id ? 'active' : '')+'" data-key="'+option.data[i].id+'">'+option.data[i].name+'</li>';
+                    }
+                    break;
+                case 'getKey' :
+                    for (var i = 0; i < length; i++) {
+                        sLi += '<li class="'+(option.query == option.data[i][0] ? 'active' : '')+'"  data-key="'+option.data[i][0]+'">'+option.data[i][1]+'</li>';
+                    }
+                    break;
+                case 'getValue' :
+                    for (var i = 0; i < length; i++) {
+                        sLi += '<li class="'+(option.query == option.data[i] ? 'active' : '')+'" >'+option.data[i]+'</li>';
+                    }
+                    break;
+                case 'editor' :
+                    for (var i = 0; i < length; i++) {
+                        sLi += '<li class="'+(option.query == option.data[i].name ? 'active' : '')+'" >'+option.data[i].name+'</li>';
+                    }
+                    break;
+            }
+            this.oUl.html(sLi);
+        }
+        this.$element.append(this.oUl);
+        if(option.type === 'editor'){
+            option = '<div class="editor"><input class="value" value="'+option.query+'"><span class="arrow"><em></em><i></i></span></div>';
+        }else{
+            var value = '';
+            switch(option.type){
+                case 'defaults' :
+                    value = option.data[option.query].name;
+                    break;
+                case 'getKey' :
+                    value = option.data[option.query][1];
+                    break;
+                case 'getValue' :
+                    value = option.query;
+                    break;
+            }
+            option = '<div class="option"><span class="value">'+ value +'</span><span class="arrow"><em></em><i></i></span></div>';
+        }
+        this.$element.append(option);
+        this.value = this.$element.find('.value');
+    }
+    Select.prototype._bindEvent = function(option){
+        var _this = this;
+        var timer = null;
+        this.$element.on('click',function(){
+            _this._show();
+        }).on('mouseleave',function(){
+            clearTimeout(timer);
+            timer = setTimeout(function(){
+                _this._hide();
+            },option.delay);
+        }).on('mouseenter',function(){
+            clearTimeout(timer);
+        });
+        switch(option.type){
+            case 'defaults' : this._defaults(this.$element);
+            break;
+            case 'getKey' : this._getKey(this.$element);
+            break;
+            case 'getValue' : this._getValue(this.$element);
+            break;
+            case 'editor' : this._editor(this.$element);
+            break;
+        }
+    }
+    Select.prototype._show = function(){
+        $('.'+this.options.selector).find('.select').hide();
+        this.oUl.show();
+        this.$element.css('zIndex',20);
+    }
+    Select.prototype._hide = function(){
+        var _this = this;
+        setTimeout(function(){
+            _this.oUl.hide();
+            _this.$element.css('zIndex',2);
+        },0);
+    }
+    Select.prototype._defaults = function(element){
+        var _this = this;
+        element.on('click','li',function(){
+            $(this).addClass('active').siblings().removeClass('active');
+            _this.query = $(this).data('key');
+            _this.value.html($(this).html());
+            _this._hide();
+            _this.options.select($(this));
+        });
+    }
+    Select.prototype._getKey = function(element){
+        var _this = this;
+        element.on('click','li',function(){
+            $(this).addClass('active').siblings().removeClass('active');
+            _this.query = $(this).data('key');
+            _this.value.html($(this).html());
+            _this._hide();
+            _this.options.select($(this));
+        });
+    }
+    Select.prototype._getValue = function(element){
+        var _this = this;
+        element.on('click','li',function(){
+            $(this).addClass('active').siblings().removeClass('active');
+            _this.query = $(this).html();
+            _this.value.html($(this).html());
+            _this._hide();
+            _this.options.select($(this));
+        });
+    }
+    Select.prototype._editor = function(element){
+        var _this = this;
+        var oldName = '';
+        element.on('click','li',function(){
+            $(this).addClass('active').siblings().removeClass('active');
+            _this.query = $(this).html();
+            _this.value.val($(this).html());
+            _this._hide();
+            _this.options.select($(this));
+        });
+        element.on('focus','.value',function(){
+            oldName = $(this).val();
+            _this._show();
+        }).on('blur','.value',function(){
+            if(!$.trim($(this).val())){
+                _this.query = oldName;
+                $(this).val(oldName);
+            }else{
+                if(_this.options.html){
+                    _this.query = htmlfilter($(this).val());
+                }else{
+                    _this.query = $.trim($(this).val());
+                }
+                $(this).val($.trim($(this).val()))
+            }
+            _this._hide();
+            _this.options.select($(this));
+        })
+        function htmlfilter(value,parameter){
+            var setthe = {},s,p,n;
+            if(parameter != undefined){
+              setthe.fhtml = parameter.fhtml || true;
+              setthe.fjs = parameter.fjs || false;
+              setthe.fcss = parameter.fcss || false;
+              setthe.fself = parameter.fself || false;
+            }else{
+              setthe.fhtml = true;
+              setthe.fjs = false;
+              setthe.fcss = false;
+              setthe.fself = false;
+            }
+            if(typeof value === 'string'){
+              s = value;
+            }else if(typeof value === 'object'){
+              s = value.value;
+              p = value.preplace;
+              n = value.nextplace;
+            }
+            if(!s){
+              return s;
+            }
+            if (!setthe.fhtml && !setthe.fjs && !setthe.fcss && !setthe.fself){
+              setthe.fhtml = true;
+            }
+            if (setthe.fjs){
+              s = s.replace(/<\s*script[^>]*>(.|[\r\n])*?<\s*\/script[^>]*>/gi, '');
+            }
+            if (setthe.fcss){
+              s = s.replace(/<\s*style[^>]*>(.|[\r\n])*?<\s*\/style[^>]*>/gi, '');
+            }
+            if (setthe.fhtml) {
+              s = s.replace(/<\/?[^>]+>/g, '');
+              s = s.replace(/\&[a-z]+;/gi, '');
+              s = s.replace(/\s+/g, '\n');
+            }
+
+            if (setthe.fself && typeof value === 'object'){
+              s = s.replace(new RegExp(p, 'g'), n);
+            }
+            return s;
+        }
+    }
+    Select.prototype.returnValue = function(){
+        return this.query;
+    }
+    /**
+     * [destroy 销毁组件]
+     */
+    Select.prototype.destroy = function(){
+        this.$element.html();
+        delete this;
+    }
+    window.Select = Select;
+})();
 // 公用指令
 angular.module('directives', [])
     .directive('myRadio', ['initData', function (initData) {     //自定义复选框
@@ -382,134 +628,19 @@ angular.module('directives', [])
                 myQuery: "="
             },
             restrict: 'A',
-            template: '<div class="k-select" ng-click="openSelect($event)" ng-mouseout="closeSelect()"><ul class="select" ng-mouseover="closeTimer()"><li ng-repeat="d in myList"><a href="javascript:;" val="{{d.id}}" ng-click="select(d.id,$event)">{{d.name}}</a></li></ul><div class="option"><span class="value" ng-repeat="d in myList | filter:myQuery">{{d.name}}</span><span class="arrow"><em></em><i></i></span></div></div>',
             link: function ($scope, iElm, iAttrs, controller) {
-                var obj = angular.element(iElm),
-                    oUl = obj.find('ul');
-                angular.element(document).on('click', function () {
-                    oUl.css('display', 'none');
-                });
-                var timer = null;
-                $scope.openSelect = function ($event) {
-                    $event.stopPropagation();
-                    oUl.css('display', 'block');
-                    obj.css('zIndex', 20);
-                    clearTimeout(timer)
-                };
-                $scope.closeSelect = function () {
-                    clearTimeout(timer);
-                    timer = setTimeout(function () {
-                        oUl.css('display', 'none');
-                        obj.css('zIndex', 10);
-                    }, 500)
-                };
-                $scope.closeTimer = function () {
-                    clearTimeout(timer)
-                };
-                $scope.select = function (id, $event) {
-                    $scope.myQuery = id;
-                    $event.stopPropagation()
-                    oUl.css('display', 'none');
-                    obj.css('zIndex', 10);
-                }
-            }
-        };
-    }])
-    .directive('mySelectn', ['$timeout', function ($timeout) {     //自定义下拉框
-        return {
-            replace: true,
-            scope: {
-                myList: "=",
-                myQuery: "="
-            },
-            restrict: 'A',
-            template: '<div class="k-select" ng-click="openSelect($event)" ng-mouseout="closeSelect()"><ul class="select" ng-mouseover="closeTimer()"><li ng-repeat="d in myList track by $index"><a href="javascript:;" ng-click="select(d,$event)">{{d}}</a></li></ul><div class="option"><span class="value">{{myQuery}}</span><span class="arrow"><em></em><i></i></span></div></div>',
-            link: function ($scope, iElm, iAttrs, controller) {
-                var obj = angular.element(iElm),
-                    oUl = obj.find('ul');
-                angular.element(document).on('click', function () {
-                    oUl.css('display', 'none');
-                });
-                var timer = null;
-                $scope.openSelect = function ($event) {
-                    $event.stopPropagation()
-                    oUl.css('display', 'block');
-                    obj.css('zIndex', 20);
-                    clearTimeout(timer)
-                };
-                $scope.closeSelect = function () {
-                    $timeout.cancel(timer)
-                    timer = $timeout(function () {
-                        oUl.css('display', 'none');
-                        obj.css('zIndex', 10);
-                    }, 500,false);
-                };
-                $scope.closeTimer = function () {
-                    $timeout.cancel(timer)
-                }
-                $scope.select = function (name, $event) {
-                    $scope.myQuery = name;
-                    $event.stopPropagation()
-                    oUl.css('display', 'none');
-                    obj.css('zIndex', 10);
-                }
-            }
-        };
-    }])
-    .directive('mySelecte', ['$timeout', function ($timeout) {     //自定义下拉框带编写功能
-        var template = [
-            '<div class="k-select" ng-click="openSelect($event)" ng-mouseout="closeSelect()">',
-            '<ul class="select" ng-mouseover="closeTimer()">',
-            '<li ng-repeat="d in myList">',
-            '<a href="javascript:;" ng-click="select(d.name,$event)">{{d.name}}</a>',
-            '</li></ul>',
-            '<div class="editor"><input class="value" ng-model="myQuery" ng-blur="blur($event)"><span class="arrow"><em></em><i></i></span></div>',
-            '</div>'
-        ];
-        return {
-            replace: true,
-            scope: {
-                myList: "=",
-                myQuery: "="
-            },
-            restrict: 'A',
-            template: template.join(''),
-            link: function ($scope, iElm, iAttrs, controller) {
-                var obj = angular.element(iElm),
-                    oUl = obj.find('ul'),
-                    oldName = $scope.myQuery;
-                angular.element(document).on('click', function () {
-                    oUl.css('display', 'none');
-                })
-                var timer = null;
-                $scope.openSelect = function ($event) {
-                    $event.stopPropagation();
-                    oUl.css('display', 'block');
-                    obj.css('zIndex', 20);
-                    clearTimeout(timer)
-                }
-                $scope.closeSelect = function () {
-                    clearTimeout(timer);
-                    timer = setTimeout(function () {
-                        oUl.css('display', 'none');
-                        obj.css('zIndex', 10);
-                    }, 500)
-                }
-                $scope.closeTimer = function () {
-                    clearTimeout(timer)
-                }
-                $scope.select = function (name, $event) {
-                    $scope.myQuery = name;
-                    oldName = name;
-                    $event.stopPropagation();
-                    oUl.css('display', 'none');
-                    obj.css('zIndex', 10);
-                }
-                $scope.blur = function () {
-                    if(!_.trim($scope.myQuery)){
-                        $scope.myQuery = oldName;
+                var type = iAttrs.type;
+                var obj = angular.element(iElm);
+                var select = new Select(obj,{
+                    type : type,
+                    data : $scope.myList,
+                    query : $scope.myQuery,
+                    select : function(obj){
+                        $timeout(function(){
+                            $scope.myQuery = select.returnValue();
+                        },0);
                     }
-                }
+                });
             }
         };
     }])
@@ -2726,10 +2857,9 @@ angular.module('directives', [])
         return {
             scope: {
                 myQuery: "=",
-                mySection: "=",
-                myCover: "=",
                 myComplete : "=",
-                myLoading : "="
+                myLoading : "=",
+                mySize : '='
             },
             restrict: 'A',
             template: function (obj, attr) {
@@ -2746,8 +2876,6 @@ angular.module('directives', [])
                     '</div>',
                     '<div ng-if="img.loading == undefined">'
                 ];
-                template.push('<span class="view" ng-click="viewImg(img.award_imageid)"><i class="iconfont">&#xe645;</i></span>');
-                template.push('<span class="mask"></span>');
                 template.push('<span class="close" ng-click="removeImg($index,myQuery)"><i class="iconfont">&#xe642;</i></span>');
                 template.push('<div class="img">');
                 template.push('<img ng-src="/api/v2/web/thumbnail2/85/85/{{img.imageid}}" />');
@@ -2759,8 +2887,8 @@ angular.module('directives', [])
                 template.push('<input class="hide" id="createUpload2" type="file" name="upfile">');
                 template.push('<input type="hidden" id="sessionId" value="${pageContext.session.id}" />');
                 template.push('<input type="hidden" value="1215154" name="tmpdir" id="id_create">');
-                template.push('</div><div class="tips">');
-                template.push('</div></div></div>');
+                template.push('</div><div class="tips">只能传9张图</div>');
+                template.push('</div></div>');
                 template.push('</div>');
                 template.push('</div>');
                 return template.join('');
@@ -2774,7 +2902,7 @@ angular.module('directives', [])
                     }else{
                         obj.find('.disable').remove();
                     }
-                })
+                });
                 if(checkSupport() === 'html5'){
                     var GUID = 0;
                     $('#createUpload2').uploadifive({
@@ -2786,24 +2914,27 @@ angular.module('directives', [])
                         'fileObjName': 'Filedata',
                         'multi': true,  //一次只能选择一个文件
                         'queueSizeLimit': 9,
-                        'width': 168,
-                        'height': 168,
+                        'width': 85,
+                        'height': 85,
                         'fileType' : 'image/jpeg,image/png',  //允许上传文件类型
                         'fileSizeLimit': 3072,  //上传最大文件限制
                         'uploadScript' : '/api/v2/web/image/upload',  //上传的api
                         'onAddQueueItem' : function(file){
                             $timeout(function () {
-                                scope.myQuery.push({
-                                    fileid : file.queueItem[0].id,
-                                    filename : file.name,
-                                    errorMsg : '',
-                                    loading: 0,
-                                    progress : '0%',
-                                    description: "",
-                                    section: "客厅"
-                                });
+                                if(scope.mySize > scope.myQuery.length - 1){
+                                    scope.myQuery.push({
+                                        fileid : file.queueItem[0].id,
+                                        filename : file.name,
+                                        errorMsg : '',
+                                        loading: 0,
+                                        progress : '0%'
+                                    });
+                                }else{
+                                    alert('只能传9张图');
+                                }
                                 scope.myComplete = true;
                                 scope.myLoading = true;
+
                             }, 0);
                         },
                         'onProgress' : function(file, event) {
@@ -2864,6 +2995,7 @@ angular.module('directives', [])
                     });
                 }else{
                     var loadDate = 0;
+                    console.log(scope.myQuery.length)
                     $('#createUpload2').uploadify({
                         'auto': true, //自动上传
                         'removeTimeout': 1,
@@ -2873,8 +3005,8 @@ angular.module('directives', [])
                         'buttonText': '',
                         'multi': true,  //一次只能选择一个文件
                         'queueSizeLimit': 9,
-                        'width': 168,
-                        'height': 168,
+                        'width': 85,
+                        'height': 85,
                         'fileObjName': 'Filedata',
                         'successTimeout': 5, //
                         'fileTypeDesc': 'Image Files',
@@ -2885,28 +3017,17 @@ angular.module('directives', [])
                                 obj.find('.pic').append('<div class="disable"></div>');
                             }
                             $timeout(function () {
-                                if (type == 'edit') {
-                                    scope.myQuery.push({
-                                        fileid: file.id,
-                                        filename : file.name,
-                                        errorMsg : '',
-                                        loading: 0,
-                                        progress : '0%',
-                                        description: "",
-                                        section: "客厅"
-                                    });
-                                } else if (type == 'write') {
-                                    scope.myQuery.push({
-                                        fileid: file.id,
-                                        filename : file.name,
-                                        errorMsg : '',
-                                        loading: 0,
-                                        progress : '0%',
-                                        description: ""
-                                    });
-                                }
+
+                                scope.myQuery.push({
+                                    fileid: file.id,
+                                    filename : file.name,
+                                    errorMsg : '',
+                                    loading: 0,
+                                    progress : '0%'
+                                });
                                 scope.myComplete = true;
                                 scope.myLoading = true;
+                                scope.mySize = 9 - scope.myQuery.length;
                             }, 0);
                         },
                         'onUploadStart': function (file) {
@@ -2974,9 +3095,6 @@ angular.module('directives', [])
                                     "imageid": data.data,
                                     "height": _this.height
                                 };
-                                if(!scope.myCover){
-                                    scope.myCover = scope.myQuery[0].imageid;
-                                };
                                 old = null;
                             }else{
                                 alert('已经上传过了');
@@ -3031,89 +3149,6 @@ angular.module('directives', [])
                     }
                     Loading();   //释放监听
                 });
-                scope.viewImg = function (id) {
-                    bigImg(id);
-                };
-                scope.setImg = function (id) {
-                    $timeout(function () {
-                        scope.myCover = id;
-                    }, 0);
-                };
-                function bigImg(id) {
-                    var modat = '<div class="modal-dialog"><span class="close"><i class="iconfont">&#xe642;</i></span>';
-                    if (type == 'edit') {
-                        if (id === scope.myCover) {
-                            modat += '<span class="settes" style="cursor:default;">已设为封面</span>';
-                        } else {
-                            modat += '<span class="settes" style="color: #fff">设为封面</span>';
-                        }
-                    }
-                    modat += '<img class="img" src="" /></div>';
-                    var $modal = $('<div class="k-modal viewImg" id="j-modal">' + modat + '</div>'),
-                        $backdrop = $('<div class="k-modal-backdrop" id="j-modal-backdrop"></div>');
-                    var doc = $('body');
-                    doc.append($backdrop);
-                    doc.append($modal);
-                    var winW = $(window).width();
-                    var winH = $(window).height();
-                    var $settes = $modal.find('.settes');
-                    var $img = $modal.find('.img');
-                    var $close = $modal.find('.close');
-                    $close.on('click', function () {
-                        $modal.remove();
-                        $backdrop.remove();
-                        $img.attr('src', '');
-                    });
-                    $img.on('dblclick',function(){
-                        $close.trigger('click');
-                    });
-                    $settes.on('click', function () {
-                        if ($(this).html() === '设为封面') {
-                            $(this).html('已设为封面').css('color','#ccc');
-                            $timeout(function () {
-                                scope.myCover = id;
-                            }, 0);
-                            $close.trigger('click');
-                        }
-                        return ;
-                    });
-                    var w = winW > 1200 ? 1200 : winW <= 1200 ? 1000 : winW;
-                    var h = winH - 100;
-                    var img = new Image();
-                    $backdrop.fadeIn();
-                    img.onload = function () {
-                        this.onload = this.onerror = null;
-                        var imgW,imgH;
-                        if(this.width >= w){
-                            if(this.width > this.height){
-                                imgW = w;
-                                imgH =  w/this.width*this.height;
-                            }else if(this.width < this.height){
-                                imgH = h;
-                                imgW =  h/this.height*this.width;
-                            }else{
-                                imgW = imgH = h;
-                            }
-                        }else if(this.height >= h){
-                            imgH = h;
-                            imgW = h/this.height*this.width;
-                        }else{
-                            imgW = this.width;
-                            imgH =  this.height;
-                        }
-                        $img.css({
-                            width: imgW,
-                            height: imgH
-                        }).attr('src', this.src);
-                        $modal.find('.modal-dialog').css({
-                            'width'    : imgW,
-                            'height'   : imgH,
-                            'marginTop': (winH - imgH) / 2
-                        });
-                        $modal.fadeIn();
-                    }
-                    img.src = '/api/v2/web/image/' + id;
-                }
             }
         };
     }]);

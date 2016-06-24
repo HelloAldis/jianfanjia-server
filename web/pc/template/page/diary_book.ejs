@@ -85,7 +85,7 @@ function format(date,format){
             <div class="m-diary-list m-diary-show">
                 <% if(!!data.diaries.length){ %>
                 <% data.diaries.forEach((v, k) => { %>
-                <section class="m-list" id="j-list<%= k %>" data-uid="<%= v._id %>">
+                <section class="m-list" id="j-list<%= k %>" data-label="<%= v.section_label %>" data-uid="<%= v._id %>">
                     <header class="m-header f-cb">
                         <div class="tags">
                             <h4><%= v.section_label %></h4>
@@ -104,31 +104,35 @@ function format(date,format){
                         <% if(!!v.images.length){ %>
                         <div class="img f-cb">
                             <% v.images.forEach((v, k) => { %>
-                            <img data-width="<%= v.width %>" data-height="<%= v.height %>" src="/api/v2/web/thumbnail2/160/160/<%= v.imageid %>" alt=""/>
+                            <img data-width="<%= v.width %>" class="lightBox" data-imageid="<%= v.imageid %>" data-height="<%= v.height %>" src="/api/v2/web/thumbnail2/160/160/<%= v.imageid %>" alt=""/>
                             <% }) %>
                         </div>
                         <% } %>
                     </section>
                     <ul class="m-footer">
-                            <% if(v.is_my_favorite){ %>
-                            <li class="active" data-diaryid="<%= v._id %>"><span class="like"><%= v.favorite_count %></span></li>
-                            <% }else{ %>
-                            <li class="click-like" data-diaryid="<%= v._id %>"><span class="like"><%= v.favorite_count %></span><strong>+1</strong></li>
-                            <% } %>
-                            <li class="click-review" data-diaryid="<%= v._id %>"><span class="review" ><%= v.comment_count %></span><strong>+1</strong></li>
-                        </ul>
-                    <div class="m-review hide">
-                        <% if (data.header_info.admin_statistic_info === undefined || data.header_info.user_statistic_info === undefined || data.header_info.designer_statistic_info === undefined) { %>
+                        <% if(v.is_my_favorite){ %>
+                        <li class="active" data-diaryid="<%= v._id %>"><span class="like"><%= v.favorite_count %></span></li>
+                        <% }else{ %>
+                        <li class="click-like" data-diaryid="<%= v._id %>"><span class="like"><%= v.favorite_count %></span><strong>+1</strong></li>
+                        <% } %>
+                        <li class="click-review" data-diaryid="<%= v._id %>"><span class="review" ><%= v.comment_count %></span><strong>+1</strong></li>
+                    </ul>
+                    <% if (data.header_info.admin_statistic_info === undefined || data.header_info.user_statistic_info === undefined || data.header_info.designer_statistic_info === undefined) { %>
                           <% if(data.header_info.designer_statistic_info != undefined){ %>
+                    <div class="m-review hide">
+                          <div class="notsigned notwrite">
+                            评论功能暂时只对业主开放，设计师等等就有！
+                          </div>
                           <% }else if(data.header_info.admin_statistic_info != undefined){ %>
-                          <% }else{%>
+                          <% }else if(data.header_info.user_statistic_info != undefined){ %>
+                    <div class="m-review hide" data-userid="<%= data.header_info.user_statistic_info._id %>" data-authorid="<%= v.authorid %>">
                         <div class="write">
-                            <div class="head">
-                                <% if(data.header_info.user_statistic_info !== undefined){ %>
+                            <div class="u-head u-head-radius u-head-w50">
+                                <% if(data.header_info.user_statistic_info.imageid != undefined){ %>
                                 <img
                                 src="/api/v2/web/thumbnail2/50/50/<%= data.header_info.user_statistic_info.imageid %>"
                                 alt="<%= data.header_info.user_statistic_info.username %>" />
-                                <% } %>
+                                <%}%>
                             </div>
                             <div class="textarea">
                                 <textarea rows="10" name="content" class="contentMsg"></textarea>
@@ -138,10 +142,15 @@ function format(date,format){
                                 <button type="button" class="u-btns addComment u-btns-disabled" data-topicid="<%= v._id %>">发表评论</button>
                             </div>
                         </div>
+                          <% }else{%>
+                    <div class="m-review hide">
+                        <div class="notsigned">
+                            您尚未登录，请先<a class="login" href="/tpl/user/login.html?/tpl/diary/book/<%= data.diarySet._id %>">登录</a>或<a href="/tpl/user/reg.html">注册</a>
+                        </div>
                         <%}%>
                         <% }%>
                         <div class="list">
-                            <ul><li>还没有评论，评论功能暂时只对业主开放，设计师等等就有！</li></ul>
+                            <ul></ul>
                         </div>
                         <div class="more" data-topicid="<%= v._id %>">加载更多</div>
                     </div>

@@ -442,81 +442,6 @@ body{
 .m-radio .active span{
 	background-position: 0 -14px;
 }
-/*下拉选择框*/
-.k-select{
-	position: relative;
-	z-index: 2;
-	width: 250px;
-}
-.k-select .option,.k-select .editor{
-	overflow: hidden;
-	height: 28px;
-	line-height: 28px;
-	position: relative;
-	cursor: pointer;
-	padding:0 20px 0 10px;
-	background-color: #f9f9f9;
-	border: 1px solid #d2d2d2;
-	border-radius: 2px;
-}
-.k-select .option .value{
-	display: block;
-	font-size: 14px;
-	color: #61687a;
-}
-.k-select .editor .value{
-	width: 100%;
-	font-size: 14px;
-	border: none;
-	background: none;
-}
-.k-select .arrow{
-	position: absolute;
-	top:9px;
-	right:15px;
-	background-color: #f9f9f9;
-}
-.k-select .arrow em,.k-select .arrow i{
-	position: absolute;
-	left:0;
-	top:0;
-	width: 0;
-	height: 0;
-	overflow: hidden;
-	border-width: 5px;
-	border-color: transparent;
-	border-style: dashed;
-	border-top-style: solid;
-	border-top-color: #f9f9f9;
-}
-.k-select .arrow em{
-	top:3px;
-	border-top-color: #aaa;
-}
-.k-select .arrow i{display: none;}
-.k-select .select{
-	position: absolute;
-	left:-1px;
-	top:31px;
-	width: 100%;
-	background-color: #fff;
-	border: 1px solid #dcdcdc;
-	border-top: none;
-	display: none;
-	max-height: 240px;
-	overflow-y: auto;
-}
-.k-select .select a{
-	display: block;
-	line-height: 30px;
-	text-align: center;
-	color: #333;
-}
-.k-select .select a:hover{
-	color: #fff;
-	text-decoration: none;
-	background-color: #ccc;
-}
 /*城市插件*/
 .k-cities{
 	position: relative;
@@ -2697,6 +2622,330 @@ img.jcrop-preview {
 	text-align: center;
 	cursor: pointer;
 }
+.showDiary-add .write-header{
+	position: relative;
+	height: 80px;
+  	padding-left: 20px;
+}
+.showDiary-add .write-header label{
+	position: absolute;
+	left:10px;
+	top:10px;
+	cursor: text;
+	color: #999;
+}
+.showDiary-add .write-header textarea{
+	  float: left;
+		width: 100%;
+	   height: 60px;
+	  margin-left: -20px;
+	  padding: 10px;
+	  font-size: 14px;
+	  border: 1px solid #e6e6e6;
+		background-color: #f9f9f9;
+	  resize: none;
+}
+.showDiary-add .write-header textarea:focus{
+	border-color: #04bafe;
+}
+.insertimage{
+	width: 862px;
+	height: 85px;
+	overflow: hidden;
+}
+.insertimage .k-uploadbox{
+	width: 980px;
+}
+.insertimage .pic{
+	position: relative;
+	float: left;
+  width: 85px;
+  height: 85px;
+  margin:0 20px 20px 0;
+  overflow: visible;
+  background:none;
+  text-align: center;
+}
+.insertimage .pic .mask{
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 100;
+	background-color: #fff;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.insertimage .item{
+	position: relative;
+	float: left;
+	width: 85px;
+	margin-right: 12px;
+}
+.insertimage .default .item{
+	height: 168px;
+}
+.insertimage .item .img{
+	width: 85px;
+	height: 85px;
+	overflow: hidden;
+	margin-bottom: 10px;
+	border-radius: 2px;
+	background:url(../img/user/loading.gif) center center no-repeat;
+}
+.insertimage .item .queue-item{
+	position: relative;
+	width: 85px;
+	height: 85px;
+	overflow: hidden;
+	margin-bottom: 10px;
+	border-radius: 2px;
+	background:#d5d7db;
+}
+.insertimage .item .queue-item .progress{
+	display: block;
+	width: 100%;
+	height: 14px;
+	background-color: #61687a;
+}
+.insertimage .item .queue-item .progress span{
+	display: block;
+	width: 0;
+	height: 14px;
+	background-color: #fe7004;
+}
+.insertimage .item .queue-item .cancel{
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	line-height: 20px;
+	color: #a4a4a4;
+	cursor: pointer;
+}
+.insertimage .item .queue-item .cancel:hover{
+	color: #666;
+}
+.insertimage .item .queue-item .loading{
+	position: absolute;
+	width: 100%;
+	height: 14px;
+	line-height: 14px;
+	text-align: center;
+	color: #fff;
+}
+.insertimage .item .queue-item .filename{
+	position: absolute;
+	left:50%;
+	top:55px;
+	width: 60px;
+	height: 20px;
+	line-height: 20px;
+	margin-left: -30px;
+	text-align: center;
+	color: #999;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow:hidden;
+}
+.insertimage .item .queue-item .error{
+	position: absolute;
+	left:0;
+	top:40px;
+	height: 20px;
+	line-height: 20px;
+	padding-left: 10px;
+	color: #ff4a4a;
+}
+.insertimage .item .queue-item .uploading{
+	position: absolute;
+	left:0;
+	top:83px;
+	width: 100%;
+	font-size: 14px;
+	line-height: 20px;
+	text-align: center;
+	color: #383d48;
+}
+.insertimage .item .queue-item .uploading .ing{
+	color: #fe7004;
+}
+.insertimage .default .item .img{
+	margin-bottom: 0;
+}
+.insertimage .item .close{
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 10;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	color: #fff;
+	text-align: center;
+	cursor: pointer;
+	filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr="#b2000000", EndColorStr="#b2000000");
+	zoom:1;
+	background-color:rgba(0,0,0,0.7);
+}
+:root .insertimage .item .mask{ filter:none\9; }
+.insertimage .item img{
+	min-width: 100%;
+	min-height: 100%;
+}
+.insertimage .pic .fileBtn,.insertimage .pic .uploadify-button{
+	position: absolute;
+    z-index: 20;
+    left:0;
+    top: 0;
+    width: 83px;
+    height: 83px;
+}
+.insertimage .pic .tips{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 9;
+	width: 83px;
+    height: 83px;
+	background: #f9f9f9 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAABC1BMVEWZmZn///+ZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmPLkxYAAAAWHRSTlMAAAIGBwkMEBETFRobICYnKCsuMjc7Pj9AQktMTlhZXF5ub3F7gIGDioyNkZKTm56gpKWpqqytsLO1u73AwsXK09Xb3d/g4uTn6Ovt7vDx9fb3+Pn6+/z+urYXOQAAAR9JREFUKM+t09dSAkEQheE5IAsGRBEDZsWAYgAxi2LCgKwSFP73fxIvWHBZFq48t19V1+mpHpOq4Z+3WUmmTrHgl3uuJBmKpidyEigXJBkK/qzSP3JoZBjv/DQ2B3MUaFoOxywvTwFE2mw9rPQNz0PGGZ7nvL/adMyploKaNXCxuSawOojH3wEufXh53ZjgHQDHkp6ue3jx+2PMHACwK0kzk25OViG3BsBrsPs2HU5WAeoAnElLLzk3z1ddd5KVzmHijxOfXfu6udiQLiDaZZeeRCT1ciiT7WQvoA7Hw2HL5xy2HkulklPltJ8brpItw62HMxXbtltg23bl0LTq6W1X4s6pYLf3zvf+jSMPBxIL7ox62Js2P1MexunmviTpFze9aE0c/orGAAAAAElFTkSuQmCC) center center no-repeat;
+    border: 1px solid #d2d2d2;
+    border-radius: 2px;
+	text-align: center;
+}
+.insertimage .pic .tips p{
+	padding-top: 117px;
+	line-height: 20px;
+	color: #999;
+}
+.insertimage .pic .tips span{
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	left:50%;
+	top:50%;
+	margin-top: -16px;
+	margin-left: -16px;
+}
+.insertimage .pic .tips span em{
+	position: absolute;
+	left:15px;
+	top:0;
+	width: 2px;
+	height: 32px;
+	background-color: #c3c3c3;
+}
+.insertimage .pic .tips span i{
+	position: absolute;
+	left:0;
+	top:15px;
+	width: 32px;
+	height: 2px;
+	background-color: #c3c3c3;
+}
+.insertimage .uploadify-queue{
+	position: absolute;
+	left:0;
+	top:0;
+	width: 168px;
+	height: 168px;
+}
+.insertimage p{
+	padding-top: 10px;
+	text-align: center;
+}
+.k-cropMask{
+	position:fixed;
+	z-index: 1000;
+	left:0;
+	top:0;
+	background-color: #000;
+	display: none;
+}
+.insertimage .uploadify-queue-item {
+    background-color: #F5F5F5;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font: 11px Verdana,Geneva,sans-serif;
+    margin-top: 5px;
+    max-width: 350px;
+    padding: 10px;
+}
+.insertimage .uploadify-error {
+    background-color: #FDE5DD!important;
+}
+.insertimage .uploadify-queue-item.completed{
+    background-color: #E5E5E5;
+}
+.insertimage .uploadify-progress {
+    background-color: #E5E5E5;
+    margin-top: 10px;
+    width: 100%;
+}
+.insertimage .swfupload{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 25!important;
+}
+.insertimage .fileName{
+	display: none;
+}
+.insertimage .cancel a{
+	float: right;
+	width: 16px;
+	height: 16px;
+	text-indent: -9999px;
+	overflow: hidden;
+	background:url(../img/user/uploadify-cancel.png) 0 0 no-repeat;
+}
+.insertimage .data{
+	float: left;
+	font-size: 12px;
+	color: #333;
+}
+.insertimage .uploadify-queue{
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 0;
+	display: none;
+}
+.insertimage .disable{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 100;
+	background-color: #fff;
+	opacity: 0;
+	filter: alpha(opacity=0);
+	width: 85px;
+	height: 85px;
+}
+.insertimage .uploadify-progress-bar {
+    background-color: #09F;
+    height: 3px;
+    width: 1px;
+}
+.insertimage .progressnum{
+	display: none;
+}
+.insertimage .pic .img{
+	display: block;
+	width: 120px;
+	height: 120px;
+	margin: 0 auto;
+	border-radius: 120px;
+}
+.showDiary-add .write-body{
+	height: 85px;
+	padding: 10px 0;
+}
+.showDiary-add .k-select{
+	width: 170px;
+}
 .showDiary-list .list-head{
 	height: 43px;
 }
@@ -2819,15 +3068,10 @@ img.jcrop-preview {
 	position: relative;
 	padding: 19px 19px 15px 89px;
 }
-.showDiary-list .list-review .head{
+.showDiary-list .list-review .u-head{
 	position: absolute;
 	left:19px;
 	top:19px;
-	width: 50px;
-	height: 50px;
-	overflow: hidden;
-	background: #d5d7db url(../img/user/userHead.png) no-repeat 0 -195px;
-	border-radius: 50px;
 }
 .showDiary-list .list-review .head img{
 	width: 100%;
@@ -2835,10 +3079,7 @@ img.jcrop-preview {
 .showDiary-list .list-review .write .textarea{
 	position: relative;
 	height: 80px;
-  	overflow: hidden;
   	padding-left: 20px;
-	border: 1px solid #e6e6e6;
-	background-color: #f9f9f9;
 }
 .showDiary-list .list-review .write .textarea label{
 	position: absolute;
@@ -2854,14 +3095,27 @@ img.jcrop-preview {
   margin-left: -20px;
   padding: 10px;
   font-size: 14px;
-  border: 0;
   resize: none;
-  background: none;
+  border: 1px solid #e6e6e6;
+	background-color: #f9f9f9;
 }
-.showDiary-list .list-review .write .textarea.focus{
+.showDiary-list .list-review .write .textarea textarea:focus{
 	border-color: #04bafe;
 }
+.showDiary-list .list-review .find{
+    position: absolute;
+    left:0;
+    top:0;
+    font-size: 14px;
+    line-height: 42px;
+    color: #999;
+}
+.showDiary-list .list-review .find strong{
+    color: #61687a;
+    font-weight: normal;
+}
 .showDiary-list .list-review .write .btns{
+	position: relative;
 	height: 38px;
 	padding-top: 15px;
 	text-align: right;
@@ -2877,7 +3131,12 @@ img.jcrop-preview {
 	padding-left: 65px;
 	padding-bottom: 15px;
 }
-.showDiary-list .list-review .list li .head{
+.showDiary-list .list-review .list li.notList{
+	text-align: center;
+	line-height: 50px;
+	color: #999;
+}
+.showDiary-list .list-review .list li .u-head{
 	top:0;
 	left:0;
 }
@@ -2909,7 +3168,7 @@ img.jcrop-preview {
 	text-align: center;
 	color: #949494;
 }
-.showDiary-list .list-review .more:hover{
+.showDiary-list .list-review .more:hover,.showDiary-list .list-review .list .iconfont.active{
 	color: #fe7004;
 }
 .m-sidenav{
