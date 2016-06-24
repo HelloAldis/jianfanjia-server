@@ -1,4 +1,4 @@
-<div class="Backdrop">
+<div>
     <div ng-if="noticeList.list && noticeList.list.length != 0">
         <ul class="m-remindList noticeList">
             <li bindonce="noticeList.list" ng-repeat="data in noticeList.list">
@@ -19,7 +19,8 @@
     <div my-pageing page-object="pageing" ng-if="noticeList.list"></div>
     </div>
     <div class="pageLoading" ng-hide="!!noticeList.list"></div>
-    <div class="pageNotdate message-pageNotdate" ng-show="noticeList.list.length == 0">
+    <div class="pageNotdate messag
+    e-pageNotdate" ng-show="noticeList.list.length == 0">
         <h3><span></span></h3>
         <p>暂时没有任何内容</p>
     </div>

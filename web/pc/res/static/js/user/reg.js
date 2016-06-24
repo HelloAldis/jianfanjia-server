@@ -290,12 +290,19 @@ require(['jquery','lodash','cookie'],function($,_,cookie){
                     processData : false
                 })
                 .done(function(res) {
+                    if(res.err_msg){
+                        self.off = false;
+                        self.checkStep = 2;
+                        self.error.html(res.err_msg).removeClass('hide');
+                        return ;
+                    }
                     if(res.data !== null){
                         window.location.href = res.data.url;
                     }else{
                         self.off = false;
                         self.error.html(res.err_msg).removeClass('hide');
                     }
+
                 });
             }
         },

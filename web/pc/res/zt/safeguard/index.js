@@ -33,8 +33,10 @@
             var $label = $('<label>', {
                 html: self.element.val() ? '' : this.placeholder,
                 'for': elementId
-            }).insertAfter(self.element).attr('class', 'label-placeholder');
-
+            }).insertAfter(self.element).attr('class', 'placeholder').css({
+                'left': self.element.css('padding-left'),
+                'line-height': self.element.css('line-height')
+            });
             // 绑定事件
             var _resetPlaceholder = function () {
                 if (!!self.element.val()) {
@@ -93,7 +95,7 @@ $(function(){
         })
     }
     Supervision.prototype.popupMian = function(){
-        this.popup.stop().fadeIn();
+        this.popup.fadeIn();
         var close = this.popup.find('.close');
         var mask = this.popup.find('.popup-mask');
         var _this = this;
@@ -106,41 +108,53 @@ $(function(){
         this.verifyForm();
     }
     Supervision.prototype.popupClose = function(){
-        this.popup.stop().hide();
+        this.popup.hide();
         this.clearForm();
     }
     Supervision.prototype.verifyForm = function(){
         var _this = this;
+        var nameOff = false;
+        var phoneOff = false;
         function isMobile(mobile){
             return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile);
         }
+        this.name.on('focus',function(){
+            nameOff = true;
+        });
+        this.phone.on('focus',function(){
+            phoneOff = true;
+        });
         this.name.on('blur input propertychange',function(){
-            if(!$.trim(this.value)){
-                $(this).addClass('error').siblings('.errorMsg').html('姓名不能为空');
-                _this.popupSubmit.addClass('u-btns-disabled');
-                _this.bName = false;
-            }else{
-                $(this).removeClass('error').siblings('.errorMsg').html('');
-                _this.bName = true;
-                if(_this.bPhone){
-                    _this.popupSubmit.removeClass('u-btns-disabled');
+            if(nameOff){
+                if(!$.trim($(this).val())){
+                    $(this).addClass('error').siblings('.errorMsg').html('姓名不能为空');
+                    _this.popupSubmit.addClass('u-btns-disabled');
+                    _this.bName = false;
+                }else{
+                    $(this).removeClass('error').siblings('.errorMsg').html('');
+                    _this.bName = true;
+                    if(_this.bPhone){
+                        _this.popupSubmit.removeClass('u-btns-disabled');
+                    }
                 }
             }
         });
-        this.phone.on('blur',function(){
-            if(!this.value){
-                $(this).addClass('error').siblings('.errorMsg').html('手机号码不能为空');
-                _this.popupSubmit.addClass('u-btns-disabled');
-                _this.bPhone = false;
-            }else if(!isMobile(this.value)){
-                $(this).addClass('error').siblings('.errorMsg').html('手机号码不正确');
-                _this.popupSubmit.addClass('u-btns-disabled');
-                _this.bPhone = false;
-            }else{
-                $(this).removeClass('error').siblings('.errorMsg').html('');
-                _this.bPhone = true;
-                if(_this.bName){
-                    _this.popupSubmit.removeClass('u-btns-disabled');
+        this.phone.on('blur input propertychange',function(){
+            if(phoneOff){
+                if(!$.trim($(this).val())){
+                    $(this).addClass('error').siblings('.errorMsg').html('手机号码不能为空');
+                    _this.popupSubmit.addClass('u-btns-disabled');
+                    _this.bPhone = false;
+                }else if(!isMobile($(this).val())){
+                    $(this).addClass('error').siblings('.errorMsg').html('手机号码不正确');
+                    _this.popupSubmit.addClass('u-btns-disabled');
+                    _this.bPhone = false;
+                }else{
+                    $(this).removeClass('error').siblings('.errorMsg').html('');
+                    _this.bPhone = true;
+                    if(_this.bName){
+                        _this.popupSubmit.removeClass('u-btns-disabled');
+                    }
                 }
             }
         });
@@ -185,8 +199,8 @@ $(function(){
         });
     }
     Supervision.prototype.clearForm = function(){
-        this.phone.val('').removeClass('error').siblings('.errorMsg').html('');
-        this.name.val('').removeClass('error').siblings('.errorMsg').html('');
+        this.phone.val('').removeClass('error').blur().siblings('.errorMsg').html('');
+        this.name.val('').removeClass('error').blur().siblings('.errorMsg').html('');
         this.popupSubmit.addClass('u-btns-disabled');
         this.bName = false;
         this.bPhone = false;

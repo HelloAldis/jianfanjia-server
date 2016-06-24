@@ -304,48 +304,62 @@ a.m-head:hover{
 .k-prompt .error{
 	color: #d92222;
 }
-.m-select{
+/*下拉选择框*/
+.k-select{
 	position: relative;
 	z-index: 2;
-	width: 200px;
+	width: 250px;
 }
-.m-select .option,.m-select .editor{
-	line-height: 22px;
+.k-select .option,.k-select .editor{
+	overflow: hidden;
+	height: 28px;
+	line-height: 28px;
 	position: relative;
 	cursor: pointer;
-	padding-right: 25px;
+	padding:0 20px 0 10px;
+	background-color: #f9f9f9;
+	border: 1px solid #d2d2d2;
+	border-radius: 2px;
 }
-.m-select .editor .value{
+.k-select .option .value{
+	display: block;
+	font-size: 14px;
+	color: #61687a;
+}
+.k-select .editor .value{
 	width: 100%;
+	font-size: 14px;
 	border: none;
+	background: none;
 }
-.m-select .arrow{
+.k-select .arrow{
 	position: absolute;
-	top:6px;
-	right:20px;
-	background-color: #fff;
+	top:9px;
+	right:15px;
+	background-color: #f9f9f9;
 }
-.m-select .arrow em,.m-select .arrow i{
+.k-select .arrow em,.k-select .arrow i{
 	position: absolute;
 	left:0;
 	top:0;
 	width: 0;
 	height: 0;
 	overflow: hidden;
-	border-width: 8px;
+	border-width: 5px;
 	border-color: transparent;
 	border-style: dashed;
 	border-top-style: solid;
-	border-top-color: #fff;
+	border-top-color: #f9f9f9;
 }
-.m-select .arrow em{
+.k-select .arrow em{
 	top:3px;
-	border-top-color: #ccc;
+	border-top-color: #aaa;
 }
-.m-select .select{
+.k-select .arrow i{display: none;}
+.k-select .select{
 	position: absolute;
-	left:-1px;
-	top:31px;
+	left:0;
+	top:30px;
 	width: 100%;
 	background-color: #fff;
 	border: 1px solid #dcdcdc;
@@ -353,17 +367,27 @@ a.m-head:hover{
 	display: none;
 	max-height: 240px;
 	overflow-y: auto;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
-.m-select .select a{
-	display: block;
-	line-height: 30px;
-	text-align: center;
+.k-select .select li{
+	padding-left: 20px;
 	color: #333;
+	line-height: 30px;
+	cursor: pointer;
+	-webkit-transition: background 0.5s;
+    -moz-transition: background 0.5s;
+    -o-transition: background 0.5s;
+    transition: background 0.5s;
 }
-.m-select .select a:hover{
+.k-select .select li:hover{
 	color: #fff;
-	text-decoration: none;
 	background-color: #ccc;
+}
+.k-select .select li.active,.k-select .select li.active:hover{
+	color: #fff;
+	background-color: #04bafe;
 }
 /*城市插件*/
 .m-cities{

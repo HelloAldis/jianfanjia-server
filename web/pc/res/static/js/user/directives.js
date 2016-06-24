@@ -1,779 +1,5 @@
 'use strict';
-/**
- * jquery.Jcrop.min.js v0.9.12 (build:20140524)
- * jQuery Image Cropping Plugin - released under MIT License
- * Copyright (c) 2008-2013 Tapmodo Interactive LLC
- * https://github.com/tapmodo/Jcrop
- */
-!function ($) {
-    $.Jcrop = function (obj, opt) {
-        function px(n) {
-            return Math.round(n) + "px"
-        }
-
-        function cssClass(cl) {
-            return options.baseClass + "-" + cl
-        }
-
-        function supportsColorFade() {
-            return $.fx.step.hasOwnProperty("backgroundColor")
-        }
-
-        function getPos(obj) {
-            var pos = $(obj).offset();
-            return [pos.left, pos.top]
-        }
-
-        function mouseAbs(e) {
-            return [e.pageX - docOffset[0], e.pageY - docOffset[1]]
-        }
-
-        function setOptions(opt) {
-            "object" != typeof opt && (opt = {}), options = $.extend(options, opt), $.each(["onChange", "onSelect", "onRelease", "onDblClick"], function (i, e) {
-                "function" != typeof options[e] && (options[e] = function () {
-                })
-            })
-        }
-
-        function startDragMode(mode, pos, touch) {
-            if (docOffset = getPos($img), Tracker.setCursor("move" === mode ? mode : mode + "-resize"), "move" === mode)return Tracker.activateHandlers(createMover(pos), doneSelect, touch);
-            var fc = Coords.getFixed(), opp = oppLockCorner(mode), opc = Coords.getCorner(oppLockCorner(opp));
-            Coords.setPressed(Coords.getCorner(opp)), Coords.setCurrent(opc), Tracker.activateHandlers(dragmodeHandler(mode, fc), doneSelect, touch)
-        }
-
-        function dragmodeHandler(mode, f) {
-            return function (pos) {
-                if (options.aspectRatio)switch (mode) {
-                    case"e":
-                        pos[1] = f.y + 1;
-                        break;
-                    case"w":
-                        pos[1] = f.y + 1;
-                        break;
-                    case"n":
-                        pos[0] = f.x + 1;
-                        break;
-                    case"s":
-                        pos[0] = f.x + 1
-                } else switch (mode) {
-                    case"e":
-                        pos[1] = f.y2;
-                        break;
-                    case"w":
-                        pos[1] = f.y2;
-                        break;
-                    case"n":
-                        pos[0] = f.x2;
-                        break;
-                    case"s":
-                        pos[0] = f.x2
-                }
-                Coords.setCurrent(pos), Selection.update()
-            }
-        }
-
-        function createMover(pos) {
-            var lloc = pos;
-            return KeyManager.watchKeys(), function (pos) {
-                Coords.moveOffset([pos[0] - lloc[0], pos[1] - lloc[1]]), lloc = pos, Selection.update()
-            }
-        }
-
-        function oppLockCorner(ord) {
-            switch (ord) {
-                case"n":
-                    return "sw";
-                case"s":
-                    return "nw";
-                case"e":
-                    return "nw";
-                case"w":
-                    return "ne";
-                case"ne":
-                    return "sw";
-                case"nw":
-                    return "se";
-                case"se":
-                    return "nw";
-                case"sw":
-                    return "ne"
-            }
-        }
-
-        function createDragger(ord) {
-            return function (e) {
-                return options.disabled ? !1 : "move" !== ord || options.allowMove ? (docOffset = getPos($img), btndown = !0, startDragMode(ord, mouseAbs(e)), e.stopPropagation(), e.preventDefault(), !1) : !1
-            }
-        }
-
-        function presize($obj, w, h) {
-            var nw = $obj.width(), nh = $obj.height();
-            nw > w && w > 0 && (nw = w, nh = w / $obj.width() * $obj.height()), nh > h && h > 0 && (nh = h, nw = h / $obj.height() * $obj.width()), xscale = $obj.width() / nw, yscale = $obj.height() / nh, $obj.width(nw).height(nh)
-        }
-
-        function unscale(c) {
-            return {
-                x: c.x * xscale,
-                y: c.y * yscale,
-                x2: c.x2 * xscale,
-                y2: c.y2 * yscale,
-                w: c.w * xscale,
-                h: c.h * yscale
-            }
-        }
-
-        function doneSelect() {
-            var c = Coords.getFixed();
-            c.w > options.minSelect[0] && c.h > options.minSelect[1] ? (Selection.enableHandles(), Selection.done()) : Selection.release(), Tracker.setCursor(options.allowSelect ? "crosshair" : "default")
-        }
-
-        function newSelection(e) {
-            if (!options.disabled && options.allowSelect) {
-                btndown = !0, docOffset = getPos($img), Selection.disableHandles(), Tracker.setCursor("crosshair");
-                var pos = mouseAbs(e);
-                return Coords.setPressed(pos), Selection.update(), Tracker.activateHandlers(selectDrag, doneSelect, "touch" === e.type.substring(0, 5)), KeyManager.watchKeys(), e.stopPropagation(), e.preventDefault(), !1
-            }
-        }
-
-        function selectDrag(pos) {
-            Coords.setCurrent(pos), Selection.update()
-        }
-
-        function newTracker() {
-            var trk = $("<div></div>").addClass(cssClass("tracker"));
-            return is_msie && trk.css({opacity: 0, backgroundColor: "white"}), trk
-        }
-
-        function setClass(cname) {
-            $div.removeClass().addClass(cssClass("holder")).addClass(cname)
-        }
-
-        function animateTo(a, callback) {
-            function queueAnimator() {
-                window.setTimeout(animator, interv)
-            }
-
-            var x1 = a[0] / xscale, y1 = a[1] / yscale, x2 = a[2] / xscale, y2 = a[3] / yscale;
-            if (!animating) {
-                var animto = Coords.flipCoords(x1, y1, x2, y2), c = Coords.getFixed(), initcr = [c.x, c.y, c.x2, c.y2], animat = initcr, interv = options.animationDelay, ix1 = animto[0] - initcr[0], iy1 = animto[1] - initcr[1], ix2 = animto[2] - initcr[2], iy2 = animto[3] - initcr[3], pcent = 0, velocity = options.swingSpeed;
-                x1 = animat[0], y1 = animat[1], x2 = animat[2], y2 = animat[3], Selection.animMode(!0);
-                var animator = function () {
-                    return function () {
-                        pcent += (100 - pcent) / velocity, animat[0] = Math.round(x1 + pcent / 100 * ix1), animat[1] = Math.round(y1 + pcent / 100 * iy1), animat[2] = Math.round(x2 + pcent / 100 * ix2), animat[3] = Math.round(y2 + pcent / 100 * iy2), pcent >= 99.8 && (pcent = 100), 100 > pcent ? (setSelectRaw(animat), queueAnimator()) : (Selection.done(), Selection.animMode(!1), "function" == typeof callback && callback.call(api))
-                    }
-                }();
-                queueAnimator()
-            }
-        }
-
-        function setSelect(rect) {
-            setSelectRaw([rect[0] / xscale, rect[1] / yscale, rect[2] / xscale, rect[3] / yscale]), options.onSelect.call(api, unscale(Coords.getFixed())), Selection.enableHandles()
-        }
-
-        function setSelectRaw(l) {
-            Coords.setPressed([l[0], l[1]]), Coords.setCurrent([l[2], l[3]]), Selection.update()
-        }
-
-        function tellSelect() {
-            return unscale(Coords.getFixed())
-        }
-
-        function tellScaled() {
-            return Coords.getFixed()
-        }
-
-        function setOptionsNew(opt) {
-            setOptions(opt), interfaceUpdate()
-        }
-
-        function disableCrop() {
-            options.disabled = !0, Selection.disableHandles(), Selection.setCursor("default"), Tracker.setCursor("default")
-        }
-
-        function enableCrop() {
-            options.disabled = !1, interfaceUpdate()
-        }
-
-        function cancelCrop() {
-            Selection.done(), Tracker.activateHandlers(null, null)
-        }
-
-        function destroy() {
-            $div.remove(), $origimg.show(), $origimg.css("visibility", "visible"), $(obj).removeData("Jcrop")
-        }
-
-        function setImage(src, callback) {
-            Selection.release(), disableCrop();
-            var img = new Image;
-            img.onload = function () {
-                var iw = img.width, ih = img.height, bw = options.boxWidth, bh = options.boxHeight;
-                $img.width(iw).height(ih), $img.attr("src", src), $img2.attr("src", src), presize($img, bw, bh), boundx = $img.width(), boundy = $img.height(), $img2.width(boundx).height(boundy), $trk.width(boundx + 2 * bound).height(boundy + 2 * bound), $div.width(boundx).height(boundy), Shade.resize(boundx, boundy), enableCrop(), "function" == typeof callback && callback.call(api)
-            }, img.src = src
-        }
-
-        function colorChangeMacro($obj, color, now) {
-            var mycolor = color || options.bgColor;
-            options.bgFade && supportsColorFade() && options.fadeTime && !now ? $obj.animate({backgroundColor: mycolor}, {
-                queue: !1,
-                duration: options.fadeTime
-            }) : $obj.css("backgroundColor", mycolor)
-        }
-
-        function interfaceUpdate(alt) {
-            options.allowResize ? alt ? Selection.enableOnly() : Selection.enableHandles() : Selection.disableHandles(), Tracker.setCursor(options.allowSelect ? "crosshair" : "default"), Selection.setCursor(options.allowMove ? "move" : "default"), options.hasOwnProperty("trueSize") && (xscale = options.trueSize[0] / boundx, yscale = options.trueSize[1] / boundy), options.hasOwnProperty("setSelect") && (setSelect(options.setSelect), Selection.done(), delete options.setSelect), Shade.refresh(), options.bgColor != bgcolor && (colorChangeMacro(options.shade ? Shade.getShades() : $div, options.shade ? options.shadeColor || options.bgColor : options.bgColor), bgcolor = options.bgColor), bgopacity != options.bgOpacity && (bgopacity = options.bgOpacity, options.shade ? Shade.refresh() : Selection.setBgOpacity(bgopacity)), xlimit = options.maxSize[0] || 0, ylimit = options.maxSize[1] || 0, xmin = options.minSize[0] || 0, ymin = options.minSize[1] || 0, options.hasOwnProperty("outerImage") && ($img.attr("src", options.outerImage), delete options.outerImage), Selection.refresh()
-        }
-
-        var docOffset, options = $.extend({}, $.Jcrop.defaults), _ua = navigator.userAgent.toLowerCase(), is_msie = /msie/.test(_ua), ie6mode = /msie [1-6]\./.test(_ua);
-        "object" != typeof obj && (obj = $(obj)[0]), "object" != typeof opt && (opt = {}), setOptions(opt);
-        var img_css = {
-            border: "none",
-            visibility: "visible",
-            margin: 0,
-            padding: 0,
-            position: "absolute",
-            top: 0,
-            left: 0
-        }, $origimg = $(obj), img_mode = !0;
-        if ("IMG" == obj.tagName) {
-            if (0 != $origimg[0].width && 0 != $origimg[0].height)$origimg.width($origimg[0].width), $origimg.height($origimg[0].height); else {
-                var tempImage = new Image;
-                tempImage.src = $origimg[0].src, $origimg.width(tempImage.width), $origimg.height(tempImage.height)
-            }
-            var $img = $origimg.clone().removeAttr("id").css(img_css).show();
-            $img.width($origimg.width()), $img.height($origimg.height()), $origimg.after($img).hide()
-        } else $img = $origimg.css(img_css).show(), img_mode = !1, null === options.shade && (options.shade = !0);
-        presize($img, options.boxWidth, options.boxHeight);
-        var boundx = $img.width(), boundy = $img.height(), $div = $("<div />").width(boundx).height(boundy).addClass(cssClass("holder")).css({
-            position: "relative",
-            backgroundColor: options.bgColor
-        }).insertAfter($origimg).append($img);
-        options.addClass && $div.addClass(options.addClass);
-        var $img2 = $("<div />"), $img_holder = $("<div />").width("100%").height("100%").css({
-            zIndex: 310,
-            position: "absolute",
-            overflow: "hidden"
-        }), $hdl_holder = $("<div />").width("100%").height("100%").css("zIndex", 320), $sel = $("<div />").css({
-            position: "absolute",
-            zIndex: 600
-        }).dblclick(function () {
-            var c = Coords.getFixed();
-            options.onDblClick.call(api, c)
-        }).insertBefore($img).append($img_holder, $hdl_holder);
-        img_mode && ($img2 = $("<img />").attr("src", $img.attr("src")).css(img_css).width(boundx).height(boundy), $img_holder.append($img2)), ie6mode && $sel.css({overflowY: "hidden"});
-        var xlimit, ylimit, xmin, ymin, xscale, yscale, btndown, animating, shift_down, bound = options.boundary, $trk = newTracker().width(boundx + 2 * bound).height(boundy + 2 * bound).css({
-            position: "absolute",
-            top: px(-bound),
-            left: px(-bound),
-            zIndex: 290
-        }).mousedown(newSelection), bgcolor = options.bgColor, bgopacity = options.bgOpacity;
-        docOffset = getPos($img);
-        var Touch = function () {
-            function hasTouchSupport() {
-                var i, support = {}, events = ["touchstart", "touchmove", "touchend"], el = document.createElement("div");
-                try {
-                    for (i = 0; i < events.length; i++) {
-                        var eventName = events[i];
-                        eventName = "on" + eventName;
-                        var isSupported = eventName in el;
-                        isSupported || (el.setAttribute(eventName, "return;"), isSupported = "function" == typeof el[eventName]), support[events[i]] = isSupported
-                    }
-                    return support.touchstart && support.touchend && support.touchmove
-                } catch (err) {
-                    return !1
-                }
-            }
-
-            function detectSupport() {
-                return options.touchSupport === !0 || options.touchSupport === !1 ? options.touchSupport : hasTouchSupport()
-            }
-
-            return {
-                createDragger: function (ord) {
-                    return function (e) {
-                        return options.disabled ? !1 : "move" !== ord || options.allowMove ? (docOffset = getPos($img), btndown = !0, startDragMode(ord, mouseAbs(Touch.cfilter(e)), !0), e.stopPropagation(), e.preventDefault(), !1) : !1
-                    }
-                }, newSelection: function (e) {
-                    return newSelection(Touch.cfilter(e))
-                }, cfilter: function (e) {
-                    return e.pageX = e.originalEvent.changedTouches[0].pageX, e.pageY = e.originalEvent.changedTouches[0].pageY, e
-                }, isSupported: hasTouchSupport, support: detectSupport()
-            }
-        }(), Coords = function () {
-            function setPressed(pos) {
-                pos = rebound(pos), x2 = x1 = pos[0], y2 = y1 = pos[1]
-            }
-
-            function setCurrent(pos) {
-                pos = rebound(pos), ox = pos[0] - x2, oy = pos[1] - y2, x2 = pos[0], y2 = pos[1]
-            }
-
-            function getOffset() {
-                return [ox, oy]
-            }
-
-            function moveOffset(offset) {
-                var ox = offset[0], oy = offset[1];
-                0 > x1 + ox && (ox -= ox + x1), 0 > y1 + oy && (oy -= oy + y1), y2 + oy > boundy && (oy += boundy - (y2 + oy)), x2 + ox > boundx && (ox += boundx - (x2 + ox)), x1 += ox, x2 += ox, y1 += oy, y2 += oy
-            }
-
-            function getCorner(ord) {
-                var c = getFixed();
-                switch (ord) {
-                    case"ne":
-                        return [c.x2, c.y];
-                    case"nw":
-                        return [c.x, c.y];
-                    case"se":
-                        return [c.x2, c.y2];
-                    case"sw":
-                        return [c.x, c.y2]
-                }
-            }
-
-            function getFixed() {
-                if (!options.aspectRatio)return getRect();
-                var xx, yy, w, h, aspect = options.aspectRatio, min_x = options.minSize[0] / xscale, max_x = options.maxSize[0] / xscale, max_y = options.maxSize[1] / yscale, rw = x2 - x1, rh = y2 - y1, rwa = Math.abs(rw), rha = Math.abs(rh), real_ratio = rwa / rha;
-                return 0 === max_x && (max_x = 10 * boundx), 0 === max_y && (max_y = 10 * boundy), aspect > real_ratio ? (yy = y2, w = rha * aspect, xx = 0 > rw ? x1 - w : w + x1, 0 > xx ? (xx = 0, h = Math.abs((xx - x1) / aspect), yy = 0 > rh ? y1 - h : h + y1) : xx > boundx && (xx = boundx, h = Math.abs((xx - x1) / aspect), yy = 0 > rh ? y1 - h : h + y1)) : (xx = x2, h = rwa / aspect, yy = 0 > rh ? y1 - h : y1 + h, 0 > yy ? (yy = 0, w = Math.abs((yy - y1) * aspect), xx = 0 > rw ? x1 - w : w + x1) : yy > boundy && (yy = boundy, w = Math.abs(yy - y1) * aspect, xx = 0 > rw ? x1 - w : w + x1)), xx > x1 ? (min_x > xx - x1 ? xx = x1 + min_x : xx - x1 > max_x && (xx = x1 + max_x), yy = yy > y1 ? y1 + (xx - x1) / aspect : y1 - (xx - x1) / aspect) : x1 > xx && (min_x > x1 - xx ? xx = x1 - min_x : x1 - xx > max_x && (xx = x1 - max_x), yy = yy > y1 ? y1 + (x1 - xx) / aspect : y1 - (x1 - xx) / aspect), 0 > xx ? (x1 -= xx, xx = 0) : xx > boundx && (x1 -= xx - boundx, xx = boundx), 0 > yy ? (y1 -= yy, yy = 0) : yy > boundy && (y1 -= yy - boundy, yy = boundy), makeObj(flipCoords(x1, y1, xx, yy))
-            }
-
-            function rebound(p) {
-                return p[0] < 0 && (p[0] = 0), p[1] < 0 && (p[1] = 0), p[0] > boundx && (p[0] = boundx), p[1] > boundy && (p[1] = boundy), [Math.round(p[0]), Math.round(p[1])]
-            }
-
-            function flipCoords(x1, y1, x2, y2) {
-                var xa = x1, xb = x2, ya = y1, yb = y2;
-                return x1 > x2 && (xa = x2, xb = x1), y1 > y2 && (ya = y2, yb = y1), [xa, ya, xb, yb]
-            }
-
-            function getRect() {
-                var delta, xsize = x2 - x1, ysize = y2 - y1;
-                return xlimit && Math.abs(xsize) > xlimit && (x2 = xsize > 0 ? x1 + xlimit : x1 - xlimit), ylimit && Math.abs(ysize) > ylimit && (y2 = ysize > 0 ? y1 + ylimit : y1 - ylimit), ymin / yscale && Math.abs(ysize) < ymin / yscale && (y2 = ysize > 0 ? y1 + ymin / yscale : y1 - ymin / yscale), xmin / xscale && Math.abs(xsize) < xmin / xscale && (x2 = xsize > 0 ? x1 + xmin / xscale : x1 - xmin / xscale), 0 > x1 && (x2 -= x1, x1 -= x1), 0 > y1 && (y2 -= y1, y1 -= y1), 0 > x2 && (x1 -= x2, x2 -= x2), 0 > y2 && (y1 -= y2, y2 -= y2), x2 > boundx && (delta = x2 - boundx, x1 -= delta, x2 -= delta), y2 > boundy && (delta = y2 - boundy, y1 -= delta, y2 -= delta), x1 > boundx && (delta = x1 - boundy, y2 -= delta, y1 -= delta), y1 > boundy && (delta = y1 - boundy, y2 -= delta, y1 -= delta), makeObj(flipCoords(x1, y1, x2, y2))
-            }
-
-            function makeObj(a) {
-                return {x: a[0], y: a[1], x2: a[2], y2: a[3], w: a[2] - a[0], h: a[3] - a[1]}
-            }
-
-            var ox, oy, x1 = 0, y1 = 0, x2 = 0, y2 = 0;
-            return {
-                flipCoords: flipCoords,
-                setPressed: setPressed,
-                setCurrent: setCurrent,
-                getOffset: getOffset,
-                moveOffset: moveOffset,
-                getCorner: getCorner,
-                getFixed: getFixed
-            }
-        }(), Shade = function () {
-            function resizeShades(w, h) {
-                shades.left.css({height: px(h)}), shades.right.css({height: px(h)})
-            }
-
-            function updateAuto() {
-                return updateShade(Coords.getFixed())
-            }
-
-            function updateShade(c) {
-                shades.top.css({left: px(c.x), width: px(c.w), height: px(c.y)}), shades.bottom.css({
-                    top: px(c.y2),
-                    left: px(c.x),
-                    width: px(c.w),
-                    height: px(boundy - c.y2)
-                }), shades.right.css({left: px(c.x2), width: px(boundx - c.x2)}), shades.left.css({width: px(c.x)})
-            }
-
-            function createShade() {
-                return $("<div />").css({
-                    position: "absolute",
-                    backgroundColor: options.shadeColor || options.bgColor
-                }).appendTo(holder)
-            }
-
-            function enableShade() {
-                enabled || (enabled = !0, holder.insertBefore($img), updateAuto(), Selection.setBgOpacity(1, 0, 1), $img2.hide(), setBgColor(options.shadeColor || options.bgColor, 1), Selection.isAwake() ? setOpacity(options.bgOpacity, 1) : setOpacity(1, 1))
-            }
-
-            function setBgColor(color, now) {
-                colorChangeMacro(getShades(), color, now)
-            }
-
-            function disableShade() {
-                enabled && (holder.remove(), $img2.show(), enabled = !1, Selection.isAwake() ? Selection.setBgOpacity(options.bgOpacity, 1, 1) : (Selection.setBgOpacity(1, 1, 1), Selection.disableHandles()), colorChangeMacro($div, 0, 1))
-            }
-
-            function setOpacity(opacity, now) {
-                enabled && (options.bgFade && !now ? holder.animate({opacity: 1 - opacity}, {
-                    queue: !1,
-                    duration: options.fadeTime
-                }) : holder.css({opacity: 1 - opacity}))
-            }
-
-            function refreshAll() {
-                options.shade ? enableShade() : disableShade(), Selection.isAwake() && setOpacity(options.bgOpacity)
-            }
-
-            function getShades() {
-                return holder.children()
-            }
-
-            var enabled = !1, holder = $("<div />").css({
-                position: "absolute",
-                zIndex: 240,
-                opacity: 0
-            }), shades = {
-                top: createShade(),
-                left: createShade().height(boundy),
-                right: createShade().height(boundy),
-                bottom: createShade()
-            };
-            return {
-                update: updateAuto,
-                updateRaw: updateShade,
-                getShades: getShades,
-                setBgColor: setBgColor,
-                enable: enableShade,
-                disable: disableShade,
-                resize: resizeShades,
-                refresh: refreshAll,
-                opacity: setOpacity
-            }
-        }(), Selection = function () {
-            function insertBorder(type) {
-                var jq = $("<div />").css({
-                    position: "absolute",
-                    opacity: options.borderOpacity
-                }).addClass(cssClass(type));
-                return $img_holder.append(jq), jq
-            }
-
-            function dragDiv(ord, zi) {
-                var jq = $("<div />").mousedown(createDragger(ord)).css({
-                    cursor: ord + "-resize",
-                    position: "absolute",
-                    zIndex: zi
-                }).addClass("ord-" + ord);
-                return Touch.support && jq.bind("touchstart.jcrop", Touch.createDragger(ord)), $hdl_holder.append(jq), jq
-            }
-
-            function insertHandle(ord) {
-                var hs = options.handleSize, div = dragDiv(ord, hdep++).css({opacity: options.handleOpacity}).addClass(cssClass("handle"));
-                return hs && div.width(hs).height(hs), div
-            }
-
-            function insertDragbar(ord) {
-                return dragDiv(ord, hdep++).addClass("jcrop-dragbar")
-            }
-
-            function createDragbars(li) {
-                var i;
-                for (i = 0; i < li.length; i++)dragbar[li[i]] = insertDragbar(li[i])
-            }
-
-            function createBorders(li) {
-                var cl, i;
-                for (i = 0; i < li.length; i++) {
-                    switch (li[i]) {
-                        case"n":
-                            cl = "hline";
-                            break;
-                        case"s":
-                            cl = "hline bottom";
-                            break;
-                        case"e":
-                            cl = "vline right";
-                            break;
-                        case"w":
-                            cl = "vline"
-                    }
-                    borders[li[i]] = insertBorder(cl)
-                }
-            }
-
-            function createHandles(li) {
-                var i;
-                for (i = 0; i < li.length; i++)handle[li[i]] = insertHandle(li[i])
-            }
-
-            function moveto(x, y) {
-                options.shade || $img2.css({top: px(-y), left: px(-x)}), $sel.css({top: px(y), left: px(x)})
-            }
-
-            function resize(w, h) {
-                $sel.width(Math.round(w)).height(Math.round(h))
-            }
-
-            function refresh() {
-                var c = Coords.getFixed();
-                Coords.setPressed([c.x, c.y]), Coords.setCurrent([c.x2, c.y2]), updateVisible()
-            }
-
-            function updateVisible(select) {
-                return awake ? update(select) : void 0
-            }
-
-            function update(select) {
-                var c = Coords.getFixed();
-                resize(c.w, c.h), moveto(c.x, c.y), options.shade && Shade.updateRaw(c), awake || show(), select ? options.onSelect.call(api, unscale(c)) : options.onChange.call(api, unscale(c))
-            }
-
-            function setBgOpacity(opacity, force, now) {
-                (awake || force) && (options.bgFade && !now ? $img.animate({opacity: opacity}, {
-                    queue: !1,
-                    duration: options.fadeTime
-                }) : $img.css("opacity", opacity))
-            }
-
-            function show() {
-                $sel.show(), options.shade ? Shade.opacity(bgopacity) : setBgOpacity(bgopacity, !0), awake = !0
-            }
-
-            function release() {
-                disableHandles(), $sel.hide(), options.shade ? Shade.opacity(1) : setBgOpacity(1), awake = !1, options.onRelease.call(api)
-            }
-
-            function showHandles() {
-                seehandles && $hdl_holder.show()
-            }
-
-            function enableHandles() {
-                return seehandles = !0, options.allowResize ? ($hdl_holder.show(), !0) : void 0
-            }
-
-            function disableHandles() {
-                seehandles = !1, $hdl_holder.hide()
-            }
-
-            function animMode(v) {
-                v ? (animating = !0, disableHandles()) : (animating = !1, enableHandles())
-            }
-
-            function done() {
-                animMode(!1), refresh()
-            }
-
-            var awake, hdep = 370, borders = {}, handle = {}, dragbar = {}, seehandles = !1;
-            options.dragEdges && $.isArray(options.createDragbars) && createDragbars(options.createDragbars), $.isArray(options.createHandles) && createHandles(options.createHandles), options.drawBorders && $.isArray(options.createBorders) && createBorders(options.createBorders), $(document).bind("touchstart.jcrop-ios", function (e) {
-                $(e.currentTarget).hasClass("jcrop-tracker") && e.stopPropagation()
-            });
-            var $track = newTracker().mousedown(createDragger("move")).css({
-                cursor: "move",
-                position: "absolute",
-                zIndex: 360
-            });
-            return Touch.support && $track.bind("touchstart.jcrop", Touch.createDragger("move")), $img_holder.append($track), disableHandles(), {
-                updateVisible: updateVisible,
-                update: update,
-                release: release,
-                refresh: refresh,
-                isAwake: function () {
-                    return awake
-                },
-                setCursor: function (cursor) {
-                    $track.css("cursor", cursor)
-                },
-                enableHandles: enableHandles,
-                enableOnly: function () {
-                    seehandles = !0
-                },
-                showHandles: showHandles,
-                disableHandles: disableHandles,
-                animMode: animMode,
-                setBgOpacity: setBgOpacity,
-                done: done
-            }
-        }(), Tracker = function () {
-            function toFront(touch) {
-                $trk.css({zIndex: 450}), touch ? $(document).bind("touchmove.jcrop", trackTouchMove).bind("touchend.jcrop", trackTouchEnd) : trackDoc && $(document).bind("mousemove.jcrop", trackMove).bind("mouseup.jcrop", trackUp)
-            }
-
-            function toBack() {
-                $trk.css({zIndex: 290}), $(document).unbind(".jcrop")
-            }
-
-            function trackMove(e) {
-                return onMove(mouseAbs(e)), !1
-            }
-
-            function trackUp(e) {
-                return e.preventDefault(), e.stopPropagation(), btndown && (btndown = !1, onDone(mouseAbs(e)), Selection.isAwake() && options.onSelect.call(api, unscale(Coords.getFixed())), toBack(), onMove = function () {
-                }, onDone = function () {
-                }), !1
-            }
-
-            function activateHandlers(move, done, touch) {
-                return btndown = !0, onMove = move, onDone = done, toFront(touch), !1
-            }
-
-            function trackTouchMove(e) {
-                return onMove(mouseAbs(Touch.cfilter(e))), !1
-            }
-
-            function trackTouchEnd(e) {
-                return trackUp(Touch.cfilter(e))
-            }
-
-            function setCursor(t) {
-                $trk.css("cursor", t)
-            }
-
-            var onMove = function () {
-            }, onDone = function () {
-            }, trackDoc = options.trackDocument;
-            return trackDoc || $trk.mousemove(trackMove).mouseup(trackUp).mouseout(trackUp), $img.before($trk), {
-                activateHandlers: activateHandlers,
-                setCursor: setCursor
-            }
-        }(), KeyManager = function () {
-            function watchKeys() {
-                options.keySupport && ($keymgr.show(), $keymgr.focus())
-            }
-
-            function onBlur() {
-                $keymgr.hide()
-            }
-
-            function doNudge(e, x, y) {
-                options.allowMove && (Coords.moveOffset([x, y]), Selection.updateVisible(!0)), e.preventDefault(), e.stopPropagation()
-            }
-
-            function parseKey(e) {
-                if (e.ctrlKey || e.metaKey)return !0;
-                shift_down = e.shiftKey ? !0 : !1;
-                var nudge = shift_down ? 10 : 1;
-                switch (e.keyCode) {
-                    case 37:
-                        doNudge(e, -nudge, 0);
-                        break;
-                    case 39:
-                        doNudge(e, nudge, 0);
-                        break;
-                    case 38:
-                        doNudge(e, 0, -nudge);
-                        break;
-                    case 40:
-                        doNudge(e, 0, nudge);
-                        break;
-                    case 27:
-                        options.allowSelect && Selection.release();
-                        break;
-                    case 9:
-                        return !0
-                }
-                return !1
-            }
-
-            var $keymgr = $('<input type="radio" />').css({
-                position: "fixed",
-                left: "-120px",
-                width: "12px"
-            }).addClass("jcrop-keymgr"), $keywrap = $("<div />").css({
-                position: "absolute",
-                overflow: "hidden"
-            }).append($keymgr);
-            return options.keySupport && ($keymgr.keydown(parseKey).blur(onBlur), ie6mode || !options.fixedSupport ? ($keymgr.css({
-                position: "absolute",
-                left: "-20px"
-            }), $keywrap.append($keymgr).insertBefore($img)) : $keymgr.insertBefore($img)), {watchKeys: watchKeys}
-        }();
-        Touch.support && $trk.bind("touchstart.jcrop", Touch.newSelection), $hdl_holder.hide(), interfaceUpdate(!0);
-        var api = {
-            setImage: setImage,
-            animateTo: animateTo,
-            setSelect: setSelect,
-            setOptions: setOptionsNew,
-            tellSelect: tellSelect,
-            tellScaled: tellScaled,
-            setClass: setClass,
-            disable: disableCrop,
-            enable: enableCrop,
-            cancel: cancelCrop,
-            release: Selection.release,
-            destroy: destroy,
-            focus: KeyManager.watchKeys,
-            getBounds: function () {
-                return [boundx * xscale, boundy * yscale]
-            },
-            getWidgetSize: function () {
-                return [boundx, boundy]
-            },
-            getScaleFactor: function () {
-                return [xscale, yscale]
-            },
-            getOptions: function () {
-                return options
-            },
-            ui: {holder: $div, selection: $sel}
-        };
-        return is_msie && $div.bind("selectstart", function () {
-            return !1
-        }), $origimg.data("Jcrop", api), api
-    }, $.fn.Jcrop = function (options, callback) {
-        var api;
-        return this.each(function () {
-            if ($(this).data("Jcrop")) {
-                if ("api" === options)return $(this).data("Jcrop");
-                $(this).data("Jcrop").setOptions(options)
-            } else"IMG" == this.tagName ? $.Jcrop.Loader(this, function () {
-                $(this).css({
-                    display: "block",
-                    visibility: "hidden"
-                }), api = $.Jcrop(this, options), $.isFunction(callback) && callback.call(api)
-            }) : ($(this).css({
-                display: "block",
-                visibility: "hidden"
-            }), api = $.Jcrop(this, options), $.isFunction(callback) && callback.call(api))
-        }), this
-    }, $.Jcrop.Loader = function (imgobj, success, error) {
-        function completeCheck() {
-            img.complete ? ($img.unbind(".jcloader"), $.isFunction(success) && success.call(img)) : window.setTimeout(completeCheck, 50)
-        }
-
-        var $img = $(imgobj), img = $img[0];
-        $img.bind("load.jcloader", completeCheck).bind("error.jcloader", function () {
-            $img.unbind(".jcloader"), $.isFunction(error) && error.call(img)
-        }), img.complete && $.isFunction(success) && ($img.unbind(".jcloader"), success.call(img))
-    }, $.Jcrop.defaults = {
-        allowSelect: !0,
-        allowMove: !0,
-        allowResize: !0,
-        trackDocument: !0,
-        baseClass: "jcrop",
-        addClass: null,
-        bgColor: "black",
-        bgOpacity: .6,
-        bgFade: !1,
-        borderOpacity: .4,
-        handleOpacity: .5,
-        handleSize: null,
-        aspectRatio: 0,
-        keySupport: !0,
-        createHandles: ["n", "s", "e", "w", "nw", "ne", "se", "sw"],
-        createDragbars: ["n", "s", "e", "w"],
-        createBorders: ["n", "s", "e", "w"],
-        drawBorders: !0,
-        dragEdges: !0,
-        fixedSupport: !0,
-        touchSupport: null,
-        shade: null,
-        boxWidth: 0,
-        boxHeight: 0,
-        boundary: 2,
-        fadeTime: 400,
-        animationDelay: 20,
-        swingSpeed: 3,
-        minSelect: [0, 0],
-        maxSize: [0, 0],
-        minSize: [0, 0],
-        onChange: function () {
-        },
-        onSelect: function () {
-        },
-        onDblClick: function () {
-        },
-        onRelease: function () {
-        }
-    }
-}(jQuery);
+!function($){$.Jcrop=function(obj,opt){function px(n){return Math.round(n)+"px"}function cssClass(cl){return options.baseClass+"-"+cl}function supportsColorFade(){return $.fx.step.hasOwnProperty("backgroundColor")}function getPos(obj){var pos=$(obj).offset();return[pos.left,pos.top]}function mouseAbs(e){return[e.pageX-docOffset[0],e.pageY-docOffset[1]]}function setOptions(opt){"object"!=typeof opt&&(opt={}),options=$.extend(options,opt),$.each(["onChange","onSelect","onRelease","onDblClick"],function(i,e){"function"!=typeof options[e]&&(options[e]=function(){})})}function startDragMode(mode,pos,touch){if(docOffset=getPos($img),Tracker.setCursor("move"===mode?mode:mode+"-resize"),"move"===mode)return Tracker.activateHandlers(createMover(pos),doneSelect,touch);var fc=Coords.getFixed(),opp=oppLockCorner(mode),opc=Coords.getCorner(oppLockCorner(opp));Coords.setPressed(Coords.getCorner(opp)),Coords.setCurrent(opc),Tracker.activateHandlers(dragmodeHandler(mode,fc),doneSelect,touch)}function dragmodeHandler(mode,f){return function(pos){if(options.aspectRatio)switch(mode){case"e":pos[1]=f.y+1;break;case"w":pos[1]=f.y+1;break;case"n":pos[0]=f.x+1;break;case"s":pos[0]=f.x+1}else switch(mode){case"e":pos[1]=f.y2;break;case"w":pos[1]=f.y2;break;case"n":pos[0]=f.x2;break;case"s":pos[0]=f.x2}Coords.setCurrent(pos),Selection.update()}}function createMover(pos){var lloc=pos;return KeyManager.watchKeys(),function(pos){Coords.moveOffset([pos[0]-lloc[0],pos[1]-lloc[1]]),lloc=pos,Selection.update()}}function oppLockCorner(ord){switch(ord){case"n":return"sw";case"s":return"nw";case"e":return"nw";case"w":return"ne";case"ne":return"sw";case"nw":return"se";case"se":return"nw";case"sw":return"ne"}}function createDragger(ord){return function(e){return options.disabled?!1:"move"!==ord||options.allowMove?(docOffset=getPos($img),btndown=!0,startDragMode(ord,mouseAbs(e)),e.stopPropagation(),e.preventDefault(),!1):!1}}function presize($obj,w,h){var nw=$obj.width(),nh=$obj.height();nw>w&&w>0&&(nw=w,nh=w/$obj.width()*$obj.height()),nh>h&&h>0&&(nh=h,nw=h/$obj.height()*$obj.width()),xscale=$obj.width()/nw,yscale=$obj.height()/nh,$obj.width(nw).height(nh)}function unscale(c){return{x:c.x*xscale,y:c.y*yscale,x2:c.x2*xscale,y2:c.y2*yscale,w:c.w*xscale,h:c.h*yscale}}function doneSelect(){var c=Coords.getFixed();c.w>options.minSelect[0]&&c.h>options.minSelect[1]?(Selection.enableHandles(),Selection.done()):Selection.release(),Tracker.setCursor(options.allowSelect?"crosshair":"default")}function newSelection(e){if(!options.disabled&&options.allowSelect){btndown=!0,docOffset=getPos($img),Selection.disableHandles(),Tracker.setCursor("crosshair");var pos=mouseAbs(e);return Coords.setPressed(pos),Selection.update(),Tracker.activateHandlers(selectDrag,doneSelect,"touch"===e.type.substring(0,5)),KeyManager.watchKeys(),e.stopPropagation(),e.preventDefault(),!1}}function selectDrag(pos){Coords.setCurrent(pos),Selection.update()}function newTracker(){var trk=$("<div></div>").addClass(cssClass("tracker"));return is_msie&&trk.css({opacity:0,backgroundColor:"white"}),trk}function setClass(cname){$div.removeClass().addClass(cssClass("holder")).addClass(cname)}function animateTo(a,callback){function queueAnimator(){window.setTimeout(animator,interv)}var x1=a[0]/xscale,y1=a[1]/yscale,x2=a[2]/xscale,y2=a[3]/yscale;if(!animating){var animto=Coords.flipCoords(x1,y1,x2,y2),c=Coords.getFixed(),initcr=[c.x,c.y,c.x2,c.y2],animat=initcr,interv=options.animationDelay,ix1=animto[0]-initcr[0],iy1=animto[1]-initcr[1],ix2=animto[2]-initcr[2],iy2=animto[3]-initcr[3],pcent=0,velocity=options.swingSpeed;x1=animat[0],y1=animat[1],x2=animat[2],y2=animat[3],Selection.animMode(!0);var animator=function(){return function(){pcent+=(100-pcent)/velocity,animat[0]=Math.round(x1+pcent/100*ix1),animat[1]=Math.round(y1+pcent/100*iy1),animat[2]=Math.round(x2+pcent/100*ix2),animat[3]=Math.round(y2+pcent/100*iy2),pcent>=99.8&&(pcent=100),100>pcent?(setSelectRaw(animat),queueAnimator()):(Selection.done(),Selection.animMode(!1),"function"==typeof callback&&callback.call(api))}}();queueAnimator()}}function setSelect(rect){setSelectRaw([rect[0]/xscale,rect[1]/yscale,rect[2]/xscale,rect[3]/yscale]),options.onSelect.call(api,unscale(Coords.getFixed())),Selection.enableHandles()}function setSelectRaw(l){Coords.setPressed([l[0],l[1]]),Coords.setCurrent([l[2],l[3]]),Selection.update()}function tellSelect(){return unscale(Coords.getFixed())}function tellScaled(){return Coords.getFixed()}function setOptionsNew(opt){setOptions(opt),interfaceUpdate()}function disableCrop(){options.disabled=!0,Selection.disableHandles(),Selection.setCursor("default"),Tracker.setCursor("default")}function enableCrop(){options.disabled=!1,interfaceUpdate()}function cancelCrop(){Selection.done(),Tracker.activateHandlers(null,null)}function destroy(){$div.remove(),$origimg.show(),$origimg.css("visibility","visible"),$(obj).removeData("Jcrop")}function setImage(src,callback){Selection.release(),disableCrop();var img=new Image;img.onload=function(){var iw=img.width,ih=img.height,bw=options.boxWidth,bh=options.boxHeight;$img.width(iw).height(ih),$img.attr("src",src),$img2.attr("src",src),presize($img,bw,bh),boundx=$img.width(),boundy=$img.height(),$img2.width(boundx).height(boundy),$trk.width(boundx+2*bound).height(boundy+2*bound),$div.width(boundx).height(boundy),Shade.resize(boundx,boundy),enableCrop(),"function"==typeof callback&&callback.call(api)},img.src=src}function colorChangeMacro($obj,color,now){var mycolor=color||options.bgColor;options.bgFade&&supportsColorFade()&&options.fadeTime&&!now?$obj.animate({backgroundColor:mycolor},{queue:!1,duration:options.fadeTime}):$obj.css("backgroundColor",mycolor)}function interfaceUpdate(alt){options.allowResize?alt?Selection.enableOnly():Selection.enableHandles():Selection.disableHandles(),Tracker.setCursor(options.allowSelect?"crosshair":"default"),Selection.setCursor(options.allowMove?"move":"default"),options.hasOwnProperty("trueSize")&&(xscale=options.trueSize[0]/boundx,yscale=options.trueSize[1]/boundy),options.hasOwnProperty("setSelect")&&(setSelect(options.setSelect),Selection.done(),delete options.setSelect),Shade.refresh(),options.bgColor!=bgcolor&&(colorChangeMacro(options.shade?Shade.getShades():$div,options.shade?options.shadeColor||options.bgColor:options.bgColor),bgcolor=options.bgColor),bgopacity!=options.bgOpacity&&(bgopacity=options.bgOpacity,options.shade?Shade.refresh():Selection.setBgOpacity(bgopacity)),xlimit=options.maxSize[0]||0,ylimit=options.maxSize[1]||0,xmin=options.minSize[0]||0,ymin=options.minSize[1]||0,options.hasOwnProperty("outerImage")&&($img.attr("src",options.outerImage),delete options.outerImage),Selection.refresh()}var docOffset,options=$.extend({},$.Jcrop.defaults),_ua=navigator.userAgent.toLowerCase(),is_msie=/msie/.test(_ua),ie6mode=/msie [1-6]\./.test(_ua);"object"!=typeof obj&&(obj=$(obj)[0]),"object"!=typeof opt&&(opt={}),setOptions(opt);var img_css={border:"none",visibility:"visible",margin:0,padding:0,position:"absolute",top:0,left:0},$origimg=$(obj),img_mode=!0;if("IMG"==obj.tagName){if(0!=$origimg[0].width&&0!=$origimg[0].height)$origimg.width($origimg[0].width),$origimg.height($origimg[0].height);else{var tempImage=new Image;tempImage.src=$origimg[0].src,$origimg.width(tempImage.width),$origimg.height(tempImage.height)}var $img=$origimg.clone().removeAttr("id").css(img_css).show();$img.width($origimg.width()),$img.height($origimg.height()),$origimg.after($img).hide()}else $img=$origimg.css(img_css).show(),img_mode=!1,null===options.shade&&(options.shade=!0);presize($img,options.boxWidth,options.boxHeight);var boundx=$img.width(),boundy=$img.height(),$div=$("<div />").width(boundx).height(boundy).addClass(cssClass("holder")).css({position:"relative",backgroundColor:options.bgColor}).insertAfter($origimg).append($img);options.addClass&&$div.addClass(options.addClass);var $img2=$("<div />"),$img_holder=$("<div />").width("100%").height("100%").css({zIndex:310,position:"absolute",overflow:"hidden"}),$hdl_holder=$("<div />").width("100%").height("100%").css("zIndex",320),$sel=$("<div />").css({position:"absolute",zIndex:600}).dblclick(function(){var c=Coords.getFixed();options.onDblClick.call(api,c)}).insertBefore($img).append($img_holder,$hdl_holder);img_mode&&($img2=$("<img />").attr("src",$img.attr("src")).css(img_css).width(boundx).height(boundy),$img_holder.append($img2)),ie6mode&&$sel.css({overflowY:"hidden"});var xlimit,ylimit,xmin,ymin,xscale,yscale,btndown,animating,shift_down,bound=options.boundary,$trk=newTracker().width(boundx+2*bound).height(boundy+2*bound).css({position:"absolute",top:px(-bound),left:px(-bound),zIndex:290}).mousedown(newSelection),bgcolor=options.bgColor,bgopacity=options.bgOpacity;docOffset=getPos($img);var Touch=function(){function hasTouchSupport(){var i,support={},events=["touchstart","touchmove","touchend"],el=document.createElement("div");try{for(i=0;i<events.length;i++){var eventName=events[i];eventName="on"+eventName;var isSupported=eventName in el;isSupported||(el.setAttribute(eventName,"return;"),isSupported="function"==typeof el[eventName]),support[events[i]]=isSupported}return support.touchstart&&support.touchend&&support.touchmove}catch(err){return!1}}function detectSupport(){return options.touchSupport===!0||options.touchSupport===!1?options.touchSupport:hasTouchSupport()}return{createDragger:function(ord){return function(e){return options.disabled?!1:"move"!==ord||options.allowMove?(docOffset=getPos($img),btndown=!0,startDragMode(ord,mouseAbs(Touch.cfilter(e)),!0),e.stopPropagation(),e.preventDefault(),!1):!1}},newSelection:function(e){return newSelection(Touch.cfilter(e))},cfilter:function(e){return e.pageX=e.originalEvent.changedTouches[0].pageX,e.pageY=e.originalEvent.changedTouches[0].pageY,e},isSupported:hasTouchSupport,support:detectSupport()}}(),Coords=function(){function setPressed(pos){pos=rebound(pos),x2=x1=pos[0],y2=y1=pos[1]}function setCurrent(pos){pos=rebound(pos),ox=pos[0]-x2,oy=pos[1]-y2,x2=pos[0],y2=pos[1]}function getOffset(){return[ox,oy]}function moveOffset(offset){var ox=offset[0],oy=offset[1];0>x1+ox&&(ox-=ox+x1),0>y1+oy&&(oy-=oy+y1),y2+oy>boundy&&(oy+=boundy-(y2+oy)),x2+ox>boundx&&(ox+=boundx-(x2+ox)),x1+=ox,x2+=ox,y1+=oy,y2+=oy}function getCorner(ord){var c=getFixed();switch(ord){case"ne":return[c.x2,c.y];case"nw":return[c.x,c.y];case"se":return[c.x2,c.y2];case"sw":return[c.x,c.y2]}}function getFixed(){if(!options.aspectRatio)return getRect();var xx,yy,w,h,aspect=options.aspectRatio,min_x=options.minSize[0]/xscale,max_x=options.maxSize[0]/xscale,max_y=options.maxSize[1]/yscale,rw=x2-x1,rh=y2-y1,rwa=Math.abs(rw),rha=Math.abs(rh),real_ratio=rwa/rha;return 0===max_x&&(max_x=10*boundx),0===max_y&&(max_y=10*boundy),aspect>real_ratio?(yy=y2,w=rha*aspect,xx=0>rw?x1-w:w+x1,0>xx?(xx=0,h=Math.abs((xx-x1)/aspect),yy=0>rh?y1-h:h+y1):xx>boundx&&(xx=boundx,h=Math.abs((xx-x1)/aspect),yy=0>rh?y1-h:h+y1)):(xx=x2,h=rwa/aspect,yy=0>rh?y1-h:y1+h,0>yy?(yy=0,w=Math.abs((yy-y1)*aspect),xx=0>rw?x1-w:w+x1):yy>boundy&&(yy=boundy,w=Math.abs(yy-y1)*aspect,xx=0>rw?x1-w:w+x1)),xx>x1?(min_x>xx-x1?xx=x1+min_x:xx-x1>max_x&&(xx=x1+max_x),yy=yy>y1?y1+(xx-x1)/aspect:y1-(xx-x1)/aspect):x1>xx&&(min_x>x1-xx?xx=x1-min_x:x1-xx>max_x&&(xx=x1-max_x),yy=yy>y1?y1+(x1-xx)/aspect:y1-(x1-xx)/aspect),0>xx?(x1-=xx,xx=0):xx>boundx&&(x1-=xx-boundx,xx=boundx),0>yy?(y1-=yy,yy=0):yy>boundy&&(y1-=yy-boundy,yy=boundy),makeObj(flipCoords(x1,y1,xx,yy))}function rebound(p){return p[0]<0&&(p[0]=0),p[1]<0&&(p[1]=0),p[0]>boundx&&(p[0]=boundx),p[1]>boundy&&(p[1]=boundy),[Math.round(p[0]),Math.round(p[1])]}function flipCoords(x1,y1,x2,y2){var xa=x1,xb=x2,ya=y1,yb=y2;return x1>x2&&(xa=x2,xb=x1),y1>y2&&(ya=y2,yb=y1),[xa,ya,xb,yb]}function getRect(){var delta,xsize=x2-x1,ysize=y2-y1;return xlimit&&Math.abs(xsize)>xlimit&&(x2=xsize>0?x1+xlimit:x1-xlimit),ylimit&&Math.abs(ysize)>ylimit&&(y2=ysize>0?y1+ylimit:y1-ylimit),ymin/yscale&&Math.abs(ysize)<ymin/yscale&&(y2=ysize>0?y1+ymin/yscale:y1-ymin/yscale),xmin/xscale&&Math.abs(xsize)<xmin/xscale&&(x2=xsize>0?x1+xmin/xscale:x1-xmin/xscale),0>x1&&(x2-=x1,x1-=x1),0>y1&&(y2-=y1,y1-=y1),0>x2&&(x1-=x2,x2-=x2),0>y2&&(y1-=y2,y2-=y2),x2>boundx&&(delta=x2-boundx,x1-=delta,x2-=delta),y2>boundy&&(delta=y2-boundy,y1-=delta,y2-=delta),x1>boundx&&(delta=x1-boundy,y2-=delta,y1-=delta),y1>boundy&&(delta=y1-boundy,y2-=delta,y1-=delta),makeObj(flipCoords(x1,y1,x2,y2))}function makeObj(a){return{x:a[0],y:a[1],x2:a[2],y2:a[3],w:a[2]-a[0],h:a[3]-a[1]}}var ox,oy,x1=0,y1=0,x2=0,y2=0;return{flipCoords:flipCoords,setPressed:setPressed,setCurrent:setCurrent,getOffset:getOffset,moveOffset:moveOffset,getCorner:getCorner,getFixed:getFixed}}(),Shade=function(){function resizeShades(w,h){shades.left.css({height:px(h)}),shades.right.css({height:px(h)})}function updateAuto(){return updateShade(Coords.getFixed())}function updateShade(c){shades.top.css({left:px(c.x),width:px(c.w),height:px(c.y)}),shades.bottom.css({top:px(c.y2),left:px(c.x),width:px(c.w),height:px(boundy-c.y2)}),shades.right.css({left:px(c.x2),width:px(boundx-c.x2)}),shades.left.css({width:px(c.x)})}function createShade(){return $("<div />").css({position:"absolute",backgroundColor:options.shadeColor||options.bgColor}).appendTo(holder)}function enableShade(){enabled||(enabled=!0,holder.insertBefore($img),updateAuto(),Selection.setBgOpacity(1,0,1),$img2.hide(),setBgColor(options.shadeColor||options.bgColor,1),Selection.isAwake()?setOpacity(options.bgOpacity,1):setOpacity(1,1))}function setBgColor(color,now){colorChangeMacro(getShades(),color,now)}function disableShade(){enabled&&(holder.remove(),$img2.show(),enabled=!1,Selection.isAwake()?Selection.setBgOpacity(options.bgOpacity,1,1):(Selection.setBgOpacity(1,1,1),Selection.disableHandles()),colorChangeMacro($div,0,1))}function setOpacity(opacity,now){enabled&&(options.bgFade&&!now?holder.animate({opacity:1-opacity},{queue:!1,duration:options.fadeTime}):holder.css({opacity:1-opacity}))}function refreshAll(){options.shade?enableShade():disableShade(),Selection.isAwake()&&setOpacity(options.bgOpacity)}function getShades(){return holder.children()}var enabled=!1,holder=$("<div />").css({position:"absolute",zIndex:240,opacity:0}),shades={top:createShade(),left:createShade().height(boundy),right:createShade().height(boundy),bottom:createShade()};return{update:updateAuto,updateRaw:updateShade,getShades:getShades,setBgColor:setBgColor,enable:enableShade,disable:disableShade,resize:resizeShades,refresh:refreshAll,opacity:setOpacity}}(),Selection=function(){function insertBorder(type){var jq=$("<div />").css({position:"absolute",opacity:options.borderOpacity}).addClass(cssClass(type));return $img_holder.append(jq),jq}function dragDiv(ord,zi){var jq=$("<div />").mousedown(createDragger(ord)).css({cursor:ord+"-resize",position:"absolute",zIndex:zi}).addClass("ord-"+ord);return Touch.support&&jq.bind("touchstart.jcrop",Touch.createDragger(ord)),$hdl_holder.append(jq),jq}function insertHandle(ord){var hs=options.handleSize,div=dragDiv(ord,hdep++).css({opacity:options.handleOpacity}).addClass(cssClass("handle"));return hs&&div.width(hs).height(hs),div}function insertDragbar(ord){return dragDiv(ord,hdep++).addClass("jcrop-dragbar")}function createDragbars(li){var i;for(i=0;i<li.length;i++)dragbar[li[i]]=insertDragbar(li[i])}function createBorders(li){var cl,i;for(i=0;i<li.length;i++){switch(li[i]){case"n":cl="hline";break;case"s":cl="hline bottom";break;case"e":cl="vline right";break;case"w":cl="vline"}borders[li[i]]=insertBorder(cl)}}function createHandles(li){var i;for(i=0;i<li.length;i++)handle[li[i]]=insertHandle(li[i])}function moveto(x,y){options.shade||$img2.css({top:px(-y),left:px(-x)}),$sel.css({top:px(y),left:px(x)})}function resize(w,h){$sel.width(Math.round(w)).height(Math.round(h))}function refresh(){var c=Coords.getFixed();Coords.setPressed([c.x,c.y]),Coords.setCurrent([c.x2,c.y2]),updateVisible()}function updateVisible(select){return awake?update(select):void 0}function update(select){var c=Coords.getFixed();resize(c.w,c.h),moveto(c.x,c.y),options.shade&&Shade.updateRaw(c),awake||show(),select?options.onSelect.call(api,unscale(c)):options.onChange.call(api,unscale(c))}function setBgOpacity(opacity,force,now){(awake||force)&&(options.bgFade&&!now?$img.animate({opacity:opacity},{queue:!1,duration:options.fadeTime}):$img.css("opacity",opacity))}function show(){$sel.show(),options.shade?Shade.opacity(bgopacity):setBgOpacity(bgopacity,!0),awake=!0}function release(){disableHandles(),$sel.hide(),options.shade?Shade.opacity(1):setBgOpacity(1),awake=!1,options.onRelease.call(api)}function showHandles(){seehandles&&$hdl_holder.show()}function enableHandles(){return seehandles=!0,options.allowResize?($hdl_holder.show(),!0):void 0}function disableHandles(){seehandles=!1,$hdl_holder.hide()}function animMode(v){v?(animating=!0,disableHandles()):(animating=!1,enableHandles())}function done(){animMode(!1),refresh()}var awake,hdep=370,borders={},handle={},dragbar={},seehandles=!1;options.dragEdges&&$.isArray(options.createDragbars)&&createDragbars(options.createDragbars),$.isArray(options.createHandles)&&createHandles(options.createHandles),options.drawBorders&&$.isArray(options.createBorders)&&createBorders(options.createBorders),$(document).bind("touchstart.jcrop-ios",function(e){$(e.currentTarget).hasClass("jcrop-tracker")&&e.stopPropagation()});var $track=newTracker().mousedown(createDragger("move")).css({cursor:"move",position:"absolute",zIndex:360});return Touch.support&&$track.bind("touchstart.jcrop",Touch.createDragger("move")),$img_holder.append($track),disableHandles(),{updateVisible:updateVisible,update:update,release:release,refresh:refresh,isAwake:function(){return awake},setCursor:function(cursor){$track.css("cursor",cursor)},enableHandles:enableHandles,enableOnly:function(){seehandles=!0},showHandles:showHandles,disableHandles:disableHandles,animMode:animMode,setBgOpacity:setBgOpacity,done:done}}(),Tracker=function(){function toFront(touch){$trk.css({zIndex:450}),touch?$(document).bind("touchmove.jcrop",trackTouchMove).bind("touchend.jcrop",trackTouchEnd):trackDoc&&$(document).bind("mousemove.jcrop",trackMove).bind("mouseup.jcrop",trackUp)}function toBack(){$trk.css({zIndex:290}),$(document).unbind(".jcrop")}function trackMove(e){return onMove(mouseAbs(e)),!1}function trackUp(e){return e.preventDefault(),e.stopPropagation(),btndown&&(btndown=!1,onDone(mouseAbs(e)),Selection.isAwake()&&options.onSelect.call(api,unscale(Coords.getFixed())),toBack(),onMove=function(){},onDone=function(){}),!1}function activateHandlers(move,done,touch){return btndown=!0,onMove=move,onDone=done,toFront(touch),!1}function trackTouchMove(e){return onMove(mouseAbs(Touch.cfilter(e))),!1}function trackTouchEnd(e){return trackUp(Touch.cfilter(e))}function setCursor(t){$trk.css("cursor",t)}var onMove=function(){},onDone=function(){},trackDoc=options.trackDocument;return trackDoc||$trk.mousemove(trackMove).mouseup(trackUp).mouseout(trackUp),$img.before($trk),{activateHandlers:activateHandlers,setCursor:setCursor}}(),KeyManager=function(){function watchKeys(){options.keySupport&&($keymgr.show(),$keymgr.focus())}function onBlur(){$keymgr.hide()}function doNudge(e,x,y){options.allowMove&&(Coords.moveOffset([x,y]),Selection.updateVisible(!0)),e.preventDefault(),e.stopPropagation()}function parseKey(e){if(e.ctrlKey||e.metaKey)return!0;shift_down=e.shiftKey?!0:!1;var nudge=shift_down?10:1;switch(e.keyCode){case 37:doNudge(e,-nudge,0);break;case 39:doNudge(e,nudge,0);break;case 38:doNudge(e,0,-nudge);break;case 40:doNudge(e,0,nudge);break;case 27:options.allowSelect&&Selection.release();break;case 9:return!0}return!1}var $keymgr=$('<input type="radio" />').css({position:"fixed",left:"-120px",width:"12px"}).addClass("jcrop-keymgr"),$keywrap=$("<div />").css({position:"absolute",overflow:"hidden"}).append($keymgr);return options.keySupport&&($keymgr.keydown(parseKey).blur(onBlur),ie6mode||!options.fixedSupport?($keymgr.css({position:"absolute",left:"-20px"}),$keywrap.append($keymgr).insertBefore($img)):$keymgr.insertBefore($img)),{watchKeys:watchKeys}}();Touch.support&&$trk.bind("touchstart.jcrop",Touch.newSelection),$hdl_holder.hide(),interfaceUpdate(!0);var api={setImage:setImage,animateTo:animateTo,setSelect:setSelect,setOptions:setOptionsNew,tellSelect:tellSelect,tellScaled:tellScaled,setClass:setClass,disable:disableCrop,enable:enableCrop,cancel:cancelCrop,release:Selection.release,destroy:destroy,focus:KeyManager.watchKeys,getBounds:function(){return[boundx*xscale,boundy*yscale]},getWidgetSize:function(){return[boundx,boundy]},getScaleFactor:function(){return[xscale,yscale]},getOptions:function(){return options},ui:{holder:$div,selection:$sel}};return is_msie&&$div.bind("selectstart",function(){return!1}),$origimg.data("Jcrop",api),api},$.fn.Jcrop=function(options,callback){var api;return this.each(function(){if($(this).data("Jcrop")){if("api"===options)return $(this).data("Jcrop");$(this).data("Jcrop").setOptions(options)}else"IMG"==this.tagName?$.Jcrop.Loader(this,function(){$(this).css({display:"block",visibility:"hidden"}),api=$.Jcrop(this,options),$.isFunction(callback)&&callback.call(api)}):($(this).css({display:"block",visibility:"hidden"}),api=$.Jcrop(this,options),$.isFunction(callback)&&callback.call(api))}),this},$.Jcrop.Loader=function(imgobj,success,error){function completeCheck(){img.complete?($img.unbind(".jcloader"),$.isFunction(success)&&success.call(img)):window.setTimeout(completeCheck,50)}var $img=$(imgobj),img=$img[0];$img.bind("load.jcloader",completeCheck).bind("error.jcloader",function(){$img.unbind(".jcloader"),$.isFunction(error)&&error.call(img)}),img.complete&&$.isFunction(success)&&($img.unbind(".jcloader"),success.call(img))},$.Jcrop.defaults={allowSelect:!0,allowMove:!0,allowResize:!0,trackDocument:!0,baseClass:"jcrop",addClass:null,bgColor:"black",bgOpacity:.6,bgFade:!1,borderOpacity:.4,handleOpacity:.5,handleSize:null,aspectRatio:0,keySupport:!0,createHandles:["n","s","e","w","nw","ne","se","sw"],createDragbars:["n","s","e","w"],createBorders:["n","s","e","w"],drawBorders:!0,dragEdges:!0,fixedSupport:!0,touchSupport:null,shade:null,boxWidth:0,boxHeight:0,boundary:2,fadeTime:400,animationDelay:20,swingSpeed:3,minSelect:[0,0],maxSize:[0,0],minSize:[0,0],onChange:function(){},onSelect:function(){},onDblClick:function(){},onRelease:function(){}}}(jQuery);
 /**
  * [Tooltip 工具提示]
  * @param  {[String]} element [选择器]
@@ -1061,6 +287,253 @@ Tooltip.prototype.hide = function () {
  */
 Tooltip.prototype.destroy = function () {
 };
+
+(function(){
+    var Select = function(element,options){
+        this.init(element,options);
+    }
+    Select.VERSION = '1.0.0';
+    Select.DEFAULTS = {
+        type : 'defaults',
+        selector : 'k-select',
+        animation: true,
+        query : '',
+        data : [],
+        trigger: 'hover focus',
+        delay: 500,
+        html: false,
+        select : function(){}
+    }
+    /**
+     * [init 初始化]
+     * @param  {[String]} element [选择器]
+     * @param  {[Object]} options [接收参数]
+     * @return {[type]}           [description]
+     */
+    Select.prototype.init = function(element,options) {
+        this.$element  = $(element);
+        this.options   = this._getOptions(this.$element,options);
+        this.$element.addClass(this.options.selector);
+        this.query = this.options.query;
+        this.oUl = null;
+        this._render(this.options);
+        this._bindEvent(this.options);
+    };
+    /**
+     * [getOptions 配置参数]
+     * @param  {[String]} options   [接收参数]
+     * @return {[Object]}           [配置参数]
+     */
+    Select.prototype._getOptions = function (element,option) {
+        return $.extend({}, this.getDefaults(), element.data(), option);
+    }
+    /**
+     * [getOptions 默认参数]
+     * @return {[Object]}           [默认参数]
+     */
+    Select.prototype.getDefaults = function () {
+        return Select.DEFAULTS;
+    }
+    Select.prototype._render = function(option){
+        this.oUl = $('<ul class="select"></ul>');
+        var length = option.data.length;
+        if(!!length){
+            var sLi = '';
+            switch(option.type){
+                case 'defaults' :
+                    for (var i = 0; i < length; i++) {
+                        sLi += '<li class="'+(option.query == option.data[i].id ? 'active' : '')+'" data-key="'+option.data[i].id+'">'+option.data[i].name+'</li>';
+                    }
+                    break;
+                case 'getKey' :
+                    for (var i = 0; i < length; i++) {
+                        sLi += '<li class="'+(option.query == option.data[i][0] ? 'active' : '')+'"  data-key="'+option.data[i][0]+'">'+option.data[i][1]+'</li>';
+                    }
+                    break;
+                case 'getValue' :
+                    for (var i = 0; i < length; i++) {
+                        sLi += '<li class="'+(option.query == option.data[i] ? 'active' : '')+'" >'+option.data[i]+'</li>';
+                    }
+                    break;
+                case 'editor' :
+                    for (var i = 0; i < length; i++) {
+                        sLi += '<li class="'+(option.query == option.data[i].name ? 'active' : '')+'" >'+option.data[i].name+'</li>';
+                    }
+                    break;
+            }
+            this.oUl.html(sLi);
+        }
+        this.$element.append(this.oUl);
+        if(option.type === 'editor'){
+            option = '<div class="editor"><input class="value" value="'+option.query+'"><span class="arrow"><em></em><i></i></span></div>';
+        }else{
+            var value = '';
+            switch(option.type){
+                case 'defaults' :
+                    value = option.data[option.query].name;
+                    break;
+                case 'getKey' :
+                    value = option.data[option.query][1];
+                    break;
+                case 'getValue' :
+                    value = option.query;
+                    break;
+            }
+            option = '<div class="option"><span class="value">'+ value +'</span><span class="arrow"><em></em><i></i></span></div>';
+        }
+        this.$element.append(option);
+        this.value = this.$element.find('.value');
+    }
+    Select.prototype._bindEvent = function(option){
+        var _this = this;
+        var timer = null;
+        this.$element.on('click',function(){
+            _this._show();
+        }).on('mouseleave',function(){
+            clearTimeout(timer);
+            timer = setTimeout(function(){
+                _this._hide();
+            },option.delay);
+        }).on('mouseenter',function(){
+            clearTimeout(timer);
+        });
+        switch(option.type){
+            case 'defaults' : this._defaults(this.$element);
+            break;
+            case 'getKey' : this._getKey(this.$element);
+            break;
+            case 'getValue' : this._getValue(this.$element);
+            break;
+            case 'editor' : this._editor(this.$element);
+            break;
+        }
+    }
+    Select.prototype._show = function(){
+        $('.'+this.options.selector).find('.select').hide();
+        this.oUl.show();
+        this.$element.css('zIndex',20);
+    }
+    Select.prototype._hide = function(){
+        var _this = this;
+        setTimeout(function(){
+            _this.oUl.hide();
+            _this.$element.css('zIndex',2);
+        },0);
+    }
+    Select.prototype._defaults = function(element){
+        var _this = this;
+        element.on('click','li',function(){
+            $(this).addClass('active').siblings().removeClass('active');
+            _this.query = $(this).data('key');
+            _this.value.html($(this).html());
+            _this._hide();
+            _this.options.select($(this));
+        });
+    }
+    Select.prototype._getKey = function(element){
+        var _this = this;
+        element.on('click','li',function(){
+            $(this).addClass('active').siblings().removeClass('active');
+            _this.query = $(this).data('key');
+            _this.value.html($(this).html());
+            _this._hide();
+            _this.options.select($(this));
+        });
+    }
+    Select.prototype._getValue = function(element){
+        var _this = this;
+        element.on('click','li',function(){
+            $(this).addClass('active').siblings().removeClass('active');
+            _this.query = $(this).html();
+            _this.value.html($(this).html());
+            _this._hide();
+            _this.options.select($(this));
+        });
+    }
+    Select.prototype._editor = function(element){
+        var _this = this;
+        var oldName = '';
+        element.on('click','li',function(){
+            $(this).addClass('active').siblings().removeClass('active');
+            _this.query = $(this).html();
+            _this.value.val($(this).html());
+            _this._hide();
+            _this.options.select($(this));
+        });
+        element.on('focus','.value',function(){
+            oldName = $(this).val();
+            _this._show();
+        }).on('blur','.value',function(){
+            if(!$.trim($(this).val())){
+                _this.query = oldName;
+                $(this).val(oldName);
+            }else{
+                if(_this.options.html){
+                    _this.query = htmlfilter($(this).val());
+                }else{
+                    _this.query = $.trim($(this).val());
+                }
+                $(this).val($.trim($(this).val()))
+            }
+            _this._hide();
+            _this.options.select($(this));
+        })
+        function htmlfilter(value,parameter){
+            var setthe = {},s,p,n;
+            if(parameter != undefined){
+              setthe.fhtml = parameter.fhtml || true;
+              setthe.fjs = parameter.fjs || false;
+              setthe.fcss = parameter.fcss || false;
+              setthe.fself = parameter.fself || false;
+            }else{
+              setthe.fhtml = true;
+              setthe.fjs = false;
+              setthe.fcss = false;
+              setthe.fself = false;
+            }
+            if(typeof value === 'string'){
+              s = value;
+            }else if(typeof value === 'object'){
+              s = value.value;
+              p = value.preplace;
+              n = value.nextplace;
+            }
+            if(!s){
+              return s;
+            }
+            if (!setthe.fhtml && !setthe.fjs && !setthe.fcss && !setthe.fself){
+              setthe.fhtml = true;
+            }
+            if (setthe.fjs){
+              s = s.replace(/<\s*script[^>]*>(.|[\r\n])*?<\s*\/script[^>]*>/gi, '');
+            }
+            if (setthe.fcss){
+              s = s.replace(/<\s*style[^>]*>(.|[\r\n])*?<\s*\/style[^>]*>/gi, '');
+            }
+            if (setthe.fhtml) {
+              s = s.replace(/<\/?[^>]+>/g, '');
+              s = s.replace(/\&[a-z]+;/gi, '');
+              s = s.replace(/\s+/g, '\n');
+            }
+
+            if (setthe.fself && typeof value === 'object'){
+              s = s.replace(new RegExp(p, 'g'), n);
+            }
+            return s;
+        }
+    }
+    Select.prototype.returnValue = function(){
+        return this.query;
+    }
+    /**
+     * [destroy 销毁组件]
+     */
+    Select.prototype.destroy = function(){
+        this.$element.html();
+        delete this;
+    }
+    window.Select = Select;
+})();
 // 公用指令
 angular.module('directives', [])
     .directive('myRadio', ['initData', function (initData) {     //自定义复选框
@@ -1155,134 +628,19 @@ angular.module('directives', [])
                 myQuery: "="
             },
             restrict: 'A',
-            template: '<div class="k-select" ng-click="openSelect($event)" ng-mouseout="closeSelect()"><ul class="select" ng-mouseover="closeTimer()"><li ng-repeat="d in myList"><a href="javascript:;" val="{{d.id}}" ng-click="select(d.id,$event)">{{d.name}}</a></li></ul><div class="option"><span class="value" ng-repeat="d in myList | filter:myQuery">{{d.name}}</span><span class="arrow"><em></em><i></i></span></div></div>',
             link: function ($scope, iElm, iAttrs, controller) {
-                var obj = angular.element(iElm),
-                    oUl = obj.find('ul');
-                angular.element(document).on('click', function () {
-                    oUl.css('display', 'none');
-                });
-                var timer = null;
-                $scope.openSelect = function ($event) {
-                    $event.stopPropagation();
-                    oUl.css('display', 'block');
-                    obj.css('zIndex', 20);
-                    clearTimeout(timer)
-                };
-                $scope.closeSelect = function () {
-                    clearTimeout(timer);
-                    timer = setTimeout(function () {
-                        oUl.css('display', 'none');
-                        obj.css('zIndex', 10);
-                    }, 500)
-                };
-                $scope.closeTimer = function () {
-                    clearTimeout(timer)
-                };
-                $scope.select = function (id, $event) {
-                    $scope.myQuery = id;
-                    $event.stopPropagation()
-                    oUl.css('display', 'none');
-                    obj.css('zIndex', 10);
-                }
-            }
-        };
-    }])
-    .directive('mySelectn', ['$timeout', function ($timeout) {     //自定义下拉框
-        return {
-            replace: true,
-            scope: {
-                myList: "=",
-                myQuery: "="
-            },
-            restrict: 'A',
-            template: '<div class="k-select" ng-click="openSelect($event)" ng-mouseout="closeSelect()"><ul class="select" ng-mouseover="closeTimer()"><li ng-repeat="d in myList track by $index"><a href="javascript:;" ng-click="select(d,$event)">{{d}}</a></li></ul><div class="option"><span class="value">{{myQuery}}</span><span class="arrow"><em></em><i></i></span></div></div>',
-            link: function ($scope, iElm, iAttrs, controller) {
-                var obj = angular.element(iElm),
-                    oUl = obj.find('ul');
-                angular.element(document).on('click', function () {
-                    oUl.css('display', 'none');
-                });
-                var timer = null;
-                $scope.openSelect = function ($event) {
-                    $event.stopPropagation()
-                    oUl.css('display', 'block');
-                    obj.css('zIndex', 20);
-                    clearTimeout(timer)
-                };
-                $scope.closeSelect = function () {
-                    $timeout.cancel(timer)
-                    timer = $timeout(function () {
-                        oUl.css('display', 'none');
-                        obj.css('zIndex', 10);
-                    }, 500,false);
-                };
-                $scope.closeTimer = function () {
-                    $timeout.cancel(timer)
-                }
-                $scope.select = function (name, $event) {
-                    $scope.myQuery = name;
-                    $event.stopPropagation()
-                    oUl.css('display', 'none');
-                    obj.css('zIndex', 10);
-                }
-            }
-        };
-    }])
-    .directive('mySelecte', ['$timeout', function ($timeout) {     //自定义下拉框带编写功能
-        var template = [
-            '<div class="k-select" ng-click="openSelect($event)" ng-mouseout="closeSelect()">',
-            '<ul class="select" ng-mouseover="closeTimer()">',
-            '<li ng-repeat="d in myList">',
-            '<a href="javascript:;" ng-click="select(d.name,$event)">{{d.name}}</a>',
-            '</li></ul>',
-            '<div class="editor"><input class="value" ng-model="myQuery" ng-blur="blur($event)"><span class="arrow"><em></em><i></i></span></div>',
-            '</div>'
-        ];
-        return {
-            replace: true,
-            scope: {
-                myList: "=",
-                myQuery: "="
-            },
-            restrict: 'A',
-            template: template.join(''),
-            link: function ($scope, iElm, iAttrs, controller) {
-                var obj = angular.element(iElm),
-                    oUl = obj.find('ul'),
-                    oldName = $scope.myQuery;
-                angular.element(document).on('click', function () {
-                    oUl.css('display', 'none');
-                })
-                var timer = null;
-                $scope.openSelect = function ($event) {
-                    $event.stopPropagation();
-                    oUl.css('display', 'block');
-                    obj.css('zIndex', 20);
-                    clearTimeout(timer)
-                }
-                $scope.closeSelect = function () {
-                    clearTimeout(timer);
-                    timer = setTimeout(function () {
-                        oUl.css('display', 'none');
-                        obj.css('zIndex', 10);
-                    }, 500)
-                }
-                $scope.closeTimer = function () {
-                    clearTimeout(timer)
-                }
-                $scope.select = function (name, $event) {
-                    $scope.myQuery = name;
-                    oldName = name;
-                    $event.stopPropagation();
-                    oUl.css('display', 'none');
-                    obj.css('zIndex', 10);
-                }
-                $scope.blur = function () {
-                    if(!_.trim($scope.myQuery)){
-                        $scope.myQuery = oldName;
+                var type = iAttrs.type;
+                var obj = angular.element(iElm);
+                var select = new Select(obj,{
+                    type : type,
+                    data : $scope.myList,
+                    query : $scope.myQuery,
+                    select : function(obj){
+                        $timeout(function(){
+                            $scope.myQuery = select.returnValue();
+                        },0);
                     }
-                }
+                });
             }
         };
     }])
@@ -1306,7 +664,7 @@ angular.module('directives', [])
                     '</li>',
                     '</ul>',
                     '</div>',
-                    '<div class="toggle"><a href="javascript:;" class="btns prev">',
+                    '<div class="toggle">',
                     '<a href="javascript:;" class="btns prev"><i class="iconfont2">&#xe611;</i><span></span></a>',
                     '<a href="javascript:;" class="btns next"><i class="iconfont2">&#xe617;</i><span></span></a>',
                     '</div>',
@@ -1335,7 +693,7 @@ angular.module('directives', [])
                 }
                 oUl.css({left: -iNum * picWidth});
                 oUl.width(len * picWidth);
-                oPrev.on('click', function () {
+                obj.on('click','.prev', function () {
                     if (iNum == 0) {
                         iNum = 0;
                     } else {
@@ -1343,7 +701,7 @@ angular.module('directives', [])
                     }
                     fnMove();
                 });
-                oNext.on('click', function () {
+                obj.on('click','.next', function () {
                     if (iNum == len - 3) {
                         iNum = len - 3;
                     } else {
@@ -1677,199 +1035,98 @@ angular.module('directives', [])
             }]
         }
     }])
-    .directive('myUpload', ['$timeout', function ($timeout) {     //头像裁切上传
-        var template = [
-            '<div class="pic" id="upload">',
-            '<div class="fileBtn">',
-            '<input class="hide" id="fileToUpload" type="file" name="upfile">',
-            '<input type="hidden" id="sessionId" value="${pageContext.session.id}" />',
-            '<input type="hidden" value="1215154" name="tmpdir" id="id_file">',
-            '</div>',
-            '<span class="icon"><i class="iconfont">&#xe61a;</i></span>',
-            '<img class="img" id="userHead" alt="头像" /></div>'
-        ];
-        return {
-            scope: {
-                myQuery: "="
-            },
-            restrict: 'A',
-            template: template.join(''),
-            link: function (scope, iElm, iAttrs, controller) {
-                var $userHead = $('#userHead'),
-                    $cropMask = $('#j-cropMask'),
-                    $cropBox = $('#j-cropBox'),
-                    $cropCancel = $('#crop-cancel'),
-                    $target = $('#target'),
-                    $winW = 0,
-                    $winH = 0,
-                    scale = 0,
-                    imgW, imgH, w, h;
-                if (!scope.myQuery) {
-                    $userHead.attr('src', '../../../static/img/user/headPic.png')
-                } else {
-                    $userHead.attr('src', '/api/v2/web/thumbnail2/120/120/' + scope.myQuery)
-                }
-                $('#fileToUpload').uploadify({
-                    'auto': true, //自动上传
-                    'removeTimeout': 1,
-                    'swf': 'uploadify.swf',
-                    'uploader': '/api/v2/web/image/upload',  //上传的api
-                    'method': 'post',
-                    'buttonText': '',
-                    'fileObjName': 'Filedata',
-                    'multi': false,  //一次只能选择一个文件
-                    'queueSizeLimit': 1,
-                    'width': 120,
-                    'height': 120,
-                    'successTimeout': 10,
-                    'fileTypeDesc': 'Image Files',
-                    'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
-                    'fileSizeLimit': '3MB',  //上传最大文件限制
-                    'onUploadStart': function () {
-                        $('.uploadify-queue').css('zIndex', '110');
-                        $('#upload').append('<div class="disable"></div>');
-                    },
-                    'onUploadSuccess': function (file, data, response) {
-                        callbackImg(data);
-                        $('.uploadify-queue').css('zIndex', '0');
-                        $('#upload').find('.disable').remove();
-                    },
-                    'onUploadError': function (file, errorCode, errorMsg, errorString) {
-                        if (errorMsg === '500' && errorCode === -200) {
-                            alert('上传超时，请重新上传');
-                        }
-                        $('.uploadify-queue').css('zIndex', '0');
-                        $('#upload').find('.disable').remove();
-                    },
-                    'onCancel': function () {
-                        $('.uploadify-queue').css('zIndex', '0');
-                        $('#upload').find('.disable').remove();
-                    }
-                });
-                var jcrop_api;
-                var jcrop_data;
-
-                function callbackImg(arr) {
-                    var data = $.parseJSON(arr);
-                    var img = new Image();
-                    $winW = $(window).width();
-                    $winH = $(window).height();
-                    img.onload = function () {
-                        imgW = img.width;
-                        imgH = img.height;
-                        if (imgW < 300) {
-                            alert('图片宽度小于300，请重新上传');
-                            return false;
-                        } else if (imgH < 300) {
-                            alert('图片高度小于300，请重新上传');
-                            return false;
-                        }
-                        scale = ($winH - 286) / imgH;
-                        w = imgH > $winH - 286 ? imgW * scale : imgW;
-                        h = imgH > $winH - 286 ? imgH * scale : imgH;
-                        var boxSize = parseInt(300 * scale, 10) > 300 ? 300 : parseInt(300 * scale, 10) < 150 ? 150 : parseInt(300 * scale, 10);
-                        $target.attr('src', img.src).Jcrop({
-                            boxWidth: w,
-                            boxHeight: h,
-                            keySupport: true,
-                            bgFade: true,
-                            bgOpacity: .2,
-                            setSelect: [0, 0, boxSize, boxSize],   //裁剪框初始位置和初始大小
-                            minSize: [70, 70], //最小裁切框大小 注0,0表示不限
-                            maxSize: [0, 0], //最大裁切框大小 注0,0表示不限
-                            aspectRatio: 1, //最大裁切宽高比 注0表示不限
-                            onChange: function (c) {    //拖拽时候函数，返回位置和宽高
-                                jcrop_data = c;
-                            }
-                        }, function () {
-                            jcrop_api = this;   //返回对象，供销毁操作
-                        });
-                        $cropMask.css({
-                            width: $winW,
-                            height: $winH
-                        }).fadeTo("slow", 0.3);
-                        $cropBox.css({
-                            width: w,
-                            marginLeft: -(w / 2)
-                        }).show().animate({
-                            top: 100
-                        });
-                        $('#upload').find('.disable').remove();
-                    };
-                    img.onerror = function () {
-                        alert("图片加载错误");
-                        $('#upload').find('.disable').remove();
-                    };
-                    img.src = '/api/v2/web/image/' + data.data;
-                    $cropCancel.on('click', function () {
-                        clearData();
-                        data.data = null;
-                    });
-                    $('#crop-submit').on('click', function () {
-                        if (data.data != null) {
-                            $.ajax({
-                                url: '/api/v2/web/image/crop',
-                                type: "post",
-                                contentType: 'application/json; charset=utf-8',
-                                dataType: 'json',
-                                data: JSON.stringify({
-                                    "_id": data.data,
-                                    "x": jcrop_data.x,
-                                    "y": jcrop_data.y,
-                                    "width": jcrop_data.w,
-                                    "height": jcrop_data.h
-                                }),
-                                processData: false
-                            })
-                                .done(function (res) {
-                                    scope.$apply(function () {
-                                        scope.myQuery = res.data;
-                                        $userHead.attr('src', '/api/v2/web/thumbnail2/120/120/' + res.data)
-                                    });
-                                    clearData();
-                                    data.data = null;
-                                })
-                                .fail(function () {
-                                    console.log("error");
-                                });
-                        }
-                    })
-                }
-
-                function clearData() {
-                    $cropMask.hide();
-                    $cropBox.hide();
-                    jcrop_api.destroy();
-                    $target.attr('src', '');
-                }
-
-                scope.$on('$destroy', function () {
-                    $('#fileToUpload').uploadify('destroy');   //销毁上传的插件，避免ie报错
-                });
-            }
-        };
-    }])
-    .directive('mySimpleupload', function () { //单个图片上传
+    .directive('mySimpleupload', ['$timeout',function ($timeout) { //单个图片上传
         return {
             restrict: 'A',
             scope: {
-                myQuery: "="
+                myQuery: "=",
+                myLoading : "="
             },
             link: function (scope, iElm, iAttrs, controller) {
                 var $cropMask = $('#j-cropMask'),
                     $cropBox = $('#j-cropBox'),
                     $cropCancel = $('#crop-cancel'),
                     $target = $('#target'),
-                    scale = 0,
+                    boxW = parseInt(iAttrs.width,10),
+                    boxH = parseInt(iAttrs.height,10),
+                    minW = !!iAttrs.minwidth ? parseInt(iAttrs.minwidth,10) : boxW,
+                    minH = !!iAttrs.minheight ? parseInt(iAttrs.minheight,10) : boxH,
                     $winW = 0,
                     $winH = 0,
-                    imgW, imgH, w, h,
-                    parent = angular.element(iElm).parent(),
-                    recordImgId = scope.myQuery,
-                    isStart = false;
+                    parent = $(iElm).parent(),
+                    recordImgId = scope.myQuery;
+                var Loading = scope.$watch('myLoading',function(value){
+                    if(value){
+                        parent.append('<div class="disable"></div>');
+                    }else{
+                        parent.find('.disable').remove();
+                    }
+                });
+                if(checkSupport() === 'html5'){
+                    var $uploadifyQueue = $('<div class="uploadify-queue"></div>');
+                    parent.append($uploadifyQueue);
+                    $(iElm).uploadifive({
+                        'auto' : true,
+                        'dnd'   : false,
+                        'buttonText' : '',
+                        'method'  : 'post',
+                        'queueID' : 'queue',
+                        'fileObjName': 'Filedata',
+                        'multi': false,  //一次只能选择一个文件
+                        'queueSizeLimit': 2,
+                        'width': boxW,
+                        'height': boxH,
+                        'fileType' : 'image/jpeg,image/png',  //允许上传文件类型
+                        'fileSizeLimit': 3072,  //上传最大文件限制
+                        'uploadScript' : '/api/v2/web/image/upload',  //上传的api
+                        'onProgress'       : function(file, event) {
+                            $uploadifyQueue.find('.data').html(parseInt(event.loaded/event.total*100,10)+'%');
+                            $uploadifyQueue.find('.uploadify-progress-bar').width(parseInt(event.loaded/event.total*100,10)+'%');
+                        },
+                        'onSelect'   : function(file) {
+                            $timeout(function () {
+                                scope.myLoading = true;
+                            }, 0);
+                            $uploadifyQueue.css('zIndex', '110');
+                            $uploadifyQueue.html('<div class="uploadify-queue-item"><div class="cancel"><a href="javascript:$(\'#'+iElm[0].id+'\').uploadifive(\'cancel\', file)">X</a></div><span class="fileName"></span><span class="data">0%</span><div class="uploadify-progress"><div class="uploadify-progress-bar" style="width: 0%;"></div></div></div>')
+                        },
+                        'onUploadComplete': function (file, data, response) {
+                            if (iAttrs.scale === undefined) {
+                                callbackImg(data);
+                            } else {
+                                $winW = $(window).width();
+                                $winH = $(window).height();
+                                $cropMask.css({
+                                    'width' : $winW,
+                                    'height': $winH
+                                }).fadeTo("slow", 0.3);
+                                callbackCropImg(data);
+                            }
+                            $uploadifyQueue.html('');
+                            $('#fileToUpload').uploadifive('clearQueue');
+                            $('.uploadify-queue').css('zIndex', '0');
+                        },
+                        'onError': function (errorMsg, fileType, data) {
+                            console.log('onError',errorMsg, fileType, data);
+                            if(errorMsg === 'FILE_SIZE_LIMIT_EXCEEDED'){
+                                alert('文件大小超出3M限制，请重新上传');
+                            }
+                            if(errorMsg === 'Unknown Error'){
+                                alert('上传超时，请重新上传');
+                            }
+                        },
+                        'onCancel': function () {
+                            $uploadifyQueue.html('');
+                            $('.uploadify-queue').css('zIndex', '0');
+                            $timeout(function () {
+                                scope.myLoading = false;
+                            }, 0);
+                        }
+                    });
+                }else{
                     $(iElm).uploadify({
                         'auto': true, //自动上传
-                        'removeTimeout': 1,
+                        'removeTimeout': 0.5,
                         'swf': 'uploadify.swf',
                         'uploader': '/api/v2/web/image/upload',  //上传的api
                         'method': 'post',
@@ -1877,112 +1134,114 @@ angular.module('directives', [])
                         'fileObjName': 'Filedata',
                         'multi': false,  //一次只能选择一个文件
                         'queueSizeLimit': 2,
-                        'width': iAttrs.width,
-                        'height': iAttrs.height,
+                        'width': boxW,
+                        'height': boxH,
                         'successTimeout': 10,
                         'fileTypeDesc': 'Image Files',
                         'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
                         'fileSizeLimit': '3MB',  //上传最大文件限制
                         'onUploadStart': function () {
-                            isStart = true;
                             $('.uploadify-queue').css('zIndex', '110');
-                            parent.append('<div class="disable"></div>');
+                            $timeout(function () {
+                                scope.myLoading = true;
+                            }, 0);
                         },
                         'onUploadSuccess': function (file, data, response) {
-                            scope.$apply(function () {
-                                scope.myQuery = '';
-                            });
                             if (iAttrs.scale === undefined) {
                                 callbackImg(data);
                             } else {
+                                $winW = $(window).width();
+                                $winH = $(window).height();
+                                $cropMask.css({
+                                    'width' : $winW,
+                                    'height': $winH
+                                }).fadeTo("slow", 0.3);
                                 callbackCropImg(data);
                             }
                             $('.uploadify-queue').css('zIndex', '0');
-                            parent.find('.disable').remove();
                         },
                         'onUploadError': function (file, errorCode, errorMsg, errorString) {
                             if (errorMsg === '500' && errorCode === -200) {
                                 alert('上传超时，请重新上传');
                             }
-                            $('.uploadify-queue').css('zIndex', '0');
-                            parent.find('.disable').remove();
                         },
                         'onCancel': function () {
                             $('.uploadify-queue').css('zIndex', '0');
-                            parent.find('.disable').remove();
+                            $timeout(function () {
+                                scope.myLoading = false;
+                            }, 0);
                         }
                     });
-
+                }
                 function callbackImg(arr) {
                     var data = $.parseJSON(arr);
                     var img = new Image();
                     img.onload = function () {
                         scope.$apply(function () {
-                            scope.myQuery = data.data
+                            scope.myQuery = data.data;
+                            scope.myLoading = false;
                         });
-                        parent.find('.disable').remove();
                     };
                     img.onerror = function () {
                         alert("图片加载错误");
-                        parent.find('.disable').remove();
+                        $timeout(function () {
+                            scope.myLoading = false;
+                        }, 0);
                     };
                     img.src = '/api/v2/web/image/' + data.data;
                 }
-
                 var jcrop_api;
                 var jcrop_data;
-
                 function callbackCropImg(arr) {
                     var data = $.parseJSON(arr);
                     var img = new Image();
-                    $winW = $(window).width();
-                    $winH = $(window).height();
                     img.onload = function () {
                         this.onload = this.error = null;
-                        imgW = img.width;
-                        imgH = img.height;
-                        if (imgW < 300) {
-                            alert('图片宽度小于300，请重新上传');
-                            return false;
-                        } else if (imgH < 300) {
-                            alert('图片高度小于300，请重新上传');
+                        var imgW = this.width;
+                        var imgH = this.height;
+                        if (imgW < minW) {
+                            alert('图片宽度小于'+minW+'，请重新上传');
                             return false;
                         }
-                        scale = ($winH - 286) / imgH;
-                        w = imgH > $winH - 286 ? imgW * scale : imgW;
-                        h = imgH > $winH - 286 ? imgH * scale : imgH;
-                        var boxSize = iAttrs.width;
+                        if (imgH < minH) {
+                            alert('图片高度小于'+minH+'，请重新上传');
+                            return false;
+                        }
+                        var scale = ($winH - 286) / imgH;
+                        var w = imgH > $winH - 286 ? imgW * scale : imgW;
+                        var h = imgH > $winH - 286 ? imgH * scale : imgH;
                         $target.attr('src', img.src).Jcrop({
-                            boxWidth: w,
-                            boxHeight: h,
-                            keySupport: true,
-                            bgFade: true,
-                            bgOpacity: .2,
-                            setSelect: [0, 0, iAttrs.width, iAttrs.height],   //裁剪框初始位置和初始大小
-                            minSize: [iAttrs.width, iAttrs.height], //最小裁切框大小 注0,0表示不限
-                            maxSize: [0, 0], //最大裁切框大小 注0,0表示不限
-                            aspectRatio: iAttrs.scale, //最大裁切宽高比 注0表示不限
+                            "boxWidth"    : w,
+                            "boxHeight"   : h,
+                            "keySupport"  : true,
+                            "bgFade"      : true,
+                            "bgOpacity"   : .2,
+                            "setSelect"   : [0, 0, minW, minH],   //裁剪框初始位置和初始大小
+                            "minSize"     : [minW, minH], //最小裁切框大小 注0,0表示不限
+                            "maxSize"     : [0, 0], //最大裁切框大小 注0,0表示不限
+                            "aspectRatio" : iAttrs.scale, //最大裁切宽高比 注0表示不限
                             onChange: function (c) {    //拖拽时候函数，返回位置和宽高
                                 jcrop_data = c;
                             }
                         }, function () {
                             jcrop_api = this;   //返回对象，供销毁操作
                         });
-                        $cropMask.css({
-                            width: $winW,
-                            height: $winH
-                        }).fadeTo("slow", 0.3);
                         $cropBox.css({
-                            width: w,
-                            marginLeft: -(w / 2)
+                            'width'      : w,
+                            'marginLeft' : -(w / 2)
                         }).show().animate({
                             top: 100
                         });
-                        parent.find('.disable').remove();
+                        $timeout(function () {
+                            scope.myLoading = false;
+                        }, 0);
                     };
                     img.onerror = function () {
                         alert("图片加载错误");
-                        parent.find('.disable').remove();
+                        $timeout(function () {
+                            scope.myLoading = false;
+                        }, 0);
+                        $cropMask.hide();
                     };
                     img.src = '/api/v2/web/image/' + data.data;
                     $cropCancel.on('click', function () {
@@ -2005,41 +1264,41 @@ angular.module('directives', [])
                                 }),
                                 processData: false
                             })
-                                .done(function (res) {
-                                    scope.$apply(function () {
-                                        scope.myQuery = res.data;
-                                    });
-                                    clearData();
-                                    data.data = null;
-                                })
-                                .fail(function () {
-                                    console.log("error");
-                                })
+                            .done(function (res) {
+                                scope.$apply(function () {
+                                    scope.myQuery = res.data;
+                                });
+                                clearData();
+                                data.data = null;
+                            })
+                            .fail(function () {
+                                console.log("error");
+                            })
                         }
                     })
                 }
-
                 function clearData() {
                     $cropMask.hide();
                     $cropBox.hide();
                     jcrop_api.destroy();
                     $target.attr('src', '');
                 }
-
                 scope.$on('$destroy', function () {
-                    if(isStart){
+                    if(checkSupport() === 'flash'){
                         $(iElm).uploadify('destroy');  //销毁上传的插件，避免ie报错
                     }
+                    Loading();   //释放监听
                 });
             }
         };
-    })
+    }])
     .directive('myInsertimage', ['$timeout', function ($timeout) {     //多图片上传
         return {
             scope: {
                 myQuery: "=",
                 myType: '@',
-                myComplete : "="
+                myComplete : "=",
+                myLoading : "="
             },
             restrict: 'A',
             template: function (obj, attr) {
@@ -2048,12 +1307,12 @@ angular.module('directives', [])
                     '<div class="k-uploadbox f-cb ' + attr.myType + '">',
                     '<div class="item" ng-repeat="img in myQuery">',
                     '<div class="queue-item" ng-if="img.loading >= 0">',
-                    '<span class="loading">{{img.loading}}%</span>',
+                    '<span class="loading" ng-bind="img.progress"></span>',
                     '<span class="uploading"><i ng-if="img.loading > 0" class="ing">正在上传中</i><i ng-if="img.loading == 0">等待上传中</i></span>',
-                    '<span class="filename" ng-bind="img.filename"></span>',
-                    '<span class="error" ng-if="img.error" ng-bind="img.errorMsg"></span>',
-                    '<span class="progress"><span style="width:{{img.loading}}%;"></span></span>',
-                    '<span class="cancel" ng-click="cancel(img.uploadid)"><i class="iconfont">&#xe642;</i></span>',
+                    '<span class="filename" ng-bind="img.file.name"></span>',
+                    '<span class="error" ng-if="img.errorMsg" ng-bind="img.errorMsg"></span>',
+                    '<span class="progress"><span ng-style="{width:img.progress}"></span></span>',
+                    '<span class="cancel" ng-click="cancel(img.file,img.fileid)"><i class="iconfont">&#xe642;</i></span>',
                     '</div>',
                     '<div ng-if="img.loading == undefined">'
                 ];
@@ -2087,139 +1346,202 @@ angular.module('directives', [])
             },
             link: function (scope, iElm, iAttrs, controller) {
                 var obj = angular.element(iElm);
-                $('#createUpload1').uploadify({
-                    'auto': true, //自动上传
-                    'removeTimeout': 1,
-                    'swf': 'uploadify.swf',
-                    'uploader': '/api/v2/web/image/upload',  //上传的api
-                    'method': 'post',
-                    'buttonText': '',
-                    'multi': true,  //一次只能选择一个文件
-                    'queueSizeLimit': 10,
-                    'width': 168,
-                    'height': 168,
-                    'fileObjName': 'Filedata',
-                    'successTimeout': 10,
-                    'fileTypeDesc': 'Image Files',
-                    'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
-                    'fileSizeLimit': '3MB',  //上传最大文件限制
-                    'onSelect': function (file) {
-                        $timeout(function () {
-                            scope.myQuery.push({
-                                uploadid: file.id,
-                                loading: 0,
-                                filename : file.name,
-                                error : false,
-                                errorMsg : ''
-                            });
-                            scope.myComplete = true;
-                        }, 0);
-                    },
-                    'onSelectError':function(file,errorCode, errorMsg){
-                        console.log(file,errorCode, errorMsg)
-                    },
-                    'onUploadStart': function () {
+                var Loading = scope.$watch('myLoading',function(value){
+                    if(value){
                         obj.find('.pic').append('<div class="disable"></div>');
-                        $('.uploadify-queue').css('zIndex', '110');
-                    },
-                    'onUploadSuccess': function (file, data, response) {
-                        callbackImg(data,file.id);
-                        $('.uploadify-queue').css('zIndex', '0');
-                    },
-                    'onQueueComplete' : function(queueData){
-                        //console.log(queueData)
-                        $timeout(function () {
-                            scope.myComplete = false;
-                        }, 0);
-                    },
-                    'onUploadError': function (file, errorCode, errorMsg, errorString) {
-                        if (errorMsg === '500' && errorCode === -200) {
+                    }else{
+                        obj.find('.disable').remove();
+                    }
+                });
+                if(checkSupport() === 'html5'){
+                    var GUID = 0;
+                    $('#createUpload1').uploadifive({
+                        'auto'  : true,
+                        'dnd'   : false,
+                        'buttonText' : '',
+                        'method'  : 'post',
+                        'queueID' : 'queue',
+                        'fileObjName': 'Filedata',
+                        'multi': true,  //一次只能选择一个文件
+                        'queueSizeLimit': 10,
+                        'width': 168,
+                        'height': 168,
+                        'fileType' : 'image/jpeg,image/png',  //允许上传文件类型
+                        'fileSizeLimit': 3072,  //上传最大文件限制
+                        'uploadScript' : '/api/v2/web/image/upload',  //上传的api
+                        'onAddQueueItem' : function(file){
                             $timeout(function () {
-                                if (findIndex(scope.myQuery, file.id, 'uploadid') >= 0) {
-                                    scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].error = true;
-                                    scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].errorMsg = '上传超时，请重新选择上传';
+                                scope.myQuery.push({
+                                    fileid : file.queueItem[0].id,
+                                    filename : file.name,
+                                    file : file,
+                                    loading: 0,
+                                    progress : '0%',
+                                    errorMsg : ''
+                                });
+                                scope.myComplete = true;
+                                scope.myLoading = true;
+                            }, 0);
+                        },
+                        'onProgress' : function(file, event) {
+                            $timeout(function () {
+                                try {
+                            　　  var index = _.findIndex(scope.myQuery,{'fileid':file.queueItem[0].id});
+                            　　} catch(error) {
+                            　　  console.log(error)
+                            　　} finally {
+                            　　    if (index >= 0) {
+                                        scope.myQuery[index].loading = parseInt(event.loaded/event.total*100,10);
+                                        scope.myQuery[index].progress = scope.myQuery[index].loading+'%';
+                                    }
+                            　　}
+                            }, 0);
+                        },
+                        'onSelect'   : function(file) {
+                            obj.find('.pic').append('<div class="disable"></div>');
+                            GUID = file.queued;
+                            console.log(file)
+                        },
+                        'onUploadComplete': function (file, data, response) {
+                            console.log('onUploadComplete',arguments);
+                            callbackImg(data,file.queueItem[0].id);
+                            if(GUID-- === 1){
+                                $timeout(function () {
+                                    scope.myComplete = false;
+                                    scope.myLoading = false;
+                                }, 0);
+                                $('#createUpload1').uploadifive('clearQueue');
+                                obj.find('.disable').remove();
+                                console.log('全部上传完成');
+                            }
+                        },
+                        'onError': function (errorMsg, fileType, data) {
+                            console.log('onError',errorMsg, fileType, data);
+                            if(errorMsg === 'FILE_SIZE_LIMIT_EXCEEDED'){
+                                alert('文件大小超出3M限制，请重新上传');
+                            }
+                            if(errorMsg === 'Unknown Error'){
+                                 $timeout(function () {
+                                    var index = _.findIndex(scope.myQuery,{'fileid':fileType.queueItem[0].id});
+                                    scope.myQuery[index].errorMsg = '上传超时，请重新选择上传';
+                                }, 0);
+                            }
+                        },
+                        'onCancel': function () {
+                            if(GUID-- === 1){
+                                $timeout(function () {
+                                    scope.myComplete = false;
+                                    scope.myLoading = false;
+                                }, 0);
+                                $('#createUpload1').uploadifive('clearQueue');
+                                obj.find('.disable').remove();
+                                console.log('全部取消完成');
+                            }
+                        }
+                    });
+                }else{
+                    $('#createUpload1').uploadify({
+                        'auto': true, //自动上传
+                        'removeTimeout': 1,
+                        'swf': 'uploadify.swf',
+                        'uploader': '/api/v2/web/image/upload',  //上传的api
+                        'method': 'post',
+                        'buttonText': '',
+                        'multi': true,  //一次只能选择一个文件
+                        'queueSizeLimit': 10,
+                        'width': 168,
+                        'height': 168,
+                        'fileObjName': 'Filedata',
+                        'successTimeout': 10,
+                        'fileTypeDesc': 'Image Files',
+                        'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
+                        'fileSizeLimit': '3MB',  //上传最大文件限制
+                        'onSelect': function (file) {
+                            if(!obj.find('.disable').size()){
+                                obj.find('.pic').append('<div class="disable"></div>');
+                            }
+                            $timeout(function () {
+                                scope.myQuery.push({
+                                    fileid : file.id,
+                                    file : file,
+                                    loading: 0,
+                                    progress : '0%',
+                                    errorMsg : ''
+                                });
+                                scope.myComplete = true;
+                                scope.myLoading = true;
+                            }, 0);
+                        },
+                        'onUploadSuccess': function (file, data, response) {
+                            callbackImg(data,file.id);
+                        },
+                        'onQueueComplete' : function(queueData){
+                            $timeout(function () {
+                                scope.myComplete = false;
+                                scope.myLoading = false;
+                            }, 0);
+                            obj.find('.disable').remove();
+                        },
+                        'onUploadError': function (file, errorCode, errorMsg, errorString) {
+                            if (errorMsg === '500' && errorCode === -200) {
+                                $timeout(function () {
+                                    var index = _.findIndex(scope.myQuery,{'fileid':file.id});
+                                    if (index >= 0) {
+                                        scope.myQuery[index].errorMsg = '上传超时，请重新选择上传';
+                                    }
+                                }, 0);
+                            }
+                            console.log(arguments);
+                        },
+                        'onCancel': function () {
+
+                        },
+                        'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
+                            $timeout(function () {
+                                var index = _.findIndex(scope.myQuery,{'fileid':file.id});
+                                if (index >= 0) {
+                                    scope.myQuery[index].loading = parseInt(bytesUploaded / bytesTotal * 100, 10);
+                                    scope.myQuery[index].progress = scope.myQuery[index].loading+'%';
                                 }
                             }, 0);
                         }
-                        $('.uploadify-queue').css('zIndex', '0');
-                    },
-                    'onCancel': function () {
-                        $('.uploadify-queue').css('zIndex', '0');
-                    },
-                    'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
-                        $timeout(function () {
-                            if (findIndex(scope.myQuery, file.id, 'uploadid') >= 0) {
-                                scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].loading = parseInt(bytesUploaded / bytesTotal * 100, 10);
-                            }
-                        }, 0);
-                    }
-                });
+                    });
+                }
                 function callbackImg(arr,id) {
                     var data = $.parseJSON(arr);
                     var img = new Image();
-                    if (findIndex(scope.myQuery, data.data) == -1) {
-                        img.onload = function () {
-                            this.onload = this.error = null;
-                            scope.$apply(function () {
-                                if (scope.myType == 'default') {
-                                    scope.myQuery[findIndex(scope.myQuery, id, 'uploadid')] = data.data;
-                                } else {
-                                    scope.myQuery[findIndex(scope.myQuery, id, 'uploadid')] = {
-                                        "imageid": data.data,
-                                        "uploadid": undefined,
-                                        "loading": undefined,
-                                        "filename" : undefined,
-                                        "error" : undefined,
-                                        "errorMsg" : undefined
-                                    };
+                    img.onload = function () {
+                        this.onload = this.error = null;
+                        scope.$apply(function () {
+                            if(scope.myType == 'default'){
+                                if(_.findIndex(scope.myQuery,data.data) == -1){
+                                    scope.myQuery[_.findIndex(scope.myQuery,{'fileid':id})] = data.data;
+                                }else{
+                                    alert('已经上传过了');
+                                    scope.myQuery = _.remove(scope.myQuery, function(n) {
+                                      return n != id;
+                                    });
                                 }
-                            });
-                            obj.find('.pic').find('.disable').remove();
-                        };
-                        img.onerror = function () {
-                            alert("图片加载错误");
-                            obj.find('.pic').find('.disable').remove();
-                        };
-                        img.src = '/api/v2/web/thumbnail2/168/168/' + data.data;
-                    } else {
-                        alert('已经上传过了');
+                            }else{
+                                if(_.findIndex(scope.myQuery,{'imageid':data.data}) == -1){
+                                    scope.myQuery[_.findIndex(scope.myQuery,{'fileid':id})] = {
+                                        "imageid": data.data
+                                    };
+                                }else{
+                                    alert('已经上传过了');
+                                    scope.myQuery = _.remove(scope.myQuery, function(n) {
+                                      return n.fileid != id;
+                                    });
+                                }
+                            }
+                        });
+                    }
+                    img.onerror = function () {
+                        alert("图片加载错误");
                         obj.find('.pic').find('.disable').remove();
-                    }
+                    };
+                    img.src = '/api/v2/web/thumbnail2/168/168/' + data.data;
                 }
-
-                function findIndex(arr, name, type) {
-                    var len = arr.length;
-                    if (!len) {
-                        return -1;
-                    }
-                    if (type === 'imageid') {
-                        for (var i = 0; i < len; i++) {
-                            if (arr[i].imageid === name) {
-                                return i;
-                            }
-                        }
-                    } else if (type === 'award_imageid') {
-                        for (var i = 0; i < len; i++) {
-                            if (arr[i].award_imageid === name) {
-                                return i;
-                            }
-                        }
-                    } else if (type === 'uploadid') {
-                        for (var i = 0; i < len; i++) {
-                            if (arr[i].uploadid === name) {
-                                return i;
-                            }
-                        }
-                    } else {
-                        for (var i = 0; i < len; i++) {
-                            if (arr[i] === name) {
-                                return i;
-                            }
-                        }
-                    }
-                    return -1;
-                }
-
                 scope.removeImg = function (i, arr) {
                     if (confirm("您确定要删除吗？删除不能恢复")) {
                         arr.splice(i, 1);
@@ -2228,17 +1550,26 @@ angular.module('directives', [])
                         }, 0);
                     }
                 };
-                scope.cancel = function (id) {
-                    $('#createUpload1').uploadify('cancel', id);
+                scope.cancel = function (file,fileid) {
+                    if(checkSupport() === 'html5'){
+                         $('#createUpload1').uploadifive('cancel',file);
+                    }else{
+                        $('#createUpload1').uploadify('cancel', fileid);
+                    }
                     $timeout(function () {
-                        scope.myQuery.splice(findIndex(scope.myQuery, id, 'uploadid'), 1);
+                        scope.myQuery = _.remove(scope.myQuery, function(n) {
+                            return n.fileid != fileid;
+                        });
                     }, 0);
                 }
                 scope.viewImg = function (id) {
                     bigImg(id)
                 };
                 scope.$on('$destroy', function () {
-                    $('#createUpload1').uploadify('destroy');   //销毁上传的插件，避免ie报错
+                    if(checkSupport() === 'flash'){
+                        $('#createUpload1').uploadify('destroy');   //销毁上传的插件，避免ie报错
+                    }
+                    Loading();   //释放监听
                 });
                 function bigImg(id) {
                     var modat = '<div class="modal-dialog">\
@@ -2259,6 +1590,9 @@ angular.module('directives', [])
                         $backdrop.remove();
                         $img.attr('src', '');
                     });
+                    $img.on('dblclick',function(){
+                        $close.trigger('click');
+                    });
                     var w = winW > 1200 ? 1200 : winW <= 1200 ? 1000 : winW;
                     var h = winH - 100;
                     var img = new Image();
@@ -2266,14 +1600,19 @@ angular.module('directives', [])
                     img.onload = function () {
                         this.onload = this.onerror = null;
                         var imgW,imgH;
-                        if(this.height > h || this.width > w){
+                        if(this.width >= w){
                             if(this.width > this.height){
                                 imgW = w;
                                 imgH =  w/this.width*this.height;
                             }else if(this.width < this.height){
                                 imgH = h;
                                 imgW =  h/this.height*this.width;
+                            }else{
+                                imgW = imgW = h;
                             }
+                        }else if(this.height >= h){
+                            imgH = h;
+                            imgW = h/this.height*this.width;
                         }else{
                             imgW = this.width;
                             imgH =  this.height;
@@ -2283,9 +1622,9 @@ angular.module('directives', [])
                             height: imgH
                         }).attr('src', this.src);
                         $modal.find('.modal-dialog').css({
-                            width: imgW,
-                            height: imgH,
-                            marginTop: (winH - imgH) / 2
+                            'width'    : imgW,
+                            'height'   : imgH,
+                            'marginTop': (winH - imgH) / 2
                         });
                         $modal.fadeIn();
                     };
@@ -2299,47 +1638,47 @@ angular.module('directives', [])
             scope: {
                 myQuery: "=",
                 mySection: "=",
-                myType: '@',
                 myCover: "=",
-                myComplete : "="
+                myComplete : "=",
+                myLoading : "="
             },
             restrict: 'A',
             template: function (obj, attr) {
                 var template = [
-                    '<div class="k-uploadbox f-cb ' + attr.myType + '">',
+                    '<div class="k-uploadbox f-cb ' + attr.type + '">',
                     '<div class="item" ng-repeat="img in myQuery" bindonce="scope.myQuery">',
                     '<div class="queue-item" ng-if="img.loading >= 0">',
-                    '<span class="loading">{{img.loading}}%</span>',
+                    '<span class="loading" ng-bind="img.progress"></span>',
                     '<span class="uploading"><i ng-if="img.loading > 0" class="ing">正在上传中</i><i ng-if="img.loading == 0">等待上传中</i></span>',
                     '<span class="filename" ng-bind="img.filename"></span>',
                     '<span class="error" ng-if="img.error" ng-bind="img.errorMsg"></span>',
-                    '<span class="progress"><span style="width:{{img.loading}}%;"></span></span>',
+                    '<span class="progress"><span ng-style="{width:img.progress}"></span></span>',
                     '<span class="cancel" ng-click="cancel(img.uploadid)"><i class="iconfont">&#xe642;</i></span>',
                     '</div>',
                     '<div ng-if="img.loading == undefined">'
                 ];
-                if (attr.myType == 'edit') {
+                if (attr.type == 'edit') {
                     template.push('<span class="cover" ng-if="myCover == img.imageid">封面</span>');
                     template.push('<span class="settes" ng-if="myCover != img.imageid" ng-click="setImg(img.imageid)">设为封面</span>');
                     template.push('<span class="view" ng-click="viewImg(img.imageid)"><i class="iconfont">&#xe645;</i></span>');
                 }
-                if (attr.myType == 'write') {
+                if (attr.type == 'write') {
                     template.push('<span class="view" ng-click="viewImg(img.award_imageid)"><i class="iconfont">&#xe645;</i></span>');
                 }
                 template.push('<span class="mask"></span>');
                 template.push('<span class="close" ng-click="removeImg($index,myQuery)"><i class="iconfont">&#xe642;</i></span>');
                 template.push('<div class="img">');
-                if (attr.myType == 'edit') {
+                if (attr.type == 'edit') {
                     template.push('<img ng-src="/api/v2/web/thumbnail2/168/168/{{img.imageid}}" />');
-                } else if (attr.myType == 'write') {
+                } else if (attr.type == 'write') {
                     template.push('<img ng-src="/api/v2/web/thumbnail2/168/168/{{img.award_imageid}}" />');
                 }
                 template.push('</div>');
                 template.push('</div>');
-                if (attr.myType == 'edit') {
+                if (attr.type == 'edit') {
                     template.push('<div my-selecte ng-if="mySection.length" my-list="mySection" my-query="img.section"></div>');
                     template.push('<textarea placeholder="在此添加描述" class="input textarea" ng-model="img.description" name="itme_con" cols="30" rows="10"></textarea>');
-                } else if (attr.myType == 'write') {
+                } else if (attr.type == 'write') {
                     template.push('<textarea placeholder="在此添加描述" class="input textarea" ng-model="img.description" name="itme_con" cols="30" rows="10"></textarea>');
                 }
                 template.push('</div>');
@@ -2349,193 +1688,264 @@ angular.module('directives', [])
                 template.push('<input type="hidden" id="sessionId" value="${pageContext.session.id}" />');
                 template.push('<input type="hidden" value="1215154" name="tmpdir" id="id_create">');
                 template.push('</div><div class="tips"><span><em></em><i></i></span>');
-                if (attr.myType == 'edit') {
-                    template.push('<p>作品上传每张3M以内<br />jpg/png格式<br /><br /><strong>作品/照片/平面图上均不能放置个人电话号码或违反法律法规的信息。</strong></p>');
-                } else if (attr.myType == 'write') {
-                    template.push('<p>图片上传每张3M以内<br />jpg/png格式<br /><br /><strong>作品/照片/平面图上均不能放置个人电话号码或违反法律法规的信息。</strong></p>');
-                }
+                template.push('<p>图片上传每张3M以内<br />jpg/png格式<br /><br /><strong>作品/照片/平面图上均不能放置个人电话号码或违反法律法规的信息。</strong></p>');
                 template.push('</div></div></div>');
                 template.push('</div>');
                 template.push('</div>');
                 return template.join('');
             },
             link: function (scope, iElm, iAttrs, controller) {
+                var type = iAttrs.type;
                 var obj = angular.element(iElm);
-                var loadDate = 0;
-                $('#createUpload2').uploadify({
-                    'auto': true, //自动上传
-                    'removeTimeout': 1,
-                    'swf': 'uploadify.swf',
-                    'uploader': '/api/v2/web/image/upload',  //上传的api
-                    'method': 'post',
-                    'buttonText': '',
-                    'multi': true,  //一次只能选择一个文件
-                    'queueSizeLimit': 10,
-                    'width': 168,
-                    'height': 168,
-                    'fileObjName': 'Filedata',
-                    'successTimeout': 5, //
-                    'fileTypeDesc': 'Image Files',
-                    'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
-                    'fileSizeLimit': '3MB',  //上传最大文件限制
-                    'onSelect': function (file) {
-                        $timeout(function () {
-                            if (scope.myType == 'edit') {
+                var Loading = scope.$watch('myLoading',function(value){
+                    if(value){
+                        obj.find('.pic').append('<div class="disable"></div>');
+                    }else{
+                        obj.find('.disable').remove();
+                    }
+                })
+                if(checkSupport() === 'html5'){
+                    var GUID = 0;
+                    $('#createUpload2').uploadifive({
+                        'auto'  : true,
+                        'dnd'   : false,
+                        'buttonText' : '',
+                        'method'  : 'post',
+                        'queueID' : 'queue',
+                        'fileObjName': 'Filedata',
+                        'multi': true,  //一次只能选择一个文件
+                        'queueSizeLimit': 10,
+                        'width': 168,
+                        'height': 168,
+                        'fileType' : 'image/jpeg,image/png',  //允许上传文件类型
+                        'fileSizeLimit': 3072,  //上传最大文件限制
+                        'uploadScript' : '/api/v2/web/image/upload',  //上传的api
+                        'onAddQueueItem' : function(file){
+                            $timeout(function () {
                                 scope.myQuery.push({
-                                    uploadid: file.id,
+                                    fileid : file.queueItem[0].id,
                                     filename : file.name,
-                                    error : false,
                                     errorMsg : '',
                                     loading: 0,
+                                    progress : '0%',
                                     description: "",
                                     section: "客厅"
                                 });
-                            } else if (scope.myType == 'write') {
-                                scope.myQuery.push({
-                                    uploadid: file.id,
-                                    filename : file.name,
-                                    error : false,
-                                    errorMsg : '',
-                                    loading: 0,
-                                    description: ""
-                                });
-                            }
-                            scope.myComplete = true;
-                        }, 0);
-                        $('#createUpload2').uploadify('disable',true);
-                    },
-                    'onUploadStart': function (file) {
-                        loadDate = +new Date();
-                        $('.uploadify-queue').css('zIndex', '110');
-                    },
-                    'onUploadSuccess': function (file, data, response) {
-                        callbackImg(data, file.id);
-                        $('.uploadify-queue').css('zIndex', '0');
-                    },
-                    'onUploadError': function (file, errorCode, errorMsg, errorString) {
-                        if (errorMsg === '500' && errorCode === -200) {
+                                scope.myComplete = true;
+                                scope.myLoading = true;
+                            }, 0);
+                        },
+                        'onProgress' : function(file, event) {
                             $timeout(function () {
-                                if (findIndex(scope.myQuery, file.id, 'uploadid') >= 0) {
-                                    scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].errorMsg = '上传超时，请重新上传';
+                                try {
+                            　　  var index = _.findIndex(scope.myQuery,{'fileid':file.queueItem[0].id});
+                            　　} catch(error) {
+                            　　  console.log(error)
+                            　　} finally {
+                            　　    if (index >= 0) {
+                                        scope.myQuery[index].loading = parseInt(event.loaded/event.total*100,10);
+                                        scope.myQuery[index].progress = scope.myQuery[index].loading+'%';
+                                    }
+                            　　}
+                            }, 0);
+                        },
+                        'onSelect'   : function(file) {
+                            obj.find('.pic').append('<div class="disable"></div>');
+                            GUID = file.queued;
+                            console.log(file)
+                        },
+                        'onUploadComplete': function (file, data, response) {
+                            console.log('onUploadComplete',arguments);
+                            callbackImg(data,file.queueItem[0].id);
+                            if(GUID-- === 1){
+                                $timeout(function () {
+                                    scope.myComplete = false;
+                                    scope.myLoading = false;
+                                }, 0);
+                                $('#createUpload2').uploadifive('clearQueue');
+                                obj.find('.disable').remove();
+                                console.log('全部上传完成');
+                            }
+                        },
+                        'onError': function (errorMsg, fileType, data) {
+                            console.log('onError',errorMsg, fileType, data);
+                            if(errorMsg === 'FILE_SIZE_LIMIT_EXCEEDED'){
+                                alert('文件大小超出3M限制，请重新上传');
+                            }
+                            if(errorMsg === 'Unknown Error'){
+                                 $timeout(function () {
+                                    var index = _.findIndex(scope.myQuery,{'fileid':fileType.queueItem[0].id});
+                                    scope.myQuery[index].errorMsg = '上传超时，请重新选择上传';
+                                }, 0);
+                            }
+                        },
+                        'onCancel': function () {
+                            if(GUID-- === 1){
+                                $timeout(function () {
+                                    scope.myComplete = false;
+                                    scope.myLoading = false;
+                                }, 0);
+                                $('#createUpload1').uploadifive('clearQueue');
+                                obj.find('.disable').remove();
+                                console.log('全部取消完成');
+                            }
+                        }
+                    });
+                }else{
+                    var loadDate = 0;
+                    $('#createUpload2').uploadify({
+                        'auto': true, //自动上传
+                        'removeTimeout': 1,
+                        'swf': 'uploadify.swf',
+                        'uploader': '/api/v2/web/image/upload',  //上传的api
+                        'method': 'post',
+                        'buttonText': '',
+                        'multi': true,  //一次只能选择一个文件
+                        'queueSizeLimit': 10,
+                        'width': 168,
+                        'height': 168,
+                        'fileObjName': 'Filedata',
+                        'successTimeout': 5, //
+                        'fileTypeDesc': 'Image Files',
+                        'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
+                        'fileSizeLimit': '3MB',  //上传最大文件限制
+                        'onSelect': function (file) {
+                            if(!obj.find('.disable').size()){
+                                obj.find('.pic').append('<div class="disable"></div>');
+                            }
+                            $timeout(function () {
+                                if (type == 'edit') {
+                                    scope.myQuery.push({
+                                        fileid: file.id,
+                                        filename : file.name,
+                                        errorMsg : '',
+                                        loading: 0,
+                                        progress : '0%',
+                                        description: "",
+                                        section: "客厅"
+                                    });
+                                } else if (type == 'write') {
+                                    scope.myQuery.push({
+                                        fileid: file.id,
+                                        filename : file.name,
+                                        errorMsg : '',
+                                        loading: 0,
+                                        progress : '0%',
+                                        description: ""
+                                    });
+                                }
+                                scope.myComplete = true;
+                                scope.myLoading = true;
+                            }, 0);
+                        },
+                        'onUploadStart': function (file) {
+                            loadDate = +new Date();
+                            $('.uploadify-queue').css('zIndex', '110');
+                        },
+                        'onUploadSuccess': function (file, data, response) {
+                            callbackImg(data, file.id);
+                            $('.uploadify-queue').css('zIndex', '0');
+                        },
+                        'onUploadError': function (file, errorCode, errorMsg, errorString) {
+                            if (errorMsg === '500' && errorCode === -200) {
+                                $timeout(function () {
+                                    var index = _.findIndex(scope.myQuery,{'fileid':file.id});
+                                    if (index >= 0) {
+                                        scope.myQuery[index].errorMsg = '上传超时，请重新选择上传';
+                                    }
+                                }, 0);
+                            }
+                        },
+                        'onQueueComplete' : function(queueData){
+                            $timeout(function () {
+                                scope.myComplete = false;
+                                scope.myLoading = false;
+                            }, 0);
+                            obj.find('.disable').remove();
+                        },
+                        'onCancel': function () {
+                            $('.uploadify-queue').css('zIndex', '0');
+                        },
+                        'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
+                             //153600
+                            /*if((+new Date() - loadDate) >= 10000){
+                                $('#createUpload2').uploadify('stop');
+                                console.log('上传超时，请重新上传');
+                                loadDate = 0;
+                                $timeout(function () {
+                                    if (findIndex(scope.myQuery, file.id, 'uploadid') >= 0) {
+                                        scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].error = true;
+                                    }
+                                }, 0);
+                                return ;
+                            }*/
+                            $timeout(function () {
+                                var index = _.findIndex(scope.myQuery,{'fileid':file.id});
+                                if (index >= 0) {
+                                    scope.myQuery[index].loading = parseInt(bytesUploaded / bytesTotal * 100, 10);
+                                    scope.myQuery[index].progress = scope.myQuery[index].loading+'%';
                                 }
                             }, 0);
                         }
-                        $('.uploadify-queue').css('zIndex', '0');
-                    },
-                    'onQueueComplete' : function(queueData){
-                        //console.log(queueData)
-                        $timeout(function () {
-                            scope.myComplete = false;
-                        }, 0);
-                        $('#createUpload2').uploadify('disable',false);
-                    },
-                    'onCancel': function () {
-                        $('.uploadify-queue').css('zIndex', '0');
-                    },
-                    'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
-                         //153600
-                        /*if((+new Date() - loadDate) >= 10000){
-                            $('#createUpload2').uploadify('stop');
-                            console.log('上传超时，请重新上传');
-                            loadDate = 0;
-                            $timeout(function () {
-                                if (findIndex(scope.myQuery, file.id, 'uploadid') >= 0) {
-                                    scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].error = true;
-                                }
-                            }, 0);
-                            return ;
-                        }*/
-                        $timeout(function () {
-                            if (findIndex(scope.myQuery, file.id, 'uploadid') >= 0) {
-                                scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].loading = parseInt(bytesUploaded / bytesTotal * 100, 10);
-                            }
-                        }, 0);
-                    }
-                });
-
+                    });
+                }
                 function callbackImg(arr, id) {
                     var data = $.parseJSON(arr);
                     var img = new Image();
-                    if (findIndex(scope.myQuery, data.data) == -1) {
-                        img.onload = function () {
-                            this.onload = this.error = null;
-                            scope.$apply(function () {
-                                if (scope.myType == 'edit') {
-                                    if (!scope.myCover) {
-                                        scope.myCover = data.data;
-                                    }
-                                    scope.myQuery[findIndex(scope.myQuery, id, 'uploadid')] = {
-                                        "section": "客厅",
+                    img.onload = function () {
+                        this.onload = this.error = null;
+                        scope.$apply(function () {
+                            if(type == 'edit'){
+                                if(_.findIndex(scope.myQuery,data.data) == -1){
+                                    var old = scope.myQuery[_.findIndex(scope.myQuery,{'fileid':id})];
+                                    scope.myQuery[_.findIndex(scope.myQuery,{'fileid':id})] = {
+                                        "section": old.section,
                                         "imageid": data.data,
-                                        "description": "",
-                                        "uploadid": undefined,
-                                        "loading": undefined,
-                                        "error" : undefined,
-                                        "errorMsg" : undefined,
-                                        "filename" : undefined
+                                        "description": old.description
                                     };
-                                } else if (scope.myType == 'write') {
-                                    scope.myQuery[findIndex(scope.myQuery, id, 'uploadid')] = {
-                                        "award_imageid": data.data,
-                                        "description": "",
-                                        "uploadid": undefined,
-                                        "loading": undefined,
-                                        "error" : undefined,
-                                        "errorMsg" : undefined,
-                                        "filename" : undefined
+                                    if(!scope.myCover){
+                                        scope.myCover = scope.myQuery[0].imageid;
                                     };
+                                    old = null;
+                                }else{
+                                    alert('已经上传过了');
+                                    scope.myQuery = _.remove(scope.myQuery, function(n) {
+                                      return n != id;
+                                    });
                                 }
-                            });
-                            obj.find('.pic').find('.disable').remove();
-                        };
-                        img.onerror = function () {
-                            alert("图片加载错误");
-                            obj.find('.pic').find('.disable').remove();
-                        };
-                        img.src = '/api/v2/web/thumbnail2/168/168/' + data.data;
-                    } else {
-                        alert('已经上传过了');
+                            }else if(type == 'write'){
+                                if(_.findIndex(scope.myQuery,{'award_imageid':data.data}) == -1){
+                                    var old = scope.myQuery[_.findIndex(scope.myQuery,{'fileid':id})];
+                                    scope.myQuery[_.findIndex(scope.myQuery,{'fileid':id})] = {
+                                        "award_imageid": data.data,
+                                        "description": old.description
+                                    };
+                                    old = null;
+                                }else{
+                                    alert('已经上传过了');
+                                    scope.myQuery = _.remove(scope.myQuery, function(n) {
+                                      return n.fileid != id;
+                                    });
+                                }
+                            }
+                        });
+                    }
+                    img.onerror = function () {
+                        alert("图片加载错误");
                         obj.find('.pic').find('.disable').remove();
-                    }
+                    };
+                    img.src = '/api/v2/web/thumbnail2/168/168/' + data.data;
                 }
-
-                function findIndex(arr, name, type) {
-                    var len = arr.length;
-                    if (!len) {
-                        return -1;
+                scope.cancel = function (file,fileid) {
+                    if(checkSupport() === 'html5'){
+                         $('#createUpload2').uploadifive('cancel',file);
+                    }else{
+                        $('#createUpload2').uploadify('cancel', fileid);
                     }
-                    if (type === 'imageid') {
-                        for (var i = 0; i < len; i++) {
-                            if (arr[i].imageid === name) {
-                                return i;
-                            }
-                        }
-                    } else if (type === 'award_imageid') {
-                        for (var i = 0; i < len; i++) {
-                            if (arr[i].award_imageid === name) {
-                                return i;
-                            }
-                        }
-                    } else if (type === 'uploadid') {
-                        for (var i = 0; i < len; i++) {
-                            if (arr[i].uploadid === name) {
-                                return i;
-                            }
-                        }
-                    } else {
-                        for (var i = 0; i < len; i++) {
-                            if (arr[i] === name) {
-                                return i;
-                            }
-                        }
-                    }
-                    return -1;
-                }
-
-                scope.cancel = function (id) {
-                    $('#createUpload2').uploadify('cancel', id);
                     $timeout(function () {
-                        scope.myQuery.splice(findIndex(scope.myQuery, id, 'uploadid'), 1);
+                        scope.myQuery = _.remove(scope.myQuery, function(n) {
+                            return n.fileid != fileid;
+                        });
                     }, 0);
                 }
                 scope.removeImg = function (i, arr) {
@@ -2559,6 +1969,12 @@ angular.module('directives', [])
                         }, 0);
                     }
                 };
+                scope.$on('$destroy', function () {
+                    if(checkSupport() === 'flash'){
+                        $('#createUpload2').uploadify('destroy');   //销毁上传的插件，避免ie报错
+                    }
+                    Loading();   //释放监听
+                });
                 scope.viewImg = function (id) {
                     bigImg(id);
                 };
@@ -2569,7 +1985,7 @@ angular.module('directives', [])
                 };
                 function bigImg(id) {
                     var modat = '<div class="modal-dialog"><span class="close"><i class="iconfont">&#xe642;</i></span>';
-                    if (scope.myType == 'edit') {
+                    if (type == 'edit') {
                         if (id === scope.myCover) {
                             modat += '<span class="settes" style="cursor:default;">已设为封面</span>';
                         } else {
@@ -2592,15 +2008,16 @@ angular.module('directives', [])
                         $backdrop.remove();
                         $img.attr('src', '');
                     });
+                    $img.on('dblclick',function(){
+                        $close.trigger('click');
+                    });
                     $settes.on('click', function () {
                         if ($(this).html() === '设为封面') {
                             $(this).html('已设为封面').css('color','#ccc');
                             $timeout(function () {
                                 scope.myCover = id;
                             }, 0);
-                            $modal.remove();
-                            $backdrop.remove();
-                            $img.attr('src', '');
+                            $close.trigger('click');
                         }
                         return ;
                     });
@@ -2611,14 +2028,19 @@ angular.module('directives', [])
                     img.onload = function () {
                         this.onload = this.onerror = null;
                         var imgW,imgH;
-                        if(this.height > h || this.width > w){
+                        if(this.width >= w){
                             if(this.width > this.height){
                                 imgW = w;
                                 imgH =  w/this.width*this.height;
                             }else if(this.width < this.height){
                                 imgH = h;
                                 imgW =  h/this.height*this.width;
+                            }else{
+                                imgW = imgH = h;
                             }
+                        }else if(this.height >= h){
+                            imgH = h;
+                            imgW = h/this.height*this.width;
                         }else{
                             imgW = this.width;
                             imgH =  this.height;
@@ -2628,9 +2050,9 @@ angular.module('directives', [])
                             height: imgH
                         }).attr('src', this.src);
                         $modal.find('.modal-dialog').css({
-                            width: imgW,
-                            height: imgH,
-                            marginTop: (winH - imgH) / 2
+                            'width'    : imgW,
+                            'height'   : imgH,
+                            'marginTop': (winH - imgH) / 2
                         });
                         $modal.fadeIn();
                     }
@@ -2961,56 +2383,6 @@ angular.module('directives', [])
             }
         };
     }])
-    .directive('casualVerify', function () {
-        var StrategyMode = {
-            'image': {
-                validity: function (value) {
-                    return value !== undefined;
-                }
-            },
-            'value': {
-                validity: function (value) {
-                    return value !== undefined;
-                }
-            },
-            'images': {
-                validity: function (value) {
-                    return value.length > 0;
-                }
-            },
-            'number': {
-                validity: function (value, msg) {
-                    var res;
-                    if (msg === 'int') {
-                        res = /[^0-9]/;
-                    } else if (msg === 'float') {
-                        res = /[^0-9.]/;
-                    }
-                    return !res.test(value);
-                }
-            },
-            'province': {
-                validity: function (value, msg) {
-                    return value != msg;
-                }
-            },
-            'city': {
-                validity: function (value, msg) {
-                    return value != msg;
-                }
-            }
-        };
-        return {
-            replace: true,
-            require: 'ngModel',
-            restrict: 'A',
-            link: function (scope, iElm, iAttrs, controller) {
-                scope.$watch(iAttrs.ngModel, function (newValue) {
-                    controller.$setValidity(iAttrs.type, StrategyMode[iAttrs.type].validity(newValue, iAttrs.msg));
-                });
-            }
-        };
-    })
     .directive('checkProvince', ['$timeout', function ($timeout) {     //检测省份
         return {
             replace: true,
@@ -3383,4 +2755,400 @@ angular.module('directives', [])
                 ele.addClass(data[type].sClass).html('<i class="iconfont">'+data[type].sIcon+'</i>&nbsp;&nbsp;&nbsp;'+data[type].sText);
             }
         };
-    });
+    })
+    .directive('myLoadimg', function () {
+        return {
+            restrict: 'A',
+            scope: {},
+            link: function (scope, ele, attrs) {
+                var imgUrl = attrs.imgapi;
+                var imgId = attrs.imgid;
+                var imgDefault = attrs.imgdefault;
+                if(!imgId){
+                    ele[0].src = imgDefault;
+                }else{
+                   var img = new Image();
+                    img.onload = function(){
+                        this.onload = this.onerror = null;
+                        ele[0].src = this.src;
+                    }
+                    img.onerror = function(){
+                        this.onload = this.onerror = null;
+                       ele[0].src = imgDefault;
+                    }
+                    img.src = imgUrl+imgId;
+                }
+            }
+        };
+    })
+    .directive('mySidenav', function () {
+        return {
+            restrict: 'A',
+            scope: {
+                myList : '='
+            },
+            replace : true,
+            template: '<div class="m-sidenav" id="j-sidenav"></div>',
+            link: function (scope, ele, attrs) {
+                var start = 0;
+                var $sidenav = $(ele);
+                var str = '<ul>';
+                angular.forEach(scope.myList,function(v,k){
+                    if(k===0){
+                        str += '<li class="active">'+v.section_label+'</li>';
+                    }else{
+                        str += '<li>'+v.section_label+'</li>';
+                    }
+                });
+                str += '</ul>';
+                $sidenav.html(str);
+                var aLi = $sidenav.find('li');
+                var win = $(window);
+                var winW = win.width();
+                $sidenav.css('left',parseInt((winW-1200)/2) - 70).show();
+                var list = $('#j-showDiary').find('.showDiary-list');
+                highlight(win.scrollTop());
+                setTop(win.scrollTop());
+                win.on('scroll',function(){
+                    var top = win.scrollTop();
+                    setTop(top);
+                    if(top < 500){
+                        add(0);
+                    }else{
+                        highlight(top);
+                    }
+                    setTimeout(function(){start = top;},0);
+                });
+                function highlight(top){
+                    list.each(function(index, el) {
+                        if($(el).offset().top - top < 300){
+                            add(index);
+                        }
+                    });
+                }
+                function setTop(top){
+                    console.log(start,top)
+                    if(start > top){
+                        console.log('向上滚动');
+                        if(top > 860){
+                            $sidenav.stop().animate({'top':100});
+                        }else{
+                            $sidenav.css({'top':860 - top});
+                        }
+                    }else{
+                        var topic = 860 - top <= 100 ? 100 : 860 - top;
+                        $sidenav.css({'top':topic});
+                        console.log('向下滚动');
+                    }
+                }
+                function add(n){
+                    aLi.eq(n).addClass('active').siblings().removeClass('active');
+                }
+                $sidenav.on('click','li',function(event){
+                    var index = $(this).index();
+                    $('html,body').animate({scrollTop: list.eq(index).offset().top}, 500,function(){
+                        add(index);
+                    });
+                });
+            }
+        };
+    })
+    .directive('myInsertimage3', ['$timeout', function ($timeout) {     //多图片上传
+        return {
+            scope: {
+                myQuery: "=",
+                myComplete : "=",
+                myLoading : "=",
+                mySize : '='
+            },
+            restrict: 'A',
+            template: function (obj, attr) {
+                var template = [
+                    '<div class="k-uploadbox f-cb">',
+                    '<div class="item" ng-repeat="img in myQuery" bindonce="scope.myQuery">',
+                    '<div class="queue-item" ng-if="img.loading >= 0">',
+                    '<span class="loading" ng-bind="img.progress"></span>',
+                    '<span class="uploading"><i ng-if="img.loading > 0" class="ing">正在上传中</i><i ng-if="img.loading == 0">等待上传中</i></span>',
+                    '<span class="filename" ng-bind="img.filename"></span>',
+                    '<span class="error" ng-if="img.error" ng-bind="img.errorMsg"></span>',
+                    '<span class="progress"><span ng-style="{width:img.progress}"></span></span>',
+                    '<span class="cancel" ng-click="cancel(img.uploadid)"><i class="iconfont">&#xe642;</i></span>',
+                    '</div>',
+                    '<div ng-if="img.loading == undefined">'
+                ];
+                template.push('<span class="close" ng-click="removeImg($index,myQuery)"><i class="iconfont">&#xe642;</i></span>');
+                template.push('<div class="img">');
+                template.push('<img ng-src="/api/v2/web/thumbnail2/85/85/{{img.imageid}}" />');
+                template.push('</div>');
+                template.push('</div>');
+                template.push('</div>');
+                template.push('<div class="pic" id="create">');
+                template.push('<div class="fileBtn">');
+                template.push('<input class="hide" id="createUpload2" type="file" name="upfile">');
+                template.push('<input type="hidden" id="sessionId" value="${pageContext.session.id}" />');
+                template.push('<input type="hidden" value="1215154" name="tmpdir" id="id_create">');
+                template.push('</div><div class="tips">只能传9张图</div>');
+                template.push('</div></div>');
+                template.push('</div>');
+                template.push('</div>');
+                return template.join('');
+            },
+            link: function (scope, iElm, iAttrs, controller) {
+                var type = iAttrs.type;
+                var obj = angular.element(iElm);
+                var Loading = scope.$watch('myLoading',function(value){
+                    if(value){
+                        obj.find('.pic').append('<div class="disable"></div>');
+                    }else{
+                        obj.find('.disable').remove();
+                    }
+                });
+                if(checkSupport() === 'html5'){
+                    var GUID = 0;
+                    $('#createUpload2').uploadifive({
+                        'auto'  : true,
+                        'dnd'   : false,
+                        'buttonText' : '',
+                        'method'  : 'post',
+                        'queueID' : 'queue',
+                        'fileObjName': 'Filedata',
+                        'multi': true,  //一次只能选择一个文件
+                        'queueSizeLimit': 9,
+                        'width': 85,
+                        'height': 85,
+                        'fileType' : 'image/jpeg,image/png',  //允许上传文件类型
+                        'fileSizeLimit': 3072,  //上传最大文件限制
+                        'uploadScript' : '/api/v2/web/image/upload',  //上传的api
+                        'onAddQueueItem' : function(file){
+                            $timeout(function () {
+                                if(scope.mySize > scope.myQuery.length - 1){
+                                    scope.myQuery.push({
+                                        fileid : file.queueItem[0].id,
+                                        filename : file.name,
+                                        errorMsg : '',
+                                        loading: 0,
+                                        progress : '0%'
+                                    });
+                                }else{
+                                    alert('只能传9张图');
+                                }
+                                scope.myComplete = true;
+                                scope.myLoading = true;
+
+                            }, 0);
+                        },
+                        'onProgress' : function(file, event) {
+                            $timeout(function () {
+                                try {
+                            　　  var index = _.findIndex(scope.myQuery,{'fileid':file.queueItem[0].id});
+                            　　} catch(error) {
+                            　　  console.log(error)
+                            　　} finally {
+                            　　    if (index >= 0) {
+                                        scope.myQuery[index].loading = parseInt(event.loaded/event.total*100,10);
+                                        scope.myQuery[index].progress = scope.myQuery[index].loading+'%';
+                                    }
+                            　　}
+                            }, 0);
+                        },
+                        'onSelect'   : function(file) {
+                            obj.find('.pic').append('<div class="disable"></div>');
+                            GUID = file.queued;
+                            console.log(file)
+                        },
+                        'onUploadComplete': function (file, data, response) {
+                            console.log('onUploadComplete',arguments);
+                            callbackImg(data,file.queueItem[0].id);
+                            if(GUID-- === 1){
+                                $timeout(function () {
+                                    scope.myComplete = false;
+                                    scope.myLoading = false;
+                                }, 0);
+                                $('#createUpload2').uploadifive('clearQueue');
+                                obj.find('.disable').remove();
+                                console.log('全部上传完成');
+                            }
+                        },
+                        'onError': function (errorMsg, fileType, data) {
+                            console.log('onError',errorMsg, fileType, data);
+                            if(errorMsg === 'FILE_SIZE_LIMIT_EXCEEDED'){
+                                alert('文件大小超出3M限制，请重新上传');
+                            }
+                            if(errorMsg === 'Unknown Error'){
+                                 $timeout(function () {
+                                    var index = _.findIndex(scope.myQuery,{'fileid':fileType.queueItem[0].id});
+                                    scope.myQuery[index].errorMsg = '上传超时，请重新选择上传';
+                                }, 0);
+                            }
+                        },
+                        'onCancel': function () {
+                            if(GUID-- === 1){
+                                $timeout(function () {
+                                    scope.myComplete = false;
+                                    scope.myLoading = false;
+                                }, 0);
+                                $('#createUpload1').uploadifive('clearQueue');
+                                obj.find('.disable').remove();
+                                console.log('全部取消完成');
+                            }
+                        }
+                    });
+                }else{
+                    var loadDate = 0;
+                    console.log(scope.myQuery.length)
+                    $('#createUpload2').uploadify({
+                        'auto': true, //自动上传
+                        'removeTimeout': 1,
+                        'swf': 'uploadify.swf',
+                        'uploader': '/api/v2/web/image/upload',  //上传的api
+                        'method': 'post',
+                        'buttonText': '',
+                        'multi': true,  //一次只能选择一个文件
+                        'queueSizeLimit': 9,
+                        'width': 85,
+                        'height': 85,
+                        'fileObjName': 'Filedata',
+                        'successTimeout': 5, //
+                        'fileTypeDesc': 'Image Files',
+                        'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
+                        'fileSizeLimit': '3MB',  //上传最大文件限制
+                        'onSelect': function (file) {
+                            if(!obj.find('.disable').size()){
+                                obj.find('.pic').append('<div class="disable"></div>');
+                            }
+                            $timeout(function () {
+
+                                scope.myQuery.push({
+                                    fileid: file.id,
+                                    filename : file.name,
+                                    errorMsg : '',
+                                    loading: 0,
+                                    progress : '0%'
+                                });
+                                scope.myComplete = true;
+                                scope.myLoading = true;
+                                scope.mySize = 9 - scope.myQuery.length;
+                            }, 0);
+                        },
+                        'onUploadStart': function (file) {
+                            loadDate = +new Date();
+                            $('.uploadify-queue').css('zIndex', '110');
+                        },
+                        'onUploadSuccess': function (file, data, response) {
+                            callbackImg(data, file.id);
+                            $('.uploadify-queue').css('zIndex', '0');
+                        },
+                        'onUploadError': function (file, errorCode, errorMsg, errorString) {
+                            if (errorMsg === '500' && errorCode === -200) {
+                                $timeout(function () {
+                                    var index = _.findIndex(scope.myQuery,{'fileid':file.id});
+                                    if (index >= 0) {
+                                        scope.myQuery[index].errorMsg = '上传超时，请重新选择上传';
+                                    }
+                                }, 0);
+                            }
+                        },
+                        'onQueueComplete' : function(queueData){
+                            $timeout(function () {
+                                scope.myComplete = false;
+                                scope.myLoading = false;
+                            }, 0);
+                            obj.find('.disable').remove();
+                        },
+                        'onCancel': function () {
+                            $('.uploadify-queue').css('zIndex', '0');
+                        },
+                        'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
+                             //153600
+                            /*if((+new Date() - loadDate) >= 10000){
+                                $('#createUpload2').uploadify('stop');
+                                console.log('上传超时，请重新上传');
+                                loadDate = 0;
+                                $timeout(function () {
+                                    if (findIndex(scope.myQuery, file.id, 'uploadid') >= 0) {
+                                        scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].error = true;
+                                    }
+                                }, 0);
+                                return ;
+                            }*/
+                            $timeout(function () {
+                                var index = _.findIndex(scope.myQuery,{'fileid':file.id});
+                                if (index >= 0) {
+                                    scope.myQuery[index].loading = parseInt(bytesUploaded / bytesTotal * 100, 10);
+                                    scope.myQuery[index].progress = scope.myQuery[index].loading+'%';
+                                }
+                            }, 0);
+                        }
+                    });
+                }
+                function callbackImg(arr, id) {
+                    var data = $.parseJSON(arr);
+                    var img = new Image();
+                    img.onload = function () {
+                        var _this = this;
+                        this.onload = this.error = null;
+                        scope.$apply(function () {
+                            if(_.findIndex(scope.myQuery,data.data) == -1){
+                                var old = scope.myQuery[_.findIndex(scope.myQuery,{'fileid':id})];
+                                scope.myQuery[_.findIndex(scope.myQuery,{'fileid':id})] = {
+                                    "width": _this.width,
+                                    "imageid": data.data,
+                                    "height": _this.height
+                                };
+                                old = null;
+                            }else{
+                                alert('已经上传过了');
+                                scope.myQuery = _.remove(scope.myQuery, function(n) {
+                                  return n != id;
+                                });
+                            }
+                        });
+                    }
+                    img.onerror = function () {
+                        alert("图片加载错误");
+                        obj.find('.pic').find('.disable').remove();
+                    };
+                    img.src = '/api/v2/web/image/' + data.data;
+                }
+                scope.cancel = function (file,fileid) {
+                    if(checkSupport() === 'html5'){
+                         $('#createUpload2').uploadifive('cancel',file);
+                    }else{
+                        $('#createUpload2').uploadify('cancel', fileid);
+                    }
+                    $timeout(function () {
+                        scope.myQuery = _.remove(scope.myQuery, function(n) {
+                            return n.fileid != fileid;
+                        });
+                    }, 0);
+                }
+                scope.removeImg = function (i, arr) {
+                    var cover = '';
+                    if (confirm("您确定要删除吗？删除不能恢复")) {
+                        if (scope.myCover && arr[i].imageid === scope.myCover) {
+                            if (arr.length > 0 && i != 0) {
+                                cover = arr[0].imageid;
+                            } else if (arr.length > 0 && arr.length != 1 && i == 0) {
+                                cover = arr[1].imageid;
+                            } else if (arr.length == 1 && i == 0) {
+                                cover = "";
+                            }
+                        } else {
+                            cover = scope.myCover;
+                        }
+                        arr.splice(i, 1);
+                        $timeout(function () {
+                            scope.myCover = cover;
+                            scope.myQuery = arr;
+                        }, 0);
+                    }
+                };
+                scope.$on('$destroy', function () {
+                    if(checkSupport() === 'flash'){
+                        $('#createUpload2').uploadify('destroy');   //销毁上传的插件，避免ie报错
+                    }
+                    Loading();   //释放监听
+                });
+            }
+        };
+    }]);

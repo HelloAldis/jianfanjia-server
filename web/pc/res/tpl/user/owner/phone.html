@@ -8,7 +8,7 @@
         <div class="m-boxs">
           <div class="m-item f-cb">
             <div class="item">
-              <label class="u-lab" for="owner-sex"><i>*</i>手机号码</label>
+              <label class="u-lab" for="owner-sex"><i class="required-icon"></i>手机号码</label>
               <div class="u-inp">
                 <input type="text" class="input" ng-model="user.phone" placeholder="11位手机号码" my-placeholder ng-pattern="/^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/" required name="phone" ng-blur="phone.verifyphone(user.phone)" />
               </div>
@@ -21,7 +21,7 @@
           </div>
           <div class="m-item f-cb">
             <div class="item">
-              <label class="u-lab" for="owner-email"><i>*</i>验证码</label>
+              <label class="u-lab" for="owner-email"><i class="required-icon"></i>验证码</label>
               <div class="u-inp">
                 <input type="text" class="input code" ng-model="user.code" required placeholder="6位数字验证码" my-placeholder ng-pattern="/^[\d]{6}$/" name="code" required />
                 <input type="button" ng-value="phone.codeValue" class="u-btns u-btns-revise code-btns" ng-class="{'u-btns-disabled':!phone.verifyPhoneOff || !phone.verifyCodeOff}" ng-disabled="!phone.verifyPhoneOff || !phone.verifyCodeOff" ng-click="phone.pullcode(user.phone)">

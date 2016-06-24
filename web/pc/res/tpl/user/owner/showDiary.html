@@ -1,0 +1,111 @@
+<div class="showDiary" id="j-showDiary">
+    <div class="banner" bindonce="diarys">
+        <img my-loadimg data-imgid="{{diarys.cover_imageid}}" data-imgApi="/api/v2/web/thumbnail2/920/260/" data-imgDefault="/static/img/diary/covers-default.jpg" />
+        <div class="mask"></div>
+        <div class="boxs">
+            <h4 bo-text="diarys.title"></h4>
+            <div class="tag">
+                <span bo-if="diarys.house_area"><i bo-text="diarys.house_area"></i>m&sup2;&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                <span bo-if="diarys.house_type"><i bo-text="diarys.house_type"></i>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                <span bo-if="diarys.dec_style"><i bo-text="diarys.dec_style"></i>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                <span bo-if="diarys.work_type"><i bo-text="diarys.work_type"></i></span>
+            </div>
+        </div>
+        <div class="operate">
+            <a class="btns edit" ui-sref="diary.add({id:diarys._id})"><i class="iconfont">&#xe627;</i></a>
+        </div>
+    </div>
+    <div class="showDiary-add">
+        <div class="add" ng-if="!write.show" ng-click="write.add()">
+            <i class="iconfont">&#xe629;</i>&nbsp;&nbsp;写日记
+        </div>
+        <div class="write" ng-if="write.show">
+            <div class="write-header">
+                <textarea rows="10" name="content" ng-model="write.content"></textarea>
+            </div>
+            <div class="write-body insertimage">
+                <div my-insertimage3 my-query="write.images" my-complete="write.complete" my-loading="write.loading" my-size="write.size"></div>
+            </div>
+            <div class="write-footer f-cb">
+                <div class="f-fl">
+                    <div my-select data-type="getValue" my-list="write.list" my-query="write.section_label" ng-if="write.select"></div>
+                </div>
+                <div class="f-fr">
+                    <button class="u-btns" ng-click="write.submit()" ng-class="{'u-btns-disabled' : !write.content.length || write.complete}" ng-disabled="!write.content.length || write.complete">&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="showDiary-list" ng-repeat="list in diarylist track by list._id" bindonce="diarylist" ng-if="isLoading">
+        <div class="list-head">
+            <div class="tags">
+                <h4 bo-text="list.section_label"></h4>
+                <span bo-text="list.create_at | date : 'yyyy年MM月dd日'"></span>
+            </div>
+            <div class="operate">
+                <button class="btns remove" ng-click="modal.remove(list._id)"><i class="iconfont">&#xe619;</i></button>
+            </div>
+        </div>
+        <div class="list-body">
+            <p class="text" bo-text="list.content"></p>
+            <div class="img">
+                <img bo-src-i="/api/v2/web/thumbnail2/160/160/{{img.imageid}}" ng-repeat="img in list.images track by $index" bindonce="list.images">
+            </div>
+        </div>
+        <ul class="list-foot">
+            <li ng-class="{'active':list.is_my_favorite}" ng-click="like(list.is_my_favorite,list._id)"><span class="like" ng-bind="list.favorite_count"></span><strong ng-if="list.likemove">+1</strong></li>
+            <li ng-class="{'active':list.is_review}" ng-click="comment(list.is_review,list._id)"><span class="review" bo-text="list.comment_count"></span></li>
+        </ul>
+        <div class="list-review" ng-if="list.is_review">
+            <div class="write">
+                <div class="u-head u-head-radius u-head-w50">
+                    <img ng-src="/api/v2/web/thumbnail2/50/50/{{list.author.imageid}}" bo-if="list.author.imageid">
+                </div>
+                <div class="textarea">
+                    <textarea rows="10" name="content" ng-model="list.reviewContent"></textarea>
+                </div>
+                <div class="btns">
+                    <span class="find" ng-if="list.giveshow">回复给&nbsp;&nbsp;<strong ng-bind="list.givename"></strong></span>
+                    <button type="button" class="u-btns" ng-click="addComment({
+                      topicid:list._id,
+                      topictype:'2',
+                      content:list.reviewContent,
+                      to_designerid:undefined,
+                      to_userid:list.authorid
+                    })" ng-disabled="!list.reviewContent">发表评论</button>
+                </div>
+            </div>
+            <div class="list">
+                <ul>
+                    <li ng-repeat="review in list.review" bindonce="list.review">
+                        <div class="u-head u-head-radius u-head-w50">
+                            <img bo-src-i="/api/v2/web/thumbnail2/50/50/{{review.byUser.imageid}}" alt="" bo-if="review.byUser.imageid">
+                        </div>
+                        <h4><span bo-text="review.byUser.username">新设计师</span><time bo-text="review.date | timeFormat"></time></h4>
+                        <p><span class="text" bo-text="review.content"></span><i class="iconfont reply" ng-class="{'active':review.giveshow}" ng-click="addCommentTo(review,list.author._id)">&#xe616;</i></p>
+                    </li>
+                    <li class="notList" ng-if="!list.review.length">
+                        暂无评论
+                    </li>
+                </ul>
+            </div>
+            <div class="more" ng-if="list.moveshow" ng-click="loadmore(list._id,list.review.length)">加载更多</div>
+        </div>
+    </div>
+</div>
+<!-- <div my-sidenav ng-if="isLoadingOut" my-list="diarylist"></div> -->
+<div class="pageLoading" ng-if="!isLoading"></div>
+<div class="k-modal dialog" id="j-modal" ng-class="{'show':modal.show}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="icon"><i class="iconfont">&#xe619;</i></div>
+                <p>您确定要取消日记吗？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="u-btns u-btns-revise cancel" ng-click="modal.cancel()">取消</button>
+                <button type="button" class="u-btns define" ng-click="modal.define()">确定</button>
+            </div>
+        </div>
+    </div>
+</div>

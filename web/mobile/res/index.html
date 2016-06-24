@@ -3,8 +3,129 @@
   <head>
     <meta charset="UTF-8">
     <title> 主标题 | 副标题</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    <style type="text/css">
+    html{
+        font-size: 64px;
+    }
+    body{
+        position: relative;
+    }
+    .foot{
+        position: fixed;
+        left:0;
+        right: 0;
+        bottom: 0;
+        height: 100px;
+        line-height: 100px;
+        font-size: 18px;
+        background-color: rgba(0,0,0,0.5);
+    }
+    .form{
+            width: 94%;
+            margin: 0 auto;
+            text-align: center;
+            padding-bottom: 4rem;
+        }
+        .form h2{
+            font-size: 0.5636rem;
+            line-height: 0.5636rem;
+            font-weight: normal;
+            color: #383d48;
+            padding-bottom: 1rem;
+        }
+        .form input{
+            width: 100%;
+            height:1rem;
+            font-size: 0.35rem;
+            padding-left: 10px;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .form .input{
+            color: #999;
+            background-color: #f9f9f9;
+            border: 1px solid #b2b2b2;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+        }
+        .form .errotMsg{
+            height:0.8051rem;
+            font-size: 0.2rem;
+            line-height: 0.8051rem;
+            text-align: left;
+            color: #ff6a6a;
+        }
+        .form .input.error{
+            border-color: #ff6a6a;
+        }
+        .form #info-submit{
+            margin-top: 0.5rem;
+            color: #fff;
+            background-color: #fe7004;
+            border: none;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+        }
+        .form #info-submit.disabled{
+            cursor: default;
+            background-color: #999;
+        }
+    </style>
   </head>
   <body>
-    <p>hello world</p>
+    <p id="test">hello world</p>
+    <div class="form">
+        <h2 id="key">立即免费申请</h2>
+        <form>
+            <input type="tel" class="input" id="phone" placeholder="请输入您的手机号">
+            <p class="errotMsg" id="phoneError"></p>
+            <input type="text" class="input" id="name" placeholder="请输入您的姓名">
+            <p class="errotMsg" id="nameError"></p>
+            <input type="submit" id="info-submit" class="disabled" value="提交">
+        </form>
+    </div>
+    <div class="foot"><a href="tel:400-8515-167">咨询热线   400-8515-167</a></div>
+    <script type="text/javascript">
+        window.$ = function(node){
+            return document.querySelectorAll(node);
+        }
+        var height = window.screen.availHeight;
+        document.title = height;
+        $('#phone')[0].addEventListener('focus',function(e){
+            $('.foot')[0].style.position = 'absolute';
+            document.title = height = window.screen.availHeight;
+            eventCheck(e)
+        },false);
+        $('#phone')[0].addEventListener('blur',function(e){
+            eventCheck(e)
+        },false);
+        var timer, windowInnerHeight;
+        function eventCheck(e) {
+            if (e) { //blur,focus事件触发的
+                $('#test')[0].innerHTML = 'android键盘' + (e.type == 'focus' ? '弹出' : '隐藏') + '--通过' + e.type + '事件';
+                setTimeout(function () {//由于键盘弹出是有动画效果的，要获取完全弹出的窗口高度，使用了计时器
+                    windowInnerHeight = window.innerHeight;//获取弹出android软键盘后的窗口高度
+                    timer = setInterval(function () {
+                        if (window.innerHeight > windowInnerHeight) {
+                            clearInterval(timer);
+                            $('#test')[0].innerHTML = 'android键盘隐藏--通过点击键盘隐藏按钮';
+                            $('.foot')[0].style.position = 'fixed';
+                        }
+                    }, 100);
+                }, 500);
+                if (e.type == 'click') {//如果是点击事件启动计时器监控是否点击了键盘上的隐藏键盘按钮，没有点击这个按钮的事件可用，keydown中也获取不到keyCode值
+
+                }else{
+                    clearInterval(timer);
+                }
+            }else { //计时器执行的，需要判断窗口可视高度，如果改变说明android键盘隐藏了
+
+            }
+        }
+    </script>
   </body>
 </html>

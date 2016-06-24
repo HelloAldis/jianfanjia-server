@@ -1446,4 +1446,301 @@ angular.module('controllers', [])
                 });
             }
             laod()
+        }])
+    .controller('diaryCtrl', [     //日记集列表
+        '$scope','$state','$filter','userDiary',function($scope,$state,$filter,userDiary){
+            $scope.diary = undefined;
+            userDiary.list().then(function(res){  //获取我的日记集列表
+                $scope.diary = res.data.data.diarySets;
+                angular.forEach($scope.diary, function(value){
+                    value.dec_type = $filter('decTypeFilter')(value.dec_type);
+                    if(value.business_house_type != undefined){
+                        value.business_house_type = $filter('businessHouseTypeFilter')(value.business_house_type);
+                    }
+                    if(value.house_type != undefined){
+                        value.house_type = $filter('houseTypeFilter')(value.house_type);
+                    }
+                    value.dec_style = $filter('decStyleFilter')(value.dec_style);
+                    value.work_type = $filter('workTypeFilter')(value.work_type);
+                });
+            })
+        }])
+    .controller('addDiaryCtrl', [     //添加一条日记集
+        '$scope','$state','$stateParams','userDiary','initData',function($scope,$state,$stateParams,userDiary,initData){
+            $scope.isLoading = false;
+            $scope.userdiary = {
+                isCreate : !$stateParams.id,
+                decStyle : initData.decStyle,
+                houseType : initData.houseType,
+                workType : initData.workType
+            };
+            $scope.userdiary.releaseValue = $scope.userdiary.isCreate ? "创建日记" : "编辑日记";
+            $scope.userdiary.releaseTitle = $scope.userdiary.isCreate ? "创建装修日记" : "编辑装修日记";
+            $scope.diarys = {
+                "title": '',
+                "house_area" : '',
+                "house_type" : '0',
+                "work_type" : '0',
+                "dec_style" : '0',
+                "cover_imageid" : ''
+            }
+            if($scope.userdiary.isCreate){
+                $scope.isLoading = true;
+            }else{
+                userDiary.get({
+                  "query":{
+                        "_id" : $stateParams.id
+                  }
+                }).then(function(res){
+                    if(res.data.data.total === 1){
+                        $scope.diarys = angular.extend($scope.diarys,res.data.data.diarySets[0]);
+                        $scope.isLoading = true;
+                    }
+                })
+            }
+            $scope.userdiary.submit = function(){
+                if($scope.userdiary.isCreate){
+                    userDiary.add({"diary_set" : $scope.diarys}).then(function(res){
+                        if(res.data.data && !_.isEmpty(res.data.data)){
+                            $state.go('diary.list');
+                        }
+                    });
+                }else{
+                    userDiary.update({"diary_set" : $scope.diarys}).then(function(res){
+                        if(res.data.msg && res.data.msg === "success"){
+                            $state.go('diary.list');
+                        }
+                    });
+                }
+            }
+        }])
+    .controller('showDiaryCtrl', [     //一条日记集详情
+        '$scope','$state','$stateParams','$timeout','userDiary',function($scope,$state,$stateParams,$timeout,userDiary){
+            $scope.isLoading = false; //加载数据
+            $scope.isReview = false;  //加载评论列表
+            $scope.diarys = $stateParams;  //加载头部数据
+            $scope.replyinfo = null;
+
+            // userDiary.get({     //加载头部数据
+            //   "query":{
+            //         "_id" : $stateParams.id
+            //   }
+            // }).then(function(res){
+            //     if(res.data.data.total === 1){
+            //         $scope.diarys = res.data.data.diarySets[0];
+
+            //     }
+            // });
+            var section_label = [
+                    '准备',
+                    '开工',
+                    '拆改',
+                    '泥木',
+                    '水电',
+                    '油漆',
+                    '安装',
+                    '竣工',
+                    '软装',
+                    '入住'
+                ]
+            $scope.write = {
+                'select' : true,
+                'size' : 9,
+                'loading' : false,
+                'complete' : false,
+                list : section_label,
+                'show' : false,
+                add : function(){
+                    this.show = true;
+                },
+                'images' : [],
+                'section_label' : getCurrentSectionlabel($stateParams.latest_section_label) || '时间节点选择',
+                'content' : '',
+                submit : function(){
+                    var _this = this;
+                    if(!_.trim(this.content.length)){
+                        return ;
+                    }
+                    if(this.section_label === '时间节点选择'){
+                        alert('请选择时间节点');
+                        return ;
+                    }
+                    userDiary.push({
+                        "diary":{
+                            "diarySetid": $stateParams._id,
+                            "content":this.content,
+                            "section_label":this.section_label,
+                            "images":this.images
+                        }
+                    }).then(function(res){
+                        console.log(res);
+                        _this.content = '';
+                        _this.images = [];
+                        _this.select = false;
+                        pull();
+                    },function(res){
+                        console.log(res);
+                    })
+                }
+            }
+            pull();
+            function getCurrentSectionlabel(label){
+                if(!label){
+                    return ;
+                }
+                var index = _.indexOf(section_label,label);
+                if(index <= section_label.length - 2){
+                    return section_label[index + 1];
+                }else{
+                    return _.last(section_label);
+                }
+            }
+            function pull(){
+                $scope.diarylist = [];
+                $scope.isLoadingOut = false; //侧栏
+                userDiary.pull({
+                    "query":{
+                        "diarySetid" : $stateParams._id
+                    }
+                }).then(function(res){
+                    $scope.diarylist = res.data.data.diaries;
+                    if($scope.diarylist.length > 0){
+                        $scope.write.section_label = getCurrentSectionlabel($scope.diarylist[0].diarySet.latest_section_label);
+                    }
+                    $scope.write.select = true;
+                    $scope.isLoading = true;
+                    timer = $timeout(function(){
+                        $scope.isLoadingOut = true;
+                        $timeout.cancel(timer);
+                    },1000);
+                });
+            }
+            var timer = null;
+            $scope.like = function(is,id){
+                if(is){
+                    return ;
+                }
+                $timeout.cancel(timer);
+                var index = _.findIndex($scope.diarylist,{"_id":id});
+                if(index != -1){
+                    $scope.diarylist[index].is_my_favorite = true;
+                    $scope.diarylist[index].favorite_count += 1;
+                    $scope.diarylist[index].likemove = true;
+                    userDiary.favorite({'diaryid':id}).then(function(res){  //点赞
+                        if(res.data.msg === "success"){
+                            timer = $timeout(function(){
+                                $scope.diarylist[index].likemove = false;
+                                $timeout.cancel(timer);
+                            },1000);
+                        }
+                    },function(res){
+                        console.log(res);
+                    });
+                }else{
+                    return ;
+                }
+            }
+            $scope.comment = function(is,id){
+                var index = _.findIndex($scope.diarylist,{"_id":id});
+                $scope.diarylist[index].giveshow = undefined;
+                $scope.diarylist[index].givename = undefined;
+                $scope.diarylist[index].reviewContent = '';
+                if(index != -1){
+                    $scope.diarylist[index].is_review = !is;
+                    if($scope.diarylist[index].is_review){
+                        $scope.diarylist[index].review = [];
+                        getComment(id,0,10,false);
+                    }
+                }else{
+                    return ;
+                }
+            }
+            $scope.loadmore = function(id,size){
+                getComment(id,size,10);
+            }
+            $scope.addCommentTo = function(data,authorid){
+                console.log(data,authorid)
+                var index = _.findIndex($scope.diarylist,{"_id":data.topicid});
+                var index2 = _.findIndex($scope.diarylist[index].review,{"_id":data._id});
+                console.log(index,index2)
+                $scope.replyinfo = data;
+                if(data.to_userid !== authorid){
+                    $scope.replyinfo.notfind = true;
+                    $scope.diarylist[index].giveshow = true;
+                    $scope.diarylist[index].review[index2].giveshow = true;
+                    $scope.diarylist[index].givename = data.byUser.username;
+                }
+            }
+            $scope.addComment = function(data){
+                console.log(data);
+                var index = _.findIndex($scope.diarylist,{"_id":data.topicid});
+                if($scope.replyinfo !== null){
+                    if($scope.replyinfo.notfind){
+                        data.to_userid = $scope.replyinfo.byUser._id;
+                        data.content = '回复给&nbsp;&nbsp;'+$scope.replyinfo.byUser.username+"：&nbsp;&nbsp;&nbsp;"+_.trim(data.content);
+                    }
+                }
+                userDiary.comment(data).then(function(res){  //获取意向设计师列表
+                    if(res.data.msg === "success"){
+                        getComment(data.topicid,0,10,true);
+                        $scope.replyinfo = null;
+                        $scope.diarylist[index].reviewContent = '';
+                    }
+                },function(res){
+                    console.log(res)
+                });
+            }
+            function getComment(id,form,limit,dir){
+                var index = _.findIndex($scope.diarylist,{"_id":id});
+                userDiary.topic({
+                  "topicid":id,
+                  "from": form,
+                  "limit":limit || 10
+                }).then(function(res){  //获取日记本下所有日志
+                    if(index != -1){
+                        if(dir){
+                            $scope.diarylist[index].review.unshift(res.data.data.comments[0]);
+                        }else{
+                            _.forEach(res.data.data.comments,function(n){
+                                $scope.diarylist[index].review.push(n);
+                            });
+                            if($scope.diarylist[index].review.length === res.data.data.total){
+                                $scope.diarylist[index].moveshow = false;
+                            }else{
+                                $scope.diarylist[index].moveshow = res.data.data.total > limit;
+                            }
+                        }
+
+                    }
+                },function(res){
+                    console.log(res)
+                });
+            }
+            $scope.modal = {
+                id : '',
+                show : false,
+                index : '',
+                cancel : function(){
+                    this.show = false;
+                    this.id = '';
+                },
+                define : function(){
+                    var _this = this;
+                    this.show = false;
+                    userDiary.remove({'diaryid':this.id}).then(function(res){  //删除一条日志
+                        if(res.data.msg === "success"){
+                            $scope.diarylist = _.filter($scope.diarylist,function(n){
+                                return n._id != _this.id;
+                            });
+                            _this.id = '';
+                        }
+                    },function(res){
+                        console.log(res)
+                    });
+                },
+                remove :function(id){
+                    this.show = true;
+                    this.id = id;
+                }
+            }
         }]);
