@@ -130,14 +130,19 @@ exports.delete_diary = function (req, res, next) {
   }, null, ep.done(function (diary) {
     res.sendSuccessMsg();
 
+    console.log(diary);
     if (diary) {
       Comment.removeSome({
         topicid: authorid
-      }, function () {});
+      }, function (err, re) {
+        console.log('remove Comment' + re);
+      });
 
       UserMessage.removeSome({
         topicid: authorid
-      }, function () {});
+      }, function (err, re) {
+        console.log('remove UserMessage' + re);
+      });
     }
 
   }));
