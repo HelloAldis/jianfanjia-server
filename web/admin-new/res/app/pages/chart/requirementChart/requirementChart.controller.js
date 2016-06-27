@@ -40,9 +40,9 @@
         querys: chart.querys
       }).then(function (resp) {
         if (resp.data.data.total === 0) {
-          chart.statistic1 = [];
+          chart.statistic = [];
         } else {
-          chart.statistic1 = resp.data.data;
+          chart.statistic = resp.data.data;
         }
       }, function (resp) {
         //返回错误信息
