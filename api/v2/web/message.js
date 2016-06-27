@@ -91,7 +91,7 @@ exports.search_user_comment = function (req, res, next) {
     create_at: -1
   }
   query.userid = ApiUtil.getUserid(req);
-  query.message_type = {
+  query.message_type = query.message_type || {
     $in: [type.user_message_type_comment_plan, type.user_message_type_comment_diary]
   }
   var ep = eventproxy();

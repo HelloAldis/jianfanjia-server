@@ -67,7 +67,7 @@
             $lte: lte
           }
         });
-        $scope.labels2.push($filter('date')(gte, 'yyyy-MM', '+0800'));
+        $scope.labels2.push($filter('date')(gte, 'MM－dd', '+0800'));
       }
       $scope.labels2.reverse();
 
@@ -77,6 +77,51 @@
       }, {
         key: 'requirement',
         querys: queryUtil.genQuerys($scope.timeRanges2, 'create_at', {
+          status: {
+            $in: ['4', '5', '7', '8']
+          }
+        })
+      }];
+
+      $scope.series2 = ['新增需求数', '新增成交数'];
+      adminStatistic.statistic_info({
+        querys: $scope.querys2
+      }).then(function (resp) {
+        if (resp.data.data.total === 0) {
+          $scope.statistic2 = [];
+        } else {
+          $scope.statistic2 = resp.data.data;
+        }
+      }, function (resp) {
+        //返回错误信息
+        $scope.loadData = false;
+        console.log(resp);
+      });
+    }
+
+    function initChart2() {
+      var now = new Date();
+      $scope.timeRanges3 = [];
+      $scope.labels3 = [];
+      for (var i = 0; i > -30; i--) {
+        var gte = queryUtil.getNDay0Clock(i, now).getTime();
+        var lte = queryUtil.getNDay0Clock(i + 1, now).getTime()
+        $scope.timeRanges3.push({
+          range: {
+            $gte: gte,
+            $lte: lte
+          }
+        });
+        $scope.labels2.push($filter('date')(gte, 'MM－dd', '+0800'));
+      }
+      $scope.labels2.reverse();
+
+      $scope.querys2 = [{
+        key: 'requirement',
+        querys: queryUtil.genQuerys($scope.timeRanges3, 'create_at')
+      }, {
+        key: 'requirement',
+        querys: queryUtil.genQuerys($scope.timeRanges3, 'create_at', {
           status: {
             $in: ['4', '5', '7', '8']
           }
