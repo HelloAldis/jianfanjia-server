@@ -59,7 +59,7 @@ function format(date,format){
     <main class="g-bd g-wp f-cb g-diary" id="j-diary">
         <article class="g-mn f-fl">
             <header class="m-diary-banner">
-                <% if(data.diarySet.cover_imageid !== undefined){ %>
+                <% if(data.diarySet.cover_imageid !== null){ %>
                 <img src="/api/v2/web/thumbnail2/920/260/<%= data.diarySet.cover_imageid %>" />
                 <% }else{ %>
                 <img src="/static/img/diary/covers-default.jpg" />
@@ -85,7 +85,7 @@ function format(date,format){
             <div class="m-diary-list m-diary-show">
                 <% if(!!data.diaries.length){ %>
                 <% data.diaries.forEach((v, k) => { %>
-                <section class="m-list" id="j-list<%= k %>" data-label="<%= v.section_label %>" data-uid="<%= v._id %>">
+                <section class="m-list" id="diary_<%= v._id %>" data-label="<%= v.section_label %>" data-uid="<%= v._id %>">
                     <header class="m-header f-cb">
                         <div class="tags">
                             <h4><%= v.section_label %></h4>
@@ -111,21 +111,21 @@ function format(date,format){
                     </section>
                     <ul class="m-footer">
                         <% if(v.is_my_favorite){ %>
-                        <li class="active" data-diaryid="<%= v._id %>"><span class="like"><%= v.favorite_count %></span></li>
+                        <li class="u-like active" data-diaryid="<%= v._id %>"><span class="like"><%= v.favorite_count %></span></li>
                         <% }else{ %>
-                        <li class="click-like" data-diaryid="<%= v._id %>"><span class="like"><%= v.favorite_count %></span><strong>+1</strong></li>
+                        <li class="click-like u-like" data-diaryid="<%= v._id %>"><span class="like"><%= v.favorite_count %></span><strong>+1</strong></li>
                         <% } %>
-                        <li class="click-review" data-diaryid="<%= v._id %>"><span class="review" ><%= v.comment_count %></span><strong>+1</strong></li>
+                        <li class="u-review click-review" data-diaryid="<%= v._id %>"><span class="review" ><%= v.comment_count %></span><strong>+1</strong></li>
                     </ul>
                     <% if (data.header_info.admin_statistic_info === undefined || data.header_info.user_statistic_info === undefined || data.header_info.designer_statistic_info === undefined) { %>
                           <% if(data.header_info.designer_statistic_info != undefined){ %>
                     <div class="m-review hide">
                           <div class="notsigned notwrite">
-                            评论功能暂时只对业主开放，设计师等等就有！
+                            评论功能暂时只对业主开放。
                           </div>
                           <% }else if(data.header_info.admin_statistic_info != undefined){ %>
                           <% }else if(data.header_info.user_statistic_info != undefined){ %>
-                    <div class="m-review hide" data-userid="<%= data.header_info.user_statistic_info._id %>" data-authorid="<%= v.authorid %>">
+                    <div class="m-review hide" data-userid="<%= data.header_info.user_statistic_info._id %>">
                         <div class="write">
                             <div class="u-head u-head-radius u-head-w50">
                                 <% if(data.header_info.user_statistic_info.imageid != undefined){ %>
@@ -139,7 +139,7 @@ function format(date,format){
                             </div>
                             <div class="btns">
                                 <span class="find">回复给&nbsp;&nbsp;<strong></strong></span>
-                                <button type="button" class="u-btns addComment u-btns-disabled" data-topicid="<%= v._id %>">发表评论</button>
+                                <button type="button" class="u-btns addComment u-btns-disabled" data-authorid="<%= v.authorid %>">发表评论</button>
                             </div>
                         </div>
                           <% }else{%>

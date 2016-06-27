@@ -16,6 +16,7 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
         Detail.prototype = {
             init  : function(){
                 this.urlid = window.location.pathname.split("/").pop();
+                this.diaryid = window.location.search.indexOf('=') ? window.location.search.split("=").pop() : '';
                 this.cookie = $.cookie('usertype');
                 this.body = $('body');
                 this.detail = $('#j-diary');
@@ -34,8 +35,17 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                 var winW = win.width();
                 $sidenav.css('left',parseInt((winW-1200)/2) - 70).show();
                 var list = this.detail.find('.m-list');
-                highlight(win.scrollTop());
-                setTop(win.scrollTop());
+                if($('#diary_'+this.diaryid).length > 0){
+                    var diary = $('#diary_'+this.diaryid);
+                    highlight(diary.offset().top);
+                    setTop(diary.offset().top);
+                    $('html,body').animate({scrollTop: diary.offset().top}, 500,function(){
+                        add(diary.index());
+                    });
+                }else{
+                    highlight(win.scrollTop());
+                    setTop(win.scrollTop());
+                }
                 win.on('scroll',function(){
                     var top = win.scrollTop();
                     setTop(top);
@@ -99,7 +109,7 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                 this.detail.on('click','.click-like',function(event){   //点赞
                     var id = $(this).data('diaryid');
                     if(_this.cookie === undefined){
-                        return _this.prevent('您还没有登录，请登录后在点赞',_this.urlid);
+                        return _this.prevent('您还没有登录，请登录后再点赞',_this.urlid);
                     }
                     if($(this).hasClass('active')){
                         return ;
@@ -154,9 +164,10 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                         });
                     }else{
                         review.addClass('hide');
-                        review.find('.list ul').html();
+                        review.find('.list ul').html('');
                     }
                 });
+
                 this.detail.on('click','.reply',function(event){    //评论给谁
                     var parent = $(this).parents('.m-list');
                     var review = parent.find('.m-review');
@@ -169,6 +180,8 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                         addCommentTo.notfind = true;
                         addCommentTo.byusername = '';
                     }else{
+                        var $reply = _this.detail.find('.reply');
+                        $reply.removeClass('active');
                         $(this).addClass('active');
                         addCommentTo.notfind = false;
                         review.find('.find strong').html(addCommentTo.byusername);
@@ -204,7 +217,6 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                                 for(var i=0; i < szie; i++){
                                     oUl.append(createComment(res.data.comments[i]))
                                 }
-                                fn && fn();
                                 if(length+szie >= total){
                                     more.hide();
                                 }else{
@@ -269,12 +281,12 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                         byuser = addCommentTo.byuserid;
                         if(addCommentTo.notfind){
                             content = $.trim(contentMsg.val());
-                            byuser = $(this).data('topicid');
+                            byuser = $(this).data('authorid');
                         }else{
-                            content = '回复给&nbsp;&nbsp;'+addCommentTo.byusername+"：&nbsp;&nbsp;&nbsp;"+$.trim(contentMsg.val());
+                            content = '回复给  '+addCommentTo.byusername+"：  "+$.trim(contentMsg.val());
                         }
                     }else{
-                        byuser = $(this).data('topicid');
+                        byuser = $(this).data('authorid');
                         content = $.trim(contentMsg.val());
                     }
 

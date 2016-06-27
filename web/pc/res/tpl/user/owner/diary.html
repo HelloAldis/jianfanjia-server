@@ -14,7 +14,7 @@
                     <img my-loadimg data-imgid="{{list.cover_imageid}}" data-imgApi="/api/v2/web/thumbnail2/920/260/" data-imgDefault="/static/img/diary/covers-default.jpg" />
                     <div class="mask"></div>
                     <div class="boxs">
-                        <h4><a bo-text="list.title" ui-sref="diary.show(list)"></a></h4>
+                        <h4 bo-text="list.title"></h4>
                         <div class="tag">
                             <span bo-if="list.house_area"><i bo-text="list.house_area"></i>m&sup2;&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                             <span bo-if="list.house_type"><i bo-text="list.house_type"></i>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
@@ -22,6 +22,7 @@
                             <span bo-if="list.work_type"><i bo-text="list.work_type"></i></span>
                         </div>
                     </div>
+                    <div class="click" ng-click="goShow(list)"></div>
                     <div class="operate">
                         <a class="btns edit" ui-sref="diary.add({id:list._id})"><i class="iconfont">&#xe627;</i></a>
                     </div>

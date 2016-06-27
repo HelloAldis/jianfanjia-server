@@ -41,6 +41,13 @@ define(function(){
             "imageid" : "573a93e95b23609e7001163b",
             "number" : "六",
             "title" : "要用自己的专业来打动客户"
+        },
+        {
+            "_id" : "5747c6184df888a01ce305f5",
+            "username" : "吴鹏",
+            "imageid" : "5747c6bb4df888a01ce305fa",
+            "number" : "七",
+            "title" : "设计既要赏心悦目也要实用舒适"
         }
     ];
 });
