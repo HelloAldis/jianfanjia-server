@@ -7,6 +7,7 @@ exports.add = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
 
+  tempUser.platform_type = req.platform_type;
   TempUser.newAndSave(tempUser, ep.done(function () {
     res.sendSuccessMsg();
   }));

@@ -53,11 +53,21 @@ function saveDesignerCommentAndPush(designer_message, username) {
 
         let payload = gt.buildPayloadFromDesignerMessage(designer_message_indb);
         payload.badge = count;
-        payload.content = username + ' 评论您：' + payload.content;
+        payload.content = username + ' 评论您：' + removeUnusedWord(payload.content);
         gt.pushMessageToDesigner(designer_message_indb.designerid, payload);
       });
     }
   });
+}
+
+function removeUnusedWord(word) {
+  word = word || '';
+  let index = word.indexOf('：');
+  if (index >= 0 && word.startsWith('回复')) {
+    word = word.slice(index + 1);
+  }
+
+  return word;
 }
 
 function saveUserMessageAndPush(user_message) {
@@ -104,7 +114,7 @@ function saveUserCommentAndPush(user_message, username) {
 
         let payload = gt.buildPayloadFromUserMessage(user_message_indb);
         payload.badge = count;
-        payload.content = username + ' 评论您：' + payload.content;
+        payload.content = username + ' 评论您：' + removeUnusedWord(payload.content);
         gt.pushMessageToUser(user_message_indb.userid, payload);
       });
     }

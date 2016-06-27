@@ -33,6 +33,7 @@ router.get('/tpl/designer/:designerid', response_util, designer.designer_page);
 router.get('/tpl/product/:productid', response_util, product.product_page);
 router.get('/tpl/user/designer/homepage', auth.designerRequired, response_util, designer.designer_my_homepage);
 router.get('/tpl/diary/book/:diarySetid', response_util, diary_book.diary_book_page);
+router.get('/tpl/go/diary/:diaryid', response_util, diary_book.go_diary);
 
 router.get('/wechat/user_login_callback', sign.wechat_user_login_callback);
 router.get('/wechat/user_login', sign.wechat_user_login);

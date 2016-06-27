@@ -246,6 +246,7 @@ exports.user_add_requirement = function (req, res, next) {
   var requirement = ApiUtil.buildRequirement(req);
   requirement.userid = userid;
   requirement.status = type.requirement_status_new;
+  requirement.platform_type = req.platform_type;
   var ep = eventproxy();
   ep.fail(next);
 

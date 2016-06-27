@@ -110,6 +110,7 @@ function wechat_auth(req, res, next, redirect) {
         imageid: imageid,
         sex: sres.body.sex - 1 + '',
         username: sres.body.nickname,
+        platform_check: type.platform_wechat
       }, ep.done(function (user_indb) {
         // store session cookie
         authMiddleWare.gen_session(user_indb,

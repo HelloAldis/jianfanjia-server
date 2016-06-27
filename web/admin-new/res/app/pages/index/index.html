@@ -1,0 +1,22 @@
+<div class="panel panel-info ng-scope">
+	<table id= 'a' class="table table-bordered table-striped">
+		<tbody>
+			<tr class="info thead">
+				<th>项目</th>
+				<th ng-repeat="range in timeRanges">
+					{{range.name}} <br/>
+					{{range.range['$gte'] | date:'yy/MM/dd' }}-{{range.range['$lte'] | date:'yy/MM/dd' }}
+				</th>
+			</tr>
+			<tr ng-repeat="row in querys">
+				<td>{{row.name}}</td>
+				<td ng-repeat="num in statistic[$index] track by $index">
+					<a ui-sref="{{querys[$parent.$index].key}}(getDetail(querys[$parent.$index].querys[$index]))">{{num}}</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<load-data ng-hide="loading.loadData"></load-data>
+<no-data ng-show="loading.notData"></no-data>
+<div export-data></div>

@@ -22,6 +22,9 @@ var TempUserSchema = new Schema({
   create_at: {
     type: Number
   },
+  platform_type: {
+    type: String
+  }
 });
 
 mongoose.model('TempUser', TempUserSchema);

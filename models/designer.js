@@ -226,6 +226,9 @@ var DesignerSchema = new Schema({
   tags: {
     type: [String] // 标签
   },
+  platform_type: {
+    type: String //平台
+  }
 });
 
 DesignerSchema.index({

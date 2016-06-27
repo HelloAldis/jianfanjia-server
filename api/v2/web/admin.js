@@ -999,7 +999,7 @@ exports.statistic_info = function (req, res, next) {
     plans: Plan.count,
     product: Product.count,
     live: Share.count,
-    field: Process.count,
+    fieldList: Process.count,
     recruit: TempUser.count,
     news: DecStrategy.count,
     pictures: BeautifulImage.count,

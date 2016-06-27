@@ -81,6 +81,8 @@ var type = {
 
   platform_android: '0',
   platform_ios: '1',
+  platform_pc: '2',
+  platform_wechat: '3',
 
   online_status_on: '0',
   online_status_off: '1',

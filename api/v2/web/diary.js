@@ -132,12 +132,12 @@ exports.delete_diary = function (req, res, next) {
 
     if (diary) {
       Comment.removeSome({
-        topicid: authorid
-      }, function () {});
+        topicid: diary._id
+      }, function (err, re) {});
 
       UserMessage.removeSome({
-        topicid: authorid
-      }, function () {});
+        topicid: diary._id
+      }, function (err, re) {});
     }
 
   }));
