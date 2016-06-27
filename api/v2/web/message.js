@@ -7,6 +7,8 @@ var Plan = require('../../../proxy').Plan;
 var Process = require('../../../proxy').Process;
 var Requirement = require('../../../proxy').Requirement;
 var Reschedule = require('../../../proxy').Reschedule;
+var Diary = require('../../../proxy').Diary;
+var DiarySet = require('../../../proxy').DiarySet;
 var async = require('async');
 var ApiUtil = require('../../../common/api_util');
 var type = require('../../../type');
@@ -104,7 +106,7 @@ exports.search_user_comment = function (req, res, next) {
     lean: true,
   }, ep.done(function (messages, total) {
     async.mapLimit(messages, 3, function (message, callback) {
-      if (message.designerid) {
+      if (message.message_type === type.user_message_type_comment_plan) {
         Designer.findOne({
           _id: message.designerid,
         }, {
@@ -114,18 +116,45 @@ exports.search_user_comment = function (req, res, next) {
           message.designer = designer;
           callback(err, message);
         });
-      } else if (message.byUserid) {
-        User.findOne({
-          _id: message.byUserid,
+      } else if (message.message_type === type.user_message_type_comment_diary) {
+        Diary.findOne({
+          _id: message.topicid,
         }, {
-          username: 1,
-          imageid: 1,
-        }, function (err, user) {
-          message.user = user;
-          callback(err, message);
+          diarySetid: 1,
+          authorid: 1,
+        }, function (err, diary) {
+          async.parallel({
+            user: function (callback) {
+              User.findOne({
+                _id: message.byUserid
+              }, {
+                username: 1,
+                imageid: 1,
+              }, callback);
+            },
+            diarySet: function (callback) {
+              DiarySet.findOne({
+                _id: diary.diarySetid
+              }, {
+                title: 1
+              }, callback);
+            },
+            author: function (callback) {
+              User.findOne({
+                _id: diary.authorid
+              }, {
+                username: 1
+              }, callback);
+            }
+          }, function (err, result) {
+            message.user = result.user;
+            message.diarySet = result.diarySet;
+            message.author = result.author;
+            callback(err, message);
+          });
         });
       } else {
-        callback(err, message);
+        callback(null, message);
       }
     }, ep.done(function (messages) {
       res.sendData({

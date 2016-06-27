@@ -20,6 +20,7 @@
         });
         $scope.labels1.push($filter('date')(gte, 'yyyy-MM', '+0800'));
       }
+      $scope.timeRanges1.reverse();
       $scope.labels1.reverse();
 
       $scope.querys1 = [{
@@ -67,8 +68,9 @@
             $lte: lte
           }
         });
-        $scope.labels2.push($filter('date')(gte, 'MM－dd', '+0800'));
+        $scope.labels2.push($filter('date')(gte, 'yyyy-MM', '+0800'));
       }
+      $scope.timeRanges2.reverse();
       $scope.labels2.reverse();
 
       $scope.querys2 = [{
@@ -99,7 +101,7 @@
       });
     }
 
-    function initChart2() {
+    function initChart3() {
       var now = new Date();
       $scope.timeRanges3 = [];
       $scope.labels3 = [];
@@ -112,11 +114,12 @@
             $lte: lte
           }
         });
-        $scope.labels2.push($filter('date')(gte, 'MM－dd', '+0800'));
+        $scope.labels3.push($filter('date')(gte, 'MM－dd', '+0800'));
       }
-      $scope.labels2.reverse();
+      $scope.timeRanges3.reverse();
+      $scope.labels3.reverse();
 
-      $scope.querys2 = [{
+      $scope.querys3 = [{
         key: 'requirement',
         querys: queryUtil.genQuerys($scope.timeRanges3, 'create_at')
       }, {
@@ -128,14 +131,14 @@
         })
       }];
 
-      $scope.series2 = ['新增需求数', '新增成交数'];
+      $scope.series3 = ['新增需求数', '新增成交数'];
       adminStatistic.statistic_info({
-        querys: $scope.querys2
+        querys: $scope.querys3
       }).then(function (resp) {
         if (resp.data.data.total === 0) {
-          $scope.statistic2 = [];
+          $scope.statistic3 = [];
         } else {
-          $scope.statistic2 = resp.data.data;
+          $scope.statistic3 = resp.data.data;
         }
       }, function (resp) {
         //返回错误信息
