@@ -5,184 +5,180 @@
     ]);
 
   function RequirementChartController($scope, $rootScope, adminStatistic, $filter, queryUtil) {
-    function initChart1() {
+    function initChart1(chart) {
       var now = new Date();
-      $scope.timeRanges1 = [];
-      $scope.labels1 = [];
+      chart.timeRanges = [];
+      chart.labels = [];
       for (var i = 0; i > -12; i--) {
         var gte = queryUtil.getNMonth0Clock(i, now).getTime();
         var lte = queryUtil.getNMonth0Clock(i + 1, now).getTime()
-        $scope.timeRanges1.push({
+        chart.timeRanges.push({
           range: {
             $gte: gte,
             $lte: lte
           }
         });
-        $scope.labels1.push($filter('date')(gte, 'yyyy-MM', '+0800'));
+        chart.labels.push($filter('date')(gte, 'yyyy-MM', '+0800'));
       }
-      $scope.timeRanges1.reverse();
-      $scope.labels1.reverse();
+      chart.timeRanges.reverse();
+      chart.labels.reverse();
 
-      $scope.querys1 = [{
+      chart.querys = [{
         key: 'requirement',
-        querys: queryUtil.genQuerys($scope.timeRanges1, 'create_at')
+        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at')
       }, {
         key: 'requirement',
-        querys: queryUtil.genQuerys($scope.timeRanges1, 'create_at', {
+        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
           status: {
             $in: ['4', '5', '7', '8']
           }
         })
       }];
 
-      $scope.series1 = ['新增需求数', '新增成交数'];
+      chart.series = ['新增需求数', '新增成交数'];
       adminStatistic.statistic_info({
-        querys: $scope.querys1
+        querys: chart.querys
       }).then(function (resp) {
         if (resp.data.data.total === 0) {
-          // $scope.loading.loadData = true;
-          // $scope.loading.notData = true;
-          $scope.statistic1 = [];
+          chart.statistic1 = [];
         } else {
-          $scope.statistic1 = resp.data.data;
-          // $scope.loading.loadData = true;
-          // $scope.loading.notData = false;
+          chart.statistic1 = resp.data.data;
         }
       }, function (resp) {
         //返回错误信息
-        $scope.loadData = false;
+
         console.log(resp);
       });
     }
 
-    function initChart2() {
+    function initChart2(chart) {
       var now = new Date();
-      $scope.timeRanges2 = [];
-      $scope.labels2 = [];
+      chart.timeRanges = [];
+      chart.labels = [];
       for (var i = 0; i > -30; i--) {
         var gte = queryUtil.getNDay0Clock(i, now).getTime();
         var lte = queryUtil.getNDay0Clock(i + 1, now).getTime()
-        $scope.timeRanges2.push({
+        chart.timeRanges.push({
           range: {
             $gte: gte,
             $lte: lte
           }
         });
-        $scope.labels2.push($filter('date')(gte, 'yyyy-MM', '+0800'));
+        chart.labels.push($filter('date')(gte, 'yyyy-MM', '+0800'));
       }
-      $scope.timeRanges2.reverse();
-      $scope.labels2.reverse();
+      chart.timeRanges.reverse();
+      chart.labels.reverse();
 
-      $scope.querys2 = [{
+      chart.querys = [{
         key: 'requirement',
-        querys: queryUtil.genQuerys($scope.timeRanges2, 'create_at')
+        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at')
       }, {
         key: 'requirement',
-        querys: queryUtil.genQuerys($scope.timeRanges2, 'create_at', {
+        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
           status: {
             $in: ['4', '5', '7', '8']
           }
         })
       }];
 
-      $scope.series2 = ['新增需求数', '新增成交数'];
+      chart.series = ['新增需求数', '新增成交数'];
       adminStatistic.statistic_info({
-        querys: $scope.querys2
+        querys: chart.querys
       }).then(function (resp) {
         if (resp.data.data.total === 0) {
-          $scope.statistic2 = [];
+          chart.statistic = [];
         } else {
-          $scope.statistic2 = resp.data.data;
+          chart.statistic = resp.data.data;
         }
       }, function (resp) {
         //返回错误信息
-        $scope.loadData = false;
+
         console.log(resp);
       });
     }
 
-    function initChart3() {
+    function initChart3(chart) {
       var now = new Date();
-      $scope.timeRanges3 = [];
-      $scope.labels3 = [];
+      chart.timeRanges = [];
+      chart.labels = [];
       for (var i = 0; i > -30; i--) {
         var gte = queryUtil.getNDay0Clock(i, now).getTime();
         var lte = queryUtil.getNDay0Clock(i + 1, now).getTime()
-        $scope.timeRanges3.push({
+        chart.timeRanges.push({
           range: {
             $gte: gte,
             $lte: lte
           }
         });
-        $scope.labels3.push($filter('date')(gte, 'MM－dd', '+0800'));
+        chart.labels.push($filter('date')(gte, 'MM－dd', '+0800'));
       }
-      $scope.timeRanges3.reverse();
-      $scope.labels3.reverse();
+      chart.timeRanges.reverse();
+      chart.labels.reverse();
 
-      $scope.querys3 = [{
+      chart.querys = [{
         key: 'requirement',
-        querys: queryUtil.genQuerys($scope.timeRanges3, 'create_at')
+        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at')
       }, {
         key: 'requirement',
-        querys: queryUtil.genQuerys($scope.timeRanges3, 'create_at', {
+        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
           platform_type: '2'
         })
       }, {
         key: 'requirement',
-        querys: queryUtil.genQuerys($scope.timeRanges3, 'create_at', {
+        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
           platform_type: '1'
         })
       }, {
         key: 'requirement',
-        querys: queryUtil.genQuerys($scope.timeRanges3, 'create_at', {
+        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
           platform_type: '0'
         })
       }];
 
-      $scope.series3 = ['新增需求数', '来自Web', '来自iOS', '来自Android'];
+      chart.series = ['新增需求数', '来自Web', '来自iOS', '来自Android'];
       adminStatistic.statistic_info({
-        querys: $scope.querys3
+        querys: chart.querys
       }).then(function (resp) {
         if (resp.data.data.total === 0) {
-          $scope.statistic3 = [];
+          chart.statistic = [];
         } else {
-          $scope.statistic3 = resp.data.data;
+          chart.statistic = resp.data.data;
         }
       }, function (resp) {
         //返回错误信息
-        $scope.loadData = false;
+
         console.log(resp);
       });
     }
 
-    function initChart4() {
+    function initChart4(chart) {
       var now = new Date();
-      $scope.timeRanges4 = [];
-      $scope.labels4 = [];
+      chart.timeRanges = [];
+      chart.labels = [];
       for (var i = 0; i > -30; i--) {
         var gte = queryUtil.getNDay0Clock(i, now).getTime();
         var lte = queryUtil.getNDay0Clock(i + 1, now).getTime()
-        $scope.timeRanges4.push({
+        chart.timeRanges.push({
           range: {
             $gte: gte,
             $lte: lte
           }
         });
-        $scope.labels4.push($filter('date')(gte, 'MM－dd', '+0800'));
+        chart.labels.push($filter('date')(gte, 'MM－dd', '+0800'));
       }
-      $scope.timeRanges4.reverse();
-      $scope.labels4.reverse();
+      chart.timeRanges.reverse();
+      chart.labels.reverse();
 
-      $scope.querys4 = [{
+      chart.querys = [{
         key: 'requirement',
-        querys: queryUtil.genQuerys($scope.timeRanges4, 'create_at', {
+        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
           status: {
             $in: ['4', '5', '7', '8']
           }
         })
       }, {
         key: 'requirement',
-        querys: queryUtil.genQuerys($scope.timeRanges4, 'create_at', {
+        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
           platform_type: '2',
           status: {
             $in: ['4', '5', '7', '8']
@@ -190,7 +186,7 @@
         })
       }, {
         key: 'requirement',
-        querys: queryUtil.genQuerys($scope.timeRanges4, 'create_at', {
+        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
           platform_type: '1',
           status: {
             $in: ['4', '5', '7', '8']
@@ -198,7 +194,7 @@
         })
       }, {
         key: 'requirement',
-        querys: queryUtil.genQuerys($scope.timeRanges4, 'create_at', {
+        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
           platform_type: '0',
           status: {
             $in: ['4', '5', '7', '8']
@@ -206,26 +202,87 @@
         })
       }];
 
-      $scope.series4 = ['成交增需求数', '来自Web', '来自iOS', '来自Android'];
+      chart.series = ['成交增需求数', '来自Web', '来自iOS', '来自Android'];
       adminStatistic.statistic_info({
-        querys: $scope.querys4
+        querys: chart.querys
       }).then(function (resp) {
         if (resp.data.data.total === 0) {
-          $scope.statistic4 = [];
+          chart.statistic = [];
         } else {
-          $scope.statistic4 = resp.data.data;
+          chart.statistic = resp.data.data;
         }
       }, function (resp) {
         //返回错误信息
-        $scope.loadData = false;
+
         console.log(resp);
       });
     }
 
-    initChart1();
-    initChart2();
-    initChart3();
-    initChart4();
+    function initChart5(chart) {
+      var now = new Date();
+      chart.timeRanges = [];
+      chart.labels = [];
+      for (var i = 0; i > -12; i--) {
+        var gte = queryUtil.getNMonth0Clock(i, now).getTime();
+        var lte = queryUtil.getNMonth0Clock(i + 1, now).getTime()
+        chart.timeRanges.push({
+          range: {
+            $gte: gte,
+            $lte: lte
+          }
+        });
+        chart.labels.push($filter('date')(gte, 'yyyy-MM', '+0800'));
+      }
+      chart.timeRanges.reverse();
+      chart.labels.reverse();
+
+      chart.querys = [{
+        key: 'requirement',
+        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
+          package_type: '0',
+        })
+      }, {
+        key: 'requirement',
+        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
+          package_type: '1',
+        })
+      }, {
+        key: 'requirement',
+        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
+          package_type: '2',
+        })
+      }];
+
+      chart.series = ['新增默认包数', '新增365包数', '新增匠心包数'];
+      adminStatistic.statistic_info({
+        querys: chart.querys
+      }).then(function (resp) {
+        if (resp.data.data.total === 0) {
+          chart.statistic = [];
+        } else {
+          chart.statistic = resp.data.data;
+        }
+      }, function (resp) {
+        //返回错误信息
+
+        console.log(resp);
+      });
+    }
+
+    $scope.chart1 = {};
+    initChart1($scope.chart1);
+
+    $scope.chart2 = {};
+    initChart2($scope.chart2);
+
+    $scope.chart3 = {};
+    initChart3($scope.chart3);
+
+    $scope.chart4 = {};
+    initChart4($scope.chart4);
+
+    $scope.chart5 = {};
+    initChart5($scope.chart5);
 
   }
 })();

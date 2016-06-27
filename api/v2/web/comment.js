@@ -20,25 +20,6 @@ exports.add_comment = function (req, res, next) {
   var ep = eventproxy();
   ep.fail(next);
 
-  if (comment.topictype === type.topic_type_diary) {
-    Diary.findOne({
-      _id: comment.topicid,
-    }, {
-      _id: 1,
-    }, ep.done(function (diary) {
-      if (diary) {
-        // 如果日记存在，评论成功
-        ep.emit('valid');
-      } else {
-        // 日记不存在，评论失败,
-        res.sendErrMsg('无法评论，日记已被删除！');
-      }
-    }));
-  } else {
-    //非日记不用验证
-    ep.emit('valid');
-  }
-
   ep.on('valid', function () {
     Comment.newAndSave(comment, ep.done(function (comment_indb) {
       res.sendSuccessMsg();
@@ -175,6 +156,25 @@ exports.add_comment = function (req, res, next) {
       }
     }));
   });
+
+  if (comment.topictype === type.topic_type_diary) {
+    Diary.findOne({
+      _id: comment.topicid,
+    }, {
+      _id: 1,
+    }, ep.done(function (diary) {
+      if (diary) {
+        // 如果日记存在，评论成功
+        ep.emit('valid');
+      } else {
+        // 日记不存在，评论失败,
+        res.sendErrMsg('无法评论，日记已被删除！');
+      }
+    }));
+  } else {
+    //非日记不用验证
+    ep.emit('valid');
+  }
 }
 
 exports.topic_comments = function (req, res, next) {
