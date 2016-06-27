@@ -1,85 +1,106 @@
 (function () {
   angular.module('JfjAdmin.pages.chart.requirement')
-    .controller('RequirementChartController', ['$scope', '$rootScope', 'adminStatistic', '$filter', RequirementChartController]);
+    .controller('RequirementChartController', ['$scope', '$rootScope', 'adminStatistic', '$filter', 'queryUtil',
+      RequirementChartController
+    ]);
 
-  function RequirementChartController($scope, $rootScope, adminStatistic, $filter) {
-    var now = new Date();
-    $scope.timeRanges = [];
-    $scope.labels = [];
-    for (var i = 0; i > -12; i--) {
-      var gte = getNMonth0Clock(i, now).getTime();
-      var lte = getNMonth0Clock(i + 1, now).getTime()
-      $scope.timeRanges.push({
-        range: {
-          $gte: gte,
-          $lte: lte
-        }
-      });
-      $scope.labels.push($filter('date')(gte, 'yyyy-MM', '+0800'));
-    }
-    $scope.labels.reverse();
-
-    $scope.querys = [{
-      key: 'requirement',
-      querys: genQuerys($scope.timeRanges, 'create_at')
-    }, {
-      key: 'requirement',
-      querys: genQuerys($scope.timeRanges, 'create_at', {
-        status: {
-          $in: ['4', '5', '7', '8']
-        }
-      })
-    }];
-
-    $scope.series = ['新增需求数', '新增成交数'];
-    console.log($scope.querys);
-    adminStatistic.statistic_info({
-      querys: $scope.querys
-    }).then(function (resp) {
-      if (resp.data.data.total === 0) {
-        // $scope.loading.loadData = true;
-        // $scope.loading.notData = true;
-        $scope.statistic1 = [];
-      } else {
-        $scope.statistic1 = resp.data.data;
-        // $scope.loading.loadData = true;
-        // $scope.loading.notData = false;
-      }
-    }, function (resp) {
-      //返回错误信息
-      $scope.loadData = false;
-      console.log(resp);
-    });
-
-    $scope.changeData = function () {
-      console.log('hahahha');
-    };
-
-    function getNMonth0Clock(n, date) {
-      var time = getNDay0Clock(0, date);
-      return new Date(time.setMonth(time.getMonth() + n, 1));
-    }
-
-    function getNDay0Clock(n, date) {
-      var time = date.getTime() + (n * 1000 * 60 * 60 * 24);
-      date = new Date(time);
-      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    }
-
-    function genQuerys(timeRanges, name, obj) {
-      var querys = timeRanges.map(function (o) {
-        var query = {};
-        query[name] = o.range;
-        for (var variable in obj) {
-          if (obj.hasOwnProperty(variable)) {
-            query[variable] = obj[variable];
+  function RequirementChartController($scope, $rootScope, adminStatistic, $filter, queryUtil) {
+    function initChart1() {
+      var now = new Date();
+      $scope.timeRanges1 = [];
+      $scope.labels1 = [];
+      for (var i = 0; i > -12; i--) {
+        var gte = queryUtil.getNMonth0Clock(i, now).getTime();
+        var lte = queryUtil.getNMonth0Clock(i + 1, now).getTime()
+        $scope.timeRanges1.push({
+          range: {
+            $gte: gte,
+            $lte: lte
           }
+        });
+        $scope.labels1.push($filter('date')(gte, 'yyyy-MM', '+0800'));
+      }
+      $scope.labels1.reverse();
+
+      $scope.querys1 = [{
+        key: 'requirement',
+        querys: queryUtil.genQuerys($scope.timeRanges1, 'create_at')
+      }, {
+        key: 'requirement',
+        querys: queryUtil.genQuerys($scope.timeRanges1, 'create_at', {
+          status: {
+            $in: ['4', '5', '7', '8']
+          }
+        })
+      }];
+
+      $scope.series1 = ['新增需求数', '新增成交数'];
+      adminStatistic.statistic_info({
+        querys: $scope.querys1
+      }).then(function (resp) {
+        if (resp.data.data.total === 0) {
+          // $scope.loading.loadData = true;
+          // $scope.loading.notData = true;
+          $scope.statistic1 = [];
+        } else {
+          $scope.statistic1 = resp.data.data;
+          // $scope.loading.loadData = true;
+          // $scope.loading.notData = false;
         }
-
-        return query;
+      }, function (resp) {
+        //返回错误信息
+        $scope.loadData = false;
+        console.log(resp);
       });
-
-      return querys;
     }
+
+    function initChart2() {
+      var now = new Date();
+      $scope.timeRanges2 = [];
+      $scope.labels2 = [];
+      for (var i = 0; i > -30; i--) {
+        var gte = queryUtil.getNDay0Clock(i, now).getTime();
+        var lte = queryUtil.getNDay0Clock(i + 1, now).getTime()
+        $scope.timeRanges2.push({
+          range: {
+            $gte: gte,
+            $lte: lte
+          }
+        });
+        $scope.labels2.push($filter('date')(gte, 'yyyy-MM', '+0800'));
+      }
+      $scope.labels2.reverse();
+
+      $scope.querys2 = [{
+        key: 'requirement',
+        querys: queryUtil.genQuerys($scope.timeRanges2, 'create_at')
+      }, {
+        key: 'requirement',
+        querys: queryUtil.genQuerys($scope.timeRanges2, 'create_at', {
+          status: {
+            $in: ['4', '5', '7', '8']
+          }
+        })
+      }];
+
+      $scope.series2 = ['新增需求数', '新增成交数'];
+      adminStatistic.statistic_info({
+        querys: $scope.querys2
+      }).then(function (resp) {
+        if (resp.data.data.total === 0) {
+          $scope.statistic2 = [];
+        } else {
+          $scope.statistic2 = resp.data.data;
+        }
+      }, function (resp) {
+        //返回错误信息
+        $scope.loadData = false;
+        console.log(resp);
+      });
+    }
+
+    initChart1();
+    initChart2();
+
   }
 })();
