@@ -6,7 +6,9 @@
   'use strict';
 
   angular.module('JfjAdmin.pages.chart', [
-    'JfjAdmin.pages.chart.requirement'
+    'JfjAdmin.pages.chart.requirement',
+    'JfjAdmin.pages.chart.user',
+    'JfjAdmin.pages.chart.designer'
   ]).config(routeConfig).config(chartJsConfig);
 
   /** @ngInject */
