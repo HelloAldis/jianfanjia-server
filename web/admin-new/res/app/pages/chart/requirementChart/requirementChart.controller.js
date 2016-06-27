@@ -125,13 +125,21 @@
       }, {
         key: 'requirement',
         querys: queryUtil.genQuerys($scope.timeRanges3, 'create_at', {
-          status: {
-            $in: ['4', '5', '7', '8']
-          }
+          platform_type: '2'
+        })
+      }, {
+        key: 'requirement',
+        querys: queryUtil.genQuerys($scope.timeRanges3, 'create_at', {
+          platform_type: '1'
+        })
+      }, {
+        key: 'requirement',
+        querys: queryUtil.genQuerys($scope.timeRanges3, 'create_at', {
+          platform_type: '0'
         })
       }];
 
-      $scope.series3 = ['新增需求数', '新增成交数'];
+      $scope.series3 = ['新增需求数', '来自Web', '来自iOS', '来自Android'];
       adminStatistic.statistic_info({
         querys: $scope.querys3
       }).then(function (resp) {
@@ -147,8 +155,77 @@
       });
     }
 
+    function initChart4() {
+      var now = new Date();
+      $scope.timeRanges4 = [];
+      $scope.labels4 = [];
+      for (var i = 0; i > -30; i--) {
+        var gte = queryUtil.getNDay0Clock(i, now).getTime();
+        var lte = queryUtil.getNDay0Clock(i + 1, now).getTime()
+        $scope.timeRanges4.push({
+          range: {
+            $gte: gte,
+            $lte: lte
+          }
+        });
+        $scope.labels4.push($filter('date')(gte, 'MM－dd', '+0800'));
+      }
+      $scope.timeRanges4.reverse();
+      $scope.labels4.reverse();
+
+      $scope.querys4 = [{
+        key: 'requirement',
+        querys: queryUtil.genQuerys($scope.timeRanges4, 'create_at', {
+          status: {
+            $in: ['4', '5', '7', '8']
+          }
+        })
+      }, {
+        key: 'requirement',
+        querys: queryUtil.genQuerys($scope.timeRanges4, 'create_at', {
+          platform_type: '2',
+          status: {
+            $in: ['4', '5', '7', '8']
+          }
+        })
+      }, {
+        key: 'requirement',
+        querys: queryUtil.genQuerys($scope.timeRanges4, 'create_at', {
+          platform_type: '1',
+          status: {
+            $in: ['4', '5', '7', '8']
+          }
+        })
+      }, {
+        key: 'requirement',
+        querys: queryUtil.genQuerys($scope.timeRanges4, 'create_at', {
+          platform_type: '0',
+          status: {
+            $in: ['4', '5', '7', '8']
+          }
+        })
+      }];
+
+      $scope.series4 = ['成交增需求数', '来自Web', '来自iOS', '来自Android'];
+      adminStatistic.statistic_info({
+        querys: $scope.querys4
+      }).then(function (resp) {
+        if (resp.data.data.total === 0) {
+          $scope.statistic4 = [];
+        } else {
+          $scope.statistic4 = resp.data.data;
+        }
+      }, function (resp) {
+        //返回错误信息
+        $scope.loadData = false;
+        console.log(resp);
+      });
+    }
+
     initChart1();
     initChart2();
+    initChart3();
+    initChart4();
 
   }
 })();
