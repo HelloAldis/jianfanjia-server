@@ -4,7 +4,7 @@ angular.module('controllers', [])
         function($scope, $rootScope ,userMessage){
             $scope.count = {};
             userMessage.count({
-                "query_array":[["4"], ["7", "8","13","9","10"],["5"]]
+                "query_array":[["4"], ["7", "8","13","9","10"],["5","14"]]
             }).then(function(res){
                 $scope.count.notice = res.data.data[0];
                 $scope.count.remind = res.data.data[1];
@@ -1125,7 +1125,7 @@ angular.module('controllers', [])
             };
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userMessage.count({
-                    "query_array":[["4"], ["7", "8","13","9","10"],["5"]]
+                    "query_array":[["4"], ["7", "8","13","9","10"],["5","14"]]
                 }).then(function(res){
                     $scope.count.notice = res.data.data[0];
                     $scope.count.remind = res.data.data[1];
@@ -1210,7 +1210,7 @@ angular.module('controllers', [])
             };
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userMessage.count({
-                    "query_array":[["4"], ["7", "8","13","9","10"],["5"]]
+                    "query_array":[["4"], ["7", "8","13","9","10"],["5","14"]]
                 }).then(function(res){
                     $scope.count.notice = res.data.data[0];
                     $scope.count.remind = res.data.data[1];
@@ -1330,7 +1330,7 @@ angular.module('controllers', [])
             };
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userMessage.count({
-                    "query_array":[["4"], ["7", "8","9","10","13"],["5"]]
+                    "query_array":[["4"], ["7", "8","9","10","13"],["5","14"]]
                 }).then(function(res){
                     $scope.count.notice = res.data.data[0];
                     $scope.count.remind = res.data.data[1];
@@ -1387,20 +1387,27 @@ angular.module('controllers', [])
         }])
     .controller('commentCtrl', [     //评论列表
         '$scope','$state','userMessage',function($scope,$state,userMessage){
-            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
-                dataPage = {
-                    "from": _index*10,
-                    "limit":10
-                },
-                current = _index;
-                $scope.count = {};
             $scope.comment = {
                 "name" : '',
+                "arr" : "5-14",
                 "tab" : [
                     {
                         "id" : 0,
                         "name" : '全部',
-                        "cur" : true
+                        "cur" : false,
+                        "arr" : "5-14"
+                    },
+                    {
+                        "id" : 1,
+                        "name" : '方案评论',
+                        "cur" : false,
+                        "arr" : "5"
+                    },
+                    {
+                        "id" : 2,
+                        "name" : '日记评论',
+                        "cur" : false,
+                        "arr" : "14"
                     }
                 ],
                 goto : function(id){
@@ -1411,16 +1418,82 @@ angular.module('controllers', [])
                         _this.name = _this.tab[id].name;
                     });
                 },
-                "list" : undefined
+                status : undefined,
+                setread :function(){
+                    if($state.params.status === '0'){
+                        $state.go('comment.list.type', {id:1,type:$state.params.type,status:undefined});
+                        this.getread = false;
+                        this.status = undefined;
+                    }else if($state.params.status === undefined){
+                        $state.go('comment.list.type', {id:1,type:$state.params.type,status:0});
+                        this.getread = true;
+                        this.status = 0;
+                    }
+                },
+                getread : false
             };
+            angular.forEach($scope.comment.tab,function(v){
+                v.cur = v.arr == $state.params.type;
+            });
+        }])
+    .controller('commentListCtrl', [     //评论列表
+        '$scope','$state','userMessage',function($scope,$state,userMessage){
+            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
+                message_type = ChangeArray($state.params.type),
+                status = $state.params.status,
+                dataPage = {
+                    "query":{
+                        "message_type":{
+                            "$in" : message_type
+                        },
+                        "status": status
+                    },
+                    "from": _index*10,
+                    "limit":10
+                },
+                current = _index;
+            $scope.commentList = {
+                "list" : undefined,
+                read : function(id,status){
+                    if(status == 0){
+                        userMessage.read({
+                            "messageid":id
+                        });
+                        uploadParent();
+                    }
+                }
+            };
+            function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
+                userMessage.count({
+                    "query_array":[["4"], ["7", "8","9","10","13"],["5","14"]]
+                }).then(function(res){
+                    $scope.count.notice = res.data.data[0];
+                    $scope.count.remind = res.data.data[1];
+                    $scope.count.comment = res.data.data[2];
+                    $scope.$emit('userMessageParent', $scope.count);   //父级传递
+                    user.updateData(); //更新右上角显示下拉菜单
+                },function(err){
+                    console.log(err)
+                });
+            }
+            function ChangeArray(str){
+                var arr = [];
+                if(str.indexOf('-') != -1){
+                    arr = str.split('-');
+                }else{
+                    arr.push(str);
+
+                }
+                return arr;
+            }
             function laod(){
-                userMessage.comment(dataPage).then(function(res){  //获取意向设计师列表
-                    $scope.comment.list = res.data.data.list;
-                    if($scope.comment.list.length == 0 && res.data.data.total != 0){
-                        $scope.comment.list = undefined;
+                userMessage.comment(JSON.stringify(dataPage)).then(function(res){  //获取意向设计师列表
+                    $scope.commentList = res.data.data.list;
+                    if($scope.commentList.length == 0 && res.data.data.total != 0){
+                        $scope.commentList = undefined;
                         dataPage.from = current*dataPage.limit;
                         current = 0;
-                        $state.go('comment.list', { id: 1 });
+                        $state.go('comment.list.type', {id:1,type:$state.params.type,status:$state.params.status});
                     }
                     $scope.pageing = {
                         allNumPage : res.data.data.total,
@@ -1437,7 +1510,7 @@ angular.module('controllers', [])
                         callback : function (i) {
                             dataPage.from = i*this.itemPage;
                             current = i;
-                            $state.go('comment.list', { id: parseInt(i)+1 });
+                            $state.go('comment.list.type', {id:parseInt(i)+1,type:$state.params.type,status:$state.params.status});
                             return false;
                         }
                     }
@@ -1464,9 +1537,12 @@ angular.module('controllers', [])
                     value.work_type = $filter('workTypeFilter')(value.work_type);
                 });
             })
+            $scope.goShow = function(data){
+                $state.go('diary.show', data);
+            }
         }])
     .controller('addDiaryCtrl', [     //添加一条日记集
-        '$scope','$state','$stateParams','userDiary','initData',function($scope,$state,$stateParams,userDiary,initData){
+        '$scope','$state','$stateParams','$filter','userDiary','initData',function($scope,$state,$stateParams,$filter,userDiary,initData){
             $scope.isLoading = false;
             $scope.userdiary = {
                 isCreate : !$stateParams.id,
@@ -1498,17 +1574,31 @@ angular.module('controllers', [])
                     }
                 })
             }
+            function jump(data){
+                var data = angular.copy(data);
+                console.log(data)
+                data.house_area = $filter('decTypeFilter')(data.dec_type);
+                if(data.business_house_type != undefined){
+                    data.business_house_type = $filter('businessHouseTypeFilter')(data.business_house_type);
+                }
+                if(data.house_type != undefined){
+                    data.house_type = $filter('houseTypeFilter')(data.house_type);
+                }
+                data.dec_style = $filter('decStyleFilter')(data.dec_style);
+                data.work_type = $filter('workTypeFilter')(data.work_type);
+                $state.go('diary.show',data);
+            }
             $scope.userdiary.submit = function(){
                 if($scope.userdiary.isCreate){
                     userDiary.add({"diary_set" : $scope.diarys}).then(function(res){
                         if(res.data.data && !_.isEmpty(res.data.data)){
-                            $state.go('diary.list');
+                            jump(res.data.data);
                         }
                     });
                 }else{
                     userDiary.update({"diary_set" : $scope.diarys}).then(function(res){
                         if(res.data.msg && res.data.msg === "success"){
-                            $state.go('diary.list');
+                            jump($scope.diarys);
                         }
                     });
                 }
@@ -1554,7 +1644,7 @@ angular.module('controllers', [])
                     this.show = true;
                 },
                 'images' : [],
-                'section_label' : getCurrentSectionlabel($stateParams.latest_section_label) || '时间节点选择',
+                'section_label' : getCurrentSectionlabel($stateParams.latest_section_label) || '准备',
                 'content' : '',
                 submit : function(){
                     var _this = this;
@@ -1677,7 +1767,7 @@ angular.module('controllers', [])
                 if($scope.replyinfo !== null){
                     if($scope.replyinfo.notfind){
                         data.to_userid = $scope.replyinfo.byUser._id;
-                        data.content = '回复给&nbsp;&nbsp;'+$scope.replyinfo.byUser.username+"：&nbsp;&nbsp;&nbsp;"+_.trim(data.content);
+                        data.content = '回复给  '+$scope.replyinfo.byUser.username+"： "+_.trim(data.content);
                     }
                 }
                 userDiary.comment(data).then(function(res){  //获取意向设计师列表

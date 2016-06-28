@@ -53,8 +53,11 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
             if(this.cookie === '1'){
                 this.add = this.diary.find('.m-diary-add');
                 this.addDiary();
+                this.diary.find('.create-diary').removeClass('hide');
+            }else if(this.cookie === '2' || this.cookie === '0' ){
+                this.diary.find('.create-diary').remove();
             }else{
-                this.diary.find('.create-diary').attr('href', '/tpl/user/login.html?/tpl/user/owner.html#/diary/add/');
+                this.diary.find('.create-diary').attr('href', '/tpl/user/login.html?/tpl/user/owner.html#/diary/add/').removeClass('hide');
             }
             if(!!this.winHash){       //获取URL参数,设置默认值
                 this.setDefault(this.winHash);
@@ -98,7 +101,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                                         <input type="hidden" id="sessionId" value="${pageContext.session.id}" />\
                                         <input type="hidden" value="1215154" name="tmpdir" id="id_create">\
                                     </div>\
-                                    <div class="tips">只能传9张图</div>\
+                                    <div class="tips">最多只能上传9张图</div>\
                                 </div>\
                             </div>\
                         </div>\
@@ -588,11 +591,11 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                         '<div class="info f-fl">',
                             '<h4><a href="/tpl/diary/book/'+data.diarySetid+'">'+title+'</a></h4>',
                         '</div>',
-                        '<div class="label f-fr">'+data.section_label+'阶段</div>',
+                        '<div class="label f-fr"><a href="/tpl/diary/book/'+data.diarySetid+'?diaryid='+data._id+'">'+data.section_label+'阶段</a></div>',
                     '</header>',
                     '<section class="m-body">',
-                        imgBox,
                         '<p class="text">'+this.suolve(data.content)+'</p>',
+                        imgBox,
                     '</section>',
                     '<footer class="m-footer f-cb">',
                         '<div class="f-fl author">',
@@ -602,7 +605,6 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                             '<time>'+this.format(data.create_at,'yyyy年MM月dd日 hh:mm')+'</time>',
                         '</div>',
                         '<div class="f-fr count">',
-                            '<span class="view">'+ data.view_count+'</span>',
                             '<span class="favorite">'+data.favorite_count+'</span>',
                             '<span class="comment">'+data.comment_count+'</span>',
                         '</div>',

@@ -49,7 +49,7 @@
 			<dl>
 				<dt>请选择施工团队</dt>
 				<dd>
-					<div my-selectn my-list="contracts.managers" my-query="contracts.manager" ng-if="contracts.managers.length"></div>
+					<div my-select data-type="getValue" my-list="contracts.managers" my-query="contracts.manager" ng-if="contracts.managers.length"></div>
 					<a ui-sref="addteam({contract:contract._id})" class="u-btns" ng-if="!contracts.managers.length">&nbsp;&nbsp;添加施工团队&nbsp;&nbsp;</a>
 				</dd>
 			</dl>

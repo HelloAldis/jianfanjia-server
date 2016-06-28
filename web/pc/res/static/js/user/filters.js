@@ -406,8 +406,13 @@ angular.module('filters', [])
             return parseFloat(num);
         }
     })
-    .filter('to_trusted', ['$sce', function ($sce) {   //格式化标签显示
+    .filter('toTrusted', ['$sce', function ($sce) {   //格式化标签显示
         return function (text) {
             return $sce.trustAsHtml(text);
         }
-    }]);
+    }])
+    .filter('textareaescapedFilter', function () {   //textarea格式化显示
+        return function (text) {
+            return text.toString().replace(/(\r)*\n/g, "<br />").replace(/\s/g, " ");;
+        }
+    });

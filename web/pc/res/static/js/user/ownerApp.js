@@ -157,9 +157,14 @@
                     template: '<div ui-view></div>'
                 })
                 .state('comment.list', {
-                    url: '/{id:[0-9]{1,6}}',
+                    url: '/list',
                     templateUrl: url+'comment.html',
                     controller : 'commentCtrl'
+                })
+                .state('comment.list.type', {
+                    url: '/{id:[0-9]{1,6}}?type&status',
+                    templateUrl: url+'commentList.html',
+                    controller : 'commentListCtrl'
                 })
                 .state('diary', {
                     url: '/diary',

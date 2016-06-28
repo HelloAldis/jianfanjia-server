@@ -5,34 +5,12 @@
     <div class="m-ct">
         <div class="tabs-box">
             <ul class="tabs">
-                <li ng-class="{'active':item.cur}" ng-repeat="item in comment.tab"><a ng-click="comment.goto(item.id)" href="javascript:;" ng-bind="item.name"></a></li>
+                <li ng-class="{'active':item.cur}" ng-repeat="item in comment.tab"><a ng-click="comment.goto(item.id)" ui-sref="comment.list.type({id:1,type:item.arr,status:comment.status})" ng-bind="item.name"></a></li>
             </ul>
+            <button type="button" ng-if="count.comment" ng-click="comment.setread()" class="unread" ng-class="{'read':comment.getread}">只看未读</button>
         </div>
-        <div ng-if="comment.list && comment.list.length != 0">
-            <ul class="m-commentList">
-                <li bindonce="comment.list" ng-repeat="data in comment.list track by $index">
-                    <a bo-href-i="/tpl/designer/{{data.designer._id}}" class="head">
-                        <img bo-src-i="/api/v2/web/thumbnail2/40/40/{{data.designer.imageid}}" bo-if="data.designer.imageid" />
-                    </a>
-                    <div class="panel">
-                        <div class="panel-heading">
-                            <strong bo-text="data.designer.username"></strong>
-                            <span>评论于<time bo-text="data.create_at | date : 'yyyy-MM-dd'"></time></span>
-                            <i bo-if="data.status == 0">[未读]</i>
-                        </div>
-                        <div class="panel-body">
-                            <p bo-text="data.content"></p>
-                            <a bo-href-i="plans.html?pid={{data.topicid}}#plansMsg">回复</a>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <div my-pageing page-object="pageing" ng-if="comment.list.length > 0"></div>
-        </div>
-        <div class="pageNotdate message-pageNotdate" ng-show="comment.list.length == 0">
-            <h3><span></span></h3>
-            <p>暂时没有任何内容</p>
-        </div>
-        <div class="pageLoading" ng-hide="!!comment.list"></div>
+        <!--视图模板容器 start-->
+        <div ui-view></div>
+        <!--视图模板容器 end-->
     </div>
 </div>

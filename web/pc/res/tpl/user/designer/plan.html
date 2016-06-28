@@ -38,7 +38,7 @@
 					<li ng-repeat="img in data.images | limitTo : 3 track by $index"><img bo-src-i="/api/v2/web/thumbnail2/280/180/{{img}}" alt=""></li>
 				</ul>
 				<div class="select">
-					<a bo-href-i="plans.html?pid={{data._id}}#plansMsg" class="u-btns u-btns-revise msg f-fl" target="_blank">留言 (<i bo-text="data.comment_count"></i>)</a>
+					<a bo-href-i="plans.html?pid={{data._id}}#plansMsg" class="u-btns u-btns-revise msg f-fl" target="_blank">评论 (<i bo-text="data.comment_count"></i>)</a>
 					<div class="btns f-fr">
 						<a bo-href-i="plans.html?pid={{data._id}}" class="u-btns u-btns-revise" target="_blank">预览方案</a>
 						<a ui-sref="createPlan({id:data._id})" class="u-btns" bo-if="data.status == 3">修改方案</a>
