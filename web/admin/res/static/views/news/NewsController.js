@@ -109,7 +109,7 @@
           var start = new Date($scope.startTime.time).getTime();
           var end = new Date($scope.endTime.time).getTime();
           if (start > end) {
-            alert('开始时间比结束时间大，请重新选择');
+            alert('开始时间不能晚于结束时间，请重新选择。');
             return;
           }
           if (end - start < 86400000) {

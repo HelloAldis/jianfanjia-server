@@ -102,7 +102,7 @@
     });
 
     this.webUploader.onError = function (code) {
-      alert('Eroor: ' + code);
+      console.log('Eroor: ' + code);
     };
 
     this.webUploader.onUploadAccept = function (obj, res) {
