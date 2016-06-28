@@ -144,6 +144,30 @@ body{
 	filter: alpha(opacity=80);
 }
 /*留言*/
+.infoTips{
+	margin: 20px 19px;
+	font-size: 14px;
+	line-height: 50px;
+	text-align: left;
+	color: #61687a;
+	background-color: #fffdf6;
+	border: 1px dashed #d2d2d2;
+}
+.infoTips i{
+	display: inline-block;
+	width: 40px;
+	text-align: center;
+	margin-left: 6px;
+}
+.infoTips-error{
+	line-height: 26px;
+	padding: 7px 46px 7px 0;
+	margin-bottom: 0;
+	background-color: #ff4a4a;
+	border: none;
+	color: #fff;
+	border-radius: 3px;
+}
 .message{
 	margin-bottom: 10px;
 	line-height: 48px;
@@ -2555,7 +2579,7 @@ img.jcrop-preview {
 	position: absolute;
 	top:20px;
 	right: 20px;
-	z-index: 3;
+	z-index: 6;
 	height: 32px;
 	text-align: right;
 }
@@ -2575,7 +2599,7 @@ img.jcrop-preview {
 	position: absolute;
 	left: 0;
 	top: 0;
-	z-index: 2;
+	z-index: 5;
 	width: 100%;
 	height: 100%;
 	background-color: #fff;
@@ -2650,10 +2674,28 @@ img.jcrop-preview {
 	text-align: center;
 	cursor: pointer;
 }
+.showDiary-add .write{
+	position: relative;
+}
 .showDiary-add .write-header{
 	position: relative;
 	height: 80px;
   	padding-left: 20px;
+}
+.showDiary-add .write-header.submiting{
+	border: 1px solid #e6e6e6;
+	background-color: #f9f9f9;
+}
+.showDiary-add .write-header.submiting textarea{
+	display: none;
+}
+.showDiary-add .select.submiting{
+	width: 168px;
+	height: 28px;
+	background-color: #f9f9f9;
+    border: 1px solid #d2d2d2;
+    border-radius: 2px;
+    overflow: hidden;
 }
 .showDiary-add .write-header label{
 	position: absolute;
@@ -2663,6 +2705,7 @@ img.jcrop-preview {
 	color: #999;
 }
 .showDiary-add .write-header textarea{
+	display: block;
 	  float: left;
 		width: 100%;
 	   height: 60px;
@@ -2670,7 +2713,7 @@ img.jcrop-preview {
 	  padding: 10px;
 	  font-size: 14px;
 	  border: 1px solid #e6e6e6;
-		background-color: #f9f9f9;
+	 background-color: #f9f9f9;
 	  resize: none;
 }
 .showDiary-add .write-header textarea:focus{

@@ -1653,7 +1653,7 @@ angular.module('directives', [])
                     '<span class="filename" ng-bind="img.filename"></span>',
                     '<span class="error" ng-if="img.error" ng-bind="img.errorMsg"></span>',
                     '<span class="progress"><span ng-style="{width:img.progress}"></span></span>',
-                    '<span class="cancel" ng-click="cancel(img.uploadid)"><i class="iconfont">&#xe642;</i></span>',
+                    '<span class="cancel" ng-click="cancel(img.file,img.fileid)"><i class="iconfont">&#xe642;</i></span>',
                     '</div>',
                     '<div ng-if="img.loading == undefined">'
                 ];
@@ -1723,6 +1723,7 @@ angular.module('directives', [])
                         'onAddQueueItem' : function(file){
                             $timeout(function () {
                                 scope.myQuery.push({
+                                    file : file,
                                     fileid : file.queueItem[0].id,
                                     filename : file.name,
                                     errorMsg : '',
@@ -2624,6 +2625,7 @@ angular.module('directives', [])
             restrict: 'A',
             scope: {},
             link: function (scope, ele, attr) {
+                console.log()
                 var input = document.createElement('input'),
                     textarea = document.createElement('textarea'),
                     isSupportPlaceholder = 'placeholder' in input || 'placeholder' in textarea;
@@ -2646,18 +2648,33 @@ angular.module('directives', [])
                     scope.getElementPosition = function () {
                         return ele.position();
                     };
-                    scope.$watch(scope.getElementPosition, function () {
-                        fakePlaceholder.css({
-                            'top': ele.position().top + 'px',
-                            'left': ele.position().left + 'px'
-                        });
-                    }, true);
+                    if(ele[0].type === 'textarea'){
+                        scope.$watch(scope.getElementPosition, function () {
+                            fakePlaceholder.css({
+                                'top': ele.position().top + 'px',
+                                'left': '0px'
+                            });
+                        }, true);
+                    }else{
+                        scope.$watch(scope.getElementPosition, function () {
+                            fakePlaceholder.css({
+                                'top': ele.position().top + 'px',
+                                'left': ele.position().left + 'px'
+                            });
+                        }, true);
+                    }
                     scope.getElementHeight = function () {
                         return ele.outerHeight();
                     };
-                    scope.$watch(scope.getElementHeight, function () {
-                        fakePlaceholder.css('line-height', ele.outerHeight() + 'px');
-                    });
+                    if(ele[0].type === 'textarea'){
+                        scope.$watch(scope.getElementHeight, function () {
+                            fakePlaceholder.css('line-height', '44px');
+                        });
+                    }else{
+                        scope.$watch(scope.getElementHeight, function () {
+                            fakePlaceholder.css('line-height', ele.outerHeight() + 'px');
+                        });
+                    }
                     if (ele.css('font-size')) {
                         fakePlaceholder.css('font-size', ele.css('font-size'));
                     }
@@ -2778,78 +2795,6 @@ angular.module('directives', [])
                     }
                     img.src = imgUrl+imgId;
                 }
-            }
-        };
-    })
-    .directive('mySidenav', function () {
-        return {
-            restrict: 'A',
-            scope: {
-                myList : '='
-            },
-            replace : true,
-            template: '<div class="m-sidenav" id="j-sidenav"></div>',
-            link: function (scope, ele, attrs) {
-                var start = 0;
-                var $sidenav = $(ele);
-                var str = '<ul>';
-                angular.forEach(scope.myList,function(v,k){
-                    if(k===0){
-                        str += '<li class="active">'+v.section_label+'</li>';
-                    }else{
-                        str += '<li>'+v.section_label+'</li>';
-                    }
-                });
-                str += '</ul>';
-                $sidenav.html(str);
-                var aLi = $sidenav.find('li');
-                var win = $(window);
-                var winW = win.width();
-                $sidenav.css('left',parseInt((winW-1200)/2) - 70).show();
-                var list = $('#j-showDiary').find('.showDiary-list');
-                highlight(win.scrollTop());
-                setTop(win.scrollTop());
-                win.on('scroll',function(){
-                    var top = win.scrollTop();
-                    setTop(top);
-                    if(top < 500){
-                        add(0);
-                    }else{
-                        highlight(top);
-                    }
-                    setTimeout(function(){start = top;},0);
-                });
-                function highlight(top){
-                    list.each(function(index, el) {
-                        if($(el).offset().top - top < 300){
-                            add(index);
-                        }
-                    });
-                }
-                function setTop(top){
-                    console.log(start,top)
-                    if(start > top){
-                        console.log('向上滚动');
-                        if(top > 860){
-                            $sidenav.stop().animate({'top':100});
-                        }else{
-                            $sidenav.css({'top':860 - top});
-                        }
-                    }else{
-                        var topic = 860 - top <= 100 ? 100 : 860 - top;
-                        $sidenav.css({'top':topic});
-                        console.log('向下滚动');
-                    }
-                }
-                function add(n){
-                    aLi.eq(n).addClass('active').siblings().removeClass('active');
-                }
-                $sidenav.on('click','li',function(event){
-                    var index = $(this).index();
-                    $('html,body').animate({scrollTop: list.eq(index).offset().top}, 500,function(){
-                        add(index);
-                    });
-                });
             }
         };
     })
@@ -3025,7 +2970,7 @@ angular.module('directives', [])
                     '<span class="filename" ng-bind="img.filename"></span>',
                     '<span class="error" ng-if="img.error" ng-bind="img.errorMsg"></span>',
                     '<span class="progress"><span ng-style="{width:img.progress}"></span></span>',
-                    '<span class="cancel" ng-click="cancel(img.uploadid)"><i class="iconfont">&#xe642;</i></span>',
+                    '<span class="cancel" ng-click="cancel(img.file,img.fileid)"><i class="iconfont">&#xe642;</i></span>',
                     '</div>',
                     '<div ng-if="img.loading == undefined">'
                 ];
@@ -3040,7 +2985,7 @@ angular.module('directives', [])
                 template.push('<input class="hide" id="createUpload2" type="file" name="upfile">');
                 template.push('<input type="hidden" id="sessionId" value="${pageContext.session.id}" />');
                 template.push('<input type="hidden" value="1215154" name="tmpdir" id="id_create">');
-                template.push('</div><div class="tips">最多只能上传9张图</div>');
+                template.push('</div><div class="tips"></div>');
                 template.push('</div></div>');
                 template.push('</div>');
                 template.push('</div>');
@@ -3076,11 +3021,13 @@ angular.module('directives', [])
                             $timeout(function () {
                                 if(scope.mySize > scope.myQuery.length - 1){
                                     scope.myQuery.push({
+                                        file : file,
                                         fileid : file.queueItem[0].id,
                                         filename : file.name,
                                         errorMsg : '',
                                         loading: 0,
-                                        progress : '0%'
+                                        progress : '0%',
+                                        loaddate : +new Date()
                                     });
                                 }else{
                                     alert('最多只能上传9张图');
@@ -3098,6 +3045,12 @@ angular.module('directives', [])
                             　　  console.log(error)
                             　　} finally {
                             　　    if (index >= 0) {
+                                        var lastDate = parseInt(scope.myQuery[index].loaddate,10);
+                                        console.log((+new Date()) - scope.myQuery[index].loaddate)
+                                        if((parseInt(+new Date(),10) - loadDate) >= 60000){
+                                            $('#createUpload2').uploadifive('stop');
+                                            scope.myQuery[index].errorMsg = '上传超时';
+                                        }
                                         scope.myQuery[index].loading = parseInt(event.loaded/event.total*100,10);
                                         scope.myQuery[index].progress = scope.myQuery[index].loading+'%';
                                     }
@@ -3128,9 +3081,12 @@ angular.module('directives', [])
                                 alert('文件大小超出3M限制，请重新上传');
                             }
                             if(errorMsg === 'Unknown Error'){
+                                console.log(errorMsg)
                                  $timeout(function () {
                                     var index = _.findIndex(scope.myQuery,{'fileid':fileType.queueItem[0].id});
-                                    scope.myQuery[index].errorMsg = '上传超时，请重新选择上传';
+                                    console.log(index)
+                                    scope.myQuery[index].errorMsg = '上传出错';
+                                    console.log(scope.myQuery[index].errorMsg)
                                 }, 0);
                             }
                         },
@@ -3170,7 +3126,6 @@ angular.module('directives', [])
                                 obj.find('.pic').append('<div class="disable"></div>');
                             }
                             $timeout(function () {
-
                                 scope.myQuery.push({
                                     fileid: file.id,
                                     filename : file.name,

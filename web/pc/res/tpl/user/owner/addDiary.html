@@ -21,11 +21,11 @@
                         <div class="item">
                             <label class="u-lab"><i class="required-icon"></i>面积</label>
                             <div class="u-inp">
-                                <input type="text" class="input" ng-model="diarys.house_area" placeholder="只能填整数" my-placeholder required name="house_area" ng-pattern="/^[1-9]\d*$/" />
+                                <input type="text" class="input" ng-model="diarys.house_area" placeholder="只能填整数" my-placeholder required name="house_area" ng-pattern="/^[1-9][0-9]{0,3}$/" />
                                 <span class="unit">m&sup2;</span>
                             </div>
                             <div class="u-error">
-                                <span ng-show="diary.house_area.$dirty && diary.house_area.$error.pattern" class="has-error">必须为整数</span>
+                                <span ng-show="diary.house_area.$dirty && diary.house_area.$error.pattern" class="has-error">必须为小于5位整数</span>
                                 <span ng-show="diary.house_area.$dirty && diary.house_area.$error.required" class="has-error">不能为空</span>
                             </div>
                         </div>

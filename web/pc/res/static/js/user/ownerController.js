@@ -1633,6 +1633,8 @@ angular.module('controllers', [])
                     '软装',
                     '入住'
                 ]
+            var VERIFY_CONTENT_REGEX_lt15 = /^[\u4e00-\u9fa5]{1,15}$|^[\dA-Za-z_]{1,30}$/ig;
+            var VERIFY_CONTENT_REGEX_lte140 = /^[\u4e00-\u9fa5]{1,140}$|^[\dA-Za-z_]{1,280}$/ig;
             $scope.write = {
                 'select' : true,
                 'size' : 9,
@@ -1643,29 +1645,28 @@ angular.module('controllers', [])
                 add : function(){
                     this.show = true;
                 },
-                'images' : [],
-                'section_label' : getCurrentSectionlabel($stateParams.latest_section_label) || '准备',
-                'content' : '',
-                submit : function(){
+                data : {
+                    'images' : [],
+                    'section_label' : getCurrentSectionlabel($stateParams.latest_section_label) || '准备',
+                    'content' : ''
+                },
+                submit : function(data){
                     var _this = this;
-                    if(!_.trim(this.content.length)){
+                    if(!_.trim(data.content.length)){
+                        alert('请输入内容');
                         return ;
                     }
-                    if(this.section_label === '时间节点选择'){
+                    if(data.section_label === '时间节点选择'){
                         alert('请选择时间节点');
                         return ;
                     }
+                    data.diarySetid = $stateParams._id;
                     userDiary.push({
-                        "diary":{
-                            "diarySetid": $stateParams._id,
-                            "content":this.content,
-                            "section_label":this.section_label,
-                            "images":this.images
-                        }
+                        "diary":data
                     }).then(function(res){
                         console.log(res);
-                        _this.content = '';
-                        _this.images = [];
+                        _this.data.content = '';
+                        _this.data.images = [];
                         _this.select = false;
                         pull();
                     },function(res){
@@ -1695,7 +1696,7 @@ angular.module('controllers', [])
                 }).then(function(res){
                     $scope.diarylist = res.data.data.diaries;
                     if($scope.diarylist.length > 0){
-                        $scope.write.section_label = getCurrentSectionlabel($scope.diarylist[0].diarySet.latest_section_label);
+                        $scope.write.data.section_label = getCurrentSectionlabel($scope.diarylist[0].diarySet.latest_section_label);
                     }
                     $scope.write.select = true;
                     $scope.isLoading = true;

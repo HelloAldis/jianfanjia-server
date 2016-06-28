@@ -7,7 +7,6 @@
             <ul class="tabs">
                 <li ng-class="{'active':item.cur}" ng-repeat="item in comment.tab"><a ng-click="comment.goto(item.id)" ui-sref="comment.list.type({id:1,type:item.arr,status:comment.status})" ng-bind="item.name"></a></li>
             </ul>
-            <button type="button" ng-if="count.comment" ng-click="comment.setread()" class="unread" ng-class="{'read':comment.getread}">只看未读</button>
         </div>
         <!--视图模板容器 start-->
         <div ui-view></div>

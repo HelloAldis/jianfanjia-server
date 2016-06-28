@@ -36,7 +36,7 @@ require(['jquery','lodash','cookie','utils/common'],function($,_,cookie,common){
     var goto = new common.Goto();
     goto.init();
 })
-require(['jquery','lodash','cookie','history','utils/common','utils/page','utils/globalData','utils/select','utils/checkSupport','uploadify','uploadifive'],function($,_,cookie,history,common,Pageing,globalData,Select,checkSupport){
+require(['jquery','lodash','cookie','history','utils/common','utils/page','utils/globalData','utils/select','utils/placeholder','utils/checkSupport','uploadify','uploadifive'],function($,_,cookie,history,common,Pageing,globalData,Select,Placeholder,checkSupport){
     var page = new Pageing();
     var Diary = function(){};
     Diary.prototype = {
@@ -46,6 +46,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
             this.cookie = $.cookie('usertype');
             this.toFrom = 0;  //搜索分页起始位置
             this.limit = 10;  //获取列表条数
+            this.body = $('body');
             this.diary = $('#j-diary');
             this.list = this.diary.find('.m-diary-list');
             this.top = this.diary.offset().top+20;   //获取列表top，供分页切换跳转列表顶部位置
@@ -63,6 +64,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                 this.setDefault(this.winHash);
             }else{
                this.loadList();    //加载数据
+               this.favorite();    //点赞
             }
             this.hot(5);
         },
@@ -90,7 +92,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
             var $write = $('<div class="m-write"><i class="iconfont">&#xe629;</i>&nbsp;&nbsp;写日记</div>');
             var $edit = $('<div class="m-edit"></div>');
             var html = '<div class="m-edit-header">\
-                            <textarea rows="10" name="content" class="addContent"></textarea>\
+                            <textarea rows="10" placeholder="记录和分享您的装修之路，不少于15字哦" name="content" class="addContent placeholder"></textarea>\
                         </div>\
                         <div class="m-edit-body insertimage">\
                             <div class="k-uploadbox f-cb">\
@@ -144,6 +146,10 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                     console.log(setData)
                     $(this).hide();
                     _this.add.append($edit);
+                    new Placeholder({
+                        'id'          : '.addContent',
+                        'className'   : 'placeholder'
+                    });
                     upload(_this.add);
                     $submit = _this.add.find('.submit');
                     $addContent = _this.add.find('.addContent');
@@ -188,9 +194,10 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                     return _.last(section_label);
                 }
             }
+            var VERIFY_CONTENT = /^[\u4e00-\u9fa5]{14,10000}$|^[\dA-Za-z_]{28,20000}$/ig;
             this.add.on('input propertychange','.addContent',function(event){   //添加一条动态
-                console.log(!!$.trim($(this).val()))
-                if(!!$.trim($(this).val())){
+                console.log(VERIFY_CONTENT.test($(this).val()));
+                if(!!$.trim($(this).val()) && !$submit.data('complete')){
                     $submit.prop("disabled", false).removeClass('u-btns-disabled');
                 }else{
                     $submit.prop("disabled", true).addClass('u-btns-disabled');
@@ -294,6 +301,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                         'onSelect'   : function(file) {
                             obj.find('.pic').append('<div class="disable"></div>');
                             $submit.data('complete',true);
+                            $submit.prop("disabled", true).addClass('u-btns-disabled');
                             GUID = file.queued;
                             console.log(file)
                         },
@@ -304,6 +312,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                                 $('#createUpload2').uploadifive('clearQueue');
                                 obj.find('.disable').remove();
                                 $submit.data('complete',false);
+                                $submit.prop("disabled", false).removeClass('u-btns-disabled');
                                 queue = [];  //清空上传队列
                                 console.log('全部上传完成');
                             }
@@ -476,6 +485,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                 current = urlJson.page != undefined ? parseInt(urlJson.page)-1 : 0;
             this.toFrom = current*this.limit;  //设置分页初始化
             this.loadList();    //加载数据
+            this.favorite();    //点赞
         },
         loadList : function(time){
             var _this = this;
@@ -563,6 +573,86 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
             }
             return end ;
         },
+        favorite : function(){
+            var _this = this;
+            this.list.on('click','.click-favorite',function(){
+                if(!$(this).hasClass('click-favorite')){
+                    return ;
+                }
+                if(_this.cookie === undefined){
+                    _this.myConfirm('您还没有登录，请登录后再点赞',function(choose){
+                        if(choose == 'yes') {
+                            window.location.href = '/tpl/user/login.html?/tpl/diary/index.html';
+                        }
+                    });
+                    return false;
+                }
+                $(this).removeClass('click-favorite');
+                var $this = $(this);
+                var diaryid = $(this).data('diaryid');
+                var count = parseInt($(this).data('count'),10) + 1;
+                $(this).append('<strong>+1</strong>');
+                var strong = $(this).find('strong');
+                strong.fadeIn(function(){
+                    $this.html(count+'<strong>+1</strong>').addClass('active');
+                });
+                $.ajax({
+                    url: '/api/v2/web/favorite/diary/add',
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType : 'application/json; charset=utf-8',
+                    data : JSON.stringify({
+                        "diaryid" : diaryid
+                    }),
+                    processData : false
+                })
+                .done(function(res) {
+                    if(res.msg === "success"){
+                        strong.fadeOut();
+                        $this.html(count);
+                    }
+                })
+                .fail(function(error) {
+                    console.log(error);
+                });
+            });
+        },
+        myConfirm : function(msg,callback){
+            var modat = '<div class="modal-dialog">\
+                      <div class="modal-content">\
+                        <div class="modal-body">\
+                           <p class="text">'+msg+'</p>\
+                        </div>\
+                        <div class="modal-footer">\
+                          <button type="button" class="u-btns u-btns-revise cancel">看看再说</button>\
+                          <button type="button" class="u-btns define">我要点赞</button>\
+                        </div>\
+                      </div>\
+                    </div>\
+                  </div>';
+            var _this = this;
+            var $modal = $('<div class="k-modal dialog" id="j-modal"></div>'),
+                $backdrop = $('<div class="k-modal-backdrop" id="j-modal-backdrop"></div>');
+                $modal.html(modat)
+            this.body.append($backdrop);
+            $backdrop.fadeIn();
+            this.body.append($modal);
+                $modal.fadeIn();
+            $modal.find('.define').on('click',function(ev){
+                ev.preventDefault();
+                callback && callback('yes');
+                hide();
+            });
+            function hide(){
+                $modal.remove();
+                $backdrop.remove();
+            }
+            $modal.find('.cancel').on('click',function(ev){
+                ev.preventDefault();
+                callback && callback('no');
+                hide();
+            });
+        },
         createList  : function(data){      //创建列表
             var imgBox = '',title,img;
             if(!!data.images.length){
@@ -585,6 +675,12 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
             }catch(e){
                 img = '<a href="/tpl/diary/book/'+data.diarySetid+'" class="u-head u-head-w40 u-head-radius"></a>';
             }
+            var favorite;
+            if(data.is_my_favorite){
+                favorite = '<span class="span favorite active">'+data.favorite_count+'</span>';
+            }else{
+                favorite = '<span data-diaryid="'+data._id+'" data-count="'+data.favorite_count+'" class="span favorite click-favorite">'+data.favorite_count+'</span>';
+            }
             var arr = [
                 '<section class="m-list">',
                     '<header class="m-header f-cb">',
@@ -605,8 +701,8 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                             '<time>'+this.format(data.create_at,'yyyy年MM月dd日 hh:mm')+'</time>',
                         '</div>',
                         '<div class="f-fr count">',
-                            '<span class="favorite">'+data.favorite_count+'</span>',
-                            '<span class="comment">'+data.comment_count+'</span>',
+                            favorite,
+                            '<a href="/tpl/diary/book/'+data.diarySetid+'?diaryid='+data._id+'" class="span comment">'+data.comment_count+'</a>',
                         '</div>',
                     '</footer>',
                 '</section>',
@@ -697,6 +793,9 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                 str += '&'+i+'='+json[i]
             };
             return str;
+        },
+        prevent : function(){
+
         }
     }
     var diary = new Diary;

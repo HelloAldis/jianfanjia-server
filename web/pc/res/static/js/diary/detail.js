@@ -114,7 +114,6 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                     if($(this).hasClass('active')){
                         return ;
                     }
-                    var id = $(this).data('diaryid');
                     $(this).addClass('active');
                     var strong = $(this).find('strong');
                     var like = $(this).find('.like');
@@ -167,7 +166,9 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                         review.find('.list ul').html('');
                     }
                 });
-
+                if($('#diary_'+this.diaryid).length > 0){
+                    $('#diary_'+this.diaryid).find('.click-review').click();
+                }
                 this.detail.on('click','.reply',function(event){    //评论给谁
                     var parent = $(this).parents('.m-list');
                     var review = parent.find('.m-review');
