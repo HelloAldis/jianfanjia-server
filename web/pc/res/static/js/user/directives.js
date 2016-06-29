@@ -2815,11 +2815,14 @@ angular.module('directives', [])
                 var length = images.length;
                 var iNum = 0;
                 ele.on('click',function(){
+                    iNum = $(this).index();
                     lightBox(title,$(this).index(),length);
                 });
                 function lightBox(title,index,length){
                     var winW = $(window).width();
                     var winH = $(window).height();
+                    var w = winW < 1000 ? winW : 1000;
+                    var h = winH - 200;
                     var str =   '<div class="lightBox-header f-cb">\
                                     <h3 class="f-fl title">'+title+'阶段</h3>\
                                     <span class="pagenum f-fl"></span>\
@@ -2828,10 +2831,10 @@ angular.module('directives', [])
                                 <div class="lightBox-body">\
                                     <div class="img">\
                                         <img alt="" />\
-                                    </div>\
-                                    <div class="toggle">\
-                                      <span class="prev '+(index === 0 ? "hide" : '')+'"><i class="iconfont">&#xe611;</i></span>\
-                                      <span class="next '+(index === length-1 ? "hide" : '')+'"><i class="iconfont">&#xe617;</i></span>\
+                                        <div class="toggle">\
+                                          <span class="prev '+(index === 0 ? "hide" : '')+'"><i class="iconfont">&#xe611;</i></span>\
+                                          <span class="next '+(index === length-1 ? "hide" : '')+'"><i class="iconfont">&#xe617;</i></span>\
+                                        </div>\
                                     </div>\
                                 </div>';
                     var lightBox = $('<div class="k-lightBox"><div class="lightBox-content">'+str+'</div></div>');
@@ -2907,45 +2910,63 @@ angular.module('directives', [])
                             doc.one("mousewheel.moveTo",mousewheelFn);
                         },1200);
                     }
+                    body.css({
+                        'width': w,
+                        'height': h - 85,
+                        'left' : 0,
+                        'text-align':'center'
+                    });
+                    content.animate({
+                        'height'   : h,
+                        'top': 100
+                    });
+                    var $img = body.find('.img');
                     setImgSize(index);
                     function setImgSize(index){
                         var imgW,imgH;
                         var iW = images[index].width;
                         var iH = images[index].height;
-                        var w = winW > 1000 ? 1000 : winW <= 1000 ? 1000 : winW;
-                        var h = winH - 200;
-                        console.log(iW,iH,w,winH)
-                        if(iW >= w){
-                            if(iW > iH){
-                                imgW = w;
-                                imgH =  w/iW*iH;
-                            }else if(iW < iH){
-                                imgH = h;
-                                imgW =  h/iH*iW;
-                            }else{
-                                imgW = imgH = h;
-                            }
-                        }else if(iH >= h){
-                            imgH = h;
-                            imgW = h/iH*iW;
+                        var tuH = h - 85;
+                        var iWs,iHs,is;
+                        if(iW > w){
+                            iWs = w/iW;
                         }else{
-                            imgW = iW;
-                            imgH =  iH;
+                            iWs = 1;
                         }
-                        pagenum.html('<strong>'+(index+1)+'</strong>/'+length)
-                        body.css({
+                        if(iH > tuH){
+                            iHs = tuH/iH;
+                        }else{
+                            iHs = 1;
+                        }
+                        if(iWs > iHs){
+                            is = iHs
+                        }else{
+                            is = iWs
+                        }
+                        if(is*iW > w){
+                            imgW = w;
+                            imgH = is*iH*(w/(is*iW));
+                        }else{
+                            imgW = is*iW;
+                        }
+                        if(is*iH > tuH){
+                            imgW = is*iW*(tuH/(is*iH));
+                            imgH = tuH;
+                        }else{
+                            imgH = is*iH
+                        }
+                        pagenum.html('<strong>'+(index+1)+'</strong>/'+length);
+                        $img.css({
+                            'position':'relative',
                             'width': imgW,
                             'height': imgH,
-                            'left' : (1000 - imgW)/2
-                        });
+                            'margin-top':(tuH-imgH)/2,
+                            'margin-left':(w-imgW)/2
+                        })
                         img.css({
                             'width': imgW,
                             'height': imgH
                         }).attr('src', '/api/v2/web/image/'+images[index].imageid);
-                        content.animate({
-                            'height'   : imgH + 86,
-                            'top': (h - imgH + 86) / 2
-                        });
                     }
                 }
             }

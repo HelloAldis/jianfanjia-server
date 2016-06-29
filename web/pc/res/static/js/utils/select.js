@@ -240,7 +240,6 @@ define(['jquery'], function($){
      */
     Select.prototype.destroy = function(){
         this.$element.empty();
-        delete this;
     }
     return Select;
 });

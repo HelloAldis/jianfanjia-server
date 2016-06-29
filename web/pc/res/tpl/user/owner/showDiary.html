@@ -75,17 +75,17 @@
                       content:list.reviewContent,
                       to_designerid:undefined,
                       to_userid:list.authorid
-                    })" ng-class="{'u-btns-disabled' : !list.reviewContent.length}" ng-disabled="!list.reviewContent.length">发表评论</button>
+                    })" ng-class="{'u-btns-disabled' : !list.reviewContent.length || addCommentDld}" ng-disabled="!list.reviewContent.length || addCommentDld">发表评论</button>
                 </div>
             </div>
             <div class="list">
                 <ul>
-                    <li ng-repeat="review in list.review" bindonce="list.review">
+                    <li ng-repeat="data in list.review" bindonce="list.review" ng-click="addCommentTo(data,list.author._id)">
                         <div class="u-head u-head-radius u-head-w50">
-                            <img bo-src-i="/api/v2/web/thumbnail2/50/50/{{review.byUser.imageid}}" alt="" bo-if="review.byUser.imageid">
+                            <img bo-src-i="/api/v2/web/thumbnail2/50/50/{{data.byUser.imageid}}" alt="" bo-if="data.byUser.imageid">
                         </div>
-                        <h4><span bo-text="review.byUser.username">新设计师</span><time bo-text="review.date | timeFormat"></time></h4>
-                        <p><span class="text" bo-text="review.content"></span><i class="iconfont reply" ng-class="{'active':review.giveshow}" ng-click="addCommentTo(review,list.author._id)">&#xe616;</i></p>
+                        <h4><span bo-text="data.byUser.username">新设计师</span><time bo-text="data.date | timeFormat"></time></h4>
+                        <p><span class="text" bo-text="data.content"></span><i class="iconfont reply" ng-class="{'active':data.giveshow}">&#xe616;</i></p>
                     </li>
                     <li class="notList" ng-if="!list.review.length">
                         暂无评论
@@ -96,7 +96,6 @@
         </div>
     </div>
 </div>
-<!-- <div my-sidenav ng-if="isLoadingOut" my-list="diarylist"></div> -->
 <div class="pageLoading" ng-if="!isLoading"></div>
 <div class="k-modal dialog" id="j-modal" ng-class="{'show':modal.show}">
     <div class="modal-dialog">

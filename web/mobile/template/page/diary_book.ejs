@@ -340,7 +340,7 @@ function format(date,format){
     <main class="g-diary" id="j-page">
         <article class="g-mn">
             <header class="m-diary-banner">
-                <% if(data.diarySet.cover_imageid !== null){ %>
+                <% if(!!data.diarySet.cover_imageid){ %>
                 <img class="img" src="/api/v2/web/thumbnail2/1242/603/<%= data.diarySet.cover_imageid %>" />
                 <% } %>
                 <div class="mask"></div>

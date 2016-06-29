@@ -69,6 +69,21 @@ body{
 .g-mn{
     width: 920px;
 }
+.m-edit .infoTips{
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 50px;
+    text-align: left;
+    color: #61687a;
+    background-color: #fffdf6;
+    border: 1px dashed #d2d2d2;
+}
+.m-edit .infoTips i{
+    display: inline-block;
+    width: 40px;
+    text-align: center;
+    margin-left: 6px;
+}
 .m-edit .m-edit-header{
     position: relative;
     height: 80px;
@@ -84,7 +99,7 @@ body{
 }
 .m-edit .m-edit-header textarea{
       float: left;
-        width: 100%;
+        width: 838px;
        height: 60px;
       margin-left: -20px;
       padding: 10px;
@@ -465,7 +480,8 @@ body{
 }
 .m-diary-list .m-body{
     overflow: hidden;
-    padding: 20px 39px;
+    margin: 20px 39px;
+    cursor: pointer;
 }
 .m-diary-list .img{
     position: relative;
@@ -666,7 +682,8 @@ body{
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#59000000',GradientType=0 );
 }
 .m-diary-show .m-body{
-    padding: 20px 29px;
+    margin: 20px 29px;
+    cursor: default;
 }
 .m-diary-show .text{
     padding-top: 0;

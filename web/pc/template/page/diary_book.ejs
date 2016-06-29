@@ -59,7 +59,7 @@ function format(date,format){
     <main class="g-bd g-wp f-cb g-diary" id="j-diary">
         <article class="g-mn f-fl">
             <header class="m-diary-banner">
-                <% if(data.diarySet.cover_imageid !== null){ %>
+                <% if(!!data.diarySet.cover_imageid){ %>
                 <img src="/api/v2/web/thumbnail2/920/260/<%= data.diarySet.cover_imageid %>" />
                 <% }else{ %>
                 <img src="/static/img/diary/covers-default.jpg" />

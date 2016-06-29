@@ -91,7 +91,8 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
             var $submit,$addContent;
             var $write = $('<div class="m-write"><i class="iconfont">&#xe629;</i>&nbsp;&nbsp;写日记</div>');
             var $edit = $('<div class="m-edit"></div>');
-            var html = '<div class="m-edit-header">\
+            var html = '<div class="infoTips"><i class="iconfont">&#xe612;</i>图片上传每张3M以内jpg/png格式，最多只能上传9张图。（注：不能放置个人电话号码或违反法律法规的信息。）</div>\
+                        <div class="m-edit-header">\
                             <textarea rows="10" placeholder="记录和分享您的装修之路，不少于15字哦" name="content" class="addContent placeholder"></textarea>\
                         </div>\
                         <div class="m-edit-body insertimage">\
@@ -103,7 +104,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                                         <input type="hidden" id="sessionId" value="${pageContext.session.id}" />\
                                         <input type="hidden" value="1215154" name="tmpdir" id="id_create">\
                                     </div>\
-                                    <div class="tips">最多只能上传9张图</div>\
+                                    <div class="tips"></div>\
                                 </div>\
                             </div>\
                         </div>\
@@ -143,7 +144,6 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                     _.forEach(data,function(v){
                         setData.push(v.title);
                     })
-                    console.log(setData)
                     $(this).hide();
                     _this.add.append($edit);
                     new Placeholder({
@@ -194,10 +194,9 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                     return _.last(section_label);
                 }
             }
-            var VERIFY_CONTENT = /^[\u4e00-\u9fa5]{14,10000}$|^[\dA-Za-z_]{28,20000}$/ig;
-            this.add.on('input propertychange','.addContent',function(event){   //添加一条动态
-                console.log(VERIFY_CONTENT.test($(this).val()));
-                if(!!$.trim($(this).val()) && !$submit.data('complete')){
+            this.add.on('input propertychange keyup','.addContent',function(event){   //添加一条动态
+                var value = $.trim($(this).val());
+                if(value.length >= 15 && !$submit.data('complete')){
                     $submit.prop("disabled", false).removeClass('u-btns-disabled');
                 }else{
                     $submit.prop("disabled", true).addClass('u-btns-disabled');
@@ -217,7 +216,6 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                     alert('请选择时间节点');
                     return ;
                 }
-                console.log(diary)
                 $.ajax({
                     url: '/api/v2/web/add_diary',
                     type: 'POST',
@@ -345,7 +343,6 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                     });
                 }else{
                     var loadDate = 0;
-                    console.log(scope.myQuery.length)
                     $('#createUpload2').uploadify({
                         'auto': true, //自动上传
                         'removeTimeout': 1,
@@ -616,6 +613,9 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                     console.log(error);
                 });
             });
+            this.list.on('click','.m-body',function(){
+                window.location.href = '/tpl/diary/book/'+ $(this).data('diaryid');
+            });
         },
         myConfirm : function(msg,callback){
             var modat = '<div class="modal-dialog">\
@@ -689,7 +689,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                         '</div>',
                         '<div class="label f-fr"><a href="/tpl/diary/book/'+data.diarySetid+'?diaryid='+data._id+'">'+data.section_label+'阶段</a></div>',
                     '</header>',
-                    '<section class="m-body">',
+                    '<section class="m-body" data-diaryid="'+data.diarySetid+'">',
                         '<p class="text">'+this.suolve(data.content)+'</p>',
                         imgBox,
                     '</section>',
@@ -710,6 +710,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
             return arr.join('');
         },
         hot : function(num){
+            var _this = this;
             var oUl = this.diary.find('.m-diary-hot ul');
             $.ajax({
                 url: '/api/v2/web/top_diary_set',
@@ -724,6 +725,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
             .done(function(res) {
                 if(!!res.data.length){
                     create(res.data);
+                    _this.setHot();
                 }
             })
             .fail(function(error) {
@@ -750,6 +752,25 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                 </li>'
                 });
                 oUl.html(str);
+            }
+        },
+        setHot : function(){
+            var win = $(window);
+            var $side = this.diary.find('.g-sd');
+            setHotTop(win.scrollTop());
+            win.on('scroll',function(){
+                var top = win.scrollTop();
+                setHotTop(top);
+            });
+            function setHotTop(top){
+                var left = $side.offset().left;
+                var position = top >= 220 ? 'fixed' : 'static';
+                var top = top - $side.height() - 770 > 0 ? - (top - $side.height() - 770) : 0;
+                $side.css({
+                    top : top,
+                    left : left,
+                    position: position
+                });
             }
         },
         format : function(date,format){
