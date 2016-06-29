@@ -8,7 +8,8 @@
   angular.module('JfjAdmin.pages.chart', [
     'JfjAdmin.pages.chart.requirement',
     'JfjAdmin.pages.chart.user',
-    'JfjAdmin.pages.chart.designer'
+    'JfjAdmin.pages.chart.designer',
+    'JfjAdmin.pages.chart.product'
   ]).config(routeConfig).config(chartJsConfig);
 
   /** @ngInject */
