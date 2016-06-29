@@ -72,8 +72,10 @@ exports.product_page = function (req, res, next) {
               width: 1,
               height: 1,
             }, function (err, image_size) {
-              image.width = image_size.width;
-              image.height = image_size.height;
+              if (image_size) {
+                image.width = image_size.width;
+                image.height = image_size.height;
+              }
               callback(err, image);
             });
           }, callback)
