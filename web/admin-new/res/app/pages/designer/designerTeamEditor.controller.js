@@ -3,6 +3,9 @@
     .controller('DesignerTeamEditorController', [ //设计师编辑施工团队
       '$scope', '$rootScope', '$stateParams', '$http', '$filter', '$location',
       function ($scope, $rootScope, $stateParams, $http, $filter, $location) {
+        $scope.uploader1 = {};
+        $scope.uploader2 = {};
+
         $http({ //获取数据
           method: "POST",
           url: 'api/v2/web/admin/search_team',
@@ -59,40 +62,11 @@
           }]
           $scope.team.good_at = findteamGoodAtsId($scope.team.good_at)
           console.log(resp.data.data.teams[0]);
-          uploadFirl($('#upload'), true);
-          uploadFirl($('#upload1'), false);
 
-          function uploadFirl(obj, off) {
-            obj.Huploadify({
-              auto: true,
-              fileTypeExts: '*.jpg;*.jpeg;*.png;',
-              multi: true,
-              formData: {
-                key: 123456,
-                key2: 'vvvv'
-              },
-              fileSizeLimit: 3072,
-              showUploadedPercent: false,
-              showUploadedSize: true,
-              removeTimeout: 1,
-              fileObjName: 'Filedata',
-              buttonText: "",
-              uploader: 'api/v2/web/image/upload',
-              onUploadComplete: function (file, data, response) {
-                var data = $.parseJSON(data);
-                if (off) {
-                  console.log(data.data)
-                  $scope.team.uid_image1 = data.data;
-                  $scope.$apply()
-                } else {
-                  $scope.team.uid_image2 = data.data;
-                  $scope.$apply()
-                }
-              }
-            });
-          }
           $scope.upDataTeam = function () {
             $scope.team.good_at = findteamGoodAtsName($scope.team.good_at)
+            $scope.team.uid_image1 = $scope.uploader1.uploadImageClient.getAllIds()[0];
+            $scope.team.uid_image2 = $scope.uploader2.uploadImageClient.getAllIds()[0];
             console.log($scope.team)
             $http({ //获取数据
               method: "POST",
@@ -101,7 +75,7 @@
             }).then(function (resp) {
               //返回信息
               console.log(resp);
-              $location.path('designer/team/' + $scope.userUid); //设置路由跳转
+              window.history.back();
             }, function (resp) {
               //返回错误信息
               console.log(resp);

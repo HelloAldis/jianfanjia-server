@@ -35,32 +35,14 @@
 	    <label for="">上传身份正面：</label>
 	    <div class="file">
 	      <p class="tips">*作品上传每张大小为3M以内jpeg/jpg/png格式图片</p>
-	      <div class="file-list f-cb" id="j-file-list">
-	        <div class="create-item">
-	          <div class="pic" id="upload">
-	            <img src="jyz/img/uploadify.jpg" alt="上传图片" />
-	          </div>
-	        </div>
-	        <div class="previews-item" ng-show="!!team.uid_image1" data-imgid="{{team.uid_image1}}">
-	        	<div class="pic"><img class="img" src="/api/v2/web/thumbnail/250/{{team.uid_image1}}" alt=""></div>
-	        </div>
-	      </div>
+				<upload-image id="upload1" ids="[team.uid_image1]" max-image-count="1" uploader="uploader1"><upload-image>
 	    </div>
 	</div>
 	<div class="form-group">
 	    <label for="">上传身份反面：</label>
 	    <div class="file">
 	      <p class="tips">*作品上传每张大小为3M以内jpeg/jpg/png格式图片</p>
-	      <div class="file-list f-cb" id="j-file-list">
-	        <div class="create-item">
-	          <div class="pic" id="upload1">
-	            <img src="jyz/img/uploadify.jpg" alt="上传图片" />
-	          </div>
-	        </div>
-	        <div class="previews-item" ng-show="!!team.uid_image2" data-imgid="{{team.uid_image2}}">
-	        	<div class="pic"><img class="img" src="/api/v2/web/thumbnail/250/{{team.uid_image2}}" alt=""></div>
-	        </div>
-	      </div>
+				<upload-image id="upload2" ids="[team.uid_image2]" max-image-count="1" uploader="uploader2"><upload-image>
 	    </div>
 	</div>
 	<div class="form-group">
