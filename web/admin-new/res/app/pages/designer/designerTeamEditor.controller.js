@@ -30,44 +30,13 @@
             "name": "女"
           }]
 
-          function findteamGoodAtsId(str) {
-            return {
-              "水电": "0",
-              "木工": "1",
-              "油工": "2",
-              "泥工": "3"
-            }[str]
-          }
-
-          function findteamGoodAtsName(str) {
-            return {
-              "0": "水电",
-              "1": "木工",
-              "2": "油工",
-              "3": "泥工"
-            }[str]
-          }
-          $scope.teamGoodAts = [{
-            "id": "0",
-            "name": "水电"
-          }, {
-            "id": "1",
-            "name": "木工"
-          }, {
-            "id": "2",
-            "name": "油工"
-          }, {
-            "id": "3",
-            "name": "泥工"
-          }]
-          $scope.team.good_at = findteamGoodAtsId($scope.team.good_at)
-          console.log(resp.data.data.teams[0]);
+          $scope.teamGoodAts = ["水电", "木工", "油工", "泥工"];
+          // console.log(resp.data.data.teams[0]);
 
           $scope.upDataTeam = function () {
-            $scope.team.good_at = findteamGoodAtsName($scope.team.good_at)
             $scope.team.uid_image1 = $scope.uploader1.uploadImageClient.getAllIds()[0];
             $scope.team.uid_image2 = $scope.uploader2.uploadImageClient.getAllIds()[0];
-            console.log($scope.team)
+            // console.log($scope.team)
             $http({ //获取数据
               method: "POST",
               url: 'api/v2/web/admin/update_team',
