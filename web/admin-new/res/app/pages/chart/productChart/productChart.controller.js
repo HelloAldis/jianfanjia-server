@@ -63,7 +63,7 @@
       var ranges = [0, 80, 120, 150, 200];
       chart.ranges = [];
       chart.labels = [];
-      chart.series = ['面积大小'];
+      chart.series = ['作品数'];
       for (var i = 0; i < ranges.length; i++) {
         if (i == ranges.length - 1) {
           var gte = ranges[i];
