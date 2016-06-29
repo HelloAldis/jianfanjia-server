@@ -1576,7 +1576,6 @@ angular.module('controllers', [])
             }
             function jump(data){
                 var data = angular.copy(data);
-                console.log(data)
                 data.house_area = $filter('decTypeFilter')(data.dec_type);
                 if(data.business_house_type != undefined){
                     data.business_house_type = $filter('businessHouseTypeFilter')(data.business_house_type);
@@ -1750,21 +1749,33 @@ angular.module('controllers', [])
                 getComment(id,size,10);
             }
             $scope.addCommentTo = function(data,authorid){
-                console.log(data,authorid)
                 var index = _.findIndex($scope.diarylist,{"_id":data.topicid});
                 var index2 = _.findIndex($scope.diarylist[index].review,{"_id":data._id});
-                console.log(index,index2)
+                _.forEach($scope.diarylist[index].review,function(n){
+                    n.giveshow = false;
+                });
                 $scope.replyinfo = data;
-                if(data.to_userid !== authorid){
+                if(data.byUser._id !== authorid){
                     $scope.replyinfo.notfind = true;
                     $scope.diarylist[index].giveshow = true;
                     $scope.diarylist[index].review[index2].giveshow = true;
                     $scope.diarylist[index].givename = data.byUser.username;
+                }else{
+                    $scope.replyinfo.notfind = false;
+                    $scope.diarylist[index].giveshow = false;
+                    $scope.diarylist[index].givename = '';
                 }
             }
+            $scope.addCommentDld = false;
             $scope.addComment = function(data){
-                console.log(data);
+                if($scope.addCommentDld){   //防止重复点击
+                    return ;
+                }
+                if(!$scope.addCommentDld){
+                    $scope.addCommentDld = true;
+                }
                 var index = _.findIndex($scope.diarylist,{"_id":data.topicid});
+                var index2 = _.findIndex($scope.diarylist[index].review,{"_id":data._id});
                 if($scope.replyinfo !== null){
                     if($scope.replyinfo.notfind){
                         data.to_userid = $scope.replyinfo.byUser._id;
@@ -1773,11 +1784,17 @@ angular.module('controllers', [])
                 }
                 userDiary.comment(data).then(function(res){  //获取意向设计师列表
                     if(res.data.msg === "success"){
+                        _.forEach($scope.diarylist[index].review,function(n){
+                            n.giveshow = false;
+                        });
+                        $scope.diarylist[index].giveshow = false;
                         getComment(data.topicid,0,10,true);
                         $scope.replyinfo = null;
                         $scope.diarylist[index].reviewContent = '';
                     }
+                    $scope.addCommentDld = false;
                 },function(res){
+                    $scope.addCommentDld = false;
                     console.log(res)
                 });
             }
@@ -1794,6 +1811,9 @@ angular.module('controllers', [])
                         }else{
                             _.forEach(res.data.data.comments,function(n){
                                 $scope.diarylist[index].review.push(n);
+                            });
+                            _.forEach($scope.diarylist[index].review,function(n){
+                                n.giveshow = false;
                             });
                             if($scope.diarylist[index].review.length === res.data.data.total){
                                 $scope.diarylist[index].moveshow = false;

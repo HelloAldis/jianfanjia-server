@@ -34,20 +34,24 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                 var win = $(window);
                 var winW = win.width();
                 $sidenav.css('left',parseInt((winW-1200)/2) - 70).show();
+                $side = this.detail.find('.g-sd');
                 var list = this.detail.find('.m-list');
                 if($('#diary_'+this.diaryid).length > 0){
                     var diary = $('#diary_'+this.diaryid);
                     highlight(diary.offset().top);
                     setTop(diary.offset().top);
+                    setHotTop(diary.offset().top);
                     $('html,body').animate({scrollTop: diary.offset().top}, 500,function(){
                         add(diary.index());
                     });
                 }else{
                     highlight(win.scrollTop());
                     setTop(win.scrollTop());
+                    setHotTop(win.scrollTop());
                 }
                 win.on('scroll',function(){
                     var top = win.scrollTop();
+                    setHotTop(top);
                     setTop(top);
                     if(top < 500){
                         add(0);
@@ -61,6 +65,16 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                         if($(el).offset().top - top < 150){
                             add(index);
                         }
+                    });
+                }
+                function setHotTop(top){
+                    var left = $side.offset().left;
+                    var position = top >= 220 ? 'fixed' : 'static';
+                    var top = top - $side.height() - 230 > 0 ? - (top - $side.height() - 360) : 0;
+                    $side.css({
+                        top : top,
+                        left : left,
+                        position: position
                     });
                 }
                 function setTop(top){
@@ -78,29 +92,48 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                 });
             },
             remove : function(){
+                var _this = this;
+                var template = '<div class="modal-dialog">\
+                                <div class="modal-content">\
+                                    <div class="modal-body">\
+                                        <div class="icon"><i class="iconfont">&#xe619;</i></div>\
+                                        <p>您确定要取消日记吗？</p>\
+                                    </div>\
+                                    <div class="modal-footer">\
+                                        <button type="button" class="u-btns u-btns-revise cancel">我点错了</button>\
+                                        <button type="button" class="u-btns define">确定删除</button>\
+                                    </div>\
+                                </div>\
+                            </div>';
                 this.detail.on('click','.remove',function(event){   //删除一条动态
-                    var id = $(this).data('diaryid');
-                    var parent = $(this).parents('.m-list');
-                    $(this).hide();
-                    $.ajax({
-                        url: '/api/v2/web/delete_diary',
-                        type: 'POST',
-                        dataType: 'json',
-                        contentType : 'application/json; charset=utf-8',
-                        data : JSON.stringify({
-                            "diaryid" : id
-                        }),
-                        processData : false
-                    })
-                    .done(function(res) {
-                        if(res.msg === "success"){
-                            parent.animate({width:0,height:0},function(){
-                                parent.remove();
-                            });
+                    var $this = $(this);
+                    _this.myConfirm(template,null,function(type){
+                        if(type !== 'yes'){
+                            return ;
                         }
-                    })
-                    .fail(function(error) {
-                        console.log(error);
+                        var id = $this.data('diaryid');
+                        var parent = $this.parents('.m-list');
+                        $this.hide();
+                        $.ajax({
+                            url: '/api/v2/web/delete_diary',
+                            type: 'POST',
+                            dataType: 'json',
+                            contentType : 'application/json; charset=utf-8',
+                            data : JSON.stringify({
+                                "diaryid" : id
+                            }),
+                            processData : false
+                        })
+                        .done(function(res) {
+                            if(res.msg === "success"){
+                                parent.animate({width:0,height:0},function(){
+                                    parent.remove();
+                                });
+                            }
+                        })
+                        .fail(function(error) {
+                            console.log(error);
+                        });
                     });
                 });
             },
@@ -142,7 +175,7 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                 });
             },
             prevent : function(msg,id){
-                this.myConfirm(msg,function(choose){
+                this.myConfirm(false,msg,function(choose){
                     if(choose == 'yes') {
                         window.location.href = '/tpl/user/login.html?/tpl/diary/book/'+id;
                     }
@@ -169,21 +202,23 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                 if($('#diary_'+this.diaryid).length > 0){
                     $('#diary_'+this.diaryid).find('.click-review').click();
                 }
-                this.detail.on('click','.reply',function(event){    //评论给谁
+                this.detail.on('click','.m-review .list ul li',function(event){    //评论给谁
                     var parent = $(this).parents('.m-list');
                     var review = parent.find('.m-review');
+                    var $reply = $(this).find('.reply')
                     addCommentTo = {};
-                    addCommentTo.byuserid = $(this).data('byuserid');
-                    addCommentTo.byusername = $(this).data('byusername');
+                    addCommentTo.byuserid = $reply.data('byuserid');
+                    addCommentTo.byusername = $reply.data('byusername');
                     addCommentTo.userid = review.data('userid');
                     addCommentTo.authorid = review.data('authorid');
+                    var $replys = _this.detail.find('.reply');
+                    $replys.removeClass('active');
                     if(addCommentTo.byuserid === addCommentTo.userid || addCommentTo.byuserid === addCommentTo.authorid){
                         addCommentTo.notfind = true;
                         addCommentTo.byusername = '';
+                        review.find('.find').hide();
                     }else{
-                        var $reply = _this.detail.find('.reply');
-                        $reply.removeClass('active');
-                        $(this).addClass('active');
+                        $reply.addClass('active');
                         addCommentTo.notfind = false;
                         review.find('.find strong').html(addCommentTo.byusername);
                         review.find('.find').show();
@@ -212,6 +247,7 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                         if(total === 0){   //清空没有评论提示信息
                             oUl.html('<li class="notList">暂无评论</li>');
                         }else{
+                            oUl.find('.notList').remove();
                             if(dir){
                                 oUl.prepend(createComment(res.data.comments[0]))
                             }else{
@@ -257,7 +293,7 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                     if(!$.trim($(this).val())){
                         reset(parent)
                     }
-                }).on('input propertychange','.contentMsg',function(event){   //输入框正在输入时候
+                }).on('input propertychange keyup','.contentMsg',function(event){   //输入框正在输入时候
                     var parent = $(this).parents('.m-list');
                     var addMsg = parent.find('.addComment');
                     if(!!_.trim($(this).val())){
@@ -290,13 +326,6 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                         byuser = $(this).data('authorid');
                         content = $.trim(contentMsg.val());
                     }
-
-                    var strong = parent.find('.click-review strong');
-                    var review = parent.find('.click-review .review');
-                    var num = parseInt(review.text(),10) + 1;
-                    strong.fadeIn(function(){
-                        review.html(num);
-                    });
                     $.ajax({
                         url: '/api/v2/web/add_comment',
                         type: 'POST',
@@ -312,7 +341,33 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                         processData : false
                     })
                     .done(function(res) {
+                        if(!!res.err_msg){
+                            var template = '<div class="modal-dialog">\
+                                  <div class="modal-content">\
+                                    <div class="modal-body">\
+                                       <p class="text">很抱歉，'+res.err_msg+'</p>\
+                                    </div>\
+                                    <div class="modal-footer">\
+                                      <button type="button" class="u-btns define">确定</button>\
+                                    </div>\
+                                  </div>\
+                                </div>\
+                              </div>';
+                            _this.myConfirm(template,null,function(choose){
+                                if(choose == 'yes') {
+                                    parent.animate({width:0,height:0},function(){
+                                        parent.remove();
+                                    });
+                                }
+                            });
+                        }
                         if(res.msg === "success"){
+                            var strong = parent.find('.click-review strong');
+                            var review = parent.find('.click-review .review');
+                            var num = parseInt(review.text(),10) + 1;
+                            strong.fadeIn(function(){
+                                review.html(num);
+                            });
                             getComment(parent,id,0,10,true);
                             addCommentTo = null;
                             reset(parent);
@@ -350,6 +405,7 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                     var title = parent.data('label');
                     var img = parent.find('.lightBox');
                     var length = img.size();
+                    iNum = $(this).index();
                     setImgarr(img);
                     lightBox(title,$(this).index(),length);
                 });
@@ -365,6 +421,8 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                 function lightBox(title,index,length){
                     var winW = $(window).width();
                     var winH = $(window).height();
+                    var w = winW < 1000 ? winW : 1000;
+                    var h = winH - 200;
                     var str =   '<div class="lightBox-header f-cb">\
                                     <h3 class="f-fl title">'+title+'阶段</h3>\
                                     <span class="pagenum f-fl"></span>\
@@ -373,10 +431,10 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                                 <div class="lightBox-body">\
                                     <div class="img">\
                                         <img alt="" />\
-                                    </div>\
-                                    <div class="toggle">\
-                                      <span class="prev '+(index === 0 ? "hide" : '')+'"><i class="iconfont">&#xe611;</i></span>\
-                                      <span class="next '+(index === length-1 ? "hide" : '')+'"><i class="iconfont">&#xe617;</i></span>\
+                                        <div class="toggle">\
+                                          <span class="prev '+(index === 0 ? "hide" : '')+'"><i class="iconfont">&#xe611;</i></span>\
+                                          <span class="next '+(index === length-1 ? "hide" : '')+'"><i class="iconfont">&#xe617;</i></span>\
+                                        </div>\
                                     </div>\
                                 </div>';
                     var lightBox = $('<div class="k-lightBox"><div class="lightBox-content">'+str+'</div></div>');
@@ -453,50 +511,68 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                             doc.one("mousewheel.moveTo",mousewheelFn);
                         },1200);
                     }
+                    body.css({
+                        'width': w,
+                        'height': h - 85,
+                        'left' : 0,
+                        'text-align':'center'
+                    });
+                    content.animate({
+                        'height'   : h,
+                        'top': 100
+                    });
+                    var $img = body.find('.img');
                     setImgSize(index);
                     function setImgSize(index){
                         var imgW,imgH;
                         var iW = images[index].width;
                         var iH = images[index].height;
-                        var w = winW > 1000 ? 1000 : winW <= 1000 ? 1000 : winW;
-                        var h = winH - 200;
-                        console.log(iW,iH,w,winH)
-                        if(iW >= w){
-                            if(iW > iH){
-                                imgW = w;
-                                imgH =  w/iW*iH;
-                            }else if(iW < iH){
-                                imgH = h;
-                                imgW =  h/iH*iW;
-                            }else{
-                                imgW = imgH = h;
-                            }
-                        }else if(iH >= h){
-                            imgH = h;
-                            imgW = h/iH*iW;
+                        var tuH = h - 85;
+                        var iWs,iHs,is;
+                        if(iW > w){
+                            iWs = w/iW;
                         }else{
-                            imgW = iW;
-                            imgH =  iH;
+                            iWs = 1;
                         }
-                        pagenum.html('<strong>'+(index+1)+'</strong>/'+length)
-                        body.css({
+                        if(iH > tuH){
+                            iHs = tuH/iH;
+                        }else{
+                            iHs = 1;
+                        }
+                        if(iWs > iHs){
+                            is = iHs
+                        }else{
+                            is = iWs
+                        }
+                        if(is*iW > w){
+                            imgW = w;
+                            imgH = is*iH*(w/(is*iW));
+                        }else{
+                            imgW = is*iW;
+                        }
+                        if(is*iH > tuH){
+                            imgW = is*iW*(tuH/(is*iH));
+                            imgH = tuH;
+                        }else{
+                            imgH = is*iH
+                        }
+                        pagenum.html('<strong>'+(index+1)+'</strong>/'+length);
+                        $img.css({
+                            'position':'relative',
                             'width': imgW,
                             'height': imgH,
-                            'left' : (1000 - imgW)/2
-                        });
+                            'margin-top':(tuH-imgH)/2,
+                            'margin-left':(w-imgW)/2
+                        })
                         img.css({
                             'width': imgW,
                             'height': imgH
                         }).attr('src', '/api/v2/web/image/'+images[index].imageid);
-                        content.animate({
-                            'height'   : imgH + 86,
-                            'top': (h - imgH + 86) / 2
-                        });
                     }
                 }
             },
-            myConfirm : function(msg,callback){
-                var modat = '<div class="modal-dialog">\
+            myConfirm : function(template,msg,callback){
+                var modat = template || '<div class="modal-dialog">\
                           <div class="modal-content">\
                             <div class="modal-body">\
                                <p class="text">'+msg+'</p>\
@@ -508,6 +584,7 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                           </div>\
                         </div>\
                       </div>';
+
                 var _this = this;
                 var $modal = $('<div class="k-modal dialog" id="j-modal"></div>'),
                     $backdrop = $('<div class="k-modal-backdrop" id="j-modal-backdrop"></div>');

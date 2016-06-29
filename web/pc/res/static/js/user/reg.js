@@ -302,7 +302,6 @@ require(['jquery','lodash','cookie'],function($,_,cookie){
                         self.off = false;
                         self.error.html(res.err_msg).removeClass('hide');
                     }
-
                 });
             }
         },
