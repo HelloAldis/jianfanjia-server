@@ -25,7 +25,8 @@
 	</div>
 	<div class="form-group">
 	    <label for="">擅长工种：</label>
-	    <div my-select my-list="teamGoodAts" my-query="team.good_at"></div>
+			<kv-dropdown curkey="team.good_at" keyval="id:name" opts="teamGoodAts">
+	    </kv-dropdown>
 	</div>
 	<div class="form-group">
 	    <label for="">正在施工工地：</label>
