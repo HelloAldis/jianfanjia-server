@@ -269,6 +269,130 @@
       });
     }
 
+    function initChart6(chart) {
+      var now = new Date();
+      chart.labels = ['家装', '商装'];
+
+      chart.querys = [{
+        key: 'requirement',
+        querys: [{
+          dec_type: '0'
+        }, {
+          dec_type: '1'
+        }]
+      }];
+
+      adminStatistic.statistic_info({
+        querys: chart.querys
+      }).then(function (resp) {
+        if (resp.data.data.total === 0) {
+          chart.statistic = [];
+        } else {
+          chart.statistic = resp.data.data;
+        }
+      }, function (resp) {
+        //返回错误信息
+
+        console.log(resp);
+      });
+    }
+
+    function initChart7(chart) {
+      var now = new Date();
+      chart.labels = ['半包', '全包', '纯设计'];
+
+      chart.querys = [{
+        key: 'requirement',
+        querys: [{
+          work_type: '0'
+        }, {
+          work_type: '1'
+        }, {
+          work_type: '2'
+        }]
+      }];
+
+      adminStatistic.statistic_info({
+        querys: chart.querys
+      }).then(function (resp) {
+        if (resp.data.data.total === 0) {
+          chart.statistic = [];
+        } else {
+          chart.statistic = resp.data.data;
+        }
+      }, function (resp) {
+        //返回错误信息
+
+        console.log(resp);
+      });
+    }
+
+    function initChart8(chart) {
+      var now = new Date();
+      chart.labels = ['欧式', '中式', '现代', '地中海', '美式', '东南亚', '田园'];
+      chart.querys = [{
+        key: 'requirement',
+        querys: [{
+          dec_style: '0'
+        }, {
+          dec_style: '1'
+        }, {
+          dec_style: '3'
+        }, {
+          dec_style: '4'
+        }, {
+          dec_style: '5'
+        }, {
+          dec_style: '6'
+        }, {
+          dec_style: '7'
+        }]
+      }];
+      chart.series = ['需求数'];
+      adminStatistic.statistic_info({
+        querys: chart.querys
+      }).then(function (resp) {
+        if (resp.data.data.total === 0) {
+          chart.statistic = [];
+        } else {
+          chart.statistic = resp.data.data;
+        }
+      }, function (resp) {
+        //返回错误信息
+
+        console.log(resp);
+      });
+    }
+
+    function initChart9(chart) {
+      var now = new Date();
+      chart.labels = ['不限', '表达型', '倾听型'];
+      chart.querys = [{
+        key: 'requirement',
+        querys: [{
+          communication_type: '0'
+        }, {
+          communication_type: '1'
+        }, {
+          communication_type: '2'
+        }]
+      }];
+
+      adminStatistic.statistic_info({
+        querys: chart.querys
+      }).then(function (resp) {
+        if (resp.data.data.total === 0) {
+          chart.statistic = [];
+        } else {
+          chart.statistic = resp.data.data;
+        }
+      }, function (resp) {
+        //返回错误信息
+
+        console.log(resp);
+      });
+    }
+
     $scope.chart1 = {};
     initChart1($scope.chart1);
 
@@ -284,5 +408,16 @@
     $scope.chart5 = {};
     initChart5($scope.chart5);
 
+    $scope.chart6 = {};
+    initChart6($scope.chart6);
+
+    $scope.chart7 = {};
+    initChart7($scope.chart7);
+
+    $scope.chart8 = {};
+    initChart8($scope.chart8);
+
+    $scope.chart9 = {};
+    initChart9($scope.chart9);
   }
 })();

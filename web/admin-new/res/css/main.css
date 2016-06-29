@@ -3052,8 +3052,6 @@ a {
     padding: 0px 8px;
     line-height: 35px;
     border-top: 1px solid gainsboro; }
-    .table > tbody > tr > td:first-child {
-      text-align: center; }
     .table > tbody > tr > td:last-child {
       padding-right: 16px !important; }
 

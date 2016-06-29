@@ -30,9 +30,7 @@
     var layoutColors = baConfigProvider.colors;
     // Configure all charts
     ChartJsProvider.setOptions({
-      colours: [layoutColors.primary, layoutColors.danger, layoutColors.warning, layoutColors.success, layoutColors.info, layoutColors.default,
-        layoutColors.primaryDark, layoutColors.successDark, layoutColors.warningLight, layoutColors.successLight, layoutColors.primaryLight
-      ],
+      colours: [layoutColors.primary, layoutColors.danger, layoutColors.warning, layoutColors.success, layoutColors.info, '#9B30FF', '#B8860B'],
       responsive: true,
       scaleFontColor: layoutColors.defaultText,
       scaleLineColor: layoutColors.border,
