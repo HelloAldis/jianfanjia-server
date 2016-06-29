@@ -19,22 +19,6 @@
         }).then(function (resp) {
           //返回信息
           $scope.team = resp.data.data.teams[0];
-          //所在地区
-          var desArea = $('#where_area');
-          desArea.empty();
-          if (!!$scope.team.province) {
-            var designAreaQuery = $scope.team.province + " " + $scope.team.city + " " + $scope.team.district;
-            desArea.find('input[name=where_area]').val(designAreaQuery)
-            var designArea = new CitySelect({
-              id: 'where_area',
-              "query": designAreaQuery
-            });
-          } else {
-            desArea.find('input[name=where_area]').val("")
-            var designArea = new CitySelect({
-              id: 'where_area'
-            });
-          }
           $scope.teamSexs = [{
             "id": "0",
             "name": "男"
