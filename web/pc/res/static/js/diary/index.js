@@ -249,199 +249,248 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                 var obj = o.find('.k-uploadbox');
                 var $list = obj.find('.list');
                 if(checkSupport() === 'html5'){
+                    var uid = 0;
                     var GUID = 0;
                     var queue = [];
-                    $('#createUpload2').uploadifive({
-                        'auto'  : true,
-                        'dnd'   : false,
-                        'buttonText' : '',
-                        'method'  : 'post',
-                        'queueID' : 'queue',
-                        'fileObjName': 'Filedata',
-                        'multi': true,  //一次只能选择一个文件
-                        'queueSizeLimit': 9,
-                        'width': 85,
-                        'height': 85,
-                        'fileType' : 'image/jpeg,image/png',  //允许上传文件类型
-                        'fileSizeLimit': 3072,  //上传最大文件限制
-                        'uploadScript' : '/api/v2/web/image/upload',  //上传的api
-                        'onAddQueueItem' : function(file){
-                            var upload = $('<div class="items" data-load="'+(+new Date())+'" id="upload_'+file.queueItem[0].id+'"></div>');
-                            var str =   '<div class="queue-items">\
-                                            <span class="loading"></span>\
-                                            <span class="uploading"><i class="ing">等待...</i></span>\
-                                            <span class="filename"></span>\
-                                            <span class="error" ></span>\
-                                            <span class="progress"><span style="0%"></span></span>\
-                                            <span class="cancel"><i class="iconfont">&#xe642;</i></span>\
-                                        </div>\
-                                        <div class="queue-img hide">\
-                                            <span class="close"><i class="iconfont">&#xe642;</i></span>\
-                                            <div class="img">\
-                                                <img />\
+                    function loadImages(size){
+                        console.log('size：',size)
+                        $('#createUpload2').uploadifive({
+                            'auto'  : true,
+                            'dnd'   : false,
+                            'buttonText' : '',
+                            'method'  : 'post',
+                            'queueID' : 'queue',
+                            'fileObjName': 'Filedata',
+                            'multi': true,  //一次只能选择一个文件
+                            'queueSizeLimit': size,
+                            'width': 85,
+                            'height': 85,
+                            'fileType' : 'image/jpeg,image/png',  //允许上传文件类型
+                            'fileSizeLimit': 3072,  //上传最大文件限制
+                            'uploadScript' : '/api/v2/web/image/upload',  //上传的api
+                            'onAddQueueItem' : function(file){
+                                var upload = $('<div class="items" data-load="'+(+new Date())+'" id="upload_'+uid+'_'+file.queueItem[0].id+'"></div>');
+                                var str =   '<div class="queue-items">\
+                                                <span class="loading"></span>\
+                                                <span class="uploading"><i class="ing">等待...</i></span>\
+                                                <span class="filename"></span>\
+                                                <span class="error" ></span>\
+                                                <span class="progress"><span style="0%"></span></span>\
+                                                <span class="cancel"><i class="iconfont">&#xe642;</i></span>\
                                             </div>\
-                                        </div>';
-                            queue.push(file);
-                            upload.html(str);
-                            $list.append(upload);
-                        },
-                        'onProgress' : function(file, event) {
-                            setTimeout(function(){
-                                var item = $('#upload_'+file.queueItem[0].id);
-                                var load = +item.data('load');
-                                if((+new Date() - load) >= 120000){
+                                            <div class="queue-img hide">\
+                                                <span class="close"><i class="iconfont">&#xe642;</i></span>\
+                                                <div class="img">\
+                                                    <img />\
+                                                </div>\
+                                            </div>';
+                                queue.push({
+                                    id : 'upload_'+uid+'_'+file.queueItem[0].id,
+                                    file : file
+                                });
+                                upload.html(str);
+                                $list.append(upload);
+                            },
+                            'onProgress' : function(file, event) {
+                                setTimeout(function(){
+                                    var item = $('#upload_'+uid+'_'+file.queueItem[0].id);
+                                    var load = +item.data('load');
+                                    if((+new Date() - load) >= 240000){
+                                        loadDate = 0;
+                                        item.find('.error').html('上传超时');
+                                        item.find('.uploading').addClass('hide');
+                                        return ;
+                                    }
+                                    var loading = parseInt(event.loaded/event.total*100,10);
+                                    item.find('.loading').html(loading);
+                                    if(loading > 0){
+                                        item.find('.ing').html('正在上传');
+                                    }
+                                    item.find('.progress span').css('width',loading + '%');
+                                },0);
+                            },
+                            'onSelect'   : function(file) {
+                                obj.find('.pic').append('<div class="disable"></div>');
+                                isSubmitImages = false;
+                                isSubmitFn();
+                                GUID = file.queued;
+                            },
+                            'onUploadComplete': function (file, data, response) {
+                                console.log('onUploadComplete:',file)
+                                callbackImg(data,uid+'_'+file.queueItem[0].id);
+                                if(GUID-- === 1){
+                                    $('#createUpload2').uploadifive('clearQueue');
+                                    $('#createUpload2').uploadifive('destroy');
+                                    var length = $list.find('.items').size();
+                                    if(9 - length > 0){
+                                        uid++;
+                                        loadImages(9 - length);
+                                    }
+                                    obj.find('.disable').remove();
+                                    queue = [];  //清空上传队列
+                                    console.log('全部上传完成');
+                                }
+                            },
+                            'onError': function (errorMsg, fileType, data) {
+                                console.log('onError',errorMsg, fileType, data);
+                                if(errorMsg === 'FILE_SIZE_LIMIT_EXCEEDED'){
+                                    alert('文件大小超出3M限制，请重新上传');
+                                }
+                                if(errorMsg == 'Unknown Error'){
+                                    var item = $('#upload_'+uid+'_'+fileType.queueItem[0].id);
+                                    item.find('.uploading').addClass('hide');
+                                    item.find('.error').html('上传出错');
+                                }
+                                if(errorMsg == 'ERR_CONNECTION_TIMED_OUT'){
+                                    var item = $('#upload_'+uid+'_'+fileType.queueItem[0].id);
+                                    item.find('.uploading').addClass('hide');
+                                    item.find('.error').html('连接超时');
+                                }
+                                if(errorMsg == 'FILE_QUEUE_SIZE_LIMIT'){
+                                    if(diary.images.length < 9 && diary.images.length > 0){
+                                        alert('最多只能上传 9 张图片，您还可以上传 '+size+' 张图片。');
+                                    }else if(diary.images.length == 9){
+                                        alert('最多只能上传 9 张图片，您已经上传 9 张图片。');
+                                    }else{
+                                        alert('最多只能上传 9 张图片，请重新选择图片上传。');
+                                    }
+                                }
+                            },
+                            'onCancel': function () {
+                                if(GUID-- === 1){
+                                    $('#createUpload1').uploadifive('clearQueue');
+                                    var length = $list.find('.items').size();
+                                    if(9 - length > 0){
+                                        uid++;
+                                        loadImages(9 - length);
+                                    }
+                                    obj.find('.disable').remove();
+                                    isSubmitImages = true;
+                                    isSubmitFn();
+                                    console.log('全部取消完成');
+                                }
+                            }
+                        });
+                    }
+                    loadImages(9);
+                    $list.on('click','.cancel',function(){
+                        var parents = $(this).parents('.items');
+                        var index = _.findIndex(queue,{'id':parents[0].id});
+                        if(index >= 0){
+                            $('#createUpload2').uploadifive('cancel',queue[index]);
+                            queue.splice(index,1);
+                            parents.remove();
+                        }
+                    });
+                }else{
+                    var uid = 0;
+                    var GUID = 0;
+                    var queue = [];
+                    var loadDate = 0;
+                    function loadImages(size){
+                        $('#createUpload2').uploadify({
+                            'auto': true, //自动上传
+                            'removeTimeout': 100000000,
+                            'swf': 'uploadify.swf',
+                            'uploader': '/api/v2/web/image/upload',  //上传的api
+                            'method': 'post',
+                            'buttonText': '',
+                            'multi': true,  //一次只能选择一个文件
+                            'queueSizeLimit': size,
+                            'width': 85,
+                            'height': 85,
+                            'fileObjName': 'Filedata',
+                            'successTimeout': 5, //
+                            'fileTypeDesc': 'Image Files',
+                            'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
+                            'fileSizeLimit': '3MB',  //上传最大文件限制
+                            'onSelect': function (file) {
+                                var str = '<div class="queue-items">\
+                                        <span class="loading"></span>\
+                                        <span class="uploading"><i class="ing">等待...</i></span>\
+                                        <span class="filename"></span>\
+                                        <span class="error" ></span>\
+                                        <span class="progress"><span style="0%"></span></span>\
+                                        <span class="cancel"><i class="iconfont">&#xe642;</i></span>\
+                                    </div>\
+                                    <div class="queue-img hide">\
+                                        <span class="close"><i class="iconfont">&#xe642;</i></span>\
+                                        <div class="img">\
+                                            <img />\
+                                        </div>\
+                                    </div>';
+                                if(!obj.find('.disable').size()){
+                                    obj.find('.pic').append('<div class="disable"></div>');
+                                }
+                                var upload = $('<div class="items" data-load="'+(+new Date())+'" data-cancel="'+file.id+'" id="upload_'+file.id+'"></div>');
+                                upload.html(str);
+                                GUID++;
+                                queue.push(file);
+                                $list.append(upload);
+                                isSubmitImages = false;
+                                isSubmitFn();
+                            },
+                            'onUploadStart': function (file) {
+                                loadDate = +new Date();
+                                $('#upload_'+file.id).find('.ing').html('正在上传');
+                                $('.uploadify-queue').css('zIndex', '110');
+                            },
+                            'onUploadSuccess': function (file, data, response) {
+                                queue = [];
+                                callbackImg(data, file.id);
+                                $('.uploadify-queue').css('zIndex', '0');
+                                if(GUID-- === 1){
+                                    $('#createUpload2').uploadify('destroy');
+                                     obj.find('.disable').remove();
+                                    var length = $list.find('.items').size();
+                                    if(9 - length > 0){
+                                        uid++;
+                                        loadImages(9 - length);
+                                    }
+                                }
+                            },
+                            'onUploadError': function (file, errorCode, errorMsg, errorString) {
+                                if (errorMsg === '500' && errorCode === -200) {
+                                    var item = $('#upload_'+file.id);
+                                    item.find('.uploading').addClass('hide');
+                                    item.find('.error').html('上传出错');
+                                }
+                            },
+                            'onQueueComplete' : function(queueData){
+                                obj.find('.disable').remove();
+                            },
+                            'onCancel': function () {
+                                if(GUID-- === 1){
+                                    $('.uploadify-queue').css('zIndex', '0');
+                                    $('#createUpload2').uploadify('destroy');
+                                    obj.find('.disable').remove();
+                                    isSubmitImages = true;
+                                    isSubmitFn();
+                                    var length = $list.find('.items').size();
+                                    if(9 - length > 0){
+                                        uid++;
+                                        loadImages(9 - length);
+                                    }
+                                }
+                            },
+                            'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
+                                var item = $('#upload_'+file.id);
+                                if((+new Date() - loadDate) >= 240000){
                                     loadDate = 0;
                                     item.find('.error').html('上传超时');
                                     item.find('.uploading').addClass('hide');
                                     return ;
                                 }
-                                var loading = parseInt(event.loaded/event.total*100,10);
-                                item.find('.loading').html(loading);
-                                if(loading > 0){
-                                    item.find('.ing').html('正在上传');
-                                }
-                                item.find('.progress span').css('width',loading + '%');
-                            },0);
-                        },
-                        'onSelect'   : function(file) {
-                            obj.find('.pic').append('<div class="disable"></div>');
-                            isSubmitImages = false;
-                            isSubmitFn();
-                            GUID = file.queued;
-                            console.log(file)
-                        },
-                        'onUploadComplete': function (file, data, response) {
-                            console.log('onUploadComplete:',file)
-                            callbackImg(data,file.queueItem[0].id);
-                            if(GUID-- === 1){
-                                $('#createUpload2').uploadifive('clearQueue');
-                                obj.find('.disable').remove();
-                                queue = [];  //清空上传队列
-                                console.log('全部上传完成');
+                                setTimeout(function(){
+                                    var load = +item.data('load');
+                                    var loading = parseInt(bytesUploaded / bytesTotal * 100, 10);
+                                    item.find('.loading').html(loading);
+                                    item.find('.progress span').css('width',loading + '%');
+                                },0);
                             }
-                        },
-                        'onError': function (errorMsg, fileType, data) {
-                            console.log('onError',errorMsg, fileType, data);
-                            if(errorMsg === 'FILE_SIZE_LIMIT_EXCEEDED'){
-                                alert('文件大小超出3M限制，请重新上传');
-                            }
-                            if(errorMsg == 'Unknown Error'){
-                                var item = $('#upload_'+fileType.queueItem[0].id);
-                                item.find('.uploading').addClass('hide');
-                                item.find('.error').html('上传出错');
-                            }
-                            if(errorMsg == 'ERR_CONNECTION_TIMED_OUT'){
-                                var item = $('#upload_'+fileType.queueItem[0].id);
-                                item.find('.uploading').addClass('hide');
-                                item.find('.error').html('连接超时');
-                            }
-                        },
-                        'onCancel': function () {
-                            if(GUID-- === 1){
-                                $('#createUpload1').uploadifive('clearQueue');
-                                obj.find('.disable').remove();
-                                isSubmitImages = true;
-                                isSubmitFn();
-                                console.log('全部取消完成');
-                            }
-                        }
-                    });
-                    $list.on('click','.cancel',function(){
-                        var parents = $(this).parents('.items');
-                        $('#createUpload2').uploadifive('cancel',queue[parents.index()]);
-                        queue.slice(parents.index(),1);
-                        parents.remove();
-                    });
-                }else{
-                    var GUID = 0;
-                    var queue = [];
-                    var loadDate = 0;
-                    $('#createUpload2').uploadify({
-                        'auto': true, //自动上传
-                        'removeTimeout': 100000000,
-                        'swf': 'uploadify.swf',
-                        'uploader': '/api/v2/web/image/upload',  //上传的api
-                        'method': 'post',
-                        'buttonText': '',
-                        'multi': true,  //一次只能选择一个文件
-                        'queueSizeLimit': 9,
-                        'width': 85,
-                        'height': 85,
-                        'fileObjName': 'Filedata',
-                        'successTimeout': 5, //
-                        'fileTypeDesc': 'Image Files',
-                        'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
-                        'fileSizeLimit': '3MB',  //上传最大文件限制
-                        'onSelect': function (file) {
-                            var str = '<div class="queue-items">\
-                                    <span class="loading"></span>\
-                                    <span class="uploading"><i class="ing">等待...</i></span>\
-                                    <span class="filename"></span>\
-                                    <span class="error" ></span>\
-                                    <span class="progress"><span style="0%"></span></span>\
-                                    <span class="cancel"><i class="iconfont">&#xe642;</i></span>\
-                                </div>\
-                                <div class="queue-img hide">\
-                                    <span class="close"><i class="iconfont">&#xe642;</i></span>\
-                                    <div class="img">\
-                                        <img />\
-                                    </div>\
-                                </div>';
-                            if(!obj.find('.disable').size()){
-                                obj.find('.pic').append('<div class="disable"></div>');
-                            }
-                            var upload = $('<div class="items" data-load="'+(+new Date())+'" data-cancel="'+file.id+'" id="upload_'+file.id+'"></div>');
-                            upload.html(str);
-                            GUID++;
-                            queue.push(file);
-                            $list.append(upload);
-                            isSubmitImages = false;
-                            isSubmitFn();
-                        },
-                        'onUploadStart': function (file) {
-                            loadDate = +new Date();
-                            $('#upload_'+file.id).find('.ing').html('正在上传');
-                            $('.uploadify-queue').css('zIndex', '110');
-                        },
-                        'onUploadSuccess': function (file, data, response) {
-                            queue = [];
-                            callbackImg(data, file.id);
-                            $('.uploadify-queue').css('zIndex', '0');
-                        },
-                        'onUploadError': function (file, errorCode, errorMsg, errorString) {
-                            if (errorMsg === '500' && errorCode === -200) {
-                                var item = $('#upload_'+file.id);
-                                item.find('.error').html('上传出错');
-                            }
-                        },
-                        'onQueueComplete' : function(queueData){
-                            obj.find('.disable').remove();
-                        },
-                        'onCancel': function () {
-                            if(GUID-- === 1){
-                                $('.uploadify-queue').css('zIndex', '0');
-                                obj.find('.disable').remove();
-                                isSubmitImages = true;
-                                isSubmitFn();
-                                console.log('全部取消完成');
-                            }
-                        },
-                        'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
-                            var item = $('#upload_'+file.id);
-                            if((+new Date() - loadDate) >= 120000){
-                                loadDate = 0;
-                                item.find('.error').html('上传超时');
-                                item.find('.uploading').addClass('hide');
-                                return ;
-                            }
-                            setTimeout(function(){
-                                var load = +item.data('load');
-                                var loading = parseInt(bytesUploaded / bytesTotal * 100, 10);
-                                item.find('.loading').html(loading);
-                                item.find('.progress span').css('width',loading + '%');
-                            },0);
-                        }
-                    });
+                        });
+                    }
+                    loadImages(9);
                     $list.on('click','.cancel',function(){
                         var parents = $(this).parents('.items');
                         $('#createUpload2').uploadify('cancel',parents.data('cancel'));
@@ -468,6 +517,11 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                         }else{
                             alert('已经上传过了');
                             item.remove();
+                            var length = $list.find('.items').size();
+                            if(9 - length > 0){
+                                uid++;
+                                loadImages(9 - length);
+                            }
                         }
                         if(queue.length === 0){
                             isSubmitImages = true;
@@ -485,6 +539,11 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                         var parents = $(this).parents('.items');
                         diary.images.splice(parents.index(),1);
                         parents.remove();
+                        var length = $list.find('.items').size();
+                        if(9 - length > 0){
+                            uid++;
+                            loadImages(9 - length);
+                        }
                     }
                 });
             }

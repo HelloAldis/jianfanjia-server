@@ -191,7 +191,7 @@ Released under the UploadiFive Standard License <http://www.uploadify.com/upload
                     if (($data.queue.count + limit) > settings.queueSizeLimit && settings.queueSizeLimit !== 0) {
                         // Check if the queueSizeLimit was reached
                         if ($.inArray('onError', settings.overrideEvents) < 0) {
-                            alert('一次上传文件选择的数量最多为 '+settings.queueSizeLimit+' 个，请从新选择文件上传。');
+                            $data.error('FILE_QUEUE_SIZE_LIMIT', file);
                             return ;
                         }
                         // Trigger the onError event
