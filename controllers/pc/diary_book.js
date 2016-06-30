@@ -11,6 +11,7 @@ const Diary = require('../../proxy').Diary;
 const DiarySet = require('../../proxy').DiarySet;
 const user_habit_collect = require('../../business/user_habit_collect');
 const tools = require('../../common/tools');
+const url = require('url')
 
 exports.diary_book_page = function (req, res, next) {
   const userid = ApiUtil.getUserid(req);
@@ -101,7 +102,12 @@ exports.go_diary = function (req, res, next) {
     diarySetid: 1,
   }, ep.done(function (diary) {
     if (diary) {
-      res.redirect(301, '/tpl/diary/book/' + diary.diarySetid + '?diaryid=' + diary._id);
+      let para = url.parse(req.url);
+      if (para.search) {
+        res.redirect(301, '/tpl/diary/book/' + diary.diarySetid + para.search + '&diaryid=' + diary._id);
+      } else {
+        res.redirect(301, '/tpl/diary/book/' + diary.diarySetid + '?diaryid=' + diary._id);
+      }
     } else {
       next();
     }
