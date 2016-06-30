@@ -16,7 +16,7 @@ require(['jquery', 'index/search'], function ($, Search) {
     var search = new Search();
     search.init();
 });
-require(['jquery', 'cookie', 'utils/common', 'utils/tooltip','uploadify'], function ($, cookie, common, Tooltip,uploadify) {
+require(['jquery', 'lib/jquery.cookie', 'utils/common', 'utils/tooltip','uploadify'], function ($, cookie, common, Tooltip,uploadify) {
     var Home = function () {};
     Home.prototype = {
         init: function () {

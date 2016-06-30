@@ -1,4 +1,4 @@
-define(['jquery','cookie'], function($,cookie){
+define(['jquery','lib/jquery.cookie'], function($,cookie){
 	var Goto = function(){};
 	Goto.prototype = {
 		init : function(options){

@@ -6,7 +6,7 @@ require.config({
         cookie : 'lib/jquery.cookie'
     }
 });
-require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','utils/format'],function($,_,cookie,common){
+require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousewheel.min','utils/format'],function($,_,cookie,common){
         var user = new common.User();
         user.init();
         var search = new common.Search();
@@ -16,7 +16,10 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
         Detail.prototype = {
             init  : function(){
                 this.urlid = window.location.pathname.split("/").pop();
-                this.diaryid = window.location.search.indexOf('=') ? window.location.search.split("=").pop() : '';
+                this.diary = null;
+                if(!!window.location.search){
+                    this.diary = this.strToJson(window.location.search.substring(1));
+                }
                 this.cookie = $.cookie('usertype');
                 this.body = $('body');
                 this.detail = $('#j-diary');
@@ -37,8 +40,8 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                 $side = this.detail.find('.g-sd');
                 $main = this.detail.find('.g-mn');
                 var list = this.detail.find('.m-list');
-                if($('#diary_'+this.diaryid).length > 0){
-                    var diary = $('#diary_'+this.diaryid);
+                if(this.diary !== null && $('#diary_'+this.diary.diaryid).length > 0){
+                    var diary = $('#diary_'+this.diary.diaryid);
                     highlight(diary.offset().top);
                     setTop(diary.offset().top);
                     setHotTop(diary.offset().top);
@@ -197,22 +200,30 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                     if($(this).hasClass('active')){
                         getComment(parent,id,0,10,false,function(){
                             review.removeClass('hide');
+                            if(_this.diary !== null && $('#diary_'+_this.diary.diaryid).length > 0){
+                                var obj = $('#diary_'+_this.diary.diaryid).find('.m-review .list ul li');
+                                setCommentTo(obj,_this.diary.to_userid,decodeURI(_this.diary.username),null);
+                            }
                         });
                     }else{
                         review.addClass('hide');
                         review.find('.list ul').html('');
                     }
                 });
-                if($('#diary_'+this.diaryid).length > 0){
-                    $('#diary_'+this.diaryid).find('.click-review').click();
+                if(this.diary !== null && $('#diary_'+this.diary.diaryid).length > 0){
+                    $('#diary_'+this.diary.diaryid).find('.click-review').click();
                 }
                 this.detail.on('click','.m-review .list ul li',function(event){    //评论给谁
-                    var parent = $(this).parents('.m-list');
+                    var $reply = $(this).find('.reply');
+                    setCommentTo($(this),$reply.data('byuserid'),$reply.data('byusername'))
+                });
+                function setCommentTo(obj,id,name,add){
+                    var parent = obj.parents('.m-list');
                     var review = parent.find('.m-review');
-                    var $reply = $(this).find('.reply')
+                    var $reply = obj.find('.reply');
                     addCommentTo = {};
-                    addCommentTo.byuserid = $reply.data('byuserid');
-                    addCommentTo.byusername = $reply.data('byusername');
+                    addCommentTo.byuserid = id;
+                    addCommentTo.byusername = name;
                     addCommentTo.userid = review.data('userid');
                     addCommentTo.authorid = review.data('authorid');
                     var $replys = _this.detail.find('.reply');
@@ -222,13 +233,14 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                         addCommentTo.byusername = '';
                         review.find('.find').hide();
                     }else{
-                        $reply.addClass('active');
+                        if(!!add){
+                            $reply.addClass('active');
+                        }
                         addCommentTo.notfind = false;
                         review.find('.find strong').html(addCommentTo.byusername);
                         review.find('.find').show();
                     }
-
-                });
+                }
                 function getComment(obj,id,form,limit,dir,fn){     //获取评论数据
                     var oUl = obj.find('.m-review .list ul');
                     var more = obj.find('.m-review .more');
@@ -611,6 +623,20 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                     callback && callback('no');
                     hide();
                 });
+            },
+            strToJson : function(str){    // 字符串转对象
+                var json = {};
+                if(str.indexOf("&") != -1){
+                    var arr = str.split("&");
+                    for (var i = 0,len = arr.length; i < len; i++) {
+                        var  temp = arr[i].split("=");
+                        json[temp[0]] = temp[1]
+                    };
+                }else{
+                    var  temp = str.split("=");
+                    json[temp[0]] = temp[1]
+                }
+                return json;
             }
         };
         var detail = new Detail();

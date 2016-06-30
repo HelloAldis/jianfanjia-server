@@ -9,7 +9,7 @@ require(['jquery','index/search'],function($,Search){
     var search = new Search();
     search.init();
 });
-require(['jquery', 'cookie', 'utils/common', 'utils/tooltip'], function ($, cookie, common, Tooltip) {
+require(['jquery', 'lib/jquery.cookie', 'utils/common', 'utils/tooltip'], function ($, cookie, common, Tooltip) {
     var Home = function(){};
     Home.prototype = {
         init  : function(){

@@ -269,7 +269,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                             var upload = $('<div class="items" data-load="'+(+new Date())+'" id="upload_'+file.queueItem[0].id+'"></div>');
                             var str =   '<div class="queue-items">\
                                             <span class="loading"></span>\
-                                            <span class="uploading"><i class="ing">正在上传中</i></span>\
+                                            <span class="uploading"><i class="ing">等待...</i></span>\
                                             <span class="filename"></span>\
                                             <span class="error" ></span>\
                                             <span class="progress"><span style="0%"></span></span>\
@@ -289,8 +289,17 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                             setTimeout(function(){
                                 var item = $('#upload_'+file.queueItem[0].id);
                                 var load = +item.data('load');
+                                if((+new Date() - load) >= 120000){
+                                    loadDate = 0;
+                                    item.find('.error').html('上传超时');
+                                    item.find('.uploading').addClass('hide');
+                                    return ;
+                                }
                                 var loading = parseInt(event.loaded/event.total*100,10);
                                 item.find('.loading').html(loading);
+                                if(loading > 0){
+                                    item.find('.ing').html('正在上传');
+                                }
                                 item.find('.progress span').css('width',loading + '%');
                             },0);
                         },
@@ -318,10 +327,12 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                             }
                             if(errorMsg == 'Unknown Error'){
                                 var item = $('#upload_'+fileType.queueItem[0].id);
+                                item.find('.uploading').addClass('hide');
                                 item.find('.error').html('上传出错');
                             }
                             if(errorMsg == 'ERR_CONNECTION_TIMED_OUT'){
                                 var item = $('#upload_'+fileType.queueItem[0].id);
+                                item.find('.uploading').addClass('hide');
                                 item.find('.error').html('连接超时');
                             }
                         },

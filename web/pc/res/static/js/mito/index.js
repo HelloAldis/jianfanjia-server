@@ -11,7 +11,7 @@ require.config({
         }
     }
 });
-require(['jquery','lodash','cookie','utils/common'],function($,_,cookie,common){
+require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
     var user = new common.User();
     user.init();
     var search = new common.Search();
@@ -19,7 +19,7 @@ require(['jquery','lodash','cookie','utils/common'],function($,_,cookie,common){
         defaults : 1
     });
 })
-require(['jquery','lodash','cookie','lib/jquery.history','utils/common','mito/waterfall'],function($,_,cookie,history,common,water){
+require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/common','mito/waterfall'],function($,_,cookie,history,common,water){
   var History = window.History;
   var goto = new common.Goto();
   var createCellLoader = new water.createCellLoader();

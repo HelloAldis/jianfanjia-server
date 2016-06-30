@@ -6,7 +6,7 @@ require.config({
         cookie : 'lib/jquery.cookie'
     }
 });
-require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min'],function($,_,cookie,common){
+require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousewheel.min'],function($,_,cookie,common){
         var user = new common.User();
         user.init();
         var search = new common.Search();

@@ -11,13 +11,13 @@ require.config({
         }
     }
 });
-require(['jquery','lodash','cookie','utils/common'],function($,_,cookie,common){
+require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
     var user = new common.User();
     user.init();
     var search = new common.Search();
     search.init();
 })
-require(['jquery','lodash','cookie','lib/jquery.history','utils/common','utils/page'],function($,_,cookie,history,common,Pageing){
+require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/common','utils/page'],function($,_,cookie,history,common,Pageing){
     var goto = new common.Goto();
     var page = new Pageing();
     var Article = function(){};

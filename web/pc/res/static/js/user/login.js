@@ -6,13 +6,13 @@ require.config({
         cookie : 'lib/jquery.cookie'
     }
 });
-require(['jquery','lodash','cookie','utils/common'],function($,_,cookie,common){
+require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
     var search = new common.Search();
     search.init();
     var goto = new common.Goto();
     goto.init();
 });
-require(['jquery','lodash','cookie'],function($,_,cookie){
+require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
 	if(window.location.host == 'jianfanjia.com'){
 		window.location.href = 'http://www.jianfanjia.com/tpl/user/login.html';
 	}

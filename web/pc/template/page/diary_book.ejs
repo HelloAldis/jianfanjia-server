@@ -85,7 +85,7 @@ function format(date,format){
             <div class="m-diary-list m-diary-show">
                 <% if(!!data.diaries.length){ %>
                 <% data.diaries.forEach((v, k) => { %>
-                <section class="m-list" id="diary_<%= v._id %>" data-label="<%= v.section_label %>" data-uid="<%= v._id %>">
+                <div class="m-list" id="diary_<%= v._id %>" data-label="<%= v.section_label %>" data-uid="<%= v._id %>" data-authorid="<%= v.authorid %>">
                     <header class="m-header f-cb">
                         <div class="tags">
                             <h4><%= v.section_label %></h4>
@@ -139,7 +139,7 @@ function format(date,format){
                             </div>
                             <div class="btns">
                                 <span class="find">回复给&nbsp;&nbsp;<strong></strong></span>
-                                <button type="button" class="u-btns addComment u-btns-disabled" data-authorid="<%= v.authorid %>">发表评论</button>
+                                <button type="button" class="u-btns addComment u-btns-disabled">发表评论</button>
                             </div>
                         </div>
                           <% }else{%>
@@ -154,7 +154,7 @@ function format(date,format){
                         </div>
                         <div class="more" data-topicid="<%= v._id %>">加载更多</div>
                     </div>
-                </section>
+                </div>
                 <% }) %>
                 <% }else{ %>
                 <p class="not">

@@ -1,4 +1,4 @@
-define(['jquery','cookie','utils/common','lib/jquery.fly.min'],function($,cookie,common){
+define(['jquery','lib/jquery.cookie','utils/common','lib/jquery.fly.min'],function($,cookie,common){
     var user = new common.User();
     user.init();
     var goto = new common.Goto;
