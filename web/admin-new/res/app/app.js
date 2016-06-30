@@ -16,5 +16,5 @@ angular.module('JfjAdmin', [
   'JfjAdmin.pages',
   'JfjAdmin.services',
   'JfjAdmin.components',
-  'JfjAdmin.filters'
+  'JfjAdmin.filters',
 ]);

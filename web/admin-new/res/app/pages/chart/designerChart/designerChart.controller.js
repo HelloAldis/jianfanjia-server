@@ -43,7 +43,7 @@
         })
       }];
 
-      $scope.series1 = ['新增业主用户数', '来自Web', '来自iOS', '来自Android'];
+      $scope.series1 = ['新增设计师用户数', '来自Web', '来自iOS', '来自Android'];
       adminStatistic.statistic_info({
         querys: $scope.querys1
       }).then(function (resp) {
@@ -101,7 +101,7 @@
         })
       }];
 
-      $scope.series2 = ['新增业主用户数', '来自Web', '来自iOS', '来自Android'];
+      $scope.series2 = ['新增设计师用户数', '来自Web', '来自iOS', '来自Android'];
       adminStatistic.statistic_info({
         querys: $scope.querys2
       }).then(function (resp) {
