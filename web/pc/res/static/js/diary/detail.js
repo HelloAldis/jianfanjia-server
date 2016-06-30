@@ -35,6 +35,7 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                 var winW = win.width();
                 $sidenav.css('left',parseInt((winW-1200)/2) - 70).show();
                 $side = this.detail.find('.g-sd');
+                $main = this.detail.find('.g-mn');
                 var list = this.detail.find('.m-list');
                 if($('#diary_'+this.diaryid).length > 0){
                     var diary = $('#diary_'+this.diaryid);
@@ -68,9 +69,12 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                     });
                 }
                 function setHotTop(top){
+                    if($main.height() < $side.height()){
+                        return ;
+                    }
                     var left = $side.offset().left;
                     var position = top >= 220 ? 'fixed' : 'static';
-                    var top = top - $side.height() - 230 > 0 ? - (top - $side.height() - 360) : 0;
+                    var top = top < $main.height() - $side.height() + 220 ? 0 : $main.height() - $side.height() + 215 - top;
                     $side.css({
                         top : top,
                         left : left,
@@ -97,7 +101,7 @@ require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min','
                                 <div class="modal-content">\
                                     <div class="modal-body">\
                                         <div class="icon"><i class="iconfont">&#xe619;</i></div>\
-                                        <p>您确定要取消日记吗？</p>\
+                                        <p>您确定要删除日记吗？</p>\
                                     </div>\
                                     <div class="modal-footer">\
                                         <button type="button" class="u-btns u-btns-revise cancel">我点错了</button>\

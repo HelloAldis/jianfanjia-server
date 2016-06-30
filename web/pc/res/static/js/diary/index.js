@@ -3,11 +3,10 @@ require.config({
     paths  : {
         jquery: 'lib/jquery',
         lodash : 'lib/lodash',
-        uploadify: 'lib/jquery.uploadify.min',
-        uploadifive: 'lib/jquery.uploadifive.min',
-        lazyload : 'lib/lazyload',
         cookie : 'lib/jquery.cookie',
-        history : 'lib/jquery.history'
+        history : 'lib/jquery.history',
+        uploadify: 'lib/jquery.uploadify.min',
+        uploadifive: 'lib/jquery.uploadifive.min'
     },
     shim   : {
         'history': {
@@ -21,14 +20,7 @@ require.config({
         }
     }
 });
-require(['jquery','lazyload'],function($){
-    $(function(){
-        $("img.lazyimg").lazyload({
-            effect : "fadeIn"
-        });
-    });
-});
-require(['jquery','lodash','cookie','utils/common'],function($,_,cookie,common){
+require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
     var user = new common.User();
     user.init();
     var search = new common.Search();
@@ -36,7 +28,7 @@ require(['jquery','lodash','cookie','utils/common'],function($,_,cookie,common){
     var goto = new common.Goto();
     goto.init();
 })
-require(['jquery','lodash','cookie','history','utils/common','utils/page','utils/globalData','utils/select','utils/placeholder','utils/checkSupport','uploadify','uploadifive'],function($,_,cookie,history,common,Pageing,globalData,Select,Placeholder,checkSupport){
+require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/common','utils/page','utils/globalData','utils/select','utils/placeholder','utils/checkSupport','lib/jquery.uploadify.min','lib/jquery.uploadifive.min'],function($,_,cookie,history,common,Pageing,globalData,Select,Placeholder,checkSupport){
     var page = new Pageing();
     var Diary = function(){};
     Diary.prototype = {
@@ -88,6 +80,8 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                 '入住'
             ];
             var _this = this;
+            var isSubmitContent = false;
+            var isSubmitImages = true;
             var $submit,$addContent;
             var $write = $('<div class="m-write"><i class="iconfont">&#xe629;</i>&nbsp;&nbsp;写日记</div>');
             var $edit = $('<div class="m-edit"></div>');
@@ -157,7 +151,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                     select1 = new Select('#section-label',{
                         type : 'getValue',
                         data : section_label,
-                        query : getCurrentSectionlabel(data[0].latest_section_label) || '时间节点选择',
+                        query : getCurrentSectionlabel(data[0].latest_section_label) || '准备',
                         select : function(obj){
                             diary.section_label = select1.returnValue();
                         }
@@ -169,12 +163,12 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                         query : setData[0],
                         select : function(obj){
                             diary.diarySetid = data[obj.index()]._id;
-                            diary.section_label = getCurrentSectionlabel(data[obj.index()].latest_section_label) || '时间节点选择';
+                            diary.section_label = getCurrentSectionlabel(data[obj.index()].latest_section_label) || '准备';
                             select1.destroy();
                             select1 = new Select('#section-label',{
                                 type : 'getValue',
                                 data : section_label,
-                                query : getCurrentSectionlabel(data[obj.index()].latest_section_label) || '时间节点选择',
+                                query : getCurrentSectionlabel(data[obj.index()].latest_section_label) || '准备',
                                 select : function(obj){
                                     diary.section_label = select1.returnValue();
                                 }
@@ -183,6 +177,13 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                     });
                 }
             });
+            function isSubmitFn(){
+                if(isSubmitContent && isSubmitImages){
+                    $submit.prop("disabled", false).removeClass('u-btns-disabled');
+                }else{
+                    $submit.prop("disabled", true).addClass('u-btns-disabled');
+                }
+            }
             function getCurrentSectionlabel(label){
                 if(!label){
                     return ;
@@ -196,11 +197,8 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
             }
             this.add.on('input propertychange keyup','.addContent',function(event){   //添加一条动态
                 var value = $.trim($(this).val());
-                if(value.length >= 15 && !$submit.data('complete')){
-                    $submit.prop("disabled", false).removeClass('u-btns-disabled');
-                }else{
-                    $submit.prop("disabled", true).addClass('u-btns-disabled');
-                }
+                isSubmitContent = value.length >= 15;
+                isSubmitFn();
             }).on('blur','.addContent',function(event){   //添加一条动态
                 diary.content = $.trim($(this).val());
             })
@@ -268,15 +266,14 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                         'fileSizeLimit': 3072,  //上传最大文件限制
                         'uploadScript' : '/api/v2/web/image/upload',  //上传的api
                         'onAddQueueItem' : function(file){
-                            console.log(file)
-                            var upload = $('<div class="item" id="queue_upload_'+file.lastModified+'"></div>');
-                            var str =   '<div class="queue-item">\
+                            var upload = $('<div class="items" data-load="'+(+new Date())+'" id="upload_'+file.queueItem[0].id+'"></div>');
+                            var str =   '<div class="queue-items">\
                                             <span class="loading"></span>\
                                             <span class="uploading"><i class="ing">正在上传中</i></span>\
                                             <span class="filename"></span>\
                                             <span class="error" ></span>\
                                             <span class="progress"><span style="0%"></span></span>\
-                                            <span class="cancel" ng-click="cancel(img.uploadid)"><i class="iconfont">&#xe642;</i></span>\
+                                            <span class="cancel"><i class="iconfont">&#xe642;</i></span>\
                                         </div>\
                                         <div class="queue-img hide">\
                                             <span class="close"><i class="iconfont">&#xe642;</i></span>\
@@ -290,7 +287,8 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                         },
                         'onProgress' : function(file, event) {
                             setTimeout(function(){
-                                var item = $('#queue_upload_'+file.lastModified);
+                                var item = $('#upload_'+file.queueItem[0].id);
+                                var load = +item.data('load');
                                 var loading = parseInt(event.loaded/event.total*100,10);
                                 item.find('.loading').html(loading);
                                 item.find('.progress span').css('width',loading + '%');
@@ -298,19 +296,17 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                         },
                         'onSelect'   : function(file) {
                             obj.find('.pic').append('<div class="disable"></div>');
-                            $submit.data('complete',true);
-                            $submit.prop("disabled", true).addClass('u-btns-disabled');
+                            isSubmitImages = false;
+                            isSubmitFn();
                             GUID = file.queued;
                             console.log(file)
                         },
                         'onUploadComplete': function (file, data, response) {
-                            console.log('onUploadComplete',arguments);
-                            callbackImg(data,file.lastModified);
+                            console.log('onUploadComplete:',file)
+                            callbackImg(data,file.queueItem[0].id);
                             if(GUID-- === 1){
                                 $('#createUpload2').uploadifive('clearQueue');
                                 obj.find('.disable').remove();
-                                $submit.data('complete',false);
-                                $submit.prop("disabled", false).removeClass('u-btns-disabled');
                                 queue = [];  //清空上传队列
                                 console.log('全部上传完成');
                             }
@@ -320,32 +316,38 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                             if(errorMsg === 'FILE_SIZE_LIMIT_EXCEEDED'){
                                 alert('文件大小超出3M限制，请重新上传');
                             }
-                            if(errorMsg === 'Unknown Error'){
-                                 $timeout(function () {
-                                    var index = _.findIndex(scope.myQuery,{'fileid':fileType.queueItem[0].id});
-                                    scope.myQuery[index].errorMsg = '上传超时，请重新选择上传';
-                                }, 0);
+                            if(errorMsg == 'Unknown Error'){
+                                var item = $('#upload_'+fileType.queueItem[0].id);
+                                item.find('.error').html('上传出错');
+                            }
+                            if(errorMsg == 'ERR_CONNECTION_TIMED_OUT'){
+                                var item = $('#upload_'+fileType.queueItem[0].id);
+                                item.find('.error').html('连接超时');
                             }
                         },
                         'onCancel': function () {
                             if(GUID-- === 1){
                                 $('#createUpload1').uploadifive('clearQueue');
                                 obj.find('.disable').remove();
+                                isSubmitImages = true;
+                                isSubmitFn();
                                 console.log('全部取消完成');
                             }
                         }
                     });
                     $list.on('click','.cancel',function(){
-                        var parents = $(this).parents('.item');
+                        var parents = $(this).parents('.items');
                         $('#createUpload2').uploadifive('cancel',queue[parents.index()]);
                         queue.slice(parents.index(),1);
                         parents.remove();
                     });
                 }else{
+                    var GUID = 0;
+                    var queue = [];
                     var loadDate = 0;
                     $('#createUpload2').uploadify({
                         'auto': true, //自动上传
-                        'removeTimeout': 1,
+                        'removeTimeout': 100000000,
                         'swf': 'uploadify.swf',
                         'uploader': '/api/v2/web/image/upload',  //上传的api
                         'method': 'post',
@@ -360,72 +362,80 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                         'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
                         'fileSizeLimit': '3MB',  //上传最大文件限制
                         'onSelect': function (file) {
+                            var str = '<div class="queue-items">\
+                                    <span class="loading"></span>\
+                                    <span class="uploading"><i class="ing">等待...</i></span>\
+                                    <span class="filename"></span>\
+                                    <span class="error" ></span>\
+                                    <span class="progress"><span style="0%"></span></span>\
+                                    <span class="cancel"><i class="iconfont">&#xe642;</i></span>\
+                                </div>\
+                                <div class="queue-img hide">\
+                                    <span class="close"><i class="iconfont">&#xe642;</i></span>\
+                                    <div class="img">\
+                                        <img />\
+                                    </div>\
+                                </div>';
                             if(!obj.find('.disable').size()){
                                 obj.find('.pic').append('<div class="disable"></div>');
                             }
-                            $timeout(function () {
-
-                                scope.myQuery.push({
-                                    fileid: file.id,
-                                    filename : file.name,
-                                    errorMsg : '',
-                                    loading: 0,
-                                    progress : '0%'
-                                });
-                                scope.myComplete = true;
-                                scope.myLoading = true;
-                                scope.mySize = 9 - scope.myQuery.length;
-                            }, 0);
+                            var upload = $('<div class="items" data-load="'+(+new Date())+'" data-cancel="'+file.id+'" id="upload_'+file.id+'"></div>');
+                            upload.html(str);
+                            GUID++;
+                            queue.push(file);
+                            $list.append(upload);
+                            isSubmitImages = false;
+                            isSubmitFn();
                         },
                         'onUploadStart': function (file) {
                             loadDate = +new Date();
+                            $('#upload_'+file.id).find('.ing').html('正在上传');
                             $('.uploadify-queue').css('zIndex', '110');
                         },
                         'onUploadSuccess': function (file, data, response) {
+                            queue = [];
                             callbackImg(data, file.id);
                             $('.uploadify-queue').css('zIndex', '0');
                         },
                         'onUploadError': function (file, errorCode, errorMsg, errorString) {
                             if (errorMsg === '500' && errorCode === -200) {
-                                $timeout(function () {
-                                    var index = _.findIndex(scope.myQuery,{'fileid':file.id});
-                                    if (index >= 0) {
-                                        scope.myQuery[index].errorMsg = '上传超时，请重新选择上传';
-                                    }
-                                }, 0);
+                                var item = $('#upload_'+file.id);
+                                item.find('.error').html('上传出错');
                             }
                         },
                         'onQueueComplete' : function(queueData){
-                            $timeout(function () {
-                                scope.myComplete = false;
-                                scope.myLoading = false;
-                            }, 0);
                             obj.find('.disable').remove();
                         },
                         'onCancel': function () {
-                            $('.uploadify-queue').css('zIndex', '0');
+                            if(GUID-- === 1){
+                                $('.uploadify-queue').css('zIndex', '0');
+                                obj.find('.disable').remove();
+                                isSubmitImages = true;
+                                isSubmitFn();
+                                console.log('全部取消完成');
+                            }
                         },
                         'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
-                             //153600
-                            /*if((+new Date() - loadDate) >= 10000){
-                                $('#createUpload2').uploadify('stop');
-                                console.log('上传超时，请重新上传');
+                            var item = $('#upload_'+file.id);
+                            if((+new Date() - loadDate) >= 120000){
                                 loadDate = 0;
-                                $timeout(function () {
-                                    if (findIndex(scope.myQuery, file.id, 'uploadid') >= 0) {
-                                        scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].error = true;
-                                    }
-                                }, 0);
+                                item.find('.error').html('上传超时');
+                                item.find('.uploading').addClass('hide');
                                 return ;
-                            }*/
-                            $timeout(function () {
-                                var index = _.findIndex(scope.myQuery,{'fileid':file.id});
-                                if (index >= 0) {
-                                    scope.myQuery[index].loading = parseInt(bytesUploaded / bytesTotal * 100, 10);
-                                    scope.myQuery[index].progress = scope.myQuery[index].loading+'%';
-                                }
-                            }, 0);
+                            }
+                            setTimeout(function(){
+                                var load = +item.data('load');
+                                var loading = parseInt(bytesUploaded / bytesTotal * 100, 10);
+                                item.find('.loading').html(loading);
+                                item.find('.progress span').css('width',loading + '%');
+                            },0);
                         }
+                    });
+                    $list.on('click','.cancel',function(){
+                        var parents = $(this).parents('.items');
+                        $('#createUpload2').uploadify('cancel',parents.data('cancel'));
+                        queue.slice(parents.index(),1);
+                        parents.remove();
                     });
                 }
                 function callbackImg(arr, id) {
@@ -434,19 +444,23 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                     img.onload = function () {
                         var _this = this;
                         this.onload = this.error = null;
-                        if(_.findIndex(diary.images,data.data) == -1){
-                            var item = $('#queue_upload_'+id);
-                            item.find('.queue-item').addClass('hide');
-                            item.find('.queue-img').removeClass('hide')
+                        var item = $('#upload_'+id);
+                        if(_.findIndex(diary.images,{'imageid':data.data}) == -1){
+                            item.find('.queue-items').addClass('hide');
+                            item.find('.queue-img').removeClass('hide');
                             item.find('.img img').attr('src','/api/v2/web/thumbnail2/85/85/'+data.data);
                             diary.images.push({
                                 "width": _this.width,
                                 "imageid": data.data,
                                 "height": _this.height
-                            })
+                            });
                         }else{
                             alert('已经上传过了');
                             item.remove();
+                        }
+                        if(queue.length === 0){
+                            isSubmitImages = true;
+                            isSubmitFn();
                         }
                     }
                     img.onerror = function () {
@@ -455,22 +469,10 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                     };
                     img.src = '/api/v2/web/image/' + data.data;
                 }
-                // scope.cancel = function (file,fileid) {
-                //     if(checkSupport() === 'html5'){
-                //          $('#createUpload2').uploadifive('cancel',file);
-                //     }else{
-                //         $('#createUpload2').uploadify('cancel', fileid);
-                //     }
-                //     $timeout(function () {
-                //         scope.myQuery = _.remove(scope.myQuery, function(n) {
-                //             return n.fileid != fileid;
-                //         });
-                //     }, 0);
-                // }
                 $list.on('click','.close',function(){
                     if (confirm("您确定要删除吗？删除不能恢复")) {
-                        var parents = $(this).parents('.item');
-                        diary.images.slice(parents.index(),1);
+                        var parents = $(this).parents('.items');
+                        diary.images.splice(parents.index(),1);
                         parents.remove();
                     }
                 });
@@ -682,7 +684,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                 favorite = '<span data-diaryid="'+data._id+'" data-count="'+data.favorite_count+'" class="span favorite click-favorite">'+data.favorite_count+'</span>';
             }
             var arr = [
-                '<section class="m-list">',
+                '<div class="m-list">',
                     '<header class="m-header f-cb">',
                         '<div class="info f-fl">',
                             '<h4><a href="/tpl/diary/book/'+data.diarySetid+'">'+title+'</a></h4>',
@@ -705,7 +707,7 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
                             '<a href="/tpl/diary/book/'+data.diarySetid+'?diaryid='+data._id+'" class="span comment">'+data.comment_count+'</a>',
                         '</div>',
                     '</footer>',
-                '</section>',
+                '</div>',
             ];
             return arr.join('');
         },
@@ -757,15 +759,19 @@ require(['jquery','lodash','cookie','history','utils/common','utils/page','utils
         setHot : function(){
             var win = $(window);
             var $side = this.diary.find('.g-sd');
+            var $main = this.diary.find('.g-mn');
             setHotTop(win.scrollTop());
             win.on('scroll',function(){
                 var top = win.scrollTop();
                 setHotTop(top);
             });
             function setHotTop(top){
+                if($main.height() < $side.height()){
+                    return ;
+                }
                 var left = $side.offset().left;
                 var position = top >= 220 ? 'fixed' : 'static';
-                var top = top - $side.height() - 770 > 0 ? - (top - $side.height() - 770) : 0;
+                var top = top < $main.height() - $side.height() + 220 ? 0 : $main.height() - $side.height() + 215 - top;
                 $side.css({
                     top : top,
                     left : left,

@@ -411,8 +411,9 @@ angular.module('filters', [])
             return $sce.trustAsHtml(text);
         }
     }])
-    .filter('textareaescapedFilter', function () {   //textarea格式化显示
+    .filter('textareaescapedFilter', ['$sce', function ($sce) {   //textarea格式化显示
         return function (text) {
-            return text.toString().replace(/(\r)*\n/g, "<br />").replace(/\s/g, " ");;
+            text = text.toString().replace(/(\r)*\n/g, "<br />").replace(/\s/g, " ");
+            return $sce.trustAsHtml(text);
         }
-    });
+    }]);

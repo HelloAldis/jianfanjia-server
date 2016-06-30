@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="list-body">
-            <p class="text" bo-text="list.content"></p>
+            <p class="text" ng-bind-html="list.content | textareaescapedFilter"></p>
             <div class="img">
                 <img class="lightBox" my-viewlarger my-list="list.images" data-title="{{list.section_label}}" bo-src-i="/api/v2/web/thumbnail2/160/160/{{img.imageid}}"  ng-repeat="img in list.images track by $index" bindonce="list.images">
             </div>
@@ -102,7 +102,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="icon"><i class="iconfont">&#xe619;</i></div>
-                <p>您确定要取消日记吗？</p>
+                <p>您确定要删除日记吗？</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="u-btns u-btns-revise cancel" ng-click="modal.cancel()">取消</button>

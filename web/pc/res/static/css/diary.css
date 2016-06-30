@@ -154,7 +154,7 @@ body{
     opacity: 0;
     filter: alpha(opacity=0);
 }
-.insertimage .item{
+.insertimage .items{
     position: relative;
     float: left;
     width: 85px;
@@ -163,7 +163,7 @@ body{
 .insertimage .default .item{
     height: 168px;
 }
-.insertimage .item .img{
+.insertimage .items .img{
     width: 85px;
     height: 85px;
     overflow: hidden;
@@ -171,7 +171,7 @@ body{
     border-radius: 2px;
     background:url(../img/user/loading.gif) center center no-repeat;
 }
-.insertimage .item .queue-item{
+.insertimage .items .queue-items{
     position: relative;
     width: 85px;
     height: 85px;
@@ -180,19 +180,19 @@ body{
     border-radius: 2px;
     background:#d5d7db;
 }
-.insertimage .item .queue-item .progress{
+.insertimage .items .queue-items .progress{
     display: block;
     width: 100%;
     height: 14px;
     background-color: #61687a;
 }
-.insertimage .item .queue-item .progress span{
+.insertimage .items .queue-items .progress span{
     display: block;
     width: 0;
     height: 14px;
     background-color: #fe7004;
 }
-.insertimage .item .queue-item .cancel{
+.insertimage .items .queue-items .cancel{
     position: absolute;
     width: 20px;
     height: 20px;
@@ -201,10 +201,10 @@ body{
     color: #a4a4a4;
     cursor: pointer;
 }
-.insertimage .item .queue-item .cancel:hover{
+.insertimage .items .queue-items .cancel:hover{
     color: #666;
 }
-.insertimage .item .queue-item .loading{
+.insertimage .items .queue-items .loading{
     position: absolute;
     width: 100%;
     height: 14px;
@@ -212,7 +212,7 @@ body{
     text-align: center;
     color: #fff;
 }
-.insertimage .item .queue-item .filename{
+.insertimage .items .queue-items .filename{
     position: absolute;
     left:50%;
     top:55px;
@@ -226,32 +226,33 @@ body{
     white-space:nowrap;
     overflow:hidden;
 }
-.insertimage .item .queue-item .error{
+.insertimage .items .queue-items .error{
     position: absolute;
-    left:0;
-    top:40px;
+    left: 0;
+    top: 40px;
+    width: 100%;
     height: 20px;
     line-height: 20px;
-    padding-left: 10px;
+    text-align: center;
     color: #ff4a4a;
 }
-.insertimage .item .queue-item .uploading{
+.insertimage .items .queue-items .uploading{
     position: absolute;
     left:0;
-    top:83px;
+    top:45px;
     width: 100%;
     font-size: 14px;
     line-height: 20px;
     text-align: center;
     color: #383d48;
 }
-.insertimage .item .queue-item .uploading .ing{
+.insertimage .items .queue-items .uploading .ing{
     color: #fe7004;
 }
-.insertimage .default .item .img{
+.insertimage .default .items .img{
     margin-bottom: 0;
 }
-.insertimage .item .close{
+.insertimage .items .close{
     position: absolute;
     right: 0;
     top: 0;

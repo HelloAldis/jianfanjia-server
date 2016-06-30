@@ -2987,9 +2987,9 @@ angular.module('directives', [])
                     '<div class="item" ng-repeat="img in myQuery" bindonce="scope.myQuery">',
                     '<div class="queue-item" ng-if="img.loading >= 0">',
                     '<span class="loading" ng-bind="img.progress"></span>',
-                    '<span class="uploading"><i ng-if="img.loading > 0" class="ing">正在上传中</i><i ng-if="img.loading == 0">等待上传中</i></span>',
+                    '<span class="uploading"><i ng-if="img.loading > 0" class="ing">正在上传</i><i ng-if="img.loading == 0">等待...</i></span>',
                     '<span class="filename" ng-bind="img.filename"></span>',
-                    '<span class="error" ng-if="img.error" ng-bind="img.errorMsg"></span>',
+                    '<span class="error" ng-if="img.errorMsg" ng-bind="img.errorMsg"></span>',
                     '<span class="progress"><span ng-style="{width:img.progress}"></span></span>',
                     '<span class="cancel" ng-click="cancel(img.file,img.fileid)"><i class="iconfont">&#xe642;</i></span>',
                     '</div>',
@@ -3055,23 +3055,17 @@ angular.module('directives', [])
                                 }
                                 scope.myComplete = true;
                                 scope.myLoading = true;
-
                             }, 0);
                         },
                         'onProgress' : function(file, event) {
                             $timeout(function () {
                                 try {
-                            　　  var index = _.findIndex(scope.myQuery,{'fileid':file.queueItem[0].id});
+                            　　      var index = _.findIndex(scope.myQuery,{'fileid':file.queueItem[0].id});
                             　　} catch(error) {
                             　　  console.log(error)
                             　　} finally {
                             　　    if (index >= 0) {
                                         var lastDate = parseInt(scope.myQuery[index].loaddate,10);
-                                        console.log((+new Date()) - scope.myQuery[index].loaddate)
-                                        if((parseInt(+new Date(),10) - loadDate) >= 60000){
-                                            $('#createUpload2').uploadifive('stop');
-                                            scope.myQuery[index].errorMsg = '上传超时';
-                                        }
                                         scope.myQuery[index].loading = parseInt(event.loaded/event.total*100,10);
                                         scope.myQuery[index].progress = scope.myQuery[index].loading+'%';
                                     }
@@ -3105,9 +3099,13 @@ angular.module('directives', [])
                                 console.log(errorMsg)
                                  $timeout(function () {
                                     var index = _.findIndex(scope.myQuery,{'fileid':fileType.queueItem[0].id});
-                                    console.log(index)
                                     scope.myQuery[index].errorMsg = '上传出错';
-                                    console.log(scope.myQuery[index].errorMsg)
+                                }, 0);
+                            }
+                            if(errorMsg == 'ERR_CONNECTION_TIMED_OUT'){
+                                 $timeout(function () {
+                                    var index = _.findIndex(scope.myQuery,{'fileid':fileType.queueItem[0].id});
+                                    scope.myQuery[index].errorMsg = '连接超时';
                                 }, 0);
                             }
                         },
@@ -3172,7 +3170,7 @@ angular.module('directives', [])
                                 $timeout(function () {
                                     var index = _.findIndex(scope.myQuery,{'fileid':file.id});
                                     if (index >= 0) {
-                                        scope.myQuery[index].errorMsg = '上传超时，请重新选择上传';
+                                        scope.myQuery[index].errorMsg = '上传出错';
                                     }
                                 }, 0);
                             }
@@ -3189,17 +3187,16 @@ angular.module('directives', [])
                         },
                         'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
                              //153600
-                            /*if((+new Date() - loadDate) >= 10000){
-                                $('#createUpload2').uploadify('stop');
-                                console.log('上传超时，请重新上传');
+                            if((+new Date() - loadDate) >= 120000){
                                 loadDate = 0;
                                 $timeout(function () {
-                                    if (findIndex(scope.myQuery, file.id, 'uploadid') >= 0) {
-                                        scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].error = true;
+                                    var index = _.findIndex(scope.myQuery,{'fileid':file.id});
+                                    if (index >= 0) {
+                                        scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].errorMsg = '上传超时';
                                     }
                                 }, 0);
                                 return ;
-                            }*/
+                            }
                             $timeout(function () {
                                 var index = _.findIndex(scope.myQuery,{'fileid':file.id});
                                 if (index >= 0) {

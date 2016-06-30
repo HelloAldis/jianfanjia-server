@@ -42,6 +42,7 @@ angular.module('controllers', [])
                         '4' : 'idcardshow'
                     }
                 };
+                id = id || '1';
                 $state.go(data[type][id]);
             }
         }
@@ -429,7 +430,8 @@ angular.module('controllers', [])
                 close : function(){
                     this.error = false;
                 },
-                images_complete : false
+                images_complete : false,
+                images_loading : false
             };
             $scope.$watch('designerPlan.add_price_detail_name', function(newValue){
                 $scope.designerPlan.add_price_detail_ok = !!newValue
