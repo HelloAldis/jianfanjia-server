@@ -2179,15 +2179,120 @@ body{
 	background-color: #000;
 	display: none;
 }
-.k-uppicbox .simpleupload .pic{
+.k-uppicbox .simpleupload{
+	width: 120px;
 	height: 120px;
 	background:url(../img/user/headPic.png) center 0 no-repeat;
+}
+.k-uppicbox .simpleupload .tips{
+	display: none;
 }
 .k-uppicbox .simpleupload .fileBtn{
 	width: 120px;
 	height: 120px;
 	left:50%;
 	margin-left: -60px;
+}
+.simpleupload .fileBtn > div{
+    width: 100% !important;
+    height: 100% !important;
+}
+.simpleupload .fileBtn input[type='file']{
+    display: none;
+}
+.simpleupload .disable{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 100;
+	background-color: #000;
+	opacity: 0;
+	filter: alpha(opacity=0);
+	width: 248px;
+	height: 156px;
+}
+.simpleupload .fileName{
+	display: none;
+}
+.simpleupload .queue-item{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 110;
+	width: 250px;
+	height: 158px;
+	border-radius: 2px;
+    background:#d5d7db;
+    background:rgba(0, 0, 0,0.6);
+}
+.simpleupload .queue-item .progress{
+    display: block;
+    width: 100%;
+    height: 14px;
+    background-color: #61687a;
+}
+.simpleupload .queue-item .progress span{
+    display: block;
+    width: 0;
+    height: 14px;
+    background-color: #fe7004;
+}
+.simpleupload .queue-item .cancel{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+    cursor: pointer;
+}
+.simpleupload .queue-item .cancel:hover{
+    color: #ff4a4a;
+}
+.simpleupload .queue-item .loading{
+    position: absolute;
+    width: 100%;
+    height: 14px;
+    line-height: 14px;
+    text-align: center;
+    color: #fff;
+}
+.simpleupload .queue-item .filename{
+    position: absolute;
+    left:50%;
+    top:55px;
+    width: 60px;
+    height: 20px;
+    line-height: 20px;
+    margin-left: -30px;
+    text-align: center;
+    color: #999;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+}
+.simpleupload .queue-item .error{
+    position: absolute;
+    left: 0;
+    top: 40px;
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    color: #ff0000;
+}
+.simpleupload .queue-item .uploading{
+    position: absolute;
+    left:0;
+    top:45px;
+    width: 100%;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    color: #383d48;
+}
+.simpleupload .queue-item .uploading .ing{
+    color: #fff;
 }
 .k-uppicbox .simpleupload .img{
 	display: block;
@@ -2197,14 +2302,20 @@ body{
 	border-radius: 120px;
 	margin: 0 auto;
 }
+.k-uppicbox .uppicbox-tips{
+	margin-left: -20px;
+}
+.k-uppicbox .simpleupload .queue-item{
+	width: 120px;
+	height: 120px;
+}
 .k-uppicbox .icon{
 	position: absolute;
-	left: 50%;
+	left: 0;
 	top: 0;
 	z-index: 1;
 	width: 120px;
 	height: 120px;
-	margin-left: -60px;
 	border-radius: 120px;
 	overflow: hidden;
 	-webkit-transition:background 0.5s ease-out;
@@ -2632,7 +2743,11 @@ img.jcrop-preview {
 	border-radius: 3px;
 }
 .diary_image .simpleupload{
-	height: 100%;
+	height: 129px;
+}
+.diary_image .simpleupload .fileBtn,.diary_image .simpleupload .queue-item{
+	width: 462px;
+	height: 131px;
 }
 .diary_image .simpleupload .tips{
 	left:50%;
@@ -2641,6 +2756,10 @@ img.jcrop-preview {
 	height: 30px;
 	margin: -15px 0 0 -15px;
 	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAABC1BMVEWZmZn///+ZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmPLkxYAAAAWHRSTlMAAAIGBwkMEBETFRobICYnKCsuMjc7Pj9AQktMTlhZXF5ub3F7gIGDioyNkZKTm56gpKWpqqytsLO1u73AwsXK09Xb3d/g4uTn6Ovt7vDx9fb3+Pn6+/z+urYXOQAAAR9JREFUKM+t09dSAkEQheE5IAsGRBEDZsWAYgAxi2LCgKwSFP73fxIvWHBZFq48t19V1+mpHpOq4Z+3WUmmTrHgl3uuJBmKpidyEigXJBkK/qzSP3JoZBjv/DQ2B3MUaFoOxywvTwFE2mw9rPQNz0PGGZ7nvL/adMyploKaNXCxuSawOojH3wEufXh53ZjgHQDHkp6ue3jx+2PMHACwK0kzk25OViG3BsBrsPs2HU5WAeoAnElLLzk3z1ddd5KVzmHijxOfXfu6udiQLiDaZZeeRCT1ciiT7WQvoA7Hw2HL5xy2HkulklPltJ8brpItw62HMxXbtltg23bl0LTq6W1X4s6pYLf3zvf+jSMPBxIL7ox62Js2P1MexunmviTpFze9aE0c/orGAAAAAElFTkSuQmCC) 0 0 no-repeat;
+}
+.diary_image .simpleupload .tips span,
+.diary_image .simpleupload .tips p{
+	display: none;
 }
 .diary_image .simpleupload .disable{
 	width: 460px;

@@ -6,10 +6,6 @@
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
             $rootScope.$on('$stateChangeStart',function(){
-                //解决ie8 flash报错问题
-                if(checkSupport() === 'flash'){
-                    $('#fileToUpload').uploadify('destroy');
-                }
             });
             $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
                 document.documentElement.scrollTop = document.body.scrollTop = 0;

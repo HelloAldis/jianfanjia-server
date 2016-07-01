@@ -341,7 +341,9 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                 });
                 uploader.on( 'uploadComplete', function( file ) {   //不管成功或者失败，文件上传完成时触发。
                     //console.log('uploadComplete：',file)
-                    $( '#'+file.id ).find('.progress').remove();
+                    var item = $( '#'+file.id );
+                    item.find('.progress').remove();
+                    item.find('.cancel').remove();
                     obj.find('.disable').remove();
                 });
                 $list.on('click', '.cancel', function() {
@@ -369,6 +371,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                                 "imageid": data,
                                 "height": _this.height
                             });
+                            item.data('imageid', data)
                         }else{
                             alert('已经上传过了');
                             item.remove();
@@ -388,7 +391,10 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                 $list.on('click','.close',function(){
                     if (confirm("您确定要删除吗？删除不能恢复")) {
                         var parents = $(this).parents('.items');
-                        diary.images.splice(parents.index(),1);
+                        uploader.removeFile( parents[0].id , true);
+                        diary.images = _.remove(diary.images, function(n) {
+                            return n.imageid != parents.data('imageid');
+                        });
                         parents.remove();
                     }
                 });

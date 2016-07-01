@@ -82,19 +82,7 @@
 									<label class="u-lab">上传学历图片</label>
 									<div class="u-inp">
 										<div class="uid_image" style="background: #f9f9f9">
-											<div class="simpleupload card-upload">
-												<div class="create">
-													<div class="fileBtn">
-														<input class="hide" id="fileToUpload1" my-simpleupload my-query="designer.diploma_imageid" my-loading="designerInfo.images_loading" data-width="248" data-height="156" type="file" name="Filedata">
-														<input type="hidden" id="sessionId1" value="${pageContext.session.id}" />
-														<input type="hidden" value="1215154565" name="tmpdir" id="id_file1">
-													</div>
-													<img class="img"
-													ng-src="/api/v2/web/thumbnail2/248/156/{{designer.diploma_imageid}}"
-													ng-if="designer.diploma_imageid" alt="" />
-													<div class="tips"><span><em></em><i></i></span><p>请上传3M以内jpg/png格式的图片</p></div>
-												</div>
-											</div>
+											<div my-simpleupload id="diploma_imageid" my-id="diploma_imageid" my-query="designer.diploma_imageid" my-loading="designerInfo.images_loading" my-width="248" my-height="156"></div>
 										</div>
 									</div>
 								</div>
@@ -137,25 +125,14 @@
 								<div class="item">
 									<label class="u-lab">获奖照片及描述</label>
 									<div class="u-inp insertimage">
-										<div my-insertimage2 my-query="designer.award_details" data-type="write" ng-if="designer" my-complete="designerInfo.award_details_complete" my-loading="designerInfo.images_loading" my-cover=""></div>
+										<div id="award_details" my-insertimage1 my-id="award_details" my-query="designer.award_details" data-type="award" ng-if="designer" my-complete="designerInfo.award_details_complete" my-loading="designerInfo.images_loading"></div>
 									</div>
 								</div>
 							</div>
 							<div class="k-uppicbox">
-								<div class="simpleupload">
-									<div class="pic">
-										<div class="fileBtn">
-											<input type="file" name="Filedata" class="hide" id="fileToUpload"
-											my-simpleupload my-query="designer.imageid" my-loading="designerInfo.images_loading" data-width="120" data-scale="1" data-height="120"
-											data-wmin="300" data-hmin="300" />
-											<input type="hidden" id="sessionId1" value="${pageContext.session.id}" />
-											<input type="hidden" value="1215154565" name="tmpdir" id="id_file1">
-										</div>
-										<span class="icon"><i class="iconfont">&#xe61a;</i></span>
-					            		<img class="img" ng-src="/api/v2/web/thumbnail2/120/120/{{designer.imageid}}" ng-if="designer.imageid" alt="头像" />
-									</div>
-								</div>
-								<p>请上传大于300*300头像照片<br />3M以内jpg/png格式</p>
+								<div my-simpleupload id="designer_imageid" my-id="designer_imageid" my-query="designer.imageid" data-scale="1" my-loading="designerInfo.images_loading" my-width="120" my-height="120"></div>
+								<span class="icon"><i class="iconfont">&#xe61a;</i></span>
+								<p class="uppicbox-tips">请上传大于300*300头像照片<br />3M以内jpg/png格式</p>
 							</div>
 						</div>
 						<div my-alert type="warning" ng-show="designerInfo.error" text="{{designerInfo.errormsg}}"></div>

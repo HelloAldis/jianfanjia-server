@@ -33,13 +33,7 @@
                     url: '/infor',
                     templateUrl: url+'infor.html',
                     controller : 'inforCtrl',
-                    title : "基本资料认证",
-                    onExit :  function(){
-                        if(checkSupport() === 'flash'){
-                            $('#fileToUpload').uploadify('destroy');
-                            $('#createUpload2').uploadify('destroy');
-                        }
-                    }
+                    title : "基本资料认证"
                 })
                 .state('infoshow', {     //设计师资料审核期查看
                     url: '/infoshow',
@@ -137,25 +131,13 @@
                     url: '/release?list',
                     templateUrl: url+'release.html',
                     controller : 'releaseCtrl',
-                    title : '发布作品',
-                    onExit :  function(){
-                        if(checkSupport() === 'flash'){
-                            $('#createUpload1').uploadify('destroy');
-                            $('#createUpload2').uploadify('destroy');
-                        }
-                    }
+                    title : '发布作品'
                 })
                 .state('updateProduct', {     //修改作品
                     url: '/release/:id?list',
                     templateUrl: url+'release.html',
                     controller : 'releaseCtrl',
-                    title : '编辑作品',
-                    onExit :  function(){
-                        if(checkSupport() === 'flash'){
-                            $('#createUpload1').uploadify('destroy');
-                            $('#createUpload2').uploadify('destroy');
-                        }
-                    }
+                    title : '编辑作品'
                 })
                 .state('favorite', {      //收藏作品
                     url: '/favorite',
@@ -177,14 +159,7 @@
                     url: '/idcard',
                     templateUrl: url+'idcard.html',
                     controller : 'idcardCtrl',
-                    title : "身份认证",
-                    onExit :  function(){
-                        if(checkSupport() === 'flash'){
-                            $('#fileToUpload1').uploadify('destroy');
-                            $('#fileToUpload2').uploadify('destroy');
-                            $('#fileToUpload3').uploadify('destroy');
-                        }
-                    }
+                    title : "身份认证"
                 })
                 .state('idcardshow', {      //查看身份认证
                     url: '/idcardshow',
@@ -196,25 +171,13 @@
                     url: '/team?contract',
                     templateUrl: url+'team.html',
                     controller : 'teamCtrl',
-                    title : "添加施工团队",
-                    onExit :  function(){
-                        if(checkSupport() === 'flash'){
-                            $('#fileToUpload1').uploadify('destroy');
-                            $('#fileToUpload2').uploadify('destroy');
-                        }
-                    }
+                    title : "添加施工团队"
                 })
                 .state('updateteam', {      //编辑施工团队
                     url: '/team/:id',
                     templateUrl: url+'team.html',
                     controller : 'teamCtrl',
-                    title : "编辑施工团队",
-                    onExit :  function(){
-                        if(checkSupport() === 'flash'){
-                            $('#fileToUpload1').uploadify('destroy');
-                            $('#fileToUpload2').uploadify('destroy');
-                        }
-                    }
+                    title : "编辑施工团队"
                 })
                 .state('teamList', {      //施工团队认证
                     url: '/teamList',

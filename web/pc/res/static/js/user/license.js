@@ -14,7 +14,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cook
     var goto = new common.Goto();
     goto.init();
 });
-require(['jquery','lodash','cookie'],function($,_,cookie){
+require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
     var $apply = $('#apply'),
         $agree = $('#agree');
     function loadList(url){

@@ -65,19 +65,7 @@
                             <label class="u-lab">日记封面</label>
                             <div class="u-inp">
                                 <div class="diary_image">
-                                    <div class="simpleupload">
-                                        <div class="create">
-                                            <div class="fileBtn">
-                                                <input class="hide" id="fileToUpload" my-simpleupload my-query="diarys.cover_imageid" my-loading="designerInfo.images_loading" data-width="460" data-height="129" type="file" name="Filedata">
-                                                <input type="hidden" id="sessionId1" value="${pageContext.session.id}" />
-                                                <input type="hidden" value="1215154565" name="tmpdir" id="id_file1">
-                                            </div>
-                                            <img class="img"
-                                            ng-src="/api/v2/web/thumbnail2/462/131/{{diarys.cover_imageid}}"
-                                            ng-if="diarys.cover_imageid" alt="" />
-                                            <div class="tips"></div>
-                                        </div>
-                                    </div>
+                                    <div my-simpleupload id="diarys_cover_imageid" my-id="diarys_cover_imageid" my-query="diarys.cover_imageid" my-loading="designerInfo.images_loading" my-width="460" my-height="129"></div>
                                 </div>
                                 <div class="work-tips">
                                     <p><strong>提示：</strong>为了达到最佳的显示效果，请上传宽度大于900的图片。</p>

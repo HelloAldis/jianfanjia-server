@@ -1663,7 +1663,6 @@ angular.module('controllers', [])
                     userDiary.push({
                         "diary":data
                     }).then(function(res){
-                        console.log(res);
                         _this.data.content = '';
                         _this.data.images = [];
                         _this.select = false;

@@ -57,21 +57,9 @@
 						</div>
 					</div>
 					<div class="k-uppicbox">
-						<div class="simpleupload">
-							<div class="pic">
-								<div class="fileBtn">
-									<input type="file" name="Filedata" class="hide" id="fileToUpload"
-									my-simpleupload my-query="user.imageid" my-loading="userInfo.images_loading"
-									data-width="120" data-scale="1" data-height="120"
-									data-minwidth="300" data-minheight="300" />
-									<input type="hidden" id="sessionId1" value="${pageContext.session.id}" />
-									<input type="hidden" value="1215154565" name="tmpdir" id="id_file1">
-								</div>
-								<span class="icon"><i class="iconfont">&#xe61a;</i></span>
-			            		<img class="img" ng-src="/api/v2/web/thumbnail2/120/120/{{user.imageid}}" ng-if="user.imageid" alt="头像" />
-							</div>
-						</div>
-						<p>请上传大于300*300头像照片<br />3M以内jpg/png格式</p>
+						<div my-simpleupload id="user_imageid" my-id="user_imageid" my-query="user.imageid" data-scale="1" my-loading="userInfo.images_loading" my-width="120" my-height="120"></div>
+						<span class="icon"><i class="iconfont">&#xe61a;</i></span>
+						<p class="uppicbox-tips">请上传大于300*300头像照片<br />3M以内jpg/png格式</p>
 					</div>
 				</div>
 				<div class="m-btns">

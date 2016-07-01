@@ -39,17 +39,7 @@
 										<label class="u-lab"><i class="required-icon"></i>上传身份证正面照</label>
 										<div class="u-inp">
 											<div class="uid_image uid_image1 f-fl">
-												<div class="simpleupload card-upload">
-													<div class="create">
-														<div class="fileBtn">
-															<input class="hide" id="fileToUpload1" my-simpleupload my-query="designerUId.uid_image1" my-loading="designerIdcard.images_loading" data-width="248" data-height="156" data-scale="1.585" type="file" name="Filedata">
-															<input type="hidden" id="sessionId1" value="${pageContext.session.id}" />
-															<input type="hidden" value="1215154565" name="tmpdir" id="id_file1">
-														</div>
-														<img class="img" ng-src="/api/v2/web/thumbnail/248/{{designerUId.uid_image1}}" ng-if="designerUId.uid_image1" alt="" />
-														<div class="tips"><span><em></em><i></i></span><p>请上传3M以内jpg/png格式的图片</p></div>
-													</div>
-												</div>
+												<div my-simpleupload id="designer_uid_image1" my-id="designer_uid_image1" my-query="designerUId.uid_image1" data-scale="1.585" my-loading="designerIdcard.images_loading" my-width="248" my-height="156"></div>
 											</div>
 											<div class="uid_example f-fl">
 												<h4 class="f-fl">示例</h4>
@@ -64,17 +54,7 @@
 										<label class="u-lab"><i class="required-icon"></i>上传身份证反面照</label>
 										<div class="u-inp">
 											<div class="uid_image uid_image2 f-fl">
-												<div class="simpleupload card-upload">
-													<div class="create">
-														<div class="fileBtn">
-															<input class="hide" id="fileToUpload2" my-simpleupload my-query="designerUId.uid_image2" my-loading="designerIdcard.images_loading" data-width="248" data-height="156" data-scale="1.585" type="file" name="Filedata">
-															<input type="hidden" id="sessionId2" value="${pageContext.session.id}" />
-															<input type="hidden" value="1215154565" name="tmpdir" id="id_file2">
-														</div>
-														<img class="img" ng-src="/api/v2/web/thumbnail/248/{{designerUId.uid_image2}}" ng-if="designerUId.uid_image2" alt="" />
-														<div class="tips"><span><em></em><i></i></span><p>请上传3M以内jpg/png格式的图片</p></div>
-													</div>
-												</div>
+												<div my-simpleupload id="designer_uid_image2" my-id="designer_uid_image2" my-query="designerUId.uid_image2" data-scale="1.585" my-loading="designerIdcard.images_loading" my-width="248" my-height="156"></div>
 											</div>
 											<div class="uid_example f-fl">
 												<h4 class="f-fl">示例</h4>
@@ -109,17 +89,7 @@
 										<label class="u-lab"><i class="required-icon"></i>银行卡正面照片</label>
 										<div class="u-inp">
 											<div class="uid_image uid_image3 f-fl">
-												<div class="simpleupload card-upload">
-													<div class="create">
-														<div class="fileBtn">
-															<input class="hide" id="fileToUpload3" my-simpleupload my-query="designerUId.bank_card_image1" my-loading="designerIdcard.images_loading" data-width="248" data-height="156" type="file" data-scale="1.585" name="Filedata">
-															<input type="hidden" id="sessionId3" value="${pageContext.session.id}" />
-															<input type="hidden" value="1215154565" name="tmpdir" id="id_file3">
-														</div>
-														<img class="img" ng-src="/api/v2/web/thumbnail/248/{{designerUId.bank_card_image1}}" ng-if="designerUId.bank_card_image1" alt="" />
-														<div class="tips"><span><em></em><i></i></span><p>请上传3M以内jpg/png格式的图片</p></div>
-													</div>
-												</div>
+												<div my-simpleupload id="designer_card_image2" my-id="designer_card_image2" my-query="designerUId.bank_card_image1" data-scale="1.585" my-loading="designerIdcard.images_loading" my-width="248" my-height="156"></div>
 											</div>
 											<div class="uid_example f-fl">
 												<h4 class="f-fl">示例</h4>

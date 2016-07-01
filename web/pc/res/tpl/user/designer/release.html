@@ -127,7 +127,7 @@
                         <div class="item">
                             <label class="u-lab">上传平面图</label>
                             <div class="u-inp insertimage">
-                                <div my-insertimage my-query="product.plan_images" my-complete="designerProduct.plan_images_complete" ng-if="product" my-type="write" my-loading="designerProduct.images_loading"></div>
+                                <div my-insertimage4 id="productplan" ng-if="product" my-id="productplan" my-type="default" my-query="product.plan_images" my-complete="designerProduct.plan_images_complete" my-type="write" my-loading="designerProduct.images_loading"></div>
                             </div>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
                         <div class="item">
                             <label class="u-lab"><i class="required-icon"></i>上传作品图片</label>
                             <div class="u-inp insertimage">
-                                <div my-insertimage2 my-query="product.images" my-section="designerProduct.section" ng-if="product" data-type="edit" my-cover="product.cover_imageid"  my-complete="designerProduct.images_complete"  my-loading="designerProduct.images_loading"></div>
+                                <div my-insertimage2 id="uploadproduct" ng-if="product" my-id="uploadproduct" my-section="designerProduct.section" my-type="product" my-query="product.images" my-cover="product.cover_imageid"  my-complete="designerProduct.images_complete"  my-loading="designerProduct.images_loading"></div>
                             </div>
                         </div>
                     </div>

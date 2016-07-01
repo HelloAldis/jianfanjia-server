@@ -2565,6 +2565,13 @@ body{
     width: 166px;
     height: 166px;
 }
+.insertimage .pic .fileBtn > div{
+    width: 100% !important;
+    height: 100% !important;
+}
+.insertimage .pic .fileBtn input[type='file']{
+    display: none;
+}
 .insertimage .pic .tips{
 	position: absolute;
 	left:0;
@@ -3366,6 +3373,93 @@ img.jcrop-preview {
 .simpleupload .fileName{
 	display: none;
 }
+.simpleupload .fileBtn > div{
+    width: 100% !important;
+    height: 100% !important;
+}
+.simpleupload .fileBtn input[type='file']{
+    display: none;
+}
+.simpleupload .queue-item{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 110;
+	width: 250px;
+	height: 158px;
+	border-radius: 2px;
+    background:#d5d7db;
+    background:rgba(0, 0, 0,0.6);
+}
+.simpleupload .queue-item .progress{
+    display: block;
+    width: 100%;
+    height: 14px;
+    background-color: #61687a;
+}
+.simpleupload .queue-item .progress span{
+    display: block;
+    width: 0;
+    height: 14px;
+    background-color: #fe7004;
+}
+.simpleupload .queue-item .cancel{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+    cursor: pointer;
+}
+.simpleupload .queue-item .cancel:hover{
+    color: #ff4a4a;
+}
+.simpleupload .queue-item .loading{
+    position: absolute;
+    width: 100%;
+    height: 14px;
+    line-height: 14px;
+    text-align: center;
+    color: #fff;
+}
+.simpleupload .queue-item .filename{
+    position: absolute;
+    left:50%;
+    top:55px;
+    width: 60px;
+    height: 20px;
+    line-height: 20px;
+    margin-left: -30px;
+    text-align: center;
+    color: #999;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+}
+.simpleupload .queue-item .error{
+    position: absolute;
+    left: 0;
+    top: 40px;
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    color: #ff0000;
+}
+.simpleupload .queue-item .uploading{
+    position: absolute;
+    left:0;
+    top:45px;
+    width: 100%;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    color: #383d48;
+}
+.simpleupload .queue-item .uploading .ing{
+    color: #fff;
+}
 .simpleupload .create{
 	position: relative;
 	width: 100%;
@@ -3463,9 +3557,17 @@ img.jcrop-preview {
 	line-height: 27px;
 	color: #999;
 }
-.k-uppicbox .simpleupload .pic{
+.k-uppicbox .simpleupload{
+	width: 120px;
 	height: 120px;
 	background:url(../img/user/headPic.png) center 0 no-repeat;
+}
+.k-uppicbox .simpleupload .tips{
+	display: none;
+}
+.k-uppicbox .simpleupload .queue-item{
+	width: 120px;
+	height: 120px;
 }
 .k-uppicbox .simpleupload .fileBtn{
 	width: 120px;
@@ -3491,14 +3593,16 @@ img.jcrop-preview {
 	height: 72px;
 	margin-left: -60px;
 }
+.k-uppicbox .uppicbox-tips{
+	margin-left: -20px;
+}
 .k-uppicbox .icon{
 	position: absolute;
-	left: 50%;
+	left: 0;
 	top: 0;
 	z-index: 1;
 	width: 120px;
 	height: 120px;
-	margin-left: -60px;
 	border-radius: 120px;
 	overflow: hidden;
 	-webkit-transition:background 0.5s ease-out;
