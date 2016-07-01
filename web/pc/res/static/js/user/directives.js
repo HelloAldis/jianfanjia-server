@@ -3019,42 +3019,43 @@ angular.module('directives', [])
             scope: {
                 myQuery: "=",
                 myComplete : "=",
-                myLoading : "="
+                myLoading : "=",
+                myCallback : '&'
             },
             restrict: 'A',
             template: function (obj, attr) {
                 var template = [
-                    '<div class="k-uploadbox f-cb">',
-                    '<div class="item" ng-repeat="img in myQuery" bindonce="scope.myQuery">',
-                    '<div class="queue-item" ng-if="img.loading >= 0">',
-                    '<span class="loading" ng-bind="img.progress"></span>',
-                    '<span class="uploading" ng-if="!img.errorMsg"><i ng-if="img.loading > 0 && img.loading < 100" class="ing">正在上传</i><i ng-if="img.loading == 0">等待...</i><i ng-if="img.loading == 100">加载图片</i></span>',
-                    '<span class="filename" ng-bind="img.filename"></span>',
-                    '<span class="error" ng-if="img.errorMsg" ng-bind="img.errorMsg"></span>',
-                    '<span class="progress"><span ng-style="{width:img.progress}"></span></span>',
-                    '<span class="cancel" ng-click="cancel(img.file,img.fileid)"><i class="iconfont">&#xe642;</i></span>',
-                    '</div>',
-                    '<div ng-if="img.loading == undefined">'
+                    '<div class="m-edit-body insertimage">',
+                        '<div class="k-uploadbox f-cb">',
+                            '<div class="list">',
+                                '<div class="items" ng-repeat="img in myQuery" id="{{img.fileid}}">',
+                                    '<div class="queue-items" ng-if="img.loading >= 0 && !img.imageid">',
+                                        '<span class="loading" ng-bind="img.loading"></span>',
+                                        '<span class="uploading" ng-if="!img.error"><i class="ing" ng-bind="img.status"></i></span>',
+                                        '<span class="filename" ng-bind="img.filename"></span>',
+                                        '<span class="error" ng-bind="img.error"></span>',
+                                        '<span class="progress"><span ng-style="{width:img.progress}"></span></span>',
+                                        '<span class="cancel" ng-click="cancel(img.file)"><i class="iconfont">&#xe642;</i></span>',
+                                    '</div>',
+                                    '<div class="queue-img" ng-if="img.imageid">',
+                                        '<span class="close" ng-click="removeImg($index,myQuery)"><i class="iconfont">&#xe642;</i></span>',
+                                        '<div class="img">',
+                                            '<img ng-if="img.imageid" ng-src="/api/v2/web/thumbnail2/85/85/{{img.imageid}}">',
+                                        '</div>',
+                                    '</div>',
+                                '</div>',
+                            '</div>',
+                                '<div class="pic" id="create">',
+                                    '<div class="tips" id="uploadify"></div>',
+                                '</div>',
+                            '</div>',
+                        '</div>',
+                    '</div>'
                 ];
-                template.push('<span class="close" ng-click="removeImg($index,myQuery)"><i class="iconfont">&#xe642;</i></span>');
-                template.push('<div class="img">');
-                template.push('<img ng-src="/api/v2/web/thumbnail2/85/85/{{img.imageid}}" />');
-                template.push('</div>');
-                template.push('</div>');
-                template.push('</div>');
-                template.push('<div class="pic" id="create">');
-                template.push('<div class="fileBtn">');
-                template.push('<input class="hide" id="createUpload2" type="file" name="upfile">');
-                template.push('<input type="hidden" id="sessionId" value="${pageContext.session.id}" />');
-                template.push('<input type="hidden" value="1215154" name="tmpdir" id="id_create">');
-                template.push('</div><div class="tips"></div>');
-                template.push('</div></div>');
-                template.push('</div>');
-                template.push('</div>');
                 return template.join('');
             },
             link: function (scope, iElm, iAttrs, controller) {
-                var type = iAttrs.type;
+                var id = iAttrs.id;
                 var obj = angular.element(iElm);
                 var Loading = scope.$watch('myLoading',function(value){
                     if(value){
@@ -3063,249 +3064,114 @@ angular.module('directives', [])
                         obj.find('.disable').remove();
                     }
                 });
-                if(checkSupport() === 'html5'){
-                    var GUID = 0;
-                    var GUID2 = 0;
-                    function upload(size){
-                        $('#createUpload2').uploadifive({
-                            'auto'  : true,
-                            'dnd'   : false,
-                            'buttonText' : '',
-                            'method'  : 'post',
-                            'queueID' : 'queue',
-                            'fileObjName': 'Filedata',
-                            'multi': true,  //一次只能选择一个文件
-                            'queueSizeLimit': size,
-                            'width': 85,
-                            'height': 85,
-                            'fileType' : 'image/jpeg,image/png',  //允许上传文件类型
-                            'fileSizeLimit': 3072,  //上传最大文件限制
-                            'uploadScript' : '/api/v2/web/image/upload',  //上传的api
-                            'onAddQueueItem' : function(file){
-                                $timeout(function () {
-                                    if(scope.myQuery.length < 9){
-                                        GUID2 ++;
-                                        scope.myQuery.push({
-                                            file : file,
-                                            fileid : file.queueItem[0].id,
-                                            filename : file.name,
-                                            errorMsg : '',
-                                            loading: 0,
-                                            progress : '0%',
-                                            loadDate : +new Date()
-                                        });
-                                    }
-                                    scope.myComplete = true;
-                                    scope.myLoading = true;
-                                }, 0);
-                            },
-                            'onProgress' : function(file, event) {
-                                $timeout(function () {
-                                    try {
-                                　　  var index = _.findIndex(scope.myQuery,{'fileid':file.queueItem[0].id});
-                                　　} catch(error) {
-                                　　  console.log(error)
-                                　　} finally {
-                                　　    if (index >= 0) {
-                                            var lastDate = scope.myQuery[index].loadDate;
-                                            if((+new Date() - lastDate) >= 240000){
-                                                scope.myQuery[index].errorMsg = '上传超时';
-                                            }
-                                            scope.myQuery[index].loading = parseInt(event.loaded/event.total*100,10);
-                                            scope.myQuery[index].progress = scope.myQuery[index].loading+'%';
-                                        }
-                                　　}
-                                }, 0);
-                            },
-                            'onSelect'   : function(file) {
-                                obj.find('.pic').append('<div class="disable"></div>');
-                                console.log(file.queued)
-                                GUID = file.queued;
-                            },
-                            'onUploadComplete': function (file, data, response) {
-                                console.log('onUploadComplete',arguments);
-                                if(GUID-- === 1){
-                                    callbackImg(data,file.queueItem[0].id,'Complete');
-                                    $('#createUpload2').uploadifive('clearQueue');
-                                    $('#createUpload2').uploadifive('destroy');
-                                    if(9 - scope.myQuery.length > 0){
-                                        $timeout(function () {upload(9 - scope.myQuery.length);}, 0);
-                                    }
-                                    obj.find('.disable').remove();
-                                    console.log('全部上传完成');
-                                }else{
-                                    callbackImg(data,file.queueItem[0].id,'Loading');
-                                }
-                            },
-                            'onError': function (errorMsg, fileType, data) {
-                                console.log('onError',errorMsg, fileType, data);
-                                if(errorMsg === 'FILE_SIZE_LIMIT_EXCEEDED'){
-                                    alert('文件大小超出3M限制，请重新上传');
-                                }
-                                if(errorMsg === 'Unknown Error'){
-                                    console.log(errorMsg)
-                                    $timeout(function () {
-                                        var index = _.findIndex(scope.myQuery,{'fileid':fileType.queueItem[0].id});
-                                        scope.myQuery[index].errorMsg = '上传出错';
-                                    }, 0);
-                                }
-                                if(errorMsg == 'FILE_QUEUE_SIZE_LIMIT'){
-                                    $timeout(function () {
-                                        if(scope.myQuery.length < 9 && scope.myQuery.length > 0){
-                                            alert('最多只能上传 9 张图片，您还可以上传 '+size+' 张图片。');
-                                        }else if(scope.myQuery.length == 9){
-                                            alert('最多只能上传 9 张图片，您已经上传 9 张图片。');
-                                        }else{
-                                            alert('最多只能上传 9 张图片，请重新选择图片上传。');
-                                        }
-                                    }, 0);
-                                }
-                                if(errorMsg == 'ERR_CONNECTION_TIMED_OUT'){
-                                     $timeout(function () {
-                                        var index = _.findIndex(scope.myQuery,{'fileid':fileType.queueItem[0].id});
-                                        scope.myQuery[index].errorMsg = '连接超时';
-                                    }, 0);
-                                }
-                            },
-                            'onCancel': function () {
-                                if(GUID-- === 1){
-                                    $timeout(function () {
-                                        scope.myComplete = false;
-                                        scope.myLoading = false;
-                                    }, 0);
-                                    $('#createUpload1').uploadifive('clearQueue');
-                                    obj.find('.disable').remove();
-                                    console.log('全部取消完成');
-                                }
+                var uploaderUid = 0;
+                var uploader = WebUploader.create({
+                    pick: {
+                        id: '#'+id,
+                        label: '',
+                        multiple : true
+                    },
+                    paste: document.body,
+                    accept: {
+                        title: 'Images',
+                        extensions: 'jpg,jpeg,png',
+                        mimeTypes: 'image/*'
+                    },
+                    'method': 'post',
+                    'timeout' : 4 * 60 * 1000,    // 3分钟
+                    'fileVal' : 'Filedata',
+                    'auto': true, //自动上传
+                    //'runtimeOrder':'flash',   //  [默认值：html5,flash] 指定运行时启动顺序 调试用
+                    // swf文件路径
+                    swf: '/static/js/lib/Uploader.swf',
+                    disableGlobalDnd: true,
+                    chunked: true,
+                    server: '/api/v2/web/image/upload',
+                    fileNumLimit: 9,    //允许上传9张图片
+                    fileSingleSizeLimit: 3 * 1024 * 1024    // 3 M 单个文件大小
+                });
+                uploader.reset();
+                uploader.on( 'fileQueued', function( file ) {   //当文件被加入队列以后触发。
+                    $timeout(function () {
+                        if(scope.myQuery.length < 9){
+                            uploaderUid ++;
+                            scope.myQuery.push({
+                                file : file,
+                                fileid : file.id,
+                                //filename : file.name,
+                                errorMsg : '',
+                                status : '等待...',
+                                loading: 0,
+                                progress : '0%',
+                                loadDate : +new Date()
+                            });
+                        }
+                        scope.myComplete = true;
+                        scope.myLoading = true;
+                    }, 0);
+                });
+                uploader.on( 'uploadProgress', function( file, percentage ) {  //上传过程中触发，携带上传进度。
+                     $timeout(function () {
+                        var index = _.findIndex(scope.myQuery,{'fileid':file.id});
+                        if (index >= 0) {
+                            scope.myQuery[index].loading = parseInt(percentage * 100, 10);
+                            if(scope.myQuery[index].loading > 0){
+                                scope.myQuery[index].status = '正在上传';
                             }
-                        });
-                    }
-                    upload(9)
-                }else{
-                    var loadDate = 0;
-                    var GUID = 0;
-                    function upload(size){
-                        $('#createUpload2').uploadify({
-                            'auto': true, //自动上传
-                            'removeTimeout': 1,
-                            'swf': 'uploadify.swf',
-                            'uploader': '/api/v2/web/image/upload',  //上传的api
-                            'method': 'post',
-                            'buttonText': '',
-                            'multi': true,  //一次只能选择一个文件
-                            'queueSizeLimit': size,
-                            'width': 85,
-                            'height': 85,
-                            'fileObjName': 'Filedata',
-                            'successTimeout': 5, //
-                            'fileTypeDesc': 'Image Files',
-                            'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
-                            'fileSizeLimit': '3MB',  //上传最大文件限制
-                            'onSelect': function (file) {
-                                if(!obj.find('.disable').size()){
-                                    obj.find('.pic').append('<div class="disable"></div>');
-                                }
-                                $timeout(function () {
-                                    if(scope.myQuery.length < 9){
-                                        GUID++;
-                                        scope.myQuery.push({
-                                            fileid: file.id,
-                                            filename : file.name,
-                                            errorMsg : '',
-                                            loading: 0,
-                                            progress : '0%'
-                                        });
-                                    }
-                                    scope.myComplete = true;
-                                    scope.myLoading = true;
-                                }, 0);
-                            },
-                            'onUploadStart': function (file) {
-                                loadDate = +new Date();
-                                $('.uploadify-queue').css('zIndex', '110');
-                            },
-                            'onUploadSuccess': function (file, data, response) {
-                                $('.uploadify-queue').css('zIndex', '0');
-                                if(GUID-- === 1){
-                                    callbackImg(data, file.id, 'Complete');
-                                    $('#createUpload2').uploadify('destroy');
-                                    obj.find('.disable').remove();
-                                    if(9 - scope.myQuery.length > 0){
-                                        $timeout(function () {upload(9 - scope.myQuery.length);}, 0);
-                                    }
-                                }else{
-                                    callbackImg(data, file.id, 'Loading');
-                                }
-                            },
-                            'onUploadError': function (file, errorCode, errorMsg, errorString) {
-                                if (errorMsg === '500' && errorCode === -200) {
-                                    $timeout(function () {
-                                        var index = _.findIndex(scope.myQuery,{'fileid':file.id});
-                                        if (index >= 0) {
-                                            scope.myQuery[index].errorMsg = '上传出错';
-                                        }
-                                    }, 0);
-                                }
-                            },
-                            'onQueueComplete' : function(queueData){
-                                $timeout(function () {
-                                    scope.myComplete = false;
-                                    scope.myLoading = false;
-                                }, 0);
-                                obj.find('.disable').remove();
-                            },
-                            'onCancel': function () {
-                                $('.uploadify-queue').css('zIndex', '0');
-                                if(GUID-- === 1){
-                                    obj.find('.disable').remove();
-                                    if(9 - scope.myQuery.length > 0){
-                                        $timeout(function () {upload(9 - scope.myQuery.length);}, 0);
-                                    }
-                                    $timeout(function () {
-                                        scope.myComplete = false;
-                                        scope.myLoading = false;
-                                    }, 0);
-                                }
-                            },
-                            'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
-                                 //153600
-                                if((+new Date() - loadDate) >= 240000){
-                                    loadDate = 0;
-                                    $timeout(function () {
-                                        var index = _.findIndex(scope.myQuery,{'fileid':file.id});
-                                        if (index >= 0) {
-                                            scope.myQuery[findIndex(scope.myQuery, file.id, 'uploadid')].errorMsg = '上传超时';
-                                        }
-                                    }, 0);
-                                    return ;
-                                }
-                                $timeout(function () {
-                                    var index = _.findIndex(scope.myQuery,{'fileid':file.id});
-                                    if (index >= 0) {
-                                        scope.myQuery[index].loading = parseInt(bytesUploaded / bytesTotal * 100, 10);
-                                        scope.myQuery[index].progress = scope.myQuery[index].loading+'%';
-                                    }
-                                }, 0);
+                            if(scope.myQuery[index].loading > 100){
+                                scope.myQuery[index].status = '上传完成';
                             }
-                        });
+                            scope.myQuery[index].progress = scope.myQuery[index].loading+'%';
+                        }
+                    }, 0);
+                });
+                uploader.on( 'uploadSuccess', function( file , data) {  //当文件上传成功时触发。
+                    if(uploaderUid-- == 1){
+                        callbackImg(data.data, file,'Complete');
+                    }else{
+                        callbackImg(data.data, file,'Loading');
                     }
-                    upload(9)
-                }
-                function callbackImg(arr, id,type) {
-                    var data = $.parseJSON(arr);
+                });
+                uploader.on( 'uploadError', function( file ) {   //当文件上传出错时触发。
+                    //console.log('uploadError：',arguments)
+                    var item = $( '#'+file.id );
+                        item.find('.uploading').addClass('hide');
+                        item.find('.error').html('上传失败');
+                });
+                uploader.on( 'startUpload', function( file ) {  //当开始上传流程时触发。
+                    //console.log('startUpload：',arguments)
+                });
+                uploader.on('error',function(error){   //当validate不通过时
+                    if(error === 'F_EXCEED_SIZE'){
+                        alert('图片大小超出限制。');
+                    }
+                    if(error === 'F_DUPLICATE'){
+                        alert('图片已经上传过了，请不要重复上传。');
+                    }
+                });
+                uploader.on( 'uploadFinished', function( file ) {   //当所有文件上传结束时触发。
+                    //console.log('uploadFinished：',arguments)
+                });
+                uploader.on( 'uploadComplete', function( file ) {   //不管成功或者失败，文件上传完成时触发。
+                    //console.log('uploadComplete：',file)
+                    $( '#'+file.id ).find('.progress').remove();
+                    obj.find('.disable').remove();
+                });
+                function callbackImg(data, file,status) {
                     var img = new Image();
                     img.onload = function () {
                         var _this = this;
                         this.onload = this.error = null;
                         scope.$apply(function () {
-                            if(_.findIndex(scope.myQuery,{'imageid' : data.data}) == -1){
-                                var old = scope.myQuery[_.findIndex(scope.myQuery,{'fileid':id})];
-                                scope.myQuery[_.findIndex(scope.myQuery,{'fileid':id})] = {
+                            if(_.findIndex(scope.myQuery,{'imageid' : data}) == -1){
+                                var index = _.findIndex(scope.myQuery,{'fileid':file.id});
+                                var old = scope.myQuery[index];
+                                scope.myQuery[index] = {
                                     "width": _this.width,
-                                    "imageid": data.data,
+                                    "imageid": data,
                                     "height": _this.height
                                 };
-                                if(type == 'Complete'){
+                                if(status == 'Complete'){
                                     scope.myComplete = false;
                                     scope.myLoading = false;
                                 }
@@ -3322,35 +3188,30 @@ angular.module('directives', [])
                         alert("图片加载错误");
                         obj.find('.pic').find('.disable').remove();
                     };
-                    img.src = '/api/v2/web/image/' + data.data;
-                }
-                scope.cancel = function (file,fileid) {
-                    if(checkSupport() === 'html5'){
-                        $('#createUpload2').uploadifive('cancel',file);
-                    }else{
-                        $('#createUpload2').uploadify('cancel', fileid);
-                    }
-                    $timeout(function () {
-                        scope.myQuery = _.remove(scope.myQuery, function(n) {
-                            return n.fileid != fileid;
-                        });
-                    }, 0);
+                    img.src = '/api/v2/web/image/' + data;
                 }
                 scope.removeImg = function (i, arr) {
                     if (confirm("您确定要删除吗？删除不能恢复")) {
                         arr.splice(i, 1);
                         $timeout(function () {
                             scope.myQuery = arr;
-                            if(9 - scope.myQuery.length > 0){
-                                upload(9 - scope.myQuery.length);
-                            }
                         }, 0);
                     }
                 };
-                scope.$on('$destroy', function () {
-                    if(checkSupport() === 'flash'){
-                        $('#createUpload2').uploadify('destroy');   //销毁上传的插件，避免ie报错
+                scope.cancel = function (file) {
+                    uploader.cancelFile( file );
+                    if(uploaderUid-- == 1){
+                        scope.myComplete = false;
+                        scope.myLoading = false;
                     }
+                    $timeout(function () {
+                        scope.myQuery = _.remove(scope.myQuery, function(n) {
+                            return n.fileid != file.id;
+                        });
+                    }, 0);
+                }
+                scope.$on('$destroy', function () {
+                    uploader.destroy();
                     Loading();   //释放监听
                 });
             }

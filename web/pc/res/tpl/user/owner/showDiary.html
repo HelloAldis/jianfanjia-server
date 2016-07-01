@@ -26,7 +26,7 @@
                     <textarea rows="10" name="content" placeholder="记录和分享您的装修之路，不少于15字哦" my-placeholder ng-model="write.data.content" ng-minlength="15" ng-if="write.select"></textarea>
                 </div>
                 <div class="write-body insertimage">
-                    <div my-insertimage3 my-query="write.data.images" my-complete="write.complete" my-loading="write.loading" my-size="write.size"></div>
+                    <div my-insertimage3 data-id="uploadify" my-query="write.data.images" my-complete="write.complete" my-loading="write.loading" ng-if="write.select"></div>
                 </div>
                 <div class="write-footer f-cb">
                     <div class="f-fl select" ng-class="{'submiting':!write.select}">

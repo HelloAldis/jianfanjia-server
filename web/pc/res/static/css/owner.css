@@ -2720,16 +2720,16 @@ img.jcrop-preview {
 	border-color: #04bafe;
 }
 .insertimage{
-	width: 862px;
-	height: 85px;
-	overflow: hidden;
+    width: 862px;
+    height: 85px;
+    overflow: hidden;
 }
 .insertimage .k-uploadbox{
-	width: 980px;
+    width: 980px;
 }
 .insertimage .pic{
-	position: relative;
-	float: left;
+    position: relative;
+    float: left;
   width: 85px;
   height: 85px;
   margin:0 20px 20px 0;
@@ -2738,136 +2738,136 @@ img.jcrop-preview {
   text-align: center;
 }
 .insertimage .pic .mask{
-	position: absolute;
-	left: 0;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 100;
-	background-color: #fff;
-	opacity: 0;
-	filter: alpha(opacity=0);
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    background-color: #fff;
+    opacity: 0;
+    filter: alpha(opacity=0);
 }
-.insertimage .item{
-	position: relative;
-	float: left;
-	width: 85px;
-	margin-right: 12px;
+.insertimage .items{
+    position: relative;
+    float: left;
+    width: 85px;
+    margin-right: 12px;
 }
 .insertimage .default .item{
-	height: 168px;
+    height: 168px;
 }
-.insertimage .item .img{
-	width: 85px;
-	height: 85px;
-	overflow: hidden;
-	margin-bottom: 10px;
-	border-radius: 2px;
-	background:url(../img/user/loading.gif) center center no-repeat;
+.insertimage .items .img{
+    width: 85px;
+    height: 85px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border-radius: 2px;
+    background:url(../img/user/loading.gif) center center no-repeat;
 }
-.insertimage .item .queue-item{
-	position: relative;
-	width: 85px;
-	height: 85px;
-	overflow: hidden;
-	margin-bottom: 10px;
-	border-radius: 2px;
-	background:#d5d7db;
+.insertimage .items .queue-items{
+    position: relative;
+    width: 85px;
+    height: 85px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border-radius: 2px;
+    background:#d5d7db;
 }
-.insertimage .item .queue-item .progress{
-	display: block;
-	width: 100%;
-	height: 14px;
-	background-color: #61687a;
+.insertimage .items .queue-items .progress{
+    display: block;
+    width: 100%;
+    height: 14px;
+    background-color: #61687a;
 }
-.insertimage .item .queue-item .progress span{
-	display: block;
-	width: 0;
-	height: 14px;
-	background-color: #fe7004;
+.insertimage .items .queue-items .progress span{
+    display: block;
+    width: 0;
+    height: 14px;
+    background-color: #fe7004;
 }
-.insertimage .item .queue-item .cancel{
-	position: absolute;
-	width: 20px;
-	height: 20px;
-	text-align: center;
-	line-height: 20px;
-	color: #a4a4a4;
-	cursor: pointer;
+.insertimage .items .queue-items .cancel{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    color: #a4a4a4;
+    cursor: pointer;
 }
-.insertimage .item .queue-item .cancel:hover{
-	color: #666;
+.insertimage .items .queue-items .cancel:hover{
+    color: #666;
 }
-.insertimage .item .queue-item .loading{
-	position: absolute;
-	width: 100%;
-	height: 14px;
-	line-height: 14px;
-	text-align: center;
-	color: #fff;
+.insertimage .items .queue-items .loading{
+    position: absolute;
+    width: 100%;
+    height: 14px;
+    line-height: 14px;
+    text-align: center;
+    color: #fff;
 }
-.insertimage .item .queue-item .filename{
-	position: absolute;
-	left:50%;
-	top:55px;
-	width: 60px;
-	height: 20px;
-	line-height: 20px;
-	margin-left: -30px;
-	text-align: center;
-	color: #999;
-	text-overflow:ellipsis;
-	white-space:nowrap;
-	overflow:hidden;
+.insertimage .items .queue-items .filename{
+    position: absolute;
+    left:50%;
+    top:55px;
+    width: 60px;
+    height: 20px;
+    line-height: 20px;
+    margin-left: -30px;
+    text-align: center;
+    color: #999;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
 }
-.insertimage .item .queue-item .error{
-	position: absolute;
-	left:0;
-	top:35px;
-	width: 100%;
-	height: 20px;
-	text-align: center;
-	line-height: 20px;
-	color: #ff4a4a;
+.insertimage .items .queue-items .error{
+    position: absolute;
+    left: 0;
+    top: 40px;
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    color: #ff4a4a;
 }
-.insertimage .item .queue-item .uploading{
-	position: absolute;
-	left:0;
-	top:35px;
-	width: 100%;
-	font-size: 14px;
-	line-height: 20px;
-	text-align: center;
-	color: #383d48;
+.insertimage .items .queue-items .uploading{
+    position: absolute;
+    left:0;
+    top:45px;
+    width: 100%;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    color: #383d48;
 }
-.insertimage .item .queue-item .uploading .ing{
-	color: #fe7004;
+.insertimage .items .queue-items .uploading .ing{
+    color: #fe7004;
 }
-.insertimage .default .item .img{
-	margin-bottom: 0;
+.insertimage .default .items .img{
+    margin-bottom: 0;
 }
-.insertimage .item .close{
-	position: absolute;
-	right: 0;
-	top: 0;
-	z-index: 10;
-	width: 20px;
-	height: 20px;
-	line-height: 20px;
-	color: #fff;
-	text-align: center;
-	cursor: pointer;
-	filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr="#b2000000", EndColorStr="#b2000000");
-	zoom:1;
-	background-color:rgba(0,0,0,0.7);
+.insertimage .items .close{
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr="#b2000000", EndColorStr="#b2000000");
+    zoom:1;
+    background-color:rgba(0,0,0,0.7);
 }
 :root .insertimage .item .mask{ filter:none\9; }
 .insertimage .item img{
-	min-width: 100%;
-	min-height: 100%;
+    min-width: 100%;
+    min-height: 100%;
 }
 .insertimage .pic .fileBtn,.insertimage .pic .uploadify-button{
-	position: absolute;
+    position: absolute;
     z-index: 20;
     left:0;
     top: 0;
@@ -2875,65 +2875,42 @@ img.jcrop-preview {
     height: 83px;
 }
 .insertimage .pic .tips{
-	position: absolute;
-	left:0;
-	top:0;
-	z-index: 9;
-	width: 83px;
+    position: absolute;
+    left:0;
+    top:0;
+    z-index: 9;
+    width: 83px;
     height: 83px;
-	background: #f9f9f9 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAABC1BMVEWZmZn///+ZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmPLkxYAAAAWHRSTlMAAAIGBwkMEBETFRobICYnKCsuMjc7Pj9AQktMTlhZXF5ub3F7gIGDioyNkZKTm56gpKWpqqytsLO1u73AwsXK09Xb3d/g4uTn6Ovt7vDx9fb3+Pn6+/z+urYXOQAAAR9JREFUKM+t09dSAkEQheE5IAsGRBEDZsWAYgAxi2LCgKwSFP73fxIvWHBZFq48t19V1+mpHpOq4Z+3WUmmTrHgl3uuJBmKpidyEigXJBkK/qzSP3JoZBjv/DQ2B3MUaFoOxywvTwFE2mw9rPQNz0PGGZ7nvL/adMyploKaNXCxuSawOojH3wEufXh53ZjgHQDHkp6ue3jx+2PMHACwK0kzk25OViG3BsBrsPs2HU5WAeoAnElLLzk3z1ddd5KVzmHijxOfXfu6udiQLiDaZZeeRCT1ciiT7WQvoA7Hw2HL5xy2HkulklPltJ8brpItw62HMxXbtltg23bl0LTq6W1X4s6pYLf3zvf+jSMPBxIL7ox62Js2P1MexunmviTpFze9aE0c/orGAAAAAElFTkSuQmCC) center center no-repeat;
+    background: #f9f9f9 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAABC1BMVEWZmZn///+ZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmPLkxYAAAAWHRSTlMAAAIGBwkMEBETFRobICYnKCsuMjc7Pj9AQktMTlhZXF5ub3F7gIGDioyNkZKTm56gpKWpqqytsLO1u73AwsXK09Xb3d/g4uTn6Ovt7vDx9fb3+Pn6+/z+urYXOQAAAR9JREFUKM+t09dSAkEQheE5IAsGRBEDZsWAYgAxi2LCgKwSFP73fxIvWHBZFq48t19V1+mpHpOq4Z+3WUmmTrHgl3uuJBmKpidyEigXJBkK/qzSP3JoZBjv/DQ2B3MUaFoOxywvTwFE2mw9rPQNz0PGGZ7nvL/adMyploKaNXCxuSawOojH3wEufXh53ZjgHQDHkp6ue3jx+2PMHACwK0kzk25OViG3BsBrsPs2HU5WAeoAnElLLzk3z1ddd5KVzmHijxOfXfu6udiQLiDaZZeeRCT1ciiT7WQvoA7Hw2HL5xy2HkulklPltJ8brpItw62HMxXbtltg23bl0LTq6W1X4s6pYLf3zvf+jSMPBxIL7ox62Js2P1MexunmviTpFze9aE0c/orGAAAAAElFTkSuQmCC) center center no-repeat;
     border: 1px solid #d2d2d2;
     border-radius: 2px;
-	text-align: center;
+    text-align: center;
 }
-.insertimage .pic .tips p{
-	padding-top: 117px;
-	line-height: 20px;
-	color: #999;
+.insertimage .pic .tips > div{
+    width: 100% !important;
+    height: 100% !important;
 }
-.insertimage .pic .tips span{
-	position: absolute;
-	width: 32px;
-	height: 32px;
-	left:50%;
-	top:50%;
-	margin-top: -16px;
-	margin-left: -16px;
-}
-.insertimage .pic .tips span em{
-	position: absolute;
-	left:15px;
-	top:0;
-	width: 2px;
-	height: 32px;
-	background-color: #c3c3c3;
-}
-.insertimage .pic .tips span i{
-	position: absolute;
-	left:0;
-	top:15px;
-	width: 32px;
-	height: 2px;
-	background-color: #c3c3c3;
+.insertimage .pic .tips input[type='file']{
+    display: none;
 }
 .insertimage .uploadify-queue{
-	position: absolute;
-	left:0;
-	top:0;
-	width: 168px;
-	height: 168px;
+    position: absolute;
+    left:0;
+    top:0;
+    width: 168px;
+    height: 168px;
 }
 .insertimage p{
-	padding-top: 10px;
-	text-align: center;
+    padding-top: 10px;
+    text-align: center;
 }
 .k-cropMask{
-	position:fixed;
-	z-index: 1000;
-	left:0;
-	top:0;
-	background-color: #000;
-	display: none;
+    position:fixed;
+    z-index: 1000;
+    left:0;
+    top:0;
+    background-color: #000;
+    display: none;
 }
 .insertimage .uploadify-queue-item {
     background-color: #F5F5F5;
@@ -2957,44 +2934,44 @@ img.jcrop-preview {
     width: 100%;
 }
 .insertimage .swfupload{
-	position: absolute;
-	left:0;
-	top:0;
-	z-index: 25!important;
+    position: absolute;
+    left:0;
+    top:0;
+    z-index: 25!important;
 }
 .insertimage .fileName{
-	display: none;
+    display: none;
 }
 .insertimage .cancel a{
-	float: right;
-	width: 16px;
-	height: 16px;
-	text-indent: -9999px;
-	overflow: hidden;
-	background:url(../img/user/uploadify-cancel.png) 0 0 no-repeat;
+    float: right;
+    width: 16px;
+    height: 16px;
+    text-indent: -9999px;
+    overflow: hidden;
+    background:url(../img/user/uploadify-cancel.png) 0 0 no-repeat;
 }
 .insertimage .data{
-	float: left;
-	font-size: 12px;
-	color: #333;
+    float: left;
+    font-size: 12px;
+    color: #333;
 }
 .insertimage .uploadify-queue{
-	position: absolute;
-	left: 0;
-	top: 0;
-	z-index: 0;
-	display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    display: none;
 }
 .insertimage .disable{
-	position: absolute;
-	left:0;
-	top:0;
-	z-index: 100;
-	background-color: #fff;
-	opacity: 0;
-	filter: alpha(opacity=0);
-	width: 85px;
-	height: 85px;
+    position: absolute;
+    left:0;
+    top:0;
+    z-index: 100;
+    background-color: #fff;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    width: 85px;
+    height: 85px;
 }
 .insertimage .uploadify-progress-bar {
     background-color: #09F;
@@ -3002,14 +2979,14 @@ img.jcrop-preview {
     width: 1px;
 }
 .insertimage .progressnum{
-	display: none;
+    display: none;
 }
 .insertimage .pic .img{
-	display: block;
-	width: 120px;
-	height: 120px;
-	margin: 0 auto;
-	border-radius: 120px;
+    display: block;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    border-radius: 120px;
 }
 .showDiary-add .write-body{
 	height: 85px;

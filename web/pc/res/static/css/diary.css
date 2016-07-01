@@ -292,35 +292,12 @@ body{
     border-radius: 2px;
     text-align: center;
 }
-.insertimage .pic .tips p{
-    padding-top: 117px;
-    line-height: 20px;
-    color: #999;
+.insertimage .pic .tips > div{
+    width: 100% !important;
+    height: 100% !important;
 }
-.insertimage .pic .tips span{
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    left:50%;
-    top:50%;
-    margin-top: -16px;
-    margin-left: -16px;
-}
-.insertimage .pic .tips span em{
-    position: absolute;
-    left:15px;
-    top:0;
-    width: 2px;
-    height: 32px;
-    background-color: #c3c3c3;
-}
-.insertimage .pic .tips span i{
-    position: absolute;
-    left:0;
-    top:15px;
-    width: 32px;
-    height: 2px;
-    background-color: #c3c3c3;
+.insertimage .pic .tips input[type='file']{
+    display: none;
 }
 .insertimage .uploadify-queue{
     position: absolute;
