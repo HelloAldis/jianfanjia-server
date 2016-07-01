@@ -6,7 +6,7 @@ require.config({
         cookie : 'lib/jquery.cookie'
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousewheel.min'],function($,_,cookie,common){
+require(['jquery','lodash','cookie','utils/common','lib/jquery.mousewheel.min'],function($,_,cookie,common){
         var user = new common.User();
         user.init();
         var search = new common.Search();
@@ -250,8 +250,8 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             obj.hide().html('');
         }
     };
-    var lightBox = new LightBox();
-    var Detail = function(){};
+        var lightBox = new LightBox();
+        var Detail = function(){};
         Detail.prototype = {
             init  : function(){
                 this.cacheData = {}; //全局数据缓存
@@ -265,7 +265,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             loadList : function(){
                 var self = this;
                 $.ajax({
-                    url:'/api/v2/web/search_share',
+                    url:RootUrl+'api/v2/web/search_share',
                     type: 'POST',
                     contentType : 'application/json; charset=utf-8',
                     dataType: 'json',

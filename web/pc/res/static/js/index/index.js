@@ -69,7 +69,7 @@ require(['jquery','index/tabs'],function($,Tabs){
        media.init();
     })
 });
-require(['jquery','lib/jquery.cookie','index/goto'],function($,cookie,Goto){
+require(['jquery','cookie','index/goto'],function($,cookie,Goto){
     var goto = new Goto();
     $(function(){
         goto.init({scroll : false});

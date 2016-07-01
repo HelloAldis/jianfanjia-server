@@ -6,7 +6,7 @@ require.config({
         cookie : 'lib/jquery.cookie'
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common','utils/globalData'],function($,_,cookie,common,globalData){
+require(['jquery','lodash','cookie','utils/common','utils/globalData'],function($,_,cookie,common,globalData){
         var user = new common.User();
         user.init();
         var search = new common.Search();

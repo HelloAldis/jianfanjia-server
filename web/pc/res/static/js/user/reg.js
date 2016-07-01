@@ -6,13 +6,13 @@ require.config({
         cookie : 'lib/jquery.cookie'
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
+require(['jquery','lodash','cookie','utils/common'],function($,_,cookie,common){
     var search = new common.Search();
     search.init();
     var goto = new common.Goto();
     goto.init();
 });
-require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
+require(['jquery','lodash','cookie'],function($,_,cookie){
     var Register = function(){};
     Register.prototype = {
         init : function(){
@@ -290,12 +290,6 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                     processData : false
                 })
                 .done(function(res) {
-                    if(res.err_msg){
-                        self.off = false;
-                        self.checkStep = 2;
-                        self.error.html(res.err_msg).removeClass('hide');
-                        return ;
-                    }
                     if(res.data !== null){
                         window.location.href = res.data.url;
                     }else{

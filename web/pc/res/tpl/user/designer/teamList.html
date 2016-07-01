@@ -14,7 +14,7 @@
                     <div class="address f-fl" bo-if="list.province && list.province != '请选择省份'">
                         <i class="iconfont2">&#xe61f;</i><span><i bo-text="list.province"></i><i bo-text="list.city" bo-if="list.city != '请选择市'"></i><i bo-text="list.district" bo-if="list.district != '请选择县/区'"></i></span>
                     </div>
-                    <div class="select f-fr"><a ui-sref="updateteam({id:list._id})" class="update"><i class="iconfont2">&#xe627;</i></a><a href="javascript:;" ng-click="remove(list._id)" class="remove"><i class="iconfont2">&#xe619;</i></a></div>
+                    <div class="select f-fr"><a ui-sref="updateteam({id:list._id})" class="update"><i class="iconfont2">&#xe627;</i></a><a href="javascript:;" ng-click="designerTeam.remove(list._id)" class="remove"><i class="iconfont2">&#xe619;</i></a></div>
                     </dt>
                     <dd class="f-cb">
                         <div class="span" bo-if="list.manager"><span>项目经理</span><em bo-text="list.manager"></em></div>

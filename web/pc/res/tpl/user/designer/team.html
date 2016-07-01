@@ -64,9 +64,9 @@
                                         <div class="simpleupload card-upload">
                                             <div class="create">
                                                 <div class="fileBtn">
-                                                    <input class="hide" id="fileToUpload1" type="file" name="Filedata"
-                                                    my-simpleupload my-query="team.uid_image1" data-width="248" data-height="156"
-                                                           data-scale="1.585" my-loading="designerTeam.images_loading" />
+                                                    <input class="hide" id="fileToUpload1" my-simpleupload
+                                                           my-query="team.uid_image1" data-width="248" data-height="156"
+                                                           data-scale="1.585" type="file" name="Filedata"/>
                                                     <input type="hidden" id="sessionId1"
                                                            value="${pageContext.session.id}"/>
                                                     <input type="hidden" value="1215154565" name="tmpdir"
@@ -97,7 +97,7 @@
                                                 <div class="fileBtn">
                                                     <input class="hide" id="fileToUpload2" my-simpleupload
                                                            my-query="team.uid_image2" data-width="248" data-height="156"
-                                                           data-scale="1.585" my-loading="designerTeam.images_loading" type="file" name="Filedata"/>
+                                                           data-scale="1.585" type="file" name="Filedata"/>
                                                     <input type="hidden" id="sessionId2"
                                                            value="${pageContext.session.id}"/>
                                                     <input type="hidden" value="1215154565" name="tmpdir"
@@ -150,7 +150,7 @@
                             <div class="item">
                                 <label class="u-lab"><i class="required-icon"></i>擅长工种</label>
                                 <div class="u-inp">
-                                    <div my-select data-type="getValue" my-list="designerTeam.goodAtList" my-query="team.good_at"></div>
+                                    <div my-selectn my-list="designerTeam.goodAtList" my-query="team.good_at"></div>
                                 </div>
                             </div>
                         </div>

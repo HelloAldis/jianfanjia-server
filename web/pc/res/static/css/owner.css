@@ -144,30 +144,6 @@ body{
 	filter: alpha(opacity=80);
 }
 /*留言*/
-.infoTips{
-	margin: 20px 19px;
-	font-size: 14px;
-	line-height: 50px;
-	text-align: left;
-	color: #61687a;
-	background-color: #fffdf6;
-	border: 1px dashed #d2d2d2;
-}
-.infoTips i{
-	display: inline-block;
-	width: 40px;
-	text-align: center;
-	margin-left: 6px;
-}
-.infoTips-error{
-	line-height: 26px;
-	padding: 7px 46px 7px 0;
-	margin-bottom: 0;
-	background-color: #ff4a4a;
-	border: none;
-	color: #fff;
-	border-radius: 3px;
-}
 .message{
 	margin-bottom: 10px;
 	line-height: 48px;
@@ -465,6 +441,81 @@ body{
 }
 .m-radio .active span{
 	background-position: 0 -14px;
+}
+/*下拉选择框*/
+.k-select{
+	position: relative;
+	z-index: 2;
+	width: 250px;
+}
+.k-select .option,.k-select .editor{
+	overflow: hidden;
+	height: 28px;
+	line-height: 28px;
+	position: relative;
+	cursor: pointer;
+	padding:0 20px 0 10px;
+	background-color: #f9f9f9;
+	border: 1px solid #d2d2d2;
+	border-radius: 2px;
+}
+.k-select .option .value{
+	display: block;
+	font-size: 14px;
+	color: #61687a;
+}
+.k-select .editor .value{
+	width: 100%;
+	font-size: 14px;
+	border: none;
+	background: none;
+}
+.k-select .arrow{
+	position: absolute;
+	top:9px;
+	right:15px;
+	background-color: #f9f9f9;
+}
+.k-select .arrow em,.k-select .arrow i{
+	position: absolute;
+	left:0;
+	top:0;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	border-width: 5px;
+	border-color: transparent;
+	border-style: dashed;
+	border-top-style: solid;
+	border-top-color: #f9f9f9;
+}
+.k-select .arrow em{
+	top:3px;
+	border-top-color: #aaa;
+}
+.k-select .arrow i{display: none;}
+.k-select .select{
+	position: absolute;
+	left:-1px;
+	top:31px;
+	width: 100%;
+	background-color: #fff;
+	border: 1px solid #dcdcdc;
+	border-top: none;
+	display: none;
+	max-height: 240px;
+	overflow-y: auto;
+}
+.k-select .select a{
+	display: block;
+	line-height: 30px;
+	text-align: center;
+	color: #333;
+}
+.k-select .select a:hover{
+	color: #fff;
+	text-decoration: none;
+	background-color: #ccc;
 }
 /*城市插件*/
 .k-cities{
@@ -1896,26 +1947,9 @@ body{
 	line-height: 42px;
 	color: #999;
 }
-.m-commentList .panel-heading .f-fl strong{
+.m-commentList .panel-heading strong{
 	font-size: 14px;
 	color: #383d48;
-}
-.m-commentList .panel-heading .origin{
-	font-size: 12px;
-	color: #999;
-}
-.m-commentList .panel-heading .origin strong{
-	font-weight: normal;
-	margin: 0 5px;
-}
-.m-commentList .panel-heading .origin span{
-	margin-left: 5px;
-}
-.m-commentList .panel-heading .origin .origin-plan{
-	color: #61687a;
-}
-.m-commentList .panel-heading .origin .origin-diary{
-	color: #049afe;
 }
 .m-commentList .panel-heading i{
 	color: #fe7004;
@@ -2020,7 +2054,7 @@ body{
 }
 .g-mn .m-message .m-tt h2 span{
 	margin-left: 12px;
-	color: #fe7004;
+	color: #fe7004
 }
 /*头像图片裁剪*/
 .k-uppicbox{
@@ -2062,23 +2096,23 @@ body{
 	border-radius: 3px;
 	font: 11px Verdana,Geneva,sans-serif;
 	max-width: 350px;
-	padding: 10px;
+	padding: 10px
 }
 .uploadify-queue .uploadify-error {
-	background-color: #FDE5DD!important;
+	background-color: #FDE5DD!important
 }
 .uploadify-queue .uploadify-queue-item.completed{
-	background-color: #E5E5E5;
+	background-color: #E5E5E5
 }
 .uploadify-queue .uploadify-progress {
 	background-color: #E5E5E5;
 	margin-top: 25px;
-	width: 100%;
+	width: 100%
 }
 .uploadify-queue .uploadify-progress-bar {
 	background-color: #09F;
 	height: 3px;
-	width: 1px;
+	width: 1px
 }
 .uploadify-queue .up_filename,.uploadify-queue .progressnum{
 	display: none;
@@ -2179,23 +2213,12 @@ body{
 	background-color: #000;
 	display: none;
 }
-.k-uppicbox .simpleupload .pic{
-	height: 120px;
-	background:url(../img/user/headPic.png) center 0 no-repeat;
-}
-.k-uppicbox .simpleupload .fileBtn{
+.k-uppicbox #upload .img{
+	display: block;
 	width: 120px;
 	height: 120px;
-	left:50%;
-	margin-left: -60px;
-}
-.k-uppicbox .simpleupload .img{
-	display: block;
-	position: static;
-	min-width: 120px;
-	min-height: 120px;
-	border-radius: 120px;
 	margin: 0 auto;
+	border-radius: 120px;
 }
 .k-uppicbox .icon{
 	position: absolute;
@@ -2510,829 +2533,3 @@ img.jcrop-preview {
 	height: 72px;
 	margin-left: -60px;
 }
-/* 我的日志 */
-.g-mn .diary{
-	background: none;
-	border: none;
-}
-.diary .m-tt{
-	background-color: #fff;
-    border: 1px solid #e5e5e5;
-    border-radius: 3px;
-}
-.diary .m-ct{
-
-}
-.diary .add{
-	text-align: center;
-	height: auto;
-	margin-top: 6px;
-	padding:79px 0;
-	background-color: #f9f9f9;
-	border: 1px dashed #e0e0e0;
-}
-.diary .add p{
-	padding-bottom: 25px;
-	font-size: 16px;
-	line-height: 16px;
-	color: #999;
-}
-.diary .add .btns{
-	text-align: center;
-}
-.diary li,.showDiary .banner{
-	position: relative;
-	width: 920px;
-	height: 260px;
-	margin-top: 10px;
-	overflow: hidden;
-	border-radius: 5px;
-}
-.diary li.add{
-	padding:39px 0;
-}
-.diary li img,.showDiary .banner img{
-	width: 100%;
-	height: 100%;
-}
-.diary li .boxs,.showDiary .banner .boxs{
-	position: absolute;
-	left:40px;
-	top:160px;
-	z-index: 3;
-	color: #fff;
-}
-.diary li .boxs h4,.showDiary .banner .boxs h4{
-	font-size: 26px;
-	height: 44px;
-	line-height: 44px;
-	color: #fff;
-}
-.showDiary .banner .boxs a:hover{
-	color: #fe7004;
-}
-.diary li .boxs .tag,.showDiary .banner .boxs .tag{
-	font-size: 14px;
-	line-height: 22px;
-}
-.diary li .operate,.showDiary .banner .operate{
-	position: absolute;
-	top:20px;
-	right: 20px;
-	z-index: 6;
-	height: 32px;
-	text-align: right;
-}
-.diary li .operate .btns,.showDiary .banner .btns{
-	display: inline-block;
-	width: 32px;
-	height: 32px;
-	line-height: 32px;
-	text-align: center;
-	color: #fff;
-	filter:progid:DXImageTransform.Microsoft.gradient(enabled="true", startColorstr="#7F000000", endColorstr="#7F000000");
-	background-color:rgba(0,0,0,0.5);
-	cursor: pointer;
-	border-radius: 2px;
-}
-.diary li .click{
-	position: absolute;
-	left: 0;
-	top: 0;
-	z-index: 5;
-	width: 100%;
-	height: 100%;
-	background-color: #fff;
-	opacity: 0;
-	filter: alpha(opacity=0);
-	cursor: pointer;
-}
-.diary li .mask,.showDiary .banner .mask{
-	position: absolute;
-	left: 0;
-	top: 0;
-	z-index: 1;
-	width: 100%;
-	height: 100%;
-	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijk5JSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjM1Ii8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMC4zNSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-	background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 99%, rgba(0,0,0,0.35) 100%);
-	background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.35) 99%,rgba(0,0,0,0.35) 100%);
-	background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.35) 99%,rgba(0,0,0,0.35) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#59000000',GradientType=0 );
-}
-:root .diary li .operate .btns,
-:root .diary li .mask,
-:root .showDiary .banner .operate .btns,
-:root .showDiary .banner .mask{ filter:none\9; }
-.diary_image{
-	width: 460px;
-	height: 129px;
-	background: #f9f9f9;
-	border: 1px solid #d2d2d2;
-	border-radius: 3px;
-}
-.diary_image .simpleupload{
-	height: 100%;
-}
-.diary_image .simpleupload .tips{
-	left:50%;
-	top:50%;
-	width: 30px;
-	height: 30px;
-	margin: -15px 0 0 -15px;
-	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAABC1BMVEWZmZn///+ZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmPLkxYAAAAWHRSTlMAAAIGBwkMEBETFRobICYnKCsuMjc7Pj9AQktMTlhZXF5ub3F7gIGDioyNkZKTm56gpKWpqqytsLO1u73AwsXK09Xb3d/g4uTn6Ovt7vDx9fb3+Pn6+/z+urYXOQAAAR9JREFUKM+t09dSAkEQheE5IAsGRBEDZsWAYgAxi2LCgKwSFP73fxIvWHBZFq48t19V1+mpHpOq4Z+3WUmmTrHgl3uuJBmKpidyEigXJBkK/qzSP3JoZBjv/DQ2B3MUaFoOxywvTwFE2mw9rPQNz0PGGZ7nvL/adMyploKaNXCxuSawOojH3wEufXh53ZjgHQDHkp6ue3jx+2PMHACwK0kzk25OViG3BsBrsPs2HU5WAeoAnElLLzk3z1ddd5KVzmHijxOfXfu6udiQLiDaZZeeRCT1ciiT7WQvoA7Hw2HL5xy2HkulklPltJ8brpItw62HMxXbtltg23bl0LTq6W1X4s6pYLf3zvf+jSMPBxIL7ox62Js2P1MexunmviTpFze9aE0c/orGAAAAAElFTkSuQmCC) 0 0 no-repeat;
-}
-.diary_image .simpleupload .disable{
-	width: 460px;
-	height: 129px;
-}
-.diary_image .uploadify-queue{
-	width: 462px;
-}
-.diary_image  .uploadify-queue .uploadify-queue-item{
-	max-width:462px;
-}
-/* 日记集详情 */
-.showDiary .banner{
-	margin-top: 0;
-}
-.showDiary-list,.showDiary-add{
-	margin-top: 10px;
-	background-color: #fff;
-	border: 1px solid #e5e5e5;
-}
-.showDiary-add{
-	padding: 29px;
-}
-.showDiary-add .add{
-	height: 78px;
-	font-size: 16px;
-	line-height: 78px;
-	background-color: #f9f9f9;
-	border: 1px solid #d2d2d2;
-	color: #000;
-	text-align: center;
-	cursor: pointer;
-}
-.showDiary-add .write{
-	position: relative;
-}
-.showDiary-add .write-header{
-	position: relative;
-	height: 80px;
-  	padding-left: 20px;
-}
-.showDiary-add .write-header.submiting{
-	border: 1px solid #e6e6e6;
-	background-color: #f9f9f9;
-}
-.showDiary-add .write-header.submiting textarea{
-	display: none;
-}
-.showDiary-add .select.submiting{
-	width: 168px;
-	height: 28px;
-	background-color: #f9f9f9;
-    border: 1px solid #d2d2d2;
-    border-radius: 2px;
-    overflow: hidden;
-}
-.showDiary-add .write-header label{
-	position: absolute;
-	left:10px;
-	top:10px;
-	cursor: text;
-	color: #999;
-}
-.showDiary-add .write-header textarea{
-	display: block;
-	  float: left;
-		width: 100%;
-	   height: 60px;
-	  margin-left: -20px;
-	  padding: 10px;
-	  font-size: 14px;
-	  border: 1px solid #e6e6e6;
-	 background-color: #f9f9f9;
-	  resize: none;
-}
-.showDiary-add .write-header textarea:focus{
-	border-color: #04bafe;
-}
-.insertimage{
-    width: 862px;
-    height: 85px;
-    overflow: hidden;
-}
-.insertimage .k-uploadbox{
-    width: 980px;
-}
-.insertimage .pic{
-    position: relative;
-    float: left;
-  width: 85px;
-  height: 85px;
-  margin:0 20px 20px 0;
-  overflow: visible;
-  background:none;
-  text-align: center;
-}
-.insertimage .pic .mask{
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 100;
-    background-color: #fff;
-    opacity: 0;
-    filter: alpha(opacity=0);
-}
-.insertimage .items{
-    position: relative;
-    float: left;
-    width: 85px;
-    margin-right: 12px;
-}
-.insertimage .default .item{
-    height: 168px;
-}
-.insertimage .items .img{
-    width: 85px;
-    height: 85px;
-    overflow: hidden;
-    margin-bottom: 10px;
-    border-radius: 2px;
-    background:url(../img/user/loading.gif) center center no-repeat;
-}
-.insertimage .items .queue-items{
-    position: relative;
-    width: 85px;
-    height: 85px;
-    overflow: hidden;
-    margin-bottom: 10px;
-    border-radius: 2px;
-    background:#d5d7db;
-}
-.insertimage .items .queue-items .progress{
-    display: block;
-    width: 100%;
-    height: 14px;
-    background-color: #61687a;
-}
-.insertimage .items .queue-items .progress span{
-    display: block;
-    width: 0;
-    height: 14px;
-    background-color: #fe7004;
-}
-.insertimage .items .queue-items .cancel{
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    line-height: 20px;
-    color: #a4a4a4;
-    cursor: pointer;
-}
-.insertimage .items .queue-items .cancel:hover{
-    color: #666;
-}
-.insertimage .items .queue-items .loading{
-    position: absolute;
-    width: 100%;
-    height: 14px;
-    line-height: 14px;
-    text-align: center;
-    color: #fff;
-}
-.insertimage .items .queue-items .filename{
-    position: absolute;
-    left:50%;
-    top:55px;
-    width: 60px;
-    height: 20px;
-    line-height: 20px;
-    margin-left: -30px;
-    text-align: center;
-    color: #999;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    overflow:hidden;
-}
-.insertimage .items .queue-items .error{
-    position: absolute;
-    left: 0;
-    top: 40px;
-    width: 100%;
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    color: #ff4a4a;
-}
-.insertimage .items .queue-items .uploading{
-    position: absolute;
-    left:0;
-    top:45px;
-    width: 100%;
-    font-size: 14px;
-    line-height: 20px;
-    text-align: center;
-    color: #383d48;
-}
-.insertimage .items .queue-items .uploading .ing{
-    color: #fe7004;
-}
-.insertimage .default .items .img{
-    margin-bottom: 0;
-}
-.insertimage .items .close{
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 10;
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    color: #fff;
-    text-align: center;
-    cursor: pointer;
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr="#b2000000", EndColorStr="#b2000000");
-    zoom:1;
-    background-color:rgba(0,0,0,0.7);
-}
-:root .insertimage .item .mask{ filter:none\9; }
-.insertimage .item img{
-    min-width: 100%;
-    min-height: 100%;
-}
-.insertimage .pic .fileBtn,.insertimage .pic .uploadify-button{
-    position: absolute;
-    z-index: 20;
-    left:0;
-    top: 0;
-    width: 83px;
-    height: 83px;
-}
-.insertimage .pic .tips{
-    position: absolute;
-    left:0;
-    top:0;
-    z-index: 9;
-    width: 83px;
-    height: 83px;
-    background: #f9f9f9 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAABC1BMVEWZmZn///+ZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmPLkxYAAAAWHRSTlMAAAIGBwkMEBETFRobICYnKCsuMjc7Pj9AQktMTlhZXF5ub3F7gIGDioyNkZKTm56gpKWpqqytsLO1u73AwsXK09Xb3d/g4uTn6Ovt7vDx9fb3+Pn6+/z+urYXOQAAAR9JREFUKM+t09dSAkEQheE5IAsGRBEDZsWAYgAxi2LCgKwSFP73fxIvWHBZFq48t19V1+mpHpOq4Z+3WUmmTrHgl3uuJBmKpidyEigXJBkK/qzSP3JoZBjv/DQ2B3MUaFoOxywvTwFE2mw9rPQNz0PGGZ7nvL/adMyploKaNXCxuSawOojH3wEufXh53ZjgHQDHkp6ue3jx+2PMHACwK0kzk25OViG3BsBrsPs2HU5WAeoAnElLLzk3z1ddd5KVzmHijxOfXfu6udiQLiDaZZeeRCT1ciiT7WQvoA7Hw2HL5xy2HkulklPltJ8brpItw62HMxXbtltg23bl0LTq6W1X4s6pYLf3zvf+jSMPBxIL7ox62Js2P1MexunmviTpFze9aE0c/orGAAAAAElFTkSuQmCC) center center no-repeat;
-    border: 1px solid #d2d2d2;
-    border-radius: 2px;
-    text-align: center;
-}
-.insertimage .pic .tips > div{
-    width: 100% !important;
-    height: 100% !important;
-}
-.insertimage .pic .tips input[type='file']{
-    display: none;
-}
-.insertimage .uploadify-queue{
-    position: absolute;
-    left:0;
-    top:0;
-    width: 168px;
-    height: 168px;
-}
-.insertimage p{
-    padding-top: 10px;
-    text-align: center;
-}
-.k-cropMask{
-    position:fixed;
-    z-index: 1000;
-    left:0;
-    top:0;
-    background-color: #000;
-    display: none;
-}
-.insertimage .uploadify-queue-item {
-    background-color: #F5F5F5;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    font: 11px Verdana,Geneva,sans-serif;
-    margin-top: 5px;
-    max-width: 350px;
-    padding: 10px;
-}
-.insertimage .uploadify-error {
-    background-color: #FDE5DD!important;
-}
-.insertimage .uploadify-queue-item.completed{
-    background-color: #E5E5E5;
-}
-.insertimage .uploadify-progress {
-    background-color: #E5E5E5;
-    margin-top: 10px;
-    width: 100%;
-}
-.insertimage .swfupload{
-    position: absolute;
-    left:0;
-    top:0;
-    z-index: 25!important;
-}
-.insertimage .fileName{
-    display: none;
-}
-.insertimage .cancel a{
-    float: right;
-    width: 16px;
-    height: 16px;
-    text-indent: -9999px;
-    overflow: hidden;
-    background:url(../img/user/uploadify-cancel.png) 0 0 no-repeat;
-}
-.insertimage .data{
-    float: left;
-    font-size: 12px;
-    color: #333;
-}
-.insertimage .uploadify-queue{
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 0;
-    display: none;
-}
-.insertimage .disable{
-    position: absolute;
-    left:0;
-    top:0;
-    z-index: 100;
-    background-color: #fff;
-    opacity: 0;
-    filter: alpha(opacity=0);
-    width: 85px;
-    height: 85px;
-}
-.insertimage .uploadify-progress-bar {
-    background-color: #09F;
-    height: 3px;
-    width: 1px;
-}
-.insertimage .progressnum{
-    display: none;
-}
-.insertimage .pic .img{
-    display: block;
-    width: 120px;
-    height: 120px;
-    margin: 0 auto;
-    border-radius: 120px;
-}
-.showDiary-add .write-body{
-	height: 85px;
-	padding: 10px 0;
-}
-.showDiary-add .k-select{
-	width: 170px;
-}
-.showDiary-list .list-head{
-	height: 43px;
-}
-.showDiary-list .list-head .operate{
-	float: right;
-	padding: 9px 19px 0 0;
-}
-.showDiary-list .list-head .operate .btns{
-	display: inline-block;
-	width: 34px;
-	height: 34px;
-	text-align: center;
-	line-height: 34px;
-	border: none;
-    background: none;
-}
-.showDiary-list .list-head .operate .btns:hover{
-	background-color: #fafafa;
-}
-.showDiary-list .list-head .tags{
-	float: left;
-	position: relative;
-	top:-1px;
-	left:-1px;
-	height: 38px;
-	font-size: 14px;
-	line-height: 38px;
-	color: #999;
-	background-color: #e9ebef;
-}
-.showDiary-list .list-head .tags h4{
-	float: left;
-	padding: 0 16px;
-	color: #fff;
-	background-color: #fe7004;
-}
-.showDiary-list .list-head .tags span{
-	float: left;
-	padding: 0 15px;
-}
-.showDiary-list .list-body{
-	overflow: hidden;
-	padding: 20px 29px 30px;
-}
-.showDiary-list .list-body .text{
-	padding-bottom: 15px;
-	font-size: 14px;
-	line-height: 25px;
-	color: #999;
-	word-wrap: break-word;
-    word-break: break-all;
-}
-.showDiary-list .list-body .img{
-	width: 890px;
-}
-.showDiary-list .list-body .img img{
-	width: 160px;
-	height: 160px;
-	margin: 0 15px 15px 0;
-}
-.showDiary-list .list-foot{
-	height: 53px;
-	font-size: 14px;
-	line-height: 53px;
-	color: #999;
-	text-align: center;
-	border-top: 1px solid #ebeced;
-}
-.showDiary-list .list-foot li{
-	float: left;
-	width: 50%;
-	height: 53px;
-	cursor: pointer;
-	border-left: 1px solid #e5e5e5;
-	-webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-        -ms-box-sizing: border-box;
-         -o-box-sizing: border-box;
-            box-sizing: border-box;
-}
-.showDiary-list .list-foot li span{
-	display: inline-block;
-	vertical-align: top;
-	height: 53px;
-	padding: 0 10px 0 39px;
-	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAACtCAMAAABY3NWdAAACJVBMVEX///97gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR7gIz+cAR24iBmAAAAt3RSTlMAAQEDAwQEBQUGBggICQkKCgsLDAwNDQ4ODw8RERUVFhYXFxgYHR0eHiAgISEnJyoqLS0xMTIyODg7Ozw8QEBBQUVFTU1OTlBQUVFVVVZWV1dYWGlpbGxycnV1dnZ3d3x8fX1/f4CAgoKFhYeHjIyOjo+PkJCVlZaWmJikpKqqra24uLu7v7/AwMHBwsLGxsnJysrLy8/P0NDR0dLS1dXX19jY29vc3N7e39/g4OHh4uLj4+bm6Oi6/FubAAABpElEQVRIx2NggALlpeuNgRQjjF95i4VtMQMDE5RrqrFN4QsDHKjOtxReKQlS767D8GOLQtqC3eU8Rxj+3GHc2vPHTO3XvPMMiUJA3UYs3/Yz6HFl/WVgmM/AIJr2DWzep78QU96wbGBiQAJJJo+AfGY4/8iXPywMugFveCBczZofT5hY7u16JpTNC+Jfn/bnI8ulSb+kZijNewMSENvEMApGwaAEKss2mCDnrypg/lqEyF9mqPlLbYGVyCopkHoPaP7aVQHJX9sg+escQxI0f+0D5a8/DAzzgOkflr/+4MtfLKj5Sw+ev7Tg+SuHD8S/Nu3Ph9H8NQoGE2BkaBVC8L6UsjCwZCL4ncD89A9J9T8GJjT9ID5zJCdrNDt7NKiiAWUGPg2+f2p8DGp870Eq2pFUt2PRz8WIcAwHUP+9aRxN973DvoEEboHzd/o1Hpe+pxAlIPP/GSl0PUey/4NW3/PRmBwFgyM/tSHnpxJgfspA8LuIyk8sUVxsMRwcMSzo+ekdSEUHkuoObPkJIcQEy0/3fJDzUwYoPz1BzU/PUPMTjMsAAJA5klRDb8W7AAAAAElFTkSuQmCC) 11px 21px no-repeat;
-}
-.showDiary-list .list-foot li strong{
-	font-weight: normal;
-	color: #fe7004;
-	opacity: 0;
-	filter: alpha(opacity=0);
-	-webkit-transition:opacity 0.5s;
-	-ms-transition:opacity 0.5s;
-	-moz-transition:opacity 0.5s;
-	-o-transition:opacity 0.5s;
-	transition:opacity 0.5s;
-}
-.showDiary-list .list-foot li.active strong{
-	opacity: 1;
-	filter: alpha(opacity=1);
-}
-.showDiary-list .list-foot li.active .like{
-	background-position: 11px -33px;
-}
-.showDiary-list .list-foot li:first-child{border-left: none;}
-.showDiary-list .list-foot span.review{
-	background-position: 11px -86px;
-}
-.showDiary-list .list-foot li.active .review{
-	background-position: 11px -139px;
-}
-.showDiary-list .list-foot li:hover{
-	background-color: #fafafa;
-}
-.showDiary-list .list-review{
-	border-top: 1px solid #e5e5e5;
-}
-.showDiary-list .list-review .write{
-	position: relative;
-	padding: 19px 19px 15px 89px;
-}
-.showDiary-list .list-review .u-head{
-	position: absolute;
-	left:19px;
-	top:19px;
-}
-.showDiary-list .list-review .head img{
-	width: 100%;
-}
-.showDiary-list .list-review .write .textarea{
-	position: relative;
-	height: 80px;
-  	padding-left: 20px;
-}
-.showDiary-list .list-review .write .textarea label{
-	position: absolute;
-	left:10px;
-	top:10px;
-	cursor: text;
-	color: #999;
-}
-.showDiary-list .list-review .write .textarea textarea{
-  float: left;
-	width: 100%;
-   height: 60px;
-  margin-left: -20px;
-  padding: 10px;
-  font-size: 14px;
-  resize: none;
-  border: 1px solid #e6e6e6;
-	background-color: #f9f9f9;
-}
-.showDiary-list .list-review .write .textarea textarea:focus{
-	border-color: #04bafe;
-}
-.showDiary-list .list-review .find{
-    position: absolute;
-    left:0;
-    top:0;
-    font-size: 14px;
-    line-height: 42px;
-    color: #999;
-}
-.showDiary-list .list-review .find strong{
-    color: #61687a;
-    font-weight: normal;
-}
-.showDiary-list .list-review .write .btns{
-	position: relative;
-	height: 38px;
-	padding-top: 15px;
-	text-align: right;
-}
-.showDiary-list .list-review .list{
-	padding: 19px;
-	border-top: 1px solid #e6e6e6;
-	border-bottom: 1px solid #efefef;
-}
-.showDiary-list .list-review .list li{
-	position: relative;
-	min-height: 50px;
-	padding-left: 65px;
-	padding-bottom: 15px;
-}
-.showDiary-list .list-review .list li.notList{
-	text-align: center;
-	line-height: 50px;
-	color: #999;
-}
-.showDiary-list .list-review .list li .u-head{
-	top:0;
-	left:0;
-}
-.showDiary-list .list-review .list h4{
-	line-height: 24px;
-	color: #999;
-}
-.showDiary-list .list-review .list h4 span{
-	padding-right: 20px;
-	font-size: 14px;
-	color: #39383d;
-}
-.showDiary-list .list-review .list .find{
-	margin-right: 10px;
-}
-.showDiary-list .list-review .list p{
-	line-height: 20px;
-	color: #5f636f;
-	word-wrap:break-word;
-	word-break:break-all;
-}
-.showDiary-list .list-review .list .iconfont{
-	margin-left: 10px;
-	color: #999;
-	cursor: pointer;
-}
-.showDiary-list .list-review .more{
-	line-height: 38px;
-	text-align: center;
-	color: #949494;
-}
-.showDiary-list .list-review .more:hover,.showDiary-list .list-review .list .iconfont.active{
-	color: #fe7004;
-}
-.m-sidenav{
-    position: fixed;
-    left:0;
-    top:860px;
-    display: none;
-}
-.m-sidenav li{
-    width: 57px;
-    margin-bottom: 3px;
-    font-size: 14px;
-    line-height: 24px;
-    color: #b0b0b0;
-    text-align: center;
-    cursor: pointer;
-    border-right: 3px solid #e1e1e1;
-    border-radius: 3px 0 0 3px;
-}
-.m-sidenav li:hover{
-    color: #7b808c;
-}
-.m-sidenav li.active,.m-sidenav li.active:hover{
-    color: #fff;
-    border-right-color: #7b808c;
-    background-color: #7b808c;
-}
-/* 大图预览 */
-.k-lightBox{
-    position: fixed;
-    left:0;
-    top:0;
-    bottom: 0;
-    right: 0;
-    z-index: 10001;
-}
-.k-lightBox-mask{
-    position: fixed;
-    left:0;
-    top:0;
-    bottom: 0;
-    right: 0;
-    z-index: 10000;
-    background-color: #000;
-    filter: alpha(opacity=65);
-    opacity: 0.65;
-}
-.lightBox-content{
-    position: absolute;
-    left:50%;
-    width: 1000px;
-    margin-left: -500px;
-}
-.lightBox-header{
-    height: 40px;
-    font-size: 16px;
-    line-height: 40px;
-    color: #fff;
-}
-.lightBox-header .pagenum{
-    padding-left: 22px;
-    color: #b2b2b2;
-}
-.lightBox-header .pagenum strong{
-    font-weight: normal;
-    color: #fff;
-}
-.lightBox-header .close{
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    cursor: pointer;
-    border-radius: 10px;
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr="#7f000000", EndColorStr="#7f000000");
-    zoom:1;
-    background-color:rgba(0,0,0,0.5);
-}
-.lightBox-header .close .iconfont{
-    font-size: 20px;
-}
-:root .lightBox-header .close{ filter:none\9;}
-.lightBox-header .close:hover{
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr="#cc000000", EndColorStr="#cc000000");
-    zoom:1;
-    background-color:rgba(0,0,0,0.8);
-}
-:root .lightBox-header .close:hover{ filter:none\9;}
-.lightBox-body{
-    position: absolute;
-    top:86px;
-}
-.lightBox-body .toggle span{
-    position: absolute;
-    top:50%;
-    left:0;
-    width: 40px;
-    height: 54px;
-    margin-top: -27px;
-    line-height: 54px;
-    text-align: center;
-    cursor: pointer;
-    color: #fff;
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr="#7f000000", EndColorStr="#7f000000");
-    zoom:1;
-    background-color:rgba(0,0,0,0.5);
-}
-:root .lightBox-body .toggle span{ filter:none\9;}
-.lightBox-body .toggle span.next{
-    right: 0;
-    left:auto;
-}
-.lightBox-body .toggle span:hover{
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr="#cc000000", EndColorStr="#cc000000");
-    zoom:1;
-    background-color:rgba(0,0,0,0.8);
-}
-:root .lightBox-body .toggle span:hover{ filter:none\9;}

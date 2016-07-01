@@ -4,7 +4,7 @@ angular.module('controllers', [])
         function($scope, $rootScope ,userMessage){
             $scope.count = {};
             userMessage.count({
-                "query_array":[["4"], ["7", "8","13","9","10"],["5","14"]]
+                "query_array":[["4"], ["7", "8","13","9","10"],["5"]]
             }).then(function(res){
                 $scope.count.notice = res.data.data[0];
                 $scope.count.remind = res.data.data[1];
@@ -1125,7 +1125,7 @@ angular.module('controllers', [])
             };
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userMessage.count({
-                    "query_array":[["4"], ["7", "8","13","9","10"],["5","14"]]
+                    "query_array":[["4"], ["7", "8","13","9","10"],["5"]]
                 }).then(function(res){
                     $scope.count.notice = res.data.data[0];
                     $scope.count.remind = res.data.data[1];
@@ -1210,7 +1210,7 @@ angular.module('controllers', [])
             };
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userMessage.count({
-                    "query_array":[["4"], ["7", "8","13","9","10"],["5","14"]]
+                    "query_array":[["4"], ["7", "8","13","9","10"],["5"]]
                 }).then(function(res){
                     $scope.count.notice = res.data.data[0];
                     $scope.count.remind = res.data.data[1];
@@ -1330,7 +1330,7 @@ angular.module('controllers', [])
             };
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userMessage.count({
-                    "query_array":[["4"], ["7", "8","9","10","13"],["5","14"]]
+                    "query_array":[["4"], ["7", "8","9","10","13"],["5"]]
                 }).then(function(res){
                     $scope.count.notice = res.data.data[0];
                     $scope.count.remind = res.data.data[1];
@@ -1387,27 +1387,20 @@ angular.module('controllers', [])
         }])
     .controller('commentCtrl', [     //评论列表
         '$scope','$state','userMessage',function($scope,$state,userMessage){
+            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
+                dataPage = {
+                    "from": _index*10,
+                    "limit":10
+                },
+                current = _index;
+                $scope.count = {};
             $scope.comment = {
                 "name" : '',
-                "arr" : "5-14",
                 "tab" : [
                     {
                         "id" : 0,
                         "name" : '全部',
-                        "cur" : false,
-                        "arr" : "5-14"
-                    },
-                    {
-                        "id" : 1,
-                        "name" : '方案评论',
-                        "cur" : false,
-                        "arr" : "5"
-                    },
-                    {
-                        "id" : 2,
-                        "name" : '日记评论',
-                        "cur" : false,
-                        "arr" : "14"
+                        "cur" : true
                     }
                 ],
                 goto : function(id){
@@ -1418,82 +1411,16 @@ angular.module('controllers', [])
                         _this.name = _this.tab[id].name;
                     });
                 },
-                status : undefined,
-                setread :function(){
-                    if($state.params.status === '0'){
-                        $state.go('comment.list.type', {id:1,type:$state.params.type,status:undefined});
-                        this.getread = false;
-                        this.status = undefined;
-                    }else if($state.params.status === undefined){
-                        $state.go('comment.list.type', {id:1,type:$state.params.type,status:0});
-                        this.getread = true;
-                        this.status = 0;
-                    }
-                },
-                getread : false
+                "list" : undefined
             };
-            angular.forEach($scope.comment.tab,function(v){
-                v.cur = v.arr == $state.params.type;
-            });
-        }])
-    .controller('commentListCtrl', [     //评论列表
-        '$scope','$state','userMessage',function($scope,$state,userMessage){
-            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
-                message_type = ChangeArray($state.params.type),
-                status = $state.params.status,
-                dataPage = {
-                    "query":{
-                        "message_type":{
-                            "$in" : message_type
-                        },
-                        "status": status
-                    },
-                    "from": _index*10,
-                    "limit":10
-                },
-                current = _index;
-            $scope.commentList = {
-                "list" : undefined,
-                read : function(id,status){
-                    if(status == 0){
-                        userMessage.read({
-                            "messageid":id
-                        });
-                        uploadParent();
-                    }
-                }
-            };
-            function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
-                userMessage.count({
-                    "query_array":[["4"], ["7", "8","9","10","13"],["5","14"]]
-                }).then(function(res){
-                    $scope.count.notice = res.data.data[0];
-                    $scope.count.remind = res.data.data[1];
-                    $scope.count.comment = res.data.data[2];
-                    $scope.$emit('userMessageParent', $scope.count);   //父级传递
-                    user.updateData(); //更新右上角显示下拉菜单
-                },function(err){
-                    console.log(err)
-                });
-            }
-            function ChangeArray(str){
-                var arr = [];
-                if(str.indexOf('-') != -1){
-                    arr = str.split('-');
-                }else{
-                    arr.push(str);
-
-                }
-                return arr;
-            }
             function laod(){
-                userMessage.comment(JSON.stringify(dataPage)).then(function(res){  //获取意向设计师列表
-                    $scope.commentList = res.data.data.list;
-                    if($scope.commentList.length == 0 && res.data.data.total != 0){
-                        $scope.commentList = undefined;
+                userMessage.comment(dataPage).then(function(res){  //获取意向设计师列表
+                    $scope.comment.list = res.data.data.list;
+                    if($scope.comment.list.length == 0 && res.data.data.total != 0){
+                        $scope.comment.list = undefined;
                         dataPage.from = current*dataPage.limit;
                         current = 0;
-                        $state.go('comment.list.type', {id:1,type:$state.params.type,status:$state.params.status});
+                        $state.go('comment.list', { id: 1 });
                     }
                     $scope.pageing = {
                         allNumPage : res.data.data.total,
@@ -1510,7 +1437,7 @@ angular.module('controllers', [])
                         callback : function (i) {
                             dataPage.from = i*this.itemPage;
                             current = i;
-                            $state.go('comment.list.type', {id:parseInt(i)+1,type:$state.params.type,status:$state.params.status});
+                            $state.go('comment.list', { id: parseInt(i)+1 });
                             return false;
                         }
                     }
@@ -1519,339 +1446,4 @@ angular.module('controllers', [])
                 });
             }
             laod()
-        }])
-    .controller('diaryCtrl', [     //日记集列表
-        '$scope','$state','$filter','userDiary',function($scope,$state,$filter,userDiary){
-            $scope.diary = undefined;
-            userDiary.list().then(function(res){  //获取我的日记集列表
-                $scope.diary = res.data.data.diarySets;
-                angular.forEach($scope.diary, function(value){
-                    value.dec_type = $filter('decTypeFilter')(value.dec_type);
-                    if(value.business_house_type != undefined){
-                        value.business_house_type = $filter('businessHouseTypeFilter')(value.business_house_type);
-                    }
-                    if(value.house_type != undefined){
-                        value.house_type = $filter('houseTypeFilter')(value.house_type);
-                    }
-                    value.dec_style = $filter('decStyleFilter')(value.dec_style);
-                    value.work_type = $filter('workTypeFilter')(value.work_type);
-                });
-            })
-            $scope.goShow = function(data){
-                $state.go('diary.show', data);
-            }
-        }])
-    .controller('addDiaryCtrl', [     //添加一条日记集
-        '$scope','$state','$stateParams','$filter','userDiary','initData',function($scope,$state,$stateParams,$filter,userDiary,initData){
-            $scope.isLoading = false;
-            $scope.userdiary = {
-                isCreate : !$stateParams.id,
-                decStyle : initData.decStyle,
-                houseType : initData.houseType,
-                workType : initData.workType
-            };
-            $scope.userdiary.releaseValue = $scope.userdiary.isCreate ? "创建日记" : "编辑日记";
-            $scope.userdiary.releaseTitle = $scope.userdiary.isCreate ? "创建装修日记" : "编辑装修日记";
-            $scope.diarys = {
-                "title": '',
-                "house_area" : '',
-                "house_type" : '0',
-                "work_type" : '0',
-                "dec_style" : '0',
-                "cover_imageid" : ''
-            }
-            if($scope.userdiary.isCreate){
-                $scope.isLoading = true;
-            }else{
-                userDiary.get({
-                  "query":{
-                        "_id" : $stateParams.id
-                  }
-                }).then(function(res){
-                    if(res.data.data.total === 1){
-                        $scope.diarys = angular.extend($scope.diarys,res.data.data.diarySets[0]);
-                        $scope.isLoading = true;
-                    }
-                })
-            }
-            function jump(data){
-                var data = angular.copy(data);
-                data.house_area = $filter('decTypeFilter')(data.dec_type);
-                if(data.business_house_type != undefined){
-                    data.business_house_type = $filter('businessHouseTypeFilter')(data.business_house_type);
-                }
-                if(data.house_type != undefined){
-                    data.house_type = $filter('houseTypeFilter')(data.house_type);
-                }
-                data.dec_style = $filter('decStyleFilter')(data.dec_style);
-                data.work_type = $filter('workTypeFilter')(data.work_type);
-                $state.go('diary.show',data);
-            }
-            $scope.userdiary.submit = function(){
-                if($scope.userdiary.isCreate){
-                    userDiary.add({"diary_set" : $scope.diarys}).then(function(res){
-                        if(res.data.data && !_.isEmpty(res.data.data)){
-                            jump(res.data.data);
-                        }
-                    });
-                }else{
-                    userDiary.update({"diary_set" : $scope.diarys}).then(function(res){
-                        if(res.data.msg && res.data.msg === "success"){
-                            jump($scope.diarys);
-                        }
-                    });
-                }
-            }
-        }])
-    .controller('showDiaryCtrl', [     //一条日记集详情
-        '$scope','$state','$stateParams','$timeout','userDiary',function($scope,$state,$stateParams,$timeout,userDiary){
-            $scope.isLoading = false; //加载数据
-            $scope.isReview = false;  //加载评论列表
-            $scope.diarys = $stateParams;  //加载头部数据
-            $scope.replyinfo = null;
-
-            // userDiary.get({     //加载头部数据
-            //   "query":{
-            //         "_id" : $stateParams.id
-            //   }
-            // }).then(function(res){
-            //     if(res.data.data.total === 1){
-            //         $scope.diarys = res.data.data.diarySets[0];
-
-            //     }
-            // });
-            var section_label = [
-                    '准备',
-                    '开工',
-                    '拆改',
-                    '泥木',
-                    '水电',
-                    '油漆',
-                    '安装',
-                    '竣工',
-                    '软装',
-                    '入住'
-                ]
-            var VERIFY_CONTENT_REGEX_lt15 = /^[\u4e00-\u9fa5]{1,15}$|^[\dA-Za-z_]{1,30}$/ig;
-            var VERIFY_CONTENT_REGEX_lte140 = /^[\u4e00-\u9fa5]{1,140}$|^[\dA-Za-z_]{1,280}$/ig;
-            $scope.write = {
-                'select' : true,
-                'size' : 9,
-                'loading' : false,
-                'complete' : false,
-                list : section_label,
-                'show' : false,
-                add : function(){
-                    this.show = true;
-                },
-                data : {
-                    'images' : [],
-                    'section_label' : getCurrentSectionlabel($stateParams.latest_section_label) || '准备',
-                    'content' : ''
-                },
-                submit : function(data){
-                    var _this = this;
-                    if(!_.trim(data.content.length)){
-                        alert('请输入内容');
-                        return ;
-                    }
-                    if(data.section_label === '时间节点选择'){
-                        alert('请选择时间节点');
-                        return ;
-                    }
-                    data.diarySetid = $stateParams._id;
-                    userDiary.push({
-                        "diary":data
-                    }).then(function(res){
-                        console.log(res);
-                        _this.data.content = '';
-                        _this.data.images = [];
-                        _this.select = false;
-                        pull();
-                    },function(res){
-                        console.log(res);
-                    })
-                }
-            }
-            pull();
-            function getCurrentSectionlabel(label){
-                if(!label){
-                    return ;
-                }
-                var index = _.indexOf(section_label,label);
-                if(index <= section_label.length - 2){
-                    return section_label[index + 1];
-                }else{
-                    return _.last(section_label);
-                }
-            }
-            function pull(){
-                $scope.diarylist = [];
-                $scope.isLoadingOut = false; //侧栏
-                userDiary.pull({
-                    "query":{
-                        "diarySetid" : $stateParams._id
-                    }
-                }).then(function(res){
-                    $scope.diarylist = res.data.data.diaries;
-                    if($scope.diarylist.length > 0){
-                        $scope.write.data.section_label = getCurrentSectionlabel($scope.diarylist[0].diarySet.latest_section_label);
-                    }
-                    $scope.write.select = true;
-                    $scope.isLoading = true;
-                    timer = $timeout(function(){
-                        $scope.isLoadingOut = true;
-                        $timeout.cancel(timer);
-                    },1000);
-                });
-            }
-            var timer = null;
-            $scope.like = function(is,id){
-                if(is){
-                    return ;
-                }
-                $timeout.cancel(timer);
-                var index = _.findIndex($scope.diarylist,{"_id":id});
-                if(index != -1){
-                    $scope.diarylist[index].is_my_favorite = true;
-                    $scope.diarylist[index].favorite_count += 1;
-                    $scope.diarylist[index].likemove = true;
-                    userDiary.favorite({'diaryid':id}).then(function(res){  //点赞
-                        if(res.data.msg === "success"){
-                            timer = $timeout(function(){
-                                $scope.diarylist[index].likemove = false;
-                                $timeout.cancel(timer);
-                            },1000);
-                        }
-                    },function(res){
-                        console.log(res);
-                    });
-                }else{
-                    return ;
-                }
-            }
-            $scope.comment = function(is,id){
-                var index = _.findIndex($scope.diarylist,{"_id":id});
-                $scope.diarylist[index].giveshow = undefined;
-                $scope.diarylist[index].givename = undefined;
-                $scope.diarylist[index].reviewContent = '';
-                if(index != -1){
-                    $scope.diarylist[index].is_review = !is;
-                    if($scope.diarylist[index].is_review){
-                        $scope.diarylist[index].review = [];
-                        getComment(id,0,10,false);
-                    }
-                }else{
-                    return ;
-                }
-            }
-            $scope.loadmore = function(id,size){
-                getComment(id,size,10);
-            }
-            $scope.addCommentTo = function(data,authorid){
-                var index = _.findIndex($scope.diarylist,{"_id":data.topicid});
-                var index2 = _.findIndex($scope.diarylist[index].review,{"_id":data._id});
-                _.forEach($scope.diarylist[index].review,function(n){
-                    n.giveshow = false;
-                });
-                $scope.replyinfo = data;
-                if(data.byUser._id !== authorid){
-                    $scope.replyinfo.notfind = true;
-                    $scope.diarylist[index].giveshow = true;
-                    $scope.diarylist[index].review[index2].giveshow = true;
-                    $scope.diarylist[index].givename = data.byUser.username;
-                }else{
-                    $scope.replyinfo.notfind = false;
-                    $scope.diarylist[index].giveshow = false;
-                    $scope.diarylist[index].givename = '';
-                }
-            }
-            $scope.addCommentDld = false;
-            $scope.addComment = function(data){
-                if($scope.addCommentDld){   //防止重复点击
-                    return ;
-                }
-                if(!$scope.addCommentDld){
-                    $scope.addCommentDld = true;
-                }
-                var index = _.findIndex($scope.diarylist,{"_id":data.topicid});
-                var index2 = _.findIndex($scope.diarylist[index].review,{"_id":data._id});
-                if($scope.replyinfo !== null){
-                    if($scope.replyinfo.notfind){
-                        data.to_userid = $scope.replyinfo.byUser._id;
-                        data.content = '回复给  '+$scope.replyinfo.byUser.username+"： "+_.trim(data.content);
-                    }
-                }
-                userDiary.comment(data).then(function(res){  //获取意向设计师列表
-                    if(res.data.msg === "success"){
-                        _.forEach($scope.diarylist[index].review,function(n){
-                            n.giveshow = false;
-                        });
-                        $scope.diarylist[index].giveshow = false;
-                        getComment(data.topicid,0,10,true);
-                        $scope.replyinfo = null;
-                        $scope.diarylist[index].reviewContent = '';
-                    }
-                    $scope.addCommentDld = false;
-                },function(res){
-                    $scope.addCommentDld = false;
-                    console.log(res)
-                });
-            }
-            function getComment(id,form,limit,dir){
-                var index = _.findIndex($scope.diarylist,{"_id":id});
-                userDiary.topic({
-                  "topicid":id,
-                  "from": form,
-                  "limit":limit || 10
-                }).then(function(res){  //获取日记本下所有日志
-                    if(index != -1){
-                        if(dir){
-                            $scope.diarylist[index].review.unshift(res.data.data.comments[0]);
-                        }else{
-                            _.forEach(res.data.data.comments,function(n){
-                                $scope.diarylist[index].review.push(n);
-                            });
-                            _.forEach($scope.diarylist[index].review,function(n){
-                                n.giveshow = false;
-                            });
-                            if($scope.diarylist[index].review.length === res.data.data.total){
-                                $scope.diarylist[index].moveshow = false;
-                            }else{
-                                $scope.diarylist[index].moveshow = res.data.data.total > limit;
-                            }
-                        }
-
-                    }
-                },function(res){
-                    console.log(res)
-                });
-            }
-            $scope.modal = {
-                id : '',
-                show : false,
-                index : '',
-                cancel : function(){
-                    this.show = false;
-                    this.id = '';
-                },
-                define : function(){
-                    var _this = this;
-                    this.show = false;
-                    userDiary.remove({'diaryid':this.id}).then(function(res){  //删除一条日志
-                        if(res.data.msg === "success"){
-                            $scope.diarylist = _.filter($scope.diarylist,function(n){
-                                return n._id != _this.id;
-                            });
-                            _this.id = '';
-                        }
-                    },function(res){
-                        console.log(res)
-                    });
-                },
-                remove :function(id){
-                    this.show = true;
-                    this.id = id;
-                }
-            }
         }]);

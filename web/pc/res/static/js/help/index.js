@@ -6,7 +6,7 @@ require.config({
         cookie : 'lib/jquery.cookie'
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
+require(['jquery','lodash','cookie','utils/common'],function($,_,cookie,common){
     $(function(){
         var user = new common.User();
         user.init();

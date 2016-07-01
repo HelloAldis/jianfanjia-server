@@ -14,28 +14,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/owner.css" />
     <script type="text/javascript" src="/static/js/lib/public.js"></script>
     <script type="text/javascript" src="/static/js/ng/version.min.js"></script>
-    <script type="text/javascript" src="/static/js/lib/webuploader.min.js"></script>
-    <script type="text/javascript" src="/static/js/lib/jquery.mousewheel.min.js"></script>
-    <script>
-        // 检测浏览器是否支持html5上传，来给低版本浏览器做优雅降级；
-        var checkSupport = function(){
-            var input = document.createElement('input');
-            var fileSupport = !!(window.File && window.FileList);
-            var xhr = new XMLHttpRequest();
-            var fd = !!window.FormData;
-            return 'multiple' in input && fileSupport && 'onprogress' in xhr && 'upload' in xhr && fd ? 'html5' : 'flash';
-        };
-        //动态加载图图片上传插件，避免浪费请求数
-        (function() {
-            var _script;
-            if(checkSupport() === 'html5'){
-                _script = "/static/js/lib/jquery.uploadifive.min.js";
-            }else{
-               _script = "/static/js/lib/jquery.uploadify.min.js";
-            }
-            document.write('<script type="text/javascript" src="'+_script+'"><\/script>');
-        })();
-    </script>
+    <script type="text/javascript" src="/static/js/lib/jquery.uploadify.min.js"></script>
     <!--[if lt IE 9]>
         <script type="text/javascript" src="/static/js/lib/ie8.js"></script>
     <![endif]-->
@@ -67,7 +46,6 @@
                 <li><a href="/">首页</a></li>
                 <li><a href="/tpl/design/index.html">设计师</a></li>
                 <li><a href="/tpl/mito/index.html">装修美图 </a></li>
-                <li><a href="/tpl/diary/index.html">装修日记</a></li>
                 <li><a href="/tpl/live/index.html">装修直播</a></li>
                 <li><a href="/tpl/article/index.html">装修攻略</a></li>
                 <li><a href="/tpl/help/index.html">你问我答</a></li>
@@ -95,15 +73,10 @@
                 </dl>
                 <div class="line"></div>
                 <dl>
-                    <dt>我的日记</dt>
-                    <dd ng-class="{active: $state.includes('diary')}"><a ui-sref="diary.list()">日记本</a></dd>
-                </dl>
-                <div class="line"></div>
-                <dl>
                     <dt>我的消息</dt>
                     <dd ng-class="{active: $state.includes('notice.list')}"><a ui-sref="notice.list.type({id:1,type:'4-99',status:undefined})">系统通知<span ng-if="count.notice" ng-bind="count.notice"></span></a></dd>
                     <dd ng-class="{active: $state.includes('remind.list')}"><a ui-sref="remind.list.type({id:1,type:'7-8-13-9-10',status:undefined})">需求提醒<span ng-if="count.remind" ng-bind="count.remind"></span></a></dd>
-                    <dd ng-class="{active: $state.includes('comment.list')}"><a ui-sref="comment.list.type({id:1,type:'5-14',status:undefined})">评论<span ng-if="count.comment" ng-bind="count.comment"></span></a></dd>
+                    <dd ng-class="{active: $state.includes('comment.list')}"><a ui-sref="comment.list({id:1})">评论<span ng-if="count.comment" ng-bind="count.comment"></span></a></dd>
                 </dl>
             </div>
 		</aside>

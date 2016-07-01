@@ -138,8 +138,8 @@ body{
 	border-radius: 3px;
 	min-height: 600px;
 }
-.g-mn .Backdrop .m-ct{
-	border-top: 1px solid #eee;
+.g-mn .Backdrop .m-tt{
+	border-bottom: 1px solid #eee;
 }
 .g-mn .noBackdrop .m-tt{
 	background-color: #fff;
@@ -1116,10 +1116,6 @@ body{
 	margin-right: 5px;
 }
 .m-requirement .tabs{
-	position: relative;
-	z-index: 1;
-	top:-1px;
-	overflow: hidden;
 	height: 45px;
 	padding-left: 19px;
 	line-height: 46px;
@@ -1138,9 +1134,12 @@ body{
 	color: #fe7004;
 }
 .m-requirement .tabs .active{
+	position: relative;
+	margin-top: -1px;
+	z-index: 1;
 	border-top: 3px solid #fe7004;
-	line-height: 42px;
-	height: 42px;
+	line-height: 44px;
+	height: 44px;
 	overflow: hidden;
 	background-color: #fff;
 }
@@ -2525,15 +2524,6 @@ body{
 	white-space:nowrap;
 	overflow:hidden;
 }
-.insertimage .item .queue-item .error{
-	position: absolute;
-	left:0;
-	top:40px;
-	height: 20px;
-	line-height: 20px;
-	padding-left: 10px;
-	color: #ff4a4a;
-}
 .insertimage .item .queue-item .uploading{
 	position: absolute;
 	left:0;
@@ -2824,7 +2814,6 @@ body{
 	left:50%;
 	bottom: 50px;
 	width: 164px;
-	height: 44px;
 	margin-left: -82px;
 	font-size: 16px;
 	line-height: 44px;
@@ -3355,13 +3344,13 @@ img.jcrop-preview {
 .simpleupload .disable{
 	position: absolute;
 	left:0;
-	top:0;
+	top:48px;
 	z-index: 100;
-	background-color: #000;
+	background-color: #fff;
 	opacity: 0;
 	filter: alpha(opacity=0);
 	width: 248px;
-	height: 156px;
+	height: 108px;
 }
 .simpleupload .fileName{
 	display: none;
@@ -3463,23 +3452,10 @@ img.jcrop-preview {
 	line-height: 27px;
 	color: #999;
 }
-.k-uppicbox .simpleupload .pic{
-	height: 120px;
-	background:url(../img/user/headPic.png) center 0 no-repeat;
-}
-.k-uppicbox .simpleupload .fileBtn{
-	width: 120px;
-	height: 120px;
-	left:50%;
-	margin-left: -60px;
-}
 .k-uppicbox .simpleupload .img{
-	display: block;
 	position: static;
 	min-width: 120px;
 	min-height: 120px;
-	border-radius: 120px;
-	margin: 0 auto;
 }
 .k-uppicbox .simpleupload .uploadify-queue{
 	width: 120px;
@@ -3717,22 +3693,16 @@ img.jcrop-preview {
 	overflow: hidden;
 	border-radius: 120px;
 }
-.m-viewinfo .u-img2{
-	width: 600px;
-}
 .m-viewinfo .u-img2 li{
-	width: 168px;
-	margin-right: 20px;
 	padding-bottom: 10px;
-	display: inline-block;
-	vertical-align: top;
 }
 .m-viewinfo .u-img2 img{
-	width: 100%;
-	height: 168px;
+	float: left;
 }
 .m-viewinfo .u-img2 p{
-	width: 100%;
+	float: left;
+	width: 520px;
+	padding-left: 20px;
 	font-size: 14px;
 	line-height: 26px;
 	color: #999;

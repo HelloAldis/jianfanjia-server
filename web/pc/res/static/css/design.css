@@ -221,26 +221,6 @@ body{
 	border: 1px solid #fff;
 	border-radius: 100%;
 }
-.g-sd .interviews .toggle span{
-	position: absolute;
-	top:106px;
-	left:0;
-	width: 26px;
-	height: 45px;
-	cursor: pointer;
-	background: url(../img/index/index-toggle-btn.png) no-repeat 0 0;
-}
-.g-sd .interviews .toggle span:hover{
-	background-position: 0 -45px;
-}
-.g-sd .interviews .toggle span.next{
-	left:auto;
-	right: 0;
-	background-position: -26px 0;
-}
-.g-sd .interviews .toggle span.next:hover{
-	background-position: -26px -45px;
-}
 .g-sd .interviews span.active{
 	background-color: #fff;
 }

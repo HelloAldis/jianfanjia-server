@@ -1,4 +1,4 @@
-define(['jquery','lib/jquery.cookie'], function($,cookie){
+define(['jquery','cookie'], function($){
   var Search = function(){};
   Search.prototype = {
     init : function(options){

@@ -1,4 +1,4 @@
-define(['jquery','lib/jquery.cookie'], function($){
+define(['jquery','lib/cookie'], function($){
 	var User = function(){}
 	User.prototype = {
 		init : function(options){

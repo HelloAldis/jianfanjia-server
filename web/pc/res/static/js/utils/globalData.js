@@ -23,8 +23,8 @@ define(function(){
         },
         work_type : function(input){
             return {
-                "0" : "半包",
-                "1" : "全包",
+                "0" : "设计＋施工(半包)",
+                "1" : "设计＋施工(全包)",
                 "2" : "纯设计"
             }[input]
         },
@@ -73,18 +73,6 @@ define(function(){
             }[input]
         },
         dec_flow : function(input){
-            return {
-                "0" : "量房",
-                "1" : "开工",
-                "2" : "拆改",
-                "3" : "水电",
-                "4" : "泥木",
-                "5" : "油漆",
-                "6" : "安装",
-                "7" : "竣工"
-            }[input]
-        },
-        section_label : function(input){
             return {
                 "0" : "量房",
                 "1" : "开工",

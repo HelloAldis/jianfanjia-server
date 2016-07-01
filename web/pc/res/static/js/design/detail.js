@@ -26,7 +26,7 @@ require(['jquery','lazyload'],function($){
         });
     });
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common','utils/tooltip','lib/jquery.mousewheel.min'],function($,_,cookie,common,Tooltip){
+require(['jquery','lodash','cookie','utils/common','utils/tooltip','lib/jquery.mousewheel.min'],function($,_,cookie,common,Tooltip){
         var LightBox = function(){};
         LightBox.prototype = {
             init : function(pos){

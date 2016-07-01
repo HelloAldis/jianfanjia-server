@@ -105,7 +105,7 @@ define(['jquery'], function($){
 			var self = this;
 			return function(ev){ return self.pageSelected(pageId,ev); }
 		},
-		appendItem : function(pageId, appendopts,np){  //生成按钮
+		appendItem : function(pageId, appendopts,np){  //生成按钮  
 			var lnk;
 			pageId = pageId<0?0:(pageId<np?pageId:np-1); // 规范page id值
 			appendopts = $.extend({text:pageId+1, classes:""}, appendopts||{});
@@ -115,7 +115,7 @@ define(['jquery'], function($){
 				lnk = $("<a>"+(appendopts.text)+"</a>")
 					.on("click", this.getClickHandler(pageId))
 					.addClass('btns')
-					.attr('href', this.settings.linkTo.replace(/__id__/,pageId+1));
+					.attr('href', this.settings.linkTo.replace(/__id__/,pageId+1));		
 			}
 			if(appendopts.classes){lnk.addClass(appendopts.classes);}
 			this.pageBox.append(lnk);
@@ -171,11 +171,68 @@ define(['jquery'], function($){
 		},
 		destroy  : function(){
 			if(!!this.pageBox){
-				this.pageBox.html('');
+				this.pageBox.html(''); 
 			}else{
 				$(this.id).html('');
-			}
+			} 
 		}
 	}
 	return Pageing;
 });
+/*
+	检测浏览器是否支持css3新属性，来给低版本浏览器做优雅降级；
+	placeholder
+*/
+/*;(function(){
+	function Placeholder(options){
+		var self = this;
+		this.settings = {
+			id : null,
+			className : 'label-placeholder'
+		}
+		$.extend(this.settings,options || {});
+		this.element = $(this.settings.id);
+		this.bOff = false;
+		this.placeholder = this.element.attr('placeholder');
+		this.typeArr = ['input','textarea'];
+		if(this.placeholder && this.verify()){
+			this.create()
+		}
+	}
+	Placeholder.prototype = {
+		verify : function(value){
+			this.bOff = (!('placeholder' in document.createElement('input')));
+	 		this.bOff = (!('placeholder' in document.createElement('textarea')));
+	 		return this.bOff
+		},
+		create : function(){
+			var self = this;
+			// 文本框ID
+		    var elementId = self.element.attr('id');
+		    if (!elementId) {
+		        var now = new Date();
+		        elementId = 'lbl_placeholder' + now.getSeconds() + now.getMilliseconds();
+		        self.element.attr('id', elementId);
+		    }
+		    // 添加label标签，用于显示placeholder的值
+		    var $label = $('<label>', {
+		        html: self.element.val() ? '' : placeholder,
+		        'for': elementId
+		    }).insertAfter(self.element).attr('class', 'label-placeholder');
+
+		    // 绑定事件
+		    var _resetPlaceholder = function () {
+		        if (self.element.val()) { $label.html(null); }
+		        else {
+		            $label.html(placeholder);
+		            self.element.attr('placeholder','');
+		        }
+		    }
+		    $label.on('click',function(){
+		    	self.element.focus();
+		    })
+		    self.element.on('focus blur input keyup propertychange resetplaceholder', _resetPlaceholder);
+		}
+	}
+	window["Placeholder"] = Placeholder;
+})(jQuery);*/
