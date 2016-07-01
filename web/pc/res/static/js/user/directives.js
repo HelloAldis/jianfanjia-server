@@ -3118,7 +3118,7 @@ angular.module('directives', [])
                             if(scope.myQuery[index].loading > 0){
                                 scope.myQuery[index].status = '正在上传';
                             }
-                            if(scope.myQuery[index].loading > 100){
+                            if(scope.myQuery[index].loading == 100){
                                 scope.myQuery[index].status = '上传完成';
                             }
                             scope.myQuery[index].progress = scope.myQuery[index].loading+'%';
@@ -3134,9 +3134,12 @@ angular.module('directives', [])
                 });
                 uploader.on( 'uploadError', function( file ) {   //当文件上传出错时触发。
                     //console.log('uploadError：',arguments)
-                    var item = $( '#'+file.id );
-                        item.find('.uploading').addClass('hide');
-                        item.find('.error').html('上传失败');
+                    $timeout(function () {
+                        var index = _.findIndex(scope.myQuery,{'fileid':file.id});
+                        if (index >= 0) {
+                            scope.myQuery[index].errorMsg = '上传失败';
+                        }
+                    }, 0);
                 });
                 uploader.on( 'startUpload', function( file ) {  //当开始上传流程时触发。
                     //console.log('startUpload：',arguments)
