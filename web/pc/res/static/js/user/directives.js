@@ -3025,15 +3025,14 @@ angular.module('directives', [])
             restrict: 'A',
             template: function (obj, attr) {
                 var template = [
-                    '<div class="m-edit-body insertimage">',
                         '<div class="k-uploadbox f-cb">',
                             '<div class="list">',
                                 '<div class="items" ng-repeat="img in myQuery" id="{{img.fileid}}">',
                                     '<div class="queue-items" ng-if="img.loading >= 0 && !img.imageid">',
                                         '<span class="loading" ng-bind="img.loading"></span>',
-                                        '<span class="uploading" ng-if="!img.error"><i class="ing" ng-bind="img.status"></i></span>',
+                                        '<span class="uploading" ng-if="!img.errorMsg"><i class="ing" ng-bind="img.status"></i></span>',
                                         '<span class="filename" ng-bind="img.filename"></span>',
-                                        '<span class="error" ng-bind="img.error"></span>',
+                                        '<span class="error" ng-bind="img.errorMsg" ng-if="img.errorMsg"></span>',
                                         '<span class="progress"><span ng-style="{width:img.progress}"></span></span>',
                                         '<span class="cancel" ng-click="cancel(img.file)"><i class="iconfont">&#xe642;</i></span>',
                                     '</div>',
@@ -3049,9 +3048,8 @@ angular.module('directives', [])
                                     '<div class="tips" id="uploadify"></div>',
                                 '</div>',
                             '</div>',
-                        '</div>',
-                    '</div>'
-                ];
+                        '</div>'
+                    ];
                 return template.join('');
             },
             link: function (scope, iElm, iAttrs, controller) {
