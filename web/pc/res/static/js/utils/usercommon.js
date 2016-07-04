@@ -509,7 +509,7 @@ var Search = function(){}
             'sclass' : 'supervise',
             'url'  : '/zt/supervision/index.html',
             'icon' : '&#xe635;',
-            'hover' : '',
+            'hover' : ''
           },
           {
             'name' : '关注微信',

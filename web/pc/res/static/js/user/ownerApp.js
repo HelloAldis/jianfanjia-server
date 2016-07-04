@@ -164,7 +164,7 @@
                 })
                 .state('diary', {
                     url: '/diary',
-                    template: '<div ui-view></div>',
+                    template: '<div ui-view></div>'
                 })
                 .state('diary.list', {
                     url: '/list',

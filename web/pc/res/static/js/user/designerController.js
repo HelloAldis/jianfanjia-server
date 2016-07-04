@@ -1,4 +1,105 @@
 'use strict';
+/**
+ * [Upload description]
+ * @param {[type]} element 支持id 写法'#id';
+ * @param {[type]} options [后续处理]
+ */
+function Upload(element,options){
+    this.uploaderUid = 0;
+    this.uploader = null;
+    this.init(element,options);
+}
+Upload.DEFAULT = {
+    server : '/api/v2/web/image/upload',    //上传的后台地址
+    fileNumLimit : 100,     //允许上传100张图片
+    fileSingleSizeLimit : 3 * 1024 * 1024,      // 3 M 单个文件大小
+    fileQueued : function(file){},      //当文件被加入队列以后触发   file  文件对象
+    uploadProgress  : function(file, percentage){},     //上传过程中触发，携带上传进度。  file  文件对象    percentage 上传进度信息
+    uploadSuccess : function(file , data){},      //当文件上传成功时触发。   file  文件对象    data 返回的数据
+    uploadError : function(file){},      //当文件上传出错时触发。  file  文件对象
+    startUpload :　function(file){},     //当开始上传流程时触发。   file  文件对象
+    error   : function(error){},     //当validate不通过时  返回信息： F_EXCEED_SIZE  图片大小超出限制  F_DUPLICATE 图片已经上传过
+    uploadFinished : function(file){},   //当所有文件上传结束时触发。  返回 [];
+    uploadComplete : function(file){},   //不管成功或者失败，文件上传完成时触发。
+}
+Upload.prototype.init = function(element,options) {
+    this.$element = $(element);
+    this.options = this.getOptions(options);
+    console.log(this.options);
+    this.create(element, this.options);
+};
+Upload.prototype.getOptions = function(options){
+    return angular.extend({}, this.getDefaults(), options);
+}
+Upload.prototype.getDefaults = function(){
+    return Upload.DEFAULT;
+}
+Upload.prototype.create = function(element,options){
+    var _this = this;
+    /*pick   id {Seletor|dom} 指定选择文件的按钮容器，不指定则不创建按钮。注意 这里虽然写的是 id, 但是不是只支持 id, 还支持 class, 或者 dom 节点。
+    label {String} 请采用 innerHTML 代替
+    innerHTML {String} 指定按钮文字。不指定时优先从指定的容器中看是否自带文字。
+    multiple {Boolean} 是否开起同时选择多个文件能力。*/
+    this.uploader = new WebUploader.Uploader({
+        pick: {
+            id: element,
+            innerHTML : '图片上传',
+            multiple : true
+        },
+        paste: document.body,
+        accept: {
+            title: 'Images',
+            extensions: 'jpg,jpeg,png',
+            mimeTypes: 'image/*'
+        },
+        'method': 'post',
+        'timeout' : 4 * 60 * 1000,    // 3分钟
+        'fileVal' : 'Filedata',
+        'auto': true, //自动上传
+        //'runtimeOrder':'flash',   //  [默认值：html5,flash] 指定运行时启动顺序 调试用
+        // swf文件路径
+        swf: '/static/js/lib/Uploader.swf',
+        disableGlobalDnd: true,
+        chunked: true,
+        server: this.options.server,
+        fileNumLimit: this.options.fileNumLimit,    //允许上传100张图片
+        fileSingleSizeLimit: this.options.fileSingleSizeLimit    // 3 M 单个文件大小
+    });
+    this.uploader.addButton({
+        id: element,
+        innerHTML : '图片上传',
+        multiple : true
+    });
+    this.uploader.reset();
+    this.uploader.on( 'fileQueued', function( file ) {   //当文件被加入队列以后触发。
+        _this.uploaderUid ++;
+        _this.options.fileQueued(file);
+    });
+    this.uploader.on( 'uploadProgress', function( file, percentage ) {  //上传过程中触发，携带上传进度。
+        _this.options.uploadProgress(file, percentage);
+    });
+    this.uploader.on( 'uploadSuccess', function( file , data) {  //当文件上传成功时触发。
+        _this.options.uploadSuccess(file);
+    });
+    this.uploader.on( 'uploadError', function( file ) {   //当文件上传出错时触发。
+        _this.options.uploadError(file);
+    });
+    this.uploader.on( 'startUpload', function( file ) {  //当开始上传流程时触发。
+       _this.options.startUpload(file);
+    });
+    this.uploader.on('error',function(error){   //当validate不通过时
+        _this.options.error(error);
+    });
+    this.uploader.on( 'uploadFinished', function( file ) {   //当所有文件上传结束时触发。
+        _this.options.uploadFinished(file);
+    });
+    this.uploader.on( 'uploadComplete', function( file ) {   //不管成功或者失败，文件上传完成时触发。
+        _this.options.uploadComplete(file);
+    });
+}
+Upload.prototype.destroy = function(){
+    this.uploader.destroy();
+};
 angular.module('controllers', [])
     .controller('designerController', [    //所有设计师资料
         '$scope','$location','$state','userInfo','userMessage',function($scope, $location,$state,userInfo,userMessage) {

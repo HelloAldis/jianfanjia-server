@@ -60,6 +60,23 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
             this.hot(5);
         },
         addDiary : function(){
+            // 检测是否已经安装flash，检测flash的版本
+            var flashVersion = (function() {
+                var version;
+                try {
+                    version = navigator.plugins[ 'Shockwave Flash' ];
+                    version = version.description;
+                } catch ( ex ) {
+                    try {
+                        version = new ActiveXObject('ShockwaveFlash.ShockwaveFlash')
+                                .GetVariable('$version');
+                    } catch ( ex2 ) {
+                        version = '0.0';
+                    }
+                }
+                version = version.match( /\d+/g );
+                return parseFloat( version[ 0 ] + '.' + version[ 1 ], 10 );
+            })();
             var diary = {
                     "diarySetid": "",
                     "content":"",
@@ -242,6 +259,10 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                 });
             });
             function upload(o){
+                if(WebUploader.browser.ie && !flashVersion){
+                    alert('您的浏览器没有安装flash插件，或者flash版本过低，请及时更新。');
+                    return ;
+                }
                 var uploaderUid = 0;
                 uploader = WebUploader.create({
                     pick: {

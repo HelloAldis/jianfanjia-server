@@ -1985,23 +1985,37 @@ body{
 .k-modal.addbg .upload{
 	position: relative;
 	border: 1px solid #d2d2d2;
+	background-color: #f9f9f9;
 }
-.k-modal.addbg .upload .swfupload{
-	left: 0;
-	top:0;
+.k-modal.addbg .fileBtn{
+	position: relative;
+    height: 28px;
+    width: 78px;
+    line-height: 28px;
+    cursor: pointer;
+    background-color: #fff;
+}
+.k-modal.addbg .fileBtn > div{
+	width: 100% !important;
+	height: 100% !important;
+}
+.k-modal.addbg .fileBtn input[type='file']{
+    display: none;
 }
 .k-modal.addbg .upload .file{
 	position: absolute;
-	right: 0;
+	left: 78px;
 	top: 0;
-	width: 395px;
+	width: 380px;
 	height: 28px;
 	padding-left: 10px;
 	line-height: 28px;
 	color: #61687a;
 	text-align: left;
-	background-color: #f9f9f9;
 	border-left: 1px solid #d2d2d2;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow:hidden;
 }
 .k-modal.addbg .upload .disable{
 	position: absolute;

@@ -539,6 +539,23 @@ Tooltip.prototype.destroy = function () {
     }
     window.Select = Select;
 })();
+// 检测是否已经安装flash，检测flash的版本
+var flashVersion = (function() {
+    var version;
+    try {
+        version = navigator.plugins[ 'Shockwave Flash' ];
+        version = version.description;
+    } catch ( ex ) {
+        try {
+            version = new ActiveXObject('ShockwaveFlash.ShockwaveFlash')
+                    .GetVariable('$version');
+        } catch ( ex2 ) {
+            version = '0.0';
+        }
+    }
+    version = version.match( /\d+/g );
+    return parseFloat( version[ 0 ] + '.' + version[ 1 ], 10 );
+})();
 // 公用指令
 angular.module('directives', [])
     .directive('myRadio', ['initData', function (initData) {     //自定义复选框
@@ -864,13 +881,13 @@ angular.module('directives', [])
     }])
     .directive('myServicecities', ['$timeout', 'initData', function ($timeout, initData) {     //自定义地区选择控件
         return {
-            replace: true,
-            scope: {
-                myProvince: "=",
-                myCity: "=",
-                myDistrictarr: "="
+            "replace": true,
+            "scope": {
+                "myProvince": "=",
+                "myCity": "=",
+                "myDistrictarr": "="
             },
-            restrict: 'A',
+            "restrict": "A",
             template: function () {
                 return [
                     '<div>',
@@ -1042,15 +1059,15 @@ angular.module('directives', [])
     }])
     .directive('mySimpleupload', ['$timeout',function ($timeout) { //单个图片上传
         return {
-            restrict: 'A',
-            scope: {
-                myId : '@',
-                myWidth : '@',
-                myHeight : '@',
-                myQuery: "=",
-                myLoading : "="
+            "restrict" : 'A',
+            "scope" : {
+                "myId" : "@",
+                "myWidth" : "@",
+                "myHeight" : "@",
+                "myQuery" : "=",
+                "myLoading" : "="
             },
-            template : '<div class="simpleupload card-upload">\
+            "template": '<div class="simpleupload card-upload">\
                             <div class="queue-item" ng-if="uploader.loading >= 0 && uploader.show">\
                                 <span class="loading" ng-if="!uploader.errorMsg" ng-bind="uploader.loading">0</span>\
                                 <span class="uploading" ng-if="!uploader.errorMsg"><i class="ing" ng-bind="uploader.status"></i></span>\
@@ -1060,14 +1077,13 @@ angular.module('directives', [])
                             </div>\
                             <div class="create">\
                                 <div class="fileBtn" id="{{myId}}"></div>\
-                                <img class="img" ng-src="/api/v2/web/thumbnail2/{{myWidth}}/{{myHeight}}/{{myQuery}}"\
-                                     ng-if="myQuery" alt=""/>\
+                                <img class="img" ng-src="/api/v2/web/thumbnail2/{{myWidth}}/{{myHeight}}/{{myQuery}}" ng-if="myQuery" alt=""/>\
                                 <div class="tips"><span><em></em><i></i></span>\
                                     <p>请上传3M以内jpg/png格式的图片</p></div>\
                             </div>\
                             <div class="disable" ng-if="myLoading"></div>\
                         </div>',
-            link: function (scope, iElm, iAttrs, controller) {
+            "link" : function (scope, iElm, iAttrs, controller) {
                 var $cropMask = $('#j-cropMask'),
                     $cropBox = $('#j-cropBox'),
                     $cropCancel = $('#crop-cancel'),
@@ -1080,30 +1096,38 @@ angular.module('directives', [])
                     $winH = 0,
                     obj = angular.element(iElm),
                     recordImgId = scope.myQuery;
+                    scope.uploader = null;
+                if(WebUploader.browser.ie && !flashVersion){
+                    alert('您的浏览器没有安装flash插件，或者flash版本过低，请及时更新。');
+                    return ;
+                }
                 var uploader = new WebUploader.Uploader({
-                    pick: {
-                        id: obj.find('.fileBtn'),
-                        label: '',
-                    },
-                    paste: document.body,
-                    accept: {
-                        title: 'Images',
-                        extensions: 'jpg,jpeg,png',
-                        mimeTypes: 'image/*'
-                    },
-                    'method': 'post',
-                    'timeout' : 4 * 60 * 1000,    // 3分钟
-                    'fileVal' : 'Filedata',
-                    'auto': true, //自动上传
-                    'runtimeOrder':'flash',   //  [默认值：html5,flash] 指定运行时启动顺序 调试用
-                    // swf文件路径
-                    swf: '/static/js/lib/Uploader.swf',
-                    disableGlobalDnd: true,
-                    chunked: true,
-                    server: '/api/v2/web/image/upload',
-                    fileNumLimit: 1,    //允许上传1张图片
-                    fileSingleSizeLimit: 3 * 1024 * 1024    // 3 M 单个文件大小
+                        "pick": {
+                            "id": obj.find('.fileBtn'),
+                            "label": ""
+                        },
+                        "paste": document.body,
+                        "accept": {
+                            "title": "Images",
+                            "extensions": "jpg,jpeg,png",
+                            "mimeTypes": "image/*"
+                        },
+                        "method": "post",
+                        "timeout" : 240000,
+                        "fileVal" : "Filedata",
+                        "auto": true,
+                        "swf": "/static/js/lib/Uploader.swf",
+                        "disableGlobalDnd": true,
+                        "chunked": true,
+                        "server": "/api/v2/web/image/upload",
+                        "fileNumLimit": 1,
+                        "fileSingleSizeLimit": 3145728
+                    });
+                uploader.addButton({
+                    id: obj.find('.fileBtn'),
+                    label: ''
                 });
+                uploader.reset();
                 uploader.on( 'fileQueued', function( file ) {   //当文件被加入队列以后触发。
                     $timeout(function () {
                         scope.uploader = {
@@ -1337,6 +1361,10 @@ angular.module('directives', [])
                 var type = scope.myType;
                 var obj = angular.element(iElm);
                 scope.arr =  angular.copy(scope.myQuery);
+                if(WebUploader.browser.ie && !flashVersion){
+                    alert('您的浏览器没有安装flash插件，或者flash版本过低，请及时更新。');
+                    return ;
+                }
                 var uploaderUid = 0;
                 var uploader = new WebUploader.Uploader({
                     pick: {
@@ -1354,7 +1382,7 @@ angular.module('directives', [])
                     'timeout' : 4 * 60 * 1000,    // 3分钟
                     'fileVal' : 'Filedata',
                     'auto': true, //自动上传
-                    'runtimeOrder':'flash',   //  [默认值：html5,flash] 指定运行时启动顺序 调试用
+                    //'runtimeOrder':'flash',   //  [默认值：html5,flash] 指定运行时启动顺序 调试用
                     // swf文件路径
                     swf: '/static/js/lib/Uploader.swf',
                     disableGlobalDnd: true,
@@ -1362,6 +1390,12 @@ angular.module('directives', [])
                     server: '/api/v2/web/image/upload',
                     fileNumLimit: 100,    //允许上传100张图片
                     fileSingleSizeLimit: 3 * 1024 * 1024    // 3 M 单个文件大小
+                });
+                uploader.reset();
+                uploader.addButton({
+                    id: obj.find('.fileBtn'),
+                    label: '',
+                    multiple : true
                 });
                 uploader.on( 'fileQueued', function( file ) {   //当文件被加入队列以后触发。
                     uploaderUid ++;
@@ -1608,6 +1642,10 @@ angular.module('directives', [])
             link: function (scope, iElm, iAttrs, controller) {
                 var type = scope.myType;
                 var obj = angular.element(iElm);
+                if(WebUploader.browser.ie && !flashVersion){
+                    alert('您的浏览器没有安装flash插件，或者flash版本过低，请及时更新。');
+                    return ;
+                }
                 var uploaderUid = 0;
                 var uploader = new WebUploader.Uploader({
                     pick: {
@@ -1625,7 +1663,7 @@ angular.module('directives', [])
                     'timeout' : 4 * 60 * 1000,    // 3分钟
                     'fileVal' : 'Filedata',
                     'auto': true, //自动上传
-                    'runtimeOrder':'flash',   //  [默认值：html5,flash] 指定运行时启动顺序 调试用
+                    //'runtimeOrder':'flash',   //  [默认值：html5,flash] 指定运行时启动顺序 调试用
                     // swf文件路径
                     swf: '/static/js/lib/Uploader.swf',
                     disableGlobalDnd: true,
@@ -1633,6 +1671,12 @@ angular.module('directives', [])
                     server: '/api/v2/web/image/upload',
                     fileNumLimit: 100,    //允许上传100张图片
                     fileSingleSizeLimit: 3 * 1024 * 1024    // 3 M 单个文件大小
+                });
+                uploader.reset();
+                uploader.addButton({
+                    id: obj.find('.fileBtn'),
+                    label: '',
+                    multiple : true
                 });
                 uploader.on( 'fileQueued', function( file ) {   //当文件被加入队列以后触发。
                     uploaderUid ++;
@@ -1706,6 +1750,7 @@ angular.module('directives', [])
                 });
                 uploader.on( 'uploadFinished', function( file ) {   //当所有文件上传结束时触发。
                     //console.log('uploadFinished：',arguments)
+                    obj.find('.disable').remove();
                 });
                 uploader.on( 'uploadComplete', function( file ) {   //不管成功或者失败，文件上传完成时触发。
                     //console.log('uploadComplete：',file)
@@ -1747,9 +1792,14 @@ angular.module('directives', [])
                 }
                 scope.cancel = function (file) {
                     uploader.cancelFile( file );
+
                     $timeout(function () {
+                        if(uploaderUid-- == 1){
+                            scope.myComplete = false;
+                            scope.myLoading = false;
+                        }
                         scope.myQuery = _.remove(scope.myQuery, function(n) {
-                            return n.fileid != fileid;
+                            return n.fileid != file.id;
                         });
                     }, 0);
                 }
@@ -1787,12 +1837,10 @@ angular.module('directives', [])
                 };
                 function bigImg(id) {
                     var modat = '<div class="modal-dialog"><span class="close"><i class="iconfont">&#xe642;</i></span>';
-                    if (type == 'edit') {
-                        if (id === scope.myCover) {
-                            modat += '<span class="settes" style="cursor:default;">已设为封面</span>';
-                        } else {
-                            modat += '<span class="settes" style="color: #fff">设为封面</span>';
-                        }
+                    if (id === scope.myCover) {
+                        modat += '<span class="settes" style="cursor:default;">已设为封面</span>';
+                    } else {
+                        modat += '<span class="settes" style="color: #fff">设为封面</span>';
                     }
                     modat += '<img class="img" src="" /></div>';
                     var $modal = $('<div class="k-modal viewImg" id="j-modal">' + modat + '</div>'),
@@ -1880,6 +1928,7 @@ angular.module('directives', [])
                                 '<div class="pic" id="create">',
                                     '<div class="fileBtn" id="{{myId}}"></div>',
                                     '<div class="tips"><span><em></em><i></i></span><p>平面图上传每张3M以内<br>jpg/png格式</p></div>',
+                                    '<div class="disable" ng-if="myLoading"></div>',
                                 '</div>',
                             '</div>'
                     ]
@@ -1888,13 +1937,10 @@ angular.module('directives', [])
             link: function (scope, iElm, iAttrs, controller) {
                 var obj = angular.element(iElm);
                 var uploadbox = obj.find('.k-uploadbox .list');
-                var Loading = scope.$watch('myLoading',function(value){
-                    if(value){
-                        obj.find('.pic').append('<div class="disable"></div>');
-                    }else{
-                        obj.find('.disable').remove();
-                    }
-                });
+                if(WebUploader.browser.ie && !flashVersion){
+                    alert('您的浏览器没有安装flash插件，或者flash版本过低，请及时更新。');
+                    return ;
+                }
                 var uploaderUid = 0;
                 var uploader = new WebUploader.Uploader({
                     pick: {
@@ -1912,7 +1958,7 @@ angular.module('directives', [])
                     'timeout' : 4 * 60 * 1000,    // 3分钟
                     'fileVal' : 'Filedata',
                     'auto': true, //自动上传
-                    'runtimeOrder':'flash',   //  [默认值：html5,flash] 指定运行时启动顺序 调试用
+                    //'runtimeOrder':'flash',   //  [默认值：html5,flash] 指定运行时启动顺序 调试用
                     // swf文件路径
                     swf: '/static/js/lib/Uploader.swf',
                     disableGlobalDnd: true,
@@ -1922,7 +1968,11 @@ angular.module('directives', [])
                     fileSingleSizeLimit: 3 * 1024 * 1024    // 3 M 单个文件大小
                 });
                 uploader.reset();
-                console.log(uploader)
+                uploader.addButton({
+                    id: obj.find('.fileBtn'),
+                    label: '',
+                    multiple : true
+                });
                 var str = '<div class="queue-item">\
                             <span class="loading">0</span>\
                             <span class="uploading"><i class="ing">等待...</i></span>\
@@ -2077,7 +2127,6 @@ angular.module('directives', [])
                 });
                 scope.$on('$destroy', function () {
                     uploader.destroy();
-                    Loading();   //释放监听
                 });
                 uploadbox.on('click', '.view', function(event) {
                     event.preventDefault();
@@ -3098,6 +3147,7 @@ angular.module('directives', [])
                             '</div>',
                                 '<div class="pic" id="create">',
                                     '<div class="tips" id="uploadify"></div>',
+                                    '<div class="disable" ng-if="myLoading"></div>',
                                 '</div>',
                             '</div>',
                         '</div>'
@@ -3107,14 +3157,10 @@ angular.module('directives', [])
             link: function (scope, iElm, iAttrs, controller) {
                 var id = iAttrs.id;
                 var obj = angular.element(iElm);
-                var Loading = scope.$watch('myLoading',function(value){
-                    if(value){
-                        obj.find('.pic').append('<div class="disable"></div>');
-                    }else{
-                        obj.find('.disable').remove();
-                    }
-                });
-                var uploaderQueued = []
+                if(WebUploader.browser.ie && !flashVersion){
+                    alert('您的浏览器没有安装flash插件，或者flash版本过低，请及时更新。');
+                    return ;
+                }
                 var uploaderUid = 0;
                 var uploader = new WebUploader.Uploader({
                     pick: {
@@ -3132,7 +3178,7 @@ angular.module('directives', [])
                     'timeout' : 4 * 60 * 1000,    // 3分钟
                     'fileVal' : 'Filedata',
                     'auto': true, //自动上传
-                    'runtimeOrder':'flash',   //  [默认值：html5,flash] 指定运行时启动顺序 调试用
+                    //'runtimeOrder':'flash',   //  [默认值：html5,flash] 指定运行时启动顺序 调试用
                     // swf文件路径
                     swf: '/static/js/lib/Uploader.swf',
                     disableGlobalDnd: true,
@@ -3141,12 +3187,16 @@ angular.module('directives', [])
                     fileNumLimit: 9,    //允许上传9张图片
                     fileSingleSizeLimit: 3 * 1024 * 1024    // 3 M 单个文件大小
                 });
+                uploader.addButton({
+                        id: '#'+id,
+                        label: '',
+                        multiple : true
+                    });
                 uploader.reset();
                 uploader.on( 'fileQueued', function( file ) {   //当文件被加入队列以后触发。
                     $timeout(function () {
                         if(scope.myQuery.length < 9){
                             uploaderUid ++;
-                            uploaderQueued.push(file)
                             scope.myQuery.push({
                                 file : file,
                                 fileid : file.id,
@@ -3269,7 +3319,6 @@ angular.module('directives', [])
                 }
                 scope.$on('$destroy', function () {
                     uploader.destroy();
-                    Loading();   //释放监听
                 });
             }
         };

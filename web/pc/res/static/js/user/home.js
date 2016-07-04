@@ -4,10 +4,10 @@ require.config({
         jquery: 'lib/jquery',
         lodash: 'lib/lodash',
         cookie: 'lib/jquery.cookie',
-        uploadify: 'lib/jquery.uploadify.min'
+        webuploader: 'lib/webuploader.min'
     },
     shim   : {
-        'uploadify': {
+        'webuploader': {
             deps: ['jquery']
         }
     }
@@ -16,7 +16,7 @@ require(['jquery', 'index/search'], function ($, Search) {
     var search = new Search();
     search.init();
 });
-require(['jquery', 'lib/jquery.cookie', 'utils/common', 'utils/tooltip','uploadify'], function ($, cookie, common, Tooltip,uploadify) {
+require(['jquery', 'lib/jquery.cookie', 'utils/common', 'utils/tooltip','lib/webuploader.min'], function ($, cookie, common, Tooltip,WebUploader) {
     var Home = function () {};
     Home.prototype = {
         init: function () {
@@ -125,6 +125,27 @@ require(['jquery', 'lib/jquery.cookie', 'utils/common', 'utils/tooltip','uploadi
             });
         },
         upload : function () {
+            // 检测是否已经安装flash，检测flash的版本
+            var flashVersion = (function() {
+                var version;
+                try {
+                    version = navigator.plugins[ 'Shockwave Flash' ];
+                    version = version.description;
+                } catch ( ex ) {
+                    try {
+                        version = new ActiveXObject('ShockwaveFlash.ShockwaveFlash')
+                                .GetVariable('$version');
+                    } catch ( ex2 ) {
+                        version = '0.0';
+                    }
+                }
+                version = version.match( /\d+/g );
+                return parseFloat( version[ 0 ] + '.' + version[ 1 ], 10 );
+            })();
+            if(WebUploader.browser.ie && !flashVersion){
+                alert('您的浏览器没有安装flash插件，或者flash版本过低，请及时更新。');
+                return ;
+            }
             var _this = this;
             var modat = '<div class="modal-dialog">\
                           <div class="modal-content">\
@@ -136,11 +157,7 @@ require(['jquery', 'lib/jquery.cookie', 'utils/common', 'utils/tooltip','uploadi
                             </div>\
                             <div class="modal-body">\
                                <div class="upload">\
-                                    <div id="fileToUpload" class="fileBtn">\
-                                        <input class="hide" id="fileToUpload" type="file" name="upfile">\
-                                        <input type="hidden" id="sessionId" value="${pageContext.session.id}" />\
-                                        <input type="hidden" value="1215154" name="tmpdir" id="id_file">\
-                                    </div>\
+                                    <div id="fileToUpload" class="fileBtn"></div>\
                                     <p class="file"></p>\
                                </div>\
                                <div class="progress"><span>0%</span><div class="progress-in"></div></div>\
@@ -161,94 +178,108 @@ require(['jquery', 'lib/jquery.cookie', 'utils/common', 'utils/tooltip','uploadi
             $backdrop.fadeIn();
             this.body.append($modal);
             $modal.fadeIn();
-            var loadId;
-            $('#fileToUpload').uploadify({
-                'auto': false, //自动上传
-                'removeTimeout': 1,
-                'swf': '/tpl/user/uploadify.swf',
-                'uploader': '/api/v2/web/image/upload',  //上传的api
+            var loadId,uploadData;
+            uploader = WebUploader.create({
+                pick: {
+                    id: '#fileToUpload',
+                    innerHTML : '选择文件'
+                },
+                paste: document.body,
+                accept: {
+                    title: 'Images',
+                    extensions: 'jpg,jpeg,png',
+                    mimeTypes: 'image/*'
+                },
                 'method': 'post',
-                'buttonText': '选择文件',
-                'fileObjName': 'Filedata',
-                'multi': true,  //一次只能选择一个文件
-                'queueSizeLimit': 1,
-                'width': 76,
-                'height': 28,
-                'fileTypeDesc': 'Image Files',
-                'fileTypeExts': '*.jpeg;*.jpg;*.png', //文件类型选择限制
-                'fileSizeLimit': '5MB',  //上传最大文件限制
-                'onSelect': function (file) {
-                    loadId = file.id;
-                    console.log(loadId)
-                    $modal.find('.file').html(file.name);
-                    $modal.find('.progress').show();
-                    $('#fileToUpload').uploadify('disable', true);
-                    $modal.find('.error').show();
-                    $modal.find('.upload').append('<div class="disable"></div>');
-                },
-                'onUploadStart': function (file) {
-
-                },
-                'onUploadSuccess': function (file, data, response) {
-                    callbackImg(data);
-                },
-                'onUploadError': function (file, errorCode, errorMsg, errorString) {
-                    if (errorMsg === '500' && errorCode === -200) {
-                        $modal.find('.error').find('p').html('上传超时，请重新上传');
-                        $modal.find('.error').show();
-                    }
-                },
-                'onCancel': function () {
-                    $('#fileToUpload').uploadify('disable', false);
-                    $modal.find('.error').hide();
-                    $modal.find('.error').find('p').html('上传取消');
-                    $modal.find('.progress').hide();
-                    $modal.find('.file').html('');
-                    $modal.find('.progress-in').css('width','0%');
-                    $modal.find('.progress').find('span').html('0%');
-                    $modal.find('.disable').remove();
-                },
-                'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
-                    var loading = parseInt(bytesUploaded / bytesTotal * 100, 10) + '%';
+                'timeout' : 4 * 60 * 1000,    // 3分钟
+                'fileVal' : 'Filedata',
+                //'runtimeOrder':'flash',   //  [默认值：html5,flash] 指定运行时启动顺序 调试用
+                // swf文件路径
+                swf : '/static/js/lib/Uploader.swf',
+                disableGlobalDnd: true,
+                chunked: true,
+                server: '/api/v2/web/image/upload',
+                fileNumLimit: 1,    //允许上传9张图片
+                fileSingleSizeLimit: 3 * 1024 * 1024    // 3 M 单个文件大小
+            });
+            uploader.on( 'fileQueued', function( file ) {   //当文件被加入队列以后触发。
+                loadId = file.id;
+                console.log(loadId)
+                $modal.find('.file').html(file.name);
+                $modal.find('.progress').show();
+                $modal.find('.error').show();
+                $modal.find('.upload').append('<div class="disable"></div>');
+            });
+            uploader.on( 'uploadProgress', function( file, percentage ) {  //上传过程中触发，携带上传进度。
+                var loading = parseInt(percentage * 100, 10) + '%';
                     $modal.find('.progress-in').css('width',loading);
                     $modal.find('.progress').find('span').html(loading);
+             });
+            uploader.on( 'uploadSuccess', function( file , data) {  //当文件上传成功时触发。
+                callbackImg(data.data);
+            });
+            uploader.on( 'uploadError', function( file ) {   //当文件上传出错时触发。
+                $modal.find('.error').find('p').html('上传错误，请重新上传');
+                $modal.find('.error').show();
+            });
+            uploader.on('error',function(error){   //当validate不通过时
+                if(error === 'F_EXCEED_SIZE'){
+                    alert('图片大小超出限制。');
+                }
+                if(error === 'F_DUPLICATE'){
+                    alert('图片已经上传过了，请不要重复上传。');
                 }
             });
-            $modal.find('.define').on('click', function (ev) {
-                ev.preventDefault();
-                $('#fileToUpload').uploadify('upload','*');
+            uploader.on( 'uploadComplete', function( file ) {   //不管成功或者失败，文件上传完成时触发。
+                $modal.find('.disable').remove();
             });
-            function hide() {
-                $modal.remove();
-                $backdrop.remove();
-                $('#fileToUpload').uploadify('cancel',loadId);
-                $('#fileToUpload').uploadify('destroy');
-                loadId = null;
-            }
-            $modal.find('.cancel').on('click', function (ev) {
-                ev.preventDefault();
-                hide();
-            });
-            $modal.find('.cancelupload').on('click', function (ev) {
-                ev.preventDefault();
-                $('#fileToUpload').uploadify('cancel',loadId);
+            $modal.on('click', '.cancelupload', function() {    //取消上传
+                uploader.cancelFile( loadId );
+                $modal.find('.error').hide();
+                $modal.find('.error').find('p').html('上传取消');
+                $modal.find('.progress').hide();
+                $modal.find('.file').html('');
+                $modal.find('.progress-in').css('width','0%');
+                $modal.find('.progress').find('span').html('0%');
+                $modal.find('.disable').remove();
+                $modal.find('.define').removeClass('u-btns-disabled');
                 loadId = null;
             });
             $modal.find('.close').on('click', function (ev) {
                 ev.preventDefault();
                 hide();
             });
-            function callbackImg(arr) {
-                var data = $.parseJSON(arr);
-                $('#fileToUpload').uploadify('destroy');
-                _this.home.find('.m-potter-banner').css('backgroundImage','url(/api/v2/web/thumbnail2/1920/420/'+data.data+')');
+            $modal.find('.define').on('click', function (ev) {    //开始上传
+                ev.preventDefault();
+                if($(this).hasClass('u-btns-disabled') || !loadId){
+                    return ;
+                }
+                uploader.upload(loadId);
+                $(this).addClass('u-btns-disabled');
+            });
+            function hide() {
+                $modal.remove();
+                $backdrop.remove();
+                loadId = null;
+            }
+            $modal.find('.cancel').on('click', function (ev) {
+                ev.preventDefault();
+                hide();
+            });
+            $modal.find('.close').on('click', function (ev) {
+                ev.preventDefault();
+                hide();
+            });
+            function callbackImg(data) {
+                uploader.removeFile(loadId);
+                _this.home.find('.m-potter-banner').css('backgroundImage','url(/api/v2/web/thumbnail2/1920/420/'+data+')');
                 $.ajax({
                     url:'/api/v2/web/designer/no_review_info',
                     type: 'POST',
                     contentType : 'application/json; charset=utf-8',
                     dataType: 'json',
                     data : JSON.stringify({
-                        big_imageid : data.data
+                        big_imageid : data
                     }),
                     processData : false
                 });
