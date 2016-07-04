@@ -9,9 +9,9 @@ const iosDesignerAgent = 'jianfanjia-designer';
 
 module.exports = function (req, res, next) {
   let agent = req.get('User-Agent');
-  if (agent.indexOf(androidUserAppAgent) >= 0 || agent.indexOf(androidDesignerAppAgent) >= 0) {
+  if (agent && (agent.indexOf(androidUserAppAgent) >= 0 || agent.indexOf(androidDesignerAppAgent) >= 0)) {
     req.platform_type = type.platform_android;
-  } else if (agent.indexOf(iosUserAppAgent) >= 0 || agent.indexOf(iosDesignerAgent) >= 0) {
+  } else if (agent && (agent.indexOf(iosUserAppAgent) >= 0 || agent.indexOf(iosDesignerAgent) >= 0)) {
     req.platform_type = type.platform_ios;
   } else {
     req.platform_type = type.platform_pc;

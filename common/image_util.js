@@ -1,6 +1,8 @@
 'use strict'
 
-const gm = require('gm');
+const gm = require('gm').subClass({
+  nativeAutoOrient: true
+});
 const path = require('path');
 
 const plan_image = path.resolve(__dirname, '../res/plan.jpeg');
@@ -22,7 +24,7 @@ exports.crop2buffer = function (buffer, width, hight, x, y, callback) {
 }
 
 exports.jpgbuffer = function (buffer, callback) {
-  gm(buffer).density(72, 72).quality(80).colorspace('RGB').compress('JPEG').interlace('Line').toBuffer('JPEG', callback);
+  gm(buffer).density(72, 72).quality(80).colorspace('RGB').compress('JPEG').interlace('Line').autoOrient().toBuffer('JPEG', callback);
 }
 
 exports.watermark = function (buffer, callback) {
