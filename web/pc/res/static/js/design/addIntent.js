@@ -1,12 +1,4 @@
-define(['jquery','lib/jquery.cookie','utils/common','lib/jquery.fly.min'],function($,cookie,common){
-    var user = new common.User();
-    user.init();
-    var goto = new common.Goto;
-        goto.init({
-                    shop : true
-                })
-    var user = new common.User();
-        user.init();
+define(['jquery','lib/jquery.cookie','lib/jquery.fly.min'],function($,cookie,common){
     var AddIntent = function(){}
     AddIntent.prototype.init = function(){
         this.bindEvent();
