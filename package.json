@@ -1,6 +1,6 @@
 {
   "name": "jianfanjia",
-  "version": "2.9.13",
+  "version": "2.9.14",
   "repository": {
     "type": "git",
     "url": "https://github.com/adminJyz/jianfanjia-server.git"
@@ -61,6 +61,11 @@
     "minimist": "1.2.0",
     "run-sequence": "1.1.5",
     "gulp-concat": "2.6.0",
-    "through2": "2.0.1"
+    "through2": "2.0.1",
+    "connect-modrewrite": "0.9.0",
+    "gulp-connect": "4.1.0",
+    "proxy-middleware": "0.15.0",
+    "gulp-watch": "4.3.8",
+    "wrench": "1.5.9"
   }
 }
