@@ -1698,13 +1698,13 @@ body{
 	text-align: center;
 	color: #fff;
 }
-.m-potter-banner .info .head{
+.m-potter-banner .info .u-head{
 	width: 130px;
 	height: 130px;
 	margin: 0 auto 11px;
-	background: #d5d7db;
 	border: 4px solid #fff;
 	border-radius: 130px;
+	background-position: 5px 0px;
 }
 .m-potter-banner .info .head img{
 	border-radius: 130px;
@@ -1844,13 +1844,13 @@ body{
 	width: 280px;
 	padding:40px 0 0 40px;
 }
-.m-potter-info .m-sdc .head{
+.m-potter-info .m-sdc .u-head{
 	width: 110px;
 	height: 110px;
-	background: #d5d7db;
-	border: 4px solid #ededed;
 	border-radius: 110px;
 	overflow: hidden;
+	background-position: -5px -10px;
+	border: 4px solid #ededed;
 }
 .m-potter-info .m-sdc h3{
 	padding-top: 20px;

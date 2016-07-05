@@ -1507,8 +1507,12 @@ angular.module('directives', [])
                 scope.cancel = function (file) {
                     uploader.cancelFile( file );
                     $timeout(function () {
-                        scope.myQuery = _.remove(scope.arr, function(n) {
-                            return n.fileid != fileid;
+                        if(uploaderUid-- == 1){
+                            scope.myComplete = false;
+                            scope.myLoading = false;
+                        }
+                        scope.myQuery = scope.arr = _.remove(scope.arr, function(n) {
+                            return n.fileid != file.id;
                         });
                     }, 0);
                 }

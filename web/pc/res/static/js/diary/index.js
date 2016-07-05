@@ -369,10 +369,10 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                 });
                 $list.on('click', '.cancel', function() {
                     var item = $(this).parents('.items');
-                        //console.log(item[0].id)
                         uploader.cancelFile( item[0].id );
                         item.remove();
                     if(uploaderUid-- == 1){
+                        obj.find('.disable').remove();
                         isSubmitImages = true;
                         isSubmitFn();
                     }
