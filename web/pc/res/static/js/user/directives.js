@@ -659,7 +659,7 @@ angular.module('directives', [])
                     query : $scope.myQuery,
                     select : function(obj){
                         $timeout(function(){
-                            $scope.myQuery = select.returnValue();
+                            $scope.myQuery = ''+select.returnValue();
                         },0);
                     }
                 });

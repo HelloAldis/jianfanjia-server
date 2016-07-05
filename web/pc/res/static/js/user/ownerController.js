@@ -256,15 +256,15 @@ angular.module('controllers', [])
                 potter();
             });
             $scope.$watch('requiremtne.total_price',function(newValue){
+                if(!!newValue && !/[^0-9.]/.test(newValue)){
+                    potter();
+                }
                 if(!!newValue && !/[^0-9.]/.test(newValue) && ($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120) && ($scope.requiremtne.work_type == 0 || $scope.requiremtne.work_type == 1)){
                     $scope.userRelease.coststotal = !/[^0-9]/.test(newValue) ? newValue : +(+newValue).toFixed(2);
                     costserror();
                 }else{
                     $scope.userRelease.coststotal = 0;
                     $scope.userRelease.costsdiy = 0;
-                }
-                if(!!newValue && !/[^0-9.]/.test(newValue)){
-                    potter();
                 }
             });
             function costserror(){
@@ -277,8 +277,7 @@ angular.module('controllers', [])
                 }
             }
             function potter(){
-                var work_type = $scope.requiremtne.work_type,
-                    potter,
+                var potter,
                     house_area = $scope.requiremtne.house_area,
                     total_price = $scope.requiremtne.total_price*10000;
                 switch($scope.requiremtne.work_type){

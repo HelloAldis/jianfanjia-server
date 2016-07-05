@@ -92,6 +92,7 @@
 								<div class="inp">
 									<input type="text" class="input" ng-model="requiremtne.total_price" name="total_price" placeholder="只能填整数" ng-pattern="/^[1-9][0-9]{0,4}$/" my-placeholder required />
 									<span class="unit">万元</span>
+									<div package-type my-housearea="requiremtne.house_area" my-worktype="requiremtne.work_type" my-totalprice="requiremtne.total_price" my-packagetype="requiremtne.package_type"></div>
 									<div class="total-price" ng-if="(requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120) && !userRelease.potter">
 										<div class="work-tips">
 											<p>为了让您的装修预算更准确，特为您提供以下公式</p>
