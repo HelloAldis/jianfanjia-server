@@ -62,7 +62,7 @@ gulp.task('connect', function () { //配置代理
   const argv = minimist(process.argv.slice(3));
   const port = getPort(argv);
   const root = getRoot(argv);
-  connect.server({
+  const server = connect.server({
     root: root,
     host: 'localhost',
     port: port,
@@ -75,12 +75,18 @@ gulp.task('connect', function () { //配置代理
           options.cookieRewrite = 'dev.jianfanjia.com';
           return proxy(options);
         })(),
-        modRewrite([
-          '^/api(.*)$ http://dev.jianfanjia.com/api$1 [P]'
-        ])
+        // modRewrite([
+        //   '^/api(.*)$ http://dev.jianfanjia.com/api$1 [P]'
+        // ])
       ];
     }
   });
+
+  server.app.use('/api', function (req, res, next) {
+    console.log('hahaha' + req.url);
+    next();
+  });
+  // server.app.use('/index.html', proxy(url.parse('http://dev.jianfanjia.com/index.html')))
 });
 gulp.task('watch-proxy', function () { //监听变化
   const argv = minimist(process.argv.slice(3));
