@@ -3,7 +3,13 @@ require.config({
     paths  : {
         jquery: 'lib/jquery',
         lodash : 'lib/lodash',
-        cookie : 'lib/jquery.cookie'
+        cookie : 'lib/jquery.cookie',
+        mousewheel : 'lib/jquery.mousewheel.min'
+    },
+    shim   : {
+        'mousewheel': {
+            deps : ['jquery']
+        }
     }
 });
 require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousewheel.min','utils/format'],function($,_,cookie,common){

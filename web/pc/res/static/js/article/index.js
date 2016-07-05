@@ -44,7 +44,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
         hot : function(){
             var self = this;
             $.ajax({
-                url:RootUrl+'api/v2/web/top_articles',
+                url:'/api/v2/web/top_articles',
                 type: 'POST',
                 contentType : 'application/json; charset=utf-8',
                 dataType: 'json',
@@ -120,7 +120,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
             this.loading.removeClass('hide');
             this.notData.addClass('hide');
             $.ajax({
-                url:RootUrl+'api/v2/web/search_article',
+                url:'/api/v2/web/search_article',
                 type: 'POST',
                 contentType : 'application/json; charset=utf-8',
                 dataType: 'json',
