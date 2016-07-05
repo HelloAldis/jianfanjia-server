@@ -82,7 +82,10 @@ gulp.task('connect', function () { //配置代理
     }
   });
 
-  // server.app.use('/api', proxy(url.parse('http://dev.jianfanjia.com/api')))
+  server.app.use('/api', function (req, res, next) {
+    console.log('hahaha' + req.url);
+    next();
+  });
   // server.app.use('/index.html', proxy(url.parse('http://dev.jianfanjia.com/index.html')))
 });
 gulp.task('watch-proxy', function () { //监听变化
