@@ -69,12 +69,23 @@ gulp.task('connect', function () { //配置代理
     livereload: true,
     middleware: function (connect, opt) {
       return [
-        (function () {
+        ['/api', (function () {
           var options = url.parse('http://dev.jianfanjia.com/api');
-          options.route = '/api';
+          // options.route = '/api';
           options.cookieRewrite = 'dev.jianfanjia.com';
           return proxy(options);
-        })(),
+        })()],
+        ['/index.html', (function () {
+          var options = url.parse('http://www.baidu.com');
+          // options.route = '/';
+          options.cookieRewrite = 'dev.jianfanjia.com';
+          var test = function (req, res, next) {
+            console.log('url = ' + req.url);
+            var mid = proxy(options);
+            mid(req, res, next);
+          }
+          return test;
+        })()]
         // modRewrite([
         //   '^/api(.*)$ http://dev.jianfanjia.com/api$1 [P]'
         // ])
@@ -82,10 +93,7 @@ gulp.task('connect', function () { //配置代理
     }
   });
 
-  server.app.use('/api', function (req, res, next) {
-    console.log('hahaha' + req.url);
-    next();
-  });
+  // server.app.use('/api', );
   // server.app.use('/index.html', proxy(url.parse('http://dev.jianfanjia.com/index.html')))
 });
 gulp.task('watch-proxy', function () { //监听变化
