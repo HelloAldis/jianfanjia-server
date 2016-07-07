@@ -768,24 +768,16 @@ exports.search_article = function (req, res, next) {
     };
   }
 
-  switch (query.articletype) {
-    case undefined:
-    case type.articletype_dec_strategy:
-    case type.articletype_dec_tip:
-      DecStrategy.paginate(query, project, {
-        sort: sort,
-        skip: skip,
-        limit: limit
-      }, ep.done(function (articles, total) {
-        res.sendData({
-          articles: articles,
-          total: total
-        });
-      }));
-      break;
-    default:
-      res.sendErrMsg('请求articletype类型错误');
-  }
+  DecStrategy.paginate(query, project, {
+    sort: sort,
+    skip: skip,
+    limit: limit
+  }, ep.done(function (articles, total) {
+    res.sendData({
+      articles: articles,
+      total: total
+    });
+  }));
 }
 
 exports.add_beautiful_image = function (req, res, next) {
