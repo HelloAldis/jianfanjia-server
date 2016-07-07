@@ -67,6 +67,7 @@
     "proxy-middleware": "0.15.0",
     "gulp-watch": "4.3.8",
     "wrench": "1.5.9",
-    "gulp-sftp": "0.1.5"
+    "gulp-sftp": "0.1.5",
+    "http-proxy-middleware": "^0.17.0"
   }
 }

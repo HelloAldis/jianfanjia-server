@@ -14,6 +14,7 @@ const watch = require('gulp-watch');
 const proxy = require('proxy-middleware');
 const modRewrite = require('connect-modrewrite');
 const minimist = require('minimist');
+const sftp = require('gulp-sftp');
 
 //替换js
 //<!-- build:js scripts/scripts.js -->
@@ -31,12 +32,14 @@ const cssRegExp = /(<!--\s*build\:css)([\s\S]*)(endbuild\s*-->)/g
 
 
 const pc_web_port = 9000;
-const pc_web_root = './web/pc/res'
+const pc_web_root = './web/pc/res';
+const pc_ejs_root = './web/pc/template';
 const admin_web_port = 9001;
-const admin_web_root = './web/admin-new/res'
+const admin_web_root = './web/admin-new/res';
+const admin_ejs_root = './web/admin-new/template';
 const mobile_web_port = 9002;
-const mobile_web_root = './web/mobile/res'
-
+const mobile_web_root = './web/mobile/res';
+const mobile_ejs_root = './web/mobile/template';
 
 function getRoot(argv) {
   if (argv.m) {
@@ -45,6 +48,16 @@ function getRoot(argv) {
     return admin_web_root;
   } else {
     return pc_web_root;
+  }
+}
+
+function getEjsRoot(argv) {
+  if (argv.m) {
+    return mobile_ejs_root;
+  } else if (argv.a) {
+    return admin_ejs_root;
+  } else {
+    return pc_ejs_root;
   }
 }
 
@@ -75,17 +88,6 @@ gulp.task('connect', function () { //配置代理
           options.cookieRewrite = 'dev.jianfanjia.com';
           return proxy(options);
         })()],
-        ['/index.html', (function () {
-          var options = url.parse('http://www.baidu.com');
-          // options.route = '/';
-          options.cookieRewrite = 'dev.jianfanjia.com';
-          var test = function (req, res, next) {
-            console.log('url = ' + req.url);
-            var mid = proxy(options);
-            mid(req, res, next);
-          }
-          return test;
-        })()]
         // modRewrite([
         //   '^/api(.*)$ http://dev.jianfanjia.com/api$1 [P]'
         // ])
@@ -105,9 +107,20 @@ gulp.task('watch-proxy', function () { //监听变化
   const jpeg = root + '/**/*.jpeg';
   const jpg = root + '/**/*.jpg';
   const png = root + '/**/*.png';
+  const ejsRoot = getEjsRoot(argv)
+  const ejs = ejsRoot + '/**/*.ejs'
 
   gulp.src([html, css, js])
     .pipe(watch([html, css, js]))
     .pipe(connect.reload());
+
+  gulp.src([ejs])
+    .pipe(watch([ejs]))
+    .pipe(sftp({
+      host: '101.200.191.159',
+      user: 'root',
+      pass: 'Jyz20150608',
+      remotePath: '/xvdb/jianfanjia-server/' + ejsRoot
+    }));
 });
 gulp.task('proxy', ['connect', 'watch-proxy']);
