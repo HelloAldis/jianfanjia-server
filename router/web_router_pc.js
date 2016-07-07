@@ -12,7 +12,7 @@ const product = require('../controllers/pc/product');
 const diary_book = require('../controllers/pc/diary_book');
 const response_util = require('../middlewares/response_util');
 const auth = require('../middlewares/auth');
-const share = require('../controllers/mobile/share');
+const share = require('../controllers/pc/share');
 
 
 var router = express.Router();
