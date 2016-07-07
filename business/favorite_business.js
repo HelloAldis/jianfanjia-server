@@ -54,3 +54,20 @@ exports.is_favorite_diary = function (userid, usertype, diaryid, callback) {
     callback(null, undefined);
   }
 }
+
+exports.is_favorite_diary_set = function (userid, usertype, diarySetid, callback) {
+  if (userid && usertype !== type.role_admin) {
+    Favorite.findOne({
+      userid: userid,
+      favorite_diary_set: diarySetid,
+    }, null, function (err, favorite) {
+      if (favorite) {
+        callback(err, true);
+      } else {
+        callback(err, false);
+      }
+    });
+  } else {
+    callback(null, undefined);
+  }
+}

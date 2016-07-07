@@ -105,6 +105,9 @@ exports.diary_set_info = function (req, res, next) {
           });
         }, callback);
       }));
+    },
+    is_my_favorite: function (callback) {
+      favorite_business.is_favorite_diary_set(userid, usertype, diarySetid, callback);
     }
   }, ep.done(function (result) {
     if (result.diarySet) {
@@ -117,6 +120,8 @@ exports.diary_set_info = function (req, res, next) {
         result.diarySet = result.diarySet.toObject();
         result.diarySet.diaries = result.diaries;
         result.diarySet.author = author;
+        result.diarySet.is_my_favorite = result.is_my_favorite;
+        delete result.is_my_favorite;
         res.sendData(result.diarySet);
       }));
     } else {
