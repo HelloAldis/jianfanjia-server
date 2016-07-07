@@ -345,6 +345,50 @@ exports.add_diary = function (req, res, next) {
   }));
 }
 
+exports.add_diary_set = function (req, res, next) {
+  let userid = ApiUtil.getUserid(req);
+  let diarySetid = new ObjectId(req.body.diarySetid);
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Favorite.findOne({
+    userid: userid
+  }, null, ep.done(function (favorite) {
+    if (favorite) {
+      Favorite.addToSet({
+        userid: userid
+      }, {
+        favorite_diary_set: diarySetid
+      }, null, ep.done(function () {
+        let result = tools.findIndexObjectId(favorite.favorite_diary_set, diarySetid);
+
+        if (result < 0) {
+          DiarySet.incOne({
+            _id: diarySetid
+          }, {
+            favorite_count: 1
+          });
+          res.sendSuccessMsg();
+        } else {
+          res.sendErrMsg('您已经关注了！');
+        }
+      }));
+    } else {
+      Favorite.newAndSave({
+        userid: userid,
+        favorite_diary_set: [diarySetid]
+      }, ep.done(function () {
+        DiarySet.incOne({
+          _id: diarySetid
+        }, {
+          favorite_count: 1
+        });
+        res.sendSuccessMsg();
+      }));
+    }
+  }));
+}
+
 exports.delete_product = function (req, res, next) {
   let userid = ApiUtil.getUserid(req);
   let productid = new ObjectId(req.body._id);
@@ -422,6 +466,33 @@ exports.delete_designer = function (req, res, next) {
       if (result) {
         Designer.incOne({
           _id: designerid
+        }, {
+          favorite_count: -1
+        }, null);
+      }
+    }
+
+    res.sendSuccessMsg();
+  }));
+};
+
+exports.delete_diary_set = function (req, res, next) {
+  let userid = ApiUtil.getUserid(req);
+  let diarySetid = new ObjectId(req.body.diarySetid);
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Favorite.pull({
+    userid: userid
+  }, {
+    favorite_diary_set: diarySetid
+  }, null, ep.done(function (favorite) {
+    if (favorite) {
+      let index = tools.findIndexObjectId(favorite.favorite_diary_set, diarySetid);
+
+      if (index >= 0) {
+        DiarySet.incOne({
+          _id: diarySetid
         }, {
           favorite_count: -1
         }, null);

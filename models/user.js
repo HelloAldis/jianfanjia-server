@@ -2,90 +2,90 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
-var UserSchema = new Schema({
+var UserSchema = new Schema({ // 业主
   wechat_unionid: {
-    type: String
+    type: String // 微信unionid
   },
   wechat_openid: {
-    type: String,
+    type: String, // 微信openid
   },
   phone: {
-    type: String
+    type: String // 手机号
   },
   username: {
-    type: String,
+    type: String, // 用户名
   },
   sex: {
-    type: String
+    type: String // 性别
   },
   pass: {
-    type: String
+    type: String // 密码
   },
   province: {
-    type: String
+    type: String // 省
   },
   city: {
-    type: String
+    type: String // 市
   },
   district: {
-    type: String
+    type: String // 区
   },
   address: {
-    type: String
+    type: String // 地址
   },
   imageid: {
-    type: ObjectId
+    type: ObjectId // 头像id
   },
   score: {
-    type: Number,
+    type: Number, // 分数
     default: 0
   },
   is_block: {
-    type: Boolean,
+    type: Boolean, // 是否屏蔽 暂时没用上
     default: false
   },
   accessToken: {
-    type: String
+    type: String // token 暂时没用上
   },
   create_at: {
-    type: Number,
+    type: Number, // 创建时间
   },
   email: {
-    type: String,
+    type: String, // 邮箱
   },
   email_auth_type: {
-    type: String,
+    type: String, // 邮箱认证状态
     default: '0'
   },
   email_auth_date: {
-    type: Number,
+    type: Number, // 邮箱认证时间
   },
   dec_progress: {
-    type: String,
+    type: String, // 搜集装修阶段
   },
   dec_styles: {
-    type: [String],
+    type: [String], // 收集喜欢风格
   },
   family_description: {
-    type: String,
+    type: String, // 手机家庭描述
   },
   product_view_history: {
-    type: [ObjectId]
+    type: [ObjectId] // 作品浏览历史
   },
   designer_view_history: {
-    type: [ObjectId]
+    type: [ObjectId] // 设计师浏览历史
   },
   beautiful_image_view_history: {
-    type: [ObjectId]
+    type: [ObjectId] // 美图浏览历史
   },
   share_view_history: {
-    type: [ObjectId]
+    type: [ObjectId] // 直播浏览历史
   },
   strategy_view_history: {
-    type: [ObjectId]
+    type: [ObjectId] // 攻略浏览历史
   },
   platform_type: {
-    type: String
+    type: String // 注册平台
   }
 });
 

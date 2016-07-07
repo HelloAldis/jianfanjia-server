@@ -34,31 +34,31 @@ var UserMessageSchema = new Schema({
     type: ObjectId // 相关的评论id
   },
   section: {
-    type: String,
+    type: String, // 工地工序
   },
   item: {
-    type: String,
+    type: String, // 工序小节点
   },
   title: {
-    type: String
+    type: String // 标题
   },
   content: {
-    type: String
+    type: String // 类容
   },
   html: {
-    type: String
+    type: String // 详细html
   },
   message_type: {
-    type: String
+    type: String // 通知类型
   },
   create_at: {
-    type: Number,
+    type: Number, // 创建时间
   },
   lastupdate: {
-    type: Number,
+    type: Number, // 更新时间
   },
   status: {
-    type: String,
+    type: String, // 状态
   }
 });
 

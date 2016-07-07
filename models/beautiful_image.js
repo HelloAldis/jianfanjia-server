@@ -2,62 +2,62 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
-var BeautifulImageSchema = new Schema({
+var BeautifulImageSchema = new Schema({ // 装修美图
   title: {
-    type: String,
+    type: String, // 标题
   },
   description: {
-    type: String,
+    type: String, // 描述
   },
   keywords: {
-    type: String,
+    type: String, // 关键字
   },
   images: {
     type: {
       imageid: {
-        type: ObjectId,
+        type: ObjectId, // 美图里面的图片id
       },
       width: {
-        type: Number,
+        type: Number, // 图片宽
       },
       height: {
-        type: Number,
+        type: Number, // 图片高
       },
     }
   },
   dec_type: {
-    type: String,
+    type: String, // 装修类型
   },
   house_type: {
-    type: String,
+    type: String, // 户型
   },
   dec_style: {
-    type: String,
+    type: String, // 装修风格
   },
   section: {
-    type: String,
+    type: String, // 空间
   },
   authorid: {
-    type: String,
+    type: String, // 作者id
   },
   usertype: {
-    type: String,
+    type: String, // 作者类型
   },
   status: {
-    type: String,
+    type: String, // 状态
   },
   create_at: {
-    type: Number
+    type: Number // 创建时间
   },
   lastupdate: {
-    type: Number
+    type: Number // 最后更新时间
   },
   view_count: {
-    type: Number,
+    type: Number, // 浏览数
     default: 0,
   },
   favorite_count: {
-    type: Number,
+    type: Number, // 收藏数
     default: 0,
   },
 });

@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var TempUserSchema = new Schema({
+var TempUserSchema = new Schema({ // 临时用户
   name: {
-    type: String
+    type: String // 用户名
   },
   phone: {
-    type: String
+    type: String // 手机号
   },
   district: {
     type: String

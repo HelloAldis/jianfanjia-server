@@ -2,42 +2,42 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
-var DecStrategySchema = new Schema({
+var DecStrategySchema = new Schema({ // 装修文章
   title: {
-    type: String,
+    type: String, // 标题
   },
   keywords: {
-    type: String,
+    type: String, // 关键字
   },
   cover_imageid: {
-    type: ObjectId,
+    type: ObjectId, // 封面图id
   },
   description: {
-    type: String,
+    type: String, // 描述
   },
   content: {
-    type: String,
+    type: String, //类容
   },
   authorid: {
-    type: String,
+    type: String, // 作者id
   },
   usertype: {
-    type: String,
+    type: String, // 作者类型
   },
   articletype: {
-    type: String,
+    type: String, // 文章类型
   },
   status: {
-    type: String,
+    type: String, // 状态
   },
   create_at: {
-    type: Number
+    type: Number // 创建时间
   },
   lastupdate: {
-    type: Number
+    type: Number // 最后更新时间
   },
   view_count: {
-    type: Number,
+    type: Number, // 浏览数
     default: 0,
   }
 });

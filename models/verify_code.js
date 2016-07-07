@@ -1,15 +1,15 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var VerifyCodeSchema = new Schema({
+var VerifyCodeSchema = new Schema({ // 验证码
   phone: {
-    type: String
+    type: String // 手机号
   },
   code: {
-    type: String
+    type: String // 验证码
   },
   create_at: {
-    type: Date,
+    type: Date, // 发送时间
     expires: 60 * 5
   },
 });

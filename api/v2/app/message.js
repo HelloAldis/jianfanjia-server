@@ -160,10 +160,26 @@ exports.search_user_comment = function (req, res, next) {
                 });
               }
             });
+          },
+          to_comment: function (callback) {
+            Comment.findOne({
+              _id: message.commentid
+            }, {
+              to_commentid
+            }, function (err, comment) {
+              if (comment && comment.to_commentid) {
+                Comment.findOne({
+                  _id: comment.to_commentid
+                }, null, callback);
+              } else {
+                callback(null, undefined);
+              }
+            });
           }
         }, function (err, result) {
           message.user = result.user;
           message.diary = result.diary;
+          message.to_comment = result.to_comment;
           callback(err, message);
         });
       }

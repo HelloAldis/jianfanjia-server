@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
-var DiarySetSchema = new Schema({
+var DiarySetSchema = new Schema({ // 日记本
   authorid: {
     type: ObjectId, // 作者
   },
@@ -39,6 +39,10 @@ var DiarySetSchema = new Schema({
   },
   view_count: {
     type: Number, // 浏览数
+    default: 0
+  },
+  favorite_count: {
+    type: Number, // 关注数
     default: 0
   },
 });
