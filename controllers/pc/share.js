@@ -37,7 +37,8 @@ exports.share_process_homepage = function (req, res, next) {
         username: 1,
         imageid: 1
       }, ep.done(function (designer_indb) {
-        result.designer = designer_indb;
+        result.share = result.share.toObject();
+        result.share.designer = designer_indb;
         res.ejs('page/share_process', result, req);
       }));
     } else {
