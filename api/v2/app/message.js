@@ -9,6 +9,7 @@ var Requirement = require('../../../proxy').Requirement;
 var Supervisor = require('../../../proxy').Supervisor;
 var Diary = require('../../../proxy').Diary;
 var DiarySet = require('../../../proxy').DiarySet;
+var Comment = require('../../../proxy').Comment;
 var async = require('async');
 var ApiUtil = require('../../../common/api_util');
 var type = require('../../../type');
