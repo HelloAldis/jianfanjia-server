@@ -166,7 +166,7 @@ exports.search_user_comment = function (req, res, next) {
             Comment.findOne({
               _id: message.commentid
             }, {
-              to_commentid
+              to_commentid: 1
             }, function (err, comment) {
               if (comment && comment.to_commentid) {
                 Comment.findOne({
