@@ -202,9 +202,10 @@ router.post('/admin/search_article', auth.adminRequired, admin.search_article); 
 router.post('/admin/add_beautiful_image', auth.adminRequired, admin.add_beautiful_image); //提交文章
 router.post('/admin/update_beautiful_image', auth.adminRequired, admin.update_beautiful_image); //更新文章
 router.post('/admin/search_beautiful_image', auth.adminRequired, admin.search_beautiful_image); //搜索文章
-router.post('/admin/search_answer', auth.adminRequired, admin.search_answer); //搜索问卷答案
-router.post('/admin/count_answer', auth.adminRequired, admin.count_answer); //统计问卷答案
-router.post('/admin/add_supervisor', auth.adminRequired, admin.add_supervisor); //添加监理
-router.post('/admin/statistic_info', auth.adminRequired, admin.statistic_info); //数据统计
+router.post('/admin/search_answer', auth.adminRequired, admin.search_answer); // 搜索问卷答案
+router.post('/admin/count_answer', auth.adminRequired, admin.count_answer); // 统计问卷答案
+router.post('/admin/add_supervisor', auth.adminRequired, admin.add_supervisor); // 添加监理
+router.post('/admin/statistic_info', auth.adminRequired, admin.statistic_info); // 数据统计
+router.post('/admin/update_designer', auth.adminRequired, admin.update_designer); // 更新设计师信息
 
 module.exports = router;

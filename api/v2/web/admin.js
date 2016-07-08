@@ -1005,3 +1005,16 @@ exports.statistic_info = function (req, res, next) {
     res.sendData(statistic);
   }));
 }
+
+exports.update_designer = function (req, res, next) {
+  const designerid = req.body.designer._id;
+  const designer = ApiUtil.buildAdminDesingerUpdate(req);
+  let ep = new eventproxy();
+  ep.fail(next);
+
+  Designer.setOne({
+    _id: designerid
+  }, designer, null, ep.done(function (designer) {
+    res.sendSuccessMsg();
+  }));
+};
