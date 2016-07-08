@@ -6,6 +6,7 @@ const Product = require('../../../proxy').Product;
 const Designer = require('../../../proxy').Designer;
 const BeautifulImage = require('../../../proxy').BeautifulImage;
 const Diary = require('../../../proxy').Diary;
+const DiarySet = require('../../../proxy').DiarySet;
 const tools = require('../../../common/tools');
 const _ = require('lodash');
 const ApiUtil = require('../../../common/api_util');
@@ -63,6 +64,82 @@ exports.list_product = function (req, res, next) {
   }));
 }
 
+exports.add_product = function (req, res, next) {
+  let userid = ApiUtil.getUserid(req);
+  let productid = new ObjectId(req.body._id);
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Favorite.findOne({
+    userid: userid
+  }, null, ep.done(function (favorite) {
+    if (favorite) {
+      Favorite.addToSet({
+        userid: userid
+      }, {
+        favorite_product: productid
+      }, null, ep.done(function () {
+        let result = _.find(favorite.favorite_product, function (
+          o) {
+          return o.toString() === productid.toString();
+        });
+
+        if (!result) {
+          Product.incOne({
+            _id: productid
+          }, {
+            favorite_count: 1
+          });
+        }
+
+        res.sendSuccessMsg();
+      }));
+    } else {
+      Favorite.newAndSave({
+        userid: userid,
+        favorite_product: [productid]
+      }, ep.done(function () {
+        Product.incOne({
+          _id: productid
+        }, {
+          favorite_count: 1
+        });
+        res.sendSuccessMsg();
+      }));
+    }
+
+  }));
+};
+
+exports.delete_product = function (req, res, next) {
+  let userid = ApiUtil.getUserid(req);
+  let productid = new ObjectId(req.body._id);
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Favorite.pull({
+    userid: userid
+  }, {
+    favorite_product: productid
+  }, null, ep.done(function (favorite) {
+    if (favorite) {
+      let result = _.find(favorite.favorite_product, function (o) {
+        return o.toString() === productid.toString();
+      });
+
+      if (result) {
+        Product.incOne({
+          _id: productid
+        }, {
+          favorite_count: -1
+        });
+      }
+    }
+
+    res.sendSuccessMsg();
+  }));
+};
+
 exports.list_beautiful_image = function (req, res, next) {
   let userid = ApiUtil.getUserid(req);
   let skip = req.body.from || 0;
@@ -106,6 +183,80 @@ exports.list_beautiful_image = function (req, res, next) {
     }
   }));
 }
+
+exports.add_beautiful_image = function (req, res, next) {
+  let userid = ApiUtil.getUserid(req);
+  let beautiful_id = new ObjectId(req.body._id);
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Favorite.findOne({
+    userid: userid
+  }, null, ep.done(function (favorite) {
+    if (favorite) {
+      Favorite.addToSet({
+        userid: userid
+      }, {
+        favorite_beautiful_image: beautiful_id
+      }, null, ep.done(function () {
+        res.sendSuccessMsg();
+        let result = _.find(favorite.favorite_beautiful_image,
+          function (o) {
+            return o.toString() === beautiful_id.toString();
+          });
+
+        if (!result) {
+          BeautifulImage.incOne({
+            _id: beautiful_id
+          }, {
+            favorite_count: 1
+          });
+        }
+      }));
+    } else {
+      Favorite.newAndSave({
+        userid: userid,
+        favorite_beautiful_image: [beautiful_id]
+      }, ep.done(function () {
+        BeautifulImage.incOne({
+          _id: beautiful_id
+        }, {
+          favorite_count: 1
+        });
+        res.sendSuccessMsg();
+      }));
+    }
+  }));
+};
+
+exports.delete_beautiful_image = function (req, res, next) {
+  let userid = ApiUtil.getUserid(req);
+  let beautiful_imageid = new ObjectId(req.body._id);
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Favorite.pull({
+    userid: userid
+  }, {
+    favorite_beautiful_image: beautiful_imageid
+  }, null, ep.done(function (favorite) {
+    res.sendSuccessMsg();
+    if (favorite) {
+      let result = _.find(favorite.favorite_beautiful_image, function (
+        o) {
+        return o.toString() === beautiful_imageid.toString();
+      });
+
+      if (result) {
+        BeautifulImage.incOne({
+          _id: beautiful_imageid
+        }, {
+          favorite_count: -1
+        });
+      }
+    }
+  }));
+};
 
 exports.list_designer = function (req, res, next) {
   let userid = ApiUtil.getUserid(req);
@@ -164,98 +315,6 @@ exports.list_designer = function (req, res, next) {
   }));
 }
 
-exports.add_product = function (req, res, next) {
-  let userid = ApiUtil.getUserid(req);
-  let productid = new ObjectId(req.body._id);
-  let ep = eventproxy();
-  ep.fail(next);
-
-  Favorite.findOne({
-    userid: userid
-  }, null, ep.done(function (favorite) {
-    if (favorite) {
-      Favorite.addToSet({
-        userid: userid
-      }, {
-        favorite_product: productid
-      }, null, ep.done(function () {
-        let result = _.find(favorite.favorite_product, function (
-          o) {
-          return o.toString() === productid.toString();
-        });
-
-        if (!result) {
-          Product.incOne({
-            _id: productid
-          }, {
-            favorite_count: 1
-          });
-        }
-
-        res.sendSuccessMsg();
-      }));
-    } else {
-      Favorite.newAndSave({
-        userid: userid,
-        favorite_product: [productid]
-      }, ep.done(function () {
-        Product.incOne({
-          _id: productid
-        }, {
-          favorite_count: 1
-        });
-        res.sendSuccessMsg();
-      }));
-    }
-
-  }));
-};
-
-exports.add_beautiful_image = function (req, res, next) {
-  let userid = ApiUtil.getUserid(req);
-  let beautiful_id = new ObjectId(req.body._id);
-  let ep = eventproxy();
-  ep.fail(next);
-
-  Favorite.findOne({
-    userid: userid
-  }, null, ep.done(function (favorite) {
-    if (favorite) {
-      Favorite.addToSet({
-        userid: userid
-      }, {
-        favorite_beautiful_image: beautiful_id
-      }, null, ep.done(function () {
-        res.sendSuccessMsg();
-        let result = _.find(favorite.favorite_beautiful_image,
-          function (o) {
-            return o.toString() === beautiful_id.toString();
-          });
-
-        if (!result) {
-          BeautifulImage.incOne({
-            _id: beautiful_id
-          }, {
-            favorite_count: 1
-          });
-        }
-      }));
-    } else {
-      Favorite.newAndSave({
-        userid: userid,
-        favorite_beautiful_image: [beautiful_id]
-      }, ep.done(function () {
-        BeautifulImage.incOne({
-          _id: beautiful_id
-        }, {
-          favorite_count: 1
-        });
-        res.sendSuccessMsg();
-      }));
-    }
-  }));
-};
-
 exports.add_designer = function (req, res, next) {
   let userid = ApiUtil.getUserid(req);
   let designerid = new ObjectId(req.body._id);
@@ -298,6 +357,35 @@ exports.add_designer = function (req, res, next) {
         res.sendSuccessMsg();
       }));
     }
+  }));
+};
+
+exports.delete_designer = function (req, res, next) {
+  let userid = ApiUtil.getUserid(req);
+  let designerid = tools.trim(req.body._id);
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Favorite.pull({
+    userid: userid
+  }, {
+    favorite_designer: designerid
+  }, null, ep.done(function (favorite) {
+    if (favorite) {
+      let result = _.find(favorite.favorite_designer, function (o) {
+        return o.toString() === designerid.toString();
+      });
+
+      if (result) {
+        Designer.incOne({
+          _id: designerid
+        }, {
+          favorite_count: -1
+        }, null);
+      }
+    }
+
+    res.sendSuccessMsg();
   }));
 };
 
@@ -345,83 +433,105 @@ exports.add_diary = function (req, res, next) {
   }));
 }
 
-exports.delete_product = function (req, res, next) {
+exports.list_diary_set = function (req, res, next) {
   let userid = ApiUtil.getUserid(req);
-  let productid = new ObjectId(req.body._id);
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  const sort = req.body.sort || {
+    create_at: -1
+  };
   let ep = eventproxy();
   ep.fail(next);
 
-  Favorite.pull({
+  Favorite.findOne({
     userid: userid
-  }, {
-    favorite_product: productid
   }, null, ep.done(function (favorite) {
-    if (favorite) {
-      let result = _.find(favorite.favorite_product, function (o) {
-        return o.toString() === productid.toString();
-      });
+    if (favorite && favorite.favorite_diary_set) {
+      let designerids = favorite.favorite_diary_set.slice(skip, skip + limit);
 
-      if (result) {
-        Product.incOne({
-          _id: productid
-        }, {
-          favorite_count: -1
+      DiarySet.find({
+        _id: {
+          $in: designerids
+        }
+      }, null, {
+        sort: sort,
+        lean: true
+      }, ep.done(function (diarySets) {
+        res.sendData({
+          diarySets: diarySets,
+          total: favorite.favorite_diary_set.length,
         });
-      }
-    }
-
-    res.sendSuccessMsg();
-  }));
-};
-
-exports.delete_beautiful_image = function (req, res, next) {
-  let userid = ApiUtil.getUserid(req);
-  let beautiful_imageid = new ObjectId(req.body._id);
-  let ep = eventproxy();
-  ep.fail(next);
-
-  Favorite.pull({
-    userid: userid
-  }, {
-    favorite_beautiful_image: beautiful_imageid
-  }, null, ep.done(function (favorite) {
-    res.sendSuccessMsg();
-    if (favorite) {
-      let result = _.find(favorite.favorite_beautiful_image, function (
-        o) {
-        return o.toString() === beautiful_imageid.toString();
+      }));
+    } else {
+      return res.sendData({
+        designers: [],
+        total: 0,
       });
-
-      if (result) {
-        BeautifulImage.incOne({
-          _id: beautiful_imageid
-        }, {
-          favorite_count: -1
-        });
-      }
     }
   }));
-};
+}
 
-exports.delete_designer = function (req, res, next) {
+exports.add_diary_set = function (req, res, next) {
   let userid = ApiUtil.getUserid(req);
-  let designerid = tools.trim(req.body._id);
+  let diarySetid = new ObjectId(req.body.diarySetid);
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Favorite.findOne({
+    userid: userid
+  }, null, ep.done(function (favorite) {
+    if (favorite) {
+      Favorite.addToSet({
+        userid: userid
+      }, {
+        favorite_diary_set: diarySetid
+      }, null, ep.done(function () {
+        let result = tools.findIndexObjectId(favorite.favorite_diary_set, diarySetid);
+
+        if (result < 0) {
+          DiarySet.incOne({
+            _id: diarySetid
+          }, {
+            favorite_count: 1
+          });
+          res.sendSuccessMsg();
+        } else {
+          res.sendErrMsg('您已经关注了！');
+        }
+      }));
+    } else {
+      Favorite.newAndSave({
+        userid: userid,
+        favorite_diary_set: [diarySetid]
+      }, ep.done(function () {
+        DiarySet.incOne({
+          _id: diarySetid
+        }, {
+          favorite_count: 1
+        });
+        res.sendSuccessMsg();
+      }));
+    }
+  }));
+}
+
+exports.delete_diary_set = function (req, res, next) {
+  let userid = ApiUtil.getUserid(req);
+  let diarySetid = new ObjectId(req.body.diarySetid);
   let ep = eventproxy();
   ep.fail(next);
 
   Favorite.pull({
     userid: userid
   }, {
-    favorite_designer: designerid
+    favorite_diary_set: diarySetid
   }, null, ep.done(function (favorite) {
     if (favorite) {
-      let result = _.find(favorite.favorite_designer, function (o) {
-        return o.toString() === designerid.toString();
-      });
+      let index = tools.findIndexObjectId(favorite.favorite_diary_set, diarySetid);
 
-      if (result) {
-        Designer.incOne({
-          _id: designerid
+      if (index >= 0) {
+        DiarySet.incOne({
+          _id: diarySetid
         }, {
           favorite_count: -1
         }, null);

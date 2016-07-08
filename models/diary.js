@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
-var DiarySchema = new Schema({
+var DiarySchema = new Schema({ // 日记
   authorid: {
     type: ObjectId, // 作者
   },

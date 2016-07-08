@@ -2,48 +2,48 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
-var TeamSchema = new Schema({
+var TeamSchema = new Schema({ // 施工团队
   designerid: {
-    type: ObjectId
+    type: ObjectId // 设计师id
   },
   manager: {
-    type: String
+    type: String // 经理
   },
   uid: {
-    type: String
+    type: String // 身份证号
   },
   uid_image1: {
-    type: ObjectId
+    type: ObjectId // 身份证正面照
   },
   uid_image2: {
-    type: ObjectId
+    type: ObjectId // 身份证反面照
   },
   company: {
-    type: String
+    type: String // 公司
   },
   work_year: {
-    type: Number
+    type: Number // 工龄
   },
   good_at: {
-    type: String
+    type: String // 擅长工种
   },
   working_on: {
-    type: String
+    type: String // 施工工地
   },
   sex: {
-    type: String
+    type: String // 性别
   },
   province: {
-    type: String
+    type: String // 省
   },
   city: {
-    type: String
+    type: String // 市
   },
   district: {
-    type: String
+    type: String // 区
   },
   create_at: {
-    type: Number
+    type: Number // 创建时间
   },
 });
 

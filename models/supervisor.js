@@ -4,42 +4,42 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
-let SupervisorSchema = new Schema({
+let SupervisorSchema = new Schema({ // 监理
   phone: {
-    type: String
+    type: String // 手机号
   },
   username: {
-    type: String
+    type: String // 用户名
   },
   pass: {
-    type: String
+    type: String // 密码
   },
   sex: {
-    type: String
+    type: String // 性别
   },
   province: {
-    type: String
+    type: String // 省
   },
   city: {
-    type: String
+    type: String // 市
   },
   district: {
-    type: String
+    type: String // 区
   },
   address: {
-    type: String
+    type: String // 地址
   },
   imageid: {
-    type: ObjectId
+    type: ObjectId // 头像id
   },
   create_at: {
-    type: Number
+    type: Number // 创建时间
   },
   lastupdate: {
-    type: Number
+    type: Number // 更新时间
   },
   auth_type: {
-    type: String
+    type: String // 审核类型
   }
 });
 

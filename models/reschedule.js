@@ -2,30 +2,30 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
-var RescheduleSchema = new Schema({
+var RescheduleSchema = new Schema({ // 改期
   processid: {
-    type: ObjectId,
+    type: ObjectId, // 工地id
   },
   userid: {
-    type: ObjectId,
+    type: ObjectId, // 业主id
   },
   designerid: {
-    type: ObjectId,
+    type: ObjectId, // 设计师id
   },
   section: {
-    type: String,
+    type: String, // 工序
   },
   request_role: {
-    type: String,
+    type: String, // 申请改期的用户类型
   },
   request_date: {
-    type: Number,
+    type: Number, // 申请时间
   },
   new_date: {
-    type: Number
+    type: Number // 改期到
   },
   status: {
-    type: String,
+    type: String, // 改期状态
   },
 });
 

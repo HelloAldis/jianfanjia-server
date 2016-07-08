@@ -85,6 +85,9 @@ router.post('/favorite/beautiful_image/list', auth.normalUserRequired, favorite.
 router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favorite.add_beautiful_image); //收藏美图
 router.post('/favorite/beautiful_image/delete', auth.normalUserRequired, favorite.delete_beautiful_image); //删除收藏美图
 router.post('/favorite/diary/add', auth.normalUserRequired, favorite.add_diary); //点赞日记
+router.post('/favorite/diarySet/list', auth.normalUserRequired, favorite.list_diary_set); //收藏日记本列表
+router.post('/favorite/diarySet/add', auth.normalUserRequired, favorite.add_diary_set); //收藏日记本
+router.post('/favorite/diarySet/delete', auth.normalUserRequired, favorite.delete_diary_set); //取消收藏日记本
 router.post('/add_comment', auth.normalUserRequired, comment.add_comment); //添加评论
 // router.post('/topic_comments', auth.normalUserRequired, comment.topic_comments); //获取评论并标记为已读
 router.post('/one_contract', auth.normalUserRequired, requirement.one_contract); //获取某个合同信息

@@ -105,6 +105,9 @@ router.post('/favorite/beautiful_image/list', auth.normalUserRequired, favoriteW
 router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favoriteWeb.add_beautiful_image); //收藏美图
 router.post('/favorite/beautiful_image/delete', auth.normalUserRequired, favoriteWeb.delete_beautiful_image); //删除收藏美图
 router.post('/favorite/diary/add', auth.normalUserRequired, favoriteWeb.add_diary); //点赞日记
+router.post('/favorite/diarySet/list', auth.normalUserRequired, favoriteWeb.list_diary_set); //收藏日记本列表
+router.post('/favorite/diarySet/add', auth.normalUserRequired, favoriteWeb.add_diary_set); //收藏日记本
+router.post('/favorite/diarySet/delete', auth.normalUserRequired, favoriteWeb.delete_diary_set); //取消收藏日记本
 router.post('/send_verify_email', auth.normalUserRequired, signWeb.send_verify_email); //发送验证邮箱邮件
 //设备使用
 // router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定cid

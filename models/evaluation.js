@@ -2,30 +2,30 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
-var EvaluationSchema = new Schema({
+var EvaluationSchema = new Schema({ // 评价
   userid: {
-    type: ObjectId,
+    type: ObjectId, // 业主id
   },
   designerid: {
-    type: ObjectId,
+    type: ObjectId, // 设计师id
   },
   requirementid: {
-    type: ObjectId,
+    type: ObjectId, // 需求id
   },
   create_at: {
-    type: Number,
+    type: Number, // 评价时间
   },
   service_attitude: {
-    type: Number,
+    type: Number, // 服务态度分
   },
   respond_speed: {
-    type: Number,
+    type: Number, // 响应速度分
   },
   comment: {
-    type: String,
+    type: String, // 评论留言
   },
   is_anonymous: {
-    type: String,
+    type: String, // 是否匿名
   },
 });
 

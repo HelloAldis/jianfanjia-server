@@ -1,15 +1,19 @@
-var express = require('express');
-var config = require('../apiconfig');
-var sign = require('../controllers/sign');
-var site = require('../controllers/site');
-var wechat = require('../controllers/wechat');
-var dec_strategy = require('../controllers/dec_strategy');
-var home = require('../controllers/pc/home');
-var designer = require('../controllers/pc/designer');
-var product = require('../controllers/pc/product');
-var diary_book = require('../controllers/pc/diary_book');
-var response_util = require('../middlewares/response_util');
-var auth = require('../middlewares/auth');
+'use strict'
+
+const express = require('express');
+const config = require('../apiconfig');
+const sign = require('../controllers/sign');
+const site = require('../controllers/site');
+const wechat = require('../controllers/wechat');
+const dec_strategy = require('../controllers/dec_strategy');
+const home = require('../controllers/pc/home');
+const designer = require('../controllers/pc/designer');
+const product = require('../controllers/pc/product');
+const diary_book = require('../controllers/pc/diary_book');
+const response_util = require('../middlewares/response_util');
+const auth = require('../middlewares/auth');
+const share = require('../controllers/pc/share');
+
 
 var router = express.Router();
 
@@ -34,6 +38,7 @@ router.get('/tpl/product/:productid', response_util, product.product_page);
 router.get('/tpl/user/designer/homepage', auth.designerRequired, response_util, designer.designer_my_homepage);
 router.get('/tpl/diary/book/:diarySetid', response_util, diary_book.diary_book_page);
 router.get('/tpl/go/diary/:diaryid', response_util, diary_book.go_diary);
+router.get('/tpl/live/:shareid', response_util, share.share_process_homepage);
 
 router.get('/wechat/user_login_callback', sign.wechat_user_login_callback);
 router.get('/wechat/user_login', sign.wechat_user_login);
