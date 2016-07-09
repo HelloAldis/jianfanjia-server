@@ -2,11 +2,10 @@
   angular.module('JfjAdmin.pages.designer')
     .controller('DesignerIdAuthController', [ //设计师身份证认证
       '$scope', '$rootScope', '$http', '$stateParams', '$location',
-      function ($scope, $rootScope, $http, $stateParams, $location) {
-        $http({ //获取数据
-          method: "POST",
-          url: 'api/v2/web/admin/designer/' + $stateParams.id
-        }).then(function (resp) {
+      'adminDesigner',
+      function ($scope, $rootScope, $http, $stateParams, $location, adminDesigner) {
+        adminDesigner.idAuth($stateParams.id)
+        .then(function (resp) {
           //返回信息
           console.log(resp);
           $scope.user = resp.data.data;
@@ -30,15 +29,13 @@
                 return;
               }
             }
-            $http({ //获取数据
-              method: "POST",
-              url: 'api/v2/web/admin/update_uid_auth',
-              data: {
-                "_id": $stateParams.id,
-                "new_auth_type": type,
-                "auth_message": msg
-              }
-            }).then(function (resp) {
+            $scope.data = {
+              "_id": $stateParams.id,
+              "new_auth_type": type,
+              "auth_message": msg
+            };
+            adminDesigner.idAuthOpearate($scope.data)
+            .then(function (resp) {
               //返回信息
               window.history.back();
             }, function (resp) {

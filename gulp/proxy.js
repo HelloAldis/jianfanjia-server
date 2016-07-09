@@ -96,4 +96,4 @@ gulp.task('watch-proxy', function () { //监听变化
     .pipe(watch([html, css, js]))
     .pipe(connect.reload());
 });
-gulp.task('proxy', ['connect', 'watch-proxy']);
+gulp.task('proxy', ['connect', 'watch-proxy', 'css', 'watch-css']);

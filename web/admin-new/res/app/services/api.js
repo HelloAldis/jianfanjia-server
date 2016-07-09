@@ -95,6 +95,15 @@
         },
         online: function (data) {
           return doAdminRequest('update_designer_online_status', data);
+        },
+        editDesigner: function(data) {
+          return doAdminRequest('update_designer', data);
+        },
+        idAuth: function(id) {
+          return doAdminRequest('designer/' + id)
+        },
+        idAuthOpearate: function(data) {
+          return doAdminRequest('update_uid_auth', data);
         }
       };
     }])

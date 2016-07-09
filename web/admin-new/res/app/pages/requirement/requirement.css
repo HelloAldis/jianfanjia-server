@@ -1,0 +1,11 @@
+.requirement-detail-page .breadcrumb .panel-info .tab-title{
+	background-color: rgba(217, 237, 247, 0.94);
+}
+.requirement-detail-page .breadcrumb .panel-info .tab-title h2,
+.requirement-detail-page .breadcrumb .panel-info .tab-title h4{
+	margin: 0;
+	padding: 5px;
+}
+.requirement-detail-page .breadcrumb .panel-info .tab-title h4{
+	border-bottom: solid 1px #dcdcdc;
+}

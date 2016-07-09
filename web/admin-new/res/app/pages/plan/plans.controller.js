@@ -3,43 +3,45 @@
     .controller('PlansController', [
       '$scope', '$rootScope', 'adminPlan', '$stateParams', '$location', 'mutiSelected',
       function ($scope, $rootScope, adminPlan, $stateParams, $location, mutiSelected) {
-        $scope.authList = [{
-          id: "0",
-          name: '已预约无响应',
-          cur: false
-        }, {
-          id: "1",
-          name: '已拒绝业主',
-          cur: false
-        }, {
-          id: "7",
-          name: '无响应过期',
-          cur: false
-        }, {
-          id: "2",
-          name: '有响应未量房',
-          cur: false
-        }, {
-          id: "6",
-          name: '已量房无方案',
-          cur: false
-        }, {
-          id: "8",
-          name: '无方案过期',
-          cur: false
-        }, {
-          id: "3",
-          name: '已提交方案',
-          cur: false
-        }, {
-          id: "4",
-          name: '方案被拒绝',
-          cur: false
-        }, {
-          id: "5",
-          name: '方案被选中',
-          cur: false
-        }, ];
+        $scope.authList = [
+          {
+            id: "0",
+            name: '已预约无响应',
+            cur: false
+          }, {
+            id: "1",
+            name: '已拒绝业主',
+            cur: false
+          }, {
+            id: "7",
+            name: '无响应过期',
+            cur: false
+          }, {
+            id: "2",
+            name: '有响应未量房',
+            cur: false
+          }, {
+            id: "6",
+            name: '已量房无方案',
+            cur: false
+          }, {
+            id: "8",
+            name: '无方案过期',
+            cur: false
+          }, {
+            id: "3",
+            name: '已提交方案',
+            cur: false
+          }, {
+            id: "4",
+            name: '方案被拒绝',
+            cur: false
+          }, {
+            id: "5",
+            name: '方案被选中',
+            cur: false
+          }
+        ];
 
         //获取url获取json数据
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
@@ -155,10 +157,10 @@
             alert('开始时间不能晚于结束时间，请重新选择。');
             return;
           }
-          if (end - start < 86400000) {
-            alert('结束时间必须必比开始时间大一天，请重新选择');
-            return;
-          }
+          // if (end - start < 86400000) {
+          //   alert('结束时间必须必比开始时间大一天，请重新选择');
+          //   return;
+          // }
           $scope.pagination.currentPage = 1;
 
           refreshPage(refreshDetailFromUI($stateParams.detail));
@@ -192,6 +194,10 @@
 
         //加载数据
         function loadList(detail) {
+          if (detail.query && detail.query.last_status_update_time
+            && detail.query.last_status_update_time.$lte) {
+            detail.query.last_status_update_time.$lte += 86399999;
+          }
           adminPlan.search(detail).then(function (resp) {
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;

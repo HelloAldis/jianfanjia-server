@@ -62,6 +62,14 @@
         }[input];
       };
     })
+    .filter('designOnlineFilter', function () { //设计师在线状态
+      return function (input) {
+        return {
+          "0": "在线",
+          "1": "离线"
+        }[input];
+      };
+    })
     .filter('workTypeFilter', function () { //习惯沟通方式
       return function (input) {
         return {
