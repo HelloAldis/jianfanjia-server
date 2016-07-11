@@ -20,6 +20,7 @@ const TempUser = require('../../../proxy').TempUser;
 const Diary = require('../../../proxy').Diary;
 const Comment = require('../../../proxy').Comment;
 const UserMessage = require('../../../proxy').UserMessage;
+const DesignerMessage = require('../../../proxy').DesignerMessage;
 const tools = require('../../../common/tools');
 const _ = require('lodash');
 const ue_config = require('../../../ueditor/ue_config');
@@ -1058,8 +1059,6 @@ exports.search_diary = function (req, res, next) {
 
 exports.delete_diary = function (req, res, next) {
   const diaryid = req.body.diaryid;
-  const authorid = ApiUtil.getUserid(req);
-  const usertype = ApiUtil.getUsertype(req);
   const ep = new eventproxy();
   ep.fail(next);
 
