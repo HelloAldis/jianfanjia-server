@@ -3,10 +3,6 @@
     .controller('DesignerInfoController', [ //设计师个人信息
       '$scope', '$rootScope', '$http', '$stateParams', 'adminDesigner',
       function ($scope, $rootScope, $http, $stateParams, adminDesigner) {
-        // $http({ //获取数据
-        //   method: "POST",
-        //   url: 'api/v2/web/admin/designer/' + $stateParams.id
-        // })
         adminDesigner.idAuth($stateParams.id)
         .then(function (resp) {
           //返回信息

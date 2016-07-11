@@ -30,6 +30,13 @@
 .common .paginat{
 	min-height: 70px;
 }
+
+.common .content-width .content{
+	max-width: 350px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
 .designer-page .online-status-btn button{
 	width: 68px;
 }

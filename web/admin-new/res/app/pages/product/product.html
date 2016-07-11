@@ -51,7 +51,7 @@
 				<tr ng-repeat="user in userList">
 					<td>{{user._id}}</td>
 					<td class="text-left">{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-					<td>{{user.cell}}</td>
+					<td class="text-left">{{user.cell}}</td>
 					<td class="text-left">{{user.auth_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 					<td> <span ng-class="{'0':'auth-type-ing', '1':'auth-type-ok', '2':'auth-type-reject', '3':'auth-type-bad'}[user.auth_type]">{{user.auth_type | authFilter}}</span> </td>
 					<td>{{user.designer.username}}</td>
