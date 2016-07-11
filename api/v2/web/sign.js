@@ -321,6 +321,48 @@ exports.verifyPhone = function (req, res, next) {
   }));
 }
 
+exports.check_verify_code = function (req, res, next) {
+  var phone = tools.trim(req.body.phone);
+  var code = tools.trim(req.body.code);
+  var ep = new eventproxy();
+  ep.fail(next);
+
+  //检查phone是不是被用了
+  ep.all('user', 'designer', function (user, designer) {
+    if (user || designer) {
+      VerifyCode.findOne({
+        phone: phone
+      }, ep.done(function (verifyCode) {
+        if (config.need_verify_code) {
+          if (!verifyCode) {
+            return res.sendErrMsg('验证码不对或已过期');
+          }
+
+          if (verifyCode.code !== code) {
+            return res.sendErrMsg('验证码不对或已过期');
+          }
+        }
+
+        return res.sendSuccessMsg();
+      }));
+    } else {
+      res.sendErrMsg('手机号码不存在');
+    }
+  });
+
+  User.findOne({
+    phone: phone
+  }, null, ep.done(function (user) {
+    ep.emit('user', user);
+  }));
+
+  Designer.findOne({
+    phone: phone
+  }, {}, ep.done(function (designer) {
+    ep.emit('designer', designer);
+  }));
+}
+
 // sign out
 exports.signout = function (req, res, next) {
   authMiddleWare.clear_session(req, res);
