@@ -17,6 +17,7 @@ const Plan = require('../../../proxy').Plan;
 const Answer = require('../../../proxy').Answer;
 const Supervisor = require('../../../proxy').Supervisor;
 const TempUser = require('../../../proxy').TempUser;
+const Diary = require('../../../proxy').Diary;
 const tools = require('../../../common/tools');
 const _ = require('lodash');
 const ue_config = require('../../../ueditor/ue_config');
@@ -1018,3 +1019,37 @@ exports.update_designer = function (req, res, next) {
     res.sendSuccessMsg();
   }));
 };
+
+exports.search_diary = function (req, res, next) {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
+    create_at: -1
+  };
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Diary.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit,
+    lean: true
+  }, ep.done(function (diaries, total) {
+    async.mapLimit(diaries, 3, function (diary, callback) {
+      User.findOne({
+        _id: diary.authorid
+      }, {
+        username: 1,
+      }, function (err, user) {
+        diary.user = user;
+        callback(err, diary);
+      });
+    }, ep.done(function (diaries) {
+      res.sendData({
+        diaries: diaries,
+        total: total
+      });
+    }));
+  }));
+}

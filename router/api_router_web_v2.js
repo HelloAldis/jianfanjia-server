@@ -194,8 +194,7 @@ router.post('/admin/search_angel_user', auth.adminRequired, tempUserApi.search_t
 router.post('/admin/search_process', auth.adminRequired, admin.search_process); //管理员搜索工地
 //ueditor
 router.get('/admin/ueditor', auth.adminRequired, admin.ueditor_get); //ueditor
-router.post('/admin/ueditor', auth.adminRequired, upload.single('Filedata'),
-  admin.ueditor_post); //ueditor
+router.post('/admin/ueditor', auth.adminRequired, upload.single('Filedata'), admin.ueditor_post); //ueditor
 router.post('/admin/add_article', auth.adminRequired, admin.add_article); //提交文章
 router.post('/admin/update_article', auth.adminRequired, admin.update_article); //更新文章
 router.post('/admin/search_article', auth.adminRequired, admin.search_article); //搜索文章
@@ -207,5 +206,6 @@ router.post('/admin/count_answer', auth.adminRequired, admin.count_answer); // �
 router.post('/admin/add_supervisor', auth.adminRequired, admin.add_supervisor); // 添加监理
 router.post('/admin/statistic_info', auth.adminRequired, admin.statistic_info); // 数据统计
 router.post('/admin/update_designer', auth.adminRequired, admin.update_designer); // 更新设计师信息
+router.post('/admin/search_diary', auth.adminRequired, admin.search_diary); // 搜索日记
 
 module.exports = router;
