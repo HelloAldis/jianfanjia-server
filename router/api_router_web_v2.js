@@ -207,5 +207,8 @@ router.post('/admin/add_supervisor', auth.adminRequired, admin.add_supervisor); 
 router.post('/admin/statistic_info', auth.adminRequired, admin.statistic_info); // 数据统计
 router.post('/admin/update_designer', auth.adminRequired, admin.update_designer); // 更新设计师信息
 router.post('/admin/search_diary', auth.adminRequired, admin.search_diary); // 搜索日记
+router.post('/admin/delete_diary', auth.adminRequired, admin.delete_diary); // 删除日记
+router.post('/admin/search_comment', auth.adminRequired, admin.search_comment); // 搜索评论
+router.post('/admin/forbid_comment', auth.adminRequired, admin.forbid_comment); // 屏蔽评论
 
 module.exports = router;

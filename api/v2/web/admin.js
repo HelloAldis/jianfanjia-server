@@ -18,6 +18,8 @@ const Answer = require('../../../proxy').Answer;
 const Supervisor = require('../../../proxy').Supervisor;
 const TempUser = require('../../../proxy').TempUser;
 const Diary = require('../../../proxy').Diary;
+const Comment = require('../../../proxy').Comment;
+const UserMessage = require('../../../proxy').UserMessage;
 const tools = require('../../../common/tools');
 const _ = require('lodash');
 const ue_config = require('../../../ueditor/ue_config');
@@ -1051,5 +1053,85 @@ exports.search_diary = function (req, res, next) {
         total: total
       });
     }));
+  }));
+}
+
+exports.delete_diary = function (req, res, next) {
+  const diaryid = req.body.diaryid;
+  const authorid = ApiUtil.getUserid(req);
+  const usertype = ApiUtil.getUsertype(req);
+  const ep = new eventproxy();
+  ep.fail(next);
+
+  if (!tools.convert2ObjectId(diaryid)) {
+    res.sendErrMsg('信息不完全');
+    return;
+  }
+
+  Diary.removeOne({
+    _id: diaryid
+  }, null, ep.done(function (diary) {
+    res.sendSuccessMsg();
+
+    if (diary) {
+      Comment.removeSome({
+        topicid: diary._id
+      }, function (err, re) {});
+
+      UserMessage.removeSome({
+        topicid: diary._id
+      }, function (err, re) {});
+    }
+
+  }));
+}
+
+exports.search_comment = function (req, res, next) {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
+    create_at: -1
+  };
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Comment.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit,
+    lean: true
+  }, ep.done(function (comments, total) {
+    res.sendData({
+      comments: comments,
+      total: total
+    });
+  }));
+}
+
+exports.forbid_comment = function (req, res, next) {
+  let commentid = req.body.commentid;
+  const content = '我错了，我再也不乱说话了！';
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Comment.setOne({
+    _id: commentid,
+  }, {
+    content: content
+  }, ep.done(function () {
+    res.sendSuccessMsg();
+
+    UserMessage.setOne({
+      commentid: commentid
+    }, {
+      content: content,
+    }, function () {});
+
+    DesignerMessage.setOne({
+      commentid: commentid
+    }, {
+      content: content,
+    }, function () {});
   }));
 }
