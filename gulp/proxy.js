@@ -123,4 +123,4 @@ gulp.task('watch-proxy', function () { //监听变化
       remotePath: '/xvdb/jianfanjia-server/' + ejsRoot
     }));
 });
-gulp.task('proxy', ['connect', 'watch-proxy']);
+gulp.task('proxy', ['connect', 'watch-proxy', 'css', 'watch-css']);

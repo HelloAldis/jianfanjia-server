@@ -95,6 +95,15 @@
         },
         online: function (data) {
           return doAdminRequest('update_designer_online_status', data);
+        },
+        editDesigner: function(data) {
+          return doAdminRequest('update_designer', data);
+        },
+        idAuth: function(id) {
+          return doAdminRequest('designer/' + id)
+        },
+        idAuthOpearate: function(data) {
+          return doAdminRequest('update_uid_auth', data);
         }
       };
     }])
@@ -135,6 +144,31 @@
         }
       };
     }])
+
+    // 管理员日记列表
+    .factory('adminDiary', ['doAdminRequest', function (doAdminRequest) {
+      return {
+        search: function (data) {
+          return doAdminRequest('search_diary', data);
+        },
+        dele: function (id) {
+          return doAdminRequest('delete_diary', id);
+        }
+      };
+    }])
+
+    // 管理员评论列表
+    .factory('adminComment', ['doAdminRequest', function (doAdminRequest) {
+      return {
+        search: function (data) {
+          return doAdminRequest('search_comment', data);
+        },
+        forbid: function (id) {
+          return doAdminRequest('forbid_comment', id);
+        }
+      };
+    }])
+
     /**
      * [管理员获取工地管理]
      * @param  {[list]} [获取列表]

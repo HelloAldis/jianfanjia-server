@@ -3,7 +3,6 @@
     .controller('UserInfoController', [
       '$scope', '$rootScope', '$stateParams', 'adminUser',
       function ($scope, $rootScope, $stateParams, adminUser) {
-        console.log('hhahhhh');
         adminUser.search({
           "query": {
             "_id": $stateParams.id

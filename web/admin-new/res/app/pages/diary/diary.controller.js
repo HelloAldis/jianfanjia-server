@@ -1,13 +1,12 @@
 (function () {
-  angular.module('JfjAdmin.pages.user')
-    .controller('UserController', [
-      '$scope', '$rootScope', 'adminUser', '$stateParams', '$location',
-      function ($scope, $rootScope, adminUser, $stateParams, $location) {
+  angular.module('JfjAdmin.pages.diary')
+    .controller('DiaryController', [ //设计师列表
+      '$scope', 'adminDiary', '$stateParams', '$location',
+      function ($scope, adminDiary, $stateParams, $location) {
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
-
         //刷新页面公共方法
         function refreshPage(detail) {
-          $location.path('/user/' + JSON.stringify(detail));
+          $location.path('/diaryList/' + JSON.stringify(detail));
         }
 
         //从url详情中初始化页面
@@ -22,7 +21,8 @@
                 $scope.endTime.time = new Date(detail.query.create_at["$lte"]);
               }
             }
-            $scope.searchUser = detail.query.phone;
+
+            $scope.searchDiary = detail.query.search_id;
           }
 
           detail.from = detail.from || 0;
@@ -39,13 +39,14 @@
         function refreshDetailFromUI(detail) {
           var gte = $scope.startTime.time ? $scope.startTime.time.getTime() : undefined;
           var lte = $scope.endTime.time ? $scope.endTime.time.getTime() : undefined;
+
           var createAt = gte && lte ? {
             "$gte": gte,
             "$lte": lte
           } : undefined;
 
           detail.query = detail.query || {};
-          detail.query.phone = $scope.searchUser || undefined;
+          detail.query.search_id = $scope.searchDiary || undefined;
           detail.query.create_at = createAt;
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
@@ -58,7 +59,6 @@
           loadData: false,
           notData: false
         };
-
         //分页控件
         $scope.pagination = {
           currentPage: 1,
@@ -108,60 +108,19 @@
           }
         };
         $scope.endTime.today();
-        $scope.searchTimeBtn = function () {
-          var start = new Date($scope.startTime.time).getTime();
-          var end = new Date($scope.endTime.time).getTime();
-          if (start > end) {
-            alert('开始时间不能晚于结束时间，请重新选择。');
-            return;
-          }
-          // if (end - start < 86400000) {
-          //   alert('结束时间必须必比开始时间大一天，请重新选择');
-          //   return;
-          // }
-
-          $scope.pagination.currentPage = 1;
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        };
-        //搜索业主
-        $scope.searchBtn = function () {
-          $scope.pagination.currentPage = 1;
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        };
-        //排序
-        $scope.sortData = function (sortby) {
-          if ($scope.sort[sortby]) {
-            $scope.sort[sortby] = -$scope.sort[sortby];
-          } else {
-            $scope.sort = {};
-            $scope.sort[sortby] = -1;
-          }
-          $scope.pagination.currentPage = 1;
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        };
-
-        //重置清空状态
-        $scope.clearStatus = function () {
-          $scope.searchUser = undefined;
-          $scope.pagination.currentPage = 1;
-          $scope.startTime.time = '';
-          $scope.endTime.time = '';
-          $stateParams.detail = {};
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        };
 
         //加载数据
         function loadList(detail) {
           if (detail.query && detail.query.create_at && detail.query.create_at.$lte) {
             detail.query.create_at.$lte += 86399999;
           }
-          adminUser.search(detail).then(function (resp) {
+          adminDiary.search(detail).then(function (resp) {
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
               $scope.loading.notData = true;
               $scope.userList = [];
             } else {
-              $scope.userList = resp.data.data.users;
+              $scope.userList = resp.data.data.diaries;
               $scope.pagination.totalItems = resp.data.data.total;
               $scope.loading.loadData = true;
               $scope.loading.notData = false;
@@ -177,6 +136,56 @@
         initUI($stateParams.detail);
         //初始化数据
         loadList($stateParams.detail);
+
+        //搜索设计师
+        $scope.searchBtn = function () {
+          var start = new Date($scope.startTime.time).getTime();
+          var end = new Date($scope.endTime.time).getTime();
+          if (start > end) {
+            alert('开始时间不能晚于结束时间，请重新选择。');
+            return;
+          }
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        }
+
+        // 删除日记
+        $scope.deleDiary = function (id) {
+          if (confirm("你确定要删除吗？删除不能恢复")) {
+            adminDiary.dele({
+              "diaryid": id
+            })
+            .then(function (resp) {
+              if (resp.data.msg === "success") {
+                loadList(refreshDetailFromUI($stateParams.detail));
+              }
+            }, function (err) {
+              console.log(err);
+            })
+          }
+        }
+
+        //排序
+        $scope.sortData = function (sortby) {
+          if ($scope.sort[sortby]) {
+            $scope.sort[sortby] = -$scope.sort[sortby];
+          } else {
+            $scope.sort = {};
+            $scope.sort[sortby] = -1;
+          }
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        };
+
+        //重置清空状态
+        $scope.clearStatus = function () {
+          $scope.pagination.currentPage = 1;
+          $scope.startTime.time = '';
+          $scope.endTime.time = '';
+          $scope.searchDiary = undefined;
+          $stateParams.detail = {};
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        };
       }
     ]);
 })();

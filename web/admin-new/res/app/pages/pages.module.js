@@ -21,7 +21,9 @@
       'JfjAdmin.pages.designer',
       'JfjAdmin.pages.product',
       'JfjAdmin.pages.live',
-      'JfjAdmin.pages.chart'
+      'JfjAdmin.pages.chart',
+      'JfjAdmin.pages.diary',
+      'JfjAdmin.pages.comment'
     ])
     .config(routeConfig);
 

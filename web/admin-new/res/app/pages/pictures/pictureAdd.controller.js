@@ -5,63 +5,69 @@
         $scope.uploader1 = {};
         $scope.ids = [];
         var currentId = $stateParams.id == undefined ? "" : $stateParams.id;
-        $scope.dec_type = [{
-          "num": 0,
-          "name": '家装'
-        }, {
-          "num": 1,
-          "name": '商装'
-        }, {
-          "num": 2,
-          "name": '软装'
-        }];
-        $scope.dec_style = [{
-          "num": 0,
-          "name": '欧式'
-        }, {
-          "num": 1,
-          "name": '中式'
-        }, {
-          "num": 2,
-          "name": '现代'
-        }, {
-          "num": 3,
-          "name": '地中海'
-        }, {
-          "num": 4,
-          "name": '美式'
-        }, {
-          "num": 5,
-          "name": '东南亚'
-        }, {
-          "num": 6,
-          "name": '田园'
-        }];
-        $scope.house_type = [{
-          "num": 0,
-          "name": '一室'
-        }, {
-          "num": 1,
-          "name": '二室'
-        }, {
-          "num": 2,
-          "name": '三室'
-        }, {
-          "num": 3,
-          "name": '四室'
-        }, {
-          "num": 4,
-          "name": '复式'
-        }, {
-          "num": 5,
-          "name": '别墅'
-        }, {
-          "num": 6,
-          "name": 'LOFT'
-        }, {
-          "num": 7,
-          "name": '其他'
-        }];
+        $scope.dec_type = [
+          {
+            "num": 0,
+            "name": '家装'
+          }, {
+            "num": 1,
+            "name": '商装'
+          }, {
+            "num": 2,
+            "name": '软装'
+          }
+        ];
+        $scope.dec_style = [
+          {
+            "num": 0,
+            "name": '欧式'
+          }, {
+            "num": 1,
+            "name": '中式'
+          }, {
+            "num": 2,
+            "name": '现代'
+          }, {
+            "num": 3,
+            "name": '地中海'
+          }, {
+            "num": 4,
+            "name": '美式'
+          }, {
+            "num": 5,
+            "name": '东南亚'
+          }, {
+            "num": 6,
+            "name": '田园'
+          }
+        ];
+        $scope.house_type = [
+          {
+            "num": 0,
+            "name": '一室'
+          }, {
+            "num": 1,
+            "name": '二室'
+          }, {
+            "num": 2,
+            "name": '三室'
+          }, {
+            "num": 3,
+            "name": '四室'
+          }, {
+            "num": 4,
+            "name": '复式'
+          }, {
+            "num": 5,
+            "name": '别墅'
+          }, {
+            "num": 6,
+            "name": 'LOFT'
+          }, {
+            "num": 7,
+            "name": '其他'
+          }
+        ];
         $scope.section = ['厨房', '客厅', '卫生间', '卧室', '餐厅', '书房', '玄关', '阳台', '儿童房', '走廊', '储物间']
         $scope.images = {
           "title": "",
