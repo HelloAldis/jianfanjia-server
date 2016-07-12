@@ -1,30 +1,7 @@
 <div class="recruit-page common">
 	<form name="recruit" ng-submit="searchTimeBtn()" novalidate>
 		<p>提交时间过滤</p>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-1 time-choose">开始时间</div>
-				<div class="col-md-3">
-					<p class="input-group">
-					  	<input type="text" class="form-control" uib-datepicker-popup ng-model="startTime.time" is-open="startTime.status.opened" datepicker-options="startTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
-					  	<span class="input-group-btn">
-					  		<button type="button" class="btn btn-default" ng-click="startTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-					  	</span>
-				  	</p>
-				</div>
-				<div class="col-md-1 time-choose text-center">--</div>
-				<div class="col-md-1 time-choose">结束时间</div>
-				<div class="col-md-3">
-					<p class="input-group">
-					  	<input type="text" class="form-control" uib-datepicker-popup ng-model="endTime.time" is-open="endTime.status.opened" datepicker-options="endTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
-					  	<span class="input-group-btn">
-					  		<button type="button" class="btn btn-default" ng-click="endTime.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-					  	</span>
-					</p>
-				</div>
-				<div class="col-md-2"><button type="submit" class="btn btn-primary" ng-disabled="recruit.$invalid" ng-class="">搜索</button></div>
-			</div>
-		</div>
+		<date-range-picker dt-start="startTime.time" dt-end="endTime.time" is-button="true"></date-range-picker>
 	</form>
 	<br />
 	<div>

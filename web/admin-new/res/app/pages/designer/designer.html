@@ -35,33 +35,7 @@
 
 	<form name="search" class="form-inline" ng-submit="searchBtn()" novalidate>
 		<p>设计师注册时间过滤：</p>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-1 time-choose">开始时间</div>
-				<div class="col-md-3">
-					<p class="input-group">
-							<input type="text" class="form-control" uib-datepicker-popup ng-model="startTime.time" is-open="startTime.status.opened" datepicker-options="startTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
-							<span class="input-group-btn">
-								<button type="button" class="btn btn-default" ng-click="startTime.open($event)">
-									<i class="glyphicon glyphicon-calendar"></i>
-								</button>
-							</span>
-						</p>
-				</div>
-				<div class="col-md-1 time-choose text-center">--</div>
-				<div class="col-md-1 time-choose">结束时间</div>
-				<div class="col-md-3">
-					<p class="input-group">
-							<input type="text" class="form-control" uib-datepicker-popup ng-model="endTime.time" is-open="endTime.status.opened" datepicker-options="endTime.dateOptions" close-text="关闭" clear-text="清除" current-text="今天" required />
-							<span class="input-group-btn">
-								<button type="button" class="btn btn-default" ng-click="endTime.open($event)">
-									<i class="glyphicon glyphicon-calendar"></i>
-								</button>
-							</span>
-					</p>
-				</div>
-			</div>
-		</div>
+		<date-range-picker dt-start="startTime.time" dt-end="endTime.time"></date-range-picker>
 		<div class="form-group">
 			<label for="inputPassword2" class="sr-only">搜索设计师</label>
 			<input type="text" class="form-control" placeholder="手机号码/设计师名字" ng-model="searchDesigner" required />

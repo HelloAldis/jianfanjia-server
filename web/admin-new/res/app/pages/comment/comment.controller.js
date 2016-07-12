@@ -1,6 +1,6 @@
 (function () {
   angular.module('JfjAdmin.pages.comment')
-    .controller('CommentController', [ //设计师列表
+    .controller('CommentController', [ //评论列表
       '$scope', 'adminComment', '$stateParams', '$location', 
       function ($scope, adminComment, $stateParams, $location) {
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
@@ -21,6 +21,8 @@
                 $scope.endTime.time = new Date(detail.query.date["$lte"]);
               }
             }
+
+            $scope.searchComment = detail.search_word;
           }
 
           detail.from = detail.from || 0;
@@ -45,6 +47,7 @@
 
           detail.query = detail.query || {};
           detail.query.date = createAt;
+          detail.search_word = $scope.searchComment || undefined;
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
           detail.sort = $scope.sort;
@@ -108,9 +111,6 @@
 
         //加载数据
         function loadList(detail) {
-          if (detail.query && detail.query.date && detail.query.date.$lte) {
-            detail.query.date.$lte += 86399999;
-          }
           adminComment.search(detail).then(function (resp) {
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
@@ -133,7 +133,7 @@
         //初始化数据
         loadList($stateParams.detail);
 
-        //搜索设计师
+        //搜索
         $scope.searchBtn = function () {
           var start = new Date($scope.startTime.time).getTime();
           var end = new Date($scope.endTime.time).getTime();
@@ -178,6 +178,7 @@
           $scope.pagination.currentPage = 1;
           $scope.startTime.time = '';
           $scope.endTime.time = '';
+          $scope.searchComment = undefined;
           $stateParams.detail = {};
           refreshPage(refreshDetailFromUI($stateParams.detail));
         };
