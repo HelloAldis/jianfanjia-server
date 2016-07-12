@@ -30,7 +30,7 @@
     // 文件总体选择信息。
     this.info = this.statusBar.find('.info');
 
-    let self = this;
+    var self = this;
 
     this.webUploader = WebUploader.create({
       pick: {
