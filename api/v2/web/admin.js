@@ -1110,6 +1110,7 @@ exports.search_comment = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
   if (search_word && search_word.trim().length > 0) {
     if (tools.isValidObjectId(search_word)) {
       query['$or'] = [{
