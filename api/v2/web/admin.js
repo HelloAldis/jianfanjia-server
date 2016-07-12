@@ -1036,7 +1036,7 @@ exports.search_diary = function (req, res, next) {
       query['$or'] = [{
         _id: search_word
       }, {
-        _diarySetid: search_word
+        diarySetid: search_word
       }, {
         authorid: search_word
       }];
@@ -1110,6 +1110,23 @@ exports.search_comment = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        topicid: search_word
+      }, {
+        by: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        content: search_word
+      }];
+    }
+  }
+
   let ep = eventproxy();
   ep.fail(next);
 
