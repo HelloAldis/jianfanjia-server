@@ -64,7 +64,7 @@
             $lte: lte
           }
         });
-        chart.labels.push($filter('date')(gte, 'yyyy-MM', '+0800'));
+        chart.labels.push($filter('date')(gte, 'MM-dd', '+0800'));
       }
       chart.timeRanges.reverse();
       chart.labels.reverse();
@@ -117,9 +117,6 @@
 
       chart.querys = [{
         key: 'requirement',
-        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at')
-      }, {
-        key: 'requirement',
         querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
           platform_type: '2'
         })
@@ -135,7 +132,7 @@
         })
       }];
 
-      chart.series = ['新增需求数', '来自Web', '来自iOS', '来自Android'];
+      chart.series = ['来自Web', '来自iOS', '来自Android'];
       adminStatistic.statistic_info({
         querys: chart.querys
       }).then(function (resp) {
@@ -172,13 +169,6 @@
       chart.querys = [{
         key: 'requirement',
         querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
-          status: {
-            $in: ['4', '5', '7', '8']
-          }
-        })
-      }, {
-        key: 'requirement',
-        querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
           platform_type: '2',
           status: {
             $in: ['4', '5', '7', '8']
@@ -202,7 +192,7 @@
         })
       }];
 
-      chart.series = ['成交增需求数', '来自Web', '来自iOS', '来自Android'];
+      chart.series = ['来自Web', '来自iOS', '来自Android'];
       adminStatistic.statistic_info({
         querys: chart.querys
       }).then(function (resp) {
