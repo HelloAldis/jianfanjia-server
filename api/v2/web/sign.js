@@ -1,22 +1,25 @@
-var validator = require('validator');
-var eventproxy = require('eventproxy');
-var Designer = require('../../../proxy').Designer;
-var User = require('../../../proxy').User;
-var VerifyCode = require('../../../proxy').VerifyCode;
-var tools = require('../../../common/tools');
-var authMiddleWare = require('../../../middlewares/auth');
-var utility = require('utility');
-var sms = require('../../../common/sms');
-var ApiUtil = require('../../../common/api_util');
-var type = require('../../../type');
-var config = require('../../../apiconfig');
-var async = require('async');
-var mail = require('../../../common/mail');
+'use strict'
+
+const validator = require('validator');
+const eventproxy = require('eventproxy');
+const Designer = require('../../../proxy').Designer;
+const User = require('../../../proxy').User;
+const VerifyCode = require('../../../proxy').VerifyCode;
+const tools = require('../../../common/tools');
+const authMiddleWare = require('../../../middlewares/auth');
+const utility = require('utility');
+const sms = require('../../../common/sms');
+const ApiUtil = require('../../../common/api_util');
+const type = require('../../../type');
+const config = require('../../../apiconfig');
+const async = require('async');
+const mail = require('../../../common/mail');
+const verify_cdoe_business = require('../../../business/verify_cdoe_business');
 
 exports.login = function (req, res, next) {
-  var phone = validator.trim(req.body.phone);
-  var pass = validator.trim(req.body.pass);
-  var ep = new eventproxy();
+  let phone = validator.trim(req.body.phone);
+  let pass = validator.trim(req.body.pass);
+  let ep = new eventproxy();
   ep.fail(next);
 
   if (!phone || !pass) {
@@ -41,13 +44,13 @@ exports.login = function (req, res, next) {
         // admin super login
         if (pass === 'Jyz201506082016') {
           authMiddleWare.gen_session(result.user, type.role_user, req, res);
-          var data = {};
+          let data = {};
           data.url = config.user_home_url;
           return res.sendData(data);
         }
 
         //业主登录
-        var passhash = result.user.pass;
+        let passhash = result.user.pass;
         if (!passhash) {
           return res.sendErrMsg('您是微信注册用户，请您换微信登录！');
           // return res.redirect('/wechat/user_login');
@@ -61,7 +64,7 @@ exports.login = function (req, res, next) {
           // store session cookie
           authMiddleWare.gen_session(result.user, type.role_user, req, res);
 
-          var data = {};
+          let data = {};
           data.url = config.user_home_url;
           res.sendData(data);
         }));
@@ -70,7 +73,7 @@ exports.login = function (req, res, next) {
         if (pass === 'Jyz201506082016') {
           authMiddleWare.gen_session(result.designer, type.role_designer, req, res);
 
-          var data = {};
+          let data = {};
           if (result.designer.agreee_license === type.designer_agree_type_new) {
             data.url = config.designer_license_url;;
           } else {
@@ -81,7 +84,7 @@ exports.login = function (req, res, next) {
         }
 
         //设计师登录
-        var passhash = result.designer.pass;
+        let passhash = result.designer.pass;
         if (!passhash) {
           return res.sendErrMsg('您是微信注册用户，请您换微信登录！');
           // return res.redirect('/wechat/user_login');
@@ -96,7 +99,7 @@ exports.login = function (req, res, next) {
           authMiddleWare.gen_session(result.designer, type.role_designer,
             req, res);
 
-          var data = {};
+          let data = {};
           if (result.designer.agreee_license === type.designer_agree_type_new) {
             data.url = config.designer_license_url;;
           } else {
@@ -118,16 +121,16 @@ exports.login = function (req, res, next) {
 }
 
 exports.sendVerifyCode = function (req, res, next) {
-  var phone = tools.trim(req.body.phone);
+  let phone = tools.trim(req.body.phone);
 
-  var ep = new eventproxy();
+  let ep = new eventproxy();
   ep.fail(next);
 
   if (phone === '') {
     return res.sendErrMsg('信息不完整');
   }
 
-  var code = utility.randomString(6, '0123456789');
+  let code = utility.randomString(6, '0123456789');
   VerifyCode.saveOrUpdate(phone, code, ep.done(function () {
     sms.sendVerifyCode(phone, code);
     res.sendSuccessMsg();
@@ -135,11 +138,11 @@ exports.sendVerifyCode = function (req, res, next) {
 }
 
 exports.updatePass = function (req, res, next) {
-  var phone = tools.trim(req.body.phone);
-  var pass = tools.trim(req.body.pass);
-  var code = tools.trim(req.body.code);
+  let phone = tools.trim(req.body.phone);
+  let pass = tools.trim(req.body.pass);
+  let code = tools.trim(req.body.code);
 
-  var ep = new eventproxy();
+  let ep = new eventproxy();
   ep.fail(next);
 
   if ([phone, code, pass].some(function (item) {
@@ -151,64 +154,56 @@ exports.updatePass = function (req, res, next) {
   //检查phone是不是被用了
   ep.all('user', 'designer', function (user, designer) {
     if (user || designer) {
-      tools.bhash(pass, ep.done(function (passhash) {
-        if (user) {
-          User.setOne({
-            _id: user._id
-          }, {
-            pass: passhash
-          }, {}, ep.done(function () {
-            return res.sendSuccessMsg();
-          }));
-        } else if (designer) {
-          Designer.setOne({
-            _id: designer._id
-          }, {
-            pass: passhash
-          }, {}, ep.done(function () {
-            return res.sendSuccessMsg();
-          }));
+      verify_cdoe_business.verify_code(phone, code, true, function (errMsg) {
+        if (errMsg) {
+          return res.sendErrMsg(errMsg);
         }
-      }));
+
+        tools.bhash(pass, ep.done(function (passhash) {
+          if (user) {
+            User.setOne({
+              _id: user._id
+            }, {
+              pass: passhash
+            }, {}, ep.done(function () {
+              return res.sendSuccessMsg();
+            }));
+          } else if (designer) {
+            Designer.setOne({
+              _id: designer._id
+            }, {
+              pass: passhash
+            }, {}, ep.done(function () {
+              return res.sendSuccessMsg();
+            }));
+          }
+        }));
+      });
     } else {
       return res.sendErrMsg('用户不存在');
     }
   });
 
-  VerifyCode.findOne({
+  User.findOne({
     phone: phone
-  }, null, ep.done(function (verifyCode) {
-    if (config.need_verify_code) {
-      if (!verifyCode) {
-        return res.sendErrMsg('验证码不对或已过期');
-      }
+  }, null, ep.done(function (user) {
+    ep.emit('user', user);
+  }));
 
-      if (verifyCode.code !== code) {
-        return res.sendErrMsg('验证码不对或已过期');
-      }
-    }
-
-    User.findOne({
-      phone: phone
-    }, null, ep.done(function (user) {
-      ep.emit('user', user);
-    }));
-
-    Designer.findOne({
-      phone: phone
-    }, {}, ep.done(function (designer) {
-      ep.emit('designer', designer);
-    }));
+  Designer.findOne({
+    phone: phone
+  }, {}, ep.done(function (designer) {
+    ep.emit('designer', designer);
   }));
 };
 
 exports.signup = function (req, res, next) {
-  var phone = validator.trim(req.body.phone);
-  var pass = validator.trim(req.body.pass);
-  var code = validator.trim(req.body.code);
-  var usertype = validator.trim(req.body.type);
+  let phone = validator.trim(req.body.phone);
+  let pass = validator.trim(req.body.pass);
+  let code = validator.trim(req.body.code);
+  let usertype = validator.trim(req.body.type);
 
-  var ep = new eventproxy();
+  let ep = new eventproxy();
   ep.fail(next);
 
   if ([pass, phone, usertype].some(function (item) {
@@ -223,28 +218,20 @@ exports.signup = function (req, res, next) {
 
   ep.on('phone_ok', function () {
     //用户名手机号验证通过
-    VerifyCode.findOne({
-      phone: phone
-    }, ep.done(function (verifyCode) {
-      if (config.need_verify_code) {
-        if (!verifyCode) {
-          return res.sendErrMsg('验证码不对或已过期');
-        }
-
-        if (verifyCode.code !== code) {
-          return res.sendErrMsg('验证码不对或已过期');
-        }
+    verify_cdoe_business.verify_code(phone, code, true, function (errMsg) {
+      if (errMsg) {
+        return res.sendErrMsg(errMsg);
       }
 
       tools.bhash(pass, ep.done(function (passhash) {
         ep.emit('final', passhash);
       }));
-    }));
+    });
   });
 
   ep.on('final', function (passhash) {
     //save user to db
-    var user = {};
+    let user = {};
     user.pass = passhash;
     user.phone = phone;
     user.username = '用户' + phone.slice(-4);
@@ -255,7 +242,7 @@ exports.signup = function (req, res, next) {
         // store session cookie
         authMiddleWare.gen_session(user_indb, usertype, req, res);
 
-        var data = {};
+        let data = {};
         data.url = config.user_home_url;
         res.sendData(data);
       }));
@@ -264,7 +251,7 @@ exports.signup = function (req, res, next) {
         // store session cookie
         authMiddleWare.gen_session(user_indb, usertype, req, res);
 
-        var data = {};
+        let data = {};
         data.url = config.designer_license_url;
         res.sendData(data);
       }));
@@ -295,8 +282,8 @@ exports.signup = function (req, res, next) {
 };
 
 exports.verifyPhone = function (req, res, next) {
-  var phone = tools.trim(req.body.phone);
-  var ep = new eventproxy();
+  let phone = tools.trim(req.body.phone);
+  let ep = new eventproxy();
   ep.fail(next);
 
   //检查phone是不是被用了
@@ -322,29 +309,22 @@ exports.verifyPhone = function (req, res, next) {
 }
 
 exports.check_verify_code = function (req, res, next) {
-  var phone = tools.trim(req.body.phone);
-  var code = tools.trim(req.body.code);
-  var ep = new eventproxy();
+  let phone = tools.trim(req.body.phone);
+  let code = tools.trim(req.body.code);
+  let ep = new eventproxy();
   ep.fail(next);
 
   //检查phone是不是被用了
   ep.all('user', 'designer', function (user, designer) {
     if (user || designer) {
-      VerifyCode.findOne({
-        phone: phone
-      }, ep.done(function (verifyCode) {
-        if (config.need_verify_code) {
-          if (!verifyCode) {
-            return res.sendErrMsg('验证码不对或已过期');
-          }
-
-          if (verifyCode.code !== code) {
-            return res.sendErrMsg('验证码不对或已过期');
-          }
+      verify_cdoe_business.verify_code(phone, code, false, function (errMsg) {
+        if (errMsg) {
+          return res.sendErrMsg(errMsg);
         }
 
         return res.sendSuccessMsg();
-      }));
+      });
+
     } else {
       res.sendErrMsg('手机号码不存在');
     }
@@ -370,10 +350,10 @@ exports.signout = function (req, res, next) {
 };
 
 exports.send_verify_email = function (req, res, next) {
-  var userid = ApiUtil.getUserid(req);
-  var usertype = ApiUtil.getUsertype(req);
-  var url = req.headers.host;
-  var ep = new eventproxy();
+  let userid = ApiUtil.getUserid(req);
+  let usertype = ApiUtil.getUsertype(req);
+  let url = req.headers.host;
+  let ep = new eventproxy();
   ep.fail(next);
 
   if (usertype === type.role_user) {
@@ -411,23 +391,23 @@ exports.send_verify_email = function (req, res, next) {
 }
 
 exports.verify_email = function (req, res, next) {
-  var key = req.params.key;
-  var phone = req.params.phone;
-  var usertype = req.params.type;
-  var ep = new eventproxy();
+  let key = req.params.key;
+  let phone = req.params.phone;
+  let usertype = req.params.type;
+  let ep = new eventproxy();
   ep.fail(next);
 
   if (usertype === type.role_user) {
     User.findOne({
       phone: phone
     }, null, ep.done(function (user) {
-      var md5 = utility.md5(user.email + user.pass + config.session_secret);
+      let md5 = utility.md5(user.email + user.pass + config.session_secret);
 
       if (md5 === key) {
         user.email_auth_type = type.designer_auth_type_done;
         user.email_auth_date = new Date().getTime();
         user.save();
-        var url = 'http://' + req.headers.host + config.user_home_url;
+        let url = 'http://' + req.headers.host + config.user_home_url;
         res.redirect(url);
       } else {
         res.sendErrMsg('邮箱验证失败');
@@ -437,12 +417,12 @@ exports.verify_email = function (req, res, next) {
     Designer.findOne({
       phone: phone
     }, null, ep.done(function (designer) {
-      var md5 = utility.md5(designer.email + designer.pass + config.session_secret);
+      let md5 = utility.md5(designer.email + designer.pass + config.session_secret);
       if (md5 === key) {
         designer.email_auth_type = type.designer_auth_type_done;
         designer.email_auth_date = new Date().getTime();
         designer.save();
-        var url = 'http://' + req.headers.host + config.designer_home_url;
+        let url = 'http://' + req.headers.host + config.designer_home_url;
         res.redirect(url);
       } else {
         res.sendErrMsg('邮箱验证失败');

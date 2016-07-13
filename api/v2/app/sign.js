@@ -16,6 +16,7 @@ const async = require('async');
 const superagent = require('superagent');
 const Image = require('../../../proxy').Image;
 const imageUtil = require('../../../common/image_util');
+const verify_cdoe_business = require('../../../business/verify_cdoe_business');
 
 exports.user_login = function (req, res, next) {
   let phone = validator.trim(req.body.phone);
@@ -161,17 +162,9 @@ exports.user_signup = function (req, res, next) {
 
   ep.on('phone_ok', function () {
     //用户名手机号验证通过
-    VerifyCode.findOne({
-      phone: phone
-    }, ep.done(function (verifyCode) {
-      if (config.need_verify_code) {
-        if (!verifyCode) {
-          return res.sendErrMsg('验证码不对或已过期');
-        }
-
-        if (verifyCode.code !== code) {
-          return res.sendErrMsg('验证码不对或已过期');
-        }
+    verify_cdoe_business.verify_code(phone, code, true, function (errMsg) {
+      if (errMsg) {
+        return res.sendErrMsg(errMsg);
       }
 
       tools.bhash(pass, ep.done(function (passhash) {
@@ -194,7 +187,7 @@ exports.user_signup = function (req, res, next) {
           res.sendData(data);
         }));
       }));
-    }));
+    });
   });
 
   //检查phone是不是被用了
@@ -235,17 +228,9 @@ exports.designer_signup = function (req, res, next) {
 
   ep.on('phone_ok', function () {
     //用户名手机号验证通过
-    VerifyCode.findOne({
-      phone: phone
-    }, ep.done(function (verifyCode) {
-      if (config.need_verify_code) {
-        if (!verifyCode) {
-          return res.sendErrMsg('验证码不对或已过期');
-        }
-
-        if (verifyCode.code !== code) {
-          return res.sendErrMsg('验证码不对或已过期');
-        }
+    verify_cdoe_business.verify_code(phone, code, true, function (errMsg) {
+      if (errMsg) {
+        return res.sendErrMsg(errMsg);
       }
 
       tools.bhash(pass, ep.done(function (passhash) {
@@ -267,7 +252,7 @@ exports.designer_signup = function (req, res, next) {
           res.sendData(data);
         }));
       }));
-    }));
+    });
   });
 
   //检查phone是不是被用了
