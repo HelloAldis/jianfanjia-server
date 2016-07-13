@@ -1,6 +1,6 @@
 (function () {
   angular.module('JfjAdmin.pages.diary')
-    .controller('DiaryController', [ //设计师列表
+    .controller('DiaryController', [ //日记列表
       '$scope', 'adminDiary', '$stateParams', '$location',
       function ($scope, adminDiary, $stateParams, $location) {
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
@@ -22,7 +22,7 @@
               }
             }
 
-            $scope.searchDiary = detail.query.search_id;
+            $scope.searchDiary = detail.search_word;
           }
 
           detail.from = detail.from || 0;
@@ -46,8 +46,8 @@
           } : undefined;
 
           detail.query = detail.query || {};
-          detail.query.search_id = $scope.searchDiary || undefined;
           detail.query.create_at = createAt;
+          detail.search_word = $scope.searchDiary || undefined;
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
           detail.sort = $scope.sort;
@@ -111,9 +111,6 @@
 
         //加载数据
         function loadList(detail) {
-          if (detail.query && detail.query.create_at && detail.query.create_at.$lte) {
-            detail.query.create_at.$lte += 86399999;
-          }
           adminDiary.search(detail).then(function (resp) {
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
@@ -137,7 +134,7 @@
         //初始化数据
         loadList($stateParams.detail);
 
-        //搜索设计师
+        //搜索
         $scope.searchBtn = function () {
           var start = new Date($scope.startTime.time).getTime();
           var end = new Date($scope.endTime.time).getTime();

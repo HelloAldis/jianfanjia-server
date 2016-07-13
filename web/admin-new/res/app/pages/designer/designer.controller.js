@@ -247,9 +247,6 @@
         }
         //加载数据
         function loadList(detail) {
-          if (detail.query && detail.query.create_at && detail.query.create_at.$lte) {
-            detail.query.create_at.$lte += 86399999;
-          }
           adminDesigner.search(detail).then(function (resp) {
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
@@ -296,8 +293,6 @@
 
         $scope.authBtn = function (id, list) {
           mutiSelected.curList(list, id);
-          // console.log($scope.authList);
-          // console.log($scope.authOnlineList);
           $scope.pagination.currentPage = 1;
           refreshPage(refreshDetailFromUI($stateParams.detail));
         };

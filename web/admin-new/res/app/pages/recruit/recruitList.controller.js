@@ -125,10 +125,6 @@
             alert('开始时间不能晚于结束时间，请重新选择。');
             return;
           }
-          // if (end - start < 86400000) {
-          //   alert('结束时间必须必比开始时间大一天，请重新选择');
-          //   return;
-          // }
           $scope.pagination.currentPage = 1;
           refreshPage(refreshDetailFromUI($stateParams.detail));
         };
@@ -153,9 +149,6 @@
         };
         //加载数据
         function loadList(detail) {
-          if (detail.query && detail.query.create_at && detail.query.create_at.$lte) {
-            detail.query.create_at.$lte += 86399999;
-          }
           adminEvents.angel(detail).then(function (resp) {
             if (resp.data.data.total == 0) {
               $scope.loading.loadData = true;
