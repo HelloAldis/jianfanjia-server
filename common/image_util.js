@@ -35,7 +35,7 @@ exports.watermark = function (buffer, callback) {
 
     if (value && value.width) {
       var command = 'image Over ';
-      var x = value.width - 148;
+      var x = value.width - 153;
       command = command + x + ',10 0,0 mark.png'
       this.draw(command).stream(callback);
     } else {
@@ -56,7 +56,7 @@ exports.meta = function (buffer, callback) {
 
 exports.resizeThenWatermark2stream = function (buffer, width, callback) {
   var command = 'image Over ';
-  var x = width - 148;
+  var x = width - 153;
   command = command + x + ',10 0,0 mark.png'
 
   gm(buffer).resize(width).draw(command).interlace('Line').stream(callback);
