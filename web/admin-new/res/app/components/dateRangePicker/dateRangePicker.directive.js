@@ -10,6 +10,8 @@
       scope:{
         dtStart: '=',
         dtEnd: '=',
+        startTime: '=',
+        endTime: '=',
         isButton: '='
       },
       restrict: 'E',

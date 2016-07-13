@@ -1,7 +1,7 @@
 <div class="comment-page common">
 	<form name="search" class="form-inline" ng-submit="searchBtn()" novalidate>
 		<p>评论时间过滤：</p>
-		<date-range-picker dt-start="startTime.time" dt-end="endTime.time"></date-range-picker>
+		<date-range-picker start-time="startTime" end-time="endTime" dt-start="dtStart" dt-end="dtEnd"></date-range-picker>
 		<div class="form-group">
 			<label class="sr-only">搜索评论</label>
 			<input type="text" name="searchComment" class="form-control" ng-model="searchComment" required />

@@ -32,11 +32,11 @@
           if (detail.query) {
             if (detail.query.create_at) {
               if (detail.query.create_at["$gte"]) {
-                $scope.startTime.time = new Date(detail.query.create_at["$gte"]);
+                $scope.dtStart = new Date(detail.query.create_at["$gte"]);
               }
 
               if (detail.query.create_at["$lte"]) {
-                $scope.endTime.time = new Date(detail.query.create_at["$lte"]);
+                $scope.dtEnd = new Date(detail.query.create_at["$lte"]);
               }
             }
           }
@@ -53,7 +53,7 @@
 
         //从页面获取详情
         function refreshDetailFromUI(detail) {
-          var gte = $scope.startTime.time ? $scope.startTime.time.getTime() : undefined;
+          var gte = $scope.dtStart ? $scope.dtStart.getTime() : undefined;
           var lte = $scope.endTime.time ? $scope.endTime.time.getTime() : undefined;
           var createAt = gte && lte ? {
             "$gte": gte,
@@ -68,47 +68,8 @@
           return detail;
         }
 
-        //时间筛选控件
-        $scope.startTime = {
-          clear: function () {
-            this.dt = null;
-          },
-          dateOptions: {
-            formatYear: 'yy',
-            startingDay: 1
-          },
-          status: {
-            opened: false
-          },
-          open: function ($event) {
-            this.status.opened = true;
-          },
-          today: function () {
-            this.dt = new Date();
-          }
-        };
-        $scope.startTime.today();
-        $scope.endTime = {
-          clear: function () {
-            this.dt = null;
-          },
-          dateOptions: {
-            formatYear: 'yy',
-            startingDay: 1
-          },
-          status: {
-            opened: false
-          },
-          open: function ($event) {
-            this.status.opened = true;
-          },
-          today: function () {
-            this.dt = new Date();
-          }
-        };
-        $scope.endTime.today();
         $scope.searchTimeBtn = function () {
-          var start = new Date($scope.startTime.time).getTime();
+          var start = new Date($scope.dtStart).getTime();
           var end = new Date($scope.endTime.time).getTime()
           if (start > end) {
             alert('开始时间不能晚于结束时间，请重新选择。');
@@ -132,7 +93,7 @@
         //重置清空状态
         $scope.clearStatus = function () {
           $scope.pagination.currentPage = 1;
-          $scope.startTime.time = '';
+          $scope.dtStart = '';
           $scope.endTime.time = '';
           $stateParams.detail = {}
           refreshPage(refreshDetailFromUI($stateParams.detail));
