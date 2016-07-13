@@ -16,9 +16,9 @@
 					</td>
 				</tr>
 			</tbody>
-			<div class="load-data" ng-if="!loading.loadData">
+			<div class="load-data">
 				<load-data ng-hide="loading.loadData"></load-data>
-				<no-data ng-show="loading.notData"></no-data>
+				<no-data ng-if="loading.notData"></no-data>
 			</div>
 		</table>
 	</div>

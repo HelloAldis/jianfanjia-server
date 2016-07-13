@@ -226,6 +226,7 @@ exports.user_message_detail = function (req, res, next) {
         cell: 1,
         basic_address: 1,
         status: 1,
+        work_type: 1,
       }, ep.done(function (requirement) {
         message = message.toObject();
         message.requirement = requirement;

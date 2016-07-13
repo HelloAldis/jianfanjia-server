@@ -11,9 +11,6 @@
 .common .btn:hover{
 	transform: scale(1.1);
 }
-.common .panel-info{
-	min-height: 256px;
-}
 .common .panel-info .user-id{
 	min-width: 180px;
 }
@@ -22,9 +19,9 @@
 }
 .common .panel-info .load-data{
 	width: 100%;
-	height: 220px;
 }
-.common .panel-info .load-data .loadData{
+.common .panel-info .load-data .loadData,
+.common .panel-info .load-data .notData{
 	margin: 146px auto;
 }
 .common .paginat{

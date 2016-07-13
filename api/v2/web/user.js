@@ -20,6 +20,7 @@ const sms = require('../../../common/sms');
 const authMiddleWare = require('../../../middlewares/auth');
 const message_util = require('../../../common/message_util');
 const pc_web_header = require('../../../business/pc_web_header');
+const verify_cdoe_business = require('../../../business/verify_code_business');
 
 exports.user_my_info = function (req, res, next) {
   let userid = req.params._id || ApiUtil.getUserid(req);
@@ -348,17 +349,9 @@ exports.user_bind_phone = function (req, res, next) {
       res.sendErrMsg('手机号码已被使用');
     } else {
       //用户名手机号验证通过
-      VerifyCode.findOne({
-        phone: phone
-      }, ep.done(function (verifyCode) {
-        if (config.need_verify_code) {
-          if (!verifyCode) {
-            return res.sendErrMsg('验证码不对或已过期');
-          }
-
-          if (verifyCode.code !== code) {
-            return res.sendErrMsg('验证码不对或已过期');
-          }
+      verify_cdoe_business.verify_code(phone, code, true, function (errMsg) {
+        if (errMsg) {
+          return res.sendErrMsg(errMsg);
         }
 
         User.setOne({
@@ -368,7 +361,7 @@ exports.user_bind_phone = function (req, res, next) {
         }, null, ep.done(function () {
           res.sendSuccessMsg();
         }));
-      }));
+      });
     }
   });
 

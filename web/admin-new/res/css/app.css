@@ -1,0 +1,110 @@
+.common .time-choose{
+	line-height: 34px;
+}
+.common .input-group .btn:hover{
+	transform: scale(1);
+	background-color: #ddd;
+}
+.common .list-inline li{
+	margin-bottom: 10px;
+}
+.common .btn:hover{
+	transform: scale(1.1);
+}
+.common .panel-info .user-id{
+	min-width: 180px;
+}
+.common .panel-info .item-width{
+	max-width: 180px;
+}
+.common .panel-info .load-data{
+	width: 100%;
+}
+.common .panel-info .load-data .loadData,
+.common .panel-info .load-data .notData{
+	margin: 146px auto;
+}
+.common .paginat{
+	min-height: 70px;
+}
+
+.common .content-width .content{
+	max-width: 350px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.loadData {
+  display: block;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  backface-visibility: hidden;
+  /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+.loadData:before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #209e91;
+  -webkit-animation: spin 1s linear infinite;
+  /* Chrome, Opera 15+, Safari 5+ */
+  animation: spin 1s linear infinite;
+  /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+.loadData:after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #e85656;
+  -webkit-animation: spin 0.8s linear infinite;
+  animation: spin 0.8s linear infinite;
+  /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+
+.notData{
+  width: 100px;
+  height: 125px;
+  text-align: center;
+  margin: 0 auto;
+}
+.notData img {
+  width: 100%;
+}
+.notData span {
+  display: block;
+  text-align: center;
+  white-space: nowrap;
+}
+.designer-page .online-status-btn button{
+	width: 68px;
+}
+.data-statis-page .panel-info .load-data{
+	position: absolute;
+	margin-top: 50px;
+}
+.live-page .panel-info .td-opt a{
+	cursor: pointer;
+}
+.requirement-detail-page .breadcrumb .panel-info .tab-title{
+	background-color: rgba(217, 237, 247, 0.94);
+}
+.requirement-detail-page .breadcrumb .panel-info .tab-title h2,
+.requirement-detail-page .breadcrumb .panel-info .tab-title h4{
+	margin: 0;
+	padding: 5px;
+}
+.requirement-detail-page .breadcrumb .panel-info .tab-title h4{
+	border-bottom: solid 1px #dcdcdc;
+}

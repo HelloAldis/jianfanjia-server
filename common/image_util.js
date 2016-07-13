@@ -4,7 +4,7 @@ const gm = require('gm').subClass({
   nativeAutoOrient: true
 });
 const path = require('path');
-
+const watermark_offset = 155;
 const plan_image = path.resolve(__dirname, '../res/plan.jpeg');
 
 exports.resize2stream = function (buffer, width, callback) {
@@ -35,7 +35,7 @@ exports.watermark = function (buffer, callback) {
 
     if (value && value.width) {
       var command = 'image Over ';
-      var x = value.width - 366;
+      var x = value.width - watermark_offset;
       command = command + x + ',10 0,0 mark.png'
       this.draw(command).stream(callback);
     } else {
@@ -56,7 +56,7 @@ exports.meta = function (buffer, callback) {
 
 exports.resizeThenWatermark2stream = function (buffer, width, callback) {
   var command = 'image Over ';
-  var x = width - 366;
+  var x = width - watermark_offset;
   command = command + x + ',10 0,0 mark.png'
 
   gm(buffer).resize(width).draw(command).interlace('Line').stream(callback);

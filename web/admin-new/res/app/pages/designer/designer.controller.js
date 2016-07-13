@@ -123,11 +123,11 @@
           if (detail.query) {
             if (detail.query.create_at) {
               if (detail.query.create_at["$gte"]) {
-                $scope.startTime.time = new Date(detail.query.create_at["$gte"]);
+                $scope.dtStart = new Date(detail.query.create_at["$gte"]);
               }
 
               if (detail.query.create_at["$lte"]) {
-                $scope.endTime.time = new Date(detail.query.create_at["$lte"]);
+                $scope.dtEnd = new Date(detail.query.create_at["$lte"]);
               }
             }
 
@@ -152,8 +152,8 @@
 
         //从页面获取详情
         function refreshDetailFromUI(detail) {
-          var gte = $scope.startTime.time ? $scope.startTime.time.getTime() : undefined;
-          var lte = $scope.endTime.time ? $scope.endTime.time.getTime() : undefined;
+          var gte = $scope.dtStart ? $scope.dtStart.getTime() : undefined;
+          var lte = $scope.dtEnd ? $scope.dtEnd.getTime() : undefined;
 
           var createAt = gte && lte ? {
             "$gte": gte,
@@ -189,45 +189,7 @@
             refreshPage(refreshDetailFromUI($stateParams.detail));
           }
         };
-        //时间筛选控件
-        $scope.startTime = {
-          clear: function () {
-            this.dt = null;
-          },
-          dateOptions: {
-            formatYear: 'yy',
-            startingDay: 1
-          },
-          status: {
-            opened: false
-          },
-          open: function ($event) {
-            this.status.opened = true;
-          },
-          today: function () {
-            this.dt = new Date();
-          }
-        };
-        $scope.startTime.today();
-        $scope.endTime = {
-          clear: function () {
-            this.dt = null;
-          },
-          dateOptions: {
-            formatYear: 'yy',
-            startingDay: 1
-          },
-          status: {
-            opened: false
-          },
-          open: function ($event) {
-            this.status.opened = true;
-          },
-          today: function () {
-            this.dt = new Date();
-          }
-        };
-        $scope.endTime.today();
+
         //提示消息
         function tipsMsg(msg, time) {
           time = time || 2000;
@@ -315,8 +277,8 @@
           mutiSelected.clearCur($scope.emailAuthList);
           mutiSelected.clearCur($scope.authOnlineList);
           $scope.pagination.currentPage = 1;
-          $scope.startTime.time = '';
-          $scope.endTime.time = '';
+          $scope.dtStart = '';
+          $scope.dtEnd = '';
           $scope.searchDesigner = undefined;
           $stateParams.detail = {};
           refreshPage(refreshDetailFromUI($stateParams.detail));

@@ -35,7 +35,7 @@
 
 	<form name="search" class="form-inline" ng-submit="searchBtn()" novalidate>
 		<p>设计师注册时间过滤：</p>
-		<date-range-picker dt-start="startTime.time" dt-end="endTime.time"></date-range-picker>
+		<date-range-picker start-time="startTime" end-time="endTime" dt-start="dtStart" dt-end="dtEnd"></date-range-picker>
 		<div class="form-group">
 			<label for="inputPassword2" class="sr-only">搜索设计师</label>
 			<input type="text" class="form-control" placeholder="手机号码/设计师名字" ng-model="searchDesigner" required />
@@ -93,10 +93,8 @@
 				</tr>
 			</tbody>
 		</table>
-		<div class="load-data" ng-if="!loading.loadData">
-			<load-data ng-hide="loading.loadData"></load-data>
-			<no-data ng-show="loading.notData"></no-data>
-		</div>
+		<load-data ng-hide="loading.loadData"></load-data>
+		<no-data ng-if="loading.notData"></no-data>
 	</div>
 
 	<div class="text-center" ng-if="loading.loadData && !loading.notData">

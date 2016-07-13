@@ -1,7 +1,7 @@
 <div class="pictures-list-page common">
 	<form name="recruit" ng-submit="searchTimeBtn()" novalidate>
 		<p>美图创建时间过滤</p>
-		<date-range-picker dt-start="startTime.time" dt-end="endTime.time" is-button="true"></date-range-picker>
+		<date-range-picker start-time="startTime" end-time="endTime" dt-start="dtStart" dt-end="dtEnd" is-button="true"></date-range-picker>
 	</form>
 	<br />
 	<div>
@@ -33,10 +33,8 @@
 				</tr>
 			</tbody>
 		</table>
-		<div class="load-data" ng-if="!loading.loadData">
-			<load-data ng-hide="loading.loadData"></load-data>
-			<no-data ng-show="loading.notData"></no-data>
-		</div>
+		<load-data ng-hide="loading.loadData"></load-data>
+		<no-data ng-if="loading.notData"></no-data>
 	</div>
 	<div class="text-center" ng-if="loading.loadData && !loading.notData">
 		<uib-pagination total-items="pagination.totalItems" first-text="首页" next-text="下一页" previous-text="上一页" last-text="尾页" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-links="true" num-pages="numPages" rotate="false" ng-change="pagination.pageChanged()"></uib-pagination>
