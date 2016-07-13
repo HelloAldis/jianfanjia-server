@@ -1930,12 +1930,14 @@ angular.module('directives', [])
             },
             restrict: 'A',
             template: function (obj, attr) {
+                var top = attr.myId === 'productplan' ? '<div class="k-uploadbox f-cb default" style="padding-bottom: 10px;">' : '<div class="k-uploadbox f-cb default">';
+                var strong = attr.myId === 'productplan' ? '<br><strong style="text-align: center;padding-top: 15px;">为了达到最佳的显示效果，请您上传宽度大于880px的图片</strong>' : '';
                 var template = [
-                            '<div class="k-uploadbox f-cb default">',
+                            top,
                                 '<div class="list"></div>',
                                 '<div class="pic" id="create">',
                                     '<div class="fileBtn" id="{{myId}}"></div>',
-                                    '<div class="tips"><span><em></em><i></i></span><p>平面图上传每张3M以内<br>jpg/png格式</p></div>',
+                                    '<div class="tips"><span><em></em><i></i></span><p>平面图上传每张3M以内<br>jpg/png格式'+strong+'</p></div>',
                                     '<div class="disable" ng-if="myLoading"></div>',
                                 '</div>',
                             '</div>'
@@ -1962,7 +1964,6 @@ angular.module('directives', [])
                             </div>\
                         </div>';
                 function addFile(file,status){
-                    console.log(file,status)
                     if(status){
                         var item = $('<div class="item uploader-item" id="'+file.id+'">'+str+'</div>');
                         item.find('.filename').html(file.name);
@@ -1975,7 +1976,11 @@ angular.module('directives', [])
                     uploadbox.append(item);
                 }
                 angular.forEach(scope.myQuery,function(value, key){
-                    addFile(value,false);
+                    if(angular.isString(value)){
+                        addFile(value,false);
+                    }else if(angular.isObject(value)){
+                        addFile(value.imageid,false);
+                    }
                 });
                 if(WebUploader.browser.ie && !flashVersion){
                     alert('您的浏览器没有安装flash插件，或者flash版本过低，请及时更新。');
@@ -2111,9 +2116,15 @@ angular.module('directives', [])
                         var item = $(this).parents('.uploader-item'),
                             imageid = item.data('imageid');
                         $timeout(function () {
-                            scope.myQuery = _.remove(scope.myQuery, function(n) {
-                                return n != imageid;
-                            });
+                            if(scope.myId === 'productplan'){
+                                scope.myQuery = _.remove(scope.myQuery, function(n) {
+                                    return n.imageid != imageid;
+                                });
+                            }else{
+                                scope.myQuery = _.remove(scope.myQuery, function(n) {
+                                    return n != imageid;
+                                });
+                            }
                         }, 0);
                         item.remove();
                     }

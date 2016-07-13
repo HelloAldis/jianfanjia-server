@@ -414,3 +414,46 @@ body,html,.g-user{
 .g-getpw .m-step li.active{
     color: #383d48;
 }
+.g-getpw .m-status{
+    position: absolute;
+    left:0;
+    top:0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    text-align: center;
+    display: none;
+}
+.g-getpw .m-status .icon{
+    padding: 118px 0 20px;
+    height: 88px;
+    line-height: 88px;
+}
+.g-getpw .m-status .icon .iconfont{
+    font-size: 88px;
+    color: #1cb235;
+}
+.g-getpw .m-status h3{
+    font-size: 24px;
+    line-height: 46px;
+    font-weight: bold;
+    color: #1cb235;
+}
+.g-getpw .m-status p{
+    padding-bottom: 40px;
+    font-size: 14px;
+    line-height: 26px;
+    color: #999;
+}
+.g-getpw .m-status .btn{
+    display: inline-block;
+    width: 130px;
+    line-height: 45px;
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    border: 0 none;
+    background-color: #fe7004;
+    border-radius: 3px;
+}

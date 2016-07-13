@@ -32,6 +32,7 @@ require(['jquery','lodash'],function($,_){
         "select" : function(){
             var _this = this;
             var select = $('#j-select');
+            var app = $('#j-app');
             select.on('click', 'dl', function(event) {
                 event.preventDefault();
                 var type = $(this).data('type');
@@ -52,6 +53,8 @@ require(['jquery','lodash'],function($,_){
                 }else{
                     _this.weixin.hide();
                 }
+                app.find('img').addClass('hide');
+                app.find('img').eq(type - 1).removeClass('hide');
             }
         },
         verify : {
@@ -139,22 +142,24 @@ require(['jquery','lodash'],function($,_){
                 VerifyCodeOff = true,
                 $getVerifyCode = $('#getVerifyCode');
             $getVerifyCode.on('click',function(){
-                if(VerifyCodeOff && self.verify.isMobile(self.mobile.val())){
+                if($(this).hasClass('disabled')){
+                    return ;
+                }
+                if(VerifyCodeOff && !self.isMobile){
                     VerifyCodeOff = false;
                     countdown($(this),60);
-                    var userName = self.mobile.val();
                     $.ajax({
                         url:'/api/v2/web/send_verify_code',
                         type: 'post',
                         contentType : 'application/json; charset=utf-8',
                         dataType: 'json',
                         data : JSON.stringify({
-                            phone : userName
+                            phone : self.mobile.val()
                         }),
                         processData : false
                     });
                 }else{
-                    self.error.html(self.errmsg.mobile);
+                    self.error.html('手机号码已被使用');
                     self.mobile.parents('.item').addClass('error');
                     return false;
                 }
@@ -178,10 +183,16 @@ require(['jquery','lodash'],function($,_){
         },
         focus : function(obj){
             var self = this;
-            obj.on('focus',function(){
-                $(this).parents('.item').addClass('focus').removeClass('error');
-            });
-            self.error.html('');
+            if(obj === self.mobile && self.isMobile){
+                obj.on('focus',function(){
+                    $(this).parents('.item').addClass('focus').removeClass('error');
+                });
+            }else{
+               obj.on('focus',function(){
+                    $(this).parents('.item').addClass('focus').removeClass('error');
+                });
+                self.error.html('');
+            }
         },
         bindFocus : function(){
             var self = this;
@@ -211,6 +222,11 @@ require(['jquery','lodash'],function($,_){
         },
         checkMobile : function(){
             var self = this;
+            self.mobile.on('focus',function(){
+                if(self.isMobile){
+                    $(this).parents('.item').addClass('focus').removeClass('error');
+                }
+            });
             self.mobile.on('input propertychange',function(){
                 if(self.verify.isMobile(self.mobile.val())){
                     $.ajax({

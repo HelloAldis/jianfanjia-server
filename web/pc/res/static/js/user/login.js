@@ -6,12 +6,6 @@ require.config({
         cookie : 'lib/jquery.cookie'
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
-    var search = new common.Search();
-    search.init();
-    var goto = new common.Goto();
-    goto.init();
-});
 require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
 	if(window.location.host == 'jianfanjia.com'){
 		window.location.href = 'http://www.jianfanjia.com/tpl/user/login.html';
@@ -132,7 +126,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             			self.pass.parents('.item').addClass('error');
             		}
             	}
-            })
+            });
         },
         charCodeAt : function(str){
         	var code = '';
@@ -155,9 +149,17 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
         	return str;
         },
         focus : function(obj){
+            var self = this;
+            var oldValue = obj.val();
             obj.on('focus',function(){
                 $(this).parents('.item').addClass('focus').removeClass('hide');
-            })
+            });
+            obj.on('input',function(){
+                console.log(oldValue , $(this).val())
+                // if(oldValue != $(this).val()){
+                //     self.removeCookie();
+                // }
+            });
             this.error.html('');
         },
         bindFocus : function(){

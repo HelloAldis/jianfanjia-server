@@ -10,7 +10,7 @@ require(['jquery','lodash'],function($,_){
     Getpw.prototype = {
         init : function(){
             this.checkStep = 4;
-            this.successUrl = 'login.html';
+            this.successUrl = '/tpl/user/login.html';
             this.mobile = $("#getpw-account");
             this.captcha = $("#getpw-VerifyCode");
             this.pass = $("#getpw-password");
@@ -18,6 +18,7 @@ require(['jquery','lodash'],function($,_){
             this.form = $('#form-getpw');
             this.error1 = $('#error-info1');
             this.error2 = $('#error-info2');
+            this.status = $('#j-status');
             this.bindVerifyCode();
             this.bindFocus();
             this.bindBlur();
@@ -36,6 +37,7 @@ require(['jquery','lodash'],function($,_){
             }
         },
         errmsg : {
+            'empty' : '不能为空',
             'mobile'  : '手机号不正确',
             'password' : '密码需为6~30个字母或数字',
             'password_confirm' : '两次输入的密码不一样',
@@ -46,7 +48,11 @@ require(['jquery','lodash'],function($,_){
             var self = this;
             return {
                 mobile  :  function(){
-                    if(!self.verify.isMobile(self.mobile.val())){
+                    if(!$.trim(self.mobile.val()).length){
+                        self.error1.html('手机号'+self.errmsg.empty);
+                        self.mobile.parents('.item').addClass('error');
+                        return false;
+                    }else if(!self.verify.isMobile(self.mobile.val())){
                         self.error1.html(self.errmsg.mobile);
                         self.mobile.parents('.item').addClass('error');
                         return false;
@@ -57,7 +63,11 @@ require(['jquery','lodash'],function($,_){
                     }
                 },
                 captcha  :  function(){
-                    if(!self.verify.isVerifyCode(self.captcha.val())){
+                    if(!$.trim(self.captcha.val()).length){
+                        self.error1.html('验证码'+self.errmsg.empty);
+                        self.captcha.parents('.item').addClass('error');
+                        return false;
+                    }else if(!self.verify.isVerifyCode(self.captcha.val())){
                         self.error1.html(self.errmsg.smscode);
                         self.captcha.parents('.item').addClass('error');
                         return false;
@@ -68,7 +78,11 @@ require(['jquery','lodash'],function($,_){
                     }
                 },
                 pass  :  function(){
-                    if(!self.verify.isPassword(self.pass.val())){
+                    if(!$.trim(self.pass.val()).length){
+                        self.error1.html('输入密码'+self.errmsg.empty);
+                        self.pass.parents('.item').addClass('error');
+                        return false;
+                    }else if(!self.verify.isPassword(self.pass.val())){
                         self.error2.html(self.errmsg.password);
                         self.pass.parents('.item').addClass('error');
                         return false;
@@ -79,13 +93,21 @@ require(['jquery','lodash'],function($,_){
                     }
                 },
                 pass2  :  function(){
-                    if(self.pass.val() === self.pass2.val() && !self.verify.isPassword(self.pass2.val())){
+                    if(!$.trim(self.pass2.val()).length){
+                        self.error2.html('确认密码'+self.errmsg.empty);
+                        self.pass2.parents('.item').addClass('error');
+                        return false;
+                    }else if(!self.verify.isPassword(self.pass2.val())){
+                        self.error2.html(self.errmsg.password);
+                        self.pass2.parents('.item').addClass('error');
+                        return false;
+                    }else if(self.pass.val() !== self.pass2.val()){
                         self.error2.html(self.errmsg.password_confirm);
                         self.pass2.parents('.item').addClass('error');
                         return false;
                     }else{
                         self.error2.html('');
-                        self.pass2.parents('.item');
+                        self.pass2.parents('.item').removeClass('error');
                         return true;
                     }
                 }
@@ -96,6 +118,7 @@ require(['jquery','lodash'],function($,_){
                 VerifyCodeOff = true,
                 $getVerifyCode = $('#getVerifyCode');
             $getVerifyCode.on('click',function(){
+                $(this).parents('.m-item').find('.item').removeClass('error');
                 if($(this).hasClass('disabled')){
                     return ;
                 }
@@ -114,9 +137,7 @@ require(['jquery','lodash'],function($,_){
                         processData : false
                     });
                 }else{
-                    self.error1.html(self.errmsg.mobile);
-                    self.mobile.parents('.item').addClass('error');
-                    return false;
+                    return self.check().mobile();;
                 }
             });
             function countdown(obj,num){
@@ -141,8 +162,6 @@ require(['jquery','lodash'],function($,_){
             obj.on('focus',function(){
                 $(this).parents('.item').addClass('focus').removeClass('error');
             });
-            self.error1.html('');
-            self.error2.html('');
         },
         bindFocus : function(){
             var self = this;
@@ -194,6 +213,11 @@ require(['jquery','lodash'],function($,_){
                 return false;
             });
             function nextStep(){
+                if(!self.check().mobile() && !self.check().captcha()){
+                    setTimeout(function(){
+                        self.error1.html('手机号或验证码不正确');
+                    },0)
+                }
                 if(self.check().mobile() && self.check().captcha()){
                     $.ajax({
                         url:'/api/v2/web/check_verify_code',
@@ -223,6 +247,11 @@ require(['jquery','lodash'],function($,_){
                 }
             }
             function submitfn(){
+                if(!self.check().pass() && !self.check().pass2()){
+                    setTimeout(function(){
+                        self.error2.html('输入密码和确认密码不正确');
+                    },0)
+                }
                 if(self.check().pass() && self.check().pass2()){
                     var serialize = self.strToJson(self.form.serialize());
                     $.ajax({
@@ -235,11 +264,10 @@ require(['jquery','lodash'],function($,_){
                     })
                     .done(function(res) {
                         if(res["msg"] == "success"){
-                            $('#error-info').html('密码修改成功');
+                            self.status.fadeIn();
                             setTimeout(function(){
                                 window.location.href = self.successUrl;
-                                self.error2.html('');
-                            }, 2000);
+                            }, 3000);
                         }else{
                             self.error2.html(res['err_msg']);
                         }

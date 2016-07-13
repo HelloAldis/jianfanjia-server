@@ -492,9 +492,6 @@ angular.module('controllers', [])
                 $scope.designerPlan.errormsg = msg;
                 hidemsg();
             }
-            $scope.$watch('plan.images', function(newValue){
-                console.log(newValue)
-            });
             $scope.designerPlan.submit = function(){
                 var This = this;
                 if($scope.plan.images.length == 0){

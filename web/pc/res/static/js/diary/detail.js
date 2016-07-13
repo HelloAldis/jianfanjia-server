@@ -352,7 +352,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                             commentid = undefined;
                         }else{
                             byuser = addCommentTo.byuserid;
-                            content = '回复  '+addCommentTo.byusername+"：  "+$.trim(contentMsg.val());
+                            content = '回复  '+addCommentTo.byusername+"："+$.trim(contentMsg.val());
                             commentid = addCommentTo.commentid;
                         }
                     }else{
