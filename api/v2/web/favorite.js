@@ -447,15 +447,25 @@ exports.list_diary_set = function (req, res, next) {
     userid: userid
   }, null, ep.done(function (favorite) {
     if (favorite && favorite.favorite_diary_set) {
-      let designerids = favorite.favorite_diary_set.slice(skip, skip + limit);
+      let ids = favorite.favorite_diary_set.slice(skip, skip + limit);
 
-      DiarySet.find({
-        _id: {
-          $in: designerids
-        }
-      }, null, {
-        sort: sort,
-        lean: true
+      async.mapLimit(ids, 3, function (id, callback) {
+        DiarySet.findOne({
+          _id: id
+        }, null, function (err, diarySet) {
+          if (err) {
+            return callback(err);
+          }
+
+          if (diarySet) {
+            callback(null, diarySet);
+          } else {
+            callback(null, {
+              _id: id,
+              is_deleted: true
+            });
+          }
+        });
       }, ep.done(function (diarySets) {
         res.sendData({
           diarySets: diarySets,

@@ -1,0 +1,58 @@
+<div class="comment-page common">
+	<form name="search" class="form-inline" ng-submit="searchBtn()" novalidate>
+		<p>评论时间过滤：</p>
+		<date-range-picker dt-start="startTime.time" dt-end="endTime.time"></date-range-picker>
+		<div class="form-group">
+			<label class="sr-only">搜索评论</label>
+			<input type="text" name="searchComment" class="form-control" ng-model="searchComment" required />
+		</div>
+		<button type="submit" class="btn btn-primary")">搜索评论</button>
+	</form>
+	<br />
+
+	<div>
+		<button type="button" class="btn btn-danger" ng-click="clearStatus()">重置清空还原</button>
+	</div>
+	<br />
+
+	<div class="panel panel-info ng-scope text-center">
+		<table class="table table-bordered table-striped">
+			<tbody>
+
+				<tr class="info thead">
+					<th class="text-center">评论ID</th>
+					<th>
+						<div ng-class="{'-1':'tablesorter-headerDesc item-width',
+							undefined:'tablesorter-header item-width',
+							'1':'tablesorter-headerAsc item-width'}[sort.date]" ng-click="sortData('date')">评论时间&nbsp;</div>
+					</th>
+					<th class="text-center">内容</th>
+					<th class="text-center">管理员操作</th>
+				</tr>
+
+				<tr ng-repeat="user in userList" class="content-width">
+					<td>{{user._id}}</td>
+					<td class="text-left">{{user.date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+					<td class="text-left">
+						<div class="content" title="{{user.content}}">{{user.content}}</div>
+					</td>
+					<td class="text-center">
+						<a ng-click="forbidComment(user._id)">屏蔽</a>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+
+		<div class="load-data" ng-if="!loading.loadData">
+			<load-data ng-hide="loading.loadData"></load-data>
+			<no-data ng-show="loading.notData"></no-data>
+		</div>
+	</div>
+
+	<div class="text-center" ng-if="loading.loadData && !loading.notData">
+		<uib-pagination total-items="pagination.totalItems" first-text="首页" next-text="下一页" previous-text="上一页" last-text="尾页" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-links="true" num-pages="numPages" rotate="false" ng-change="pagination.pageChanged()"></uib-pagination>
+		<span class="pagecode">当前：{{pagination.currentPage}} / {{numPages}} 页 总共 {{pagination.totalItems}} 条数据</span>
+	</div>
+	<div export-data></div>
+</div>

@@ -1,0 +1,60 @@
+.common .time-choose{
+	line-height: 34px;
+}
+.common .input-group .btn:hover{
+	transform: scale(1);
+	background-color: #ddd;
+}
+.common .list-inline li{
+	margin-bottom: 10px;
+}
+.common .btn:hover{
+	transform: scale(1.1);
+}
+.common .panel-info{
+	min-height: 256px;
+}
+.common .panel-info .user-id{
+	min-width: 180px;
+}
+.common .panel-info .item-width{
+	max-width: 180px;
+}
+.common .panel-info .load-data{
+	width: 100%;
+	height: 220px;
+}
+.common .panel-info .load-data .loadData{
+	margin: 146px auto;
+}
+.common .paginat{
+	min-height: 70px;
+}
+
+.common .content-width .content{
+	max-width: 350px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.designer-page .online-status-btn button{
+	width: 68px;
+}
+.data-statis-page .panel-info .load-data{
+	position: absolute;
+	margin-top: 50px;
+}
+.live-page .panel-info .td-opt a{
+	cursor: pointer;
+}
+.requirement-detail-page .breadcrumb .panel-info .tab-title{
+	background-color: rgba(217, 237, 247, 0.94);
+}
+.requirement-detail-page .breadcrumb .panel-info .tab-title h2,
+.requirement-detail-page .breadcrumb .panel-info .tab-title h4{
+	margin: 0;
+	padding: 5px;
+}
+.requirement-detail-page .breadcrumb .panel-info .tab-title h4{
+	border-bottom: solid 1px #dcdcdc;
+}

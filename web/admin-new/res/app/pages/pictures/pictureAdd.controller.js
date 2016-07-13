@@ -103,7 +103,7 @@
           if ($scope.images.keywords.indexOf("|") != -1) {
             $scope.images.keywords = $scope.images.keywords.split("|").join(",");
           }
-          let ids = $scope.uploader1.uploadImageClient.getAllIds();
+          var ids = $scope.uploader1.uploadImageClient.getAllIds();
           imageApi.imagemeta({
             _ids: ids
           }).then(function (resp) {

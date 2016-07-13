@@ -1,12 +1,10 @@
 (function () {
   angular.module('JfjAdmin.pages.designer')
     .controller('DesignerInfoController', [ //设计师个人信息
-      '$scope', '$rootScope', '$http', '$stateParams',
-      function ($scope, $rootScope, $http, $stateParams) {
-        $http({ //获取数据
-          method: "POST",
-          url: 'api/v2/web/admin/designer/' + $stateParams.id
-        }).then(function (resp) {
+      '$scope', '$rootScope', '$http', '$stateParams', 'adminDesigner',
+      function ($scope, $rootScope, $http, $stateParams, adminDesigner) {
+        adminDesigner.idAuth($stateParams.id)
+        .then(function (resp) {
           //返回信息
           $scope.user = resp.data.data;
           $scope.uid_img1 = $scope.user.uid_image1 ? RootUrl + 'api/v2/web/thumbnail/800/' + $scope.user.uid_image1 : "";

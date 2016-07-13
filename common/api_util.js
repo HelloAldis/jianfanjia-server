@@ -447,3 +447,11 @@ exports.buildDiary = function (req) {
 
   return tools.deleteUndefinedAndNullThenFilterXss(diary);
 }
+
+exports.buildAdminDesingerUpdate = function (req) {
+  let designer = {};
+  let input = req.body.designer;
+  designer.tags = input.tags;
+
+  return tools.deleteUndefinedAndNullThenFilterXss(designer);
+}

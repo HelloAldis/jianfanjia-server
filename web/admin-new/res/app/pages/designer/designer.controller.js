@@ -3,93 +3,114 @@
     .controller('DesignerController', [ //设计师列表
       '$scope', '$rootScope', '$uibModal', 'adminDesigner', '$stateParams', '$location', 'mutiSelected',
       function ($scope, $rootScope, $uibModal, adminDesigner, $stateParams, $location, mutiSelected) {
-        $scope.authList = [{
-          id: "0",
-          name: '未提交',
-          cur: false
-        }, {
-          id: "1",
-          name: '审核中',
-          cur: false
-        }, {
-          id: "2",
-          name: '已通过',
-          cur: false
-        }, {
-          id: "3",
-          name: '不通过',
-          cur: false
-        }, {
-          id: "4",
-          name: '已违规',
-          cur: false
-        }];
+        $scope.authOnlineList = [
+          {
+            id: "0",
+            name: '在线',
+            cur: false
+          },
+          {
+            id: "1",
+            name: '离线',
+            cur: false
+          }
+        ];
 
-        $scope.uidAuthList = [{
-          id: "0",
-          name: '未提交',
-          cur: false
-        }, {
-          id: "1",
-          name: '审核中',
-          cur: false
-        }, {
-          id: "2",
-          name: '已通过',
-          cur: false
-        }, {
-          id: "3",
-          name: '不通过',
-          cur: false
-        }, {
-          id: "4",
-          name: '已违规',
-          cur: false
-        }];
+        $scope.authList = [
+          {
+            id: "0",
+            name: '未提交',
+            cur: false
+          }, {
+            id: "1",
+            name: '审核中',
+            cur: false
+          }, {
+            id: "2",
+            name: '已通过',
+            cur: false
+          }, {
+            id: "3",
+            name: '不通过',
+            cur: false
+          }, {
+            id: "4",
+            name: '已违规',
+            cur: false
+          }
+        ];
 
-        $scope.workAuthList = [{
-          id: "0",
-          name: '未提交',
-          cur: false
-        }, {
-          id: "1",
-          name: '审核中',
-          cur: false
-        }, {
-          id: "2",
-          name: '已通过',
-          cur: false
-        }, {
-          id: "3",
-          name: '不通过',
-          cur: false
-        }, {
-          id: "4",
-          name: '已违规',
-          cur: false
-        }];
+        $scope.uidAuthList = [
+          {
+            id: "0",
+            name: '未提交',
+            cur: false
+          }, {
+            id: "1",
+            name: '审核中',
+            cur: false
+          }, {
+            id: "2",
+            name: '已通过',
+            cur: false
+          }, {
+            id: "3",
+            name: '不通过',
+            cur: false
+          }, {
+            id: "4",
+            name: '已违规',
+            cur: false
+          }
+        ];
 
-        $scope.emailAuthList = [{
-          id: "0",
-          name: '未提交',
-          cur: false
-        }, {
-          id: "1",
-          name: '审核中',
-          cur: false
-        }, {
-          id: "2",
-          name: '已通过',
-          cur: false
-        }, {
-          id: "3",
-          name: '不通过',
-          cur: false
-        }, {
-          id: "4",
-          name: '已违规',
-          cur: false
-        }];
+        $scope.workAuthList = [
+          {
+            id: "0",
+            name: '未提交',
+            cur: false
+          }, {
+            id: "1",
+            name: '审核中',
+            cur: false
+          }, {
+            id: "2",
+            name: '已通过',
+            cur: false
+          }, {
+            id: "3",
+            name: '不通过',
+            cur: false
+          }, {
+            id: "4",
+            name: '已违规',
+            cur: false
+          }
+        ];
+
+        $scope.emailAuthList = [
+          {
+            id: "0",
+            name: '未提交',
+            cur: false
+          }, {
+            id: "1",
+            name: '审核中',
+            cur: false
+          }, {
+            id: "2",
+            name: '已通过',
+            cur: false
+          }, {
+            id: "3",
+            name: '不通过',
+            cur: false
+          }, {
+            id: "4",
+            name: '已违规',
+            cur: false
+          }
+        ];
 
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
         //刷新页面公共方法
@@ -114,6 +135,7 @@
             mutiSelected.initMutiSelected($scope.uidAuthList, detail.query.uid_auth_type);
             mutiSelected.initMutiSelected($scope.workAuthList, detail.query.work_auth_type);
             mutiSelected.initMutiSelected($scope.emailAuthList, detail.query.email_auth_type);
+            mutiSelected.initMutiSelected($scope.authOnlineList, detail.query.online_status);
 
             $scope.searchDesigner = detail.query.phone;
           }
@@ -142,6 +164,7 @@
           detail.query.phone = $scope.searchDesigner || undefined;
           detail.query.auth_type = mutiSelected.getInQueryFormMutilSelected($scope.authList);
           detail.query.uid_auth_type = mutiSelected.getInQueryFormMutilSelected($scope.uidAuthList);
+          detail.query.online_status = mutiSelected.getInQueryFormMutilSelected($scope.authOnlineList);
           detail.query.work_auth_type = mutiSelected.getInQueryFormMutilSelected($scope.workAuthList);
           detail.query.email_auth_type = mutiSelected.getInQueryFormMutilSelected($scope.emailAuthList);
           detail.query.create_at = createAt;
@@ -224,7 +247,6 @@
         }
         //加载数据
         function loadList(detail) {
-          console.log(detail);
           adminDesigner.search(detail).then(function (resp) {
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
@@ -291,6 +313,7 @@
           mutiSelected.clearCur($scope.uidAuthList);
           mutiSelected.clearCur($scope.workAuthList);
           mutiSelected.clearCur($scope.emailAuthList);
+          mutiSelected.clearCur($scope.authOnlineList);
           $scope.pagination.currentPage = 1;
           $scope.startTime.time = '';
           $scope.endTime.time = '';

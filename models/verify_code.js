@@ -10,7 +10,7 @@ var VerifyCodeSchema = new Schema({ // 验证码
   },
   create_at: {
     type: Date, // 发送时间
-    expires: 60 * 5
+    expires: 60 * 60
   },
 });
 

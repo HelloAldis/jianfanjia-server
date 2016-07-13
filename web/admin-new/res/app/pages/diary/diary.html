@@ -1,0 +1,67 @@
+<div class="diary-page common">
+
+	<form name="search" class="form-inline" ng-submit="searchBtn()" novalidate>
+		<p>日记创建时间过滤：</p>
+		<date-range-picker dt-start="startTime.time" dt-end="endTime.time"></date-range-picker>
+		<div class="form-group">
+			<label for="inputPassword2" class="sr-only">搜索日记</label>
+			<input type="text" class="form-control" ng-model="searchDiary" required />
+		</div>
+		<button type="submit" class="btn btn-primary">搜索日记</button>
+	</form>
+	<br />
+
+	<div>
+		<button type="button" class="btn btn-danger" ng-click="clearStatus()">重置清空还原</button>
+	</div>
+	<br />
+
+	<div class="panel panel-info ng-scope text-center">
+		<table class="table table-bordered table-striped">
+			<tbody>
+
+				<tr class="info thead">
+					<th class="text-center">日记ID</th>
+					<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">创建时间&nbsp;</th>
+					<th class="text-center">作者</th>
+					<th class="text-center">内容</th>
+					<th class="text-center">浏览数</th>
+					<th class="text-center">评论数</th>
+					<th class="text-center">点赞数</th>
+					<th class="text-center">日记详情</th>
+					<th class="text-center">管理员操作</th>
+				</tr>
+
+				<tr ng-repeat="user in userList" class="content-width">
+					<td>{{user._id}}</td>
+					<td class="text-left">{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+					<td>{{user.user.username}}</td>
+					<td class="text-left">
+						<div class="content">{{user.content}}</div>
+					</td>
+					<td>{{user.view_count}}</td>
+					<td>{{user.comment_count}}</td>
+					<td>{{user.favorite_count}}</td>
+					<td class="text-center">
+						<a href="{{('/tpl/diary/book/' + user.diarySetid + '?diaryid=' + user._id) | pcUrl}}" target="_blank">点击查看</a>
+					</td>
+					<td class="text-center">
+						<a ng-click="deleDiary(user._id)">删除</a>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+
+		<div class="load-data" ng-if="!loading.loadData">
+			<load-data ng-hide="loading.loadData"></load-data>
+			<no-data ng-show="loading.notData"></no-data>
+		</div>
+	</div>
+
+	<div class="text-center" ng-if="loading.loadData && !loading.notData">
+		<uib-pagination total-items="pagination.totalItems" first-text="首页" next-text="下一页" previous-text="上一页" last-text="尾页" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-links="true" num-pages="numPages" rotate="false" ng-change="pagination.pageChanged()"></uib-pagination>
+		<span class="pagecode">当前：{{pagination.currentPage}} / {{numPages}} 页 总共 {{pagination.totalItems}} 条数据</span>
+	</div>
+	<div export-data></div>
+</div>

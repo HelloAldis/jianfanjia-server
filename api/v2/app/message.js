@@ -9,6 +9,7 @@ var Requirement = require('../../../proxy').Requirement;
 var Supervisor = require('../../../proxy').Supervisor;
 var Diary = require('../../../proxy').Diary;
 var DiarySet = require('../../../proxy').DiarySet;
+var Comment = require('../../../proxy').Comment;
 var async = require('async');
 var ApiUtil = require('../../../common/api_util');
 var type = require('../../../type');
@@ -165,7 +166,7 @@ exports.search_user_comment = function (req, res, next) {
             Comment.findOne({
               _id: message.commentid
             }, {
-              to_commentid
+              to_commentid: 1
             }, function (err, comment) {
               if (comment && comment.to_commentid) {
                 Comment.findOne({

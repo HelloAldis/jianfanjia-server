@@ -1,0 +1,39 @@
+.common .time-choose{
+	line-height: 34px;
+}
+.common .input-group .btn:hover{
+	transform: scale(1);
+	background-color: #ddd;
+}
+.common .list-inline li{
+	margin-bottom: 10px;
+}
+.common .btn:hover{
+	transform: scale(1.1);
+}
+.common .panel-info{
+	min-height: 256px;
+}
+.common .panel-info .user-id{
+	min-width: 180px;
+}
+.common .panel-info .item-width{
+	max-width: 180px;
+}
+.common .panel-info .load-data{
+	width: 100%;
+	height: 220px;
+}
+.common .panel-info .load-data .loadData{
+	margin: 146px auto;
+}
+.common .paginat{
+	min-height: 70px;
+}
+
+.common .content-width .content{
+	max-width: 350px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}

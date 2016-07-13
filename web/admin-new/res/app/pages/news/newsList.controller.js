@@ -1,7 +1,19 @@
 (function () {
   angular.module('JfjAdmin.pages.news')
-    .controller('NewsController', ['$scope', '$rootScope', 'adminArticle', '$stateParams', '$location',
-      function ($scope, $rootScope, adminArticle, $stateParams, $location) {
+    .controller('NewsController', ['$scope', '$rootScope', 'adminArticle', '$stateParams', '$location', 'mutiSelected',
+      function ($scope, $rootScope, adminArticle, $stateParams, $location, mutiSelected) {
+        $scope.authList = [
+          {
+            id: "0",
+            name: '大百科',
+            cur: false
+          },
+          {
+            id: "1",
+            name: '小贴士',
+            cur: false
+          }
+        ];
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
 
         //刷新页面公共方法
@@ -37,6 +49,7 @@
                 $scope.endTime.time = new Date(detail.query.create_at["$lte"]);
               }
             }
+            mutiSelected.initMutiSelected($scope.authList, detail.query.articletype);
           }
 
           detail.from = detail.from || 0;
@@ -60,6 +73,8 @@
 
           detail.query = detail.query || {};
           detail.query.create_at = createAt;
+          detail.query.articletype = mutiSelected.getInQueryFormMutilSelected($scope.authList);
+          console.log(detail.query.articletype);
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
           detail.sort = $scope.sort;
@@ -112,13 +127,17 @@
             alert('开始时间不能晚于结束时间，请重新选择。');
             return;
           }
-          if (end - start < 86400000) {
-            alert('结束时间必须必比开始时间大一天，请重新选择');
-            return;
-          }
           $scope.pagination.currentPage = 1;
           refreshPage(refreshDetailFromUI($stateParams.detail));
         };
+
+        //文章分类筛选
+        $scope.authBtn = function (id, list) {
+          mutiSelected.curList(list, id);
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        };
+
         //排序
         $scope.sortData = function (sortby) {
           if ($scope.sort[sortby]) {
