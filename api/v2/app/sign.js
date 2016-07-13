@@ -16,7 +16,7 @@ const async = require('async');
 const superagent = require('superagent');
 const Image = require('../../../proxy').Image;
 const imageUtil = require('../../../common/image_util');
-const verify_cdoe_business = require('../../../business/verify_cdoe_business');
+const verify_cdoe_business = require('../../../business/verify_code_business');
 
 exports.user_login = function (req, res, next) {
   let phone = validator.trim(req.body.phone);

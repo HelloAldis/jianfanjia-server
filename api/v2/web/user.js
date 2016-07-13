@@ -20,7 +20,7 @@ const sms = require('../../../common/sms');
 const authMiddleWare = require('../../../middlewares/auth');
 const message_util = require('../../../common/message_util');
 const pc_web_header = require('../../../business/pc_web_header');
-const verify_cdoe_business = require('../../../business/verify_cdoe_business');
+const verify_cdoe_business = require('../../../business/verify_code_business');
 
 exports.user_my_info = function (req, res, next) {
   let userid = req.params._id || ApiUtil.getUserid(req);

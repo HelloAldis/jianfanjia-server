@@ -14,7 +14,7 @@ const type = require('../../../type');
 const config = require('../../../apiconfig');
 const async = require('async');
 const mail = require('../../../common/mail');
-const verify_cdoe_business = require('../../../business/verify_cdoe_business');
+const verify_cdoe_business = require('../../../business/verify_code_business');
 
 exports.login = function (req, res, next) {
   let phone = validator.trim(req.body.phone);
