@@ -21,7 +21,11 @@
 
 				<tr class="info thead">
 					<th class="text-center">评论ID</th>
-					<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.date]" ng-click="sortData('date')">评论时间&nbsp;</th>
+					<th>
+						<div ng-class="{'-1':'tablesorter-headerDesc item-width',
+							undefined:'tablesorter-header item-width',
+							'1':'tablesorter-headerAsc item-width'}[sort.date]" ng-click="sortData('date')">评论时间&nbsp;</div>
+					</th>
 					<th class="text-center">内容</th>
 					<th class="text-center">管理员操作</th>
 				</tr>

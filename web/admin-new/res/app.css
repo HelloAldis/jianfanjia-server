@@ -37,15 +37,15 @@
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
+.designer-page .online-status-btn button{
+	width: 68px;
+}
 .data-statis-page .panel-info .load-data{
 	position: absolute;
 	margin-top: 50px;
 }
 .live-page .panel-info .td-opt a{
 	cursor: pointer;
-}
-.designer-page .online-status-btn button{
-	width: 68px;
 }
 .requirement-detail-page .breadcrumb .panel-info .tab-title{
 	background-color: rgba(217, 237, 247, 0.94);

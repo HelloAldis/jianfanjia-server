@@ -238,8 +238,6 @@
     })
     .filter('pcUrl', function () { //性别筛选
       return function (url) {
-        // return 'http://dev.jianfanjia.com'  + url;
-
         var port = window.location.port ? ':' + window.location.port : '';
         if (window.location.hostname == 'localhost') {
           return 'http://127.0.0.1' + port + url;
