@@ -1,7 +1,7 @@
 'use strict'
 
 const config = require('../apiconfig');
-const User = require('../proxy').VerifyCode;
+const VerifyCode = require('../proxy').VerifyCode;
 
 /**
   如果code 不UI返回错误信息
