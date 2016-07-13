@@ -184,7 +184,6 @@ body{
 	width: 370px;
 	height: 206px;
 	overflow: hidden;
-	background:url(../img/user/loading.gif) center center no-repeat;
 }
 .m-info .covers img{
 	width: 100%;
@@ -249,6 +248,9 @@ body{
 .m-info dd a,.m-info dd span{
 	display: block;
 }
+.m-info dd a .u-head{
+	display: inline-block;
+}
 .m-info dd span .iconfont{
 	display: inline-block;
 	vertical-align: middle;
@@ -265,6 +267,7 @@ body{
 	font-size: 18px;
 	font-weight: normal;
 	color: #383d48;
+	vertical-align: top;
 }
 .m-info dd a:hover img{
 	opacity: 0.8;

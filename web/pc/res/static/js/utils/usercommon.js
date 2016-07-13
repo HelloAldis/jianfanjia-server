@@ -305,7 +305,7 @@ var Search = function(){}
     createOwner : function(off){
       var self = this;
       $.ajax({
-        url: RootUrl + 'api/v2/web/user_statistic_info',
+        url: '/api/v2/web/user_statistic_info',
         type: 'POST',
         dataType: 'json',
         contentType : 'application/json; charset=utf-8'
@@ -322,7 +322,7 @@ var Search = function(){}
     createDesign : function(off){
       var self = this;
       $.ajax({
-        url: RootUrl + 'api/v2/web/designer_statistic_info',
+        url: '/api/v2/web/designer_statistic_info',
         type: 'POST',
         dataType: 'json',
         contentType : 'application/json; charset=utf-8'
@@ -391,7 +391,7 @@ var Search = function(){}
       this.container.delegate('.quit','click',function(ev){
         ev.preventDefault();
         $.ajax({
-          url: RootUrl + 'api/v2/web/signout',
+          url: '/api/v2/web/signout',
           type: 'POST',
           dataType: 'json',
           contentType : 'application/json; charset=utf-8'
@@ -606,7 +606,7 @@ var Search = function(){}
     getRequirement : function(){
       var self = this;
       $.ajax({
-        url: RootUrl + 'api/v2/web/user_my_requirement_list',
+        url: '/api/v2/web/user_my_requirement_list',
         type: 'POST',
         contentType : 'application/json; charset=utf-8',
         dataType: 'json'
@@ -636,7 +636,7 @@ var Search = function(){}
       var self = this,
         $Span = this.container.find('.add').find('span');
       $.ajax({
-        url: RootUrl + 'api/v2/web/favorite/designer/list',
+        url: '/api/v2/web/favorite/designer/list',
         type: 'POST',
         contentType : 'application/json; charset=utf-8',
         dataType: 'json',

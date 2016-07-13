@@ -850,14 +850,14 @@ transform: scale(1.15);
 	margin: 0 13px;
 	color: #e5e5e5;
 }
-.g-live .m-live li .head{
+.g-live .m-live li .u-head{
 	position: absolute;
 	left:50%;
-	top:220px;
-	width: 80px;
-	height: 80px;
+	top:215px;
+	width: 90px;
+	height: 90px;
 	overflow: hidden;
-	margin-left: -42px;
+	margin-left: -45px;
 	border: 2px solid #fff;
 	border-radius: 80px;
 	-webkit-transition:border 0.5s;

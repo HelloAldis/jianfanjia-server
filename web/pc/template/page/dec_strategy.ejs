@@ -39,7 +39,7 @@
           <h3>相关推荐</h3>
           <ul>
             <% for(var i=0; i < data.associate_articles.length; i++){%>
-              <li><a href="/tpl/article/strategy/<%= data.associate_articles[i]._id %>"><img src="/api/v2/web/thumbnail2/220/140/<%= data.associate_articles[i].cover_imageid %>" alt="<%= data.associate_articles[i].title %>"><span><%= data.associate_articles[i].title %></span></a></li>
+              <li><a class="u-placeholder-image" href="/tpl/article/strategy/<%= data.associate_articles[i]._id %>"><img src="/api/v2/web/thumbnail2/220/140/<%= data.associate_articles[i].cover_imageid %>" alt="<%= data.associate_articles[i].title %>"><span><%= data.associate_articles[i].title %></span></a></li>
             <%}%>
           </ul>
         </div>
@@ -54,5 +54,5 @@
         </div>
       </aside>
     </main>
-  <script type="text/javascript" data-main="/static/js/article/detail-fa7ff5bcf1" src="/static/js/lib/require.js"></script>
+  <script type="text/javascript" data-main="/static/js/article/detail" src="/static/js/lib/require.js"></script>
 <%- include('../module/footer') -%>

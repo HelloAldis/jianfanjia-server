@@ -104,7 +104,7 @@ function format(date,format){
                         <% if(!!v.images.length){ %>
                         <div class="img f-cb">
                             <% v.images.forEach((v, k) => { %>
-                            <img data-width="<%= v.width %>" class="lightBox" data-imageid="<%= v.imageid %>" data-height="<%= v.height %>" src="/api/v2/web/thumbnail2/160/160/<%= v.imageid %>" alt=""/>
+                            <img src="/static/img/public/load.gif" data-width="<%= v.width %>" class="lazyload lightBox u-placeholder-image" data-imageid="<%= v.imageid %>" data-height="<%= v.height %>" alt="" data-original="/api/v2/web/thumbnail2/160/160/<%= v.imageid %>" />
                             <% }) %>
                         </div>
                         <% } %>
@@ -177,11 +177,9 @@ function format(date,format){
                                 <span><%= dec_style(v.dec_style) %></span><i>|</i>
                                 <span><%= work_type(v.work_type) %></span>
                             </p>
-                            <a href="/tpl/diary/book/<%= v._id %>" class="img">
+                            <a href="/tpl/diary/book/<%= v._id %>" class="img u-placeholder-image">
                                 <% if(v.cover_imageid !== undefined){ %>
-                                <img src="/api/v2/web/thumbnail2/220/85/<%= v.cover_imageid %>" />
-                                <% }else{ %>
-                                <img src="/static/img/diary/covers-default.jpg" />
+                                <img class="lazyload" data-original="/api/v2/web/thumbnail2/220/85/<%= v.cover_imageid %>" src="/static/img/public/load.gif" />
                                 <% } %>
                             </a>
                             <div class="count">
@@ -207,5 +205,5 @@ function format(date,format){
         </ul>
     </div>
     <% } %>
-<script type="text/javascript" data-main="/static/js/diary/detail-f480d7abfd" src="/static/js/lib/require.js"></script>
+<script type="text/javascript" data-main="/static/js/diary/detail" src="/static/js/lib/require.js"></script>
 <%- include('../module/footer') -%>

@@ -2,17 +2,10 @@ require.config({
     baseUrl: '/static/js/',
     paths  : {
         jquery: 'lib/jquery',
-        lodash : 'lib/lodash',
-        cookie : 'lib/jquery.cookie'
+        lodash : 'lib/lodash'
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
-    var search = new common.Search();
-    search.init();
-    var goto = new common.Goto();
-    goto.init();
-});
-require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
+require(['jquery','lodash'],function($,_){
     var Getpw = function(){};
     Getpw.prototype = {
         init : function(){
@@ -23,11 +16,13 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             this.pass = $("#getpw-password");
             this.pass2 = $("#getpw-password2");
             this.form = $('#form-getpw');
-            this.error = $('#error-info');
+            this.error1 = $('#error-info1');
+            this.error2 = $('#error-info2');
             this.bindVerifyCode();
             this.bindFocus();
             this.bindBlur();
             this.submit();
+            this.nextStep = 0;
         },
         verify : {
             isMobile : function(mobile){
@@ -52,49 +47,45 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             return {
                 mobile  :  function(){
                     if(!self.verify.isMobile(self.mobile.val())){
-                        self.error.html(self.errmsg.mobile).removeClass('hide');
+                        self.error1.html(self.errmsg.mobile);
                         self.mobile.parents('.item').addClass('error');
                         return false;
                     }else{
-                        self.error.html('').addClass('hide');
-                        self.checkStep--;
+                        self.error1.html('');
                         self.mobile.parents('.item').removeClass('error');
                         return true;
                     }
                 },
                 captcha  :  function(){
                     if(!self.verify.isVerifyCode(self.captcha.val())){
-                        self.error.html(self.errmsg.smscode).removeClass('hide');
+                        self.error1.html(self.errmsg.smscode);
                         self.captcha.parents('.item').addClass('error');
                         return false;
                     }else{
-                        self.error.html('').addClass('hide');
-                        self.checkStep--;
+                        self.error1.html('');
                         self.captcha.parents('.item').removeClass('error');
                         return true;
                     }
                 },
                 pass  :  function(){
                     if(!self.verify.isPassword(self.pass.val())){
-                        self.error.html(self.errmsg.password).removeClass('hide');
+                        self.error2.html(self.errmsg.password);
                         self.pass.parents('.item').addClass('error');
                         return false;
                     }else{
-                        self.error.html('').addClass('hide');
-                        self.checkStep--;
+                        self.error2.html('');
                         self.pass.parents('.item').removeClass('error');
                         return true;
                     }
                 },
                 pass2  :  function(){
                     if(self.pass.val() === self.pass2.val() && !self.verify.isPassword(self.pass2.val())){
-                        self.error.html(self.errmsg.password_confirm).removeClass('hide');
+                        self.error2.html(self.errmsg.password_confirm);
                         self.pass2.parents('.item').addClass('error');
                         return false;
                     }else{
-                        self.error.html('').addClass('hide');
-                        self.checkStep--;
-                        self.pass2.parents('.item').removeClass('error');
+                        self.error2.html('');
+                        self.pass2.parents('.item');
                         return true;
                     }
                 }
@@ -105,12 +96,15 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                 VerifyCodeOff = true,
                 $getVerifyCode = $('#getVerifyCode');
             $getVerifyCode.on('click',function(){
+                if($(this).hasClass('disabled')){
+                    return ;
+                }
                 if(VerifyCodeOff && self.verify.isMobile(self.mobile.val())){
                     VerifyCodeOff = false;
                     countdown($(this),60);
                     var userName = self.mobile.val();
                     $.ajax({
-                        url:RootUrl+'api/v2/web/send_verify_code',
+                        url:'/api/v2/web/send_verify_code',
                         type: 'post',
                         contentType : 'application/json; charset=utf-8',
                         dataType: 'json',
@@ -120,7 +114,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                         processData : false
                     });
                 }else{
-                    self.error.html(self.errmsg.mobile).removeClass('hide');
+                    self.error1.html(self.errmsg.mobile);
                     self.mobile.parents('.item').addClass('error');
                     return false;
                 }
@@ -143,9 +137,12 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             }
         },
         focus : function(obj){
+            var self = this;
             obj.on('focus',function(){
-                $(this).parents('.item').addClass('focus');
-            })
+                $(this).parents('.item').addClass('focus').removeClass('error');
+            });
+            self.error1.html('');
+            self.error2.html('');
         },
         bindFocus : function(){
             var self = this;
@@ -168,7 +165,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                     break;
                 }
                 $(this).parents('.item').removeClass('focus');
-            })
+            });
         },
         bindBlur  : function(){
             var self = this;
@@ -181,46 +178,76 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             var self = this;
             $(document).on('keydown',function(e){
                 if(e.which == 13){
-                    submitfn();
+                    if(self.nextStep == 0){
+                        nextStep();
+                    }else if(self.nextStep == 1){
+                        submitfn();
+                    }
                 }
             })
+            this.form.on('click','#next-step',function(){
+                nextStep();
+                return false;
+            });
             this.form.on('click','#getpw-submit',function(){
                 submitfn();
                 return false;
             });
-            function submitfn(){
-                self.check().mobile();
-                self.check().captcha();
-                self.check().pass();
-                self.check().pass2();
-                if(self.checkStep > 0){
-                    self.error.html(self.errmsg.submit).removeClass('hide');
-                    return false;
+            function nextStep(){
+                if(self.check().mobile() && self.check().captcha()){
+                    $.ajax({
+                        url:'/api/v2/web/check_verify_code',
+                        type: 'post',
+                        contentType : 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        data : JSON.stringify({
+                            "phone" : self.mobile.val(),
+                            "code" : self.captcha.val()
+                        }),
+                        processData : false
+                    })
+                    .done(function(res) {
+                        if(res['err_msg']){
+                            self.error1.html(res['err_msg']);
+                        }
+                        if(res["msg"] == "success"){
+                            self.form.find('.step1').addClass('hide');
+                            self.form.find('.step2').removeClass('hide');
+                            self.form.find('.m-step li').removeClass('active');
+                            self.form.find('.m-step li').eq(1).addClass('active');
+                        }else{
+                            self.error1.html(res['err_msg']);
+                        }
+                    });
+                    self.nextStep = 1;
                 }
-                var serialize = self.strToJson(self.form.serialize());
-                $.ajax({
-                    url:RootUrl+'api/v2/web/update_pass',
-                    type: 'post',
-                    contentType : 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    data : JSON.stringify(serialize),
-                    processData : false
-                })
-                .done(function(res) {
-                    if(res["msg"] == "success"){
-                        $('#error-info').html('密码修改成功').removeClass('hide');
-                        setTimeout(function(){
-                            window.location.href = self.successUrl;
-                            self.error.html('').addClass('hide');
-                        }, 2000);
-                    }else{
-                        self.error.html(res['err_msg']).removeClass('hide');
-                    }
-                    if(res['err_msg']){
-                        self.checkStep = 4;
-                        self.error.html(res['err_msg']).removeClass('hide');
-                    }
-                });
+            }
+            function submitfn(){
+                if(self.check().pass() && self.check().pass2()){
+                    var serialize = self.strToJson(self.form.serialize());
+                    $.ajax({
+                        url:'/api/v2/web/update_pass',
+                        type: 'post',
+                        contentType : 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        data : JSON.stringify(serialize),
+                        processData : false
+                    })
+                    .done(function(res) {
+                        if(res["msg"] == "success"){
+                            $('#error-info').html('密码修改成功');
+                            setTimeout(function(){
+                                window.location.href = self.successUrl;
+                                self.error2.html('');
+                            }, 2000);
+                        }else{
+                            self.error2.html(res['err_msg']);
+                        }
+                        if(res['err_msg']){
+                            self.error2.html(res['err_msg']);
+                        }
+                    });
+                }
             }
         },
         strToJson : function(str){

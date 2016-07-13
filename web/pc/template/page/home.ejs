@@ -283,12 +283,12 @@
           <ul>
             <% for(var i=0; i < data.top_shares.length; i++){%>
                 <li>
-                  <a class="u-placeholder-image" href="/tpl/live/detail.html?<%= data.top_shares[i]._id %>" class="img"><img data-src="/api/v2/web/thumbnail2/285/262/<%= data.top_shares[i].cover_imageid %>" src="/static/img/public/load.gif" alt="<%= data.top_shares[i].cell %>"></a>
+                  <a class="img u-placeholder-image" href="/tpl/live/<%= data.top_shares[i]._id %>"><img data-src="/api/v2/web/thumbnail2/285/262/<%= data.top_shares[i].cover_imageid %>" src="/static/img/public/load.gif" alt="<%= data.top_shares[i].cell %>"></a>
                   <div class="txt">
-                    <h4><a href="/tpl/live/detail.html?<%= data.top_shares[i]._id %>"><%= data.top_shares[i].cell %></a></h4>
+                    <h4><a href="/tpl/live/<%= data.top_shares[i]._id %>"><%= data.top_shares[i].cell %></a></h4>
                     <p><span><%= data.top_shares[i].house_area %>m&sup2;</span><i>|</i><span><%= house_type(data.top_shares[i].house_type) %></span><i>|</i><span><%= dec_style(data.top_shares[i].dec_style) %></span></p>
                   </div>
-                  <a href="/tpl/designer/<%= data.top_shares[i].designer._id %>" class="head"><img data-src="/api/v2/web/thumbnail2/80/80/<%= data.top_shares[i].designer.imageid %>" src="/static/img/public/load.gif" alt="<%= data.top_shares[i].designer.username %>"></a>
+                  <a href="/tpl/designer/<%= data.top_shares[i].designer._id %>" class="u-head u-head-w90 u-head-radius"><img data-src="/api/v2/web/thumbnail2/80/80/<%= data.top_shares[i].designer.imageid %>" src="/static/img/public/load.gif" alt="<%= data.top_shares[i].designer.username %>"></a>
                 </li>
             <%}%>
           </ul>

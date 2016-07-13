@@ -322,8 +322,6 @@ define(['jquery','lib/jquery.cookie'], function($,cookie){
           '<ul>',
             '<li><a href="/tpl/user/login.html">登录</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/tpl/user/reg.html">注册</a></li>',
             '<li class="line"></li>',
-            '<li><a href="/tpl/user/designer_reg.html">设计师入驻</a></li>',
-            '<li class="line"></li>',
             '<li>'+this.del+'</li>',
           '</ul>'
         ];

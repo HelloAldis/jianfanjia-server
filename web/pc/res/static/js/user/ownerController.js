@@ -1776,8 +1776,9 @@ angular.module('controllers', [])
                 var index2 = _.findIndex($scope.diarylist[index].review,{"_id":data._id});
                 if($scope.replyinfo !== null){
                     if($scope.replyinfo.notfind){
+                        data.to_commentid = $scope.replyinfo._id;
                         data.to_userid = $scope.replyinfo.byUser._id;
-                        data.content = '回复给  '+$scope.replyinfo.byUser.username+"： "+_.trim(data.content);
+                        data.content = '回复  '+$scope.replyinfo.byUser.username+"： "+_.trim(data.content);
                     }
                 }
                 userDiary.comment(data).then(function(res){  //获取意向设计师列表
