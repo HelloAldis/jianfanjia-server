@@ -1,9 +1,24 @@
+.common .panel-info{
+	box-shadow: none;
+}
+.common .panel-info table{
+	box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.25);
+}
+.common .panel-info table tbody{
+	background-color: #fff;
+}
 .common .time-choose{
 	line-height: 34px;
 }
 .common .input-group .btn:hover{
 	transform: scale(1);
 	background-color: #ddd;
+}
+.common .input-group .search-btn:hover{
+	background-color: #2ccab9;
+}
+.common .input-group .clear-btn:hover{
+	background-color: #e07474;
 }
 .common .list-inline li{
 	margin-bottom: 10px;

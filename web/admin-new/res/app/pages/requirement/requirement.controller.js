@@ -43,6 +43,30 @@
           }
         ];
 
+        $scope.config = {
+          title: '需求提交时间过滤：',
+          search_word: $scope.search_word
+        }
+
+        $scope.delegate = {};
+
+        // 搜索
+        $scope.delegate.search = function (search_word) {
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        }
+        
+        // 重置
+        $scope.delegate.clearStatus = function () {
+          $scope.pagination.currentPage = 1;
+          $scope.dtStart = '';
+          $scope.dtEnd = '';
+          $scope.config.search_word = undefined;
+          mutiSelected.clearCur($scope.authList);
+          $stateParams.detail = {};
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        }
+
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
 
         //数据加载显示状态
@@ -69,6 +93,8 @@
               }
             }
 
+            $scope.config.search_word = detail.search_word;
+
             mutiSelected.initMutiSelected($scope.authList, detail.query.status);
           }
 
@@ -94,6 +120,7 @@
           detail.query = detail.query || {};
           detail.query.status = mutiSelected.getInQueryFormMutilSelected($scope.authList);
           detail.query.create_at = createAt;
+          detail.search_word = $scope.config.search_word || undefined;
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
           detail.sort = $scope.sort;
@@ -109,20 +136,6 @@
           pageChanged: function () {
             refreshPage(refreshDetailFromUI($stateParams.detail));
           }
-        };
-        
-        //时间过滤
-        $scope.searchTimeBtn = function () {
-          var start = new Date($scope.dtStart).getTime();
-          var end = new Date($scope.dtEnd).getTime();
-
-          if (start > end) {
-            alert('开始时间不能晚于结束时间，请重新选择。');
-            return;
-          }
-          $scope.pagination.currentPage = 1;
-
-          refreshPage(refreshDetailFromUI($stateParams.detail));
         };
 
         //状态过滤
@@ -140,15 +153,6 @@
             $scope.sort[sortby] = -1;
           }
           $scope.pagination.currentPage = 1;
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        };
-        //重置清空状态
-        $scope.clearStatus = function () {
-          $scope.pagination.currentPage = 1;
-          $scope.dtStart = '';
-          $scope.dtEnd = '';
-          mutiSelected.clearCur($scope.authList);
-          $stateParams.detail = {};
           refreshPage(refreshDetailFromUI($stateParams.detail));
         };
 
