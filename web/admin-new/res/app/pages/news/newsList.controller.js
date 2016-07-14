@@ -2,21 +2,19 @@
   angular.module('JfjAdmin.pages.news')
     .controller('NewsController', ['$scope', '$rootScope', 'adminArticle', '$stateParams', '$location', 'mutiSelected',
       function ($scope, $rootScope, adminArticle, $stateParams, $location, mutiSelected) {
-        $scope.authList = [
-          {
-            id: "0",
-            name: '大百科',
-            cur: false
-          },
-          {
-            id: "1",
-            name: '小贴士',
-            cur: false
-          }
-        ];
+        $scope.authList = [{
+          id: "0",
+          name: '大百科',
+          cur: false
+        }, {
+          id: "1",
+          name: '小贴士',
+          cur: false
+        }];
 
         $scope.config = {
           title: '文章创建时间过滤：',
+          placeholder: '文章ID/标题',
           search_word: $scope.search_word
         }
 
@@ -27,7 +25,7 @@
           $scope.pagination.currentPage = 1;
           refreshPage(refreshDetailFromUI($stateParams.detail));
         }
-        
+
         // 重置
         $scope.delegate.clearStatus = function () {
           $scope.pagination.currentPage = 1;

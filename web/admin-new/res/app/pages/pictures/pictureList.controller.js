@@ -4,6 +4,7 @@
       function ($scope, $rootScope, adminImage, $stateParams, $location) {
         $scope.config = {
           title: '美图创建时间过滤：',
+          placeholder: '美图ID/标题',
           search_word: $scope.search_word
         }
 
@@ -14,7 +15,7 @@
           $scope.pagination.currentPage = 1;
           refreshPage(refreshDetailFromUI($stateParams.detail));
         }
-        
+
         // 重置
         $scope.delegate.clearStatus = function () {
           $scope.pagination.currentPage = 1;

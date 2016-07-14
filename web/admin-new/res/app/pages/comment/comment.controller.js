@@ -1,10 +1,11 @@
 (function () {
   angular.module('JfjAdmin.pages.comment')
     .controller('CommentController', [ //评论列表
-      '$scope', 'adminComment', '$stateParams', '$location', 
+      '$scope', 'adminComment', '$stateParams', '$location',
       function ($scope, adminComment, $stateParams, $location) {
         $scope.config = {
           title: '评论时间过滤：',
+          placeholder: '评论ID/话题ID/用户ID/内容',
           search_word: $scope.search_word
         }
 
@@ -15,7 +16,7 @@
           $scope.pagination.currentPage = 1;
           refreshPage(refreshDetailFromUI($stateParams.detail));
         }
-        
+
         // 重置
         $scope.delegate.clearStatus = function () {
           $scope.pagination.currentPage = 1;
@@ -122,15 +123,15 @@
         $scope.forbidComment = function (id) {
           if (confirm("你确定要屏蔽吗？屏蔽不能恢复")) {
             adminComment.forbid({
-              "commentid": id
-            })
-            .then(function (resp) {
-              if (resp.data.msg === "success") {
-                loadList(refreshDetailFromUI($stateParams.detail));
-              }
-            }, function (err) {
-              console.log(err);
-            })
+                "commentid": id
+              })
+              .then(function (resp) {
+                if (resp.data.msg === "success") {
+                  loadList(refreshDetailFromUI($stateParams.detail));
+                }
+              }, function (err) {
+                console.log(err);
+              })
           }
         }
 

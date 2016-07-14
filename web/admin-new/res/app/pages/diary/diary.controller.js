@@ -5,6 +5,7 @@
       function ($scope, adminDiary, $stateParams, $location) {
         $scope.config = {
           title: '日记创建时间过滤：',
+          placeholder: '日记ID/日记本ID/作者ID/内容',
           search_word: $scope.search_word
         }
 
@@ -15,7 +16,7 @@
           $scope.pagination.currentPage = 1;
           refreshPage(refreshDetailFromUI($stateParams.detail));
         }
-        
+
         // 重置
         $scope.delegate.clearStatus = function () {
           $scope.pagination.currentPage = 1;
@@ -122,15 +123,15 @@
         $scope.deleDiary = function (id) {
           if (confirm("你确定要删除吗？删除不能恢复")) {
             adminDiary.dele({
-              "diaryid": id
-            })
-            .then(function (resp) {
-              if (resp.data.msg === "success") {
-                loadList(refreshDetailFromUI($stateParams.detail));
-              }
-            }, function (err) {
-              console.log(err);
-            })
+                "diaryid": id
+              })
+              .then(function (resp) {
+                if (resp.data.msg === "success") {
+                  loadList(refreshDetailFromUI($stateParams.detail));
+                }
+              }, function (err) {
+                console.log(err);
+              })
           }
         }
 

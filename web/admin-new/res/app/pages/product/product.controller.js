@@ -4,52 +4,48 @@
 		.controller('ProductController', [
 			'$scope', '$rootScope', '$http', '$uibModal', '$filter', 'adminProduct', '$stateParams', '$location', 'mutiSelected',
 			function ($scope, $rootScope, $http, $uibModal, $filter, adminProduct, $stateParams, $location, mutiSelected) {
-				$scope.authList = [
-					{
-						id: "0",
-						name: '审核中',
-						cur: false
-					},
-					{
-						id: "1",
-						name: '已通过',
-						cur: false
-					},
-					{
-						id: "2",
-						name: '不通过',
-						cur: false
-					},
-					{
-						id: "3",
-						name: '已违规',
-						cur: false
-					}
-				];
+				$scope.authList = [{
+					id: "0",
+					name: '审核中',
+					cur: false
+				}, {
+					id: "1",
+					name: '已通过',
+					cur: false
+				}, {
+					id: "2",
+					name: '不通过',
+					cur: false
+				}, {
+					id: "3",
+					name: '已违规',
+					cur: false
+				}];
 
 				$scope.config = {
-          title: '作品创建时间过滤：',
-          search_word: $scope.search_word
-        }
+					title: '作品创建时间过滤：',
+					placeholder: '作品ID/设计师ID/小区/描述',
+					search_word: $scope.search_word
+				}
 
-        $scope.delegate = {};
+				$scope.delegate = {};
 
-        // 搜索
-        $scope.delegate.search = function (search_word) {
-          $scope.pagination.currentPage = 1;
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        }
-        
-        // 重置
-        $scope.delegate.clearStatus = function () {
-          $scope.pagination.currentPage = 1;
+				// 搜索
+				$scope.delegate.search = function (search_word) {
+					$scope.pagination.currentPage = 1;
+					refreshPage(refreshDetailFromUI($stateParams.detail));
+				}
+
+				// 重置
+				$scope.delegate.clearStatus = function () {
+					$scope.pagination.currentPage = 1;
 					$scope.dtStart = '';
 					$scope.dtEnd = '';
 					$scope.config.search_word = undefined;
 					$stateParams.detail = {};
 					mutiSelected.clearCur($scope.authList);
 					refreshPage(refreshDetailFromUI($stateParams.detail));
-        }
+				}
 
 
 				$stateParams.detail = JSON.parse($stateParams.detail || '{}');
@@ -71,7 +67,7 @@
 								$scope.dtEnd = new Date(detail.query.create_at["$lte"]);
 							}
 						}
-            $scope.config.search_word = detail.search_word;
+						$scope.config.search_word = detail.search_word;
 
 						mutiSelected.initMutiSelected($scope.authList, detail.query.auth_type);
 					}
