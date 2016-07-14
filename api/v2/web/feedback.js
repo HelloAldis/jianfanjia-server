@@ -1,18 +1,36 @@
-var eventproxy = require('eventproxy');
-var Feedback = require('../../../proxy').Feedback;
-var User = require('../../../proxy').User;
-var Designer = require('../../../proxy').Designer;
-var async = require('async');
-var type = require('../../../type');
+'use strict';
+
+const eventproxy = require('eventproxy');
+const Feedback = require('../../../proxy').Feedback;
+const User = require('../../../proxy').User;
+const Designer = require('../../../proxy').Designer;
+const async = require('async');
+const type = require('../../../type');
+const tools = require('../../../common/tools');
 
 exports.search = function (req, res, next) {
-  var query = req.body.query || {};
-  var sort = req.body.sort || {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
     create_at: -1
   };
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var ep = eventproxy();
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        by: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        content: search_word
+      }];
+    }
+  }
+  let ep = eventproxy();
   ep.fail(next);
 
   Feedback.paginate(query, null, {
