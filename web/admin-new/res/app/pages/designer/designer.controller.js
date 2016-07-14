@@ -112,6 +112,36 @@
           }
         ];
 
+        $scope.config = {
+          title: '设计师注册时间过滤：',
+          placeholder: '手机号码/设计师名字/设计师ID',
+          search_word: $scope.search_word
+        }
+
+        $scope.delegate = {};
+
+        // 搜索
+        $scope.delegate.search = function (search_word) {
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        }
+
+        // 重置
+        $scope.delegate.clearStatus = function () {
+          mutiSelected.clearCur($scope.authList);
+          mutiSelected.clearCur($scope.uidAuthList);
+          mutiSelected.clearCur($scope.workAuthList);
+          mutiSelected.clearCur($scope.emailAuthList);
+          mutiSelected.clearCur($scope.authOnlineList);
+          $scope.pagination.currentPage = 1;
+          $scope.dtStart = '';
+          $scope.dtEnd = '';
+          $scope.config.search_word = undefined;
+          $stateParams.detail = {};
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        }
+
+
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
         //刷新页面公共方法
         function refreshPage(detail) {
@@ -137,7 +167,7 @@
             mutiSelected.initMutiSelected($scope.emailAuthList, detail.query.email_auth_type);
             mutiSelected.initMutiSelected($scope.authOnlineList, detail.query.online_status);
 
-            $scope.searchDesigner = detail.query.phone;
+            $scope.config.search_word = detail.search_word;
           }
 
           detail.from = detail.from || 0;
@@ -161,7 +191,7 @@
           } : undefined;
 
           detail.query = detail.query || {};
-          detail.query.phone = $scope.searchDesigner || undefined;
+          detail.search_word = $scope.config.search_word || undefined;
           detail.query.auth_type = mutiSelected.getInQueryFormMutilSelected($scope.authList);
           detail.query.uid_auth_type = mutiSelected.getInQueryFormMutilSelected($scope.uidAuthList);
           detail.query.online_status = mutiSelected.getInQueryFormMutilSelected($scope.authOnlineList);
@@ -247,12 +277,6 @@
         //初始化数据
         loadList($stateParams.detail);
 
-        //搜索设计师
-        $scope.searchBtn = function () {
-          $scope.pagination.currentPage = 1;
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        }
-
         $scope.authBtn = function (id, list) {
           mutiSelected.curList(list, id);
           $scope.pagination.currentPage = 1;
@@ -269,20 +293,7 @@
           $scope.pagination.currentPage = 1;
           refreshPage(refreshDetailFromUI($stateParams.detail));
         };
-        //重置清空状态
-        $scope.clearStatus = function () {
-          mutiSelected.clearCur($scope.authList);
-          mutiSelected.clearCur($scope.uidAuthList);
-          mutiSelected.clearCur($scope.workAuthList);
-          mutiSelected.clearCur($scope.emailAuthList);
-          mutiSelected.clearCur($scope.authOnlineList);
-          $scope.pagination.currentPage = 1;
-          $scope.dtStart = '';
-          $scope.dtEnd = '';
-          $scope.searchDesigner = undefined;
-          $stateParams.detail = {};
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        };
+
         //设计师强制下线
         $scope.forcedOffline = function (id, status, designer) {
           status = status == 0 ? "1" : "0"

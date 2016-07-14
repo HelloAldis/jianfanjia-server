@@ -1,76 +1,61 @@
 <div class="designer-page common">
-	<ul class="list-inline">
-		<span>基本认证状态：&nbsp;</span>
-		<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, authList)">{{auth.name}}</button></li>
-	</ul>
+	<div class="row">
+		<ul class="list-inline col-md-6">
+			<span>基本认证状态：&nbsp;</span>
+			<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, authList)">{{auth.name}}</button></li>
+		</ul>
 
-	<ul class="list-inline">
-		<span>身份认证状态：&nbsp;</span>
-		<li ng-repeat="auth in uidAuthList">
-			<button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, uidAuthList)">{{auth.name}}</button>
-		</li>
-	</ul>
+		<ul class="list-inline col-md-6">
+			<span>身份认证状态：&nbsp;</span>
+			<li ng-repeat="auth in uidAuthList">
+				<button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, uidAuthList)">{{auth.name}}</button>
+			</li>
+		</ul>
 
-	<ul class="list-inline">
-		<span>工地认证状态：&nbsp;</span>
-		<li ng-repeat="auth in workAuthList">
-			<button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, workAuthList)">{{auth.name}}</button>
-		</li>
-	</ul>
+		<ul class="list-inline col-md-6">
+			<span>工地认证状态：&nbsp;</span>
+			<li ng-repeat="auth in workAuthList">
+				<button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, workAuthList)">{{auth.name}}</button>
+			</li>
+		</ul>
 
-	<ul class="list-inline">
-		<span>邮箱认证状态：&nbsp;</span>
-		<li ng-repeat="auth in emailAuthList">
-			<button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, emailAuthList)">{{auth.name}}</button>
-		</li>
-	</ul>
+		<ul class="list-inline col-md-6">
+			<span>邮箱认证状态：&nbsp;</span>
+			<li ng-repeat="auth in emailAuthList">
+				<button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, emailAuthList)">{{auth.name}}</button>
+			</li>
+		</ul>
 
-	<ul class="list-inline online-status-btn">
-		<span>设计师在线状态：</span>
-		<li ng-repeat="auth in authOnlineList">
-			<button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, authOnlineList)">{{auth.name}}</button>
-		</li>
-	</ul>
-	<br />
-
-	<form name="search" class="form-inline" ng-submit="searchBtn()" novalidate>
-		<p>设计师注册时间过滤：</p>
-		<date-range-picker start-time="startTime" end-time="endTime" dt-start="dtStart" dt-end="dtEnd"></date-range-picker>
-		<div class="form-group">
-			<label for="inputPassword2" class="sr-only">搜索设计师</label>
-			<input type="text" class="form-control" placeholder="手机号码/设计师名字" ng-model="searchDesigner" required />
-		</div>
-		<button type="submit" class="btn btn-primary">搜索设计师</button>
-	</form>
-	<br />
-
-	<div>
-		<button type="button" class="btn btn-danger" ng-click="clearStatus()">重置清空还原</button>
+		<ul class="list-inline online-status-btn col-md-6">
+			<span>设计师在线状态：</span>
+			<li ng-repeat="auth in authOnlineList">
+				<button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, authOnlineList)">{{auth.name}}</button>
+			</li>
+		</ul>
+		
 	</div>
-	<br />
+	<date-range-picker config="config" delegate="delegate" dt-start="dtStart" dt-end="dtEnd"></date-range-picker>
 
-	<div class="panel panel-info ng-scope text-center">
+	<div class="panel panel-info ng-scope text-center table-responsive">
 		<table class="table table-bordered table-striped">
 			<tbody>
-				<tr class="info thead">
+				<tr class="info thead text-nowrap">
 					<th class="text-center">设计师ID</th>
-					<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">注册时间</th>
+					<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">注册时间&nbsp;</th>
 					<th class="text-center">设计师姓名</th>
 					<th class="text-center">设计师电话</th>
-					<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.auth_date]" ng-click="sortData('auth_date')">认证申请时间</th>
-					<th class="text-center">
-						<span class="col-md-3">基本认证</span>
-						<span class="col-md-3">身份认证</span>
-						<span class="col-md-3">工地认证</span>
-						<span class="col-md-3">邮箱认证</span>
-					</th>
+					<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.auth_date]" ng-click="sortData('auth_date')">认证申请时间&nbsp;</th>
+					<th class="text-center">基本认证</th>
+					<th class="text-center">身份认证</th>
+					<th class="text-center">工地认证</th>
+					<th class="text-center">邮箱认证</th>
 					<th class="text-center">在线状态</th>
 					<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.authed_product_count]" ng-click="sortData('authed_product_count')">作品数&nbsp;</th>
 					<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.team_count]" ng-click="sortData('team_count')">施工团队&nbsp;</th>
 					<th>管理员认证操作</th>
 					<th>管理员操作</th>
 				</tr>
-				<tr ng-repeat="user in userList">
+				<tr ng-repeat="user in userList" class="text-nowrap">
 					<td>{{user._id}}</td>
 					<td class="text-left">{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 					<td><a ui-sref="designerInfo({id:user._id})">{{user.username}}</a></td>
@@ -78,9 +63,16 @@
 					<td class="text-left">{{user.auth_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 					<td>
 						<a ui-sref="designerInfoAuth({id:user._id})"><span ng-class="{'0':'auth-type-no', '1':'auth-type-ing', '2':'auth-type-ok', '3':'auth-type-reject', '4':'auth-type-bad'}[user.auth_type]" class="col-md-3">{{user.auth_type | authTypeFilter}}</span></a>
+					</td>
+					<td>
 						<a ui-sref="designerIdAuth({id:user._id})"><span ng-class="{'0':'auth-type-no', '1':'auth-type-ing', '2':'auth-type-ok', '3':'auth-type-reject', '4':'auth-type-bad'}[user.uid_auth_type]" class="col-md-3">{{user.uid_auth_type | authTypeFilter}}</span></a>
+					</td>
+					<td>
 						<a ui-sref="designerWorkAuth({id:user._id})"><span ng-class="{'0':'auth-type-no', '1':'auth-type-ing', '2':'auth-type-ok', '3':'auth-type-reject', '4':'auth-type-bad'}[user.work_auth_type]" class="col-md-3">{{user.work_auth_type | authTypeFilter}}</span></a>
-						<span ng-class="{'0':'auth-type-no', '1':'auth-type-ing', '2':'auth-type-ok', '3':'auth-type-reject', '4':'auth-type-bad'}[user.email_auth_type]" class="col-md-3">{{user.email_auth_type | authTypeFilter}}</span></td>
+					</td>
+					<td>
+						<span ng-class="{'0':'auth-type-no', '1':'auth-type-ing', '2':'auth-type-ok', '3':'auth-type-reject', '4':'auth-type-bad'}[user.email_auth_type]" class="col-md-3">{{user.email_auth_type | authTypeFilter}}</span>
+					</td>
 					<td>{{user.online_status | designOnlineFilter}}</td>
 					<td class="text-left"><a ui-sref="product(getProductDetail(user))">{{user.authed_product_count}}/{{user.product_count}}&nbsp;&nbsp;</td>
 					<td class="text-left"><a ui-sref="designerTeamList({id:user._id})">查看({{user.team_count}})&nbsp;</td>
@@ -101,5 +93,7 @@
 		<uib-pagination total-items="pagination.totalItems" first-text="首页" next-text="下一页" previous-text="上一页" last-text="尾页" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-links="true" num-pages="numPages" rotate="false" ng-change="pagination.pageChanged()"></uib-pagination>
 		<span class="pagecode">当前：{{pagination.currentPage}} / {{numPages}} 页 总共 {{pagination.totalItems}} 条数据</span>
 	</div>
-	<div export-data></div>
+	<div class="col-md-12">
+		<div export-data class="hidden-xs"></div>
+	</div>
 </div>

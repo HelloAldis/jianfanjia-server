@@ -2,6 +2,29 @@
   angular.module('JfjAdmin.pages.pictures')
     .controller('PicturesListController', ['$scope', '$rootScope', 'adminImage', '$stateParams', '$location',
       function ($scope, $rootScope, adminImage, $stateParams, $location) {
+        $scope.config = {
+          title: '美图创建时间过滤：',
+          search_word: $scope.search_word
+        }
+
+        $scope.delegate = {};
+
+        // 搜索
+        $scope.delegate.search = function (search_word) {
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        }
+        
+        // 重置
+        $scope.delegate.clearStatus = function () {
+          $scope.pagination.currentPage = 1;
+          $scope.dtStart = '';
+          $scope.dtEnd = '';
+          $scope.config.search_word = undefined;
+          $stateParams.detail = {};
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        }
+
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
 
         //刷新页面公共方法
@@ -37,6 +60,8 @@
                 $scope.dtEnd = new Date(detail.query.create_at["$lte"]);
               }
             }
+
+            $scope.config.search_word = detail.search_word;
           }
 
           detail.from = detail.from || 0;
@@ -60,22 +85,13 @@
 
           detail.query = detail.query || {};
           detail.query.create_at = createAt;
+          detail.search_word = $scope.config.search_word || undefined;
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
           detail.sort = $scope.sort;
           return detail;
         }
 
-        $scope.searchTimeBtn = function () {
-          var start = new Date($scope.dtStart).getTime();
-          var end = new Date($scope.dtEnd).getTime();
-          if (start > end) {
-            alert('开始时间不能晚于结束时间，请重新选择。');
-            return;
-          }
-          $scope.pagination.currentPage = 1;
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        };
         //排序
         $scope.sortData = function (sortby) {
           if ($scope.sort[sortby]) {
@@ -87,14 +103,7 @@
           $scope.pagination.currentPage = 1;
           refreshPage(refreshDetailFromUI($stateParams.detail));
         };
-        //重置清空状态
-        $scope.clearStatus = function () {
-          $scope.pagination.currentPage = 1;
-          $scope.dtStart = '';
-          $scope.dtEnd = '';
-          $stateParams.detail = {};
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        };
+
         //加载数据
         function loadList(detail) {
           adminImage.search(detail).then(function (resp) {
