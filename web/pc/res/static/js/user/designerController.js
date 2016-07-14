@@ -836,7 +836,7 @@ angular.module('controllers', [])
             function loadList(id){
                 userRequiremtne.history({
                     "list_type": id
-                } ).then(function(res){
+                }).then(function(res){
                     $scope.historys = res.data.data;
                     angular.forEach($scope.historys, function(value, key){
                         value.dec_type = $filter('decTypeFilter')(value.dec_type);
@@ -848,7 +848,7 @@ angular.module('controllers', [])
                     console.log(res)
                 });
             }
-            loadList(0)
+            loadList(0);
             $scope.goTo = function(id,status){
                 $location.path('history/'+id+"/detail");
             }

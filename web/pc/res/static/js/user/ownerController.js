@@ -97,11 +97,16 @@ angular.module('controllers', [])
                 "code":undefined
             };
             $scope.phone = {
+                disabled : true,
                 phoneMsg : "",
-                disabled : false,
+                condeMsg : "",
+                submitMsg : "",
                 codeValue : '获取验证码',
                 verifyCodeOff : true,
-                verifyPhoneOff : false,
+                verifyPhoneOff : true,
+                verifyCodeDid : true,
+                verifyPhoneError : false,
+                verifyCodeError : false,
                 isMobile : function(mobile){
                     return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile);
                 },
@@ -110,30 +115,71 @@ angular.module('controllers', [])
                 },
                 verifyphone : function(phone){
                     var _this = this;
-                    if(this.isMobile(phone)){
+                    if(!phone){
+                        _this.verifyPhoneOff = true;
+                        _this.phoneMsg = "手机号不能为空";
+                        _this.verifyPhoneError = true;
+                    }else if(this.isMobile(phone)){
                         userRequiremtne.verify({'phone':phone}).then(function(res){  //提交手机
                             if(res.data.msg === "success"){
                                 _this.phoneMsg = "";
+                                _this.verifyPhoneOff = false;
+                                _this.verifyPhoneError = false;
                             }
                             if(res.data.err_msg){
                                 _this.verifyPhoneOff = true;
                                 _this.phoneMsg = res.data.err_msg;
+                                _this.verifyPhoneError = true;
                             }
                         },function(res){
-                            console.log(res)
+                            console.log(res);
                         });
-                    }
+                    }else{
+                        if(phone.length >= 11){
+                            _this.verifyPhoneOff = true;
+                            _this.verifyPhoneError = true;
+                            _this.phoneMsg = "手机号不正确";
+                        }else{
+                            _this.verifyPhoneOff = true;
+                            _this.verifyPhoneError = false;
+                            _this.phoneMsg = "";
+                        }
+                        this.codeMsg = '';
+                        this.verifyCodeError = false;
+                        this.verifyCodeOff = true;
+                        $scope.user.code = '';
+                    };
+                    isdisabled();
                 },
                 verifycode : function(code){
                     var _this = this;
-                    if(!this.isVerifyCode(code)){
-                        this.codeMsg = '验证码不正确';
+                    if(this.verifyPhoneOff){
+                        this.codeMsg = '请先输入手机号获取验证码';
+                        this.verifyCodeError = true;
+                        this.verifyCodeOff = true;
+                        return ;
                     }
+                    if(code.length >= 6){
+                       if(this.isVerifyCode(code)){
+                            this.codeMsg = '';
+                            this.verifyCodeOff = false;
+                            this.verifyCodeError = false;
+                        }else{
+                            this.codeMsg = '验证码不正确';
+                            this.verifyCodeError = true;
+                            this.verifyCodeOff = true;
+                        }
+                    }else{
+                        this.codeMsg = '';
+                        this.verifyCodeError = false;
+                        this.verifyCodeOff = true;
+                    }
+                    isdisabled();
                 },
                 pullcode : function(phone){
                     var _this = this;
-                    if(_this.verifyCodeOff && _this.verifyPhoneOff){
-                        _this.verifyCodeOff = false;
+                    if(_this.verifyCodeDid && !_this.verifyPhoneOff){
+                        _this.verifyCodeDid = false;
                         countdown();
                         userRequiremtne.code({'phone':phone}).then(function(res){  //提交手机
                         },function(err){
@@ -148,7 +194,7 @@ angular.module('controllers', [])
                             if(count <= 0){
                                 $interval.cancel(timer);
                                 count = num;
-                                _this.verifyCodeOff = true;
+                                _this.verifyCodeDid = true;
                                 _this.codeValue = '重新获取';
                             }else{
                                count--;
@@ -158,13 +204,27 @@ angular.module('controllers', [])
                     }
                 },
                 submit : function(){
+                    var _this = this;
+                    this.verifyCodeOff = true;
+                    this.verifyPhoneOff = true;
+                    isdisabled();
                     userRequiremtne.phone($scope.user).then(function(res){  //提交手机
                         if(res.data.msg === "success"){
                             $state.go('addRequirement');
                         }
+                        if(res.data.err_msg){
+                            _this.submitMsg = res.data.err_msg;
+                        }
                     },function(res){
                         console.log(res)
                     })
+                }
+            }
+            function isdisabled(){
+                if(!$scope.phone.verifyCodeOff && !$scope.phone.verifyPhoneOff){
+                    $scope.phone.disabled = false;
+                }else{
+                    $scope.phone.disabled = true;
                 }
             }
     }])

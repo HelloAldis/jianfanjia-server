@@ -318,7 +318,7 @@ body{
 	color: #ff6a6a;
 	font-size: 12px;
 }
-.k-form .u-inp .input.ng-dirty.ng-invalid-number,.k-form .u-inp .input.ng-dirty.ng-invalid-pattern,.k-form .u-inp .input.ng-dirty.ng-invalid-required{
+.k-form .u-inp .input.ng-dirty.ng-invalid-number,.k-form .u-inp .input.ng-dirty.ng-invalid-pattern,.k-form .u-inp .input.ng-dirty.ng-invalid-required,.k-form .u-inp .input.error{
 	border-color: #ff6a6a;
 }
 .k-form .u-inp .textarea{
