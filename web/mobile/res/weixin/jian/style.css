@@ -668,6 +668,7 @@ h4 span {
 }
 
 .form #info-submit {
+    padding-left: 0;
     margin-top: .5rem;
     color: #fff;
     background-color: #fe7004;

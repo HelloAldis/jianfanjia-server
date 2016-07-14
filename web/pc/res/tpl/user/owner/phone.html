@@ -10,12 +10,10 @@
             <div class="item">
               <label class="u-lab" for="owner-sex"><i class="required-icon"></i>手机号码</label>
               <div class="u-inp">
-                <input type="text" class="input" ng-model="user.phone" placeholder="11位手机号码" my-placeholder ng-pattern="/^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/" required name="phone" ng-blur="phone.verifyphone(user.phone)" />
+                <input type="text" class="input" ng-model="user.phone" placeholder="11位手机号码" my-placeholder name="phone" ng-class="{'error':phone.verifyPhoneError}" ng-change="phone.verifyphone(user.phone)" />
               </div>
               <div class="u-error">
-                <span ng-show="release.phone.$dirty && release.phone.$error.required" class="has-error">不能为空</span>
-                <span ng-show="release.phone.$dirty && release.phone.$error.pattern" class="has-error">手机号码不正确</span>
-                <span ng-show="release.phone.$dirty && phone.verifyPhoneOff" class="has-error" ng-bind="phone.phoneMsg"></span>
+                <span ng-show="phone.verifyPhoneOff" class="has-error" ng-bind="phone.phoneMsg"></span>
               </div>
             </div>
           </div>
@@ -23,18 +21,27 @@
             <div class="item">
               <label class="u-lab" for="owner-email"><i class="required-icon"></i>验证码</label>
               <div class="u-inp">
-                <input type="text" class="input code" ng-model="user.code" required placeholder="6位数字验证码" my-placeholder ng-pattern="/^[\d]{6}$/" name="code" required />
-                <input type="button" ng-value="phone.codeValue" class="u-btns u-btns-revise code-btns" ng-class="{'u-btns-disabled':!phone.verifyPhoneOff || !phone.verifyCodeOff}" ng-disabled="!phone.verifyPhoneOff || !phone.verifyCodeOff" ng-click="phone.pullcode(user.phone)">
+                <input type="text" class="input code" ng-model="user.code" placeholder="6位数字验证码" my-placeholder ng-class="{'error':phone.verifyCodeError}" name="code" ng-change="phone.verifycode(user.code)" />
+                <input type="button" ng-value="phone.codeValue" class="u-btns code-btns" ng-class="{'u-btns-disabled':phone.verifyPhoneOff || !phone.verifyCodeDid}" ng-disabled="phone.verifyPhoneOff || !phone.verifyCodeDid" ng-click="phone.pullcode(user.phone)">
               </div>
               <div class="u-error">
-                <span ng-show="release.code.$dirty && release.code.$error.pattern" class="has-error">验证码不正确</span>
-                <span ng-show="release.code.$dirty && release.code.$error.required" class="has-error">不能为空</span>
+                <span ng-show="phone.verifyCodeOff" class="has-error" ng-bind="phone.codeMsg"></span>
               </div>
             </div>
           </div>
-        <div class="m-btns">
-          <input type="submit" class="u-btns" ng-class="{'u-btns-disabled':release.$invalid || phone.disabled}" ng-disabled="release.$invalid || userRelease.disabled" id="owner-submit" value="确认绑定" />
-        </div>
+          <div class="m-item f-cb" ng-if="phone.submitMsg">
+            <div class="item">
+              <label class="u-lab" for="owner-email">&nbsp;&nbsp;</label>
+              <div class="u-inp">
+                <div class="u-error">
+                  <span class="has-error" ng-bind="phone.submitMsg"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="m-btns">
+            <input type="submit" class="u-btns" ng-class="{'u-btns-disabled':phone.disabled}" ng-disabled="phone.disabled" value="确认绑定" />
+          </div>
       </div>
     </form>
   </div>
