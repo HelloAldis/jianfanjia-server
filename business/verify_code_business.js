@@ -24,7 +24,7 @@ exports.verify_code = function (phone, code, clearCodeIfOk, callback) {
       }
     }
 
-    if (clearCodeIfOk) {
+    if (clearCodeIfOk && verifyCode) {
       verifyCode.code = undefined;
       verifyCode.save(function () {});
     }
