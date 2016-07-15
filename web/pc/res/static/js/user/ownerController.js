@@ -376,6 +376,7 @@ angular.module('controllers', [])
                 var This = this;
                 //家装
                 if(type == 0){
+                    $scope.requiremtne.package_type = '0';
                     $scope.requiremtne.street = undefined;
                     $scope.requiremtne.business_house_type = undefined;
                     if($scope.requiremtne.house_area >= 80 && $scope.requiremtne.house_area <= 120 && $scope.requiremtne.work_type != 2){
