@@ -1,32 +1,32 @@
-<div class="designer-page common">
-	<div class="row">
-		<ul class="list-inline col-md-6">
+<div class="row designer-page common">
+	<div>
+		<ul class="row list-inline col-md-6">
 			<span>基本认证状态：&nbsp;</span>
 			<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, authList)">{{auth.name}}</button></li>
 		</ul>
 
-		<ul class="list-inline col-md-6">
+		<ul class="row list-inline col-md-6">
 			<span>身份认证状态：&nbsp;</span>
 			<li ng-repeat="auth in uidAuthList">
 				<button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, uidAuthList)">{{auth.name}}</button>
 			</li>
 		</ul>
 
-		<ul class="list-inline col-md-6">
+		<ul class="row list-inline col-md-6">
 			<span>工地认证状态：&nbsp;</span>
 			<li ng-repeat="auth in workAuthList">
 				<button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, workAuthList)">{{auth.name}}</button>
 			</li>
 		</ul>
 
-		<ul class="list-inline col-md-6">
+		<ul class="row list-inline col-md-6">
 			<span>邮箱认证状态：&nbsp;</span>
 			<li ng-repeat="auth in emailAuthList">
 				<button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, emailAuthList)">{{auth.name}}</button>
 			</li>
 		</ul>
 
-		<ul class="list-inline online-status-btn col-md-6">
+		<ul class="row list-inline online-status-btn col-md-6">
 			<span>设计师在线状态：</span>
 			<li ng-repeat="auth in authOnlineList">
 				<button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, authOnlineList)">{{auth.name}}</button>
@@ -35,6 +35,7 @@
 		
 	</div>
 	<date-range-picker config="config" delegate="delegate" dt-start="dtStart" dt-end="dtEnd"></date-range-picker>
+	<search-input config="config" delegate="delegate"></search-input>
 
 	<div class="panel panel-info ng-scope text-center table-responsive">
 		<table class="table table-bordered table-striped">

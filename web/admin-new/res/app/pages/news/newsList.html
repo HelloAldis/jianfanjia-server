@@ -1,10 +1,11 @@
-<div class="news-list-page common">
-	<ul class="list-inline col-md-12">
+<div class="row news-list-page common">
+	<ul class="row list-inline col-md-12">
 		<span>文章分类：</span>
 		<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id, authList)">{{auth.name}}</button></li>
 	</ul>
 
 	<date-range-picker config="config" delegate="delegate" dt-start="dtStart" dt-end="dtEnd"></date-range-picker>
+	<search-input config="config" delegate="delegate"></search-input>
 
 	<div>
 		<a ui-sref="newsAdd()" class="btn btn-success">添加新闻编辑</a>

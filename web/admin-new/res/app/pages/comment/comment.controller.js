@@ -22,7 +22,6 @@
           $scope.dtStart = '';
           $scope.dtEnd = '';
           $scope.config.search_word = undefined;
-          mutiSelected.clearCur($scope.authList);
           $stateParams.detail = {};
           refreshPage(refreshDetailFromUI($stateParams.detail));
         }
@@ -64,7 +63,7 @@
           var gte = $scope.dtStart ? $scope.dtStart.getTime() : undefined;
           var lte = $scope.dtEnd ? $scope.dtEnd.getTime() : undefined;
 
-          var createAt = gte && lte ? {
+          var createAt = gte || lte ? {
             "$gte": gte,
             "$lte": lte
           } : undefined;

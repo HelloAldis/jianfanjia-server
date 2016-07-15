@@ -1,18 +1,25 @@
-<div class="product-page common">
-	<ul class="list-inline col-md-12">
-		作品状态：<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id)">{{auth.name}}</button></li>
+<div class="row product-page common">
+	<ul class="row list-inline col-md-12">
+		作品状态：
+		<li ng-repeat="auth in authList">
+			<button type="button" class="btn btn-default"
+				ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" 
+				ng-click="authBtn(auth.id)">{{auth.name}}
+			</button>
+		</li>
 	</ul>
 	
 	<date-range-picker config="config" delegate="delegate" dt-start="dtStart" dt-end="dtEnd"></date-range-picker>
+	<search-input config="config" delegate="delegate"></search-input>
 
 	<div class="panel panel-info text-center table-responsive">
 		<table class="table table-bordered table-striped">
 			<tbody>
 				<tr class="info thead text-nowrap">
 					<th class="text-center">案例编号ID</th>
-					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">提交时间</th>
+					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">提交时间&nbsp;</th>
 					<th class="text-center">案例名称</th>
-					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.auth_date]" ng-click="sortData('auth_date')">认证时间</th>
+					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.auth_date]" ng-click="sortData('auth_date')">认证时间&nbsp;</th>
 					<th class="text-center">当前状态</th>
 					<th class="text-center">设计师</th>
 					<th class="text-center">电话</th>

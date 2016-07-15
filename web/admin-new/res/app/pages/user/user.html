@@ -1,34 +1,35 @@
-<div class="user-page common">
+<div class="row user-page common">
 	<date-range-picker config="config" delegate="delegate" dt-start="dtStart" dt-end="dtEnd"></date-range-picker>
+	<search-input config="config" delegate="delegate"></search-input>
 
 	<div class="panel panel-info ng-scope text-center table-responsive">
 		<table class="table table-bordered table-striped">
 			<tbody>
-				<tr class="info thead">
+				<tr class="info thead text-nowrap">
 					<th class="user-id text-center">业主ID</th>
 					<th>
 						<div ng-class="{'-1':'tablesorter-headerDesc item-width',
 							undefined:'tablesorter-header item-width',
 							'1':'tablesorter-headerAsc item-width'}[sort.create_at]"
-							ng-click="sortData('create_at')">注册时间
+							ng-click="sortData('create_at')">注册时间&nbsp;&nbsp;
 						</div>
 					</th>
 					<th>
 						<div ng-class="{'-1':'tablesorter-headerDesc item-width',
 							undefined:'tablesorter-header item-width',
 							'1':'tablesorter-headerAsc item-width'}[sort.username]"
-							ng-click="sortData('username')">业主姓名</div>
+							ng-click="sortData('username')">业主姓名&nbsp;&nbsp;</div>
 					</th>
 					<th>
 						<div ng-class="{'-1':'tablesorter-headerDesc item-width',
 							undefined:'tablesorter-header item-width',
-							'1':'tablesorter-headerAsc item-width'}[sort.phone]" ng-click="sortData('phone')">业主电话</div>
+							'1':'tablesorter-headerAsc item-width'}[sort.phone]" ng-click="sortData('phone')">业主电话&nbsp;&nbsp;</div>
 					</th>
 					<th class="text-center">业主性别</th>
 					<th class="text-center">查看详细资料</th>
 					<th class="text-center">查看需求列表</th>
 				</tr>
-				<tr ng-repeat="user in userList">
+				<tr ng-repeat="user in userList" class="text-nowrap">
 					<td>{{user._id}}</td>
 					<td class="text-left">{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 					<td class="text-left">{{user.username ? user.username : '未填写'}}</td>

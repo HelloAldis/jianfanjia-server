@@ -80,7 +80,7 @@
         function refreshDetailFromUI(detail) {
           var gte = $scope.dtStart ? $scope.dtStart.getTime() : undefined;
           var lte = $scope.dtEnd ? $scope.dtEnd.getTime() : undefined;
-          var createAt = gte && lte ? {
+          var createAt = gte || lte ? {
             "$gte": gte,
             "$lte": lte
           } : undefined;
@@ -121,7 +121,7 @@
             }
           }, function (resp) {
             //返回错误信息
-            $scope.loadData = false;
+            $scope.loading.loadData = true;
             console.log(resp);
           });
         }

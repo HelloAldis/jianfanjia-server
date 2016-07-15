@@ -112,7 +112,7 @@
         function refreshDetailFromUI(detail) {
           var gte = $scope.dtStart ? $scope.dtStart.getTime() : undefined;
           var lte = $scope.dtEnd ? $scope.dtEnd.getTime() : undefined;
-          var createAt = gte && lte ? {
+          var createAt = gte || lte ? {
             "$gte": gte,
             "$lte": lte
           } : undefined;
@@ -158,9 +158,6 @@
 
         //加载数据
         function loadList(detail) {
-          if (detail.query && detail.query.create_at && detail.query.create_at.$lte) {
-            detail.query.create_at.$lte += 86399999;
-          }
           adminRequirement.search(detail).then(function (resp) {
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
