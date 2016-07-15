@@ -7,6 +7,7 @@ const Designer = require('../../../proxy').Designer;
 const async = require('async');
 const type = require('../../../type');
 const tools = require('../../../common/tools');
+const reg_util = require('../../../common/reg_util');
 
 exports.search = function (req, res, next) {
   let query = req.body.query || {};

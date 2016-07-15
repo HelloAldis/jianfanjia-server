@@ -4,6 +4,7 @@ const TempUser = require('../../../proxy').TempUser;
 const eventproxy = require('eventproxy');
 const ApiUtil = require('../../../common/api_util');
 const tools = require('../../../common/tools');
+const reg_util = require('../../../common/reg_util');
 
 exports.add = function (req, res, next) {
   let tempUser = ApiUtil.buildTempUser(req);

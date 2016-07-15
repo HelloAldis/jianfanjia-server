@@ -23,7 +23,6 @@
           $scope.dtStart = '';
           $scope.dtEnd = '';
           $scope.config.search_word = undefined;
-          mutiSelected.clearCur($scope.authList);
           $stateParams.detail = {};
           refreshPage(refreshDetailFromUI($stateParams.detail));
         }
