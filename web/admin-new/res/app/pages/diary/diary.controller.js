@@ -3,6 +3,30 @@
     .controller('DiaryController', [ //日记列表
       '$scope', 'adminDiary', '$stateParams', '$location',
       function ($scope, adminDiary, $stateParams, $location) {
+        $scope.config = {
+          title: '日记创建时间过滤：',
+          placeholder: '日记ID/日记本ID/作者ID/内容',
+          search_word: $scope.search_word
+        }
+
+        $scope.delegate = {};
+
+        // 搜索
+        $scope.delegate.search = function (search_word) {
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        }
+
+        // 重置
+        $scope.delegate.clearStatus = function () {
+          $scope.pagination.currentPage = 1;
+          $scope.dtStart = '';
+          $scope.dtEnd = '';
+          $scope.config.search_word = undefined;
+          $stateParams.detail = {};
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        }
+
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
         //刷新页面公共方法
         function refreshPage(detail) {
@@ -22,7 +46,7 @@
               }
             }
 
-            $scope.searchDiary = detail.search_word;
+            $scope.config.search_word = detail.search_word;
           }
 
           detail.from = detail.from || 0;
@@ -40,14 +64,14 @@
           var gte = $scope.dtStart ? $scope.dtStart.getTime() : undefined;
           var lte = $scope.dtEnd ? $scope.dtEnd.getTime() : undefined;
 
-          var createAt = gte && lte ? {
+          var createAt = gte || lte ? {
             "$gte": gte,
             "$lte": lte
           } : undefined;
 
           detail.query = detail.query || {};
           detail.query.create_at = createAt;
-          detail.search_word = $scope.searchDiary || undefined;
+          detail.search_word = $scope.config.search_word || undefined;
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
           detail.sort = $scope.sort;
@@ -95,31 +119,19 @@
         //初始化数据
         loadList($stateParams.detail);
 
-        //搜索
-        $scope.searchBtn = function () {
-          var start = new Date($scope.dtStart).getTime();
-          var end = new Date($scope.dtEnd).getTime();
-          if (start > end) {
-            alert('开始时间不能晚于结束时间，请重新选择。');
-            return;
-          }
-          $scope.pagination.currentPage = 1;
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        }
-
         // 删除日记
         $scope.deleDiary = function (id) {
           if (confirm("你确定要删除吗？删除不能恢复")) {
             adminDiary.dele({
-              "diaryid": id
-            })
-            .then(function (resp) {
-              if (resp.data.msg === "success") {
-                loadList(refreshDetailFromUI($stateParams.detail));
-              }
-            }, function (err) {
-              console.log(err);
-            })
+                "diaryid": id
+              })
+              .then(function (resp) {
+                if (resp.data.msg === "success") {
+                  loadList(refreshDetailFromUI($stateParams.detail));
+                }
+              }, function (err) {
+                console.log(err);
+              })
           }
         }
 
@@ -135,15 +147,6 @@
           refreshPage(refreshDetailFromUI($stateParams.detail));
         };
 
-        //重置清空状态
-        $scope.clearStatus = function () {
-          $scope.pagination.currentPage = 1;
-          $scope.dtStart = '';
-          $scope.dtEnd = '';
-          $scope.searchDiary = undefined;
-          $stateParams.detail = {};
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        };
       }
     ]);
 })();

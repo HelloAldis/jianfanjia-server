@@ -4,6 +4,30 @@
     .controller('FeedbackListController', [
       '$scope', '$rootScope', 'adminApp', '$stateParams', '$location',
       function ($scope, $rootScope, adminApp, $stateParams, $location) {
+        $scope.config = {
+          title: '反馈时间过滤：',
+          placeholder: '反馈ID/用户ID/内容',
+          search_word: $scope.search_word
+        }
+
+        $scope.delegate = {};
+
+        // 搜索
+        $scope.delegate.search = function (search_word) {
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        }
+
+        // 重置
+        $scope.delegate.clearStatus = function () {
+          $scope.pagination.currentPage = 1;
+          $scope.dtStart = '';
+          $scope.dtEnd = '';
+          $scope.config.search_word = undefined;
+          $stateParams.detail = {};
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        }
+
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
 
         //刷新页面公共方法
@@ -39,6 +63,8 @@
                 $scope.dtEnd = new Date(detail.query.create_at["$lte"]);
               }
             }
+
+            $scope.config.search_word = detail.search_word;
           }
 
           detail.from = detail.from || 0;
@@ -54,31 +80,21 @@
         //从页面获取详情
         function refreshDetailFromUI(detail) {
           var gte = $scope.dtStart ? $scope.dtStart.getTime() : undefined;
-          var lte = $scope.endTime.time ? $scope.endTime.time.getTime() : undefined;
-          var createAt = gte && lte ? {
+          var lte = $scope.dtEnd ? $scope.dtEnd.getTime() : undefined;
+          var createAt = gte || lte ? {
             "$gte": gte,
             "$lte": lte
           } : undefined;
 
           detail.query = detail.query || {};
           detail.query.create_at = createAt;
+          detail.search_word = $scope.config.search_word || undefined;
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
           detail.sort = $scope.sort;
           return detail;
         }
 
-        $scope.searchTimeBtn = function () {
-          var start = new Date($scope.dtStart).getTime();
-          var end = new Date($scope.endTime.time).getTime()
-          if (start > end) {
-            alert('开始时间不能晚于结束时间，请重新选择。');
-            return;
-          }
-
-          $scope.pagination.currentPage = 1;
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        };
         //排序
         $scope.sortData = function (sortby) {
           if ($scope.sort[sortby]) {
@@ -88,14 +104,6 @@
             $scope.sort[sortby] = -1;
           }
           $scope.pagination.currentPage = 1;
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        };
-        //重置清空状态
-        $scope.clearStatus = function () {
-          $scope.pagination.currentPage = 1;
-          $scope.dtStart = '';
-          $scope.endTime.time = '';
-          $stateParams.detail = {}
           refreshPage(refreshDetailFromUI($stateParams.detail));
         };
 
@@ -114,7 +122,7 @@
             }
           }, function (resp) {
             //返回错误信息
-            $scope.loadData = false;
+            $scope.loading.loadData = true;
             console.log(resp);
           });
         }

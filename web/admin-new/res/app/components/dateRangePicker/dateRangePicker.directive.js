@@ -10,9 +10,8 @@
       scope:{
         dtStart: '=',
         dtEnd: '=',
-        startTime: '=',
-        endTime: '=',
-        isButton: '='
+        delegate: '=',
+        config: '='
       },
       restrict: 'E',
       templateUrl: 'app/components/dateRangePicker/dateRangePicker.html',
@@ -37,6 +36,7 @@
           }
         };
         $scope.startTime.today();
+
         $scope.endTime = {
           clear: function () {
             this.dt = null;
@@ -57,6 +57,15 @@
         };
         $scope.endTime.today();
 
+        // 键入Enter 搜索
+        $scope.myKeyup = function keyupListen(e, search_word) {
+          var keycode = e.keyCode;
+          if (keycode === 13) {
+            $scope.delegate.search(search_word);
+          }
+        };
+
+        // 结束时间设置为当天最后一秒
         $scope.$watch('dtEnd', function (newVal, oldVal) {
           if ((!oldVal && newVal) || (oldVal && newVal && oldVal.getTime() !== newVal.getTime())) {
             newVal.setHours(23, 59, 39);

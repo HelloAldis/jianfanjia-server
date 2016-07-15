@@ -3,45 +3,68 @@
     .controller('RequirementController', [
       '$scope', '$rootScope', 'adminRequirement', '$stateParams', '$location', 'mutiSelected',
       function ($scope, $rootScope, adminRequirement, $stateParams, $location, mutiSelected) {
-        $scope.authList = [
-          {
-            id: "0",
-            name: '未预约',
-            cur: false
-          }, {
-            id: "1",
-            name: '已预约无人响应',
-            cur: false
-          }, {
-            id: "2",
-            name: '有响应无人量房',
-            cur: false
-          }, {
-            id: "6",
-            name: '已量房无方案',
-            cur: false
-          }, {
-            id: "3",
-            name: '提交方案但无选定方案',
-            cur: false
-          }, {
-            id: "4",
-            name: '选定方案无配置合同',
-            cur: false
-          }, {
-            id: "7",
-            name: '已配置合同',
-            cur: false
-          }, {
-            id: "5",
-            name: '配置工地',
-            cur: false
-          }, {
-            id: "8",
-            name: '已完成',
-            cur: false
-          }
-        ];
+        $scope.authList = [{
+          id: "0",
+          name: '未预约',
+          cur: false
+        }, {
+          id: "1",
+          name: '已预约无人响应',
+          cur: false
+        }, {
+          id: "2",
+          name: '有响应无人量房',
+          cur: false
+        }, {
+          id: "6",
+          name: '已量房无方案',
+          cur: false
+        }, {
+          id: "3",
+          name: '提交方案但无选定方案',
+          cur: false
+        }, {
+          id: "4",
+          name: '选定方案无配置合同',
+          cur: false
+        }, {
+          id: "7",
+          name: '已配置合同',
+          cur: false
+        }, {
+          id: "5",
+          name: '配置工地',
+          cur: false
+        }, {
+          id: "8",
+          name: '已完成',
+          cur: false
+        }];
+
+        $scope.config = {
+          title: '需求提交时间过滤：',
+          placeholder: '需求ID/业主ID/地址',
+          search_word: $scope.search_word
+        }
+
+        $scope.delegate = {};
+
+        // 搜索
+        $scope.delegate.search = function (search_word) {
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        }
+
+        // 重置
+        $scope.delegate.clearStatus = function () {
+          $scope.pagination.currentPage = 1;
+          $scope.dtStart = '';
+          $scope.dtEnd = '';
+          $scope.config.search_word = undefined;
+          mutiSelected.clearCur($scope.authList);
+          $stateParams.detail = {};
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        }
 
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
 
@@ -69,6 +92,8 @@
               }
             }
 
+            $scope.config.search_word = detail.search_word;
+
             mutiSelected.initMutiSelected($scope.authList, detail.query.status);
           }
 
@@ -86,7 +111,7 @@
         function refreshDetailFromUI(detail) {
           var gte = $scope.dtStart ? $scope.dtStart.getTime() : undefined;
           var lte = $scope.dtEnd ? $scope.dtEnd.getTime() : undefined;
-          var createAt = gte && lte ? {
+          var createAt = gte || lte ? {
             "$gte": gte,
             "$lte": lte
           } : undefined;
@@ -94,6 +119,7 @@
           detail.query = detail.query || {};
           detail.query.status = mutiSelected.getInQueryFormMutilSelected($scope.authList);
           detail.query.create_at = createAt;
+          detail.search_word = $scope.config.search_word || undefined;
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
           detail.sort = $scope.sort;
@@ -109,20 +135,6 @@
           pageChanged: function () {
             refreshPage(refreshDetailFromUI($stateParams.detail));
           }
-        };
-        
-        //时间过滤
-        $scope.searchTimeBtn = function () {
-          var start = new Date($scope.dtStart).getTime();
-          var end = new Date($scope.dtEnd).getTime();
-
-          if (start > end) {
-            alert('开始时间不能晚于结束时间，请重新选择。');
-            return;
-          }
-          $scope.pagination.currentPage = 1;
-
-          refreshPage(refreshDetailFromUI($stateParams.detail));
         };
 
         //状态过滤
@@ -142,21 +154,9 @@
           $scope.pagination.currentPage = 1;
           refreshPage(refreshDetailFromUI($stateParams.detail));
         };
-        //重置清空状态
-        $scope.clearStatus = function () {
-          $scope.pagination.currentPage = 1;
-          $scope.dtStart = '';
-          $scope.dtEnd = '';
-          mutiSelected.clearCur($scope.authList);
-          $stateParams.detail = {};
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        };
 
         //加载数据
         function loadList(detail) {
-          if (detail.query && detail.query.create_at && detail.query.create_at.$lte) {
-            detail.query.create_at.$lte += 86399999;
-          }
           adminRequirement.search(detail).then(function (resp) {
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;

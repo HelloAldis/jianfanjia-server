@@ -1,10 +1,13 @@
-var TempUser = require('../../../proxy').TempUser;
-var eventproxy = require('eventproxy');
-var ApiUtil = require('../../../common/api_util');
+'use strict';
+
+const TempUser = require('../../../proxy').TempUser;
+const eventproxy = require('eventproxy');
+const ApiUtil = require('../../../common/api_util');
+const tools = require('../../../common/tools');
 
 exports.add = function (req, res, next) {
-  var tempUser = ApiUtil.buildTempUser(req);
-  var ep = new eventproxy();
+  let tempUser = ApiUtil.buildTempUser(req);
+  let ep = new eventproxy();
   ep.fail(next);
 
   tempUser.platform_type = req.platform_type;
@@ -14,13 +17,28 @@ exports.add = function (req, res, next) {
 };
 
 exports.search_temp_user = function (req, res, next) {
-  var query = req.body.query || {};
-  var sort = req.body.sort || {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
     create_at: 1
   };
-  var skip = req.body.from || 0;
-  var limit = req.body.limit || 10;
-  var ep = new eventproxy();
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        name: search_word
+      }, {
+        district: search_word
+      }];
+    }
+  }
+  let ep = new eventproxy();
   ep.fail(next);
 
   TempUser.paginate(query, null, {

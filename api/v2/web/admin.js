@@ -194,6 +194,23 @@ exports.search_share = function (req, res, next) {
   let sort = req.body.sort || {
     create_at: -1,
   };
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        designerid: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        cell: search_word
+      }, {
+        description: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
 
@@ -285,24 +302,28 @@ exports.listAuthingDesigner = function (req, res, next) {
 
 exports.searchDesigner = function (req, res, next) {
   let query = req.body.query || {};
-  let phone = tools.trim(query.phone);
-  let phoneReg = reg_util.reg(tools.trim(phone));
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
   let sort = req.body.sort || {
     create_at: 1
   };
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        phone: search_word
+      }, {
+        username: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
-
-  if (phone) {
-    query['$or'] = [{
-      phone: phoneReg
-    }, {
-      username: phoneReg
-    }];
-  }
-  delete query.phone;
 
   Designer.paginate(query, {
     pass: 0,
@@ -321,24 +342,28 @@ exports.searchDesigner = function (req, res, next) {
 
 exports.searchUser = function (req, res, next) {
   let query = req.body.query || {};
-  let phone = tools.trim(query.phone);
-  let phoneReg = reg_util.reg(tools.trim(phone));
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
   let sort = req.body.sort || {
     create_at: 1
   };
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        phone: search_word
+      }, {
+        username: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
-
-  if (phone) {
-    query['$or'] = [{
-      phone: phoneReg
-    }, {
-      username: phoneReg
-    }];
-  }
-  delete query.phone;
 
   User.paginate(query, {
     pass: 0,
@@ -374,6 +399,23 @@ exports.searchProduct = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        designerid: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        cell: search_word
+      }, {
+        description: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
 
@@ -409,6 +451,25 @@ exports.search_plan = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        userid: search_word
+      }, {
+        designerid: search_word
+      }, {
+        requirementid: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        description: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
 
@@ -520,6 +581,23 @@ exports.search_requirement = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        userid: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        basic_address: search_word
+      }, {
+        detail_address: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
 
@@ -580,6 +658,27 @@ exports.search_process = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        userid: search_word
+      }, {
+        final_designerid: search_word
+      }, {
+        requirementid: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        basic_address: search_word
+      }, {
+        detail_address: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
 
@@ -758,6 +857,19 @@ exports.search_article = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        title: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
 
@@ -818,6 +930,19 @@ exports.search_beautiful_image = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        title: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
 

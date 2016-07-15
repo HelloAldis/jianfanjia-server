@@ -1,34 +1,34 @@
-<div class="plan-page common">
-	<form name="recruit" ng-submit="searchTimeBtn()" novalidate>
-		<p>方案最后更新时间过滤：</p>
-		<date-range-picker start-time="startTime" end-time="endTime" dt-start="dtStart" dt-end="dtEnd" is-button="true"></date-range-picker>
-	</form>
-	<br />
-	<ul class="list-inline">
-		方案状态：<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id)">{{auth.name}}</button></li>
+<div class="row plan-page common">
+	<ul class="row list-inline col-md-12">
+		方案状态：
+		<li ng-repeat="auth in authList">
+			<button type="button" class="btn btn-default"
+				ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" 
+				ng-click="authBtn(auth.id)">{{auth.name}}
+			</button>
+		</li>
 	</ul>
-	<br />
-	<div>
-		<button type="button" class="btn btn-danger" ng-click="clearStatus()">重置清空还原</button>
-	</div>
-	<br />
-	<div class="panel panel-info ng-scope text-center">
+	
+	<date-range-picker config="config" delegate="delegate" dt-start="dtStart" dt-end="dtEnd"></date-range-picker>
+	<search-input config="config" delegate="delegate"></search-input>
+
+	<div class="panel panel-info ng-scope text-center table-responsive">
 		<table class="table table-bordered table-striped">
 			<tbody>
-				<tr class="info thead">
+				<tr class="info thead text-nowrap">
 					<th class="text-center">方案ID</th>
-					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.request_date]" ng-click="sortData('request_date')">预约时间</th>
-					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.get_phone_time]" ng-click="sortData('get_phone_time')">获取电话时间</th>
-					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.house_check_time]" ng-click="sortData('house_check_time')">量房时间</th>
+					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.request_date]" ng-click="sortData('request_date')">预约时间&nbsp;</th>
+					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.get_phone_time]" ng-click="sortData('get_phone_time')">获取电话时间&nbsp;</th>
+					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.house_check_time]" ng-click="sortData('house_check_time')">量房时间&nbsp;</th>
 					<th class="text-center">当前状态</th>
-					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.last_status_update_time]" ng-click="sortData('last_status_update_time')">状态更新时间</th>
+					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.last_status_update_time]" ng-click="sortData('last_status_update_time')">状态更新时间&nbsp;</th>
 					<th class="text-center">设计师姓名</th>
 					<th class="text-center">设计师电话</th>
 					<th class="text-center">业主姓名</th>
 					<th class="text-center">业主电话</th>
 					<th>查看方案</th>
 				</tr>
-				<tr ng-repeat="user in userList">
+				<tr ng-repeat="user in userList" class="text-nowrap">
 					<td>{{user._id}}</td>
 					<td class="text-left">{{user.request_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 					<td class="text-left">{{user.get_phone_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
@@ -51,5 +51,7 @@
 		<uib-pagination total-items="pagination.totalItems" first-text="首页" next-text="下一页" previous-text="上一页" last-text="尾页" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-links="true" num-pages="numPages" rotate="false" ng-change="pagination.pageChanged()"></uib-pagination>
 		<span class="pagecode">当前：{{pagination.currentPage}} / {{numPages}} 页 总共 {{pagination.totalItems}} 条数据</span>
 	</div>
-	<div export-data></div>
+	<div class="col-md-12">
+		<div export-data class="hidden-xs"></div>
+	</div>
 </div>

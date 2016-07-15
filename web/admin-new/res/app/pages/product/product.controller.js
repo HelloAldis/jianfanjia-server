@@ -20,7 +20,33 @@
 					id: "3",
 					name: '已违规',
 					cur: false
-				}, ];
+				}];
+
+				$scope.config = {
+					title: '作品创建时间过滤：',
+					placeholder: '作品ID/设计师ID/小区/描述',
+					search_word: $scope.search_word
+				}
+
+				$scope.delegate = {};
+
+				// 搜索
+				$scope.delegate.search = function (search_word) {
+					$scope.pagination.currentPage = 1;
+					refreshPage(refreshDetailFromUI($stateParams.detail));
+				}
+
+				// 重置
+				$scope.delegate.clearStatus = function () {
+					$scope.pagination.currentPage = 1;
+					$scope.dtStart = '';
+					$scope.dtEnd = '';
+					$scope.config.search_word = undefined;
+					$stateParams.detail = {};
+					mutiSelected.clearCur($scope.authList);
+					refreshPage(refreshDetailFromUI($stateParams.detail));
+				}
+
 
 				$stateParams.detail = JSON.parse($stateParams.detail || '{}');
 
@@ -41,6 +67,8 @@
 								$scope.dtEnd = new Date(detail.query.create_at["$lte"]);
 							}
 						}
+						$scope.config.search_word = detail.search_word;
+
 						mutiSelected.initMutiSelected($scope.authList, detail.query.auth_type);
 					}
 
@@ -59,7 +87,7 @@
 					var gte = $scope.dtStart ? $scope.dtStart.getTime() : undefined;
 					var lte = $scope.dtEnd ? $scope.dtEnd.getTime() : undefined;
 
-					var createAt = gte && lte ? {
+					var createAt = gte || lte ? {
 						"$gte": gte,
 						"$lte": lte
 					} : undefined;
@@ -67,6 +95,7 @@
 					detail.query = detail.query || {};
 					detail.query.auth_type = mutiSelected.getInQueryFormMutilSelected($scope.authList);
 					detail.query.create_at = createAt;
+					detail.search_word = $scope.config.search_word || undefined;
 					detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
 					detail.limit = $scope.pagination.pageSize;
 					detail.sort = $scope.sort;
@@ -89,17 +118,6 @@
 					}
 				};
 
-				$scope.searchTimeBtn = function () {
-					var start = new Date($scope.dtStart).getTime();
-					var end = new Date($scope.dtEnd).getTime();
-					if (start > end) {
-						alert('开始时间不能晚于结束时间，请重新选择。');
-						return;
-					}
-
-					$scope.pagination.currentPage = 1;
-					refreshPage(refreshDetailFromUI($stateParams.detail));
-				};
 				//认证筛选
 				$scope.authBtn = function (id) {
 					$scope.pagination.currentPage = 1;
@@ -115,15 +133,6 @@
 						$scope.sort[sortby] = -1;
 					}
 					$scope.pagination.currentPage = 1;
-					refreshPage(refreshDetailFromUI($stateParams.detail));
-				};
-				//重置清空状态
-				$scope.clearStatus = function () {
-					$scope.pagination.currentPage = 1;
-					$scope.dtStart = '';
-					$scope.dtEnd = '';
-					$stateParams.detail = {};
-					mutiSelected.clearCur($scope.authList);
 					refreshPage(refreshDetailFromUI($stateParams.detail));
 				};
 
