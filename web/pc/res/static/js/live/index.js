@@ -17,7 +17,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cook
     var search = new common.Search();
     search.init();
 })
-require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/common','utils/page'],function($,_,cookie,history,common,Pageing){
+require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/common','utils/page','utils/globalData'],function($,_,cookie,history,common,Pageing,globalData){
     var goto = new common.Goto();
     var page = new Pageing();
     var Live = function(){};
@@ -47,7 +47,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
             this.loading.removeClass('hide');
             self.notData.addClass('hide');
             $.ajax({
-                url:RootUrl+'api/v2/web/search_share',
+                url:'/api/v2/web/search_share',
                 type: 'POST',
                 contentType : 'application/json; charset=utf-8',
                 dataType: 'json',

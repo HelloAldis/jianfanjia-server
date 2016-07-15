@@ -8,8 +8,8 @@
           <script type="text/javascript">if(!-[1,]){window.location.href = "/tpl/other/error.html";}</script>
     <![endif]-->
 	<title>简繁家--登录</title>
-	<meta name="description" content="">
-	<meta name="keywords" content="">
+	<meta name="description" content="简繁家,登陆">
+	<meta name="keywords" content="简繁家,登陆">
 	<link rel="stylesheet" type="text/css" href="/static/css/public.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/user.css" />
 	<script type="text/javascript" src="/static/js/lib/public.js"></script>
@@ -19,135 +19,73 @@
 	<![endif]-->
 </head>
 <body>
-	<div class="g-tb g-wa">
-		<div class="g-wp f-cb">
-			<a href="/tpl/download/index.html" class="m-app f-fl"><span>APP下载</span></a>
-			<a href="/zt/merchants/index.html" class="m-events f-fr">简繁家主材火热招商中</a>
-			<div class="m-user f-fr" id="j-user">
-		        <ul>
-		          <li><a href="/tpl/user/login.html">登录</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/tpl/user/reg.html">注册</a></li>
-		          <li class="line"></li>
-		          <li><a href="/tpl/user/designer_reg.html">设计师入驻</a></li>
-		          <li class="line"></li>
-		          <li>咨询热线：400-8515-167</li>
-		        </ul>
-      		</div>
-		</div>
-	</div>
-	<header class="g-hd g-wa" id="j-hd">
-		<div class="g-wp f-cb">
-			<hgroup class="m-logo f-fl">
-				<h1><a href="/">简繁家</a></h1>
-				<h2>我的设计师专单平台</h2>
-			</hgroup>
-			<div class="m-sch f-fl" id="j-sch"></div>
-			<div class="m-slogan f-fr" id="j-slogan">
-				<h3>简繁家实力保障</h3>
-				<p>知名风投投资</p>
+	<div class="g-user g-login">
+		<header class="g-hd g-wa">
+			<div class="g-wp">
+				<hgroup class="m-logo">
+					<h1><a href="/" title="首页">简繁家</a></h1>
+					<h2>让装修变简单</h2>
+				</hgroup>
 			</div>
-		</div>
-	</header>
-	<nav class="g-nav g-wa">
-		<div class="g-wp">
-			<ul class="m-nav f-cb">
-				<li><a href="/">首页</a></li>
-				<li><a href="/tpl/design/index.html">设计师</a></li>
-				<li><a href="/tpl/mito/index.html">装修美图</a></li>
-				<li><a href="/tpl/diary/index.html">装修日记</a></li>
-				<li><a href="/tpl/live/index.html">装修直播</a></li>
-				<li><a href="/tpl/article/index.html">装修攻略</a></li>
-				<li><a href="/tpl/help/index.html">你问我答</a></li>
-			</ul>
-			<a href="/tpl/user/owner.html#release" class="m-release bounce" id="j-release"><span><i></i></span>免费获取三套方案</a>
-		</div>
-	</nav>
-	<main class="g-bd g-wp" id="j-login">
-		<div class="g-sign">
-			<article class="m-sign-mn f-fl">
-				<div class="sign-mn">
-					<div id="login-status">
-						<ul class="f-cb">
-							<li data-status="weixin" class="active f-fl">微信登录</li>
-							<li data-status="account" class="f-fr">账号登录</li>
-						</ul>
-					</div>
-					<div data-type="account" class="w-form hide">
-						<form id="form-login">
-							<div class="m-item f-cb">
-								<div class="item">
-									<label class="u-lab" for="login-account"><i class="iconfont">&#xe606;</i></label>
-									<div class="u-inp">
-										<div class="box">
-											<input type="text" class="input" name="phone" id="login-account" placeholder="请输入手机号码" />
-										</div>
+		</header>
+		<main class="g-bd f-cb">
+			<article class="g-mn f-fl">
+				<div class="w-form">
+					<form id="form-login">
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="login-account"><i class="iconfont">&#xe606;</i></label>
+								<div class="u-inp">
+									<div class="box">
+										<input type="text" class="input" name="phone" id="login-account" placeholder="请输入手机号码" />
 									</div>
 								</div>
 							</div>
-							<div class="m-item f-cb">
-								<div class="item">
-									<label class="u-lab" for="login-password"><i class="iconfont">&#xe63d;</i></label>
-									<div class="u-inp">
-										<div class="box">
-											<input type="password" class="input" name="pass" id="login-password" placeholder="请输入密码" />
-										</div>
+						</div>
+						<div class="m-item f-cb">
+							<div class="item">
+								<label class="u-lab" for="login-password"><i class="iconfont">&#xe63d;</i></label>
+								<div class="u-inp">
+									<div class="box">
+										<input type="password" class="input" name="pass" id="login-password" placeholder="请输入密码" />
 									</div>
 								</div>
 							</div>
-							<div class="m-item f-cb">
-								<div class="other">
-									<div class="save f-fl" id="saveUserInfo"><span></span>7天内自动登录</div>
-									<a href="getpw.html" class="f-fr link">忘记密码？</a>
-								</div>
-							</div>
-							<div class="m-item m-error-info hide" id="error-info">
-							</div>
-							<div class="m-item">
-								<div class="u-btn">
-									<input type="button" class="u-btns submit-btn" id="login-submit" value="登录" />
-								</div>
-							</div>
-							<div class="m-item f-tac">
-								<a href="reg.html" class="link">没有账号，立即注册&nbsp;&nbsp;<i class="f-st">&gt;&gt;</i></a>
-							</div>
-						</form>
-					</div>
-					<div data-type="weixin" class="w-form weixin">
-						<div class="m-item title">
-							<h3>请点击按钮后扫码登录</h3>
-							<img src="/static/img/user/weixn.png" width="44" height="108" alt="">
 						</div>
-						<div class="m-item btns">
-							<a href="/wechat/user_login" target="_blank">微信登录</a>
+						<div class="m-item">
+							<div class="other f-cb">
+								<div class="save f-fl" id="saveUserInfo"><span></span>7天内自动登录</div>
+								<a href="getpw.html" class="f-fr link">忘记密码？</a>
+							</div>
 						</div>
-						<div class="m-item f-tac">
-							<a href="reg.html" class="link">没有账号，立即注册&nbsp;&nbsp;<i class="f-st">&gt;&gt;</i></a>
+						<div class="m-item m-error-info" id="error-info"></div>
+						<div class="m-item">
+							<div class="u-btn">
+								<input type="button" class="submit-btn" id="login-submit" value="登录" />
+							</div>
 						</div>
+					</form>
+				</div>
+				<div class="m-weixin">
+					<h4>使用以下方式直接登录</h4>
+					<span class="line"></span>
+					<div class="btns">
+						<a class="weixin-icon" href="/wechat/user_login" title="微信登陆" target="_blank"><i></i></a>
 					</div>
 				</div>
 			</article>
-			<aside class="m-sign-ad f-fl">
-				<div class="line"></div>
-				<h3>关注简繁家公众订阅号</h3>
+			<aside class="g-sd f-fr">
+				<h4>还没有简繁家账号？</h4>
+				<a class="link" href="/tpl/user/reg.html" title="立即注册">立即注册<i></i></a>
 				<dl>
-					<dt><img src="/static/img/public/erweima.jpg" alt="简繁家" /></dt>
-					<dd>扫一扫，码上有惊喜</dd>
+					<dt>扫码下载简繁家APP</dt>
+					<dd class="u-placeholder-image"><img src="/static/img/user/ewm-app.jpg" alt="扫码下载简繁家APP"></dd>
+					<dt>扫码关注简繁家公众号</dt>
+					<dd class="u-placeholder-image"><img src="/static/img/user/ewm-wx.jpg" alt="扫码关注简繁家公众号"></dd>
 				</dl>
 			</aside>
-		</div>
-	</main>
-	<footer class="g-ft g-wa">
-		<div class="g-wp">
-			<ul>
-				<li class="first"><a href="/tpl/about/owner.html"><strong>业主指南</strong><em>业主指南</em></a></li>
-				<li><a href="/tpl/about/design.html"><strong>设计师指南</strong><em>设计师指南</em></a></li>
-				<li><a href="/tpl/article/index.html"><strong>装修攻略</strong><em>装修攻略</em></a></li>
-				<li><a href="/tpl/about/index.html"><strong>关于我们</strong><em>关于我们</em></a></li>
-				<li class="last"><a href="/tpl/about/contact.html"><strong>联系我们</strong><em>联系我们</em></a></li>
-			</ul>
-			<p>免责声明：本网站部分内容由用户自行上传，如权利人发现存在误传其作品情形，请及时与本站联系。</p>
-			<p>Copyright © 2015-2016 jianfanjia.com   All Rights Reserved   武汉家易装科技有限公司   隐私权政策 鄂ICP备15014103号</p>
-		</div>
-	</footer>
+		</main>
+	</div>
 </body>
 </html>
 <script>

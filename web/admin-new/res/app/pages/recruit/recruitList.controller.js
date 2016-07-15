@@ -18,6 +18,7 @@
       function ($scope, $rootScope, adminEvents, $stateParams, $location) {
         $scope.config = {
           title: '提交时间过滤：',
+          placeholder: '提交ID/姓名/来源',
           search_word: $scope.search_word
         }
 
@@ -28,7 +29,7 @@
           $scope.pagination.currentPage = 1;
           refreshPage(refreshDetailFromUI($stateParams.detail));
         }
-        
+
         // 重置
         $scope.delegate.clearStatus = function () {
           $scope.pagination.currentPage = 1;

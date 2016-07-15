@@ -3,57 +3,56 @@
     .controller('PlansController', [
       '$scope', '$rootScope', 'adminPlan', '$stateParams', '$location', 'mutiSelected',
       function ($scope, $rootScope, adminPlan, $stateParams, $location, mutiSelected) {
-        $scope.authList = [
-          {
-            id: "0",
-            name: '已预约无响应',
-            cur: false
-          }, {
-            id: "1",
-            name: '已拒绝业主',
-            cur: false
-          }, {
-            id: "7",
-            name: '无响应过期',
-            cur: false
-          }, {
-            id: "2",
-            name: '有响应未量房',
-            cur: false
-          }, {
-            id: "6",
-            name: '已量房无方案',
-            cur: false
-          }, {
-            id: "8",
-            name: '无方案过期',
-            cur: false
-          }, {
-            id: "3",
-            name: '已提交方案',
-            cur: false
-          }, {
-            id: "4",
-            name: '方案被拒绝',
-            cur: false
-          }, {
-            id: "5",
-            name: '方案被选中',
-            cur: false
-          }
-        ];
+        $scope.authList = [{
+          id: "0",
+          name: '已预约无响应',
+          cur: false
+        }, {
+          id: "1",
+          name: '已拒绝业主',
+          cur: false
+        }, {
+          id: "7",
+          name: '无响应过期',
+          cur: false
+        }, {
+          id: "2",
+          name: '有响应未量房',
+          cur: false
+        }, {
+          id: "6",
+          name: '已量房无方案',
+          cur: false
+        }, {
+          id: "8",
+          name: '无方案过期',
+          cur: false
+        }, {
+          id: "3",
+          name: '已提交方案',
+          cur: false
+        }, {
+          id: "4",
+          name: '方案被拒绝',
+          cur: false
+        }, {
+          id: "5",
+          name: '方案被选中',
+          cur: false
+        }];
 
         $scope.config = {
           title: '方案最后更新时间过滤：',
+          placeholder: '方案ID/需求ID/业主ID/设计师ID/描述',
           search_word: $scope.search_word
         }
         $scope.delegate = {};
         // 搜索
         $scope.delegate.search = function (search_word) {
-          $scope.pagination.currentPage = 1;
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        }
-        // 重置
+            $scope.pagination.currentPage = 1;
+            refreshPage(refreshDetailFromUI($stateParams.detail));
+          }
+          // 重置
         $scope.delegate.clearStatus = function () {
           $scope.pagination.currentPage = 1;
           $scope.dtStart = '';

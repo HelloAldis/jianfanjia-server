@@ -344,6 +344,7 @@ exports.buildComment = function (req) {
   comment.content = req.body.content;
   comment.to_userid = tools.convert2ObjectId(req.body.to_userid);
   comment.to_designerid = tools.convert2ObjectId(req.body.to_designerid);
+  comment.to_commentid = tools.convert2ObjectId(req.body.to_commentid);
 
   return tools.deleteUndefinedAndNullThenFilterXss(comment);
 }
@@ -445,4 +446,12 @@ exports.buildDiary = function (req) {
   }
 
   return tools.deleteUndefinedAndNullThenFilterXss(diary);
+}
+
+exports.buildAdminDesingerUpdate = function (req) {
+  let designer = {};
+  let input = req.body.designer;
+  designer.tags = input.tags;
+
+  return tools.deleteUndefinedAndNullThenFilterXss(designer);
 }

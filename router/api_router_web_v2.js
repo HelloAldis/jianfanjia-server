@@ -36,9 +36,9 @@ var upload = multer({
 });
 
 //未登录用户拥有的功能
-router.post('/send_verify_code', limit.peripperday('send_verify_code', config.send_verify_code_per_day),
-  sign.sendVerifyCode); //发送验证码
+router.post('/send_verify_code', limit.peripperday('send_verify_code', config.send_verify_code_per_day), sign.sendVerifyCode); //发送验证码
 router.post('/verify_phone', sign.verifyPhone); //验证手机
+router.post('/check_verify_code', sign.check_verify_code); //验证手机
 router.post('/signup', sign.signup); //web端注册
 router.post('/login', sign.login); //web端登录
 router.post('/update_pass', sign.updatePass); //修改密码
@@ -85,6 +85,9 @@ router.post('/favorite/beautiful_image/list', auth.normalUserRequired, favorite.
 router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favorite.add_beautiful_image); //收藏美图
 router.post('/favorite/beautiful_image/delete', auth.normalUserRequired, favorite.delete_beautiful_image); //删除收藏美图
 router.post('/favorite/diary/add', auth.normalUserRequired, favorite.add_diary); //点赞日记
+router.post('/favorite/diarySet/list', auth.normalUserRequired, favorite.list_diary_set); //收藏日记本列表
+router.post('/favorite/diarySet/add', auth.normalUserRequired, favorite.add_diary_set); //收藏日记本
+router.post('/favorite/diarySet/delete', auth.normalUserRequired, favorite.delete_diary_set); //取消收藏日记本
 router.post('/add_comment', auth.normalUserRequired, comment.add_comment); //添加评论
 // router.post('/topic_comments', auth.normalUserRequired, comment.topic_comments); //获取评论并标记为已读
 router.post('/one_contract', auth.normalUserRequired, requirement.one_contract); //获取某个合同信息
@@ -191,17 +194,21 @@ router.post('/admin/search_angel_user', auth.adminRequired, tempUserApi.search_t
 router.post('/admin/search_process', auth.adminRequired, admin.search_process); //管理员搜索工地
 //ueditor
 router.get('/admin/ueditor', auth.adminRequired, admin.ueditor_get); //ueditor
-router.post('/admin/ueditor', auth.adminRequired, upload.single('Filedata'),
-  admin.ueditor_post); //ueditor
+router.post('/admin/ueditor', auth.adminRequired, upload.single('Filedata'), admin.ueditor_post); //ueditor
 router.post('/admin/add_article', auth.adminRequired, admin.add_article); //提交文章
 router.post('/admin/update_article', auth.adminRequired, admin.update_article); //更新文章
 router.post('/admin/search_article', auth.adminRequired, admin.search_article); //搜索文章
 router.post('/admin/add_beautiful_image', auth.adminRequired, admin.add_beautiful_image); //提交文章
 router.post('/admin/update_beautiful_image', auth.adminRequired, admin.update_beautiful_image); //更新文章
 router.post('/admin/search_beautiful_image', auth.adminRequired, admin.search_beautiful_image); //搜索文章
-router.post('/admin/search_answer', auth.adminRequired, admin.search_answer); //搜索问卷答案
-router.post('/admin/count_answer', auth.adminRequired, admin.count_answer); //统计问卷答案
-router.post('/admin/add_supervisor', auth.adminRequired, admin.add_supervisor); //添加监理
-router.post('/admin/statistic_info', auth.adminRequired, admin.statistic_info); //数据统计
+router.post('/admin/search_answer', auth.adminRequired, admin.search_answer); // 搜索问卷答案
+router.post('/admin/count_answer', auth.adminRequired, admin.count_answer); // 统计问卷答案
+router.post('/admin/add_supervisor', auth.adminRequired, admin.add_supervisor); // 添加监理
+router.post('/admin/statistic_info', auth.adminRequired, admin.statistic_info); // 数据统计
+router.post('/admin/update_designer', auth.adminRequired, admin.update_designer); // 更新设计师信息
+router.post('/admin/search_diary', auth.adminRequired, admin.search_diary); // 搜索日记
+router.post('/admin/delete_diary', auth.adminRequired, admin.delete_diary); // 删除日记
+router.post('/admin/search_comment', auth.adminRequired, admin.search_comment); // 搜索评论
+router.post('/admin/forbid_comment', auth.adminRequired, admin.forbid_comment); // 屏蔽评论
 
 module.exports = router;

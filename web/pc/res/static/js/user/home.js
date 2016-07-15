@@ -204,7 +204,6 @@ require(['jquery', 'lib/jquery.cookie', 'utils/common', 'utils/tooltip','lib/web
             });
             uploader.on( 'fileQueued', function( file ) {   //当文件被加入队列以后触发。
                 loadId = file.id;
-                console.log(loadId)
                 $modal.find('.file').html(file.name);
                 $modal.find('.progress').show();
                 $modal.find('.error').show();

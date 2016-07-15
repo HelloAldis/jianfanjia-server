@@ -659,7 +659,7 @@ angular.module('directives', [])
                     query : $scope.myQuery,
                     select : function(obj){
                         $timeout(function(){
-                            $scope.myQuery = select.returnValue();
+                            $scope.myQuery = ''+select.returnValue();
                         },0);
                     }
                 });
@@ -1260,6 +1260,10 @@ angular.module('directives', [])
                         }).show().animate({
                             top: 100
                         });
+                        $timeout(function () {
+                            scope.myLoading = false;
+                            scope.uploader.show = false;
+                        }, 0);
                     };
                     img.onerror = function () {
                         alert("图片加载错误");
@@ -1507,8 +1511,12 @@ angular.module('directives', [])
                 scope.cancel = function (file) {
                     uploader.cancelFile( file );
                     $timeout(function () {
-                        scope.myQuery = _.remove(scope.arr, function(n) {
-                            return n.fileid != fileid;
+                        if(uploaderUid-- == 1){
+                            scope.myComplete = false;
+                            scope.myLoading = false;
+                        }
+                        scope.myQuery = scope.arr = _.remove(scope.arr, function(n) {
+                            return n.fileid != file.id;
                         });
                     }, 0);
                 }
@@ -1922,21 +1930,58 @@ angular.module('directives', [])
             },
             restrict: 'A',
             template: function (obj, attr) {
+                var top = attr.myId === 'productplan' ? '<div class="k-uploadbox f-cb default" style="padding-bottom: 10px;">' : '<div class="k-uploadbox f-cb default">';
+                var strong = attr.myId === 'productplan' ? '<br><strong style="text-align: center;padding-top: 15px;">为了达到最佳的显示效果，请您上传宽度大于880px的图片</strong>' : '';
                 var template = [
-                            '<div class="k-uploadbox f-cb default">',
+                            top,
                                 '<div class="list"></div>',
                                 '<div class="pic" id="create">',
                                     '<div class="fileBtn" id="{{myId}}"></div>',
-                                    '<div class="tips"><span><em></em><i></i></span><p>平面图上传每张3M以内<br>jpg/png格式</p></div>',
+                                    '<div class="tips"><span><em></em><i></i></span><p>平面图上传每张3M以内<br>jpg/png格式'+strong+'</p></div>',
                                     '<div class="disable" ng-if="myLoading"></div>',
                                 '</div>',
                             '</div>'
-                    ]
+                    ];
                 return template.join('');
             },
             link: function (scope, iElm, iAttrs, controller) {
                 var obj = angular.element(iElm);
                 var uploadbox = obj.find('.k-uploadbox .list');
+                var str = '<div class="queue-item">\
+                            <span class="loading">0</span>\
+                            <span class="uploading"><i class="ing">等待...</i></span>\
+                            <span class="filename"></span>\
+                            <span class="error"></span>\
+                            <span class="progress"><span style="width:0%"></span></span>\
+                            <span class="cancel"><i class="iconfont">&#xe642;</i></span>\
+                        </div>\
+                        <div class="queue-img hide">\
+                            <span class="mask"></span>\
+                            <span class="view"><i class="iconfont"></i></span>\
+                            <span class="close"><i class="iconfont">&#xe642;</i></span>\
+                            <div class="img">\
+                                <img />\
+                            </div>\
+                        </div>';
+                function addFile(file,status){
+                    if(status){
+                        var item = $('<div class="item uploader-item" id="'+file.id+'">'+str+'</div>');
+                        item.find('.filename').html(file.name);
+                    }else{
+                        var item = $('<div class="item uploader-item" id="'+file.id+'" data-imageid="'+file+'">'+str+'</div>');
+                        item.find('.queue-item').remove();
+                        item.find('.queue-img').removeClass('hide');
+                        item.find('.img img').attr('src','/api/v2/web/thumbnail2/168/168/'+file);
+                    }
+                    uploadbox.append(item);
+                }
+                angular.forEach(scope.myQuery,function(value, key){
+                    if(angular.isString(value)){
+                        addFile(value,false);
+                    }else if(angular.isObject(value)){
+                        addFile(value.imageid,false);
+                    }
+                });
                 if(WebUploader.browser.ie && !flashVersion){
                     alert('您的浏览器没有安装flash插件，或者flash版本过低，请及时更新。');
                     return ;
@@ -1973,37 +2018,6 @@ angular.module('directives', [])
                     label: '',
                     multiple : true
                 });
-                var str = '<div class="queue-item">\
-                            <span class="loading">0</span>\
-                            <span class="uploading"><i class="ing">等待...</i></span>\
-                            <span class="filename"></span>\
-                            <span class="error"></span>\
-                            <span class="progress"><span style="width:0%"></span></span>\
-                            <span class="cancel"><i class="iconfont">&#xe642;</i></span>\
-                        </div>\
-                        <div class="queue-img hide">\
-                            <span class="mask"></span>\
-                            <span class="view"><i class="iconfont"></i></span>\
-                            <span class="close"><i class="iconfont">&#xe642;</i></span>\
-                            <div class="img">\
-                                <img />\
-                            </div>\
-                        </div>';
-                function addFile(file,status){
-                    if(status){
-                        var item = $('<div class="item uploader-item" id="'+file.id+'">'+str+'</div>');
-                        item.find('.filename').html(file.name);
-                    }else{
-                        var item = $('<div class="item uploader-item" id="'+file.id+'" data-imageid="'+file+'">'+str+'</div>');
-                        item.find('.queue-item').remove();
-                        item.find('.queue-img').removeClass('hide');
-                        item.find('.img img').attr('src','/api/v2/web/thumbnail2/168/168/'+file);
-                    }
-                    uploadbox.append(item);
-                }
-                _.forEach(scope.myQuery,function(value, key){
-                    addFile(value,false);
-                });
                 uploader.on( 'fileQueued', function( file ) {   //当文件被加入队列以后触发。
                     uploaderUid ++;
                     addFile(file,true);
@@ -2032,6 +2046,7 @@ angular.module('directives', [])
                     }else{
                         callbackImg(data.data, file,'Loading');
                     }
+                    uploader.removeFile( file.id , true);
                 });
                 uploader.on( 'uploadError', function( file ) {   //当文件上传出错时触发。
                     //console.log('uploadError：',arguments)
@@ -2076,7 +2091,7 @@ angular.module('directives', [])
                                 item.find('.queue-item').remove();
                                 item.find('.queue-img').removeClass('hide');
                                 item.find('.img img').attr('src',_this.src);
-                                item.data('imageid', data);
+                                item.attr('data-imageid', data);
                             }else{
                                 alert('已经上传过了');
                                 scope.myQuery = _.remove(scope.myQuery, function(n) {
@@ -2099,12 +2114,17 @@ angular.module('directives', [])
                     event.preventDefault();
                     if (confirm("您确定要删除吗？删除不能恢复")) {
                         var item = $(this).parents('.uploader-item'),
-                        id = item[0].id;
-                        uploader.removeFile( id , true);
+                            imageid = item.data('imageid');
                         $timeout(function () {
-                            scope.myQuery = _.remove(scope.myQuery, function(n) {
-                                return n != item.data('imageid');
-                            });
+                            if(scope.myId === 'productplan'){
+                                scope.myQuery = _.remove(scope.myQuery, function(n) {
+                                    return n.imageid != imageid;
+                                });
+                            }else{
+                                scope.myQuery = _.remove(scope.myQuery, function(n) {
+                                    return n != imageid;
+                                });
+                            }
                         }, 0);
                         item.remove();
                     }
@@ -2201,13 +2221,7 @@ angular.module('directives', [])
                 myQuery: "="
             },
             restrict: 'A',
-            template: function () {
-                return [
-                    '<div class="m-date">',
-
-                    '</div>'
-                ].join('');
-            },
+            template: '<div class="m-date"></div>',
             link: function ($scope, iElm, iAttrs, controller) {
                 var query = $scope.myQuery,
                     select = iAttrs.myDateSet.split('-'),
@@ -2374,7 +2388,7 @@ angular.module('directives', [])
                         return m;
                     }
                     if(obj === oDays){
-                        return m;
+                        return d;
                     }
                     if(obj === oHour){
                         return h;
@@ -2397,7 +2411,6 @@ angular.module('directives', [])
                     });
                     selectEvent(obj)
                 }
-
                 function selectEvent(obj) {
                     var oOption = obj.find('.option').find('.value');
                     body.click();
@@ -2472,7 +2485,6 @@ angular.module('directives', [])
                         $scope.myQuery = Date.parse(date);
                     });
                 }
-
                 $timeout(function () {
                     getDate();
                 }, 0)

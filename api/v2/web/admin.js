@@ -17,6 +17,10 @@ const Plan = require('../../../proxy').Plan;
 const Answer = require('../../../proxy').Answer;
 const Supervisor = require('../../../proxy').Supervisor;
 const TempUser = require('../../../proxy').TempUser;
+const Diary = require('../../../proxy').Diary;
+const Comment = require('../../../proxy').Comment;
+const UserMessage = require('../../../proxy').UserMessage;
+const DesignerMessage = require('../../../proxy').DesignerMessage;
 const tools = require('../../../common/tools');
 const _ = require('lodash');
 const ue_config = require('../../../ueditor/ue_config');
@@ -190,6 +194,23 @@ exports.search_share = function (req, res, next) {
   let sort = req.body.sort || {
     create_at: -1,
   };
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        designerid: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        cell: search_word
+      }, {
+        description: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
 
@@ -281,24 +302,28 @@ exports.listAuthingDesigner = function (req, res, next) {
 
 exports.searchDesigner = function (req, res, next) {
   let query = req.body.query || {};
-  let phone = tools.trim(query.phone);
-  let phoneReg = reg_util.reg(tools.trim(phone));
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
   let sort = req.body.sort || {
     create_at: 1
   };
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        phone: search_word
+      }, {
+        username: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
-
-  if (phone) {
-    query['$or'] = [{
-      phone: phoneReg
-    }, {
-      username: phoneReg
-    }];
-  }
-  delete query.phone;
 
   Designer.paginate(query, {
     pass: 0,
@@ -317,24 +342,28 @@ exports.searchDesigner = function (req, res, next) {
 
 exports.searchUser = function (req, res, next) {
   let query = req.body.query || {};
-  let phone = tools.trim(query.phone);
-  let phoneReg = reg_util.reg(tools.trim(phone));
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
   let sort = req.body.sort || {
     create_at: 1
   };
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        phone: search_word
+      }, {
+        username: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
-
-  if (phone) {
-    query['$or'] = [{
-      phone: phoneReg
-    }, {
-      username: phoneReg
-    }];
-  }
-  delete query.phone;
 
   User.paginate(query, {
     pass: 0,
@@ -370,6 +399,23 @@ exports.searchProduct = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        designerid: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        cell: search_word
+      }, {
+        description: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
 
@@ -405,6 +451,25 @@ exports.search_plan = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        userid: search_word
+      }, {
+        designerid: search_word
+      }, {
+        requirementid: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        description: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
 
@@ -516,6 +581,23 @@ exports.search_requirement = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        userid: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        basic_address: search_word
+      }, {
+        detail_address: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
 
@@ -576,6 +658,27 @@ exports.search_process = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        userid: search_word
+      }, {
+        final_designerid: search_word
+      }, {
+        requirementid: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        basic_address: search_word
+      }, {
+        detail_address: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
 
@@ -754,6 +857,19 @@ exports.search_article = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        title: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
 
@@ -768,24 +884,16 @@ exports.search_article = function (req, res, next) {
     };
   }
 
-  switch (query.articletype) {
-    case undefined:
-    case type.articletype_dec_strategy:
-    case type.articletype_dec_tip:
-      DecStrategy.paginate(query, project, {
-        sort: sort,
-        skip: skip,
-        limit: limit
-      }, ep.done(function (articles, total) {
-        res.sendData({
-          articles: articles,
-          total: total
-        });
-      }));
-      break;
-    default:
-      res.sendErrMsg('请求articletype类型错误');
-  }
+  DecStrategy.paginate(query, project, {
+    sort: sort,
+    skip: skip,
+    limit: limit
+  }, ep.done(function (articles, total) {
+    res.sendData({
+      articles: articles,
+      total: total
+    });
+  }));
 }
 
 exports.add_beautiful_image = function (req, res, next) {
@@ -822,6 +930,19 @@ exports.search_beautiful_image = function (req, res, next) {
   };
   let skip = req.body.from || 0;
   let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        title: search_word
+      }];
+    }
+  }
   let ep = eventproxy();
   ep.fail(next);
 
@@ -1011,5 +1132,166 @@ exports.statistic_info = function (req, res, next) {
     }, callback);
   }, ep.done(function (statistic) {
     res.sendData(statistic);
+  }));
+}
+
+exports.update_designer = function (req, res, next) {
+  const designerid = req.body.designer._id;
+  const designer = ApiUtil.buildAdminDesingerUpdate(req);
+  let ep = new eventproxy();
+  ep.fail(next);
+
+  Designer.setOne({
+    _id: designerid
+  }, designer, null, ep.done(function (designer) {
+    res.sendSuccessMsg();
+  }));
+};
+
+exports.search_diary = function (req, res, next) {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
+    create_at: -1
+  };
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        diarySetid: search_word
+      }, {
+        authorid: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        content: search_word
+      }];
+    }
+  }
+
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Diary.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit,
+    lean: true
+  }, ep.done(function (diaries, total) {
+    async.mapLimit(diaries, 3, function (diary, callback) {
+      User.findOne({
+        _id: diary.authorid
+      }, {
+        username: 1,
+      }, function (err, user) {
+        diary.user = user;
+        callback(err, diary);
+      });
+    }, ep.done(function (diaries) {
+      res.sendData({
+        diaries: diaries,
+        total: total
+      });
+    }));
+  }));
+}
+
+exports.delete_diary = function (req, res, next) {
+  const diaryid = req.body.diaryid;
+  const ep = new eventproxy();
+  ep.fail(next);
+
+  if (!tools.convert2ObjectId(diaryid)) {
+    res.sendErrMsg('信息不完全');
+    return;
+  }
+
+  Diary.removeOne({
+    _id: diaryid
+  }, null, ep.done(function (diary) {
+    res.sendSuccessMsg();
+
+    if (diary) {
+      Comment.removeSome({
+        topicid: diary._id
+      }, function (err, re) {});
+
+      UserMessage.removeSome({
+        topicid: diary._id
+      }, function (err, re) {});
+    }
+
+  }));
+}
+
+exports.search_comment = function (req, res, next) {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
+    create_at: -1
+  };
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        topicid: search_word
+      }, {
+        by: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        content: search_word
+      }];
+    }
+  }
+
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Comment.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit,
+    lean: true
+  }, ep.done(function (comments, total) {
+    res.sendData({
+      comments: comments,
+      total: total
+    });
+  }));
+}
+
+exports.forbid_comment = function (req, res, next) {
+  let commentid = req.body.commentid;
+  const content = '我错了，我再也不乱说话了！';
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Comment.setOne({
+    _id: commentid,
+  }, {
+    content: content
+  }, ep.done(function () {
+    res.sendSuccessMsg();
+
+    UserMessage.setOne({
+      commentid: commentid
+    }, {
+      content: content,
+    }, function () {});
+
+    DesignerMessage.setOne({
+      commentid: commentid
+    }, {
+      content: content,
+    }, function () {});
   }));
 }

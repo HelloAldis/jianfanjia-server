@@ -4,7 +4,9 @@ require.config({
         jquery: 'lib/jquery',
         lodash : 'lib/lodash',
         lazyload : 'lib/lazyload',
-        cookie : 'lib/jquery.cookie'
+        cookie : 'lib/jquery.cookie',
+        requestAnimationFrame : 'lib/jquery.requestAnimationFrame.min',
+        fly : 'lib/jquery.fly.min'
     },
     shim   : {
         'jquery.requestAnimationFrame.min': {
@@ -26,7 +28,7 @@ require(['jquery','lazyload'],function($){
         });
     });
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common','utils/tooltip','lib/jquery.mousewheel.min'],function($,_,cookie,common,Tooltip){
+require(['jquery','lodash','lib/jquery.cookie','utils/common','utils/tooltip','lib/jquery.mousewheel.min','fly'],function($,_,cookie,common,Tooltip){
         var LightBox = function(){};
         LightBox.prototype = {
             init : function(pos){
@@ -216,13 +218,10 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','utils/tooltip','l
                 this.user = new common.User();
                 this.goto = new common.Goto();
                 this.user.init2();
-                this.goto.init();
+                this.goto.init({         //显示右侧菜单
+                    shop : true     //开启业主意向设计师菜单
+                });
                 new Tooltip('.tooltip');
-                if($.cookie("usertype") === '1'){
-                    require(['design/addIntent'],function(AddIntent){
-                        (new AddIntent(this.home)).init();
-                    });
-                }
                 this.sidepic();
                 var $lightBox = this.detail.find('.lightBox');
                 var img = [];
@@ -237,6 +236,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','utils/tooltip','l
                     parent : this.detail
                 });
                 this.favorite(this.main.find('.favorite').data('uid'));
+                this.AddIntent();
             },
             sidepic : function(){
                 var $planview = this.detail.find('.m-planview');
@@ -318,6 +318,60 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','utils/tooltip','l
                         _this.user.updateData();
                     });
                 }
+            },
+            AddIntent : function(){
+                var _this = this,
+                off = true;
+                $('.addIntent').on('click',function(ev){
+                    if(!$(this).hasClass('addIntent')){
+                        return ;
+                    }
+                    if(!off){
+                        return ;
+                    }
+                    off = false;
+                    var This = $(this),
+                        addOffset = _this.goto.offset();
+                    var uidname = $(this).data('uid'),
+                        head = $('.addIntentHead'),
+                        img = head.find('img').attr('src')
+                        state = head.offset(),
+                        scrollTop = $(document).scrollTop();
+                        flyer = $('<img class="u-flyer" src="'+img+'">');
+                    $.ajax({
+                        url:'/api/v2/web/favorite/designer/add',
+                        type: 'POST',
+                        contentType : 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        data : JSON.stringify({
+                            "_id":uidname
+                        }),
+                        processData : false
+                    })
+                    .done(function(res) {
+                        if(res.msg === "success"){
+                            This.html('已添加').attr('href','/tpl/user/owner.html#/designer/1').removeClass('addIntent').addClass('u-btns-revise');
+                            flyer.fly({
+                                start: {
+                                    left: state.left,
+                                    top: state.top - scrollTop
+                                },
+                                end: {
+                                    left: addOffset.left+10,
+                                    top: addOffset.top+10,
+                                    width: 0,
+                                    height: 0
+                                },
+                                onEnd: function(){
+                                    _this.goto.addDesigners();
+                                    _this.user.updateData();
+                                    this.destory();
+                                }
+                            });
+                            off = true;
+                        }
+                    });
+                });
             },
             myConfirm : function(msg,callback){
                 var modat = '<div class="modal-dialog">\

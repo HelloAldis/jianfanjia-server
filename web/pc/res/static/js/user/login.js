@@ -6,12 +6,6 @@ require.config({
         cookie : 'lib/jquery.cookie'
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
-    var search = new common.Search();
-    search.init();
-    var goto = new common.Goto();
-    goto.init();
-});
 require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
 	if(window.location.host == 'jianfanjia.com'){
 		window.location.href = 'http://www.jianfanjia.com/tpl/user/login.html';
@@ -78,24 +72,24 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
         	$.cookie("rmbUser", "true",  7 );
         	$.cookie("userPhone", this.charCodeAt(this.mobile.val()), 7 );
         	$.cookie("passWord", this.charCodeAt(this.pass.val()),  7 );
-        	this.error.html(this.errmsg.tips).removeClass('hide');
+        	this.error.html(this.errmsg.tips);
         },
         removeCookie : function(){
         	$.removeCookie("rmbUser");
         	$.removeCookie("userPhone");
         	$.removeCookie("passWord");
-        	$('#error-info').addClass('hide').html('');
+        	$('#error-info').html('');
         },
         check : function(){
             var self = this;
             return {
                 mobile  :  function(){
                     if(!self.verify.isMobile(self.mobile.val())){
-                        self.error.html(self.errmsg.mobile).removeClass('hide');
+                        self.error.html(self.errmsg.mobile);
                         self.mobile.parents('.item').addClass('error');
                         return false;
                     }else{
-                        self.error.html('').addClass('hide');
+                        self.error.html('');
                         self.checkStep--;
                         self.mobile.parents('.item').removeClass('error');
                         return true;
@@ -103,11 +97,11 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                 },
                 pass  :  function(){
                     if(!self.verify.isPassword(self.pass.val())){
-                        self.error.html(self.errmsg.password).removeClass('hide');
+                        self.error.html(self.errmsg.password);
                         self.pass.parents('.item').addClass('error');
                         return false;
                     }else{
-                        self.error.html('').addClass('hide');
+                        self.error.html('');
                         self.checkStep--;
                         self.pass.parents('.item').removeClass('error');
                         return true;
@@ -127,12 +121,12 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             			self.setCookie();
             			radio.attr('class', 'active');
             		}else{
-            			self.error.html(self.errmsg.save).removeClass('hide');
+            			self.error.html(self.errmsg.save);
             			self.mobile.parents('.item').addClass('error');
             			self.pass.parents('.item').addClass('error');
             		}
             	}
-            })
+            });
         },
         charCodeAt : function(str){
         	var code = '';
@@ -155,9 +149,18 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
         	return str;
         },
         focus : function(obj){
+            var self = this;
+            var oldValue = obj.val();
             obj.on('focus',function(){
-                $(this).parents('.item').addClass('focus');
-            })
+                $(this).parents('.item').addClass('focus').removeClass('hide');
+            });
+            obj.on('input',function(){
+                console.log(oldValue , $(this).val())
+                // if(oldValue != $(this).val()){
+                //     self.removeCookie();
+                // }
+            });
+            this.error.html('');
         },
         bindFocus : function(){
             var self = this;
@@ -202,17 +205,17 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             });
             function submitfn(){
                 if(!self.check().mobile() && !self.check().pass()){
-                    self.error.html(self.errmsg.submit).removeClass('hide');
+                    self.error.html(self.errmsg.submit);
                     self.off = false;
                     return false;
                 }
                 if(!self.check().mobile()){
-                    self.error.html(self.errmsg.mobile).removeClass('hide');
+                    self.error.html(self.errmsg.mobile);
                     self.off = false;
                     return false;
                 }
                 if(!self.check().pass()){
-                    self.error.html(self.errmsg.password).removeClass('hide');
+                    self.error.html(self.errmsg.password);
                     self.off = false;
                     return false;
                 }
@@ -234,12 +237,12 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                         }
                     }else{
                         self.off = false;
-                        self.error.html(res['err_msg']).removeClass('hide');
+                        self.error.html(res['err_msg']);
                     }
                     if(res['err_msg']){
                         self.off = false;
                         self.checkStep = 2;
-                        self.error.html(res['err_msg']).removeClass('hide');
+                        self.error.html(res['err_msg']);
                     }
                 });
             }

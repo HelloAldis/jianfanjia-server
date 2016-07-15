@@ -80,6 +80,7 @@ router.post('/search_diary', diaryWeb.search_diary); // 游客搜索日记
 router.post('/get_diary_changes', diary.get_diary_changes); // 游客获取日记更新数据
 router.post('/diary_info', diary.diary_info); // 游客获取日记详情
 router.post('/diary_set_info', diary.diary_set_info); // 游客获取日记集详情
+router.post('/top_diary_set', diaryWeb.top_diary_set); // 游客热门日记集
 router.post('/topic_comments', commentWeb.topic_comments); //获取评论并标记为已读
 
 //通用用户功能
@@ -105,6 +106,9 @@ router.post('/favorite/beautiful_image/list', auth.normalUserRequired, favoriteW
 router.post('/favorite/beautiful_image/add', auth.normalUserRequired, favoriteWeb.add_beautiful_image); //收藏美图
 router.post('/favorite/beautiful_image/delete', auth.normalUserRequired, favoriteWeb.delete_beautiful_image); //删除收藏美图
 router.post('/favorite/diary/add', auth.normalUserRequired, favoriteWeb.add_diary); //点赞日记
+router.post('/favorite/diarySet/list', auth.normalUserRequired, favoriteWeb.list_diary_set); //收藏日记本列表
+router.post('/favorite/diarySet/add', auth.normalUserRequired, favoriteWeb.add_diary_set); //收藏日记本
+router.post('/favorite/diarySet/delete', auth.normalUserRequired, favoriteWeb.delete_diary_set); //取消收藏日记本
 router.post('/send_verify_email', auth.normalUserRequired, signWeb.send_verify_email); //发送验证邮箱邮件
 //设备使用
 // router.post('/device/bind', auth.normalUserRequired, device.bindCid); //并定cid

@@ -10,7 +10,7 @@ require.config({
     },
     shim   : {
         'history': {
-            deps: ['jquery']
+            deps : ['jquery']
         }
     }
 });
@@ -37,7 +37,7 @@ require(['design/interviews'],function(Interviews){
     var interviews = new Interviews("#j-interviews");
     interviews.init();
 })
-require(['jquery','lodash','lib/jquery.cookie','history','utils/common','utils/page','utils/tooltip','fly'],function($,_,cookie,history,common,Pageing,Tooltip){
+require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/common','utils/page','utils/tooltip','utils/globalData','fly'],function($,_,cookie,history,common,Pageing,Tooltip,globalData){
     var search = new common.Search();
     search.init();
     var user = new common.User();
@@ -105,7 +105,7 @@ require(['jquery','lodash','lib/jquery.cookie','history','utils/common','utils/p
             this.toSort = _.isEmpty(this.toSort) ? undefined : this.toSort;
 			var oldData = {"query":this.toQuery,"sort":this.toSort,"search_word":this.searchWord,"from":this.toFrom,"limit":this.limit}
 			$.ajax({
-				url:RootUrl+'api/v2/web/designer/search',
+				url:'/api/v2/web/designer/search',
 				type: 'POST',
 				contentType : 'application/json; charset=utf-8',
 				dataType: 'json',
@@ -209,7 +209,7 @@ require(['jquery','lodash','lib/jquery.cookie','history','utils/common','utils/p
 				if(!self.cacheData[uid]){
 					self.cacheData[uid] = [];
 					$.ajax({
-						url: RootUrl+'api/v2/web/search_designer_product',
+						url: '/api/v2/web/search_designer_product',
 						type: 'POST',
 						contentType : 'application/json; charset=utf-8',
 						dataType: 'json',
@@ -484,7 +484,7 @@ require(['jquery','lodash','lib/jquery.cookie','history','utils/common','utils/p
     					state = head.offset(),
     					scrollTop = $(document).scrollTop();
     					flyer = $('<img class="u-flyer" src="'+img+'">');
-    				var url = RootUrl+'api/v2/web/favorite/designer/add';
+    				var url = '/api/v2/web/favorite/designer/add';
     				$.ajax({
     					url:url,
     					type: 'POST',

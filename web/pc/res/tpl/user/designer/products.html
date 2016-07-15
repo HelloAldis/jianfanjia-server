@@ -33,7 +33,7 @@
                             <span bo-if="list.auth_type == 2" class="product—auth product—auth2">认证失败</span>
                             <span bo-if="list.auth_type == 3" class="product—auth product—auth2">违规下线</span>
                         </div>
-                        <a ui-sref="updateProduct({id:list._id})" bo-if="list.auth_type != 0" my-tooltip
+                        <a ui-sref="updateProduct({id:list._id,list:true})" bo-if="list.auth_type != 0" my-tooltip
                            class="edit btns tooltip" data-delay="500" data-title="编辑作品"><i class="iconfont">&#xe627;</i></a>
                         <span class="remove btns tooltip" bo-if="list.auth_type != 0" my-tooltip data-delay="500"
                               data-title="删除作品" ng-click="modal.remove(list._id)"><i

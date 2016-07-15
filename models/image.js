@@ -1,27 +1,27 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var ImageSchema = new Schema({
+var ImageSchema = new Schema({ // 图片
   md5: {
-    type: String
+    type: String // 图片md5
   },
   data: {
-    type: Buffer
+    type: Buffer // 图片数据
   },
   userid: {
-    type: String
+    type: String // 用户id
   },
   ip: {
-    type: String
+    type: String // 用户ip
   },
   create_at: {
-    type: Number
+    type: Number // 创建时间
   },
   width: {
-    type: Number
+    type: Number // 宽
   },
   height: {
-    type: Number
+    type: Number // 高
   }
 });
 

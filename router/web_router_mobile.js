@@ -3,7 +3,7 @@
 const express = require('express');
 const config = require('../apiconfig');
 const dec_strategy = require('../controllers/dec_strategy');
-const share = require('../controllers/share');
+const share = require('../controllers/mobile/share');
 const response_util = require('../middlewares/response_util');
 const diary_book = require('../controllers/mobile/diary_book');
 

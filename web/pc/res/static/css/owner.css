@@ -378,6 +378,9 @@ body{
 .k-form .u-inp .input:focus{
 	border-color: #00a0e9;
 }
+.k-form .u-inp .input.error,.k-form .u-inp .input.error:focus{
+	border-color: #ff6a6a;
+}
 .k-form .u-inp .textarea{
 	width: 478px;
 	height: 88px;

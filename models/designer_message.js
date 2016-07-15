@@ -2,66 +2,66 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
-var DesignerMessageSchema = new Schema({
+var DesignerMessageSchema = new Schema({ // 设计师通知
   designerid: {
-    type: ObjectId
+    type: ObjectId // 设计师id
   },
   userid: {
-    type: ObjectId
+    type: ObjectId // 业主id
   },
   supervisorid: {
-    type: ObjectId
+    type: ObjectId // 监理id
   },
   requirementid: {
-    type: ObjectId
+    type: ObjectId // 需求id
   },
   planid: {
-    type: ObjectId
+    type: ObjectId // 方案id
   },
   processid: {
-    type: ObjectId
+    type: ObjectId // 工地id
   },
   topicid: {
-    type: ObjectId
+    type: ObjectId // 评论话题id
   },
   commentid: {
-    type: ObjectId
+    type: ObjectId // 评论id
   },
   rescheduleid: {
-    type: ObjectId
+    type: ObjectId // 改期id
   },
   productid: {
-    type: ObjectId
+    type: ObjectId // 案例id
   },
   section: {
-    type: String,
+    type: String, // 工地工序
   },
   item: {
-    type: String,
+    type: String, // 工序小节点
   },
   title: {
-    type: String
+    type: String // 标题
   },
   content: {
-    type: String
+    type: String // 内容
   },
   html: {
-    type: String
+    type: String // html详细类容
   },
   auth_message: {
-    type: String
+    type: String // 审核信息
   },
   message_type: {
-    type: String
+    type: String // 通知类型
   },
   create_at: {
-    type: Number,
+    type: Number, // 通知时间
   },
   lastupdate: {
-    type: Number,
+    type: Number, // 最后更新时间
   },
   status: {
-    type: String,
+    type: String, // 状态
   }
 });
 

@@ -1,16 +1,16 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var ApiStatisticSchema = new Schema({
+var ApiStatisticSchema = new Schema({ // api 统计
   api: {
-    type: String,
+    type: String, // api名字
   },
   count: {
-    type: Number,
+    type: Number, // 次数
     default: 0,
   },
   platform_type: {
-    type: String //平台
+    type: String // 平台
   }
 });
 

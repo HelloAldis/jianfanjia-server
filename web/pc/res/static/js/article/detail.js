@@ -6,11 +6,21 @@ require.config({
         cookie : 'lib/jquery.cookie'
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
-    var user = new common.User();
-    user.init();
-    var search = new common.Search();
+require(['jquery','index/search'],function($,Search){
+    var search = new Search();
     search.init();
-    var goto = new common.Goto();
-    goto.init();
+});
+require(['jquery','lib/jquery.cookie','index/goto'],function($,cookie,Goto){
+    var goto = new Goto();
+    $(function(){
+        goto.init();
+    })
+    if($.cookie("usertype") !== undefined){
+        require(['jquery','index/user'],function($,User){
+            var user = new User('#j-user');
+            $(function(){
+                user.init();
+            })
+        });
+    }
 });

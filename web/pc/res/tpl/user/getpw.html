@@ -12,65 +12,35 @@
 	<meta name="keywords" content="">
 	<link rel="stylesheet" type="text/css" href="/static/css/public.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/user.css" />
-	<script type="text/javascript" src="/static/js/lib/public.js"></script>
-	<script type="text/javascript" data-main="/static/js/user/getpw" src="/static/js/lib/require.js"></script>
 	<!--[if lt IE 9]>
 		<script type="text/javascript" src="/static/js/lib/ie8.js"></script>
 	<![endif]-->
 </head>
 <body>
-	<div class="g-tb g-wa">
-		<div class="g-wp f-cb">
-			<a href="/tpl/download/index.html" class="m-app f-fl"><span>APP下载</span></a>
-			<a href="/zt/merchants/index.html" class="m-events f-fr">简繁家主材火热招商中</a>
-			<div class="m-user f-fr" id="j-user">
-		        <ul>
-		          <li><a href="/tpl/user/login.html">登录</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/tpl/user/reg.html">注册</a></li>
-		          <li class="line"></li>
-		          <li><a href="/tpl/user/designer_reg.html">设计师入驻</a></li>
-		          <li class="line"></li>
-		          <li>咨询热线：400-8515-167</li>
-		        </ul>
-      		</div>
-		</div>
-	</div>
-	<header class="g-hd g-wa" id="j-hd">
-		<div class="g-wp f-cb">
-			<hgroup class="m-logo f-fl">
-				<h1><a href="/">简繁家</a></h1>
-				<h2>我的设计师专单平台</h2>
-			</hgroup>
-			<div class="m-sch f-fl" id="j-sch"></div>
-			<div class="m-slogan f-fr" id="j-slogan">
-				<h3>简繁家实力保障</h3>
-				<p>知名风投投资</p>
+	<div class="g-user g-getpw">
+		<header class="g-hd g-wa">
+			<div class="g-wp">
+				<hgroup class="m-logo">
+					<h1><a href="/" title="首页">简繁家</a></h1>
+					<h2>让装修变简单</h2>
+				</hgroup>
 			</div>
-		</div>
-	</header>
-	<nav class="g-nav g-wa">
-		<div class="g-wp">
-			<ul class="m-nav f-cb">
-				<li><a href="/">首页</a></li>
-				<li><a href="/tpl/design/index.html">设计师</a></li>
-				<li><a href="/tpl/mito/index.html">装修美图</a></li>
-				<li><a href="/tpl/diary/index.html">装修日记</a></li>
-				<li><a href="/tpl/live/index.html">装修直播</a></li>
-				<li><a href="/tpl/article/index.html">装修攻略</a></li>
-				<li><a href="/tpl/help/index.html">你问我答</a></li>
-			</ul>
-			<a href="/tpl/user/owner.html#release" class="m-release bounce" id="j-release"><span><i></i></span>免费获取三套方案</a>
-		</div>
-	</nav>
-	<main class="g-bd g-wp" id="j-getpw">
-		<div class="g-sign">
-			<div class="m-sign-mn">
-				<div class="sign-mn">
-					<h2>找回密码</h2>
-					<div class="w-form">
-						<form id="form-getpw">
+		</header>
+		<main class="g-bd f-cb" id="j-getpw">
+			<article class="g-mn">
+				<div class="w-form">
+					<form id="form-getpw">
+						<div class="m-step">
+							<ul>
+								<li class="f-fl active">验证手机号</li>
+								<li class="f-fr">重置密码</li>
+							</ul>
+							<span></span>
+						</div>
+						<div class="step1">
 							<div class="m-item f-cb">
 								<div class="item">
-									<label class="u-lab" for="getpw-account"><i class="iconfont">&#xe606;</i></label>
+									<label class="u-lab" for="reg-account"><i class="iconfont">&#xe606;</i></label>
 									<div class="u-inp">
 										<div class="box">
 											<input type="text" class="input" name="phone" id="getpw-account" placeholder="请输入手机号码" />
@@ -78,9 +48,28 @@
 									</div>
 								</div>
 							</div>
+							<div class="m-item f-cb m-vcode">
+								<div class="item f-fl">
+									<label class="u-lab" for="reg-VerifyCode"><i class="iconfont">&#xe621;</i></label>
+									<div class="u-inp">
+										<div class="box">
+											<input type="text" class="input" name="code" id="getpw-VerifyCode" placeholder="请输入验证码" />
+										</div>
+									</div>
+								</div>
+								<span class="f-fr vcode" id="getVerifyCode">获取验证码</span>
+							</div>
+							<div class="m-item m-error-info" id="error-info1"></div>
+							<div class="m-item">
+								<div class="u-btn">
+									<input type="button" class="submit-btn" id="next-step" value="下一步" />
+								</div>
+							</div>
+						</div>
+						<div class="step2 hide">
 							<div class="m-item f-cb">
 								<div class="item">
-									<label class="u-lab" for="getpw-password"><i class="iconfont">&#xe63d;</i></label>
+									<label class="u-lab" for="reg-password"><i class="iconfont">&#xe63d;</i></label>
 									<div class="u-inp">
 										<div class="box">
 											<input type="password" class="input" name="pass" id="getpw-password" placeholder="请输入密码" />
@@ -90,54 +79,33 @@
 							</div>
 							<div class="m-item f-cb">
 								<div class="item">
-									<label class="u-lab" for="getpw-password2"><i class="iconfont">&#xe63d;</i></label>
+									<label class="u-lab" for="reg-password"><i class="iconfont">&#xe63d;</i></label>
 									<div class="u-inp">
 										<div class="box">
-											<input type="password" class="input" id="getpw-password2" placeholder="请确定密码" />
+											<input type="password" class="input" name="pass" id="getpw-password2" placeholder="请确认密码" />
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="m-item verifyCode f-cb">
-								<div class="item f-fl">
-									<label class="u-lab" for="getpw-VerifyCode"><i class="iconfont">&#xe621;</i></label>
-									<div class="u-inp">
-										<div class="box">
-											<input type="text" class="input" name="code" id="getpw-VerifyCode" placeholder="请输入验证码" />
-										</div>
-									</div>
-								</div>
-								<span class="f-fr vcode" id="getVerifyCode">获取验证码</span>
-							</div>
-							<div class="m-item m-error-info hide" id="error-info">
-							</div>
+							<div class="m-item m-error-info" id="error-info2"></div>
 							<div class="m-item">
 								<div class="u-btn">
-									<input type="button" class="u-btns submit-btn" id="getpw-submit" value="保存修改" />
+									<input type="button" class="submit-btn" id="getpw-submit" value="重置密码" />
 								</div>
 							</div>
-							<div class="m-item f-tac">
-								<a href="login.html" class="link">我想起来了，立即登录&nbsp;&nbsp;<i class="f-st">&gt;&gt;</i></a>
-							</div>
-						</form>
-					</div>
+						</div>
+					</form>
 				</div>
+			</article>
+			<div class="m-status" id="j-status">
+				<div class="icon"><i class="iconfont">&#xe60d;</i></div>
+				<h3>修改成功</h3>
+				<p>请立即重新登录</p>
+				<a href="/tpl/user/login.html" class="btn">&nbsp;&nbsp;登录&nbsp;&nbsp;</a>
 			</div>
-		</div>
-	</main>
-	<footer class="g-ft g-wa">
-		<div class="g-wp">
-			<ul>
-				<li class="first"><a href="/tpl/about/owner.html"><strong>业主指南</strong><em>业主指南</em></a></li>
-				<li><a href="/tpl/about/design.html"><strong>设计师指南</strong><em>设计师指南</em></a></li>
-				<li><a href="/tpl/article/index.html"><strong>装修攻略</strong><em>装修攻略</em></a></li>
-				<li><a href="/tpl/about/index.html"><strong>关于我们</strong><em>关于我们</em></a></li>
-				<li class="last"><a href="/tpl/about/contact.html"><strong>联系我们</strong><em>联系我们</em></a></li>
-			</ul>
-			<p>免责声明：本网站部分内容由用户自行上传，如权利人发现存在误传其作品情形，请及时与本站联系。</p>
-			<p>Copyright © 2015-2016 jianfanjia.com   All Rights Reserved   武汉家易装科技有限公司   隐私权政策 鄂ICP备15014103号</p>
-		</div>
-	</footer>
+		</main>
+	</div>
+	<script type="text/javascript" data-main="/static/js/user/getpw" src="/static/js/lib/require.js"></script>
 </body>
 </html>
 <script>

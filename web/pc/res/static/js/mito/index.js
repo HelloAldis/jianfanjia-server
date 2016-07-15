@@ -98,7 +98,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                 '<div class="wfc" data-id="<%= data._id %>" data-seq="<%= data.seq %>">',
                 '<div class="box">',
                     '<a href="/tpl/mito/detail.html?pid=<%= data._id %>&imgid=<%= data.images[0].imageid %>&imgw=<%= data.imgWD %>&imgh=<%= data.imgHD %>" target="_blank" class="img">',
-                        '<img src="/api/v2/web/thumbnail2/<%= data.imgW %>/<%= data.imgH %>/<%= data.images[0].imageid %>" width="<%= data.imgW %>" height="<%= data.imgH %>" alt="">',
+                        '<img class="u-placeholder-image" src="/api/v2/web/thumbnail2/<%= data.imgW %>/<%= data.imgH %>/<%= data.images[0].imageid %>" width="<%= data.imgW %>" height="<%= data.imgH %>" alt="">',
                     '</a>',
                     '<div class="txt">',
                         '<h4><a href="/tpl/mito/detail.html?pid=<%= data._id %>&imgid=<%= data.images[0].imageid %>&imgw=<%= data.imgWD %>&imgh=<%= data.imgHD %>" target="_blank"><%= data.title %></a></h4>',

@@ -2,17 +2,10 @@ require.config({
     baseUrl: '/static/js/',
     paths  : {
         jquery: 'lib/jquery',
-        lodash : 'lib/lodash',
-        cookie : 'lib/jquery.cookie'
+        lodash : 'lib/lodash'
     }
 });
-require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cookie,common){
-    var search = new common.Search();
-    search.init();
-    var goto = new common.Goto();
-    goto.init();
-});
-require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
+require(['jquery','lodash'],function($,_){
     var Register = function(){};
     Register.prototype = {
         init : function(){
@@ -23,18 +16,46 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             this.mobile = $("#reg-account");
             this.captcha = $("#reg-VerifyCode");
             this.pass = $("#reg-password");
-            this.pass2 = $("#reg-password2");
             this.form = $('#form-reg');
             this.error = $('#error-info');
-            this.weixin = $('#weixin');
+            this.weixin = $('#j-weixin');
+            this.type = $('#reg-type');
+            this.select();
             this.checkMobile();
             this.bindVerifyCode();
             this.bindFocus();
             this.bindBlur();
             this.submit();
-            this.setType();
             this.agreement();
             this.off = false;
+        },
+        "select" : function(){
+            var _this = this;
+            var select = $('#j-select');
+            var app = $('#j-app');
+            select.on('click', 'dl', function(event) {
+                event.preventDefault();
+                var type = $(this).data('type');
+                setType(type);
+                _this.form.find('.m-type li').eq(type - 1).addClass('active');
+                select.hide().remove();
+            });
+            this.form.on('click', '.m-type li', function(event) {
+                event.preventDefault();
+                var type = $(this).data('type');
+                setType(type);
+                $(this).addClass('active').siblings('li').removeClass('active');
+            });
+            function setType(type){
+                _this.type.val(type);
+                if(type == 1){
+                    _this.weixin.show();
+                }else{
+                    _this.weixin.hide();
+                }
+                app.find('img').addClass('hide');
+                app.find('img').eq(type - 1).removeClass('hide');
+            }
         },
         verify : {
             isMobile : function(mobile){
@@ -50,7 +71,6 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
         errmsg : {
             'mobile'  : '手机号不正确',
             'password' : '密码需为6~30个字母或数字',
-            'password_confirm' : '两次输入的密码不一样',
             'smscode'  : '短信验证码不正确',
             'submit'   : '注册信息填写不完整',
             'agree'    : '请先同意注册协议'
@@ -60,12 +80,12 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             return {
                 mobile  :  function(){
                     if(!self.verify.isMobile(self.mobile.val())){
-                        self.error.html(self.errmsg.mobile).removeClass('hide');
+                        self.error.html(self.errmsg.mobile);
                         self.mobile.parents('.item').addClass('error');
                         self.checkStep++;
                         return false;
                     }else{
-                        self.error.html('').addClass('hide');
+                        self.error.html('');
                         self.checkStep--;
                         self.mobile.parents('.item').removeClass('error');
                         return true;
@@ -73,12 +93,12 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                 },
                 captcha  :  function(){
                     if(!self.verify.isVerifyCode(self.captcha.val())){
-                        self.error.html(self.errmsg.smscode).removeClass('hide');
+                        self.error.html(self.errmsg.smscode);
                         self.captcha.parents('.item').addClass('error');
                         self.checkStep++;
                         return false;
                     }else{
-                        self.error.html('').addClass('hide');
+                        self.error.html('');
                         self.checkStep--;
                         self.captcha.parents('.item').removeClass('error');
                         return true;
@@ -86,36 +106,23 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                 },
                 pass  :  function(){
                     if(!self.verify.isPassword(self.pass.val())){
-                        self.error.html(self.errmsg.password).removeClass('hide');
+                        self.error.html(self.errmsg.password);
                         self.pass.parents('.item').addClass('error');
                         self.checkStep++;
                         return false;
                     }else{
-                        self.error.html('').addClass('hide');
+                        self.error.html('');
                         self.checkStep--;
                         self.pass.parents('.item').removeClass('error');
                         return true;
                     }
                 },
-                pass2  :  function(){
-                    if(self.pass.val() !== self.pass2.val() && !!self.verify.isPassword(self.pass2.val())){
-                        self.error.html(self.errmsg.password_confirm).removeClass('hide');
-                        self.pass2.parents('.item').addClass('error');
-                        self.checkStep++;
-                        return false;
-                    }else{
-                        self.error.html('').addClass('hide');
-                        self.checkStep--;
-                        self.pass2.parents('.item').removeClass('error');
-                        return true;
-                    }
-                },
                 agree  : function(){
                     if(self.agree){
-                        self.error.html('').addClass('hide');
+                        self.error.html('');
                         return true;
                     }else{
-                        self.error.html(self.errmsg.agree).removeClass('hide');
+                        self.error.html(self.errmsg.agree);
                         return false;
                     }
                 }
@@ -135,22 +142,24 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                 VerifyCodeOff = true,
                 $getVerifyCode = $('#getVerifyCode');
             $getVerifyCode.on('click',function(){
-                if(VerifyCodeOff && self.verify.isMobile(self.mobile.val())){
+                if($(this).hasClass('disabled')){
+                    return ;
+                }
+                if(VerifyCodeOff && !self.isMobile){
                     VerifyCodeOff = false;
                     countdown($(this),60);
-                    var userName = self.mobile.val();
                     $.ajax({
-                        url:RootUrl+'api/v2/web/send_verify_code',
+                        url:'/api/v2/web/send_verify_code',
                         type: 'post',
                         contentType : 'application/json; charset=utf-8',
                         dataType: 'json',
                         data : JSON.stringify({
-                            phone : userName
+                            phone : self.mobile.val()
                         }),
                         processData : false
                     });
                 }else{
-                    self.error.html(self.errmsg.mobile).removeClass('hide');
+                    self.error.html('手机号码已被使用');
                     self.mobile.parents('.item').addClass('error');
                     return false;
                 }
@@ -173,16 +182,23 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             }
         },
         focus : function(obj){
-            obj.on('focus',function(){
-                $(this).parents('.item').addClass('focus');
-            });
+            var self = this;
+            if(obj === self.mobile && self.isMobile){
+                obj.on('focus',function(){
+                    $(this).parents('.item').addClass('focus').removeClass('error');
+                });
+            }else{
+               obj.on('focus',function(){
+                    $(this).parents('.item').addClass('focus').removeClass('error');
+                });
+                self.error.html('');
+            }
         },
         bindFocus : function(){
             var self = this;
             this.focus(self.mobile);
             this.focus(self.captcha);
             this.focus(self.pass);
-            this.focus(self.pass2);
         },
         blur  : function(obj,num){
             var self = this;
@@ -194,8 +210,6 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                     break;
                     case '2' : self.check().pass();
                     break;
-                    case '3' : self.check().pass2();
-                    break;
                 }
                 $(this).parents('.item').removeClass('focus');
             });
@@ -205,14 +219,18 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             this.blur(self.mobile,"0");
             this.blur(self.captcha,"1");
             this.blur(self.pass,"2");
-            this.blur(self.pass2,"3");
         },
         checkMobile : function(){
             var self = this;
+            self.mobile.on('focus',function(){
+                if(self.isMobile){
+                    $(this).parents('.item').addClass('focus').removeClass('error');
+                }
+            });
             self.mobile.on('input propertychange',function(){
                 if(self.verify.isMobile(self.mobile.val())){
                     $.ajax({
-                        url:RootUrl+'api/v2/web/verify_phone',
+                        url:'/api/v2/web/verify_phone',
                         type: 'post',
                         contentType : 'application/json; charset=utf-8',
                         dataType: 'json',
@@ -225,13 +243,13 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                         if(res.err_msg){
                             self.isMobile = true;
                             self.mobile.parents('.item').addClass('error');
-                            self.error.html(res.err_msg).removeClass('hide');
+                            self.error.html(res.err_msg);
                         }else{
                             self.isMobile = false;
                         }
                     });
                 }
-                self.error.html('').addClass('hide');
+                self.error.html('');
                 $(this).parents('.item').removeClass('error').addClass('focus');
             });
         },
@@ -257,22 +275,15 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
             function submitfn(){
                 if(self.isMobile){
                     self.mobile.parents('.item').addClass('error');
-                    self.error.html('手机号码已被使用').removeClass('hide');
-                    self.off = false;
-                    return false;
-                }
-                if(self.pass.val() !== self.pass2.val()){
-                    self.error.html(self.errmsg.password_confirm).removeClass('hide');
-                    self.pass2.parents('.item').addClass('error');
+                    self.error.html('手机号码已被使用');
                     self.off = false;
                     return false;
                 }
                 self.check().mobile();
                 self.check().captcha();
                 self.check().pass();
-                self.check().pass2();
                 if(self.checkStep > 0 ){
-                    self.error.html(self.errmsg.submit).removeClass('hide');
+                    self.error.html(self.errmsg.submit);
                     self.off = false;
                     return false;
                 }
@@ -282,7 +293,7 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                 }
                 var serialize = self.strToJson(self.form.serialize());
                 $.ajax({
-                    url:RootUrl+'api/v2/web/signup',
+                    url:'/api/v2/web/signup',
                     type: 'post',
                     contentType : 'application/json; charset=utf-8',
                     dataType: 'json',
@@ -293,31 +304,17 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
                     if(res.err_msg){
                         self.off = false;
                         self.checkStep = 2;
-                        self.error.html(res.err_msg).removeClass('hide');
+                        self.error.html(res.err_msg);
                         return ;
                     }
                     if(res.data !== null){
                         window.location.href = res.data.url;
                     }else{
                         self.off = false;
-                        self.error.html(res.err_msg).removeClass('hide');
+                        self.error.html(res.err_msg);
                     }
                 });
             }
-        },
-        setType : function(){
-            var self = this;
-            var $oInput = this.status.find('input');
-                this.status.delegate('li','click',function(ev){
-                    if($(this).html() == '业主'){
-                        self.weixin.show();
-                    }else{
-                        self.weixin.hide();
-                    }
-                    ev.preventDefault();
-                    $(this).attr('class','active').siblings().attr('class','');
-                    $oInput.val($(this).data('status'));
-                });
         },
         strToJson : function(str){
             var json = {},temp;

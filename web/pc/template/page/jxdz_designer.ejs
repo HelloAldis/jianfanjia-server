@@ -50,7 +50,7 @@ function textareaEscaped(value) {
             <% } %>
         <div class="mask"></div>
         <div class="info">
-            <div class="head addIntentHead"><img src="/api/v2/web/thumbnail2/130/130/<%= data.designer.imageid %>"
+            <div class="u-head u-head-radius addIntentHead"><img src="/api/v2/web/thumbnail2/130/130/<%= data.designer.imageid %>"
                                                  alt="<%= data.designer.username %>"></div>
             <h2><%= data.designer.username %></h2>
             <address><i class="iconfont">&#xe61f;</i>&nbsp;
@@ -149,7 +149,7 @@ function textareaEscaped(value) {
                     <% }else{ %>
                 <li>
                     <% } %>
-                    <a href="/tpl/product/<%= v._id %>" class="img">
+                    <a href="/tpl/product/<%= v._id %>" class="img u-placeholder-image">
                         <img data-src="/api/v2/web/thumbnail2/388/289/<%= v.cover_imageid %>" alt="<%= v.cell %>"
                              src="/static/img/public/load.gif">
                     </a>
@@ -174,8 +174,7 @@ function textareaEscaped(value) {
     </section>
     <section class="g-item g-wp m-potter-info f-cb">
         <div class="m-sdc f-fl">
-            <div class="head"><img src="/api/v2/web/thumbnail2/110/110/<%= data.designer.imageid %>"
-                                   alt="<%= data.designer.username %>"></div>
+            <div class="u-head u-head-radius"><img src="/api/v2/web/thumbnail2/110/110/<%= data.designer.imageid %>" alt="<%= data.designer.username %>"></div>
             <h3><%= data.designer.username %></h3>
             <address><i class="iconfont">&#xe61f;</i>&nbsp;
                 <% if (!!data.designer.province) { %>
@@ -243,5 +242,5 @@ function textareaEscaped(value) {
         </div>
     </section>
 </main>
-<script type="text/javascript" data-main="/static/js/design/home" src="/static/js/lib/require.js"></script>
+<script type="text/javascript" data-main="/static/js/design/home-18f8bcb647" src="/static/js/lib/require.js"></script>
 <%- include('../module/footer') -%>

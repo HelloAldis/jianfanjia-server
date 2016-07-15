@@ -11,10 +11,7 @@ require.config({
         'history': {
             deps: ['jquery']
         },
-        'uploadify': {
-            deps: ['jquery']
-        },
-        'uploadifive': {
+        'webuploader' : {
             deps: ['jquery']
         }
     }
@@ -27,7 +24,8 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common'],function($,_,cook
     var goto = new common.Goto();
     goto.init();
 })
-require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/common','utils/page','utils/globalData','utils/select','utils/placeholder','utils/checkSupport','lib/webuploader.min'],function($,_,cookie,history,common,Pageing,globalData,Select,Placeholder,checkSupport,WebUploader){
+require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/page','utils/globalData','utils/select','utils/placeholder','lib/webuploader.min'],
+    function($,_,cookie,history,Pageing,globalData,Select,Placeholder,WebUploader){
     var page = new Pageing();
     var Diary = function(){};
     Diary.prototype = {
@@ -369,10 +367,10 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/commo
                 });
                 $list.on('click', '.cancel', function() {
                     var item = $(this).parents('.items');
-                        //console.log(item[0].id)
                         uploader.cancelFile( item[0].id );
                         item.remove();
                     if(uploaderUid-- == 1){
+                        obj.find('.disable').remove();
                         isSubmitImages = true;
                         isSubmitFn();
                     }

@@ -2,14 +2,24 @@ require.config({
     baseUrl: '/static/js/',
     paths  : {
         jquery: 'lib/jquery',
-        cookie : 'lib/jquery.cookie'
+        cookie : 'lib/jquery.cookie',
+        requestAnimationFrame : 'lib/jquery.requestAnimationFrame.min',
+        fly : 'lib/jquery.fly.min'
+    },
+    shim   : {
+        'jquery.requestAnimationFrame.min': {
+            deps: ['jquery']
+        },
+        'jquery.fly.min': {
+            deps: ['jquery']
+        }
     }
 });
 require(['jquery','index/search'],function($,Search){
     var search = new Search();
     search.init();
 });
-require(['jquery', 'lib/jquery.cookie', 'utils/common', 'utils/tooltip'], function ($, cookie, common, Tooltip) {
+require(['jquery', 'lib/jquery.cookie', 'utils/common', 'utils/tooltip','fly'], function ($, cookie, common, Tooltip) {
     var Home = function(){};
     Home.prototype = {
         init  : function(){
@@ -22,15 +32,13 @@ require(['jquery', 'lib/jquery.cookie', 'utils/common', 'utils/tooltip'], functi
             this.user = new common.User();
             this.goto = new common.Goto();
             this.user.init2();
-            this.goto.init();
-            if($.cookie("usertype") === '1'){
-                require(['design/addIntent'],function(AddIntent){
-                    (new AddIntent(this.home)).init();
-                });
-            }
+            this.goto.init({         //显示右侧菜单
+                shop : true     //开启业主意向设计师菜单
+            });
             this.loadmore();
             this.fixed();
             this.loadList(this.toFrom);
+            this.AddIntent();
         },
         fixed : function(){
             var $follow = this.home.find('.m-follow');
@@ -73,6 +81,60 @@ require(['jquery', 'lib/jquery.cookie', 'utils/common', 'utils/tooltip'], functi
             aLi.hide().removeClass('hide').fadeIn();
             aLi.find('img').each(function(index, el) {
                 $(el).attr('src', $(this).data('src'));
+            });
+        },
+        AddIntent : function(){
+            var _this = this,
+            off = true;
+            $('.addIntent').on('click',function(ev){
+                if(!$(this).hasClass('addIntent')){
+                    return ;
+                }
+                if(!off){
+                    return ;
+                }
+                off = false;
+                var This = $(this),
+                    addOffset = _this.goto.offset();
+                var uidname = $(this).data('uid'),
+                    head = $('.addIntentHead'),
+                    img = head.find('img').attr('src')
+                    state = head.offset(),
+                    scrollTop = $(document).scrollTop();
+                    flyer = $('<img class="u-flyer" src="'+img+'">');
+                $.ajax({
+                    url:'/api/v2/web/favorite/designer/add',
+                    type: 'POST',
+                    contentType : 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    data : JSON.stringify({
+                        "_id":uidname
+                    }),
+                    processData : false
+                })
+                .done(function(res) {
+                    if(res.msg === "success"){
+                        This.html('已添加').attr('href','/tpl/user/owner.html#/designer/1').removeClass('addIntent').addClass('u-btns-revise');
+                        flyer.fly({
+                            start: {
+                                left: state.left,
+                                top: state.top - scrollTop
+                            },
+                            end: {
+                                left: addOffset.left+10,
+                                top: addOffset.top+10,
+                                width: 0,
+                                height: 0
+                            },
+                            onEnd: function(){
+                                _this.goto.addDesigners();
+                                _this.user.updateData();
+                                this.destory();
+                            }
+                        });
+                        off = true;
+                    }
+                });
             });
         }
     };

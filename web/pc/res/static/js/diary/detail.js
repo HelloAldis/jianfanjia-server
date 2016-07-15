@@ -3,8 +3,22 @@ require.config({
     paths  : {
         jquery: 'lib/jquery',
         lodash : 'lib/lodash',
-        cookie : 'lib/jquery.cookie'
+        cookie : 'lib/jquery.cookie',
+        lazyload : 'lib/lazyload',
+        mousewheel : 'lib/jquery.mousewheel.min'
+    },
+    shim   : {
+        'mousewheel': {
+            deps : ['jquery']
+        }
     }
+});
+require(['jquery','lib/lazyload'],function($,lazyload){
+    $(function(){
+        $("img.lazyload").lazyload({
+            effect : "fadeIn"
+        });
+    });
 });
 require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousewheel.min','utils/format'],function($,_,cookie,common){
         var user = new common.User();
@@ -202,7 +216,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                             review.removeClass('hide');
                             if(_this.diary !== null && $('#diary_'+_this.diary.diaryid).length > 0){
                                 var obj = $('#diary_'+_this.diary.diaryid).find('.m-review .list ul li');
-                                setCommentTo(obj,_this.diary.to_userid,decodeURI(_this.diary.username),null);
+                                setCommentTo(obj,_this.diary.to_userid,decodeURI(_this.diary.username),false);
                             }
                         });
                     }else{
@@ -215,7 +229,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                 }
                 this.detail.on('click','.m-review .list ul li',function(event){    //评论给谁
                     var $reply = $(this).find('.reply');
-                    setCommentTo($(this),$reply.data('byuserid'),$reply.data('byusername'))
+                    setCommentTo($(this),$reply.data('byuserid'),$reply.data('byusername'),true)
                 });
                 function setCommentTo(obj,id,name,add){
                     var parent = obj.parents('.m-list');
@@ -226,6 +240,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                     addCommentTo.byusername = name;
                     addCommentTo.userid = review.data('userid');
                     addCommentTo.authorid = review.data('authorid');
+                    addCommentTo.commentid = obj.data('commentid');
                     var $replys = _this.detail.find('.reply');
                     $replys.removeClass('active');
                     if(addCommentTo.byuserid === addCommentTo.userid || addCommentTo.byuserid === addCommentTo.authorid){
@@ -233,7 +248,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                         addCommentTo.byusername = '';
                         review.find('.find').hide();
                     }else{
-                        if(!!add){
+                        if(add){
                             $reply.addClass('active');
                         }
                         addCommentTo.notfind = false;
@@ -289,7 +304,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                     var img = !!data.byUser.imageid ? '<img src="/api/v2/web/thumbnail2/50/50/'+data.byUser.imageid+'" alt="'+data.byUser.username+'">' : '';
                     var reply = _this.cookie === '1' ? '<i class="iconfont reply" data-byusername="'+data.byUser.username+'" data-byuserid="'+data.byUser._id+'">&#xe616;</i>' : '';
                     return arr = [
-                        '<li>',
+                        '<li data-commentid="'+data._id+'">',
                         '<div class="u-head u-head-radius u-head-w50">',
                         img,
                         '</div>',
@@ -329,18 +344,21 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                         return ;
                     }
                     var id = parent.data('uid');
-                    var byuser,content;
+                    var byuser,content,commentid;
                     if(addCommentTo !== null){
-                        byuser = addCommentTo.byuserid;
                         if(addCommentTo.notfind){
                             content = $.trim(contentMsg.val());
-                            byuser = $(this).data('authorid');
+                            byuser = parent.data('authorid');
+                            commentid = undefined;
                         }else{
-                            content = '回复给  '+addCommentTo.byusername+"：  "+$.trim(contentMsg.val());
+                            byuser = addCommentTo.byuserid;
+                            content = '回复  '+addCommentTo.byusername+"："+$.trim(contentMsg.val());
+                            commentid = addCommentTo.commentid;
                         }
                     }else{
-                        byuser = $(this).data('authorid');
+                        byuser = parent.data('authorid');
                         content = $.trim(contentMsg.val());
+                        commentid = undefined;
                     }
                     $.ajax({
                         url: '/api/v2/web/add_comment',
@@ -352,7 +370,8 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
                             topictype:'2',
                             content:content,
                             to_designerid:undefined,
-                            to_userid:byuser
+                            to_userid:byuser,
+                            to_commentid:commentid
                         }),
                         processData : false
                     })
