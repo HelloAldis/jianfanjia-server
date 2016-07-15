@@ -43,7 +43,7 @@ exports.findIndexObjectId = function (array, oid) {
 }
 
 exports.isValidObjectId = function (oid) {
-  return oid && ObjectId.isValid(oid);
+  return oid && oid.length === 24 && ObjectId.isValid(oid);
 }
 
 exports.deleteUndefinedAndNullThenFilterXss = function (obj) {
