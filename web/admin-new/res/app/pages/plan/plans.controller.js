@@ -103,7 +103,7 @@
           var gte = $scope.dtStart ? $scope.dtStart.getTime() : undefined;
           var lte = $scope.dtEnd ? $scope.dtEnd.getTime() : undefined;
 
-          var last_status_update_time = gte && lte ? {
+          var last_status_update_time = gte || lte ? {
             "$gte": gte,
             "$lte": lte
           } : undefined;

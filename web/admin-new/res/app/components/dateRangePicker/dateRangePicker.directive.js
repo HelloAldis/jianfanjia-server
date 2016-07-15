@@ -57,23 +57,13 @@
         };
         $scope.endTime.today();
 
-        // 搜索
-        $scope.search = function (search_word) {
-          var start = new Date($scope.dtStart).getTime();
-          var end = new Date($scope.dtEnd).getTime();
-
-          if (start > end) {
-            alert('开始时间不能晚于结束时间，请重新选择。');
-            return;
+        // 键入Enter 搜索
+        $scope.myKeyup = function keyupListen(e, search_word) {
+          var keycode = e.keyCode;
+          if (keycode === 13) {
+            $scope.delegate.search(search_word);
           }
-
-          $scope.delegate.search(search_word);
-        }
-
-        // 重置
-        $scope.clearStatus = function () {
-          $scope.delegate.clearStatus();
-        }
+        };
 
         // 结束时间设置为当天最后一秒
         $scope.$watch('dtEnd', function (newVal, oldVal) {

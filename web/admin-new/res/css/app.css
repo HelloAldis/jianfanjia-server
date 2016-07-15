@@ -1,5 +1,6 @@
 .common .panel-info{
 	box-shadow: none;
+	overflow-y: hidden;
 }
 .common .panel-info table{
 	box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.25);
@@ -105,12 +106,12 @@
 .designer-page .online-status-btn button{
 	width: 68px;
 }
-.live-page .panel-info .td-opt a{
-	cursor: pointer;
-}
 .data-statis-page .panel-info .load-data{
 	position: absolute;
 	margin-top: 50px;
+}
+.live-page .panel-info .td-opt a{
+	cursor: pointer;
 }
 .requirement-detail-page .breadcrumb .panel-info .tab-title{
 	background-color: rgba(217, 237, 247, 0.94);

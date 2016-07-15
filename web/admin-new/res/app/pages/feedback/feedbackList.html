@@ -1,5 +1,6 @@
-<div class="feedback-list-page common">
+<div class="row feedback-list-page common">
 	<date-range-picker config="config" delegate="delegate" dt-start="dtStart" dt-end="dtEnd"></date-range-picker>
+	<search-input config="config" delegate="delegate"></search-input>
 
 	<div class="panel panel-info text-center table-responsive">
 		<table class="table table-bordered table-break table-striped">
@@ -9,7 +10,7 @@
 					<th>
 						<div ng-class="{'-1':'tablesorter-headerDesc item-width',
 							undefined:'tablesorter-header item-width',
-							'1':'tablesorter-headerAsc item-width'}[sort.create_at]" ng-click="sortData('create_at')">提交时间</div>
+							'1':'tablesorter-headerAsc item-width'}[sort.create_at]" ng-click="sortData('create_at')">提交时间&nbsp;&nbsp;</div>
 					</th>
 					<th class="text-center">提交者身份</th>
 					<th class="text-center">提交者姓名</th>

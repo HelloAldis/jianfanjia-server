@@ -1,5 +1,6 @@
-<div class="recruit-page common">
+<div class="row recruit-page common">
 	<date-range-picker config="config" delegate="delegate" dt-start="dtStart" dt-end="dtEnd"></date-range-picker>
+	<search-input config="config" delegate="delegate"></search-input>
 
 	<div class="panel panel-info text-center table-responsive">
 		<table class="table table-bordered table-striped">
@@ -8,23 +9,23 @@
 					<th class="text-center">提交ID</th>
 					<th  ng-class="{'-1':'tablesorter-headerDesc',
 						undefined:'tablesorter-header',
-						'1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">注册时间</th>
+						'1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">注册时间&nbsp;</th>
 					<th class="text-center">业主姓名</th>
 					<th>
 						<div  ng-class="{'-1':'tablesorter-headerDesc item-width',
 							undefined:'tablesorter-header item-width',
-							'1':'tablesorter-headerAsc item-width'}[sort.phone]" ng-click="sortData('phone')">业主电话</div>
+							'1':'tablesorter-headerAsc item-width'}[sort.phone]" ng-click="sortData('phone')">业主电话&nbsp;&nbsp;</div>
 					</th>
 					<th class="text-center">信息来源</th>
 					<th>
 						<div  ng-class="{'-1':'tablesorter-headerDesc item-width',
 							undefined:'tablesorter-header item-width',
-							'1':'tablesorter-headerAsc item-width'}[sort.district]" ng-click="sortData('district')">装修面积</div>
+							'1':'tablesorter-headerAsc item-width'}[sort.district]" ng-click="sortData('district')">装修面积&nbsp;&nbsp;</div>
 					</th>
 					<th>
 						<div  ng-class="{'-1':'tablesorter-headerDesc item-width',
 							undefined:'tablesorter-header item-width',
-							'1':'tablesorter-headerAsc item-width'}[sort.total_price]" ng-click="sortData('total_price')">装修预算</div>
+							'1':'tablesorter-headerAsc item-width'}[sort.total_price]" ng-click="sortData('total_price')">装修预算&nbsp;&nbsp;</div>
 					</th>
 				</tr>
 				<tr ng-repeat="user in userList" class="text-nowrap">

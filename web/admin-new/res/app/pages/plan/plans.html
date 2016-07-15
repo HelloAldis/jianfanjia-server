@@ -1,20 +1,27 @@
-<div class="plan-page common">
-	<ul class="list-inline col-md-12">
-		方案状态：<li ng-repeat="auth in authList"><button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id)">{{auth.name}}</button></li>
+<div class="row plan-page common">
+	<ul class="row list-inline col-md-12">
+		方案状态：
+		<li ng-repeat="auth in authList">
+			<button type="button" class="btn btn-default"
+				ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" 
+				ng-click="authBtn(auth.id)">{{auth.name}}
+			</button>
+		</li>
 	</ul>
 	
 	<date-range-picker config="config" delegate="delegate" dt-start="dtStart" dt-end="dtEnd"></date-range-picker>
+	<search-input config="config" delegate="delegate"></search-input>
 
 	<div class="panel panel-info ng-scope text-center table-responsive">
 		<table class="table table-bordered table-striped">
 			<tbody>
 				<tr class="info thead text-nowrap">
 					<th class="text-center">方案ID</th>
-					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.request_date]" ng-click="sortData('request_date')">预约时间</th>
-					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.get_phone_time]" ng-click="sortData('get_phone_time')">获取电话时间</th>
-					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.house_check_time]" ng-click="sortData('house_check_time')">量房时间</th>
+					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.request_date]" ng-click="sortData('request_date')">预约时间&nbsp;</th>
+					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.get_phone_time]" ng-click="sortData('get_phone_time')">获取电话时间&nbsp;</th>
+					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.house_check_time]" ng-click="sortData('house_check_time')">量房时间&nbsp;</th>
 					<th class="text-center">当前状态</th>
-					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.last_status_update_time]" ng-click="sortData('last_status_update_time')">状态更新时间</th>
+					<th  ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.last_status_update_time]" ng-click="sortData('last_status_update_time')">状态更新时间&nbsp;</th>
 					<th class="text-center">设计师姓名</th>
 					<th class="text-center">设计师电话</th>
 					<th class="text-center">业主姓名</th>
