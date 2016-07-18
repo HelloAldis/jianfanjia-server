@@ -1,6 +1,6 @@
 /**
- * @author v.lugovsky
- * created on 16.12.2015
+ * @author Aldis
+ * created on 2016
  */
 (function () {
   'use strict';
@@ -23,7 +23,8 @@
       'JfjAdmin.pages.live',
       'JfjAdmin.pages.chart',
       'JfjAdmin.pages.diary',
-      'JfjAdmin.pages.comment'
+      'JfjAdmin.pages.comment',
+      'JfjAdmin.pages.image'
     ])
     .config(routeConfig);
 
