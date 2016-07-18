@@ -1352,3 +1352,38 @@ exports.search_supervisor = function (req, res, next) {
     });
   }));
 }
+
+exports.search_image = function (req, res, next) {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
+    create_at: -1
+  };
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        userid: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+    }
+  }
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Image.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit,
+    lean: true
+  }, ep.done(function (images, total) {
+    res.sendData({
+      images: images,
+      total: total
+    });
+  }));
+}
