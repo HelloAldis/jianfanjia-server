@@ -1337,6 +1337,8 @@ exports.search_supervisor = function (req, res, next) {
       }];
     }
   }
+  let ep = eventproxy();
+  ep.fail(next);
 
   Supervisor.paginate(query, null, {
     sort: sort,
