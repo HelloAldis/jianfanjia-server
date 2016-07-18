@@ -1,3 +1,9 @@
+.requirement-detail-page .box{
+	padding: 0;
+}
+.requirement-detail-page .breadcrumb{
+	padding: 0;
+}
 .requirement-detail-page .breadcrumb .panel-info .tab-title{
 	background-color: rgba(217, 237, 247, 0.94);
 }

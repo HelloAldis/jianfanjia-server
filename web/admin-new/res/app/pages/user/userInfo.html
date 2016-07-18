@@ -1,5 +1,74 @@
 <ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li><a ui-sref="user">业主列表</a></li><li class="active">业主详细资料</li></ol>
-<div class="userInfo">
+
+<div class="user-info-page">
+	<div class="userInfo">
+		<div class="panel panel-info ng-scope table-responsive">
+			<table class="table table-bordered">
+				<tbody>
+					<tr class="info thead">
+						<th>业主详细资料</th>
+					</tr>
+					<tr>
+						<table class="table table-bordered">
+							<tbody>
+								<tr>
+									<td class="col-md-4">用户Id</td>
+									<td>{{user._id}}</td>
+								</tr>
+
+								<tr>
+									<td>注册时间</td>
+									<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+								</tr>
+
+								<tr>
+									<td>姓名</td>
+									<td>{{user.username ? user.username : '未填写'}}</td>
+								</tr>
+
+								<tr>
+									<td>电话</td>
+									<td>{{user.phone}}</td>
+								</tr>
+
+								<tr>
+									<td>性别</td>
+									<td>{{user.sex ? (user.sex | sexFilter) : '未填写'}}</td>
+								</tr>
+
+								<tr>
+									<td>所在地区</td>
+									<td>{{user.province ? user.province : '未填写'}} {{user.city}} {{user.district}}</td>
+								</tr>
+
+								<tr>
+									<td>邮寄地址</td>
+									<td>{{user.address ? user.address : '未填写'}}</td>
+								</tr>
+
+								<tr>
+									<td>电子邮箱</td>
+									<td>{{user.email ? user.email : '未填写'}}</td>
+								</tr>
+
+								<tr>
+									<td>头像</td>
+									<td>
+										<img-url data="user.imageid" width="200"></img-url>
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+</div>
+
+<!-- <div class="userInfo">
 	<div class="form-group">
 		<label for="">用户Id</label>
 		<p class="lead">{{user._id}}</p>
@@ -36,4 +105,4 @@
 		<label for="">头像</label>
 		<img src="{{head}}" class="img-responsive" alt="Responsive image">
 	</div>
-</div>
+</div> -->

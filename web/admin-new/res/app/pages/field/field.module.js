@@ -11,7 +11,7 @@
   function routeConfig($stateProvider) {
     $stateProvider
       .state('fieldList', {
-        url: '/fieldList/:all',
+        url: '/fieldList/:detail',
         templateUrl: 'app/pages/field/fieldList.html',
         title: '工地管理后台',
         controller: 'FieldListController',

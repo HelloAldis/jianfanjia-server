@@ -9,10 +9,10 @@
         }).then(function (resp) {
           //返回信息
           $scope.user = resp.data.data;
-          $scope.head_img1 = $scope.user.imageid ? 'api/v2/web/thumbnail/200/' + $scope.user.imageid : 'jyz/img/headpic.jpg';
-          $scope.head_img2 = $scope.user.big_imageid ? 'api/v2/web/thumbnail/800/' + $scope.user.big_imageid :
-            'jyz/img/headpic.jpg';
-          $scope.diploma_image = $scope.user.diploma_imageid ? 'api/v2/web/thumbnail/800/' + $scope.user.diploma_imageid : '';
+          // $scope.head_img1 = $scope.user.imageid ? 'api/v2/web/thumbnail/200/' + $scope.user.imageid : 'jyz/img/headpic.jpg';
+          // $scope.head_img2 = $scope.user.big_imageid ? 'api/v2/web/thumbnail/800/' + $scope.user.big_imageid :
+          //   'jyz/img/headpic.jpg';
+          // $scope.diploma_image = $scope.user.diploma_imageid ? 'api/v2/web/thumbnail/800/' + $scope.user.diploma_imageid : '';
           console.log($scope.user);
         }, function (resp) {
           //返回错误信息

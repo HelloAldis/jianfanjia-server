@@ -50,6 +50,18 @@
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
+.img-url{
+	max-width: 200px;
+	line-height: 20px;
+	padding-top: 5px;
+}
+
+@media screen and (min-width: 768px){
+  .img-url{
+  	max-width: 400px;
+  }
+}
+
 .loadData {
   display: block;
   position: relative;
@@ -106,12 +118,43 @@
 .designer-page .online-status-btn button{
 	width: 68px;
 }
+
+.userInfo .img-list div{
+	padding-right: 5px;
+	margin-bottom: 10px;
+}
+
+.userInfo .img-list div p{
+	margin: 0;
+	line-height: 20px;
+	white-space: normal;
+}
+
+.userInfo .form-group{
+	padding: 0;
+}
+
+.designer-Editor-page .btn{
+	margin-top: 10px;
+	width: 54px;
+	height: 34px;
+}
+
+.designer-info-page .form-group .btn{
+	margin-bottom: 10px;
+}
 .data-statis-page .panel-info .load-data{
 	position: absolute;
 	margin-top: 50px;
 }
 .live-page .panel-info .td-opt a{
 	cursor: pointer;
+}
+.requirement-detail-page .box{
+	padding: 0;
+}
+.requirement-detail-page .breadcrumb{
+	padding: 0;
 }
 .requirement-detail-page .breadcrumb .panel-info .tab-title{
 	background-color: rgba(217, 237, 247, 0.94);
