@@ -1375,7 +1375,9 @@ exports.search_image = function (req, res, next) {
   let ep = eventproxy();
   ep.fail(next);
 
-  Image.paginate(query, null, {
+  Image.paginate(query, {
+    data: -1,
+  }, {
     sort: sort,
     skip: skip,
     limit: limit,
