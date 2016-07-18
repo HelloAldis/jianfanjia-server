@@ -1300,11 +1300,12 @@ exports.assign_supervisor = function (req, res, next) {
   const supervisorids = _.map(req.body.supervisorids, function (i) {
     return tools.convert2ObjectId(i);
   });;
+  const processid = req.body.processid;
   let ep = eventproxy();
   ep.fail(next);
 
   Process.addToSet({
-    _id: requirementid,
+    _id: processid,
   }, {
     supervisorids: {
       $each: supervisorids
