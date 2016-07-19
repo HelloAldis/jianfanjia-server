@@ -177,6 +177,10 @@
       return {
         search: function (data) {
           return doAdminRequest('search_process', data);
+        },
+        // 搜索监理
+        searchSupervisor: function (data) {
+          return doAdminRequest('search_supervisor', data);
         }
       };
     }])

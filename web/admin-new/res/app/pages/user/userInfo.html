@@ -51,6 +51,25 @@
 						</tr>
 
 						<tr>
+							<td>邮箱认证状态</td>
+							<td>{{user.email_auth_type | authTypeFilter}}</td>
+						</tr>
+
+						<tr>
+							<td>风格喜好</td>
+							<td>
+								<span ng-repeat="item in user.dec_styles">
+									{{item | decStyleFilter}} 
+								</span>
+							</td>
+						</tr>
+
+						<tr>
+							<td>装修阶段</td>
+							<td>{{user.dec_progress | userInfoProgress}}</td>
+						</tr>
+
+						<tr>
 							<td>头像</td>
 							<td>
 								<img-url data="user.imageid" width="200"></img-url>

@@ -23,7 +23,8 @@
       'JfjAdmin.pages.live',
       'JfjAdmin.pages.chart',
       'JfjAdmin.pages.diary',
-      'JfjAdmin.pages.comment'
+      'JfjAdmin.pages.comment',
+      'JfjAdmin.pages.supervisor'
     ])
     .config(routeConfig);
 

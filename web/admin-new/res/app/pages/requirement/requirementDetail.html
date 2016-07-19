@@ -23,6 +23,11 @@
 							</tr>
 
 							<tr>
+								<td>需求状态</td>
+								<td>{{user.status | requirementFilter}}</td>
+							</tr>
+
+							<tr>
 								<td>详细地址</td>
 								<td>{{user.basic_address}}</td>
 							</tr>
@@ -30,6 +35,11 @@
 							<tr>
 								<td>装修类别</td>
 								<td>{{user.dec_type | decTypeFilter}}</td>
+							</tr>
+
+							<tr>
+								<td>包类型</td>
+								<td>{{user.package_type | requirePackageTypeFilter}}</td>
 							</tr>
 
 							<tr>

@@ -1,84 +1,99 @@
 <div class="field-detail-page common">
   <div class="userInfo">
-    <div class="panel panel-info ng-scope panel-common">
-      <div class="panel-heading clearfix">
-        <h3 class="panel-title">工地管理详情</h3>
+    <div class="col-md-12">
+      <div class="form-group">
+         <label for="inputEmail3" class="col-sm-1 control-label">指派监理：</label>
+         <div class="col-sm-2">
+            <kv-dropdown curkey="news.articletype" keyval="num:name" opts="article_type">
+            </kv-dropdown>
+         </div>
+         <div class="col-sm-9">
+           <button type="button" class="btn btn-success" ng-click="editDesignLevel()">确认</button>
+         </div>
       </div>
-      <div class="panel-body table-responsive">
-        <table class="table table-bordered">
-          <tbody>
-            <tr>
-              <td class="col-md-4">当前阶段</td>
-              <td>{{processes.going_on | fieldsNameFilter}}</td>
-            </tr>
+    </div>
 
-            <tr>
-              <td>创建时间</td>
-              <td>{{processes.create_at | date:'yyyy-MM-dd'}}</td>
-            </tr>
+    <div class="col-md-12">
+      <div class="panel panel-info ng-scope panel-common">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title">工地管理详情</h3>
+        </div>
+        <div class="panel-body table-responsive">
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td class="col-md-4">当前阶段</td>
+                <td>{{processes.going_on | fieldsNameFilter}}</td>
+              </tr>
 
-            <tr>
-              <td>开工时间</td>
-              <td>{{processes.start_at | date:'yyyy-MM-dd'}}</td>
-            </tr>
+              <tr>
+                <td>创建时间</td>
+                <td>{{processes.create_at | date:'yyyy-MM-dd'}}</td>
+              </tr>
 
-            <tr>
-              <td>工地位置</td>
-              <td>{{user.province ? user.province : '未填写'}} {{user.city}} {{user.district}}</td>
-            </tr>
+              <tr>
+                <td>开工时间</td>
+                <td>{{processes.start_at | date:'yyyy-MM-dd'}}</td>
+              </tr>
 
-            <tr>
-              <td>总价</td>
-              <td>{{processes.total_price}} 万元</td>
-            </tr>
+              <tr>
+                <td>工地位置</td>
+                <td>{{user.province ? user.province : '未填写'}} {{user.city}} {{user.district}}</td>
+              </tr>
 
-            <tr>
-              <td>工地周期</td>
-              <td>{{processes.duration}} 天</td>
-            </tr>
+              <tr>
+                <td>总价</td>
+                <td>{{processes.total_price}} 万元</td>
+              </tr>
 
-            <tr>
-              <td>装修风格</td>
-              <td>{{processes.dec_style | decStyleFilter}}</td>
-            </tr>
+              <tr>
+                <td>工地周期</td>
+                <td>{{processes.duration}} 天</td>
+              </tr>
 
-            <tr>
-              <td>装修面积</td>
-              <td>{{processes.house_area}} m&sup2;</td>
-            </tr>
+              <tr>
+                <td>装修风格</td>
+                <td>{{processes.dec_style | decStyleFilter}}</td>
+              </tr>
 
-            <tr>
-              <td>装修户型</td>
-              <td>{{processes.house_type | houseTypeFilter}}</td>
-            </tr>
+              <tr>
+                <td>装修面积</td>
+                <td>{{processes.house_area}} m&sup2;</td>
+              </tr>
 
-            <tr>
-              <td>包工类型</td>
-              <td>{{processes.work_type | workTypeFilter}}</td>
-            </tr>
+              <tr>
+                <td>装修户型</td>
+                <td>{{processes.house_type | houseTypeFilter}}</td>
+              </tr>
 
-            <tr>
-              <td>设计师姓名</td>
-              <td>{{processes.designer.username}}</td>
-            </tr>
+              <tr>
+                <td>包工类型</td>
+                <td>{{processes.work_type | workTypeFilter}}</td>
+              </tr>
 
-            <tr>
-              <td>设计师电话</td>
-              <td>{{processes.designer.phone}}</td>
-            </tr>
+              <tr>
+                <td>设计师姓名</td>
+                <td>{{processes.designer.username}}</td>
+              </tr>
 
-            <tr>
-              <td>业主姓名</td>
-              <td>{{processes.user.username}}</td>
-            </tr>
+              <tr>
+                <td>设计师电话</td>
+                <td>{{processes.designer.phone}}</td>
+              </tr>
 
-            <tr>
-              <td>业主电话</td>
-              <td>{{processes.user.phone}}</td>
-            </tr>
+              <tr>
+                <td>业主姓名</td>
+                <td>{{processes.user.username}}</td>
+              </tr>
 
-          </tbody>
-        </table>
+              <tr>
+                <td>业主电话</td>
+                <td>{{processes.user.phone}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
