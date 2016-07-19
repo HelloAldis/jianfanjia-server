@@ -1398,6 +1398,6 @@ exports.delete_image = function (req, res, next) {
   Image.removeOne({
     _id: imageid
   }, null, ep.done(function () {
-    res.sendErrMsg();
+    res.sendSuccessMsg();
   }));
 }
