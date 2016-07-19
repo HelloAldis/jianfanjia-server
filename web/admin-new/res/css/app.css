@@ -50,18 +50,18 @@
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
-.img-url{
-	max-width: 200px;
-	line-height: 20px;
-	padding-top: 5px;
+.common .panel-common .panel-heading{
+	padding-left: 8px;
+	background-color: #d9edf7;
+	border-color: #d9edf7;
 }
-
-@media screen and (min-width: 768px){
-  .img-url{
-  	max-width: 400px;
-  }
+.common .panel-common .panel-body{
+	padding: 0;
+	margin-top: 0;
 }
-
+.common .padding-clear{
+	padding: 0;
+}
 .loadData {
   display: block;
   position: relative;
@@ -143,10 +143,28 @@
 .designer-info-page .form-group .btn{
 	margin-bottom: 10px;
 }
+.field-detail-page .panel-heading{
+	height: auto;
+}
+.field-detail-page .panel-heading h5{
+	margin: 0;
+}
 .data-statis-page .panel-info .load-data{
 	position: absolute;
 	margin-top: 50px;
 }
+.img-url{
+	max-width: 200px;
+	line-height: 20px;
+	padding-top: 5px;
+}
+
+@media screen and (min-width: 768px){
+  .img-url{
+  	max-width: 400px;
+  }
+}
+
 .live-page .panel-info .td-opt a{
 	cursor: pointer;
 }
@@ -167,7 +185,16 @@
 .requirement-detail-page .breadcrumb .panel-info .tab-title h4{
 	border-bottom: solid 1px #dcdcdc;
 }
-
+.requirement-detail-page .breadcrumb .panel-heading{
+	height: auto;
+}
+.requirement-detail-page .breadcrumb .panel-heading h4{
+	margin: 0;
+	line-height: 25px;
+}
+.user-info-page .breadcrumb{
+	padding: 0;
+}
 .page-top .user-profile{
 	position: absolute;
 	right: 32px;

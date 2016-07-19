@@ -50,3 +50,15 @@
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
+.common .panel-common .panel-heading{
+	padding-left: 8px;
+	background-color: #d9edf7;
+	border-color: #d9edf7;
+}
+.common .panel-common .panel-body{
+	padding: 0;
+	margin-top: 0;
+}
+.common .padding-clear{
+	padding: 0;
+}

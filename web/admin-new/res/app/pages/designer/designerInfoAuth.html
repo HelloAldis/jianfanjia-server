@@ -1,214 +1,123 @@
-<div class="designer-info-auth-page">
+<div class="designer-info-auth-page common">
 	<div class="userInfo row">
-		<div class="panel panel-info ng-scope table-responsive">
-			<table class="table table-bordered">
-				<tbody>
-					<tr class="info thead">
-						<th>设计师基本认证</th>
-					</tr>
-					<tr>
-						<table class="table table-bordered">
-							<tbody>
-								<tr>
-									<td  class="col-md-4">用户Id</td>
-									<td>{{user.province}} {{user.city}} {{user.district}}</td>
-								</tr>
+		<div class="panel panel-info ng-scope panel-common">
+			<div class="panel-heading clearfix">
+				<h3 class="panel-title">设计师基本认证</h3>
+			</div>
+			<div class="panel-body table-responsive">
+				<table class="table table-bordered">
+					<tbody>
+						<tr>
+							<td  class="col-md-4">用户Id</td>
+							<td>{{user.province}} {{user.city}} {{user.district}}</td>
+						</tr>
 
-								<tr>
-									<td>注册时间</td>
-									<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-								</tr>
+						<tr>
+							<td>注册时间</td>
+							<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+						</tr>
 
-								<tr>
-									<td>姓名</td>
-									<td>{{user.username}}</td>
-								</tr>
+						<tr>
+							<td>姓名</td>
+							<td>{{user.username}}</td>
+						</tr>
 
-								<tr>
-									<td>性别</td>
-									<td>{{user.sex | sexFilter}}</td>
-								</tr>
+						<tr>
+							<td>性别</td>
+							<td>{{user.sex | sexFilter}}</td>
+						</tr>
 
-								<tr>
-									<td>电话</td>
-									<td>{{user.phone}}</td>
-								</tr>
+						<tr>
+							<td>电话</td>
+							<td>{{user.phone}}</td>
+						</tr>
 
-								<tr>
-									<td>所在地区</td>
-									<td>{{user.province ? user.province : '未填写'}} {{user.city}} {{user.district}}</td>
-								</tr>
+						<tr>
+							<td>所在地区</td>
+							<td>{{user.province ? user.province : '未填写'}} {{user.city}} {{user.district}}</td>
+						</tr>
 
-								<tr>
-									<td>邮寄地址</td>
-									<td>{{user.address ? user.address : '未填写'}}</td>
-								</tr>
+						<tr>
+							<td>邮寄地址</td>
+							<td>{{user.address ? user.address : '未填写'}}</td>
+						</tr>
 
-								<tr>
-									<td>电子邮箱</td>
-									<td>{{user.email ? user.email : '未认证'}}</td>
-								</tr>
+						<tr>
+							<td>电子邮箱</td>
+							<td>{{user.email ? user.email : '未认证'}}</td>
+						</tr>
 
-								<tr>
-									<td>毕业学校</td>
-									<td>{{user.university}}</td>
-								</tr>
+						<tr>
+							<td>毕业学校</td>
+							<td>{{user.university}}</td>
+						</tr>
 
-								<tr>
-									<td>学历照片</td>
-									<td>
-										<img-url data="user.diploma_imageid"></img-url>
-									</td>
-									<!-- <td>
-										<img src="{{user.diploma_imageid ? '/api/v2/web/thumbnail/800/' + user.diploma_imageid : 'jyz/img/headpic.jpg'}}" class="img-responsive" alt="暂无图片">
-									</td> -->
-								</tr>
+						<tr>
+							<td>学历照片</td>
+							<td>
+								<img-url data="user.diploma_imageid"></img-url>
+							</td>
+						</tr>
 
-								<tr>
-									<td>工作年限</td>
-									<td>{{user.work_year}} 年</td>
-								</tr>
+						<tr>
+							<td>工作年限</td>
+							<td>{{user.work_year}} 年</td>
+						</tr>
 
-								<tr>
-									<td>曾就职装饰公司</td>
-									<td>{{user.company}}</td>
-								</tr>
+						<tr>
+							<td>曾就职装饰公司</td>
+							<td>{{user.company}}</td>
+						</tr>
 
-								<tr>
-									<td>设计理念</td>
-									<td>{{user.philosophy}}</td>
-								</tr>
+						<tr>
+							<td>设计理念</td>
+							<td>{{user.philosophy}}</td>
+						</tr>
 
-								<tr>
-									<td>设计成就</td>
-									<td>{{user.achievement}}</td>
-								</tr>
+						<tr>
+							<td>设计成就</td>
+							<td>{{user.achievement}}</td>
+						</tr>
 
-								<tr>
-									<td>获奖照片和描述</td>
-									<td class="img-list">
-										<div ng-repeat="image in user.award_details">
-											<!-- <img src="{{'/api/v2/web/thumbnail/800/' + image.award_imageid}}" class="img-responsive" alt="暂无图片"> -->
-											<img-url data="image.award_imageid"></img-url>
-											<p class="lead">{{image.description}}</p>
-										</div>
+						<tr>
+							<td>获奖照片和描述</td>
+							<td class="img-list">
+								<div ng-repeat="image in user.award_details">
+									<img-url data="image.award_imageid"></img-url>
+									<p class="lead">{{image.description}}</p>
+								</div>
 
-										<div ng-if="user.award_details.length === 0">
-											<img-url data=""></img-url>
-										</div>
-									</td>
-								</tr>
+								<div ng-if="user.award_details.length === 0">
+									<img-url data=""></img-url>
+								</div>
+							</td>
+						</tr>
 
-								<tr>
-									<td>小头像</td>
-									<td>
-										<img-url data="user.imageid"></img-url>
-										<!-- <img src="{{head_img1}}" class="img-responsive" alt="暂无图片"> -->
-									</td>
-								</tr>
+						<tr>
+							<td>小头像</td>
+							<td>
+								<img-url data="user.imageid"></img-url>
+							</td>
+						</tr>
 
-								<tr>
-									<td>背景图</td>
-									<td>
-										<img-url data="user.big_imageid"></img-url>
-										<!-- <img src="{{head_img2}}" class="img-responsive" alt="暂无图片"> -->
-									</td>
-								</tr>
-
-							</tbody>
-						</table>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-		<div class="form-group col-md-12">
-			<label for="">未认证通过原因(注：审核通过不需要填写)</label>
-			<textarea class="form-control" ng-model="errorMsg" rows="3"></textarea>
-		</div>
-		<div class="form-group col-md-12">
-			<button type="button" class="btn btn-success" ng-click="success(2)">审核通过</button>
-			<button type="button" class="btn btn-warning" ng-click="success(3)">审核失败</button>
-		</div>
-
-		<!-- <div class="form-group">
-			<label for="">用户Id</label>
-			<p class="lead">{{user._id}}</p>
-		</div>
-		<div class="form-group">
-			<label for="">注册时间</label>
-			<p class="lead">{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</p>
-		</div>
-		<div class="form-group">
-			<label for="">姓名</label>
-			<p class="lead">{{user.username}}</p>
-		</div>
-		<div class="form-group">
-			<label for="">性别</label>
-			<p class="lead">{{user.sex | sexFilter}}</p>
-		</div>
-		<div class="form-group">
-			<label for="">电话</label>
-			<p class="lead">{{user.phone}}</p>
-		</div>
-		<div class="form-group">
-			<label for="">所在地区</label>
-			<p class="lead">{{user.province ? user.province : '未填写'}} {{user.city}} {{user.district}}</p>
-		</div>
-		<div class="form-group">
-			<label for="">邮寄地址</label>
-			<p class="lead">{{user.address ? user.address : '未填写'}}</p>
-		</div>
-		<div class="form-group">
-			<label for="">电子邮箱</label>
-			<p class="lead">{{user.email ? user.email : '未认证'}}</p>
-		</div>
-			<div class="form-group">
-			<label for="">毕业学校</label>
-			<p class="lead">{{user.university}}</p>
-		</div>
-		<div class="form-group">
-			<label for="">学历照片</label>
-			<img src="{{user.diploma_imageid ? '/api/v2/web/thumbnail/800/' + user.diploma_imageid : ''}}" class="img-responsive" alt="暂无图片">
-		</div>
-		<div class="form-group">
-			<label for="">工作年限</label>
-			<p class="lead">{{user.work_year}} 年</p>
-		</div>
-		<div class="form-group">
-			<label for="">曾就职装饰公司</label>
-			<p class="lead">{{user.company}}</p>
-		</div>
-		<div class="form-group">
-			<label for="">设计理念：</label>
-			<p class="lead">{{user.philosophy}}</p>
-		</div>
-		<div class="form-group">
-			<label for="">设计成就：</label>
-			<p class="lead">{{user.achievement}}</p>
-		</div>
-		<div class="form-group">
-			<label for="">获奖照片和描述：</label>
-			<div ng-repeat="image in user.award_details">
-				<img src="{{'/api/v2/web/thumbnail/800/' + image.award_imageid}}" class="img-responsive" alt="暂无图片">
-				<p class="lead">{{image.description}}</p>
+						<tr>
+							<td>背景图</td>
+							<td>
+								<img-url data="user.big_imageid"></img-url>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
-		<div class="form-group">
-			<label for="">小头像</label>
-			<img src="{{head_img1}}" class="img-responsive" alt="暂无图片">
-		</div>
-		<div class="form-group">
-			<label for="">背景图</label>
-			<img src="{{head_img2}}" class="img-responsive" alt="暂无图片">
-		</div>
-		<div class="form-group">
+
+		<div class="form-group col-md-12">
 			<label for="">未认证通过原因(注：审核通过不需要填写)</label>
 			<textarea class="form-control" ng-model="errorMsg" rows="3"></textarea>
 		</div>
-		<div class="form-group">
+		<div class="form-group col-md-12">
 			<button type="button" class="btn btn-success" ng-click="success(2)">审核通过</button>
 			<button type="button" class="btn btn-warning" ng-click="success(3)">审核失败</button>
-		</div> -->
+		</div>
 	</div>
 </div>
