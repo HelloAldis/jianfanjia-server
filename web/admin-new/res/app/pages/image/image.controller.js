@@ -1,10 +1,12 @@
 (function () {
-  angular.module('JfjAdmin.pages.pictures')
-    .controller('PicturesListController', ['$scope', '$rootScope', 'adminBeautifulImage', '$stateParams', '$location',
-      function ($scope, $rootScope, adminBeautifulImage, $stateParams, $location) {
+  'use strict';
+  angular.module('JfjAdmin.pages.feedback')
+    .controller('ImageController', [
+      '$scope', '$rootScope', 'adminImage', '$stateParams', '$location',
+      function ($scope, $rootScope, adminImage, $stateParams, $location) {
         $scope.config = {
-          title: '美图创建时间过滤：',
-          placeholder: '美图ID/标题',
+          title: '创建时间过滤：',
+          placeholder: '图片ID/用户ID',
           search_word: $scope.search_word
         }
 
@@ -30,7 +32,7 @@
 
         //刷新页面公共方法
         function refreshPage(detail) {
-          $location.path('/pictures/' + JSON.stringify(detail));
+          $location.path('/image/' + JSON.stringify(detail));
         }
 
         //数据加载显示状态
@@ -51,6 +53,7 @@
 
         //从url详情中初始化页面
         function initUI(detail) {
+          console.log(detail);
           if (detail.query) {
             if (detail.query.create_at) {
               if (detail.query.create_at["$gte"]) {
@@ -107,22 +110,21 @@
 
         //加载数据
         function loadList(detail) {
-          adminBeautifulImage.search(detail).then(function (resp) {
-            if (resp.data.data.total === 0) {
+          adminImage.search_image(detail).then(function (resp) {
+            if (resp.data.data.total == 0) {
               $scope.loading.loadData = true;
               $scope.loading.notData = true;
-              $scope.userList = [];
+              $scope.list = [];
             } else {
-              $scope.userList = resp.data.data.beautifulImages;
+              $scope.list = resp.data.data.images;
               $scope.pagination.totalItems = resp.data.data.total;
               $scope.loading.loadData = true;
               $scope.loading.notData = false;
             }
           }, function (resp) {
             //返回错误信息
-            $scope.loadData = false;
+            $scope.loading.loadData = true;
             console.log(resp);
-
           });
         }
         //初始化UI
@@ -130,20 +132,16 @@
         //初始化数据
         loadList($stateParams.detail);
 
-
-        //更改显示状态
-        $scope.changeStatus = function (id, status, image) {
-          status = status == 0 ? "1" : "0";
-          adminBeautifulImage.upload({
-            "_id": id,
-            "status": status
+        $scope.deleteImage = function (imageid) {
+          adminImage.delete_image({
+            imageid: imageid
           }).then(function (resp) {
             if (resp.data.msg === "success") {
               loadList(refreshDetailFromUI($stateParams.detail));
             }
           }, function (resp) {
             //返回错误信息
-            $scope.loadData = false;
+            $scope.loading.loadData = true;
             console.log(resp);
           });
         }

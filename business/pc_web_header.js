@@ -94,17 +94,21 @@ function designer_statistic_info(_id, callback) {
       favorite_product_count = result.favorite.favorite_product.length;
     }
 
-    callback(null, {
-      _id: result.designer._id,
-      username: result.designer.username,
-      imageid: result.designer.imageid,
-      product_count: result.designer.product_count,
-      requirement_count: result.requirement_count,
-      favorite_product_count: favorite_product_count,
-      platform_message_count: result.platform_message_count,
-      requirement_message_count: result.requirement_message_count,
-      comment_message_count: result.comment_message_count,
-    });
+    if (result.designer) {
+      callback(null, {
+        _id: result.designer._id,
+        username: result.designer.username,
+        imageid: result.designer.imageid,
+        product_count: result.designer.product_count,
+        requirement_count: result.requirement_count,
+        favorite_product_count: favorite_product_count,
+        platform_message_count: result.platform_message_count,
+        requirement_message_count: result.requirement_message_count,
+        comment_message_count: result.comment_message_count,
+      });
+    } else {
+      callback(null, undefined);
+    }
   });
 }
 
@@ -175,17 +179,21 @@ function user_statistic_info(_id, callback) {
       }
     }
 
-    callback(null, {
-      _id: result.user._id,
-      username: result.user.username,
-      imageid: result.user.imageid,
-      requirement_count: result.requirement_count,
-      favorite_product_count: favorite_product_count,
-      favorite_designer_count: favorite_designer_count,
-      platform_message_count: result.platform_message_count,
-      requirement_message_count: result.requirement_message_count,
-      comment_message_count: result.comment_message_count,
-    });
+    if (result.user) {
+      callback(null, {
+        _id: result.user._id,
+        username: result.user.username,
+        imageid: result.user.imageid,
+        requirement_count: result.requirement_count,
+        favorite_product_count: favorite_product_count,
+        favorite_designer_count: favorite_designer_count,
+        platform_message_count: result.platform_message_count,
+        requirement_message_count: result.requirement_message_count,
+        comment_message_count: result.comment_message_count,
+      });
+    } else {
+      callback(null, undefined);
+    }
   });
 }
 

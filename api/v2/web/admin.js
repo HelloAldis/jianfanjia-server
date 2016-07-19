@@ -1295,3 +1295,109 @@ exports.forbid_comment = function (req, res, next) {
     }, function () {});
   }));
 }
+
+exports.assign_supervisor = function (req, res, next) {
+  const supervisorids = _.map(req.body.supervisorids, function (i) {
+    return tools.convert2ObjectId(i);
+  });;
+  const processid = req.body.processid;
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Process.addToSet({
+    _id: processid,
+  }, {
+    supervisorids: {
+      $each: supervisorids
+    }
+  }, null, ep.done(function () {
+    res.sendSuccessMsg();
+  }));
+}
+
+exports.search_supervisor = function (req, res, next) {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
+    create_at: -1
+  };
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        phone: search_word
+      }, {
+        username: search_word
+      }];
+    }
+  }
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Supervisor.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit,
+    lean: true
+  }, ep.done(function (supervisors, total) {
+    res.sendData({
+      supervisors: supervisors,
+      total: total
+    });
+  }));
+}
+
+exports.search_image = function (req, res, next) {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
+    create_at: -1
+  };
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        userid: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+    }
+  }
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Image.paginate(query, {
+    data: 0,
+  }, {
+    sort: sort,
+    skip: skip,
+    limit: limit,
+    lean: true
+  }, ep.done(function (images, total) {
+    res.sendData({
+      images: images,
+      total: total
+    });
+  }));
+}
+
+exports.delete_image = function (req, res, next) {
+  const imageid = req.body.imageid;
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Image.removeOne({
+    _id: imageid
+  }, null, ep.done(function () {
+    res.sendSuccessMsg();
+  }));
+}

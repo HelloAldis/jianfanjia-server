@@ -15,6 +15,9 @@ var ProcessSchema = new Schema({ // 工地
   requirementid: {
     type: ObjectId // 需求id
   },
+  supervisorids: {
+    type: [ObjectId] // 监理id
+  },
   province: {
     type: String // 省
   },
