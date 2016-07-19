@@ -213,5 +213,6 @@ router.post('/admin/forbid_comment', auth.adminRequired, admin.forbid_comment); 
 router.post('/admin/search_supervisor', auth.adminRequired, admin.search_supervisor); // 搜索监理
 router.post('/admin/assign_supervisor', auth.adminRequired, admin.assign_supervisor); // 指派监理到工地
 router.post('/admin/search_image', auth.adminRequired, admin.search_image); // 搜索图片
+router.post('/admin/delete_image', auth.adminRequired, admin.delete_image); // 搜索图片
 
 module.exports = router;
