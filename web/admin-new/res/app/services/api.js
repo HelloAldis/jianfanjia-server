@@ -261,7 +261,7 @@
       };
     }])
     /**
-     * [管理员统计数据]
+     * [管理员图片api]
      */
     .factory('adminImage', ['doAdminRequest', function (doAdminRequest) {
       return {

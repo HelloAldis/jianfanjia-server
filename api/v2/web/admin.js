@@ -1389,3 +1389,15 @@ exports.search_image = function (req, res, next) {
     });
   }));
 }
+
+exports.delete_image = function (req, res, next) {
+  const imageid = req.body.imageid;
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Image.removeOne({
+    _id: imageid
+  }, null, ep.done(function () {
+    res.sendErrMsg();
+  }));
+}

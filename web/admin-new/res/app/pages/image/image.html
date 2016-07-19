@@ -23,7 +23,7 @@
 					<td>{{item.userid}}</td>
 					<td>{{item.width || ''}} x {{item.height || ''}}</td>
 					<td>图片</td>
-					<td>删除</td>
+					<td><button type="button" class="btn btn-danger" ng-click="deleteImage(item._id)">删除</button></td>
 				</tr>
 			</tbody>
 		</table>

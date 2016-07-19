@@ -131,6 +131,20 @@
         initUI($stateParams.detail);
         //初始化数据
         loadList($stateParams.detail);
+
+        $scope.deleteImage = function (imageid) {
+          adminImage.delete_image({
+            imageid: imageid
+          }).then(function (resp) {
+            if (resp.data.msg === "success") {
+              loadList(refreshDetailFromUI($stateParams.detail));
+            }
+          }, function (resp) {
+            //返回错误信息
+            $scope.loading.loadData = true;
+            console.log(resp);
+          });
+        }
       }
     ]);
 })();
