@@ -70,6 +70,14 @@
         }[input];
       };
     })
+    .filter('supervisorOnlineFilter', function () { //设计师在线状态
+      return function (input) {
+        return {
+          "0": "正在监理",
+          "1": ""
+        }[input];
+      };
+    })
     .filter('workTypeFilter', function () { //习惯沟通方式
       return function (input) {
         return {

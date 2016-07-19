@@ -7,25 +7,25 @@
 			<tbody>
 
 				<tr class="info thead">
-					<th class="text-center">评论ID</th>
+					<th class="text-center">监理ID</th>
 					<th>
 						<div ng-class="{'-1':'tablesorter-headerDesc item-width',
 							undefined:'tablesorter-header item-width',
-							'1':'tablesorter-headerAsc item-width'}[sort.date]" ng-click="sortData('date')">评论时间&nbsp;</div>
+							'1':'tablesorter-headerAsc item-width'}[sort.create_at]" ng-click="sortData('create_at')">注册时间&nbsp;</div>
 					</th>
-					<th class="text-center">内容</th>
-					<th class="text-center">管理员操作</th>
+					<th class="text-center">姓名</th>
+					<th class="text-center">性别</th>
+					<th class="text-center">电话</th>
+					<th class="text-center">所在地区</th>
 				</tr>
 
 				<tr ng-repeat="user in userList" class="content-width">
 					<td>{{user._id}}</td>
-					<td class="text-left">{{user.date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-					<td class="text-left">
-						<div class="content" title="{{user.content}}">{{user.content}}</div>
-					</td>
-					<td class="text-center">
-						<a href="javascript:;" ng-click="forbidComment(user._id)">屏蔽</a>
-					</td>
+					<td class="text-left">{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+					<td>{{user.username}}</td>
+					<td>{{user.sex | sexFilter}}</td>
+					<td>{{user.phone}}</td>
+					<td>{{user.city}} {{user.district}}</td>
 				</tr>
 
 			</tbody>

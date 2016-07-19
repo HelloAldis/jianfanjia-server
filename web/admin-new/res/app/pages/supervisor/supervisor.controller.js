@@ -1,11 +1,11 @@
 (function () {
   angular.module('JfjAdmin.pages.supervisor')
     .controller('SupervisorController', [ //评论列表
-      '$scope', 'adminComment', '$stateParams', '$location',
-      function ($scope, adminComment, $stateParams, $location) {
+      '$scope', 'adminComment', '$stateParams', '$location', 'adminField',
+      function ($scope, adminComment, $stateParams, $location, adminField) {
         $scope.config = {
-          title: '评论时间过滤：',
-          placeholder: '评论ID/话题ID/用户ID/内容',
+          title: '监理注册时间过滤：',
+          placeholder: '监理ID/姓名/电话',
           search_word: $scope.search_word
         }
 
@@ -30,19 +30,19 @@
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
         //刷新页面公共方法
         function refreshPage(detail) {
-          $location.path('/commentList/' + JSON.stringify(detail));
+          $location.path('/supervisorList/' + JSON.stringify(detail));
         }
 
         //从url详情中初始化页面
         function initUI(detail) {
           if (detail.query) {
-            if (detail.query.date) {
-              if (detail.query.date["$gte"]) {
-                $scope.dtStart = new Date(detail.query.date["$gte"]);
+            if (detail.query.create_at) {
+              if (detail.query.create_at["$gte"]) {
+                $scope.dtStart = new Date(detail.query.create_at["$gte"]);
               }
 
-              if (detail.query.date["$lte"]) {
-                $scope.dtEnd = new Date(detail.query.date["$lte"]);
+              if (detail.query.create_at["$lte"]) {
+                $scope.dtEnd = new Date(detail.query.create_at["$lte"]);
               }
             }
 
@@ -54,7 +54,7 @@
           $scope.pagination.pageSize = detail.limit;
           $scope.pagination.currentPage = (detail.from / detail.limit) + 1;
           detail.sort = detail.sort || {
-            date: -1
+            create_at: -1
           };
           $scope.sort = detail.sort;
         }
@@ -70,7 +70,7 @@
           } : undefined;
 
           detail.query = detail.query || {};
-          detail.query.date = createAt;
+          detail.query.create_at = createAt;
           detail.search_word = $scope.config.search_word || undefined;
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
@@ -96,13 +96,13 @@
 
         //加载数据
         function loadList(detail) {
-          adminComment.search(detail).then(function (resp) {
+          adminField.searchSupervisor(detail).then(function (resp) {
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
               $scope.loading.notData = true;
               $scope.userList = [];
             } else {
-              $scope.userList = resp.data.data.comments;
+              $scope.userList = resp.data.data.supervisors;
               $scope.pagination.totalItems = resp.data.data.total;
               $scope.loading.loadData = true;
               $scope.loading.notData = false;

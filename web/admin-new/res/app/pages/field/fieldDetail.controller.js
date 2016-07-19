@@ -1,23 +1,15 @@
 (function () {
   angular.module('JfjAdmin.pages.field')
     .controller('FieldDetailController', [
-      '$scope', '$rootScope', '$stateParams', 'adminField',
+      '$scope', '$rootScope', '$stateParams', 'adminField', 
       function ($scope, $rootScope, $stateParams, adminField) {
         //数据加载显示状态
         $scope.loading = {
           loadData: false,
           notData: false
         };
-        $scope.article_type = [{
-          "num": 0,
-          "name": '大百科'
-        }, {
-          "num": 1,
-          "name": '小贴士'
-        }, ];
-        $scope.news = {
-          "articletype": "1"
-        }
+
+        // 工地管理详情数据
         adminField.search({
           "query": {
             '_id': $stateParams.id
@@ -25,14 +17,13 @@
           "from": 0,
           "limit": 1
         }).then(function (resp) {
-          //返回信息
           if (resp.data.data.total === 1) {
             $scope.processes = resp.data.data.processes[0];
+            $scope.hasAssigned = $scope.processes.supervisorids;
             $scope.loading.loadData = true;
           }
-        }, function (resp) {
-          //返回错误信息
-          console.log(resp);
+        }, function (err) {
+          console.log(err);
         });
 
         // 获取监理列表
@@ -40,10 +31,32 @@
           "from": 0,
           "limit": 10
         }).then(function (res) {
-          console.log('red', res);
+          $scope.dataList = res.data.data.supervisors;
+          if ($scope.hasAssigned) {
+            $scope.dataList.forEach(function(supervisor) {
+              $scope.hasAssigned.forEach(function(id){
+                if (supervisor._id === id) {
+                  supervisor.isAssign = true;
+                }
+              })
+            })
+          }
         }, function (err) {
           console.log(err);
         })
+
+        // 指派监理
+        $scope.assignSupervisor = function (item) {
+          adminField.assignSupervisor({
+            "processid": $stateParams.id,
+            "supervisorids": [item._id]
+          }).then(function (res) {
+            item.isAssign = true;
+            console.log(res);
+          }, function (err) {
+            console.log(err);
+          })
+        }
       }
     ]);
 })();
