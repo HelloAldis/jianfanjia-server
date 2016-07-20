@@ -121,6 +121,19 @@ function saveUserCommentAndPush(user_message, username) {
   });
 }
 
+exports.user_message_type_platform_notification = function (user, title, content, html) {
+  let user_message = {
+    userid: user._id,
+    title: title,
+    content: content,
+    html: html,
+    message_type: type.user_message_type_platform_notification,
+    status: type.message_status_unread,
+  };
+
+  saveUserMessageAndPush(user_message);
+}
+
 let user_message_type_designer_reschedule_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\

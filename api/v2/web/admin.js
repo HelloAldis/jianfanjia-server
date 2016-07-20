@@ -1453,3 +1453,46 @@ exports.add_user = function (req, res, next) {
     ep.emit('designer', designer);
   }));
 }
+
+exports.push_message_to_user = function (req, res, next) {
+  let query = req.body.query || {};
+  let title = tools.trim(req.body.title);
+  let content = tools.trim(req.body.content);
+  let html = tools.trim(req.body.html);
+  let ep = eventproxy();
+  ep.fail(next);
+
+  if (userids && userids.length > 0) {
+    async.mapLimit(userids, 3, function (userid, callback) {
+      message_util.user_message_type_platform_notification({
+        _id: userid
+      }, title, content, html);
+    }, ep.done(function () {
+      res.sendSuccessMsg();
+    }));
+  } else {
+    User.count(query, ep.done(function (count) {
+      async.timesSeries(count, function (n, next) {
+        User.find(query, {
+          _id: 1,
+        }, {
+          skip: n,
+          limit: 1,
+          sort: {
+            create_at: 1
+          }
+        }, ep.done(function (users) {
+          if (users && users.length > 0) {
+            message_util.user_message_type_platform_notification(users[0], title, content, html);
+            next();
+          } else {
+            next();
+          }
+        }));
+      }, ep.done(function (err) {
+        res.sendSuccessMsg();
+      }));
+    }));
+
+  }
+}
