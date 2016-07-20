@@ -177,6 +177,18 @@
       return {
         search: function (data) {
           return doAdminRequest('search_process', data);
+        },
+        // 监理列表
+        searchSupervisor: function (data) {
+          return doAdminRequest('search_supervisor', data);
+        },
+        // 添加监理
+        addSupervisor: function (data) {
+          return doAdminRequest('add_supervisor', data);
+        },
+        // 指派监理到工地
+        assignSupervisor: function (data) {
+          return doAdminRequest('assign_supervisor', data);
         }
       };
     }])

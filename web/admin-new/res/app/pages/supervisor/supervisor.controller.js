@@ -1,28 +1,12 @@
 (function () {
-  angular.module('JfjAdmin.pages.field')
-    .controller('FieldDetailController', [
-      '$scope', '$stateParams', 'adminField', 
-      function ($scope, $stateParams, adminField) {
-        // 工地管理详情数据
-        adminField.search({
-          "query": {
-            '_id': $stateParams.id
-          },
-          "from": 0,
-          "limit": 1
-        })
-        .then(function (resp) {
-          if (resp.data.data.total === 1) {
-            $scope.processes = resp.data.data.processes[0];
-            $scope.hasAssigned = $scope.processes.supervisorids;
-            $scope.loading.loadData = true;
-          }
-        }, function (err) {
-          console.log(err);
-        });
-
+  angular.module('JfjAdmin.pages.supervisor')
+    .controller('SupervisorController', [ //评论列表
+      '$scope', 'adminComment', '$stateParams', '$location', 'adminField',
+      function ($scope, adminComment, $stateParams, $location, adminField) {
+        $scope.user = {};
         $scope.config = {
-          placeholder: '监理姓名',
+          title: '监理注册时间过滤：',
+          placeholder: '监理ID/姓名/电话',
           search_word: $scope.search_word
         }
 
@@ -31,36 +15,67 @@
         // 搜索
         $scope.delegate.search = function (search_word) {
           $scope.pagination.currentPage = 1;
-          loadList(refreshDetailFromUI($stateParams.detail));
+          refreshPage(refreshDetailFromUI($stateParams.detail));
         }
 
         // 重置
         $scope.delegate.clearStatus = function () {
           $scope.pagination.currentPage = 1;
+          $scope.dtStart = '';
+          $scope.dtEnd = '';
           $scope.config.search_word = undefined;
           $stateParams.detail = {};
-          loadList(refreshDetailFromUI($stateParams.detail));
+          refreshPage(refreshDetailFromUI($stateParams.detail));
         }
 
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
+        //刷新页面公共方法
+        function refreshPage(detail) {
+          $location.path('/supervisorList/' + JSON.stringify(detail));
+        }
 
         //从url详情中初始化页面
         function initUI(detail) {
           if (detail.query) {
+            if (detail.query.create_at) {
+              if (detail.query.create_at["$gte"]) {
+                $scope.dtStart = new Date(detail.query.create_at["$gte"]);
+              }
+
+              if (detail.query.create_at["$lte"]) {
+                $scope.dtEnd = new Date(detail.query.create_at["$lte"]);
+              }
+            }
+
             $scope.config.search_word = detail.search_word;
           }
+
           detail.from = detail.from || 0;
           detail.limit = detail.limit || 10;
           $scope.pagination.pageSize = detail.limit;
           $scope.pagination.currentPage = (detail.from / detail.limit) + 1;
+          detail.sort = detail.sort || {
+            create_at: -1
+          };
+          $scope.sort = detail.sort;
         }
 
         //从页面获取详情
         function refreshDetailFromUI(detail) {
+          var gte = $scope.dtStart ? $scope.dtStart.getTime() : undefined;
+          var lte = $scope.dtEnd ? $scope.dtEnd.getTime() : undefined;
+
+          var createAt = gte || lte ? {
+            "$gte": gte,
+            "$lte": lte
+          } : undefined;
+
           detail.query = detail.query || {};
+          detail.query.create_at = createAt;
           detail.search_word = $scope.config.search_word || undefined;
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
+          detail.sort = $scope.sort;
           return detail;
         }
 
@@ -69,7 +84,6 @@
           loadData: false,
           notData: false
         };
-
         //分页控件
         $scope.pagination = {
           currentPage: 1,
@@ -77,7 +91,7 @@
           maxSize: 5,
           pageSize: 10,
           pageChanged: function () {
-            loadList(refreshDetailFromUI($stateParams.detail));
+            refreshPage(refreshDetailFromUI($stateParams.detail));
           }
         };
 
@@ -93,15 +107,6 @@
               $scope.pagination.totalItems = resp.data.data.total;
               $scope.loading.loadData = true;
               $scope.loading.notData = false;
-              if ($scope.hasAssigned) {
-                $scope.userList.forEach(function(supervisor) {
-                  $scope.hasAssigned.forEach(function(id){
-                    if (supervisor._id === id) {
-                      supervisor.isAssign = true;
-                    }
-                  })
-                })
-              }
             }
           }, function (resp) {
             //返回错误信息
@@ -114,16 +119,31 @@
         //初始化数据
         loadList($stateParams.detail);
 
-        // 指派监理
-        $scope.assignSupervisor = function (item) {
-          adminField.assignSupervisor({
-            "processid": $stateParams.id,
-            "supervisorids": [item._id]
-          }).then(function (res) {
-            item.isAssign = true;
+        //排序
+        $scope.sortData = function (sortby) {
+          if ($scope.sort[sortby]) {
+            $scope.sort[sortby] = -$scope.sort[sortby];
+          } else {
+            $scope.sort = {};
+            $scope.sort[sortby] = -1;
+          }
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        };
+
+        // 添加监理
+        $scope.addSupervisor = function () {
+          // 关闭模态框
+          $('#activeModal').modal('hide');
+          
+          console.log($scope.user)
+          adminField.addSupervisor($scope.user)
+          .then(function (resp) {
+            console.log(resp);
+            loadList($stateParams.detail);
           }, function (err) {
             console.log(err);
-          })
+          });
         }
       }
     ]);

@@ -65,13 +65,12 @@
           }
         };
 
-        // 结束时间设置为当天最后一秒
-        $scope.$watch('dtEnd', function (newVal, oldVal) {
-          if ((!oldVal && newVal) || (oldVal && newVal && oldVal.getTime() !== newVal.getTime())) {
-            newVal.setHours(23, 59, 39);
-            $scope.dtEnd = newVal;
+        // 结束时间改变
+        $scope.setTime = function () {
+          if ($scope.dtEnd) {
+            $scope.dtEnd.setHours(23, 59, 39);
           }
-        });
+        }
       }
     }
   }

@@ -70,6 +70,14 @@
         }[input];
       };
     })
+    .filter('supervisorOnlineFilter', function () { //设计师在线状态
+      return function (input) {
+        return {
+          "0": "正在监理",
+          "1": ""
+        }[input];
+      };
+    })
     .filter('workTypeFilter', function () { //习惯沟通方式
       return function (input) {
         return {
@@ -149,6 +157,15 @@
         }[input];
       };
     })
+    .filter('requirePackageTypeFilter', function () {
+      return function (input) {
+        return {
+          '0': '默认包',
+          '1': '365块每平米基础包',
+          '2': '匠心尊享包'
+        }[input];
+      };
+    })
     .filter('planFilter', function () {
       return function (input) {
         return {
@@ -177,6 +194,15 @@
         return {
           "0": "大百科",
           "1": "小贴士"
+        }[input];
+      };
+    })
+    .filter('userInfoProgress', function () {  // 业主详情页装修阶段
+      return function (input) {
+        return {
+          "0": "我想看一看",
+          "1": "正在做准备",
+          "2": "已经开始装修"
         }[input];
       };
     })

@@ -15,6 +15,7 @@
           loadData: false,
           notData: false
         };
+        
         //分页控件
         $scope.pagination = {
           currentPage: 1,

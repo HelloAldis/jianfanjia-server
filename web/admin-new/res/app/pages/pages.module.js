@@ -24,6 +24,7 @@
       'JfjAdmin.pages.chart',
       'JfjAdmin.pages.diary',
       'JfjAdmin.pages.comment',
+      'JfjAdmin.pages.supervisor',
       'JfjAdmin.pages.image'
     ])
     .config(routeConfig);
