@@ -1407,7 +1407,7 @@ exports.add_user = function (req, res, next) {
   let pass = tools.trim(req.body.pass);
   let username = tools.trim(req.body.username);
 
-  if ([pass, phone].some(function (item) {
+  if ([pass, phone, username].some(function (item) {
       return item === '';
     })) {
     return res.sendErrMsg('信息不完整。');
@@ -1423,7 +1423,7 @@ exports.add_user = function (req, res, next) {
 
     User.newAndSave(user, ep.done(function (user_indb) {
       res.sendSuccessMsg();
-      sms.sendYzxAuthSuccess(phone, [username, '帐号：' + phone + '，密码：' + pass]);
+      sms.sendAdminAddUser(phone, [username, '帐号：' + phone + '，密码：' + pass]);
     }));
   });
 

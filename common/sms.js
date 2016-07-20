@@ -120,3 +120,7 @@ exports.sendDesignerPlanFinaled = function (phone, paramArray) {
 exports.sendDesignerPlanNotFinaled = function (phone, paramArray) {
   yzx(phone, '12842', paramArray);
 }
+
+exports.sendAdminAddUser = function (phone, paramArray) {
+  yzx(phone, '26808', paramArray);
+}
