@@ -65,3 +65,12 @@
 .common .modal .modal-dialog{
 	margin-top: 100px;
 }
+.common .modal .modal-dialog .modal-content{
+	min-width: 280px;
+}
+
+@media screen and (max-width: 736px){
+  .common .data-edit{
+  	text-align: center;
+  }
+}

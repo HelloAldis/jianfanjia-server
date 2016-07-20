@@ -65,6 +65,16 @@
 .common .modal .modal-dialog{
 	margin-top: 100px;
 }
+.common .modal .modal-dialog .modal-content{
+	min-width: 280px;
+}
+
+@media screen and (max-width: 736px){
+  .common .data-edit{
+  	text-align: center;
+  }
+}
+
 .loadData {
   display: block;
   position: relative;
@@ -164,13 +174,6 @@
 .field-detail-page .panel-heading h5{
 	margin: 0;
 }
-.data-statis-page .panel-info .load-data{
-	position: absolute;
-	margin-top: 50px;
-}
-.live-page .panel-info .td-opt a{
-	cursor: pointer;
-}
 .requirement-detail-page .box{
 	padding: 0;
 }
@@ -198,7 +201,14 @@
 .user-info-page .breadcrumb{
 	padding: 0;
 }
+.live-page .panel-info .td-opt a{
+	cursor: pointer;
+}
 .page-top .user-profile{
 	position: absolute;
 	right: 32px;
+}
+.data-statis-page .panel-info .load-data{
+	position: absolute;
+	margin-top: 50px;
 }
