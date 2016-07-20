@@ -1412,6 +1412,8 @@ exports.add_user = function (req, res, next) {
     })) {
     return res.sendErrMsg('信息不完整。');
   }
+  let ep = eventproxy();
+  ep.fail(next);
 
   ep.on('final', function (passhash) {
     //save user to db
