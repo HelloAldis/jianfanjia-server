@@ -1,14 +1,8 @@
 (function () {
   angular.module('JfjAdmin.pages.field')
     .controller('FieldDetailController', [
-      '$scope', '$rootScope', '$stateParams', 'adminField', 
-      function ($scope, $rootScope, $stateParams, adminField) {
-        //数据加载显示状态
-        $scope.loading = {
-          loadData: false,
-          notData: false
-        };
-
+      '$scope', '$stateParams', 'adminField', 
+      function ($scope, $stateParams, adminField) {
         // 工地管理详情数据
         adminField.search({
           "query": {
@@ -16,7 +10,8 @@
           },
           "from": 0,
           "limit": 1
-        }).then(function (resp) {
+        })
+        .then(function (resp) {
           if (resp.data.data.total === 1) {
             $scope.processes = resp.data.data.processes[0];
             $scope.hasAssigned = $scope.processes.supervisorids;
@@ -26,24 +21,98 @@
           console.log(err);
         });
 
-        // 获取监理列表
-        adminField.searchSupervisor({
-          "from": 0,
-          "limit": 10
-        }).then(function (res) {
-          $scope.dataList = res.data.data.supervisors;
-          if ($scope.hasAssigned) {
-            $scope.dataList.forEach(function(supervisor) {
-              $scope.hasAssigned.forEach(function(id){
-                if (supervisor._id === id) {
-                  supervisor.isAssign = true;
-                }
-              })
-            })
+        $scope.config = {
+          placeholder: '监理姓名',
+          search_word: $scope.search_word
+        }
+
+        $scope.delegate = {};
+
+        // 搜索
+        $scope.delegate.search = function (search_word) {
+          $scope.pagination.currentPage = 1;
+          loadList(refreshDetailFromUI($stateParams.detail));
+        }
+
+        // 重置
+        $scope.delegate.clearStatus = function () {
+          $scope.pagination.currentPage = 1;
+          $scope.config.search_word = undefined;
+          $stateParams.detail = {};
+          loadList(refreshDetailFromUI($stateParams.detail));
+        }
+
+        $stateParams.detail = JSON.parse($stateParams.detail || '{}');
+
+        //从url详情中初始化页面
+        function initUI(detail) {
+          if (detail.query) {
+            $scope.config.search_word = detail.search_word;
           }
-        }, function (err) {
-          console.log(err);
-        })
+          detail.from = detail.from || 0;
+          detail.limit = detail.limit || 10;
+          $scope.pagination.pageSize = detail.limit;
+          $scope.pagination.currentPage = (detail.from / detail.limit) + 1;
+        }
+
+        //从页面获取详情
+        function refreshDetailFromUI(detail) {
+          detail.query = detail.query || {};
+          detail.search_word = $scope.config.search_word || undefined;
+          detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
+          detail.limit = $scope.pagination.pageSize;
+          return detail;
+        }
+
+        //数据加载显示状态
+        $scope.loading = {
+          loadData: false,
+          notData: false
+        };
+
+        //分页控件
+        $scope.pagination = {
+          currentPage: 1,
+          totalItems: 0,
+          maxSize: 5,
+          pageSize: 10,
+          pageChanged: function () {
+            loadList(refreshDetailFromUI($stateParams.detail));
+          }
+        };
+
+        //加载数据
+        function loadList(detail) {
+          adminField.searchSupervisor(detail).then(function (resp) {
+            if (resp.data.data.total === 0) {
+              $scope.loading.loadData = true;
+              $scope.loading.notData = true;
+              $scope.userList = [];
+            } else {
+              $scope.userList = resp.data.data.supervisors;
+              $scope.pagination.totalItems = resp.data.data.total;
+              $scope.loading.loadData = true;
+              $scope.loading.notData = false;
+              if ($scope.hasAssigned) {
+                $scope.userList.forEach(function(supervisor) {
+                  $scope.hasAssigned.forEach(function(id){
+                    if (supervisor._id === id) {
+                      supervisor.isAssign = true;
+                    }
+                  })
+                })
+              }
+            }
+          }, function (resp) {
+            //返回错误信息
+            $scope.loadData = false;
+            console.log(resp);
+          });
+        }
+        //初始化UI
+        initUI($stateParams.detail);
+        //初始化数据
+        loadList($stateParams.detail);
 
         // 指派监理
         $scope.assignSupervisor = function (item) {
@@ -52,7 +121,6 @@
             "supervisorids": [item._id]
           }).then(function (res) {
             item.isAssign = true;
-            console.log(res);
           }, function (err) {
             console.log(err);
           })

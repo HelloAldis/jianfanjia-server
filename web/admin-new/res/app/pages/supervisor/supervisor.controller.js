@@ -3,6 +3,7 @@
     .controller('SupervisorController', [ //评论列表
       '$scope', 'adminComment', '$stateParams', '$location', 'adminField',
       function ($scope, adminComment, $stateParams, $location, adminField) {
+        $scope.user = {};
         $scope.config = {
           title: '监理注册时间过滤：',
           placeholder: '监理ID/姓名/电话',
@@ -118,22 +119,6 @@
         //初始化数据
         loadList($stateParams.detail);
 
-        // 屏蔽评论
-        $scope.forbidComment = function (id) {
-          if (confirm("你确定要屏蔽吗？屏蔽不能恢复")) {
-            adminComment.forbid({
-                "commentid": id
-              })
-              .then(function (resp) {
-                if (resp.data.msg === "success") {
-                  loadList(refreshDetailFromUI($stateParams.detail));
-                }
-              }, function (err) {
-                console.log(err);
-              })
-          }
-        }
-
         //排序
         $scope.sortData = function (sortby) {
           if ($scope.sort[sortby]) {
@@ -145,6 +130,21 @@
           $scope.pagination.currentPage = 1;
           refreshPage(refreshDetailFromUI($stateParams.detail));
         };
+
+        // 添加监理
+        $scope.addSupervisor = function () {
+          // 关闭模态框
+          $('#activeModal').modal('hide');
+          
+          console.log($scope.user)
+          adminField.addSupervisor($scope.user)
+          .then(function (resp) {
+            console.log(resp);
+            loadList($stateParams.detail);
+          }, function (err) {
+            console.log(err);
+          });
+        }
       }
     ]);
 })();

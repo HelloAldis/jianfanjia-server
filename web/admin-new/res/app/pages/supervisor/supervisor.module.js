@@ -13,7 +13,7 @@
         title: '监理列表',
         controller: 'SupervisorController',
         sidebarMeta: {
-          icon: 'fa fa-commenting',
+          icon: 'fa fa-street-view',
           order: 60
         }
       });

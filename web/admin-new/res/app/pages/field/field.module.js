@@ -21,7 +21,7 @@
         },
       })
       .state('fieldDetail', {
-        url: '/field/detail/:id',
+        url: '/field/detail/:id/:detail',
         templateUrl: 'app/pages/field/fieldDetail.html',
         controller: 'FieldDetailController'
       })

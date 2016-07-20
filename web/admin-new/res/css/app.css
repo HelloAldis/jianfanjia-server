@@ -62,18 +62,9 @@
 .common .padding-clear{
 	padding: 0;
 }
-.img-url{
-	max-width: 200px;
-	line-height: 20px;
-	padding-top: 5px;
+.common .modal .modal-dialog{
+	margin-top: 100px;
 }
-
-@media screen and (min-width: 768px){
-  .img-url{
-  	max-width: 400px;
-  }
-}
-
 .loadData {
   display: block;
   position: relative;
@@ -127,6 +118,18 @@
   text-align: center;
   white-space: nowrap;
 }
+.img-url{
+	max-width: 200px;
+	line-height: 20px;
+	padding-top: 5px;
+}
+
+@media screen and (min-width: 768px){
+  .img-url{
+  	max-width: 400px;
+  }
+}
+
 .designer-page .online-status-btn button{
 	width: 68px;
 }
