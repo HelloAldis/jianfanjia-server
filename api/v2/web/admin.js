@@ -760,6 +760,10 @@ exports.ueditor_get = function (req, res, next) {
 
   switch (action) {
     case 'config':
+      if (!ue_config.imageUrlPrefix.startsWith('http')) {
+        ue_config.imageUrlPrefix = req.protocol + '://'
+        req.headers.host + ue_config.imageUrlPrefix
+      }
       res.json(ue_config);
       break;
     default:
