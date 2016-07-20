@@ -645,6 +645,8 @@ exports.list = function (req, res, next) {
     query.userid = userid;
   } else if (usertype === type.role_designer) {
     query.final_designerid = userid;
+  } else if (usertype === type.role_supervisor) {
+    query.supervisorids = userid;
   }
 
   Process.find(query, {

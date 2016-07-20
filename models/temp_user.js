@@ -9,21 +9,21 @@ var TempUserSchema = new Schema({ // 临时用户
     type: String // 手机号
   },
   district: {
-    type: String
+    type: String // 区域或专题
   },
   house_area: {
-    type: Number,
+    type: Number, // 面积
     default: 0
   },
   total_price: {
-    type: Number,
+    type: Number, // 价格
     default: 0
   },
   create_at: {
-    type: Number
+    type: Number // 提交时间
   },
   platform_type: {
-    type: String
+    type: String // 平台
   }
 });
 

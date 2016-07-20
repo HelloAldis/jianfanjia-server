@@ -1401,3 +1401,53 @@ exports.delete_image = function (req, res, next) {
     res.sendSuccessMsg();
   }));
 }
+
+exports.add_user = function (req, res, next) {
+  let phone = tools.trim(req.body.phone);
+  let pass = tools.trim(req.body.pass);
+  let username = tools.trim(req.body.username);
+
+  if ([pass, phone].some(function (item) {
+      return item === '';
+    })) {
+    return res.sendErrMsg('信息不完整。');
+  }
+
+  ep.on('final', function (passhash) {
+    //save user to db
+    let user = {};
+    user.pass = passhash;
+    user.phone = phone;
+    user.username = username;
+    user.platform_type = type.platform_admin;
+
+    User.newAndSave(user, ep.done(function (user_indb) {
+      res.sendSuccessMsg();
+      sms.sendYzxAuthSuccess(phone, [username, '帐号：' + phone + '，密码：' + pass]);
+    }));
+  });
+
+  //检查phone是不是被用了
+  ep.all('user', 'designer', function (user, designer) {
+    if (user || designer) {
+      return res.sendErrMsg('手机号码已被使用');
+    } else {
+      tools.bhash(pass, ep.done(function (passhash) {
+        ep.emit('final', passhash);
+      }));
+    }
+  });
+
+
+  User.findOne({
+    phone: phone
+  }, null, ep.done(function (user) {
+    ep.emit('user', user);
+  }));
+
+  Designer.findOne({
+    phone: phone
+  }, {}, ep.done(function (designer) {
+    ep.emit('designer', designer);
+  }));
+}
