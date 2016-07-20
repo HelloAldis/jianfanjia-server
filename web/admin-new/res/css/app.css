@@ -50,6 +50,31 @@
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
+.common .panel-common .panel-heading{
+	padding-left: 8px;
+	background-color: #d9edf7;
+	border-color: #d9edf7;
+}
+.common .panel-common .panel-body{
+	padding: 0;
+	margin-top: 0;
+}
+.common .padding-clear{
+	padding: 0;
+}
+.common .modal .modal-dialog{
+	margin-top: 100px;
+}
+.common .modal .modal-dialog .modal-content{
+	min-width: 280px;
+}
+
+@media screen and (max-width: 736px){
+  .common .data-edit{
+  	text-align: center;
+  }
+}
+
 .loadData {
   display: block;
   position: relative;
@@ -103,15 +128,57 @@
   text-align: center;
   white-space: nowrap;
 }
+.img-url{
+	max-width: 200px;
+	line-height: 20px;
+	padding-top: 5px;
+}
+
+@media screen and (min-width: 768px){
+  .img-url{
+  	max-width: 400px;
+  }
+}
+
 .designer-page .online-status-btn button{
 	width: 68px;
 }
-.data-statis-page .panel-info .load-data{
-	position: absolute;
-	margin-top: 50px;
+
+.userInfo .img-list div{
+	padding-right: 5px;
+	margin-bottom: 10px;
 }
-.live-page .panel-info .td-opt a{
-	cursor: pointer;
+
+.userInfo .img-list div p{
+	margin: 0;
+	line-height: 20px;
+	white-space: normal;
+}
+
+.userInfo .form-group{
+	padding: 0;
+}
+
+.designer-Editor-page .btn{
+	margin-top: 10px;
+	width: 54px;
+	height: 34px;
+}
+
+.designer-info-page .form-group .btn{
+	margin-bottom: 10px;
+}
+.field-detail-page .panel-heading{
+	height: auto;
+}
+.field-detail-page .panel-heading h5{
+	margin: 0;
+}
+.requirement-detail-page .box{
+	padding: 0;
+}
+.requirement-detail-page .breadcrumb{
+	padding: 0;
 }
 .requirement-detail-page .breadcrumb .panel-info .tab-title{
 	background-color: rgba(217, 237, 247, 0.94);
@@ -124,8 +191,24 @@
 .requirement-detail-page .breadcrumb .panel-info .tab-title h4{
 	border-bottom: solid 1px #dcdcdc;
 }
-
+.requirement-detail-page .breadcrumb .panel-heading{
+	height: auto;
+}
+.requirement-detail-page .breadcrumb .panel-heading h4{
+	margin: 0;
+	line-height: 25px;
+}
+.user-info-page .breadcrumb{
+	padding: 0;
+}
+.live-page .panel-info .td-opt a{
+	cursor: pointer;
+}
 .page-top .user-profile{
 	position: absolute;
 	right: 32px;
+}
+.data-statis-page .panel-info .load-data{
+	position: absolute;
+	margin-top: 50px;
 }

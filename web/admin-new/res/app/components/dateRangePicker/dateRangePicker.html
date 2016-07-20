@@ -19,7 +19,7 @@
 			<div class="col-md-3">
 				<p class="input-group">
 				  	<input type="text" name="endTimeInput" class="form-control end-time" uib-datepicker-popup 
-				  		ng-model="dtEnd" is-open="endTime.status.opened" datepicker-options="endTime.dateOptions" 
+				  		ng-model="dtEnd" ng-change="setTime()" is-open="endTime.status.opened" datepicker-options="endTime.dateOptions" 
 				  		close-text="关闭" clear-text="清除" current-text="今天" required />
 				  	<span class="input-group-btn">
 				  		<button type="button" class="btn btn-default" ng-click="endTime.open($event)">
