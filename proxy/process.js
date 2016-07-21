@@ -208,3 +208,12 @@ exports.addToSet = function (query, addToSet, option, callback) {
     },
   }, option, callback);
 }
+
+exports.pull = function (query, pull, option, callback) {
+  Process.findOneAndUpdate(query, {
+    '$pull': pull,
+    $set: {
+      lastupdate: new Date().getTime(),
+    },
+  }, option, callback);
+}

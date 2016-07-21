@@ -212,6 +212,7 @@ router.post('/admin/search_comment', auth.adminRequired, admin.search_comment); 
 router.post('/admin/forbid_comment', auth.adminRequired, admin.forbid_comment); // 屏蔽评论
 router.post('/admin/search_supervisor', auth.adminRequired, admin.search_supervisor); // 搜索监理
 router.post('/admin/assign_supervisor', auth.adminRequired, admin.assign_supervisor); // 指派监理到工地
+router.post('/admin/unassign_supervisor', auth.adminRequired, admin.unassign_supervisor); // 移除指派了的监理
 router.post('/admin/search_image', auth.adminRequired, admin.search_image); // 搜索图片
 router.post('/admin/delete_image', auth.adminRequired, admin.delete_image); // 搜索图片
 router.post('/admin/add_user', auth.adminRequired, admin.add_user); // 添加业主

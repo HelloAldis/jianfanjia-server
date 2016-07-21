@@ -1318,6 +1318,25 @@ exports.assign_supervisor = function (req, res, next) {
   }));
 }
 
+exports.unassign_supervisor = function (req, res, next) {
+  const supervisorids = _.map(req.body.supervisorids, function (i) {
+    return tools.convert2ObjectId(i);
+  });;
+  const processid = req.body.processid;
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Process.pull({
+    _id: processid,
+  }, {
+    supervisorids: {
+      $in: supervisorids
+    }
+  }, null, ep.done(function () {
+    res.sendSuccessMsg();
+  }));
+}
+
 exports.search_supervisor = function (req, res, next) {
   let query = req.body.query || {};
   let sort = req.body.sort || {
@@ -1483,7 +1502,7 @@ exports.push_message_to_user = function (req, res, next) {
           next();
         }
       }));
-    }, ep.done(function (err) {
+    }, ep.done(function () {
       res.sendSuccessMsg();
     }));
   }));
