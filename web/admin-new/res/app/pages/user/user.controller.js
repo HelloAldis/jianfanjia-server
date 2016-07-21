@@ -1,10 +1,9 @@
 (function () {
   angular.module('JfjAdmin.pages.user')
     .controller('UserController', [
-      '$scope', '$rootScope', 'adminUser', '$stateParams', '$location',
-      function ($scope, $rootScope, adminUser, $stateParams, $location) {
+      '$scope', '$rootScope', 'adminUser', '$stateParams', '$location', 'adminUser',
+      function ($scope, $rootScope, adminUser, $stateParams, $location, adminUser) {
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
-
         $scope.config = {
           title: '业主注册时间过滤：',
           placeholder: '手机号码/用户业主/业主ID',
@@ -132,6 +131,21 @@
         initUI($stateParams.detail);
         //初始化数据
         loadList($stateParams.detail);
+
+        // 添加业主
+        $scope.addUser = function () {
+          $('.activeModal').modal('hide');
+
+          if ($scope.user) {
+            adminUser.addUser($scope.user)
+            .then(function (resp) {
+              console.log(resp);
+              loadList($stateParams.detail);
+            }, function (err) {
+              console.log(err);
+            });
+          }
+        }
       }
     ]);
 })();

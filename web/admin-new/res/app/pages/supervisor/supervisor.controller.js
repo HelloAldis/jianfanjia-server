@@ -3,7 +3,6 @@
     .controller('SupervisorController', [ //评论列表
       '$scope', 'adminComment', '$stateParams', '$location', 'adminField',
       function ($scope, adminComment, $stateParams, $location, adminField) {
-        $scope.user = {};
         $scope.config = {
           title: '监理注册时间过滤：',
           placeholder: '监理ID/姓名/电话',
@@ -134,16 +133,17 @@
         // 添加监理
         $scope.addSupervisor = function () {
           // 关闭模态框
-          $('#activeModal').modal('hide');
+          $('.activeModal').modal('hide');
           
-          console.log($scope.user)
-          adminField.addSupervisor($scope.user)
-          .then(function (resp) {
-            console.log(resp);
-            loadList($stateParams.detail);
-          }, function (err) {
-            console.log(err);
-          });
+          if ($scope.user) {
+            adminField.addSupervisor($scope.user)
+            .then(function (resp) {
+              console.log(resp);
+              loadList($stateParams.detail);
+            }, function (err) {
+              console.log(err);
+            });
+          }
         }
       }
     ]);

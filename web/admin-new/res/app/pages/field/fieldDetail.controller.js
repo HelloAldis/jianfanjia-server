@@ -114,13 +114,32 @@
         //初始化数据
         loadList($stateParams.detail);
 
-        // 指派监理
+        // 操作监理
+        $scope.operateSupervisor = function (item) {
+          if (item.isAssign) {
+            $scope.unassignSupervisor(item);  // 移除监理
+          } else {
+            $scope.assignSupervisor(item);   // 添加监理
+          }
+        }
+
         $scope.assignSupervisor = function (item) {
           adminField.assignSupervisor({
             "processid": $stateParams.id,
             "supervisorids": [item._id]
           }).then(function (res) {
             item.isAssign = true;
+          }, function (err) {
+            console.log(err);
+          })
+        }
+
+        $scope.unassignSupervisor = function (item) {
+          adminField.unassignSupervisor({
+            "processid": $stateParams.id,
+            "supervisorids": [item._id]
+          }).then(function (res) {
+            item.isAssign = undefined;
           }, function (err) {
             console.log(err);
           })
