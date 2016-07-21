@@ -134,13 +134,16 @@
 
         // 添加业主
         $scope.addUser = function () {
-          $('.activeModal').modal('hide');
-
           if ($scope.user) {
             adminUser.addUser($scope.user)
             .then(function (resp) {
-              console.log(resp);
-              loadList($stateParams.detail);
+              if (resp.data.msg === 'success') {
+                $scope.user.errMsg = '';
+                $('.activeModal').modal('hide');
+                loadList($stateParams.detail);
+              } else {
+                $scope.user.errMsg = resp.data.err_msg;
+              }
             }, function (err) {
               console.log(err);
             });

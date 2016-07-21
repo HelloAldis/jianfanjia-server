@@ -1,5 +1,10 @@
 <div class="field-detail-page row common">
   <search-input delegate="delegate" config="config"></search-input>
+  <div class="row">
+    <h4 class="col-md-12">已指派监理:
+      <strong ng-repeat="item in nameList">{{item.username}}&nbsp;</strong>
+    </h4>
+  </div>
   <div class="panel panel-info ng-scope text-center table-responsive">
     <table class="table table-bordered table-striped">
       <tbody>

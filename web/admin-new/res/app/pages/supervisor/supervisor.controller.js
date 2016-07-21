@@ -132,14 +132,16 @@
 
         // 添加监理
         $scope.addSupervisor = function () {
-          // 关闭模态框
-          $('.activeModal').modal('hide');
-          
           if ($scope.user) {
             adminField.addSupervisor($scope.user)
             .then(function (resp) {
-              console.log(resp);
-              loadList($stateParams.detail);
+              if (resp.data.msg === 'success') {
+                $scope.user.errMsg = '';
+                $('.activeModal').modal('hide');
+                loadList($stateParams.detail);
+              } else {
+                $scope.user.errMsg = resp.data.err_msg;
+              }
             }, function (err) {
               console.log(err);
             });

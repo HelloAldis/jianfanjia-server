@@ -69,6 +69,10 @@
 	min-width: 280px;
 }
 
+.common .modal .modal-dialog .err-msg{
+	color: #de5353;
+}
+
 @media screen and (max-width: 736px){
   .common .data-edit{
   	text-align: center;
@@ -168,12 +172,6 @@
 .designer-info-page .form-group .btn{
 	margin-bottom: 10px;
 }
-.field-detail-page .panel-heading{
-	height: auto;
-}
-.field-detail-page .panel-heading h5{
-	margin: 0;
-}
 .data-statis-page .panel-info .load-data{
 	position: absolute;
 	margin-top: 50px;
@@ -204,6 +202,12 @@
 .requirement-detail-page .breadcrumb .panel-heading h4{
 	margin: 0;
 	line-height: 25px;
+}
+.field-detail-page .panel-heading{
+	height: auto;
+}
+.field-detail-page .panel-heading h5{
+	margin: 0;
 }
 .user-info-page .breadcrumb{
 	padding: 0;

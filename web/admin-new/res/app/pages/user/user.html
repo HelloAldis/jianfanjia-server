@@ -52,7 +52,7 @@
 	</div>
 	<div class="col-md-12 data-edit">
 		<div export-data class="hidden-xs"></div>
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".activeModal">添加业主</button>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".activeModal" ng-click="user=''">添加业主</button>
 	</div>
 
 	<div class="modal fade in activeModal" tabindex="-1" role="dialog">
@@ -72,11 +72,14 @@
 	          </div>
 	          <div class="form-group">
 	            <label for="message-pass" class="control-label">密码:</label>
-	            <input type="password" class="form-control" ng-model="user.pass">
+	            <input type="text" class="form-control" ng-model="user.pass">
 	          </div>
 	          <div class="form-group">
 	            <label for="message-name" class="control-label">姓名:</label>
 	            <input type="text" class="form-control" ng-model="user.username">
+	          </div>
+	          <div class="form-group">
+	            <label class="control-label err-msg">{{user.errMsg}}</label>
 	          </div>
 	        </form>
 	      </div>
