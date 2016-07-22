@@ -1083,6 +1083,13 @@ exports.add_supervisor = function (req, res, next) {
   let phone = validator.trim(req.body.phone);
   let pass = validator.trim(req.body.pass);
   let username = validator.trim(req.body.username);
+
+  if ([pass, phone, username].some(function (item) {
+      return item === '';
+    })) {
+    return res.sendErrMsg('信息不完整。');
+  }
+
   let ep = eventproxy();
   ep.fail(next);
 
@@ -1105,7 +1112,7 @@ exports.add_supervisor = function (req, res, next) {
         username: username,
         auth_type: type.designer_auth_type_done,
       }, ep.done(function (supervisor_indb) {
-        res.sendData(supervisor_indb);
+        res.sendSuccessMsg();
       }));
     }));
   }));
