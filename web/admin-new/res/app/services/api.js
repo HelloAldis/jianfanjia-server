@@ -61,6 +61,9 @@
       return {
         search: function (data) {
           return doAdminRequest('search_user', data);
+        },
+        addUser: function (data) {
+          return doAdminRequest('add_user', data);
         }
       };
     }])
@@ -189,6 +192,10 @@
         // 指派监理到工地
         assignSupervisor: function (data) {
           return doAdminRequest('assign_supervisor', data);
+        },
+        // 移除监理
+        unassignSupervisor: function (data) {
+          return doAdminRequest('unassign_supervisor', data);
         }
       };
     }])

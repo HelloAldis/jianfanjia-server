@@ -69,9 +69,25 @@
 	min-width: 280px;
 }
 
+.common .modal .modal-dialog .err-msg{
+	color: #de5353;
+}
+
 @media screen and (max-width: 736px){
   .common .data-edit{
   	text-align: center;
+  }
+}
+
+.img-url{
+	max-width: 200px;
+	line-height: 20px;
+	padding-top: 5px;
+}
+
+@media screen and (min-width: 768px){
+  .img-url{
+  	max-width: 400px;
   }
 }
 
@@ -128,18 +144,6 @@
   text-align: center;
   white-space: nowrap;
 }
-.img-url{
-	max-width: 200px;
-	line-height: 20px;
-	padding-top: 5px;
-}
-
-@media screen and (min-width: 768px){
-  .img-url{
-  	max-width: 400px;
-  }
-}
-
 .designer-page .online-status-btn button{
 	width: 68px;
 }
@@ -168,11 +172,12 @@
 .designer-info-page .form-group .btn{
 	margin-bottom: 10px;
 }
-.field-detail-page .panel-heading{
-	height: auto;
+.data-statis-page .panel-info .load-data{
+	position: absolute;
+	margin-top: 50px;
 }
-.field-detail-page .panel-heading h5{
-	margin: 0;
+.live-page .panel-info .td-opt a{
+	cursor: pointer;
 }
 .requirement-detail-page .box{
 	padding: 0;
@@ -198,17 +203,16 @@
 	margin: 0;
 	line-height: 25px;
 }
+.field-detail-page .panel-heading{
+	height: auto;
+}
+.field-detail-page .panel-heading h5{
+	margin: 0;
+}
 .user-info-page .breadcrumb{
 	padding: 0;
-}
-.live-page .panel-info .td-opt a{
-	cursor: pointer;
 }
 .page-top .user-profile{
 	position: absolute;
 	right: 32px;
-}
-.data-statis-page .panel-info .load-data{
-	position: absolute;
-	margin-top: 50px;
 }

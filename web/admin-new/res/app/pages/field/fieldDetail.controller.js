@@ -4,22 +4,42 @@
       '$scope', '$stateParams', 'adminField', 
       function ($scope, $stateParams, adminField) {
         // 工地管理详情数据
-        adminField.search({
-          "query": {
-            '_id': $stateParams.id
-          },
-          "from": 0,
-          "limit": 1
-        })
-        .then(function (resp) {
-          if (resp.data.data.total === 1) {
-            $scope.processes = resp.data.data.processes[0];
-            $scope.hasAssigned = $scope.processes.supervisorids;
-            $scope.loading.loadData = true;
-          }
-        }, function (err) {
-          console.log(err);
-        });
+        $scope.fieldData = function () {
+          adminField.search({
+            "query": {
+              '_id': $stateParams.id
+            },
+            "from": 0,
+            "limit": 1
+          })
+          .then(function (resp) {
+            if (resp.data.data.total === 1) {
+              $scope.processes = resp.data.data.processes[0];
+              $scope.hasAssigned = $scope.processes.supervisorids;
+              $scope.loading.loadData = true;
+              $scope.getNameAssigned($scope.hasAssigned);
+            }
+          }, function (err) {
+            console.log(err);
+          });
+        }
+        $scope.fieldData();
+
+        // 获取该工地已指派监理列表
+        $scope.getNameAssigned = function (arrId) {
+          adminField.searchSupervisor({
+            "query":{
+              "_id":{
+                "$in": arrId
+              }
+            }
+          })
+          .then(function (res) {
+            $scope.nameList = res.data.data.supervisors;
+          }, function (err) {
+            console.log(err);
+          })
+        }
 
         $scope.config = {
           placeholder: '监理姓名',
@@ -30,12 +50,14 @@
 
         // 搜索
         $scope.delegate.search = function (search_word) {
+          $scope.fieldData();
           $scope.pagination.currentPage = 1;
           loadList(refreshDetailFromUI($stateParams.detail));
         }
 
         // 重置
         $scope.delegate.clearStatus = function () {
+          $scope.fieldData();
           $scope.pagination.currentPage = 1;
           $scope.config.search_word = undefined;
           $stateParams.detail = {};
@@ -114,13 +136,34 @@
         //初始化数据
         loadList($stateParams.detail);
 
-        // 指派监理
+        // 操作监理
+        $scope.operateSupervisor = function (item) {
+          if (item.isAssign) {
+            $scope.unassignSupervisor(item);  // 移除监理
+          } else {
+            $scope.assignSupervisor(item);   // 添加监理
+          }
+        }
+
         $scope.assignSupervisor = function (item) {
           adminField.assignSupervisor({
             "processid": $stateParams.id,
             "supervisorids": [item._id]
           }).then(function (res) {
             item.isAssign = true;
+            $scope.fieldData();
+          }, function (err) {
+            console.log(err);
+          })
+        }
+
+        $scope.unassignSupervisor = function (item) {
+          adminField.unassignSupervisor({
+            "processid": $stateParams.id,
+            "supervisorids": [item._id]
+          }).then(function (res) {
+            item.isAssign = undefined;
+            $scope.fieldData();
           }, function (err) {
             console.log(err);
           })

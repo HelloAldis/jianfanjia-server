@@ -69,6 +69,10 @@
 	min-width: 280px;
 }
 
+.common .modal .modal-dialog .err-msg{
+	color: #de5353;
+}
+
 @media screen and (max-width: 736px){
   .common .data-edit{
   	text-align: center;
