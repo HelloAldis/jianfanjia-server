@@ -760,6 +760,9 @@ exports.ueditor_get = function (req, res, next) {
 
   switch (action) {
     case 'config':
+      if (!ue_config.imageUrlPrefix.startsWith('http')) {
+        ue_config.imageUrlPrefix = req.protocol + '://' + req.headers.host + ue_config.imageUrlPrefix;
+      }
       res.json(ue_config);
       break;
     default:
@@ -1080,6 +1083,13 @@ exports.add_supervisor = function (req, res, next) {
   let phone = validator.trim(req.body.phone);
   let pass = validator.trim(req.body.pass);
   let username = validator.trim(req.body.username);
+
+  if ([pass, phone, username].some(function (item) {
+      return item === '';
+    })) {
+    return res.sendErrMsg('信息不完整。');
+  }
+
   let ep = eventproxy();
   ep.fail(next);
 
@@ -1102,7 +1112,7 @@ exports.add_supervisor = function (req, res, next) {
         username: username,
         auth_type: type.designer_auth_type_done,
       }, ep.done(function (supervisor_indb) {
-        res.sendData(supervisor_indb);
+        res.sendSuccessMsg();
       }));
     }));
   }));
@@ -1315,6 +1325,25 @@ exports.assign_supervisor = function (req, res, next) {
   }));
 }
 
+exports.unassign_supervisor = function (req, res, next) {
+  const supervisorids = _.map(req.body.supervisorids, function (i) {
+    return tools.convert2ObjectId(i);
+  });;
+  const processid = req.body.processid;
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Process.pull({
+    _id: processid,
+  }, {
+    supervisorids: {
+      $in: supervisorids
+    }
+  }, null, ep.done(function () {
+    res.sendSuccessMsg();
+  }));
+}
+
 exports.search_supervisor = function (req, res, next) {
   let query = req.body.query || {};
   let sort = req.body.sort || {
@@ -1451,5 +1480,37 @@ exports.add_user = function (req, res, next) {
     phone: phone
   }, {}, ep.done(function (designer) {
     ep.emit('designer', designer);
+  }));
+}
+
+exports.push_message_to_user = function (req, res, next) {
+  let query = req.body.query || {};
+  let title = tools.trim(req.body.title);
+  let content = tools.trim(req.body.content);
+  let html = tools.trim(req.body.html);
+  let ep = eventproxy();
+  ep.fail(next);
+
+  User.count(query, ep.done(function (count) {
+    async.timesSeries(count, function (n, next) {
+      User.find(query, {
+        _id: 1,
+      }, {
+        skip: n,
+        limit: 1,
+        sort: {
+          create_at: 1
+        }
+      }, ep.done(function (users) {
+        if (users && users.length > 0) {
+          message_util.user_message_type_platform_notification(users[0], title, content, html);
+          next();
+        } else {
+          next();
+        }
+      }));
+    }, ep.done(function () {
+      res.sendSuccessMsg();
+    }));
   }));
 }
