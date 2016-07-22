@@ -132,6 +132,12 @@
         //初始化数据
         loadList($stateParams.detail);
 
+        // 显示模态框
+        $scope.showModel = function () {
+          $('.activeModal').modal('show');
+          $scope.user = '';
+        }
+
         // 添加业主
         $scope.addUser = function () {
           if ($scope.user) {

@@ -130,6 +130,12 @@
           refreshPage(refreshDetailFromUI($stateParams.detail));
         };
 
+        // 显示模态框
+        $scope.showModel = function () {
+          $('.activeModal').modal('show');
+          $scope.user = '';
+        }
+
         // 添加监理
         $scope.addSupervisor = function () {
           if ($scope.user) {
