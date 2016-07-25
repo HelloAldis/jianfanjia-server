@@ -235,6 +235,14 @@
         }
       };
     }])
+    // 消息推送
+    .factory('adminNotify', ['doAdminRequest', function (doAdminRequest) {
+      return {
+        pushMessage: function (data) {
+          return doAdminRequest('push_message_to_user', data);
+        }
+      };
+    }])
     /**
      * [管理员获取文章]
      * @param  {[angel]} [装修攻略]

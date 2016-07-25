@@ -1,8 +1,8 @@
 (function () {
   angular.module('JfjAdmin.pages.supervisor')
     .controller('SupervisorController', [ //评论列表
-      '$scope', 'adminComment', '$stateParams', '$location', 'adminField',
-      function ($scope, adminComment, $stateParams, $location, adminField) {
+      '$scope', '$stateParams', '$location', 'adminField',
+      function ($scope, $stateParams, $location, adminField) {
         $scope.config = {
           title: '监理注册时间过滤：',
           placeholder: '监理ID/姓名/电话',

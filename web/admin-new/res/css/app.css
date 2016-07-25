@@ -179,6 +179,12 @@
 .live-page .panel-info .td-opt a{
 	cursor: pointer;
 }
+.field-detail-page .panel-heading{
+	height: auto;
+}
+.field-detail-page .panel-heading h5{
+	margin: 0;
+}
 .requirement-detail-page .box{
 	padding: 0;
 }
@@ -202,12 +208,6 @@
 .requirement-detail-page .breadcrumb .panel-heading h4{
 	margin: 0;
 	line-height: 25px;
-}
-.field-detail-page .panel-heading{
-	height: auto;
-}
-.field-detail-page .panel-heading h5{
-	margin: 0;
 }
 .user-info-page .breadcrumb{
 	padding: 0;
