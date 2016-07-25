@@ -34,6 +34,7 @@
   var defaults = {
     iOS: {},
     android: {},
+    wechat: {},
     androidDisabled: false,
     fallback: true,
     fallbackToWeb: false,
@@ -93,7 +94,8 @@
   var getStoreLink = function () {
     var linkmap = {
       "ios": settings.iOS.storeUrl || getStoreURLiOS(),
-      "android": settings.android.storeUrl || getStoreURLAndroid()
+      "android": settings.android.storeUrl || getStoreURLAndroid(),
+      "wechat": settings.wechat.storeUrl
     }
 
     return linkmap[settings.platform];
@@ -144,7 +146,17 @@
    * @returns {Boolean} true/false
    */
   var isIOS9 = function () {
-    return navigator.userAgent.match('iPod').match(/Version\/9/);
+    return navigator.userAgent.match(/Version\/9/);
+  }
+
+  /**
+   * Check if the user-agent is wechat
+   *
+   * @private
+   * @returns {Boolean} true/false
+   */
+  var isWechat = function () {
+    return navigator.userAgent.match('MicroMessenger');
   }
 
   /**
@@ -192,6 +204,9 @@
 
     if (isAndroid()) settings.platform = "android";
     if (isIOS()) settings.platform = "ios";
+    if (isWechat()) {
+      settings.platform = "wechat";
+    }
   }
 
   /**
