@@ -138,6 +138,16 @@
   }
 
   /**
+   * Check if the user-agent is iOS 9
+   *
+   * @private
+   * @returns {Boolean} true/false
+   */
+  var isIOS9 = function () {
+    return navigator.userAgent.match('iPod').match(/Version\/9/);
+  }
+
+  /**
    * Check if the user is on mobile
    *
    * @private
@@ -222,7 +232,9 @@
       iframe.setAttribute("style", "display:none;");
       document.body.appendChild(iframe);
     } else {
-      window.location.href = uri;
+      if (!isIOS9()) {
+        window.location.href = uri;
+      }
     }
 
     return true;
