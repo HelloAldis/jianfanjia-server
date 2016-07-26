@@ -79,6 +79,77 @@
   }
 }
 
+.field-detail-page .panel-heading{
+	height: auto;
+}
+.field-detail-page .panel-heading h5{
+	margin: 0;
+}
+.designer-page .online-status-btn button{
+	width: 68px;
+}
+
+.userInfo .img-list div{
+	padding-right: 5px;
+	margin-bottom: 10px;
+}
+
+.userInfo .img-list div p{
+	margin: 0;
+	line-height: 20px;
+	white-space: normal;
+}
+
+.userInfo .form-group{
+	padding: 0;
+}
+
+.designer-Editor-page .btn{
+	margin-top: 10px;
+	width: 54px;
+	height: 34px;
+}
+
+.designer-info-page .form-group .btn{
+	margin-bottom: 10px;
+}
+.live-page .panel-info .td-opt a{
+	cursor: pointer;
+}
+.notify-page .form-group .ueditor{
+	min-height: 400px;
+}
+.requirement-detail-page .box{
+	padding: 0;
+}
+.requirement-detail-page .breadcrumb{
+	padding: 0;
+}
+.requirement-detail-page .breadcrumb .panel-info .tab-title{
+	background-color: rgba(217, 237, 247, 0.94);
+}
+.requirement-detail-page .breadcrumb .panel-info .tab-title h2,
+.requirement-detail-page .breadcrumb .panel-info .tab-title h4{
+	margin: 0;
+	padding: 5px;
+}
+.requirement-detail-page .breadcrumb .panel-info .tab-title h4{
+	border-bottom: solid 1px #dcdcdc;
+}
+.requirement-detail-page .breadcrumb .panel-heading{
+	height: auto;
+}
+.requirement-detail-page .breadcrumb .panel-heading h4{
+	margin: 0;
+	line-height: 25px;
+}
+.user-info-page .breadcrumb{
+	padding: 0;
+}
+.data-statis-page .panel-info .load-data{
+	position: absolute;
+	margin-top: 50px;
+}
 .img-url{
 	max-width: 200px;
 	line-height: 20px;
@@ -143,74 +214,6 @@
   display: block;
   text-align: center;
   white-space: nowrap;
-}
-.designer-page .online-status-btn button{
-	width: 68px;
-}
-
-.userInfo .img-list div{
-	padding-right: 5px;
-	margin-bottom: 10px;
-}
-
-.userInfo .img-list div p{
-	margin: 0;
-	line-height: 20px;
-	white-space: normal;
-}
-
-.userInfo .form-group{
-	padding: 0;
-}
-
-.designer-Editor-page .btn{
-	margin-top: 10px;
-	width: 54px;
-	height: 34px;
-}
-
-.designer-info-page .form-group .btn{
-	margin-bottom: 10px;
-}
-.data-statis-page .panel-info .load-data{
-	position: absolute;
-	margin-top: 50px;
-}
-.live-page .panel-info .td-opt a{
-	cursor: pointer;
-}
-.field-detail-page .panel-heading{
-	height: auto;
-}
-.field-detail-page .panel-heading h5{
-	margin: 0;
-}
-.requirement-detail-page .box{
-	padding: 0;
-}
-.requirement-detail-page .breadcrumb{
-	padding: 0;
-}
-.requirement-detail-page .breadcrumb .panel-info .tab-title{
-	background-color: rgba(217, 237, 247, 0.94);
-}
-.requirement-detail-page .breadcrumb .panel-info .tab-title h2,
-.requirement-detail-page .breadcrumb .panel-info .tab-title h4{
-	margin: 0;
-	padding: 5px;
-}
-.requirement-detail-page .breadcrumb .panel-info .tab-title h4{
-	border-bottom: solid 1px #dcdcdc;
-}
-.requirement-detail-page .breadcrumb .panel-heading{
-	height: auto;
-}
-.requirement-detail-page .breadcrumb .panel-heading h4{
-	margin: 0;
-	line-height: 25px;
-}
-.user-info-page .breadcrumb{
-	padding: 0;
 }
 .page-top .user-profile{
 	position: absolute;

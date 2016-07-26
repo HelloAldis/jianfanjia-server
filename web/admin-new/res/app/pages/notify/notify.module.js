@@ -15,7 +15,7 @@
         sidebarMeta: {
           icon: 'fa fa-bell',
           order: 100,
-        },
+        }
       })
   }
 
