@@ -77,6 +77,9 @@ var config = {
   gt_designer_MASTERSECRET: 'W3WgOcfpkF6vIPOJkGmUj7',
   gt_designer_APPSECRET: 'cvNcATrYoo717R8milqyn7',
 
+  //诚贷通配置
+  cdt_api_url: 'http://wxtest3.cdtfax.com',
+
   //一些业务配置
   send_email: true, //发不发送邮件
   send_sms: false, //发不发短信
