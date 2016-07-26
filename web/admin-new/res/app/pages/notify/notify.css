@@ -1,3 +1,4 @@
-.notify-page .form-group .ueditor{
+.user-notify-page .form-group .ueditor,
+.designer-notify-page .form-group .ueditor{
 	min-height: 400px;
 }
