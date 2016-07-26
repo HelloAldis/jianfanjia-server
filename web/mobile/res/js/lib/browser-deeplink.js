@@ -245,7 +245,13 @@
       uri += ";package=" + settings.android.appId + ";end";
     }
 
-    if (settings.fallback || settings.fallbackToWeb) {
+    // 默认iOS9未安装应用
+    // if (settings.fallback || settings.fallbackToWeb) {
+    //   timeout = setTimeout(openFallback(Date.now()), settings.delay);
+    // }
+
+    // 默认iOS9安装应用
+    if ((settings.fallback || settings.fallbackToWeb) && !isIOS9()) {
       timeout = setTimeout(openFallback(Date.now()), settings.delay);
     }
 
@@ -261,9 +267,13 @@
       iframe.setAttribute("style", "display:none;");
       document.body.appendChild(iframe);
     } else {
-      if (!isIOS9()) {
-        window.location.href = uri;
-      }
+      // 默认iOS9未安装应用
+      // if (!isIOS9()) {
+      //   window.location.href = uri;
+      // }
+
+      // 默认iOS9安装应用
+      window.location.href = uri;
     }
 
     return true;
