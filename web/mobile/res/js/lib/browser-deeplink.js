@@ -236,7 +236,7 @@
     }
 
     if (isAndroid() && settings.androidDisabled) {
-      return;
+      return false;
     }
 
     if (isAndroid() && !navigator.userAgent.match(/Firefox/)) {

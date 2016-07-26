@@ -376,8 +376,8 @@ function format(date,format){
                         <% } %>
                     </section>
                     <ul class="m-footer">
-                        <li class="click-like"><a data-uri="jianfanjia://www.jianfanjia.com/jianfanjiaapp/diaryset/<%= data.diarySet._id %>" onclick="deeplink.open(this.dataset.uri)"><span class="like"></span>赞</a></li>
-                        <li class="click-review"><a data-uri="jianfanjia://www.jianfanjia.com/jianfanjiaapp/diaryset/<%= data.diarySet._id %>" onclick="deeplink.open(this.dataset.uri)"><span class="review" ></span>评论</a></li>
+                        <li class="click-like"><a data-uri="jianfanjia://m.jianfanjia.com/jianfanjiaapp/diaryset?diarySetid=<%= data.diarySet._id %>" onclick="deeplink.open(this.dataset.uri)"><span class="like"></span>赞</a></li>
+                        <li class="click-review"><a data-uri="jianfanjia://m.jianfanjia.com/jianfanjiaapp/diaryset?diarySetid=<%= data.diarySet._id %>" onclick="deeplink.open(this.dataset.uri)"><span class="review" ></span>评论</a></li>
                     </ul>
                 </section>
                 <% }) %>
@@ -387,7 +387,7 @@ function format(date,format){
         <footer class="g-app">
             <div class="logo"></div>
             <div class="btns">
-                <a class="jmup" data-uri="jianfanjia://www.jianfanjia.com/jianfanjiaapp/diaryset/<%= data.diarySet._id %>" onclick="deeplink.open(this.dataset.uri)">立即体验</a>
+                <a class="jmup" data-uri="jianfanjia://m.jianfanjia.com/jianfanjiaapp/diaryset?diarySetid=<%= data.diarySet._id %>" onclick="deeplink.open(this.dataset.uri)">立即体验</a>
             </div>
         </footer>
     </main>
