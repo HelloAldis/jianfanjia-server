@@ -16,7 +16,11 @@ console.log(aesKey);
 
 //查看我的订单
 exports.myOrderService = function (body) {
-  superagent.post(myOrderService_url).send();
+  let req = beRequest(body);
+  superagent.post(myOrderService_url).send(req).end(function (err, res) {
+    console.log(err);
+    console.log(res.body);
+  });
 }
 
 // 先base64解码字符串 然后解密 字符串, 所以发送请求要先加密然后base64编码
@@ -46,11 +50,11 @@ function deResponse(resp) {
   return res;
 }
 
-beRequest({
+deResponse('b+3JUyQlk6hwaVCXAax1z0r9ABY6hOUXfSd1CApcdDK3l8fcA12oz11RuidFIhQLV/wJq6dcEfDK9XxXZRZ1oA==');
+
+exports.myOrderService({
   phone: '18122222222'
 });
-
-deResponse('b+3JUyQlk6hwaVCXAax1z0r9ABY6hOUXfSd1CApcdDK3l8fcA12oz11RuidFIhQLV/wJq6dcEfDK9XxXZRZ1oA==');
 
 // request.post(url).send({
 //   expire_seconds: 604800,
