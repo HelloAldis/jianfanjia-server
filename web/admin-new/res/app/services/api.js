@@ -238,8 +238,11 @@
     // 消息推送
     .factory('adminNotify', ['doAdminRequest', function (doAdminRequest) {
       return {
-        pushMessage: function (data) {
+        pushMessageToUser: function (data) {
           return doAdminRequest('push_message_to_user', data);
+        },
+        pushMessageToDesigner: function (data) {
+          return doAdminRequest('push_message_to_designer', data);
         }
       };
     }])
