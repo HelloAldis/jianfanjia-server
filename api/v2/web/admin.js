@@ -1510,7 +1510,45 @@ exports.push_message_to_user = function (req, res, next) {
         }
       }));
     }, ep.done(function () {
-      res.sendSuccessMsg();
+
     }));
   }));
+
+  res.sendSuccessMsg();
 }
+
+exports.push_message_to_designer = function (req, res, next) {
+  let query = req.body.query || {};
+  let title = tools.trim(req.body.title);
+  let content = tools.trim(req.body.content);
+  let html = tools.trim(req.body.html);
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Designer.count(query, ep.done(function (count) {
+    async.timesSeries(count, function (n, next) {
+      Designer.find(query, {
+        _id: 1,
+      }, {
+        skip: n,
+        limit: 1,
+        sort: {
+          create_at: 1
+        }
+      }, ep.done(function (designers) {
+        if (designers && designers.length > 0) {
+          message_util.designer_message_type_platform_notification(designers[0], title, content, html);
+          next();
+        } else {
+          next();
+        }
+      }));
+    }, ep.done(function () {
+
+    }));
+  }));
+
+  res.sendSuccessMsg();
+}
+
+//561a0a85acdcb73750b2ddfd

@@ -211,6 +211,7 @@ router.post('/admin/unassign_supervisor', auth.adminRequired, admin.unassign_sup
 router.post('/admin/search_image', auth.adminRequired, admin.search_image); // 搜索图片
 router.post('/admin/delete_image', auth.adminRequired, admin.delete_image); // 搜索图片
 router.post('/admin/add_user', auth.adminRequired, admin.add_user); // 添加业主
-router.post('/admin/push_message_to_user', auth.adminRequired, admin.push_message_to_user); // 推送消息给
+router.post('/admin/push_message_to_user', auth.adminRequired, admin.push_message_to_user); // 推送消息给业主
+router.post('/admin/push_message_to_designer', auth.adminRequired, admin.push_message_to_designer); // 推送消息给设计师
 
 module.exports = router;

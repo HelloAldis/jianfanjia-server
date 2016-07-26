@@ -77,6 +77,9 @@ var config = {
   gt_designer_MASTERSECRET: '5zqjYN1uYwANZyNNMXrhZ1',
   gt_designer_APPSECRET: 'qX6mtXErCJ7I5ADTLW8P85',
 
+  //诚贷通配置
+  cdt_api_url: 'http://10.1.1.8:1088',
+
   //一些业务配置
   send_email: true, //发不发送邮件
   send_sms: true, //发不发短信
