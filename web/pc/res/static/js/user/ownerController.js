@@ -1242,54 +1242,14 @@ angular.module('controllers', [])
         }])
     .controller('noticeDetailCtrl', [     //系统通知详情
             '$scope','$state','userMessage',function($scope,$state,userMessage){
-            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
-                message_type = ChangeArray($state.params.type),
-                status = $state.params.status,
-                dataPage = {
-                    "query":{
-                        "message_type":{
-                            "$in" : message_type
-                        },
-                        "status": status
-                    },
-                    "from": _index*10,
-                    "limit":10
-                },
-                current = _index;
-            $scope.remindList = {
-                "list" : undefined,
-                read : function(id,status){
-                    if(status == 0){
-                        userMessage.read({
-                            "messageid":id
-                        }).then(function(){
-                            uploadParent();
-                        });
-                    }
+            $scope.detail = {};
+            userMessage.detail({"messageid": $state.params.id}).then(function(res){  //获取意向设计师列表
+                if(res.data.data){
+                    $scope.detail = res.data.data;
                 }
-            };
-            function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
-                userMessage.count({
-                    "query_array":[["4"], ["7", "8","13","9","10"],["5","14"]]
-                }).then(function(res){
-                    $scope.count.notice = res.data.data[0];
-                    $scope.count.remind = res.data.data[1];
-                    $scope.count.comment = res.data.data[2];
-                    $scope.$emit('userMessageParent', $scope.count);   //父级传递
-                    user.updateData();
-                },function(err){
-                    console.log(err);
-                });
-            }
-            function ChangeArray(str){
-                var arr = [];
-                if(str.indexOf('-') != -1){
-                    arr = str.split('-');
-                }else{
-                    arr.push(str);
-                }
-                return arr;
-            }
+            },function(res){
+                console.log(res);
+            });
         }])
     .controller('remindCtrl', [     //需求提醒列表
         '$scope','$state','userMessage',function($scope,$state,userMessage){

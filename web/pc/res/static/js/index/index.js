@@ -24,6 +24,11 @@ require(['jquery','index/banner'],function($,Banner){
         banner.init();
     });
 });
+require(['jquery','index/shortcut'],function($,Shortcut){
+    $(function(){
+        new Shortcut('#j-shortcut');
+    });
+});
 require(['jquery','index/tabs','index/Scrollswitch'],function($,Tabs,Scrollswitch){
     var $designers = $('#j-designers');
     var $designersList = $designers.find('.list');

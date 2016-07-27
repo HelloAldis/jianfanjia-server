@@ -76,6 +76,10 @@ $(function(){
         this.submitBtn.on('click',function(){
             _this.popupMian();
             return false;
+        });
+        $('#j-link').on('click',function(){
+            _this.popupMian();
+            return false;
         })
     }
     Supervision.prototype.popupMian = function(){

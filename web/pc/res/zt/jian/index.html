@@ -12,7 +12,6 @@
     <meta name="keywords" content="宜家,装修,85后,简,90平米,武汉,年轻,互联网装修,武汉装修,设计师平台,简繁家互联网装修平台,家装施工监理">
     <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/animate.css" />
-    <link rel="stylesheet" type="text/css" href="/static/css/index.css" />
     <script type="text/javascript" src="/static/js/lib/jquery.js"></script>
     <script type="text/javascript" src="/static/js/lib/lodash.js"></script>
     <script type="text/javascript" src="/static/js/lib/wow.min.js"></script>
@@ -210,7 +209,17 @@
             border: 2px solid #ff7e1c;
         }
         .items .img{
+            position: relative;
             padding-bottom: 20px;
+        }
+
+        .items .img .link{
+            position: absolute;
+            z-index: 1;
+            left: 157px;
+            top: 461px;
+            width: 240px;
+            height: 66px;
         }
         .last .title span{
             width: 401px;
@@ -300,6 +309,7 @@
     <section class="items">
         <h2 class="title wow animated fadeInUp"><span>这样的装修，你爽不爽？</span></h2>
         <div class="img">
+            <a href="javascript:;" class="link" id="j-link"></a>
             <img class="wow animated fadeInUp" src="img/item2.jpg" alt="">
         </div>
     </section>
