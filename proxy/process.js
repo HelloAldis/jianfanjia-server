@@ -92,26 +92,6 @@ exports.addCommentCount = function (id, section, item, callback) {
   }, callback);
 }
 
-exports.addComment = function (id, section, item, comment, callback) {
-  var index = _.indexOf(type.process_work_flow, section);
-  var path = 'sections.' + index + '.items.name';
-  var query = {};
-  query[path] = item;
-  query._id = id;
-  path = 'sections.' + index + '.items.$.comments';
-  var update = {};
-  update[path] = comment;
-  var set = {};
-  set['lastupdate'] = new Date().getTime();
-  set['sections.' + index + '.items.$.date'] = set['lastupdate'];
-
-  Process.findOneAndUpdate(query, {
-    $push: update,
-    $set: set,
-  }, callback);
-};
-
-
 exports.addYsImage = function (id, section, key, imageid, callback) {
   var update = {};
   update['sections.$.ys.images'] = {
@@ -218,4 +198,22 @@ exports.paginate = function (query, project, option, callback) {
       callback(err, designers, count);
     });
   });
+}
+
+exports.addToSet = function (query, addToSet, option, callback) {
+  Process.findOneAndUpdate(query, {
+    '$addToSet': addToSet,
+    $set: {
+      lastupdate: new Date().getTime(),
+    },
+  }, option, callback);
+}
+
+exports.pull = function (query, pull, option, callback) {
+  Process.findOneAndUpdate(query, {
+    '$pull': pull,
+    $set: {
+      lastupdate: new Date().getTime(),
+    },
+  }, option, callback);
 }

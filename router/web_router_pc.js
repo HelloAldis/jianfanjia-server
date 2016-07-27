@@ -40,8 +40,8 @@ router.get('/tpl/diary/book/:diarySetid', response_util, diary_book.diary_book_p
 router.get('/tpl/go/diary/:diaryid', response_util, diary_book.go_diary);
 router.get('/tpl/live/:shareid', response_util, share.share_process_homepage);
 
-router.get('/wechat/user_login_callback', sign.wechat_user_login_callback);
+router.get('/wechat/user_login_callback', response_util, sign.wechat_user_login_callback);
 router.get('/wechat/user_login', sign.wechat_user_login);
 router.get('/wechat/user_wenjuan/:wenjuanid', wechat.user_wenjuan);
-router.get('/wechat/user_wenjuan_callback/:wenjuanid', wechat.user_wenjuan_callback);
+router.get('/wechat/user_wenjuan_callback/:wenjuanid', response_util, wechat.user_wenjuan_callback);
 module.exports = router;

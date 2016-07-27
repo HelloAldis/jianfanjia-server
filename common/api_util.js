@@ -367,11 +367,9 @@ exports.buildArticle = function (req) {
   let article = {};
   article.title = req.body.title;
   article.keywords = req.body.keywords;
-  article.cover_imageid = req.body.cover_imageid ? new ObjectId(req.body.cover_imageid) :
-    undefined;
+  article.cover_imageid = req.body.cover_imageid ? new ObjectId(req.body.cover_imageid) : undefined;
   article.description = req.body.description;
   article.content = req.body.content;
-  article.create_at = req.body.create_at || new Date().getTime();
   article.status = req.body.status;
   article.articletype = req.body.articletype;
 

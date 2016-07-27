@@ -31,7 +31,6 @@
 
         // 添加Tag
         $scope.addTag = function() {
-          console.log($scope.textInput);
           $scope.tagsInputModel.push($scope.textInput);
           $scope.setInput();
         }

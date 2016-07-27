@@ -83,6 +83,7 @@ var type = {
   platform_ios: '1',
   platform_pc: '2',
   platform_wechat: '3',
+  platform_admin: '4',
 
   online_status_on: '0',
   online_status_off: '1',

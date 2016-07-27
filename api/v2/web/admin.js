@@ -760,6 +760,9 @@ exports.ueditor_get = function (req, res, next) {
 
   switch (action) {
     case 'config':
+      if (!ue_config.imageUrlPrefix.startsWith('http')) {
+        ue_config.imageUrlPrefix = req.protocol + '://' + req.headers.host + ue_config.imageUrlPrefix;
+      }
       res.json(ue_config);
       break;
     default:
@@ -1080,6 +1083,13 @@ exports.add_supervisor = function (req, res, next) {
   let phone = validator.trim(req.body.phone);
   let pass = validator.trim(req.body.pass);
   let username = validator.trim(req.body.username);
+
+  if ([pass, phone, username].some(function (item) {
+      return item === '';
+    })) {
+    return res.sendErrMsg('信息不完整。');
+  }
+
   let ep = eventproxy();
   ep.fail(next);
 
@@ -1102,7 +1112,7 @@ exports.add_supervisor = function (req, res, next) {
         username: username,
         auth_type: type.designer_auth_type_done,
       }, ep.done(function (supervisor_indb) {
-        res.sendData(supervisor_indb);
+        res.sendSuccessMsg();
       }));
     }));
   }));
@@ -1295,3 +1305,250 @@ exports.forbid_comment = function (req, res, next) {
     }, function () {});
   }));
 }
+
+exports.assign_supervisor = function (req, res, next) {
+  const supervisorids = _.map(req.body.supervisorids, function (i) {
+    return tools.convert2ObjectId(i);
+  });;
+  const processid = req.body.processid;
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Process.addToSet({
+    _id: processid,
+  }, {
+    supervisorids: {
+      $each: supervisorids
+    }
+  }, null, ep.done(function () {
+    res.sendSuccessMsg();
+  }));
+}
+
+exports.unassign_supervisor = function (req, res, next) {
+  const supervisorids = _.map(req.body.supervisorids, function (i) {
+    return tools.convert2ObjectId(i);
+  });;
+  const processid = req.body.processid;
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Process.pull({
+    _id: processid,
+  }, {
+    supervisorids: {
+      $in: supervisorids
+    }
+  }, null, ep.done(function () {
+    res.sendSuccessMsg();
+  }));
+}
+
+exports.search_supervisor = function (req, res, next) {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
+    create_at: -1
+  };
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        phone: search_word
+      }, {
+        username: search_word
+      }];
+    }
+  }
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Supervisor.paginate(query, null, {
+    sort: sort,
+    skip: skip,
+    limit: limit,
+    lean: true
+  }, ep.done(function (supervisors, total) {
+    res.sendData({
+      supervisors: supervisors,
+      total: total
+    });
+  }));
+}
+
+exports.search_image = function (req, res, next) {
+  let query = req.body.query || {};
+  let sort = req.body.sort || {
+    create_at: -1
+  };
+  let skip = req.body.from || 0;
+  let limit = req.body.limit || 10;
+  let search_word = req.body.search_word;
+  if (search_word && search_word.trim().length > 0) {
+    if (tools.isValidObjectId(search_word)) {
+      query['$or'] = [{
+        _id: search_word
+      }, {
+        userid: search_word
+      }];
+    } else {
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+    }
+  }
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Image.paginate(query, {
+    data: 0,
+  }, {
+    sort: sort,
+    skip: skip,
+    limit: limit,
+    lean: true
+  }, ep.done(function (images, total) {
+    res.sendData({
+      images: images,
+      total: total
+    });
+  }));
+}
+
+exports.delete_image = function (req, res, next) {
+  const imageid = req.body.imageid;
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Image.removeOne({
+    _id: imageid
+  }, null, ep.done(function () {
+    res.sendSuccessMsg();
+  }));
+}
+
+exports.add_user = function (req, res, next) {
+  let phone = tools.trim(req.body.phone);
+  let pass = tools.trim(req.body.pass);
+  let username = tools.trim(req.body.username);
+
+  if ([pass, phone, username].some(function (item) {
+      return item === '';
+    })) {
+    return res.sendErrMsg('信息不完整。');
+  }
+  let ep = eventproxy();
+  ep.fail(next);
+
+  ep.on('final', function (passhash) {
+    //save user to db
+    let user = {};
+    user.pass = passhash;
+    user.phone = phone;
+    user.username = username;
+    user.platform_type = type.platform_admin;
+
+    User.newAndSave(user, ep.done(function (user_indb) {
+      res.sendSuccessMsg();
+      sms.sendAdminAddUser(phone, [username, '帐号：' + phone + '，密码：' + pass]);
+    }));
+  });
+
+  //检查phone是不是被用了
+  ep.all('user', 'designer', function (user, designer) {
+    if (user || designer) {
+      return res.sendErrMsg('手机号码已被使用');
+    } else {
+      tools.bhash(pass, ep.done(function (passhash) {
+        ep.emit('final', passhash);
+      }));
+    }
+  });
+
+
+  User.findOne({
+    phone: phone
+  }, null, ep.done(function (user) {
+    ep.emit('user', user);
+  }));
+
+  Designer.findOne({
+    phone: phone
+  }, {}, ep.done(function (designer) {
+    ep.emit('designer', designer);
+  }));
+}
+
+exports.push_message_to_user = function (req, res, next) {
+  let query = req.body.query || {};
+  let title = tools.trim(req.body.title);
+  let content = tools.trim(req.body.content);
+  let html = tools.trim(req.body.html);
+  let ep = eventproxy();
+  ep.fail(next);
+
+  User.count(query, ep.done(function (count) {
+    async.timesSeries(count, function (n, next) {
+      User.find(query, {
+        _id: 1,
+      }, {
+        skip: n,
+        limit: 1,
+        sort: {
+          create_at: 1
+        }
+      }, ep.done(function (users) {
+        if (users && users.length > 0) {
+          message_util.user_message_type_platform_notification(users[0], title, content, html);
+          next();
+        } else {
+          next();
+        }
+      }));
+    }, ep.done(function () {
+
+    }));
+  }));
+
+  res.sendSuccessMsg();
+}
+
+exports.push_message_to_designer = function (req, res, next) {
+  let query = req.body.query || {};
+  let title = tools.trim(req.body.title);
+  let content = tools.trim(req.body.content);
+  let html = tools.trim(req.body.html);
+  let ep = eventproxy();
+  ep.fail(next);
+
+  Designer.count(query, ep.done(function (count) {
+    async.timesSeries(count, function (n, next) {
+      Designer.find(query, {
+        _id: 1,
+      }, {
+        skip: n,
+        limit: 1,
+        sort: {
+          create_at: 1
+        }
+      }, ep.done(function (designers) {
+        if (designers && designers.length > 0) {
+          message_util.designer_message_type_platform_notification(designers[0], title, content, html);
+          next();
+        } else {
+          next();
+        }
+      }));
+    }, ep.done(function () {
+
+    }));
+  }));
+
+  res.sendSuccessMsg();
+}
+
+//561a0a85acdcb73750b2ddfd

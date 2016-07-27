@@ -1,7 +1,7 @@
 (function () {
   angular.module('JfjAdmin.pages.pictures')
-    .controller('PicturesAddController', ['$scope', '$rootScope', '$stateParams', '$state', 'adminImage', 'imageApi',
-      function ($scope, $rootScope, $stateParams, $state, adminImage, imageApi) {
+    .controller('PicturesAddController', ['$scope', '$rootScope', '$stateParams', '$state', 'adminBeautifulImage', 'imageApi',
+      function ($scope, $rootScope, $stateParams, $state, adminBeautifulImage, imageApi) {
         $scope.uploader1 = {};
         $scope.ids = [];
         var currentId = $stateParams.id == undefined ? "" : $stateParams.id;
@@ -73,7 +73,7 @@
           "section": '厨房'
         }
         if (currentId) {
-          adminImage.search({
+          adminBeautifulImage.search({
             "query": {
               "_id": currentId
             },
@@ -117,7 +117,7 @@
             });
 
             if (currentId) {
-              adminImage.upload($scope.images).then(function (resp) {
+              adminBeautifulImage.upload($scope.images).then(function (resp) {
                 if (resp.data.msg === "success") {
                   $state.go('pictures')
                 }
@@ -127,7 +127,7 @@
                 console.log(resp);
               });
             } else {
-              adminImage.add($scope.images).then(function (resp) {
+              adminBeautifulImage.add($scope.images).then(function (resp) {
                 if (resp.data.msg === "success") {
                   $state.go('pictures')
                 }

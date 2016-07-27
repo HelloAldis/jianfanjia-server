@@ -6,7 +6,7 @@
       function ($scope, $rootScope, adminApp, $stateParams, $location) {
         $scope.config = {
           title: '反馈时间过滤：',
-          placeholder: '反馈ID/用户ID/内容',
+          placeholder: '提交ID/用户ID/内容',
           search_word: $scope.search_word
         }
 

@@ -28,5 +28,8 @@ var ImageSchema = new Schema({ // 图片
 ImageSchema.index({
   md5: 1
 });
+ImageSchema.index({
+  create_at: 1
+});
 
 mongoose.model('Image', ImageSchema);

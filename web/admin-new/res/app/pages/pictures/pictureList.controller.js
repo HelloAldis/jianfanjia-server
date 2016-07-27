@@ -1,7 +1,7 @@
 (function () {
   angular.module('JfjAdmin.pages.pictures')
-    .controller('PicturesListController', ['$scope', '$rootScope', 'adminImage', '$stateParams', '$location',
-      function ($scope, $rootScope, adminImage, $stateParams, $location) {
+    .controller('PicturesListController', ['$scope', '$rootScope', 'adminBeautifulImage', '$stateParams', '$location',
+      function ($scope, $rootScope, adminBeautifulImage, $stateParams, $location) {
         $scope.config = {
           title: '美图创建时间过滤：',
           placeholder: '美图ID/标题',
@@ -107,7 +107,7 @@
 
         //加载数据
         function loadList(detail) {
-          adminImage.search(detail).then(function (resp) {
+          adminBeautifulImage.search(detail).then(function (resp) {
             if (resp.data.data.total === 0) {
               $scope.loading.loadData = true;
               $scope.loading.notData = true;
@@ -134,7 +134,7 @@
         //更改显示状态
         $scope.changeStatus = function (id, status, image) {
           status = status == 0 ? "1" : "0";
-          adminImage.upload({
+          adminBeautifulImage.upload({
             "_id": id,
             "status": status
           }).then(function (resp) {

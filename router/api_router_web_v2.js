@@ -54,15 +54,11 @@ router.post('/designer_home_page', designer.designer_home_page); //游客获取�
 router.post('/search_designer_product', product.search_designer_product); //游客获取设计师作品
 router.post('/product_home_page', product.product_home_page); //游客获取设计师作品
 router.get('/verify_email/:key/:phone/:type', sign.verify_email); //游客验证邮箱
-//router.get('/dec_strategy/:_id/homepage', dec_strategy.dec_strategy_homepage); //获取某个攻略主页
 router.post('/beautiful_image_homepage', beautiful_image.beautiful_image_homepage); //游客获取美图主页
 router.post('/search_beautiful_image', beautiful_image.search_beautiful_image); //游客搜索美图
 router.post('/top_articles', dec_strategy.top_articles); //top文章
 router.post('/search_article', dec_strategy.search_article); //搜索文章
-//router.post('/associate_article', dec_strategy.associate_article); //相关文章
 router.post('/top_designers', designer.top_designers); //top设计师
-// router.post('/top_shares', share.top_shares); //top工地直播
-// router.post('/top_beautiful_images', beautiful_image.top_beautiful_images); //top美图
 router.post('/top_designer_activity', designer.top_designer_activity);
 //wechat api
 router.post('/wechat/receive', wechat.receive); //接收微信平台消息
@@ -72,7 +68,7 @@ router.post('/one_plan', plan.getOne); //获取某个方案信息
 router.post('/search_diary_set', diary.search_diary_set); // 游客搜索日记集
 router.post('/search_diary', diary.search_diary); // 游客搜索日记
 router.post('/top_diary_set', diary.top_diary_set); // 游客热门日记集
-router.post('/topic_comments', comment.topic_comments); //获取评论并标记为已读
+router.post('/topic_comments', comment.topic_comments); //获取评论
 
 //通用用户功能
 router.post('/signout', auth.normalUserRequired, sign.signout); //登出
@@ -89,7 +85,6 @@ router.post('/favorite/diarySet/list', auth.normalUserRequired, favorite.list_di
 router.post('/favorite/diarySet/add', auth.normalUserRequired, favorite.add_diary_set); //收藏日记本
 router.post('/favorite/diarySet/delete', auth.normalUserRequired, favorite.delete_diary_set); //取消收藏日记本
 router.post('/add_comment', auth.normalUserRequired, comment.add_comment); //添加评论
-// router.post('/topic_comments', auth.normalUserRequired, comment.topic_comments); //获取评论并标记为已读
 router.post('/one_contract', auth.normalUserRequired, requirement.one_contract); //获取某个合同信息
 router.post('/send_verify_email', auth.normalUserRequired, sign.send_verify_email); //发送验证邮箱邮件
 router.get('/download_contract/:_id', auth.normalUserRequired, requirement.download_contract); //下载合同
@@ -210,5 +205,13 @@ router.post('/admin/search_diary', auth.adminRequired, admin.search_diary); // �
 router.post('/admin/delete_diary', auth.adminRequired, admin.delete_diary); // 删除日记
 router.post('/admin/search_comment', auth.adminRequired, admin.search_comment); // 搜索评论
 router.post('/admin/forbid_comment', auth.adminRequired, admin.forbid_comment); // 屏蔽评论
+router.post('/admin/search_supervisor', auth.adminRequired, admin.search_supervisor); // 搜索监理
+router.post('/admin/assign_supervisor', auth.adminRequired, admin.assign_supervisor); // 指派监理到工地
+router.post('/admin/unassign_supervisor', auth.adminRequired, admin.unassign_supervisor); // 移除指派了的监理
+router.post('/admin/search_image', auth.adminRequired, admin.search_image); // 搜索图片
+router.post('/admin/delete_image', auth.adminRequired, admin.delete_image); // 搜索图片
+router.post('/admin/add_user', auth.adminRequired, admin.add_user); // 添加业主
+router.post('/admin/push_message_to_user', auth.adminRequired, admin.push_message_to_user); // 推送消息给业主
+router.post('/admin/push_message_to_designer', auth.adminRequired, admin.push_message_to_designer); // 推送消息给设计师
 
 module.exports = router;

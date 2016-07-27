@@ -4,6 +4,7 @@ var DecStrategy = models.DecStrategy;
 exports.newAndSave = function (json, callback) {
   var decStrategy = new DecStrategy(json);
   decStrategy.lastupdate = new Date().getTime();
+  decStrategy.create_at = lastupdate;
   decStrategy.save(callback);
 };
 

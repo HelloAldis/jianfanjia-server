@@ -121,6 +121,19 @@ function saveUserCommentAndPush(user_message, username) {
   });
 }
 
+exports.user_message_type_platform_notification = function (user, title, content, html) {
+  let user_message = {
+    userid: user._id,
+    title: title,
+    content: content,
+    html: html,
+    message_type: type.user_message_type_platform_notification,
+    status: type.message_status_unread,
+  };
+
+  saveUserMessageAndPush(user_message);
+}
+
 let user_message_type_designer_reschedule_template =
   '<html>\
 <body style="padding-left:10; color:#7c8389; font-size:15">\
@@ -473,10 +486,10 @@ exports.user_message_type_designer_remind_ok_house_checked = function (user, des
   saveUserMessageAndPush(user_message);
 }
 
-exports.designer_message_type_platform_notification = function (designer, content, html) {
+exports.designer_message_type_platform_notification = function (designer, title, content, html) {
   let designer_message = {
     designerid: designer._id,
-    title: '官方公告',
+    title: title,
     content: content,
     html: html,
     message_type: type.designer_message_type_platform_notification,

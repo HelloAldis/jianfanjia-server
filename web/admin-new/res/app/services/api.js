@@ -61,6 +61,9 @@
       return {
         search: function (data) {
           return doAdminRequest('search_user', data);
+        },
+        addUser: function (data) {
+          return doAdminRequest('add_user', data);
         }
       };
     }])
@@ -96,13 +99,13 @@
         online: function (data) {
           return doAdminRequest('update_designer_online_status', data);
         },
-        editDesigner: function(data) {
+        editDesigner: function (data) {
           return doAdminRequest('update_designer', data);
         },
-        idAuth: function(id) {
+        idAuth: function (id) {
           return doAdminRequest('designer/' + id)
         },
-        idAuthOpearate: function(data) {
+        idAuthOpearate: function (data) {
           return doAdminRequest('update_uid_auth', data);
         }
       };
@@ -145,38 +148,54 @@
       };
     }])
 
-    // 管理员日记列表
-    .factory('adminDiary', ['doAdminRequest', function (doAdminRequest) {
-      return {
-        search: function (data) {
-          return doAdminRequest('search_diary', data);
-        },
-        dele: function (id) {
-          return doAdminRequest('delete_diary', id);
-        }
-      };
-    }])
+  // 管理员日记列表
+  .factory('adminDiary', ['doAdminRequest', function (doAdminRequest) {
+    return {
+      search: function (data) {
+        return doAdminRequest('search_diary', data);
+      },
+      dele: function (id) {
+        return doAdminRequest('delete_diary', id);
+      }
+    };
+  }])
 
-    // 管理员评论列表
-    .factory('adminComment', ['doAdminRequest', function (doAdminRequest) {
-      return {
-        search: function (data) {
-          return doAdminRequest('search_comment', data);
-        },
-        forbid: function (id) {
-          return doAdminRequest('forbid_comment', id);
-        }
-      };
-    }])
+  // 管理员评论列表
+  .factory('adminComment', ['doAdminRequest', function (doAdminRequest) {
+    return {
+      search: function (data) {
+        return doAdminRequest('search_comment', data);
+      },
+      forbid: function (id) {
+        return doAdminRequest('forbid_comment', id);
+      }
+    };
+  }])
 
-    /**
-     * [管理员获取工地管理]
-     * @param  {[list]} [获取列表]
-     */
-    .factory('adminField', ['doAdminRequest', function (doAdminRequest) {
+  /**
+   * [管理员获取工地管理]
+   * @param  {[list]} [获取列表]
+   */
+  .factory('adminField', ['doAdminRequest', function (doAdminRequest) {
       return {
         search: function (data) {
           return doAdminRequest('search_process', data);
+        },
+        // 监理列表
+        searchSupervisor: function (data) {
+          return doAdminRequest('search_supervisor', data);
+        },
+        // 添加监理
+        addSupervisor: function (data) {
+          return doAdminRequest('add_supervisor', data);
+        },
+        // 指派监理到工地
+        assignSupervisor: function (data) {
+          return doAdminRequest('assign_supervisor', data);
+        },
+        // 移除监理
+        unassignSupervisor: function (data) {
+          return doAdminRequest('unassign_supervisor', data);
         }
       };
     }])
@@ -216,6 +235,17 @@
         }
       };
     }])
+    // 消息推送
+    .factory('adminNotify', ['doAdminRequest', function (doAdminRequest) {
+      return {
+        pushMessageToUser: function (data) {
+          return doAdminRequest('push_message_to_user', data);
+        },
+        pushMessageToDesigner: function (data) {
+          return doAdminRequest('push_message_to_designer', data);
+        }
+      };
+    }])
     /**
      * [管理员获取文章]
      * @param  {[angel]} [装修攻略]
@@ -237,7 +267,7 @@
      * [管理员获取装修美图]
      * @param  {[image]} [天使用户招募活动]
      */
-    .factory('adminImage', ['doAdminRequest', function (doAdminRequest) {
+    .factory('adminBeautifulImage', ['doAdminRequest', function (doAdminRequest) {
       return {
         search: function (data) {
           return doAdminRequest('search_beautiful_image', data);
@@ -261,6 +291,19 @@
       };
     }])
     /**
+     * [管理员图片api]
+     */
+    .factory('adminImage', ['doAdminRequest', function (doAdminRequest) {
+      return {
+        search_image: function (data) {
+          return doAdminRequest('search_image', data);
+        },
+        delete_image: function (data) {
+          return doAdminRequest('delete_image', data);
+        },
+      };
+    }])
+    /**
      * [图片Api]
      */
     .factory('imageApi', ['doRequest', function (doRequest) {
@@ -270,6 +313,9 @@
         }
       };
     }])
+    /**
+     * [登出]
+     */
     .factory('userApi', ['doRequest', function (doRequest) {
       return {
         signout: function (data) {
