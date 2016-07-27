@@ -1494,6 +1494,10 @@ exports.push_message_to_user = function (req, res, next) {
   let ep = eventproxy();
   ep.fail(next);
 
+  if (!tools.isValidObjectId(query._id)) {
+    return res.sendErrMsg('不是合法的ID');
+  }
+
   User.count(query, ep.done(function (count) {
     if (count === 0) {
       return res.sendErrMsg('没有推送给任何业主');
@@ -1533,9 +1537,13 @@ exports.push_message_to_designer = function (req, res, next) {
   let ep = eventproxy();
   ep.fail(next);
 
+  if (!tools.isValidObjectId(query._id)) {
+    return res.sendErrMsg('不是合法的ID');
+  }
+
   Designer.count(query, ep.done(function (count) {
     if (count === 0) {
-      return res.sendErrMsg('没有推送给任何业主');
+      return res.sendErrMsg('没有找到对应业主');
     }
 
     res.sendSuccessMsg();
