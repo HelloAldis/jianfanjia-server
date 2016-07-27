@@ -2021,6 +2021,27 @@ body{
 .noticeList li:hover .more{
 	display: block;
 }
+.noticeDetail{
+	padding: 25px 59px 40px;
+}
+.noticeDetail .title{
+	padding-bottom: 10px;
+}
+.noticeDetail .title h3{
+	font-size: 16px;
+	line-height: 36px;
+	font-weight: bold;
+	color: #383d48;
+}
+.noticeDetail .title p{
+	line-height: 14px;
+	color: #999;
+}
+.noticeDetail .content p{
+	font-size: 14px;
+	line-height: 22px;
+	color: #61687a;
+}
 .g-mn .m-message .m-tt h2 span{
 	margin-left: 12px;
 	color: #fe7004;

@@ -1593,19 +1593,19 @@ angular.module('controllers', [])
                         id : 0,
                         name : '全部',
                         cur : true,
-                        arr : "2-5-6-7-8-9-10-11-12-13-99"
+                        arr : "2-5-6-7-8-9-10-11-12-13"
                     },
                     {
                         id : 1,
                         name : '官方公告',
                         cur : false,
-                        arr : "99"
+                        arr : "2"
                     },
                     {
                         id : 2,
                         name : '系统通知',
                         cur : false,
-                        arr : "2-5-6-7-8-9-10-11-12-13"
+                        arr : "5-6-7-8-9-10-11-12-13"
                     }
                 ],
                 goto : function(id){
@@ -1652,7 +1652,7 @@ angular.module('controllers', [])
                 },
                 current = _index,
                 url = {
-                    '2': '',
+                    '2': 'notice.detail',
                     '5': 'infor',
                     '6': 'infor',
                     '7': 'idcard',
@@ -1678,6 +1678,8 @@ angular.module('controllers', [])
                 goto : function(data){
                     if(data.message_type === '11' || data.message_type === '12' || data.message_type === '13'){
                        $state.go(url[data.message_type],{id:1});
+                    }else if(data.message_type === '2'){
+                       $state.go(url[data.message_type],{id:data._id});
                     }else{
                         $state.go(url[data.message_type]);
                     }
@@ -1755,54 +1757,14 @@ angular.module('controllers', [])
         }])
     .controller('noticeDetailCtrl', [     //系统通知详情
             '$scope','$state','userMessage',function($scope,$state,userMessage){
-            var _index = !isNaN(parseInt($state.params.id,10)) ? parseInt($state.params.id,10) - 1 : 0,
-                message_type = ChangeArray($state.params.type),
-                status = $state.params.status,
-                dataPage = {
-                    "query":{
-                        "message_type":{
-                            "$in" : message_type
-                        },
-                        "status": status
-                    },
-                    "from": _index*10,
-                    "limit":10
-                },
-                current = _index;
-            $scope.remindList = {
-                "list" : undefined,
-                read : function(id,status){
-                    if(status == 0){
-                        userMessage.read({
-                            "messageid":id
-                        }).then(function(){
-                            uploadParent();
-                        });
-                    }
+            $scope.detail = {};
+            userMessage.detail({"messageid": $state.params.id}).then(function(res){  //获取意向设计师列表
+                if(res.data.data){
+                    $scope.detail = res.data.data;
                 }
-            };
-            function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
-                userMessage.count({
-                    "query_array":[["2","5","6","7","8","9","10","11","12","13"], ["14", "15","16","17","18"],["3"]]
-                }).then(function(res){
-                    $scope.count.notice = res.data.data[0];
-                    $scope.count.remind = res.data.data[1];
-                    $scope.count.comment = res.data.data[2];
-                    $scope.$emit('userMessageParent', $scope.count);   //父级传递
-                    user.updateData();   //更新右上角显示下拉菜单
-                },function(err){
-                    console.log(err);
-                });
-            }
-            function ChangeArray(str){
-                var arr = [];
-                if(str.indexOf('-') != -1){
-                    arr = str.split('-');
-                }else{
-                    arr.push(str);
-                }
-                return arr;
-            }
+            },function(res){
+                console.log(res);
+            });
         }])
     .controller('remindCtrl', [     //需求提醒列表
         '$scope','$state',function($scope,$state){

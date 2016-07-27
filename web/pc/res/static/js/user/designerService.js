@@ -34,6 +34,7 @@ angular.module('services', [])
             })
         };
         return {
+            detail : function(data){return doRequest('designer_message_detail',data)},
             count : function(data){return doRequest('unread_designer_message_count',data)},
             search : function(data){return doRequest('search_designer_message',data)},
             comment : function(data){return doRequest('search_designer_comment',data)},

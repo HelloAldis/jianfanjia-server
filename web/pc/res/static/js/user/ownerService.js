@@ -35,6 +35,7 @@ angular.module('services', [])
             })
         };
         return {
+            detail : function(data){return doRequest('user_message_detail',data)},
             count : function(data){return doRequest('unread_user_message_count',data)},
             search : function(data){return doRequest('search_user_message',data)},
             comment : function(data){return doRequest('search_user_comment',data)},
