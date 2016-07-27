@@ -102,7 +102,6 @@
 							<td>小头像</td>
 							<td>
 								<img-url data="user.imageid" width="800"></img-url>
-								<!-- <img src="{{head_img1}}" class="img-responsive" alt="暂无图片"> -->
 							</td>
 						</tr>
 
@@ -110,7 +109,6 @@
 							<td>大头像</td>
 							<td>
 								<img-url data="user.big_imageid"></img-url>
-								<!-- <img src="{{head_img2}}" class="img-responsive" alt="暂无图片"> -->
 							</td>
 						</tr>
 
@@ -376,9 +374,10 @@
 		</div>
 
 		<div class="form-group col-md-12">
-			<a ui-sref="product(getProductDetail(user))" class="btn btn-primary">前往设计师作品列表</a>
-			<a ui-sref="designerTeam({id:user._id})" class="btn btn-info">前往设计师施工团队列表</a>
-			<a  href="{{getPcUrl('/tpl/designer/' + user._id)}}" target="_blank" class="btn btn-warning">前往设计师个人主页</a>
+			<!-- <a ui-sref="product(getProductDetail(user))" class="btn btn-primary">前往设计师作品列表</a> -->
+			<a ng-click="getProductDetail(user)" class="btn btn-primary">前往设计师作品列表</a>
+			<a ui-sref="designerTeamList({id:user._id})" class="btn btn-info">前往设计师施工团队列表</a>
+			<a href="{{('/tpl/designer/' + user._id) | pcUrl}}" target="_blank" class="btn btn-warning">前往设计师个人主页</a>
 		</div>
 
 	</div>

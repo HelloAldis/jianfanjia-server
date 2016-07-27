@@ -1,12 +1,10 @@
 (function () {
   angular.module('JfjAdmin.pages.designer')
     .controller('DesignerTeamListController', [ //设计师的施工团队
-      '$scope', '$rootScope', '$stateParams', '$http', '$filter', '$location',
-      function ($scope, $rootScope, $stateParams, $http, $filter, $location) {
-        $http({ //获取数据
-          method: "POST",
-          url: 'api/v2/web/admin/search_team',
-          data: {
+      '$scope', '$stateParams', '$filter', '$location', 'adminDesigner',
+      function ($scope, $stateParams, $filter, $location, adminDesigner) {
+        adminDesigner.searchTeam(
+          {
             "query": {
               "designerid": $stateParams.id
             },
@@ -16,11 +14,9 @@
             "from": 0,
             "limit": 1000
           }
-        }).then(function (resp) {
+        )
+        .then(function (resp) {
           //返回信息
-          angular.forEach(resp.data.data.teams, function (data, key) {
-            data.area = !!data.province ? data.province + " " + data.city + " " + data.district : '未填写';
-          })
           $scope.userList = resp.data.data.teams;
           $scope.deleteTeam = function (id) {
             if (confirm("你确定要删除吗？删除不能恢复")) {

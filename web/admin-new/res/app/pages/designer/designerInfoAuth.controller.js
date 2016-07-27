@@ -1,8 +1,8 @@
 (function () {
   angular.module('JfjAdmin.pages.designer')
     .controller('DesignerInfoAuthController', [ //设计师信息认证
-      '$scope', '$rootScope', '$http', '$stateParams', '$location', 'adminDesigner',
-      function ($scope, $rootScope, $http, $stateParams, $location, adminDesigner) {
+      '$scope', '$stateParams', '$location', 'adminDesigner', 'toastr',
+      function ($scope, $stateParams, $location, adminDesigner, toastr) {
         adminDesigner.get($stateParams.id)
         .then(function (res) {
           $scope.user = res.data.data;
@@ -19,7 +19,7 @@
               if (!!$scope.errorMsg) {
                 msg = $scope.errorMsg;
               } else {
-                alert('请填写未认证通过原因');
+                toastr.info('请填写未认证通过原因');
                 return;
               }
             }

@@ -84,6 +84,9 @@
         search: function (data) {
           return doAdminRequest('search_designer', data);
         },
+        searchTeam: function (data) {
+          return doAdminRequest('search_team', data);
+        },
         authing: function () {
           return doAdminRequest('authing_designer');
         },
@@ -107,6 +110,9 @@
         },
         idAuthOpearate: function (data) {
           return doAdminRequest('update_uid_auth', data);
+        },
+        updateWorkAuth: function (data) {
+          return doAdminRequest('update_work_auth', data);
         }
       };
     }])

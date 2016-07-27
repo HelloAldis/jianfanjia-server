@@ -2,8 +2,8 @@
 	'use strict';
 	angular.module('JfjAdmin.pages.product')
 		.controller('ProductController', [
-			'$scope', '$rootScope', '$http', '$uibModal', '$filter', 'adminProduct', '$stateParams', '$location', 'mutiSelected',
-			function ($scope, $rootScope, $http, $uibModal, $filter, adminProduct, $stateParams, $location, mutiSelected) {
+			'$scope', '$rootScope', '$http', '$uibModal', '$filter', 'adminProduct', '$stateParams', '$location', 'mutiSelected', 'toastr',
+			function ($scope, $rootScope, $http, $uibModal, $filter, adminProduct, $stateParams, $location, mutiSelected, toastr) {
 				$scope.authList = [{
 					id: "0",
 					name: '审核中',
@@ -46,7 +46,6 @@
 					mutiSelected.clearCur($scope.authList);
 					refreshPage(refreshDetailFromUI($stateParams.detail));
 				}
-
 
 				$stateParams.detail = JSON.parse($stateParams.detail || '{}');
 
@@ -205,7 +204,7 @@
 						controller: function ($scope, $modalInstance) {
 							$scope.ok = function () {
 								if (!$scope.errorMsg) {
-									alert('请填写内容');
+									toastr.info('请填写内容');
 									return;
 								}
 								$http({

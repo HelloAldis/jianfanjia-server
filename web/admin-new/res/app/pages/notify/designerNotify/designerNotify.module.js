@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('JfjAdmin.pages.notify.designer', [])
+  angular.module('JfjAdmin.pages.notify.designer', ['toastr'])
     .config(routeConfig);
 
   /** @ngInject */
