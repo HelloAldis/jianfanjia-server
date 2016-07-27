@@ -1494,7 +1494,7 @@ exports.push_message_to_user = function (req, res, next) {
   let ep = eventproxy();
   ep.fail(next);
 
-  if (!tools.isValidObjectId(query._id)) {
+  if (query._id && !tools.isValidObjectId(query._id)) {
     return res.sendErrMsg('不是合法的ID');
   }
 
@@ -1537,7 +1537,7 @@ exports.push_message_to_designer = function (req, res, next) {
   let ep = eventproxy();
   ep.fail(next);
 
-  if (!tools.isValidObjectId(query._id)) {
+  if (query._id && !tools.isValidObjectId(query._id)) {
     return res.sendErrMsg('不是合法的ID');
   }
 
