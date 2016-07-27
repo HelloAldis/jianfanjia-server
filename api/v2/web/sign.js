@@ -205,7 +205,7 @@ exports.signup = function (req, res, next) {
 
   let ep = new eventproxy();
   ep.fail(next);
-
+  console.log('signup body = ' + req.body);
   if ([pass, phone, usertype].some(function (item) {
       return item === '';
     })) {
