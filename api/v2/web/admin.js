@@ -1398,10 +1398,10 @@ exports.search_image = function (req, res, next) {
         userid: search_word
       }];
     } else {
-      return res.sendData({
-        images: [],
-        total: 0
-      });
+      search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        ip: search_word
+      }];
     }
   }
   let ep = eventproxy();
