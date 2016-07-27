@@ -8,12 +8,26 @@
  */
 
 (function (root, factory) {
+  var deeplink = factory(root);
+  deeplink.setup({
+    iOS: {
+      storeUrl: "https://itunes.apple.com/cn/app/jian-fan-jia/id1065725149?l=en&mt=8"
+    },
+    android: {
+      appId: "com.jianfanjia.cn.activity",
+      storeUrl: "http://a.app.qq.com/o/simple.jsp?pkgname=com.jianfanjia.cn.activity"
+    },
+    wechat: {
+      storeUrl: "http://a.app.qq.com/o/simple.jsp?pkgname=com.jianfanjia.cn.activity"
+    }
+  });
+
   if (typeof define === 'function' && define.amd) {
-    define("deeplink", factory(root));
+    define("deeplink", deeplink);
   } else if (typeof exports === 'object') {
-    module.exports = factory(root);
+    module.exports = deeplink;
   } else {
-    root["deeplink"] = factory(root);
+    root["deeplink"] = deeplink;
   }
 })(window || this, function (root) {
 
@@ -222,7 +236,7 @@
     }
 
     if (isAndroid() && settings.androidDisabled) {
-      return;
+      return false;
     }
 
     if (isAndroid() && !navigator.userAgent.match(/Firefox/)) {
@@ -231,7 +245,13 @@
       uri += ";package=" + settings.android.appId + ";end";
     }
 
-    if (settings.fallback || settings.fallbackToWeb) {
+    // 默认iOS9未安装应用
+    // if (settings.fallback || settings.fallbackToWeb) {
+    //   timeout = setTimeout(openFallback(Date.now()), settings.delay);
+    // }
+
+    // 默认iOS9安装应用
+    if ((settings.fallback || settings.fallbackToWeb) && !isIOS9()) {
       timeout = setTimeout(openFallback(Date.now()), settings.delay);
     }
 
@@ -247,9 +267,13 @@
       iframe.setAttribute("style", "display:none;");
       document.body.appendChild(iframe);
     } else {
-      if (!isIOS9()) {
-        window.location.href = uri;
-      }
+      // 默认iOS9未安装应用
+      // if (!isIOS9()) {
+      //   window.location.href = uri;
+      // }
+
+      // 默认iOS9安装应用
+      window.location.href = uri;
     }
 
     return true;

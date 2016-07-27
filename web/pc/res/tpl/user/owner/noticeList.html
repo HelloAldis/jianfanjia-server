@@ -2,7 +2,7 @@
     <ul class="m-remindList noticeList">
         <li bindonce="noticeList.list" ng-repeat="data in noticeList.list track by $index">
             <div class="content f-cb">
-                <div class="info f-fl" ng-click="noticeList.goto(data)">
+                <div class="info f-fl" ui-sref="notice.detail({id:data._id})" ng-click="noticeList.goto(data)">
                     <h4>
                         <i bo-if="data.status == 0">[未读]</i>
                         <span bo-text="data.content"></span>
