@@ -6,12 +6,14 @@ const crypto = require('crypto');
 const config = require('../apiconfig');
 
 const apiKey = 'cdtjfj';
+// const apiKey = 'cdtfax';
 const key = 'Wbg67AB8+LuvZcKKaEew0Q==';
+// const key = 'gmamsXUgIlCtBcSCO3IDxg==';
 const loanApplyService_url = config.cdt_api_url + '/service/loanApplyService?apiKey=' + apiKey;
 const myOrderService_url = config.cdt_api_url + '/service/myOrderService?apiKey=' + apiKey;
 const orderScheduleService_url = config.cdt_api_url + '/service/orderScheduleService?apiKey=' + apiKey;
 
-const aesKey = utility.base64decode('Wbg67AB8+LuvZcKKaEew0Q==', false, 'buffer');
+const aesKey = utility.base64decode(key, false, 'buffer');
 console.log(aesKey);
 
 //查看我的订单
@@ -20,6 +22,9 @@ exports.myOrderService = function (body) {
   superagent.post(myOrderService_url).send(req).end(function (err, res) {
     console.log(err);
     console.log(res.body);
+    console.log(res.header);
+    console.log(res.request.header);
+
   });
 }
 
@@ -38,7 +43,7 @@ function beRequest(body) {
   let req = cipher.update(jsonStr, 'utf8', 'base64');
   req += cipher.final('base64');
   console.log('req = ' + req);
-  return req;
+  return 'req=' + req;
 }
 
 function deResponse(resp) {
@@ -50,10 +55,10 @@ function deResponse(resp) {
   return res;
 }
 
-deResponse('b+3JUyQlk6hwaVCXAax1z0r9ABY6hOUXfSd1CApcdDK3l8fcA12oz11RuidFIhQLV/wJq6dcEfDK9XxXZRZ1oA==');
+// deResponse('b+3JUyQlk6hwaVCXAax1z0r9ABY6hOUXfSd1CApcdDK3l8fcA12oz11RuidFIhQLV/wJq6dcEfDK9XxXZRZ1oA==');
 
 exports.myOrderService({
-  phone: '18122222222'
+  tel: '18122222222'
 });
 
 // request.post(url).send({
