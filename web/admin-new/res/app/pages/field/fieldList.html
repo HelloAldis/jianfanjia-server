@@ -1,4 +1,6 @@
 <div class="row field-list-page common">
+  <date-range-picker config="config" delegate="delegate" dt-start="dtStart" dt-end="dtEnd"></date-range-picker>
+  <search-input config="config" delegate="delegate"></search-input>
 
   <div class="panel panel-info ng-scope text-center table-responsive">
     <table class="table table-bordered table-striped">
@@ -6,7 +8,7 @@
         <tr class="info thead text-nowrap">
           <th class="text-center">工地ID</th>
           <th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">创建时间</th>
-          <th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.start_at]" ng-click="sortData('start_at')">开始时间</th>
+          <th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.start_at]" ng-click="sortData('start_at')">开工时间</th>
           <th class="text-center">工地名称</th>
           <th class="text-center">当前状态</th>
           <th class="text-center">业主</th>
