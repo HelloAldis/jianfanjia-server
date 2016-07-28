@@ -21,6 +21,7 @@
         },
       })
       .state('picturesAdd', {
+        title: '装修美图',
         url: '/pictures/add/:id',
         templateUrl: 'app/pages/pictures/pictureAdd.html',
         controller: 'PicturesAddController'

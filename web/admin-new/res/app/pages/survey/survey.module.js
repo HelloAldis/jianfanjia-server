@@ -21,6 +21,7 @@
         },
       })
       .state('surveyDetail', {
+        title: '问卷调查',
         url: '/survey/:id',
         templateUrl: 'app/pages/survey/surveyDetail.html',
         controller: 'SurveyDetailController'

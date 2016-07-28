@@ -21,6 +21,7 @@
         },
       })
       .state('newsAdd', {
+        title: '新闻编辑',
         url: '/news/add/:id',
         templateUrl: 'app/pages/news/newsAdd.html',
         controller: 'NewsAddController'

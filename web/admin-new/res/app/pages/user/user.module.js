@@ -21,11 +21,13 @@
         },
       })
       .state('userInfo', {
+        title: '业主列表',
         url: '/user/info/:id',
         templateUrl: 'app/pages/user/userInfo.html',
         controller: 'UserInfoController'
       })
       .state('userRequirement', {
+        title: '业主列表',
         url: '/user/requirement/:id',
         templateUrl: 'app/pages/user/userRequirement.html',
         controller: 'UserRequirementController'
