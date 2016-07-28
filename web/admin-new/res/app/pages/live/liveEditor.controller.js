@@ -1,8 +1,8 @@
 (function () {
   angular.module('JfjAdmin.pages.live')
     .controller('LiveEditorController', [ //编辑装修直播
-      '$scope', '$rootScope', '$stateParams', '$http', '$filter', '$location', 'adminShare',
-      function ($scope, $rootScope, $stateParams, $http, $filter, $location, adminShare) {
+      '$scope', '$rootScope', '$stateParams', '$http', '$filter', '$location', 'toastr', 'adminShare',
+      function ($scope, $rootScope, $stateParams, $http, $filter, $location, toastr, adminShare) {
         $scope.uploader1 = {};
 
         //时间筛选控件
@@ -110,7 +110,7 @@
         });
         $scope.phoneChange = function (name) { //查找设计师
           if (!name) {
-            alert('请输入需要查找的设计师的手机号码或者名字');
+            toastr.info('请输入需要查找的设计师的手机号码或者名字');
             return;
           } else {
             $http({

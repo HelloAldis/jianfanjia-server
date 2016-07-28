@@ -16,5 +16,11 @@ angular.module('JfjAdmin', [
   'JfjAdmin.pages',
   'JfjAdmin.services',
   'JfjAdmin.components',
-  'JfjAdmin.filters',
-]);
+  'JfjAdmin.filters'])
+  .config(moduleConfig);
+
+  function moduleConfig(toastrConfig) {
+    toastrConfig.timeOut = 2000;
+    toastrConfig.positionClass = 'toast-top-right';
+    toastrConfig.progressBar = true;
+  }

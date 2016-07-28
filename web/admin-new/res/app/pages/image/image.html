@@ -1,4 +1,4 @@
-<div class="row feedback-list-page common">
+<div class="row image-page common">
 	<date-range-picker config="config" delegate="delegate" dt-start="dtStart" dt-end="dtEnd"></date-range-picker>
 	<search-input config="config" delegate="delegate"></search-input>
 
@@ -17,12 +17,14 @@
 					<th class="text-center">图片</th>
 					<th class="text-center">管理员操作</th>
 				</tr>
-				<tr ng-repeat="item in list" class="text-nowrap">
+				<tr ng-repeat="item in list" class="text-nowrap img-info-list">
 					<td><a ng-href="{{'/api/v2/web/image/' + item._id | pcUrl}}" target="_blank">{{item._id}}</a></td>
 					<td class="text-left">{{item.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 					<td>{{item.userid}}</td>
 					<td>{{item.width || ''}} x {{item.height || ''}}</td>
-					<td>图片</td>
+					<td>
+						<img-url data="item._id" width="200"></img-url>
+					</td>
 					<td><button type="button" class="btn btn-danger" ng-click="deleteImage(item._id)">删除</button></td>
 				</tr>
 			</tbody>
