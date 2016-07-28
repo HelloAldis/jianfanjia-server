@@ -21,16 +21,19 @@
         },
       })
       .state('liveAdd', {
+        title: '装修直播列表',
         url: '/live/add',
         templateUrl: 'app/pages/live/liveAdd.html',
         controller: 'LiveAddController'
       })
       .state('liveEditor', {
+        title: '装修直播列表',
         url: '/live/editor/:id',
         templateUrl: 'app/pages/live/liveEditor.html',
         controller: 'LiveEditorController'
       })
       .state('liveUpdate', {
+        title: '装修直播列表',
         url: '/live/update/:id',
         templateUrl: 'app/pages/live/liveUpdate.html',
         controller: 'LiveUpdateController'
