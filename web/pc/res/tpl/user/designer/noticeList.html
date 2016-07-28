@@ -24,3 +24,17 @@
         <p>暂时没有任何内容</p>
     </div>
 </div>
+<div class="k-modal dialog" id="j-modal" ng-class="{'show':modal.show}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="icon"><i class="iconfont">&#xe619;</i></div>
+                <p>您确定要删除吗？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="u-btns u-btns-revise cancel" ng-click="modal.cancel()">取消</button>
+                <button type="button" class="u-btns define" ng-click="modal.define()">确定</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -77,7 +77,7 @@ require(['jquery','index/tabs'],function($,Tabs){
 require(['jquery','lib/jquery.cookie','index/goto'],function($,cookie,Goto){
     var goto = new Goto();
     $(function(){
-        goto.init({scroll : false});
+        goto.init();
     })
     if($.cookie("usertype") !== undefined){
         require(['jquery','index/user'],function($,User){

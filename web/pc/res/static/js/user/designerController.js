@@ -1688,16 +1688,28 @@ angular.module('controllers', [])
                     }
                 },
                 remove : function(id){
+                    $scope.modal.show = true;
+                    $scope.modal.id = id;
+                }
+            };
+            $scope.modal = {
+                id : '',
+                show : false,
+                cancel : function(){
+                    this.show = false;
+                    this.id = '';
+                },
+                define : function(){
+                    this.show = false;
                     userMessage.remove({
-                        "messageid":id
+                        "messageid":this.id
                     }).then(function(res){
                         laod();
-                        uploadParent();
                     },function(err){
                         console.log(err);
                     });
                 }
-            };
+            }
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userMessage.count({
                     "query_array":[["2","4","5","6","7","8","9","10","11","12","13"], ["14", "15","16","17","18"],["3"]]
