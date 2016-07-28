@@ -181,13 +181,13 @@
 .field-detail-page .assigned{
 	color: #044c45;
 }
-.image-page table .img-info-list td{
-	display: table-cell;
-	vertical-align: middle;
-}
 .data-statis-page .panel-info .load-data{
 	position: absolute;
 	margin-top: 50px;
+}
+.image-page table .img-info-list td{
+	display: table-cell;
+	vertical-align: middle;
 }
 .live-page .panel-info .td-opt a{
 	cursor: pointer;

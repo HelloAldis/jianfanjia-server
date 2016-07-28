@@ -53,8 +53,7 @@
 					<th class="text-center">在线状态</th>
 					<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.authed_product_count]" ng-click="sortData('authed_product_count')">作品数&nbsp;</th>
 					<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.team_count]" ng-click="sortData('team_count')">施工团队&nbsp;</th>
-					<th>管理员认证操作</th>
-					<th>管理员操作</th>
+					<th class="text-center">管理员操作</th>
 				</tr>
 				<tr ng-repeat="user in userList" class="text-nowrap">
 					<td>{{user._id}}</td>
@@ -78,9 +77,7 @@
 					<td class="text-left"><a ui-sref="product(getProductDetail(user))">{{user.authed_product_count}}/{{user.product_count}}&nbsp;&nbsp;</td>
 					<td class="text-left"><a ui-sref="designerTeamList({id:user._id})">查看({{user.team_count}})&nbsp;</td>
 					<td>
-						<a href="javascript:;" ng-click="forcedOffline(user._id, user.online_status, user)">{{user.online_status == 0 ? '强制离线' : '开启在线'}}</a>
-					</td>
-					<td>
+						<a href="javascript:;" ng-click="forcedOffline(user._id, user.online_status, user)">{{user.online_status == 0 ? '强制离线' : '开启在线'}}</a> |
 						<a ui-sref="designerEditor({id:user._id})">编辑</a>
 					</td>
 				</tr>
