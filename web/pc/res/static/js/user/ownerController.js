@@ -21,26 +21,17 @@ angular.module('controllers', [])
             '$scope','$rootScope','$location','$filter','userRequiremtne','userMessage',
             function($scope, $rootScope ,$location,$filter,userRequiremtne,userMessage) {
                 //全局需求列表
-                $scope.location = $location;
-                $scope.$watch( 'location.url()', function( url ){
-                    if(url.split('/')[1] == 'requirementList' || url.split('/')[1] == 'index'){
-                        requiremtne();
-                    }
-                });
-                requiremtne();
-                function requiremtne(){
-                   userRequiremtne.list().then(function(res){
-                        $rootScope.requirementList = res.data.data;
-                        angular.forEach($rootScope.requirementList, function(value, key){
-                            value.dec_type = $filter('decTypeFilter')(value.dec_type);
-                            value.dec_style = $filter('decStyleFilter')(value.dec_style);
-                            value.work_type = $filter('workTypeFilter')(value.work_type);
-                            value.house_type = $filter('houseTypeFilter')(value.house_type);
-                        });
-                    },function(res){
-                        console.log(res);
+                userRequiremtne.list().then(function(res){
+                    $rootScope.requirementList = res.data.data;
+                    angular.forEach($rootScope.requirementList, function(value, key){
+                        value.dec_type = $filter('decTypeFilter')(value.dec_type);
+                        value.dec_style = $filter('decStyleFilter')(value.dec_style);
+                        value.work_type = $filter('workTypeFilter')(value.work_type);
+                        value.house_type = $filter('houseTypeFilter')(value.house_type);
                     });
-                }
+                },function(res){
+                    console.log(res);
+                });
             }
     ])
 	.controller('indexCtrl', [     //业主首页
@@ -1174,15 +1165,28 @@ angular.module('controllers', [])
                     }
                 },
                 remove : function(id){
+                    $scope.modal.show = true;
+                    $scope.modal.id = id;
+                }
+            };
+            $scope.modal = {
+                id : '',
+                show : false,
+                cancel : function(){
+                    this.show = false;
+                    this.id = '';
+                },
+                define : function(){
+                    this.show = false;
                     userMessage.remove({
-                        "messageid":id
+                        "messageid":this.id
                     }).then(function(res){
                         laod();
                     },function(err){
                         console.log(err);
                     });
                 }
-            };
+            }
             function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
                 userMessage.count({
                     "query_array":[["4"], ["7", "8","13","9","10"],["5","14"]]

@@ -124,7 +124,7 @@ $(function(){
         this.phone.on('focus',function(){
             phoneOff = true;
         });
-        this.name.on('blur input propertychange',function(){
+        this.name.on('blur',function(){
             if(nameOff){
                 if(!$.trim($(this).val())){
                     $(this).addClass('error').siblings('.errorMsg').html('姓名不能为空');
@@ -139,7 +139,7 @@ $(function(){
                 }
             }
         });
-        this.phone.on('blur input propertychange',function(){
+        this.phone.on('blur',function(){
             if(phoneOff){
                 if(!$.trim($(this).val())){
                     $(this).addClass('error').siblings('.errorMsg').html('手机号码不能为空');

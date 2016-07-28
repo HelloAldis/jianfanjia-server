@@ -542,10 +542,10 @@ $(function(){
             prefix : '',
             suffix : ''
         };
-        new CountUp("j-result-payment", 0, result.payment, 2, 2.5, options).start();
-        new CountUp("j-result-money", 0, result.money, 2, 2.5, options).start();
-        new CountUp("j-result-cycle", 0, result.cycle, 0, 2.5, options).start();
-        new CountUp("j-result-total", 0, result.total, 2, 2.5, options).start();
+        new CountUp("j-result-payment", 0, result.payment, 2, 1, options).start();
+        new CountUp("j-result-money", 0, result.money, 2, 1, options).start();
+        new CountUp("j-result-cycle", 0, result.cycle, 0, 2, options).start();
+        new CountUp("j-result-total", 0, result.total, 2, 1, options).start();
     };
     new Supervision().init();
 });
