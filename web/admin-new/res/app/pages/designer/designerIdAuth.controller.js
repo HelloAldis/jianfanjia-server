@@ -1,9 +1,9 @@
 (function () {
   angular.module('JfjAdmin.pages.designer')
     .controller('DesignerIdAuthController', [ //设计师身份证认证
-      '$scope', '$rootScope', '$http', '$stateParams', '$location',
-      'adminDesigner',
-      function ($scope, $rootScope, $http, $stateParams, $location, adminDesigner) {
+      '$scope', '$stateParams', '$location',
+      'adminDesigner', 'toastr',
+      function ($scope, $stateParams, $location, adminDesigner, toastr) {
         adminDesigner.idAuth($stateParams.id)
         .then(function (resp) {
           $scope.user = resp.data.data;
@@ -20,7 +20,7 @@
               if (!!$scope.errorMsg) {
                 msg = $scope.errorMsg;
               } else {
-                alert('请填写未认证通过原因');
+                toastr.info('请填写未认证通过原因');
                 return;
               }
             }

@@ -4,7 +4,7 @@
 (function () {
   'use strict';
 
-  angular.module('JfjAdmin.pages.designer', [])
+  angular.module('JfjAdmin.pages.designer', ['toastr'])
     .config(routeConfig);
 
   /** @ngInject */

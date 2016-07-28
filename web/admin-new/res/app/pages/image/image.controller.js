@@ -53,7 +53,6 @@
 
         //从url详情中初始化页面
         function initUI(detail) {
-          console.log(detail);
           if (detail.query) {
             if (detail.query.create_at) {
               if (detail.query.create_at["$gte"]) {
@@ -133,17 +132,19 @@
         loadList($stateParams.detail);
 
         $scope.deleteImage = function (imageid) {
-          adminImage.delete_image({
-            imageid: imageid
-          }).then(function (resp) {
-            if (resp.data.msg === "success") {
-              loadList(refreshDetailFromUI($stateParams.detail));
-            }
-          }, function (resp) {
-            //返回错误信息
-            $scope.loading.loadData = true;
-            console.log(resp);
-          });
+          if (confirm("你确定要删除吗？删除不能恢复")) {
+            adminImage.delete_image({
+              imageid: imageid
+            }).then(function (resp) {
+              if (resp.data.msg === "success") {
+                loadList(refreshDetailFromUI($stateParams.detail));
+              }
+            }, function (resp) {
+              //返回错误信息
+              $scope.loading.loadData = true;
+              console.log(resp);
+            });
+          }
         }
       }
     ]);

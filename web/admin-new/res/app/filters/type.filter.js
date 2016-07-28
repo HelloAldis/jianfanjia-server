@@ -264,14 +264,15 @@
     })
     .filter('pcUrl', function () { //性别筛选
       return function (url) {
-        var port = window.location.port ? ':' + window.location.port : '';
-        if (window.location.hostname == 'localhost') {
-          return 'http://127.0.0.1' + port + url;
-        } else if (window.location.hostname == 'devgod.jianfanjia.com') {
-          return 'http://dev.jianfanjia.com' + port + url;
-        } else {
-          return 'http://www.jianfanjia.com' + url;
-        }
+        return 'http://dev.jianfanjia.com' + url;
+        // var port = window.location.port ? ':' + window.location.port : '';
+        // if (window.location.hostname == 'localhost') {
+        //   return 'http://127.0.0.1' + port + url;
+        // } else if (window.location.hostname == 'devgod.jianfanjia.com') {
+        //   return 'http://dev.jianfanjia.com' + port + url;
+        // } else {
+        //   return 'http://www.jianfanjia.com' + url;
+        // }
       };
     });
 })();

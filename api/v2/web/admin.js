@@ -669,6 +669,8 @@ exports.search_process = function (req, res, next) {
         final_designerid: search_word
       }, {
         requirementid: search_word
+      }, {
+        supervisorids: search_word
       }];
     } else {
       search_word = reg_util.reg(tools.trim(search_word), 'i');
@@ -1399,6 +1401,9 @@ exports.search_image = function (req, res, next) {
       }];
     } else {
       search_word = reg_util.reg(tools.trim(search_word), 'i');
+      query['$or'] = [{
+        ip: search_word
+      }];
     }
   }
   let ep = eventproxy();
@@ -1491,7 +1496,16 @@ exports.push_message_to_user = function (req, res, next) {
   let ep = eventproxy();
   ep.fail(next);
 
+  if (query._id && !tools.isValidObjectId(query._id)) {
+    return res.sendErrMsg('不是合法的ID');
+  }
+
   User.count(query, ep.done(function (count) {
+    if (count === 0) {
+      return res.sendErrMsg('没有推送给任何业主');
+    }
+
+    res.sendSuccessMsg();
     async.timesSeries(count, function (n, next) {
       User.find(query, {
         _id: 1,
@@ -1514,7 +1528,7 @@ exports.push_message_to_user = function (req, res, next) {
     }));
   }));
 
-  res.sendSuccessMsg();
+
 }
 
 exports.push_message_to_designer = function (req, res, next) {
@@ -1525,7 +1539,16 @@ exports.push_message_to_designer = function (req, res, next) {
   let ep = eventproxy();
   ep.fail(next);
 
+  if (query._id && !tools.isValidObjectId(query._id)) {
+    return res.sendErrMsg('不是合法的ID');
+  }
+
   Designer.count(query, ep.done(function (count) {
+    if (count === 0) {
+      return res.sendErrMsg('没有找到对应业主');
+    }
+
+    res.sendSuccessMsg();
     async.timesSeries(count, function (n, next) {
       Designer.find(query, {
         _id: 1,
@@ -1547,8 +1570,6 @@ exports.push_message_to_designer = function (req, res, next) {
 
     }));
   }));
-
-  res.sendSuccessMsg();
 }
 
 //561a0a85acdcb73750b2ddfd
