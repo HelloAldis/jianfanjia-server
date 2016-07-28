@@ -669,6 +669,8 @@ exports.search_process = function (req, res, next) {
         final_designerid: search_word
       }, {
         requirementid: search_word
+      }, {
+        supervisorids: search_word
       }];
     } else {
       search_word = reg_util.reg(tools.trim(search_word), 'i');
