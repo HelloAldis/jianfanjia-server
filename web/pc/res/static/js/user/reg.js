@@ -5,7 +5,7 @@ require.config({
         lodash : 'lib/lodash'
     }
 });
-require(['jquery','lodash'],function($,_){
+require(['jquery','lodash','utils/placeholder'],function($,_,Placeholder){
     var Register = function(){};
     Register.prototype = {
         init : function(){
@@ -332,5 +332,10 @@ require(['jquery','lodash'],function($,_){
         }
     };
     var reg = new Register();
-    reg.init();
+    $(function(){
+        new Placeholder({'id': '#reg-account','className': 'placeholder'});
+        new Placeholder({'id': '#reg-VerifyCode','className': 'placeholder'});
+        new Placeholder({'id': '#reg-password','className': 'placeholder'});
+        reg.init();
+    });
 });

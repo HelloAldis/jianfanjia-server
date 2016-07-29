@@ -343,6 +343,9 @@ position: absolute;
 .g-apply .apply-form .u-lab .icon-phone{
     background-position: 0 -20px;
 }
+.placeholder{
+    left:19px;
+}
 .g-apply .apply-form .item.error .u-lab,
 .g-apply .apply-form .item.focus .u-lab{
     width: 44px;
@@ -351,10 +354,12 @@ position: absolute;
     line-height: 44px;
 }
 .g-apply .apply-form .u-inp {
+    position: relative;
     float: left;
 }
 
 .g-apply .apply-form .box {
+    position: relative;
     width: 182px;
     height: 36px;
     line-height: 36px;

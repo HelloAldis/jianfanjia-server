@@ -5,7 +5,7 @@ require.config({
         lodash : 'lib/lodash'
     }
 });
-require(['jquery','lodash'],function($,_){
+require(['jquery','lodash','utils/placeholder'],function($,_,Placeholder){
     var Getpw = function(){};
     Getpw.prototype = {
         init : function(){
@@ -294,5 +294,11 @@ require(['jquery','lodash'],function($,_){
         }
     }
     var getpw = new Getpw();
-    getpw.init();
+    $(function(){
+        new Placeholder({'id': '#getpw-account','className': 'placeholder'});
+        new Placeholder({'id': '#getpw-VerifyCode','className': 'placeholder'});
+        new Placeholder({'id': '#getpw-password','className': 'placeholder'});
+        new Placeholder({'id': '#getpw-password2','className': 'placeholder'});
+        getpw.init();
+    });
 })
