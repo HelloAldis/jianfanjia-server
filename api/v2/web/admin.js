@@ -1502,7 +1502,7 @@ exports.push_message_to_user = function (req, res, next) {
 
   User.count(query, ep.done(function (count) {
     if (count === 0) {
-      return res.sendErrMsg('没有推送给任何业主');
+      return res.sendErrMsg('没有找到对应的业主');
     }
 
     res.sendSuccessMsg();
@@ -1527,8 +1527,6 @@ exports.push_message_to_user = function (req, res, next) {
 
     }));
   }));
-
-
 }
 
 exports.push_message_to_designer = function (req, res, next) {
@@ -1545,7 +1543,7 @@ exports.push_message_to_designer = function (req, res, next) {
 
   Designer.count(query, ep.done(function (count) {
     if (count === 0) {
-      return res.sendErrMsg('没有找到对应业主');
+      return res.sendErrMsg('没有找到对应设计师');
     }
 
     res.sendSuccessMsg();
