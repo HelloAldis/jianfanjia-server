@@ -10,6 +10,7 @@
       if ($scope.checkValidity()) {
         return;
       }
+      $scope.notify.content = $($scope.notify.html).text().slice(0, 30);      // 描述
       $scope.notify && $scope.notify.query && ($scope.notify.query._id = $scope.notify.query._id || undefined);
       adminNotify.pushMessageToDesigner($scope.notify)
       .then(function (resp) {
@@ -31,9 +32,6 @@
       } else if ($scope.notify) {
         if (!$scope.notify.title) {
           toastr.info('标题不能为空');
-          return true;
-        } else if (!$scope.notify.content) {
-          toastr.info('标题简述不能为空');
           return true;
         } else if (!$scope.notify.html) {
           toastr.info('内容不能为空');

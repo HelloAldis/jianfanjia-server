@@ -144,19 +144,6 @@
   text-align: center;
   white-space: nowrap;
 }
-.field-detail-page .panel-heading{
-	height: auto;
-}
-.field-detail-page .panel-heading h5{
-	margin: 0;
-}
-.field-detail-page .assigned{
-	color: #044c45;
-}
-.image-page table .img-info-list td{
-	display: table-cell;
-	vertical-align: middle;
-}
 .designer-page .online-status-btn button{
 	width: 68px;
 }
@@ -184,6 +171,19 @@
 
 .designer-info-page .form-group .btn{
 	margin-bottom: 10px;
+}
+.field-detail-page .panel-heading{
+	height: auto;
+}
+.field-detail-page .panel-heading h5{
+	margin: 0;
+}
+.field-detail-page .assigned{
+	color: #044c45;
+}
+.image-page table .img-info-list td{
+	display: table-cell;
+	vertical-align: middle;
 }
 .data-statis-page .panel-info .load-data{
 	position: absolute;

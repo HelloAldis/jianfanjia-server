@@ -3,6 +3,30 @@
     .controller('FieldListController', [
       '$scope', '$rootScope', 'adminField', '$stateParams', '$location',
       function ($scope, $rootScope, adminField, $stateParams, $location) {
+        $scope.config = {
+          title: '开工时间过滤：',
+          placeholder: '工地ID/业主ID/设计师ID/需求ID/监理ID/工地名称',
+          search_word: $scope.search_word
+        }
+
+        $scope.delegate = {};
+
+        // 搜索
+        $scope.delegate.search = function (search_word) {
+          $scope.pagination.currentPage = 1;
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        }
+
+        // 重置
+        $scope.delegate.clearStatus = function () {
+          $scope.pagination.currentPage = 1;
+          $scope.dtStart = '';
+          $scope.dtEnd = '';
+          $scope.config.search_word = undefined;
+          $stateParams.detail = {};
+          refreshPage(refreshDetailFromUI($stateParams.detail));
+        }
+
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
 
         //刷新页面公共方法
@@ -29,6 +53,19 @@
 
         //从url详情中初始化页面
         function initUI(detail) {
+          if (detail.query) {
+            if (detail.query.start_at) {
+              if (detail.query.start_at["$gte"]) {
+                $scope.dtStart = new Date(detail.query.start_at["$gte"]);
+              }
+
+              if (detail.query.start_at["$lte"]) {
+                $scope.dtEnd = new Date(detail.query.start_at["$lte"]);
+              }
+            }
+
+            $scope.config.search_word = detail.search_word;
+          }
           detail.from = detail.from || 0;
           detail.limit = detail.limit || 10;
           $scope.pagination.pageSize = detail.limit;
@@ -41,6 +78,17 @@
 
         //从页面获取详情
         function refreshDetailFromUI(detail) {
+          var gte = $scope.dtStart ? $scope.dtStart.getTime() : undefined;
+          var lte = $scope.dtEnd ? $scope.dtEnd.getTime() : undefined;
+
+          var createAt = gte || lte ? {
+            "$gte": gte,
+            "$lte": lte
+          } : undefined;
+
+          detail.query = detail.query || {};
+          detail.query.start_at = createAt;
+          detail.search_word = $scope.config.search_word || undefined;
           detail.from = ($scope.pagination.pageSize) * ($scope.pagination.currentPage - 1);
           detail.limit = $scope.pagination.pageSize;
           detail.sort = $scope.sort;
