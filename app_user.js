@@ -30,7 +30,7 @@ var app = express();
 app.enable('trust proxy');
 
 //config view engine
-app.set('views', path.join(__dirname, 'web/pc/template'));
+app.set('views', path.join(__dirname, 'web/user/template'));
 app.set('view engine', 'ejs');
 app.engine('ejs', require('ejs').__express);
 app.set('view cache', !config.debug);
@@ -88,7 +88,7 @@ app.use('/weixin', auth.authWechat);
 //后台渲染的页面
 app.use('/', web_router_pc);
 // 静态资源
-app.use('/', express.static(path.join(__dirname, 'web/pc/res')));
+app.use('/', express.static(path.join(__dirname, 'web/user/res')));
 
 app.use('/api', responseUtil);
 
