@@ -521,7 +521,6 @@ exports.search_plan = function (req, res, next) {
   }));
 }
 
-
 exports.getDesigner = function (req, res, next) {
   let designerid = req.params._id;
   let ep = eventproxy();
@@ -761,15 +760,15 @@ exports.ueditor_get = function (req, res, next) {
   let action = req.query.action;
 
   switch (action) {
-    case 'config':
-      if (!ue_config.imageUrlPrefix.startsWith('http')) {
-        ue_config.imageUrlPrefix = req.protocol + '://' + req.headers.host + ue_config.imageUrlPrefix;
-      }
-      res.json(ue_config);
-      break;
-    default:
-      res.sendErrMsg('请求地址有误');
-      break;
+  case 'config':
+    if (!ue_config.imageUrlPrefix.startsWith('http')) {
+      ue_config.imageUrlPrefix = req.protocol + '://' + req.headers.host + ue_config.imageUrlPrefix;
+    }
+    res.json(ue_config);
+    break;
+  default:
+    res.sendErrMsg('请求地址有误');
+    break;
   }
 }
 
@@ -779,42 +778,41 @@ exports.ueditor_post = function (req, res, next) {
   let action = req.query.action;
 
   switch (action) {
-    case 'uploadimage':
-      let data = req.file.buffer;
-      let userid = ApiUtil.getUserid(req);
-      let md5 = utility.md5(data);
+  case 'uploadimage':
+    let data = req.file.buffer;
+    let userid = ApiUtil.getUserid(req);
+    let md5 = utility.md5(data);
 
-      Image.findOne({
-        md5: md5
-      }, null, ep.done(function (image) {
-        if (image) {
-          res.json({
-            url: image._id,
-            title: req.file.originalname,
-            original: req.file.originalname,
-            state: 'SUCCESS',
-          });
-        } else {
-          imageUtil.jpgbuffer(data, ep.done(function (buf) {
-            Image.newAndSave(md5, buf, userid, ep.done(function (
-              savedImage) {
-              res.json({
-                url: savedImage._id,
-                title: req.file.originalname,
-                original: req.file.originalname,
-                state: 'SUCCESS',
-              });
-            }));
+    Image.findOne({
+      md5: md5
+    }, null, ep.done(function (image) {
+      if (image) {
+        res.json({
+          url: image._id,
+          title: req.file.originalname,
+          original: req.file.originalname,
+          state: 'SUCCESS',
+        });
+      } else {
+        imageUtil.jpgbuffer(data, ep.done(function (buf) {
+          Image.newAndSave(md5, buf, userid, ep.done(function (
+            savedImage) {
+            res.json({
+              url: savedImage._id,
+              title: req.file.originalname,
+              original: req.file.originalname,
+              state: 'SUCCESS',
+            });
           }));
-        }
-      }));
-      break;
-    default:
-      res.sendErrMsg('请求地址有误');
-      break;
+        }));
+      }
+    }));
+    break;
+  default:
+    res.sendErrMsg('请求地址有误');
+    break;
   }
 }
-
 
 /*
 23/Nov/2015:07:52:27 +0000 59.173.226.250 - GET - /api/v2/web/admin/ueditor?action=listimage&start=0&size=20&noCache=1448265381556
@@ -830,14 +828,14 @@ exports.add_article = function (req, res, next) {
   ep.fail(next);
 
   switch (article.articletype) {
-    case type.articletype_dec_strategy:
-    case type.articletype_dec_tip:
-      DecStrategy.newAndSave(article, ep.done(function (dec_strategy) {
-        res.sendSuccessMsg();
-      }));
-      break;
-    default:
-      res.sendErrMsg('请求articletype类型错误');
+  case type.articletype_dec_strategy:
+  case type.articletype_dec_tip:
+    DecStrategy.newAndSave(article, ep.done(function (dec_strategy) {
+      res.sendSuccessMsg();
+    }));
+    break;
+  default:
+    res.sendErrMsg('请求articletype类型错误');
   }
 }
 
@@ -1474,7 +1472,6 @@ exports.add_user = function (req, res, next) {
     }
   });
 
-
   User.findOne({
     phone: phone
   }, null, ep.done(function (user) {
@@ -1569,5 +1566,3 @@ exports.push_message_to_designer = function (req, res, next) {
     }));
   }));
 }
-
-//561a0a85acdcb73750b2ddfd

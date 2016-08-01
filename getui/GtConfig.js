@@ -2,7 +2,6 @@
  * Created by Administrator on 2015/5/13.
  */
 
-
 function getProperty(envKey, defaultValue) {
   var value = process.env[envKey];
   if (value == null) {
