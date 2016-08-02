@@ -5,8 +5,7 @@
 			<div class="panel panel-info ng-scope table-responsive panel-common">
 				<div class="panel-heading clearfix">
 					<h2 class="panel-title">
-						{{user.user.username}}
-						<small>业主 (手机号码：{{user.user.phone}})</small>
+						{{user.user.username}} 业主 (手机号码：{{user.user.phone}})
 					</h2>
 					<h4>
 						{{user.basic_address}}
@@ -29,7 +28,7 @@
 
 							<tr>
 								<td>详细地址</td>
-								<td>{{user.basic_address}}</td>
+								<td>{{user.basic_address}}{{user.detail_address}}</td>
 							</tr>
 
 							<tr>
