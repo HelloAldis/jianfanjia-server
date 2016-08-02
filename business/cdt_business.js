@@ -18,15 +18,27 @@ const orderScheduleService_url = config.cdt_api_url + '/service/orderScheduleSer
 const aesKey = utility.base64decode(key, false, 'buffer');
 console.log(aesKey);
 
-//查看我的订单
-exports.myOrderService = function (body) {
+function cdtApi(url, body) {
   let req = beRequest(body);
   console.log(req);
-  superagent.post(myOrderService_url).send(req).end(function (err, res) {
+  superagent.post(url).send(req).end(function (err, res) {
     console.log(err);
     console.log(res.text);
     deResponse(res.text);
   });
+}
+
+//查看我的订单
+exports.myOrderService = function (body) {
+  cdtApi(myOrderService_url, body);
+}
+
+exports.loanApplyService = function (body) {
+  cdtApi(loanApplyService_url, body);
+}
+
+exports.orderScheduleService = function (body) {
+  cdtApi(orderScheduleService_url, body);
 }
 
 // 先base64解码字符串 然后解密 字符串, 所以发送请求要先加密然后base64编码
@@ -54,6 +66,26 @@ function deResponse(resp) {
   return res;
 }
 
-exports.myOrderService({
+// exports.myOrderService({
+//   tel: '18107218595'
+// });
+
+// exports.loanApplyService({
+//   province: '湖北省',
+//   city: '',
+//   area: '',
+//   userName: '',
+//   sex: '',
+//   idCard: '',
+//   tel: ''
+// })
+exports.loanApplyService({
+  province: '湖北省',
+  city: '武汉市',
+  area: '江岸区',
+  userName: '李凯',
+  sex: 0,
+  idCard: '420204198908114925',
+  amount: 10,
   tel: '18107218595'
-});
+})
