@@ -8,7 +8,7 @@
   "description": "Jian Fan Jian welcome and API project",
   "main": "app.js",
   "scripts": {
-    "eslint": "eslint ./api/v2 ./common ./controllers ./middlewares ./models ./proxy ./*.js",
+    "eslint": "eslint ./lib ./gulp ./upgrade_script ./*.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Aldis Zhan",
@@ -51,7 +51,8 @@
     "async": "1.5.2",
     "request": "2.69.0",
     "escape-string-regexp": "1.0.5",
-    "xss": "0.2.10"
+    "xss": "0.2.10",
+    "app-module-path": "^1.1.0"
   },
   "devDependencies": {
     "autoprefixer": "6.3.7",

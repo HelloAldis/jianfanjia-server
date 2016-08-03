@@ -1,5 +1,5 @@
 //load configuration
-var config = require('./apiconfig');
+var config = require('lib/config/apiconfig');
 
 var express = require('express');
 var path = require('path');
@@ -7,22 +7,22 @@ var compression = require('compression');
 var session = require('express-session');
 var timeout = require('connect-timeout');
 // var passport = require('passport');
-var req_res_log = require('./middlewares/req_res_log');
-var web_router_pc = require('./router/web_router_pc');
-var api_router_app_v2 = require('./router/api_router_app_v2');
-var api_router_web_v2 = require('./router/api_router_web_v2');
-var auth = require('./middlewares/auth');
-var responseUtil = require('./middlewares/response_util');
-var platform_check = require('./middlewares/platform_check');
+var req_res_log = require('lib/middlewares/req_res_log');
+var web_router_pc = require('lib/router/web_router_pc');
+var api_router_app_v2 = require('lib/router/api_router_app_v2');
+var api_router_web_v2 = require('lib/router/api_router_web_v2');
+var auth = require('lib/middlewares/auth');
+var responseUtil = require('lib/middlewares/response_util');
+var platform_check = require('lib/middlewares/platform_check');
 var RedisStore = require('connect-redis')(session);
 var _ = require('lodash');
 var bodyParser = require('body-parser');
 var cors = require('cors');
-var logger = require('./common/logger');
+var logger = require('lib/common/logger');
 var helmet = require('helmet');
 //防治跨站请求伪造攻击
 //var csurf = require('csurf');
-var api_statistic = require('./middlewares/api_statistic');
+var api_statistic = require('lib/middlewares/api_statistic');
 
 //config the web app
 var app = express();

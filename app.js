@@ -1,14 +1,18 @@
 "use strict";
 
+// Add the root project directory to the app module search path:
+require('app-module-path').addPath(__dirname);
+global.PROJECT_ROOT = __dirname;
+
 //load configuration
-const config = require('./apiconfig');
+const config = require('lib/config/apiconfig');
 const express = require('express');
 const vhost = require('vhost');
-const logger = require('./common/logger');
+const logger = require('lib/common/logger');
 
-require('./middlewares/mongoose_log'); // 打印 mongodb 查询日志
-require('./models');
-require('./common/job');
+require('lib/middlewares/mongoose_log'); // 打印 mongodb 查询日志
+require('lib/models');
+require('lib/common/job');
 
 //main App
 let main_app = express();
