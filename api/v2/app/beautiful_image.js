@@ -1,7 +1,7 @@
 "use strict";
 
 const eventproxy = require('eventproxy');
-const BeautifulImage = require('../../../proxy').BeautifulImage;
+const BeautifulImage = require('../../proxy').BeautifulImage;
 const Favorite = require('../../../proxy').Favorite;
 const tools = require('../../../common/tools');
 const async = require('async');
