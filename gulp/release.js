@@ -12,19 +12,18 @@ const gutil = require('gulp-util');
 const git = require('gulp-git');
 const fs = require('fs');
 const concat = require('gulp-concat');
-const through2 = require('through2')
-
+const logger = require('lib/common/logger');
 
 // -------------------------------- Common Function ----------------------------------------
 function getPackageJsonVersion() {
   // 这里我们直接解析 json 文件而不是使用 require，这是因为 require 会缓存多次调用，这会导致版本号不会被更新掉
   return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
-};
+}
 
 // -------------------------------- End Common Function ----------------------------------------
 
 gulp.task('default', function () {
-  console.log('please use command "gulp release [-a|-b|-c]" or "gulp deploy [-p|-t|-d] [-n]"');
+  logger.info('please use command "gulp release [-a|-b|-c]" or "gulp deploy [-p|-t|-d] [-n]"');
 });
 
 gulp.task('code', function () {
@@ -83,9 +82,9 @@ gulp.task('release', function (callback) {
     'create-new-tag',
     function (error) {
       if (error) {
-        console.log(error.message);
+        logger.info(error.message);
       } else {
-        console.log('RELEASE FINISHED SUCCESSFULLY');
+        logger.info('RELEASE FINISHED SUCCESSFULLY');
       }
       callback(error);
     });
@@ -98,9 +97,9 @@ gulp.task('deploy', function (callback) {
     'cp-config',
     function (error) {
       if (error) {
-        console.log(error.message);
+        logger.info(error.message);
       } else {
-        console.log('Deploy FINISHED SUCCESSFULLY');
+        logger.info('Deploy FINISHED SUCCESSFULLY');
       }
       callback(error);
     });
@@ -108,7 +107,7 @@ gulp.task('deploy', function (callback) {
 
 gulp.task('cp-config', function () {
   const argv = minimist(process.argv.slice(3));
-  console.log(argv);
+  logger.info(argv);
   var path = './apiconfig.dev.js';
   if (argv.t) {
     path = './apiconfig.test.js';
@@ -116,7 +115,7 @@ gulp.task('cp-config', function () {
     path = './apiconfig.pro.js';
   }
 
-  console.log('cp ' + path + ' to ./apiconfig.js');
+  logger.info('cp ' + path + ' to ./apiconfig.js');
   gulp.src(path).pipe(gulp.dest('./apiconfig.js'));
 });
 

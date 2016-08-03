@@ -2,6 +2,7 @@
 
 var gulp = require('gulp');
 var wrench = require('wrench');
+const logger = require('lib/common/logger');
 
 /**
  *  This will load all js or coffee files in the gulp directory
@@ -18,5 +19,5 @@ wrench.readdirSyncRecursive('./gulp').filter(function (file) {
  *  main optimization build task
  */
 gulp.task('default', function () {
-  console.log('nothing here');
+  logger.info('nothing here');
 });
