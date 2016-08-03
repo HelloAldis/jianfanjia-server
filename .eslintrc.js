@@ -20,6 +20,6 @@ module.exports = {
     "eslint:recommended"
   ],
   rules: {
-
+    'no-control-regex': 'off'
   }
 };
