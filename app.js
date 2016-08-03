@@ -16,7 +16,7 @@ require('lib/common/job');
 
 //main App
 let main_app = express();
-main_app.use(vhost('jianfanjia.com', function (req, res, next) {
+main_app.use(vhost('jianfanjia.com', function (req, res) {
   res.redirect(301, 'http://www.jianfanjia.com' + req.url);
 }));
 main_app.use(vhost(config.admin_web_domain_regex, require('./app_admin_new')));

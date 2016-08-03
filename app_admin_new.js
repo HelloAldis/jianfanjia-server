@@ -14,7 +14,6 @@ const auth = require('lib/middlewares/auth');
 const responseUtil = require('lib/middlewares/response_util');
 const platform_check = require('lib/middlewares/platform_check');
 const RedisStore = require('connect-redis')(session);
-const _ = require('lodash');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const logger = require('lib/common/logger');
@@ -92,7 +91,7 @@ app.use('/api', req_res_log);
 app.use('/api/v2/web', cors(), platform_check, api_statistic.api_statistic, api_router_web_v2);
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
   logger.error('server 500 error: %s, %s', err.stack, err.errors);
   if (config.debug) {
     return res.status(500).send({

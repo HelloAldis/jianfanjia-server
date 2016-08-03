@@ -6,12 +6,10 @@ const config = require('lib/config/apiconfig');
 const express = require('express');
 const path = require('path');
 const compression = require('compression');
-const session = require('express-session');
 const timeout = require('connect-timeout');
 const req_res_log = require('lib/middlewares/req_res_log');
 const api_router_app_v2 = require('lib/router/api_router_app_v2');
 const api_router_web_v2 = require('lib/router/api_router_web_v2');
-const auth = require('lib/middlewares/auth');
 const responseUtil = require('lib/middlewares/response_util');
 const platform_check = require('lib/middlewares/platform_check');
 // const RedisStore = require('connect-redis')(session);
@@ -77,7 +75,7 @@ app.use('/api/v2/web', cors(), platform_check, api_statistic.api_statistic, api_
 app.use('/', web_router_mobile);
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
   logger.error('server 500 error: %s, %s', err.stack, err.errors);
   if (config.debug) {
     return res.status(500).send({
