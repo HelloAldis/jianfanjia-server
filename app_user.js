@@ -62,17 +62,17 @@ app.use(session({
     path: '/',
     httpOnly: true,
     secure: false,
-    maxAge: config.session_time,
+    maxAge: config.session_time
   },
   secret: config.session_secret,
   store: new RedisStore({
     port: config.redis_port,
     host: config.redis_host,
-    pass: config.redis_pass,
+    pass: config.redis_pass
   }),
   rolling: true,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: false
 }));
 
 //check浏览器端cookie状态

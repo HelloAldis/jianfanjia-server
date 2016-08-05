@@ -8,7 +8,7 @@
   "description": "Jian Fan Jian welcome and API project",
   "main": "app.js",
   "scripts": {
-    "eslint": "eslint ./lib ./gulp ./*.js",
+    "eslint": "eslint --fix ./lib ./gulp ./*.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Aldis Zhan",

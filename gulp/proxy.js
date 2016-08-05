@@ -71,7 +71,7 @@ gulp.task('connect', function () { //配置代理
           // options.route = '/api';
           options.cookieRewrite = 'dev.jianfanjia.com';
           return proxy(options);
-        })()],
+        })()]
         // modRewrite([
         //   '^/api(.*)$ http://dev.jianfanjia.com/api$1 [P]'
         // ])

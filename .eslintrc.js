@@ -20,6 +20,15 @@ module.exports = {
     "eslint:recommended"
   ],
   rules: {
-    'no-control-regex': 'off'
+    'no-control-regex': 'off',
+    'block-scoped-var': 'error',
+    'curly': 'error',
+    'eqeqeq': 'error',
+    'no-eval': 'error',
+    'no-with': 'error',
+    'no-undef': 'error',
+    'comma-dangle': 'error',
+    'consistent-this': ['error', "self"],
+    'no-multiple-empty-lines': 'error'
   }
 };
