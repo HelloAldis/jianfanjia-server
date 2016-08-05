@@ -1,0 +1,209 @@
+<%- include('../module/head') -%>
+  <title><%= data.diarySet.title %>--简繁家互联网装修平台|装修效果图|装修流程|施工监理</title>
+  <% if(!!data.diaries.length){ %>
+  <meta name="description" content="<%= data.diaries[0].content %>">
+  <% }else{ %>
+  <meta name="description" content="<%= data.diarySet.title %>--简繁家互联网装修平台|装修效果图|装修流程|施工监理,简繁家，互联网装修平台，装修日记本">
+  <% } %>
+  <meta name="keywords" content="简繁家，互联网装修平台，装修日记本">
+  <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/diary.css" />
+<%- include('../module/header') -%>
+<%
+function house_type(input) {
+    return {"0": "一室", "1": "二室", "2": "三室", "3": "四室", "4": "复式", "5": "别墅", "6": "LOFT", "7": "其他"}[input]
+}
+function dec_style(input) {
+    return {"0": "欧式", "1": "中式", "2": "现代", "3": "地中海", "4": "美式", "5": "东南亚", "6": "田园"}[input]
+}
+function businessHouseType(input) {
+    return {
+        "0": "餐厅",
+        "1": "服装店",
+        "2": "酒吧",
+        "3": "美容院",
+        "4": "办公室",
+        "5": "美发店",
+        "6": "幼儿园",
+        "7": "酒店",
+        "9999": "其他"
+    }[input]
+}
+function work_type(input){ return { "0" : "半包", "1" : "全包", "2" : "纯设计"}[input] }
+function textareaEscaped(value) {
+    return value.toString().replace(/(\r)*\n/g, "<br />").replace(/\s/g, " ");
+}
+function format(date,format){
+                var time = new Date(date),
+                    o = {
+                        "M+" : time.getMonth()+1, //month
+                        "d+" : time.getDate(), //day
+                        "h+" : time.getHours(), //hour
+                        "m+" : time.getMinutes(), //minute
+                        "s+" : time.getSeconds(), //second
+                        "q+" : Math.floor((time.getMonth()+3)/3), //quarter
+                        "S" : time.getMilliseconds() //millisecond
+                    };
+                if(/(y+)/.test(format)) {
+                format = format.replace(RegExp.$1, (time.getFullYear()+"").substr(4 - RegExp.$1.length));
+                }
+                for(var k in o) {
+                    if(new RegExp("("+ k +")").test(format)) {
+                        format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+                    }
+                }
+                return format;
+            }
+%>
+    <div class="hide"><%= JSON.stringify(data) %></div>
+    <main class="g-bd g-wp f-cb g-diary" id="j-diary">
+        <article class="g-mn f-fl">
+            <header class="m-diary-banner">
+                <% if(!!data.diarySet.cover_imageid){ %>
+                <img src="/api/v2/web/thumbnail2/920/260/<%= data.diarySet.cover_imageid %>" />
+                <% }else{ %>
+                <img src="/static/img/diary/covers-default.jpg" />
+                <% } %>
+                <div class="mask"></div>
+                <div class="boxs">
+                    <h4><%= data.diarySet.title %></h4>
+                    <p>
+                        <span><%= data.diarySet.house_area %>m&sup2;</span><i>|</i>
+                        <span><%= house_type(data.diarySet.house_type) %></span><i>|</i>
+                        <span><%= dec_style(data.diarySet.dec_style) %></span><i>|</i>
+                        <span><%= work_type(data.diarySet.work_type) %></span>
+                    </p>
+                </div>
+                <div class="operate">
+                    <% if(data.header_info.user_statistic_info !== undefined){ %>
+                    <% if(data.diarySet.authorid.toString() === data.header_info.user_statistic_info._id.toString()){ %>
+                    <a class="btns edit" href="/tpl/user/owner.html#/diary/add/<%= data.diarySet._id %>"><i class="iconfont">&#xe627;</i></a>
+                    <% } %>
+                    <% } %>
+                </div>
+            </header>
+            <div class="m-diary-list m-diary-show">
+                <% if(!!data.diaries.length){ %>
+                <% data.diaries.forEach((v, k) => { %>
+                <div class="m-list" id="diary_<%= v._id %>" data-label="<%= v.section_label %>" data-uid="<%= v._id %>" data-authorid="<%= v.authorid %>">
+                    <header class="m-header f-cb">
+                        <div class="tags">
+                            <h4><%= v.section_label %></h4>
+                            <time><%= format(v.create_at,'yyyy年MM月dd日 hh:mm') %></time>
+                        </div>
+                        <div class="operate">
+                            <% if(data.header_info.user_statistic_info !== undefined){ %>
+                            <% if(data.diarySet.authorid.toString() === data.header_info.user_statistic_info._id.toString()){ %>
+                            <a class="btns remove" data-diaryid="<%= v._id %>"><i class="iconfont">&#xe619;</i></a>
+                            <% } %>
+                            <% } %>
+                        </div>
+                    </header>
+                    <section class="m-body">
+                        <p class="text"><%- textareaEscaped(v.content) %></p>
+                        <% if(!!v.images.length){ %>
+                        <div class="img f-cb">
+                            <% v.images.forEach((v, k) => { %>
+                            <img src="/static/img/public/load.gif" data-width="<%= v.width %>" class="lazyload lightBox u-placeholder-image" data-imageid="<%= v.imageid %>" data-height="<%= v.height %>" alt="" data-original="/api/v2/web/thumbnail2/160/160/<%= v.imageid %>" />
+                            <% }) %>
+                        </div>
+                        <% } %>
+                    </section>
+                    <ul class="m-footer">
+                        <% if(v.is_my_favorite){ %>
+                        <li class="u-like active" data-diaryid="<%= v._id %>"><span class="like"><%= v.favorite_count %></span></li>
+                        <% }else{ %>
+                        <li class="click-like u-like" data-diaryid="<%= v._id %>"><span class="like"><%= v.favorite_count %></span><strong>+1</strong></li>
+                        <% } %>
+                        <li class="u-review click-review" data-diaryid="<%= v._id %>"><span class="review" ><%= v.comment_count %></span><strong>+1</strong></li>
+                    </ul>
+                    <% if (data.header_info.admin_statistic_info === undefined || data.header_info.user_statistic_info === undefined || data.header_info.designer_statistic_info === undefined) { %>
+                          <% if(data.header_info.designer_statistic_info != undefined){ %>
+                    <div class="m-review hide">
+                          <div class="notsigned notwrite">
+                            评论功能暂时只对业主开放。
+                          </div>
+                          <% }else if(data.header_info.admin_statistic_info != undefined){ %>
+                          <% }else if(data.header_info.user_statistic_info != undefined){ %>
+                    <div class="m-review hide" data-userid="<%= data.header_info.user_statistic_info._id %>">
+                        <div class="write">
+                            <div class="u-head u-head-radius u-head-w50">
+                                <% if(data.header_info.user_statistic_info.imageid != undefined){ %>
+                                <img
+                                src="/api/v2/web/thumbnail2/50/50/<%= data.header_info.user_statistic_info.imageid %>"
+                                alt="<%= data.header_info.user_statistic_info.username %>" />
+                                <%}%>
+                            </div>
+                            <div class="textarea">
+                                <textarea rows="10" name="content" class="contentMsg"></textarea>
+                            </div>
+                            <div class="btns">
+                                <span class="find">回复给&nbsp;&nbsp;<strong></strong></span>
+                                <button type="button" class="u-btns addComment u-btns-disabled">发表评论</button>
+                            </div>
+                        </div>
+                          <% }else{%>
+                    <div class="m-review hide">
+                        <div class="notsigned">
+                            您尚未登录，请先<a class="login" href="/tpl/user/login.html?/tpl/diary/book/<%= data.diarySet._id %>">登录</a>或<a href="/tpl/user/reg.html">注册</a>
+                        </div>
+                        <%}%>
+                        <% }%>
+                        <div class="list">
+                            <ul></ul>
+                        </div>
+                        <div class="more" data-topicid="<%= v._id %>">加载更多</div>
+                    </div>
+                </div>
+                <% }) %>
+                <% }else{ %>
+                <p class="not">
+                    该日记还没有发布任何内容，先去<a href="/tpl/diary/index.html">看看别的</a>吧
+                </p>
+                <% } %>
+            </div>
+        </article>
+        <aside class="g-sd f-fr">
+            <section class="section m-diary-hot">
+                <h3 class="m-tt">热门日记</h3>
+                <div class="m-ct">
+                    <ul>
+                        <% data.top_diary_set.forEach((v, k) => { %>
+                        <li>
+                            <h4 class="title"><a href="/tpl/diary/book/<%= v._id %>"><%= v.title %></a></h4>
+                            <p class="tag">
+                                <span><%= v.house_area %>m&sup2;</span><i>|</i>
+                                <span><%= house_type(v.house_type) %></span><i>|</i>
+                                <span><%= dec_style(v.dec_style) %></span><i>|</i>
+                                <span><%= work_type(v.work_type) %></span>
+                            </p>
+                            <a href="/tpl/diary/book/<%= v._id %>" class="img u-placeholder-image">
+                                <% if(v.cover_imageid !== undefined){ %>
+                                <img class="lazyload" data-original="/api/v2/web/thumbnail2/220/85/<%= v.cover_imageid %>" src="/static/img/public/load.gif" />
+                                <% } %>
+                            </a>
+                            <div class="count">
+                                <span class="view"><%= v.view_count %></span>
+                            </div>
+                        </li>
+                        <% }) %>
+                    </ul>
+                </div>
+            </section>
+        </aside>
+    </main>
+    <% if(!!data.diaries.length){ %>
+    <div class="m-sidenav" id="j-sidenav">
+        <ul>
+            <% data.diaries.forEach((v, k) => { %>
+            <% if(k == 0){ %>
+            <li class="active"><%= v.section_label %></li>
+            <% }else{ %>
+            <li><%= v.section_label %></li>
+            <% } %>
+            <% }) %>
+        </ul>
+    </div>
+    <% } %>
+<script type="text/javascript" data-main="/static/js/diary/detail" src="/static/js/lib/require.js"></script>
+<%- include('../module/footer') -%>

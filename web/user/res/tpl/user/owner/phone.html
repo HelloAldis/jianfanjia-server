@@ -1,0 +1,48 @@
+<div class="main">
+  <div class="m-tt">
+    <h2 class="f-fl">绑定手机号码</h2>
+  </div>
+  <div class="m-ct">
+    <form name="release" ng-submit="phone.submit()" novalidate>
+      <div class="k-form release">
+        <div class="m-boxs">
+          <div class="m-item f-cb">
+            <div class="item">
+              <label class="u-lab" for="owner-sex"><i class="required-icon"></i>手机号码</label>
+              <div class="u-inp">
+                <input type="text" class="input" ng-model="user.phone" placeholder="11位手机号码" my-placeholder name="phone" ng-class="{'error':phone.verifyPhoneError}" ng-change="phone.verifyphone(user.phone)" />
+              </div>
+              <div class="u-error">
+                <span ng-show="phone.verifyPhoneOff" class="has-error" ng-bind="phone.phoneMsg"></span>
+              </div>
+            </div>
+          </div>
+          <div class="m-item f-cb">
+            <div class="item">
+              <label class="u-lab" for="owner-email"><i class="required-icon"></i>验证码</label>
+              <div class="u-inp">
+                <input type="text" class="input code" ng-model="user.code" placeholder="6位数字验证码" my-placeholder ng-class="{'error':phone.verifyCodeError}" name="code" ng-change="phone.verifycode(user.code)" />
+                <input type="button" ng-value="phone.codeValue" class="u-btns code-btns" ng-class="{'u-btns-disabled':phone.verifyPhoneOff || !phone.verifyCodeDid}" ng-disabled="phone.verifyPhoneOff || !phone.verifyCodeDid" ng-click="phone.pullcode(user.phone)">
+              </div>
+              <div class="u-error">
+                <span ng-show="phone.verifyCodeOff" class="has-error" ng-bind="phone.codeMsg"></span>
+              </div>
+            </div>
+          </div>
+          <div class="m-item f-cb" ng-if="phone.submitMsg">
+            <div class="item">
+              <label class="u-lab" for="owner-email">&nbsp;&nbsp;</label>
+              <div class="u-inp">
+                <div class="u-error">
+                  <span class="has-error" ng-bind="phone.submitMsg"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="m-btns">
+            <input type="submit" class="u-btns" ng-class="{'u-btns-disabled':phone.disabled}" ng-disabled="phone.disabled" value="确认绑定" />
+          </div>
+      </div>
+    </form>
+  </div>
+</div>

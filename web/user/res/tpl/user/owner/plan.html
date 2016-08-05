@@ -1,0 +1,73 @@
+<div class="plans">
+	<div class="plans-tips">
+		<p class="f-fl">装修方案摘要</p>
+	</div>
+	<ul class="m-plans" ng-if="plans.length == 0 || plans">
+		<li bindonce="plans" ng-repeat="data in plans track by $index">
+			<div class="boxs">
+				<div class="info f-cb">
+					<a bo-href-i="/tpl/designer/{{data.designer._id}}" class="head f-fl" target="_blank">
+						<img bo-src-i="/api/v2/web/thumbnail2/70/70/{{data.designer.imageid}}" bo-alt="data.designer.username" bo-if="data.designer.imageid" />
+						<img bo-src="/static/img/user/headPic.png" bo-alt="data.designer.username" bo-if="!data.designer.imageid" />
+					</a>
+					<dl class="f-fl">
+						<dt>
+							<a bo-href-i="/tpl/designer/{{data.designer._id}}" bo-text="data.designer.username" target="_blank"></a>
+							<span><i>V</i>认证设计师</span>
+							的方案
+						</dt>
+						<dd bo-if="requirement.work_type == 2">
+							<span>设计费<strong>&yen;<i bo-text="data.total_design_fee"></i></strong></span>
+							<span><i class="iconfont2">&#xe625;</i><em bo-text="data.designer.phone"></em></span>
+						</dd>
+						<dd bo-if="requirement.work_type != 2">
+							<span>报价<strong>&yen;<i bo-text="data.total_price"></i></strong></span>
+							<span>工期<strong><i bo-text="data.duration"></i>天</strong></span>
+							<span><i class="iconfont2">&#xe625;</i><em bo-text="data.designer.phone"></em></span>
+						</dd>
+					</dl>
+					<span bo-class="{'status status4 f-fr':data.status == 4,'status status5 f-fr':data.status == 5,'status status3 f-fr':data.status == 3}">
+						<i bo-if="data.status == 4">未中标</i>
+						<i bo-if="data.status == 5">已中标</i>
+						<i bo-if="data.status == 3">沟通中</i>
+					</span>
+				</div>
+				<div class="profile f-cb">
+					<h4 class="f-fl">设计说明：</h4>
+					<p class="f-fl" bo-text="data.description"></p>
+				</div>
+				<ul class="images">
+					<li ng-repeat="img in data.images | limitTo : 3 track by $index"><img bo-src-i="/api/v2/web/thumbnail2/280/180/{{img}}" alt=""></li>
+				</ul>
+				<div class="select">
+					<a bo-href-i="plans.html?pid={{data._id}}#plansMsg" class="u-btns u-btns-revise msg f-fl" target="_blank">评论 (<i bo-text="data.comment_count"></i>)</a>
+					<div class="btns f-fr">
+						<a bo-href-i="plans.html?pid={{data._id}}" class="u-btns u-btns-revise" target="_blank">预览方案</a>
+						<button type="button" class="u-btns" ng-hide="requirement.status == 4 || requirement.status == 5 || requirement.status == 7" ng-click="definePlan.select(data._id,data.designer._id)">选定方案</button>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+	<div class="pageNotdate designer-pageNotdate" ng-show="plans.length == 0">
+		<h3><i class="iconfont2">&#xe605;</i></h3>
+		<p>设计师正在提交方案中</p>
+	</div>
+	<div class="pageLoading" ng-hide="!!plans"></div>
+</div>
+<div class="k-motai" ng-if="definePlan.success">
+	<div class="motai done confirm" ng-if="definePlan.confirm">
+		<span class="done-icon confirm-icon"></span>
+		<h3>温馨提醒！</h3>
+		<p>您确认选定方案，选定以后不能更改</p>
+		<button type="button" class="u-btns u-btns-revise" ng-click="definePlan.cancel()">我再看看</button>&nbsp;&nbsp;&nbsp;&nbsp;
+		<button type="button" class="u-btns" ng-click="definePlan.define()">已经确定</button>
+	</div>
+	<div class="motai done" ng-if="definePlan.done">
+		<span class="done-icon"></span>
+		<h3>选定成功！</h3>
+		<p ng-if="requirement.work_type == 2">简繁家将在近期内与您第三方合同，请保持紧密沟通。</p>
+		<p ng-if="requirement.work_type != 2">设计师将在近期内生成第三方合同，请保持紧密沟通。</p>
+		<button type="button" class="u-btns" ng-click="definePlan.goto(requirement)">&nbsp;&nbsp;确定&nbsp;&nbsp;</button>
+	</div>
+</div>

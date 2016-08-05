@@ -1,0 +1,73 @@
+<div class="noBackdrop">
+    <div class="m-tt">
+        <h2 class="title" ng-bind="$state.current.title"></h2>
+        <div class="m-breadbtns">
+            <p class="s-main-color"><i class="iconfont">&#xe612;</i>&nbsp;&nbsp;&nbsp;您至少需要认证3个以上的作品，才可以被预约</p>
+        </div>
+    </div>
+    <div class="m-ct" ng-if="isLoading">
+        <div class="main m-productList">
+            <div ng-if="productList.length">
+                <ul class="list f-cb">
+                    <li class="add-product">
+                        <a ui-sref="addProduct({list:true})">
+                            <span class="add"><i class="iconfont">&#xe603;</i></span>
+                            添加新的作品
+                        </a>
+                    </li>
+                    <li ng-repeat="list in productList track by $index" bindonce="productList">
+                        <a bo-href-i="/tpl/product/{{list._id}}" class="img">
+                            <img bo-src-i="/api/v2/web/thumbnail2/298/222/{{list.cover_imageid}}" bo-alt="list.cell">
+                        </a>
+                        <div class="txt">
+                            <h4><a bo-href-i="/tpl/product/{{list._id}}" bo-text="list.cell"></a></h4>
+                            <p>
+                                <span bo-if="list.house_area"><i bo-text="list.house_area"></i>m&sup2;</span>
+                                <span bo-text="list.dec_type"></span>
+                                <span bo-if="list.dec_type != '商装'" bo-text="list.house_type"></span>
+                                <span bo-if="list.dec_type == '商装'" bo-text="list.business_house_type"></span>
+                                <span bo-text="list.dec_style"></span>
+                            </p>
+                            <span bo-if="list.auth_type == 0" class="product—auth product—auth0">认证中</span>
+                            <span bo-if="list.auth_type == 1" class="product—auth product—auth1">认证成功</span>
+                            <span bo-if="list.auth_type == 2" class="product—auth product—auth2">认证失败</span>
+                            <span bo-if="list.auth_type == 3" class="product—auth product—auth2">违规下线</span>
+                        </div>
+                        <a ui-sref="updateProduct({id:list._id,list:true})" bo-if="list.auth_type != 0" my-tooltip
+                           class="edit btns tooltip" data-delay="500" data-title="编辑作品"><i class="iconfont">&#xe627;</i></a>
+                        <span class="remove btns tooltip" bo-if="list.auth_type != 0" my-tooltip data-delay="500"
+                              data-title="删除作品" ng-click="modal.remove(list._id)"><i
+                                class="iconfont">&#xe619;</i></span>
+                    </li>
+                </ul>
+                <div my-pageing page-object="pageing" page-callback="callback" ng-if="productList.length"></div>
+            </div>
+            <div class="pageNotdate designer-pageNotdate" ng-if="!productList.length">
+                <ul class="list f-cb">
+                    <li class="add-product">
+                        <a ui-sref="addProduct({list:true})">
+                            <span class="add"><i class="iconfont">&#xe603;</i></span>
+                            添加新的作品
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="pageLoading" ng-if="!isLoading"></div>
+</div>
+<div class="k-modal dialog" id="j-modal" ng-class="{'show':modal.show}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="icon"><i class="iconfont">&#xe619;</i></div>
+                <p>您确定要删除吗？删除不能恢复</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="u-btns u-btns-revise cancel" ng-click="modal.cancel()">取消</button>
+                <button type="button" class="u-btns define" ng-click="modal.define()">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+

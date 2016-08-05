@@ -1,0 +1,144 @@
+<%- include('../module/head') -%>
+  <title>装修匠案例－<%=data.product.cell%></title>
+  <meta name="description" content="<%= data.product.description %>">
+  <meta name="keywords" content="装修,设计师,案例,作品">
+  <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/design.css" />
+<%- include('../module/header') -%>
+<%
+    function price_area(input){ return { "0" : "50-100", "1" : "100-200", "2" : "200-300", "3" : "300以上"}[input] }
+    function house_type(input){ return { "0" : "一室", "1" : "二室", "2" : "三室", "3" : "四室", "4" : "复式", "5" : "别墅", "6" : "LOFT", "7" : "其他" }[input] }
+    function work_type(input){ return { "0" : "半包", "1" : "全包", "2" : "纯设计"}[input] }
+    function dec_style(input){ return { "0" : "欧式", "1" : "中式", "2" : "现代", "3" : "地中海", "4" : "美式", "5" : "东南亚", "6" : "田园" }[input] }
+    function businessHouseType(input){ return { "0" : "餐厅", "1" : "服装店", "2" : "酒吧", "3" : "美容院", "4" : "办公室", "5" : "美发店", "6" : "幼儿园", "7" : "酒店" ,"9999" : "其他" }[input] }
+    function dec_type(input){ return {"0" : "家装","1" : "商装","2" : "软装"}[input]}
+    function setWidth(value){
+        return value <= 880 ? value : 880;
+    }
+    function setHeight(width,height){
+        if(width <= 880){
+            return height;
+        }else{
+            return ~~(height*(880/width));
+        }
+    }
+%>
+<main class="g-bd g-wp f-cb" id="j-detail">
+    <article class="g-mn f-fl">
+        <div class="m-detail-product">
+            <div class="m-tt">
+                <h2><%=data.product.cell%></h2>
+            <% if(data.product.is_my_favorite == undefined){%>
+                <a href="/tpl/user/login.html?/tpl/product/<%=data.product._id%>" class="u-btns u-btns-hollow">收藏作品</a>
+            <% }else{%>
+                <% if(data.product.auth_type == 1){%>
+                <% if(data.product.is_my_favorite){%>
+                <button class="u-btns u-btns-hollow favorite  u-btns-revise" data-uid="<%=data.product._id%>">取消收藏</button>
+                <% }else{%>
+                <button class="u-btns u-btns-hollow favorite" data-uid="<%=data.product._id%>">收藏作品</button>
+                <% }%>
+                <%}%>
+            <% }%>
+            </div>
+            <div class="m-ct">
+                <div class="info">
+                    <ul>
+                        <li>参考造价：<%=data.product.total_price%>万</li>
+                        <li>装修类型：<%=dec_type(data.product.dec_type)%></li>
+                        <li>包工类型：<%=work_type(data.product.work_type)%></li>
+                        <% if(data.product.dec_type == 1 && data.product.business_house_type != undefined){%>
+                        <li>商装类型：<%=businessHouseType(data.product.business_house_type)%></li>
+                        <% }else{%>
+                        <li>户型：<%=house_type(data.product.house_type)%></li>
+                        <% }%>
+                        <li>面积：<%=data.product.house_area%>平米</li>
+                        <li>设计风格：<%=dec_style(data.product.dec_style)%></li>
+                        <li class="last">浏览数：<%=data.product.view_count%></li>
+                    </ul>
+                    <div class="description">
+                        <span class="sub"></span><span class="sup"></span>
+                        <p><%=data.product.description%></p>
+                    </div>
+                </div>
+                <% if(!!data.product.plan_images.length){%>
+                <div class="m-planview">
+                    <div class="boxs">
+                        <% if(data.product.plan_images.length > 1){%>
+                        <div class="toggle hide">
+                            <a href="javascript:;" class="prev"></a>
+                            <a href="javascript:;" class="next hide"></a>
+                        </div>
+                        <% }%>
+                        <div class="roll">
+                            <ul style="width:<%=data.product.plan_images.length*880 %>px;">
+                                <% data.product.plan_images.forEach((v,k) =>{%>
+                                <li>
+                                    <img class="lightBox" src="/api/v2/web/thumbnail2/880/620/<%=v.imageid%>" alt="" data-imageid="<%=v.imageid%>" data-width="<%=v.width%>" data-height="<%=v.height%>">
+                                </li>
+                                <% })%>
+                            </ul>
+                        </div>
+                        <% if(data.product.plan_images.length > 1){%>
+                        <div class="btns">
+                            <% data.product.plan_images.forEach((v,k) =>{%>
+                            <% if(k == 0){%>
+                            <span class="active"></span>
+                            <% }else{%>
+                            <span></span>
+                            <% }%>
+                            <% })%>
+                        </div>
+                        <% }%>
+                    </div>
+                </div>
+                <% }%>
+                <div class="images">
+                    <% data.product.images.forEach((v,k) =>{%>
+                    <section>
+                        <h3><span></span><%=v.section%></h3>
+                        <img class="lightBox lazyimg" width="<%=setWidth(v.width)%>" height="<%=setHeight(v.width,v.height)%>" data-original="/api/v2/web/watermark/<%=setWidth(v.width)%>/<%=v.imageid%>" alt="<%=v.section%>" src="/static/img/public/load.gif" data-imageid="<%=v.imageid%>" data-width="<%=v.width%>" data-height="<%=v.height%>">
+                        <% if(!!v.description){%><p><%-v.description%></p><% }%>
+                    </section>
+                    <% })%>
+                </div>
+            </div>
+        </div>
+    </article>
+    <aside class="g-sd f-fr">
+        <div class="m-detail-info f-tac">
+            <a class="head addIntentHead" href="/tpl/designer/<%=data.designer._id%>">
+                <img src="/api/v2/web/thumbnail2/96/96/<%=data.designer.imageid%>" alt="<%=data.designer.username%>"></a>
+            <h4><a href="/tpl/designer/565ae1d70f5bbbc8645d98e3"><%=data.designer.username%></a></h4>
+            <div class="auth"><% if (data.designer.uid_auth_type === '2') { %><i class="iconfont tooltip" data-title="实名认证">&#xe634;</i><% } %><% if (data.designer.auth_type === '2') { %><i class="iconfont tooltip" data-title="认证设计师">&#xe62a;</i><% } %></div>
+            <div class="service f-cb">
+                <dl class="f-fl">
+                    <dt><%=data.designer.product_count%></dt>
+                    <dd>作品</dd>
+                </dl>
+                <dl class="f-fl">
+                    <dt><%=data.designer.order_count%></dt>
+                    <dd>预约</dd>
+                </dl>
+            </div>
+            <% if (data.header_info.admin_statistic_info == undefined && data.header_info.user_statistic_info == undefined && data.header_info.designer_statistic_info == undefined) { %>
+            <div class="btns">
+            <a href="/tpl/user/login.html?/tpl/designer/<%= data.designer._id %>" class="u-btns addIntent">添加意向</a>
+            </div>
+            <% }else if(data.header_info.user_statistic_info != undefined){ %>
+            <div class="btns">
+            <% if(data.designer.is_my_favorite){ %>
+            <a href="/tpl/user/owner.html#/designer/1" class="u-btns u-btns-revise">已添加</a>
+            <% }else{ %>
+            <a href="javascript:;" class="u-btns addIntent" data-uid="<%= data.designer._id %>">添加意向</a>
+            <% } %>
+            </div>
+            <% }else if(data.header_info.designer_statistic_info != undefined && data.header_info.designer_statistic_info.username === data.designer.username && data.product.auth_type != 0){ %>
+            <div class="btns">
+            <a href="/tpl/user/designer.html#/release/<%=data.product._id%>" class="u-btns">编辑作品</a>
+            </div>
+            <% } %>
+        </div>
+    </aside>
+</main>
+<script type="text/javascript" data-main="/static/js/design/detail-1d07139cb7" src="/static/js/lib/require.js"></script>
+<%- include('../module/footer') -%>

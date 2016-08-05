@@ -1,0 +1,646 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <!--[if lt IE 8]>
+    <script type="text/javascript">if(!-[1,]){window.location.href = "/tpl/other/error.html";}</script>
+    <![endif]-->
+    <title>定制化装修贷款</title>
+    <meta name="description" content="分期无忧乐享装修">
+    <meta name="keywords" content="分期,装修,贷款,互联网装修,武汉装修,设计师平台,简繁家互联网装修平台,家装施工监理">
+    <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/animate.css" />
+    <script type="text/javascript" src="/static/js/lib/jquery.js"></script>
+    <script type="text/javascript" src="/static/js/lib/lodash.js"></script>
+    <script type="text/javascript" src="/static/js/lib/wow.min.js"></script>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/static/js/lib/ie8.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        body{
+            background-color: #ebeced;
+        }
+        .g-banner{
+            position: relative;
+            height: 480px;
+            background:url(img/banner.jpg) no-repeat center top;
+        }
+        input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0px 1000px #f9f9f9 inset;
+            border: 1px solid #CCC!important;
+        }
+        .label-placeholder{
+            position: absolute;
+            left: 20px;
+            height: 20px;
+            top: 9px;
+            font-size: 12px;
+            line-height: 20px;
+            color: #999;
+            cursor: text;
+        }
+        .g-body{
+            overflow: hidden;
+            padding:40px 0 145px;
+        }
+        .items{
+            padding: 19px 39px 39px;
+            margin:0 20px 30px;
+            background-color: #fff;
+            border: 1px solid #e5e5e5;
+        }
+        .workflow{
+            padding: 0;
+            border: 2px solid #d2d2d2;
+        }
+        .items .title{
+            padding-bottom: 25px;
+        }
+        .items .title h3{
+            font-size: 20px;
+            line-height: 40px;
+            font-weight: bold;
+            color: #383d48;
+        }
+        .loan{
+            padding: 0;
+        }
+        .compute{
+            padding:51px 0 0 75px;
+            width: 335px;
+        }
+        .compute .title h3{
+            text-align: center;
+        }
+        .compute .title{
+            padding-bottom: 60px;
+        }
+        .compute .item{
+            padding-bottom: 25px;
+        }
+        .compute .item .btns{
+            width: 100%;
+            height: 46px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #fe7004;
+            border: none;
+            border-radius: 3px;
+            -webkit-transition: 0.2s ease all;
+            -moz-transition: 0.2s ease all;
+            -o-transition: 0.2s ease all;
+            transition: 0.2s ease all;
+        }
+        .compute .item .btns:hover{
+            background-color: #fe5c04;
+        }
+        .result{
+            width: 674px;
+            border-left: 1px solid #e5e5e5;
+        }
+        .result .actual{
+            padding: 35px 0 35px 60px;
+        }
+        .result .actual .info dl{
+            float: left;
+            width: 21%;
+        }
+        .result .actual dl.money{
+            width: 38%;
+        }
+        .result .actual dt,.result .payment dt{
+            font-size: 14px;
+            line-height: 20px;
+            color: #61687a;
+        }
+        .result .actual dd{
+            height: 40px;
+            font-size: 36px;
+            line-height: 40px;
+            color: #000;
+        }
+        .result strong{
+            display: inline-block;
+        }
+        .result .payment{
+            padding-bottom: 40px;
+        }
+        .result .payment dd{
+            height: 80px;
+            font-size: 80px;
+            line-height: 80px;
+            font-weight: bold;
+            color: #fe7004;
+        }
+        .result .payment dd h2,.result .actual dd h3{
+            display: inline-block;
+        }
+        .result .actual .yuan{
+            margin-left: 3px;
+            font-size: 14px;
+            font-weight: normal;
+            color: #383d48;
+        }
+        .result .basic{
+            padding:34px 0 34px 62px;
+            background-color: #f9f9f9;
+        }
+        .result .basic li{
+            float: left;
+            width: 288px;
+            height: 60px;
+            font-size: 20px;
+            line-height: 60px;
+            color: #000;
+        }
+        .result .basic i{
+            display: inline-block;
+            vertical-align: top;
+            width: 20px;
+            height: 20px;
+            margin-top: 22px;
+            background:url(img/loan-icon.png) 0 0 no-repeat;
+        }
+        .result .basic i.icon2{
+            background-position: 0 -22px;
+        }
+        .result .basic i.icon3{
+            background-position: 0 -44px;
+        }
+        .result .basic i.icon4{
+            background-position: 0 -66px;
+        }
+        .result .basic strong{
+            margin: 0 24px 0 15px;
+            color: #383d48;
+        }
+        .result .basic em{
+            font-weight: bold;
+            color: #fe7004;
+        }
+        .label{
+            font-size: 16px;
+            line-height: 46px;
+            color: #383d48;
+        }
+        .faq dl{
+            width: 500px;
+            padding-right: 38px;
+            font-size: 14px;
+        }
+        .faq dt{
+            line-height: 32px;
+            color: #383d48;
+        }
+        .faq dt i{
+            display: inline-block;
+            vertical-align: top;
+            width: 16px;
+            height: 16px;
+            margin-top: 8px;
+            margin-right: 15px;
+            font-size: 12px;
+            line-height: 16px;
+            text-align: center;
+            color: #fff;
+            background-color: #fe7004;
+        }
+        .faq dd{
+            padding-bottom: 20px;
+            padding-left: 31px;
+            line-height: 22px;
+            color: #999;
+        }
+        .profile dt{
+            height: 130px;
+            padding: 0 66px 0 15px;
+            line-height: 130px;
+        }
+        .profile dt img{
+            width: 154px;
+            height: 46px;
+            vertical-align: middle;
+        }
+        .profile dd{
+            width: 830px;
+            font-size: 14px;
+            line-height: 22px;
+            color: #61687a;
+        }
+        .k-select{
+            width: 240px;
+        }
+        .k-select .option{
+            overflow: hidden;
+            height: 28px;
+            line-height: 28px;
+            position: relative;
+            cursor: pointer;
+            padding: 8px 39px 8px 20px;
+            background-color: #f6f6f6;
+            border: 1px solid #eaeaea;
+            border-radius: 2px;
+        }
+        .k-select .option .value{
+            display: block;
+            font-size: 14px;
+            color: #61687a;
+            border-right: 1px solid #eaeaea;
+        }
+        .k-select .arrow {
+            position: absolute;
+            top: 19px;
+            right: 25px;
+            background-color: #f9f9f9;
+        }
+        .k-select .select{
+            top:46px;
+        }
+        .g-apply {
+            width: 318px;
+            height: 358px;
+            margin: 60px 36px 0 0;
+            border: 1px solid #e5e5e5;
+            background-color: #fff;
+        }
+
+        .g-apply .apply-form {
+            padding: 0 30px;
+        }
+
+        .g-apply .apply-form .item {
+            background-color: #f6f6f6;
+        }
+        .g-apply .apply-form .item.focus{
+            border: 1px solid #04bafe;
+        }
+        .g-apply .apply-form .item.error{
+            border: 1px solid #ff4a4a;
+        }
+        .g-apply .apply-form .u-lab {
+            float: left;
+            width: 46px;
+            height: 46px;
+            padding: 0;
+            text-align: center;
+            line-height: 46px;
+            background-color: #e9ebef;
+        }
+        .g-apply .apply-form .item.error .u-lab,
+        .g-apply .apply-form .item.focus .u-lab{
+            width: 44px;
+            padding-right: 1px;
+            height: 44px;
+            line-height: 44px;
+        }
+        .g-apply .apply-form .u-inp {
+            float: left;
+        }
+
+        .g-apply .apply-form .box {
+            position: relative;
+            width: 182px;
+            height: 36px;
+            line-height: 36px;
+            padding: 5px 10px 5px 20px;
+        }
+        .g-apply .apply-form .item.error .box,
+        .g-apply .apply-form .item.focus .box{
+            padding: 4px 10px 4px 19px;
+            background-color: #fff;
+        }
+        .g-apply .apply-form .box input {
+            width: 100%;
+            height: 36px;
+            line-height: 36px;
+            color: #61687a;
+            background: none;
+            border: none;
+        }
+
+        .g-apply .apply-form h3 {
+            font-size: 20px;
+            line-height: 99px;
+            color: #383d48;
+            text-align: center;
+        }
+
+        .g-apply .apply-form .submit-btn {
+            width: 100%;
+            height: 46px;
+            font-size: 14px;
+            color: #fff;
+            cursor: pointer;
+            background-color: #fe7004;
+            border: none;
+            border-radius: 3px;
+            -webkit-transition: 0.2s ease all;
+            -moz-transition: 0.2s ease all;
+            -o-transition: 0.2s ease all;
+            transition: 0.2s ease all;
+        }
+
+        .g-apply .apply-form .submit-btn:hover {
+            background-color: #fe5c04;
+        }
+
+        .g-apply .apply-form .m-item {
+            padding-bottom: 20px;
+        }
+
+        .g-apply .apply-form .save {
+            height: 35px;
+            line-height: 35px;
+        }
+
+        .g-apply .apply-form .save span {
+            display: inline-block;
+            vertical-align: top;
+            width: 14px;
+            height: 14px;
+            margin-right: 10px;
+            margin-top: 10px;
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAcCAMAAABmiH5zAAAAhFBMVEX////+cAT+cAT+cAT+cAT+cAT+cAT+cAT+cATS0tLS0tL+cAT+cAT+cAT+cAT+cAT+cAT+cAT+cAT+cAT+cAT+cAT+cAT+cAT+cAT+cAT+cATS0tLS0tLS0tL+cAT+cAT+cAT+cAT+cAT+cAT+cAT+cAT+cAT+cATS0tLt7e35+fn+cAQZXKdrAAAAKHRSTlMAAQUKDyQrLzxJSkpOW2BkZoCNkqSzvsLJz9/k5ufp8PHy9PX2+vz95m8B7gAAAIRJREFUGNPNz9sagUAUhuE/hBJK9iYp2n73f38OYhp34Dta78E8s5YC09pMINP1ts6o7Z3af+HPkpnCbDzhFmqTYyu2KnAqNc4NMPI6Pzu8+/IbBByBx0KzCwgS7XgtNT0Nb9fy0pUmBwbWkSRvz4dUkZRiSRUlOKT+fqfSXfKp2HEZvwEV5jnXOCbP4QAAAABJRU5ErkJggg==) no-repeat 0 0;
+            cursor: pointer;
+        }
+
+        .g-apply .apply-form .save .active {
+            background-position: 0 -14px;
+        }
+
+        .g-apply .apply-form .m-error-info{
+            padding-bottom: 10px;
+            line-height: 24px;
+            color: #ff4a4a;
+        }
+        .g-apply .apply-form .link {
+            font-size: 14px;
+            line-height: 14px;
+            color: #999;
+        }
+
+        .g-apply .apply-form .link strong {
+            color: #61687a;
+            font-weight: normal;
+        }
+
+        .g-apply .apply-form .link:hover, .g-apply .apply-form .link:hover strong {
+            color: #fe7004;
+        }
+
+        .g-apply .tips {
+            padding: 15px 30px 0;
+            line-height: 12px;
+            color: #b2b2b2;
+        }
+        .label-placeholder{
+            top: 13px;
+        }
+        .g-apply .apply-form .u-lab .icon{
+            display: inline-block;
+            vertical-align: middle;
+            width: 17px;
+            height: 17px;
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAA5CAMAAADnTDCTAAABTVBMVEUAAAD///8nJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYnJjYTi2n8AAAAb3RSTlMAAAEEBQgKCwwOEBESExQVFhkbHB4fICEiIyQnKCotLi8xNzk7PkBDSUpLVV1fYGFjZ2hqbG1ub3Bxcnd4e3+AgYaHipCXm5ygpKWrrLCxuLq7vL/AwcPExcfIycrLzM3Oz9DS09bX2Nvc3d7o7Pyq1ESSAAABSUlEQVQ4y83T6TNCURjH8a+yy3oJUbZkP0jIvlREXcKlLsm1RaH//6UXd61XvDDjN3Nmzv2cec6588w5oCf4GaIq41l/drxZCAsChR66Hmau3yzIS4CkTisG+O58AAxoMR36H33mUt4HIKkBe79bCTpLYceZy6VubhLCISKRxSMEUFAUpQAI0QZCAIoxhOBPRZNl+csYmoC62vxYVNlIzpSM10jalHLcyKspstmM5H+Vl6iRvCnZkJFzZ9VhvHafXq9T7s3+3P2mq9WiZ/GjnEn4nRdJa3ENnR65LJCePUD92ZQlcwcAhCN20SYAkagtG/pFtWVbn0b3LbkMAjCWs6vUSWA0t2b/z0Sxlcb7WeeLW0pxslX1BvsuuPA6wRXbYT7TZH0P7hWTDbDyvtsP4F5Qb1c7AGhfL1zNu0kfDTvKR45TVJ6qU/kGVZpL65yhQd4AAAAASUVORK5CYII=) 0 0 no-repeat;
+        }
+        .g-apply .apply-form .u-lab .icon-user{
+            background-position: 0 -40px;
+        }
+        .g-apply .apply-form .u-lab .icon-phone{
+            background-position: 0 -20px;
+        }
+        .k-modal.apply .modal-dialog {
+            width: 638px;
+        }
+
+        .k-modal.apply .modal-body {
+            padding: 118px 15px 15px;
+        }
+
+        .k-modal.apply .modal-content{
+            padding-bottom: 103px;
+        }
+
+        .k-modal.apply .modal-body .iconfont {
+            height: 90px;
+            font-size: 90px;
+            line-height: 90px;
+            color: #1cb235;
+        }
+        .k-modal.apply .modal-body h3{
+            padding-top: 24px;
+            font-size: 24px;
+            line-height: 38px;
+            font-weight: bold;
+            color: #1cb235;
+        }
+
+        .k-modal.apply .modal-body p{
+            padding-bottom: 20px;
+            font-size: 14px;
+            line-height: 34px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+    var wow = new WOW({
+        boxClass: 'wow',
+        animateClass: 'animated',
+        offset: 0,
+        mobile: true,
+        live: true
+    });
+    wow.init();
+</script>
+<div class="g-tb g-wa">
+    <div class="g-wp f-cb">
+        <a href="/tpl/download/index.html" class="m-app f-fl"><span>APP下载</span></a>
+        <a href="/zt/merchants/index.html" class="m-events f-fr">简繁家主材火热招商中</a>
+        <div class="m-user f-fr" id="j-user"></div>
+    </div>
+</div>
+<header class="g-hd g-wa" id="j-hd">
+    <div class="g-wp f-cb">
+        <hgroup class="m-logo f-fl">
+            <h1><a href="/">简繁家</a></h1>
+            <h2>我的设计师专单平台</h2>
+        </hgroup>
+        <div class="m-sch f-fl" id="j-sch"></div>
+        <div class="m-slogan f-fr" id="j-slogan">
+            <h3>简繁家实力保障</h3>
+            <p>知名风投投资</p>
+        </div>
+    </div>
+</header>
+<nav class="g-nav g-wa">
+    <div class="g-wp">
+        <ul class="m-nav f-cb">
+            <li class="active"><a href="/">首页</a></li>
+            <li><a href="/tpl/design/index.html">设计师</a></li>
+            <li><a href="/tpl/mito/index.html">装修美图 </a></li>
+            <li><a href="/tpl/diary/index.html">装修日记</a></li>
+            <li><a href="/tpl/live/index.html">装修直播</a></li>
+            <li><a href="/tpl/article/index.html">装修攻略</a></li>
+            <li><a href="/tpl/help/index.html">你问我答</a></li>
+        </ul>
+        <a href="/tpl/user/owner.html#release" class="m-release bounce" id="j-release"><span><i></i></span>免费获取三套方案</a>
+    </div>
+</nav>
+<div class="g-banner g-wa" id="j-banner">
+    <div class="g-wp">
+        <div class="g-apply f-fr" id="j-apply">
+            <div class="apply-form design">
+                <form id="apply-form">
+                    <h3>快速申请诚一贷装修贷</h3>
+                    <div class="m-item f-cb j-apply-form">
+                        <div class="item">
+                            <label class="u-lab" for="reg-account"><i class="icon icon-user"></i></label>
+                            <div class="u-inp">
+                                <div class="box">
+                                    <input type="text" class="input" name="name" id="design-name" placeholder="请输入您的称呼">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab" for="reg-account"><i class="icon icon-phone"></i></label>
+                            <div class="u-inp">
+                                <div class="box">
+                                    <input type="text" class="input" name="phone" id="design-phone" placeholder="请输入手机号码">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-error-info" id="error-info"></div>
+                    <input type="button" class="submit-btn" id="apply-submit" value="立即申请">
+                </form>
+            </div>
+            <p class="tips">注：目前仅支持武汉地区</p>
+        </div>
+    </div>
+</div>
+<main class="g-wp g-body">
+    <section class="items f-cb loan">
+        <div class="f-fl compute">
+            <header class="title">
+                <h3>贷款计算器</h3>
+            </header>
+            <div class="item">
+                <div class="label f-fl">贷款金额</div>
+                <div id="j-money" class="f-fr"></div>
+            </div>
+            <div class="item">
+                <div class="label f-fl">贷款周期</div>
+                <div id="j-cycle" class="f-fr"></div>
+            </div>
+            <div class="item">
+                <button class="btns" id="j-compute" type="button">计算还款金额</button>
+            </div>
+        </div>
+        <div class="f-fr result">
+            <div class="actual">
+                <div class="payment">
+                    <dl>
+                        <dt>每月还款</dt>
+                        <dd><h2 id="j-result-payment">0</h2><span class="yuan">元</span></dd>
+                    </dl>
+                </div>
+                <div class="info f-cb">
+                    <dl class="money">
+                        <dt>贷款金额</dt>
+                        <dd><h3 id="j-result-money">0</h3><span class="yuan">元</span></dd>
+                    </dl>
+                    <dl>
+                        <dt>贷款周期</dt>
+                        <dd><h3 id="j-result-cycle">0</h3><span class="yuan">期</span></dd>
+                    </dl>
+                    <dl class="money">
+                        <dt>本息合计</dt>
+                        <dd><h3 id="j-result-total">0</h3><span class="yuan">元</span></dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="basic">
+                <ul class="f-cb">
+                    <li><i></i><strong>贷款额度</strong><em>1-20</em>万元</li>
+                    <li><i class="icon2"></i><strong>贷款期限</strong><em>12-36</em>个月</li>
+                    <li><i class="icon3"></i><strong>月费率</strong><em>0.86</em>%</li>
+                    <li><i class="icon4"></i><strong>放款时间</strong><em>T+1</em></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="items workflow">
+        <img src="img/workflow.jpg" alt="">
+    </section>
+    <section class="items faq">
+        <header class="title">
+            <h3>常见问题</h3>
+        </header>
+        <div class="f-cb">
+            <dl class="f-fl">
+                <dt class="wow animated bounceInLeft"><i>Q</i>“诚一贷•装修贷款”是一款什么样的产品？</dt>
+                <dd class="wow animated bounceInRight">“诚一贷•装修贷款”属消费类无抵押免担保贷款产品，根据月收入、按揭房月供等依据测算贷款额度。</dd>
+                <dt class="wow animated bounceInLeft"><i>Q</i>申请“诚一贷•装修贷款”需要什么条件？</dt>
+                <dd class="wow animated bounceInRight">只要您是简繁家会员，且在家装方面有真实需求，便可尝试申请。</dd>
+                <dt class="wow animated bounceInLeft"><i>Q</i>装修贷如何还款？</dt>
+                <dd class="wow animated bounceInRight">您好，装修贷支持绑定银行卡自动代扣还款方式。自动代扣需在您申请时候设置开通，扣款卡为当时绑定银行卡。</dd>
+                <dt class="wow animated bounceInLeft"><i>Q</i>“诚一贷•装修贷款”申请后多久可以获得额度？</dt>
+                <dd class="wow animated bounceInRight">申请提交成功后，大概需要一个工作日时间完成审核，这段时间请保持电话畅通，审核结果会通过短信发送到您的手机上。</dd>
+            </dl>
+            <dl class="f-fr">
+                <dt class="wow animated bounceInLeft"><i>Q</i>“诚一贷•装修贷款”有哪些亮点？</dt>
+                <dd class="wow animated bounceInRight">“诚一贷•装修贷款”区别于传统消费贷款（房贷、车贷、信用卡等），而“诚一贷•装修贷款”充分发挥了普遍有家装需求的“贷款周期灵活、贷款金额高、贷款时间急”等需求特点。贷款额度最高20万元、月供最低364元起、可贷3年、全程在线申请，30分钟内快速审核、无需抵押和担保，“诚一贷•装修贷款”充分发挥了互联网金融——短、平、快的优势。</dd>
+                <dt class="wow animated bounceInLeft"><i>Q</i>申请“诚一贷•装修贷款”产品需要准备什么资料？</dt>
+                <dd class="wow animated bounceInRight">“诚一贷•装修贷款”仅需您提供个人身份证明、房产证明、收入证明即可申请。</dd>
+                <dt class="wow animated bounceInLeft"><i>Q</i>我如何使用“诚一贷•装修贷款”？</dt>
+                <dd class="wow animated bounceInRight">审批通过后的贷款可由你自主选择打入个人账户或商家账户。</dd>
+                <dt class="wow animated bounceInLeft"><i>Q</i>“诚一贷•装修贷款”的申请受理时间？</dt>
+                <dd class="wow animated bounceInRight">装修贷的申请时间为7×24小时，审核在一个工作日完成。</dd>
+            </dl>
+        </div>
+    </section>
+    <section class="items profile">
+        <header class="title">
+            <h3>企业简介</h3>
+        </header>
+        <dl class="f-cb">
+            <dt class="f-fl wow animated bounceInLeft"><img src="img/cdt_logo.jpg" alt=""></dt>
+            <dd class="f-fl wow animated bounceInRight">武汉诚达通金融信息服务有限公司（www.cdtfax.com）总部位于中国武汉，是中国领先的专业化信贷工厂。<br />
+                诚达通金融汇集所有真正有价格竞争力的金融信贷产品，致力于匹配个人消费和中小企业经营等金融产品信息的搜索与服务。<br />
+                诚达通金融自主开发BPM信贷工作流平台、融合大数据风险分析技术，构建诚贷通决策引擎，承接城市商业银行等金融机构委托定制信贷产品，助力金融机构信贷外包服务。<br />
+                诚达通金融践行普惠金融，专注于信用贷款领域，为中小微企业和个人提供一站式信贷服务，成为国内领先和安全的信贷产品网络服务供应商。</dd>
+        </dl>
+    </section>
+</main>
+<footer class="g-ft g-wa">
+    <div class="g-wp">
+        <ul>
+            <li class="first"><a href="/tpl/about/owner.html"><strong>业主指南</strong><em>业主指南</em></a></li>
+            <li><a href="/tpl/about/design.html"><strong>设计师指南</strong><em>设计师指南</em></a></li>
+            <li><a href="/tpl/article/index.html"><strong>装修攻略</strong><em>装修攻略</em></a></li>
+            <li><a href="/tpl/about/index.html"><strong>关于我们</strong><em>关于我们</em></a></li>
+            <li class="last"><a href="/tpl/about/contact.html"><strong>联系我们</strong><em>联系我们</em></a></li>
+        </ul>
+        <p>免责声明：本网站部分内容由用户自行上传，如权利人发现存在误传其作品情形，请及时与本站联系。</p>
+        <p>Copyright © 2015-2016 jianfanjia.com   All Rights Reserved   武汉家易装科技有限公司   隐私权政策 鄂ICP备15014103号</p>
+    </div>
+</footer>
+<script type="text/javascript" src="/static/js/utils/usercommon.js"></script>
+<script type="text/javascript" src="index.js"></script>
+</body>
+</html>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?66d38d3af612ed7c0979211372aa9682";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>

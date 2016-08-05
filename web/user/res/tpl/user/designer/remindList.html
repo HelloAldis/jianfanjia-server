@@ -1,0 +1,39 @@
+<div>
+    <div ng-if="remindList.list && remindList.list.length != 0">
+        <ul class="m-remindList">
+        <li bindonce="remindList.list" class="f-cb" ng-repeat="data in remindList.list">
+            <div class="info f-fl">
+                <h4>
+                    <span bo-switch="data.message_type">
+                        <i bo-switch-when="14">【预约提醒】</i>
+                        <i bo-switch-when="15">【量房提醒】</i>
+                        <i bo-switch-when="16">【中标提醒】</i>
+                        <i bo-switch-when="17">【未中标提醒】</i>
+                        <i bo-switch-when="18">【合同提醒】</i>
+                    </span>
+                    <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 14" ui-sref="requirement.owner({id:data.requirement._id})"></a>
+                    <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 15" ui-sref="requirement.owner({id:data.requirement._id})"></a>
+                    <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 16" ui-sref="requirement.contract({id:data.requirement._id})"></a>
+                    <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 17" ui-sref="requirement.plan({id:data.requirement._id})"></a>
+                     <a bo-text="data.content" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 18" ui-sref="requirement.contract({id:data.requirement._id})"></a>
+                    <i bo-if="data.status == 0">[未读]</i>
+                </h4>
+                <p>
+                    <time bo-text="data.create_at | date : 'yyyy-MM-dd  HH:mm'"></time>
+                </p>
+            </div>
+            <a class="u-btns u-btns-revise f-fr" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 14" ui-sref="requirement.owner({id:data.requirement._id})">查看详情</a>
+            <a class="u-btns u-btns-revise f-fr" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 15" ui-sref="requirement.owner({id:data.requirement._id})">查看详情</a>
+            <a class="u-btns u-btns-revise f-fr" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 16" ui-sref="requirement.contract({id:data.requirement._id})">查看详情</a>
+            <a class="u-btns u-btns-revise f-fr" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 17" ui-sref="requirement.plan({id:data.requirement._id})">查看详情</a>
+            <a class="u-btns u-btns-revise f-fr" ng-click="remindList.read(data._id,data.status)" bo-if="data.message_type == 18" ui-sref="requirement.contract({id:data.requirement._id})">查看详情</a>
+        </li>
+    </ul>
+    <div my-pageing page-object="pageing" ng-if="remindList.list"></div>
+    </div>
+    <div class="pageLoading" ng-hide="!!remindList.list"></div>
+    <div class="pageNotdate message-pageNotdate" ng-show="remindList.list.length == 0">
+        <h3><span></span></h3>
+        <p>暂时没有任何内容</p>
+    </div>
+</div>

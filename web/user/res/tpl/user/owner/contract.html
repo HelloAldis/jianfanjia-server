@@ -1,0 +1,56 @@
+<div class="contract" bindonce="contract">
+	<div class="contract-tips">
+		<h3>合同概况</h3>
+	</div>
+	<div ng-if="contract._id || requirement._id">
+		<div ng-if="requirement.status != 4">
+			<div class="contract-main" ng-if="contract._id || requirement._id">
+				<div class="info f-cb">
+					<a bo-href-i="/tpl/designer/{{contract.designer._id}}" class="head f-fl" target="_blank" bo-if="contract.designer._id">
+						<img bo-src-i="/api/v2/web/thumbnail2/70/70/{{contract.designer.imageid}}" bo-alt="contract.designer.username">
+					</a>
+					<dl class="f-fl">
+						<dt>
+							<a bo-href-i="/tpl/designer/{{contract.designer._id}}" bo-text="contract.designer.username" target="_blank" bo-if="contract.designer._id"></a>
+							<span><i>V</i>认证设计师</span>
+						</dt>
+						<dd>
+							<i bo-text="contract.designer.province" bo-if="contract.designer.province || contract.designer.province != '请选择省'"></i>
+							<i bo-text="contract.designer.city" bo-if="contract.designer.city || contract.designer.city != '请选择市'"></i>
+							<i bo-text="contract.designer.district" bo-if="contract.designer.district || contract.designer.district != '请选择县/区'"></i>
+						</dd>
+						<dd><i class="iconfont2">&#xe625;</i><span bo-text="contract.designer.phone"></span></dd>
+					</dl>
+				</div>
+				<div class="list">
+					<dl>
+						<dt>工程期限</dt>
+						<dd>总工期：<strong bo-text="contract.plan.duration">60</strong>天，开工日期<strong bo-text="contract.start_at | date : 'yyyy'">2015</strong>年<strong bo-text="contract.start_at | date : 'MM'">10</strong>月<strong bo-text="contract.start_at | date : 'dd'">19</strong>日，竣工日期<strong bo-text="contract.start_at | contractEndTime : contract.plan.duration | date : 'yyyy'">2015</strong>年<strong bo-text="contract.start_at | contractEndTime : contract.plan.duration | date : 'MM'">12</strong>月<strong bo-text="contract.start_at | contractEndTime : contract.plan.duration | date : 'dd'">19</strong>日。</dd>
+					</dl>
+					<dl>
+						<dt>工程价款</dt>
+						<dd>本工程装修合同总价为人民币（大写）<strong bo-text="contract.plan.total_price | chineseNumber"></strong>元（&yen;<strong bo-text="contract.plan.total_price"></strong>元 ）; 承包方式:   <strong bo-text="contract.work_type | workTypeFilter"></strong>。</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="contractCheckbox" ng-if="contract._id">
+				<span ng-if="contract.status == 7" ng-click="contractSuccessBtn()" ng-class="{'active':contractSuccess}"><i></i>我已阅读并同意该合同</span>
+			</div>
+			<div class="contract-btns" ng-if="contract._id">
+				<a href="agreement.html" target="_blank" class="u-btns u-btns-revise">查看第三方合同</a>
+				<a ng-click="goTo(detail._id,'0')" class="u-btns hide">下载第三方合同</a>
+				<button type="button" class="u-btns" ng-if="contract.status == 7" ng-class="{'u-btns-disabled':!contractSuccess}" ng-click="contractBtn(contract)" ng-disabled="!contractSuccess">确认第三方合同</button>
+			</div>
+		</div>
+		<div class="fulfill not-contract" ng-if="requirement.status == 4">
+			<div class="title">
+				<h4>您的合同正在生成中，请耐心等待。</h4>
+			</div>
+			<div class="footer">
+				<img src="/static/img/user/contract-icon.png" width="241" height="85" alt="">
+			</div>
+		</div>
+	</div>
+	<div class="pageLoading" ng-hide="contract._id || requirement._id"></div>
+</div>
+

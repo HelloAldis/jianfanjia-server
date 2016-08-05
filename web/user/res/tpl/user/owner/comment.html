@@ -1,0 +1,15 @@
+<div class="main m-requirement m-message">
+    <div class="m-tt">
+        <h2>评论<span ng-if="count.comment">(<i ng-bind="count.comment"></i>)</span></h2>
+    </div>
+    <div class="m-ct">
+        <div class="tabs-box">
+            <ul class="tabs">
+                <li ng-class="{'active':item.cur}" ng-repeat="item in comment.tab"><a ng-click="comment.goto(item.id)" ui-sref="comment.list.type({id:1,type:item.arr,status:comment.status})" ng-bind="item.name"></a></li>
+            </ul>
+        </div>
+        <!--视图模板容器 start-->
+        <div ui-view></div>
+        <!--视图模板容器 end-->
+    </div>
+</div>

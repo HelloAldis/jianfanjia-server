@@ -1,0 +1,188 @@
+<div class="main m-requirement">
+	<div class="m-tt">
+		<h2 class="f-fl">提交装修需求</h2>
+	</div>
+	<div class="m-ct">
+		<ul class="tabs">
+			<li class="active"><a>家装</a></li>
+			<li ng-show="userRelease.isRelease"><a ui-sref="addRequirementb">商装</a></li>
+		</ul>
+		<form name="release" ng-submit="userRelease.submit(0)" ng-if="requiremtne.province" novalidate>
+			<div class="k-form release">
+				<div class="m-boxs">
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i class="required-icon"></i>装修城市</label>
+							<div class="u-inp">
+								<input type="hidden" ng-model="requiremtne.province" check-province required />
+								<input type="hidden" ng-model="requiremtne.city" check-city required />
+								<input type="hidden" ng-model="requiremtne.district" required />
+								<div my-cities my-list="userRelease.citiesList" my-province="requiremtne.province" my-city="requiremtne.city" my-district="requiremtne.district" ng-if="requiremtne.province"></div>
+								<p class="alert">目前装修城市仅支持湖北省武汉市</p>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i class="required-icon"></i>小区名称</label>
+							<div class="u-inp">
+								<input type="text" class="input" ng-model="requiremtne.basic_address" required name="basic_address" placeholder="不能为空" my-placeholder  />
+								<div class="work-tips">
+									<p>例： 简繁家小区五期</p>
+								</div>
+							</div>
+							<div class="u-error">
+								<span ng-show="release.basic_address.$dirty && release.basic_address.$error.required" class="has-error">不能为空</span>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i class="required-icon"></i>门牌号码</label>
+							<div class="u-inp">
+								<input type="text" class="input" ng-model="requiremtne.detail_address" required name="detail_address" placeholder="不能为空" my-placeholder  />
+								<div class="work-tips">
+									<p>例： 一栋二单元301室</p>
+								</div>
+							</div>
+							<div class="u-error">
+								<span ng-show="release.detail_address.$dirty && release.detail_address.$error.required" class="has-error">不能为空</span>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i class="required-icon"></i>户型</label>
+							<div class="u-inp">
+								<div my-select my-list="userRelease.houseType" my-query="requiremtne.house_type"></div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i class="required-icon"></i>包工类型</label>
+							<div class="u-inp">
+								<div my-select my-list="userRelease.workType" my-query="requiremtne.work_type"></div>
+								<div class="work-tips">
+									<p><strong>半包</strong>是指装修工程中，施工方提供人员施工及辅材供应的承包形式；</p>
+									<p><strong>全包</strong>是指装修工程中，施工方提供装修所涉所有项目的承包形式。</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i class="required-icon"></i>建筑面积</label>
+							<div class="u-inp">
+								<div class="inp">
+									<input type="text" class="input" ng-model="requiremtne.house_area" placeholder="只能填整数" my-placeholder required name="house_area" ng-pattern="/^[1-9]\d*$/" />
+									<span class="unit">m&sup2;</span>
+								</div>
+							</div>
+							<div class="u-error">
+								<span ng-show="release.house_area.$dirty && release.house_area.$error.pattern" class="has-error">必须为整数</span>
+								<span ng-show="release.house_area.$dirty && release.house_area.$error.required" class="has-error">不能为空</span>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i class="required-icon"></i>装修总预算</label>
+							<div class="u-inp">
+								<div class="inp">
+									<input type="text" class="input" ng-model="requiremtne.total_price" name="total_price" placeholder="只能填整数" ng-pattern="/^[1-9][0-9]{0,4}$/" my-placeholder required />
+									<span class="unit">万元</span>
+									<div package-type my-housearea="requiremtne.house_area" my-worktype="requiremtne.work_type" my-totalprice="requiremtne.total_price" my-packagetype="requiremtne.package_type"></div>
+									<div class="total-price" ng-if="(requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120) && !userRelease.potter">
+										<div class="work-tips">
+											<p>为了让您的装修预算更准确，特为您提供以下公式</p>
+										</div>
+										<div class="formula">
+											<div class="box">
+												<h3><strong ng-bind="userRelease.costsbasis"></strong><span>万元</span></h3>
+												<p>基础费用</p>
+											</div>
+											<div class="sign">&#43;</div>
+											<div class="box">
+												<h3><span ng-if="userRelease.costsdiy > 0 && !userRelease.costserror"><strong ng-bind="userRelease.costsdiy"></strong><span>万元</span></span><i ng-if="userRelease.costsdiy == 0 || userRelease.costserror"></i></h3>
+												<p>个性化费用</p>
+											</div>
+											<div class="sign">&#61;</div>
+											<div class="box">
+												<h3><span ng-if="userRelease.coststotal > 0 && !userRelease.costserror"><strong ng-bind="userRelease.coststotal"></strong><span>万元</span></span><i ng-if="userRelease.coststotal == 0 || userRelease.costserror"></i></h3>
+												<p>装修总预算</p>
+											</div>
+										</div>
+										<p class="link">
+											<a href="/zt/365package/index.html" target="_blank"><i class="iconfont">&#xe612;</i>点击此处了解更多关于‘简繁家365基础包’</a>
+										</p>
+									</div>
+									<p class="total-potter" ng-if="userRelease.potter">
+										您完全符合我们“匠心定制包”的标准<br />
+										我们的设计师将为您提供全程定制化的服务
+									</p>
+								</div>
+							</div>
+							<div class="u-error" ng-class="{'error365':(requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120),'errorjxdz':userRelease.potter}">
+								<span ng-show="release.total_price.$dirty && release.total_price.$error.pattern" class="has-error">必须小于6位以内整数</span>
+								<span ng-show="release.total_price.$dirty && release.total_price.$error.required" class="has-error">不能为空</span>
+								<span ng-show="release.total_price.$dirty && !release.total_price.$error.required && !release.total_price.$error.pattern && (requiremtne.work_type == 0 || requiremtne.work_type == 1) && (requiremtne.house_area >= 80 && requiremtne.house_area <= 120) && userRelease.costserror" class="has-error">您的装修总预算不能低于基础费用</span>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i class="required-icon"></i>风格喜好</label>
+							<div class="u-inp">
+								<div class="k-stylePic">
+									<div my-stylepic my-list="userRelease.decStyle" my-query="requiremtne.dec_style"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab"><i class="required-icon"></i>计划常住成员</label>
+							<div class="u-inp">
+								<div my-select data-type="getValue" my-list="userRelease.familyDescription" my-query="requiremtne.family_description"></div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab">偏好设计师性别</label>
+							<div class="u-inp">
+								<div my-select my-list="userRelease.preferSex" my-query="requiremtne.prefer_sex"></div>
+							</div>
+						</div>
+					</div>
+					<div class="m-item f-cb">
+						<div class="item">
+							<label class="u-lab">偏好设计师类型</label>
+							<div class="u-inp">
+								<div my-select my-list="userRelease.communicationType" my-query="requiremtne.communication_type"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="m-btns">
+					<input type="submit" class="u-btns" ng-if="userRelease.costsbasis" ng-class="{'u-btns-disabled':(release.$invalid || !(requiremtne.total_price >= userRelease.costsbasis)) || userRelease.disabled}" ng-disabled="(release.$invalid || !(requiremtne.total_price >= userRelease.costsbasis)) || userRelease.disabled" ng-value="userRelease.releaseValue" />
+					<input type="submit" class="u-btns" ng-if="!userRelease.costsbasis" ng-class="{'u-btns-disabled':release.$invalid || userRelease.disabled}" ng-disabled="release.$invalid || userRelease.disabled" ng-value="userRelease.releaseValue" />
+				</div>
+			</div>
+		</form>
+		<div class="pageLoading" ng-hide="!!requiremtne.province"></div>
+	</div>
+</div>
+<div class="k-motai" ng-if="userRelease.motaiDone">
+	<div class="motai done">
+		<span class="done-icon"></span>
+		<h3>提交成功！</h3>
+		<p>前往预约设计师量房。</p>
+		<a href="javascript:;" class="u-btns" ng-click="userRelease.submitDefine()">&nbsp;&nbsp;确定&nbsp;&nbsp;</a>
+	</div>
+</div>
+<div class="alert-tips">
+	<div my-alert type="warning" ng-show="bookingPrompt" text="您选择装修城市不是湖北省武汉市，请重新选择"></div>
+</div>

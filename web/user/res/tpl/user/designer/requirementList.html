@@ -1,0 +1,94 @@
+<div class="Backdrop">
+	<div class="main">
+	<div class="m-tt">
+		<h2 class="f-fl">我的装修需求列表</h2>
+	</div>
+	<div class="m-ct">
+		<div class="m-index m-requirementList">
+			<ul class="list">
+				<li ng-if="requiremtnes.length == 0">
+					<div class="ct">您还没有装修需求哟，修改接单资料和上传更多作品，更容易获得业主预约</div>
+					<div class="btns">
+						<a ui-sref="service" class="u-btns">前往修改</a>
+						<a ui-sref="addProduct({list:true})" class="u-btns">上传作品</a>
+					</div>
+				</li>
+				<li bindonce ng-repeat="data in requiremtnes track by $index" ng-click="goTo(data)">
+					<div class="boxs">
+						<div class="tt f-cb">
+							<h4 class="f-fl">
+								<strong>物业地址</strong>
+								<span bo-if="data.province"><i bo-text="data.province"></i></span>
+								<span bo-if="data.city"><i bo-text="data.city"></i></span>
+								<span bo-if="data.district"><i bo-text="data.district"></i></span>
+								<span bo-if="data.basic_address" bo-text="data.basic_address"></span>
+								<span bo-if="data.detail_address" bo-text="data.detail_address"></span>
+							</h4>
+							<div class="progress f-fr" bo-if="data.work_type != '纯设计'">
+								<div class="bar">
+									<div class="in in{{data.plan.status}}" ng-if="data.plan.status && (data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 6)"></div>
+									<div class="in in{{data.status}}" ng-if="data.plan.status == 5 && (data.status == 4 || data.status == 5 || data.status == 7 || data.status == 8) && data.work_type != '纯设计'"></div>
+								</div>
+								<p bo-switch="data.plan.status" bo-if="data.plan.status && (data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 6)">
+									<i bo-switch-when="0">
+										<i bo-if="!!data.plan.get_phone_time">等待设置量房时间</i>
+										<i bo-if="!data.plan.get_phone_time">等待响应预约</i>
+									</i>
+									<i bo-switch-when="1">已拒绝业主</i>
+									<i bo-switch-when="2">等待业主确认量房</i>
+									<i bo-switch-when="3">等待业主选择方案</i>
+									<i bo-switch-when="4">方案未选中</i>
+									<i bo-switch-when="5">生成第三方合同</i>
+									<i bo-switch-when="6">提交方案中</i>
+									<i bo-switch-when="7">未响应业主</i>
+									<i bo-switch-when="8">未上传方案</i>
+								</p>
+								<p bo-switch="data.status" bo-if="data.plan.status == 5 && (data.status == 4 || data.status == 5 || data.status == 7 || data.status == 8) && data.work_type != '纯设计'">
+									<i bo-switch-when="4">前往配置合同</i>
+									<i bo-switch-when="5">APP管理工地</i>
+									<i bo-switch-when="7">查看合同</i>
+									<i bo-switch-when="8">已竣工</i>
+								</p>
+							</div>
+							<div class="progress f-fr" bo-if="data.work_type == '纯设计'">
+								<div class="bar">
+									<div class="in in{{data.status}}" ng-class="{'in8':data.status == 4}"></div>
+								</div>
+								<p bo-switch="data.plan.status" bo-if="data.plan.status && (data.status == 0 || data.status == 1 || data.status == 2 || data.status == 3 || data.status == 6)">
+									<i bo-switch-when="0">
+										<i bo-if="!!data.plan.get_phone_time">等待设置量房时间</i>
+										<i bo-if="!data.plan.get_phone_time">等待响应预约</i>
+									</i>
+									<i bo-switch-when="1">已拒绝业主</i>
+									<i bo-switch-when="2">等待业主确认量房</i>
+									<i bo-switch-when="3">等待业主选择方案</i>
+									<i bo-switch-when="4">方案未选中</i>
+									<i bo-switch-when="5">生成第三方合同</i>
+									<i bo-switch-when="6">提交方案中</i>
+									<i bo-switch-when="7">未响应业主</i>
+									<i bo-switch-when="8">未上传方案</i>
+								</p>
+								<p bo-switch="data.status" bo-if="data.plan.status == 5 && data.status == 4 && data.work_type == '纯设计'">
+									<i bo-switch-when="4">已完成</i>
+								</p>
+							</div>
+						</div>
+						<div class="tag">
+							<span bo-text="data.dec_type" bo-if="data.dec_type"></span>
+							<span bo-if="data.dec_style"><i bo-text="data.dec_style"></i></span>
+							<span bo-if="data.work_type"><i bo-text="data.work_type"></i></span>
+							<span bo-if="data.house_type"><i bo-text="data.house_type"></i></span>
+							<span bo-if="data.house_area"><i bo-text="data.house_area"></i>m&sup2;</span>
+							<span bo-if="data.total_price"><i bo-text="data.total_price"></i>万元</span>
+						</div>
+						<div class="time">
+							<i></i><span ng-bind="data.countdown"></span>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<div class="pageLoading" ng-hide="!!requiremtnes"></div>
+		</div>
+	</div>
+</div>
+</div>

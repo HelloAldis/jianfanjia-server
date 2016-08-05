@@ -1,0 +1,482 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <!--[if lt IE 8]>
+    <script type="text/javascript">if(!-[1,]){window.location.href = "/tpl/other/error.html";}</script>
+    <![endif]-->
+    <title>首页--互联网装修|武汉装修|设计师平台|简繁家互联网装修平台</title>
+    <meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
+    <meta name="keywords" content="互联网装修,武汉装修,设计师平台,简繁家互联网装修平台,家装施工监理">
+    <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+    <!--[if lt IE 10]>
+    <link rel="stylesheet" type="text/css" href="/static/css/ie.css" />
+    <![endif]-->
+    <script type="text/javascript" src="/static/js/lib/public.js"></script>
+    <script type="text/javascript" src="/static/js/lib/jquery.js"></script>
+    <script type="text/javascript" src="/static/js/lib/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/static/js/lib/lodash.js"></script>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/static/js/ng/html5shiv-printshiv.js"></script>
+    <script type="text/javascript" src="/static/js/lib/json2-min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        body{
+            background-color: #ebeced;
+        }
+        .g-banner{
+            text-align: center;
+            font-size: 60px;
+            height: 300px;
+            line-height: 300px;
+            color: #fff;
+            background:url(banner.jpg) no-repeat center top;
+        }
+        .apply{
+            position: fixed;
+            left:0;
+            bottom: 0;
+            z-index: 10;
+            width: 100%;
+            min-width:1200px;
+            height: 60px;
+            font-size: 24px;
+            line-height: 60px;
+            border-bottom: 1px solid #fe7004;
+            background-color: #000;
+            filter: alpha(opacity=70);
+            opacity: 1;
+            background-color: rgba(0,0,0,.7);
+        }
+        .apply h3{
+            position: relative;
+            color: #fff;
+            padding-left: 120px;
+        }
+        .apply a{
+            position: relative;
+            width: 334px;
+            text-align: center;
+            color: #fff;
+            background-color: #fe7004;
+        }
+        .apply a:hover{
+            background-color: #fe5c04;
+        }
+        .table{
+            width: 842px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+        .table table{
+            width: 100%;
+            background-color: #fff;
+        }
+        .table .td1{
+            width: 20%;
+        }
+        .table .td2,.table .td3{
+            width: 40%;
+        }
+        .table thead{
+            border-left: 1px solid #393939;
+            border-right: 1px solid #393939;
+        }
+
+        .table thead th{
+            height: 100px;
+            background-color: #393939;
+            color: #fff;
+        }
+        .table thead th.td2{
+            background-color: #fe7004;
+        }
+        .table thead h3{
+            font-size: 30px;
+            font-weight: bold;
+        }
+        .table thead p{
+            font-size: 14px;
+        }
+        .table tbody{
+            background-color: #fff;
+        }
+        .table tbody tr.even{
+            background-color: #f5f5f5;
+        }
+        .table tbody td.td1{
+            padding: 10px 0;
+            text-align: center;
+        }
+        .table tbody td.td1 h4{
+            padding-bottom: 10px;
+            font-size: 12px;
+            color: #04bafe;
+            line-height: 12px;
+        }
+        .table tbody td{
+            border-bottom: 1px solid #ebeced;
+        }
+        .table tbody td.td1{
+            border-left: 1px solid #ccc;
+        }
+        .table tbody td.td3{
+            border-right: 1px solid #ccc;
+        }
+        .table tbody td.td1 p{
+            font-size: 16px;
+            line-height: 16px;
+            font-weight: bold;
+            color: #393939;
+        }
+        .table tbody td.td2{
+            border-left: 1px solid #fe7004;
+            border-right: 1px solid #fe7004;
+        }
+        .table tbody td.td2 p{
+            padding: 16px 25px;
+            line-height: 18px;
+            color: #fe7004;
+        }
+        .table tbody td.td3 p{
+            padding: 16px 25px;
+            line-height: 18px;
+        }
+        .table tbody .last td{
+            border-bottom: 1px solid #ccc;
+        }
+        .table tbody .last td.td2{
+            border-bottom: 1px solid #fe7004;
+        }
+        .description{
+            width: 980px;
+            margin: 0 auto;
+            padding: 40px 0;
+            font-size: 18px;
+            line-height: 30px;
+            color: #383d48;
+        }
+        .m-popup{
+            position: fixed;
+            left:0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 100;
+            display: none;
+        }
+        .m-popup .popup-mask{
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            filter: alpha(opacity=30);
+            opacity: 0.3;
+        }
+        .m-popup .popup-main{
+            position: absolute;
+            left:50%;
+            top:50%;
+            width: 498px;
+            height: 418px;
+            margin-left: -249px;
+            margin-top: -209px;
+            text-align: center;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+        }
+        .m-popup .popup-main .close{
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            height: 30px;
+            width: 30px;
+            font-size: 30px;
+            text-align: center;
+            line-height: 30px;
+            color: #ccc;
+            cursor: pointer;
+        }
+        .m-popup .popup-main .close:hover{
+            color: #ff6a6a;
+        }
+        .m-popup .popup-main .popup-head h3{
+            font-size: 20px;
+            line-height:138px;
+            color: #383d48;
+        }
+        .m-popup .popup-main .popup-body{
+            width: 330px;
+            margin: 0 auto;
+        }
+        .m-popup .popup-main .input{
+            width: 100%;
+            height: 38px;
+            padding-left: 20px;
+            line-height: 38px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            box-sizing:border-box;
+        }
+        .m-popup .popup-main .input.error{
+            border-color: #ff6a6a;
+        }
+        .m-popup .popup-main .item{
+            position: relative;
+        }
+
+        .m-popup .popup-main .errorMsg{
+            height: 30px;
+            line-height: 30px;
+            font-size: 14px;
+            color: #ff6a6a;
+            text-align: left;
+        }
+        .m-popup .popup-main .u-btns{
+            width: 100%;
+            margin-top: 25px;
+        }
+        input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0px 1000px #f9f9f9 inset;
+            border: 1px solid #CCC!important;
+        }
+        .label-placeholder{
+            position: absolute;
+            left: 20px;
+            height: 20px;
+            top: 9px;
+            font-size: 12px;
+            line-height: 20px;
+            color: #999;
+            cursor: text;
+        }
+        .success{
+            display: none;
+        }
+        .success h3{
+            padding: 50px 0 30px;
+        }
+        .success h3 .iconfont{
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            font-size: 100px;
+            color: #1cb235;
+        }
+        .success h2{
+            padding-bottom: 18px;
+            font-size: 30px;
+            line-height: 30px;
+            color: #1cb235;
+            font-weight: bold;
+        }
+        .success p{
+            font-size: 14px;
+            line-height: 14px;
+            color: #999;
+        }
+        .m-popup .popup-main .success .u-btns{
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+<div class="g-tb g-wa">
+    <div class="g-wp f-cb">
+        <a href="/tpl/download/index.html" class="m-app f-fl"><span>APP下载</span></a>
+        <a href="/zt/merchants/index.html" class="m-events f-fr">简繁家主材火热招商中</a>
+        <div class="m-user f-fr" id="j-user"></div>
+    </div>
+</div>
+<header class="g-hd g-wa" id="j-hd">
+    <div class="g-wp f-cb">
+        <hgroup class="m-logo f-fl">
+            <h1><a href="/">简繁家</a></h1>
+            <h2>我的设计师专单平台</h2>
+        </hgroup>
+        <div class="m-sch f-fl" id="j-sch"></div>
+        <div class="m-slogan f-fr" id="j-slogan">
+            <h3>简繁家实力保障</h3>
+            <p>知名风投投资</p>
+        </div>
+    </div>
+</header>
+<nav class="g-nav g-wa">
+    <div class="g-wp">
+        <ul class="m-nav f-cb">
+            <li class="active"><a href="/">首页</a></li>
+            <li><a href="/tpl/design/index.html">设计师</a></li>
+            <li><a href="/tpl/mito/index.html">装修美图 </a></li>
+            <li><a href="/tpl/diary/index.html">装修日记</a></li>
+            <li><a href="/tpl/live/index.html">装修直播</a></li>
+            <li><a href="/tpl/article/index.html">装修攻略</a></li>
+            <li><a href="/tpl/help/index.html">你问我答</a></li>
+        </ul>
+        <a href="/tpl/user/owner.html#release" class="m-release bounce" id="j-release"><span><i></i></span>免费获取三套方案</a>
+    </div>
+</nav>
+<div class="g-banner g-wa" id="j-banner">
+    <h2>第三方监理服务</h2>
+</div>
+<main class="g-wp">
+    <p class="description">
+        “简繁家”引入第三方监理服务，和传统装修公司相比，该监理服务绝不会走过场，认真检验、核对每个施工节点，保证装修按时、按质完成，并且不再需要业主每天亲自跑工地，为业主节约了大量的时间和精力。“简繁家”提供了标准型和管家型两种监理服务，它们是具体是如何运作的，两者之间有哪些区别呢？
+    </p>
+    <div class="table">
+        <table>
+            <thead>
+            <tr>
+                <th class="td1"><h3>工序</h3></th>
+                <th class="td2"><h3>管家监理</h3><p>2000元/户</p></th>
+                <th class="td3"><h3>标准监理</h3><p>1000元/户</p></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="td1"><h4>第1天</h4><p>开工</p></td>
+                    <td class="td2"><p>三方（业主、设计师和项目经理、平台监理方）见面，交换联系方式；设计方案交底；工期安排交底。</p></td>
+                    <td class="td3"><p>三方（业主、设计师和项目经理、平台监理方）见面，交换联系方式；设计方案交底；工期安排交底。</p></td>
+                </tr>
+                <tr class="even">
+                    <td class="td1"><h4>第3天</h4><p>水电材料进场</p></td>
+                    <td class="td2"><p>材料验收；施工及验收要求交底；布线需求交底。</p></td>
+                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
+                </tr>
+                <tr>
+                    <td class="td1"><h4>第12天</h4><p>水电验收</p></td>
+                    <td class="td2"><p>根据《水电验收标准》验收。</p></td>
+                    <td class="td3"><p>根据《水电验收标准》验收。</p></td>
+                </tr>
+                <tr class="even">
+                    <td class="td1"><h4>第16天</h4><p>泥木材料进场</p></td>
+                    <td class="td2"><p>材料验收；施工及验收要求交底。</p></td>
+                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
+                </tr>
+                <tr>
+                    <td class="td1"><h4>第18天</h4><p>防水验收</p></td>
+                    <td class="td2"><p>根据《防水验收标准》验收。</p></td>
+                    <td class="td3"><p>根据《防水验收标准》验收。</p></td>
+                </tr>
+                <tr class="even">
+                    <td class="td1"><h4>第20天</h4><p>泥木巡检</p></td>
+                    <td class="td2"><p>检查是否存在错贴、误贴；检查是否存在空鼓、颜色搭配等问题；成品报护及现场卫生处理。</p></td>
+                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
+                </tr>
+                <tr>
+                    <td class="td1"><h4>第24天</h4><p>泥木验收</p></td>
+                    <td class="td2"><p>根据《泥工验收标准》验收。</p></td>
+                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
+                </tr>
+                <tr class="even">
+                    <td class="td1"><h4>第32天</h4><p>吊顶验收</p></td>
+                    <td class="td2"><p>根据《木工验收标准》验收。</p></td>
+                    <td class="td3"><p>根据《木工验收标准》验收。</p></td>
+                </tr>
+                <tr>
+                    <td class="td1"><h4>第34天</h4><p>木作巡检</p></td>
+                    <td class="td2"><p>检查是否根据图纸要求施工；检查木作施工中是否存在不规范的操作；成品保护及现场卫生处理。</p></td>
+                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
+                </tr>
+                <tr class="even">
+                    <td class="td1"><h4>第36天</h4><p>木作验收</p></td>
+                    <td class="td2"><p>根据《木工验收标准》验收。</p></td>
+                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
+                </tr>
+                <tr>
+                    <td class="td1"><h4>第37天</h4><p>油漆材料进场</p></td>
+                    <td class="td2"><p>材料验收；油漆施工及验收要求交底。</p></td>
+                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
+                </tr>
+                <tr class="even">
+                    <td class="td1"><h4>第42天</h4><p>油漆基础处理</p></td>
+                    <td class="td2"><p>检查墙面接缝处理情况；检查墙面基层有无空鼓；检查墙面平整度、阴阳角平直度。</p></td>
+                    <td class="td3"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
+                </tr>
+                <tr>
+                    <td class="td1"><h4>第46天</h4><p>油漆验收</p></td>
+                    <td class="td2"><p>根据《油漆验收标准》验收。</p></td>
+                    <td class="td3"><p>根据《油漆验收标准》验收。</p></td>
+                </tr>
+                <tr class="even">
+                    <td class="td1"><h4>第58天</h4><p>安装验收</p></td>
+                    <td class="td2"><p>根据《安装验收标准》验收。</p></td>
+                    <td class="td3"><p>根据《安装验收标准》验收。</p></td>
+                </tr>
+                <tr class="last">
+                    <td class="td1"><h4>第60天</h4><p>竣工验收</p></td>
+                    <td class="td2"><p>根据《竣工验收标准》验收。</p></td>
+                    <td class="td3"><p>根据《竣工验收标准》验收。</p></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<div class="apply">
+    <div class="g-wp">
+        <h3 class="f-fl">一键申请，第三方监理让您放心</h3>
+        <a href="javascript:;" class="f-fr" id="submitBtn">免费申请</a>
+    </div>
+</div>
+<div class="m-popup" id="j-popup">
+    <div class="popup-mask"></div>
+    <div class="popup-main">
+        <span class="close successHide">&times;</span>
+        <div class="popup-head successHide">
+            <h3>立即免费申请</h3>
+        </div>
+        <div class="popup-body successHide">
+            <form id="popup-form" autocomplete="off">
+                <div class="item">
+                    <input type="text" name="phone" class="input" placeholder="请输入您的手机号" id="phone">
+                    <p class="errorMsg"></p>
+                </div>
+                <div class="item">
+                    <input type="text" name="name" class="input" placeholder="请输入您的姓名" id="name">
+                    <p class="errorMsg"></p>
+                </div>
+                <div class="item">
+                    <input type="submit" class="u-btns u-btns-disabled" id="popup-submit" value="提交" />
+                </div>
+            </form>
+        </div>
+        <div class="success">
+            <h3><i class="iconfont">&#xe60d;</i></h3>
+            <h2>申请成功！</h2>
+            <p>我们的客服人员稍后与您联系，请保持电话畅通</p>
+            <button class="u-btns" id="successBtn">确定</button>
+        </div>
+    </div>
+</div>
+<footer class="g-ft g-wa">
+    <div class="g-wp">
+        <ul>
+            <li class="first"><a href="/tpl/about/owner.html"><strong>业主指南</strong><em>业主指南</em></a></li>
+            <li><a href="/tpl/about/design.html"><strong>设计师指南</strong><em>设计师指南</em></a></li>
+            <li><a href="/tpl/article/index.html"><strong>装修攻略</strong><em>装修攻略</em></a></li>
+            <li><a href="/tpl/about/index.html"><strong>关于我们</strong><em>关于我们</em></a></li>
+            <li class="last"><a href="/tpl/about/contact.html"><strong>联系我们</strong><em>联系我们</em></a></li>
+        </ul>
+        <p>免责声明：本网站部分内容由用户自行上传，如权利人发现存在误传其作品情形，请及时与本站联系。</p>
+        <p>Copyright © 2015-2016 jianfanjia.com   All Rights Reserved   武汉家易装科技有限公司   隐私权政策 鄂ICP备15014103号</p>
+    </div>
+</footer>
+<script type="text/javascript" src="/static/js/utils/usercommon.js"></script>
+<script type="text/javascript" src="index.js"></script>
+</body>
+</html>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?66d38d3af612ed7c0979211372aa9682";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>

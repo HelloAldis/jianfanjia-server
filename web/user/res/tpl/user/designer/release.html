@@ -1,0 +1,151 @@
+<div class="Backdrop">
+    <div class="m-tt">
+        <h2 class="title" ng-bind="$state.current.title"></h2>
+        <div class="m-breadbtns">
+            <a ui-sref="products.list({id:1})" class="u-btns u-btns-revise f-fr">返回作品列表</a>
+        </div>
+    </div>
+    <div class="m-ct" ng-if="isLoading">
+        <div class="infoTips infoTips-error" ng-if="!!product.auth_message && product.auth_type != '1'"><i class="iconfont">&#xe612;</i><span ng-bind="product.auth_message"></span></div>
+        <form name="myRelease" ng-submit="designerProduct.submit()" novalidate>
+            <div class="k-form release">
+                <div class="m-boxs">
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>所在城市</label>
+                            <div class="u-inp">
+                                <div class="u-inp">
+                                    <div my-cities my-list="designerProduct.address" my-province="product.province" my-city="product.city" my-district="product.district" ng-if="product.province"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>装修类型</label>
+                            <div class="u-inp">
+                                <div my-select my-list="designerProduct.decType" my-query="product.dec_type"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb" ng-if="product.dec_type != 1">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>小区名称</label>
+                            <div class="u-inp">
+                                <input type="text" class="input" ng-model="product.cell" name="cellname" placeholder="不能为空" my-placeholder required />
+                            </div>
+                            <div class="u-error">
+                                <span ng-show="myRelease.cellname.$dirty && myRelease.cellname.$error.required" class="has-error">不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb" ng-if="product.dec_type == 1">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>项目名称</label>
+                            <div class="u-inp">
+                                <input type="text" class="input" name="itemname" ng-model="product.cell" placeholder="不能为空" my-placeholder required />
+                            </div>
+                            <div class="u-error">
+                                <span ng-show="myRelease.itemname.$dirty && myRelease.itemname.$error.required" class="has-error">不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb" ng-if="product.dec_type != 1">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>装修户型</label>
+                            <div class="u-inp">
+                                <div my-select my-list="designerProduct.houseType" my-query="product.house_type"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb" ng-if="product.dec_type == 1">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>商装类型</label>
+                            <div class="u-inp">
+                                <div my-select my-list="designerProduct.businessHouseType" my-query="product.business_house_type"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>装修面积</label>
+                            <div class="u-inp">
+                                <div class="inp">
+                                    <input type="text" class="input" name="house_area" ng-model="product.house_area" ng-pattern="/^[1-9]\d*$/" placeholder="请输入整数" my-placeholder required />
+                                    <span class="unit">m&sup2;</span>
+                                </div>
+                            </div>
+                            <div class="u-error">
+                                <span ng-show="myRelease.house_area.$dirty && myRelease.house_area.$error.pattern" class="has-error">必须为整数</span>
+                                <span ng-show="myRelease.house_area.$dirty && myRelease.house_area.$error.required" class="has-error">不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>装修风格</label>
+                            <div class="u-inp">
+                                <div my-select my-list="designerProduct.decStyle" my-query="product.dec_style"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>包工类型</label>
+                            <div class="u-inp">
+                                <div my-select my-list="designerProduct.workType" my-query="product.work_type"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>参考造价</label>
+                            <div class="u-inp">
+                                <div class="inp">
+                                    <input type="text" class="input" name="total_price" ng-model="product.total_price" ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/" required placeholder="请输入整数或者小数" my-placeholder />
+                                    <span class="unit">万元</span>
+                                </div>
+                            </div>
+                            <div class="u-error">
+                                <span ng-show="myRelease.total_price.$dirty && myRelease.total_price.$error.pattern" class="has-error">必须为整数或者小数</span>
+                                <span ng-show="myRelease.total_price.$dirty && myRelease.total_price.$error.required" class="has-error">不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>作品引言</label>
+                            <div class="u-inp">
+                                <textarea class="input long textarea" name="description" rows="10" ng-model="product.description" required placeholder="不能为空" my-placeholder></textarea>
+                            </div>
+                            <div class="u-error">
+                                <span ng-show="myRelease.description.$dirty && myRelease.description.$error.required" class="has-error">不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab">上传平面图</label>
+                            <div class="u-inp insertimage">
+                                <div my-insertimage4 id="productplan" ng-if="product" my-id="productplan" my-type="default" my-query="product.plan_images" my-complete="designerProduct.plan_images_complete" my-type="write" my-loading="designerProduct.images_loading"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>上传作品图片</label>
+                            <div class="u-inp insertimage">
+                                <div my-insertimage2 id="uploadproduct" ng-if="product" my-id="uploadproduct" my-section="designerProduct.section" my-type="product" my-query="product.images" my-cover="product.cover_imageid"  my-complete="designerProduct.images_complete"  my-loading="designerProduct.images_loading"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div my-alert type="warning" ng-show="designerProduct.error" text="{{designerProduct.errormsg}}"></div>
+                <div class="m-btns">
+                    <input type="submit" class="u-btns" ng-class="{'u-btns-disabled':myRelease.$invalid || designerProduct.disabled || designerProduct.plan_images_complete || designerProduct.images_complete}" ng-disabled="myRelease.$invalid || designerProduct.disabled || designerProduct.plan_images_complete || designerProduct.images_complete" value="&nbsp;申请认证&nbsp;" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="pageLoading" ng-if="!isLoading"></div>
+</div>

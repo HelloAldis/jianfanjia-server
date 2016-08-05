@@ -1,0 +1,56 @@
+<div class="Backdrop">
+	<div class="main m-requirement">
+		<div class="m-tt">
+			<h2 class="f-fl">我的历史装修需求列表</h2>
+		</div>
+		<div class="m-ct">
+			<ul class="tabs">
+				<li ng-class="{'active':item.cur}" ng-repeat="item in historyTab"><a ng-click="history(item.id)" href="javascript:;" ng-bind="item.name">全部</a></li>
+			</ul>
+			<div class="m-index m-requirementList m-historys">
+				<ul class="list">
+					<li ng-if="historys.length == 0">
+						<div class="ct">您还没有<i ng-bind="historyName" ng-hide="historyName == '全部'"></i>装修需求哟~</div>
+						<div class="btns">
+							<a ui-sref="requirementList" class="u-btns">查看装修需求列表</a>
+						</div>
+					</li>
+					<li bindonce ng-repeat="data in historys" ng-click="goTo(data._id,data.status)">
+						<div class="boxs">
+							<div class="tt f-cb">
+								<h4 class="f-fl">
+									<strong>物业地址</strong>
+									<span bo-if="data.province"><i bo-text="data.province"></i></span>
+									<span bo-if="data.city"><i bo-text="data.city"></i></span>
+									<span bo-if="data.district"><i bo-text="data.district"></i></span>
+									<span bo-if="data.basic_address" bo-text="data.basic_address"></span>
+									<span bo-if="data.detail_address" bo-text="data.detail_address"></span>
+								</h4>
+							</div>
+							<div class="tag">
+								<span bo-text="data.dec_type" bo-if="data.dec_type"></span>
+								<span bo-if="data.dec_style"><i bo-text="data.dec_style"></i></span>
+								<span bo-if="data.work_type"><i bo-text="data.work_type"></i></span>
+								<span bo-if="data.house_type"><i bo-text="data.house_type"></i></span>
+								<span bo-if="data.house_area"><i bo-text="data.house_area"></i>m&sup2;</span>
+								<span bo-if="data.total_price"><i bo-text="data.total_price"></i>万元</span>
+							</div>
+							<div class="status" bo-switch="data.plan.status" bo-if="data.plan.status != 5">
+								<i bo-switch-when="1">已拒绝</i>
+								<i bo-switch-when="4">未中标</i>
+								<i bo-switch-when="7">未响应</i>
+								<i bo-switch-when="8">未出方案</i>
+								<i bo-switch-when="9">已过期</i>
+							</div>
+							<div class="status" bo-switch="data.status" bo-if="data.plan.status == 5">
+								<i bo-switch-when="4" class="ok">已完成</i>
+								<i bo-switch-when="8" class="ok">已竣工</i>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<div class="pageLoading" ng-hide="!!historys"></div>
+			</div>
+		</div>
+	</div>
+</div>

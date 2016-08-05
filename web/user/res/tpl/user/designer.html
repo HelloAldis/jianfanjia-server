@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" xmlns:ng="http://angularjs.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <!--[if lt IE 8]>
+          <script type="text/javascript">if(!-[1,]){window.location.href = "/tpl/other/error.html";}</script>
+    <![endif]-->
+    <title>设计师中心--简繁家</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/designer.css" />
+    <script type="text/javascript" src="/static/js/lib/public.js"></script>
+    <script type="text/javascript" src="/static/js/ng/version.min.js"></script>
+    <script type="text/javascript" src="/static/js/lib/webuploader.min.js"></script>
+    <!--[if lt IE 9]>
+        <script type="text/javascript" src="/static/js/lib/ie8.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="g-tb g-wa">
+        <div class="g-wp f-cb">
+            <a href="/tpl/download/index.html" class="m-app f-fl"><span>APP下载</span></a>
+            <a href="/zt/merchants/index.html" class="m-events f-fr">简繁家主材火热招商中</a>
+            <div class="m-user f-fr" id="j-user"></div>
+        </div>
+    </div>
+    <header class="g-hd g-wa" id="j-hd">
+        <div class="g-wp f-cb">
+            <hgroup class="m-logo f-fl">
+                <h1><a href="/">简繁家</a></h1>
+                <h2>我的设计师专单平台</h2>
+            </hgroup>
+            <div class="m-sch f-fl" id="j-sch"></div>
+            <div class="m-slogan f-fr" id="j-slogan">
+                <h3>简繁家实力保障</h3>
+                <p>知名风投投资</p>
+            </div>
+        </div>
+    </header>
+    <nav class="g-nav g-wa">
+        <div class="g-wp">
+            <ul class="m-nav f-cb">
+                <li><a href="/">首页</a></li>
+                <li><a href="/tpl/design/index.html">设计师</a></li>
+                <li><a href="/tpl/mito/index.html">装修美图</a></li>
+                <li><a href="/tpl/diary/index.html">装修日记</a></li>
+                <li><a href="/tpl/live/index.html">装修直播</a></li>
+                <li><a href="/tpl/article/index.html">装修攻略</a></li>
+                <li><a href="/tpl/help/index.html">你问我答</a></li>
+            </ul>
+            <a href="/tpl/user/owner.html#release" class="m-release bounce" id="j-release"><span><i></i></span>免费获取三套方案</a>
+        </div>
+    </nav>
+    <div class="breadCrumbs g-wp">
+        <a href="/">首页</a> &gt; <span>个人中心</span>
+    </div>
+	<main class="g-wp g-user f-cb" ng-controller="designerController">
+		<aside class="g-sd">
+            <div class="m-sdc homePage">
+                <h2><a href="/tpl/user/designer/homepage"><i class="iconfont">&#xe646;</i><strong>我的主页</strong></a></h2>
+            </div>
+			<div class="m-sdc">
+				<h2 ng-class="{active: $state.includes('index')}"><a ui-sref="index"><i class="iconfont">&#xe610;</i><strong>个人中心</strong></a></h2>
+	            <dl>
+	                <dt>业主装修需求</dt>
+	                <dd ng-class="{active: $state.includes('requirementList') || $state.includes('requirement')}"><a ui-sref="requirementList">装修需求列表</a></dd>
+	                <dd ng-class="{active: $state.includes('history') || $state.includes('historyList')}"><a ui-sref="history">历史装修需求</a></dd>
+	            </dl>
+	            <div class="line"></div>
+	            <dl>
+	                <dt>我的作品</dt>
+	                <dd ng-class="{active: $state.includes('products.list')}"><a ui-sref="products.list({id:1})">作品列表</a></dd>
+	                <dd ng-class="{active: $state.includes('addProduct')}"><a ui-sref="addProduct({list:true})">发布作品</a></dd>
+	            </dl>
+                <div class="line"></div>
+                <dl>
+                    <dt>我的收藏</dt>
+                    <dd ng-class="{active: $state.includes('favorite.list')}"><a ui-sref="favorite.list({id:1})">作品收藏列表</a></dd>
+                </dl>
+                <div class="line"></div>
+                <dl>
+                    <dt>我的消息</dt>
+                    <dd ng-class="{active: $state.includes('notice.list')}"><a ui-sref="notice.list.type({id:1,type:'2-5-6-7-8-9-10-11-12-13-99',status:undefined})">系统通知<span ng-if="count.notice" ng-bind="count.notice"></span></a></dd>
+                    <dd ng-class="{active: $state.includes('remind.list')}"><a ui-sref="remind.list.type({id:1,type:'14-15-16-17-18',status:undefined})">需求提醒<span ng-if="count.remind" ng-bind="count.remind"></span></a></dd>
+                    <dd ng-class="{active: $state.includes('comment.list')}"><a ui-sref="comment.list({id:1})">评论<span ng-if="count.comment" ng-bind="count.comment"></span></a></dd>
+                </dl>
+            </div>
+            <div class="m-sdc authHeart">
+               <h2 ng-class="{active: $state.includes('authHeart')}"><a ui-sref="authHeart"><i class="iconfont">&#xe62c;</i><strong>认证中心</strong></a></h2>
+	            <dl>
+	                <dd ng-class="{active: $state.includes('infor') || $state.includes('infoshow')}">
+                        <a ng-click="goLink('info',designer.auth_type)">基本资料认证</a>
+                        <span ng-class="{show:designer}" ng-switch="designer.auth_type">
+                            <i ng-switch-when="1" my-tooltip data-title="认证中" class="authStatus0 iconfont">&#xe60b;</i>
+                            <i ng-switch-when="2" my-tooltip data-title="认证成功" class="authStatus2 iconfont">&#xe608;</i>
+                            <i ng-switch-when="3" my-tooltip data-title="认证失败" class="authStatus3 iconfont">&#xe61d;</i>
+                            <i ng-switch-when="4" my-tooltip data-title="违规下线" class="authStatus4 iconfont">&#xe612;</i>
+                        </span>
+                    </dd>
+	                <dd ng-class="{active: $state.includes('idcard') || $state.includes('idcardshow')}">
+                        <a ng-click="goLink('idcard',designer.uid_auth_type)">身份认证</a>
+                        <span ng-class="{show:designer}" ng-switch="designer.uid_auth_type">
+                            <i ng-switch-when="1" my-tooltip data-title="认证中" class="authStatus0 iconfont">&#xe60b;</i>
+                            <i ng-switch-when="2" my-tooltip data-title="认证成功" class="authStatus2 iconfont">&#xe608;</i>
+                            <i ng-switch-when="3" my-tooltip data-title="认证失败" class="authStatus3 iconfont">&#xe61d;</i>
+                            <i ng-switch-when="4" my-tooltip data-title="违规下线" class="authStatus4 iconfont">&#xe612;</i>
+                        </span>
+                    </dd>
+	                <dd ng-class="{active: $state.includes('products.list')}">
+                        <a ui-sref="products.list({id:1})">作品认证</a>
+                        <span ng-class="{show:designer}">
+                            <i ng-if="designer.authed_product_count < 3 && designer.authed_product_count > 0" my-tooltip data-title="认证中" class="authStatus0 iconfont">&#xe60b;</i>
+                            <i ng-if="designer.authed_product_count > 2" my-tooltip data-title="认证成功" class="authStatus2 iconfont">&#xe608;</i>
+                        </span>
+                    </dd>
+	                <dd ng-class="{active: $state.includes('teamList')}">
+                        <a ui-sref="teamList">施工团队</a>
+                        <span ng-class="{show:designer}" ng-switch="designer.work_auth_type">
+                            <i ng-switch-when="1" my-tooltip data-title="认证中" class="authStatus0 iconfont">&#xe60b;</i>
+                            <i ng-switch-when="2" my-tooltip data-title="认证成功" class="authStatus2 iconfont">&#xe608;</i>
+                            <i ng-switch-when="3" my-tooltip data-title="认证失败" class="authStatus3 iconfont">&#xe61d;</i>
+                            <i ng-switch-when="4" my-tooltip data-title="违规下线" class="authStatus4 iconfont">&#xe612;</i>
+                        </span>
+                    </dd>
+	                <dd ng-class="{active: $state.includes('phone')}">
+                        <a ui-sref="phone">手机认证</a>
+                        <span ng-class="{show:designer}"><i class="authStatus2 iconfont">&#xe608;</i></span>
+                    </dd>
+	                <dd ng-class="{active: $state.includes('email')}">
+                        <a ui-sref="email">邮箱认证</a>
+                        <span ng-class="{show:designer}" ng-switch="designer.email_auth_type">
+                            <i ng-switch-when="1" my-tooltip data-title="认证中" class="authStatus0 iconfont">&#xe60b;</i>
+                            <i ng-switch-when="2" my-tooltip data-title="认证成功" class="authStatus2 iconfont">&#xe608;</i>
+                            <i ng-switch-when="3" my-tooltip data-title="认证失败" class="authStatus3 iconfont">&#xe61d;</i>
+                            <i ng-switch-when="4" my-tooltip data-title="违规下线" class="authStatus4 iconfont">&#xe612;</i>
+                        </span>
+                    </dd>
+	            </dl>
+	        </div>
+		</aside>
+        <article class="g-mn" ui-view=""></article>
+	</main>
+    <footer class="g-ft g-wa">
+        <div class="g-wp">
+            <ul>
+                <li class="first"><a href="/tpl/about/owner.html"><strong>业主指南</strong><em>业主指南</em></a></li>
+                <li><a href="/tpl/about/design.html"><strong>设计师指南</strong><em>设计师指南</em></a></li>
+                <li><a href="/tpl/article/index.html"><strong>装修攻略</strong><em>装修攻略</em></a></li>
+                <li><a href="/tpl/about/index.html"><strong>关于我们</strong><em>关于我们</em></a></li>
+                <li class="last"><a href="/tpl/about/contact.html"><strong>联系我们</strong><em>联系我们</em></a></li>
+            </ul>
+            <p>免责声明：本网站部分内容由用户自行上传，如权利人发现存在误传其作品情形，请及时与本站联系。</p>
+            <p>Copyright © 2015-2016 jianfanjia.com   All Rights Reserved   武汉家易装科技有限公司   隐私权政策 鄂ICP备15014103号</p>
+        </div>
+    </footer>
+    <script type="text/javascript" src="/static/js/utils/usercommon.js"></script>
+    <script type="text/javascript" src="/static/js/user/filters.js"></script>
+    <script type="text/javascript" src="/static/js/user/module.js"></script>
+    <script type="text/javascript" src="/static/js/user/directives.js"></script>
+    <script type="text/javascript" src="/static/js/user/designerService.js"></script>
+    <script type="text/javascript" src="/static/js/user/designerController.js"></script>
+    <script type="text/javascript" src="/static/js/user/designerApp.js"></script>
+</body>
+</html>

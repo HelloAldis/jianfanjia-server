@@ -1,0 +1,114 @@
+<div class="showDiary" id="j-showDiary">
+    <div class="banner" bindonce="diarys">
+        <img my-loadimg data-imgid="{{diarys.cover_imageid}}" data-imgApi="/api/v2/web/thumbnail2/920/260/" data-imgDefault="/static/img/diary/covers-default.jpg" />
+        <div class="mask"></div>
+        <div class="boxs">
+            <h4 bo-text="diarys.title"></h4>
+            <div class="tag">
+                <span bo-if="diarys.house_area"><i bo-text="diarys.house_area"></i>m&sup2;&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                <span bo-if="diarys.house_type"><i bo-text="diarys.house_type"></i>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                <span bo-if="diarys.dec_style"><i bo-text="diarys.dec_style"></i>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                <span bo-if="diarys.work_type"><i bo-text="diarys.work_type"></i></span>
+            </div>
+        </div>
+        <div class="operate">
+            <a class="btns edit" ui-sref="diary.add({id:diarys._id})"><i class="iconfont">&#xe627;</i></a>
+        </div>
+    </div>
+    <div class="showDiary-add">
+        <div class="add" ng-if="!write.show" ng-click="write.add()">
+            <i class="iconfont">&#xe629;</i>&nbsp;&nbsp;写日记
+        </div>
+        <div class="write" ng-if="write.show">
+            <form name="addDiary" novalidate ng-submit="write.submit(write.data)">
+                <div class="infoTips" style="margin: 0 0 20px;"><i class="iconfont">&#xe612;</i>图片上传每张3M以内jpg/png格式，最多只能上传9张图。（注：不能放置个人电话号码或违反法律法规的信息。）</div>
+                <div class="write-header" ng-class="{'submiting':!write.select}">
+                    <textarea rows="10" name="content" placeholder="记录和分享您的装修之路，不少于15字哦" my-placeholder ng-model="write.data.content" ng-minlength="15" ng-if="write.select"></textarea>
+                </div>
+                <div class="write-body insertimage">
+                    <div my-insertimage3 data-id="uploadify" my-query="write.data.images" my-complete="write.complete" my-loading="write.loading" ng-if="write.select"></div>
+                </div>
+                <div class="write-footer f-cb">
+                    <div class="f-fl select" ng-class="{'submiting':!write.select}">
+                        <div my-select data-type="getValue" my-list="write.list" my-query="write.data.section_label" ng-if="write.select"></div>
+                    </div>
+                    <div class="f-fr">
+                        <button type="submit" class="u-btns" ng-class="{'u-btns-disabled' : !write.data.content.length ||  addDiary.content.$error.minlength || write.complete}" ng-disabled="!write.data.content.length || addDiary.content.$error.minlength || write.complete">&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="showDiary-list" ng-repeat="list in diarylist track by list._id" bindonce="diarylist" ng-if="isLoading">
+        <div class="list-head">
+            <div class="tags">
+                <h4 bo-text="list.section_label"></h4>
+                <span bo-text="list.create_at | date : 'yyyy年MM月dd日'"></span>
+            </div>
+            <div class="operate">
+                <button class="btns remove" ng-click="modal.remove(list._id)"><i class="iconfont">&#xe619;</i></button>
+            </div>
+        </div>
+        <div class="list-body">
+            <p class="text" ng-bind-html="list.content | textareaescapedFilter"></p>
+            <div class="img">
+                <img class="lightBox" my-viewlarger my-list="list.images" data-title="{{list.section_label}}" bo-src-i="/api/v2/web/thumbnail2/160/160/{{img.imageid}}"  ng-repeat="img in list.images track by $index" bindonce="list.images">
+            </div>
+        </div>
+        <ul class="list-foot">
+            <li ng-class="{'active':list.is_my_favorite}" ng-click="like(list.is_my_favorite,list._id)"><span class="like" ng-bind="list.favorite_count"></span><strong ng-if="list.likemove">+1</strong></li>
+            <li ng-class="{'active':list.is_review}" ng-click="comment(list.is_review,list._id)"><span class="review" bo-text="list.comment_count"></span></li>
+        </ul>
+        <div class="list-review" ng-if="list.is_review">
+            <div class="write">
+                <div class="u-head u-head-radius u-head-w50">
+                    <img ng-src="/api/v2/web/thumbnail2/50/50/{{list.author.imageid}}" bo-if="list.author.imageid">
+                </div>
+                <div class="textarea">
+                    <textarea rows="10" name="content" ng-model="list.reviewContent"></textarea>
+                </div>
+                <div class="btns">
+                    <span class="find" ng-if="list.giveshow">回复给&nbsp;&nbsp;<strong ng-bind="list.givename"></strong></span>
+                    <button type="button" class="u-btns" ng-click="addComment({
+                      topicid:list._id,
+                      topictype:'2',
+                      content:list.reviewContent,
+                      to_designerid:undefined,
+                      to_userid:list.authorid,
+                      to_commentid:undefined
+                    })" ng-class="{'u-btns-disabled' : !list.reviewContent.length || addCommentDld}" ng-disabled="!list.reviewContent.length || addCommentDld">发表评论</button>
+                </div>
+            </div>
+            <div class="list">
+                <ul>
+                    <li ng-repeat="data in list.review" bindonce="list.review" ng-click="addCommentTo(data,list.author._id)">
+                        <div class="u-head u-head-radius u-head-w50">
+                            <img bo-src-i="/api/v2/web/thumbnail2/50/50/{{data.byUser.imageid}}" alt="" bo-if="data.byUser.imageid">
+                        </div>
+                        <h4><span bo-text="data.byUser.username">新设计师</span><time bo-text="data.date | timeFormat"></time></h4>
+                        <p><span class="text" bo-text="data.content"></span><i class="iconfont reply" ng-class="{'active':data.giveshow}">&#xe616;</i></p>
+                    </li>
+                    <li class="notList" ng-if="!list.review.length">
+                        暂无评论
+                    </li>
+                </ul>
+            </div>
+            <div class="more" ng-if="list.moveshow" ng-click="loadmore(list._id,list.review.length)">加载更多</div>
+        </div>
+    </div>
+</div>
+<div class="pageLoading" ng-if="!isLoading"></div>
+<div class="k-modal dialog" id="j-modal" ng-class="{'show':modal.show}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="icon"><i class="iconfont">&#xe619;</i></div>
+                <p>您确定要删除日记吗？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="u-btns u-btns-revise cancel" ng-click="modal.cancel()">取消</button>
+                <button type="button" class="u-btns define" ng-click="modal.define()">确定</button>
+            </div>
+        </div>
+    </div>
+</div>

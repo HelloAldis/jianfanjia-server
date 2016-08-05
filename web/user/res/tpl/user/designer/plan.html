@@ -1,0 +1,51 @@
+<div class="plans">
+	<div class="plans-tips">
+		<p class="f-fl">装修方案摘要</p>
+		<a bo-if="requirement.plan.status == 6 || requirement.plan.status == 3" ui-sref="createPlan({id:requirement._id,userid:requirement.user._id,username:requirement.user.username,worktype:requirement.work_type,packagetype:requirement.package_type,baseprice:requirement.house_area*365,storage:true})" class="u-btns f-fr">提交新方案</a>
+	</div>
+	<ul class="m-plans" ng-if="plans.length == 0 || plans">
+		<li bindonce="plans" ng-repeat="data in plans track by $index">
+			<div class="boxs">
+				<div class="info f-cb">
+					<span class="head f-fl">
+						<img bo-src-i="/api/v2/web/thumbnail/70/{{data.user.imageid}}" bo-alt="data.user.username" bo-if="data.user.imageid" />
+					</span>
+					<dl class="f-fl">
+						<dt>
+							给业主<strong bo-text="data.user.username"></strong>的方案
+						</dt>
+						<dd bo-if="requirement.work_type == 2">
+							<span>设计费<strong>&yen;<i bo-text="data.total_design_fee"></i></strong></span>
+							<span><i class="iconfont2">&#xe625;</i><em bo-text="data.user.phone"></em></span>
+						</dd>
+						<dd bo-if="requirement.work_type != 2">
+							<span>报价<strong>&yen;<i bo-text="data.total_price"></i></strong></span>
+							<span>工期<strong><i bo-text="data.duration"></i>天</strong></span>
+							<span><i class="iconfont2">&#xe625;</i><em bo-text="data.user.phone"></em></span>
+						</dd>
+					</dl>
+					<span bo-class="{'status status4 f-fr':data.status == 4,'status status5 f-fr':data.status == 5,'status status3 f-fr':data.status == 3}" bo-switch="data.status">
+						<i bo-switch-when="4">未中标</i>
+						<i bo-switch-when="5">已中标</i>
+						<i bo-switch-when="3">沟通中</i>
+					</span>
+				</div>
+				<div class="profile f-cb">
+					<h4 class="f-fl">设计说明：</h4>
+					<p class="f-fl" bo-text="data.description"></p>
+				</div>
+				<ul class="images">
+					<li ng-repeat="img in data.images | limitTo : 3 track by $index"><img bo-src-i="/api/v2/web/thumbnail2/280/180/{{img}}" alt=""></li>
+				</ul>
+				<div class="select">
+					<a bo-href-i="plans.html?pid={{data._id}}#plansMsg" class="u-btns u-btns-revise msg f-fl" target="_blank">评论 (<i bo-text="data.comment_count"></i>)</a>
+					<div class="btns f-fr">
+						<a bo-href-i="plans.html?pid={{data._id}}" class="u-btns u-btns-revise" target="_blank">预览方案</a>
+						<a ui-sref="createPlan({id:data._id})" class="u-btns" bo-if="data.status == 3">修改方案</a>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+	<div class="pageLoading" ng-hide="!!plans"></div>
+</div>

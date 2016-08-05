@@ -1,0 +1,101 @@
+<div class="Backdrop">
+	<div class="m-tt">
+		<h2 class="title" ng-bind="$state.current.title"></h2>
+	</div>
+	<div class="m-ct">
+		<div class="main">
+			<div class="infoTips"><i class="iconfont2">&#xe612;</i>完成基本资料认证及作品认证（至少3套）的设计师才可以接单</div>
+			<ul class="authBox" bindonce="designer">
+				<li>
+					<span class="icon"><i class="iconfont2">&#xe61c;</i></span>
+					<span class="name">基本资料认证</span>
+				<span class="info">
+					<span ng-switch="designer.auth_type">
+						<i ng-switch-when="0" class="authStatus1">未提交</i>
+						<i ng-switch-when="1" class="authStatus0">认证中</i>
+						<i ng-switch-when="2" class="authStatus2">认证成功</i>
+						<i ng-switch-when="3" class="authStatus3">认证失败</i>
+						<i ng-switch-when="4" class="authStatus4">违规屏蔽</i>
+					</span>
+					<span class="error" bo-if="designer.auth_type == 3 || designer.auth_type == 4" bo-if="designer.auth_message">（<i bo-text="designer.auth_message"></i>）</span>
+				</span>
+				<span class="select">
+					<a ui-sref="infor" class="u-btns u-btns-revise" bo-if="designer.auth_type == 0">填写并认证</a>
+					<a ui-sref="infoshow" class="u-btns u-btns-revise" bo-if="designer.auth_type != 0">查看</a>
+					<a ui-sref="infor" class="u-btns u-btns-revise" bo-if="designer.auth_type != 1">修改</a>
+				</span>
+				</li>
+				<li>
+					<span class="icon"><i class="iconfont2">&#xe628;</i></span>
+					<span class="name">身份认证</span>
+				<span class="info">
+					<span ng-switch="designer.uid_auth_type">
+						<i ng-switch-when="0" class="authStatus1">未提交</i>
+						<i ng-switch-when="1" class="authStatus0">认证中</i>
+						<i ng-switch-when="2" class="authStatus2">认证成功</i>
+						<i ng-switch-when="3" class="authStatus3">认证失败</i>
+						<i ng-switch-when="4" class="authStatus4">违规屏蔽</i>
+					</span>
+					<span class="error" bo-if="designer.uid_auth_type == 3 || designer.uid_auth_type == 4" bo-if="designer.uid_auth_message">（<i bo-text="designer.uid_auth_message"></i>）</span>
+				</span>
+				<span class="select">
+					<a ui-sref="idcard" class="u-btns u-btns-revise" bo-if="designer.uid_auth_type == 0">填写并认证</a>
+					<a ui-sref="idcardshow" class="u-btns u-btns-revise" bo-if="designer.auth_type != 0">查看</a>
+					<a ui-sref="idcard" class="u-btns u-btns-revise" bo-if="designer.uid_auth_type != 1">修改</a>
+				</span>
+				</li>
+				<li>
+					<span class="icon"><i class="iconfont2">&#xe60e;</i></span>
+					<span class="name">作品认证</span>
+				<span class="info">
+					<span>
+						<i bo-text="designer.authed_product_count"></i>套作品认证通过
+					</span>
+				</span>
+				<span class="select">
+					<a ui-sref="addProduct" class="u-btns u-btns-revise">提交作品</a>
+				</span>
+				</li>
+				<li>
+					<span class="icon"><i class="iconfont2">&#xe60f;</i></span>
+					<span class="name">施工团队</span>
+				<span class="info">
+					<span>
+						<i bo-text="designer.team_count"></i>个施工团队
+					</span>
+				</span>
+				<span class="select">
+					<a ui-sref="team" class="u-btns u-btns-revise">添加施工团队</a>
+				</span>
+				</li>
+				<li>
+					<span class="icon"><i class="iconfont2">&#xe606;</i></span>
+					<span class="name">手机号码</span>
+				<span class="info">
+					<span>
+						<i bo-text="designer.phone" class="authStatus2"></i>
+					</span>
+				</span>
+				<span class="select">
+					<a ui-sref="phone" class="u-btns u-btns-revise">查看</a>
+				</span>
+				</li>
+				<li>
+					<span class="icon"><i class="iconfont2">&#xe615;</i></span>
+					<span class="name">邮箱地址</span>
+				<span class="info">
+					<span>
+						<i bo-if="!designer.email">未填写</i>
+						<i bo-if="designer.email" bo-text="designer.email" class="authStatus2"></i>
+					</span>
+				</span>
+				<span class="select">
+					<a ui-sref="email" class="u-btns u-btns-revise" bo-if="designer.email_auth_type == 0 || designer.email_auth_type == 3 || designer.email_auth_type == 4">填写并认证</a>
+					<a ui-sref="email" class="u-btns u-btns-revise" bo-if="designer.email_auth_type == 2">修改</a>
+					<a ui-sref="email" class="u-btns u-btns-revise" bo-if="designer.email_auth_type == 1">前往邮箱认证</a>
+				</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

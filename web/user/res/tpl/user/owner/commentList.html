@@ -1,0 +1,52 @@
+<div ng-if="commentList && commentList.length != 0">
+    <ul class="m-commentList">
+        <li bindonce="commentList" ng-repeat="data in commentList track by $index" ng-if="data.message_type == 5">
+            <a bo-href-i="/tpl/designer/{{data.designer._id}}" class="head">
+                <img bo-src-i="/api/v2/web/thumbnail2/40/40/{{data.designer.imageid}}" bo-if="data.designer.imageid" />
+            </a>
+            <div class="panel">
+                <div class="panel-heading f-cb">
+                    <div class="f-fl">
+                        <strong bo-text="data.designer.username"></strong>
+                        <span>评论于<time bo-text="data.create_at | date : 'yyyy-MM-dd'"></time></span>
+                        <i bo-if="data.status == 0">[未读]</i>
+                    </div>
+                    <div class="f-fr origin">
+                        来自于<strong bo-text="data.designer.username"></strong>提供的<span class="origin-plan">装修方案</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <p bo-text="data.content"></p>
+                    <a bo-href-i="plans.html?pid={{data.topicid}}#plansMsg">回复</a>
+                </div>
+            </div>
+        </li>
+        <li bindonce="commentList" ng-repeat="data in commentList track by $index" ng-if="data.message_type == 14">
+            <a bo-href-i="/tpl/diary/book/{{data.diarySet._id}}" class="head">
+                <img bo-src-i="/api/v2/web/thumbnail2/40/40/{{data.user.imageid}}" bo-if="data.user.imageid" />
+            </a>
+            <div class="panel">
+                <div class="panel-heading f-cb">
+                    <div class="f-fl">
+                        <strong bo-text="data.user.username"></strong>
+                        <span>评论于<time bo-text="data.create_at | date : 'yyyy-MM-dd'"></time></span>
+                        <i bo-if="data.status == 0">[未读]</i>
+                    </div>
+                    <div class="f-fr origin">
+                        来自于<strong bo-text="data.author.username"></strong>发布的<span bo-text="data.diarySet.title" class="origin-diary">90后装修日志</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <p bo-text="data.content"></p>
+                    <a bo-href-i="/tpl/diary/book/{{data.diarySet._id}}?diaryid={{data.topicid}}&to_userid={{data.user._id}}&username={{data.user.username}}">回复</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div my-pageing page-object="pageing" ng-if="commentList.length > 0"></div>
+</div>
+<div class="pageNotdate message-pageNotdate" ng-show="commentList.length == 0">
+    <h3><span></span></h3>
+    <p>暂时没有任何内容</p>
+</div>
+<div class="pageLoading" ng-hide="!!commentList"></div>

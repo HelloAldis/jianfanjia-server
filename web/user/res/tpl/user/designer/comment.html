@@ -1,0 +1,41 @@
+<div class="Backdrop">
+    <div class="main m-requirement m-message">
+        <div class="m-tt">
+            <h2>评论<span ng-if="count.comment">(<i ng-bind="count.comment"></i>)</span></h2>
+        </div>
+        <div class="m-ct">
+            <div class="tabs-box">
+                <ul class="tabs">
+                    <li ng-class="{'active':item.cur}" ng-repeat="item in comment.tab"><a ng-click="comment.goto(item.id)" href="javascript:;" ng-bind="item.name"></a></li>
+                </ul>
+            </div>
+            <div ng-if="comment.list && comment.list.length != 0">
+                <ul class="m-commentList">
+                    <li bindonce="comment.list" ng-repeat="data in comment.list">
+                    <span class="head">
+                        <img bo-src-i="/api/v2/web/thumbnail2/40/40/{{data.user.imageid}}" bo-if="data.user.imageid" />
+                    </span>
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <strong bo-text="data.user.username"></strong>
+                                <span>评论于<time bo-text="data.create_at | date : 'yyyy-MM-dd'"></time></span>
+                                <i bo-if="data.status == 0">[未读]</i>
+                            </div>
+                            <div class="panel-body">
+                                <p bo-text="data.content"></p>
+                                <a bo-href-i="plans.html?pid={{data.topicid}}#plansMsg">回复</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div my-pageing page-object="pageing" ng-if="comment.list.length > 0"></div>
+            </div>
+            <div class="pageNotdate message-pageNotdate" ng-show="comment.list.length == 0">
+                <h3><span></span></h3>
+                <p>暂时没有任何内容</p>
+            </div>
+            <div class="pageLoading" ng-hide="!!comment.list"></div>
+        </div>
+    </div>
+</div>
+

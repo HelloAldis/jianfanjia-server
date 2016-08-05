@@ -1,0 +1,95 @@
+<div class="main addDiary">
+    <div class="m-tt">
+        <h2 ng-bind="userdiary.releaseTitle"></h2>
+    </div>
+    <div class="m-ct">
+        <form name="diary" ng-submit="userdiary.submit(0)" novalidate ng-if="isLoading">
+            <div class="k-form release">
+                <div class="m-boxs">
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>标题</label>
+                            <div class="u-inp">
+                                <input type="text" class="input" ng-model="diarys.title" required name="title" placeholder="不能为空" my-placeholder  />
+                            </div>
+                            <div class="u-error">
+                                <span ng-show="diary.title.$dirty && diary.title.$error.required" class="has-error">不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>面积</label>
+                            <div class="u-inp">
+                                <input type="text" class="input" ng-model="diarys.house_area" placeholder="只能填整数" my-placeholder required name="house_area" ng-pattern="/^[1-9][0-9]{0,3}$/" />
+                                <span class="unit">m&sup2;</span>
+                            </div>
+                            <div class="u-error">
+                                <span ng-show="diary.house_area.$dirty && diary.house_area.$error.pattern" class="has-error">必须为小于5位整数</span>
+                                <span ng-show="diary.house_area.$dirty && diary.house_area.$error.required" class="has-error">不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>户型</label>
+                            <div class="u-inp">
+                                <div my-select my-list="userdiary.houseType" my-query="diarys.house_type"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>包工类型</label>
+                            <div class="u-inp">
+                                <div my-select my-list="userdiary.workType" my-query="diarys.work_type"></div>
+                                <div class="work-tips">
+                                    <p><strong>半包</strong>是指装修工程中，施工方提供人员施工及辅材供应的承包形式；</p>
+                                    <p><strong>全包</strong>是指装修工程中，施工方提供装修所涉所有项目的承包形式。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab"><i class="required-icon"></i>装修风格</label>
+                            <div class="u-inp">
+                                <div class="k-stylePic">
+                                    <div my-stylepic my-list="userdiary.decStyle" my-query="diarys.dec_style"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-item f-cb">
+                        <div class="item">
+                            <label class="u-lab">日记封面</label>
+                            <div class="u-inp">
+                                <div class="diary_image">
+                                    <div my-simpleupload id="diarys_cover_imageid" my-id="diarys_cover_imageid" my-query="diarys.cover_imageid" my-loading="designerInfo.images_loading" my-width="460" my-height="129"></div>
+                                </div>
+                                <div class="work-tips">
+                                    <p><strong>提示：</strong>为了达到最佳的显示效果，请上传宽度大于900的图片。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-btns">
+                    <input type="submit" class="u-btns" ng-class="{'u-btns-disabled':diary.$invalid || userdiary.disabled}" ng-disabled="diary.$invalid || userdiary.disabled" ng-value="userdiary.releaseValue" />
+                </div>
+            </div>
+        </form>
+        <div class="pageLoading" ng-if="!isLoading"></div>
+    </div>
+</div>
+<div class="k-cropMask" id="j-cropMask"></div>
+<div class="k-cropBox" id="j-cropBox">
+    <div class="cropBox">
+        <img id="target" alt="Jcrop Image"/>
+    </div>
+    <div class="btns">
+        <input type="button" class="u-btns u-btns-revise" id="crop-cancel" value="取消"/>
+        <input type="button" class="u-btns" id="crop-submit" value="确定"/>
+    </div>
+</div>
