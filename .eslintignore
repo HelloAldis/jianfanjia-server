@@ -1,0 +1,4 @@
+lib/getuilib/*
+.eslintrc*
+node_modules/*
+**/vendor/*.js
