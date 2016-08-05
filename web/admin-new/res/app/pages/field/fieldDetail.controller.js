@@ -3,44 +3,6 @@
     .controller('FieldDetailController', [
       '$scope', '$stateParams', 'adminField', 
       function ($scope, $stateParams, adminField) {
-        // 工地管理详情数据
-        $scope.fieldData = function () {
-          adminField.search({
-            "query": {
-              '_id': $stateParams.id
-            },
-            "from": 0,
-            "limit": 1
-          })
-          .then(function (resp) {
-            if (resp.data.data.total === 1) {
-              $scope.processes = resp.data.data.processes[0];
-              $scope.hasAssigned = $scope.processes.supervisorids;
-              $scope.loading.loadData = true;
-              $scope.getNameAssigned($scope.hasAssigned);
-            }
-          }, function (err) {
-            console.log(err);
-          });
-        }
-        $scope.fieldData();
-
-        // 获取该工地已指派监理列表
-        $scope.getNameAssigned = function (arrId) {
-          adminField.searchSupervisor({
-            "query":{
-              "_id":{
-                "$in": arrId
-              }
-            }
-          })
-          .then(function (res) {
-            $scope.nameList = res.data.data.supervisors;
-          }, function (err) {
-            console.log(err);
-          })
-        }
-
         $scope.config = {
           placeholder: '监理姓名',
           search_word: $scope.search_word
@@ -103,7 +65,45 @@
           }
         };
 
-        //加载数据
+        // 工地管理详情数据
+        $scope.fieldData = function () {
+          adminField.search({
+            "query": {
+              '_id': $stateParams.id
+            },
+            "from": 0,
+            "limit": 1
+          })
+          .then(function (resp) {
+            if (resp.data.data.total === 1) {
+              $scope.processes = resp.data.data.processes[0];
+              $scope.hasAssigned = $scope.processes.supervisorids;
+              $scope.loading.loadData = true;
+              $scope.getNameAssigned($scope.hasAssigned);
+              loadList($stateParams.detail);
+            }
+          }, function (err) {
+            console.log(err);
+          });
+        }
+
+        // 获取该工地已指派监理列表
+        $scope.getNameAssigned = function (arrId) {
+          adminField.searchSupervisor({
+            "query":{
+              "_id":{
+                "$in": arrId || []
+              }
+            }
+          })
+          .then(function (res) {
+            $scope.nameList = res.data.data.supervisors;
+          }, function (err) {
+            console.log(err);
+          })
+        }
+
+        //加载监理列表数据
         function loadList(detail) {
           adminField.searchSupervisor(detail).then(function (resp) {
             if (resp.data.data.total === 0) {
@@ -134,7 +134,7 @@
         //初始化UI
         initUI($stateParams.detail);
         //初始化数据
-        loadList($stateParams.detail);
+        $scope.fieldData();
 
         // 操作监理
         $scope.operateSupervisor = function (item) {

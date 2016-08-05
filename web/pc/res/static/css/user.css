@@ -9,6 +9,9 @@ body,html,.g-user{
     position: relative;
     background:url(../img/user/user-bg.jpg) center center no-repeat;
 }
+.placeholder{
+    left:10px;
+}
 .g-bd{
     position: absolute;
     left:50%;
@@ -85,7 +88,6 @@ body,html,.g-user{
     background-color: #f6f6f6;
     width: 100%;
     height: 46px;
-    overflow: hidden;
     border-radius: 3px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -121,6 +123,7 @@ body,html,.g-user{
     float: left;
 }
 .m-item .item .box {
+    position: relative;
     width: 293px;
     height: 36px;
     line-height: 36px;

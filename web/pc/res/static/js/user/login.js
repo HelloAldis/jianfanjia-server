@@ -6,7 +6,7 @@ require.config({
         cookie : 'lib/jquery.cookie'
     }
 });
-require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
+require(['jquery','lodash','lib/jquery.cookie','utils/placeholder'],function($,_,cookie,Placeholder){
 	if(window.location.host == 'jianfanjia.com'){
 		window.location.href = 'http://www.jianfanjia.com/tpl/user/login.html';
 	}
@@ -263,5 +263,9 @@ require(['jquery','lodash','lib/jquery.cookie'],function($,_,cookie){
         }
     };
     var login = new Login();
-    login.init();
+    $(function(){
+        new Placeholder({'id': '#login-account','className': 'placeholder'});
+        new Placeholder({'id': '#login-password','className': 'placeholder'});
+        login.init();
+    });
 })

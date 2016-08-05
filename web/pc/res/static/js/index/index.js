@@ -24,9 +24,12 @@ require(['jquery','index/banner'],function($,Banner){
         banner.init();
     });
 });
-require(['jquery','index/shortcut'],function($,Shortcut){
+require(['jquery','index/shortcut','utils/placeholder'],function($,Shortcut,Placeholder){
     $(function(){
         new Shortcut('#j-shortcut');
+        new Placeholder({id: '#design-name','className': 'placeholder'});
+        new Placeholder({id: '#design-phone','className': 'placeholder'});
+        new Placeholder({id: '#area-house_area','className': 'placeholder'});
     });
 });
 require(['jquery','index/tabs','index/Scrollswitch'],function($,Tabs,Scrollswitch){
