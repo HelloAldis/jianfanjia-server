@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    <title>Title</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        .item{
+
+            margin-bottom: 10px;
+        }
+        .item a{
+            padding: 10px;
+            display: block;
+        }
+        .item img{
+            width: 50%;
+            height: 20%;
+            background-color: #000;
+        }
+        .reflash-banner {
+            height: 40px;
+            line-height: 40px;
+            position: absolute;
+            width: 100%;
+            top: 60px;
+            z-index: 11;
+            left: 0;
+            right: 0;
+            background-color: rgba(0,0,0,.6);
+            font-size: 15px;
+            text-align: center;
+            color: #fff;
+        }
+        .appendMsg {
+            height: 40px;
+            line-height: 20px;
+            font-size: 12px;
+            color: #4e4e4e;
+            padding: 6px 0 14px;
+            text-align: center;
+        }
+        .appendMsg-loading .spin-box {
+            display: inline-block;
+        }
+        .appendMsg .spin-box{
+            width: 10px;
+            height: 10px;
+            top: -6px;
+            left: -10px;
+        }
+        .spin-box {
+            display: inline-block;
+            width: 17px;
+            height: 17px;
+            position: relative;
+            vertical-align: -4px;
+            z-index: 10;
+        }
+        .spin {
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAiCAYAAAA6RwvCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpERTQwNDA1MjFFMjUxMUU1OUU2RUMzNjA4NkYzM0NFNCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpERTQwNDA1MzFFMjUxMUU1OUU2RUMzNjA4NkYzM0NFNCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkRFNDA0MDUwMUUyNTExRTU5RTZFQzM2MDg2RjMzQ0U0IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkRFNDA0MDUxMUUyNTExRTU5RTZFQzM2MDg2RjMzQ0U0Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Fwe7HwAAAktJREFUWMPF2M2LzXEUx/HfvVPDeGaEGA/FThbYWFiYyZQhY4vJjhXDws5aeW00zUoR5WEQqfFQ8szGHyBRUspKsUBhPA0L51ffrqd75977m199Nr++39/v/T3fc77nnG+GrEa1YR124zCO4hgG0I/OGFPTd6sdWEYPzuMtvoRG8Q0/KvQJw+iNuQ0B6cQDvMF7fIwfPcUVnMU5XMMzfK+AeoyN9YBMxiG8wCu8jlVuxax/zJuJPtwKi+VApzGtVpB5scpHscqLWDEGf1qJ+wnMEyyuFqQdZ2I7HmI7SmOAyFXCHowEzEt0/A9kol/PZVzFqjoA/uRr7wLmEab+C6QvQvHUGLfif+rC54AZ+hvIUhzEYEzImqQ9ic/0VIKUsAMHsLNOn6jGZ+4loV1OQTqwC/siYrIma2US2r0pyBpsq+bgaaBuBshwDlLGemzBkgJB+gJkBG0ZpmNtwLQWCNKepIOuDLOxOpQVrGcBsjfDHCzHsnEAuR4gA7mJlmLBOIAMBcjxDDOwMCxTNMiFADmRp/u5YZmiQe4GyGCGCVFfjAfI8wDZn6ElQnhmtWVdgzQ/yTldaTU2teBzZEdS307OX7YGTFuBIHniu5zmmnJATIqtajbEqmRbNlfWI62hUpMhSkm0/FYGZAUA5OoPiFF019pgNUq9SUN2ZCydXiPUjQ9J8TylaJAS9ieWeFFNO9ForY4wHU0ssaieJrwWtURTdgNfwxLfcbKyl2k2yO3k57kVNjTqWqIW3Ylbg0vYVO2x0AyQcrSuNc37CRyOveR6PNuMAAAAAElFTkSuQmCC);
+            width: 17px;
+            height: 17px;
+            background-size: 17px 17px;
+            display: -webkit-box;
+            -webkit-animation: spin .5s infinite linear;
+            animation: spin .5s infinite linear;
+            -webkit-animation: spin .5s infinite linear;
+            z-index: 10;
+        }
+        @-webkit-keyframes spin{
+            0%{
+                -webkit-transform:rotate(0deg);
+                transform:rotate(0deg);
+                -webkit-transform:rotate(0deg)
+            }
+            100%{
+                -webkit-transform:rotate(360deg);
+                transform:rotate(360deg);
+                -webkit-transform:rotate(360deg)
+            }
+        }
+        @keyframes spin{
+            0%{
+                -webkit-transform:rotate(0deg);
+                transform:rotate(0deg);
+                -webkit-transform:rotate(0deg)
+            }
+            100%{
+                -webkit-transform:rotate(360deg);
+                transform:rotate(360deg);
+                -webkit-transform:rotate(360deg)
+            }
+        }
+        .list{
+            width: 100%;
+            overflow: hidden;
+            background-color: #ccc;
+        }
+    </style>
+</head>
+    <div class="active" id="wrapper">
+        <div class="reflash-banner" style="transform: translate(0px, 40px) translateZ(0px); display: none;">
+            <i><i class="icon-done"></i></i>  松开刷新</div>
+        <div id="scroller">
+            <div class="list">
+                <div class="group" data-group="0" style="min-height: 100px" data-show="1">
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>1</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>2</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>3</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>4</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>5</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>6</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>7</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>8</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>9</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>0</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="group" data-group="1" style="min-height: 100px" data-show="1">
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>2</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+
+
+
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>3</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+                            <span>box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;box-sizing: inherit;</span>
+
+
+
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>4</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>5</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>6</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>7</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>8</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>9</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="">
+                            <img src="" alt="">
+                            <span>0</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="appendMsg appendMsg-loading">
+            <div style="display: none;">
+                <span class="spin-box"><i class="spin"></i></span>    正在疯狂加载...
+            </div>
+        </div>
+    </div>
+<body>
+<script>
+    var scroller = document.getElementById('scroller');
+    var aGroup = document.querySelectorAll('.group');
+    //aGroup[0].dataset.height = getGroupHeight(aGroup[0]);
+    function getGroupHeight(obj){
+        var iCount = 0;
+        var aItem = obj.querySelectorAll('.item');
+        var len = aItem.length;
+        for(var i=0; i < len; i++){
+            iCount += aItem[i].getBoundingClientRect().height + parseInt(getStyle(aItem[i],'marginBottom'))
+        }
+        return iCount;
+    }
+    console.log(aGroup[1].getBoundingClientRect())
+    //showData(aGroup)
+    var IscrollMethods = function(){}
+    IscrollMethods.prototype.init = function(){
+        this.direction = {
+            NONE: 0,
+            NOOP: 1,
+            UP: 2,
+            RIGHT: 3,
+            DOWN: 4,
+            LEFT: 5,
+            LEFT_RIGHT: 6
+        };
+        this.o = 4;
+    }
+    IscrollMethods.prototype._setStyle = function (unit) {
+        return "transform: translate(0, " + unit + "px)translateZ(0);-webkit-transform: translate(0, " + unit + "px)translateZ(0);"
+    }
+    IscrollMethods.prototype.onStart = function(event){
+        var _this = this;
+        console.log(this._this)
+        var touchs = event.targetTouches[0], cTarget = event.currentTarget;
+        console.log('pageY:' + touchs.pageY)
+        cTarget.addEventListener("touchmove", function (event) {
+            _this._move(event)
+        }, !1);
+        cTarget.addEventListener("touchend", function (event) {
+            _this._end(event)
+        }, !1);
+        this._startScrollY = window.scrollY;
+        this._startX = touchs.pageX;
+        this._startY = touchs.pageY;
+        this._dr = this.direction.NONE;
+        this._hasTouch = true;
+        this._isPull = false;
+        this.refreshBannerShow();
+    }
+    IscrollMethods.prototype._move = function (event) {
+        var touchs = event.targetTouches[0];
+        if (scroller.getBoundingClientRect().height - 900 > Math.abs(scroller.getBoundingClientRect().top)) {
+            this.loading.show = true;
+            this.loadingShow();
+        }
+        console.log(scroller.getBoundingClientRect().height - 900, scroller.getBoundingClientRect().top)
+        console.log('scroller:' + scroller.getBoundingClientRect().top)
+        if (this._dr !== this.direction.UP) {
+            if (this._dr === this.direction.NONE) {
+                var e = touchs.pageX - this._startX,
+                        s = touchs.pageY - this._startY,
+                        r = Math.abs(s),
+                        n = Math.abs(e);
+                console.log(n + r, this.o)
+                if (n + r > this.o) {
+                    if (this._dr = n > 1.73 * r) {
+                        this.direction.LEFT_RIGHT
+                    } else {
+                        if (r > 1.73 * n) {
+                            if (0 > s) {
+                                this.direction.UP
+                            } else {
+                                this.direction.DOWN
+                            }
+                        } else {
+                            this.direction.NOOP
+                        }
+                    }
+                }
+                n + r > this.o &&
+                (this._dr = n > 1.73 * r ? this.direction.LEFT_RIGHT : r > 1.73 * n ? 0 > s ? this.direction.UP : this.direction.DOWN : this.direction.NOOP,
+                this._startScrollY < 10 && s > 0 && (this._dr = this.direction.DOWN));
+                this._startScrollY < 10 && this._dr === this.direction.DOWN && s > this.o && (this._isPull = true, console.log("start move"));
+            }
+            this._dr === this.direction.DOWN && this._isPull && "loading" !== this.refreshBanner.status && (s = touchs.pageY - this._startY, this._loadingFunc(s), event.preventDefault())
+        }
+    }
+    IscrollMethods.prototype._end= function (event) {
+        var cTarget = event.currentTarget;
+        this._dr === this.direction.DOWN && this._isPull && "loading" !== this.refreshBanner.status && (event.preventDefault(), this._endloadFunc());
+        this._hasTouch = !1;
+        this._isPull = false;
+        cTarget.removeEventListener("touchmove", this._move, !1);
+        cTarget.removeEventListener("touchend", this._end, !1);
+    }
+    IscrollMethods.prototype._loadingFunc= function (iNum) {
+        this.updBanner.show = false;
+        console.log('loadingFunc:' + iNum)
+        if (80 > iNum) {
+            this.refreshBanner.style = this.setStyle(iNum / 2);
+            this.refreshBanner.show = true;
+            this.refreshBanner.status = "down";
+            this.refreshBanner.txt = "下拉刷新";
+            this.canloading = false;
+            this.refreshBannerShow();
+        } else {
+            this.refreshBanner.style = this.setStyle(40);
+            this.refreshBanner.status = "up";
+            this.refreshBanner.txt = "松开刷新";
+            this.canloading = true;
+            this.refreshBannerShow();
+        }
+    }
+    IscrollMethods.prototype._endloadFunc= function () {
+        if (this.refreshing || !this.canloading) {
+            return this.refreshBanner.show = false;
+        }
+        console.log('结束了')
+        this.refreshBanner.txt = "加载中...";
+        this.refreshBanner.status = "loading";
+        var _this = this;
+        this.refresh(function (e, s) {
+            console.log(e, s)
+            if (e) {
+                _this.refreshBanner.status = "done";
+                _this.refreshDone(s);
+                _this.refreshBannerShow();
+            } else {
+                _this.loading.show = false;
+                _this.refreshBanner.status = "error";
+                _this.refreshDone("加载失败");
+                _this.refreshBannerShow();
+            }
+        });
+        //n.clickStat(a({ck_rg: "通用", ck_po: "刷新"}, i.prop.statPageParams))
+    }
+    IscrollMethods.prototype.refreshDone= function (t) {
+        console.log(t)
+        this.refreshBanner.txt = t;
+        var _this = this, status = _this.refreshBanner.status;
+        setTimeout(function () {
+            console.log(1)
+            if ("done" === status || "error" === status) {
+                _this.refreshBanner.show = false;
+                _this.refreshBannerShow();
+            }
+        }, 2000)
+    }
+    IscrollMethods.prototype.updBanner = {
+        show: true
+    }
+    IscrollMethods.prototype.refreshBanner= {
+        show: false,
+                style: "",
+                status: "down",
+                txt: ""
+    }
+    IscrollMethods.prototype.refresh = function (fn) {
+        fn && fn(1, '刷新成功');
+    }
+    IscrollMethods.prototype.loading= {
+        show : false
+    }
+    IscrollMethods.prototype.loadingShow = function () {
+        document.querySelectorAll('.appendMsg-loading div')[0].style.display = this.loading.show ? 'block' : 'none';
+    }
+    IscrollMethods.prototype.isfooter = false;
+            IscrollMethods.prototype.refreshBannerShow= function () {
+        document.querySelectorAll('.reflash-banner')[0].style.display = this.refreshBanner.show ? 'block' : 'none';
+        document.querySelectorAll('.reflash-banner')[0].innerHTML = this.refreshBanner.txt;
+    }
+    var iscrollMethods = new IscrollMethods();
+    var Iscroll = function(){}
+    Iscroll.prototype.init = function(config){
+        var config = {
+            id : config.id || ''
+        }
+        this.oScroller = document.getElementById(config.id);
+        this.bindEvent();
+    }
+    Iscroll.prototype.bindEvent = function(){
+        this.oScroller.addEventListener('touchstart',function(event){
+            iscrollMethods.onStart(event)
+        },false)
+    }
+    Iscroll.prototype.data = function(obj,key,value){
+        if(!value){
+            return obj.dataset[key]
+        }else{
+            obj.dataset[key] = value;
+        }
+    }
+    Iscroll.prototype.css = function(obj,key,value){
+        if(!value){
+            return getComputedStyle(obj,false)[key];
+        }else{
+            obj.style[key] = value;
+        }
+    }
+    Iscroll.prototype.cacheData = {}
+    Iscroll.prototype.showData = function(obj){   //展示数据
+        var show = this.data(obj,'show'),
+            group = this.data(obj,'group'),
+            height = this.data(obj,'height');
+        console.log(b)
+        if(b == 1){
+            obj.innerHTML = cacheData[group] ? cacheData[group] : '';
+            this.css(obj,'minHeight',0)
+        }else{
+            obj.innerHTML = '';
+            this.css(obj,'minHeight',height+'px');
+        }
+    }
+    Iscroll.prototype.getGroupHeight = function(obj){
+        var getbcr = obj.getBoundingClientRect();
+        this.data(obj,'height',getbcr.height);
+        this.data(obj,'top',getbcr.top);
+    }
+    Iscroll.prototype.addData = function(){   //添加数据
+
+    }
+    Iscroll.prototype.createView = function(data){   //渲染视图
+
+    }
+    Iscroll.prototype.destroy = function(){   //销毁
+
+    }
+    Iscroll.prototype.refresh = function(){  //刷新
+
+    }
+    var iscroll = new Iscroll();
+    iscroll.init({
+        id : 'scroller'
+    })
+</script>
+</body>
+</html>

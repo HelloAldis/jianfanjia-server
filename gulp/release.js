@@ -60,7 +60,7 @@ gulp.task('commit-changes', function () {
 });
 
 gulp.task('push-changes', function (cb) {
-  git.push('origin', 'phase2', cb);
+  git.push('origin', null, cb);
 });
 
 gulp.task('create-new-tag', function (cb) {

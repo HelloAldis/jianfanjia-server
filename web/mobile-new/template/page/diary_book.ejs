@@ -1,0 +1,741 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" id="docHTml">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+    <meta name="renderer" content="webkit"/>
+    <title><%= data.diarySet.title %></title>
+    <meta name="description" content="我发现简繁家装修日记<%= data.diarySet.title %>，感觉还蛮不错，分享给大家！">
+    <meta name="keywords" content="简繁家，互联网装修平台，装修日记本">
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <link href="../../favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <script type="text/javascript">
+        !function (a, b) { function c() { var b = f.getBoundingClientRect().width; b / i > 540 && (b = 540 * i); var c = b / 10; f.style.fontSize = c + "px", k.rem = a.rem = c } var d, e = a.document, f = e.documentElement, g = e.querySelector('meta[name="viewport"]'), h = e.querySelector('meta[name="flexible"]'), i = 0, j = 0, k = b.flexible || (b.flexible = {}); if (g) { console.warn("将根据已有的meta标签来设置缩放比例"); var l = g.getAttribute("content").match(/initial\-scale=([\d\.]+)/); l && (j = parseFloat(l[1]), i = parseInt(1 / j)) } else if (h) { var m = h.getAttribute("content"); if (m) { var n = m.match(/initial\-dpr=([\d\.]+)/), o = m.match(/maximum\-dpr=([\d\.]+)/); n && (i = parseFloat(n[1]), j = parseFloat((1 / i).toFixed(2))), o && (i = parseFloat(o[1]), j = parseFloat((1 / i).toFixed(2))) } } if (!i && !j) { var p = a.navigator.userAgent, q = (!!p.match(/android/gi), !!p.match(/iphone/gi)), r = q && !!p.match(/OS 9_3/), s = a.devicePixelRatio; i = q && !r ? s >= 3 && (!i || i >= 3) ? 3 : s >= 2 && (!i || i >= 2) ? 2 : 1 : 1, j = 1 / i } if (f.setAttribute("data-dpr", i), !g)if (g = e.createElement("meta"), g.setAttribute("name", "viewport"), g.setAttribute("content", "initial-scale=" + j + ", maximum-scale=" + j + ", minimum-scale=" + j + ", user-scalable=no"), f.firstElementChild)f.firstElementChild.appendChild(g); else { var t = e.createElement("div"); t.appendChild(g), e.write(t.innerHTML) } a.addEventListener("resize", function () { clearTimeout(d), d = setTimeout(c, 300) }, !1), a.addEventListener("pageshow", function (a) { a.persisted && (clearTimeout(d), d = setTimeout(c, 300)) }, !1), "complete" === e.readyState ? e.body.style.fontSize = 12 * i + "px" : e.addEventListener("DOMContentLoaded", function () { e.body.style.fontSize = 12 * i + "px" }, !1), c(), k.dpr = a.dpr = i, k.refreshRem = c, k.rem2px = function (a) { var b = parseFloat(a) * this.rem; return "string" == typeof a && a.match(/rem$/) && (b += "px"), b }, k.px2rem = function (a) { var b = parseFloat(a) / this.rem; return "string" == typeof a && a.match(/px$/) && (b += "rem"), b } }(window, window.lib || (window.lib = {}));
+    </script>
+<%
+function house_type(input) {
+    return {"0": "一室", "1": "二室", "2": "三室", "3": "四室", "4": "复式", "5": "别墅", "6": "LOFT", "7": "其他"}[input]
+}
+function dec_style(input) {
+    return {"0": "欧式", "1": "中式", "2": "现代", "3": "地中海", "4": "美式", "5": "东南亚", "6": "田园"}[input]
+}
+function businessHouseType(input) {
+    return {
+        "0": "餐厅",
+        "1": "服装店",
+        "2": "酒吧",
+        "3": "美容院",
+        "4": "办公室",
+        "5": "美发店",
+        "6": "幼儿园",
+        "7": "酒店",
+        "9999": "其他"
+    }[input]
+}
+function work_type(input){ return { "0" : "半包", "1" : "全包", "2" : "纯设计"}[input] }
+function textareaEscaped(value) {
+    return value.toString().replace(/(\r)*\n/g, "<br />").replace(/\s/g, " ");
+}
+function format(date,format){
+                var time = new Date(date),
+                    o = {
+                        "M+" : time.getMonth()+1, //month
+                        "d+" : time.getDate(), //day
+                        "h+" : time.getHours(), //hour
+                        "m+" : time.getMinutes(), //minute
+                        "s+" : time.getSeconds(), //second
+                        "q+" : Math.floor((time.getMonth()+3)/3), //quarter
+                        "S" : time.getMilliseconds() //millisecond
+                    };
+                if(/(y+)/.test(format)) {
+                format = format.replace(RegExp.$1, (time.getFullYear()+"").substr(4 - RegExp.$1.length));
+                }
+                for(var k in o) {
+                    if(new RegExp("("+ k +")").test(format)) {
+                        format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+                    }
+                }
+                return format;
+            }
+%>
+    <style type="text/css">
+        body, div, span, h1, h2, h3, h4, h5, h6, p, a, code, em, img, q, small, strong, dd, dl, dt, li, ol, ul, fieldset, form, label, table, tbody, tr, th, td, input { margin: 0; padding: 0; border: 0; } body { font-size: 32px; font-size: .32rem; background: #f2f2f3; font-family: 'STHeiti', 'Microsoft YaHei', Helvetica, Arial, sans-serif; -webkit-text-size-adjust: none; -webkit-overflow-scrolling:touch;-webkit-user-select:none;-webkit-touch-callout:none} a, a:active, a:hover, a:focus, a:visited { text-decoration: none; } a, img { -webkit-touch-callout: none; } img { vertical-align: top; } ol, ul, li { list-style: none } textarea, input[type="password"], input[type="text"] { resize: none; outline: 0; -webkit-appearance: none; white-space: pre-wrap; word-wrap: break-word; background: #fff; }
+        .hide{
+            display: none;
+        }
+        .g-diary{
+            overflow: hidden;
+            padding-bottom: 1.6rem;
+        }
+        .m-diary-banner{
+            position: relative;
+            width: 10rem;
+            height: 4.855072463768116rem;
+            overflow: hidden;
+            background:url('/img/diary/default.jpg') 0 0 no-repeat;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+        .m-diary-banner .img{
+            width: 100%;
+        }
+        .m-diary-banner .mask{
+            position: absolute;
+            left:0;
+            top:0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            background-color:rgba(0, 0, 0, 0.5);
+        }
+        .m-diary-banner .boxs{
+            position: absolute;
+            left:0;
+            bottom: 0.35426731078904994rem;
+            z-index: 3;
+            padding-left: 2.4154589371980677rem;
+            color: #fff;
+        }
+        .m-diary-banner .headpic{
+            position: absolute;
+            left:0.6119162640901771rem;
+            bottom:0;
+            width: 1.2077294685990339rem;
+            height: 1.2077294685990339rem;
+            border-radius: 1.2077294685990339rem;
+            overflow: hidden;
+            border: 2px solid #fff;
+            background:#d5d7db url('/img/diary/headpic.png') 0 0 no-repeat;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+        [data-dpr="3"] .m-diary-banner .headpic {
+            border: 4px solid #fff;
+        }
+        .m-diary-banner .headpic img{
+            width: 1.2077294685990339rem;
+            height: 1.2077294685990339rem;
+            border-radius: 1.2077294685990339rem;
+        }
+        [data-dpr="1"] .m-diary-banner .boxs h2{
+            font-size: 14px;
+            line-height: 28px;
+        }
+        [data-dpr="2"] .m-diary-banner .boxs h2{
+            font-size: 28px;
+            line-height: 56px;
+        }
+        [data-dpr="3"] .m-diary-banner .boxs h2{
+            font-size: 42px;
+            line-height: 84px;
+        }
+        [data-dpr="1"] .m-diary-banner .boxs p{
+            font-size: 12px;
+            line-height: 20px;
+        }
+        [data-dpr="2"] .m-diary-banner .boxs p{
+            font-size: 24px;
+            line-height: 44px;
+        }
+        [data-dpr="3"] .m-diary-banner .boxs p{
+            font-size: 36px;
+            line-height: 68px;
+        }
+        .m-list{
+            margin-top: 0.1610305958132045rem;
+            background-color: #fff;
+        }
+        .m-list:nth-child(1){
+            margin-top: 0;
+        }
+        .m-list .m-body,.m-list .m-header{
+            overflow: hidden;
+            padding: 0 0.48rem;
+        }
+        .m-list .m-header h4{
+            padding: 0.3rem 0;
+            color: #34495e;
+        }
+        [data-dpr="1"] .m-list .m-header h4{
+            font-size: 14px;
+            line-height: 28px;
+        }
+        [data-dpr="2"] .m-list .m-header h4{
+            font-size: 28px;
+            line-height: 56px;
+        }
+        [data-dpr="3"] .m-list .m-header h4{
+            font-size: 42px;
+            line-height: 84px;
+        }
+        .m-list .m-header h4 time{
+            font-weight: normal;
+            margin-left: 0.532258064516129rem;
+        }
+        .m-list .text{
+            padding-bottom: 0.3rem;
+            line-height: 1.5;
+            color: #7c8389;
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+        [data-dpr="1"] .m-list .text{
+            font-size: 14px;
+        }
+        [data-dpr="2"] .m-list .text{
+            font-size: 28px;
+        }
+        [data-dpr="3"] .m-list .text{
+            font-size: 42px;
+        }
+        .m-list .img{
+            width: 9.04rem;
+            margin-bottom: 0.2830917874396135rem;
+            overflow: hidden;
+        }
+        .m-list .img:after,.m-list .img:before{content: "";display:table;clear:both;}
+        .m-list .img canvas{
+            float: left;
+            width: 2.856rem;
+            height: 2.856rem;
+            margin-left: 0.236rem;
+            margin-bottom: 0.236rem;
+            background: #ebeced url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAYAAADFeBvrAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RDdBRjU1RkM0Mjg1MTFFNjg4QTQ5NjRGOUJBRTQ1M0YiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RDdBRjU1RkQ0Mjg1MTFFNjg4QTQ5NjRGOUJBRTQ1M0YiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpEN0FGNTVGQTQyODUxMUU2ODhBNDk2NEY5QkFFNDUzRiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpEN0FGNTVGQjQyODUxMUU2ODhBNDk2NEY5QkFFNDUzRiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PssbX0AAAAchSURBVHja7FprT1RX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) center center no-repeat;
+        }
+        .m-list .img canvas:nth-child(3n+1){
+            margin-left: 0;
+        }
+        .g-app{
+            position: fixed;
+            left:0;
+            right: 0;
+            bottom: 0;
+            z-index: 100;
+            height: 1.5rem;
+            line-height: 1.5rem;
+            background-color:rgba(0, 0, 0, 0.5);
+        }
+        .g-app .logo{
+            float: left;
+            width: 5.161030595813204rem;
+            height: 0.7729468599033816rem;
+            margin-left: 0.42673107890499196rem;
+            background:url('/img/diary/logo.png') 0 0 no-repeat;
+            -webkit-background-size: cover;
+            background-size: cover;
+            -webkit-transform:translate(0,0.3635265700483092rem);
+            transform:translate(0,0.3635265700483092rem);
+        }
+        .g-app .btns{
+            float: right;
+            font-size: 0;
+            margin-right: 0.322061191626409rem;
+        }
+        .g-app .jmup{
+            display: inline-block;
+            vertical-align: middle;
+            height: 0.8rem;
+            color: #fff;
+            font-size: 0.3rem;
+            line-height: 0.8rem;
+            padding: 0 0.4rem;
+            background-color: #fe7004;
+            border-radius: 6px;
+        }
+        [data-dpr="1"] .g-app .jmup{
+            font-size: 12px;
+        }
+        [data-dpr="2"] .g-app .jmup{
+            font-size: 24px;
+        }
+        [data-dpr="3"] .g-app .jmup{
+            font-size: 36px;
+        }
+        .m-footer{
+            width: 10rem;
+            height: 1.038647342995169rem;
+            font-size: 0.3rem;
+            line-height: 1.038647342995169rem;
+            border-top: 1px solid #d5d5d5;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAACBCAQAAACrrBjaAAAAWElEQVQY03WOAQoAIQgEo7b/v67XZFEYynpyMMi0VlpGrcVpsV6gDuUl3XKQQPPsPbU+3RYr4qwsvCGzI8u4LpaIssiFwmn1JXycdPPP/Qn/KXEuL+Pr7QPX8EDcIUsZdQAAAABJRU5ErkJggg==') no-repeat center 0;
+            -webkit-background-size: 1px 100%;
+            background-size: 1px 100%;
+        }
+        [data-dpr="3"] .m-footer{
+            -webkit-background-size: 2px 100%;
+            background-size: 2px 100%;
+        }
+        .m-footer li{
+            float: left;
+            width: 5rem;
+            text-align: center;
+        }
+        .m-footer li a{
+            display: block;
+            width: 100%;
+            height: 100%;
+            color: #7c8389;
+        }
+        .m-footer li span{
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 0.3rem;
+        }
+        .m-footer li .like{
+            width: 0.3864734299516908rem;
+            height: 0.4106280193236715rem;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAzCAMAAADmSHsbAAABqlBMVEV8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4l8g4nCdN1mAAAAjXRSTlMAAQIDBQYHCAkLDA4PEBESExQVFhkaGx0eIiUmKCwtLzAxMjM2Nzg6Oz0/QEFDRUZHTE1PUVNUVVZXWFtcXV5gYWNmbG5wcnN0dnh6e3x+f4CCg4SFhoiKi4yNjo+QkZOUlpianJ+ho6SnqKqrrK6vsLKzuLy+v8DBxMXHyMnKzM/T2drh4uTr7/Dz9PnxxPvNAAACAklEQVRIx5WW/V+LURiHvxJZNsxLSySUmpeIyqwSYYlFQqzV1pZ5i7yNSEKKhOt/9sOaZ1N7ds756f6e57o+z/mc+3k5kvtoz/5iaWiXTEeK3Og25OPQXa3aMdhrxDfA0VVx1EiY5Fqu8MAWA34zbF0t33DaQDjD63wZY8BAeERvvhziVnn+WMHCTYTKqQJogssGPUs7IUubQY/3/wsV4HXHA2kIOrGJeXe+AzKNBXmciCt/GyZ8BbkKdrrgoXdwo2jmOpOl8T0JeBIsnoKGknw/cGXNCseL8pGug/myJgVjO/7jq4Ds1fp87HwLTLdKks4DPWvvGn4P8H0kIEmCT0+/wu7c5iS3r7tQT9voAnBfkrgnKcGwFIeoWy9vQloS1ZL28U1+6HBvZ8tjEhKS5GVFx5kp93wdhkNWgiI8sBNq+GEnCOyETfyxExr5YifE6bcSwuCxEVohatO4k5CUjfCCpGyEAFRYCYPckZWwSJ2VEGRWVkKGPivBCx4rIZLbU2Nhg/MtNxN6eSUrYc75oSBJfpbVzFxJ/gJZ56U7ISnMjCohtq2EME+7I7w85Q/BOekS8Oysbx1+mIdOSAOQkqTACMBcrLO2mO+BpoJ48fPyh678YSH0HICV2Uw03FLnk+Spj8CgS4c2Ng9ML1E8yh9lvMG+u1MfF38CvxfSBwov/QWEbdx09mRNpwAAAABJRU5ErkJggg==') no-repeat 0 0;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+        .m-footer li .review{
+            width: 0.37037037037037035rem;
+            height: 0.394524959742351rem;
+            background: url('data:image/png;base64,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') no-repeat 0 0;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+        .slideshow { position: absolute; left: 0; top: 0; bottom: 0; right: 0; z-index: 200; background-color: rgba(0, 0, 0, 1); display: none; overflow: hidden;}
+        .slideshow p {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0.5rem;
+            z-index: 100;
+            text-align: center;
+            font-size: 0.5rem;
+            line-height: 1rem;
+            color: #fff;
+        }
+        .cover {
+            width: 10rem;
+            height: 4.2rem;
+            background: url(/img/share/cover-img.png) no-repeat;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+        .cover img {
+            width: 100%;
+            height: 100%;
+        }
+        .slideshow ul{
+            height: 100%;
+        }
+        .slideshow li {
+            position: absolute;
+            height: 100%;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -webkit-box-align: center;
+            -webkit-justify-content: center;
+            -webkit-align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="hide"><%= JSON.stringify(data) %></div>
+    <main class="g-diary" id="j-page">
+        <article class="g-mn">
+            <header class="m-diary-banner">
+                <% if(!!data.diarySet.cover_imageid){ %>
+                <img class="img" src="/api/v2/web/thumbnail2/1242/603/<%= data.diarySet.cover_imageid %>" />
+                <% } %>
+                <div class="mask"></div>
+                <div class="boxs">
+                    <div class="headpic">
+                        <% if(data.diarySet.author.imageid !== undefined){ %>
+                        <img src="/api/v2/web/thumbnail2/150/150/<%= data.diarySet.author.imageid %>" alt="">
+                        <% } %>
+                    </div>
+                    <h2><%= data.diarySet.title %></h2>
+                    <p>
+                        <span><%= data.diarySet.house_area %>m&sup2;</span><i>/</i>
+                        <span><%= house_type(data.diarySet.house_type) %></span><i>/</i>
+                        <span><%= dec_style(data.diarySet.dec_style) %></span><i>/</i>
+                        <span><%= work_type(data.diarySet.work_type) %></span>
+                    </p>
+                </div>
+            </header>
+            <div class="m-diary-list m-diary-show">
+                <% if(!!data.diaries.length){ %>
+                <% data.diaries.forEach((v, k) => { %>
+                <section class="m-list" id="j-list<%= k %>" data-label="<%= v.section_label %>" data-uid="<%= v._id %>">
+                    <header class="m-header f-cb">
+                        <h4><%= v.section_label %><time><%= format(v.create_at,'yyyy年MM月dd日') %></time></h4>
+                    </header>
+                    <section class="m-body">
+                        <p class="text"><%- textareaEscaped(v.content) %></p>
+                        <% if(!!v.images.length){ %>
+                        <div class="img f-cb">
+                            <% v.images.forEach((m, n) => { %>
+                            <canvas id="item<%= k %>-<%= n %>" data-id="<%= n %>" data-width="<%= m.width %>" class="lightBox" data-imageid="<%= m.imageid %>" data-height="<%= m.height %>" data-src="/api/v2/web/thumbnail2/360/360/<%= m.imageid %>"></canvas>
+                            <% }) %>
+                        </div>
+                        <% } %>
+                    </section>
+                    <ul class="m-footer">
+                        <li class="click-like"><a data-uri="jianfanjia://m.jianfanjia.com/jianfanjiaapp/diaryset?diarySetid=<%= data.diarySet._id %>" onclick="deeplink.open(this.dataset.uri)"><span class="like"></span>赞</a></li>
+                        <li class="click-review"><a data-uri="jianfanjia://m.jianfanjia.com/jianfanjiaapp/diaryset?diarySetid=<%= data.diarySet._id %>" onclick="deeplink.open(this.dataset.uri)"><span class="review" ></span>评论</a></li>
+                    </ul>
+                </section>
+                <% }) %>
+                <% } %>
+            </div>
+        </article>
+        <footer class="g-app">
+            <div class="logo"></div>
+            <div class="btns">
+                <a class="jmup" data-uri="jianfanjia://m.jianfanjia.com/jianfanjiaapp/webview?url=http://devm.jianfanjia.com/weixin/jian/" onclick="deeplink.open(this.dataset.uri)">立即体验</a>
+            </div>
+        </footer>
+    </main>
+    <div class="slideshow" id="slideshow"></div>
+    <script type="text/javascript">
+        function Touch(a) {
+            var b = this;
+            this.obj = a;
+            this.bTap = !1;
+            this.start = {
+                x: 0,
+                y: 0
+            };
+            this.obj.addEventListener("touchstart", function (a) {
+                b.fnStart(a)
+            }, !1);
+            this.obj.addEventListener("touchmove", function (a) {
+                b.fnMove(a)
+            }, !1);
+            this.obj.addEventListener("touchend", function (a) {
+                b.fnEnd(a)
+            }, !1)
+        }
+        Touch.prototype = {
+            fnStart: function (a) {
+                a = a.changedTouches[0];
+                this.bTap = !0;
+                this.start = {
+                    x: a.pageX,
+                    y: a.pageY
+                }
+            },
+            fnMove: function (a) {
+                a = a.changedTouches[0];
+                this.Move = {
+                    x: a.pageX,
+                    y: a.pageY
+                };
+                this.bTap = !1
+            },
+            fnEnd: function (a) {
+                this.bTap && this.fnTap && this.fnTap.call(this.obj);
+                this.Move && (50 < Math.abs(this.Move.x - this.start.x) && (0 > this.Move.x - this.start.x ? this.fnSwipeLeft && this.fnSwipeLeft.call(this.obj) : this.fnSwipeRight && this.fnSwipeRight.call(this.obj)), 50 < Math.abs(this.Move.y - this.start.y) && (0 > this.Move.y - this.start.y ? this.fnSwipeUp && this.fnSwipeUp.call(this.obj) : this.fnSwipeDown && this.fnSwipeDown.call(this.obj)), this.Move = {})
+            },
+            tap: function (a) {
+                this.fnTap = a
+            },
+            swipeLeft: function (a) {
+                this.fnSwipeLeft = a
+            },
+            swipeRight: function (a) {
+                this.fnSwipeRight = a
+            },
+            swipeUp: function (a) {
+                this.fnSwipeUp = a
+            },
+            swipeDown: function (a) {
+                this.fnSwipeDown = a
+            }
+        };
+
+        function $(a) {
+            return new Touch(a)
+        };
+    </script>
+    <script type="text/javascript">
+        window.onload = function () {
+            var slideshow = document.querySelectorAll('#slideshow')[0];
+            var aCanvas = document.querySelectorAll('canvas');
+            var aLightBox = document.querySelectorAll('.lightBox');
+            picLazyLoad(aCanvas);
+            for (var i = 0,length = aLightBox.length; i < length; i++) {
+                aLightBox[i].index = i;
+                aLightBox[i].addEventListener('click',function (evt) {
+                    var list = [];
+                    var parent = this.parentNode;
+                    var _id = this.dataset.id;
+                    console.log(parent)
+                    console.log(this.index);
+                    new Slider({
+                        dom: slideshow,
+                        list: getImageid(parent),
+                        index: _id
+                    })
+                },false);
+            }
+        }
+        function getImageid(parent){
+            var list = parent.querySelectorAll('canvas');
+            console.log(list)
+            var arr = [];
+            for (var i = 0,length = list.length; i < length; i++) {
+                arr.push({
+                    "width": parseInt(list[i].dataset.width,10),
+                    "imageid": list[i].dataset.imageid,
+                    "height": parseInt(list[i].dataset.height,10)
+                })
+            }
+            return arr;
+        }
+        function picLazyLoad(list){
+            var _winScrollTop = 0;
+            var _winHeight = window.innerHeight;
+            lazyLoadPic(list,_winScrollTop,_winHeight);
+            window.addEventListener('scroll', function() {
+                _winScrollTop = document.body.getBoundingClientRect().top;
+                lazyLoadPic(list,_winScrollTop,_winHeight);
+            },false);
+        }
+        function lazyLoadPic(list,top,height){
+            for(var i=0;i<list.length;i++){
+                var oCX = list[i].getContext("2d");
+                var _offsetTop = list[i].getBoundingClientRect().top;
+                console.log((_offsetTop - 100) , (height + -top))
+                if (_offsetTop <= (height + -top) && !list[i].off) {
+                    list[i].off = false;
+                    canvasImg(oCX, list[i].dataset.src);
+                }
+            }
+        }
+        function canvasImg(obj, src) {
+            var img = new Image();
+            img.onload = function () {
+                obj.drawImage(this, 0, 0,320,320);
+            };
+            img.src = src;
+        }
+            //构造函数
+    function Slider(opts) {
+        //构造函数需要的参数
+        this.wrap = opts.dom;
+        this.list = opts.list;
+        this.index = opts.index;
+        //构造三步奏
+        this.init();
+    }
+    //第一步 -- 初始化
+    Slider.prototype.init = function () {
+        this.win = window;
+        this.doc = document;
+        this.p = document.createElement('p');
+        this.wrap.appendChild(this.p);
+        //设定窗口比率
+        this.radio = this.win.innerHeight / this.win.innerWidth;
+        //设定一页的宽度
+        this.scaleW = this.win.innerWidth;
+        //设定初始的索引值
+        this.idx = this.index*1;
+        this.renderDOM(this.list);
+        this.setIndex();
+    };
+    //第二步 -- ajax请求图片相关信息
+    Slider.prototype.setBody = function(){
+        var body = this.doc.body;
+        if(arguments[0] !== undefined && arguments[0]){
+            body.style.width = this.win.innerWidth;
+            body.style.height = this.win.innerHeight;
+            body.style.overflow = 'hidden';
+        }else{
+            body.style.width = this.win.innerWidth;
+            body.style.height = 'auto';
+            body.style.overflow = 'auto';
+        }
+    }
+    //第二步 -- 根据数据渲染DOM
+    Slider.prototype.renderDOM = function (list) {
+        var wrap = this.wrap;
+        var data = list;
+        var len = data.length;
+        var arr = this.generateList(this.idx,len);
+        this.setBody(true);
+        this.outer = document.createElement('ul');
+        //根据元素的
+        for (var i = 0; i < len; i++) {
+            var li = document.createElement('li');
+            var item = data[i];
+            li.style.width = window.innerWidth + 'px';
+            li.style.webkitTransform = 'translate3d(' + arr[i] * this.scaleW + 'px, 0, 0)';
+            if (item) {
+                //根据窗口的比例与图片的比例来确定
+                //图片是根据宽度来等比缩放还是根据高度来等比缩放
+                if (item['height'] / item['width'] > this.radio) {
+                    li.innerHTML = '<img height="' + window.innerHeight + '" src="/api/v2/web/image/' + item['imageid'] + '">';
+                } else {
+                    li.innerHTML = '<img width="' + window.innerWidth + '" src="/api/v2/web/image/' + item['imageid'] + '">';
+                }
+            }
+            this.outer.appendChild(li);
+        }
+
+        //UL的宽度和画布宽度一致
+        this.outer.style.cssText = 'width:' + this.scaleW + 'px';
+
+        wrap.style.height = window.innerHeight + 'px';
+        console.log(this.doc.body.getBoundingClientRect())
+        wrap.style.top = -this.doc.body.getBoundingClientRect().top + 'px';
+        wrap.appendChild(this.outer);
+        wrap.style.display = 'block';
+        this.bindDOM();
+        this.close();
+    };
+    Slider.prototype.generateList = function(index,list){
+        var arr = [];
+        for(var i = index; i > 0; i--){
+            arr.push(-i);
+        }
+        for(var i = index; i < list; i++){
+            arr.push(i-index);
+        }
+        return arr;
+    }
+    Slider.prototype.setIndex = function(){
+        this.p.innerHTML = '';
+        this.p.innerHTML = this.idx+1 + '/' + this.list.length;
+    }
+    Slider.prototype.goIndex = function (n) {
+        var idx = this.idx;
+        var lis = this.outer.getElementsByTagName('li');
+        var len = lis.length;
+        var cidx;
+
+        //如果传数字 2,3 之类可以使得直接滑动到该索引
+        if (typeof n == 'number') {
+            cidx = idx;
+            //如果是传字符则为索引的变化
+        } else if (typeof n == 'string') {
+            cidx = idx + n * 1;
+        }
+
+        //当索引右超出
+        if (cidx > len - 1) {
+            cidx = len - 1;
+            //当索引左超出
+        } else if (cidx < 0) {
+            cidx = 0;
+        }
+
+        //保留当前索引值
+        this.idx = cidx;
+        this.setIndex();
+        console.log(cidx)
+        //改变过渡的方式，从无动画变为有动画
+        lis[cidx].style.webkitTransition = '-webkit-transform 0.2s ease-out';
+        lis[cidx - 1] && (lis[cidx - 1].style.webkitTransition = '-webkit-transform 0.2s ease-out');
+        lis[cidx + 1] && (lis[cidx + 1].style.webkitTransition = '-webkit-transform 0.2s ease-out');
+
+        //改变动画后所应该的位移值
+        lis[cidx].style.webkitTransform = 'translate3d(0, 0, 0)';
+        lis[cidx - 1] && (lis[cidx - 1].style.webkitTransform = 'translate3d(-' + this.scaleW + 'px, 0, 0)');
+        lis[cidx + 1] && (lis[cidx + 1].style.webkitTransform = 'translate3d(' + this.scaleW + 'px, 0, 0)');
+    };
+    Slider.prototype.close = function(){
+        var _this = this;
+        $(this.wrap).tap(function(){
+            this.style.display = 'none';
+            this.innerHTML = '';
+            _this.setBody();
+        });
+    }
+    //第三步 -- 绑定 DOM 事件
+    Slider.prototype.bindDOM = function () {
+        var self = this;
+        var scaleW = self.scaleW;
+        var outer = self.outer;
+        var len = self.list.length;
+
+        //手指按下的处理事件
+        var startHandler = function (evt) {
+
+            //记录刚刚开始按下的时间
+            self.startTime = new Date() * 1;
+
+            //记录手指按下的坐标
+            self.startX = evt.touches[0].pageX;
+
+            //清除偏移量
+            self.offsetX = 0;
+
+            //事件对象
+            var target = evt.target;
+            while (target.nodeName != 'LI' && target.nodeName != 'BODY') {
+                target = target.parentNode;
+            }
+            self.target = target;
+
+        };
+
+        //手指移动的处理事件
+        var moveHandler = function (evt) {
+            //兼容chrome android，阻止浏览器默认行为
+            evt.preventDefault();
+
+            //计算手指的偏移量
+            self.offsetX = evt.targetTouches[0].pageX - self.startX;
+
+            var lis = outer.getElementsByTagName('li');
+            //起始索引
+            var i = self.idx - 1;
+            //结束索引
+            var m = i + 3;
+
+            //最小化改变DOM属性
+            for (i; i < m; i++) {
+                lis[i] && (lis[i].style.webkitTransition = '-webkit-transform 0s ease-out');
+                lis[i] && (lis[i].style.webkitTransform = 'translate3d(' + ((i - self.idx) * self.scaleW + self.offsetX) + 'px, 0, 0)');
+            }
+        };
+        //手指抬起的处理事件
+        var endHandler = function (evt) {
+            evt.preventDefault();
+
+            //边界就翻页值
+            var boundary = scaleW / 6;
+
+            //手指抬起的时间值
+            var endTime = new Date() * 1;
+
+            //所有列表项
+            var lis = outer.getElementsByTagName('li');
+
+            //当手指移动时间超过300ms 的时候，按位移算
+            if (endTime - self.startTime > 300) {
+                if (self.offsetX >= boundary) {
+                    self.goIndex('-1');
+                } else if (self.offsetX < 0 && self.offsetX < -boundary) {
+                    self.goIndex('+1');
+                } else {
+                    self.goIndex('0');
+                }
+            } else {
+                //优化
+                //快速移动也能使得翻页
+                if (self.offsetX > 50) {
+                    self.goIndex('-1');
+                } else if (self.offsetX < -50) {
+                    self.goIndex('+1');
+                } else {
+                    self.goIndex('0');
+                }
+            }
+        };
+
+        //绑定事件
+        outer.addEventListener('touchstart', startHandler);
+        outer.addEventListener('touchmove', moveHandler);
+        outer.addEventListener('touchend', endHandler);
+    };
+    </script>
+    <script type="text/javascript" src="/js/lib/browser-deeplink.js"></script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 
 var gulp = require('gulp');
 var wrench = require('wrench');
-const logger = require('lib/common/logger');
+const logger = require('./lib/common/logger');
 
 /**
  *  This will load all js or coffee files in the gulp directory

@@ -33,3 +33,6 @@ apiconfig.js
 
 #sublime ide file
 .idea
+
+#dist web files
+dist
