@@ -100,7 +100,7 @@ gulp.task('watch-proxy', function () { //监听变化
     .pipe(sftp({
       host: '101.200.191.159',
       user: 'root',
-      pass: 'Jyz20150608',
+      pass: 'JfJ2015+|0608~',
       remotePath: '/xvdb/jianfanjia-server/' + ejsRoot
     }));
 });

@@ -12,7 +12,7 @@ const gutil = require('gulp-util');
 const git = require('gulp-git');
 const fs = require('fs');
 const concat = require('gulp-concat');
-const logger = require('./lib/common/logger');
+const logger = require('../lib/common/logger');
 
 // -------------------------------- Common Function ----------------------------------------
 function getPackageJsonVersion() {
