@@ -12,28 +12,12 @@ const connect = require('gulp-connect');
 const url = require('url');
 const watch = require('gulp-watch');
 const proxy = require('proxy-middleware');
-const modRewrite = require('connect-modrewrite');
 const minimist = require('minimist');
 const sftp = require('gulp-sftp');
 
-//替换js
-//<!-- build:js scripts/scripts.js -->
-//<script src="scripts/app.js"></script>
-//<script src="scripts/controllers/main.js"></script>
-//<!-- endbuild -->
-const jsRegExp = /(<!--\s*build\:js)([\s\S]*)(endbuild\s*-->)/g;
-
-//替换css
-//<!-- build:css css/css.js -->
-//<link href="css/css.js"></link>
-//<link href="css/controllers/css.js"></link>
-//<!-- endbuild -->
-const cssRegExp = /(<!--\s*build\:css)([\s\S]*)(endbuild\s*-->)/g
-
-
 const pc_web_port = 9000;
-const pc_web_root = './web/pc/res';
-const pc_ejs_root = './web/pc/template';
+const pc_web_root = './web/user/res';
+const pc_ejs_root = './web/user/template';
 const admin_web_port = 9001;
 const admin_web_root = './web/admin-new/res';
 const admin_ejs_root = './web/admin-new/template';
@@ -75,19 +59,19 @@ gulp.task('connect', function () { //配置代理
   const argv = minimist(process.argv.slice(3));
   const port = getPort(argv);
   const root = getRoot(argv);
-  const server = connect.server({
+  connect.server({
     root: root,
     host: 'localhost',
     port: port,
     livereload: true,
-    middleware: function (connect, opt) {
+    middleware: function () {
       return [
         ['/api', (function () {
           var options = url.parse('http://dev.jianfanjia.com/api');
           // options.route = '/api';
           options.cookieRewrite = 'dev.jianfanjia.com';
           return proxy(options);
-        })()],
+        })()]
         // modRewrite([
         //   '^/api(.*)$ http://dev.jianfanjia.com/api$1 [P]'
         // ])
@@ -104,9 +88,6 @@ gulp.task('watch-proxy', function () { //监听变化
   const html = root + '/**/*.html';
   const css = root + '/**/*.css';
   const js = root + '/**/*.js';
-  const jpeg = root + '/**/*.jpeg';
-  const jpg = root + '/**/*.jpg';
-  const png = root + '/**/*.png';
   const ejsRoot = getEjsRoot(argv)
   const ejs = ejsRoot + '/**/*.ejs'
 
@@ -119,7 +100,7 @@ gulp.task('watch-proxy', function () { //监听变化
     .pipe(sftp({
       host: '101.200.191.159',
       user: 'root',
-      pass: 'Jyz20150608',
+      pass: 'JfJ2015+|0608~',
       remotePath: '/xvdb/jianfanjia-server/' + ejsRoot
     }));
 });

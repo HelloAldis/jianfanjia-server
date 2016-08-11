@@ -1,27 +1,25 @@
 'use strict'
 
 //load configuration
-const config = require('./apiconfig');
+const config = require('lib/config/apiconfig');
 
 const express = require('express');
 const path = require('path');
 const compression = require('compression');
-const session = require('express-session');
 const timeout = require('connect-timeout');
-const req_res_log = require('./middlewares/req_res_log');
-const api_router_app_v2 = require('./router/api_router_app_v2');
-const api_router_web_v2 = require('./router/api_router_web_v2');
-const auth = require('./middlewares/auth');
-const responseUtil = require('./middlewares/response_util');
-const platform_check = require('./middlewares/platform_check');
+const req_res_log = require('lib/middlewares/req_res_log');
+const api_router_app_v2 = require('lib/router/api_router_app_v2');
+const api_router_web_v2 = require('lib/router/api_router_web_v2');
+const responseUtil = require('lib/middlewares/response_util');
+const platform_check = require('lib/middlewares/platform_check');
 // const RedisStore = require('connect-redis')(session);
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const logger = require('./common/logger');
+const logger = require('lib/common/logger');
 const helmet = require('helmet');
-const api_statistic = require('./middlewares/api_statistic');
-const mobile_mark = require('./middlewares/mobile_mark');
-const web_router_mobile = require('./router/web_router_mobile');
+const api_statistic = require('lib/middlewares/api_statistic');
+const mobile_mark = require('lib/middlewares/mobile_mark');
+const web_router_mobile = require('lib/router/web_router_mobile');
 
 //config the web app
 const app = express();

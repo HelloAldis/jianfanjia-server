@@ -1,5 +1,5 @@
 //load configuration
-var config = require('./apiconfig');
+var config = require('lib/config/apiconfig');
 
 var express = require('express');
 var path = require('path');
@@ -7,23 +7,21 @@ var compression = require('compression');
 var session = require('express-session');
 var timeout = require('connect-timeout');
 // var passport = require('passport');
-var req_res_log = require('./middlewares/req_res_log');
-var web_router_pc = require('./router/web_router_pc');
-var apiRouterV1 = require('./router/api_router_v1');
-var api_router_app_v2 = require('./router/api_router_app_v2');
-var api_router_web_v2 = require('./router/api_router_web_v2');
-var auth = require('./middlewares/auth');
-var responseUtil = require('./middlewares/response_util');
-var platform_check = require('./middlewares/platform_check');
+var req_res_log = require('lib/middlewares/req_res_log');
+var web_router_pc = require('lib/router/web_router_pc');
+var api_router_app_v2 = require('lib/router/api_router_app_v2');
+var api_router_web_v2 = require('lib/router/api_router_web_v2');
+var auth = require('lib/middlewares/auth');
+var responseUtil = require('lib/middlewares/response_util');
+var platform_check = require('lib/middlewares/platform_check');
 var RedisStore = require('connect-redis')(session);
-var _ = require('lodash');
 var bodyParser = require('body-parser');
 var cors = require('cors');
-var logger = require('./common/logger');
+var logger = require('lib/common/logger');
 var helmet = require('helmet');
 //防治跨站请求伪造攻击
 //var csurf = require('csurf');
-var api_statistic = require('./middlewares/api_statistic');
+var api_statistic = require('lib/middlewares/api_statistic');
 
 //config the web app
 var app = express();
@@ -64,17 +62,17 @@ app.use(session({
     path: '/',
     httpOnly: true,
     secure: false,
-    maxAge: config.session_time,
+    maxAge: config.session_time
   },
   secret: config.session_secret,
   store: new RedisStore({
     port: config.redis_port,
     host: config.redis_host,
-    pass: config.redis_pass,
+    pass: config.redis_pass
   }),
   rolling: true,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: false
 }));
 
 //check浏览器端cookie状态
@@ -94,13 +92,6 @@ app.use('/', express.static(path.join(__dirname, 'web/pc/res')));
 app.use('/api', responseUtil);
 
 // routes
-app.use('/api/v1', function (req, res, next) {
-  if (!(req.body instanceof Buffer)) {
-    logger.debug(req.body);
-  }
-
-  next();
-});
 app.use('/api/v2', function (req, res, next) {
   if (!(req.body instanceof Buffer)) {
     logger.debug(req.body);
@@ -113,7 +104,6 @@ app.use('/api/v2', function (req, res, next) {
 app.use('/api', req_res_log);
 app.use('/download', req_res_log);
 
-// app.use('/api/v1', cors(), api_statistic.api_statistic, apiRouterV1);
 app.use('/api/v2/app', cors(), platform_check, api_statistic.api_statistic, api_router_app_v2);
 app.use('/api/v2/web', cors(), platform_check, api_statistic.api_statistic, api_router_web_v2);
 
