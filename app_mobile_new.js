@@ -75,7 +75,7 @@ app.use('/api/v2/web', cors(), platform_check, api_statistic.api_statistic, api_
 app.use('/', web_router_mobile);
 
 // error handler
-app.use(function (err, req, res) {
+app.use(function (err, req, res, next) {
   logger.error('server 500 error: %s, %s', err.stack, err.errors);
   if (config.debug) {
     return res.status(500).send({

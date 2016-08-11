@@ -1,7 +1,0 @@
-/*public.css loading数据加载*/
-.spinner{
-	background:url(../img/user/loading.gif) center center no-repeat;
-}
-.spinner div{
-	display: none;
-}

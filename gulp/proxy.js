@@ -16,8 +16,8 @@ const minimist = require('minimist');
 const sftp = require('gulp-sftp');
 
 const pc_web_port = 9000;
-const pc_web_root = './web/pc/res';
-const pc_ejs_root = './web/pc/template';
+const pc_web_root = './web/user/res';
+const pc_ejs_root = './web/user/template';
 const admin_web_port = 9001;
 const admin_web_root = './web/admin-new/res';
 const admin_ejs_root = './web/admin-new/template';
