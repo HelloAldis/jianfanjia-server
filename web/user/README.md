@@ -3,7 +3,9 @@
 ### 必读课程
 1. 阅读 《web开发最佳实践》
 2. 阅读网站准则开源项目 https://github.com/h5bp/html5-boilerplate
-3. 阅读JS模块化项目 https://github.com/substack/node-browserify
+3. 阅读JS模块化项目
+  - browserify 没有想象中好用 https://github.com/substack/node-browserify
+  - 尝试使用requirejs 也不好用，哎就没一个靠谱的模块化库
 4. 阅读Bootstrap CSS 项目关于响应式
 5. 使用加速mobile 点击事件 https://github.com/ftlabs/fastclick
 6. 使用Sass 作为 PreCSS
