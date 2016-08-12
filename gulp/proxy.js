@@ -1,9 +1,9 @@
 'use strict'
 /**
 
-gulp proxy -p  启动代理pc网站 http://localhost:9000
-gulp proxy -a  启动代理admin网站 http://localhost:9001
-gulp proxy -m  启动代理移动端网站 http://localhost:9002
+gulp dev -p  启动代理pc网站 http://localhost:9000
+gulp dev -a  启动代理admin网站 http://localhost:9001
+gulp dev -m  启动代理移动端网站 http://localhost:9002
 
 */
 
@@ -72,30 +72,28 @@ gulp.task('connect', function () { //配置代理
           options.cookieRewrite = 'dev.jianfanjia.com';
           return proxy(options);
         })()]
-        // modRewrite([
-        //   '^/api(.*)$ http://dev.jianfanjia.com/api$1 [P]'
-        // ])
       ];
     }
   });
-
-  // server.app.use('/api', );
-  // server.app.use('/index.html', proxy(url.parse('http://dev.jianfanjia.com/index.html')))
 });
-gulp.task('watch-proxy', function () { //监听变化
+
+gulp.task('reload', function () { //监听变化
   const argv = minimist(process.argv.slice(3));
   const root = getRoot(argv);
   const html = root + '/**/*.html';
   const css = root + '/**/*.css';
   const js = root + '/**/*.js';
-  const ejsRoot = getEjsRoot(argv)
-  const ejs = ejsRoot + '/**/*.ejs'
 
-  gulp.src([html, css, js])
+  return gulp.src([html, css, js])
     .pipe(watch([html, css, js]))
     .pipe(connect.reload());
+});
 
-  gulp.src([ejs])
+gulp.task('ejs-sftp', function () {
+  const ejsRoot = getEjsRoot(argv);
+  const ejs = ejsRoot + '/**/*.ejs';
+
+  return gulp.src([ejs])
     .pipe(watch([ejs]))
     .pipe(sftp({
       host: '101.200.191.159',
@@ -104,4 +102,5 @@ gulp.task('watch-proxy', function () { //监听变化
       remotePath: '/xvdb/jianfanjia-server/' + ejsRoot
     }));
 });
-gulp.task('proxy', ['connect', 'watch-proxy', 'css', 'watch-css']);
+
+gulp.task('dev', ['connect', 'reload', 'ejs-sftp', 'css', 'watch-css']);
