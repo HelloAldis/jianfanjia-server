@@ -17,6 +17,7 @@ const RedisStore = require('connect-redis')(session);
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const logger = require('lib/common/logger');
+const web_static = require('lib/middlewares/web_static');
 const helmet = require('helmet');
 //防治跨站请求伪造攻击
 //const csurf = require('csurf');
@@ -73,7 +74,7 @@ app.use('/index.html', auth.checkCookie);
 //拦截web
 app.use('/', auth.authAdminWeb);
 // 静态资源
-app.use('/', express.static(path.join(__dirname, 'web/admin-new/res')));
+app.use('/', web_static(express, path.join(__dirname, 'web/admin-new')));
 
 app.use('/api', responseUtil);
 
