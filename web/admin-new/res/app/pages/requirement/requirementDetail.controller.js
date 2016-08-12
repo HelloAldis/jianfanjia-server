@@ -26,7 +26,7 @@
               "from": 0
             }).then(function (resp) {
               if (resp.data.data.total !== 0) {
-                $scope.plans = resp.data.data.requirements;
+                $scope.plans = resp.data.data.plans;
                 angular.forEach($scope.plans, function (value, key) {
                   if (value.requirement.rec_designerids.indexOf(value.designerid) != -1) {
                     value.biaoshi = "匹配";
