@@ -48,18 +48,18 @@
           });
         }
 
-        // 确认量房
-        $scope.houseChecked = function (require, designer) {
-          adminUser.houseChecked({
-            designerid: designer._id,
-            requirementid: require._id
-          }).then(function (resp) {
-            designer.hasChecked = true;
-          }, function (err) {
-            //返回错误信息
-            console.log(err);
-          });
-        }
+        // // 确认量房
+        // $scope.houseChecked = function (require, designer) {
+        //   adminUser.houseChecked({
+        //     designerid: designer._id,
+        //     requirementid: require._id
+        //   }).then(function (resp) {
+        //     designer.hasChecked = true;
+        //   }, function (err) {
+        //     //返回错误信息
+        //     console.log(err);
+        //   });
+        // }
       }
     ]);
 })();

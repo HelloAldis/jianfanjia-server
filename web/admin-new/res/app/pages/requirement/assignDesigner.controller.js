@@ -115,6 +115,7 @@
             if (res.data.msg == 'success') {
               designer.isAssign = true;
               angular.merge($stateParams.orderDesignerIds, designer._id);
+
             } else {
               toastr.info(res.data.err_msg);
             }

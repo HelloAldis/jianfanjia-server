@@ -58,8 +58,6 @@
      * @param  {[search]} [搜索业主]
      * @param  {[addRequirement]} [管理员提交业主需求]
      * @param  {[orderDesigner]} [管理员指派设计师到需求]
-     * @param  {[houseChecked]} [管理员确认设计师量完房]
-     * @param  {[planChoose]} [管理员为业主选定方案]
      * @param  {[processConfirm]} [管理员确认业主合同和装修流程]
      */
     .factory('adminUser', ['doAdminRequest', function (doAdminRequest) {
@@ -75,12 +73,6 @@
         },
         orderDesigner: function (data) {
           return doAdminRequest('assign_designer_to_requirement', data);
-        },
-        houseChecked: function (data) {
-          return doAdminRequest('designer_house_checked', data);
-        },
-        planChoose: function (data) {
-          return doAdminRequest('user/plan/final', data);
         },
         processConfirm: function (data) {
           return doAdminRequest('user/process', data);
@@ -139,11 +131,23 @@
     /**
      * [管理员获取需求相关]
      * @param  {[search]} [搜索需求]
+     * @param  {[houseChecked]} [管理员确认设计师量完房]
+     * @param  {[planChoose]} [管理员为业主选定方案]
+     * @param  {[requirementDetail]} [管理员获取需求详情]
      */
     .factory('adminRequirement', ['doAdminRequest', function (doAdminRequest) {
       return {
         search: function (data) {
           return doAdminRequest('requirement/search', data);
+        },
+        requirementDetail: function (data) {
+          return doAdminRequest('requirement_detail', data);
+        },
+        houseChecked: function (data) {
+          return doAdminRequest('designer_house_checked', data);
+        },
+        planChoose: function (data) {
+          return doAdminRequest('user/plan/final', data);
         }
       };
     }])
