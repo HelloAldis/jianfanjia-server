@@ -1,8 +1,8 @@
 (function () {
   angular.module('JfjAdmin.pages.requirement')
     .controller('RequirementDetailController', [
-      '$scope', '$rootScope', '$stateParams', 'adminRequirement', 'adminPlan', 'adminDesigner',
-      function ($scope, $rootScope, $stateParams, adminRequirement, adminPlan, adminDesigner) {
+      '$scope', '$stateParams', 'adminRequirement', 'adminPlan', 'adminDesigner',
+      function ($scope, $stateParams, adminRequirement, adminPlan, adminDesigner) {
         adminRequirement.search({
           "query": {
             "_id": $stateParams.id
@@ -13,6 +13,7 @@
           "from": 0,
           "limit": 10
         }).then(function (resp) {
+          $('.modal-backdrop').remove();
           if (resp.data.data.total === 1) {
             $scope.user = resp.data.data.requirements[0];
             //所有方案
@@ -104,7 +105,6 @@
         }, function (resp) {
           //返回错误信息
           console.log(resp);
-
         });
       }
     ]);

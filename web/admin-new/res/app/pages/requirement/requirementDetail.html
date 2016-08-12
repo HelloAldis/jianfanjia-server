@@ -12,7 +12,7 @@
 						<small>装修需求（需求编号{{user._id}}）</small>
 					</h4>
 				</div>
-				
+
 				<div class="panel-body table-responsive">
 					<table class="table table-bordered table-striped">
 						<tbody>
@@ -86,7 +86,7 @@
 								<td ng-if="recDesignerList">
 									匹配设计师：
 									<span ng-repeat="user in recDesignerList">
-										<a ui-sref="designerInfo({id:user._id})">{{user.username}}({{user.phone}})</a> 
+										<a ui-sref="designerInfo({id:user._id})">{{user.username}}({{user.phone}})</a>
 									</span>
 								</td>
 								<td ng-if="!recDesignerList"></td>
@@ -115,6 +115,45 @@
 						</tbody>
 					</table>
 				</div>
+			</div>
+
+			<h4>设计师操作：</h4>
+			<div class="panel panel-info ng-scope table-responsive">
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr class="info thead">
+							<th>装修需求ID</th>
+							<th>提交时间</th>
+							<th>当前状态</th>
+							<th>业主姓名</th>
+							<th>已指派设计师及操作</th>
+							<th>指派设计师</th>
+							<th>匹配设计师及方案列表</th>
+						</tr>
+						<tr ng-repeat="user in requireList">
+							<td>{{user._id}}</td>
+							<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+							<td>{{user.status | requirementFilter}}</td>
+							<td>{{user.user.username}}</td>
+							<td>
+							<table>
+								<tr ng-repeat="item in user.designerList">
+									<td class="col-md-6">
+										<span>{{item.username}}</span>
+									</td>
+									<td class="col-md-6">
+										<a href="javascript:" ng-click="houseChecked(user, item)" ng-class="item.hasChecked?'has-checked':''">{{item.hasChecked?'已量房':'确认量房'}}</a>
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<a ui-sref="assignDesigner({requireId:user._id, userIds: user.order_designerids})">查看设计师</a>
+						</td>
+						<td><a ui-sref="requirementDetail({id:user._id})">点击查看</a></td>
+					</tr>
+				</tbody>
+			</table>
 			</div>
 
 			<h4>所有服务评价：</h4>

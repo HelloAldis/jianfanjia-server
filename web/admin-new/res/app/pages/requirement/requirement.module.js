@@ -24,6 +24,13 @@
         url: '/requirement/detail/:id',
         templateUrl: 'app/pages/requirement/requirementDetail.html',
         controller: 'RequirementDetailController',
+      })
+      // 指派设计师给业主
+      .state('assignDesigner', {
+        title: '需求列表',
+        url: '/assignDesigner/:requireId/:orderDesignerIds',
+        templateUrl: 'app/pages/requirement/assignDesigner.html',
+        controller: 'AssignDesignerController'
       });
   }
 

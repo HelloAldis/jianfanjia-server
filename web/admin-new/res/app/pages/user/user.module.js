@@ -32,6 +32,13 @@
         templateUrl: 'app/pages/user/userRequirement.html',
         controller: 'UserRequirementController'
       });
+      // 指派设计师给业主
+      // .state('assignDesigner', {
+      //   title: '业主列表',
+      //   url: '/user/requirement/assignDesigner/:requireId/:userIds',
+      //   templateUrl: 'app/pages/user/assignDesigner.html',
+      //   controller: 'AssignDesignerController'
+      // });
   }
 
 })();
