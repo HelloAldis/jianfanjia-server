@@ -17,9 +17,12 @@ module.exports = {
     es6: true
   },
   extends: [
-    "eslint:recommended"
+    'eslint:recommended'
   ],
   rules: {
+    'no-unused-vars': ['error', {
+      'argsIgnorePattern': 'next'
+    }],
     'no-control-regex': 'off',
     'block-scoped-var': 'error',
     'curly': 'error',
@@ -28,7 +31,7 @@ module.exports = {
     'no-with': 'error',
     'no-undef': 'error',
     'comma-dangle': 'error',
-    'consistent-this': ['error', "self"],
+    'consistent-this': ['error', 'self'],
     'no-multiple-empty-lines': 'error'
   }
 };

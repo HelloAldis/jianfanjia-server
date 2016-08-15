@@ -36,3 +36,6 @@ apiconfig.js
 
 #dist web files
 dist
+
+#angularjs templates js file
+templates.js

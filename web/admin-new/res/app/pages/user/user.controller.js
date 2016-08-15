@@ -1,8 +1,8 @@
 (function () {
   angular.module('JfjAdmin.pages.user')
     .controller('UserController', [
-      '$scope', '$rootScope', 'adminUser', '$stateParams', '$location', 'adminUser',
-      function ($scope, $rootScope, adminUser, $stateParams, $location, adminUser) {
+      '$scope', '$rootScope', '$stateParams', '$location', 'adminUser',
+      function ($scope, $rootScope, $stateParams, $location, adminUser) {
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
         $scope.config = {
           title: '业主注册时间过滤：',
@@ -12,10 +12,10 @@
         $scope.delegate = {};
         // 搜索
         $scope.delegate.search = function (search_word) {
-          $scope.pagination.currentPage = 1;
-          refreshPage(refreshDetailFromUI($stateParams.detail));
-        }
-        // 清空
+            $scope.pagination.currentPage = 1;
+            refreshPage(refreshDetailFromUI($stateParams.detail));
+          }
+          // 清空
         $scope.delegate.clearStatus = function () {
           $scope.pagination.currentPage = 1;
           $scope.dtStart = '';
@@ -142,17 +142,17 @@
         $scope.addUser = function () {
           if ($scope.user) {
             adminUser.addUser($scope.user)
-            .then(function (resp) {
-              if (resp.data.msg === 'success') {
-                $scope.user.errMsg = '';
-                $('.activeModal').modal('hide');
-                loadList($stateParams.detail);
-              } else {
-                $scope.user.errMsg = resp.data.err_msg;
-              }
-            }, function (err) {
-              console.log(err);
-            });
+              .then(function (resp) {
+                if (resp.data.msg === 'success') {
+                  $scope.user.errMsg = '';
+                  $('.activeModal').modal('hide');
+                  loadList($stateParams.detail);
+                } else {
+                  $scope.user.errMsg = resp.data.err_msg;
+                }
+              }, function (err) {
+                console.log(err);
+              });
           }
         }
       }

@@ -159,7 +159,7 @@
               $scope.loading.notData = true;
               $scope.userList = [];
             } else {
-              $scope.userList = resp.data.data.requirements;
+              $scope.userList = resp.data.data.plans;
               angular.forEach($scope.userList, function (value, key) {
                 value.time = parseInt(value._id.substring(0, 8), 16) * 1000;
                 angular.forEach($scope.userList, function (value1, key1) {
