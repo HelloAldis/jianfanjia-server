@@ -12,40 +12,49 @@
 			</dl>
 			<a ui-sref="infor" class="editor"><i class="iconfont2">&#xe627;</i>&nbsp;&nbsp;编辑资料</a>
 		</div>
+		<div class="address">
+			<p bindonce="requirementList" ng-repeat="data in requirementList | limitTo : 1 track by $index">
+				<span bo-if="data.province"><i bo-text="data.province"></i></span>
+				<span bo-if="data.city"><i bo-text="data.city"></i></span>
+				<span bo-if="data.district"><i bo-text="data.district"></i></span>
+				<span bo-if="data.basic_address" bo-text="data.basic_address"></span>
+				<span bo-if="data.detail_address" bo-text="data.detail_address"></span>
+			</p>
+		</div>
 		<div class="flow">
 			<ul>
 				<li>
 					<div class="txt">
 						<div class="num"></div>
-						<p>发布装修<br />需求</p>
+						<p>收集装修<br />需求</p>
 					</div>
 				</li>
 				<li class="line"><div></div></li>
 				<li>
 					<div class="txt">
 						<div class="num num2"></div>
-						<p>预约设计师<br />上门量房</p>
+						<p>匹配设计师</p>
 					</div>
 				</li>
 				<li class="line"><div></div></li>
 				<li>
 					<div class="txt">
 						<div class="num num3"></div>
-						<p>确认设计师<br />上门量房</p>
+						<p>设计师上门<br />量房</p>
 					</div>
 				</li>
 				<li class="line"><div></div></li>
 				<li>
 					<div class="txt">
 						<div class="num num4"></div>
-						<p>选择装修<br />方案</p>
+						<p>设计师上传<br />方案</p>
 					</div>
 				</li>
 				<li class="line"><div></div></li>
 				<li>
 					<div class="txt">
 						<div class="num num5"></div>
-						<p>生成三方<br />合同</p>
+						<p>设计师配置<br />工地</p>
 					</div>
 				</li>
 				<li class="line"><div></div></li>
@@ -64,7 +73,7 @@
 				</li>
 			</ul>
 		</div>
-		<ul class="list">
+		<!-- <ul class="list">
 			<li ng-if="requirementList.length == 0">
 				<div class="ct">你还没有发布装修需求哟~</div>
 				<div class="btns">
@@ -184,7 +193,7 @@
 					<a class="u-btns" bo-switch-when="4" bo-href-i="owner.html#/requirement/{{data._id}}/fulfill">设计已完成</a>
 				</div>
 			</li>
-		</ul>
+		</ul> -->
 		<div class="pageLoading" ng-hide="!!requirementList"></div>
 	</div>
 </div>

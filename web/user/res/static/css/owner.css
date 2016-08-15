@@ -607,6 +607,11 @@ body{
 .m-index .info dd i{
 	padding-right: 10px;
 }
+
+.m-index .address p{
+	text-align: center;
+}
+
 .m-index .flow{
 	height: 133px;
 	padding-left: 43px;
