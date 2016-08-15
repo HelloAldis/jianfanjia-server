@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon-96x96.png">
 
     <!-- build:css css/app-vender.css -->
-    <!-- vender:css -->
+    <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.css">
     <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css">
     <link rel="stylesheet" href="bower_components/animate.css/animate.css">
@@ -32,7 +32,20 @@
     <!-- build:css css/app.css -->
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/app.css">
+    <!-- app:css -->
+    <link rel="stylesheet" href="app/pages/common.css">
+    <link rel="stylesheet" href="app/components/imgUrl/imgUrl.css">
+    <link rel="stylesheet" href="app/components/loadData/loadData.css">
+    <link rel="stylesheet" href="app/pages/designer/designer.css">
+    <link rel="stylesheet" href="app/pages/field/field.css">
+    <link rel="stylesheet" href="app/pages/image/image.css">
+    <link rel="stylesheet" href="app/pages/index/index.css">
+    <link rel="stylesheet" href="app/pages/live/live.css">
+    <link rel="stylesheet" href="app/pages/notify/notify.css">
+    <link rel="stylesheet" href="app/pages/requirement/requirement.css">
+    <link rel="stylesheet" href="app/pages/user/user.css">
+    <link rel="stylesheet" href="app/theme/components/pageTop/pageTop.css">
+    <!-- endinject -->
     <!-- endbuild -->
   </head>
   <body>
@@ -58,19 +71,20 @@
     </main>
 
     <!-- build:js js/app-vender.js -->
-    <!-- vender:js -->
-    <script src="bower_components/angular/angular.js"></script>
+    <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/jquery.easing/js/jquery.easing.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/slimScroll/jquery.slimscroll.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-slimscroll/angular-slimscroll.js"></script>
     <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
     <script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
     <script src="bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
-    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
-    <script src="bower_components/jquery.easing/js/jquery.easing.js"></script>
-    <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/angular-progress-button-styles/dist/angular-progress-button-styles.min.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/ionrangeslider/js/ion.rangeSlider.js"></script>
@@ -79,14 +93,13 @@
     <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
     <script src="bower_components/angular-ueditor/dist/angular-ueditor.min.js"></script>
     <script src="bower_components/Chart.js/Chart.js"></script>
-    <script src="bower_components/angular-slimscroll/angular-slimscroll.js"></script>
     <script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
     <!-- endinject -->
     <script src="lib/tdist.js"></script>
-    <script src="/lib/ueditor/ueditor.config.js"></script>
-    <script src="/lib/ueditor/ueditor.all.min.js"></script>
-    <script src="/lib/webuploader/webuploader.html5only.min.js"></script>
-    <script src="/lib/table2CSV.js"></script>
+    <script src="lib/ueditor/ueditor.config.js"></script>
+    <script src="lib/ueditor/ueditor.all.min.js"></script>
+    <script src="lib/webuploader/webuploader.html5only.min.js"></script>
+    <script src="lib/table2CSV.js"></script>
     <!-- endbuild -->
 
     <!-- build:js js/app.js -->
@@ -98,14 +111,14 @@
     <script src="app/theme/theme.module.js"></script>
     <script src="app/pages/chart/chart.module.js"></script>
     <script src="app/pages/comment/comment.module.js"></script>
-    <script src="app/pages/designer/designer.module.js"></script>
     <script src="app/pages/diary/diary.module.js"></script>
     <script src="app/pages/feedback/feedback.module.js"></script>
+    <script src="app/pages/designer/designer.module.js"></script>
     <script src="app/pages/field/field.module.js"></script>
     <script src="app/pages/image/image.module.js"></script>
     <script src="app/pages/index/index.module.js"></script>
-    <script src="app/pages/live/live.module.js"></script>
     <script src="app/pages/news/news.module.js"></script>
+    <script src="app/pages/live/live.module.js"></script>
     <script src="app/pages/notify/notify.module.js"></script>
     <script src="app/pages/pictures/pictures.module.js"></script>
     <script src="app/pages/plan/plan.module.js"></script>
@@ -133,18 +146,20 @@
     <script src="app/theme/theme.constants.js"></script>
     <script src="app/theme/theme.run.js"></script>
     <script src="app/theme/theme.service.js"></script>
-    <script src="app/components/dateRangePicker/dateRangePicker.directive.js"></script>
     <script src="app/components/dropdown/kvDropdown.directive.js"></script>
     <script src="app/components/dropdown/strDropdown.directive.js"></script>
+    <script src="app/components/dateRangePicker/dateRangePicker.directive.js"></script>
     <script src="app/components/exportData/exportData.directive.js"></script>
-    <script src="app/components/loadData/loadData.directive.js"></script>
-    <script src="app/components/loadData/noData.directive.js"></script>
     <script src="app/components/imgUrl/imgUrl.directive.js"></script>
     <script src="app/components/searchInput/searchInput.directive.js"></script>
+    <script src="app/components/loadData/loadData.directive.js"></script>
+    <script src="app/components/loadData/noData.directive.js"></script>
     <script src="app/components/myCity/myCities.directive.js"></script>
     <script src="app/components/tagsInput/tagsInput.directive.js"></script>
     <script src="app/components/uploadImage/uploadImage.directive.js"></script>
     <script src="app/pages/comment/comment.controller.js"></script>
+    <script src="app/pages/diary/diary.controller.js"></script>
+    <script src="app/pages/feedback/feedbackList.controller.js"></script>
     <script src="app/pages/designer/designer.controller.js"></script>
     <script src="app/pages/designer/designerEditor.controller.js"></script>
     <script src="app/pages/designer/designerIdAuth.controller.js"></script>
@@ -153,18 +168,16 @@
     <script src="app/pages/designer/designerTeamEditor.controller.js"></script>
     <script src="app/pages/designer/designerTeamList.controller.js"></script>
     <script src="app/pages/designer/designerWorkAuth.controller.js"></script>
-    <script src="app/pages/diary/diary.controller.js"></script>
-    <script src="app/pages/feedback/feedbackList.controller.js"></script>
     <script src="app/pages/field/fieldDetail.controller.js"></script>
     <script src="app/pages/field/fieldList.controller.js"></script>
     <script src="app/pages/image/image.controller.js"></script>
     <script src="app/pages/index/index.controller.js"></script>
+    <script src="app/pages/news/newsAdd.controller.js"></script>
+    <script src="app/pages/news/newsList.controller.js"></script>
     <script src="app/pages/live/live.controller.js"></script>
     <script src="app/pages/live/liveAdd.controller.js"></script>
     <script src="app/pages/live/liveEditor.controller.js"></script>
     <script src="app/pages/live/liveUpdate.controller.js"></script>
-    <script src="app/pages/news/newsAdd.controller.js"></script>
-    <script src="app/pages/news/newsList.controller.js"></script>
     <script src="app/pages/pictures/pictureAdd.controller.js"></script>
     <script src="app/pages/pictures/pictureList.controller.js"></script>
     <script src="app/pages/plan/plans.controller.js"></script>
@@ -178,7 +191,6 @@
     <script src="app/pages/user/user.controller.js"></script>
     <script src="app/pages/user/userInfo.controller.js"></script>
     <script src="app/pages/user/userRequirement.controller.js"></script>
-    <script src="app/theme/components/toastrLibConfig.js"></script>
     <script src="app/theme/directives/animatedChange.js"></script>
     <script src="app/theme/directives/autoExpand.js"></script>
     <script src="app/theme/directives/autoFocus.js"></script>
@@ -188,6 +200,7 @@
     <script src="app/theme/directives/scrollPosition.js"></script>
     <script src="app/theme/directives/trackWidth.js"></script>
     <script src="app/theme/directives/zoomIn.js"></script>
+    <script src="app/theme/components/toastrLibConfig.js"></script>
     <script src="app/theme/services/baUtil.js"></script>
     <script src="app/theme/services/fileReader.js"></script>
     <script src="app/theme/services/preloader.js"></script>
@@ -207,13 +220,13 @@
     <script src="app/theme/components/baPanel/baPanelBlur.directive.js"></script>
     <script src="app/theme/components/baPanel/baPanelBlurHelper.service.js"></script>
     <script src="app/theme/components/baPanel/baPanelSelf.directive.js"></script>
+    <script src="app/theme/components/backTop/backTop.directive.js"></script>
     <script src="app/theme/components/baWizard/baWizard.directive.js"></script>
     <script src="app/theme/components/baWizard/baWizardCtrl.js"></script>
     <script src="app/theme/components/baWizard/baWizardStep.directive.js"></script>
-    <script src="app/theme/components/backTop/backTop.directive.js"></script>
-    <script src="app/theme/components/contentTop/contentTop.directive.js"></script>
     <script src="app/theme/components/msgCenter/MsgCenterCtrl.js"></script>
     <script src="app/theme/components/msgCenter/msgCenter.directive.js"></script>
+    <script src="app/theme/components/contentTop/contentTop.directive.js"></script>
     <script src="app/theme/components/pageTop/pageTop.directive.js"></script>
     <script src="app/theme/components/widgets/widgets.directive.js"></script>
     <script src="app/theme/filters/text/removeHtml.js"></script>

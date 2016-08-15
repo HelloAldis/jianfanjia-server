@@ -6,6 +6,8 @@ const proxy = require('proxy-middleware');
 const gulp = require('gulp');
 const watch = require('gulp-watch');
 const sftp = require('gulp-sftp');
+const inject = require('gulp-inject');
+const wiredep = require('wiredep').stream;
 
 exports.proxy = function (root, port) {
   connect.server({
@@ -46,4 +48,15 @@ exports.ejsFtp = function (ejsRoot) {
       pass: 'JfJ2015+|0608~',
       remotePath: '/xvdb/jianfanjia-server/' + ejsRoot
     }));
+}
+
+exports.inject = function (html, injectFiles, tag, output) {
+  return gulp.src(html)
+    .pipe(inject(gulp.src(injectFiles, {
+      read: false
+    }), {
+      name: tag,
+      relative: 'true'
+    }))
+    .pipe(gulp.dest(output));
 }
