@@ -7,26 +7,16 @@
 					<th>提交时间</th>
 					<th>当前状态</th>
 					<th>业主姓名</th>
-					<th>已指派设计师及操作</th>
-					<th>指派设计师</th>
-					<th>匹配设计师及方案列表</th>
+					<th>需求详情及管理员操作</th>
 				</tr>
 				<tr ng-repeat="user in requireList">
 					<td>{{user._id}}</td>
 					<td>{{user.create_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 					<td>{{user.status | requirementFilter}}</td>
 					<td>{{user.user.username}}</td>
-					<td>
-						<span ng-repeat="item in user.designerList">
-						<a ui-sref="designerInfo({id:item._id})">{{item.username}}({{item.phone}})</a>
-					</span>
-				</td>
-				<td>
-					<a ui-sref="assignDesigner({requireId:user._id, userIds: user.order_designerids})">查看设计师</a>
-				</td>
-				<td><a ui-sref="requirementDetail({id:user._id})">点击查看</a></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+					<td><a ui-sref="requirementDetail({id:user._id})">点击查看</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

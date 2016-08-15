@@ -44,8 +44,7 @@
 						<span ng-show="{{user.requirement.length == 0}}">暂无需求</span>
 					</td>
 					<td>
-						<button type="button" class="btn btn-primary" data-toggle="modal"
-							ng-click="showModel(user._id)">提交需求</button>
+						<a ui-sref="userAddRequirement({id:user._id})">提交需求</a>
 					</td>
 				</tr>
 			</tbody>
@@ -101,81 +100,6 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					<button type="button" class="btn btn-primary" ng-click="addUser()">确认</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- 提交需求 -->
-	<div class="modal fade in modalRequirement" tabindex="-1" role="dialog">
-		<div class="modal-dialog" role="requirement">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title">提交业主需求</h4>
-				</div>
-				<div class="modal-body">
-					<form>
-						<div class="form-group">
-							<label for="exampleInputPassword1">装修城市：</label>
-							<my-cities my-province="dataMapped.province" my-city="dataMapped.city" my-district="dataMapped.district" />
-						</div>
-						<div class="form-group row">
-							<label for="message-phone" class="control-label col-md-3">小区名称:</label>
-							<input type="text" class="col-md-9" ng-model="dataMapped.basic_address">
-						</div>
-						<div class="form-group row">
-							<label for="message-phone" class="control-label col-md-3">详细地址:</label>
-							<input type="text" class="col-md-9" ng-model="dataMapped.detail_address">
-						</div>
-						<div class="form-group row">
-							<label for="message-name" class="control-label col-md-3">户型:</label>
-							<kv-dropdown curkey="dataMapped.house_type" keyval="num:name" opts="house_type">
-					    </kv-dropdown>
-						</div>
-						<div class="form-group row">
-							<label for="message-name" class="control-label col-md-3">包工类型:</label>
-							<kv-dropdown curkey="dataMapped.work_type" keyval="num:name" opts="work_type">
-					    </kv-dropdown>
-						</div>
-						<div class="form-group row">
-							<label for="message-name" class="control-label col-md-3">包类型:</label>
-							<kv-dropdown curkey="dataMapped.package_type" keyval="num:name" opts="package_type">
-					    </kv-dropdown>
-						</div>
-						<div class="form-group row">
-							<label for="message-name" class="control-label col-md-3">建筑面积(m²):</label>
-							<input type="text" class="col-md-9" ng-model="dataMapped.house_area" placeholder="请填写整数">
-						</div>
-						<div class="form-group row">
-							<label for="message-name" class="control-label col-md-3">风格喜好:</label>
-							<kv-dropdown curkey="dataMapped.dec_style" keyval="num:name" opts="dec_style">
-					    </kv-dropdown>
-						</div>
-						<div class="form-group row">
-							<label for="message-name" class="control-label col-md-3">装修预算(万元):</label>
-							<input type="text" class="col-md-9" ng-model="dataMapped.total_price" placeholder="请填写整数">
-						</div>
-						<div class="form-group row">
-							<label for="message-name" class="control-label col-md-3">偏好设计师性别:</label>
-							<kv-dropdown curkey="dataMapped.prefer_sex" keyval="num:name" opts="prefer_sex">
-					    </kv-dropdown>
-						</div>
-						<div class="form-group row">
-							<label for="message-name" class="control-label col-md-3">偏好设计师类型:</label>
-							<kv-dropdown curkey="dataMapped.communication_type" keyval="num:name" opts="communication_type">
-					    </kv-dropdown>
-						</div>
-						<div class="form-group row">
-							<label class="control-label err-msg">{{dataMapped.errMsg}}</label>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-primary" ng-click="addUserRequirement()">确认</button>
 				</div>
 			</div>
 		</div>

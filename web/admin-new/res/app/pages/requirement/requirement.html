@@ -2,11 +2,14 @@
 	<ul class="row list-inline col-md-12">
 		<span>需求状态：</span>
 		<li ng-repeat="auth in authList">
-			<button type="button" class="btn btn-default" ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]" ng-click="authBtn(auth.id)">{{auth.name}}</button>
+			<button type="button" class="btn btn-default"
+				ng-class="{true:'btn-warning',false:'btn-default'}[auth.cur]"
+				ng-click="authBtn(auth.id)">{{auth.name}}</button>
 		</li>
 	</ul>
 
-	<date-range-picker config="config" delegate="delegate" dt-start="dtStart" dt-end="dtEnd"></date-range-picker>
+	<date-range-picker config="config" delegate="delegate" dt-start="dtStart"
+		dt-end="dtEnd"></date-range-picker>
 	<search-input config="config" delegate="delegate"></search-input>
 
 	<div class="panel panel-info ng-scope text-center table-responsive">
@@ -14,14 +17,17 @@
 			<tbody>
 				<tr class="info thead">
 					<th class="text-center">装修需求ID</th>
-					<th ng-class="{'-1':'tablesorter-headerDesc', undefined:'tablesorter-header', '1':'tablesorter-headerAsc'}[sort.create_at]" ng-click="sortData('create_at')">提交时间&nbsp;</th>
+					<th ng-class="{'-1':'tablesorter-headerDesc',
+						undefined:'tablesorter-header',
+						'1':'tablesorter-headerAsc'}[sort.create_at]"
+						ng-click="sortData('create_at')">提交时间&nbsp;</th>
 					<th class="text-center">装修类型</th>
 					<th class="text-center">包工类型</th>
 					<th class="text-center">当前状态</th>
 					<th class="text-center">业主姓名</th>
 					<th class="text-center">地址</th>
-					<th class="text-center">指派设计师</th>
-					<th class="text-center">匹配设计师及方案列表</th>
+					<th class="text-center">确认业主合同和装修流程</th>
+					<th class="text-center">需求详情及管理员操作</th>
 				</tr>
 				<tr ng-repeat="user in userList">
 					<td>{{user._id}}</td>
@@ -32,9 +38,17 @@
 					<td>{{user.user.username}}</td>
 					<td>{{user.basic_address}}</td>
 					<td>
-						<a ui-sref="assignDesigner({requireId:user._id, orderDesignerIds:user.order_designerids})">查看设计师</a>
+						<button type="button" class="btn btn-primary"
+							ng-click="startProcess(user)"
+							ng-if="user.status == 0 || user.status == 1 ||
+								user.status == 2 || user.status == 6 ||
+								user.status == 3 || user.status == 4 ||
+								user.status == 7">确认</button>
+						<span ng-if="user.status == 5 || user.status == 8">已确认</span>
 					</td>
-					<td><a ui-sref="requirementDetail({id:user._id})">点击查看</a></td>
+					<td>
+						<a ui-sref="requirementDetail({id:user._id})">点击查看</a>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -43,7 +57,11 @@
 	</div>
 
 	<div class="text-center" ng-if="loading.loadData && !loading.notData">
-		<uib-pagination total-items="pagination.totalItems" first-text="首页" next-text="下一页" previous-text="上一页" last-text="尾页" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-links="true" num-pages="numPages" rotate="false" ng-change="pagination.pageChanged()"></uib-pagination>
+		<uib-pagination total-items="pagination.totalItems" first-text="首页"
+			next-text="下一页" previous-text="上一页" last-text="尾页"
+			ng-model="pagination.currentPage" max-size="pagination.maxSize"
+			class="pagination-sm" boundary-links="true" num-pages="numPages"
+			rotate="false" ng-change="pagination.pageChanged()"></uib-pagination>
 		<span class="pagecode">当前：{{pagination.currentPage}} / {{numPages}} 页 总共 {{pagination.totalItems}} 条数据</span>
 	</div>
 	<div class="col-md-12">
