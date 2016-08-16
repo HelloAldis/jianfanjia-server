@@ -7,7 +7,6 @@ const gulp = require('gulp');
 const watch = require('gulp-watch');
 const sftp = require('gulp-sftp');
 const inject = require('gulp-inject');
-const wiredep = require('wiredep').stream;
 
 exports.proxy = function (root, port) {
   connect.server({

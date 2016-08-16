@@ -41,7 +41,7 @@ gulp.task('admin-watch', function () {
   watch(mainBowerFiles({
     paths: admin_res
   }), {
-    events: ['add', 'unlink'],
+    events: ['add', 'unlink']
   }, function () {
     gulp.start('admin-inject-vender');
   });
@@ -51,7 +51,7 @@ gulp.task('admin-watch', function () {
     admin_res + '/app/**/*.css',
     '!' + admin_res + '/app/**/templates.js'
   ], {
-    events: ['add', 'unlink'],
+    events: ['add', 'unlink']
   }, function () {
     gulp.start('admin-inject-app');
   });

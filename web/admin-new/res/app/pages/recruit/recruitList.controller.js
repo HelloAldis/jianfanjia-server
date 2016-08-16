@@ -18,7 +18,7 @@
       function ($scope, $rootScope, adminEvents, $stateParams, $location) {
         $scope.config = {
           title: '提交时间过滤：',
-          placeholder: '提交ID/姓名/来源',
+          placeholder: '提交ID/姓名/手机/来源',
           search_word: $scope.search_word
         }
 
