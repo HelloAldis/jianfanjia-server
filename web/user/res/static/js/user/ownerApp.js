@@ -67,11 +67,11 @@
                     templateUrl: url+'detail.html',
                     controller : 'requirementDetailCtrl'
                 })
-                .state('requirement.booking', {
-                    url: '/booking',
-                    templateUrl: url+'booking.html',
-                    controller : 'requirementBookingCtrl'
-                })
+                // .state('requirement.booking', {
+                //     url: '/booking',
+                //     templateUrl: url+'booking.html',
+                //     controller : 'requirementBookingCtrl'
+                // })
                 .state('requirement.score', {
                     url: '/score',
                     templateUrl: url+'score.html',

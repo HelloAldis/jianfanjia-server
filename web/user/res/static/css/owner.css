@@ -610,6 +610,9 @@ body{
 
 .m-index .address p{
 	text-align: center;
+	height: 75px;
+	line-height: 75px;
+	color: #888;
 }
 
 .m-index .flow{
