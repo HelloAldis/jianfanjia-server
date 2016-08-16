@@ -67,11 +67,6 @@
                     templateUrl: url+'detail.html',
                     controller : 'requirementDetailCtrl'
                 })
-                // .state('requirement.score', {
-                //     url: '/score',
-                //     templateUrl: url+'score.html',
-                //     controller : 'requirementScoreCtrl'
-                // })
                 .state('requirement.plan', {
                     url: '/plan',
                     templateUrl: url+'plan.html',

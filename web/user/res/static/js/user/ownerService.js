@@ -158,10 +158,10 @@ angular.module('services', [])
             "0":"detail",
             "1":"detail",
             "2":"detail",
-            "3":"plan",
+            "3":"detail",
             "4":"contract",
             "5":"field",
-            "6":"plan",
+            "6":"detail",
             "7":"contract",
             "8":"fulfill"
         },
