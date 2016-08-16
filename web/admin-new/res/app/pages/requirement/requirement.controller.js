@@ -1,8 +1,8 @@
 (function () {
   angular.module('JfjAdmin.pages.requirement')
     .controller('RequirementController', [
-      '$scope', 'toastr', 'adminRequirement', '$stateParams', '$location', 'mutiSelected',
-      function ($scope, toastr, adminRequirement, $stateParams, $location, mutiSelected) {
+      '$scope', 'toastr', '$stateParams', '$location', 'mutiSelected', 'adminRequirement',
+      function ($scope, toastr, $stateParams, $location, mutiSelected, adminRequirement) {
         $scope.authList = [
           {
             id: "0",
@@ -188,47 +188,6 @@
         initUI($stateParams.detail);
         //初始化数据
         loadList($stateParams.detail);
-
-        // 确认业主合同及装修流程
-        $scope.startProcess = function (requirement) {
-          if ($scope.checkRequireStatus(requirement.status)) {
-            return;
-          }
-          adminRequirement.processConfirm({
-            requirementid: requirement._id
-          }).then(function (resp) {
-            requirement.status = 5; // 配置了工地
-            toastr.success('确认合同及装修流程成功');
-          }, function (err) {
-            //返回错误信息
-            console.log(err);
-          });
-        }
-
-        // 需求状态认证
-        $scope.checkRequireStatus = function (status) {
-          if (status == 0) {
-            toastr.info('未预约任何设计师');
-            return true;
-          } else if (status == 1) {
-            toastr.info('预约过设计师但是没有一个设计师响应过');
-            return true;
-          } else if (status == 2) {
-            toastr.info('有一个或多个设计师响应但没有人量完房');
-            return true;
-          }  else if (status == 6) {
-            toastr.info('有一个或多个设计师量完房但是没有人上传方案');
-            return true;
-          } else if (status == 3) {
-            toastr.info('有一个或多个设计师提交了方案但是没有选定方案');
-            return true;
-          } else if (status == 4) {
-            toastr.info('选定了方案但是还没有配置合同');
-            return true;
-          }
-          return false;
-        }
-
       }
     ]);
 })();
