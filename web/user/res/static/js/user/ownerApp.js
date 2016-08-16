@@ -72,11 +72,6 @@
                     templateUrl: url+'plan.html',
                     controller : 'requirementPlanCtrl'
                 })
-                // .state('requirement.contract', {
-                //     url: '/contract',
-                //     templateUrl: url+'contract.html',
-                //     controller : 'requirementContractCtrl'
-                // })
                 .state('requirement.field', {
                     url: '/field',
                     templateUrl: url+'field.html',

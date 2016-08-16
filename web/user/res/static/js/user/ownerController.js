@@ -540,39 +540,6 @@ angular.module('controllers', [])
             }
         };
     }])
-    // .controller('requirementContractCtrl', [     //装修需求详情
-    //     '$scope','$rootScope','$location','$stateParams','userRequiremtne',
-    //     function($scope, $rootScope,$location,$stateParams,userRequiremtne){
-    //         var requiremtneId = $stateParams.id;
-    //         function uploadParent(){    // 子级传递  如果业主操作就需要改变状态给父级传递信息
-    //             userRequiremtne.get({"_id":$stateParams.id}).then(function(res){
-    //                 $scope.$emit('requirementChildren', res.data.data);
-    //             },function(res){
-    //                 console.log(res)
-    //             });
-    //         }
-    //     // 三方合同
-    //     userRequiremtne.contract({"requirementid":requiremtneId}).then(function(res){
-    //         $scope.contract = res.data.data;
-    //     },function(err){
-    //         console.log(err);
-    //     });
-    //     $scope.contractSuccess = true;
-    //     $scope.contractSuccessBtn = function(){
-    //         $scope.contractSuccess = !$scope.contractSuccess;
-    //     };
-    //     $scope.contractBtn = function(data){
-    //         userRequiremtne.process({
-    //             "requirementid": data._id,
-    //             "final_planid": data.plan._id
-    //         }).then(function(res){
-    //             uploadParent();   //更新需求状态
-    //             $location.path('requirement/'+requiremtneId+"/field");
-    //         },function(err){
-    //             console.log(err);
-    //         });
-    //     };
-    // }])
     .controller('requirementFieldCtrl', [     //装修需求详情
         '$scope',function($scope){}])
     .controller('requirementfulfillCtrl', [     //装修需求详情
