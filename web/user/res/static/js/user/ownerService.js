@@ -159,10 +159,10 @@ angular.module('services', [])
             "1":"detail",
             "2":"detail",
             "3":"detail",
-            "4":"contract",
+            "4":"plan",
             "5":"field",
             "6":"detail",
-            "7":"contract",
+            "7":"plan",
             "8":"fulfill"
         },
         userSex : [

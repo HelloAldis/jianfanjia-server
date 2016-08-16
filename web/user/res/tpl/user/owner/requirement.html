@@ -9,25 +9,19 @@
 	<div class="m-ct">
 		<ul class="tabs">
 			<li ng-class="{active: tab==&quot;detail&quot;}">
-				<a ui-sref="requirement.detail({id:requiremtneId})">需求描述</a>
+				<a ui-sref="requirement.detail({id:requiremtneId})">需求详情</a>
 			</li>
 			<li ng-class="{active: tab==&quot;plan&quot;}"
 				ng-if="requirement.status == 7 || requirement.status == 4 ||
 				requirement.status == 5 || requirement.status == 8">
 				<a ui-sref="requirement.plan({id:requiremtneId})">方案详情</a>
 			</li>
-			<!-- <li ng-class="{active: tab==&quot;plan&quot;}"
-				ng-if="requirement.status == 6 || requirement.status == 3 ||
-				requirement.status == 7 || requirement.status == 4 ||
-				requirement.status == 5 || requirement.status == 8">
-				<a ui-sref="requirement.plan({id:requiremtneId})">选择方案</a>
-			</li> -->
-			<li ng-class="{active: tab==&quot;contract&quot;}"
+			<!-- <li ng-class="{active: tab==&quot;contract&quot;}"
 				ng-if="(requirement.status == 4 || requirement.status == 7 ||
 				requirement.status == 5 || requirement.status == 8) &&
 				requirement.work_type != 2">
 				<a ui-sref="requirement.contract({id:requiremtneId})">生成合同</a>
-			</li>
+			</li> -->
 			<li ng-class="{active: tab==&quot;field&quot;}"
 				ng-if="(requirement.status == 5 || requirement.status == 8) &&
 				requirement.work_type != 2">
