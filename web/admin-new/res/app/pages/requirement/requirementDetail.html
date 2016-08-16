@@ -2,36 +2,6 @@
 	<div class="box col-md-12">
 		<ol class="breadcrumb"><li><a ui-sref="index">首页</a></li><li><a ui-sref="requirement">业务需求列表</a></li><li class="active">需求详情及管理员操作</li></ol>
 		<div class="breadcrumb">
-			<div class="assignDesigner-page">
-				<h3>指派设计师：</h3>
-			  <search-input config="config" delegate="delegate"></search-input>
-			  <div class="panel panel-info ng-scope text-center table-responsive">
-			  	<table class="table table-bordered table-striped">
-			  		<tbody>
-			  			<tr class="info thead text-nowrap">
-			  				<th class="text-center">设计师ID</th>
-			  				<th class="text-center">设计师姓名</th>
-			  				<th class="text-center">设计师电话</th>
-			  				<th class="text-center">管理员操作</th>
-			  			</tr>
-			  			<tr ng-repeat="user in userList" class="text-nowrap">
-			  				<td>{{user._id}}</td>
-			  				<td><a ui-sref="designerInfo({id:user._id})">{{user.username}}</a></td>
-			  				<td>{{user.phone}}</td>
-			  				<td>
-			            <a href="javascript:" ng-click="assignDesigner(user)" ng-class="user.isAssign?'assigned':''">{{user.isAssign?'已指派':'指派'}}</a>
-			  				</td>
-			  			</tr>
-			  		</tbody>
-			  	</table>
-			  	<load-data ng-hide="loading.loadData"></load-data>
-			  	<no-data ng-if="loading.notData"></no-data>
-			  </div>
-			  <div class="text-center" ng-if="loading.loadData && !loading.notData">
-			  	<uib-pagination total-items="pagination.totalItems" first-text="首页" next-text="下一页" previous-text="上一页" last-text="尾页" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-links="true" num-pages="numPages" rotate="false" ng-change="pagination.pageChanged()"></uib-pagination>
-			  	<span class="pagecode">当前：{{pagination.currentPage}} / {{numPages}} 页 总共 {{pagination.totalItems}} 条数据</span>
-			  </div>
-			</div>
 
 			<h3>需求详细信息：</h3>
 			<div class="panel panel-info ng-scope table-responsive panel-common">
@@ -144,33 +114,60 @@
 								</td>
 								<td ng-if="!finalDesigner"></td>
 							</tr>
+
+							<tr>
+								<td>操作</td>
+								<td>
+									<table class="table-reset">
+										<tr>
+											<td>开启工地：</td>
+											<td>
+												<button type="button" class="btn btn-primary"
+													ng-click="startProcess(user)"
+													ng-if="user.status == 0 || user.status == 1 ||
+														user.status == 2 || user.status == 6 ||
+														user.status == 3 || user.status == 4 ||
+														user.status == 7">开启</button>
+												<span ng-if="user.status == 5 || user.status == 8" class="is-start">已开启</span>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 
-			<h4>所有服务评价：</h4>
-			<div class="panel panel-info ng-scope table-responsive">
-				<table class="table table-bordered table-striped">
-			    <tbody>
-			    	<tr class="info thead">
-			        <th>序号</th>
-			        <th>设计师</th>
-			        <th>是否匿名评价</th>
-			        <th>响应速度</th>
-			        <th>服务态度</th>
-			        <th>评价内容</th>
-			      </tr>
-			      <tr ng-repeat="e in user.order_designers.evaluation">
-			        <td scope="row">{{$index+1}}</th>
-			        <td>{{e.designer.username}}({{e.designer.phone}})</td>
-			        <td>{{e.is_anonymous == 1 ? "匿名" : "实名"}}</td>
-			        <td>{{e.respond_speed}} 星</td>
-			        <td>{{e.service_attitude}} 星</td>
-			        <td>{{e.comment}}</td>
-			      </tr>
-			    </tbody>
-			  </table>
+			<div class="assignDesigner-page">
+				<h3>指派设计师：</h3>
+			  <search-input config="config" delegate="delegate"></search-input>
+			  <div class="panel panel-info ng-scope text-center table-responsive">
+			  	<table class="table table-bordered table-striped">
+			  		<tbody>
+			  			<tr class="info thead text-nowrap">
+			  				<th class="text-center">设计师ID</th>
+			  				<th class="text-center">设计师姓名</th>
+			  				<th class="text-center">设计师电话</th>
+			  				<th class="text-center">管理员操作</th>
+			  			</tr>
+			  			<tr ng-repeat="user in userList" class="text-nowrap">
+			  				<td>{{user._id}}</td>
+			  				<td><a ui-sref="designerInfo({id:user._id})">{{user.username}}</a></td>
+			  				<td>{{user.phone}}</td>
+			  				<td>
+			            <a href="javascript:" ng-click="assignDesigner(user)" ng-class="user.isAssign?'assigned':''">{{user.isAssign?'已指派':'指派'}}</a>
+			  				</td>
+			  			</tr>
+			  		</tbody>
+			  	</table>
+			  	<load-data ng-hide="loading.loadData"></load-data>
+			  	<no-data ng-if="loading.notData"></no-data>
+			  </div>
+			  <div class="text-center" ng-if="loading.loadData && !loading.notData">
+			  	<uib-pagination total-items="pagination.totalItems" first-text="首页" next-text="下一页" previous-text="上一页" last-text="尾页" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-links="true" num-pages="numPages" rotate="false" ng-change="pagination.pageChanged()"></uib-pagination>
+			  	<span class="pagecode">当前：{{pagination.currentPage}} / {{numPages}} 页 总共 {{pagination.totalItems}} 条数据</span>
+			  </div>
 			</div>
 
 			<h4>方案列表：</h4>
@@ -217,6 +214,31 @@
 					</tbody>
 				</table>
 			</div>
+
+			<h4>所有服务评价：</h4>
+			<div class="panel panel-info ng-scope table-responsive">
+				<table class="table table-bordered table-striped">
+			    <tbody>
+			    	<tr class="info thead">
+			        <th>序号</th>
+			        <th>设计师</th>
+			        <th>是否匿名评价</th>
+			        <th>响应速度</th>
+			        <th>服务态度</th>
+			        <th>评价内容</th>
+			      </tr>
+			      <tr ng-repeat="e in designerList">
+			        <td scope="row">{{$index+1}}</th>
+			        <td>{{e.username}}({{e.phone}})</td>
+			        <td>{{e.evaluation.is_anonymous == 1 ? "匿名" : "实名"}}</td>
+			        <td>{{e.evaluation.respond_speed}} 星</td>
+			        <td>{{e.evaluation.service_attitude}} 星</td>
+			        <td>{{e.evaluation.comment}}</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+			
 		</div>
 	</div>
 </div>
