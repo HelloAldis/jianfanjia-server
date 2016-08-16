@@ -17,8 +17,8 @@
         controller: 'ProductController',
         sidebarMeta: {
           icon: 'ion-android-desktop',
-          order: 50,
-        },
+          order: 50
+        }
       });
   }
 

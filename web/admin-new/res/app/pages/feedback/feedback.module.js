@@ -17,8 +17,8 @@
         controller: 'FeedbackListController',
         sidebarMeta: {
           icon: 'fa fa-comment',
-          order: 80,
-        },
+          order: 80
+        }
       });
   }
 

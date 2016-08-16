@@ -7,6 +7,7 @@ const gulp = require('gulp');
 const watch = require('gulp-watch');
 const sftp = require('gulp-sftp');
 const inject = require('gulp-inject');
+const gutil = require('gulp-util');
 
 exports.proxy = function (root, port) {
   connect.server({
@@ -59,3 +60,10 @@ exports.inject = function (html, injectFiles, tag, output) {
     }))
     .pipe(gulp.dest(output));
 }
+
+exports.errorHandler = function (title) {
+  return function (err) {
+    gutil.log(gutil.colors.red('[' + title + ']'), err.toString());
+    this.emit('end');
+  };
+};

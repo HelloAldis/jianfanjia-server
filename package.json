@@ -67,7 +67,7 @@
     "gulp-git": "1.7.0",
     "gulp-postcss": "6.1.1",
     "gulp-sftp": "0.1.5",
-    "gulp-util": "3.0.7",
+    "gulp-util": "^3.0.7",
     "gulp-watch": "4.3.8",
     "http-proxy-middleware": "0.17.0",
     "proxy-middleware": "0.15.0",
@@ -80,6 +80,10 @@
     "gulp-angular-templatecache": "2.0.0",
     "gulp-flatten": "0.3.0",
     "main-bower-files": "2.13.1",
-    "gulp-filter": "4.0.0"
+    "gulp-filter": "4.0.0",
+    "gulp-if": "2.0.1",
+    "gulp-uglify": "2.0.0",
+    "cssnano": "3.7.3",
+    "gulp-sourcemaps": "^1.6.0"
   }
 }

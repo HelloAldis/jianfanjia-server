@@ -26,7 +26,7 @@
       },
       shade: function(color, weight) {
         return mix('#000000', color, weight);
-      },
+      }
     });
 
   function shade(color, weight) {

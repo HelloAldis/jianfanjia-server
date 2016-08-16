@@ -43,7 +43,7 @@
           $scope.kvCurOption = choice;
           $scope.curkey = choice[$scope.kvKeyName];
         };
-      },
+      }
     };
   }
 

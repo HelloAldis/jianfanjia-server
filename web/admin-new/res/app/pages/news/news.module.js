@@ -17,8 +17,8 @@
         controller: 'NewsController',
         sidebarMeta: {
           icon: 'fa fa-newspaper-o',
-          order: 100,
-        },
+          order: 100
+        }
       })
       .state('newsAdd', {
         title: '新闻编辑',

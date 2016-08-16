@@ -330,7 +330,7 @@
         },
         delete_image: function (data) {
           return doAdminRequest('delete_image', data);
-        },
+        }
       };
     }])
     /**

@@ -116,8 +116,8 @@
                     $scope.select.districtShow = false;
                     $scope.select.provinceShow = false;
                     $scope.select.cityShow = false;
-                };
+                }
             }]
         };
-  };
+  }
 })();

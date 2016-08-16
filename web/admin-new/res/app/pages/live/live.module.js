@@ -17,8 +17,8 @@
         controller: 'LiveController',
         sidebarMeta: {
           icon: 'ion-ios-videocam',
-          order: 60,
-        },
+          order: 60
+        }
       })
       .state('liveAdd', {
         title: '装修直播列表',

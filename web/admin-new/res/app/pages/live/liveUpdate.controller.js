@@ -75,14 +75,14 @@
                 "name": $scope.process.processName,
                 "description": $scope.process.processDescription,
                 "date": (new Date($scope.process.processDate)).getTime(),
-                "images": $scope.uploader1.uploadImageClient.getAllIds(),
+                "images": $scope.uploader1.uploadImageClient.getAllIds()
               });
               break;
             } else {
               $scope.shares.process[i] = $scope.shares.process[i];
               break;
             }
-          };
+          }
           $scope.shares.process.sort(function (n, m) {
             return n.name - m.name;
           })

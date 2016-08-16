@@ -13,8 +13,8 @@
       title: '业主消息推送',
       controller: 'UserNotifyController',
       sidebarMeta: {
-        order: 100,
-      },
+        order: 100
+      }
     });
   }
 

@@ -17,8 +17,8 @@
         controller: 'RequirementChartController',
         sidebarMeta: {
           icon: 'ion-arrow-graph-up-right',
-          order: 0,
-        },
+          order: 0
+        }
       });
   }
 

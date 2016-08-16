@@ -17,8 +17,8 @@
         controller: 'ImageController',
         sidebarMeta: {
           icon: 'ion-camera',
-          order: 111,
-        },
+          order: 111
+        }
       });
   }
 

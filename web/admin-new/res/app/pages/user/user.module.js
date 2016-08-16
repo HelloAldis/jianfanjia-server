@@ -17,8 +17,8 @@
         controller: 'UserController',
         sidebarMeta: {
           icon: 'ion-android-person',
-          order: 30,
-        },
+          order: 30
+        }
       })
       .state('userInfo', {
         title: '业主列表',

@@ -263,7 +263,7 @@
                        'D：<img src="/weixin/survey/icon3.png" width="120" alt="" />',
                        'E：<img src="/weixin/survey/icon4.png" width="120" alt="" />'
                      ]
-                },
+                }
               ];
               adminEvents.answer({"wenjuanid":1}).then(function(resp){
                   angular.forEach(resp.data.data,function(n,v){

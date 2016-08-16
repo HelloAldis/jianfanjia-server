@@ -9,7 +9,7 @@
     return {
       scope: {
         trackWidth: '=',
-        minWidth: '=',
+        minWidth: '='
       },
       link: function (scope, element) {
         scope.trackWidth = $(element).width() < scope.minWidth;
