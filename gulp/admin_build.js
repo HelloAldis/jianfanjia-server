@@ -14,7 +14,7 @@ const admin_res = 'web/admin-new/res';
 const admin_dist = 'web/admin-new/dist';
 
 gulp.task('admin-build', ['admin-clean'], function (callback) {
-  runSequence('admin-template', ['admin-html', 'admin-assets', 'admin-fonts'], callback);
+  runSequence('admin-template', ['admin-html', 'admin-assets', 'admin-fonts', 'admin-ueditor'], callback);
 });
 
 gulp.task('admin-clean', function () {
@@ -48,6 +48,11 @@ gulp.task('admin-template', function () {
 gulp.task('admin-assets', function () {
   return gulp.src([admin_res + '/assets/**/*'])
     .pipe(gulp.dest(admin_dist + '/assets'));
+});
+
+gulp.task('admin-ueditor', function () {
+  return gulp.src([admin_res + '/lib/ueditor/**/*'])
+    .pipe(gulp.dest(admin_dist + '/lib/ueditor'));
 });
 
 gulp.task('admin-fonts', function () {
