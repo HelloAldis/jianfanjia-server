@@ -10,12 +10,12 @@ const flatten = require('gulp-flatten');
 const mainBowerFiles = require('main-bower-files');
 const filter = require('gulp-filter');
 const gulpif = require('gulp-if');
-const uglify = require('gulp-uglify');
+// const uglify = require('gulp-uglify');
 const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
 const mqpacker = require('css-mqpacker');
 const cssnano = require('cssnano');
-const util = require('./util');
+// const util = require('./util');
 
 const admin_res = 'web/admin-new/res';
 const admin_dist = 'web/admin-new/dist';
