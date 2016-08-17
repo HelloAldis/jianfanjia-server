@@ -1,9 +1,7 @@
 'use strict'
 /**
 
-gulp devu  启动pc开发网站 http://localhost:9000
 gulp deva  启动admin开发网站 http://localhost:9001
-gulp devm  启动移动端开发网站 http://localhost:9002
 
 */
 
@@ -36,6 +34,8 @@ gulp.task('admin-inject-app', function () {
     '!' + admin_res + '/app/**/templates.js'
   ], 'app', admin_res);
 });
+
+gulp.task('admin-inject', ['admin-inject-vender', 'admin-inject-app']);
 
 gulp.task('admin-watch', function () {
   watch(mainBowerFiles({

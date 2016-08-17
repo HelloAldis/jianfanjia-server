@@ -84,6 +84,7 @@
     "gulp-if": "2.0.1",
     "gulp-uglify": "2.0.0",
     "cssnano": "3.7.3",
-    "gulp-sourcemaps": "^1.6.0"
+    "gulp-sourcemaps": "1.6.0",
+    "gulp-rename": "1.2.2"
   }
 }
