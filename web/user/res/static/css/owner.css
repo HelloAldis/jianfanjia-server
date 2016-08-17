@@ -608,13 +608,6 @@ body{
 	padding-right: 10px;
 }
 
-.m-index .address p{
-	text-align: center;
-	height: 75px;
-	line-height: 75px;
-	color: #888;
-}
-
 .m-index .flow{
 	height: 133px;
 	padding-left: 43px;
@@ -756,7 +749,7 @@ body{
 	color: #999;
 }
 .m-index .list .ct{
-	padding: 53px 0 40px;
+	padding: 20px 0 8px;
 	font-size: 20px;
 	line-height: 36px;
 	text-align: center;
@@ -1297,16 +1290,6 @@ body{
 	color: #999;
 }
 /*方案列表*/
-.plans-tips{
-	height: 38px;
-	line-height: 38px;
-	padding: 31px 19px 32px;
-	border-bottom: 1px solid #e6e6e6;
-}
-.plans-tips p{
-	font-size: 16px;
-	color: #999;
-}
 .m-plans li{
 	border-top: 1px solid #e6e6e6;
 }
@@ -1322,8 +1305,8 @@ body{
 	padding:20px 19px 30px;
 }
 .m-plans li:hover .boxs{
-	padding: 18px 17px 28px;
-	border: 2px solid #e5e5e5;
+	/*padding: 18px 17px 28px;*/
+	/*border: 2px solid #e5e5e5;*/
 }
 .m-plans .boxs .head{
 	width: 70px;
@@ -1410,19 +1393,107 @@ body{
 	word-wrap:break-word;
 }
 .m-plans .images{
-	height: 210px;
+	/*height: 210px;*/
 }
 .m-plans .images li{
-	float: left;
-	width: 280px;
+	/*float: left;*/
+	display: inline-block;
+	width: 273px;
 	height: 180px;
-	overflow: hidden;
-	margin-left: 20px;
+	/*overflow: hidden;*/
+	margin: 0 20px 20px 0;
 	border-top: none;
 	border-radius: 2px;
 }
 .m-plans .images li:first-child{
 	margin-left: 0;
+}
+.m-plans .boxs .tab-price-detail{
+	width: 640px;
+}
+.m-plans .boxs .tab-price-detail tr{
+	height: 40px;
+	padding: 0 20px;
+	font-size: 14px;
+	line-height: 40px;
+	color: #61687a;
+	text-align: left;
+}
+.m-plans .boxs .tab-price-detail tr th{
+	text-align: left;
+	color: #383d48;
+}
+.m-plans .boxs .price-detail{
+	position: relative;
+	min-height: 360px;
+}
+.m-plans .boxs .tab-price-detail .left{
+	padding-left: 20px;
+	width: 180px;
+}
+.m-plans .boxs .tab-price-detail .right{
+	padding: 0 20px;
+	width: 80px;
+}
+/*.m-plans .boxs .price-detail .tab-price-detail tr:nth-child(1){
+	background: #e9ebef;
+}*/
+.m-plans .boxs .tab-price-detail .tr-head{
+	background: #e9ebef;
+}
+.m-plans .boxs .price-detail .tab-price-detail .tr-odd{
+	background: #f0f8fb;
+}
+.m-plans .boxs .price-detail .proccess-total-price{
+	width: 200px;
+	position: absolute;
+	right: 15px;
+	top: 0;
+	/*height: 135px;*/
+	/*padding: 30px 10px;*/
+	/*border-top: solid 1px #ececec;
+	border-bottom: dashed 1px #ececec;*/
+	/*border-bottom: solid 1px #ececec;*/
+}
+.m-plans .boxs .price-detail .proccess-total-price .process-price{
+	padding: 25px 10px;
+	height: 75px;
+	border-top: solid 1px #ececec;
+	border-bottom: dashed 1px #ececec;
+}
+.m-plans .boxs .price-detail .proccess-total-price .discount-total-price{
+	padding: 25px 10px;
+	height: 175px;
+	border-bottom: solid 1px #ececec;
+}
+.m-plans .boxs .price-detail .proccess-total-price p{
+	font-size: 14px;
+	line-height: 25px;
+	position: relative;
+	color: #383d48;
+}
+.m-plans .boxs .price-detail .proccess-total-price p span{
+	position: absolute;
+	right: 0;
+	width: 60px;
+}
+.m-plans .boxs .price-detail .proccess-total-price p span .text-delete{
+	text-decoration: line-through;
+}
+.m-plans .boxs .price-detail .proccess-total-price h2{
+	/*border-top: dashed 1px #ececec;*/
+	/*padding-top: 25px;*/
+	/*margin-top: 30px;*/
+	color: #010101;
+	font-size: 16px;
+}
+.m-plans .boxs .price-detail .proccess-total-price .discount-price{
+	color: #fe7004;
+	font-size: 24px;
+	line-height: 60px;
+}
+.m-plans .boxs .price-detail .proccess-total-price .discount-price i{
+	font-size: 40px;
 }
 .m-plans .select{
 	height: 38px;

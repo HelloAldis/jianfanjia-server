@@ -65,12 +65,12 @@
                 .state('requirement.detail', {
                     url: '/detail',
                     templateUrl: url+'detail.html',
-                    controller : 'requirementDetailCtrl'
+                    controller : 'requirementCtrl'
                 })
                 .state('requirement.plan', {
                     url: '/plan',
                     templateUrl: url+'plan.html',
-                    controller : 'requirementPlanCtrl'
+                    controller : 'requirementCtrl'
                 })
                 .state('requirement.field', {
                     url: '/field',
