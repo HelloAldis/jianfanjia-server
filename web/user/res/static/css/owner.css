@@ -607,6 +607,7 @@ body{
 .m-index .info dd i{
 	padding-right: 10px;
 }
+
 .m-index .flow{
 	height: 133px;
 	padding-left: 43px;
@@ -748,7 +749,7 @@ body{
 	color: #999;
 }
 .m-index .list .ct{
-	padding: 53px 0 40px;
+	padding: 20px 0 8px;
 	font-size: 20px;
 	line-height: 36px;
 	text-align: center;
@@ -1007,6 +1008,91 @@ body{
 	font-size: 14px;
 	line-height: 36px;
 }
+/*添加需求*/
+.add-requirement-page{
+	/*height: 520px;*/
+	padding: 100px;
+}
+.add-requirement-page .write-tel{
+	margin: auto;
+	text-align: center;
+}
+.add-requirement-page .write-tel h1{
+	font-size: 24px;
+	line-height: 60px;
+	color: #000;
+}
+.add-requirement-page .write-tel h1 .span-tel{
+	background: url(../img/user/icon-tel.png) 0 center no-repeat;
+	padding-left: 35px;
+}
+.add-requirement-page .write-tel p{
+	margin-bottom: 48px;
+	font-size: 14px;
+	color: #999;
+}
+.add-requirement-page .write-tel .input-box{
+	display: inline-block;
+	position: relative;
+	margin-bottom: 50px;
+}
+.add-requirement-page .write-tel .input-box .u-lab{
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.add-requirement-page .write-tel .input-box span .iconfont{
+	margin-left: 22px;
+	font-size: 20px;
+	line-height: 50px;
+	color: #c5caca;
+}
+.add-requirement-page .write-tel .input-box .input-padding{
+	width: 345px;
+  height: 20px;
+  border: solid 1px #e5e5e5;
+  background-color: #fafbfb;
+  padding: 15px 0;
+	text-align: left;
+}
+.add-requirement-page .write-tel .input-box .btn-tel{
+	background-color: #fafbfb;
+	border-style: none;
+	font-size: 16px;
+	color: #bbb;
+	height: 20px;
+	line-height: 20px;
+	padding-left: 65px;
+}
+.add-requirement-page .write-tel .input-box .text-error{
+	margin-top: 20px;
+	color: #ff4a4a;
+	height: 14px;
+	font-size: 14px;
+	line-height: 14px;
+	text-align: left;
+}
+.add-requirement-page .write-tel .btn-submit{
+	padding: 0 40px;
+	height: 40px;
+	background-color: #f98700;
+	border-radius: 34px;
+	border: none;
+	color: #fff;
+	font-size: 14px;
+	line-height: 40px;
+	cursor: pointer;
+}
+.add-requirement-page .write-tel .btn-submit:hover{
+	background-color: #e67f06;
+}
+.add-requirement-page .write-tel .send-success span{
+	margin-right: 10px;
+}
+.add-requirement-page .write-tel .send-success .iconfont{
+	color: #3dc33d;
+	font-size: 26px;
+}
 /*需求详情*/
 .m-requirement .returnList{
 	margin-right: 19px;
@@ -1095,43 +1181,6 @@ body{
 .detail-btns .u-btns{
 	margin: 0 15px;
 }
-/*预约量房*/
-.booking-tips{
-	height: 38px;
-	line-height: 38px;
-	padding: 31px 19px 32px;
-}
-.booking-tips p{
-	font-size: 16px;
-	color: #999;
-}
-.booking h3{
-	padding-left: 19px;
-	font-size: 16px;
-	line-height: 49px;
-	color: #383d48;
-	border-top: 1px solid #e5e5e5;
-}
-.booking .m-designerList li{
-	padding: 20px 19px;
-	border-top: 1px solid #e6e6e6;
-	cursor: pointer;
-}
-.booking.disabled .m-designerList li,.score .m-designerList li{
-	cursor:default;
-}
-.booking.disabled .m-designerList li.active,.score .m-designerList li.active{
-	cursor: pointer;
-}
-.booking .m-designerList .notdesigner{
-	text-align: center;
-	cursor:default
-}
-.booking .m-designerList .notdesigner p{
-	padding-bottom: 20px;
-	font-size: 16px;
-	line-height: 40px;
-}
 .m-designerList .info .head{
 	width: 70px;
 	height: 70px;
@@ -1190,66 +1239,6 @@ body{
 	font-weight: normal;
 	color: #383d48;
 }
-.booking .m-designerList .select{
-	padding-top: 16px;
-}
-.booking .m-designerList .select span{
-	display: inline-block;
-	vertical-align: middle;
-}
-.booking .m-designerList .match{
-	padding: 0 14px;
-	margin-right: 52px;
-	line-height: 36px;
-	color: #61687a;
-	border: 1px solid #61687a;
-	border-radius: 2px;
-}
-.booking .m-designerList .status{
-	width: 38px;
-	height: 38px;
-	background:url(../img/user/booking-status-icon.png) 0 0 no-repeat;
-}
-.booking .m-designerList .active{
-	background-color: #f0f8fb;
-	border-left: 5px solid #fc7207;
-	padding-left: 14px;
-}
-.booking .m-designerList .active .status{
-	background-position: 0 -38px;
-}
-.booking-btns{
-	padding: 30px 0;
-	text-align: center;
-	border-top: 1px solid #e5e5e5;
-}
-/*确认量房*/
-.score .select .btns{
-	text-align: right;
-}
-.score .select p{
-	padding-top: 15px;
-	line-height: 18px;
-}
-.score .select p.cur{
-	color: #fe7004;
-}
-.score .m-designerList .select{
-	padding-top: 0;
-}
-/* 需求完结状态 */
-.score .victory i{
-	display: inline-block;
-	line-height: 36px;
-	padding: 0 17px;
-	color: #999;
-	border: 1px solid #cdcdcd;
-	border-radius: 3px;
-}
-.score .victory i.winning{
-	color: #fe7004;
-	border-color: #fe7004;
-}
 /*模态窗口*/
 .k-motai{
 	position: fixed;
@@ -1283,95 +1272,6 @@ body{
 	-moz-box-shadow: 0px 0px 15px rgba(0,0,0,0.12);
 	-webkit-box-shadow: 0px 0px 15px rgba(0,0,0,0.12);
 	box-shadow: 0px 0px 15px rgba(0,0,0,0.12);
-}
-.k-motai .score{
-	top:50%;
-	height: 508px;
-	margin-top: -254px;
-}
-.k-motai .score h3{
-	padding: 0 19px;
-	margin-bottom: 20px;
-	font-size: 16px;
-	line-height: 65px;
-	color: #383d48;
-	border-bottom: 1px solid #eee;
-}
-.k-motai .score .textarea{
-	height: 160px;
-	margin:16px 19px 0;
-  	overflow: hidden;
-  	padding-left: 20px;
-	border: 1px solid #e5e5e5;
-	background-color: #f9f9f9;
-	border-radius: 2px;
-}
-.k-motai .score dl{
-	height: 44px;
-	padding:0 19px;
-	line-height: 44px;
-}
-.k-motai .score dt{
-	float: left;
-	width: 100px;
-	font-size: 16px;
-	color: #61687a;
-}
-.k-motai .score dd{
-	font-size: 0;
-	padding-top: 10px;
-}
-.k-motai .score dd span{
-	display: inline-block;
-	width: 24px;
-	height: 24px;
-	margin-right: 6px;
-	background:url(../img/user/star-icon.png) 0 bottom no-repeat;
-}
-.k-motai .score dd .active{
-	background-position: 0 0;
-}
-.k-motai .score .textarea textarea{
-  float: left;
-  width: 100%;
-  height: 140px;
-  line-height: 20px;
-  margin-left: -20px;
-  padding: 10px;
-  font-size: 14px;
-  border: 0;
-  resize: none;
-  background: none;
-}
-.k-motai .score .anonymity{
-	padding: 0 19px 20px;
-}
-.k-motai .score .anonymity span{
-	display: block;
-	width: 100px;
-	height: 34px;
-	line-height: 34px;
-	cursor: pointer;
-}
-.k-motai .score .anonymity span i{
-	display: inline-block;
-    vertical-align: middle;
-    width: 14px;
-    height: 14px;
-    overflow: hidden;
-    margin-right: 15px;
-    background: url(../img/user/user-radio-bg.png) no-repeat;
-}
-.k-motai .score .anonymity span .active{
-	background-position: 0 -14px;
-}
-.k-motai .score .btns{
-	padding: 30px 0;
-	text-align: center;
-	border-top: 1px dashed #e5e5e5;
-}
-.k-motai .score .btns .u-btns{
-	margin: 0 10px;
 }
 .k-motai .early{
 	top:50%;
@@ -1418,16 +1318,6 @@ body{
 	color: #999;
 }
 /*方案列表*/
-.plans-tips{
-	height: 38px;
-	line-height: 38px;
-	padding: 31px 19px 32px;
-	border-bottom: 1px solid #e6e6e6;
-}
-.plans-tips p{
-	font-size: 16px;
-	color: #999;
-}
 .m-plans li{
 	border-top: 1px solid #e6e6e6;
 }
@@ -1443,8 +1333,8 @@ body{
 	padding:20px 19px 30px;
 }
 .m-plans li:hover .boxs{
-	padding: 18px 17px 28px;
-	border: 2px solid #e5e5e5;
+	/*padding: 18px 17px 28px;*/
+	/*border: 2px solid #e5e5e5;*/
 }
 .m-plans .boxs .head{
 	width: 70px;
@@ -1530,20 +1420,93 @@ body{
 	word-break:break-all;
 	word-wrap:break-word;
 }
-.m-plans .images{
-	height: 210px;
-}
 .m-plans .images li{
-	float: left;
-	width: 280px;
+	display: inline-block;
+	width: 273px;
 	height: 180px;
-	overflow: hidden;
-	margin-left: 20px;
+	margin: 0 20px 20px 0;
 	border-top: none;
 	border-radius: 2px;
 }
 .m-plans .images li:first-child{
 	margin-left: 0;
+}
+.m-plans .boxs .tab-price-detail{
+	width: 640px;
+}
+.m-plans .boxs .tab-price-detail tr{
+	height: 40px;
+	padding: 0 20px;
+	font-size: 14px;
+	line-height: 40px;
+	color: #61687a;
+	text-align: left;
+}
+.m-plans .boxs .tab-price-detail tr th{
+	text-align: left;
+	color: #383d48;
+}
+.m-plans .boxs .price-detail{
+	position: relative;
+	min-height: 360px;
+	margin-top: 10px;
+}
+.m-plans .boxs .tab-price-detail .left{
+	padding-left: 20px;
+	width: 180px;
+}
+.m-plans .boxs .tab-price-detail .right{
+	padding: 0 20px;
+	width: 80px;
+}
+.m-plans .boxs .tab-price-detail .tr-head{
+	background: #e9ebef;
+}
+.m-plans .boxs .price-detail .tab-price-detail .tr-odd{
+	background: #f0f8fb;
+}
+.m-plans .boxs .price-detail .proccess-total-price{
+	width: 200px;
+	position: absolute;
+	right: 15px;
+	top: 0;
+}
+.m-plans .boxs .price-detail .proccess-total-price .process-price{
+	padding: 25px 10px;
+	height: 75px;
+	border-top: solid 1px #ececec;
+	border-bottom: dashed 1px #ececec;
+}
+.m-plans .boxs .price-detail .proccess-total-price .discount-total-price{
+	padding: 25px 10px;
+	height: 180px;
+	border-bottom: solid 1px #ececec;
+}
+.m-plans .boxs .price-detail .proccess-total-price p{
+	font-size: 14px;
+	line-height: 25px;
+	position: relative;
+	color: #383d48;
+}
+.m-plans .boxs .price-detail .proccess-total-price p span{
+	position: absolute;
+	right: 0;
+	width: 60px;
+}
+.m-plans .boxs .price-detail .proccess-total-price p span .text-delete{
+	text-decoration: line-through;
+}
+.m-plans .boxs .price-detail .proccess-total-price h2{
+	color: #010101;
+	font-size: 16px;
+}
+.m-plans .boxs .price-detail .proccess-total-price .discount-price{
+	color: #fe7004;
+	font-size: 24px;
+	line-height: 60px;
+}
+.m-plans .boxs .price-detail .proccess-total-price .discount-price i{
+	font-size: 40px;
 }
 .m-plans .select{
 	height: 38px;

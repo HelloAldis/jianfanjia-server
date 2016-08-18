@@ -12,40 +12,41 @@
 			</dl>
 			<a ui-sref="infor" class="editor"><i class="iconfont2">&#xe627;</i>&nbsp;&nbsp;编辑资料</a>
 		</div>
+
 		<div class="flow">
 			<ul>
 				<li>
 					<div class="txt">
 						<div class="num"></div>
-						<p>发布装修<br />需求</p>
+						<p>收集装修<br />需求</p>
 					</div>
 				</li>
 				<li class="line"><div></div></li>
 				<li>
 					<div class="txt">
 						<div class="num num2"></div>
-						<p>预约设计师<br />上门量房</p>
+						<p>匹配设计师</p>
 					</div>
 				</li>
 				<li class="line"><div></div></li>
 				<li>
 					<div class="txt">
 						<div class="num num3"></div>
-						<p>确认设计师<br />上门量房</p>
+						<p>设计师上门<br />量房</p>
 					</div>
 				</li>
 				<li class="line"><div></div></li>
 				<li>
 					<div class="txt">
 						<div class="num num4"></div>
-						<p>选择装修<br />方案</p>
+						<p>设计师上传<br />方案</p>
 					</div>
 				</li>
 				<li class="line"><div></div></li>
 				<li>
 					<div class="txt">
 						<div class="num num5"></div>
-						<p>生成三方<br />合同</p>
+						<p>设计师配置<br />工地</p>
 					</div>
 				</li>
 				<li class="line"><div></div></li>
@@ -144,7 +145,10 @@
 				</div>
 				<div class="ct" bo-switch="data.status" bo-if="data.work_type == '纯设计'">
 					<p bo-switch-when="0">
-						系统已为您匹配<span bo-if="data.rec_designerids.length != 0"><i bo-text="data.rec_designerids.length"></i>名</span>设计师，请预约设计师上门量房
+						系统已为您匹配
+						<span bo-if="data.rec_designerids.length != 0">
+							<i bo-text="data.rec_designerids.length"></i>名
+						</span>设计师，请预约设计师上门量房
 					</p>
 					<p bo-switch-when="1">
 						您已经预约了<i bo-text="data.order_designerids.length"></i>名设计师，请等待设计师响应。<br />
@@ -165,7 +169,7 @@
 						设计师将在5天内响应给您方案，供您选择，请留意短信通知。
 					</p>
 				</div>
-				<div class="btns" bo-switch="data.status" bo-if="data.work_type != '纯设计'">
+				<!-- <div class="btns" bo-switch="data.status" bo-if="data.work_type != '纯设计'">
 					<a class="u-btns" bo-switch-when="0" bo-href-i="owner.html#/requirement/{{data._id}}/booking">前往预约量房</a>
 					<a class="u-btns" bo-switch-when="1" bo-href-i="owner.html#/requirement/{{data._id}}/score">查看设计师响应</a>
 					<a class="u-btns" bo-switch-when="2" bo-href-i="owner.html#/requirement/{{data._id}}/score">前往确认设计师上门量房</a>
@@ -182,7 +186,7 @@
 					<a class="u-btns" bo-switch-when="2" bo-href-i="owner.html#/requirement/{{data._id}}/score">前往确认设计师上门量房</a>
 					<a class="u-btns" bo-switch-when="3" bo-href-i="owner.html#/requirement/{{data._id}}/plan">查看并选择装修方案</a>
 					<a class="u-btns" bo-switch-when="4" bo-href-i="owner.html#/requirement/{{data._id}}/fulfill">设计已完成</a>
-				</div>
+				</div> -->
 			</li>
 		</ul>
 		<div class="pageLoading" ng-hide="!!requirementList"></div>

@@ -44,7 +44,7 @@
                     controller : 'phoneCtrl'
                 })
                 .state('updateRequirement', {
-                    url: '/release/:id',
+                    url: '/release',
                     templateUrl: url+'release.html',
                     controller : 'releaseCtrl'
                 })
@@ -65,27 +65,12 @@
                 .state('requirement.detail', {
                     url: '/detail',
                     templateUrl: url+'detail.html',
-                    controller : 'requirementDetailCtrl'
-                })
-                .state('requirement.booking', {
-                    url: '/booking',
-                    templateUrl: url+'booking.html',
-                    controller : 'requirementBookingCtrl'
-                })
-                .state('requirement.score', {
-                    url: '/score',
-                    templateUrl: url+'score.html',
-                    controller : 'requirementScoreCtrl'
+                    controller : 'requirementCtrl'
                 })
                 .state('requirement.plan', {
                     url: '/plan',
                     templateUrl: url+'plan.html',
-                    controller : 'requirementPlanCtrl'
-                })
-                .state('requirement.contract', {
-                    url: '/contract',
-                    templateUrl: url+'contract.html',
-                    controller : 'requirementContractCtrl'
+                    controller : 'requirementCtrl'
                 })
                 .state('requirement.field', {
                     url: '/field',
