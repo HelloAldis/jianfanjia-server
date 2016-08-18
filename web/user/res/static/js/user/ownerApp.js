@@ -44,7 +44,7 @@
                     controller : 'phoneCtrl'
                 })
                 .state('updateRequirement', {
-                    url: '/release/:id',
+                    url: '/release',
                     templateUrl: url+'release.html',
                     controller : 'releaseCtrl'
                 })

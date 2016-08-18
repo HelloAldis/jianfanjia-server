@@ -1010,17 +1010,21 @@ body{
 }
 /*添加需求*/
 .add-requirement-page{
-	height: 520px;
-	padding-top: 100px;
+	/*height: 520px;*/
+	padding: 100px;
 }
 .add-requirement-page .write-tel{
 	margin: auto;
 	text-align: center;
 }
 .add-requirement-page .write-tel h1{
-	margin-bottom: 20px;
 	font-size: 24px;
+	line-height: 60px;
 	color: #000;
+}
+.add-requirement-page .write-tel h1 .span-tel{
+	background: url(../img/user/icon-tel.png) 0 center no-repeat;
+	padding-left: 35px;
 }
 .add-requirement-page .write-tel p{
 	margin-bottom: 48px;
@@ -1032,24 +1036,41 @@ body{
 	position: relative;
 	margin-bottom: 50px;
 }
-.add-requirement-page .write-tel .input-box span{
+.add-requirement-page .write-tel .input-box .u-lab{
 	position: absolute;
 	left: 0;
+	top: 0;
 }
 .add-requirement-page .write-tel .input-box span .iconfont{
-	margin: 0 30px 0 25px;
+	margin-left: 22px;
 	font-size: 20px;
 	line-height: 50px;
+	color: #c5caca;
+}
+.add-requirement-page .write-tel .input-box .input-padding{
+	width: 345px;
+  height: 20px;
+  border: solid 1px #e5e5e5;
+  background-color: #fafbfb;
+  padding: 15px 0;
+	text-align: left;
 }
 .add-requirement-page .write-tel .input-box .btn-tel{
-	padding-left: 75px;
-	width: 345px;
-	height: 50px;
 	background-color: #fafbfb;
 	border-style: none;
-	border: solid 1px #e5e5e5;
 	font-size: 16px;
 	color: #bbb;
+	height: 20px;
+	line-height: 20px;
+	padding-left: 65px;
+}
+.add-requirement-page .write-tel .input-box .text-error{
+	margin-top: 20px;
+	color: #ff4a4a;
+	height: 14px;
+	font-size: 14px;
+	line-height: 14px;
+	text-align: left;
 }
 .add-requirement-page .write-tel .btn-submit{
 	padding: 0 40px;
@@ -1064,6 +1085,13 @@ body{
 }
 .add-requirement-page .write-tel .btn-submit:hover{
 	background-color: #e67f06;
+}
+.add-requirement-page .write-tel .send-success span{
+	margin-right: 10px;
+}
+.add-requirement-page .write-tel .send-success .iconfont{
+	color: #3dc33d;
+	font-size: 26px;
 }
 /*需求详情*/
 .m-requirement .returnList{
@@ -1392,15 +1420,10 @@ body{
 	word-break:break-all;
 	word-wrap:break-word;
 }
-.m-plans .images{
-	/*height: 210px;*/
-}
 .m-plans .images li{
-	/*float: left;*/
 	display: inline-block;
 	width: 273px;
 	height: 180px;
-	/*overflow: hidden;*/
 	margin: 0 20px 20px 0;
 	border-top: none;
 	border-radius: 2px;
@@ -1426,6 +1449,7 @@ body{
 .m-plans .boxs .price-detail{
 	position: relative;
 	min-height: 360px;
+	margin-top: 10px;
 }
 .m-plans .boxs .tab-price-detail .left{
 	padding-left: 20px;
@@ -1435,9 +1459,6 @@ body{
 	padding: 0 20px;
 	width: 80px;
 }
-/*.m-plans .boxs .price-detail .tab-price-detail tr:nth-child(1){
-	background: #e9ebef;
-}*/
 .m-plans .boxs .tab-price-detail .tr-head{
 	background: #e9ebef;
 }
@@ -1449,11 +1470,6 @@ body{
 	position: absolute;
 	right: 15px;
 	top: 0;
-	/*height: 135px;*/
-	/*padding: 30px 10px;*/
-	/*border-top: solid 1px #ececec;
-	border-bottom: dashed 1px #ececec;*/
-	/*border-bottom: solid 1px #ececec;*/
 }
 .m-plans .boxs .price-detail .proccess-total-price .process-price{
 	padding: 25px 10px;
@@ -1463,7 +1479,7 @@ body{
 }
 .m-plans .boxs .price-detail .proccess-total-price .discount-total-price{
 	padding: 25px 10px;
-	height: 175px;
+	height: 180px;
 	border-bottom: solid 1px #ececec;
 }
 .m-plans .boxs .price-detail .proccess-total-price p{
@@ -1481,9 +1497,6 @@ body{
 	text-decoration: line-through;
 }
 .m-plans .boxs .price-detail .proccess-total-price h2{
-	/*border-top: dashed 1px #ececec;*/
-	/*padding-top: 25px;*/
-	/*margin-top: 30px;*/
 	color: #010101;
 	font-size: 16px;
 }

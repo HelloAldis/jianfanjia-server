@@ -61,7 +61,10 @@ angular.module('services', [])
             phone : function(data){return doRequest('user_bind_phone',data)},
             code : function(data){return doRequest('send_verify_code',data)},
 			add : function(data){return doRequest('user_add_requirement',data)},
+			// 业主需求详情
 			detail : function(data){return doRequest('user_requirement_detail',data)},
+			// 填写装修需求  现调用游客提交天使用户接口
+			sendTel : function(data){return doRequest('add_angel_user',data)},
 			get : function(data){return doRequest('user_one_requirement',data)},
 			update : function(data){return doRequest('user_update_requirement',data)},
 			designers : function(data){return doRequest('designers_user_can_order',data)},
