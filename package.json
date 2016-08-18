@@ -85,6 +85,7 @@
     "gulp-sourcemaps": "1.6.0",
     "gulp-rename": "1.2.2",
     "lazypipe": "1.0.1",
-    "gulp-imagemin": "3.0.3"
+    "gulp-imagemin": "3.0.3",
+    "minimist": "1.2.0"
   }
 }
