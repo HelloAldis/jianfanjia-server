@@ -12,16 +12,16 @@
   function MsgCenterCtrl($scope, $sce) {
     $scope.users = {
       0: {
-        name: 'Vlad',
+        name: 'Vlad'
       },
       1: {
-        name: 'Kostya',
+        name: 'Kostya'
       },
       2: {
-        name: 'Andrey',
+        name: 'Andrey'
       },
       3: {
-        name: 'Nasta',
+        name: 'Nasta'
       }
     };
 

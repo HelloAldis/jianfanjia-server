@@ -3,7 +3,7 @@
 var gulp = require('gulp');
 var wrench = require('wrench');
 const logger = require('./lib/common/logger');
-
+const gutil = require('gulp-util');
 /**
  *  This will load all js or coffee files in the gulp directory
  *  in order to load all gulp tasks
@@ -19,5 +19,7 @@ wrench.readdirSyncRecursive('./gulp').filter(function (file) {
  *  main optimization build task
  */
 gulp.task('default', function () {
-  logger.info('nothing here');
+  gutil.log('please use command "gulp release [-a|-b|-c]" to release app version');
+  gutil.log('please use command "gulp [product|qatest]" to deploy app in server');
+  gutil.log('please use command "gulp [deva|devu|devm]" to develop app in proxy mode');
 });

@@ -11,7 +11,7 @@
           url: 'api/v2/web/admin/search_team',
           data: {
             "query": {
-              "_id": $stateParams.id,
+              "_id": $stateParams.id
             },
             "sort": {
               "_id": 1

@@ -362,7 +362,7 @@
       link: function ($scope, $el, $att) {
         $scope.uploadImageClient = new UploadImageClient({
           id: $att.id,
-          maxImageCount: $scope.maxImageCount,
+          maxImageCount: $scope.maxImageCount
         });
 
         $scope.uploader.uploadImageClient = $scope.uploadImageClient;

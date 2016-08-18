@@ -229,17 +229,17 @@
       chart.querys = [{
         key: 'requirement',
         querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
-          package_type: '0',
+          package_type: '0'
         })
       }, {
         key: 'requirement',
         querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
-          package_type: '1',
+          package_type: '1'
         })
       }, {
         key: 'requirement',
         querys: queryUtil.genQuerys(chart.timeRanges, 'create_at', {
-          package_type: '2',
+          package_type: '2'
         })
       }];
 

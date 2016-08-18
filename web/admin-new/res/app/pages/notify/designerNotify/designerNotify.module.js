@@ -13,8 +13,8 @@
       title: '设计师消息推送',
       controller: 'DesignerNotifyController',
       sidebarMeta: {
-        order: 100,
-      },
+        order: 100
+      }
     });
   }
 

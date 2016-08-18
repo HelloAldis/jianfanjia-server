@@ -13,7 +13,7 @@
     return {
       scope: {
         curopt: '=',
-        opts: '=',
+        opts: '='
       },
       restrict: 'E',
       templateUrl: 'app/components/dropdown/strDropdown.html',
@@ -21,7 +21,7 @@
         $scope.selectAOption = function(choice){
           $scope.curopt = choice;
         };
-      },
+      }
     };
   }
 

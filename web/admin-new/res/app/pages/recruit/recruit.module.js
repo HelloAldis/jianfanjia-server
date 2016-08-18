@@ -17,8 +17,8 @@
         controller: 'RecruitListController',
         sidebarMeta: {
           icon: 'fa fa-pagelines',
-          order: 90,
-        },
+          order: 90
+        }
       });
   }
 

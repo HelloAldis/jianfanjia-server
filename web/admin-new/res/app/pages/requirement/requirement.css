@@ -22,3 +22,19 @@
 	margin: 0;
 	line-height: 25px;
 }
+.requirement-detail-page .breadcrumb .panel .designer-list{
+	box-shadow: none;
+	margin-left: -15px;
+}
+.requirement-detail-page .breadcrumb .panel .designer-list tbody{
+	background-color: transparent;
+}
+.requirement-detail-page .panel-info .table-reset{
+	box-shadow: none;
+}
+.requirement-detail-page .panel-info .table-reset tbody{
+	background-color: transparent;
+}
+.requirement-detail-page .panel-info .table-reset tbody .is-start{
+	color: #044c45;
+}

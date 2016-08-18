@@ -10,7 +10,7 @@
       }, {
         "num": 1,
         "name": '小贴士'
-      }, ];
+      } ];
       $scope.news = {
         "title": "",
         "keywords": "",

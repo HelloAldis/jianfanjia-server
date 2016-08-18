@@ -17,8 +17,8 @@
         controller: 'UserController',
         sidebarMeta: {
           icon: 'ion-android-person',
-          order: 30,
-        },
+          order: 30
+        }
       })
       .state('userInfo', {
         title: '业主列表',
@@ -31,6 +31,12 @@
         url: '/user/requirement/:id',
         templateUrl: 'app/pages/user/userRequirement.html',
         controller: 'UserRequirementController'
+      })
+      .state('userAddRequirement', {
+        title: '业主列表',
+        url: '/user/add/requirement/:id',
+        templateUrl: 'app/pages/user/userAddRequirement.html',
+        controller: 'UserAddRequirementController'
       });
   }
 

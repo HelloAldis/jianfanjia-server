@@ -17,8 +17,8 @@
         controller: 'DesignerController',
         sidebarMeta: {
           icon: 'ion-android-walk',
-          order: 40,
-        },
+          order: 40
+        }
       })
       .state('designerTeamList', {
         title: '施工团队列表',

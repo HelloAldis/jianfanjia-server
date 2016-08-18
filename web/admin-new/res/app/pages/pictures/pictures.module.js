@@ -17,8 +17,8 @@
         controller: 'PicturesListController',
         sidebarMeta: {
           icon: 'fa fa-picture-o',
-          order: 110,
-        },
+          order: 110
+        }
       })
       .state('picturesAdd', {
         title: '装修美图',

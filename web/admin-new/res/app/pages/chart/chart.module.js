@@ -22,8 +22,8 @@
         title: '数据图表',
         sidebarMeta: {
           icon: 'ion-stats-bars',
-          order: 1,
-        },
+          order: 1
+        }
       });
   }
 
@@ -41,7 +41,7 @@
         '#604536',
         '#DC5C9E',
         '#708090',
-        '#FFAB30',
+        '#FFAB30'
       ],
       responsive: true,
       scaleFontColor: layoutColors.defaultText,

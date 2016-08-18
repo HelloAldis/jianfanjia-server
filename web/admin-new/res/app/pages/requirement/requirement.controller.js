@@ -1,45 +1,55 @@
 (function () {
   angular.module('JfjAdmin.pages.requirement')
     .controller('RequirementController', [
-      '$scope', '$rootScope', 'adminRequirement', '$stateParams', '$location', 'mutiSelected',
-      function ($scope, $rootScope, adminRequirement, $stateParams, $location, mutiSelected) {
-        $scope.authList = [{
-          id: "0",
-          name: '未预约',
-          cur: false
-        }, {
-          id: "1",
-          name: '已预约无人响应',
-          cur: false
-        }, {
-          id: "2",
-          name: '有响应无人量房',
-          cur: false
-        }, {
-          id: "6",
-          name: '已量房无方案',
-          cur: false
-        }, {
-          id: "3",
-          name: '提交方案但无选定方案',
-          cur: false
-        }, {
-          id: "4",
-          name: '选定方案无配置合同',
-          cur: false
-        }, {
-          id: "7",
-          name: '已配置合同',
-          cur: false
-        }, {
-          id: "5",
-          name: '配置工地',
-          cur: false
-        }, {
-          id: "8",
-          name: '已完成',
-          cur: false
-        }];
+      '$scope', 'toastr', '$stateParams', '$location', 'mutiSelected', 'adminRequirement',
+      function ($scope, toastr, $stateParams, $location, mutiSelected, adminRequirement) {
+        $scope.authList = [
+          {
+            id: "0",
+            name: '未预约',
+            cur: false
+          },
+          {
+            id: "1",
+            name: '已预约无人响应',
+            cur: false
+          },
+          {
+            id: "2",
+            name: '有响应无人量房',
+            cur: false
+          },
+          {
+            id: "6",
+            name: '已量房无方案',
+            cur: false
+          },
+          {
+            id: "3",
+            name: '提交方案但无选定方案',
+            cur: false
+          },
+          {
+            id: "4",
+            name: '选定方案无配置合同',
+            cur: false
+          },
+          {
+            id: "7",
+            name: '已配置合同',
+            cur: false
+          },
+          {
+            id: "5",
+            name: '配置工地',
+            cur: false
+          },
+          {
+            id: "8",
+            name: '已完成',
+            cur: false
+          }
+        ];
 
         $scope.config = {
           title: '需求提交时间过滤：',

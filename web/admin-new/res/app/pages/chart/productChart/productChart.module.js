@@ -17,8 +17,8 @@
         controller: 'ProductChartController',
         sidebarMeta: {
           icon: 'ion-arrow-graph-up-right',
-          order: 10,
-        },
+          order: 10
+        }
       });
   }
 

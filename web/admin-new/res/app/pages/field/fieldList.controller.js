@@ -112,7 +112,7 @@
             //返回错误信息
             console.log(resp);
           })
-        };
+        }
 
         //排序
         $scope.sortData = function (sortby) {

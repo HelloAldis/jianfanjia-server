@@ -17,8 +17,8 @@
         controller: 'IndexController',
         sidebarMeta: {
           icon: 'fa fa-home',
-          order: 0,
-        },
+          order: 0
+        }
       });
   }
 

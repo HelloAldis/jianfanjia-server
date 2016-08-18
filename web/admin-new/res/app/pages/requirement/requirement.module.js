@@ -17,14 +17,13 @@
         controller: 'RequirementController',
         sidebarMeta: {
           icon: 'fa fa-building',
-          order: 10,
-        },
+          order: 10
+        }
       }).state('requirementDetail', {
         title: '需求列表',
         url: '/requirement/detail/:id',
         templateUrl: 'app/pages/requirement/requirementDetail.html',
-        controller: 'RequirementDetailController',
-      });
+        controller: 'RequirementDetailController'
+      })
   }
-
 })();

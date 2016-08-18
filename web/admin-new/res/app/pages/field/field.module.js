@@ -17,8 +17,8 @@
         controller: 'FieldListController',
         sidebarMeta: {
           icon: 'fa fa-wrench',
-          order: 70,
-        },
+          order: 70
+        }
       })
       .state('fieldDetail', {
         title: '工地管理后台',

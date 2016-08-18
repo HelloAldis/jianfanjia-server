@@ -17,8 +17,8 @@
         controller: 'SurveyListController',
         sidebarMeta: {
           icon: 'fa fa-file-text-o',
-          order: 120,
-        },
+          order: 120
+        }
       })
       .state('surveyDetail', {
         title: '问卷调查',

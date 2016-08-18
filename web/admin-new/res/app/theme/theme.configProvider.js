@@ -9,7 +9,7 @@
     default: '#ffffff',
     defaultText: '#666666',
     border: '#dddddd',
-    borderDark: '#aaaaaa',
+    borderDark: '#aaaaaa'
   };
 
   // main functional color scheme
@@ -18,7 +18,7 @@
     info: '#2dacd1',
     success: '#90b900',
     warning: '#dfb81c',
-    danger: '#e85656',
+    danger: '#e85656'
   };
 
   // dashboard colors for charts
@@ -27,7 +27,7 @@
     surfieGreen: '#0e8174',
     silverTree: '#6eba8c',
     gossip: '#b9f2a1',
-    white: '#10c4b5',
+    white: '#10c4b5'
   };
 
   angular.module('JfjAdmin.theme')
@@ -37,7 +37,7 @@
   function configProvider(colorHelper) {
     var conf = {
       theme: {
-        blur: false,
+        blur: false
       },
       colors: {
         default: basic.default,
@@ -68,8 +68,8 @@
           surfieGreen: dashboardColors.surfieGreen,
           silverTree: dashboardColors.silverTree,
           gossip: dashboardColors.gossip,
-          white: dashboardColors.white,
-        },
+          white: dashboardColors.white
+        }
       }
     };
 

@@ -17,8 +17,8 @@
         controller: 'PlansController',
         sidebarMeta: {
           icon: 'ion-android-clipboard',
-          order: 20,
-        },
+          order: 20
+        }
       });
   }
 

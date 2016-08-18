@@ -112,7 +112,7 @@
               return {
                 imageid: o._id,
                 width: o.width,
-                height: o.height,
+                height: o.height
               }
             });
 

@@ -1,8 +1,8 @@
 (function () {
   angular.module('JfjAdmin.pages.user')
     .controller('UserController', [
-      '$scope', '$rootScope', '$stateParams', '$location', 'adminUser',
-      function ($scope, $rootScope, $stateParams, $location, adminUser) {
+      '$scope', '$state', '$stateParams', '$location', 'adminUser',
+      function ($scope, $state, $stateParams, $location, adminUser) {
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
         $scope.config = {
           title: '业主注册时间过滤：',
@@ -132,7 +132,7 @@
         //初始化数据
         loadList($stateParams.detail);
 
-        // 显示模态框
+        // 显示添加业主模态框
         $scope.showModel = function () {
           $('.activeModal').modal('show');
           $scope.user = '';
@@ -155,6 +155,7 @@
               });
           }
         }
+
       }
     ]);
 })();

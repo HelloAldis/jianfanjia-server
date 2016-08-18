@@ -17,8 +17,8 @@
       title: '消息推送',
       sidebarMeta: {
         icon: 'fa fa-bell',
-        order: 50,
-      },
+        order: 50
+      }
     });
   }
 

@@ -1,16 +1,14 @@
 'use strict'
 /**
 
-gulp devu  启动pc开发网站 http://localhost:9000
 gulp deva  启动admin开发网站 http://localhost:9001
-gulp devm  启动移动端开发网站 http://localhost:9002
 
 */
 
 const gulp = require('gulp');
 const util = require('./util');
-const inject = require('gulp-inject');
 const mainBowerFiles = require('main-bower-files');
+const watch = require('gulp-watch');
 
 const admin_web_port = 9001;
 const admin_res = './web/admin-new/res';
@@ -23,29 +21,40 @@ gulp.task('admin-reload', function () { //监听变化
   return util.reload(admin_res);
 });
 
-gulp.task('admin-inject', function () {
-  var injectApp = gulp.src([admin_res + '/app/**/*.module.js', admin_res + '/app/**/*.js', '!' + admin_res + '/app/**/templates.js'], {
-    read: false
-  });
-  var injectAppOption = {
-    name: 'app',
-    relative: 'true'
-  };
-
-  var injectVender = gulp.src(mainBowerFiles({
+gulp.task('admin-inject-vender', function () {
+  return util.inject(admin_res + '/*.html', mainBowerFiles({
     paths: admin_res
-  }), {
-    read: false
-  });
-  var injectVenderOption = {
-    name: 'vender',
-    relative: 'true'
-  };
-
-  return gulp.src(admin_res + '/*.html')
-    .pipe(inject(injectApp, injectAppOption))
-    .pipe(inject(injectVender, injectVenderOption))
-    .pipe(gulp.dest(admin_res));
+  }), 'bower', admin_res);
 });
 
-gulp.task('deva', ['admin-connect', 'admin-reload', 'css', 'watch-css']);
+gulp.task('admin-inject-app', function () {
+  return util.inject(admin_res + '/*.html', [admin_res + '/app/**/*.module.js',
+    admin_res + '/app/**/*.js',
+    admin_res + '/app/**/*.css',
+    '!' + admin_res + '/app/**/templates.js'
+  ], 'app', admin_res);
+});
+
+gulp.task('admin-inject', ['admin-inject-vender', 'admin-inject-app']);
+
+gulp.task('admin-watch', function () {
+  watch(mainBowerFiles({
+    paths: admin_res
+  }), {
+    events: ['add', 'unlink']
+  }, function () {
+    gulp.start('admin-inject-vender');
+  });
+
+  watch([admin_res + '/app/**/*.module.js',
+    admin_res + '/app/**/*.js',
+    admin_res + '/app/**/*.css',
+    '!' + admin_res + '/app/**/templates.js'
+  ], {
+    events: ['add', 'unlink']
+  }, function () {
+    gulp.start('admin-inject-app');
+  });
+})
+
+gulp.task('deva', ['admin-connect', 'admin-reload', 'admin-watch']);
