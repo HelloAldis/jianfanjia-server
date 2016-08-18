@@ -1019,6 +1019,9 @@ a.m-head:hover{
 }
 .m-release:hover{
 	background-color: #fe5c04;
+}
+/*.m-release:hover{
+	background-color: #fe5c04;
 	-webkit-animation-duration: 1s;
     animation-duration: 1s;
     -webkit-animation-fill-mode: both;
@@ -1027,7 +1030,7 @@ a.m-head:hover{
     animation-name: bounce;
     -webkit-transform-origin: center bottom;
     transform-origin: center bottom
-}
+}*/
 .m-release span{
 	position: absolute;
 	left:-4px;
