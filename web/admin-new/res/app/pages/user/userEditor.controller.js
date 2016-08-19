@@ -1,29 +1,12 @@
 (function () {
   angular.module('JfjAdmin.pages.user')
     .controller('UserEditorController', [
-      '$scope', '$rootScope', '$stateParams', 'adminUser','initData',
-      function ($scope, $rootScope, $stateParams, adminUser, initData) {
-
+      '$scope', '$rootScope', '$stateParams', 'adminUser', 'initData', 'toastr',
+      function ($scope, $rootScope, $stateParams, adminUser, initData, toastr) {
         $scope.uploader1 = {};
-
         $scope.decStyle = initData.decStyle;
-
         $scope.userSex = initData.userSex;
-
-        $scope.dec_progress = [
-          {
-            "num": "0",
-            "txt": "我想看一看"
-          },
-          {
-            "num": "1",
-            "txt": "正在做准备"
-          },
-          {
-            "num": "2",
-            "txt": "已经开始装修"
-          }
-        ];
+        $scope.decProgress = initData.decProgress;
 
         adminUser.search({
           "query": {
@@ -34,22 +17,24 @@
         }).then(function (resp) {
           if (resp.data.data.total === 1) {
             $scope.user = resp.data.data.users[0];
+            $scope.checked = $scope.user.phone ? true : false;
           }
         }, function (resp) {
           //返回错误信息
           console.log(resp);
-
         });
 
-        $scope.editorUser = function(){
+        $scope.editorUser = function () {
           $scope.user.imageid = $scope.uploader1.uploadImageClient.getAllIds()[0];
           console.log($scope.user.imageid);
-          adminUser.editorUser($scope.user).then(function(resp){
+          adminUser.editorUser($scope.user).then(function (resp) {
             //返回信息
             if (resp.data.msg === "success") {
               window.history.back();
+            } else if (resp.data.err_msg) {
+              toastr.error(resp.data.err_msg);
             }
-          },function(resp){
+          }, function (resp) {
             //返回错误信息
             console.log(resp);
           })
