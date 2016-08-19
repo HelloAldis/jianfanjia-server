@@ -1,8 +1,8 @@
 (function () {
   angular.module('JfjAdmin.pages.requirement')
     .controller('RequirementDetailController', [
-      '$scope', '$stateParams', 'toastr', 'adminRequirement', 'adminDesigner',
-      function ($scope, $stateParams, toastr, adminRequirement, adminDesigner) {
+      '$scope', '$stateParams', '$filter', '$window', 'toastr', 'adminRequirement', 'adminDesigner',
+      function ($scope, $stateParams, $filter, $window, toastr, adminRequirement, adminDesigner) {
         $scope.requireDetail = function () {
           adminRequirement.requirementDetail({
             requirementid: $stateParams.id
@@ -162,41 +162,9 @@
           });
         }
 
-        // 预约方案状态验证
-        $scope.checkPlanStatus = function(status, type) {
-          if (status == 0) {
-            toastr.info('方案已预约但没有响应');
-            return true;
-          } else if (status == 1) {
-            toastr.info('设计师已拒绝业主');
-            return true;
-          } else if (status == 7) {
-            toastr.info('设计师无响应导致响应过期');
-            return true;
-          } else if (type == 'choosePlan') {
-            if (status == 0) {
-              toastr.info('已确认量房但是没有方案');
-              return true;
-            } else if (status == 2) {
-              toastr.info('已响应但是没有确认量房');
-              return true;
-            } else if (status == 6) {
-              toastr.info('已确认量房但是没有方案');
-              return true;
-            } else if (status == 8) {
-              toastr.info('设计师规定时间内没有上传方案，过期');
-              return true;
-            } else if (status == 9) {
-              toastr.info('业主已选定方案');
-              return true;
-            }
-          }
-          return false;
-        }
-
         // 选定方案
-        $scope.choosePlan = function (designer) {
-          var status = designer.plans[0].status;
+        $scope.choosePlan = function (designer, status) {
+          // var status = designer.plans[0].status;
           if ($scope.checkPlanStatus(status, 'choosePlan')) {
             return;
           }
@@ -231,6 +199,48 @@
             //返回错误信息
             console.log(err);
           });
+        }
+
+        // 预览方案
+        $scope.viewPlan = function (pid) {
+          // if ($scope.checkPlanStatus(status, 'choosePlan')) {
+          //   return;
+          // }
+          var url = '/tpl/user/plans.html?pid=' + pid;
+          $scope.afterFilter = $filter("pcUrl")(url);
+          $window.open($scope.afterFilter);
+        }
+
+        // 预约方案状态验证
+        $scope.checkPlanStatus = function(status, type) {
+          if (status == 0) {
+            toastr.info('需求已预约但没有响应');
+            return true;
+          } else if (status == 1) {
+            toastr.info('设计师已拒绝业主');
+            return true;
+          } else if (status == 7) {
+            toastr.info('设计师无响应导致响应过期');
+            return true;
+          } else if (type == 'choosePlan') {
+            if (status == 0) {
+              toastr.info('已确认量房但是没有方案');
+              return true;
+            } else if (status == 2) {
+              toastr.info('已响应但是没有确认量房');
+              return true;
+            } else if (status == 6) {
+              toastr.info('已确认量房但是没有方案');
+              return true;
+            } else if (status == 8) {
+              toastr.info('设计师规定时间内没有上传方案，过期');
+              return true;
+            } else if (status == 9) {
+              toastr.info('业主已选定方案');
+              return true;
+            }
+          }
+          return false;
         }
 
         // 需求状态认证

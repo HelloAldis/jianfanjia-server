@@ -6,7 +6,7 @@
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
         $scope.config = {
           title: '业主注册时间过滤：',
-          placeholder: '手机号码/用户业主/业主ID',
+          placeholder: '手机号码/业主名字/业主ID',
           search_word: $scope.search_word
         }
         $scope.delegate = {};
