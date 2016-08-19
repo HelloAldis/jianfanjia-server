@@ -2967,7 +2967,7 @@ angular.module('directives', [])
                 var $body = $('body');
                 var timer = null;
                 var images = scope.myList;
-                var title = attrs.title;
+                var title = attrs.title || '';
                 var length = images.length;
                 var iNum = 0;
                 ele.on('click',function(){
@@ -2980,7 +2980,7 @@ angular.module('directives', [])
                     var w = winW < 1000 ? winW : 1000;
                     var h = winH - 200;
                     var str =   '<div class="lightBox-header f-cb">\
-                                    <h3 class="f-fl title">'+title+'阶段</h3>\
+                                    <h3 class="f-fl title">'+title+'</h3>\
                                     <span class="pagenum f-fl"></span>\
                                     <span class="close f-fr"><i class="iconfont">&#xe642;</i></span>\
                                 </div>\
