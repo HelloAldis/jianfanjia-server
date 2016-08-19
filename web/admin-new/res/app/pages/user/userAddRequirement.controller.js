@@ -3,6 +3,19 @@
     .controller('UserAddRequirementController', [
       '$scope', '$stateParams', '$state', 'toastr', 'adminRequirement', 'adminDesigner', 'adminUser',
       function ($scope, $stateParams, $state, toastr, adminRequirement, adminDesigner, adminUser) {
+        // 装修类型
+        $scope.dec_type = [
+          {
+            "num": 0,
+            "name": '家装'
+          }, {
+            "num": 1,
+            "name": '商装'
+          }, {
+            "num": 2,
+            "name": '软装'
+          }
+        ];
         // 户型
         $scope.house_type = [
           {
@@ -48,13 +61,32 @@
         $scope.package_type = [
           {
             "num": 0,
-            "name": '默认包'
+             "name": '默认包'
           }, {
             "num": 1,
             "name": '365块每平米基础包'
           }, {
             "num": 2,
             "name": '匠心尊享包'
+          }
+        ];
+        // 计划常住成员
+        $scope.family_description = [
+          {
+            "num": '单身',
+            "name": '单身'
+          }, {
+            "num": '幸福小两口',
+            "name": '幸福小两口'
+          }, {
+            "num": '三口之家',
+            "name": '三口之家'
+          }, {
+            "num": '三代同堂',
+            "name": '三代同堂'
+          }, {
+            "num": '其他',
+            "name": '其他'
           }
         ];
         // 风格喜好
@@ -111,9 +143,11 @@
 
         // 初始化
         $scope.dataMapped = {
+          dec_type: "0",
           dec_style: "0",
           house_type: "0",
           work_type: "0",
+          family_description: "单身",
           package_type: "0",
           prefer_sex: "2",
           communication_type: "0"
@@ -124,8 +158,12 @@
           if ($scope.dataMapped) {
             adminUser.addRequirement(angular.merge($scope.dataMapped, {userid: $stateParams.id}))
             .then(function (resp) {
-              toastr.success('添加业主需求成功');
-              $state.go('requirementDetail', {id: resp.data.data.requirementid})
+              if(!resp.data.err_msg) {
+                toastr.success('添加业主需求成功');
+                $state.go('requirementDetail', {id: resp.data.data.requirementid});
+              } else {
+                toastr.error(resp.data.err_msg);
+              }
             }, function (err) {
               console.log(err);
             });

@@ -22,9 +22,9 @@
             controller: ['$scope', '$timeout', function ($scope, $timeout) {
 
                 var timer = null;
-                $scope.myProvince = !$scope.myProvince ? '请选择省份' : $scope.myProvince;
-                $scope.myCity = !$scope.myCity ? '请选择市' : $scope.myCity;
-                $scope.myDistrict = !$scope.myDistrict ? '请选择县/区' : $scope.myDistrict;
+                $scope.myProvince = !$scope.myProvince ? '湖北省' : $scope.myProvince;
+                $scope.myCity = !$scope.myCity ? '武汉市' : $scope.myCity;
+                $scope.myDistrict = !$scope.myDistrict ? '江岸区' : $scope.myDistrict;
                 console.log($scope.myProvince,$scope.myCity,$scope.myDistrict);
                 $scope.districtsArr = [];
                 $scope.closeTimer = function () {
