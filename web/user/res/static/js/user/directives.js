@@ -2980,7 +2980,7 @@ angular.module('directives', [])
                     var w = winW < 1000 ? winW : 1000;
                     var h = winH - 200;
                     var str =   '<div class="lightBox-header f-cb">\
-                                    <h3 class="f-fl title">'+title+'</h3>\
+                                    <h3 class="f-fl title">'+title+'+阶段</h3>\
                                     <span class="pagenum f-fl"></span>\
                                     <span class="close f-fr"><i class="iconfont">&#xe642;</i></span>\
                                 </div>\
@@ -3123,6 +3123,180 @@ angular.module('directives', [])
                             'width': imgW,
                             'height': imgH
                         }).attr('src', '/api/v2/web/image/'+images[index].imageid);
+                    }
+                }
+            }
+        };
+    })
+    .directive('myImagelarger', function () {
+        return {
+            restrict: 'A',
+            scope: {
+                myList : '='
+            },
+            replace : true,
+            template: '',
+            link: function (scope, ele, attrs) {
+                var doc = $(document);
+                var $body = $('body');
+                var timer = null;
+                var images = scope.myList;
+                var title = attrs.title || '';
+                var length = images.length;
+                var iNum = 0;
+                ele.on('click',function(){
+                    iNum = $($(this)).parents('.image-list').index();
+                    lightBox(title,iNum,length);
+                });
+                function lightBox(title,index,length){
+                    var winW = $(window).width();
+                    var winH = $(window).height();
+                    var w = winW < 1000 ? winW : 1000;
+                    var h = winH - 200;
+                    var str =   '<div class="lightBox-header f-cb">\
+                                    <h3 class="f-fl title">'+title+'</h3>\
+                                    <span class="pagenum f-fl"></span>\
+                                    <span class="close f-fr"><i class="iconfont">&#xe642;</i></span>\
+                                </div>\
+                                <div class="lightBox-body">\
+                                    <div class="img">\
+                                        <img alt="" />\
+                                    </div>\
+                                    <div class="toggle">\
+                                      <span class="prev '+(index === 0 ? "hide" : '')+'"><i class="iconfont">&#xe611;</i></span>\
+                                      <span class="next '+(index === length-1 ? "hide" : '')+'"><i class="iconfont">&#xe617;</i></span>\
+                                    </div>\
+                                </div>';
+                    var lightBox = $('<div class="image-lightBox"><div class="lightBox-content">'+str+'</div></div>');
+                    var mask = $('<div class="k-lightBox-mask"></div>');
+                    $body.append(mask);
+                    mask.fadeIn();
+                    $body.append(lightBox);
+                    var content = lightBox.find('.lightBox-content');
+                    var body = content.find('.lightBox-body');
+                    var img = body.find('img');
+                    var pagenum = lightBox.find('.pagenum');
+                    lightBox.fadeIn();
+
+                    lightBox.on('click','.close',function(){
+                        mask.remove();
+                        lightBox.remove();
+                        doc.off('.moveTo');
+                    });
+                    var prev = content.find('.prev');
+                    var next = content.find('.next');
+                    lightBox.on('click','.prev',function(){
+                        moveTo('prev');
+                    });
+                    lightBox.on('click','.next',function(){
+                        moveTo('next');
+                    });
+                    function moveTo(me){
+                        if(me === 'prev'){
+                            if(iNum == 0){
+                                iNum = 0;
+                            }else{
+                                iNum--;
+                            }
+                        }else if(me === 'next'){
+                            if(iNum == length - 1){
+                                iNum = length - 1;
+                            }else{
+                                iNum++;
+                            }
+                        }
+                        prev.toggleClass('hide',iNum < 1);
+                        next.toggleClass('hide',iNum > length - 2);
+                        setImgSize(iNum);
+                    }
+                    doc.on('keydown.moveTo',function(event){
+                        switch (event.keyCode) {
+                            case 37:    //左
+                                moveTo('prev');
+                                break;
+                            case 38:    //上
+                                moveTo('prev');
+                                break;
+                            case 39:    //右
+                                moveTo('next');
+                                break;
+                            case 40:    //下
+                                moveTo('next');
+                                break;
+                        }
+                    });
+                    doc.one('mousewheel.moveTo',mousewheelFn);
+                    doc.on('mousewheel.moveTo',function(ev){
+                        ev.preventDefault();
+                    });
+                    function mousewheelFn(ev,direction){
+                        if( direction < 1 ){  //向下滚动
+                            moveTo('next');
+                        }else{  //向上滚动
+                            moveTo('prev');
+                        }
+                        clearTimeout(timer);
+                        timer = setTimeout(function(){
+                            doc.one("mousewheel.moveTo",mousewheelFn);
+                        },1200);
+                    }
+                    body.css({
+                        'width': w,
+                        'height': h - 85,
+                        'left' : 0,
+                        'text-align':'center'
+                    });
+                    content.animate({
+                        'height'   : h,
+                        'top': 20
+                    });
+                    var $img = body.find('.img');
+                    setImgSize(index);
+                    function setImgSize(index){
+                        var imgW,imgH;
+                        var iW = images[index].width;
+                        var iH = images[index].height;
+                        var tuH = h - 85;
+                        var iWs,iHs,is;
+                        if(iW > w){
+                            iWs = w/iW;
+                        }else{
+                            iWs = 1;
+                        }
+                        if(iH > tuH){
+                            iHs = tuH/iH;
+                        }else{
+                            iHs = 1;
+                        }
+                        if(iWs > iHs){
+                            is = iHs
+                        }else{
+                            is = iWs
+                        }
+                        if(is*iW > w){
+                            imgW = w;
+                            imgH = is*iH*(w/(is*iW));
+                        }else{
+                            imgW = is*iW;
+                        }
+                        if(is*iH > tuH){
+                            imgW = is*iW*(tuH/(is*iH));
+                            imgH = tuH;
+                        }else{
+                            imgH = is*iH
+                        }
+                        pagenum.html('<strong>'+(index+1)+'</strong>/'+length);
+                        $img.css({
+                            'position':'relative',
+                            'width': imgW,
+                            'height': imgH,
+                            'margin-top':(tuH-imgH)/2,
+                            'margin-left':(w-imgW)/2
+                        })
+                        img.css({
+                            'width': imgW,
+                            'height': imgH
+                        }).attr('src', '/api/v2/web/image/'+images[index]._id);
                     }
                 }
             }

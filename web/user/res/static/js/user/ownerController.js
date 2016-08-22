@@ -323,7 +323,6 @@ angular.module('controllers', [])
       })
       .then(function (res) {
         $scope.requirement = res.data.data;
-        console.log($scope.requirement.plan.images);
         $scope.$broadcast('requirementParent', res.data.data); //父级传递
       }, function (res) {
         console.log(res)

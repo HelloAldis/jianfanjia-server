@@ -2675,13 +2675,14 @@ img.jcrop-preview {
 .diary li .boxs,.showDiary .banner .boxs{
 	position: absolute;
 	left:40px;
-	top:160px;
+	bottom: 20px;
+	/*top:160px;*/
 	z-index: 3;
 	color: #fff;
 }
 .diary li .boxs h4,.showDiary .banner .boxs h4{
 	font-size: 26px;
-	height: 44px;
+	/*height: 44px;*/
 	line-height: 44px;
 	color: #fff;
 }
@@ -3371,6 +3372,40 @@ img.jcrop-preview {
     background-color: #7b808c;
 }
 /* 大图预览 */
+.image-lightBox{
+	position: fixed;
+	left:0;
+	top:0;
+	bottom: 0;
+	right: 0;
+	z-index: 10001;
+	background-color: #000;
+}
+.image-lightBox .lightBox-content .lightBox-header .pagenum{
+	position: absolute;
+	left: -200px;
+}
+.image-lightBox .lightBox-content .lightBox-header .close{
+	position: absolute;
+	right: -200px;
+	opacity: 0.8;
+}
+.image-lightBox .lightBox-body .toggle span.next{
+	right: -200px;
+	opacity: 0.8;
+}
+.image-lightBox .lightBox-body .toggle span.prev{
+	left: -200px;
+	opacity: 0.8;
+}
+.image-lightBox .lightBox-content .lightBox-header .close:hover,
+.image-lightBox .lightBox-body .toggle span.next:hover,
+.image-lightBox .lightBox-body .toggle span.prev:hover{
+	opacity: 1.0
+}
+.image-lightBox .lightBox-body .toggle span i{
+	font-size: 30px;
+}
 .k-lightBox{
     position: fixed;
     left:0;
