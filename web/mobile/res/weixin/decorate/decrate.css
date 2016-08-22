@@ -1,0 +1,12 @@
+.decrate-page header{
+  background: url(img/decorate1.jpg) 0 0 no-repeat;
+  background-size: cover;
+}
+.decrate-page .top{
+  padding: 125px 75px;
+  color: #fff;
+  text-align: center;
+}
+.decrate-page .top p.border-box{
+  border: solid 1px #fff;
+}
