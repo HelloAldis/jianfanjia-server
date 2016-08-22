@@ -249,8 +249,10 @@
 * 3. 匠心定制
 
 平台
-* 0. 安卓
-* 1. iOS
-* 2. web
+* 0. 安卓APP
+* 1. iOSAPP
+* 2. PC web
 * 3. 微信
 * 4. 管理员
+* 5. iOS mobile web
+* 6. Android mobile web

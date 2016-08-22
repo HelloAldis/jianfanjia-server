@@ -153,7 +153,7 @@ $(function(){
             data : JSON.stringify({
                 "phone":this.phone.val(),
                 "name":this.name.val(),
-                "district":'监理服务web',
+                "district":'监理服务',
                 "house_area":undefined,
                 "total_price":undefined
             }),
@@ -188,46 +188,3 @@ $(function(){
     }
     var s = new Supervision().init();
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

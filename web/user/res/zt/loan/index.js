@@ -396,7 +396,7 @@ Shortcut.prototype = {
             return false;
         }
         var data = obj.strToJson($('#apply-form').serialize());
-        data.district = '诚一贷装修贷web';
+        data.district = '诚一贷装修贷';
         data.name = window.decodeURI(data.name);
         $.ajax({
             url : '/api/v2/web/add_angel_user',
