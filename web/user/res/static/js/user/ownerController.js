@@ -258,7 +258,7 @@ angular.module('controllers', [])
         if($scope.checkValidity($scope.user.tel, $scope.user.username)) {
           userRequiremtne.sendTel({
             phone: $scope.user.tel,
-            district: "web业主个人中心"
+            district: "业主个人中心"
           })
           .then(function (res) {
             $scope.user.errorText = false;
