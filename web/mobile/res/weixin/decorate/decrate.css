@@ -1,0 +1,181 @@
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+p,
+a,
+img,
+q,
+li,
+ul,
+form,
+dt,
+dd,
+dl,
+input {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+html{
+  font-size: 10px !important;
+}
+body {
+    /*font-size: 1.4rem;*/
+    /*font-size: 32px;
+    font-size: .32rem;*/
+    margin: 0 auto;
+    background: #fff;
+    font-family: 'STHeiti', 'Microsoft YaHei', Helvetica, Arial, sans-serif;
+    -webkit-text-size-adjust: none;
+    -webkit-overflow-scrolling: touch;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.decrate-page header{
+  background: url(img/decorate1.jpg) 0 0 no-repeat;
+  background-size: cover;
+}
+.decrate-page .top{
+  padding: 20% 10%;
+  color: #fff;
+  text-align: center;
+}
+.decrate-page .top .border-box{
+  position: relative;
+}
+.decrate-page .top p{
+  font-size: 1.6rem;
+  line-height: 2.0rem;
+}
+.decrate-page .top .border-box p{
+  /*border: solid 1px #fff;*/
+}
+.decrate-page .top .border-box span{
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  border: solid 1px #fff;
+}
+.decrate-page .top h1{
+  font-size: 3.2rem;
+  line-height: 4.0rem;
+}
+.decrate-page p.line{
+  text-align: center;
+}
+.decrate-page p.line span{
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.1rem;
+  margin: 0.75rem auto;
+  background-color: #fe7004;
+  text-align: center;
+}
+/*生活节奏*/
+.decrate-page section.life{
+  /*width: 7.5rem;*/
+  padding: 0.47rem;
+  height: 4.97rem;
+  position: relative;
+  background: url(img/decorate2.jpg) 0 0 no-repeat;
+  background-size: cover;
+  color: #fff;
+  text-align: center;
+}
+.decrate-page section.life h2{
+  font-size: 0.4rem;
+}
+.decrate-page section.life span.circle{
+  position: relative;
+  display: inline-block;
+  width: 1.6rem;
+  height: 1.67rem;
+  background: url(img/circle.png) 0 0 no-repeat;
+  background-size: cover;
+}
+.decrate-page section.life .circle-content{
+  padding-top: 2.0rem;
+}
+.decrate-page section.life span.circle .company{
+  position: absolute;
+  top: -0.6rem;
+  left: 0.5rem;
+}
+.decrate-page section.life span.circle .canteen{
+  position: absolute;
+  left: -1.0rem;
+  bottom: 0;
+}
+.decrate-page section.life span.circle .rent{
+  position: absolute;
+  right: -1.2rem;
+  bottom: 0;
+}
+.decrate-page section.life-content{
+  padding: 0.47rem;
+  font-size: 0.34rem;
+  line-height: 0.5rem;
+}
+.decrate-page section.life-content .bg-circle{
+  width: 1.35rem;
+  height: 1.35rem;
+  display: inline-block;
+  background-color: #eaeaea;
+  border-radius: 100%;
+  text-align: center;
+  line-height: 1.35rem;
+}
+.decrate-page section.life-content .desc1{
+  color: #fe7004;
+}
+.decrate-page section.life-content .desc2{
+  border: solid 1px #747474;
+  padding: 0.55rem 0.5rem;
+  font-size: 0.28rem;
+}
+
+.decrate-page section.step .bg{
+  height: 7.0rem;
+  width: 100%;
+  background: url('img/decorate3.jpg') 0 0 no-repeat;
+  background-size: cover;
+}
+.decrate-page section.step .content{
+  padding: 0.47rem;
+
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: .64rem;
+    height: 1.7333333333333334rem;
+    text-align: center;
+    line-height: 1.7333333333333334rem;
+    background-color: rgba(0, 0, 0, .7);
+}
+
+.footer a {
+    display: block;
+    height: 100%;
+    color: #fff;
+}
+
+.footer i {
+    display: inline-block;
+    vertical-align: middle;
+    width: .6666666666666666rem;
+    height: .6666666666666666rem;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAACLlBMVEX///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////84zaqNAAAAuXRSTlMAAQIDBAUGBwgKCwwNDg8QEhMUFRYXGRobHB4fISUmJygpKissLS4vMDE2Nzg5Ojs8PUBERUdISUtNT1BTVFZYWVpbXF5fYGFiZWZoaWpsbW5vcnh5ent8fn+AgYKDhYaHiYuMjY6PkpOVmJydnp+goaOlpqeoqaqrrK6vsLGys7W2t7i6vL2/wMLDxMbHyMnMz9DR0tPU1trc3d7f4OLj5OXm5+jp6uvs7e7v8fLz9PX29/j5+vv9/l1T+sEAAALRSURBVBgZjcGLQxMFAMfx34GuMFlqUiY9Bmn2gJRKrGigLA2dKVGJgZlWWAapPYZhFgmVhjofRYAYPnZFKjrMaHz/O9nmbbftbtvno1zLAvuOjZrRqDl6bF/gURVU+d4fZBjZUal8ngnNAlMDXVv99fX+YNfAFDDb+6zcLD0EmJ/Uliql9PmPI8CXFXLUdANGmucpy7z1IzAVUC7P53A9WCIHJZuvQbdHWcp/hoGlcvHQABz3KoP3DOw05Mpoh7Ne2Xh+IdaivDbFOHGf0rrhTRWwEQ4qJQA7VNC7sEn3PHyTfkMFGf3cWqakEJOLVYTFf/GtEmqgRUV5A2oUd5RzhlJWfP19hVwYZ/lRc54Av1JaZmB4oVw0gE/Sbv4skaWBuK/kwhhnj6SL7JalZIKEernoZEJ6HFbK8ghJYx45qwafgkwastw/S9JGuTDZpm76lHaGpO1y0csB/coupb1NwrUH5aKDk4oQUFr5deL2y80G/laUdbJpI254vly8zB1BnWzmnyfuU7moBcEa2a26Q9w7clYDmqZeGbaQ0C5HL/GfTJqVaT8JBxaotqdnlTI1MakhOpWp9AgJV34HYl0PyG4np/UFvcri+QGb8edk8w0HtQ1T2TwhbP5tUNplWuWDKmUzPsRmpkKWJ2GFdJkO5Xr9Bin/L5SlnauGtJcxQ7mW92M5JIsxykeSnoLX5OSVcySc98qyDp7WnEHCclb32W//jH+wQClhflLcGlivojTCi0r4johXRSi/Qr+SKqfpUxFC3H5M9wShTQW1wlalhIg1qgB/jD6llZ1iplF5+WcIl8lm0TCxNuXRGmN4iTIsOgV9XrnwHobwEmUpC0Fkgxw1XYVQmXJtnoZwg6EsxqthuB2Uo+VHgAsd1bKpen8MOFopNy8MMsc83Nm8dvXqtc0dvSZzBuuUT9WeCTJc2lutgnzBnqFIFKLmUM9bPuW4C5h5dmDQS4jJAAAAAElFTkSuQmCC) 0 0 no-repeat;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
