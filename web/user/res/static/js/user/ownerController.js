@@ -40,8 +40,8 @@ angular.module('controllers', [])
     }
   ])
   .controller('indexCtrl', [ //业主首页
-    '$scope', '$rootScope', '$http', '$filter', '$location', 'userInfo', 'userRequiremtne',
-    function ($scope, $rootScope, $http, $filter, $location, userInfo, userRequiremtne) {
+    '$scope', '$location', 'userInfo', 'initData',
+    function ($scope, $location, userInfo, initData) {
       if (userInfo.storage) {
         userInfo.get().then(function (res) {
           $scope.user = res.data.data;
@@ -51,6 +51,15 @@ angular.module('controllers', [])
         });
       } else {
         $scope.user = userInfo.pull;
+      }
+
+      $scope.goTo = function (data) {
+        var statusUrl = initData.statusUrl;
+        if (data.work_type == '纯设计' && data.status == 4) {
+          $location.path('requirement/' + data._id + "/" + statusUrl[8]);
+        } else {
+          $location.path('requirement/' + data._id + "/" + statusUrl[data.status]);
+        }
       }
     }
   ])
@@ -240,12 +249,13 @@ angular.module('controllers', [])
         $scope.user = {
           tel: undefined,
           sendRequireSuccess: false,
-          errorText: false
+          errorText: undefined,
+          username: undefined
         }
       }
       initUser()
       $scope.sendTel = function () {
-        if($scope.isMobile($scope.user.tel)) {
+        if($scope.checkValidity($scope.user.tel, $scope.user.username)) {
           userRequiremtne.sendTel({
             phone: $scope.user.tel,
             district: "web业主个人中心"
@@ -258,13 +268,26 @@ angular.module('controllers', [])
           }, function (err) {
             console.log(err);
           });
-        } else {
-          $scope.user.errorText = true;
         }
       }
 
-      $scope.isMobile = function (mobile){
-          return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile);
+      // 键入Enter
+      $scope.myKeyup = function keyupListen(e, search_word) {
+        if (e.keyCode === 13) {
+          $scope.sendTel();
+        }
+      };
+
+      $scope.checkValidity = function (mobile, username){
+        if (!username) {
+          $scope.user.errorText = '用户名不能为空';
+          return false;
+        }
+        if (/^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile)) {
+          return true;
+        }
+        $scope.user.errorText = '手机号不正确';
+        return false;
       }
 
       $scope.resetPage = function () {
@@ -299,7 +322,6 @@ angular.module('controllers', [])
         "_id": $stateParams.id
       })
       .then(function (res) {
-        console.log(res);
         $scope.requirement = res.data.data;
         $scope.$broadcast('requirementParent', res.data.data); //父级传递
       }, function (res) {

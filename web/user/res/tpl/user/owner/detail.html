@@ -112,10 +112,5 @@
 			</li>
 		</ul>
 	</div>
-	<div class="detail-btns" bo-if="requirement.status == 0">
-		<a bo-if="requirement.dec_type == 0" ui-sref="updateRequirement({id:requiremtneId})" class="u-btns u-btns-revise">修改装修需求</a>
-		<a bo-if="requirement.dec_type == 1" ui-sref="updateRequirementb({id:requiremtneId})" class="u-btns u-btns-revise">修改装修需求</a>
-		<a bo-href-i="owner.html#/requirement/{{requiremtneId}}/booking" class="u-btns">前往预约量房</a>
-	</div>
 </div>
 <div class="pageLoading" ng-hide="!!requirement"></div>

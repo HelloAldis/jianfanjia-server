@@ -41,7 +41,7 @@ body{
 	height: 46px;
 	padding-left: 19px;
 	line-height: 46px;
-	background-color: #f1f1f1;	
+	background-color: #f1f1f1;
 }
 .plans-ct .tabs li{
 	float: left;
@@ -171,7 +171,7 @@ body{
 }
 .plans-ct .description dl{
 	width: 1080px;
-	padding-left: 18px;	
+	padding-left: 18px;
 }
 .plans-ct .description dt{
 	line-height: 28px;
@@ -179,7 +179,7 @@ body{
 .plans-ct .description dt a{
 	margin-right: 15px;
 	font-size: 20px;
-	color: #383d48;	
+	color: #383d48;
 }
 .plans-ct .description dt span{
 	display: inline-block;
@@ -234,7 +234,7 @@ body{
 }
 .m-plansMsg .review{
 	position: relative;
-	padding: 19px 19px 15px 89px;	
+	padding: 19px 19px 15px 89px;
 }
 .m-plansMsg .head{
 	position: absolute;
@@ -247,7 +247,7 @@ body{
 	border-radius: 50px;
 }
 .m-plansMsg .head img{
-	width: 100%;		
+	width: 100%;
 }
 .m-plansMsg .review .textarea{
 	position: relative;
@@ -322,7 +322,7 @@ body{
 	cursor: pointer;
 }
 .m-plansMsg .more{
-	
+
 	line-height: 38px;
 	text-align: center;
 }
@@ -494,6 +494,8 @@ body{
 	font-weight: bold;
 	color: #fe7004;
 }
+
+/*大图浏览*/
 .m-lightBox{
 	position: fixed;
 	left: 0;

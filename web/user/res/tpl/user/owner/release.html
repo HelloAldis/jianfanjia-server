@@ -3,13 +3,19 @@
 		<h1><span class="span-tel">填写手机号码</span></h1>
 		<p>请输入手机号码，方便我们的客服人员与您联系</p>
 		<div class="input-box">
-			<form ng-submit="sendTel()">
+			<form ng-keyup="myKeyup($event)">
+				<div class="input-padding">
+					<span class="u-lab-user" for="login-account"><i class="user-img"></i></span>
+					<input type="text" name="phone" class="btn-tel" placeholder="请输入您的姓名"
+					ng-model="user.username" />
+				</div>
+
 				<div class="input-padding">
 					<span class="u-lab" for="login-account"><i class="iconfont">&#xe606;</i></span>
 					<input type="text" name="phone" class="btn-tel" placeholder="请输入手机号码"
 					ng-model="user.tel" />
 				</div>
-				<p class="text-error" ng-if="user.errorText">手机号不正确</p>
+				<p class="text-error" ng-if="user.errorText" ng-bind="user.errorText"></p>
 			</form>
 		</div>
 		<div>
