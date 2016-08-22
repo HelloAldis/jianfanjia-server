@@ -21,6 +21,7 @@
               ng-click="sortData('phone')">业主电话&nbsp;&nbsp;</div>
           </th>
           <th class="text-center">信息来源</th>
+          <th class="text-center">平台</th>
           <th class="text-center">装修面积</th>
           <th class="text-center">装修预算</th>
         </tr>
@@ -32,6 +33,7 @@
           <td>{{user.name ? user.name : '未填写'}}</td>
           <td class="text-left">{{user.phone}}</td>
           <td>{{user.district ? user.district : '未填写'}}</td>
+          <td>{{user.platform_type | platformFilter }}</td>
           <td class="text-left">{{user.house_area ? user.house_area : '0'}}m&sup2;</td>
           <td class="text-left">{{user.total_price}}万元</td>
         </tr>

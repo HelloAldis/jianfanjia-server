@@ -1,7 +1,9 @@
 'use strict'
 
-var TempUser = require('../../lib/proxy').TempUser;
-var type = require('../../lib/type/type');
+require('app-module-path').addPath(__dirname + '../../');
+
+var TempUser = require('lib/proxy').TempUser;
+var type = require('lib/type/type');
 var async = require('async');
 
 TempUser.count({}, function (err, count) {
