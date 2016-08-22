@@ -12,7 +12,8 @@ const api_router_app_v2 = require('lib/router/api_router_app_v2');
 const api_router_web_v2 = require('lib/router/api_router_web_v2');
 const responseUtil = require('lib/middlewares/response_util');
 const platform_check = require('lib/middlewares/platform_check');
-// const RedisStore = require('connect-redis')(session);
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const logger = require('lib/common/logger');
@@ -51,6 +52,26 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.raw({
   limit: '3mb',
   type: 'image/jpeg'
+}));
+
+app.use(require('cookie-parser')(config.session_secret));
+app.use(session({
+  cookie: {
+    // domain: '.jianfanjia.com',
+    path: '/',
+    httpOnly: true,
+    secure: false,
+    maxAge: config.session_time
+  },
+  secret: config.session_secret,
+  store: new RedisStore({
+    port: config.redis_port,
+    host: config.redis_host,
+    pass: config.redis_pass
+  }),
+  rolling: true,
+  resave: false,
+  saveUninitialized: false
 }));
 
 // 静态资源

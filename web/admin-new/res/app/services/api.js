@@ -66,6 +66,9 @@
         addUser: function (data) {
           return doAdminRequest('add_user', data);
         },
+        editorUser: function(data){
+          return doAdminRequest('update_user_info',data);
+        },
         addRequirement: function (data) {
           return doAdminRequest('add_requirement', data);
         }

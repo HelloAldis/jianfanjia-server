@@ -37,6 +37,12 @@
         url: '/user/add/requirement/:id',
         templateUrl: 'app/pages/user/userAddRequirement.html',
         controller: 'UserAddRequirementController'
+      })
+      .state('userEditor', {
+        title: '业主列表',
+        url: '/user/info/edit/:id',
+        templateUrl: 'app/pages/user/userEditor.html',
+        controller: 'UserEditorController'
       });
   }
 

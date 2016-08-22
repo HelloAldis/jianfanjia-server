@@ -36,8 +36,14 @@
 					<p class="f-fl" bo-text="requirement.plan.description"></p>
 				</div>
 				<ul class="images">
-					<li ng-repeat="img in requirement.plan.images track by $index">
-						<img bo-src-i="/api/v2/web/thumbnail2/280/180/{{img}}" alt="">
+					<li class="image-list" ng-repeat="img in requirement.plan.images track by $index">
+						<!-- <img bo-src-i="/api/v2/web/thumbnail2/280/180/{{img}}" alt=""> -->
+						<div class="img">
+							<img class="lightBox"
+								my-imagelarger my-list="requirement.plan.images"
+								bo-src-i="/api/v2/web/thumbnail2/280/180/{{img._id}}"
+								bindonce="requirement.plan.images">
+            </div>
 					</li>
 				</ul>
 				<div class="price-detail">

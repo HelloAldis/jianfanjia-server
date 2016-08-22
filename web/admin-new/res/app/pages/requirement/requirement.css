@@ -38,3 +38,15 @@
 .requirement-detail-page .panel-info .table-reset tbody .is-start{
 	color: #044c45;
 }
+.requirement-detail-page .breadcrumb .panel-info .tab-plan tbody{
+	border: none;
+}
+.requirement-detail-page .breadcrumb .panel-info .tab-plan tbody .tab-hide{
+	display: none;
+}
+.requirement-detail-page .breadcrumb .panel-info .tab-plan tbody td{
+	border: none;
+}
+.requirement-detail-page .breadcrumb .panel-info .tab-plan tbody .disable{
+	color: #a5a3a3;
+}

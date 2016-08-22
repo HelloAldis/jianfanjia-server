@@ -72,7 +72,7 @@
 					<a ui-sref="addRequirement" class="u-btns">发布装修需求</a>
 				</div>
 			</li>
-			<li bindonce="requirementList" ng-repeat="data in requirementList | limitTo : 3 track by $index">
+			<li bindonce="requirementList" ng-repeat="data in requirementList | limitTo : 3 track by $index" ng-click="goTo(data)">
 				<div class="tt f-cb">
 					<h4 class="f-fl">
 						<strong>物业地址</strong>

@@ -43,6 +43,7 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             });
         },
         lightBoxBindEvent : function(arr){
+            console.log('1',this.parent);
             var _this = this;
             var lightBox = $('<div class="m-lightBox"></div>');
             this.parent.find(this.select).css('cursor','pointer');
@@ -52,6 +53,9 @@ require(['jquery','lodash','lib/jquery.cookie','utils/common','lib/jquery.mousew
             });
         },
         lightBoxShow : function(obj,arr,index){
+            console.log(obj);
+            console.log(arr);
+            console.log(index);
             var timer = null;
             var win = $(window).width();
             var doc = this.doc;
