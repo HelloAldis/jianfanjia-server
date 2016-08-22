@@ -37,7 +37,9 @@
 					<td class="text-left">{{user.username ? user.username : '未填写'}}</td>
 					<td class="text-left">{{user.phone}}</td>
 					<td>{{user.sex ? (user.sex | sexFilter) : '未填写'}}</td>
-					<td><a ui-sref="userInfo({id:user._id})">点击查看</a></td>
+					<td><a ui-sref="userInfo({id:user._id})">查看</a> |
+						<a ui-sref="userEditor({id:user._id})">编辑</a>
+					</td>
 					<td>
 						<a ng-show="{{user.requirement.length > 0}}"
 							 ui-sref="userRequirement({id:user._id})">点击查看({{user.requirement.length}})</a>
