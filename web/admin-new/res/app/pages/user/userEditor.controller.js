@@ -26,7 +26,6 @@
 
         $scope.editorUser = function () {
           $scope.user.imageid = $scope.uploader1.uploadImageClient.getAllIds()[0];
-          console.log($scope.user.imageid);
           adminUser.editorUser($scope.user).then(function (resp) {
             //返回信息
             if (resp.data.msg === "success") {

@@ -39,7 +39,7 @@
         controller: 'UserAddRequirementController'
       })
       .state('userEditor', {
-        title: '业主列表',
+        title: '业主详细资料',
         url: '/user/info/edit/:id',
         templateUrl: 'app/pages/user/userEditor.html',
         controller: 'UserEditorController'
