@@ -1,8 +1,7 @@
 'use strict';
 
-var gulp = require('gulp');
-var wrench = require('wrench');
-const logger = require('./lib/common/logger');
+const gulp = require('gulp');
+const wrench = require('wrench');
 const gutil = require('gulp-util');
 /**
  *  This will load all js or coffee files in the gulp directory
