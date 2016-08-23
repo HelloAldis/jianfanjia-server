@@ -16,63 +16,61 @@ dt,
 dd,
 dl,
 input {
-    margin: 0;
-    padding: 0;
-    border: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 body {
-    /*font-size: 32px;
-    font-size: .32rem;*/
-    margin: 0 auto;
-    background: #fff;
-    font-family: 'STHeiti', 'Microsoft YaHei', Helvetica, Arial, sans-serif;
-    -webkit-text-size-adjust: none;
-    -webkit-overflow-scrolling: touch;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
+  margin: 0 auto;
+  background: #fff;
+  font-family: 'STHeiti', 'Microsoft YaHei', Helvetica, Arial, sans-serif;
+  -webkit-text-size-adjust: none;
+  -webkit-overflow-scrolling: touch;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 a,
 a:active,
 a:hover,
 a:focus,
 a:visited {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 a,
 img {
-    -webkit-touch-callout: none;
+  -webkit-touch-callout: none;
 }
 
 ol,
 ul,
 li {
-    list-style: none;
+  list-style: none;
 }
 
 img {
-    vertical-align: top;
+  vertical-align: top;
 }
 
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 1000px #f9f9f9 inset;
-    border: 1px solid #CCC!important;
+  -webkit-box-shadow: 0 0 0 1000px #f9f9f9 inset;
+  border: 1px solid #CCC!important;
 }
 
 textarea,
 input[type="password"],
 input[type="text"],
 input[type="submit"] {
-    resize: none;
-    outline: 0;
-    -webkit-appearance: none;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    background: #fff;
+  resize: none;
+  outline: 0;
+  -webkit-appearance: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background: #fff;
 }
 
 
@@ -144,7 +142,6 @@ input[type="submit"] {
   text-align: center;
 }
 .decrate-page section.life .circle-content{
-  /*padding-top: 2.0rem;*/
   position: absolute;
   bottom: 0.6rem;
   left: 50%;
@@ -206,7 +203,6 @@ input[type="submit"] {
 .decrate-page section.life-content .para2{
   width: 25%;
   float: left;
-  /*margin: 0.64rem auto 0.64rem;*/
 }
 .decrate-page section.life-content .para2 span{
   margin-right: 0.56rem;
@@ -291,8 +287,6 @@ input[type="submit"] {
   display: inline-block;
   width: 3.066667rem;
   height: 3.1rem;
-  /*background: url('img/circle1.jpg') 0 0 no-repeat;*/
-  /*background-size: cover;*/
 }
 .decrate-page section.step .four-step-detail .step-1 span{
   background: url('img/circle1.jpg') 0 0 no-repeat;
@@ -353,7 +347,7 @@ input[type="submit"] {
 }
 .decrate-page section.join h4{
   font-size: 0.666667rem;
-  line-height: 1.066667rem;
+  line-height: 1.2rem;
   text-align: center;
 }
 .decrate-page section.join .change{
