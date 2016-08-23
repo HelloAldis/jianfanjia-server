@@ -181,7 +181,7 @@ $(function(){
             data : JSON.stringify({
                 "phone":this.phone.val(),
                 "name":this.name.val(),
-                "district":'贷款保险web',
+                "district":'贷款保险',
                 "house_area":undefined,
                 "total_price":undefined
             }),
@@ -215,46 +215,3 @@ $(function(){
     }
     var s = new Supervision().init();
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

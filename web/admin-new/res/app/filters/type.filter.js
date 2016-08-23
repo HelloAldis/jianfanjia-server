@@ -218,6 +218,19 @@
         }[input];
       };
     })
+    .filter('platformFilter', function () {
+      return function (input) {
+        return {
+          '0': '安卓APP',
+          '1': 'iOSAPP',
+          '2': 'PC web',
+          '3': '微信',
+          '4': '管理员',
+          '5': 'iOS web',
+          '6': '安卓 web'
+        }[input];
+      };
+    })
     .filter('fieldsNameFilter', function () {
       return function (input) {
         return {

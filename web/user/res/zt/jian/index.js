@@ -159,7 +159,7 @@ $(function () {
         data: JSON.stringify({
           "phone": this.phone.val(),
           "name": this.name.val(),
-          "district": '简+web',
+          "district": '简+',
           "house_area": undefined,
           "total_price": undefined
         }),
