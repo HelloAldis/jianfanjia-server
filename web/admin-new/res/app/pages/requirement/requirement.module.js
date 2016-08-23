@@ -20,7 +20,7 @@
           order: 10
         }
       }).state('requirementDetail', {
-        title: '需求列表',
+        title: '需求详情',
         url: '/requirement/detail/:id',
         templateUrl: 'app/pages/requirement/requirementDetail.html',
         controller: 'RequirementDetailController'
