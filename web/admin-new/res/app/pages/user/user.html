@@ -46,7 +46,8 @@
 						<span ng-show="{{user.requirement.length == 0}}">暂无需求</span>
 					</td>
 					<td>
-						<a ui-sref="userAddRequirement({id:user._id})">提交需求</a>
+						<!-- <a ui-sref="userAddRequirement({id:user._id})">提交需求</a> -->
+						<a href="javascript:;" ng-click="userAddRequirement(user._id, user.phone)">提交需求</a>
 					</td>
 				</tr>
 			</tbody>

@@ -1,8 +1,8 @@
 (function () {
   angular.module('JfjAdmin.pages.user')
     .controller('UserController', [
-      '$scope', '$state', '$stateParams', '$location', 'adminUser',
-      function ($scope, $state, $stateParams, $location, adminUser) {
+      '$scope', '$state', 'toastr', '$stateParams', '$location', 'adminUser',
+      function ($scope, $state, toastr, $stateParams, $location, adminUser) {
         $stateParams.detail = JSON.parse($stateParams.detail || '{}');
         $scope.config = {
           title: '业主注册时间过滤：',
@@ -153,6 +153,15 @@
               }, function (err) {
                 console.log(err);
               });
+          }
+        }
+
+        // 提交需求
+        $scope.userAddRequirement = function (id, phone) {
+          if (phone) {
+            $state.go('userAddRequirement', {id: id})
+          } else {
+            toastr.info('请先绑定手机号');
           }
         }
 

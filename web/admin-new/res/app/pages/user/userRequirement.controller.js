@@ -13,6 +13,7 @@
           "from": 0,
           "limit": 10
         }).then(function (resp) {
+          console.log(resp);
           if (resp.data.data.total !== 0) {
             $scope.requireList = resp.data.data.requirements;
           }
