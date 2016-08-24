@@ -163,19 +163,18 @@
         }
 
         // 选定方案
-        $scope.choosePlan = function (designer, status) {
-          // var status = designer.plans[0].status;
-          if ($scope.checkPlanStatus(status, 'choosePlan')) {
+        $scope.choosePlan = function (designer, plan) {
+          if ($scope.checkPlanStatus(plan.status, 'choosePlan')) {
             return;
           }
           adminRequirement.planChoose({
-            planid: designer.plans[0]._id,
+            planid: plan._id,
             designerid: designer._id,
             requirementid: $stateParams.id
           }).then(function (resp) {
             if (resp.data.msg === 'success') {
               toastr.success('方案选定成功');
-              designer.plans[0].status = 5;  // 5. 方案被选中
+              plan.status = 5;  // 5. 方案被选中
             } else {
               toastr.error(resp.data.err_msg);
             }
@@ -203,9 +202,6 @@
 
         // 预览方案
         $scope.viewPlan = function (pid) {
-          // if ($scope.checkPlanStatus(status, 'choosePlan')) {
-          //   return;
-          // }
           var url = '/tpl/user/plans.html?pid=' + pid;
           $scope.afterFilter = $filter("pcUrl")(url);
           $window.open($scope.afterFilter);
