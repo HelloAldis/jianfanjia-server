@@ -21,7 +21,7 @@
         }
       })
       .state('userInfo', {
-        title: '业主列表',
+        title: '业主详细资料',
         url: '/user/info/:id',
         templateUrl: 'app/pages/user/userInfo.html',
         controller: 'UserInfoController'
