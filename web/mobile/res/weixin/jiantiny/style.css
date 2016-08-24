@@ -500,7 +500,7 @@ h4 span {
 }
 .explain li {
   height: 4.0rem;
-  margin-top: 1px;
+  margin-top: 0rem;
   padding-left: 0.8rem;
   background-color: #ccc;
   color: #fff;
@@ -510,19 +510,16 @@ h4 span {
   -webkit-background-size: cover;
   background-size: cover;
 }
-.explain li:nth-child(2) {
+.explain li:nth-child(1) {
   background-image: url(img/explain_02.jpg);
 }
-.explain li:nth-child(3) {
+.explain li:nth-child(2) {
   background-image: url(img/explain_03.jpg);
 }
-.explain li:nth-child(4) {
+.explain li:nth-child(3) {
   background-image: url(img/explain_04.jpg);
 }
-.explain li:nth-child(5) {
-  background-image: url(img/explain_05.jpg);
-}
-.explain li:nth-child(6) {
+.explain li:nth-child(4) {
   background-image: url(img/explain_06.jpg);
 }
 .explain li h4 {
