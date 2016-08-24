@@ -176,6 +176,7 @@
 					<tbody ng-repeat="user in designerList">
 						<tr class="info thead" ng-class="{false:'tab-hide'}[$even]">
 							<th>方案Id</th>
+							<th>方案名字</th>
 							<th>提交时间</th>
 							<th>获取电话时间</th>
 							<th>量房时间</th>
@@ -188,6 +189,7 @@
 						</tr>
 						<tr ng-class="{false:'tr-odd'}[$even]" ng-repeat="plan in user.plans">
 							<td>{{plan._id}}</td>
+							<td>{{plan.name}}</td>
 							<td>{{plan.request_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 							<td>{{plan.get_phone_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 							<td>{{plan.house_check_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
@@ -205,7 +207,7 @@
 							</td>
 							<td>
 								<button type="button" class="btn btn-primary"
-								ng-click="choosePlan(user, plan.status)"
+								ng-click="choosePlan(user, plan)"
 								ng-if="plan.status != 5">选中</button>
 								<span ng-if="plan.status == 5">已选中</span>
 							</td>
