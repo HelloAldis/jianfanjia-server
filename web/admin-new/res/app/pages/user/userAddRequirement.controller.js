@@ -155,7 +155,7 @@
 
         // 提交业主需求
         $scope.addUserRequirement = function () {
-          if ($scope.dataMapped) {
+          if ($scope.checkValid($scope.dataMapped)) {
             adminUser.addRequirement(angular.merge($scope.dataMapped, {userid: $stateParams.id}))
             .then(function (resp) {
               if(!resp.data.err_msg) {
@@ -168,6 +168,17 @@
               console.log(err);
             });
           }
+        }
+
+        $scope.checkValid = function (dataMapped) {
+          if (!dataMapped.house_area) {
+            toastr.info('建筑面积未填写');
+            return false;
+          } else if (!dataMapped.total_price) {
+            toastr.info('装修预算未填写');
+            return false;
+          }
+          return true;
         }
       }
     ]);

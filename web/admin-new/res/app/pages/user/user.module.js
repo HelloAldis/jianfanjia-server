@@ -33,7 +33,7 @@
         controller: 'UserRequirementController'
       })
       .state('userAddRequirement', {
-        title: '业主列表',
+        title: '提交需求',
         url: '/user/add/requirement/:id',
         templateUrl: 'app/pages/user/userAddRequirement.html',
         controller: 'UserAddRequirementController'
