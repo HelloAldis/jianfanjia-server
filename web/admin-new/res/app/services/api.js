@@ -151,6 +151,9 @@
         },
         processConfirm: function (data) {
           return doAdminRequest('start_process', data);
+        },
+        requirementUpdate : function(data) {
+          return doAdminRequest('update_requirement',data);
         }
       };
     }])

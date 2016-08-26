@@ -37,7 +37,8 @@
 					<td>{{user.user.username}}</td>
 					<td>{{user.basic_address}}</td>
 					<td>
-						<a ui-sref="requirementDetail({id:user._id})">点击查看</a>
+						<a ui-sref="requirementDetail({id:user._id})">查看</a> |
+						<a ui-sref="requirementEditor({id:user._id})">编辑</a>
 					</td>
 				</tr>
 			</tbody>
