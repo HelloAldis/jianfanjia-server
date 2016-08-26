@@ -35,7 +35,7 @@ apiconfig.js
 .idea
 
 #dist web files
-dist
+admin-new/dist
 
 #angularjs templates js file
 templates.js
