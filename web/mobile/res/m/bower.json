@@ -1,0 +1,21 @@
+{
+  "name": "bower",
+  "homepage": "https://github.com/adminJyz/jianfanjia-server",
+  "authors": [
+    "karosLi <karosli1314@gmail.com>"
+  ],
+  "description": "bower",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "3.1.0",
+    "bootstrap": "3.3.7"
+  }
+}
