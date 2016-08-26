@@ -24,6 +24,11 @@
         url: '/requirement/detail/:id',
         templateUrl: 'app/pages/requirement/requirementDetail.html',
         controller: 'RequirementDetailController'
+      }).state('requirementEditor', {
+        title: '需求详情',
+        url: '/requirement/editor/:id',
+        templateUrl: 'app/pages/requirement/requirementEditor.html',
+        controller: 'RequirementEditorController'
       })
   }
 })();
