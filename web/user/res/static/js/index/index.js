@@ -36,21 +36,21 @@ require(['jquery','index/tabs','index/Scrollswitch'],function($,Tabs,Scrollswitc
     var $designers = $('#j-designers');
     var $designersList = $designers.find('.list');
     var list = new Scrollswitch({
-            id : '#j-potter',
-            count : 5,
-            auto : false,
-            hover : true,
-            offset : $('#j-potter').offset().top
-        });
-        list.init();
+        id : '#j-potter',
+        count : 5,
+        auto : false,
+        hover : true,
+        offset : $('#j-potter').offset().top
+    });
+    list.init();
     var list = new Scrollswitch({
-            id : $designersList.eq(0),
-            count : 10,
-            auto : false,
-            hover : true,
-            offset : $designers.offset().top
-        });
-        list.init();
+        id : $designersList.eq(0),
+        count : 10,
+        auto : false,
+        hover : true,
+        offset : $designers.offset().top
+    });
+    list.init();
     var designer = new Tabs('#j-designers','click',function(index){
         list.stop();
         list = new Scrollswitch({
@@ -75,7 +75,7 @@ require(['jquery','index/tabs'],function($,Tabs){
     var media = new Tabs('#j-media');
     $(function(){
        media.init();
-    })
+   })
 });
 require(['jquery','lib/jquery.cookie','index/goto'],function($,cookie,Goto){
     var goto = new Goto();
@@ -90,4 +90,10 @@ require(['jquery','lib/jquery.cookie','index/goto'],function($,cookie,Goto){
             })
         });
     }
+});
+require(['jquery','index/getBudget'],function($,User){
+    var budget = new User('#j-budget');
+    $(function(){
+        budget.init();
+    })
 });

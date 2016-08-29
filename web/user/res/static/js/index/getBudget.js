@@ -1,8 +1,9 @@
 define(['jquery'], function($){
-	var User = function(id){
+	var Budget = function(id){
 		this.id = id;
+		console.log('1', this.id)
 	}
-	User.prototype = {
+	Budget.prototype = {
 		init : function(){
 			this.container = $(this.id);
 			this.bindEvent();
@@ -50,5 +51,5 @@ define(['jquery'], function($){
 			});
 		}
 	}
-	return User;
+	return Budget;
 });
