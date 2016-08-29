@@ -5,6 +5,7 @@
 }
 .screen2 {
   position: absolute;
+  display: none;
   float: left;
   width: 100%;
   top: 0px;
@@ -13,6 +14,7 @@
 }
 .screen3 {
   position: absolute;
+  display: none;
   float: left;
   width: 100%;
   top: 0px;
