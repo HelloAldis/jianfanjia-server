@@ -1,24 +1,35 @@
+html {
+  font-size: 62.5%;
+}
+body {
+  position: relative;
+  font-family: Helvetica;
+  background: url(bg.jpg) no-repeat;
+  -webkit-background-size: 100% 100%;
+  background-size: 100% 100%;
+  -webkit-overflow-scrolling: touch;
+  overflow: auto;
+}
+.content {
+  position: relative;
+}
 .homePage {
   width: 100%;
   height: auto;
   background-color: #123695;
   color: #FF0000;
 }
-.calcPriceHouse {
+.calcPriceHouse, .calcPriceStyle {
   position: absolute;
   display: none;
   width: 100%;
   height: auto;
   top: 0px;
-  background-color: #369715;
   color: #FF0000;
 }
+.calcPriceHouse {
+  background-color: #369715;
+}
 .calcPriceStyle {
-  position: absolute;
-  display: none;
-  width: 100%;
-  height: auto;
-  top: 0px;
   background-color: #551668;
-  color: #FF0000;
 }
