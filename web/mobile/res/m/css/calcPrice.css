@@ -1,23 +1,24 @@
-.screen1 {
+.homePage {
   width: 100%;
+  height: auto;
   background-color: #123695;
   color: #FF0000;
 }
-.screen2 {
+.calcPriceHouse {
   position: absolute;
   display: none;
-  float: left;
   width: 100%;
-  top: 0px;
-  background-color: #641695;
-  color: #FF0000;
-}
-.screen3 {
-  position: absolute;
-  display: none;
-  float: left;
-  width: 100%;
+  height: auto;
   top: 0px;
   background-color: #369715;
+  color: #FF0000;
+}
+.calcPriceStyle {
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: auto;
+  top: 0px;
+  background-color: #551668;
   color: #FF0000;
 }
