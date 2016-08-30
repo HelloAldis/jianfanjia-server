@@ -197,7 +197,7 @@
         }[input];
       };
     })
-    .filter('userInfoProgress', function () {  // 业主详情页装修阶段
+    .filter('userInfoProgress', function () { // 业主详情页装修阶段
       return function (input) {
         return {
           "0": "我想看一看",
@@ -284,6 +284,18 @@
           return 'http://dev.jianfanjia.com' + port + url;
         } else {
           return 'http://www.jianfanjia.com' + url;
+        }
+      };
+    })
+    .filter('mobileUrl', function () { //性别筛选
+      return function (url) {
+        var port = window.location.port ? ':' + window.location.port : '';
+        if (window.location.hostname == 'localhost') {
+          return 'http://127.0.0.1' + port + url;
+        } else if (window.location.hostname == 'devgod.jianfanjia.com') {
+          return 'http://devm.jianfanjia.com' + port + url;
+        } else {
+          return 'http://m.jianfanjia.com' + url;
         }
       };
     });
