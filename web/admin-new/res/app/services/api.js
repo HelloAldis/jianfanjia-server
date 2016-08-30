@@ -169,6 +169,17 @@
       };
     }])
     /**
+    *[管理员获取报价相关]
+    * @param {[search]} [搜索报价]
+    */
+    .factory('adminQuotation',['doAdminRequest',function(doAdminRequest){
+      return {
+        search: function (data) {
+            return doAdminRequest('search_quotation',data);
+        }
+      }
+    }])
+    /**
      * [管理员获取作品相关]
      * @param  {[search]} [搜索作品]
      * @param  {[auth]} [作品审核认证]

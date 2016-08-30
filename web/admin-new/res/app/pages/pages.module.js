@@ -26,7 +26,8 @@
       'JfjAdmin.pages.comment',
       'JfjAdmin.pages.supervisor',
       'JfjAdmin.pages.image',
-      'JfjAdmin.pages.notify'
+      'JfjAdmin.pages.notify',
+      'JfjAdmin.pages.quotation'
     ])
     .config(routeConfig);
 
