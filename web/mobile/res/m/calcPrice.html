@@ -7,81 +7,98 @@
     <link rel="stylesheet" href="bower_components/animate.css/animate.min.css">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/calcPrice.css">
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <nav>
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-4 leftNavItem">
-            dsafsaf
-          </div>
-          <div class="col-xs-4 title">
-            简繁家
-          </div>
-          <div class="col-xs-4 rightNavItem">
-            dsafsaf
-          </div>
-        </div>
-      </div>
-    </nav>
     <div class="content">
       <div class="homePage">
-        <nav>
-          next
-        </nav>
-        calc-price-area
+        <p>
+          calc-price-area
+        </p>
+        <button type="button" class="btnSubmit">获取装修预算</button>
       </div>
       <div class="calcPriceHouse">
-        <nav>
-          back
-        </nav>
-        <nav>
-          next
-        </nav>
-        calc-price-house
+        <p>
+          calc-price-house
+        </p>
+        <button type="button" class="btnSubmit">下一步</button>
       </div>
       <div class="calcPriceStyle">
-        <nav>
-          back
-        </nav>
-        calc-price-style
+        <p>
+          calc-price-style
+        </p>
+        <button type="button" class="btnSubmit">生成装修预算</button>
       </div>
     </div>
     <footer></footer>
-
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-      $(document).ready(function(){
-        var homePage = $('.homePage');
-        var calcPriceHouse = $('.calcPriceHouse');
-        var calcPriceStyle = $('.calcPriceStyle');
+      var _history = [];
 
-        $('.homePage>nav').click(function () {
-          calcPriceHouse.show();
-          animateView(homePage, 'slideOutLeft');
-          animateView(calcPriceHouse, 'slideInRight');
-        });
-        $('.calcPriceHouse>nav:nth-child(1)').click(function () {
-          animateView(homePage, 'slideInLeft');
-          animateView(calcPriceHouse, 'slideOutRight');
-        });
-        $('.calcPriceHouse>nav:nth-child(2)').click(function () {
-          calcPriceStyle.show();
-          animateView(calcPriceHouse, 'slideOutLeft');
-          animateView(calcPriceStyle, 'slideInRight');
-        });
-        $('.calcPriceStyle>nav').click(function () {
-          animateView(calcPriceHouse, 'slideInLeft');
-          animateView(calcPriceStyle, 'slideOutRight');
-        });
+      var homePage = $('.homePage');
+      var calcPriceHouse = $('.calcPriceHouse');
+      var calcPriceStyle = $('.calcPriceStyle');
+
+      var homePageTag = 'homePageTag';
+      var calcPriceHouseTag = 'calcPriceHouseTag';
+      var calcPriceStyleTag = 'calcPriceStyleTag';
+
+      $('.homePage .btnSubmit').click(function () {
+        calcPriceHouse.show();
+        pushToHouse();
+        pushState(homePageTag, calcPriceHouseTag);
       });
+      $('.calcPriceHouse .btnSubmit').click(function () {
+        calcPriceStyle.show();
+        pushToStyle();
+        pushState(calcPriceHouseTag, calcPriceStyleTag);
+      });
+      $('.calcPriceStyle .btnSubmit').click(function () {
+
+      });
+
+      function popToHome() {
+        animateView(homePage, 'slideInLeft');
+        animateView(calcPriceHouse, 'slideOutRight');
+      }
+
+      function pushToHouse() {
+        animateView(homePage, 'slideOutLeft');
+        animateView(calcPriceHouse, 'slideInRight');
+      }
+
+      function popToHouse() {
+        animateView(calcPriceHouse, 'slideInLeft');
+        animateView(calcPriceStyle, 'slideOutRight');
+      }
+
+      function pushToStyle() {
+        animateView(calcPriceHouse, 'slideOutLeft');
+        animateView(calcPriceStyle, 'slideInRight');
+      }
 
       function animateView(element, clz) {
         var animateValue = clz + ' animated';
         element.removeClass('slideOutLeft slideOutRight slideInLeft slideInRight animated');
         element.addClass(animateValue);
       }
+
+      function pushState(preS, curS) {
+        var state = {pre:preS};
+        window.history.pushState(null, curS, null);
+        _history.push(state);
+      }
+
+      window.addEventListener('popstate', function (e) {
+        var state = _history.pop();
+        if (!state) return;
+        var preState = state.pre;
+        if (preState === homePageTag) {
+          popToHome();
+        } else if (preState === calcPriceHouseTag) {
+          popToHouse();
+        }
+      });
     </script>
   </body>
 </html>
