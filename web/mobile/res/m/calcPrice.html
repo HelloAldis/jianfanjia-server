@@ -7,56 +7,73 @@
     <link rel="stylesheet" href="bower_components/animate.css/animate.min.css">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/calcPrice.css">
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <section class="screen1">
-      <nav>
-        next
-      </nav>
-      1
-    </section>
-    <section class="screen2">
-      <nav>
-        back
-      </nav>
-      <nav>
-        next
-      </nav>
-      2
-    </section>
-    <section class="screen3">
-      <nav>
-        back
-      </nav>
-      3
-    </section>
+    <nav>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-4 leftNavItem">
+            dsafsaf
+          </div>
+          <div class="col-xs-4 title">
+            简繁家
+          </div>
+          <div class="col-xs-4 rightNavItem">
+            dsafsaf
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="content">
+      <div class="homePage">
+        <nav>
+          next
+        </nav>
+        calc-price-area
+      </div>
+      <div class="calcPriceHouse">
+        <nav>
+          back
+        </nav>
+        <nav>
+          next
+        </nav>
+        calc-price-house
+      </div>
+      <div class="calcPriceStyle">
+        <nav>
+          back
+        </nav>
+        calc-price-style
+      </div>
+    </div>
+    <footer></footer>
 
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="bower_components/handlebars/handlebars.min.js"></script>
-		<script src="bower_components/director/build/director.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
-        var screen1 = $('.screen1');
-        var screen2 = $('.screen2');
-        var screen3 = $('.screen3');
+        var homePage = $('.homePage');
+        var calcPriceHouse = $('.calcPriceHouse');
+        var calcPriceStyle = $('.calcPriceStyle');
 
-        $('.screen1>nav').click(function () {
-          screen2.show();
-          animateView(screen1, 'slideOutLeft');
-          animateView(screen2, 'slideInRight');
+        $('.homePage>nav').click(function () {
+          calcPriceHouse.show();
+          animateView(homePage, 'slideOutLeft');
+          animateView(calcPriceHouse, 'slideInRight');
         });
-        $('.screen2>nav:nth-child(1)').click(function () {
-          animateView(screen1, 'slideInLeft');
-          animateView(screen2, 'slideOutRight');
+        $('.calcPriceHouse>nav:nth-child(1)').click(function () {
+          animateView(homePage, 'slideInLeft');
+          animateView(calcPriceHouse, 'slideOutRight');
         });
-        $('.screen2>nav:nth-child(2)').click(function () {
-          screen3.show();
-          animateView(screen2, 'slideOutLeft');
-          animateView(screen3, 'slideInRight');
+        $('.calcPriceHouse>nav:nth-child(2)').click(function () {
+          calcPriceStyle.show();
+          animateView(calcPriceHouse, 'slideOutLeft');
+          animateView(calcPriceStyle, 'slideInRight');
         });
-        $('.screen3>nav').click(function () {
-          animateView(screen2, 'slideInLeft');
-          animateView(screen3, 'slideOutRight');
+        $('.calcPriceStyle>nav').click(function () {
+          animateView(calcPriceHouse, 'slideInLeft');
+          animateView(calcPriceStyle, 'slideOutRight');
         });
       });
 
