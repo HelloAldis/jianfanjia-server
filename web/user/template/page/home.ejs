@@ -8,7 +8,9 @@
 <div class="g-wp g-shortcut f-cb" id="j-shortcut">
   <div class="top">
     <div class="top-mask"></div>
-    <div class="top-img"></div>
+    <div class="top-img">
+      <img data-original="/static/img/index/index1.jpg" src="/static/img/public/load.gif" alt="" class="img lazyimg u-placeholder-image" style="width: 100%;height:100%;">
+    </div>
     <div class="top-title"></div>
   </div>
   <!--   <div><%= JSON.stringify(data) %></div> -->
@@ -123,22 +125,58 @@
             <div class="u-box">
               <ul class="f-cb">
                 <li>
-                  <div class="f-fl k-select" id="j-house-shi">1</div><span class="unit f-fl">室</span>
+                  <div class="f-fl k-select" id="j-house-shi">4</div><span class="unit f-fl">室</span>
+                  <div class="user">
+                    <span class="arrow"><i></i></span>
+                    <ul>
+                      <li class="shi">1</li>
+                      <li class="shi">2</li>
+                      <li class="shi">3</li>
+                      <li class="shi">4</li>
+                    </ul>
+                  </div>
                 </li>
-                <li><div class="f-fl k-select" id="j-house-ting">1</div><span class="unit f-fl">厅</span></li>
-                <li><div class="f-fl k-select" id="j-house-chu">1</div><span class="unit f-fl">厨</span></li>
-                <li><div class="f-fl k-select" id="j-house-wu">1</div><span class="unit f-fl">卫</span></li>
+                <li>
+                  <div class="f-fl k-select" id="j-house-ting">2</div><span class="unit f-fl">厅</span>
+                  <div class="user">
+                    <span class="arrow"><i></i></span>
+                    <ul>
+                      <li class="ting">1</li>
+                      <li class="ting">2</li>
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <div class="f-fl k-select" id="j-house-chu">1</div><span class="unit f-fl">厨</span>
+                  <div class="user">
+                    <span class="arrow"><i></i></span>
+                    <ul>
+                      <li class="chu">1</li>
+                      <li class="chu">2</li>
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <div class="f-fl k-select" id="j-house-wu">2</div><span class="unit f-fl">卫</span>
+                  <div class="user">
+                    <span class="arrow"><i></i></span>
+                    <ul>
+                      <li class="wu">1</li>
+                      <li class="wu">2</li>
+                    </ul>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
         </div>
       </div>
-      <button class="btns get">获取装修预算</button>
+      <button class="btns get-budget">获取装修预算</button>
     </div>
     <div class="step2 hide">
       <span class="icon goback" data-back="step1"></span>
-      <h3 class="title">您选择的<strong class="bright">3</strong>室<strong class="bright">1</strong>厅<strong class="bright">1</strong>厨<strong class="bright">2</strong>卫</h3>
-      <p class="tips">除了主卧室另外<span>2</span>个房间打算怎么安排？</p>
+      <h3 class="title">您选择的<strong class="room bright">3</strong>室<strong class="live-room bright">1</strong>厅<strong class="kitchen-room bright">1</strong>厨<strong class="wash-room bright">2</strong>卫</h3>
+      <p class="tips">除了主卧室另外<span class="other-room">2</span>个房间打算怎么安排？</p>
       <div class="content">
         <ul class="list f-cb">
           <li class="active">
@@ -150,7 +188,7 @@
               <p>次卧</p>
             </div>
           </li>
-          <li>
+          <li class="live-room2">
             <div class="img"><img src="/static/img/index/compute-room01.png" alt=""></div>
             <p>次卧</p>
             <span class="mask"></span>
@@ -168,7 +206,7 @@
               <p>儿童房</p>
             </div>
           </li>
-          <li>
+          <li class="child-room2">
             <div class="img"><img src="/static/img/index/compute-room02.png" alt=""></div>
             <p>儿童房</p>
             <span class="mask"></span>
@@ -291,6 +329,7 @@
             </div>
           </div>
         </div>
+        <p class="hide">手机号不正确</p>
       </div>
       <button class="btns submit">立即获取</button>
     </div>
