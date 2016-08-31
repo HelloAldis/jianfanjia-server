@@ -6,10 +6,10 @@
 <link rel="stylesheet" type="text/css" href="/static/css/index.css" />
 <%- include('../module/header') -%>
 <div class="g-wp g-shortcut f-cb" id="j-shortcut">
-  <div class="top">
-    <div class="top-mask"></div>
+  <div class="home-top">
+    <!-- <div class="top-mask"></div> -->
     <div class="top-img">
-      <img data-original="/static/img/index/index1.jpg" src="/static/img/public/load.gif" alt="" class="img lazyimg u-placeholder-image" style="width: 100%;height:100%;">
+      <img data-original="/static/img/index/index1.jpg" src="/static/img/public/load.gif" class="img lazyimg u-placeholder-image">
     </div>
     <div class="top-title"></div>
   </div>
@@ -118,7 +118,7 @@
               </div>
               <span class="unit f-fl">m&sup2;</span>
             </div>
-            <div class="error"></div>
+            <div class="error hide">面积不正确</div>
           </div>
           <div class="item item-house f-fl">
             <label for="" class="u-lab"><i class="icon house"></i></label>
@@ -179,7 +179,7 @@
       <p class="tips">除了主卧室另外<span class="other-room">2</span>个房间打算怎么安排？</p>
       <div class="content">
         <ul class="list f-cb">
-          <li class="active">
+          <li class="live-room1 active">
             <div class="img"><img src="/static/img/index/compute-room01.png" alt=""></div>
             <p>次卧</p>
             <span class="mask"></span>
@@ -328,8 +328,8 @@
               <input type="text" class="input" placeholder="请输入手机号码">
             </div>
           </div>
+          <p class="hide">手机号不正确</p>
         </div>
-        <p class="hide">手机号不正确</p>
       </div>
       <button class="btns submit">立即获取</button>
     </div>
@@ -357,7 +357,7 @@
     <div class="need-mask"></div>
     <div class="need-img"></div>
     <div class="need-title">
-      <h3><a href="">需要一名设计师？</a></h3>
+      <h3><a href="/tpl/design/index.html">需要一名设计师？</a></h3>
     </div>
   </div>
 
@@ -374,11 +374,15 @@
         <p class="more"><a href="/zt/jian/index.html">了解更多</a></p>
       </div>
     </div>
-    <div class="package1-img f-fr"></div>
+    <div class="package1-img f-fr">
+      <img data-original="/static/img/index/index3.jpg" src="/static/img/public/load.gif" class="img lazyimg u-placeholder-image">
+    </div>
   </div>
 
   <div class="package2">
-    <div class="package2-img f-fl"></div>
+    <div class="package2-img f-fl">
+      <img data-original="/static/img/index/index4.jpg" src="/static/img/public/load.gif" class="img lazyimg u-placeholder-image">
+    </div>
     <div class="content f-fr">
       <div class="box-padding">
         <h2><span></span></h2>
@@ -404,7 +408,9 @@
         <p class="more"><a href="/zt/365package/index.html">了解更多</a></p>
       </div>
     </div>
-    <div class="package3-img f-fr"></div>
+    <div class="package3-img f-fr">
+      <img data-original="/static/img/index/index5.jpg" src="/static/img/public/load.gif" class="img lazyimg u-placeholder-image">
+    </div>
   </div>
 
   <div class="download">
@@ -420,7 +426,7 @@
   <p class="more"><a>加入我们</a></p>
 </section>
 
-<section class="g-item g-wp g-events" id="j-events">
+<!-- <section class="g-item g-wp g-events" id="j-events">
   <ul class="f-cb">
     <li>
       <img data-original="/static/img/index/events2016071901.jpg" src="/static/img/public/load.gif" alt="专属你的“宜家风”整装方案" class="img lazyimg u-placeholder-image">
@@ -511,8 +517,8 @@
       </li>
     </ul>
   </div>
-</section>
-<section class="g-item g-wp g-designers">
+</section> -->
+<!-- <section class="g-item g-wp g-designers">
   <h3 class="m-tt">
     <a href="/tpl/design/index.html">
       <span></span>
@@ -704,6 +710,6 @@
                 <h4>友情链接</h4>
                 <p></p>
               </div>
-            </section>
+            </section> -->
             <script type="text/javascript" data-main="/static/js/index/index" src="/static/js/lib/require.js"></script>
             <%- include('../module/footer') -%>

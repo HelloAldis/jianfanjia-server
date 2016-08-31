@@ -32,50 +32,50 @@ require(['jquery','index/shortcut','utils/placeholder'],function($,Shortcut,Plac
         new Placeholder({id: '#area-house_area','className': 'placeholder'});
     });
 });
-require(['jquery','index/tabs','index/Scrollswitch'],function($,Tabs,Scrollswitch){
-    var $designers = $('#j-designers');
-    var $designersList = $designers.find('.list');
-    var list = new Scrollswitch({
-        id : '#j-potter',
-        count : 5,
-        auto : false,
-        hover : true,
-        offset : $('#j-potter').offset().top
-    });
-    list.init();
-    var list = new Scrollswitch({
-        id : $designersList.eq(0),
-        count : 10,
-        auto : false,
-        hover : true,
-        offset : $designers.offset().top
-    });
-    list.init();
-    var designer = new Tabs('#j-designers','click',function(index){
-        list.stop();
-        list = new Scrollswitch({
-            id : $designersList.eq(index),
-            count : 10,
-            auto : false,
-            hover : true,
-            offset : $designers.offset().top
-        });
-        list.init();
-        list.loadimg();
-    });
-    designer.init();
-});
-require(['jquery','index/live'],function($,Live){
-    var live = new Live('#j-live');
-    $(function(){
-        live.init();
-    })
-});
+// require(['jquery','index/tabs','index/Scrollswitch'],function($,Tabs,Scrollswitch){
+//     var $designers = $('#j-designers');
+//     var $designersList = $designers.find('.list');
+//     var list = new Scrollswitch({
+//         id : '#j-potter',
+//         count : 5,
+//         auto : false,
+//         hover : true,
+//         offset : $('#j-potter').offset().top
+//     });
+//     list.init();
+//     var list = new Scrollswitch({
+//         id : $designersList.eq(0),
+//         count : 10,
+//         auto : false,
+//         hover : true,
+//         offset : $designers.offset().top
+//     });
+//     list.init();
+//     var designer = new Tabs('#j-designers','click',function(index){
+//         list.stop();
+//         list = new Scrollswitch({
+//             id : $designersList.eq(index),
+//             count : 10,
+//             auto : false,
+//             hover : true,
+//             offset : $designers.offset().top
+//         });
+//         list.init();
+//         list.loadimg();
+//     });
+//     designer.init();
+// });
+// require(['jquery','index/live'],function($,Live){
+//     var live = new Live('#j-live');
+//     $(function(){
+//         live.init();
+//     })
+// });
 require(['jquery','index/tabs'],function($,Tabs){
     var media = new Tabs('#j-media');
     $(function(){
-       media.init();
-   })
+     media.init();
+ })
 });
 require(['jquery','lib/jquery.cookie','index/goto'],function($,cookie,Goto){
     var goto = new Goto();
