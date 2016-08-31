@@ -1,9 +1,6 @@
-html {
-  font-size: 62.5%;
-}
 body {
-  position: relative;
-  font-family: Helvetica;
+  /*position: relative;*/
+  /*font-family: Helvetica;*/
   background-color: #f2f2f3;
   -webkit-overflow-scrolling: touch;
   overflow: auto;
@@ -19,7 +16,7 @@ body {
   position: absolute;
   display: none;
   width: 100%;
-  top: 0px;
+  top: 0;
 }
 .calcPriceHouse {
   text-align: center;
@@ -78,16 +75,16 @@ body {
 .btnSubmit {
   display: inline-block;
   vertical-align: middle;
-  height: 3.5rem;
-  line-height: 3.5rem;
-  font-size: 1.2rem;
+  height: 1.2rem;
+  line-height: 1.2rem;
+  font-size: 0.43333333rem;
   border: 0;
-  width: 20rem;
+  width: 6.6rem;
   color: #fff;
   background-color: #fe7004;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+  -webkit-border-radius: 0.6rem;
+  -moz-border-radius: 0.6rem;
+  border-radius: 0.6rem;
 }
 .footer {
   position: fixed;
@@ -95,21 +92,18 @@ body {
   bottom: 0;
   width: 100%;
   text-align: center;
-  height: 4rem;
-  line-height: 4rem;
+  height: 1.6rem;
+  line-height: 1.6rem;
   background-color: rgba(0, 0, 0, .7);
 }
+.footer img {
+  width: 0.85333333rem;
+  height: 0.85333333rem;
+  margin-right: 0.373333335rem;
+  margin-top: 0.303333335rem;
+  margin-bottom: 0.43333335rem;
+}
 .footer a {
-  display: inline-block;
-  vertical-align: middle;
-  height: 2.5rem;
-  line-height: 2.5rem;
-  width: 60%;
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 0.43333333rem;
   color: #fff;
-  background-color: #fe7004;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
 }
