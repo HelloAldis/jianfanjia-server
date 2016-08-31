@@ -21,12 +21,12 @@ body {
   width: 100%;
   top: 0px;
 }
-.calcPriceHouse {}
-.calcPriceStyle {}
+.calcPriceHouse {
+  text-align: center;
+}
 .calcPriceHouse .houseType {
   background-color: #FFF;
   margin-top: 1rem;
-  text-align: center;
 }
 .calcPriceHouse .houseType .title {
   margin-top: 1rem;
@@ -36,38 +36,53 @@ body {
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
-.calcPriceHouse .extraHouse {
+.calcPriceStyle {
+  text-align: center;
+}
+.calcPriceHouse .title {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.collectionContainer {
   background-color: #FFF;
   margin-top: 1rem;
-  text-align: center;
 }
-.calcPriceHouse .extraHouse .title {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-.calcPriceHouse .extraHouse .selectorContainer {
+.collectionContainer .title {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-.calcPriceHouse .extraHouse .selectorContainer .col {
+.collectionView {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.collectionView .col {
   padding-top: 1rem;
   padding-bottom: 1rem;
+  text-align: center;
 }
-.calcPriceHouse .btnContainer {
+.btnContainer {
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding-top: 3rem;
   padding-bottom: 3rem;
   text-align: center;
 }
-.btnContainer .btnSubmit {
+.btnContainer {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  text-align: center;
+}
+.btnSubmit {
   display: inline-block;
   vertical-align: middle;
-  height: 4rem;
-  line-height: 4rem;
+  height: 3.5rem;
+  line-height: 3.5rem;
   font-size: 1.2rem;
-  width: 60%;
+  border: 0;
+  width: 20rem;
   color: #fff;
   background-color: #fe7004;
   -webkit-border-radius: 5px;
