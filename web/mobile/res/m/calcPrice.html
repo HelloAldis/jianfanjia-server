@@ -17,10 +17,45 @@
         <button type="button" class="btnSubmit">获取装修预算</button>
       </div>
       <div class="calcPriceHouse">
-        <p>
-          calc-price-house
-        </p>
-        <button type="button" class="btnSubmit">下一步</button>
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-3">
+              <select class="" name="">
+                <option value="1">1</option>
+                <option value="2" selected>2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+              室
+            </div>
+            <div class="col-xs-3">
+              <select class="" name="">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+              </select>
+              厅
+            </div>
+            <div class="col-xs-3">
+              <select class="" name="">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+              </select>
+              厨
+            </div>
+            <div class="col-xs-3">
+              <select class="" name="">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+              </select>
+              卫
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 btnContainer">
+              <button type="button" class="btnSubmit">下一步</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="calcPriceStyle">
         <p>
@@ -33,8 +68,6 @@
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-      var _history = [];
-
       var homePage = $('.homePage');
       var calcPriceHouse = $('.calcPriceHouse');
       var calcPriceStyle = $('.calcPriceStyle');
@@ -85,12 +118,12 @@
 
       function pushState(preS, curS) {
         var state = {pre:preS};
+        window.history.replaceState(state, null, null);
         window.history.pushState(null, curS, null);
-        _history.push(state);
       }
 
       window.addEventListener('popstate', function (e) {
-        var state = _history.pop();
+        var state = e.state;
         if (!state) return;
         var preState = state.pre;
         if (preState === homePageTag) {

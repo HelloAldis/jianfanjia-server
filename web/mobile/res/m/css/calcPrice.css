@@ -16,8 +16,6 @@ body {
 .homePage {
   width: 100%;
   height: auto;
-  background-color: #123695;
-  color: #FF0000;
 }
 .calcPriceHouse, .calcPriceStyle {
   position: absolute;
@@ -25,11 +23,9 @@ body {
   width: 100%;
   height: auto;
   top: 0px;
-  color: #FF0000;
 }
-.calcPriceHouse {
-  background-color: #369715;
-}
-.calcPriceStyle {
-  background-color: #551668;
+.calcPriceHouse {}
+.calcPriceStyle {}
+.btnContainer {
+  text-align: center;
 }
