@@ -8,8 +8,13 @@
       <body>
         <div class="g-tb g-wa">
           <div class="g-wp f-cb">
-            <a href="/tpl/download/index.html" class="m-app f-fl"><span>APP下载</span></a>
-            <a href="/zt/merchants/index.html" class="m-events f-fr">简繁家主材火热招商中</a>
+            <hgroup class="m-logo f-fl">
+  						<h1><a href="/">简繁家</a></h1>
+  						<h2>我的设计师专单平台</h2>
+  					</hgroup>
+            <a href="/tpl/download/index.html" class="m-app f-fr"><span>APP下载</span></a>
+            <%# <a href="/tpl/download/index.html" class="m-app f-fl"><span>APP下载</span></a>%>
+            <%# <a href="/zt/merchants/index.html" class="m-events f-fr">简繁家主材火热招商中</a>%>
             <div class="m-user f-fr" id="j-user">
               <% if(data.header_info.user_statistic_info != undefined){ %>
               <ul>
@@ -138,86 +143,88 @@
               </div>
             </div>
           </div>
-          <header class="g-hd g-wa" id="j-hd">
+<!--          <header class="g-hd g-wa" id="j-hd">
             <div class="g-wp f-cb">
               <hgroup class="m-logo f-fl">
                 <h1><a href="/">简繁家</a></h1>
                 <h2>我的设计师专单平台</h2>
               </hgroup>
-              <div class="m-sch f-fl" id="j-sch">
-                <form>
-                  <div class="u-sch-box f-fl">
-                    <div class="u-sch-ds f-fl">
-                      <div class="u-sch-ds-txt">
-                        <span><% if(data.context.url.indexOf('/tpl/mito/') != -1){ %>
-                          装修美图
-                          <% }else{ %>
-                          设计师
-                          <% } %></span><i class="arrow"></i>
-                        </div>
-                        <ul class="u-sch-ds-sel">
-                          <li data-uid="0">设计师</li>
-                          <li data-uid="1">装修美图</li>
-                        </ul>
+            <div class="m-sch f-fl" id="j-sch">
+              <form>
+                <div class="u-sch-box f-fl">
+                  <div class="u-sch-ds f-fl">
+                    <div class="u-sch-ds-txt">
+                      <span><% if(data.context.url.indexOf('/tpl/mito/') != -1){ %>
+                        装修美图
+                        <% }else{ %>
+                        设计师
+                        <% } %></span><i class="arrow"></i>
                       </div>
-                      <div class="u-sch-inp f-fl">
-                        <input type="text" name="" class="input" value="搜索设计师" id="">
-                      </div>
+                      <ul class="u-sch-ds-sel">
+                        <li data-uid="0">设计师</li>
+                        <li data-uid="1">装修美图</li>
+                      </ul>
                     </div>
-                    <button class="u-sch-btn f-fl" type="submit">搜索</button>
-                  </form>
-                </div>
-                <div class="m-slogan f-fr" id="j-slogan">
-                  <h3>简繁家实力保障</h3>
-                  <p>知名风投投资</p>
-                </div>
+                    <div class="u-sch-inp f-fl">
+                      <input type="text" name="" class="input" value="搜索设计师" id="">
+                    </div>
+                  </div>
+                  <button class="u-sch-btn f-fl" type="submit">搜索</button>
+                </form>
               </div>
-            </header>
-            <nav class="g-nav g-wa">
-              <div class="g-wp">
-                <ul class="m-nav f-cb">
-                  <% if(data.context.url == '/'){ %>
-                  <li class="active"><a href="/">首页</a></li>
-                  <% }else{ %>
-                  <li><a href="/">首页</a></li>
-                  <% } %>
-                  <% if(data.context.url.indexOf('/tpl/design/') != -1 || data.context.url.indexOf('/tpl/designer/') != -1 || data.context.url.indexOf('/tpl/product/') != -1 ){ %>
-                  <li class="active"><a href="/tpl/design/index.html">设计师</a></li>
-                  <% }else{ %>
-                  <li><a href="/tpl/design/index.html">设计师</a></li>
-                  <% } %>
-                  <% if(data.context.url.indexOf('/tpl/mito/') != -1){ %>
-                  <li class="active"><a href="/tpl/mito/index.html">装修美图</a></li>
-                  <% }else{ %>
-                  <li><a href="/tpl/mito/index.html">装修美图</a></li>
-                  <% } %>
-                  <% if(data.context.url.indexOf('/tpl/diary/') != -1){ %>
-                  <li class="active"><a href="/tpl/diary/index.html">装修日记</a></li>
-                  <% }else{ %>
-                  <li><a href="/tpl/diary/index.html">装修日记</a></li>
-                  <% } %>
-                  <% if(data.context.url.indexOf('/tpl/live/') != -1){ %>
-                  <li class="active"><a href="/tpl/live/index.html">装修直播</a></li>
-                  <% }else{ %>
-                  <li><a href="/tpl/live/index.html">装修直播</a></li>
-                  <% } %>
-                  <% if(data.context.url.indexOf('/tpl/article/') != -1){ %>
-                  <li class="active"><a href="/tpl/article/index.html">装修攻略</a></li>
-                  <% }else{ %>
-                  <li><a href="/tpl/article/index.html">装修攻略</a></li>
-                  <% } %>
-                  <% if(data.context.url.indexOf('/tpl/help/') != -1){ %>
-                  <li class="active"><a href="/tpl/help/index.html">你问我答</a></li>
-                  <% }else{ %>
-                  <li><a href="/tpl/help/index.html">你问我答</a></li>
-                  <% } %>
-                </ul>
-                <% if (data.header_info.admin_statistic_info === undefined || data.header_info.user_statistic_info === undefined || data.header_info.designer_statistic_info === undefined) { %>
-                <% if(data.header_info.designer_statistic_info != undefined){ %>
-                <% }else if(data.header_info.admin_statistic_info != undefined){ %>
-                <% }else{%>
-                <a href="/tpl/user/owner.html#release" class="m-release bounce show" id="j-release"><span><i></i></span>免费获取三套方案</a>
-                <%}%>
-                <% }%>
+              <div class="m-slogan f-fr" id="j-slogan">
+                <h3>简繁家实力保障</h3>
+                <p>知名风投投资</p>
               </div>
-            </nav>
+            </div>
+          </header> -->
+          <nav class="g-nav g-wa">
+            <div class="g-wp">
+              <ul class="m-nav f-cb">
+                <% if(data.context.url == '/'){ %>
+                <li class="active"><a href="/">首页</a></li>
+                <% }else{ %>
+                <li><a href="/">首页</a></li>
+                <% } %>
+                <% if(data.context.url.indexOf('/tpl/design/') != -1 || data.context.url.indexOf('/tpl/designer/') != -1 || data.context.url.indexOf('/tpl/product/') != -1 ){ %>
+                <li class="active"><a href="/tpl/design/index.html">设计师</a></li>
+                <% }else{ %>
+                <li><a href="/tpl/design/index.html">设计师</a></li>
+                <% } %>
+                <% if(data.context.url.indexOf('/tpl/mito/') != -1){ %>
+                <li class="active"><a href="/tpl/mito/index.html">装修美图</a></li>
+                <% }else{ %>
+                <li><a href="/tpl/mito/index.html">装修美图</a></li>
+                <% } %>
+                <% if(data.context.url.indexOf('/tpl/diary/') != -1){ %>
+                <li class="active"><a href="/tpl/diary/index.html">装修日记</a></li>
+                <% }else{ %>
+                <li><a href="/tpl/diary/index.html">装修日记</a></li>
+                <% } %>
+                <% if(data.context.url.indexOf('/tpl/live/') != -1){ %>
+                <li class="active"><a href="/tpl/live/index.html">装修直播</a></li>
+                <% }else{ %>
+                <li><a href="/tpl/live/index.html">装修直播</a></li>
+                <% } %>
+                <% if(data.context.url.indexOf('/tpl/article/') != -1){ %>
+                <li class="active"><a href="/tpl/article/index.html">装修攻略</a></li>
+                <% }else{ %>
+                <li><a href="/tpl/article/index.html">装修攻略</a></li>
+                <% } %>
+                <% if(data.context.url.indexOf('/tpl/help/') != -1){ %>
+                <li class="active"><a href="/tpl/help/index.html">你问我答</a></li>
+                <% }else{ %>
+                <li><a href="/tpl/help/index.html">你问我答</a></li>
+                <% } %>
+              </ul>
+            <!--
+              <% if (data.header_info.admin_statistic_info === undefined || data.header_info.user_statistic_info === undefined || data.header_info.designer_statistic_info === undefined) { %>
+              <% if(data.header_info.designer_statistic_info != undefined){ %>
+              <% }else if(data.header_info.admin_statistic_info != undefined){ %>
+              <% }else{%>
+              <a href="/tpl/user/owner.html#release" class="m-release bounce show" id="j-release"><span><i></i></span>免费获取三套方案</a>
+              <%}%>
+              <% }%>
+                -->
+            </div>
+          </nav>

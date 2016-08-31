@@ -712,7 +712,7 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/page'
                 }
                 var left = $side.offset().left;
                 var position = top >= 220 ? 'fixed' : 'static';
-                var top = top < $main.height() - $side.height() + 220 ? 0 : $main.height() - $side.height() + 215 - top;
+                var top = top < $main.height() - $side.height() + 220 ? 0 : $main.height() - $side.height() + 100 - top;
                 $side.css({
                     top : top,
                     left : left,

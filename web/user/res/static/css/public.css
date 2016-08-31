@@ -840,6 +840,7 @@ a.m-head:hover{
 	width: 130px;
 	height: 50px;
 	background:url(../img/public/logo.png) no-repeat 0 0;
+  background-size: 100%;
 }
 .m-logo a{
 	display: block;
@@ -1070,7 +1071,8 @@ a.m-head:hover{
     	position: absolute;
     	background: url(../img/public/logo2.png) no-repeat 0 0;
     	background-size: 100%;
-    	left: 0;
+    	left: 20px;
+      top: 10px;
     }
     .g-ft ul{
     	/*width: 600px;*/
@@ -1092,7 +1094,7 @@ a.m-head:hover{
     }
     .g-ft li.first{
     	border-left: none;
-    	margin-left: 20px;
+    	margin-left: 40px;
     }
     .g-ft li.last{
     	border-right: none;
@@ -1118,6 +1120,7 @@ a.m-head:hover{
     }
     .g-ft li strong{
     	font-size: 16px;
+      line-height: 40px;
     	margin-bottom: 20px;
     	float: left;
     	color: #c1c1c1;
@@ -1128,7 +1131,7 @@ a.m-head:hover{
     	transform: translateZ(9px);*/
     }
     .g-ft ul .consult{
-    	width: 300px;
+    	width: 290px;
     	position: absolute;
     	right: 0;
     	text-align: left;

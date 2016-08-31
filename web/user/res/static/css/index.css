@@ -571,6 +571,7 @@ background-size: cover;
 }
 .g-to-designer a {
     margin-top: 30px;
+    margin-bottom: 40px;
     color: #f98700;
     display: inline-block;
     padding: 8px 45px;
