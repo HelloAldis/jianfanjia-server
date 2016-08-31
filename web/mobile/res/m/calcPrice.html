@@ -16,46 +16,84 @@
         </p>
         <button type="button" class="btnSubmit">获取装修预算</button>
       </div>
-      <div class="calcPriceHouse">
-        <div class="container">
-          <div class="row">
-            <div class="col-xs-3">
-              <select class="" name="">
-                <option value="1">1</option>
-                <option value="2" selected>2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-              </select>
-              室
-            </div>
-            <div class="col-xs-3">
-              <select class="" name="">
-                <option value="1" selected>1</option>
-                <option value="2">2</option>
-              </select>
-              厅
-            </div>
-            <div class="col-xs-3">
-              <select class="" name="">
-                <option value="1" selected>1</option>
-                <option value="2">2</option>
-              </select>
-              厨
-            </div>
-            <div class="col-xs-3">
-              <select class="" name="">
-                <option value="1" selected>1</option>
-                <option value="2">2</option>
-              </select>
-              卫
+      <div class="container calcPriceHouse">
+          <div class="row houseType">
+            <div class="col-xs-12">
+              <div class="row">
+                <h4 class="title">
+                  请选择您中意的户型
+                </h4>
+              </div>
+              <div class="row selectorContainer">
+                <div class="col-xs-3">
+                  <select class="" name="">
+                    <option value="1">1</option>
+                    <option value="2" selected>2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                  </select>
+                  室
+                </div>
+                <div class="col-xs-3">
+                  <select class="" name="">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                  </select>
+                  厅
+                </div>
+                <div class="col-xs-3">
+                  <select class="" name="">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                  </select>
+                  厨
+                </div>
+                <div class="col-xs-3">
+                  <select class="" name="">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                  </select>
+                  卫
+                </div>
+              </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-xs-12 btnContainer">
-              <button type="button" class="btnSubmit">下一步</button>
+          <div class="row extraHouse">
+            <div class="col-xs-12">
+              <div class="row">
+                <h4 class="title">
+                  除主卧外，另外2个卧室用作（多选／必选）
+                </h4>
+              </div>
+              <div class="row selectorContainer">
+                <div class="row">
+                  <div class="col-xs-3 col">
+                    次卧
+                  </div>
+                  <div class="col-xs-3 col">
+                    次卧
+                  </div>
+                  <div class="col-xs-3 col">
+                    儿童房
+                  </div>
+                  <div class="col-xs-3 col">
+                    儿童房
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-3 col">
+                    书房
+                  </div>
+                  <div class="col-xs-3 col">
+                    衣帽间
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+          <div class="row btnContainer">
+            <button type="button" class="btnSubmit">下一步</button>
+          </div>
       </div>
       <div class="calcPriceStyle">
         <p>
@@ -64,7 +102,9 @@
         <button type="button" class="btnSubmit">生成装修预算</button>
       </div>
     </div>
-    <footer></footer>
+    <footer class="footer">
+      <a href="javascript:;">下载简繁家App</a>
+    </footer>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript">
