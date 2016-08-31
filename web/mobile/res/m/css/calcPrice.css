@@ -1,16 +1,17 @@
+html {
+  height: 100%;
+}
 body {
-  /*position: relative;*/
-  /*font-family: Helvetica;*/
   background-color: #f2f2f3;
   -webkit-overflow-scrolling: touch;
   overflow: auto;
+  height: 100%;
 }
 .content {
   position: relative;
 }
 .homePage {
   width: 100%;
-  height: auto;
 }
 .calcPriceHouse, .calcPriceStyle {
   position: absolute;
