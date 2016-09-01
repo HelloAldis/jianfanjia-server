@@ -44,8 +44,6 @@ body {
   padding: 0.5rem;
   border: 1px solid #e5e5e5;
   background-color: #f9fafa;
-  -webkit-overflow-scrolling: touch;
-  overflow: auto;
 }
 .fldContainer>img {
   width: 0.8rem;
@@ -72,6 +70,8 @@ body {
   display: none;
   width: 100%;
   top: 0;
+  -webkit-overflow-scrolling: touch;
+  overflow: auto;
 }
 .calcPriceHouse {
   text-align: center;
@@ -119,38 +119,59 @@ body {
   font-size: 0.4rem;
   color: #a7a7a7;
 }
-.calcPriceHouse .houseType .selectorContainer {
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+.calcPriceHouse .extraHouse {
+  margin: 0 0.5rem 0 0.5rem
+}
+.calcPriceHouse .extraHouse .title {
+  font-size: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.calcPriceHouse .extraHouseContainer {}
+.calcPriceHouse .extraHouseContainer .iconRoomContainer {
+  display: inline-block;
+  width: 2rem;
+  height: 2.0533333rem;
+  border: 1px solid #e5e5e5;
+  margin-top: 0.06rem;
+}
+.calcPriceHouse .extraHouseContainer .iconRoomContainer .iconRoom {
+  width: 0.8rem;
+  height: 0.8rem;
+  margin: 0.3rem;
+}
+.calcPriceHouse .extraHouseContainer .iconRoomContainer p {
+  font-size: 0.3rem;
 }
 .calcPriceStyle {
   text-align: center;
 }
-.calcPriceHouse .title {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-.calcPriceHouse .collectionContainer {
-  background-color: #FFF;
-  margin-top: 1rem;
-}
-.calcPriceHouse .collectionContainer .title {
-  margin-top: 1rem;
+.calcPriceStyle .title {
+  font-size: 0.5rem;
+  margin-top: 2rem;
   margin-bottom: 1rem;
 }
-.calcPriceHouse .collectionView {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+.calcPriceStyle .decTagContainer {}
+.calcPriceStyle .decTagContainer .iconRoomContainer {
+  display: inline-block;
+  width: 2rem;
+  height: 2.0533333rem;
+  border: 1px solid #e5e5e5;
+  font-size: 0.3rem;
+  margin-top: 0.06rem;
 }
-.calcPriceHouse .collectionView .col {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  text-align: center;
+.calcPriceStyle .decTagContainer .iconRoomContainer .iconRoom {
+  width: 100%;
+  height: auto;
+}
+.calcPriceStyle .decTagContainer .iconRoomContainer p {
+  font-size: 0.3rem;
+  line-height: 0.7rem;
+  margin: auto;
 }
 .btnContainer {
   margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.85333333rem;
   text-align: center;
 }
 .btnSubmit {
