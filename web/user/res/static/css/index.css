@@ -1,3 +1,613 @@
+.home-top {
+    position: relative;
+}
+.home-top .top-mask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.5;
+}
+.home-top .top-img {
+    width: 100%;
+    height: 450px;
+    /*background: url(../img/index/index1.jpg) center -100px no-repeat;*/
+    /*background-size: cover;*/
+}
+.home-top .top-img img.u-placeholder-image{
+    width: 100%;
+    height: 100%;
+}
+.home-top .top-title {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    width: 220px;
+    height: 235px;
+    background: url(../img/index/t2.png) 0 0 no-repeat;
+    background-size: 100%;
+    margin-left: -110px;
+    margin-bottom: -117px;
+}
+
+/*智能预算*/
+.g-compute{
+    height: 500px;
+    text-align: center;
+}
+.g-compute > div{
+    position: relative;
+}
+.g-compute .icon{
+    display: inline-block;
+    vertical-align: top;
+    background:url('../img/index/compute-icon.png') no-repeat;
+}
+.g-compute .goback{
+    position: absolute;
+    left: 32px;
+    top: 64px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    background-position: -76px 0;
+}
+.g-compute .goback:hover{
+    background-position: -76px -26px;
+}
+.g-compute .step2 .goback{
+    left: 116px;
+}
+.g-compute .title{
+    padding-top: 45px;
+    font-size: 28px;
+    line-height: 64px;
+    color: #000;
+}
+
+.g-compute .step1 .title{
+    font-size: 35px;
+    line-height: 150px;
+}
+.g-compute .title .bright{
+    margin: 0 10px;
+    font-weight: bold;
+    color: #fe7004;
+}
+.g-compute .step4 .title{
+    padding-top: 92px;
+}
+.g-compute .step4 .title .phone{
+    width: 26px;
+    height: 30px;
+    margin-top: 18px;
+    margin-right: 20px;
+    background-position: -24px -46px;
+}
+.g-compute .step1 .content{
+    padding: 24px 0 83px;
+    font-size: 16px;
+}
+.g-compute .step2 .content{
+    padding: 47px 0;
+}
+.g-compute .step3 .content{
+    padding: 32px 0 50px;
+}
+.g-compute .step4 .content{
+    padding: 60px 0;
+}
+.g-compute .step4 .content p{
+    position: absolute;
+    top: 60px;
+    color: red;
+}
+
+.g-compute .list li{
+    position: relative;
+    float: left;
+    margin: 0 7px;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid #e5e5e5;
+    -webkit-transition:border-color 0.5s ease-in;
+    -moz-transition:border-color 0.5s ease-in;
+    -o-transition:border-color 0.5s ease-in;
+    transition:border-color 0.5s ease-in;
+}
+.g-compute .list li img{
+    width: 100%;
+    height: 100%;
+}
+.g-compute .list .text .icon{
+    width: 40px;
+    height: 41px;
+    background-position: -28px 0;
+}
+.g-compute .step2 .list{
+    width: 984px;
+}
+.g-compute .list{
+    margin: 0 auto;
+}
+.g-compute .step3 .list{
+    width: 1148px;
+}
+.g-compute .step2 .list li{
+    width: 148px;
+    height: 152px;
+}
+.g-compute .list li:hover,.g-compute .list li.active{
+    border-color: #f98700;
+}
+.g-compute .step2 .list .img{
+    width: 100%;
+    height: 109px;
+    border-radius: 3px 3px 0 0;
+    overflow: hidden;
+}
+.g-compute .step3 .list .img{
+    position: relative;
+    left: -1px;
+    top: -1px;
+    z-index: 2;
+    width: 150px;
+    height: 136px;
+    background-color: #fff;
+}
+.g-compute .item{
+    border: 1px solid #e5e5e5;
+    background-color: #fafbfb;
+    border-radius: 3px;
+}
+.g-compute .item .u-lab{
+    float: left;
+    width: 60px;
+    height: 48px;
+    text-align: center;
+}
+.g-compute .item .u-lab .phone{
+    width: 12px;
+    height: 20px;
+    margin-top: 14px;
+    background-position: 0 -56px;
+}
+.g-compute .item .u-lab .area{
+    width: 16px;
+    height: 16px;
+    margin-top: 16px;
+    background-position: 0 -20px;
+}
+.g-compute .item .u-lab .address{
+    width: 13px;
+    height: 16px;
+    margin-top: 16px;
+    background-position: 0 0;
+}
+.g-compute .item .u-lab .house{
+    width: 18px;
+    height: 16px;
+    margin-top: 16px;
+    background-position: 0 -38px;
+}
+.g-compute .item .u-box{
+    float: left;
+}
+.g-compute .item .u-inp{
+    position: relative;
+    padding: 4px;
+    height: 40px;
+    line-height: 40px;
+}
+.g-compute .item .u-inp .input{
+    line-height: 40px;
+    width: 100%;
+    height: 100%;
+    background: none;
+    border: none;
+}
+.g-compute .items{
+    width: 950px;
+    margin: 0 auto;
+}
+.g-compute .list p{
+    line-height: 43px;
+    text-align: center;
+    color: #383d48;
+    background-color: #fafbfb;
+    border-radius:0 0 3px 3px;
+}
+.g-compute .step1 .item{
+    margin: 0 25px;
+    position: relative;
+}
+.g-compute .step1 .item .error{
+    position: absolute;
+    top: 58px;
+    color: red;
+    font-size: 12px;
+}
+.g-compute .item-phone{
+    width: 362px;
+    margin: 0 auto;
+    position: relative;
+}
+.g-compute .item-address{
+    width: 156px;
+}
+.g-compute .item-house{
+    width: 418px;
+}
+.g-compute .item-address .u-box{
+    font-size: 16px;
+    line-height: 48px;
+    color: #61687a;
+}
+.g-compute .item-phone .u-box{
+    width: 290px;
+}
+.g-compute .item-house ul{
+    padding-left: 12px;
+}
+.g-compute .item-house li{
+    float: left;
+    width: 81px;
+    line-height: 48px;
+    position: relative;
+}
+.g-compute .item-house li div.user{
+    position: absolute;
+    top: 56px;
+    background-color: #fafbfb;
+    left: -28px;
+    width: 80px;
+    border: 1px solid #e5e5e5;
+    display: none;
+}
+.g-compute .item-house li div.user ul{
+  padding: 10px 0;
+}
+.g-compute .item-house li div.user ul li{
+  float: none;
+  width: auto;
+  font-size: 14px;
+  line-height: 30px;
+  color: #999;
+}
+.g-compute .item-house li div.user ul li:hover{
+  background-color: #f1f1f1;
+  color: #000;
+}
+.g-compute .item-house li div.user .arrow,
+.g-compute .item-house li div.user .arrow i{
+    position: absolute;
+    left: 50%;
+    top: -14px;
+    width: 0;
+    height: 0;
+    margin-left: -7px;
+    border-width: 7px;
+    border-color: transparent;
+    border-style: dashed;
+    border-bottom-style: solid;
+    border-bottom-color: #e5e5e5;
+}
+.g-compute .item-house li div.user .arrow i{
+  position: absolute;
+  left: -7px;
+  top: -6px;
+  margin-left: 0;
+  border-bottom-color: #fafbfb;
+}
+.g-compute .item-house .k-select{
+  width: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.g-compute .item-house .k-select:hover{
+  background-color: #f1f1f1;
+}
+
+.g-compute .item-area{
+  width: 218px;
+}
+.g-compute .item-area .u-box{
+  line-height: 48px;
+}
+.g-compute .item-area .u-inp{
+    width: 110px;
+}
+.g-compute .step3 .list li{
+    width: 148px;
+    height: 178px;
+}
+.g-compute .step3 .list p{
+    margin-top: -1px;
+}
+.g-compute .list li.active .text{
+    display: block;
+}
+.g-compute .list .text{
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    right: -1px;
+    bottom: -1px;
+    z-index: 2;
+    background-color:rgb(249,135,0);
+    background-color:rgba(249,135,0,0.87);
+    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr="#ddf98700", EndColorStr="#ddf98700");
+    zoom:1;
+    border-radius: 3px;
+    display: none;
+}
+:root .g-compute .list .text{ filter:none\9;}
+.g-compute .list .text p{
+    background: none;
+    color: #fff;
+}
+.g-compute .step2 .list .icon{
+    margin: 46px 0px 23px;
+}
+.g-compute .step3 .list .icon{
+    margin: 59px 0px 36px;
+}
+.g-compute .tips{
+    font-size: 16px;
+    line-height: 16px;
+    color: #999;
+}
+.g-compute .btns{
+    padding: 0 58px;
+    font-size: 16px;
+    line-height: 46px;
+    color: #fff;
+    background-color: #f98700;
+    border: none;
+    border-radius: 46px;
+    -webkit-transition:background-color 0.5s ease-in;
+    -moz-transition:background-color 0.5s ease-in;
+    -o-transition:background-color 0.5s ease-in;
+    transition:background-color 0.5s ease-in;
+}
+.g-compute .btns:hover{
+    background-color: #f97800;
+}
+.g-compute .process{
+    padding-top: 61px;
+    height: 5px;
+    font-size: 0;
+}
+.g-compute .process span{
+    display: inline-block;
+    vertical-align: top;
+    width: 50px;
+    height: 5px;
+    margin: 0 7px;
+    background-color: #e9ebef;
+}
+.g-compute .process span.active{
+    background-color: #f98700;
+}
+.g-compute .step5 .title{
+    padding-top: 98px;
+}
+.g-compute .step5 .title .success{
+    width: 30px;
+    height: 30px;
+    margin-top: 18px;
+    margin-right: 20px;
+    background-position: -70px -54px;
+}
+.g-compute .contact{
+    width: 300px;
+    padding-top: 47px;
+    margin: 0 auto;
+}
+.g-compute .contact dl{
+    width: 118px;
+    margin: 0 13px;
+    text-align: center;
+}
+.g-compute .contact dt{
+    line-height: 40px;
+    color: #383d48;
+}
+.g-compute .contact dd{
+    width: 118px;
+    height: 118px;
+    overflow: hidden;
+}
+.g-compute .contact dd img{
+    width: 100%;
+    height: 100%;
+}
+
+/*包类型*/
+.g-package {
+    text-align: center;
+}
+
+.g-package .need-designer {
+    position: relative;
+}
+.g-package .need-mask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #f98700;
+    opacity: 0.7;
+}
+.g-package .need-img {
+    width: 100%;
+    height: 163px;
+    background: url(../img/index/index2.jpg) 0 0 no-repeat;
+    background-size: cover;
+}
+.g-package .need-title {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    margin-bottom: -31px;
+    margin-left: -112px;
+}
+.g-package .need-title h3 a{
+    color: #fff;
+    font-size: 24px;
+    padding: 10px 15px;
+    border: solid 1px #fff;
+    line-height: 40px;
+    cursor: pointer;
+}
+
+/*简+*/
+.g-package .package1,
+.g-package .package2,
+.g-package .package3 {
+    position: relative;
+    height: 355px;
+}
+.g-package .package1 .content,
+.g-package .package2 .content,
+.g-package .package3 .content {
+    width: 500px;
+}
+.g-package .package1 .content,
+.g-package .package2 .content {
+    padding-left: 100px;
+}
+.g-package .package3 .content {
+    padding-right: 100px;
+}
+.g-package .box-padding {
+    padding: 30px 100px;
+}
+.g-package .text-left {
+    text-align: left;
+}
+.g-package img.u-placeholder-image{
+    width: 100%;
+    height: 100%;
+}
+.g-package .line span {
+    display: inline-block;
+    width: 25px;
+    height: 2px;
+    background-color: #f98700;
+    margin-left: 10px;
+    margin-top: 20px;
+}
+.g-package h3.desc {
+    font-size: 18px;
+    color: #383d48;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.g-package .more a {
+    margin-top: 30px;
+    color: #f98700;
+    display: inline-block;
+    padding: 5px 30px;
+    border: solid 1px #f98700;
+    border-radius: 30px;
+    cursor: pointer;
+}
+.g-package .more a:hover {
+    background-color: #f98700;
+    color: #fff;
+}
+.g-package .package1 h2 span {
+    display: inline-block;
+    width: 74px;
+    height: 65px;
+    background: url(../img/index/icon1.png) 0 0 no-repeat;
+    background-size: cover;
+}
+.g-package .package1 .package1-img,
+.g-package .package2 .package2-img,
+.g-package .package3 .package3-img {
+    position: relative;
+    width: 50%;
+    height: 100%;
+/*    background: url(../img/index/index3.jpg) top right no-repeat;
+background-size: cover;*/
+}
+.g-package .package2 h2 span {
+    display: inline-block;
+    width: 74px;
+    height: 65px;
+    background: url(../img/index/icon2.png) 0 0 no-repeat;
+    background-size: cover;
+}
+/*.g-package .package2-img {
+    width: 50%;
+    height: 100%;
+    background: url(../img/index/index4.jpg) 0 0 no-repeat;
+background-size: cover;
+}*/
+.g-package .package3 h2 span {
+    display: inline-block;
+    width: 80px;
+    height: 65px;
+    background: url(../img/index/icon3.png) 0 0 no-repeat;
+    background-size: cover;
+}
+/*.g-package .package3 .package3-img {
+    width: 50%;
+    height: 100%;
+    background: url(../img/index/index5.jpg) 0 0 no-repeat;
+background-size: cover;
+}*/
+.g-package .download {
+    position: relative;
+    width: 100%;
+    height: 294px;
+    background: url(../img/index/index6.jpg) 0 0 no-repeat;
+    background-size: cover;
+}
+.g-package .download .app{
+    cursor: pointer;
+    width: 180px;
+    height: 82px;
+    background: url(../img/index/icon4.png) 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -90px;
+    margin-top: -41px;
+}
+
+/*入驻设计师*/
+.g-to-designer {
+    text-align: center;
+}
+.g-to-designer h2 {
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #000;
+}
+.g-to-designer p {
+    font-size: 14px;
+    line-height: 25px;
+    color: #999;
+}
+.g-to-designer a {
+    margin-top: 30px;
+    margin-bottom: 40px;
+    color: #f98700;
+    display: inline-block;
+    padding: 8px 45px;
+    border: solid 1px #f98700;
+    border-radius: 30px;
+    cursor: pointer;
+}
+.g-to-designer a:hover {
+    background-color: #f98700;
+    color: #fff;
+}
+
 /*公共模块*/
 .g-item {
     padding-top: 60px;
@@ -203,7 +813,7 @@
     background-position: -26px -45px;
 }
 .g-banner .btns {
-position: absolute;
+    position: absolute;
     left: 0;
     top: 305px;
     z-index: 20;
