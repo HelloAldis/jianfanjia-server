@@ -1086,13 +1086,18 @@ a.m-head:hover{
     	position: relative;
     }
     .g-ft li{
+      width: 128px;
     	float: left;
     	-webkit-perspective: 400px;
     	-moz-perspective: 400px;
     	-o-perspective: 400px;
     	perspective: 400px;
     }
+    .g-ft ul .consult li{
+      width: auto;
+    }
     .g-ft li.first{
+      width: 100px;
     	border-left: none;
     	margin-left: 40px;
     }

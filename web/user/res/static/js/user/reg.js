@@ -20,6 +20,7 @@ require(['jquery','lodash','utils/placeholder'],function($,_,Placeholder){
             this.error = $('#error-info');
             this.weixin = $('#j-weixin');
             this.type = $('#reg-type');
+            this.box = $('#j-select').find('.boxs');
             this.select();
             this.checkMobile();
             this.bindVerifyCode();
@@ -33,6 +34,16 @@ require(['jquery','lodash','utils/placeholder'],function($,_,Placeholder){
             var _this = this;
             var select = $('#j-select');
             var app = $('#j-app');
+            var winHash = window.location.search.split("?")[1];
+            if (winHash == 2) {
+              console.log('www');
+              var type = winHash;
+              setType(type);
+              _this.form.find('.m-type li').eq(type - 1).addClass('active');
+              select.hide().remove();
+            } else {
+              this.box.show();
+            }
             select.on('click', 'dl', function(event) {
                 event.preventDefault();
                 var type = $(this).data('type');

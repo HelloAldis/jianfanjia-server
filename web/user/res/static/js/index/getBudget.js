@@ -13,7 +13,7 @@ define(['jquery'], function($){
 			this.toStep4();
 			this.toStep5();
 		},
-		
+
 		bindArea : function () {
 			var self = this;
 			$(this.container).on('focus', '.item-area .input', function (ev) {
@@ -51,7 +51,7 @@ define(['jquery'], function($){
 		// 选择几室几厅...
 		bindClick : function () {
 			var self = this;
-			$(this.container).on('click','.user li',function (ev) {
+			$(this.container).on('click','.user li', function (ev) {
 				ev.preventDefault();
 				var selectNode = $($(this).parents('li')[0]).find('.k-select')[0];
 				$(selectNode).html($(this).html());
@@ -82,7 +82,7 @@ define(['jquery'], function($){
 					$(this).parents('.g-compute').find('.step1').addClass('hide');
 					$(this).parents('.g-compute').find('.step3').removeClass('hide');
 				}
-			});			
+			});
 
 			// 展示另外的房间
 			showOtherRoom = function (bedroomNum) {
@@ -161,7 +161,7 @@ define(['jquery'], function($){
 		},
 		toStep5 : function () {
 			var self = this;
-			
+
 			$(this.container).on('click', '.step4 .submit', function (ev) {
 				ev.preventDefault();
 				var $errorPhoneNode = $(this).parents('.g-compute').find('.step4 .content p');
@@ -304,9 +304,11 @@ define(['jquery'], function($){
 		},
 		// 验证面积
 		isValidArea : function (areaNum) {
+			var $errorNode = $('.step1 .item-area .error');
 			if (areaNum >= 50) {
 				return false;
 			}
+			$errorNode.hasClass('hide') && $errorNode.removeClass('hide');
 			return true;
 		}
 	}

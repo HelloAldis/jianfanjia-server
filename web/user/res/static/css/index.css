@@ -22,12 +22,12 @@
     position: absolute;
     bottom: 50%;
     left: 50%;
-    width: 200px;
-    height: 220px;
+    width: 220px;
+    height: 235px;
     background: url(../img/index/t2.png) 0 0 no-repeat;
     background-size: 100%;
-    margin-left: -100px;
-    margin-bottom: -110px;
+    margin-left: -110px;
+    margin-bottom: -117px;
 }
 
 /*智能预算*/
@@ -86,6 +86,7 @@
 }
 .g-compute .step1 .content{
     padding: 24px 0 83px;
+    font-size: 16px;
 }
 .g-compute .step2 .content{
     padding: 47px 0;
@@ -201,6 +202,7 @@
 .g-compute .item .u-inp .input{
     line-height: 40px;
     width: 100%;
+    height: 100%;
     background: none;
     border: none;
 }
@@ -215,9 +217,6 @@
     background-color: #fafbfb;
     border-radius:0 0 3px 3px;
 }
-.g-compute .user li:hover{
-    background-color: #f1f1f1;
-}
 .g-compute .step1 .item{
     margin: 0 25px;
     position: relative;
@@ -226,6 +225,7 @@
     position: absolute;
     top: 58px;
     color: red;
+    font-size: 12px;
 }
 .g-compute .item-phone{
     width: 362px;
@@ -260,12 +260,25 @@
     top: 56px;
     background-color: #fafbfb;
     left: -28px;
-    /*padding: 8px 0;*/
-    /*border: 1px solid #d2d2d2;*/
-    /*background-color: #fff;*/
-    /*border-radius: 4px;*/
+    width: 80px;
+    border: 1px solid #e5e5e5;
     display: none;
 }
+.g-compute .item-house li div.user ul{
+  padding: 10px 0;
+}
+.g-compute .item-house li div.user ul li{
+  float: none;
+  width: auto;
+  font-size: 14px;
+  line-height: 30px;
+  color: #999;
+}
+.g-compute .item-house li div.user ul li:hover{
+  background-color: #f1f1f1;
+  color: #000;
+}
+.g-compute .item-house li div.user .arrow,
 .g-compute .item-house li div.user .arrow i{
     position: absolute;
     left: 50%;
@@ -277,18 +290,29 @@
     border-color: transparent;
     border-style: dashed;
     border-bottom-style: solid;
-    border-bottom-color: #fafbfb;
+    border-bottom-color: #e5e5e5;
+}
+.g-compute .item-house li div.user .arrow i{
+  position: absolute;
+  left: -7px;
+  top: -6px;
+  margin-left: 0;
+  border-bottom-color: #fafbfb;
 }
 .g-compute .item-house .k-select{
-    width: 30px;
-    margin-right: 10px;
+  width: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.g-compute .item-house .k-select:hover{
+  background-color: #f1f1f1;
 }
 
 .g-compute .item-area{
-    width: 218px;
+  width: 218px;
 }
 .g-compute .item-area .u-box{
- line-height: 48px;
+  line-height: 48px;
 }
 .g-compute .item-area .u-inp{
     width: 110px;
