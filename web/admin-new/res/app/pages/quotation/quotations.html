@@ -16,6 +16,9 @@
           <th class="text-center">业主姓名</th>
           <th class="text-center">手机号</th>
           <th class="text-center">房屋面积</th>
+          <th class="text-center">
+            风格喜好
+          </th>
           <th class="text-center">报价详情</th>
         </tr>
 
@@ -26,6 +29,11 @@
           <td>{{quotation.user.username}}</td>
           <td>{{quotation.user.phone}}</td>
           <td>{{quotation.house_area}}</td>
+          <td>
+            <p>
+              <span ng-repeat="n in quotation.dec_styles track by $index"> {{ n | decStyleFilter}}  </span>
+            </p>
+          </td>
           <td class="text-center">
             <a href="{{('/quotation/' + quotation._id) | mobileUrl}}" target="_blank">点击查看</a>
           </td>
