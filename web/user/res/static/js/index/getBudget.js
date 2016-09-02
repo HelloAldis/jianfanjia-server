@@ -7,6 +7,7 @@ define(['jquery'], function($){
 			this.container = $(this.id);
 			this.bindArea();
 			this.bindEvent();
+			this.bindGoback();
 			this.toStep2();
 			this.toStep3();
 			this.toStep4();
@@ -53,6 +54,35 @@ define(['jquery'], function($){
 				var selectNode = $($(this).parents('li')[0]).find('.k-select')[0];
 				$(selectNode).html($(this).html());
 			});
+		},
+		// 返回
+		bindGoback : function () {
+			var self = this;
+			$(this.container).on('click', '.goback', function (ev) {
+				ev.preventDefault();
+				var stepNum = $(this).data('back');
+				switch(stepNum) {
+					case 'step2':
+						goBackStep('.step1', '.step2');
+						break;
+					case 'step3':
+						var bedroomNum = $('#j-house-shi').html();
+						if (bedroomNum >1) {
+							goBackStep('.step2', '.step3');
+						} else {
+							goBackStep('.step1', '.step3');
+						}
+						break;
+					case 'step4':
+						goBackStep('.step3', '.step4');
+						break;
+				}
+
+			});
+			goBackStep = function (toStep, fromStep) {
+				$(fromStep).addClass('hide');
+				$(toStep).removeClass('hide');
+			}
 		},
 		toStep2 : function () {
 			var self = this;
@@ -111,12 +141,6 @@ define(['jquery'], function($){
 					}
 				});
 			}
-
-			// 返回到第一步
-			$(this.container).on('click', '.step2 .goback', function (ev) {
-				$(this).parents('.g-compute').find('.step2').addClass('hide');
-				$(this).parents('.g-compute').find('.step1').removeClass('hide');
-			});
 		},
 		toStep3 : function () {
 			var self = this;
@@ -125,16 +149,6 @@ define(['jquery'], function($){
 				$(this).parents('.g-compute').find('.step2').addClass('hide');
 				$(this).parents('.g-compute').find('.step3').removeClass('hide');
 				self.chooseDecStyle();
-			});
-			// 返回到第二步或第一步
-			$(this.container).on('click', '.step3 .goback', function (ev) {
-				var bedroomNum = $('#j-house-shi').html();
-				$(this).parents('.g-compute').find('.step3').addClass('hide');
-				if (bedroomNum > 1) {
-					$(this).parents('.g-compute').find('.step2').removeClass('hide');
-				} else {
-					$(this).parents('.g-compute').find('.step1').removeClass('hide');
-				}
 			});
 		},
 		toStep4 : function () {
@@ -158,7 +172,6 @@ define(['jquery'], function($){
 					$errorPhoneNode.removeClass('hide');
 					return false;
 				}
-
 				// 参数
 				var room = {
 					phone: $('.step4 .item-phone input').val(),
@@ -169,17 +182,19 @@ define(['jquery'], function($){
 					living_room_count: $('#j-house-ting').html(),
 					kitchen_count: $('#j-house-chu').html(),
 					washroom_count: $('#j-house-wu').html(),
-					extra_bedroom_count: 1,
 					house_area: $('.step1 .item-area input').val(),
 					dec_styles: []
 				};
 
 				// 选择的其他房间名称
-				var otherRoomArr = $(this).parents('.g-compute').find('.step2 li').siblings('.active');
-				otherRoomArr.each(function () {
-					var roomName = $(this).find('.text p').text();
-					addRoomNum(roomName, room);
-				})
+				var bedroomNum = $('#j-house-shi').html();
+				if (bedroomNum > 1) {
+					var otherRoomArr = $(this).parents('.g-compute').find('.step2 li').siblings('.active');
+					otherRoomArr.each(function () {
+						var roomName = $(this).find('.text p').text();
+						addRoomNum(roomName, room);
+					})
+				}
 
 				// 选择的装修风格
 				var decStyleArr = $(this).parents('.g-compute').find('.step3 li').siblings('.active');
@@ -200,17 +215,17 @@ define(['jquery'], function($){
 			addRoomNum = function (name, room) {
 				switch(name) {
 					case '次卧':
-					room.extra_bedroom_count++;
-					break;
+						room.extra_bedroom_count++;
+						break;
 					case '儿童房':
-					room.child_bedroom_count++;
-					break;
+						room.child_bedroom_count++;
+						break;
 					case '书房':
-					room.study_room_count++;
-					break;
+						room.study_room_count++;
+						break;
 					case '衣帽间':
-					room.cloakroom_count++;
-					break;
+						room.cloakroom_count++;
+						break;
 				}
 				return room;
 			}
