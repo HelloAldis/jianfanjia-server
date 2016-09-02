@@ -1,1 +1,179 @@
-.item {}
+html {
+  overflow-x: hidden;
+}
+.total {
+  margin-top: 1rem
+}
+.base-price {
+  margin-left: 0.6rem
+}
+.base-price-text {
+  display: block;
+  font-size: 0.35rem;
+  color: #1d1d1d;
+}
+.base-price-number {
+  font-size: 0.6rem;
+  color: #61687a;
+}
+.base-price-yuan {
+  font-size: 0.4rem;
+  color: #1d1d1d;
+}
+.main-price {
+  margin-right: 0.6rem
+}
+.main-price-number {
+  font-size: 0.6rem;
+  color: #f98700;
+}
+.chart {
+  height: 7rem;
+  width: 100%;
+  position: relative;
+}
+#chart {
+  height: 100%;
+  width: 100%;
+}
+.chart-info {
+  margin-top: 0.5rem;
+  width: 100%;
+  height: 1.4rem;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  text-align: center;
+}
+.chart-info-number {
+  font-size: 0.8rem;
+  color: #f98700;
+}
+.add-text {
+  margin-top: 1rem;
+  font-size: 0.35rem;
+  color: #999999;
+}
+.add-text-one {
+  display: block;
+  margin-left: 0.6rem;
+}
+.add-text-two {
+  margin-left: 1.5rem;
+}
+.item-list {
+  margin-top: 0.5rem;
+}
+.item {
+  display: block;
+  height: 2.8rem;
+  width: 100%;
+}
+.item-image {
+  margin-top: 0.4rem;
+  margin-left: 0.6rem;
+  height: 2rem;
+  width: 3.12rem;
+  float: left;
+}
+.item-image img {
+  height: 100%;
+  width: 100%;
+}
+.item-info {
+  display: inline-block;
+  margin-left: 0.25rem;
+  height: 100%;
+}
+.item-name {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.45rem;
+  line-height: 0.45rem;
+  color: #1d1d1d;
+}
+.item-yugu {
+  margin-top: 0.5rem;
+  display: block;
+  font-size: 0.35rem;
+  color: #8b8b8b;
+}
+.item-number {
+  font-size: 0.45rem;
+  color: #f98700;
+}
+.item-yuan {
+  font-size: 0.35rem;
+  color: #999999;
+}
+.item-more {
+  float: right;
+  height: 100%;
+}
+.item-more-image {
+  margin-right: 0.6rem;
+  width: 0.56rem;
+  height: 0.33rem;
+}
+.item-area {
+  margin-right: 0.5rem;
+  font-size: 0.6rem;
+  line-height: 2.8rem;
+  color: #1d1d1d;
+}
+.item-detail {
+  transition: height 0.3s ease-in-out;
+  background-color: #eeeeee;
+  height: 0rem;
+  width: 100%;
+  overflow: hidden;
+}
+.item-detail-base {
+  padding-left: 0.6rem;
+  margin-top: 0.6rem;
+}
+.item-detail-main {
+  margin-top: 0.6rem;
+}
+.item-detail-open {
+  transition: height 0.3s ease-in-out;
+  background-color: #eeeeee;
+  height: 2.7rem;
+  width: 100%;
+  overflow: hidden;
+}
+.last {
+  height: 1.8rem;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-size: .45rem;
+  line-height: 1.33rem;
+  height: 2rem;
+  text-align: center;
+  background-color: rgba(0, 0, 0, .7);
+}
+.yuyue {
+  width: 3.4rem;
+  height: 1.33rem;
+  background-color: #ffffff;
+  margin: 0.33rem 0.5rem;
+  border-radius: 0.66rem;
+}
+.yuyue a {
+  color: #1d1d1d;
+}
+.app {
+  width: 4.9rem;
+  height: 1.33rem;
+  background-color: #f98700;
+  margin-right: 0.5rem;
+  margin-top: 0.33rem;
+  margin-bottom: 0.33rem;
+  border-radius: 0.66rem;
+}
+.app a {
+  color: #ffffff;
+}

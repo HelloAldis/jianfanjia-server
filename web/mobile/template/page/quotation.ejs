@@ -5,30 +5,133 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
     <meta name="renderer" content="webkit"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>简繁家</title>
     <meta name="description" content="简繁家互联网装修，轻松报价，轻松装修">
     <meta name="keywords" content="简繁家，互联网装修平台，轻松报价，轻松装修">
     <meta name="format-detection" content="telephone=no,email=no"/>
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="/m/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/m/css/quotation.css">
     <script type="text/javascript" src="/m/bower_components/lib-flexible/build/flexible.js"></script>
   </head>
 
   <body>
-    <div>
-      <span>基础预算：<%= data.quotation.base_total %>¥</span>
-      <span>主材预算：<%= data.quotation.main_total %>¥</span>
+    <div class="total">
+      <div class="base-price pull-left">
+        <span class="base-price-text">基础预算</span>
+        <span class="base-price-number"><%= data.quotation.base_total %></span>
+        <span class="base-price-yuan">元</span>
+      </div>
+      <div class="main-price pull-right">
+        <span class="base-price-text">主材预算</span>
+        <span class="main-price-number"><%= data.quotation.main_total %></span>
+        <span class="base-price-yuan">元</span>
+      </div>
+    </div>
+    <div class="chart">
+      <div id="chart" class="center-block"></div>
+      <div class="chart-info">
+        <span class="base-price-text">总预算</span>
+        <span class="chart-info-number"><%= data.quotation.main_total + data.quotation.base_total %></span>
+        <span class="base-price-yuan">元</span>
+      </div>
+    </div>
+    <div class="add-text">
+      <span class="add-text-one">注：半包=基础预算+个性化需求</span>
+      <span class="add-text-two">全包=基础预算+个性化需求+主材预算</span>
     </div>
 
-    <% for(var section of data.quotation.sections) { %>
-      <div>
-        <span><%= section.name %></span>
-        <span><%= section.area %>㎡</span>
-        <span>预估：</span>
-        <span><%= section.base_price + section.main_price %>¥</span>
+    <div class="item-list">
+      <% for(var i = 0; i < data.quotation.sections.length; i++) {
+        var section =  data.quotation.sections[i]; %>
+      <div class="item" onclick="toggle(<%= i %>)">
+        <div class="item-image">
+          <img class="img-responsive" src="<%=ejs_util.getImageForQuotationItem(section.name) %>" alt="<%= section.name %>"/>
+        </div>
+        <div class="item-info">
+          <span class="item-name"><%= section.name %></span>
+          <span class="item-yugu">预估：</span>
+          <span class="item-number"><%= section.base_price + section.main_price %></span>
+          <span class="item-yuan">元</span>
+        </div>
+        <div class="item-more">
+          <span class="item-area"><%= section.area %>㎡</span>
+          <img id="itemMore<%= i %>" class="item-more-image" src="/m/img/quotation/closed.png" alt="详情"/>
+        </div>
+      </div>
+      <div id="itemDetail<%= i %>" class="item-detail">
+        <div class="item-detail-base col-xs-4">
+          <span class="base-price-text">基础预算</span>
+          <span class="base-price-number"><%= section.base_price %></span>
+          <span class="base-price-yuan">元</span>
+        </div>
+        <div class="item-detail-main col-xs-4">
+          <span class="base-price-text">主材预算</span>
+          <span class="main-price-number"><%= section.main_price %></span>
+          <span class="base-price-yuan">元</span>
+        </div>
       </div>
     <% } %>
-  </body>
+    <div class="last"></div>
+    <footer class="footer">
+      <div class="yuyue pull-left">
+        <a href="tel:400-8515-167">快速预约</a>
+      </div>
+      <div class="app pull-right">
+        <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.jianfanjia.cn.activity">下载APP</a>
+      </div>
+    </footer>
+  </div>
+  <script type="text/javascript" src="/m/bower_components/echarts/dist/echarts.min.js"></script>
+  <script type="text/javascript" src="/m/js/quotation.js"></script>
+  <script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var chart = echarts.init(document.getElementById('chart'));
+
+    // 指定图表的配置项和数据
+    option = {
+      series: [
+        {
+          type: 'pie',
+          radius: [
+            '70%', '80%'
+          ],
+          avoidLabelOverlap: true,
+          startAngle: 45,
+          label: {
+            normal: {
+              show: false
+            }
+          },
+          data: [
+            {
+              value: <%= data.quotation.main_total %>,
+              name: '主材预算',
+              itemStyle: {
+                normal: {
+                  color: '#f98700'
+                }
+              }
+            }, {
+              value: <%= data.quotation.base_total %>,
+              name: '基础预算',
+              itemStyle: {
+                normal: {
+                  color: '#61687a'
+                }
+              }
+            }
+          ]
+        }
+      ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    chart.setOption(option);
+  </script>
+</body>
+
+</html>
+</body>
 
 </html>

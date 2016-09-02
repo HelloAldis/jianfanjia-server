@@ -21,6 +21,7 @@ const helmet = require('helmet');
 const api_statistic = require('lib/middlewares/api_statistic');
 const mobile_mark = require('lib/middlewares/mobile_mark');
 const web_router_mobile = require('lib/router/web_router_mobile');
+const ejs_util = require('lib/common/ejs_util');
 
 //config the web app
 const app = express();
@@ -28,6 +29,7 @@ const app = express();
 app.enable('trust proxy');
 
 //config view engine
+app.locals.ejs_util = ejs_util;
 app.set('views', path.join(__dirname, 'web/mobile/template'));
 app.set('view engine', 'ejs');
 app.engine('ejs', require('ejs').__express);
