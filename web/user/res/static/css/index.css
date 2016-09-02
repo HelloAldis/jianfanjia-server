@@ -227,6 +227,9 @@
     color: red;
     font-size: 12px;
 }
+.g-compute .step1 .item .placeholder{
+  left: 5px;
+}
 .g-compute .item-phone{
     width: 362px;
     margin: 0 auto;

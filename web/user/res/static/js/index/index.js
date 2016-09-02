@@ -27,6 +27,7 @@ require(['jquery','index/banner'],function($,Banner){
 require(['jquery','index/shortcut','utils/placeholder'],function($,Shortcut,Placeholder){
     $(function(){
         new Shortcut('#j-shortcut');
+        new Placeholder({id: '#house-area','className': 'placeholder'});
         new Placeholder({id: '#design-name','className': 'placeholder'});
         new Placeholder({id: '#design-phone','className': 'placeholder'});
         new Placeholder({id: '#area-house_area','className': 'placeholder'});

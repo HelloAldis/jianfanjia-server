@@ -36,7 +36,6 @@ require(['jquery','lodash','utils/placeholder'],function($,_,Placeholder){
             var app = $('#j-app');
             var winHash = window.location.search.split("?")[1];
             if (winHash == 2) {
-              console.log('www');
               var type = winHash;
               setType(type);
               _this.form.find('.m-type li').eq(type - 1).addClass('active');
