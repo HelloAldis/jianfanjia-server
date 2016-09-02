@@ -31,7 +31,7 @@
           <button type="button" class="btnSubmit">获取装修预算</button>
         </div>
       </div>
-      <div class="calcPriceHouse">
+      <div class="calcPriceHouse none">
         <div class="houseType">
           <p class="title">
             请选择您中意的户型
@@ -81,7 +81,7 @@
           <button type="button" class="btnSubmit">下一步</button>
         </div>
       </div>
-      <div class="calcPriceStyle">
+      <div class="calcPriceStyle none">
         <p class="title">
           选择您的装修标签
         </p>
@@ -119,12 +119,10 @@
       var calcPriceStyleTag = 'calcPriceStyleTag';
 
       $('.homePage .btnSubmit').click(function () {
-        calcPriceHouse.show();
         pushToHouse();
         pushState(homePageTag, calcPriceHouseTag);
       });
       $('.calcPriceHouse .btnSubmit').click(function () {
-        calcPriceStyle.show();
         pushToStyle();
         pushState(calcPriceHouseTag, calcPriceStyleTag);
       });
@@ -153,6 +151,7 @@
       }
 
       function animateView(element, clz) {
+        element.removeClass('none');
         var animateValue = clz + ' animated';
         element.removeClass('slideOutLeft slideOutRight slideInLeft slideInRight animated');
         element.addClass(animateValue);

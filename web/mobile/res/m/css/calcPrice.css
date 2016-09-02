@@ -10,9 +10,13 @@ body {
 .content {
   position: relative;
   width: 100%;
+  height: 100%;
 }
-.homePage {
+.homePage, .calcPriceHouse, .calcPriceStyle {
+  position: absolute;
+  top: 0;
   width: 100%;
+  height: 100%;
   -webkit-overflow-scrolling: touch;
   overflow: auto;
 }
@@ -67,14 +71,6 @@ body {
   font-size: 0.4rem;
   top: 0.5rem;
   right: 0.6rem;
-}
-.calcPriceHouse, .calcPriceStyle {
-  position: absolute;
-  display: none;
-  width: 100%;
-  top: 0;
-  -webkit-overflow-scrolling: touch;
-  overflow: auto;
 }
 .calcPriceHouse {
   text-align: center;
@@ -214,4 +210,7 @@ body {
 .footer a {
   font-size: 0.43333333rem;
   color: #fff;
+}
+.none {
+  display: none;
 }
