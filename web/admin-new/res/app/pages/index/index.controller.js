@@ -132,7 +132,11 @@
       name: '新增美图数',
       key: 'pictures',
       querys: queryUtil.genQuerys($scope.timeRanges, 'create_at')
-    }];
+    }, {
+      name: '新增报价数',
+      key: 'quotations',
+      querys: queryUtil.genQuerys($scope.timeRanges, 'create_at')
+    }]
 
     //数据加载显示状态
     $scope.loading = {
