@@ -1123,6 +1123,9 @@ a.m-head:hover{
     	-o-transition: 0.2s ease all;
     	transition: 0.2s ease all;
     }
+    .g-ft li a.desc{
+      cursor: auto;
+    }
     .g-ft li strong{
     	font-size: 16px;
       line-height: 40px;

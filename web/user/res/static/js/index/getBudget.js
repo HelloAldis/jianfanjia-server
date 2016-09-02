@@ -7,13 +7,12 @@ define(['jquery'], function($){
 			this.container = $(this.id);
 			this.bindArea();
 			this.bindEvent();
-			this.bindClick();
 			this.toStep2();
 			this.toStep3();
 			this.toStep4();
 			this.toStep5();
 		},
-
+		// 输入面积
 		bindArea : function () {
 			var self = this;
 			$(this.container).on('focus', '.item-area .input', function (ev) {
@@ -23,6 +22,7 @@ define(['jquery'], function($){
 				self.getArea($($('.item-area .input')[0]).val());
 			})
 		},
+		// 下拉框
 		bindEvent : function () {
 			var self = this,
 			timer = null,
@@ -46,13 +46,10 @@ define(['jquery'], function($){
 				ev.preventDefault();
 				bian = true;
 				$(this).parent('li').find('.user').hide().css({'opacity':0,'top':132});
-			});
-		},
-		// 选择几室几厅...
-		bindClick : function () {
-			var self = this;
-			$(this.container).on('click','.user li', function (ev) {
+			}).on('click','.user li',function(ev){
 				ev.preventDefault();
+				bian = true;
+				$(this).parents('li').find('.user').hide().css({'opacity':0,'top':132});
 				var selectNode = $($(this).parents('li')[0]).find('.k-select')[0];
 				$(selectNode).html($(this).html());
 			});
@@ -81,6 +78,7 @@ define(['jquery'], function($){
 				} else {
 					$(this).parents('.g-compute').find('.step1').addClass('hide');
 					$(this).parents('.g-compute').find('.step3').removeClass('hide');
+					self.chooseDecStyle();    //选择装修风格
 				}
 			});
 
@@ -108,10 +106,8 @@ define(['jquery'], function($){
 				$('.g-compute .step2 li').unbind('click').click(function (){
 					if ($(this).hasClass('active')) {
 						$(this).removeClass('active');
-						console.log(1);
 					} else if (!$(this).hasClass('active') && $('.step2 li').siblings('.active').length < bedroomNum-1) {
 						$(this).addClass('active');
-						console.log(2);
 					}
 				});
 			}
@@ -128,18 +124,8 @@ define(['jquery'], function($){
 				ev.preventDefault();
 				$(this).parents('.g-compute').find('.step2').addClass('hide');
 				$(this).parents('.g-compute').find('.step3').removeClass('hide');
-				chooseDecStyle();
+				self.chooseDecStyle();
 			});
-			// 选择装修风格
-			chooseDecStyle = function () {
-				$('.g-compute .step3 li').unbind('click').click(function (){
-					if ($(this).hasClass('active')) {
-						$(this).removeClass('active');
-					} else if (!$(this).hasClass('active') && $('.step3 li').siblings('.active').length < 3) {
-						$(this).addClass('active');
-					}
-				});
-			}
 			// 返回到第二步或第一步
 			$(this.container).on('click', '.step3 .goback', function (ev) {
 				var bedroomNum = $('#j-house-shi').html();
@@ -233,26 +219,26 @@ define(['jquery'], function($){
 			getDecStyleToNum = function (name, room) {
 				switch(name) {
 					case '欧式':
-					room.dec_styles.push(0);
-					break;
+						room.dec_styles.push(0);
+						break;
 					case '中式':
-					room.dec_styles.push(1);
-					break;
+						room.dec_styles.push(1);
+						break;
 					case '现代':
-					room.dec_styles.push(2);
-					break;
+						room.dec_styles.push(2);
+						break;
 					case '地中海':
-					room.dec_styles.push(3);
-					break;
+						room.dec_styles.push(3);
+						break;
 					case '美式':
-					room.dec_styles.push(4);
-					break;
+						room.dec_styles.push(4);
+						break;
 					case '东南亚':
-					room.dec_styles.push(5);
-					break;
+						room.dec_styles.push(5);
+						break;
 					case '田园':
-					room.dec_styles.push(6);
-					break;
+						room.dec_styles.push(6);
+						break;
 				}
 				return room;
 			}
@@ -273,6 +259,16 @@ define(['jquery'], function($){
 					}
 				})
 			}
+		},
+		// 选择装修风格
+		chooseDecStyle : function () {
+			$('.g-compute .step3 li').unbind('click').click(function (){
+				if ($(this).hasClass('active')) {
+					$(this).removeClass('active');
+				} else if (!$(this).hasClass('active') && $('.step3 li').siblings('.active').length < 3) {
+					$(this).addClass('active');
+				}
+			});
 		},
 		// 获取面积并验证面积
 		getArea : function (areaNum) {
