@@ -21,7 +21,7 @@
         }
       })
       .state('fieldDetail', {
-        title: '工地管理后台',
+        // title: '工地管理',
         url: '/field/detail/:id/:detail',
         templateUrl: 'app/pages/field/fieldDetail.html',
         controller: 'FieldDetailController'
