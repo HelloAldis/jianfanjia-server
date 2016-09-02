@@ -2,86 +2,178 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, minimum-scale=1.0, user-scalable=1">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
     <title></title>
     <link rel="stylesheet" href="bower_components/animate.css/animate.min.css">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/calcPrice.css">
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/lib-flexible/build/flexible_css.js"></script>
+    <script src="bower_components/lib-flexible/build/flexible.js"></script>
   </head>
   <body>
-    <nav>
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-4 leftNavItem">
-            dsafsaf
-          </div>
-          <div class="col-xs-4 title">
-            简繁家
-          </div>
-          <div class="col-xs-4 rightNavItem">
-            dsafsaf
-          </div>
-        </div>
-      </div>
-    </nav>
     <div class="content">
       <div class="homePage">
-        <nav>
-          next
-        </nav>
-        calc-price-area
+        <div class="headerImg">
+          <p class="title">
+            为您开启奇妙的装修之旅
+          </p>
+        </div>
+
+        <p class="secondTitle">
+          只需三步，即刻在线生成智能预算
+        </p>
+        <div class="fldContainer">
+          <img src="img/calcPrice/icon_area.png" />
+          <input type="text" name="name" value="" placeholder="建筑面积">
+          <span>㎡</span>
+        </div>
+        <div class="btnContainer">
+          <button type="button" class="btnSubmit">获取装修预算</button>
+        </div>
       </div>
       <div class="calcPriceHouse">
-        <nav>
-          back
-        </nav>
-        <nav>
-          next
-        </nav>
-        calc-price-house
+        <div class="houseType">
+          <p class="title">
+            请选择您中意的户型
+          </p>
+          <div class="iconPlusContainer">
+            <img src="img/calcPrice/icon_plus.png" class="iconPlus" alt="" />
+            <img src="img/calcPrice/icon_plus.png" class="iconPlus" alt="" />
+            <img src="img/calcPrice/icon_plus.png" class="iconPlus" alt="" />
+            <img src="img/calcPrice/icon_plus.png" class="iconPlus" alt="" />
+          </div>
+          <div class="houseValueContainer">
+            <img src="img/calcPrice/icon_house.png" class="iconHouse" alt="" />
+            <span class="houseValueNumber">2</span>
+            <span class="houseValueName">室</span>
+            <span class="houseValueNumber">1</span>
+            <span class="houseValueName">厅</span>
+            <span class="houseValueNumber">1</span>
+            <span class="houseValueName">厨</span>
+            <span class="houseValueNumber">1</span>
+            <span class="houseValueName">卫</span>
+          </div>
+          <div class="iconPlusContainer">
+            <img src="img/calcPrice/icon_minus.png" class="iconPlus" alt="" />
+            <img src="img/calcPrice/icon_minus.png" class="iconPlus" alt="" />
+            <img src="img/calcPrice/icon_minus.png" class="iconPlus" alt="" />
+            <img src="img/calcPrice/icon_minus.png" class="iconPlus" alt="" />
+          </div>
+        </div>
+        <div class="extraHouse">
+          <p class="title">
+            除主卧外，另外2个卧室用作<br/>（多选／必选）
+          </p>
+          <div class="extraHouseContainer">
+            <div>
+              <span class="iconRoomContainer"><img src="img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p></span>
+              <span class="iconRoomContainer"><img src="img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p></span>
+              <span class="iconRoomContainer"><img src="img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p></span>
+              <span class="iconRoomContainer"><img src="img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p></span>
+            </div>
+            <div>
+              <span class="iconRoomContainer"><img src="img/calcPrice/icon_book_room.png" class="iconRoom" alt="" /><p>书房</p></span>
+              <span class="iconRoomContainer"><img src="img/calcPrice/icon_cloth_room.png" class="iconRoom" alt="" /><p>衣帽间</p></span>
+            </div>
+          </div>
+        </div>
+        <div class="btnContainer">
+          <button type="button" class="btnSubmit">下一步</button>
+        </div>
       </div>
       <div class="calcPriceStyle">
-        <nav>
-          back
-        </nav>
-        calc-price-style
+        <p class="title">
+          选择您的装修标签
+        </p>
+        <div class="decTagContainer">
+          <div>
+            <span class="iconRoomContainer"><img src="img/calcPrice/icon_ou_shi.png" class="iconRoom" alt="" /><p>欧式</p></span>
+            <span class="iconRoomContainer"><img src="img/calcPrice/icon_zhong_shi.png" class="iconRoom" alt="" /><p>中式</p></span>
+            <span class="iconRoomContainer"><img src="img/calcPrice/icon_xian_dai.png" class="iconRoom" alt="" /><p>现代</p></span>
+            <span class="iconRoomContainer"><img src="img/calcPrice/icon_di_zhong_hai.png" class="iconRoom" alt="" /><p>地中海</p></span>
+          </div>
+          <div>
+            <span class="iconRoomContainer"><img src="img/calcPrice/icon_mei_shi.png" class="iconRoom" alt="" /><p>美式</p></span>
+            <span class="iconRoomContainer"><img src="img/calcPrice/icon_dong_nan_ya.png" class="iconRoom" alt="" /><p>东南亚</p></span>
+            <span class="iconRoomContainer"><img src="img/calcPrice/icon_tian_yuan.png" class="iconRoom" alt="" /><p>田园</p></span>
+          </div>
+        </div>
+        <div class="btnContainer">
+          <button type="button" class="btnSubmit">生成装修预算</button>
+        </div>
       </div>
     </div>
-    <footer></footer>
-
+    <footer class="footer">
+      <img src="img/calcPrice/logo.png" alt="logo" />
+      <a href="javascript:;">立即下载简繁家App</a>
+    </footer>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-      $(document).ready(function(){
-        var homePage = $('.homePage');
-        var calcPriceHouse = $('.calcPriceHouse');
-        var calcPriceStyle = $('.calcPriceStyle');
+      var homePage = $('.homePage');
+      var calcPriceHouse = $('.calcPriceHouse');
+      var calcPriceStyle = $('.calcPriceStyle');
 
-        $('.homePage>nav').click(function () {
-          calcPriceHouse.show();
-          animateView(homePage, 'slideOutLeft');
-          animateView(calcPriceHouse, 'slideInRight');
-        });
-        $('.calcPriceHouse>nav:nth-child(1)').click(function () {
-          animateView(homePage, 'slideInLeft');
-          animateView(calcPriceHouse, 'slideOutRight');
-        });
-        $('.calcPriceHouse>nav:nth-child(2)').click(function () {
-          calcPriceStyle.show();
-          animateView(calcPriceHouse, 'slideOutLeft');
-          animateView(calcPriceStyle, 'slideInRight');
-        });
-        $('.calcPriceStyle>nav').click(function () {
-          animateView(calcPriceHouse, 'slideInLeft');
-          animateView(calcPriceStyle, 'slideOutRight');
-        });
+      var homePageTag = 'homePageTag';
+      var calcPriceHouseTag = 'calcPriceHouseTag';
+      var calcPriceStyleTag = 'calcPriceStyleTag';
+
+      $('.homePage .btnSubmit').click(function () {
+        calcPriceHouse.show();
+        pushToHouse();
+        pushState(homePageTag, calcPriceHouseTag);
       });
+      $('.calcPriceHouse .btnSubmit').click(function () {
+        calcPriceStyle.show();
+        pushToStyle();
+        pushState(calcPriceHouseTag, calcPriceStyleTag);
+      });
+      $('.calcPriceStyle .btnSubmit').click(function () {
+
+      });
+
+      function popToHome() {
+        animateView(homePage, 'slideInLeft');
+        animateView(calcPriceHouse, 'slideOutRight');
+      }
+
+      function pushToHouse() {
+        animateView(homePage, 'slideOutLeft');
+        animateView(calcPriceHouse, 'slideInRight');
+      }
+
+      function popToHouse() {
+        animateView(calcPriceHouse, 'slideInLeft');
+        animateView(calcPriceStyle, 'slideOutRight');
+      }
+
+      function pushToStyle() {
+        animateView(calcPriceHouse, 'slideOutLeft');
+        animateView(calcPriceStyle, 'slideInRight');
+      }
 
       function animateView(element, clz) {
         var animateValue = clz + ' animated';
         element.removeClass('slideOutLeft slideOutRight slideInLeft slideInRight animated');
         element.addClass(animateValue);
       }
+
+      function pushState(preS, curS) {
+        var state = {pre:preS};
+        window.history.replaceState(state, null, null);
+        window.history.pushState(null, curS, null);
+      }
+
+      window.addEventListener('popstate', function (e) {
+        var state = e.state;
+        if (!state) return;
+        var preState = state.pre;
+        if (preState === homePageTag) {
+          popToHome();
+        } else if (preState === calcPriceHouseTag) {
+          popToHouse();
+        }
+      });
     </script>
   </body>
 </html>

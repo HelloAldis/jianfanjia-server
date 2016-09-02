@@ -1,376 +1,347 @@
 <%- include('../module/head') -%>
-    <title>首页--互联网装修|武汉装修|设计师平台|简繁家互联网装修平台</title>
-    <meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
-    <meta name="keywords" content="互联网装修,武汉装修,设计师平台,简繁家互联网装修平台,家装施工监理">
-    <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
-    <link rel="stylesheet" type="text/css" href="/static/css/index.css" />
+<title>首页--互联网装修|武汉装修|设计师平台|简繁家互联网装修平台</title>
+<meta name="description" content="简繁家提供家装设计、新房装修、装修流程、室内设计、家装设计、室内装修、施工监理等服务和装修知识、装修风格、装修效果图、装修设计图等信息。">
+<meta name="keywords" content="互联网装修,武汉装修,设计师平台,简繁家互联网装修平台,家装施工监理">
+<link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/index.css" />
 <%- include('../module/header') -%>
-  <div class="g-wp g-shortcut f-cb" id="j-shortcut">
-    <div class="g-apply f-fl" id="j-apply">
-      <ul class="tab">
-        <li class="active" data-type="name">免费设计</li>
-        <li data-type="house_area">免费报价</li>
-      </ul>
-      <div class="apply-form design">
-        <form id="apply-form">
-          <h3>立即免费获取三套方案</h3>
-          <div class="m-item f-cb j-apply-form">
-            <div class="item">
-              <label class="u-lab" for="reg-account"><i class="icon icon-user"></i></label>
-              <div class="u-inp">
-                <div class="box">
-                  <input type="text" class="input" name="name" id="design-name" placeholder="请输入您的称呼">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="m-item f-cb j-apply-form hide">
-            <div class="item">
-              <label class="u-lab" for="reg-account"><i class="icon icon-home"></i></label>
-              <div class="u-inp">
-                <div class="box">
-                  <input type="text" class="input" name="house_area" id="area-house_area" placeholder="请输入您的房屋面积">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="m-item f-cb">
-            <div class="item">
-              <label class="u-lab" for="reg-account"><i class="icon icon-phone"></i></label>
-              <div class="u-inp">
-                <div class="box">
-                  <input type="text" class="input" name="phone" id="design-phone" placeholder="请输入手机号码">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="save" id="reg-agreement"><span class="active"></span><a class="link" href="javascript:;" onclick="window.open('/tpl/other/agreement.html','maxwindow','toolbar=no,width=1000,location=no,directories=no,menubar=no,scrollbars=yes,resizable=no,status=no');">我已阅读并同意<strong>《简繁家注册协议》</strong></a></div>
-          <div class="m-error-info hide" id="error-info"></div>
-          <input type="button" class="submit-btn" id="apply-submit" value="立即申请">
-        </form>
-      </div>
-      <p class="tips">注：目前仅支持武汉地区</p>
+<div class="g-wp g-shortcut f-cb" id="j-shortcut">
+  <div class="home-top">
+    <div class="top-img">
+      <img data-original="/static/img/index/index1.jpg" src="/static/img/public/load.gif" class="img lazyimg u-placeholder-image">
     </div>
-    <div class="g-banner f-fr" id="j-banner">
-      <ul>
-        <li><a href="/zt/supervision/index.html" target="_blank"><img data-src="/static/img/index/banner2016072601.jpg" height="340" width="865" alt="" /></a></li>
-        <li><a href="/zt/safeguard/index.html" target="_blank"><img data-src="/static/img/index/banner2016072602.jpg" height="340" width="865" alt="" /></a></li>
-        <li><a href="/tpl/download/index.html" target="_blank"><img data-src="/static/img/index/banner2016072603.jpg" height="340" width="865" alt="" /></a></li>
-      </ul>
-      <div class="btns"></div>
-      <div class="toggle">
-        <span class="prev"></span>
-        <span class="next"></span>
+    <div class="top-title"></div>
+  </div>
+  <!--   <div><%= JSON.stringify(data) %></div> -->
+</div>
+
+<section class="g-wp g-steps">
+  <div class="g-compute" id="j-budget">
+    <div class="step1">
+      <h3 class="title">只需三步，即刻在线生成智能预算</h3>
+      <div class="content">
+        <div class="items f-cb">
+          <div class="item item-address f-fl">
+            <label for="" class="u-lab"><i class="icon address"></i></label>
+            <div class="u-box">
+              <span>武汉</span>
+            </div>
+          </div>
+          <div class="item item-area f-fl">
+            <label for="" class="u-lab"><i class="icon area"></i></label>
+            <div class="u-box">
+              <div class="u-inp f-fl">
+                <input type="text" class="input" placeholder="建筑面积">
+              </div>
+              <span class="unit f-fl">m&sup2;</span>
+            </div>
+            <div class="error hide">面积不正确</div>
+          </div>
+          <div class="item item-house f-fl">
+            <label for="" class="u-lab"><i class="icon house"></i></label>
+            <div class="u-box">
+              <ul class="f-cb">
+                <li>
+                  <div class="f-fl k-select" id="j-house-shi">1</div><span class="unit f-fl">室</span>
+                  <div class="user">
+                    <span class="arrow"><i></i></span>
+                    <ul>
+                      <li class="shi">1</li>
+                      <li class="shi">2</li>
+                      <li class="shi">3</li>
+                      <li class="shi">4</li>
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <div class="f-fl k-select" id="j-house-ting">1</div><span class="unit f-fl">厅</span>
+                  <div class="user">
+                    <span class="arrow"><i></i></span>
+                    <ul>
+                      <li class="ting">1</li>
+                      <li class="ting">2</li>
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <div class="f-fl k-select" id="j-house-chu">1</div><span class="unit f-fl">厨</span>
+                  <div class="user">
+                    <span class="arrow"><i></i></span>
+                    <ul>
+                      <li class="chu">1</li>
+                      <li class="chu">2</li>
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <div class="f-fl k-select" id="j-house-wu">1</div><span class="unit f-fl">卫</span>
+                  <div class="user">
+                    <span class="arrow"><i></i></span>
+                    <ul>
+                      <li class="wu">1</li>
+                      <li class="wu">2</li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
-      <ol class="f-cb">
-        <li class="one">
-          <a href="/tpl/merit/index.html">
-            <i></i>
-            <h4>简单操作</h4>
-            <p>装修过程全景在线呈现</p>
-          </a>
-        </li>
-        <li class="two">
-          <a href="/tpl/merit/index.html">
-            <i></i>
-            <h4>流程透明</h4>
-            <p>降低20%不必要的成本</p>
-          </a>
-        </li>
-        <li class="three">
-          <a href="/tpl/merit/index.html">
-            <i></i>
-            <h4>高效管理</h4>
-            <p>装修过程一手全程掌控</p>
-          </a>
-        </li>
-      </ol>
+      <button class="btns get-budget">获取装修预算</button>
+    </div>
+    <div class="step2 hide">
+      <span class="icon goback" data-back="step1"></span>
+      <h3 class="title">您选择的<strong class="room bright">3</strong>室<strong class="live-room bright">1</strong>厅<strong class="kitchen-room bright">1</strong>厨<strong class="wash-room bright">2</strong>卫</h3>
+      <p class="tips">除了主卧室另外<span class="other-room">2</span>个房间打算怎么安排？</p>
+      <div class="content">
+        <ul class="list f-cb">
+          <li class="live-room1 active">
+            <div class="img"><img src="/static/img/index/compute-room01.png" alt=""></div>
+            <p>次卧</p>
+            <span class="mask"></span>
+            <div class="text">
+              <i class="icon"></i>
+              <p>次卧</p>
+            </div>
+          </li>
+          <li class="live-room2">
+            <div class="img"><img src="/static/img/index/compute-room01.png" alt=""></div>
+            <p>次卧</p>
+            <span class="mask"></span>
+            <div class="text">
+              <i class="icon"></i>
+              <p>次卧</p>
+            </div>
+          </li>
+          <li>
+            <div class="img"><img src="/static/img/index/compute-room02.png" alt=""></div>
+            <p>儿童房</p>
+            <span class="mask"></span>
+            <div class="text">
+              <i class="icon"></i>
+              <p>儿童房</p>
+            </div>
+          </li>
+          <li class="child-room2">
+            <div class="img"><img src="/static/img/index/compute-room02.png" alt=""></div>
+            <p>儿童房</p>
+            <span class="mask"></span>
+            <div class="text">
+              <i class="icon"></i>
+              <p>儿童房</p>
+            </div>
+          </li>
+          <li>
+            <div class="img"><img src="/static/img/index/compute-room03.png" alt=""></div>
+            <p>书房</p>
+            <span class="mask"></span>
+            <div class="text">
+              <i class="icon"></i>
+              <p>书房</p>
+            </div>
+          </li>
+          <li>
+            <div class="img"><img src="/static/img/index/compute-room04.png" alt=""></div>
+            <p>衣帽间</p>
+            <span class="mask"></span>
+            <div class="text">
+              <i class="icon"></i>
+              <p>衣帽间</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <button class="btns next">下一步</button>
+      <div class="process">
+        <span class="active"></span>
+        <span></span>
+      </div>
+    </div>
+    <div class="step3 hide">
+      <span class="icon goback" data-back="step2" data-back2="step1"></span>
+      <h3 class="title">选择您喜欢的新家风格</h3>
+      <div class="content">
+        <ul class="list f-cb">
+          <li class="active">
+            <div class="img"><img src="/static/img/index/compute-style01.jpg" alt=""></div>
+            <p>欧式</p>
+            <span class="mask"></span>
+            <div class="text">
+              <i class="icon"></i>
+              <p>欧式</p>
+            </div>
+          </li>
+          <li>
+            <div class="img"><img src="/static/img/index/compute-style02.jpg" alt=""></div>
+            <p>中式</p>
+            <span class="mask"></span>
+            <div class="text">
+              <i class="icon"></i>
+              <p>中式</p>
+            </div>
+          </li>
+          <li>
+            <div class="img"><img src="/static/img/index/compute-style03.jpg" alt=""></div>
+            <p>现代</p>
+            <span class="mask"></span>
+            <div class="text">
+              <i class="icon"></i>
+              <p>现代</p>
+            </div>
+          </li>
+          <li>
+            <div class="img"><img src="/static/img/index/compute-style04.jpg" alt=""></div>
+            <p>地中海</p>
+            <span class="mask"></span>
+            <div class="text">
+              <i class="icon"></i>
+              <p>地中海</p>
+            </div>
+          </li>
+          <li>
+            <div class="img"><img src="/static/img/index/compute-style05.jpg" alt=""></div>
+            <p>美式</p>
+            <span class="mask"></span>
+            <div class="text">
+              <i class="icon"></i>
+              <p>美式</p>
+            </div>
+          </li>
+          <li>
+            <div class="img"><img src="/static/img/index/compute-style06.jpg" alt=""></div>
+            <p>东南亚</p>
+            <span class="mask"></span>
+            <div class="text">
+              <i class="icon"></i>
+              <p>东南亚</p>
+            </div>
+          </li>
+          <li>
+            <div class="img"><img src="/static/img/index/compute-style07.jpg" alt=""></div>
+            <p>田园</p>
+            <span class="mask"></span>
+            <div class="text">
+              <i class="icon"></i>
+              <p>田园</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <button class="btns generate">生成预算清单</button>
+      <div class="process">
+        <span></span>
+        <span class="active"></span>
+      </div>
+    </div>
+    <div class="step4 hide">
+      <h3 class="title"><i class="icon phone"></i>发送到手机</h3>
+      <p class="tips">请填写手机号码，装修预算将会发送到您的手机里</p>
+      <div class="content">
+        <div class="item item-phone">
+          <label for="" class="u-lab"><i class="icon phone"></i></label>
+          <div class="u-box">
+            <div class="u-inp">
+              <input type="text" class="input" placeholder="请输入手机号码">
+            </div>
+          </div>
+          <p class="hide">手机号不正确</p>
+        </div>
+      </div>
+      <button class="btns submit">立即获取</button>
+    </div>
+    <div class="step5 hide">
+      <h3 class="title"><i class="icon success"></i>成功发送到手机</h3>
+      <p class="tips">您的装修预算已通过短信形式发送到您的手机，点开链接即可查看。</p>
+      <div class="content">
+        <div class="contact">
+          <dl class="f-fl">
+            <dt>关注简繁家公众号</dt>
+            <dd><img src="/static/img/index/weixin.jpg" alt=""></dd>
+          </dl>
+          <dl class="f-fr">
+            <dt>下载简繁家APP</dt>
+            <dd><img src="/static/img/index/owner-app.jpg" alt=""></dd>
+          </dl>
+        </div>
+      </div>
     </div>
   </div>
-  <section class="g-item g-wp g-events" id="j-events">
-    <ul class="f-cb">
-      <li>
-        <img data-original="/static/img/index/events2016071901.jpg" src="/static/img/public/load.gif" alt="专属你的“宜家风”整装方案" class="img lazyimg u-placeholder-image">
-        <span class="mask"></span>
-        <a href="/zt/jian/index.html" class="link">立即体验</a>
-      </li>
-      <li>
-        <img data-original="/static/img/index/events2016071902.jpg" src="/static/img/public/load.gif" alt="简繁家365核心装修包不限量首发" class="img lazyimg u-placeholder-image">
-        <span class="mask"></span>
-        <a href="/zt/365package/index.html" class="link">立即体验</a>
-      </li>
-      <li>
-        <img data-original="/static/img/index/events2016071903.jpg" alt="分期无忧乐享装修" src="/static/img/public/load.gif" class="img lazyimg u-placeholder-image">
-        <span class="mask"></span>
-        <a href="/zt/loan/index.html" class="link">立即体验</a>
-      </li>
-    </ul>
-  </section>
-  <section class="g-item g-wp g-steps" id="j-steps">
-    <h3 class="m-tt">
-      <a href="/tpl/merit/index.html">
-        <span></span>
-        <strong>只需六步,轻松搞定装修</strong>
-      </a>
-    </h3>
-    <div class="m-ct">
-      <ul class="f-cb">
-        <li>
-          <a href="javascript:;">
-            <i class="iconfont">&#xe630;</i>
-            <strong>发布需求</strong>
-          </a>
-          <div class="join">
-            <span class="arc"></span>
-            <span class="circle"></span>
-            <span class="dot"></span>
-          </div>
-        </li>
-        <li class="even">
-          <a href="javascript:;">
-            <i class="iconfont">&#xe636;</i>
-            <strong>匹配三名设计师</strong>
-          </a>
-          <div class="join">
-            <span class="arc"></span>
-            <span class="circle"></span>
-            <span class="dot"></span>
-          </div>
-        </li>
-        <li>
-          <a href="javascript:;">
-            <i class="iconfont">&#xe63b;</i>
-            <strong>三套方案对比</strong>
-          </a>
-          <div class="join">
-            <span class="arc"></span>
-            <span class="circle"></span>
-            <span class="dot"></span>
-          </div>
-        </li>
-        <li class="even">
-          <a href="javascript:;">
-            <i class="iconfont">&#xe631;</i>
-            <strong>签订三方保障合同</strong>
-          </a>
-          <div class="join">
-            <span class="arc"></span>
-            <span class="circle"></span>
-            <span class="dot"></span>
-          </div>
-        </li>
-        <li>
-          <a href="javascript:;">
-            <i class="iconfont">&#xe637;</i>
-            <strong>全程施工监管</strong>
-          </a>
-          <div class="join">
-            <span class="arc"></span>
-            <span class="circle"></span>
-            <span class="dot"></span>
-          </div>
-        </li>
-        <li>
-          <a href="javascript:;">
-            <i class="iconfont">&#xe638;</i>
-            <strong>售后保障</strong>
-          </a>
-        </li>
-      </ul>
+</section>
+
+<section class="g-wp g-package">
+  <div class="need-designer">
+    <div class="need-mask"></div>
+    <div class="need-img"></div>
+    <div class="need-title">
+      <h3><a href="/tpl/design/index.html">需要一名设计师？</a></h3>
     </div>
-  </section>
-  <section class="g-item g-wp g-designers">
-    <h3 class="m-tt">
-      <a href="/tpl/design/index.html">
-        <span></span>
-        <strong>设计师精选</strong>
-      </a>
-    </h3>
-    <div class="m-ct">
-      <div class="m-mn m-potter f-cb" id="j-potter">
-        <h3 class="f-fl">匠心定制</h3>
-        <div class="list f-fr">
-          <div class="roll">
-            <ul>
-              <% for(var i=0; i < data.jxdz_designers.length; i++){%>
-              <li>
-                <a href="/tpl/designer/<%= data.jxdz_designers[i]._id %>" class="u-placeholder-image">
-                <img  data-src="/api/v2/web/thumbnail2/200/200/<%= data.jxdz_designers[i].imageid %>" alt="<%= data.jxdz_designers[i].username %>" src="/static/img/public/load.gif">
-                <span><%= data.jxdz_designers[i].username %></span></a>
-              </li>
-              <%}%>
-              <% if(data.jxdz_designers.length <= 5){%>
-                <% for(var i=0; i < data.jxdz_designers.length; i++){%>
-                <li>
-                  <a href="/tpl/designer/<%= data.jxdz_designers[i]._id %>" class="u-placeholder-image">
-                  <img data-src="/api/v2/web/thumbnail2/200/200/<%= data.jxdz_designers[i].imageid %>" alt="<%= data.jxdz_designers[i].username %>" src="/static/img/public/load.gif">
-                  <span><%= data.jxdz_designers[i].username %></span></a>
-                </li>
-                <%}%>
-              <%}%>
-            </ul>
-          </div>
-          <div class="toggle">
-            <a href="javascript:;" class="prev"></a>
-            <a href="javascript:;" class="next"></a>
-          </div>
-        </div>
-      </div>
-      <div class="m-mn f-cb" id="j-designers">
-        <div class="m-tab f-fl tab">
-          <ul>
-            <li class="active">新锐先锋</li>
-            <li>暖暖走心</li>
-          </ul>
-        </div>
-        <div class="m-box f-fr box">
-          <div class="list">
-            <div class="roll">
-              <ul>
-                <% for(var i=0; i < data.xrxf_designers.length; i++){%>
-                <li>
-                  <a href="/tpl/designer/<%= data.xrxf_designers[i]._id %>" class="u-placeholder-image">
-                  <img  data-src="/api/v2/web/thumbnail2/95/95/<%= data.xrxf_designers[i].imageid %>" alt="<%= data.xrxf_designers[i].username %>" src="/static/img/public/load.gif">
-                  <span><%= data.xrxf_designers[i].username %></span></a>
-                </li>
-                <%}%>
-              </ul>
-            </div>
-            <div class="toggle">
-              <a href="javascript:;" class="prev"></a>
-              <a href="javascript:;" class="next"></a>
-            </div>
-          </div>
-          <div class="list hide">
-            <div class="roll">
-              <ul>
-                <% for(var i=0; i < data.llzx_designers.length; i++){%>
-                <li>
-                  <a href="/tpl/designer/<%= data.llzx_designers[i]._id %>" class="u-placeholder-image">
-                  <img  data-src="/api/v2/web/thumbnail2/95/95/<%= data.llzx_designers[i].imageid %>" alt="<%= data.llzx_designers[i].username %>" src="/static/img/public/load.gif">
-                  <span><%= data.llzx_designers[i].username %></span></a>
-                </li>
-                <%}%>
-              </ul>
-            </div>
-            <div class="toggle">
-              <a href="javascript:;" class="prev"></a>
-              <a href="javascript:;" class="next"></a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="m-more f-tac">
-        <a href="/tpl/design/index.html">查看更多设计师</a>
+  </div>
+
+  <div class="package1">
+    <div class="content f-fl">
+      <div class="box-padding">
+        <h2><span></span></h2>
+        <p class="line"><span></span></p>
+        <h3 class="desc">"宜家风”整装解决方案</h3>
+        <p class="text-left">精心为85后的年轻人打造的“宜家风”全包装修解决方案，
+          我们的抓也团队帮您搞定设计搭配、硬装、软装和配件，
+          你只需要提交需求就能轻
+        </p>
+        <p class="more"><a href="/zt/jian/index.html">了解更多</a></p>
       </div>
     </div>
-  </section>
-  <section class="g-item g-wp g-mito" id="j-mito">
-    <h3 class="m-tt">
-      <a href="/tpl/mito/index.html">
-        <span></span>
-        <strong>装修美图精选</strong>
-      </a>
-    </h3>
-    <div class="m-ct">
-      <ul>
-        <% for(var i=0; i < data.top_beautiful_images.length; i++){%>
-          <% if (i == 1) { %>
-            <li class="center">
-            <% for(var j=0; j < 2; j++){%>
-              <a  class="u-placeholder-image" href="/tpl/mito/detail.html?pid=<%=data.top_beautiful_images[i+j]._id%>&imgid=<%=data.top_beautiful_images[i+j].images[0].imageid%>&imgw=<%=data.top_beautiful_images[i+j].images[0].width%>&imgh=<%=data.top_beautiful_images[i+j].images[0].height%>"><img class="lazyimg" data-original="/api/v2/web/thumbnail2/390/185/<%=data.top_beautiful_images[i+j].images[0].imageid%>" src="/static/img/public/load.gif" alt="<%=data.top_beautiful_images[i+j].title%>"><span><%=data.top_beautiful_images[i+j].title%></span></a>
-            <%}%>
-            </li>
-          <% }else if(i == 2){ %>
-            <% continue %>
-          <% }else{ %>
-            <li><a class="u-placeholder-image" href="/tpl/mito/detail.html?pid=<%= data.top_beautiful_images[i]._id %>&imgid=<%= data.top_beautiful_images[i].images[0].imageid %>&imgw=<%= data.top_beautiful_images[i].images[0].width %>&imgh=<%= data.top_beautiful_images[i].images[0].height %>"><img class="lazyimg" data-original="/api/v2/web/thumbnail2/395/380/<%= data.top_beautiful_images[i].images[0].imageid %>" src="/static/img/public/load.gif" alt="<%= data.top_beautiful_images[i].title %>"><span><%= data.top_beautiful_images[i].title %></span></a></li>
-          <% } %>
-        <%}%>
-      </ul>
+    <div class="package1-img f-fr">
+      <img data-original="/static/img/index/index3.jpg" src="/static/img/public/load.gif" class="img lazyimg u-placeholder-image">
     </div>
-  </section>
-  <%
-  function house_type(input){ return { "0" : "一室", "1" : "二室", "2" : "三室", "3" : "四室", "4" : "复式", "5" : "别墅", "6" : "LOFT", "7" : "其他" }[input] }
-  function dec_style(input){ return { "0" : "欧式", "1" : "中式", "2" : "现代", "3" : "地中海", "4" : "美式", "5" : "东南亚", "6" : "田园" }[input] }
-  %>
-  <section class="g-item g-wp g-live" id="j-live">
-    <h3 class="m-tt">
-      <a href="/tpl/live/index.html">
-        <span></span>
-        <strong>装修直播</strong>
-      </a>
-    </h3>
-    <div class="m-ct f-cb">
-      <div class="m-live f-fl">
-        <div class="live">
-          <ul>
-            <% for(var i=0; i < data.top_shares.length; i++){%>
-                <li>
-                  <a class="img u-placeholder-image" href="/tpl/live/<%= data.top_shares[i]._id %>"><img data-src="/api/v2/web/thumbnail2/285/262/<%= data.top_shares[i].cover_imageid %>" src="/static/img/public/load.gif" alt="<%= data.top_shares[i].cell %>"></a>
-                  <div class="txt">
-                    <h4><a href="/tpl/live/<%= data.top_shares[i]._id %>"><%= data.top_shares[i].cell %></a></h4>
-                    <p><span><%= data.top_shares[i].house_area %>m&sup2;</span><i>|</i><span><%= house_type(data.top_shares[i].house_type) %></span><i>|</i><span><%= dec_style(data.top_shares[i].dec_style) %></span></p>
-                  </div>
-                  <a href="/tpl/designer/<%= data.top_shares[i].designer._id %>" class="u-head u-head-w90 u-head-radius"><img data-src="/api/v2/web/thumbnail2/80/80/<%= data.top_shares[i].designer.imageid %>" src="/static/img/public/load.gif" alt="<%= data.top_shares[i].designer.username %>"></a>
-                </li>
-            <%}%>
-          </ul>
-        </div>
-        <div class="toggle">
-          <a href="javascript:;" class="prev"></a>
-          <a href="javascript:;" class="next"></a>
-        </div>
+  </div>
+
+  <div class="package2">
+    <div class="package2-img f-fl">
+      <img data-original="/static/img/index/index4.jpg" src="/static/img/public/load.gif" class="img lazyimg u-placeholder-image">
+    </div>
+    <div class="content f-fr">
+      <div class="box-padding">
+        <h2><span></span></h2>
+        <p class="line"><span></span></p>
+        <h3 class="desc">微装修解决方案</h3>
+        <p class="text-left">针对还在租房、并追求一定生活品质的年轻人推出的出租房或旧房改造方案，
+          通过对地面、墙壁的改造并加入软装设计，让你的出租房或旧房焕
+        </p>
+        <p class="more"><a href="/zt/decorate/index.html">了解更多</a></p>
       </div>
-      <div class="m-site f-fr">
-        <h4>最新现场</h4>
-          <div class="site">
-            <ul>
-              <% for(var i=0; i < data.latest_scenes.length; i++){%>
-                <li><span class="name"><%= data.latest_scenes[i].username %></span><span class="area"><%= data.latest_scenes[i].house_area %></span><span class="size"><%= house_type(data.latest_scenes[i].house_type) %></span></li>
-              <%}%>
-            </ul>
-          </div>
-        </div>
     </div>
-  </section>
-  <section class="g-item g-wp g-raiders" id="j-raiders">
-    <h3 class="m-tt">
-      <a href="/tpl/article/index.html">
-        <span></span>
-        <strong>装修攻略</strong>
-      </a>
-    </h3>
-    <div class="m-ct">
-      <dl>
-        <dt>
-          <div class="angle"><span class="white"></span><span class="other"></span></div><h4>装修百科</h4>
-        </dt>
-        <dd>
-          <% for(var i=0; i < data.dec_strategies.length; i++){%>
-              <a  class="u-placeholder-image" href="/tpl/article/strategy/<%= data.dec_strategies[i]._id %>">
-                <img class="lazyimg" data-original="/api/v2/web/thumbnail2/212/200/<%= data.dec_strategies[i].cover_imageid %>" alt="<%= data.dec_strategies[i].title %>" src="/static/img/public/load.gif"><span><%= data.dec_strategies[i].title %></span></a>
-          <%}%>
-        </dd>
-      </dl>
-      <dl>
-        <dt>
-          <div class="angle"><span class="white"></span><span class="other"></span></div><h4>生活贴士</h4>
-        </dt>
-        <dd>
-          <% for(var i=0; i < data.dec_tips.length; i++){%>
-              <a  class="u-placeholder-image" href="/tpl/article/strategy/<%= data.dec_tips[i]._id %>">
-                <img class="lazyimg" data-original="/api/v2/web/thumbnail2/212/200/<%= data.dec_tips[i].cover_imageid %>" alt="<%= data.dec_tips[i].title %>" src="/static/img/public/load.gif"><span><%= data.dec_tips[i].title %></span></a>
-          <%}%>
-        </dd>
-      </dl>
+  </div>
+
+  <div class="package3">
+    <div class="content f-fl">
+      <div class="box-padding">
+        <h2><span></span></h2>
+        <p class="line"><span></span></p>
+        <h3 class="desc">基础装修解决方案</h3>
+        <p class="text-left">我们将水电、泥木、油漆、安装等基础装修部分实施统一标准化，
+          规定统一的主材、辅材等项目的品牌和规格，制定施工的工艺标准，基装部分
+        </p>
+        <p class="more"><a href="/zt/365package/index.html">了解更多</a></p>
+      </div>
     </div>
-  </section>
-  <section class="g-wp g-links hide">
-    <div>
-      <h4>友情链接</h4>
-      <p></p>
+    <div class="package3-img f-fr">
+      <img data-original="/static/img/index/index5.jpg" src="/static/img/public/load.gif" class="img lazyimg u-placeholder-image">
     </div>
-  </section>
-  <script type="text/javascript" data-main="/static/js/index/index-47cf1cbd41" src="/static/js/lib/require.js"></script>
+  </div>
+
+  <div class="download">
+    <a class="app" href="/tpl/download/index.html"></a>
+  </div>
+</section>
+
+<section class="g-item g-wp g-to-designer">
+  <h2>成为“简繁家”平台入驻设计师，这些福利都是您的</h2>
+  <p>获得更多客户的订单，充分展示自己的才华</p>
+  <p>强调设计师在装修中的地位，充分证明您的价值</p>
+  <p>不断提升自己的能力和经验，与我们共同成长</p>
+  <p class="more"><a href="/tpl/user/reg.html?2">加入我们</a></p>
+</section>
+
+<script type="text/javascript" data-main="/static/js/index/index" src="/static/js/lib/require.js"></script>
 <%- include('../module/footer') -%>

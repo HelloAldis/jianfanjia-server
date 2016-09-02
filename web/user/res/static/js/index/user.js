@@ -10,8 +10,8 @@ define(['jquery'], function($){
 		},
 		bindEvent : function(){
 			var self = this,
-				timer = null,
-				bian = true;
+			timer = null,
+			bian = true;
 			this.container.on('mouseenter','.login',function(ev){
 				ev.preventDefault();
 				if(bian){
