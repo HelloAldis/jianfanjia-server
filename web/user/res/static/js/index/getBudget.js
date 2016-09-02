@@ -7,13 +7,13 @@ define(['jquery'], function($){
 			this.container = $(this.id);
 			this.bindArea();
 			this.bindEvent();
-			this.bindClick();
+			this.bindGoback();
 			this.toStep2();
 			this.toStep3();
 			this.toStep4();
 			this.toStep5();
 		},
-
+		// 输入面积
 		bindArea : function () {
 			var self = this;
 			$(this.container).on('focus', '.item-area .input', function (ev) {
@@ -23,6 +23,7 @@ define(['jquery'], function($){
 				self.getArea($($('.item-area .input')[0]).val());
 			})
 		},
+		// 下拉框
 		bindEvent : function () {
 			var self = this,
 			timer = null,
@@ -46,16 +47,42 @@ define(['jquery'], function($){
 				ev.preventDefault();
 				bian = true;
 				$(this).parent('li').find('.user').hide().css({'opacity':0,'top':132});
-			});
-		},
-		// 选择几室几厅...
-		bindClick : function () {
-			var self = this;
-			$(this.container).on('click','.user li', function (ev) {
+			}).on('click','.user li',function(ev){
 				ev.preventDefault();
+				bian = true;
+				$(this).parents('li').find('.user').hide().css({'opacity':0,'top':132});
 				var selectNode = $($(this).parents('li')[0]).find('.k-select')[0];
 				$(selectNode).html($(this).html());
 			});
+		},
+		// 返回
+		bindGoback : function () {
+			var self = this;
+			$(this.container).on('click', '.goback', function (ev) {
+				ev.preventDefault();
+				var stepNum = $(this).data('back');
+				switch(stepNum) {
+					case 'step2':
+						goBackStep('.step1', '.step2');
+						break;
+					case 'step3':
+						var bedroomNum = $('#j-house-shi').html();
+						if (bedroomNum >1) {
+							goBackStep('.step2', '.step3');
+						} else {
+							goBackStep('.step1', '.step3');
+						}
+						break;
+					case 'step4':
+						goBackStep('.step3', '.step4');
+						break;
+				}
+
+			});
+			goBackStep = function (toStep, fromStep) {
+				$(fromStep).addClass('hide');
+				$(toStep).removeClass('hide');
+			}
 		},
 		toStep2 : function () {
 			var self = this;
@@ -81,6 +108,7 @@ define(['jquery'], function($){
 				} else {
 					$(this).parents('.g-compute').find('.step1').addClass('hide');
 					$(this).parents('.g-compute').find('.step3').removeClass('hide');
+					self.chooseDecStyle();    //选择装修风格
 				}
 			});
 
@@ -108,19 +136,11 @@ define(['jquery'], function($){
 				$('.g-compute .step2 li').unbind('click').click(function (){
 					if ($(this).hasClass('active')) {
 						$(this).removeClass('active');
-						console.log(1);
 					} else if (!$(this).hasClass('active') && $('.step2 li').siblings('.active').length < bedroomNum-1) {
 						$(this).addClass('active');
-						console.log(2);
 					}
 				});
 			}
-
-			// 返回到第一步
-			$(this.container).on('click', '.step2 .goback', function (ev) {
-				$(this).parents('.g-compute').find('.step2').addClass('hide');
-				$(this).parents('.g-compute').find('.step1').removeClass('hide');
-			});
 		},
 		toStep3 : function () {
 			var self = this;
@@ -128,27 +148,7 @@ define(['jquery'], function($){
 				ev.preventDefault();
 				$(this).parents('.g-compute').find('.step2').addClass('hide');
 				$(this).parents('.g-compute').find('.step3').removeClass('hide');
-				chooseDecStyle();
-			});
-			// 选择装修风格
-			chooseDecStyle = function () {
-				$('.g-compute .step3 li').unbind('click').click(function (){
-					if ($(this).hasClass('active')) {
-						$(this).removeClass('active');
-					} else if (!$(this).hasClass('active') && $('.step3 li').siblings('.active').length < 3) {
-						$(this).addClass('active');
-					}
-				});
-			}
-			// 返回到第二步或第一步
-			$(this.container).on('click', '.step3 .goback', function (ev) {
-				var bedroomNum = $('#j-house-shi').html();
-				$(this).parents('.g-compute').find('.step3').addClass('hide');
-				if (bedroomNum > 1) {
-					$(this).parents('.g-compute').find('.step2').removeClass('hide');
-				} else {
-					$(this).parents('.g-compute').find('.step1').removeClass('hide');
-				}
+				self.chooseDecStyle();
 			});
 		},
 		toStep4 : function () {
@@ -172,7 +172,6 @@ define(['jquery'], function($){
 					$errorPhoneNode.removeClass('hide');
 					return false;
 				}
-
 				// 参数
 				var room = {
 					phone: $('.step4 .item-phone input').val(),
@@ -183,17 +182,19 @@ define(['jquery'], function($){
 					living_room_count: $('#j-house-ting').html(),
 					kitchen_count: $('#j-house-chu').html(),
 					washroom_count: $('#j-house-wu').html(),
-					extra_bedroom_count: 1,
 					house_area: $('.step1 .item-area input').val(),
 					dec_styles: []
 				};
 
 				// 选择的其他房间名称
-				var otherRoomArr = $(this).parents('.g-compute').find('.step2 li').siblings('.active');
-				otherRoomArr.each(function () {
-					var roomName = $(this).find('.text p').text();
-					addRoomNum(roomName, room);
-				})
+				var bedroomNum = $('#j-house-shi').html();
+				if (bedroomNum > 1) {
+					var otherRoomArr = $(this).parents('.g-compute').find('.step2 li').siblings('.active');
+					otherRoomArr.each(function () {
+						var roomName = $(this).find('.text p').text();
+						addRoomNum(roomName, room);
+					})
+				}
 
 				// 选择的装修风格
 				var decStyleArr = $(this).parents('.g-compute').find('.step3 li').siblings('.active');
@@ -214,17 +215,17 @@ define(['jquery'], function($){
 			addRoomNum = function (name, room) {
 				switch(name) {
 					case '次卧':
-					room.extra_bedroom_count++;
-					break;
+						room.extra_bedroom_count++;
+						break;
 					case '儿童房':
-					room.child_bedroom_count++;
-					break;
+						room.child_bedroom_count++;
+						break;
 					case '书房':
-					room.study_room_count++;
-					break;
+						room.study_room_count++;
+						break;
 					case '衣帽间':
-					room.cloakroom_count++;
-					break;
+						room.cloakroom_count++;
+						break;
 				}
 				return room;
 			}
@@ -233,26 +234,26 @@ define(['jquery'], function($){
 			getDecStyleToNum = function (name, room) {
 				switch(name) {
 					case '欧式':
-					room.dec_styles.push(0);
-					break;
+						room.dec_styles.push(0);
+						break;
 					case '中式':
-					room.dec_styles.push(1);
-					break;
+						room.dec_styles.push(1);
+						break;
 					case '现代':
-					room.dec_styles.push(2);
-					break;
+						room.dec_styles.push(2);
+						break;
 					case '地中海':
-					room.dec_styles.push(3);
-					break;
+						room.dec_styles.push(3);
+						break;
 					case '美式':
-					room.dec_styles.push(4);
-					break;
+						room.dec_styles.push(4);
+						break;
 					case '东南亚':
-					room.dec_styles.push(5);
-					break;
+						room.dec_styles.push(5);
+						break;
 					case '田园':
-					room.dec_styles.push(6);
-					break;
+						room.dec_styles.push(6);
+						break;
 				}
 				return room;
 			}
@@ -273,6 +274,16 @@ define(['jquery'], function($){
 					}
 				})
 			}
+		},
+		// 选择装修风格
+		chooseDecStyle : function () {
+			$('.g-compute .step3 li').unbind('click').click(function (){
+				if ($(this).hasClass('active')) {
+					$(this).removeClass('active');
+				} else if (!$(this).hasClass('active') && $('.step3 li').siblings('.active').length < 3) {
+					$(this).addClass('active');
+				}
+			});
 		},
 		// 获取面积并验证面积
 		getArea : function (areaNum) {

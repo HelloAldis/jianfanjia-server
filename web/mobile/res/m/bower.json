@@ -20,6 +20,7 @@
     "handlebars": "2.0.0",
     "director": "1.2.2",
     "animate.css": "^3.5.2",
-    "lib-flexible": "*"
+    "lib-flexible": "*",
+    "echarts": "3.2.3"
   }
 }

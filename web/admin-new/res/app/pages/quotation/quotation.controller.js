@@ -1,7 +1,7 @@
 (function () {
   angular.module('JfjAdmin.pages.quotation').
-  controller('QuotationController', ['$scope', '$stateParams', '$location', 'adminQuotation',
-    function ($scope, $stateParams, $location, adminQuotation) {
+  controller('QuotationController', ['$scope', '$stateParams', '$location', 'adminQuotation', '$filter',
+    function ($scope, $stateParams, $location, adminQuotation, $filter) {
       $scope.config = {
         title: "报价创建时间过滤：",
         placeholder: "报价ID/业主ID",

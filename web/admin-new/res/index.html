@@ -37,11 +37,11 @@
     <link rel="stylesheet" href="app/components/imgUrl/imgUrl.css">
     <link rel="stylesheet" href="app/components/loadData/loadData.css">
     <link rel="stylesheet" href="app/pages/designer/designer.css">
-    <link rel="stylesheet" href="app/pages/image/image.css">
     <link rel="stylesheet" href="app/pages/field/field.css">
     <link rel="stylesheet" href="app/pages/index/index.css">
     <link rel="stylesheet" href="app/pages/live/live.css">
     <link rel="stylesheet" href="app/pages/notify/notify.css">
+    <link rel="stylesheet" href="app/pages/image/image.css">
     <link rel="stylesheet" href="app/pages/requirement/requirement.css">
     <link rel="stylesheet" href="app/pages/user/user.css">
     <link rel="stylesheet" href="app/theme/components/pageTop/pageTop.css">
@@ -104,35 +104,35 @@
 
     <!-- build:js js/app.js -->
     <!-- app:js -->
-    <script src="app/components/components.module.js"></script>
     <script src="app/filters/filters.module.js"></script>
+    <script src="app/components/components.module.js"></script>
     <script src="app/pages/pages.module.js"></script>
     <script src="app/services/services.module.js"></script>
     <script src="app/theme/theme.module.js"></script>
     <script src="app/pages/chart/chart.module.js"></script>
     <script src="app/pages/comment/comment.module.js"></script>
     <script src="app/pages/designer/designer.module.js"></script>
-    <script src="app/pages/diary/diary.module.js"></script>
     <script src="app/pages/feedback/feedback.module.js"></script>
-    <script src="app/pages/image/image.module.js"></script>
+    <script src="app/pages/diary/diary.module.js"></script>
     <script src="app/pages/field/field.module.js"></script>
     <script src="app/pages/index/index.module.js"></script>
     <script src="app/pages/live/live.module.js"></script>
-    <script src="app/pages/notify/notify.module.js"></script>
     <script src="app/pages/news/news.module.js"></script>
-    <script src="app/pages/plan/plan.module.js"></script>
+    <script src="app/pages/notify/notify.module.js"></script>
     <script src="app/pages/pictures/pictures.module.js"></script>
-    <script src="app/pages/product/product.module.js"></script>
     <script src="app/pages/quotation/quotation.module.js"></script>
+    <script src="app/pages/image/image.module.js"></script>
+    <script src="app/pages/product/product.module.js"></script>
     <script src="app/pages/recruit/recruit.module.js"></script>
     <script src="app/pages/requirement/requirement.module.js"></script>
     <script src="app/pages/supervisor/supervisor.module.js"></script>
-    <script src="app/pages/survey/survey.module.js"></script>
     <script src="app/pages/user/user.module.js"></script>
+    <script src="app/pages/survey/survey.module.js"></script>
+    <script src="app/pages/plan/plan.module.js"></script>
     <script src="app/theme/components/components.module.js"></script>
     <script src="app/pages/chart/designerChart/designerChart.module.js"></script>
-    <script src="app/pages/chart/requirementChart/requirementChart.module.js"></script>
     <script src="app/pages/chart/productChart/productChart.module.js"></script>
+    <script src="app/pages/chart/requirementChart/requirementChart.module.js"></script>
     <script src="app/pages/chart/userChart/userChart.module.js"></script>
     <script src="app/pages/notify/designerNotify/designerNotify.module.js"></script>
     <script src="app/pages/notify/userNotify/userNotify.module.js"></script>
@@ -148,16 +148,16 @@
     <script src="app/theme/theme.run.js"></script>
     <script src="app/theme/theme.service.js"></script>
     <script src="app/components/dateRangePicker/dateRangePicker.directive.js"></script>
+    <script src="app/components/imgUrl/imgUrl.directive.js"></script>
     <script src="app/components/dropdown/kvDropdown.directive.js"></script>
     <script src="app/components/dropdown/strDropdown.directive.js"></script>
     <script src="app/components/exportData/exportData.directive.js"></script>
-    <script src="app/components/imgUrl/imgUrl.directive.js"></script>
+    <script src="app/components/myCity/myCities.directive.js"></script>
     <script src="app/components/loadData/loadData.directive.js"></script>
     <script src="app/components/loadData/noData.directive.js"></script>
-    <script src="app/components/myCity/myCities.directive.js"></script>
     <script src="app/components/searchInput/searchInput.directive.js"></script>
-    <script src="app/components/tagsInput/tagsInput.directive.js"></script>
     <script src="app/components/uploadImage/uploadImage.directive.js"></script>
+    <script src="app/components/tagsInput/tagsInput.directive.js"></script>
     <script src="app/pages/comment/comment.controller.js"></script>
     <script src="app/pages/designer/designer.controller.js"></script>
     <script src="app/pages/designer/designerEditor.controller.js"></script>
@@ -167,9 +167,8 @@
     <script src="app/pages/designer/designerTeamEditor.controller.js"></script>
     <script src="app/pages/designer/designerTeamList.controller.js"></script>
     <script src="app/pages/designer/designerWorkAuth.controller.js"></script>
-    <script src="app/pages/diary/diary.controller.js"></script>
     <script src="app/pages/feedback/feedbackList.controller.js"></script>
-    <script src="app/pages/image/image.controller.js"></script>
+    <script src="app/pages/diary/diary.controller.js"></script>
     <script src="app/pages/field/fieldDetail.controller.js"></script>
     <script src="app/pages/field/fieldList.controller.js"></script>
     <script src="app/pages/index/index.controller.js"></script>
@@ -179,23 +178,24 @@
     <script src="app/pages/live/liveUpdate.controller.js"></script>
     <script src="app/pages/news/newsAdd.controller.js"></script>
     <script src="app/pages/news/newsList.controller.js"></script>
-    <script src="app/pages/plan/plans.controller.js"></script>
     <script src="app/pages/pictures/pictureAdd.controller.js"></script>
     <script src="app/pages/pictures/pictureList.controller.js"></script>
-    <script src="app/pages/product/product.controller.js"></script>
     <script src="app/pages/quotation/quotation.controller.js"></script>
+    <script src="app/pages/image/image.controller.js"></script>
+    <script src="app/pages/product/product.controller.js"></script>
     <script src="app/pages/recruit/recruitList.controller.js"></script>
     <script src="app/pages/requirement/requirement.controller.js"></script>
     <script src="app/pages/requirement/requirementDetail.controller.js"></script>
     <script src="app/pages/requirement/requirementEditor.controller.js"></script>
     <script src="app/pages/supervisor/supervisor.controller.js"></script>
-    <script src="app/pages/survey/surveyDetail.controller.js"></script>
-    <script src="app/pages/survey/surveyList.controller.js"></script>
     <script src="app/pages/user/user.controller.js"></script>
     <script src="app/pages/user/userAddRequirement.controller.js"></script>
     <script src="app/pages/user/userEditor.controller.js"></script>
     <script src="app/pages/user/userInfo.controller.js"></script>
     <script src="app/pages/user/userRequirement.controller.js"></script>
+    <script src="app/pages/survey/surveyDetail.controller.js"></script>
+    <script src="app/pages/survey/surveyList.controller.js"></script>
+    <script src="app/pages/plan/plans.controller.js"></script>
     <script src="app/theme/components/toastrLibConfig.js"></script>
     <script src="app/theme/directives/animatedChange.js"></script>
     <script src="app/theme/directives/autoExpand.js"></script>
@@ -211,8 +211,8 @@
     <script src="app/theme/services/preloader.js"></script>
     <script src="app/theme/services/stopableInterval.js"></script>
     <script src="app/pages/chart/designerChart/designerChart.controller.js"></script>
-    <script src="app/pages/chart/requirementChart/requirementChart.controller.js"></script>
     <script src="app/pages/chart/productChart/productChart.controller.js"></script>
+    <script src="app/pages/chart/requirementChart/requirementChart.controller.js"></script>
     <script src="app/pages/chart/userChart/userChart.controller.js"></script>
     <script src="app/pages/notify/designerNotify/designerNotify.controller.js"></script>
     <script src="app/pages/notify/userNotify/userNotify.controller.js"></script>
@@ -222,17 +222,17 @@
     <script src="app/theme/components/baPanel/baPanelBlur.directive.js"></script>
     <script src="app/theme/components/baPanel/baPanelBlurHelper.service.js"></script>
     <script src="app/theme/components/baPanel/baPanelSelf.directive.js"></script>
+    <script src="app/theme/components/baWizard/baWizard.directive.js"></script>
+    <script src="app/theme/components/baWizard/baWizardCtrl.js"></script>
+    <script src="app/theme/components/baWizard/baWizardStep.directive.js"></script>
     <script src="app/theme/components/baSidebar/baSidebar.directive.js"></script>
     <script src="app/theme/components/baSidebar/baSidebar.service.js"></script>
     <script src="app/theme/components/baSidebar/BaSidebarCtrl.js"></script>
     <script src="app/theme/components/baSidebar/baSidebarHelpers.directive.js"></script>
-    <script src="app/theme/components/baWizard/baWizard.directive.js"></script>
-    <script src="app/theme/components/baWizard/baWizardCtrl.js"></script>
-    <script src="app/theme/components/baWizard/baWizardStep.directive.js"></script>
+    <script src="app/theme/components/contentTop/contentTop.directive.js"></script>
     <script src="app/theme/components/msgCenter/msgCenter.directive.js"></script>
     <script src="app/theme/components/msgCenter/MsgCenterCtrl.js"></script>
     <script src="app/theme/components/pageTop/pageTop.directive.js"></script>
-    <script src="app/theme/components/contentTop/contentTop.directive.js"></script>
     <script src="app/theme/components/widgets/widgets.directive.js"></script>
     <script src="app/theme/filters/image/appImage.js"></script>
     <script src="app/theme/filters/image/kameleonImg.js"></script>

@@ -291,7 +291,7 @@
       return function (url) {
         var port = window.location.port ? ':' + window.location.port : '';
         if (window.location.hostname == 'localhost') {
-          return 'http://127.0.0.1' + port + url;
+          return 'http://192.168.1.150' + port + url;
         } else if (window.location.hostname == 'devgod.jianfanjia.com') {
           return 'http://devm.jianfanjia.com' + port + url;
         } else {

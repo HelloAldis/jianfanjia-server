@@ -1,12 +1,13 @@
 (function () {
   angular.module('JfjAdmin.pages.field')
     .controller('FieldDetailController', [
-      '$scope', '$stateParams', 'adminField', 
-      function ($scope, $stateParams, adminField) {
+      '$scope', '$stateParams', 'adminField', '$state',
+      function ($scope, $stateParams, adminField, $state) {
         $scope.config = {
           placeholder: '监理姓名',
           search_word: $scope.search_word
         }
+        console.log($state.current);
 
         $scope.delegate = {};
 
@@ -76,6 +77,7 @@
           })
           .then(function (resp) {
             if (resp.data.data.total === 1) {
+              $state.current.title = resp.data.data.processes[0].basic_address;
               $scope.processes = resp.data.data.processes[0];
               $scope.hasAssigned = $scope.processes.supervisorids;
               $scope.loading.loadData = true;
