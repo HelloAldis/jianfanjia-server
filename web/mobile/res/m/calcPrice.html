@@ -147,6 +147,11 @@
         house_area:0
       };
 
+      /** 变量 **/
+      var oldLivingRoomCount = 0;
+      var maxExtraHouseCount = 0;
+      var curExtraHouses = [];
+
       /** 屏幕标签 **/
       var homePage = $('.homePage');
       var calcPriceHouse = $('.calcPriceHouse');
@@ -192,23 +197,45 @@
       var extraHouseContainer = $(".extraHouseContainer");
 
       /** 用户方法 **/
-      function initHouse(refreshExtra) {
+      function initHouse() {
         roomNumber.html(calcPriceData.living_room_count);
         cloakNumber.html(calcPriceData.cloakroom_count);
         kitchenNumber.html(calcPriceData.kitchen_count);
         washroomNumber.html(calcPriceData.washroom_count);
+        extraHouseNumber.html(calcPriceData.living_room_count - 1);
 
-        if (refreshExtra === true) {
+        if (calcPriceData.living_room_count === 1) {
+          extraHouse.addClass('none');
           extraHouseContainer.html(extraHouseContainerHtml());
-          if (calcPriceData.living_room_count === 1) {
-            extraHouse.addClass('none');
-          } else {
-            extraHouseNumber.html(calcPriceData.living_room_count - 1);
-            extraHouse.removeClass('none');
-          }
+          maxExtraHouseCount = 0;
+        } else {
+          extraHouse.removeClass('none');
+          extraHouseContainer.html(extraHouseContainerHtml());
+          maxExtraHouseCount = calcPriceData.living_room_count - 1;
+
+          $(".iconRoomContainer").each(function () {
+            $(this).click(function (e) {
+              var hoverContainer = $(this).children(".hoverContainer");
+              var roomName = $(this).children("p").html();
+              if (hoverContainer.hasClass("none")) {
+                if (curExtraHouses.length < maxExtraHouseCount) {
+                  hoverContainer.removeClass("none");
+                  curExtraHouses.push(roomName);
+                }
+              } else {
+                hoverContainer.addClass("none");
+                var index = curExtraHouses.indexOf(roomName);
+                curExtraHouses.splice(index, 1);
+              }
+            });
+          });
         }
       }
 
+      /** 初始化 **/
+      initHouse();
+
+      /** 其他 **/
       function extraHouseContainerHtml(){
         var arr = [];
         if (calcPriceData.living_room_count >= 3) {
@@ -245,6 +272,12 @@
 
       }
 
+      function clearExtraHousesIfNeed() {
+        if ((oldLivingRoomCount === 2 && calcPriceData.living_room_count === 3) || (oldLivingRoomCount === 3 && calcPriceData.living_room_count === 2)) {
+          curExtraHouses.splice(0, curExtraHouses.length);
+        }
+      }
+
       /** 校验 **/
       var verify = {
           isMobile : function(mobile){
@@ -267,8 +300,10 @@
       /** 事件处理 **/
       plusRoomNumber.click(function () {
         if (calcPriceData.living_room_count < 4) {
+          oldLivingRoomCount = calcPriceData.living_room_count;
+          clearExtraHousesIfNeed();
           calcPriceData.living_room_count++;
-          initHouse(true);
+          initHouse();
         }
       });
 
@@ -295,8 +330,10 @@
 
       minusRoomNumber.click(function () {
         if (calcPriceData.living_room_count > 1) {
+          oldLivingRoomCount = calcPriceData.living_room_count;
+          clearExtraHousesIfNeed();
           calcPriceData.living_room_count--;
-          initHouse(true);
+          initHouse();
         }
       });
 
@@ -326,8 +363,6 @@
           areaErrorInfo.html('');
           areaErrorInfo.removeClass('error');
 
-          calcPriceData.area = fldArea.val();
-          initHouse(true);
           pushToHouse();
           pushState(homePageTag, calcPriceHouseTag);
         } else{
@@ -345,6 +380,10 @@
       submitStyle.click(function () {
         submitDataPane.removeClass('none');
       });
+
+      // submitData.click(function () {
+      //   calcPriceData.area = fldArea.val();
+      // });
 
       /** 切屏动画 */
       function popToHome() {
