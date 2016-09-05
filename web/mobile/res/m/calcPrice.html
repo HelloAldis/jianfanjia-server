@@ -68,7 +68,6 @@
           <div class="extraHouseContainer">
           </div>
         </div>
-        <div id="house-error-info"></div>
         <div class="btnContainer">
           <button type="button" class="btnSubmit">下一步</button>
         </div>
@@ -78,19 +77,7 @@
           选择您的装修标签
         </p>
         <div class="decTagContainer">
-          <div>
-            <span class="iconRoomContainer"><img src="img/calcPrice/icon_ou_shi.png" class="iconRoom" alt="" /><p>欧式</p></span>
-            <span class="iconRoomContainer"><img src="img/calcPrice/icon_zhong_shi.png" class="iconRoom" alt="" /><p>中式</p></span>
-            <span class="iconRoomContainer"><img src="img/calcPrice/icon_xian_dai.png" class="iconRoom" alt="" /><p>现代</p></span>
-            <span class="iconRoomContainer"><img src="img/calcPrice/icon_di_zhong_hai.png" class="iconRoom" alt="" /><p>地中海</p></span>
-          </div>
-          <div>
-            <span class="iconRoomContainer"><img src="img/calcPrice/icon_mei_shi.png" class="iconRoom" alt="" /><p>美式</p></span>
-            <span class="iconRoomContainer"><img src="img/calcPrice/icon_dong_nan_ya.png" class="iconRoom" alt="" /><p>东南亚</p></span>
-            <span class="iconRoomContainer"><img src="img/calcPrice/icon_tian_yuan.png" class="iconRoom" alt="" /><p>田园</p></span>
-          </div>
         </div>
-        <div id="style-error-info"></div>
         <div class="btnContainer">
           <button type="button" class="btnSubmit">生成装修预算</button>
         </div>
@@ -151,6 +138,8 @@
       var oldLivingRoomCount = 0;
       var maxExtraHouseCount = 0;
       var curExtraHouses = [];
+      var maxStyleCount = 0;
+      var curStyles = [];
 
       /** 屏幕标签 **/
       var homePage = $('.homePage');
@@ -164,8 +153,6 @@
 
       /** 错误 **/
       var areaErrorInfo = $('#area-error-info');
-      var houseErrorInfo = $('#house-error-info');
-      var styleErrorInfo = $('#style-error-info');
       var submitErrorInfo = $('#submit-error-info');
 
       /** 提交按钮 **/
@@ -196,6 +183,9 @@
       var extraHouseNumber = $(".extraHouse .title span");
       var extraHouseContainer = $(".extraHouseContainer");
 
+      /** 样式风格 **/
+      var decTagContainer = $(".decTagContainer");
+
       /** 用户方法 **/
       function initHouse() {
         roomNumber.html(calcPriceData.living_room_count);
@@ -213,7 +203,7 @@
           extraHouseContainer.html(extraHouseContainerHtml());
           maxExtraHouseCount = calcPriceData.living_room_count - 1;
 
-          $(".iconRoomContainer").each(function () {
+          $(".extraHouseContainer .iconRoomContainer").each(function () {
             $(this).click(function (e) {
               var hoverContainer = $(this).children(".hoverContainer");
               var roomName = $(this).children("p").html();
@@ -232,8 +222,30 @@
         }
       }
 
+      function initStyle() {
+        decTagContainer.html(sytleContainerHtml());
+
+        $(".decTagContainer .iconRoomContainer").each(function () {
+          $(this).click(function (e) {
+            var hoverContainer = $(this).children(".hoverContainer");
+            var roomName = $(this).children("p").html();
+            if (hoverContainer.hasClass("none")) {
+              if (curExtraHouses.length < 3) {
+                hoverContainer.removeClass("none");
+                curStyles.push(roomName);
+              }
+            } else {
+              hoverContainer.addClass("none");
+              var index = curStyles.indexOf(roomName);
+              curStyles.splice(index, 1);
+            }
+          });
+        });
+      }
+
       /** 初始化 **/
       initHouse();
+      initStyle();
 
       /** 其他 **/
       function extraHouseContainerHtml(){
@@ -257,6 +269,24 @@
           arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_cloth_room.png" class="iconRoom" alt="" /><p>衣帽间</p>'+hover('衣帽间')+'</span>');
           arr.push('</div>');
         }
+
+        return arr.join('');
+      }
+
+      function sytleContainerHtml(){
+        var arr = [];
+
+        arr.push('<div>');
+        arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_ou_shi.png" class="iconRoom" alt="" /><p>欧式</p>'+hover('欧式')+'</span>');
+        arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_zhong_shi.png" class="iconRoom" alt="" /><p>中式</p>'+hover('中式')+'</span>');
+        arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_xian_dai.png" class="iconRoom" alt="" /><p>现代</p>'+hover('现代')+'</span>');
+        arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_di_zhong_hai.png" class="iconRoom" alt="" /><p>地中海</p>'+hover('地中海')+'</span>');
+        arr.push('</div>');
+        arr.push('<div>');
+        arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_mei_shi.png" class="iconRoom" alt="" /><p>美式</p>'+hover('美式')+'</span>');
+        arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_dong_nan_ya.png" class="iconRoom" alt="" /><p>东南亚</p>'+hover('东南亚')+'</span>');
+        arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_tian_yuan.png" class="iconRoom" alt="" /><p>田园</p>'+hover('田园')+'</span>');
+        arr.push('</div>');
 
         return arr.join('');
       }
