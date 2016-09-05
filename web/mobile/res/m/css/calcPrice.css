@@ -132,6 +132,7 @@ body {
 .calcPriceHouse .extraHouseContainer {}
 .calcPriceHouse .extraHouseContainer .iconRoomContainer {
   display: inline-block;
+  position: relative;
   width: 2rem;
   height: 2.0533333rem;
   border: 1px solid #e5e5e5;
@@ -168,8 +169,6 @@ body {
 }
 .calcPriceStyle .decTagContainer .iconRoomContainer p {
   font-size: 0.3rem;
-  line-height: 0.7rem;
-  margin: auto;
 }
 .btnContainer {
   margin-top: 2rem;
@@ -303,4 +302,35 @@ body {
   color: red;
   height: 1rem;
   line-height: 1rem;
+}
+.hoverContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.hover {
+  position: relative;
+  width: 2rem;
+  height: 2.0533333rem;
+  font-size: 0.3rem;
+}
+.hover .mask {
+  background-color: #fe7004;
+}
+.hoverContent {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.hoverContent img {
+  width: 0.8rem;
+  height: 0.8rem;
+  margin: 0.3rem;
+}
+.hoverContent p {
+  font-size: 0.3rem;
+  color: white;
 }

@@ -66,7 +66,6 @@
             除主卧外，另外<span>2</span>个卧室用作<br/>（多选／必选）
           </p>
           <div class="extraHouseContainer">
-            
           </div>
         </div>
         <div id="house-error-info"></div>
@@ -214,25 +213,33 @@
         var arr = [];
         if (calcPriceData.living_room_count >= 3) {
           arr.push('<div>');
-          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p></span>');
-          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p></span>');
-          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p></span>');
-          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p><div class="hoverContainer">'+hover('次卧')+'</div></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p><div class="hoverContainer">'+hover('次卧')+'</div></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p><div class="hoverContainer">'+hover('儿童房')+'</div></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p><div class="hoverContainer">'+hover('儿童房')+'</div></span>');
           arr.push('</div>');
           arr.push('<div>');
-          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_book_room.png" class="iconRoom" alt="" /><p>书房</p></span>');
-          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_cloth_room.png" class="iconRoom" alt="" /><p>衣帽间</p></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_book_room.png" class="iconRoom" alt="" /><p>书房</p><div class="hoverContainer">'+hover('书房')+'</div></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_cloth_room.png" class="iconRoom" alt="" /><p>衣帽间</p><div class="hoverContainer">'+hover('衣帽间')+'</div></span>');
           arr.push('</div>');
         } else {
           arr.push('<div>');
-          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p></span>');
-          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p></span>');
-          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_book_room.png" class="iconRoom" alt="" /><p>书房</p></span>');
-          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_cloth_room.png" class="iconRoom" alt="" /><p>衣帽间</p></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p><div class="hoverContainer">'+hover('次卧')+'</div></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p><div class="hoverContainer">'+hover('儿童房')+'</div></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_book_room.png" class="iconRoom" alt="" /><p>书房</p><div class="hoverContainer">'+hover('书房')+'</div></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_cloth_room.png" class="iconRoom" alt="" /><p>衣帽间</p><div class="hoverContainer">'+hover('衣帽间')+'</div></span>');
           arr.push('</div>');
         }
 
         return arr.join('');
+      }
+
+      function hover(name) {
+        return '<div class="hover">'
+                  + '<div class="mask"></div>'
+                    + '<div class="hoverContent"><img src="img/calcPrice/icon_checked.png" alt="" /><p>' + name + '</p>'
+                  + '</div>'
+                + '</div>'
       }
 
       /** 校验 **/
