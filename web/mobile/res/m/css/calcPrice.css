@@ -240,7 +240,7 @@ body {
   width: 100%;
   height: 100%;
 }
-.submitDataForm {
+.submitDataFormOuter {
   position: absolute;
   width: 8.72rem;
   height: 10.4rem;
@@ -250,13 +250,33 @@ body {
   margin-left: -4.36rem;
   background-color: #fff;
 }
+.submitDataForm {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
 .submitDataForm .title {
   text-align: center;
   font-size: 0.6rem;
   color: #000;
-  margin: 1rem 0 1rem 0
+  padding: 1rem 0 1rem 0
+}
+.submitDataForm .closeIcon {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1.5rem;
+  line-height: 1.5rem;
+  text-align: center;
+}
+.submitDataForm .closeIcon img {
+  width: 1rem;
+  height: 1rem;
+  vertical-align: middle;
 }
 .submitDataForm .fldContainer {
+  position: relative;
   height: 1.62rem;
   margin: 0.5rem 0.3rem 0 0.3rem;
   border: 1px solid #e5e5e5;
@@ -293,12 +313,13 @@ body {
 }
 .submitDataForm .fldContainer input {
   line-height: 1.62rem;
-  font-size: 0.3rem;
+  font-size: 0.4rem;
   width: 100%;
   border: 0;
   background: none;
   padding-left: 1.5rem;
   vertical-align: middle;
+  color: black;
 }
 .submitDataForm .vCode .vCodeBtn {
   position: absolute;
@@ -313,7 +334,7 @@ body {
   background-color: #fe7004;
 }
 .submitDataForm .btnContainer {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 .error {
   text-align: center;
