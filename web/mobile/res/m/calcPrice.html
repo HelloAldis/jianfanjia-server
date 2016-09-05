@@ -24,9 +24,10 @@
         </p>
         <div class="fldContainer">
           <img src="img/calcPrice/icon_area.png" />
-          <input type="text" name="name" value="" placeholder="建筑面积">
+          <input id="fldArea" type="text" name="name" value="" placeholder="建筑面积">
           <span>㎡</span>
         </div>
+        <div id="area-error-info"></div>
         <div class="btnContainer">
           <button type="button" class="btnSubmit">获取装修预算</button>
         </div>
@@ -37,10 +38,10 @@
             请选择您中意的户型
           </p>
           <div class="iconPlusContainer">
-            <img src="img/calcPrice/icon_plus.png" class="iconPlus" alt="" />
-            <img src="img/calcPrice/icon_plus.png" class="iconPlus" alt="" />
-            <img src="img/calcPrice/icon_plus.png" class="iconPlus" alt="" />
-            <img src="img/calcPrice/icon_plus.png" class="iconPlus" alt="" />
+            <img src="img/calcPrice/icon_plus.png" class="icon" alt="" />
+            <img src="img/calcPrice/icon_plus.png" class="icon" alt="" />
+            <img src="img/calcPrice/icon_plus.png" class="icon" alt="" />
+            <img src="img/calcPrice/icon_plus.png" class="icon" alt="" />
           </div>
           <div class="houseValueContainer">
             <img src="img/calcPrice/icon_house.png" class="iconHouse" alt="" />
@@ -53,11 +54,11 @@
             <span class="houseValueNumber">1</span>
             <span class="houseValueName">卫</span>
           </div>
-          <div class="iconPlusContainer">
-            <img src="img/calcPrice/icon_minus.png" class="iconPlus" alt="" />
-            <img src="img/calcPrice/icon_minus.png" class="iconPlus" alt="" />
-            <img src="img/calcPrice/icon_minus.png" class="iconPlus" alt="" />
-            <img src="img/calcPrice/icon_minus.png" class="iconPlus" alt="" />
+          <div class="iconMinusContainer">
+            <img src="img/calcPrice/icon_minus.png" class="icon" alt="" />
+            <img src="img/calcPrice/icon_minus.png" class="icon" alt="" />
+            <img src="img/calcPrice/icon_minus.png" class="icon" alt="" />
+            <img src="img/calcPrice/icon_minus.png" class="icon" alt="" />
           </div>
         </div>
         <div class="extraHouse">
@@ -77,6 +78,7 @@
             </div>
           </div>
         </div>
+        <div id="house-error-info"></div>
         <div class="btnContainer">
           <button type="button" class="btnSubmit">下一步</button>
         </div>
@@ -98,6 +100,7 @@
             <span class="iconRoomContainer"><img src="img/calcPrice/icon_tian_yuan.png" class="iconRoom" alt="" /><p>田园</p></span>
           </div>
         </div>
+        <div id="style-error-info"></div>
         <div class="btnContainer">
           <button type="button" class="btnSubmit">生成装修预算</button>
         </div>
@@ -129,7 +132,7 @@
               </div>
               <button type="button" class="vCodeBtn" id="getVerifyCode">获取验证码</button>
             </div>
-            <div id="error-info"></div>
+            <div id="submit-error-info"></div>
             <div class="btnContainer">
               <button type="button" class="btnSubmit">开启简繁家装修之旅</button>
             </div>
@@ -140,27 +143,172 @@
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+      /** 对象初始化 **/
+      var calcPriceData = {
+        phone:"",
+        living_room_count:3,
+        cloakroom_count:2,
+        kitchen_count:1,
+        washroom_count:1,
+        extra_bedroom_count:0,
+        child_bedroom_count:0,
+        study_room_count:0,
+        dec_styles:[],
+        house_area:0
+      };
+
+      /** 屏幕标签 **/
+      var homePageTag = 'homePageTag';
+      var calcPriceHouseTag = 'calcPriceHouseTag';
+      var calcPriceStyleTag = 'calcPriceStyleTag';
+
+      /** 错误 **/
+      var areaErrorInfo = $('#area-error-info');
+      var houseErrorInfo = $('#house-error-info');
+      var styleErrorInfo = $('#style-error-info');
+      var submitErrorInfo = $('#submit-error-info');
+
+      /** 提交按钮 **/
+      var submitArea = $('.homePage .btnSubmit');
+      var submitHouse = $('.calcPriceHouse .btnSubmit');
+      var submitStyle = $('.calcPriceStyle .btnSubmit');
+
+      /**面积字段**/
+      var fldArea = $('#fldArea');
+
+      /** 户型 **/
+      var roomNumber = $(".houseValueNumber:nth(0)");
+      var cloakNumber = $(".houseValueNumber:nth(1)");
+      var kitchenNumber = $(".houseValueNumber:nth(2)");
+      var washroomNumber = $(".houseValueNumber:nth(3)");
+
+      var plusRoomNumber = $(".iconPlusContainer .icon:nth(0)");
+      var plusCloakNumber = $(".iconPlusContainer .icon:nth(1)");
+      var plusKitchenNumber = $(".iconPlusContainer .icon:nth(2)");
+      var plusWashroomNumber = $(".iconPlusContainer .icon:nth(3)");
+
+      var minusRoomNumber = $(".iconMinusContainer .icon:nth(0)");
+      var minusCloakNumber = $(".iconMinusContainer .icon:nth(1)");
+      var minusKitchenNumber = $(".iconMinusContainer .icon:nth(2)");
+      var minusWashroomNumber = $(".iconMinusContainer .icon:nth(3)");
+
+
+
       var homePage = $('.homePage');
       var calcPriceHouse = $('.calcPriceHouse');
       var calcPriceStyle = $('.calcPriceStyle');
       var submitDataPane = $('.submitDataPane');
 
-      var homePageTag = 'homePageTag';
-      var calcPriceHouseTag = 'calcPriceHouseTag';
-      var calcPriceStyleTag = 'calcPriceStyleTag';
+      /** 用户方法 **/
+      function initHouse() {
+        roomNumber.html(calcPriceData.living_room_count);
+        cloakNumber.html(calcPriceData.cloakroom_count);
+        kitchenNumber.html(calcPriceData.kitchen_count);
+        washroomNumber.html(calcPriceData.washroom_count);
+      }
 
-      $('.homePage .btnSubmit').click(function () {
-        pushToHouse();
-        pushState(homePageTag, calcPriceHouseTag);
+      /** 校验 **/
+      var verify = {
+          isMobile : function(mobile){
+              return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|170[0-9]{8}|177[0-9]{8})$/.test(mobile);
+          },
+          isArea : function(str){
+              return (/^[\d]{1,3}$/.test(str));
+          },
+          isVerifyCode : function(str){
+              return (/^[\d]{6}$/.test(str));
+          }
+      };
+
+      var errmsg = {
+          'mobile'  : '手机号不正确',
+          'area' : '请输入正确的面积',
+          'smscode'  : '短信验证码不正确',
+      };
+
+      /** 事件处理 **/
+      plusRoomNumber.click(function () {
+        if (calcPriceData.living_room_count < 4) {
+          calcPriceData.living_room_count++;
+          initHouse();
+        }
       });
-      $('.calcPriceHouse .btnSubmit').click(function () {
+
+      plusCloakNumber.click(function () {
+        if (calcPriceData.cloakroom_count < 2) {
+          calcPriceData.cloakroom_count++;
+          initHouse();
+        }
+      });
+
+      plusKitchenNumber.click(function () {
+        if (calcPriceData.kitchen_count < 2) {
+          calcPriceData.kitchen_count++;
+          initHouse();
+        }
+      });
+
+      plusWashroomNumber.click(function () {
+        if (calcPriceData.washroom_count < 2) {
+          calcPriceData.washroom_count++;
+          initHouse();
+        }
+      });
+
+      minusRoomNumber.click(function () {
+        if (calcPriceData.living_room_count > 1) {
+          calcPriceData.living_room_count--;
+          initHouse();
+        }
+      });
+
+      minusCloakNumber.click(function () {
+        if (calcPriceData.cloakroom_count > 1) {
+          calcPriceData.cloakroom_count--;
+          initHouse();
+        }
+      });
+
+      minusKitchenNumber.click(function () {
+        if (calcPriceData.kitchen_count > 1) {
+          calcPriceData.kitchen_count--;
+          initHouse();
+        }
+      });
+
+      minusWashroomNumber.click(function () {
+        if (calcPriceData.washroom_count > 1) {
+          calcPriceData.washroom_count--;
+          initHouse();
+        }
+      });
+
+      submitArea.click(function () {
+        if(verify.isArea(fldArea.val())){
+          areaErrorInfo.html('');
+          areaErrorInfo.removeClass('error');
+
+          calcPriceData.area = fldArea.val();
+          initHouse();
+          pushToHouse();
+          pushState(homePageTag, calcPriceHouseTag);
+        } else{
+          areaErrorInfo.html(errmsg.area);
+          areaErrorInfo.addClass('error');
+          calcPriceData.area = 0;
+        }
+      });
+
+      submitHouse.click(function () {
         pushToStyle();
         pushState(calcPriceHouseTag, calcPriceStyleTag);
       });
-      $('.calcPriceStyle .btnSubmit').click(function () {
+
+      submitStyle.click(function () {
         submitDataPane.removeClass('none');
       });
 
+      /** 切屏动画 */
       function popToHome() {
         animateView(homePage, 'slideInLeft');
         animateView(calcPriceHouse, 'slideOutRight');

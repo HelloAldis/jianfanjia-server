@@ -84,11 +84,11 @@ body {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-.houseType .iconPlusContainer {
+.houseType .iconPlusContainer, .houseType .iconMinusContainer {
   margin-left: 1.2rem;
   text-align: left;
 }
-.houseType .iconPlusContainer .iconPlus {
+.houseType .icon {
   width: 0.95rem;
   height: 0.95rem;
   margin-right: 0.566666rem;
@@ -296,4 +296,11 @@ body {
 }
 .submitDataForm .btnContainer {
   margin-top: 1rem;
+}
+.error {
+  text-align: center;
+  font-size: 0.3rem;
+  color: red;
+  height: 1rem;
+  line-height: 1rem;
 }
