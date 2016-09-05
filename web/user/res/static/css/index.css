@@ -126,16 +126,27 @@
 }
 .g-compute .step2 .list{
     width: 984px;
+    position: relative;
 }
 .g-compute .list{
     margin: 0 auto;
 }
 .g-compute .step3 .list{
     width: 1148px;
+    position: relative;
 }
 .g-compute .step2 .list li{
     width: 148px;
     height: 152px;
+}
+.g-compute .step2 .list .error,
+.g-compute .step3 .list .error{
+  position: absolute;
+  bottom: -50px;
+  left: 10px;
+  color: red;
+  background-color: transparent;
+  display: none;
 }
 .g-compute .list li:hover,.g-compute .list li.active{
     border-color: #f98700;
@@ -359,6 +370,9 @@
     font-size: 16px;
     line-height: 16px;
     color: #999;
+}
+.g-compute .tips .other-room{
+  color: #000;
 }
 .g-compute .btns{
     padding: 0 58px;
