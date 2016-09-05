@@ -63,7 +63,7 @@
         </div>
         <div class="extraHouse">
           <p class="title">
-            除主卧外，另外2个卧室用作<br/>（多选／必选）
+            除主卧外，另外<span>2</span>个卧室用作<br/>（多选／必选）
           </p>
           <div class="extraHouseContainer">
             <div>
@@ -158,6 +158,11 @@
       };
 
       /** 屏幕标签 **/
+      var homePage = $('.homePage');
+      var calcPriceHouse = $('.calcPriceHouse');
+      var calcPriceStyle = $('.calcPriceStyle');
+      var submitDataPane = $('.submitDataPane');
+
       var homePageTag = 'homePageTag';
       var calcPriceHouseTag = 'calcPriceHouseTag';
       var calcPriceStyleTag = 'calcPriceStyleTag';
@@ -192,19 +197,51 @@
       var minusKitchenNumber = $(".iconMinusContainer .icon:nth(2)");
       var minusWashroomNumber = $(".iconMinusContainer .icon:nth(3)");
 
-
-
-      var homePage = $('.homePage');
-      var calcPriceHouse = $('.calcPriceHouse');
-      var calcPriceStyle = $('.calcPriceStyle');
-      var submitDataPane = $('.submitDataPane');
+      var extraHouse = $(".extraHouse");
+      var extraHouseNumber = $(".extraHouse .title span");
+      var extraHouseContainer = $(".extraHouseContainer");
 
       /** 用户方法 **/
-      function initHouse() {
+      function initHouse(refreshExtra) {
         roomNumber.html(calcPriceData.living_room_count);
         cloakNumber.html(calcPriceData.cloakroom_count);
         kitchenNumber.html(calcPriceData.kitchen_count);
         washroomNumber.html(calcPriceData.washroom_count);
+
+        if (refreshExtra === true) {
+          extraHouseContainer.html(extraHouseContainerHtml());
+          if (calcPriceData.living_room_count === 1) {
+            extraHouse.addClass('none');
+          } else {
+            extraHouseNumber.html(calcPriceData.living_room_count - 1);
+            extraHouse.removeClass('none');
+          }
+        }
+      }
+
+      function extraHouseContainerHtml(){
+        var arr = [];
+        if (calcPriceData.living_room_count >= 3) {
+          arr.push('<div>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p></span>');
+          arr.push('</div>');
+          arr.push('<div>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_book_room.png" class="iconRoom" alt="" /><p>书房</p></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_cloth_room.png" class="iconRoom" alt="" /><p>衣帽间</p></span>');
+          arr.push('</div>');
+        } else {
+          arr.push('<div>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_book_room.png" class="iconRoom" alt="" /><p>书房</p></span>');
+          arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_cloth_room.png" class="iconRoom" alt="" /><p>衣帽间</p></span>');
+          arr.push('</div>');
+        }
+
+        return arr.join('');
       }
 
       /** 校验 **/
@@ -230,7 +267,7 @@
       plusRoomNumber.click(function () {
         if (calcPriceData.living_room_count < 4) {
           calcPriceData.living_room_count++;
-          initHouse();
+          initHouse(true);
         }
       });
 
@@ -258,7 +295,7 @@
       minusRoomNumber.click(function () {
         if (calcPriceData.living_room_count > 1) {
           calcPriceData.living_room_count--;
-          initHouse();
+          initHouse(true);
         }
       });
 
@@ -289,7 +326,7 @@
           areaErrorInfo.removeClass('error');
 
           calcPriceData.area = fldArea.val();
-          initHouse();
+          initHouse(true);
           pushToHouse();
           pushState(homePageTag, calcPriceHouseTag);
         } else{
