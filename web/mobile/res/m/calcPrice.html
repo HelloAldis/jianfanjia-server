@@ -499,12 +499,14 @@
             dataType: 'json',
             data : JSON.stringify({
                 phone : fldBindPhone.val()
-            })
-        }).then(function(error) {
-          submitErrorInfo.html(error);
-          submitErrorInfo.addClass('error');
-        }, function (data) {
-
+            }),
+            error : function(error) {
+              submitErrorInfo.html(error);
+              submitErrorInfo.addClass('error');
+            },
+            success : function (data) {
+              window.location.herf = "www.baidu.com";
+            }
         });
 
         function countdown(obj,num){
@@ -550,12 +552,14 @@
             type: 'post',
             contentType : 'application/json; charset=utf-8',
             dataType: 'json',
-            data : JSON.stringify(calcPriceData)
-        }).then(function(error) {
-          submitErrorInfo.html(error);
-          submitErrorInfo.addClass('error');
-        }, function (data) {
-
+            data : JSON.stringify(calcPriceData),
+            error : function(error) {
+              submitErrorInfo.html(error);
+              submitErrorInfo.addClass('error');
+            },
+            success : function (data) {
+              window.location="http://www.baidu.com";
+            }
         });
       });
 
