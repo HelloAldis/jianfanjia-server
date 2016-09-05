@@ -365,7 +365,7 @@
             return false;
           },
           isValidStyle : function() {
-            if (curStyles.length > 1) {
+            if (curStyles.length >= 1) {
               return true;
             }
 
@@ -387,8 +387,8 @@
       plusBedRoomNumber.click(function () {
         if (calcPriceData.bedroom_count < 4) {
           oldBedRoomCount = calcPriceData.bedroom_count;
-          clearExtraHousesIfNeed();
           calcPriceData.bedroom_count++;
+          clearExtraHousesIfNeed();
           initHouse();
         }
       });
@@ -417,8 +417,8 @@
       minusBedRoomNumber.click(function () {
         if (calcPriceData.bedroom_count > 1) {
           oldBedRoomCount = calcPriceData.bedroom_count;
-          clearExtraHousesIfNeed();
           calcPriceData.bedroom_count--;
+          clearExtraHousesIfNeed();
           initHouse();
         }
       });
