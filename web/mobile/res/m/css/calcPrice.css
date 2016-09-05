@@ -264,6 +264,7 @@ body {
   color: #c1c1c1;
 }
 .submitDataForm .fldContainer {
+  position: relative;
   height: 1.62rem;
   margin: 0.5rem 0.3rem 0 0.3rem;
   border: 1px solid #e5e5e5;
@@ -276,9 +277,18 @@ body {
 .submitDataForm .vCode .fldContainer {
   margin-right: 3.5rem;
 }
-.submitDataForm .fldContainer label {
-  display: inline;
+.submitDataForm .fldContainer span {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1.5rem;
   line-height: 1.62rem;
+  text-align: center;
+}
+.submitDataForm .fldContainer span img {
+  width: 0.4rem;
+  height: 0.5rem;
   vertical-align: middle;
 }
 .submitDataForm .fldContainer input {
