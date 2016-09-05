@@ -68,16 +68,18 @@
           <div class="extraHouseContainer">
           </div>
         </div>
+        <div id="house-error-info"></div>
         <div class="btnContainer">
           <button type="button" class="btnSubmit">下一步</button>
         </div>
       </div>
       <div class="calcPriceStyle none">
         <p class="title">
-          选择您的装修标签
+          选择您的装修标签<br>最多选择三个
         </p>
         <div class="decTagContainer">
         </div>
+        <div id="style-error-info"></div>
         <div class="btnContainer">
           <button type="button" class="btnSubmit">生成装修预算</button>
         </div>
@@ -153,6 +155,8 @@
 
       /** 错误 **/
       var areaErrorInfo = $('#area-error-info');
+      var houseErrorInfo = $('#house-error-info');
+      var styleErrorInfo = $('#style-error-info');
       var submitErrorInfo = $('#submit-error-info');
 
       /** 提交按钮 **/
@@ -188,20 +192,21 @@
 
       /** 用户方法 **/
       function initHouse() {
+        houseErrorInfo.html('');
+        houseErrorInfo.removeClass('error');
         roomNumber.html(calcPriceData.living_room_count);
         cloakNumber.html(calcPriceData.cloakroom_count);
         kitchenNumber.html(calcPriceData.kitchen_count);
         washroomNumber.html(calcPriceData.washroom_count);
-        extraHouseNumber.html(calcPriceData.living_room_count - 1);
 
+        extraHouseContainer.html(extraHouseContainerHtml());
         if (calcPriceData.living_room_count === 1) {
           extraHouse.addClass('none');
-          extraHouseContainer.html(extraHouseContainerHtml());
           maxExtraHouseCount = 0;
         } else {
           extraHouse.removeClass('none');
-          extraHouseContainer.html(extraHouseContainerHtml());
           maxExtraHouseCount = calcPriceData.living_room_count - 1;
+          extraHouseNumber.html(maxExtraHouseCount);
 
           $(".extraHouseContainer .iconRoomContainer").each(function () {
             $(this).click(function (e) {
@@ -228,15 +233,15 @@
         $(".decTagContainer .iconRoomContainer").each(function () {
           $(this).click(function (e) {
             var hoverContainer = $(this).children(".hoverContainer");
-            var roomName = $(this).children("p").html();
+            var style = $(this).attr("data-value");
             if (hoverContainer.hasClass("none")) {
-              if (curExtraHouses.length < 3) {
+              if (curStyles.length < 3) {
                 hoverContainer.removeClass("none");
-                curStyles.push(roomName);
+                curStyles.push(style);
               }
             } else {
               hoverContainer.addClass("none");
-              var index = curStyles.indexOf(roomName);
+              var index = curStyles.indexOf(style);
               curStyles.splice(index, 1);
             }
           });
@@ -277,15 +282,15 @@
         var arr = [];
 
         arr.push('<div>');
-        arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_ou_shi.png" class="iconRoom" alt="" /><p>欧式</p>'+hover('欧式')+'</span>');
-        arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_zhong_shi.png" class="iconRoom" alt="" /><p>中式</p>'+hover('中式')+'</span>');
-        arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_xian_dai.png" class="iconRoom" alt="" /><p>现代</p>'+hover('现代')+'</span>');
-        arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_di_zhong_hai.png" class="iconRoom" alt="" /><p>地中海</p>'+hover('地中海')+'</span>');
+        arr.push('<span class="iconRoomContainer" data-value="0" ><img src="img/calcPrice/icon_ou_shi.png" class="iconRoom" alt="" /><p>欧式</p>'+hover('欧式')+'</span>');
+        arr.push('<span class="iconRoomContainer" data-value="1" ><img src="img/calcPrice/icon_zhong_shi.png" class="iconRoom" alt="" /><p>中式</p>'+hover('中式')+'</span>');
+        arr.push('<span class="iconRoomContainer" data-value="2" ><img src="img/calcPrice/icon_xian_dai.png" class="iconRoom" alt="" /><p>现代</p>'+hover('现代')+'</span>');
+        arr.push('<span class="iconRoomContainer" data-value="3" ><img src="img/calcPrice/icon_di_zhong_hai.png" class="iconRoom" alt="" /><p>地中海</p>'+hover('地中海')+'</span>');
         arr.push('</div>');
         arr.push('<div>');
-        arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_mei_shi.png" class="iconRoom" alt="" /><p>美式</p>'+hover('美式')+'</span>');
-        arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_dong_nan_ya.png" class="iconRoom" alt="" /><p>东南亚</p>'+hover('东南亚')+'</span>');
-        arr.push('<span class="iconRoomContainer"><img src="img/calcPrice/icon_tian_yuan.png" class="iconRoom" alt="" /><p>田园</p>'+hover('田园')+'</span>');
+        arr.push('<span class="iconRoomContainer" data-value="4" ><img src="img/calcPrice/icon_mei_shi.png" class="iconRoom" alt="" /><p>美式</p>'+hover('美式')+'</span>');
+        arr.push('<span class="iconRoomContainer" data-value="5" ><img src="img/calcPrice/icon_dong_nan_ya.png" class="iconRoom" alt="" /><p>东南亚</p>'+hover('东南亚')+'</span>');
+        arr.push('<span class="iconRoomContainer" data-value="6" ><img src="img/calcPrice/icon_tian_yuan.png" class="iconRoom" alt="" /><p>田园</p>'+hover('田园')+'</span>');
         arr.push('</div>');
 
         return arr.join('');
@@ -318,13 +323,33 @@
           },
           isVerifyCode : function(str){
               return (/^[\d]{6}$/.test(str));
+          },
+          isValidExtraHouse : function() {
+            if (calcPriceData.living_room_count === 1) {
+              return true;
+            } else if (calcPriceData.living_room_count > 1 && curExtraHouses.length == maxExtraHouseCount) {
+              return true;
+            }
+
+            return false;
+          },
+          isValidStyle : function() {
+            if (curStyles.length > 1) {
+              return true;
+            }
+
+            return false;
           }
       };
 
       var errmsg = {
-          'mobile'  : '手机号不正确',
-          'area' : '请输入正确的面积',
-          'smscode'  : '短信验证码不正确',
+          mobile  : '手机号不正确',
+          area : '请输入正确的面积',
+          extraHouse : function (val) {
+            return '请选择另外'+val+'个房间的用途';
+          },
+          style : '请至少选择一个风格样式',
+          smscode  : '短信验证码不正确',
       };
 
       /** 事件处理 **/
@@ -398,17 +423,32 @@
         } else{
           areaErrorInfo.html(errmsg.area);
           areaErrorInfo.addClass('error');
-          calcPriceData.area = 0;
         }
       });
 
       submitHouse.click(function () {
-        pushToStyle();
-        pushState(calcPriceHouseTag, calcPriceStyleTag);
+        if (verify.isValidExtraHouse()) {
+          houseErrorInfo.html('');
+          houseErrorInfo.removeClass('error');
+
+          pushToStyle();
+          pushState(calcPriceHouseTag, calcPriceStyleTag);
+        } else{
+          houseErrorInfo.html(errmsg.extraHouse(maxExtraHouseCount));
+          houseErrorInfo.addClass('error');
+        }
       });
 
       submitStyle.click(function () {
-        submitDataPane.removeClass('none');
+        if (verify.isValidStyle()) {
+          styleErrorInfo.html('');
+          styleErrorInfo.removeClass('error');
+
+          submitDataPane.removeClass('none');
+        } else{
+          styleErrorInfo.html(errmsg.style);
+          styleErrorInfo.addClass('error');
+        }
       });
 
       // submitData.click(function () {
