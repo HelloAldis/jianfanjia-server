@@ -132,12 +132,18 @@ define(['jquery'], function($){
 			}
 			// 安排另外的房间
 			chooseOtherRoom = function (bedroomNum) {
+				var bedroomNum = $('#j-house-shi').html();
 				// unbind阻止点击事件执行两次
 				$('.g-compute .step2 li').unbind('click').click(function (){
-					if ($(this).hasClass('active')) {
-						$(this).removeClass('active');
-					} else if (!$(this).hasClass('active') && $('.step2 li').siblings('.active').length < bedroomNum-1) {
+					if (bedroomNum == 2) { // 只有一个房间，点谁选谁
+						$('.step2').find('li.active').removeClass('active');
 						$(this).addClass('active');
+					} else { // 多个房间，需要点击取消选中
+						if ($(this).hasClass('active')) {
+							$(this).removeClass('active');
+						} else if (!$(this).hasClass('active') && $('.step2 li').siblings('.active').length < bedroomNum-1) {
+							$(this).addClass('active');
+						}
 					}
 				});
 			}
@@ -146,18 +152,43 @@ define(['jquery'], function($){
 			var self = this;
 			$(this.container).on('click', '.step2 .next', function (ev) {
 				ev.preventDefault();
+				if (!isOtherRoomChecked()) {
+					return;
+				}
 				$(this).parents('.g-compute').find('.step2').addClass('hide');
 				$(this).parents('.g-compute').find('.step3').removeClass('hide');
 				self.chooseDecStyle();
 			});
+			// 其他房间是否选满
+			function isOtherRoomChecked() {
+				var bedroomNum = $('#j-house-shi').html();
+				if ($('.step2 li').siblings('.active').length < bedroomNum-1) {
+					$('.step2 .error').show();
+					return false;
+				}
+				$('.step2 .error').hide();
+				return true;
+			}
 		},
 		toStep4 : function () {
 			var self = this;
 			$(this.container).on('click', '.step3 .generate', function (ev) {
 				ev.preventDefault();
+				if (!isStyleChecked()) {
+					return;
+				}
 				$(this).parents('.g-compute').find('.step3').addClass('hide');
 				$(this).parents('.g-compute').find('.step4').removeClass('hide');
 			});
+			// 风格是否选择
+			function isStyleChecked() {
+				if ($('.step3 li').siblings('.active').length == 0) {
+					$('.step3 .error').show();
+					return false;
+				}
+				$('.step3 .error').hide();
+				return true;
+			}
 		},
 		toStep5 : function () {
 			var self = this;
@@ -289,7 +320,12 @@ define(['jquery'], function($){
 		getArea : function (areaNum) {
 			var self = this;
 			var $errorNode = $('.step1 .item-area .error');
-			if (areaNum >= 50 && areaNum <=79) {
+			$errorNode.html('面积不正确');
+			if (areaNum >= 0 && areaNum < 50) {
+				$errorNode.hasClass('hide') && $errorNode.removeClass('hide');
+				$errorNode.html('抱歉，暂不支持50㎡以下的装修报价。');
+				return true;
+			} else if (areaNum >= 50 && areaNum <=79) {
 				self.setRoomFromArea(1, 1, 1);
 			} else if (areaNum >= 80 && areaNum <= 99) {
 				self.setRoomFromArea(2, 1, 1);

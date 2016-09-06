@@ -84,11 +84,11 @@ body {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-.houseType .iconPlusContainer {
+.houseType .iconPlusContainer, .houseType .iconMinusContainer {
   margin-left: 1.2rem;
   text-align: left;
 }
-.houseType .iconPlusContainer .iconPlus {
+.houseType .icon {
   width: 0.95rem;
   height: 0.95rem;
   margin-right: 0.566666rem;
@@ -132,6 +132,7 @@ body {
 .calcPriceHouse .extraHouseContainer {}
 .calcPriceHouse .extraHouseContainer .iconRoomContainer {
   display: inline-block;
+  position: relative;
   width: 2rem;
   height: 2.0533333rem;
   border: 1px solid #e5e5e5;
@@ -143,7 +144,11 @@ body {
   margin: 0.3rem;
 }
 .calcPriceHouse .extraHouseContainer .iconRoomContainer p {
+  position: absolute;
+  line-height: 0.7rem;
   font-size: 0.3rem;
+  width: 100%;
+  bottom: 0;
 }
 .calcPriceStyle {
   text-align: center;
@@ -156,6 +161,7 @@ body {
 .calcPriceStyle .decTagContainer {}
 .calcPriceStyle .decTagContainer .iconRoomContainer {
   display: inline-block;
+  position: relative;
   width: 2rem;
   height: 2.0533333rem;
   border: 1px solid #e5e5e5;
@@ -167,9 +173,11 @@ body {
   height: auto;
 }
 .calcPriceStyle .decTagContainer .iconRoomContainer p {
-  font-size: 0.3rem;
+  position: absolute;
   line-height: 0.7rem;
-  margin: auto;
+  font-size: 0.3rem;
+  width: 100%;
+  bottom: 0;
 }
 .btnContainer {
   margin-top: 2rem;
@@ -232,7 +240,7 @@ body {
   width: 100%;
   height: 100%;
 }
-.submitDataForm {
+.submitDataFormOuter {
   position: absolute;
   width: 8.72rem;
   height: 10.4rem;
@@ -242,13 +250,33 @@ body {
   margin-left: -4.36rem;
   background-color: #fff;
 }
+.submitDataForm {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
 .submitDataForm .title {
   text-align: center;
   font-size: 0.6rem;
   color: #000;
-  margin: 1rem 0 1rem 0
+  padding: 1rem 0 1rem 0
+}
+.submitDataForm .closeIcon {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1.5rem;
+  line-height: 1.5rem;
+  text-align: center;
+}
+.submitDataForm .closeIcon img {
+  width: 1rem;
+  height: 1rem;
+  vertical-align: middle;
 }
 .submitDataForm .fldContainer {
+  position: relative;
   height: 1.62rem;
   margin: 0.5rem 0.3rem 0 0.3rem;
   border: 1px solid #e5e5e5;
@@ -256,6 +284,7 @@ body {
   color: #c1c1c1;
 }
 .submitDataForm .fldContainer {
+  position: relative;
   height: 1.62rem;
   margin: 0.5rem 0.3rem 0 0.3rem;
   border: 1px solid #e5e5e5;
@@ -268,19 +297,29 @@ body {
 .submitDataForm .vCode .fldContainer {
   margin-right: 3.5rem;
 }
-.submitDataForm .fldContainer label {
-  display: inline;
+.submitDataForm .fldContainer span {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1.5rem;
   line-height: 1.62rem;
+  text-align: center;
+}
+.submitDataForm .fldContainer span img {
+  width: 0.4rem;
+  height: 0.5rem;
   vertical-align: middle;
 }
 .submitDataForm .fldContainer input {
   line-height: 1.62rem;
-  font-size: 0.3rem;
+  font-size: 0.4rem;
   width: 100%;
   border: 0;
   background: none;
   padding-left: 1.5rem;
   vertical-align: middle;
+  color: black;
 }
 .submitDataForm .vCode .vCodeBtn {
   position: absolute;
@@ -295,5 +334,48 @@ body {
   background-color: #fe7004;
 }
 .submitDataForm .btnContainer {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+}
+.error {
+  text-align: center;
+  font-size: 0.3rem;
+  color: red;
+  height: 1rem;
+  line-height: 1rem;
+}
+.hoverContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.hover {
+  position: relative;
+  width: 2rem;
+  height: 2.0533333rem;
+  font-size: 0.3rem;
+}
+.hover .mask {
+  background-color: #fe7004;
+}
+.hoverContent {
+  position: absolute;
+  border: 1px solid #fe7004;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.hoverContent img {
+  width: 0.8rem;
+  height: 0.8rem;
+  margin: 0.3rem;
+}
+.hoverContent p {
+  position: absolute;
+  line-height: 0.7rem;
+  font-size: 0.3rem;
+  width: 100%;
+  bottom: 0;
+  color: white;
 }
