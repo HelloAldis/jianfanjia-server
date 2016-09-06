@@ -221,19 +221,28 @@
           maxExtraHouseCount = calcPriceData.bedroom_count - 1;
           extraHouseNumber.html(maxExtraHouseCount);
 
-          $(".extraHouseContainer .iconRoomContainer").each(function () {
+          var iconRoomContainers = $(".extraHouseContainer .iconRoomContainer");
+          iconRoomContainers.each(function (index) {
             $(this).click(function (e) {
+              var iconIndex = index;
               var hoverContainer = $(this).children(".hoverContainer");
               var roomName = $(this).children("p").html();
               if (hoverContainer.hasClass("none")) {
                 if (curExtraHouses.length < maxExtraHouseCount) {
                   hoverContainer.removeClass("none");
-                  curExtraHouses.push(roomName);
+                  curExtraHouses.push({"index":iconIndex, "roomName":roomName});
                 }
               } else {
                 hoverContainer.addClass("none");
-                var index = curExtraHouses.indexOf(roomName);
-                curExtraHouses.splice(index, 1);
+                var delIndex = 0;
+                for (var i = 0; i < curExtraHouses.length; i++) {
+                  var obj = curExtraHouses[i];
+                  if (obj.index === iconIndex) {
+                    delIndex = i;
+                    break;
+                  }
+                }
+                curExtraHouses.splice(delIndex, 1);
               }
             });
           });
@@ -292,32 +301,38 @@
         });
       }
 
-      function extraHouseContainerHtml(){
+      function extraHouseContainerHtml() {
+        var chooseIndexs = [];
+        for (var i = 0; i < curExtraHouses.length; i++) {
+          var obj = curExtraHouses[i];
+          chooseIndexs.push(obj.index);
+        }
+
         var arr = [];
         if (calcPriceData.bedroom_count >= 3) {
           arr.push('<div>');
-          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p>'+hover('次卧')+'</span>');
-          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p>'+hover('次卧')+'</span>');
-          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p>'+hover('儿童房')+'</span>');
-          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p>'+hover('儿童房')+'</span>');
+          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p>'+hover('次卧', chooseIndexs.indexOf(0) > -1)+'</span>');
+          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p>'+hover('次卧', chooseIndexs.indexOf(1) > -1)+'</span>');
+          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p>'+hover('儿童房', chooseIndexs.indexOf(2) > -1)+'</span>');
+          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p>'+hover('儿童房', chooseIndexs.indexOf(3) > -1)+'</span>');
           arr.push('</div>');
           arr.push('<div>');
-          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_book_room.png" class="iconRoom" alt="" /><p>书房</p>'+hover('书房')+'</span>');
-          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_cloth_room.png" class="iconRoom" alt="" /><p>衣帽间</p>'+hover('衣帽间')+'</span>');
+          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_book_room.png" class="iconRoom" alt="" /><p>书房</p>'+hover('书房', chooseIndexs.indexOf(4) > -1)+'</span>');
+          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_cloth_room.png" class="iconRoom" alt="" /><p>衣帽间</p>'+hover('衣帽间', chooseIndexs.indexOf(5) > -1)+'</span>');
           arr.push('</div>');
         } else {
           arr.push('<div>');
-          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p>'+hover('次卧')+'</span>');
-          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p>'+hover('儿童房')+'</span>');
-          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_book_room.png" class="iconRoom" alt="" /><p>书房</p>'+hover('书房')+'</span>');
-          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_cloth_room.png" class="iconRoom" alt="" /><p>衣帽间</p>'+hover('衣帽间')+'</span>');
+          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_living_room.png" class="iconRoom" alt="" /><p>次卧</p>'+hover('次卧', chooseIndexs.indexOf(0) > -1)+'</span>');
+          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_child_room.png" class="iconRoom" alt="" /><p>儿童房</p>'+hover('儿童房', chooseIndexs.indexOf(1) > -1)+'</span>');
+          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_book_room.png" class="iconRoom" alt="" /><p>书房</p>'+hover('书房', chooseIndexs.indexOf(2) > -1)+'</span>');
+          arr.push('<span class="iconRoomContainer"><img src="m/img/calcPrice/icon_cloth_room.png" class="iconRoom" alt="" /><p>衣帽间</p>'+hover('衣帽间', chooseIndexs.indexOf(3) > -1)+'</span>');
           arr.push('</div>');
         }
 
         return arr.join('');
       }
 
-      function sytleContainerHtml(){
+      function sytleContainerHtml() {
         var arr = [];
 
         arr.push('<div>');
@@ -335,8 +350,8 @@
         return arr.join('');
       }
 
-      function hover(name) {
-        return '<div class="hoverContainer none">'
+      function hover(name, isChoosed) {
+        return '<div class="hoverContainer' + (isChoosed ?  '">' : ' none">')
                 + '<div class="hover">'
                   + '<div class="mask"></div>'
                     + '<div class="hoverContent"><img src="m/img/calcPrice/icon_checked.png" alt="" /><p>' + name + '</p>'
@@ -347,7 +362,7 @@
       }
 
       function clearExtraHousesIfNeed() {
-        if ((oldBedRoomCount === 2 && calcPriceData.bedroom_count === 3) || (oldBedRoomCount === 3 && calcPriceData.bedroom_count === 2)) {
+        if ((oldBedRoomCount === 2 && calcPriceData.bedroom_count === 3) || (oldBedRoomCount === 3 && calcPriceData.bedroom_count === 2) || (oldBedRoomCount === 4 && calcPriceData.bedroom_count === 3)) {
           curExtraHouses.splice(0, curExtraHouses.length);
         }
       }
