@@ -87,7 +87,7 @@
     </div>
     <footer class="footer">
       <img src="img/calcPrice/logo.png" alt="logo" />
-      <a href="javascript:;">立即下载简繁家App</a>
+      <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.jianfanjia.cn.activity">立即下载简繁家App</a>
     </footer>
     <div class="submitDataPane none">
       <div class="submitDataMask">
@@ -493,7 +493,7 @@
 
         countdown($(this), 60);
         $.ajax({
-            url:'/api/v2/web/send_verify_code',
+            url:'/api/v2/app/send_verify_code',
             type: 'post',
             contentType : 'application/json; charset=utf-8',
             dataType: 'json',
@@ -548,7 +548,7 @@
 
         formDataToJson();
         $.ajax({
-            url:'/api/v2/web/generate_quotation',
+            url:'/api/v2/app/generate_quotation',
             type: 'post',
             contentType : 'application/json; charset=utf-8',
             dataType: 'json',
@@ -558,7 +558,7 @@
               submitErrorInfo.addClass('error');
             },
             success : function (data) {
-              window.location="http://www.baidu.com";
+              window.location='/quotation/' + data.data;
             }
         });
       });
