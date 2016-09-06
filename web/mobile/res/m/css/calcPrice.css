@@ -290,10 +290,12 @@ body {
 .submitDataForm .fldContainer {
   position: relative;
   height: 1.62rem;
+  line-height: 1.62rem;
   margin: 0.5rem 0.3rem 0 0.3rem;
   border: 1px solid #e5e5e5;
   background-color: #f9fafa;
   color: #c1c1c1;
+  font-size: 0;
 }
 .submitDataForm .vCode {
   position: relative;
@@ -308,7 +310,9 @@ body {
   left: 0;
   width: 1.5rem;
   line-height: 1.62rem;
+  font-size: 0;
   text-align: center;
+  vertical-align: middle;
 }
 .submitDataForm .fldContainer span img {
   width: 0.4rem;
@@ -316,7 +320,7 @@ body {
   vertical-align: middle;
 }
 .submitDataForm .fldContainer input {
-  line-height: 1.62rem;
+  line-height: 0.8rem;
   font-size: 0.4rem;
   width: 100%;
   border: 0;
