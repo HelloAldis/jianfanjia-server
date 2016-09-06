@@ -24,10 +24,41 @@
     left: 50%;
     width: 220px;
     height: 235px;
+    /*border: solid 3px #787575;*/
     background: url(../img/index/t2.png) 0 0 no-repeat;
     background-size: 100%;
     margin-left: -110px;
     margin-bottom: -117px;
+}
+.home-top .top-title .top-title-content{
+  color: #fff;
+  padding: 30px 20px;
+}
+.home-top .top-title .top-title-content span.line{
+  display: inline-block;
+  width: 25px;
+  height: 4px;
+  background-color: #fff;
+}
+.home-top .top-title .top-title-content h2{
+  font-size: 32px;
+  font-weight: bold;
+  margin-top: 25px;
+  letter-spacing: 2px;
+}
+.home-top .top-title .top-title-content .start{
+  font-size: 24px;
+  font-weight: normal;
+  line-height: 40px;
+  letter-spacing: 1px;
+}
+.home-top .top-title .top-title-content .opera{
+  margin-top: 5px;
+  background-color: #fff;
+  color: #5a5a5a;
+  padding: auto 10px;
+  padding: 0 8px;
+  font-size: 12px;
 }
 
 /*智能预算*/

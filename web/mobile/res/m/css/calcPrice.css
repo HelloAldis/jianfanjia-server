@@ -212,6 +212,10 @@ body {
   line-height: 1.6rem;
   background-color: rgba(0, 0, 0, .7);
 }
+.footer a {
+  display: inline-block;
+  width: 100%;
+}
 .footer img {
   width: 0.85333333rem;
   height: 0.85333333rem;
@@ -219,7 +223,7 @@ body {
   margin-top: 0.303333335rem;
   margin-bottom: 0.43333335rem;
 }
-.footer a {
+.footer span {
   font-size: 0.43333333rem;
   color: #fff;
 }
