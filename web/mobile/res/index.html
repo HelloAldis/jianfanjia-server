@@ -289,13 +289,13 @@
         calcPriceData.dec_styles = curStyles;
         calcPriceData.living_room_count = calcPriceData.bedroom_count - 1;
         curExtraHouses.forEach(function (v) {
-          if ('次卧' === v) {
+          if ('次卧' === v.roomName) {
             calcPriceData.extra_bedroom_count++;
-          } else if ('儿童房' === v) {
+          } else if ('儿童房' === v.roomName) {
             calcPriceData.child_bedroom_count++;
-          } else if ('书房' === v) {
+          } else if ('书房' === v.roomName) {
             calcPriceData.study_room_count++;
-          } else if ('衣帽间' === v) {
+          } else if ('衣帽间' === v.roomName) {
             calcPriceData.cloakroom_count++;
           }
         });
