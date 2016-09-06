@@ -205,13 +205,15 @@
 
       /** 用户方法 **/
       function initHouse() {
-        houseErrorInfo.html('');
-        houseErrorInfo.removeClass('error');
         bedRoomNumber.html(calcPriceData.bedroom_count);
         livingRoomNumber.html(calcPriceData.living_room_count);
         kitchenNumber.html(calcPriceData.kitchen_count);
         washroomNumber.html(calcPriceData.washroom_count);
+      }
 
+      function initExtraHouse() {
+        houseErrorInfo.html('');
+        houseErrorInfo.removeClass('error');
         extraHouseContainer.html(extraHouseContainerHtml());
         if (calcPriceData.bedroom_count === 1) {
           extraHouse.addClass('none');
@@ -279,6 +281,7 @@
       /** 初始化 **/
       resetUI();
       initHouse();
+      initExtraHouse();
       initStyle();
 
       /** 帮助方法 **/
@@ -413,6 +416,7 @@
           calcPriceData.bedroom_count++;
           clearExtraHousesIfNeed();
           initHouse();
+          initExtraHouse();
         }
       });
 
@@ -443,6 +447,7 @@
           calcPriceData.bedroom_count--;
           clearExtraHousesIfNeed();
           initHouse();
+          initExtraHouse();
         }
       });
 
