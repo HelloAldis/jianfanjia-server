@@ -129,14 +129,16 @@ body {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-.calcPriceHouse .extraHouseContainer {}
+.calcPriceHouse .extraHouseContainer {
+  font-size: 0;
+}
 .calcPriceHouse .extraHouseContainer .iconRoomContainer {
   display: inline-block;
   position: relative;
   width: 2rem;
   height: 2.0533333rem;
   border: 1px solid #e5e5e5;
-  margin-top: 0.06rem;
+  margin: 0.06rem;
 }
 .calcPriceHouse .extraHouseContainer .iconRoomContainer .iconRoom {
   width: 0.8rem;
@@ -158,7 +160,9 @@ body {
   margin-top: 2rem;
   margin-bottom: 1rem;
 }
-.calcPriceStyle .decTagContainer {}
+.calcPriceStyle .decTagContainer {
+  font-size: 0;
+}
 .calcPriceStyle .decTagContainer .iconRoomContainer {
   display: inline-block;
   position: relative;
@@ -166,7 +170,7 @@ body {
   height: 2.0533333rem;
   border: 1px solid #e5e5e5;
   font-size: 0.3rem;
-  margin-top: 0.06rem;
+  margin: 0.06rem;
 }
 .calcPriceStyle .decTagContainer .iconRoomContainer .iconRoom {
   width: 100%;
@@ -180,7 +184,7 @@ body {
   bottom: 0;
 }
 .btnContainer {
-  margin-top: 2rem;
+  margin-top: 1rem;
   margin-bottom: 1.85333333rem;
   text-align: center;
 }
