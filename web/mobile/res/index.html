@@ -261,7 +261,14 @@
         });
       }
 
+      function resetUI() {
+        fldBindPhone.val('');
+        fldBindVerifyCode.val('');
+        fldArea.val('');
+      }
+
       /** 初始化 **/
+      resetUI();
       initHouse();
       initStyle();
 
