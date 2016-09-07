@@ -22,13 +22,12 @@
     position: absolute;
     bottom: 50%;
     left: 50%;
-    width: 220px;
-    height: 235px;
-    /*border: solid 3px #787575;*/
+    width: 230px;
+    height: 246px;
     background: url(../img/index/t2.png) 0 0 no-repeat;
     background-size: 100%;
-    margin-left: -110px;
-    margin-bottom: -117px;
+    margin-left: -115px;
+    margin-bottom: -123px;
 }
 .home-top .top-title .top-title-content{
   color: #fff;
@@ -56,9 +55,9 @@
   margin-top: 5px;
   background-color: #fff;
   color: #5a5a5a;
-  padding: auto 10px;
-  padding: 0 8px;
+  text-align: center;
   font-size: 12px;
+  white-space: nowrap;
 }
 
 /*智能预算*/
@@ -579,6 +578,10 @@
     height: 100%;
 /*    background: url(../img/index/index3.jpg) top right no-repeat;
 background-size: cover;*/
+}
+.g-package .package2 .package2-img{
+  position: absolute;
+  left: 0;
 }
 .g-package .package2 h2 span {
     display: inline-block;

@@ -676,9 +676,10 @@ a.m-head:hover{
 	height: 50px;
 	line-height: 35px;
 	background-color: #ebecee;
-	padding-top: 10px;
+	padding: 10px 0;
 }
 .g-tb .m-app{
+  margin-top: 10px;
 	position: static;
 	height: 35px;
 	overflow: hidden;
@@ -701,6 +702,7 @@ a.m-head:hover{
 	background-position: 3px -38px;
 }
 .g-tb .m-user{
+  margin-top: 10px;
 	position: relative;
 	z-index: 100;
 }
@@ -837,7 +839,7 @@ a.m-head:hover{
 /*logo*/
 .m-logo{
 	/*margin-top: 36px;*/
-	width: 130px;
+	width: 150px;
 	height: 50px;
 	background:url(../img/public/logo.png) no-repeat 0 0;
   background-size: 100%;
