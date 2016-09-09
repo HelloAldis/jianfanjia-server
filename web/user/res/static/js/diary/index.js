@@ -272,7 +272,8 @@ require(['jquery','lodash','lib/jquery.cookie','lib/jquery.history','utils/page'
                     accept: {
                         title: 'Images',
                         extensions: 'jpg,jpeg,png',
-                        mimeTypes: 'image/*'
+                        // mimeTypes: 'image/*'
+                        mimeTypes: 'image/jpg,image/jpeg,image/png'   // Chrome兼容
                     },
                     'method': 'post',
                     'timeout' : 4 * 60 * 1000,    // 3分钟
