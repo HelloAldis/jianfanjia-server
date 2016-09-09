@@ -1110,7 +1110,8 @@ angular.module('directives', [])
                         "accept": {
                             "title": "Images",
                             "extensions": "jpg,jpeg,png",
-                            "mimeTypes": "image/*"
+                            // "mimeTypes": "image/*"
+                            "mimeTypes": 'image/jpg,image/jpeg,image/png'   // Chrome兼容
                         },
                         "method": "post",
                         "timeout" : 240000,
@@ -1380,7 +1381,8 @@ angular.module('directives', [])
                     accept: {
                         title: 'Images',
                         extensions: 'jpg,jpeg,png',
-                        mimeTypes: 'image/*'
+                        // mimeTypes: 'image/*'
+                        mimeTypes: 'image/jpg,image/jpeg,image/png'   // Chrome兼容
                     },
                     'method': 'post',
                     'timeout' : 4 * 60 * 1000,    // 3分钟
@@ -1665,7 +1667,8 @@ angular.module('directives', [])
                     accept: {
                         title: 'Images',
                         extensions: 'jpg,jpeg,png',
-                        mimeTypes: 'image/*'
+                        // mimeTypes: 'image/*'
+                        mimeTypes: 'image/jpg,image/jpeg,image/png'   // Chrome兼容
                     },
                     'method': 'post',
                     'timeout' : 4 * 60 * 1000,    // 3分钟
@@ -1997,7 +2000,8 @@ angular.module('directives', [])
                     accept: {
                         title: 'Images',
                         extensions: 'jpg,jpeg,png',
-                        mimeTypes: 'image/*'
+                        // mimeTypes: 'image/*'
+                        mimeTypes: 'image/jpg,image/jpeg,image/png'   // Chrome兼容
                     },
                     'method': 'post',
                     'timeout' : 4 * 60 * 1000,    // 3分钟
@@ -3358,7 +3362,8 @@ angular.module('directives', [])
                     accept: {
                         title: 'Images',
                         extensions: 'jpg,jpeg,png',
-                        mimeTypes: 'image/*'
+                        // mimeTypes: 'image/*'
+                        mimeTypes: 'image/jpg,image/jpeg,image/png'   // Chrome兼容
                     },
                     'method': 'post',
                     'timeout' : 4 * 60 * 1000,    // 3分钟
