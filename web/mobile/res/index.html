@@ -523,8 +523,8 @@
           areaErrorInfo.html('');
           areaErrorInfo.removeClass('error');
 
+          pushToHouse();
           pushState(homePageTag, calcPriceHouseTag);
-          navigation();
         } else{
           areaErrorInfo.html(errmsg.area);
           areaErrorInfo.addClass('error');
@@ -536,8 +536,8 @@
           houseErrorInfo.html('');
           houseErrorInfo.removeClass('error');
 
+          pushToStyle();
           pushState(calcPriceHouseTag, calcPriceStyleTag);
-          navigation();
         } else{
           houseErrorInfo.html(errmsg.extraHouse(maxExtraHouseCount));
           houseErrorInfo.addClass('error');
@@ -579,7 +579,6 @@
               submitErrorInfo.addClass('error');
             },
             success : function (data) {
-              window.location.herf = "www.baidu.com";
             }
         });
 
@@ -675,38 +674,21 @@
       }
 
       function pushState(preS, curS) {
-        // window.history.replaceState(null, preS, "#" + preS);
-        window.history.pushState(null, curS, "#" + curS);
+        var state = {pre:preS};
+        window.history.replaceState(state, null, null);
+        window.history.pushState(null, curS, null);
       }
 
       window.addEventListener('popstate', function (e) {
-        navigation();
-      });
-
-      function navigation() {
-        var href = location.href.split("#")[1];
-        if (href === homePageTag || href === undefined) {
-          if (href === undefined) {
-            window.history.replaceState(null, homePageTag, "#" + homePageTag);
-          }
-          if (homePage.hasClass('none')) {
-            popToHome();
-          } else {
-            pushToHouse();
-          }
-        } else if (href === calcPriceHouseTag) {
-          if (!calcPriceStyle.hasClass('none')) {
-            popToHouse();
-          }
-          if (!homePage.hasClass('none')) {
-            pushToHouse();
-          }
-        } else if (href === calcPriceStyleTag) {
-          if (calcPriceStyle.hasClass('none')) {
-            pushToStyle();
-          }
+        var state = e.state;
+        if (!state) return;
+        var preState = state.pre;
+        if (preState === homePageTag) {
+          popToHome();
+        } else if (preState === calcPriceHouseTag) {
+          popToHouse();
         }
-      }
+      });
     </script>
   </body>
 </html>
