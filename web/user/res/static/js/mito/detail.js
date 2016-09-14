@@ -89,7 +89,7 @@ require(['jquery','lodash','lib/jquery.mousewheel.min'],function($,_){
                     '<span class="head"><img src="/static/img/design/head.jpg" alt="简繁家"></span>',
                     '<dl><dt>简繁家</dt><dd>让装修变得简单</dd></dl></div>',
                 '<div class="tags">'+tags+'</div>',
-                '<div class="related"><h3>相关图片</h3><ul>'
+                '<div class="related"><h3>其他相关图片</h3><ul>'
             ];
             _.forEach(data.associate_beautiful_images, function(n, key) {
                 arr.push('<li><a href="/tpl/mito/detail.html?pid='+n._id+'&imgid='+n.images[0].imageid+'&imgw='+n.images[0].width+'&imgh='+n.images[0].height+'"><img src="/api/v2/web/thumbnail/106/'+n.images[0].imageid+'" alt=""></a></li>')
